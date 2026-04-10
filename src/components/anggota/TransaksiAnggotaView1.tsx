@@ -106,18 +106,42 @@ const transactionTypes = [
 
 type TransactionType = (typeof transactionTypes)[number];
 
+function parseAmount(input: string) {
+  const cleaned = input.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdrLike(n: number) {
+  const s = Math.round(n).toString();
+  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] =
     React.useState<TransactionType>("Pembayaran Angsuran");
   const [kolektor, setKolektor] = React.useState<string>("Pilih Kolektor");
+
   const [nominal, setNominal] = React.useState("0");
+
+  const [nominalPokok, setNominalPokok] = React.useState("0");
+  const [nominalBunga, setNominalBunga] = React.useState("0");
+  const [nominalDenda, setNominalDenda] = React.useState("0");
+
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
+  const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
 
   const nominalPelunasan = "9.625.000";
+
+  const totalRincian = React.useMemo(() => {
+    return (
+      parseAmount(nominalPokok) + parseAmount(nominalBunga) + parseAmount(nominalDenda)
+    );
+  }, [nominalBunga, nominalDenda, nominalPokok]);
 
   return (
     <div className="mt-6">
@@ -365,24 +389,58 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 </Select>
               </div>
 
-              <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">
-                  {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
-                </Label>
-
-                {isPelunasan ? (
-                  <div className="h-10 rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200 flex items-center justify-end">
-                    {nominalPelunasan}
+              {/* Mode: Pembayaran Rincian Tagihan */}
+              {isRincian ? (
+                <>
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
+                    <Input
+                      value={nominalPokok}
+                      onChange={(e) => setNominalPokok(e.target.value)}
+                      inputMode="numeric"
+                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                    />
                   </div>
-                ) : (
-                  <Input
-                    value={nominal}
-                    onChange={(e) => setNominal(e.target.value)}
-                    inputMode="numeric"
-                    className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                  />
-                )}
-              </div>
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
+                    <Input
+                      value={nominalBunga}
+                      onChange={(e) => setNominalBunga(e.target.value)}
+                      inputMode="numeric"
+                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                    />
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs text-slate-600">Nominal Denda*</Label>
+                    <Input
+                      value={nominalDenda}
+                      onChange={(e) => setNominalDenda(e.target.value)}
+                      inputMode="numeric"
+                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                    />
+                  </div>
+                </>
+              ) : (
+                /* Mode: Pelunasan / Pembayaran Angsuran */
+                <div className="grid gap-1.5">
+                  <Label className="text-xs text-slate-600">
+                    {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
+                  </Label>
+
+                  {isPelunasan ? (
+                    <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
+                      {nominalPelunasan}
+                    </div>
+                  ) : (
+                    <Input
+                      value={nominal}
+                      onChange={(e) => setNominal(e.target.value)}
+                      inputMode="numeric"
+                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                    />
+                  )}
+                </div>
+              )}
 
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">Tabungan</Label>
@@ -405,6 +463,17 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   className="h-10 rounded-xl border-slate-200 bg-white"
                 />
               </div>
+
+              {isRincian ? (
+                <div className="pt-1">
+                  <div className="text-xs font-semibold text-slate-600">
+                    Total Pembayaran
+                  </div>
+                  <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
+                    {formatIdrLike(totalRincian)},00
+                  </div>
+                </div>
+              ) : null}
 
               <Button className="mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
                 <CheckSquare className="mr-2 h-4 w-4" />
