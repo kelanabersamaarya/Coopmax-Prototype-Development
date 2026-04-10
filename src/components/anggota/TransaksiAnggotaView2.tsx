@@ -24,6 +24,7 @@ import {
   Printer,
   ReceiptText,
   ScrollText,
+  ChevronUp,
 } from "lucide-react";
 
 type Props = {
@@ -52,6 +53,43 @@ const currentBill: Row = {
   sisaPokok: "783.333",
   sisaBunga: "26.389",
 };
+
+const upcomingRows: Row[] = [
+  // Grace period rows (contoh seperti referensi)
+  {
+    jatuhTempo: "25-01-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
+  {
+    jatuhTempo: "25-02-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
+  {
+    jatuhTempo: "25-03-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
+  // Setelah grace period
+  ...Array.from({ length: 8 }).map((_, i) => ({
+    jatuhTempo: `25-${String(4 + i).padStart(2, "0")}-2026`,
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "83.333",
+  })),
+];
 
 const transactionTypes = [
   "Pembayaran Angsuran",
@@ -153,6 +191,80 @@ function TopHeader({
   );
 }
 
+function UpcomingBillsAccordion({ open }: { open: boolean }) {
+  if (!open) return null;
+
+  return (
+    <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="p-3">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
+          <div className="flex items-start gap-2">
+            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+              <Info className="h-4 w-4" />
+            </span>
+            <div className="leading-relaxed">
+              Berikut ini merupakan perkiraan tagihan untuk periode mendatang.
+              Nominal tagihan dapat berubah jika ada transaksi pembayaran atau
+              terjadi perubahan pada pinjaman.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="overflow-auto">
+        <table className="w-full min-w-[980px] border-collapse">
+          <thead className="bg-white">
+            <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-700">
+              <th className="w-[140px] px-4 py-3">Jatuh Tempo</th>
+              <th className="w-[200px] px-4 py-3">Total Tagihan Belum Dibayar</th>
+              <th className="w-[160px] px-4 py-3">Tagihan Pokok</th>
+              <th className="w-[160px] px-4 py-3">Tagihan Bunga</th>
+              <th className="w-[160px] px-4 py-3">Sisa Tagihan Pokok</th>
+              <th className="w-[160px] px-4 py-3">Sisa Tagihan Bunga</th>
+            </tr>
+          </thead>
+
+          <tbody className="bg-white">
+            {/* Block: Periode Grace Period */}
+            <tr className="border-t border-slate-200">
+              <td colSpan={6} className="px-4 py-3">
+                <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+                  <div className="flex items-start gap-2">
+                    <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                      <Info className="h-4 w-4" />
+                    </span>
+                    <div>
+                      <div className="font-semibold">Periode Grace Period</div>
+                      <div className="mt-0.5 text-slate-700">
+                        Berikut ini merupakan periode tagihan pinjaman yang
+                        termasuk ke dalam grace period. Selama periode grace
+                        period nasabah hanya membayar bunga.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            {upcomingRows.map((r, idx) => (
+              <tr key={idx} className="border-t border-slate-200 text-sm">
+                <td className="px-4 py-3 font-medium text-slate-900">
+                  {r.jatuhTempo}
+                </td>
+                <td className="px-4 py-3 text-slate-800">{r.totalBelumDibayar}</td>
+                <td className="px-4 py-3 text-slate-800">{r.tagihanPokok}</td>
+                <td className="px-4 py-3 text-slate-800">{r.tagihanBunga}</td>
+                <td className="px-4 py-3 text-slate-800">{r.sisaPokok}</td>
+                <td className="px-4 py-3 text-slate-800">{r.sisaBunga}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] =
@@ -166,6 +278,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
   const [keterangan, setKeterangan] = React.useState("");
+
+  const [openUpcoming, setOpenUpcoming] = React.useState(false);
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
@@ -279,7 +393,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   </thead>
 
                   <tbody className="bg-white">
-                    {/* Info row seperti referensi */}
                     <tr className="border-t border-slate-200">
                       <td colSpan={7} className="px-3 py-3">
                         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
@@ -299,7 +412,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       </td>
                     </tr>
 
-                    {/* Hanya 1 tagihan (diterbitkan per periode) */}
                     <tr className="border-t border-slate-200 text-sm">
                       <td className="px-3 py-2.5">
                         <input
@@ -348,14 +460,28 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             ) : null}
           </div>
 
-          <div className="mt-4 rounded-xl border border-slate-200 bg-white px-3 py-2">
+          <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
             <button
               type="button"
-              className="flex w-full items-center justify-between text-sm font-semibold text-slate-800"
+              onClick={() => setOpenUpcoming((v) => !v)}
+              className="flex w-full items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
+              aria-expanded={openUpcoming}
             >
-              Perkiraan Tagihan Mendatang
-              <span className="text-slate-500">▾</span>
+              <span className="uppercase tracking-wide">Perkiraan Tagihan Mendatang</span>
+              <span
+                className={cn(
+                  "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
+                  openUpcoming ? "rotate-0" : "rotate-180",
+                )}
+                aria-hidden="true"
+              >
+                <ChevronUp className="h-4.5 w-4.5" />
+              </span>
             </button>
+
+            <div className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}>
+              <UpcomingBillsAccordion open={openUpcoming} />
+            </div>
           </div>
         </Card>
 
@@ -519,7 +645,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               {isRincian ? (
                 <div className="pt-1">
-                  <div className="text-xs font-semibold text-slate-600">Total Pembayaran</div>
+                  <div className="text-xs font-semibold text-slate-600">
+                    Total Pembayaran
+                  </div>
                   <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
                     {formatIdrLike(totalRincian)},00
                   </div>
