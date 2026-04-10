@@ -3,23 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, History } from "lucide-react";
 import { toast } from "sonner";
-import NasabahPickerDialog from "@/components/anggota/NasabahPickerDialog";
+import NasabahPickerDialog, { type Nasabah } from "@/components/anggota/NasabahPickerDialog";
 import TransaksiAnggotaView1 from "@/components/anggota/TransaksiAnggotaView1";
-
-type Nasabah = {
-  id: string;
-  nama: string;
-  noIdentitas: string;
-  alamat: string;
-  status: "Anggota" | "Calon";
-};
 
 export default function AnggotaTransaksi() {
   const [query, setQuery] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Nasabah | null>(null);
 
-  const showView1 = selected?.nama === "Ketut Kenceng";
+  // Anggota pertama di modal (seed index 0) saat ini adalah "Gaby"
+  const showView1 = selected?.nama === "Gaby";
 
   return (
     <div className="min-h-[calc(100vh-2rem)] rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
@@ -46,7 +39,6 @@ export default function AnggotaTransaksi() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setOpen(true)}
               placeholder="No Nasabah/No Rekening"
               className="h-11 rounded-xl border-slate-300 bg-white"
             />
@@ -92,39 +84,7 @@ export default function AnggotaTransaksi() {
           </div>
         ) : null}
 
-        <div className="mt-1">
-          <div className="text-xs text-slate-500">
-            {selected
-              ? "Pilih tab transaksi di bawah."
-              : "Klik input atau tombol Cari untuk memilih nasabah."}
-          </div>
-        </div>
-
         <div className="mt-3">
-          {/* mock tabs row (sesuai screenshot) */}
-          <div className="mb-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"
-              >
-                Simpanan
-              </button>
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"
-              >
-                Deposito
-              </button>
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--app-accent))] px-4 py-2 text-sm font-semibold text-white ring-1 ring-[hsl(var(--app-accent))]"
-              >
-                Pinjaman
-              </button>
-            </div>
-          </div>
-
           {showView1 && selected ? (
             <TransaksiAnggotaView1 nasabah={selected} />
           ) : selected ? (
@@ -134,7 +94,7 @@ export default function AnggotaTransaksi() {
             </div>
           ) : (
             <div className="rounded-2xl bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
-              Belum ada nasabah dipilih.
+              Klik tombol <span className="font-semibold">Cari</span> untuk memilih nasabah.
             </div>
           )}
         </div>

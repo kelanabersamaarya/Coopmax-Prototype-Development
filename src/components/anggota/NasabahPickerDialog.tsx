@@ -25,7 +25,7 @@ import { toast } from "sonner";
 
 type StatusKeanggotaan = "Semua" | "Anggota" | "Calon";
 
-type Nasabah = {
+export type Nasabah = {
   id: string;
   nama: string;
   noIdentitas: string;
@@ -34,11 +34,10 @@ type Nasabah = {
 };
 
 const seed: Nasabah[] = Array.from({ length: 28 }).map((_, i) => ({
-  id: "08-08-2025",
-  nama:
-    i % 3 === 0 ? "Ketut Kenceng" : i % 3 === 1 ? "Nyoman Ariana" : "Komang Dewa",
+  id: "N2500010",
+  nama: i % 3 === 0 ? "Gaby" : i % 3 === 1 ? "Nyoman Ariana" : "Komang Dewa",
   noIdentitas: "2233445",
-  alamat: "Jr. Ciwastra No. 714, Yogyakarta 83781, Riau",
+  alamat: "Jl. Galang",
   status: i % 5 === 0 ? "Calon" : "Anggota",
 }));
 
@@ -134,7 +133,6 @@ export default function NasabahPickerDialog({
   onOpenChange: (v: boolean) => void;
   onPick?: (n: Nasabah) => void;
 }) {
-  // tampilkan hanya 5 data per halaman agar modal lebih ringkas
   const [pageSize, setPageSize] = React.useState<number>(5);
   const [page, setPage] = React.useState<number>(1);
 
@@ -165,7 +163,7 @@ export default function NasabahPickerDialog({
     });
   }, [qAlamat, qId, qNama, qNo, status]);
 
-  const totalEntries = 495; // mengikuti tampilan referensi (mock)
+  const totalEntries = 495;
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
 
   React.useEffect(() => {
@@ -228,7 +226,10 @@ export default function NasabahPickerDialog({
         <div className="px-6 py-5">
           <div className="flex flex-wrap items-center gap-3">
             <div className="text-sm text-slate-700">Tampilkan</div>
-            <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+            <Select
+              value={String(pageSize)}
+              onValueChange={(v) => setPageSize(Number(v))}
+            >
               <SelectTrigger className="h-10 w-[96px] rounded-xl border-slate-200 bg-white">
                 <SelectValue />
               </SelectTrigger>
@@ -249,40 +250,11 @@ export default function NasabahPickerDialog({
                 <thead className="bg-white">
                   <tr className="text-left text-sm font-semibold text-slate-900">
                     <th className="w-[70px] px-4 py-3">No.</th>
-                    <th className="w-[160px] px-4 py-3">
-                      <div className="flex items-center justify-between">
-                        <span>ID</span>
-                        <span className="text-slate-400">↕</span>
-                      </div>
-                    </th>
-                    <th className="min-w-[260px] px-4 py-3">
-                      <div className="flex items-center justify-between">
-                        <span>NAMA</span>
-                        <span className="text-slate-400">↕</span>
-                      </div>
-                    </th>
-                    <th className="w-[190px] px-4 py-3">
-                      <div className="flex items-center justify-between">
-                        <span>NO. IDENTITAS</span>
-                        <span className="text-slate-400">↕</span>
-                      </div>
-                    </th>
-                    <th className="min-w-[320px] px-4 py-3">
-                      <div className="flex items-center justify-between">
-                        <span>ALAMAT</span>
-                        <span className="text-slate-400">↕</span>
-                      </div>
-                    </th>
-                    <th className="w-[220px] px-4 py-3">
-                      <div className="flex items-center justify-between">
-                        <span className="leading-tight">
-                          STATUS
-                          <br />
-                          KEANGGOTAAN
-                        </span>
-                        <span className="text-slate-400">↕</span>
-                      </div>
-                    </th>
+                    <th className="w-[160px] px-4 py-3">ID</th>
+                    <th className="min-w-[260px] px-4 py-3">NAMA</th>
+                    <th className="w-[190px] px-4 py-3">NO. IDENTITAS</th>
+                    <th className="min-w-[320px] px-4 py-3">ALAMAT</th>
+                    <th className="w-[220px] px-4 py-3">STATUS KEANGGOTAAN</th>
                   </tr>
 
                   <tr className="border-t border-slate-200 bg-white">
@@ -322,7 +294,9 @@ export default function NasabahPickerDialog({
                     <th className="px-4 py-3">
                       <Select
                         value={status}
-                        onValueChange={(v) => setStatus(v as StatusKeanggotaan)}
+                        onValueChange={(v) =>
+                          setStatus(v as StatusKeanggotaan)
+                        }
                       >
                         <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                           <SelectValue placeholder="-- Semua" />
@@ -350,24 +324,29 @@ export default function NasabahPickerDialog({
                   ) : (
                     paged.map((n, idx) => {
                       const no = (page - 1) * pageSize + idx + 1;
-                      const zebra = no % 2 === 0;
+                      const isClickable = !!onPick;
                       return (
                         <tr
                           key={`${n.id}-${idx}`}
                           className={cn(
                             "border-t border-slate-200 text-sm text-slate-900",
-                            zebra ? "bg-white" : "bg-white",
+                            isClickable
+                              ? "cursor-pointer hover:bg-slate-50"
+                              : "cursor-default",
                           )}
+                          role={isClickable ? "button" : undefined}
+                          tabIndex={isClickable ? 0 : undefined}
+                          onClick={() => onPick?.(n)}
+                          onKeyDown={(e) => {
+                            if (!onPick) return;
+                            if (e.key === "Enter" || e.key === " ") onPick(n);
+                          }}
                         >
-                          <td className="px-4 py-4 text-slate-900">{no}</td>
-                          <td className="px-4 py-4 bg-slate-50 text-slate-900">
-                            {n.id}
-                          </td>
+                          <td className="px-4 py-4">{no}</td>
+                          <td className="px-4 py-4 bg-slate-50">{n.id}</td>
                           <td className="px-4 py-4 font-medium">{n.nama}</td>
                           <td className="px-4 py-4">{n.noIdentitas}</td>
-                          <td className="px-4 py-4 text-slate-800">
-                            {n.alamat}
-                          </td>
+                          <td className="px-4 py-4 text-slate-800">{n.alamat}</td>
                           <td className="px-4 py-4">{n.status}</td>
                         </tr>
                       );
@@ -380,8 +359,7 @@ export default function NasabahPickerDialog({
 
           <div className="mt-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="text-sm text-slate-700">
-              Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries}{" "}
-              entri
+              Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries} entri
             </div>
             <Pagination page={page} pageCount={pageCount} onPage={setPage} />
           </div>
