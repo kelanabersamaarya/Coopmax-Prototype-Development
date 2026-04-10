@@ -85,11 +85,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 ];
 
 // Routes yang benar-benar ada saat ini
-const implementedRoutes = new Set([
-  "/loan-products",
-  "/loan-products/new",
-  "/loans/new",
-]);
+const implementedRoutes = new Set(["/loan-products", "/loan-products/new", "/loans/new"]);
 
 const loanSubmenu: Array<{ label: string; to: string }> = [
   { label: "Pengajuan Baru", to: "/loans/new" },
@@ -314,9 +310,6 @@ export default function Index() {
             <div>
               <div className="text-sm font-semibold tracking-tight text-slate-900">
                 Loan Studio
-              </div>
-              <div className="text-xs text-slate-600">
-                Prototype setup produk & pinjaman
               </div>
             </div>
           </Link>

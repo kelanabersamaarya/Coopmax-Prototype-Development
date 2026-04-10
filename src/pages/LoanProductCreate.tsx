@@ -16,15 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import {
-  ChevronLeft,
-  Info,
-  Plus,
-  Save,
-  X,
-  Settings2,
-  SlidersHorizontal,
-} from "lucide-react";
+import { ChevronLeft, Info, Plus, Save, X, Settings2, SlidersHorizontal } from "lucide-react";
 import { createLoanProduct, BillingScheme } from "@/lib/loanProductsStore";
 
 type PeriodUnit = "Bulan" | "Hari";
@@ -176,7 +168,6 @@ export default function LoanProductCreate() {
       return;
     }
 
-    // Simpan minimal field yang store dukung (prototype). Sisanya tetap UI saja.
     createLoanProduct({
       name: name.trim(),
       tenorMonths,
@@ -216,24 +207,6 @@ export default function LoanProductCreate() {
               Lengkapi konfigurasi dasar, biaya, COA, hingga pengaturan tagihan
               angsuran seperti referensi.
             </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
-              onClick={() => navigate("/loan-products")}
-            >
-              <X className="mr-2 h-4 w-4" />
-              Batalkan
-            </Button>
-            <Button
-              onClick={save}
-              className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
-            >
-              <Save className="mr-2 h-4 w-4" />
-              Simpan
-            </Button>
           </div>
         </div>
 
