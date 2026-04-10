@@ -44,6 +44,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
       { to: "/dashboard", label: "Dashboard", icon: Home },
       { to: "/anggota", label: "Anggota", icon: Users },
       { to: "/simpanan", label: "Simpanan", icon: Wallet },
+      // Pinjaman dipindah tepat di bawah Simpanan (sesuai permintaan)
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
       { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
       {
@@ -197,7 +198,11 @@ function SidebarLoanSection() {
   const location = useLocation();
   const shouldOpen = React.useMemo(() => {
     const p = location.pathname;
-    return p.startsWith("/pinjaman") || p.startsWith("/loan-products") || p.startsWith("/loans");
+    return (
+      p.startsWith("/pinjaman") ||
+      p.startsWith("/loan-products") ||
+      p.startsWith("/loans")
+    );
   }, [location.pathname]);
 
   const [open, setOpen] = React.useState<boolean>(shouldOpen);
@@ -344,6 +349,7 @@ export default function Index() {
             <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
               <div className="max-h-[70vh] overflow-auto px-1 py-1">
                 <div className="space-y-1">
+                  {/* Posisi Pinjaman sekarang berada tepat setelah Simpanan dalam urutan menu */}
                   <SidebarLoanSection />
 
                   <Separator className="my-2 bg-slate-100" />
@@ -370,59 +376,7 @@ export default function Index() {
             </Card>
           </aside>
 
-          <div>
-            {isHome ? (
-              <Card className="rounded-3xl border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur">
-                <div className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--app-accent))]/10 px-3 py-1 text-xs font-medium text-[hsl(var(--app-accent-2))]">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Revisi scope: wizard produk + pinjaman 1 halaman
-                </div>
-                <h1 className="mt-3 text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
-                  Mulai dari katalog produk, lalu buat pinjaman.
-                </h1>
-                <p className="mt-2 max-w-2xl text-sm text-slate-600">
-                  Wizard setup produk memakai free navigation (sidebar steps bisa
-                  diklik kapan saja). Sementara pembuatan pinjaman baru cukup 1
-                  halaman untuk memilih produk.
-                </p>
-
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  <Card className="rounded-3xl border-slate-200/70 bg-slate-50 p-5">
-                    <div className="text-sm font-semibold text-slate-900">
-                      Setup Produk (Wizard)
-                    </div>
-                    <p className="mt-1 text-sm text-slate-600">
-                      Buat produk pinjaman, simpan ke localStorage.
-                    </p>
-                    <Button
-                      asChild
-                      className="mt-4 w-full rounded-full bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
-                    >
-                      <Link to="/loan-products/new">Mulai setup</Link>
-                    </Button>
-                  </Card>
-
-                  <Card className="rounded-3xl border-slate-200/70 bg-slate-50 p-5">
-                    <div className="text-sm font-semibold text-slate-900">
-                      Buat Pinjaman Baru
-                    </div>
-                    <p className="mt-1 text-sm text-slate-600">
-                      Pilih produk, lihat ringkasan, simpan draft.
-                    </p>
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="mt-4 w-full rounded-full border-slate-200 bg-white hover:bg-white"
-                    >
-                      <Link to="/loans/new">Pilih produk</Link>
-                    </Button>
-                  </Card>
-                </div>
-              </Card>
-            ) : (
-              <Outlet />
-            )}
-          </div>
+          <div>{isHome ? <Outlet /> : <Outlet />}</div>
         </div>
       </div>
     </div>
