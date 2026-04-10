@@ -426,11 +426,13 @@ export default function Index() {
         </header>
 
         <div className="mt-6 grid gap-4 md:grid-cols-[320px_1fr]">
-          <aside className="space-y-4">
+          {/* Sidebar: pastikan benar-benar center tanpa whitespace kiri */}
+          <aside className="space-y-4 px-0">
             <SidebarPromo />
 
             <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
-              <div className="max-h-[70vh] overflow-auto px-1 py-1">
+              {/* Hilangkan padding tambahan yang bikin menu terlihat geser */}
+              <div className="max-h-[70vh] overflow-auto px-0 py-1">
                 <div className="space-y-1">
                   <SidebarAnggotaSection />
                   <SidebarLoanSection />
@@ -438,14 +440,15 @@ export default function Index() {
                   <Separator className="my-2 bg-slate-100" />
 
                   {nav.map((g, idx) => (
-                    <div key={g.group ?? idx} className="px-1">
+                    <div key={g.group ?? idx} className="px-0">
                       {g.group ? (
                         <div className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                           {g.group}
                         </div>
                       ) : null}
 
-                      <div className="space-y-1">
+                      {/* menu container dibuat simetris kiri-kanan */}
+                      <div className="space-y-1 px-2">
                         {g.items
                           .filter(
                             (it) =>
