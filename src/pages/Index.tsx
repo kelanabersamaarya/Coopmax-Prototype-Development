@@ -2,31 +2,178 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import {
+  BadgeDollarSign,
+  Bookmark,
+  BookOpenText,
+  Boxes,
+  BriefcaseBusiness,
+  Calculator,
+  ClipboardList,
   CreditCard,
   FileText,
-  LayoutGrid,
+  HandCoins,
+  Home,
+  Landmark,
   Package2,
+  Receipt,
+  ScrollText,
+  Settings,
+  Shield,
+  Smartphone,
+  Store,
+  Tags,
+  Users,
+  Wallet,
+  ChevronRight,
   Sparkles,
 } from "lucide-react";
 
-const nav = [
+type NavItem = {
+  to: string;
+  label: string;
+  icon: any;
+};
+
+const nav: Array<{ group?: string; items: NavItem[] }> = [
   {
-    group: "Pinjaman",
     items: [
-      {
-        to: "/loan-products",
-        label: "Produk Pinjaman",
-        icon: Package2,
-      },
-      {
-        to: "/loans/new",
-        label: "Buat Pinjaman Baru",
-        icon: FileText,
-      },
+      { to: "/dashboard", label: "Dashboard", icon: Home },
+      { to: "/anggota", label: "Anggota", icon: Users },
+      { to: "/simpanan", label: "Simpanan", icon: Wallet },
+      { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
+      { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
+      { to: "/modal-penyertaan", label: "Modal Penyertaan", icon: BriefcaseBusiness },
+      { to: "/ppob", label: "PPOB", icon: Receipt },
+      { to: "/mbanking", label: "MBanking", icon: Smartphone },
+      { to: "/shu", label: "SHU", icon: BadgeDollarSign },
+      { to: "/transaksi-kas", label: "Transaksi Kas", icon: ClipboardList },
+      { to: "/inventaris", label: "Inventaris", icon: Boxes },
+      { to: "/keuangan", label: "Keuangan", icon: Calculator },
+      { to: "/akunting", label: "Akunting", icon: BookOpenText },
+      { to: "/laporan", label: "Laporan", icon: ScrollText },
+      { to: "/kolektor", label: "Kolektor", icon: Users },
+      { to: "/kupon", label: "Kupon", icon: Tags },
+      { to: "/pegawai", label: "Pegawai", icon: Users },
+      { to: "/laporan-shu", label: "Laporan SHU", icon: Bookmark },
+      { to: "/mitra", label: "Mitra", icon: Store },
+      { to: "/pengaturan-umum", label: "Pengaturan Umum", icon: Settings },
+      { to: "/administrasi-koperasi", label: "Administrasi Koperasi", icon: CreditCard },
+      { to: "/tagihan", label: "Tagihan", icon: FileText },
+      { to: "/online-banking", label: "Online Banking", icon: Landmark },
+      { to: "/superadmin", label: "Superadmin", icon: Shield },
+      { to: "/penilaian-kesehatan", label: "Penilaian Kesehatan", icon: ClipboardList },
+      { to: "/backup-database", label: "Backup Database", icon: Package2 },
     ],
   },
 ];
+
+// Routes yang benar-benar ada saat ini
+const implementedRoutes = new Set([
+  "/loan-products",
+  "/loan-products/new",
+  "/loans/new",
+]);
+
+function SidebarPromo() {
+  return (
+    <div className="rounded-3xl border border-violet-200 bg-white p-4 shadow-sm">
+      <div className="flex items-center gap-2">
+        <div className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-violet-100 text-violet-700 ring-1 ring-violet-200">
+          <Sparkles className="h-4 w-4" />
+        </div>
+        <div className="text-sm font-semibold tracking-tight text-slate-900">
+          KOCEK
+        </div>
+      </div>
+
+      <div className="mt-3 text-sm font-semibold text-fuchsia-700">
+        Rekomendasi Pinjaman Cepat ✨
+      </div>
+      <div className="mt-2 text-sm leading-relaxed text-slate-700">
+        Ingin analisa cepat dan tepat? gunakan layanan{" "}
+        <span className="font-semibold text-violet-700">KOCEK</span> sekarang!
+      </div>
+
+      <Button
+        className="mt-4 w-full rounded-full bg-violet-600 text-white hover:bg-violet-700"
+        onClick={() => {
+          // Prototype action
+          // (Sonner toaster sudah ada di App.tsx)
+          // Import toast lokal biar file tetap kecil? Tidak perlu: ini hanya UI.
+          // Kita tetap gunakan alert minimal? Lebih baik gunakan sonner:
+          // Tapi agar tidak tambah import baru, kita biarkan navigation/CTA ke existing page.
+          window.location.href = "/loan-products/new";
+        }}
+      >
+        <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15">
+          <Sparkles className="h-4 w-4" />
+        </span>
+        Analisa Rekomendasi Pinjaman
+      </Button>
+
+      <div className="mt-3 text-center text-sm font-semibold text-violet-700 underline underline-offset-4">
+        Lihat Penggunaan & Sisa Kuota
+      </div>
+    </div>
+  );
+}
+
+function SidebarNavItem({ item }: { item: NavItem }) {
+  const Icon = item.icon;
+  const isReal = implementedRoutes.has(item.to);
+
+  const common =
+    "group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition";
+
+  if (!isReal) {
+    return (
+      <button
+        type="button"
+        className={cn(
+          common,
+          "bg-white hover:bg-slate-50 text-slate-900",
+        )}
+        onClick={() => {
+          // Halaman belum tersedia (prototype)
+          // pakai navigation ke home agar tidak 404
+          window.location.href = "/";
+        }}
+      >
+        <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+          <Icon className="h-5 w-5" />
+        </span>
+        <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">
+          {item.label}
+        </span>
+        <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400" />
+      </button>
+    );
+  }
+
+  return (
+    <NavLink
+      to={item.to}
+      className={({ isActive }) =>
+        cn(
+          common,
+          isActive
+            ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200"
+            : "bg-white hover:bg-slate-50 text-slate-900",
+        )
+      }
+    >
+      <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+        <Icon className="h-5 w-5" />
+      </span>
+      <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">
+        {item.label}
+      </span>
+      <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400" />
+    </NavLink>
+  );
+}
 
 export default function Index() {
   const location = useLocation();
@@ -71,50 +218,59 @@ export default function Index() {
           </div>
         </header>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-[280px_1fr]">
-          <Card className="rounded-3xl border-slate-200/70 bg-white/70 p-4 shadow-sm backdrop-blur">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-600">
-              <LayoutGrid className="h-4 w-4 text-[hsl(var(--app-accent-2))]" />
-              Menu
-            </div>
-            <Separator className="my-4 bg-slate-200/70" />
+        <div className="mt-6 grid gap-4 md:grid-cols-[320px_1fr]">
+          {/* Sidebar ala referensi */}
+          <aside className="space-y-4">
+            <SidebarPromo />
 
-            <div className="space-y-5">
-              {nav.map((g) => (
-                <div key={g.group}>
-                  <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                    {g.group}
+            <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
+              <div className="max-h-[70vh] overflow-auto px-1 py-1">
+                <div className="space-y-1">
+                  {/* Sisipkan menu app yang benar-benar ada di atas agar cepat dipakai */}
+                  <div className="px-2 pb-2 pt-1">
+                    <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                      Pinjaman (aktif)
+                    </div>
+                    <div className="mt-2 space-y-1">
+                      <SidebarNavItem
+                        item={{
+                          to: "/loan-products",
+                          label: "Produk Pinjaman",
+                          icon: Package2,
+                        }}
+                      />
+                      <SidebarNavItem
+                        item={{
+                          to: "/loans/new",
+                          label: "Buat Pinjaman Baru",
+                          icon: FileText,
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className="mt-2 space-y-1">
-                    {g.items.map((it) => {
-                      const Icon = it.icon;
-                      return (
-                        <NavLink
-                          key={it.to}
-                          to={it.to}
-                          className={({ isActive }) =>
-                            `flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm ring-1 transition ${
-                              isActive
-                                ? "bg-slate-900 text-white ring-slate-900"
-                                : "bg-white/60 text-slate-900 ring-slate-200 hover:bg-white"
-                            }`
-                          }
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-[hsl(var(--app-accent))]/10 text-[hsl(var(--app-accent-2))]">
-                              <Icon className="h-4 w-4" />
-                            </div>
-                            <div className="font-semibold">{it.label}</div>
-                          </div>
-                        </NavLink>
-                      );
-                    })}
-                  </div>
+
+                  <Separator className="my-2 bg-slate-100" />
+
+                  {nav.map((g, idx) => (
+                    <div key={g.group ?? idx} className="px-1">
+                      {g.group ? (
+                        <div className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                          {g.group}
+                        </div>
+                      ) : null}
+                      <div className="space-y-1">
+                        {g.items.map((it) => (
+                          <SidebarNavItem key={it.to} item={it} />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </Card>
+              </div>
+            </Card>
+          </aside>
 
+          {/* Content */}
           <div>
             {isHome ? (
               <Card className="rounded-3xl border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur">
