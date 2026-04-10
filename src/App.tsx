@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import LoanProducts from "./pages/LoanProducts";
+import LoanProductWizard from "./pages/LoanProductWizard";
+import NewLoan from "./pages/NewLoan";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +18,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Index />}>
+            <Route path="loan-products" element={<LoanProducts />} />
+            <Route path="loan-products/new" element={<LoanProductWizard />} />
+            <Route path="loans/new" element={<NewLoan />} />
+          </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
