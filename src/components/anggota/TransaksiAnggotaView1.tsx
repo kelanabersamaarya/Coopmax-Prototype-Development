@@ -22,6 +22,8 @@ import {
   ReceiptText,
   ScrollText,
   ShieldCheck,
+  CalendarDays,
+  CheckSquare,
 } from "lucide-react";
 
 type Props = {
@@ -113,9 +115,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
   const [keterangan, setKeterangan] = React.useState("");
 
+  const isPelunasan = jenisTransaksi === "Pelunasan";
+
+  const nominalPelunasan = "9.625.000";
+
   return (
     <div className="mt-6">
-      <div className="grid gap-4 lg:grid-cols-[260px_1fr_320px]">
+      <TabsLike />
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-[260px_1fr_320px]">
         {/* Left: Pinjaman billing */}
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
           <div className="rounded-2xl bg-sky-600 px-4 py-4 text-white shadow-sm ring-1 ring-sky-700/20">
@@ -201,7 +209,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 <thead className="bg-white">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                     <th className="w-[42px] px-4 py-3">
-                      <input type="checkbox" aria-label="Pilih semua" />
+                      <input
+                        type="checkbox"
+                        aria-label="Pilih semua"
+                        checked={isPelunasan ? true : undefined}
+                        disabled={isPelunasan}
+                      />
                     </th>
                     <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
                     <th className="w-[190px] px-4 py-3">
@@ -220,6 +233,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         <input
                           type="checkbox"
                           aria-label={`Pilih row ${idx + 1}`}
+                          checked={isPelunasan ? true : undefined}
+                          disabled={isPelunasan}
                         />
                       </td>
                       <td className="px-4 py-3 font-medium text-slate-900">
@@ -242,6 +257,22 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </table>
             </div>
           </div>
+
+          {isPelunasan ? (
+            <div className="mt-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-slate-700">
+              <div className="flex items-start gap-2">
+                <CheckSquare className="mt-0.5 h-4 w-4 text-emerald-700" />
+                <div>
+                  <div className="font-semibold text-slate-900">
+                    Mode Pelunasan
+                  </div>
+                  <div className="mt-0.5 leading-relaxed text-slate-700">
+                    Semua rincian tagihan otomatis dipilih dan tidak bisa diubah.
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
         </Card>
 
         {/* Right: Ringkasan + Form + Aksi */}
@@ -287,13 +318,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             <div className="grid gap-3">
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">
-                  Tanggal Efektif Bayar*
+                  {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
                 </Label>
-                <Input
-                  value={tanggalEfektif}
-                  onChange={(e) => setTanggalEfektif(e.target.value)}
-                  className="h-10 rounded-xl border-slate-200 bg-white"
-                />
+                <div className="relative">
+                  <Input
+                    value={tanggalEfektif}
+                    onChange={(e) => setTanggalEfektif(e.target.value)}
+                    className="h-10 rounded-xl border-slate-200 bg-white pr-10"
+                  />
+                  <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                </div>
               </div>
 
               <div className="grid gap-1.5">
@@ -306,11 +340,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    {transactionTypes.map((t) => (
-                      <SelectItem key={t} value={t}>
-                        {t}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="Pembayaran Angsuran">
+                      Pembayaran Angsuran
+                    </SelectItem>
+                    <SelectItem value="Pembayaran Rincian Tagihan">
+                      Pembayaran Rincian Tagihan
+                    </SelectItem>
+                    <SelectItem value="Pelunasan">Pelunasan Pinjaman</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -331,14 +367,21 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">
-                  Nominal Pembayaran*
+                  {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
                 </Label>
-                <Input
-                  value={nominal}
-                  onChange={(e) => setNominal(e.target.value)}
-                  inputMode="numeric"
-                  className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                />
+
+                {isPelunasan ? (
+                  <div className="h-10 rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200 flex items-center justify-end">
+                    {nominalPelunasan}
+                  </div>
+                ) : (
+                  <Input
+                    value={nominal}
+                    onChange={(e) => setNominal(e.target.value)}
+                    inputMode="numeric"
+                    className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                  />
+                )}
               </div>
 
               <div className="grid gap-1.5">
@@ -364,6 +407,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </div>
 
               <Button className="mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
+                <CheckSquare className="mr-2 h-4 w-4" />
                 Bayar Tagihan
               </Button>
             </div>
