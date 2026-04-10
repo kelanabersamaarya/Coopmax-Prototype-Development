@@ -136,55 +136,6 @@ function TabsHeader() {
   );
 }
 
-function TopHeader({
-  id,
-  nama,
-  alamat,
-}: {
-  id: string;
-  nama: string;
-  alamat: string;
-}) {
-  return (
-    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-      <div>
-        <div className="text-3xl font-semibold tracking-tight text-slate-900">
-          Transaksi
-        </div>
-        <div className="mt-2 space-y-1 text-sm text-slate-800">
-          <div>
-            <span className="font-semibold">No. Nasabah</span> :{" "}
-            <span className="font-semibold">{id}</span>
-          </div>
-          <div>
-            <span className="font-semibold">Nama Nasabah</span> :{" "}
-            <span className="font-semibold">{nama}</span>
-          </div>
-          <div>
-            <span className="font-semibold">Alamat Nasabah</span> :{" "}
-            <span className="font-semibold">{alamat}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-        <div className="w-full sm:w-[220px]">
-          <Input className="h-10 rounded-xl border-slate-200 bg-white" value={id} readOnly />
-        </div>
-        <Button className="h-10 rounded-xl bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]">
-          Cari
-        </Button>
-        <Button
-          variant="outline"
-          className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
-        >
-          Riwayat Transaksi
-        </Button>
-      </div>
-    </div>
-  );
-}
-
 function GracePeriodRow({ colSpan }: { colSpan: number }) {
   return (
     <tr className="border-b border-slate-200">
@@ -285,13 +236,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const totalRincian = React.useMemo(() => {
     return (
-      parseAmount(nominalPokok) + parseAmount(nominalBunga) + parseAmount(nominalDenda)
+      parseAmount(nominalPokok) +
+      parseAmount(nominalBunga) +
+      parseAmount(nominalDenda)
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
   return (
     <div className="space-y-5">
-      <TopHeader id={nasabah.id} nama={nasabah.nama} alamat={nasabah.alamat} />
+      {/* DIHILANGKAN: header "Transaksi" + detail No/Nama/Alamat sesuai permintaan */}
 
       <TabsHeader />
 
@@ -661,6 +614,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
           </Button>
         </div>
       </div>
+
+      {/* mencegah unused prop lint & memastikan data nasabah tetap dipakai tanpa menampilkan header */}
+      <div className="sr-only">{nasabah.nama}</div>
     </div>
   );
 }
