@@ -1,0 +1,877 @@
+import * as React from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import {
+  ChevronLeft,
+  Info,
+  Plus,
+  Save,
+  X,
+  Settings2,
+  SlidersHorizontal,
+} from "lucide-react";
+import { createLoanProduct, BillingScheme } from "@/lib/loanProductsStore";
+
+type PeriodUnit = "Bulan" | "Hari";
+type RoundingType = "Pembulatan Keatas" | "Pembulatan Kebawah" | "Tanpa Pembulatan";
+type PenaltyMethod = "Hutang Bunga" | "Hutang Pokok" | "Total Tagihan";
+type CoaOption =
+  | "PINJAMAN YANG DIBERIKAN"
+  | "PEND. BUNGA PINJAMAN"
+  | "PEND. DENDA"
+  | "PENDAPATAN LAIN - LAIN"
+  | "PEN. ADMINISTRASI"
+  | "PILIH";
+
+type InstallmentMode =
+  | "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+  | "Jadwal Fleksibel & Tagihan Berkala"
+  | "Dihitung dari Sisa Saldo Pokok";
+
+function FieldRow({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
+      <div className="pt-1">
+        <div className="text-sm font-semibold text-slate-900">{label}</div>
+        {hint ? <div className="mt-1 text-xs text-slate-500">{hint}</div> : null}
+      </div>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
+function InfoDot() {
+  return (
+    <span className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-violet-100 text-violet-700 ring-1 ring-violet-200">
+      <Info className="h-3.5 w-3.5" />
+    </span>
+  );
+}
+
+export default function LoanProductCreate() {
+  const navigate = useNavigate();
+
+  const [code, setCode] = React.useState("klpk04.07");
+  const [name, setName] = React.useState("Pinjaman Emas");
+
+  const [rc, setRc] = React.useState(false);
+
+  const [periodUnit, setPeriodUnit] = React.useState<PeriodUnit>("Bulan");
+  const [minPeriod, setMinPeriod] = React.useState("12");
+  const [maxPeriod, setMaxPeriod] = React.useState("12");
+
+  const [billingScheme, setBillingScheme] =
+    React.useState<BillingScheme>("Anuitas");
+
+  const [interestCountsOnInterestDebt, setInterestCountsOnInterestDebt] =
+    React.useState(false);
+
+  const [interestYearly, setInterestYearly] = React.useState("24.00");
+
+  const [roundingType, setRoundingType] =
+    React.useState<RoundingType>("Pembulatan Keatas");
+  const [roundingMultiple, setRoundingMultiple] = React.useState("100");
+
+  const [penalty, setPenalty] = React.useState("100");
+  const [nominalStep, setNominalStep] = React.useState("100");
+
+  const [terms, setTerms] = React.useState("");
+
+  const [accPenalty, setAccPenalty] = React.useState(true);
+  const [penaltyMethod, setPenaltyMethod] =
+    React.useState<PenaltyMethod>("Hutang Bunga");
+
+  const [accInterest, setAccInterest] = React.useState(false);
+  const [ignorePrincipalDebt, setIgnorePrincipalDebt] = React.useState(false);
+  const [ignoreInterestDebt, setIgnoreInterestDebt] = React.useState(false);
+
+  const [minLoan, setMinLoan] = React.useState("1.000.000,00");
+  const [maxLoan, setMaxLoan] = React.useState("100.000.000,00");
+
+  const [specialEndDate, setSpecialEndDate] = React.useState(false);
+
+  const [propisi, setPropisi] = React.useState("0,00");
+  const [admin, setAdmin] = React.useState("0,00");
+  const [insurance, setInsurance] = React.useState("0,00");
+  const [mbankingActivation, setMbankingActivation] = React.useState("0,00");
+
+  const [withoutCollateral, setWithoutCollateral] = React.useState(false);
+  const [splitInterestRevenue, setSplitInterestRevenue] = React.useState(false);
+
+  const [coaLoan, setCoaLoan] = React.useState<CoaOption>(
+    "PINJAMAN YANG DIBERIKAN",
+  );
+  const [coaInterestRevenue, setCoaInterestRevenue] =
+    React.useState<CoaOption>("PEND. BUNGA PINJAMAN");
+  const [coaSplitInterestRevenue, setCoaSplitInterestRevenue] =
+    React.useState<CoaOption>("PILIH");
+  const [coaPenaltyRevenue, setCoaPenaltyRevenue] =
+    React.useState<CoaOption>("PEND. DENDA");
+  const [coaRoundingRevenue, setCoaRoundingRevenue] =
+    React.useState<CoaOption>("PENDAPATAN LAIN - LAIN");
+  const [coaAdminRevenue, setCoaAdminRevenue] =
+    React.useState<CoaOption>("PEN. ADMINISTRASI");
+
+  const [collectorFees, setCollectorFees] = React.useState<
+    Array<{ id: string; name: string; amount: string }>
+  >([]);
+
+  const [useInstallmentTable, setUseInstallmentTable] = React.useState(true);
+  const [installmentMode, setInstallmentMode] =
+    React.useState<InstallmentMode>("Jadwal Tetap (Diterbitkan Penuh di Awal)");
+  const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(false);
+
+  function addCollectorFee() {
+    setCollectorFees((prev) => [
+      ...prev,
+      { id: String(Date.now()), name: `Fee ${prev.length + 1}`, amount: "0" },
+    ]);
+    toast("Fee kolektor ditambahkan", {
+      description: "Silakan sesuaikan nama dan nominalnya.",
+    });
+  }
+
+  function save() {
+    const tenorMonths = Math.max(1, Number.parseInt(minPeriod || "12", 10) || 12);
+    const rate = Number.parseFloat((interestYearly || "0").replace(",", ".")) || 0;
+
+    if (name.trim().length < 3) {
+      toast("Nama produk belum valid", { description: "Minimal 3 karakter." });
+      return;
+    }
+    if (rate <= 0) {
+      toast("Bunga belum valid", { description: "Isi bunga per tahun (> 0)." });
+      return;
+    }
+
+    // Simpan minimal field yang store dukung (prototype). Sisanya tetap UI saja.
+    createLoanProduct({
+      name: name.trim(),
+      tenorMonths,
+      interestRateYearly: rate,
+      billingScheme,
+      gracePeriodDays: gracePeriodEnabled ? 7 : 0,
+    });
+
+    toast.success("Produk pinjaman tersimpan", {
+      description: "Produk baru sudah masuk ke daftar.",
+    });
+    navigate("/loan-products");
+  }
+
+  return (
+    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
+        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+          <div>
+            <Button
+              asChild
+              variant="ghost"
+              className="-ml-3 w-fit rounded-full text-slate-700 hover:bg-white/60"
+            >
+              <Link to="/loan-products">
+                <ChevronLeft className="mr-2 h-4 w-4" /> Kembali
+              </Link>
+            </Button>
+
+            <div className="mt-2 flex items-baseline gap-3">
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
+                Produk Pinjaman
+              </h1>
+              <div className="text-sm font-semibold text-slate-500">Tambah</div>
+            </div>
+            <p className="mt-1 max-w-3xl text-sm text-slate-600">
+              Lengkapi konfigurasi dasar, biaya, COA, hingga pengaturan tagihan
+              angsuran seperti referensi.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
+              onClick={() => navigate("/loan-products")}
+            >
+              <X className="mr-2 h-4 w-4" />
+              Batalkan
+            </Button>
+            <Button
+              onClick={save}
+              className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
+            >
+              <Save className="mr-2 h-4 w-4" />
+              Simpan
+            </Button>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-4">
+          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-100 text-violet-700 ring-1 ring-violet-200">
+                <Settings2 className="h-5 w-5" />
+              </span>
+              <div>
+                <div className="text-base font-semibold text-slate-900">
+                  Konfigurasi Dasar Produk Pinjaman
+                </div>
+                <div className="text-xs text-slate-500">
+                  Parameter utama produk (prototype UI).
+                </div>
+              </div>
+            </div>
+
+            <Separator className="my-5 bg-slate-200/70" />
+
+            <div className="grid gap-5">
+              <FieldRow label="Kode">
+                <Input
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  className="rounded-2xl bg-slate-100"
+                />
+              </FieldRow>
+
+              <FieldRow label="Produk Pinjaman">
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow label="RC">
+                <div className="flex items-center gap-3">
+                  <Switch checked={rc} onCheckedChange={setRc} />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {rc ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Periode Pinjaman">
+                <Select value={periodUnit} onValueChange={(v) => setPeriodUnit(v as PeriodUnit)}>
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="Bulan">Bulan</SelectItem>
+                    <SelectItem value="Hari">Hari</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="Minimal Periode Pinjaman">
+                <Input
+                  value={minPeriod}
+                  onChange={(e) => setMinPeriod(e.target.value)}
+                  inputMode="numeric"
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow label="Maksimal Periode Pinjaman">
+                <Input
+                  value={maxPeriod}
+                  onChange={(e) => setMaxPeriod(e.target.value)}
+                  inputMode="numeric"
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow label="Metode Bunga Pinjaman">
+                <Select
+                  value={billingScheme}
+                  onValueChange={(v) => setBillingScheme(v as BillingScheme)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="Anuitas">Bunga Efektif (Anuitas)</SelectItem>
+                    <SelectItem value="Flat">Bunga Flat</SelectItem>
+                    <SelectItem value="Menurun">Menurun</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow
+                label="Bunga Pinjaman Memperhitungkan Hutang Bunga"
+                hint="Jika diaktifkan maka hutang bunga rekening mempengaruhi jumlah bunga yang harus dibayar."
+              >
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={interestCountsOnInterestDebt}
+                    onCheckedChange={setInterestCountsOnInterestDebt}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {interestCountsOnInterestDebt ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Bunga Per Tahun (%)">
+                <Input
+                  value={interestYearly}
+                  onChange={(e) => setInterestYearly(e.target.value)}
+                  inputMode="decimal"
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow label="Jenis Pembulatan">
+                <Select
+                  value={roundingType}
+                  onValueChange={(v) => setRoundingType(v as RoundingType)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="Pembulatan Keatas">Pembulatan Keatas</SelectItem>
+                    <SelectItem value="Pembulatan Kebawah">Pembulatan Kebawah</SelectItem>
+                    <SelectItem value="Tanpa Pembulatan">Tanpa Pembulatan</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="Kelipatan Pembulatan">
+                <Input
+                  value={roundingMultiple}
+                  onChange={(e) => setRoundingMultiple(e.target.value)}
+                  inputMode="numeric"
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow label="Denda Pinjaman">
+                <Input
+                  value={penalty}
+                  onChange={(e) => setPenalty(e.target.value)}
+                  inputMode="numeric"
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow
+                label="Nominal Kelipatan"
+                hint="Nominal untuk kelipatan pinjaman pada pengajuan Mobile Banking."
+              >
+                <Input
+                  value={nominalStep}
+                  onChange={(e) => setNominalStep(e.target.value)}
+                  inputMode="numeric"
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow
+                label="Ketentuan Produk Pinjaman"
+                hint="Ketentuan produk pinjaman pada Mobile Banking."
+              >
+                <Textarea
+                  value={terms}
+                  onChange={(e) => setTerms(e.target.value)}
+                  className="min-h-[96px] rounded-2xl"
+                />
+              </FieldRow>
+            </div>
+          </Card>
+
+          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 ring-1 ring-sky-200">
+                <SlidersHorizontal className="h-5 w-5" />
+              </span>
+              <div>
+                <div className="text-base font-semibold text-slate-900">
+                  Parameter Lanjutan & Biaya
+                </div>
+                <div className="text-xs text-slate-500">
+                  Toggle dan biaya lain-lain.
+                </div>
+              </div>
+            </div>
+
+            <Separator className="my-5 bg-slate-200/70" />
+
+            <div className="grid gap-5">
+              <FieldRow label="Akumulasi Denda Pinjaman">
+                <div className="flex items-center gap-3">
+                  <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {accPenalty ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Metode Perhitungan Denda">
+                <Select
+                  value={penaltyMethod}
+                  onValueChange={(v) => setPenaltyMethod(v as PenaltyMethod)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                    <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                    <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="Akumulasi Bunga Pinjaman">
+                <div className="flex items-center gap-3">
+                  <Switch checked={accInterest} onCheckedChange={setAccInterest} />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {accInterest ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Tidak Menghitung Hutang Pokok">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={ignorePrincipalDebt}
+                    onCheckedChange={setIgnorePrincipalDebt}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {ignorePrincipalDebt ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Tidak Menghitung Hutang Bunga">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={ignoreInterestDebt}
+                    onCheckedChange={setIgnoreInterestDebt}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {ignoreInterestDebt ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Minimal Pinjaman">
+                <Input
+                  value={minLoan}
+                  onChange={(e) => setMinLoan(e.target.value)}
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow label="Maksimal Pinjaman">
+                <Input
+                  value={maxLoan}
+                  onChange={(e) => setMaxLoan(e.target.value)}
+                  className="rounded-2xl"
+                />
+              </FieldRow>
+
+              <FieldRow label="Menggunakan Tanggal Khusus untuk Akhir Periode">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={specialEndDate}
+                    onCheckedChange={setSpecialEndDate}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {specialEndDate ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label className="text-sm font-semibold text-slate-900">
+                    Propisi
+                  </Label>
+                  <Input
+                    value={propisi}
+                    onChange={(e) => setPropisi(e.target.value)}
+                    className="rounded-2xl"
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label className="text-sm font-semibold text-slate-900">
+                    Administrasi
+                  </Label>
+                  <Input
+                    value={admin}
+                    onChange={(e) => setAdmin(e.target.value)}
+                    className="rounded-2xl"
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label className="text-sm font-semibold text-slate-900">
+                    Biaya Asuransi
+                  </Label>
+                  <Input
+                    value={insurance}
+                    onChange={(e) => setInsurance(e.target.value)}
+                    className="rounded-2xl"
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label className="text-sm font-semibold text-slate-900">
+                    Biaya Aktivasi M-Banking
+                  </Label>
+                  <Input
+                    value={mbankingActivation}
+                    onChange={(e) => setMbankingActivation(e.target.value)}
+                    className="rounded-2xl"
+                  />
+                </div>
+              </div>
+
+              <FieldRow label="Tanpa Agunan">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={withoutCollateral}
+                    onCheckedChange={setWithoutCollateral}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {withoutCollateral ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <FieldRow
+                label={
+                  <span className="inline-flex items-center">
+                    Split Pendapatan Bunga <InfoDot />
+                  </span> as any
+                }
+              >
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={splitInterestRevenue}
+                    onCheckedChange={setSplitInterestRevenue}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {splitInterestRevenue ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+            </div>
+          </Card>
+
+          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-base font-semibold text-slate-900">
+                  Pengaturan COA (Prototype)
+                </div>
+                <div className="text-xs text-slate-500">
+                  Daftar COA disederhanakan untuk mock UI.
+                </div>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
+                <Info className="h-3.5 w-3.5" /> Read-only mapping
+              </div>
+            </div>
+
+            <Separator className="my-5 bg-slate-200/70" />
+
+            <div className="grid gap-5">
+              <FieldRow label="KP Pinjaman">
+                <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="PINJAMAN YANG DIBERIKAN">PINJAMAN YANG DIBERIKAN</SelectItem>
+                    <SelectItem value="PILIH">Pilih…</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="KP Pendapatan Bunga">
+                <Select
+                  value={coaInterestRevenue}
+                  onValueChange={(v) => setCoaInterestRevenue(v as CoaOption)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="PEND. BUNGA PINJAMAN">PEND. BUNGA PINJAMAN</SelectItem>
+                    <SelectItem value="PILIH">Pilih…</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow
+                label="KP Pembagi Pendapatan Bunga"
+                hint="Diisi jika ingin pembukuan pendapatan bunga dibagi ke KP ini."
+              >
+                <Select
+                  value={coaSplitInterestRevenue}
+                  onValueChange={(v) => setCoaSplitInterestRevenue(v as CoaOption)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue placeholder="Pilih COA Pendapatan Bunga" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="PILIH">Pilih…</SelectItem>
+                    <SelectItem value="PEND. BUNGA PINJAMAN">PEND. BUNGA PINJAMAN</SelectItem>
+                    <SelectItem value="PENDAPATAN LAIN - LAIN">PENDAPATAN LAIN - LAIN</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="KP Pendapatan Denda">
+                <Select
+                  value={coaPenaltyRevenue}
+                  onValueChange={(v) => setCoaPenaltyRevenue(v as CoaOption)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="PEND. DENDA">PEND. DENDA</SelectItem>
+                    <SelectItem value="PILIH">Pilih…</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="KP Pendapatan Pembulatan">
+                <Select
+                  value={coaRoundingRevenue}
+                  onValueChange={(v) => setCoaRoundingRevenue(v as CoaOption)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="PENDAPATAN LAIN - LAIN">PENDAPATAN LAIN - LAIN</SelectItem>
+                    <SelectItem value="PILIH">Pilih…</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="KP Pendapatan Admin">
+                <Select
+                  value={coaAdminRevenue}
+                  onValueChange={(v) => setCoaAdminRevenue(v as CoaOption)}
+                >
+                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-slate-200">
+                    <SelectItem value="PEN. ADMINISTRASI">PEN. ADMINISTRASI</SelectItem>
+                    <SelectItem value="PILIH">Pilih…</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+            </div>
+          </Card>
+
+          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-base font-semibold text-slate-900">
+                  Konfigurasi Fee Kolektor
+                </div>
+                <div className="text-xs text-slate-500">
+                  Tambahkan fee kolektor (prototype list).
+                </div>
+              </div>
+              <Button
+                onClick={addCollectorFee}
+                className="rounded-full bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Tambah Fee Kolektor
+              </Button>
+            </div>
+
+            <Separator className="my-5 bg-slate-200/70" />
+
+            {collectorFees.length === 0 ? (
+              <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
+                Belum ada fee kolektor.
+              </div>
+            ) : (
+              <div className="grid gap-3">
+                {collectorFees.map((f, idx) => (
+                  <div
+                    key={f.id}
+                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_44px] md:items-center"
+                  >
+                    <div className="grid gap-2">
+                      <Label className="text-xs text-slate-600">Nama</Label>
+                      <Input
+                        value={f.name}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCollectorFees((prev) =>
+                            prev.map((x) => (x.id === f.id ? { ...x, name: val } : x)),
+                          );
+                        }}
+                        className="rounded-2xl"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label className="text-xs text-slate-600">Nominal</Label>
+                      <Input
+                        value={f.amount}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setCollectorFees((prev) =>
+                            prev.map((x) => (x.id === f.id ? { ...x, amount: val } : x)),
+                          );
+                        }}
+                        className="rounded-2xl"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white"
+                      onClick={() => {
+                        setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
+                        toast("Fee dihapus", { description: `Item #${idx + 1} dihapus.` });
+                      }}
+                      aria-label="Hapus fee"
+                    >
+                      <X className="h-4.5 w-4.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-base font-semibold text-slate-900">
+                  Konfigurasi Tagihan Angsuran <InfoDot />
+                </div>
+                <div className="text-xs text-slate-500">
+                  Pengaturan skema tagihan + grace period.
+                </div>
+              </div>
+            </div>
+
+            <Separator className="my-5 bg-slate-200/70" />
+
+            <div className="grid gap-5">
+              <FieldRow
+                label={
+                  <span className="inline-flex items-center">
+                    Tagihan Angsuran Menggunakan Tabel Angsuran <InfoDot />
+                  </span> as any
+                }
+              >
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={useInstallmentTable}
+                    onCheckedChange={setUseInstallmentTable}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {useInstallmentTable ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+
+              <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
+                <div className="pt-1">
+                  <div className="text-sm font-semibold text-slate-900">
+                    Skema Tagihan <InfoDot />
+                  </div>
+                </div>
+                <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
+                  <RadioGroup
+                    value={installmentMode}
+                    onValueChange={(v) => setInstallmentMode(v as InstallmentMode)}
+                    className="grid gap-3"
+                  >
+                    {(
+                      [
+                        "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+                        "Jadwal Fleksibel & Tagihan Berkala",
+                        "Dihitung dari Sisa Saldo Pokok",
+                      ] as InstallmentMode[]
+                    ).map((m) => (
+                      <label
+                        key={m}
+                        className="flex cursor-pointer items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 hover:bg-white"
+                      >
+                        <RadioGroupItem value={m} id={`mode-${m}`} className="mt-1" />
+                        <div className="min-w-0">
+                          <div className="text-sm font-semibold text-slate-900">
+                            {m}
+                          </div>
+                          <div className="mt-1 text-xs text-slate-600">
+                            Prototype — pilihan ini hanya memengaruhi state UI.
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </RadioGroup>
+                </div>
+              </div>
+
+              <FieldRow label="Grace Period">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={gracePeriodEnabled}
+                    onCheckedChange={setGracePeriodEnabled}
+                  />
+                  <div className="text-sm font-semibold text-slate-700">
+                    {gracePeriodEnabled ? "ON" : "OFF"}
+                  </div>
+                </div>
+              </FieldRow>
+            </div>
+
+            <Separator className="my-6 bg-slate-200/70" />
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+              <Button
+                variant="outline"
+                className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
+                onClick={() => navigate("/loan-products")}
+              >
+                <X className="mr-2 h-4 w-4" />
+                Batalkan
+              </Button>
+              <Button
+                onClick={save}
+                className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
+              >
+                <Save className="mr-2 h-4 w-4" />
+                Simpan
+              </Button>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}

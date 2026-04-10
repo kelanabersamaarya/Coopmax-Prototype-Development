@@ -6,8 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LoanProducts from "./pages/LoanProducts";
-import LoanProductWizard from "./pages/LoanProductWizard";
 import NewLoan from "./pages/NewLoan";
+import LoanProductCreate from "./pages/LoanProductCreate";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +20,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />}>
             <Route path="loan-products" element={<LoanProducts />} />
-            <Route path="loan-products/new" element={<LoanProductWizard />} />
+            <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loans/new" element={<NewLoan />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
