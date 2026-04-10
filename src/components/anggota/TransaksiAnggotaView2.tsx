@@ -19,6 +19,7 @@ import {
   CheckSquare,
   CreditCard,
   FileText,
+  Info,
   Landmark,
   Printer,
   ReceiptText,
@@ -43,24 +44,14 @@ type Row = {
   sisaBunga: string;
 };
 
-const rows: Row[] = [
-  {
-    jatuhTempo: "25-01-2026",
-    totalBelumDibayar: "916.667",
-    tagihanPokok: "833.333",
-    tagihanBunga: "83.333",
-    sisaPokok: "783.333",
-    sisaBunga: "26.389",
-  },
-  ...Array.from({ length: 6 }).map((_, i) => ({
-    jatuhTempo: `25-0${(i % 7) + 2}-2026`,
-    totalBelumDibayar: "916.667",
-    tagihanPokok: "833.333",
-    tagihanBunga: "83.333",
-    sisaPokok: "833.333",
-    sisaBunga: "33.333",
-  })),
-];
+const currentBill: Row = {
+  jatuhTempo: "25-01-2026",
+  totalBelumDibayar: "916.667",
+  tagihanPokok: "833.333",
+  tagihanBunga: "83.333",
+  sisaPokok: "783.333",
+  sisaBunga: "26.389",
+};
 
 const transactionTypes = [
   "Pembayaran Angsuran",
@@ -142,7 +133,11 @@ function TopHeader({
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="w-full sm:w-[220px]">
-          <Input className="h-10 rounded-xl border-slate-200 bg-white" value={id} readOnly />
+          <Input
+            className="h-10 rounded-xl border-slate-200 bg-white"
+            value={id}
+            readOnly
+          />
         </div>
         <Button className="h-10 rounded-xl bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]">
           Cari
@@ -191,7 +186,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       <div className="grid gap-4 lg:grid-cols-[260px_1fr_320px_180px]">
         {/* PINJAMAN BILLING */}
         <Card className="rounded-2xl border-slate-200/70 bg-[#12a3b4] p-4 text-white shadow-sm">
-          <div className="text-sm font-extrabold tracking-wide">PINJAMAN BILLING</div>
+          <div className="text-sm font-extrabold tracking-wide">
+            PINJAMAN BILLING
+          </div>
 
           <div className="mt-4 space-y-3 text-sm">
             <div>
@@ -201,7 +198,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
             <div>
               <div className="text-white/85">Skema Tagihan</div>
-              <div className="mt-0.5 font-semibold">Tagihan Sesuai Jadwal Angsuran</div>
+              <div className="mt-0.5 font-semibold">
+                Tagihan Diterbitkan Per Periode
+              </div>
             </div>
 
             <div>
@@ -216,7 +215,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
             <div>
               <div className="text-white/85">Sisa Pokok Pinjaman</div>
-              <div className="mt-0.5 text-base font-extrabold">10.000.000,00</div>
+              <div className="mt-0.5 text-base font-extrabold">
+                10.000.000,00
+              </div>
             </div>
           </div>
 
@@ -240,13 +241,22 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
             <div className="font-semibold text-slate-900">TAGIHAN SAAT INI</div>
-            <div className="mt-1 text-slate-600">
-              Berikut ini merupakan tagihan yang wajib dibayar pada periode ini.
+
+            <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
+              <div className="flex items-start gap-2">
+                <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                  <Info className="h-4 w-4" />
+                </span>
+                <div className="leading-relaxed text-slate-700">
+                  Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada
+                  periode ini serta harus dibayarkan sebelum tanggal jatuh tempo
+                </div>
+              </div>
             </div>
 
             <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
               <div className="overflow-auto">
-                <table className="w-full min-w-[760px] border-collapse">
+                <table className="w-full min-w-[740px] border-collapse">
                   <thead className="bg-white">
                     <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                       <th className="w-[40px] px-3 py-2.5">
@@ -258,36 +268,66 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                         />
                       </th>
                       <th className="w-[120px] px-3 py-2.5">Jatuh Tempo</th>
-                      <th className="w-[170px] px-3 py-2.5">Total Tagihan Belum Dibayar</th>
+                      <th className="w-[170px] px-3 py-2.5">
+                        Total Tagihan Belum Dibayar
+                      </th>
                       <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
                       <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
                       <th className="w-[130px] px-3 py-2.5">Sisa Tagihan Pokok</th>
                       <th className="w-[130px] px-3 py-2.5">Sisa Tagihan Bunga</th>
                     </tr>
                   </thead>
+
                   <tbody className="bg-white">
-                    {rows.map((r, idx) => (
-                      <tr key={idx} className="border-t border-slate-100 text-sm">
-                        <td className="px-3 py-2.5">
-                          <input
-                            type="checkbox"
-                            aria-label={`Pilih row ${idx + 1}`}
-                            checked={isPelunasan ? true : undefined}
-                            disabled={isPelunasan}
-                          />
-                        </td>
-                        <td className="px-3 py-2.5 font-medium text-slate-900">
-                          {r.jatuhTempo}
-                        </td>
-                        <td className="px-3 py-2.5 text-slate-800">
-                          {r.totalBelumDibayar}
-                        </td>
-                        <td className="px-3 py-2.5 text-slate-800">{r.tagihanPokok}</td>
-                        <td className="px-3 py-2.5 text-slate-800">{r.tagihanBunga}</td>
-                        <td className="px-3 py-2.5 text-slate-800">{r.sisaPokok}</td>
-                        <td className="px-3 py-2.5 text-slate-800">{r.sisaBunga}</td>
-                      </tr>
-                    ))}
+                    {/* Info row seperti referensi */}
+                    <tr className="border-t border-slate-200">
+                      <td colSpan={7} className="px-3 py-3">
+                        <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+                          <div className="flex items-start gap-2">
+                            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                              <Info className="h-4 w-4" />
+                            </span>
+                            <div>
+                              <div className="font-semibold">Periode Grace Period</div>
+                              <div className="mt-0.5 text-slate-700">
+                                Tagihan saat ini masuk ke dalam periode grace period.
+                                Selama periode grace period nasabah hanya membayar bunga.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    {/* Hanya 1 tagihan (diterbitkan per periode) */}
+                    <tr className="border-t border-slate-200 text-sm">
+                      <td className="px-3 py-2.5">
+                        <input
+                          type="checkbox"
+                          aria-label="Pilih tagihan"
+                          checked={isPelunasan ? true : undefined}
+                          disabled={isPelunasan}
+                        />
+                      </td>
+                      <td className="px-3 py-2.5 font-medium text-slate-900">
+                        {currentBill.jatuhTempo}
+                      </td>
+                      <td className="px-3 py-2.5 text-slate-800">
+                        {currentBill.totalBelumDibayar}
+                      </td>
+                      <td className="px-3 py-2.5 text-slate-800">
+                        {currentBill.tagihanPokok}
+                      </td>
+                      <td className="px-3 py-2.5 text-slate-800">
+                        {currentBill.tagihanBunga}
+                      </td>
+                      <td className="px-3 py-2.5 text-slate-800">
+                        {currentBill.sisaPokok}
+                      </td>
+                      <td className="px-3 py-2.5 text-slate-800">
+                        {currentBill.sisaBunga}
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -300,7 +340,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   <div>
                     <div className="font-semibold text-slate-900">Mode Pelunasan</div>
                     <div className="mt-0.5 text-slate-600">
-                      Semua rincian tagihan otomatis dipilih dan tidak bisa diubah.
+                      Checklist tagihan otomatis terpilih dan tidak bisa diubah.
                     </div>
                   </div>
                 </div>
@@ -313,7 +353,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               type="button"
               className="flex w-full items-center justify-between text-sm font-semibold text-slate-800"
             >
-              Perkirakan Tagihan Mendatang
+              Perkiraan Tagihan Mendatang
               <span className="text-slate-500">▾</span>
             </button>
           </div>
