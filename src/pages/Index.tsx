@@ -101,6 +101,17 @@ const loanSubmenu: Array<{ label: string; to: string }> = [
   { label: "Prima Nota", to: "/pinjaman/prima-nota" },
 ];
 
+const anggotaSubmenu: Array<{ label: string; to: string }> = [
+  { label: "Pendaftaran Anggota", to: "/anggota/pendaftaran" },
+  { label: "Pendaftaran Calon Anggota", to: "/anggota/pendaftaran-calon" },
+  { label: "Anggota", to: "/anggota/daftar" },
+  { label: "Calon Anggota", to: "/anggota/calon" },
+  { label: "Transaksi", to: "/anggota/transaksi" },
+  { label: "Cetak Buku Anggota", to: "/anggota/cetak-buku" },
+  { label: "Kategori Anggota", to: "/anggota/kategori" },
+  { label: "Penggabungan Data", to: "/anggota/penggabungan-data" },
+];
+
 function SidebarPromo() {
   return (
     <div className="rounded-3xl border border-violet-200 bg-white p-4 shadow-sm">
@@ -187,6 +198,104 @@ function SidebarNavItem({ item }: { item: NavItem }) {
       </span>
       <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400" />
     </NavLink>
+  );
+}
+
+function SidebarAnggotaSection() {
+  const location = useLocation();
+  const shouldOpen = React.useMemo(() => {
+    const p = location.pathname;
+    return p.startsWith("/anggota");
+  }, [location.pathname]);
+
+  const [open, setOpen] = React.useState<boolean>(shouldOpen);
+
+  React.useEffect(() => {
+    setOpen(shouldOpen);
+  }, [shouldOpen]);
+
+  const isActive = location.pathname.startsWith("/anggota");
+
+  return (
+    <div className="px-2 pb-2 pt-1">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left ring-1 transition",
+          isActive
+            ? "bg-violet-50 text-slate-900 ring-violet-200"
+            : "bg-white text-slate-900 ring-slate-200 hover:bg-slate-50",
+        )}
+      >
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+            <Users className="h-5 w-5" />
+          </span>
+          <span className="text-[15px] font-semibold">Anggota</span>
+        </div>
+
+        <span
+          className={cn(
+            "inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 transition",
+            open ? "rotate-180" : "rotate-0",
+          )}
+        >
+          <ChevronDown className="h-4.5 w-4.5" />
+        </span>
+      </button>
+
+      {open ? (
+        <div className="mt-2 space-y-1 pl-[52px]">
+          {anggotaSubmenu.map((s) => {
+            const isReal = implementedRoutes.has(s.to);
+            const isSubActive = location.pathname === s.to;
+
+            if (!isReal) {
+              return (
+                <button
+                  key={s.to}
+                  type="button"
+                  onClick={() => {
+                    window.location.href = "/";
+                  }}
+                  className={cn(
+                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
+                    "text-slate-700 hover:bg-slate-50",
+                  )}
+                >
+                  <span className="truncate">{s.label}</span>
+                  <ChevronRight className="h-5 w-5 text-slate-200" />
+                </button>
+              );
+            }
+
+            return (
+              <NavLink
+                key={s.to}
+                to={s.to}
+                className={() =>
+                  cn(
+                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
+                    isSubActive
+                      ? "bg-slate-900 text-white"
+                      : "text-slate-700 hover:bg-slate-50",
+                  )
+                }
+              >
+                <span className="truncate">{s.label}</span>
+                <ChevronRight
+                  className={cn(
+                    "h-5 w-5",
+                    isSubActive ? "text-white/70" : "text-slate-200",
+                  )}
+                />
+              </NavLink>
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -303,7 +412,6 @@ export default function Index() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="mx-auto w-full max-w-6xl px-4 py-6 md:px-8">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          {/* Header title + action buttons dihapus sesuai permintaan */}
           <Link to="/" className="inline-flex items-center gap-3">
             <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[hsl(var(--app-accent))] text-white shadow-sm">
               <CreditCard className="h-5 w-5" />
@@ -320,6 +428,9 @@ export default function Index() {
             <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
               <div className="max-h-[70vh] overflow-auto px-1 py-1">
                 <div className="space-y-1">
+                  {/* Submenu Anggota sesuai referensi */}
+                  <SidebarAnggotaSection />
+
                   {/* Posisi Pinjaman sekarang berada tepat setelah Simpanan dalam urutan menu */}
                   <SidebarLoanSection />
 
@@ -335,7 +446,7 @@ export default function Index() {
 
                       <div className="space-y-1">
                         {g.items
-                          .filter((it) => it.label !== "Pinjaman")
+                          .filter((it) => it.label !== "Pinjaman" && it.label !== "Anggota")
                           .map((it) => (
                             <SidebarNavItem key={it.to} item={it} />
                           ))}
