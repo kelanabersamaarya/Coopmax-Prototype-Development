@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   CalendarDays,
   CheckSquare,
+  Info,
 } from "lucide-react";
 
 type Props = {
@@ -139,7 +140,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const totalRincian = React.useMemo(() => {
     return (
-      parseAmount(nominalPokok) + parseAmount(nominalBunga) + parseAmount(nominalDenda)
+      parseAmount(nominalPokok) +
+      parseAmount(nominalBunga) +
+      parseAmount(nominalDenda)
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
@@ -211,22 +214,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <Separator className="my-4 bg-slate-200/70" />
 
-          <div className="rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-xs text-slate-700">
-            <div className="flex items-start gap-2">
-              <ShieldCheck className="mt-0.5 h-4 w-4 text-sky-700" />
-              <div>
-                <div className="font-semibold text-slate-900">
-                  Periode Grace Period
-                </div>
-                <div className="mt-0.5 leading-relaxed text-slate-700">
-                  Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
-                  dalam grace period. Selama periode grace period nasabah hanya
-                  membayar bunga.
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
             <div className="overflow-auto">
               <table className="w-full min-w-[860px] border-collapse">
@@ -250,7 +237,29 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     <th className="w-[140px] px-4 py-3">Sisa Tagihan Bunga</th>
                   </tr>
                 </thead>
+
                 <tbody className="bg-white">
+                  {/* Grace period header INSIDE table body (seperti referensi) */}
+                  <tr className="border-t border-slate-200">
+                    <td colSpan={7} className="px-4 py-3">
+                      <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+                        <div className="flex items-start gap-2">
+                          <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                            <Info className="h-4 w-4" />
+                          </span>
+                          <div>
+                            <div className="font-semibold">Periode Grace Period</div>
+                            <div className="mt-0.5 text-slate-700">
+                              Berikut ini merupakan periode tagihan pinjaman yang
+                              termasuk ke dalam grace period. Selama periode grace
+                              period nasabah hanya membayar bunga.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+
                   {rows.map((r, idx) => (
                     <tr key={idx} className="border-t border-slate-100 text-sm">
                       <td className="px-4 py-3">
@@ -267,12 +276,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <td className="px-4 py-3 text-slate-800">
                         {r.totalBelumDibayar}
                       </td>
-                      <td className="px-4 py-3 text-slate-800">
-                        {r.tagihanPokok}
-                      </td>
-                      <td className="px-4 py-3 text-slate-800">
-                        {r.tagihanBunga}
-                      </td>
+                      <td className="px-4 py-3 text-slate-800">{r.tagihanPokok}</td>
+                      <td className="px-4 py-3 text-slate-800">{r.tagihanBunga}</td>
                       <td className="px-4 py-3 text-slate-800">{r.sisaPokok}</td>
                       <td className="px-4 py-3 text-slate-800">{r.sisaBunga}</td>
                     </tr>
@@ -287,9 +292,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <div className="flex items-start gap-2">
                 <CheckSquare className="mt-0.5 h-4 w-4 text-emerald-700" />
                 <div>
-                  <div className="font-semibold text-slate-900">
-                    Mode Pelunasan
-                  </div>
+                  <div className="font-semibold text-slate-900">Mode Pelunasan</div>
                   <div className="mt-0.5 leading-relaxed text-slate-700">
                     Semua rincian tagihan otomatis dipilih dan tidak bisa diubah.
                   </div>
@@ -302,9 +305,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
         {/* Right: Ringkasan + Form + Aksi */}
         <div className="space-y-4">
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-            <div className="text-sm font-semibold text-slate-900">
-              RINGKASAN TAGIHAN
-            </div>
+            <div className="text-sm font-semibold text-slate-900">RINGKASAN TAGIHAN</div>
             <Separator className="my-3 bg-slate-200/70" />
 
             <div className="space-y-2 text-sm">
@@ -364,9 +365,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pembayaran Angsuran">
-                      Pembayaran Angsuran
-                    </SelectItem>
+                    <SelectItem value="Pembayaran Angsuran">Pembayaran Angsuran</SelectItem>
                     <SelectItem value="Pembayaran Rincian Tagihan">
                       Pembayaran Rincian Tagihan
                     </SelectItem>
@@ -389,7 +388,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 </Select>
               </div>
 
-              {/* Mode: Pembayaran Rincian Tagihan */}
               {isRincian ? (
                 <>
                   <div className="grid gap-1.5">
@@ -421,7 +419,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   </div>
                 </>
               ) : (
-                /* Mode: Pelunasan / Pembayaran Angsuran */
                 <div className="grid gap-1.5">
                   <Label className="text-xs text-slate-600">
                     {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}

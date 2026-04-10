@@ -55,7 +55,6 @@ const currentBill: Row = {
 };
 
 const upcomingRows: Row[] = [
-  // Grace period rows (contoh seperti referensi)
   {
     jatuhTempo: "25-01-2026",
     totalBelumDibayar: "916.667",
@@ -80,7 +79,6 @@ const upcomingRows: Row[] = [
     sisaPokok: "783.333",
     sisaBunga: "26.389",
   },
-  // Setelah grace period
   ...Array.from({ length: 8 }).map((_, i) => ({
     jatuhTempo: `25-${String(4 + i).padStart(2, "0")}-2026`,
     totalBelumDibayar: "916.667",
@@ -171,11 +169,7 @@ function TopHeader({
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="w-full sm:w-[220px]">
-          <Input
-            className="h-10 rounded-xl border-slate-200 bg-white"
-            value={id}
-            readOnly
-          />
+          <Input className="h-10 rounded-xl border-slate-200 bg-white" value={id} readOnly />
         </div>
         <Button className="h-10 rounded-xl bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]">
           Cari
@@ -188,6 +182,30 @@ function TopHeader({
         </Button>
       </div>
     </div>
+  );
+}
+
+function GracePeriodRow({ colSpan }: { colSpan: number }) {
+  return (
+    <tr className="border-b border-slate-200">
+      <td colSpan={colSpan} className="px-4 py-3">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+          <div className="flex items-start gap-2">
+            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+              <Info className="h-4 w-4" />
+            </span>
+            <div>
+              <div className="font-semibold">Periode Grace Period</div>
+              <div className="mt-0.5 text-slate-700">
+                Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
+                dalam grace period. Selama periode grace period nasabah hanya
+                membayar bunga.
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
   );
 }
 
@@ -225,27 +243,7 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
           </thead>
 
           <tbody className="bg-white">
-            {/* Block: Periode Grace Period */}
-            <tr className="border-t border-slate-200">
-              <td colSpan={6} className="px-4 py-3">
-                <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
-                  <div className="flex items-start gap-2">
-                    <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                      <Info className="h-4 w-4" />
-                    </span>
-                    <div>
-                      <div className="font-semibold">Periode Grace Period</div>
-                      <div className="mt-0.5 text-slate-700">
-                        Berikut ini merupakan periode tagihan pinjaman yang
-                        termasuk ke dalam grace period. Selama periode grace
-                        period nasabah hanya membayar bunga.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-
+            <GracePeriodRow colSpan={6} />
             {upcomingRows.map((r, idx) => (
               <tr key={idx} className="border-t border-slate-200 text-sm">
                 <td className="px-4 py-3 font-medium text-slate-900">
@@ -393,24 +391,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   </thead>
 
                   <tbody className="bg-white">
-                    <tr className="border-t border-slate-200">
-                      <td colSpan={7} className="px-3 py-3">
-                        <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
-                          <div className="flex items-start gap-2">
-                            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                              <Info className="h-4 w-4" />
-                            </span>
-                            <div>
-                              <div className="font-semibold">Periode Grace Period</div>
-                              <div className="mt-0.5 text-slate-700">
-                                Tagihan saat ini masuk ke dalam periode grace period.
-                                Selama periode grace period nasabah hanya membayar bunga.
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                    <GracePeriodRow colSpan={7} />
 
                     <tr className="border-t border-slate-200 text-sm">
                       <td className="px-3 py-2.5">
@@ -645,9 +626,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               {isRincian ? (
                 <div className="pt-1">
-                  <div className="text-xs font-semibold text-slate-600">
-                    Total Pembayaran
-                  </div>
+                  <div className="text-xs font-semibold text-slate-600">Total Pembayaran</div>
                   <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
                     {formatIdrLike(totalRincian)},00
                   </div>
