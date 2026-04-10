@@ -3,12 +3,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, History } from "lucide-react";
 import { toast } from "sonner";
+import NasabahPickerDialog from "@/components/anggota/NasabahPickerDialog";
 
 export default function AnggotaTransaksi() {
   const [query, setQuery] = React.useState("");
+  const [open, setOpen] = React.useState(false);
 
   return (
     <div className="min-h-[calc(100vh-2rem)] rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
+      <NasabahPickerDialog
+        open={open}
+        onOpenChange={setOpen}
+        onPick={(n) => {
+          setQuery(n.id);
+          setOpen(false);
+          toast.success("Nasabah dipilih", {
+            description: `${n.nama} • ${n.noIdentitas}`,
+          });
+        }}
+      />
+
       <div className="flex flex-col gap-5">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
           Transaksi
@@ -19,6 +33,7 @@ export default function AnggotaTransaksi() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setOpen(true)}
               placeholder="No Nasabah/No Rekening"
               className="h-11 rounded-xl border-slate-300 bg-white"
             />
@@ -26,17 +41,7 @@ export default function AnggotaTransaksi() {
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button
-              onClick={() => {
-                if (!query.trim()) {
-                  toast("Masukkan nomor", {
-                    description: "Isi No Nasabah/No Rekening terlebih dahulu.",
-                  });
-                  return;
-                }
-                toast.success("Pencarian (prototype)", {
-                  description: `Kueri: ${query.trim()}`,
-                });
-              }}
+              onClick={() => setOpen(true)}
               className="h-11 rounded-xl bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]"
             >
               <Search className="mr-2 h-4 w-4" />
