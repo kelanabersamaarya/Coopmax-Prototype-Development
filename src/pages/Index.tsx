@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import * as React from "react";
 import {
   BadgeDollarSign,
   Bookmark,
@@ -27,6 +28,7 @@ import {
   Users,
   Wallet,
   ChevronRight,
+  ChevronDown,
   Sparkles,
 } from "lucide-react";
 
@@ -44,7 +46,11 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
       { to: "/simpanan", label: "Simpanan", icon: Wallet },
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
       { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
-      { to: "/modal-penyertaan", label: "Modal Penyertaan", icon: BriefcaseBusiness },
+      {
+        to: "/modal-penyertaan",
+        label: "Modal Penyertaan",
+        icon: BriefcaseBusiness,
+      },
       { to: "/ppob", label: "PPOB", icon: Receipt },
       { to: "/mbanking", label: "MBanking", icon: Smartphone },
       { to: "/shu", label: "SHU", icon: BadgeDollarSign },
@@ -59,11 +65,19 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
       { to: "/laporan-shu", label: "Laporan SHU", icon: Bookmark },
       { to: "/mitra", label: "Mitra", icon: Store },
       { to: "/pengaturan-umum", label: "Pengaturan Umum", icon: Settings },
-      { to: "/administrasi-koperasi", label: "Administrasi Koperasi", icon: CreditCard },
+      {
+        to: "/administrasi-koperasi",
+        label: "Administrasi Koperasi",
+        icon: CreditCard,
+      },
       { to: "/tagihan", label: "Tagihan", icon: FileText },
       { to: "/online-banking", label: "Online Banking", icon: Landmark },
       { to: "/superadmin", label: "Superadmin", icon: Shield },
-      { to: "/penilaian-kesehatan", label: "Penilaian Kesehatan", icon: ClipboardList },
+      {
+        to: "/penilaian-kesehatan",
+        label: "Penilaian Kesehatan",
+        icon: ClipboardList,
+      },
       { to: "/backup-database", label: "Backup Database", icon: Package2 },
     ],
   },
@@ -75,6 +89,20 @@ const implementedRoutes = new Set([
   "/loan-products/new",
   "/loans/new",
 ]);
+
+const loanSubmenu: Array<{ label: string; to: string }> = [
+  { label: "Pengajuan Baru", to: "/loans/new" },
+  { label: "Daftar Pengajuan Pinjaman", to: "/pinjaman/daftar-pengajuan" },
+  { label: "Rekening Pinjaman", to: "/pinjaman/rekening" },
+  { label: "Transaksi Pinjaman", to: "/pinjaman/transaksi" },
+  { label: "Pinjaman Lunas", to: "/pinjaman/lunas" },
+  { label: "Perpanjangan Pinjaman", to: "/pinjaman/perpanjangan" },
+  { label: "Produk Pinjaman", to: "/loan-products" },
+  { label: "Sektor Pinjaman", to: "/pinjaman/sektor" },
+  { label: "Tujuan Pinjaman", to: "/pinjaman/tujuan" },
+  { label: "Cetak Buku", to: "/pinjaman/cetak-buku" },
+  { label: "Prima Nota", to: "/pinjaman/prima-nota" },
+];
 
 function SidebarPromo() {
   return (
@@ -99,11 +127,6 @@ function SidebarPromo() {
       <Button
         className="mt-4 w-full rounded-full bg-violet-600 text-white hover:bg-violet-700"
         onClick={() => {
-          // Prototype action
-          // (Sonner toaster sudah ada di App.tsx)
-          // Import toast lokal biar file tetap kecil? Tidak perlu: ini hanya UI.
-          // Kita tetap gunakan alert minimal? Lebih baik gunakan sonner:
-          // Tapi agar tidak tambah import baru, kita biarkan navigation/CTA ke existing page.
           window.location.href = "/loan-products/new";
         }}
       >
@@ -131,13 +154,8 @@ function SidebarNavItem({ item }: { item: NavItem }) {
     return (
       <button
         type="button"
-        className={cn(
-          common,
-          "bg-white hover:bg-slate-50 text-slate-900",
-        )}
+        className={cn(common, "bg-white hover:bg-slate-50 text-slate-900")}
         onClick={() => {
-          // Halaman belum tersedia (prototype)
-          // pakai navigation ke home agar tidak 404
           window.location.href = "/";
         }}
       >
@@ -172,6 +190,107 @@ function SidebarNavItem({ item }: { item: NavItem }) {
       </span>
       <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400" />
     </NavLink>
+  );
+}
+
+function SidebarLoanSection() {
+  const location = useLocation();
+  const shouldOpen = React.useMemo(() => {
+    const p = location.pathname;
+    return p.startsWith("/pinjaman") || p.startsWith("/loan-products") || p.startsWith("/loans");
+  }, [location.pathname]);
+
+  const [open, setOpen] = React.useState<boolean>(shouldOpen);
+
+  React.useEffect(() => {
+    setOpen(shouldOpen);
+  }, [shouldOpen]);
+
+  const isActive =
+    location.pathname.startsWith("/pinjaman") ||
+    location.pathname.startsWith("/loan-products") ||
+    location.pathname.startsWith("/loans");
+
+  return (
+    <div className="px-2 pb-2 pt-1">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left ring-1 transition",
+          isActive
+            ? "bg-violet-50 text-slate-900 ring-violet-200"
+            : "bg-white text-slate-900 ring-slate-200 hover:bg-slate-50",
+        )}
+      >
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+            <HandCoins className="h-5 w-5" />
+          </span>
+          <span className="text-[15px] font-semibold">Pinjaman</span>
+        </div>
+
+        <span
+          className={cn(
+            "inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 transition",
+            open ? "rotate-180" : "rotate-0",
+          )}
+        >
+          <ChevronDown className="h-4.5 w-4.5" />
+        </span>
+      </button>
+
+      {open ? (
+        <div className="mt-2 space-y-1 pl-[52px]">
+          {loanSubmenu.map((s) => {
+            const isReal = implementedRoutes.has(s.to);
+            const isSubActive = location.pathname === s.to;
+
+            if (!isReal) {
+              return (
+                <button
+                  key={s.to}
+                  type="button"
+                  onClick={() => {
+                    window.location.href = "/";
+                  }}
+                  className={cn(
+                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
+                    "text-slate-700 hover:bg-slate-50",
+                  )}
+                >
+                  <span className="truncate">{s.label}</span>
+                  <ChevronRight className="h-5 w-5 text-slate-200" />
+                </button>
+              );
+            }
+
+            return (
+              <NavLink
+                key={s.to}
+                to={s.to}
+                className={() =>
+                  cn(
+                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
+                    isSubActive
+                      ? "bg-slate-900 text-white"
+                      : "text-slate-700 hover:bg-slate-50",
+                  )
+                }
+              >
+                <span className="truncate">{s.label}</span>
+                <ChevronRight
+                  className={cn(
+                    "h-5 w-5",
+                    isSubActive ? "text-white/70" : "text-slate-200",
+                  )}
+                />
+              </NavLink>
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -219,35 +338,13 @@ export default function Index() {
         </header>
 
         <div className="mt-6 grid gap-4 md:grid-cols-[320px_1fr]">
-          {/* Sidebar ala referensi */}
           <aside className="space-y-4">
             <SidebarPromo />
 
             <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
               <div className="max-h-[70vh] overflow-auto px-1 py-1">
                 <div className="space-y-1">
-                  {/* Sisipkan menu app yang benar-benar ada di atas agar cepat dipakai */}
-                  <div className="px-2 pb-2 pt-1">
-                    <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                      Pinjaman (aktif)
-                    </div>
-                    <div className="mt-2 space-y-1">
-                      <SidebarNavItem
-                        item={{
-                          to: "/loan-products",
-                          label: "Produk Pinjaman",
-                          icon: Package2,
-                        }}
-                      />
-                      <SidebarNavItem
-                        item={{
-                          to: "/loans/new",
-                          label: "Buat Pinjaman Baru",
-                          icon: FileText,
-                        }}
-                      />
-                    </div>
-                  </div>
+                  <SidebarLoanSection />
 
                   <Separator className="my-2 bg-slate-100" />
 
@@ -258,10 +355,13 @@ export default function Index() {
                           {g.group}
                         </div>
                       ) : null}
+
                       <div className="space-y-1">
-                        {g.items.map((it) => (
-                          <SidebarNavItem key={it.to} item={it} />
-                        ))}
+                        {g.items
+                          .filter((it) => it.label !== "Pinjaman")
+                          .map((it) => (
+                            <SidebarNavItem key={it.to} item={it} />
+                          ))}
                       </div>
                     </div>
                   ))}
@@ -270,7 +370,6 @@ export default function Index() {
             </Card>
           </aside>
 
-          {/* Content */}
           <div>
             {isHome ? (
               <Card className="rounded-3xl border-slate-200/70 bg-white/80 p-6 shadow-sm backdrop-blur">
