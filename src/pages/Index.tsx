@@ -44,7 +44,6 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
       { to: "/dashboard", label: "Dashboard", icon: Home },
       { to: "/anggota", label: "Anggota", icon: Users },
       { to: "/simpanan", label: "Simpanan", icon: Wallet },
-      // Pinjaman dipindah tepat di bawah Simpanan (sesuai permintaan)
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
       { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
       {
@@ -85,7 +84,12 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 ];
 
 // Routes yang benar-benar ada saat ini
-const implementedRoutes = new Set(["/loan-products", "/loan-products/new", "/loans/new"]);
+const implementedRoutes = new Set([
+  "/loan-products",
+  "/loan-products/new",
+  "/loans/new",
+  "/anggota/transaksi",
+]);
 
 const loanSubmenu: Array<{ label: string; to: string }> = [
   { label: "Pengajuan Baru", to: "/loans/new" },
@@ -428,10 +432,7 @@ export default function Index() {
             <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
               <div className="max-h-[70vh] overflow-auto px-1 py-1">
                 <div className="space-y-1">
-                  {/* Submenu Anggota sesuai referensi */}
                   <SidebarAnggotaSection />
-
-                  {/* Posisi Pinjaman sekarang berada tepat setelah Simpanan dalam urutan menu */}
                   <SidebarLoanSection />
 
                   <Separator className="my-2 bg-slate-100" />
@@ -446,7 +447,10 @@ export default function Index() {
 
                       <div className="space-y-1">
                         {g.items
-                          .filter((it) => it.label !== "Pinjaman" && it.label !== "Anggota")
+                          .filter(
+                            (it) =>
+                              it.label !== "Pinjaman" && it.label !== "Anggota",
+                          )
                           .map((it) => (
                             <SidebarNavItem key={it.to} item={it} />
                           ))}

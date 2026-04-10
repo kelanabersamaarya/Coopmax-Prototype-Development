@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import LoanProducts from "./pages/LoanProducts";
 import NewLoan from "./pages/NewLoan";
 import LoanProductCreate from "./pages/LoanProductCreate";
+import AnggotaTransaksi from "./pages/AnggotaTransaksi";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
             <Route path="loan-products" element={<LoanProducts />} />
             <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loans/new" element={<NewLoan />} />
+            <Route path="anggota/transaksi" element={<AnggotaTransaksi />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
