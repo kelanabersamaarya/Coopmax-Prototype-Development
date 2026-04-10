@@ -3,16 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, History } from "lucide-react";
 import { toast } from "sonner";
-import NasabahPickerDialog, { type Nasabah } from "@/components/anggota/NasabahPickerDialog";
+import NasabahPickerDialog, {
+  type Nasabah,
+} from "@/components/anggota/NasabahPickerDialog";
 import TransaksiAnggotaView1 from "@/components/anggota/TransaksiAnggotaView1";
+import TransaksiAnggotaView2 from "@/components/anggota/TransaksiAnggotaView2";
 
 export default function AnggotaTransaksi() {
   const [query, setQuery] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Nasabah | null>(null);
 
-  // Anggota pertama di modal (seed index 0) saat ini adalah "Gaby"
+  // Seed dialog saat ini: index 0 = "Gaby", index 1 = "Nyoman Ariana", index 2 = "Komang Dewa"
   const showView1 = selected?.nama === "Gaby";
+  const showView2 = selected?.nama === "Nyoman Ariana";
 
   return (
     <div className="min-h-[calc(100vh-2rem)] rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
@@ -87,10 +91,12 @@ export default function AnggotaTransaksi() {
         <div className="mt-3">
           {showView1 && selected ? (
             <TransaksiAnggotaView1 nasabah={selected} />
+          ) : showView2 && selected ? (
+            <TransaksiAnggotaView2 nasabah={selected} />
           ) : selected ? (
             <div className="rounded-2xl bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
               Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
-              pertama yang memiliki tampilan khusus.)
+              pertama & kedua yang memiliki tampilan khusus.)
             </div>
           ) : (
             <div className="rounded-2xl bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
