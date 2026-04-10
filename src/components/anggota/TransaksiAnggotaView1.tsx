@@ -96,9 +96,18 @@ function TabsLike() {
   );
 }
 
+const transactionTypes = [
+  "Pembayaran Angsuran",
+  "Pembayaran Rincian Tagihan",
+  "Pelunasan",
+] as const;
+
+type TransactionType = (typeof transactionTypes)[number];
+
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
-  const [jenisTransaksi, setJenisTransaksi] = React.useState("Pembayaran Angsuran");
+  const [jenisTransaksi, setJenisTransaksi] =
+    React.useState<TransactionType>("Pembayaran Angsuran");
   const [kolektor, setKolektor] = React.useState<string>("Pilih Kolektor");
   const [nominal, setNominal] = React.useState("0");
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
@@ -195,7 +204,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <input type="checkbox" aria-label="Pilih semua" />
                     </th>
                     <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
-                    <th className="w-[190px] px-4 py-3">Total Tagihan Belum Dibayar</th>
+                    <th className="w-[190px] px-4 py-3">
+                      Total Tagihan Belum Dibayar
+                    </th>
                     <th className="w-[140px] px-4 py-3">Tagihan Pokok</th>
                     <th className="w-[140px] px-4 py-3">Tagihan Bunga</th>
                     <th className="w-[140px] px-4 py-3">Sisa Tagihan Pokok</th>
@@ -206,7 +217,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   {rows.map((r, idx) => (
                     <tr key={idx} className="border-t border-slate-100 text-sm">
                       <td className="px-4 py-3">
-                        <input type="checkbox" aria-label={`Pilih row ${idx + 1}`} />
+                        <input
+                          type="checkbox"
+                          aria-label={`Pilih row ${idx + 1}`}
+                        />
                       </td>
                       <td className="px-4 py-3 font-medium text-slate-900">
                         {r.jatuhTempo}
@@ -214,8 +228,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <td className="px-4 py-3 text-slate-800">
                         {r.totalBelumDibayar}
                       </td>
-                      <td className="px-4 py-3 text-slate-800">{r.tagihanPokok}</td>
-                      <td className="px-4 py-3 text-slate-800">{r.tagihanBunga}</td>
+                      <td className="px-4 py-3 text-slate-800">
+                        {r.tagihanPokok}
+                      </td>
+                      <td className="px-4 py-3 text-slate-800">
+                        {r.tagihanBunga}
+                      </td>
                       <td className="px-4 py-3 text-slate-800">{r.sisaPokok}</td>
                       <td className="px-4 py-3 text-slate-800">{r.sisaBunga}</td>
                     </tr>
@@ -268,7 +286,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
             <div className="grid gap-3">
               <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">Tanggal Efektif Bayar*</Label>
+                <Label className="text-xs text-slate-600">
+                  Tanggal Efektif Bayar*
+                </Label>
                 <Input
                   value={tanggalEfektif}
                   onChange={(e) => setTanggalEfektif(e.target.value)}
@@ -278,13 +298,19 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
-                <Select value={jenisTransaksi} onValueChange={setJenisTransaksi}>
+                <Select
+                  value={jenisTransaksi}
+                  onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
+                >
                   <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pembayaran Angsuran">Pembayaran Angsuran</SelectItem>
-                    <SelectItem value="Pelunasan">Pelunasan</SelectItem>
+                    {transactionTypes.map((t) => (
+                      <SelectItem key={t} value={t}>
+                        {t}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -304,7 +330,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </div>
 
               <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">Nominal Pembayaran*</Label>
+                <Label className="text-xs text-slate-600">
+                  Nominal Pembayaran*
+                </Label>
                 <Input
                   value={nominal}
                   onChange={(e) => setNominal(e.target.value)}
@@ -363,7 +391,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       </div>
 
       <div className="mt-5 text-xs text-slate-500">
-        Catatan: ini tampilan mock untuk anggota pertama (akan kita perluas untuk anggota lainnya).
+        Catatan: ini tampilan mock untuk anggota pertama (akan kita perluas untuk
+        anggota lainnya).
       </div>
     </div>
   );
