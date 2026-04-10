@@ -35,7 +35,8 @@ type Nasabah = {
 
 const seed: Nasabah[] = Array.from({ length: 28 }).map((_, i) => ({
   id: "08-08-2025",
-  nama: i % 3 === 0 ? "Ketut Kenceng" : i % 3 === 1 ? "Nyoman Ariana" : "Komang Dewa",
+  nama:
+    i % 3 === 0 ? "Ketut Kenceng" : i % 3 === 1 ? "Nyoman Ariana" : "Komang Dewa",
   noIdentitas: "2233445",
   alamat: "Jr. Ciwastra No. 714, Yogyakarta 83781, Riau",
   status: i % 5 === 0 ? "Calon" : "Anggota",
@@ -133,7 +134,8 @@ export default function NasabahPickerDialog({
   onOpenChange: (v: boolean) => void;
   onPick?: (n: Nasabah) => void;
 }) {
-  const [pageSize, setPageSize] = React.useState<number>(20);
+  // tampilkan hanya 5 data per halaman agar modal lebih ringkas
+  const [pageSize, setPageSize] = React.useState<number>(5);
   const [page, setPage] = React.useState<number>(1);
 
   const [qId, setQId] = React.useState("");
@@ -154,7 +156,11 @@ export default function NasabahPickerDialog({
       const okNo = noQ ? n.noIdentitas.toLowerCase().includes(noQ) : true;
       const okAlamat = alamatQ ? n.alamat.toLowerCase().includes(alamatQ) : true;
       const okStatus =
-        status === "Semua" ? true : status === "Anggota" ? n.status === "Anggota" : n.status === "Calon";
+        status === "Semua"
+          ? true
+          : status === "Anggota"
+            ? n.status === "Anggota"
+            : n.status === "Calon";
       return okId && okNama && okNo && okAlamat && okStatus;
     });
   }, [qAlamat, qId, qNama, qNo, status]);
@@ -227,7 +233,7 @@ export default function NasabahPickerDialog({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="rounded-xl border-slate-200">
-                {[10, 20, 50, 100].map((n) => (
+                {[5, 10, 20, 50].map((n) => (
                   <SelectItem key={n} value={String(n)}>
                     {n}
                   </SelectItem>
@@ -393,7 +399,6 @@ export default function NasabahPickerDialog({
             </Button>
           </div>
 
-          {/* Click row -> pick */}
           {onPick ? (
             <div className="sr-only">
               <Card />
