@@ -303,36 +303,14 @@ export default function Index() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="mx-auto w-full max-w-6xl px-4 py-6 md:px-8">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          {/* Header title + action buttons dihapus sesuai permintaan */}
           <Link to="/" className="inline-flex items-center gap-3">
             <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[hsl(var(--app-accent))] text-white shadow-sm">
               <CreditCard className="h-5 w-5" />
             </div>
-            <div>
-              <div className="text-sm font-semibold tracking-tight text-slate-900">
-                Loan Studio
-              </div>
-            </div>
           </Link>
 
-          <div className="flex items-center gap-2">
-            <Button
-              asChild
-              variant="outline"
-              className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
-            >
-              <Link to="/loan-products/new">
-                <Sparkles className="mr-2 h-4 w-4" /> Setup Produk
-              </Link>
-            </Button>
-            <Button
-              asChild
-              className="rounded-full bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
-            >
-              <Link to="/loans/new">
-                <FileText className="mr-2 h-4 w-4" /> Buat Pinjaman
-              </Link>
-            </Button>
-          </div>
+          <div className="hidden md:block" />
         </header>
 
         <div className="mt-6 grid gap-4 md:grid-cols-[320px_1fr]">
