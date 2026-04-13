@@ -25,6 +25,7 @@ import {
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
 import { cn } from "@/lib/utils";
+import InformasiRekeningHeader from "@/components/anggota/InformasiRekeningHeader";
 
 type Props = {
   nasabah: {
@@ -242,9 +243,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
-  const billingActionBtn =
-    "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
-
   // More compact table spacing & widths (keep font size unchanged)
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
@@ -255,57 +253,28 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     <div className="mt-6">
       <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[260px_1fr_520px]">
-        {/* Left: Pinjaman billing */}
-        <div className="space-y-3">
-          <SectionHighlight title="Informasi Rekening" />
-
-          <Card className="rounded-2xl border-slate-200/70 bg-[#12a3b4] p-4 text-white shadow-sm">
-            <div className="text-sm font-extrabold tracking-wide">
-              PINJAMAN BILLING
-            </div>
-
-            <div className="mt-4 space-y-3 text-sm">
-              <div>
-                <div className="text-white/85">No. Rekening Pinjaman</div>
-                <div className="mt-0.5 text-base font-extrabold">PB260001</div>
-              </div>
-
-              <div>
-                <div className="text-white/85">Skema Tagihan</div>
-                <div className="mt-0.5 font-semibold">
-                  Tagihan Sesuai Jadwal Angsuran
-                </div>
-              </div>
-
-              <div>
-                <div className="text-white/85">Satuan Grace Period</div>
-                <div className="mt-0.5 font-semibold">Bulan</div>
-              </div>
-
-              <div>
-                <div className="text-white/85">Durasi Grace Period</div>
-                <div className="mt-0.5 font-semibold">3</div>
-              </div>
-
-              <div>
-                <div className="text-white/85">Sisa Pokok Pinjaman</div>
-                <div className="mt-0.5 text-base font-extrabold">
-                  10.000.000,00
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 grid gap-2">
-              <Button className={billingActionBtn}>Riwayat Transaksi</Button>
-              <Button className={billingActionBtn}>Simulasi Tunggakan</Button>
-            </div>
-          </Card>
-        </div>
-
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_520px]">
         {/* Middle: Detail Angsuran */}
         <div className="space-y-3">
-          <SectionHighlight title="Detail Angsuran" />
+          <SectionHighlight title="Informasi Tagihan & Denda" />
+
+          <InformasiRekeningHeader
+            title="PINJAMAN BILLING"
+            items={[
+              { label: "Kode Pinjaman", value: "SMG260004" },
+              { label: "Sektor Pinjaman", value: "Umum" },
+              { label: "Tujuan Pinjaman", value: "Konsumtif" },
+              { label: "Kolektor", value: kolektor === "Pilih Kolektor" ? "-" : kolektor },
+              { label: "Tanggal Dibuat", value: "07 Apr 2026" },
+              { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
+              { label: "Tanggal Transaksi Terakhir", value: "07 Apr 2026" },
+              { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+              { label: "Periode Waktu", value: "12 Bulan" },
+              { label: "Metode Bunga Pinjaman", value: "Bunga Efektif" },
+              { label: "Sisa Pinjaman", value: "11.000.000,00" },
+              { label: "Total Harus Bayar", value: "1.120.000,00" },
+            ]}
+          />
 
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
