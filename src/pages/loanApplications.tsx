@@ -31,17 +31,96 @@ type Row = {
   status: Exclude<Status, "Semua">;
 };
 
-const seedRows: Row[] = Array.from({ length: 28 }).map((_, i) => ({
-  id: `row-${i + 1}`,
-  noRekening: "A01747",
-  tanggalDaftar: "08-08-2025",
-  produkPinjaman: "Pinjaman Koperasi (BNI)",
-  idNasabah: "A01747",
-  namaNasabah: "Nyoman Simpen",
-  nominal: 1_000_000,
-  bungaPerTahun: 10.8,
-  status: "Diajukan",
-}));
+const seedRows: Row[] = [
+  {
+    id: "row-1",
+    noRekening: "PB260002",
+    tanggalDaftar: "01-04-2026",
+    produkPinjaman: "Pinjaman Billing",
+    idNasabah: "NT002766",
+    namaNasabah: "Pia Permata S.Gz",
+    nominal: 50_000_000,
+    bungaPerTahun: 10.0,
+    status: "Disetujui",
+  },
+  {
+    id: "row-2",
+    noRekening: "7260139",
+    tanggalDaftar: "16-03-2026",
+    produkPinjaman: "Pinjaman Koperasi",
+    idNasabah: "NT002764",
+    namaNasabah: "Jessica Yuniar",
+    nominal: 10_000_000,
+    bungaPerTahun: 24.0,
+    status: "Disetujui",
+  },
+  {
+    id: "row-3",
+    noRekening: "7260127",
+    tanggalDaftar: "03-02-2026",
+    produkPinjaman: "Pinjaman Koperasi",
+    idNasabah: "A001363",
+    namaNasabah: "Aurora Ciaobella Rahimah S.Kom",
+    nominal: 400_000_000,
+    bungaPerTahun: 14.4,
+    status: "Diajukan",
+  },
+  {
+    id: "row-4",
+    noRekening: "7260121",
+    tanggalDaftar: "29-01-2026",
+    produkPinjaman: "Pinjaman Koperasi",
+    idNasabah: "A001310",
+    namaNasabah: "Kacung Manullang",
+    nominal: 213_000_000,
+    bungaPerTahun: 18.0,
+    status: "Disetujui",
+  },
+  {
+    id: "row-5",
+    noRekening: "7260108",
+    tanggalDaftar: "26-01-2026",
+    produkPinjaman: "Pinjaman Koperasi",
+    idNasabah: "A003274",
+    namaNasabah: "Laila Widiastuti S.T.",
+    nominal: 2_560_000,
+    bungaPerTahun: 21.6,
+    status: "Disetujui",
+  },
+  {
+    id: "row-6",
+    noRekening: "7260104",
+    tanggalDaftar: "26-01-2026",
+    produkPinjaman: "Pinjaman Koperasi",
+    idNasabah: "A001388",
+    namaNasabah: "Hasna Mulyani",
+    nominal: 300_000_000,
+    bungaPerTahun: 18.0,
+    status: "Diajukan",
+  },
+  {
+    id: "row-7",
+    noRekening: "7260073",
+    tanggalDaftar: "19-01-2026",
+    produkPinjaman: "Pinjaman Koperasi",
+    idNasabah: "A005268",
+    namaNasabah: "Mala Halimah",
+    nominal: 10_000_000,
+    bungaPerTahun: 21.6,
+    status: "Ditolak",
+  },
+  {
+    id: "row-8",
+    noRekening: "7260067",
+    tanggalDaftar: "14-01-2026",
+    produkPinjaman: "Pinjaman Koperasi",
+    idNasabah: "A005255",
+    namaNasabah: "Luwes Hutagalung M.M.",
+    nominal: 368_000_000,
+    bungaPerTahun: 18.0,
+    status: "Diajukan",
+  },
+];
 
 function formatIdrLike(n: number) {
   const s = Math.round(n).toString();
@@ -49,6 +128,17 @@ function formatIdrLike(n: number) {
 }
 function formatRate(n: number) {
   return n.toFixed(2).replace(".", ",");
+}
+
+function statusBadgeClass(status: Exclude<Status, "Semua">) {
+  if (status === "Disetujui") return "bg-emerald-600 hover:bg-emerald-600";
+  if (status === "Diajukan") return "bg-lime-600 hover:bg-lime-600";
+  return "bg-rose-600 hover:bg-rose-600";
+}
+
+function statusLabel(status: Exclude<Status, "Semua">) {
+  if (status === "Ditolak") return "Nonaktif / Ditolak";
+  return status;
 }
 
 function Pagination({
@@ -165,16 +255,22 @@ export default function LoanApplications() {
 
     return rows.filter((r) => {
       const okNo = noQ ? r.noRekening.toLowerCase().includes(noQ) : true;
-      const okTanggal = tanggalQ ? r.tanggalDaftar.toLowerCase().includes(tanggalQ) : true;
+      const okTanggal = tanggalQ
+        ? r.tanggalDaftar.toLowerCase().includes(tanggalQ)
+        : true;
       const okProduk = qProduk === "Semua" ? true : r.produkPinjaman === qProduk;
       const okId = idQ ? r.idNasabah.toLowerCase().includes(idQ) : true;
       const okNama = namaQ ? r.namaNasabah.toLowerCase().includes(namaQ) : true;
 
       const okNominal =
-        nominalMax === null || Number.isNaN(nominalMax) ? true : r.nominal <= nominalMax;
+        nominalMax === null || Number.isNaN(nominalMax)
+          ? true
+          : r.nominal <= nominalMax;
 
       const okBunga =
-        bungaMax === null || Number.isNaN(bungaMax) ? true : r.bungaPerTahun <= bungaMax;
+        bungaMax === null || Number.isNaN(bungaMax)
+          ? true
+          : r.bungaPerTahun <= bungaMax;
 
       const okStatus = qStatus === "Semua" ? true : r.status === qStatus;
 
@@ -326,7 +422,7 @@ export default function LoanApplications() {
                         value={qNominal}
                         onChange={(e) => setQNominal(e.target.value)}
                         inputMode="decimal"
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right"
                       />
                     </th>
                     <th className="px-4 py-2">
@@ -369,7 +465,10 @@ export default function LoanApplications() {
                       return (
                         <tr
                           key={r.id}
-                          className="border-t border-slate-100 text-sm text-slate-800"
+                          className={cn(
+                            "border-t text-sm text-slate-800",
+                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                          )}
                         >
                           <td className="px-4 py-3 text-slate-700">{no}</td>
                           <td className="px-4 py-3">
@@ -392,16 +491,23 @@ export default function LoanApplications() {
                             {r.produkPinjaman}
                           </td>
                           <td className="px-4 py-3 text-slate-700">{r.idNasabah}</td>
-                          <td className="px-4 py-3 text-slate-800">{r.namaNasabah}</td>
-                          <td className="px-4 py-3 text-slate-700">
+                          <td className="px-4 py-3 text-slate-900">
+                            {r.namaNasabah}
+                          </td>
+                          <td className="px-4 py-3 text-right text-slate-700">
                             {formatIdrLike(r.nominal)}
                           </td>
                           <td className="px-4 py-3 text-slate-700">
                             {formatRate(r.bungaPerTahun)}
                           </td>
                           <td className="px-4 py-3">
-                            <Badge className="rounded-full bg-emerald-600 px-3 text-white hover:bg-emerald-600">
-                              {r.status}
+                            <Badge
+                              className={cn(
+                                "rounded-md px-3 py-1 text-white",
+                                statusBadgeClass(r.status),
+                              )}
+                            >
+                              {statusLabel(r.status)}
                             </Badge>
                           </td>
                         </tr>
