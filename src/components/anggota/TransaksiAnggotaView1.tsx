@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
+import SectionHighlightWide from "@/components/anggota/SectionHighlightWide";
 import { cn } from "@/lib/utils";
 import InformasiRekeningHeader from "@/components/anggota/InformasiRekeningHeader";
 import { toast } from "sonner";
@@ -342,6 +343,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             </div>
           </div>
 
+          <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
+
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="flex items-start justify-between gap-3">
@@ -510,8 +513,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
             <div className="space-y-4">
               <div className="space-y-3">
-                <SectionHighlight title="Tagihan dan Pembayaran Angsuran" />
-
                 <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
                   <div className="text-sm font-semibold text-slate-900">
                     RINGKASAN TAGIHAN
