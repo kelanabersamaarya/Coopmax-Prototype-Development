@@ -1,4 +1,3 @@
-/anggota/transaksi, Pinjaman -> /loan-products) sehingga navigasi tidak 'kembali ke home' dan terlihat seperti menghilangkan menu lainnya.">
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -196,7 +195,6 @@ export default function Index() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="mx-auto w-full max-w-6xl px-4 py-6 md:px-8">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          {/* Logo/icon header DIHILANGKAN sesuai permintaan */}
           <div />
           <div className="hidden md:block" />
         </header>
