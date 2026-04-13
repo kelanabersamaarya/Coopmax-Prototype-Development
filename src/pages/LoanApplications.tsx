@@ -4,33 +4,104 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, XCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+type LoanApplicationStatus =
+  | "Semua"
+  | "Draft"
+  | "Diajukan"
+  | "Ditolak"
+  | "Disetujui"
+  | "Nonaktif / Ditolak";
 
 type LoanApplicationRow = {
   id: string;
-  tanggal: string;
-  nasabah: string;
-  produk: string;
+  noRekening: string;
+  tanggalDaftar: string;
+  produkPinjaman: string;
+  idNasabah: string;
+  namaNasabah: string;
   nominal: string;
-  status: "Draft" | "Diajukan" | "Ditolak" | "Disetujui";
+  bungaPerTahun: string;
+  status: Exclude<LoanApplicationStatus, "Semua">;
 };
 
 const seed: LoanApplicationRow[] = [
   {
     id: "APP-260001",
-    tanggal: "13-04-2026",
-    nasabah: "N2500010 - Gaby",
-    produk: "Pinjaman Billing",
-    nominal: "10.000.000",
-    status: "Draft",
+    noRekening: "072260001",
+    tanggalDaftar: "05-02-2026",
+    produkPinjaman: "Pinjaman Harian",
+    idNasabah: "N2400033",
+    namaNasabah: "Rika Wastuti",
+    nominal: "22.000.000,00",
+    bungaPerTahun: "20.00",
+    status: "Disetujui",
   },
   {
     id: "APP-260002",
-    tanggal: "12-04-2026",
-    nasabah: "N2500011 - Nyoman Ariana",
-    produk: "Pinjaman Koperasi",
-    nominal: "5.000.000",
-    status: "Diajukan",
+    noRekening: "SMG250006",
+    tanggalDaftar: "03-12-2025",
+    produkPinjaman: "Pinjaman Bulanan 9",
+    idNasabah: "N2500006",
+    namaNasabah: "Andri Komara",
+    nominal: "5.000.000,00",
+    bungaPerTahun: "0.99",
+    status: "Nonaktif / Ditolak",
+  },
+  {
+    id: "APP-260003",
+    noRekening: "SMG250003",
+    tanggalDaftar: "02-12-2025",
+    produkPinjaman: "Pinjaman Bulanan 9",
+    idNasabah: "N2500010",
+    namaNasabah: "gaby",
+    nominal: "5.000.000,00",
+    bungaPerTahun: "0.99",
+    status: "Disetujui",
+  },
+  {
+    id: "APP-260004",
+    noRekening: "12250003",
+    tanggalDaftar: "01-04-2025",
+    produkPinjaman: "Pinjaman Bulanan",
+    idNasabah: "N2400029",
+    namaNasabah: "Pangeran Sirait",
+    nominal: "24.000.000,00",
+    bungaPerTahun: "12.00",
+    status: "Disetujui",
+  },
+  {
+    id: "APP-260005",
+    noRekening: "klp03.06240001",
+    tanggalDaftar: "22-11-2024",
+    produkPinjaman: "Pinjaman Bulanan 5",
+    idNasabah: "N2400028",
+    namaNasabah: "Rahmi Melani",
+    nominal: "24.000.000,00",
+    bungaPerTahun: "0.00",
+    status: "Disetujui",
+  },
+  {
+    id: "APP-260006",
+    noRekening: "09240015",
+    tanggalDaftar: "26-06-2024",
+    produkPinjaman: "Pinjaman Bulanan 17",
+    idNasabah: "N2400029",
+    namaNasabah: "Pangeran Sirait",
+    nominal: "12.000.000,00",
+    bungaPerTahun: "24.00",
+    status: "Disetujui",
   },
 ];
 
@@ -51,6 +122,10 @@ function StatusBadge({ status }: { status: LoanApplicationRow["status"] }) {
       className: "bg-rose-600 text-white hover:bg-rose-600",
       label: "Ditolak",
     },
+    "Nonaktif / Ditolak": {
+      className: "bg-rose-600 text-white hover:bg-rose-600",
+      label: "Nonaktif / Ditolak",
+    },
     Disetujui: {
       className: "bg-emerald-600 text-white hover:bg-emerald-600",
       label: "Disetujui",
@@ -58,11 +133,63 @@ function StatusBadge({ status }: { status: LoanApplicationRow["status"] }) {
   };
 
   const v = map[status];
-  return <Badge className={`rounded-full ${v.className}`}>{v.label}</Badge>;
+  return <Badge className={cn("rounded-md px-3", v.className)}>{v.label}</Badge>;
 }
 
 export default function LoanApplications() {
   const rows = React.useMemo(() => seed, []);
+
+  const [qNoRek, setQNoRek] = React.useState("");
+  const [qTanggal, setQTanggal] = React.useState("");
+  const [qProduk, setQProduk] = React.useState<string>("Semua");
+  const [qIdNasabah, setQIdNasabah] = React.useState("");
+  const [qNamaNasabah, setQNamaNasabah] = React.useState("");
+  const [qNominal, setQNominal] = React.useState("0,00");
+  const [qBunga, setQBunga] = React.useState("");
+  const [qStatus, setQStatus] = React.useState<LoanApplicationStatus>("Semua");
+
+  const filtered = React.useMemo(() => {
+    const noRekQ = qNoRek.trim().toLowerCase();
+    const tanggalQ = qTanggal.trim().toLowerCase();
+    const produkQ = qProduk;
+    const idNasabahQ = qIdNasabah.trim().toLowerCase();
+    const namaQ = qNamaNasabah.trim().toLowerCase();
+    const bungaQ = qBunga.trim().toLowerCase();
+    const statusQ = qStatus;
+
+    return rows.filter((r) => {
+      const okNoRek = noRekQ ? r.noRekening.toLowerCase().includes(noRekQ) : true;
+      const okTanggal = tanggalQ
+        ? r.tanggalDaftar.toLowerCase().includes(tanggalQ)
+        : true;
+      const okProduk = produkQ === "Semua" ? true : r.produkPinjaman === produkQ;
+      const okId = idNasabahQ ? r.idNasabah.toLowerCase().includes(idNasabahQ) : true;
+      const okNama = namaQ ? r.namaNasabah.toLowerCase().includes(namaQ) : true;
+      const okBunga = bungaQ ? r.bungaPerTahun.toLowerCase().includes(bungaQ) : true;
+
+      // qNominal di referensi tampak default "0,00" dan tidak harus memfilter,
+      // jadi kita tidak pakai untuk filter agar UX-nya tidak "menghilangkan" data.
+      const okNominal = true;
+
+      const okStatus = statusQ === "Semua" ? true : r.status === statusQ;
+
+      return (
+        okNoRek &&
+        okTanggal &&
+        okProduk &&
+        okId &&
+        okNama &&
+        okNominal &&
+        okBunga &&
+        okStatus
+      );
+    });
+  }, [qBunga, qIdNasabah, qNamaNasabah, qNoRek, qProduk, qStatus, qTanggal, rows]);
+
+  const productOptions = React.useMemo(() => {
+    const set = new Set<string>(rows.map((r) => r.produkPinjaman));
+    return ["Semua", ...Array.from(set)];
+  }, [rows]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -95,37 +222,196 @@ export default function LoanApplications() {
 
         <Separator className="my-6 bg-slate-200/70" />
 
-        <Card className="overflow-hidden rounded-3xl border-slate-200/70 bg-white/85 shadow-sm backdrop-blur">
-          <div className="overflow-auto">
-            <table className="w-full min-w-[740px] border-collapse">
-              <thead className="bg-slate-50">
-                <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                  <th className="w-[160px] px-5 py-4">ID</th>
-                  <th className="w-[140px] px-5 py-4">Tanggal</th>
-                  <th className="min-w-[260px] px-5 py-4">Nasabah</th>
-                  <th className="min-w-[220px] px-5 py-4">Produk</th>
-                  <th className="w-[160px] px-5 py-4">Nominal</th>
-                  <th className="w-[140px] px-5 py-4">Status</th>
-                </tr>
-              </thead>
+        <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="text-sm font-semibold text-slate-900">
+              Daftar Pengajuan
+            </div>
 
-              <tbody className="bg-white">
-                {rows.map((r) => (
-                  <tr key={r.id} className="border-t border-slate-100 text-sm">
-                    <td className="px-5 py-4 font-semibold text-slate-900">
-                      {r.id}
-                    </td>
-                    <td className="px-5 py-4 text-slate-700">{r.tanggal}</td>
-                    <td className="px-5 py-4 text-slate-800">{r.nasabah}</td>
-                    <td className="px-5 py-4 text-slate-800">{r.produk}</td>
-                    <td className="px-5 py-4 text-slate-800">{r.nominal}</td>
-                    <td className="px-5 py-4">
-                      <StatusBadge status={r.status} />
-                    </td>
+            <Button
+              variant="outline"
+              className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+              onClick={() => {
+                setQNoRek("");
+                setQTanggal("");
+                setQProduk("Semua");
+                setQIdNasabah("");
+                setQNamaNasabah("");
+                setQNominal("0,00");
+                setQBunga("");
+                setQStatus("Semua");
+              }}
+            >
+              <XCircle className="mr-2 h-4 w-4" />
+              Reset
+            </Button>
+          </div>
+
+          <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+            <div className="overflow-auto">
+              <table className="w-full min-w-[1180px] border-collapse">
+                <thead className="bg-slate-50">
+                  <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
+                    <th className="w-[70px] px-4 py-3">No.</th>
+                    <th className="w-[170px] px-4 py-3">No. Rekening</th>
+                    <th className="w-[160px] px-4 py-3">Tanggal Daftar</th>
+                    <th className="min-w-[220px] px-4 py-3">Produk Pinjaman</th>
+                    <th className="w-[150px] px-4 py-3">ID. Nasabah</th>
+                    <th className="min-w-[220px] px-4 py-3">Nama Nasabah</th>
+                    <th className="w-[190px] px-4 py-3 text-right">Nominal</th>
+                    <th className="w-[160px] px-4 py-3">
+                      Bunga per Tahun (%)
+                    </th>
+                    <th className="w-[190px] px-4 py-3">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+
+                  {/* filter row */}
+                  <tr className="border-t border-slate-200 bg-white">
+                    <th className="px-4 py-2" />
+                    <th className="px-4 py-2">
+                      <Input
+                        value={qNoRek}
+                        onChange={(e) => setQNoRek(e.target.value)}
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        placeholder=""
+                      />
+                    </th>
+                    <th className="px-4 py-2">
+                      <Input
+                        value={qTanggal}
+                        onChange={(e) => setQTanggal(e.target.value)}
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        placeholder=""
+                      />
+                    </th>
+                    <th className="px-4 py-2">
+                      <Select value={qProduk} onValueChange={setQProduk}>
+                        <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
+                          <SelectValue placeholder="-- Semua" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          {productOptions.map((p) => (
+                            <SelectItem key={p} value={p}>
+                              {p === "Semua" ? "-- Semua" : p}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </th>
+                    <th className="px-4 py-2">
+                      <Input
+                        value={qIdNasabah}
+                        onChange={(e) => setQIdNasabah(e.target.value)}
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        placeholder=""
+                      />
+                    </th>
+                    <th className="px-4 py-2">
+                      <Input
+                        value={qNamaNasabah}
+                        onChange={(e) => setQNamaNasabah(e.target.value)}
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        placeholder=""
+                      />
+                    </th>
+                    <th className="px-4 py-2">
+                      <Input
+                        value={qNominal}
+                        onChange={(e) => setQNominal(e.target.value)}
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right"
+                        placeholder="0,00"
+                        inputMode="decimal"
+                      />
+                    </th>
+                    <th className="px-4 py-2">
+                      <Input
+                        value={qBunga}
+                        onChange={(e) => setQBunga(e.target.value)}
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        placeholder=""
+                        inputMode="decimal"
+                      />
+                    </th>
+                    <th className="px-4 py-2">
+                      <Select
+                        value={qStatus}
+                        onValueChange={(v) => setQStatus(v as LoanApplicationStatus)}
+                      >
+                        <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
+                          <SelectValue placeholder="-- Semua" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          <SelectItem value="Semua">-- Semua</SelectItem>
+                          <SelectItem value="Draft">Draft</SelectItem>
+                          <SelectItem value="Diajukan">Diajukan</SelectItem>
+                          <SelectItem value="Disetujui">Disetujui</SelectItem>
+                          <SelectItem value="Ditolak">Ditolak</SelectItem>
+                          <SelectItem value="Nonaktif / Ditolak">
+                            Nonaktif / Ditolak
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody className="bg-white">
+                  {filtered.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="px-4 py-10 text-center text-sm text-slate-600"
+                      >
+                        Tidak ada data yang cocok dengan filter.
+                      </td>
+                    </tr>
+                  ) : (
+                    filtered.map((r, idx) => (
+                      <tr key={r.id} className="border-t border-slate-100 text-sm">
+                        <td className="px-4 py-3 text-slate-700">{idx + 1}</td>
+
+                        <td className="px-4 py-3">
+                          <a
+                            href="#"
+                            onClick={(e) => e.preventDefault()}
+                            className="font-semibold text-blue-600 hover:underline"
+                          >
+                            {r.noRekening}
+                          </a>
+                        </td>
+
+                        <td className="px-4 py-3 text-slate-800">
+                          {r.tanggalDaftar}
+                        </td>
+
+                        <td className="px-4 py-3">
+                          <div className="leading-tight text-slate-900">
+                            {r.produkPinjaman}
+                          </div>
+                        </td>
+
+                        <td className="px-4 py-3 text-slate-800">{r.idNasabah}</td>
+                        <td className="px-4 py-3 text-slate-900">{r.namaNasabah}</td>
+
+                        <td className="px-4 py-3 text-right font-semibold text-slate-900">
+                          {r.nominal}
+                        </td>
+
+                        <td className="px-4 py-3 text-slate-800">{r.bungaPerTahun}</td>
+
+                        <td className="px-4 py-3">
+                          <StatusBadge status={r.status} />
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="mt-4 text-xs text-slate-600">
+            Menampilkan 1 sampai {filtered.length} dari {filtered.length} entri
           </div>
         </Card>
       </div>
