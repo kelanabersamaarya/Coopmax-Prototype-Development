@@ -35,6 +35,8 @@ import {
   Check,
   ShieldCheck,
   XCircle,
+  CalendarDays,
+  Plus,
 } from "lucide-react";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
@@ -51,8 +53,8 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 md:grid-cols-[180px_1fr] md:items-start">
-      <div className="pt-2">
+    <div className="grid gap-2">
+      <div>
         <Label className="text-sm font-semibold text-slate-900">
           {label}
           {required ? <span className="text-rose-600"> *</span> : null}
@@ -180,17 +182,17 @@ function LoanProductCombobox({
   );
 }
 
+function getTodayDmy() {
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(d.getFullYear());
+  return `${dd}-${mm}-${yyyy}`;
+}
+
 export default function LoanApplicationCreate() {
   const navigate = useNavigate();
   const [tab, setTab] = React.useState<TabId>("general");
-
-  const today = React.useMemo(() => {
-    const d = new Date();
-    const dd = String(d.getDate()).padStart(2, "0");
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const yyyy = String(d.getFullYear());
-    return `${dd}-${mm}-${yyyy}`;
-  }, []);
 
   const [noRekening, setNoRekening] = React.useState("6459.00");
   const [idNasabah, setIdNasabah] = React.useState("Z261283");
@@ -233,6 +235,17 @@ export default function LoanApplicationCreate() {
   React.useEffect(() => {
     if (!showJadwalTab && tab === "jadwal") setTab("general");
   }, [showJadwalTab, tab]);
+
+  // --- Jadwal tab state (prototype) ---
+  const [jenisPerhitunganBunga, setJenisPerhitunganBunga] =
+    React.useState<string>("Add-on");
+  const [metodePerhitunganBunga, setMetodePerhitunganBunga] =
+    React.useState<string>("Bunga Efektif");
+  const [frekuensiBunga, setFrekuensiBunga] = React.useState<string>("Bulanan");
+  const [periode, setPeriode] = React.useState<string>("");
+  const [tanggalTagihanKe1, setTanggalTagihanKe1] = React.useState<string>(
+    getTodayDmy(),
+  );
 
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
@@ -288,7 +301,7 @@ export default function LoanApplicationCreate() {
           <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
             {tab === "general" ? (
               <div className="grid gap-5">
-                <div className="grid gap-4">
+                <div className="grid gap-4 md:grid-cols-2">
                   <FieldRow label="No Rekening" required>
                     <div className="flex items-center">
                       <Input
@@ -335,42 +348,44 @@ export default function LoanApplicationCreate() {
                     </div>
                   </FieldRow>
 
-                  <FieldRow label="NIK" required>
-                    <div className="grid gap-2">
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                        <Input
-                          value={nik}
-                          onChange={(e) => {
-                            setNik(e.target.value);
-                            setKtpVerified(false);
-                          }}
-                          className="h-10 rounded-xl border-slate-200 bg-white"
-                        />
-                        <Button
-                          onClick={verifyKtp}
-                          className="h-10 shrink-0 rounded-xl bg-violet-600 px-4 text-white hover:bg-violet-700"
-                        >
-                          <ShieldCheck className="mr-2 h-4 w-4" />
-                          Verifikasi KTP
-                          <span className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[12px]">
-                            ✦
-                          </span>
-                        </Button>
-                      </div>
+                  <div className="md:col-span-2">
+                    <FieldRow label="NIK" required>
+                      <div className="grid gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                          <Input
+                            value={nik}
+                            onChange={(e) => {
+                              setNik(e.target.value);
+                              setKtpVerified(false);
+                            }}
+                            className="h-10 rounded-xl border-slate-200 bg-white"
+                          />
+                          <Button
+                            onClick={verifyKtp}
+                            className="h-10 shrink-0 rounded-xl bg-violet-600 px-4 text-white hover:bg-violet-700"
+                          >
+                            <ShieldCheck className="mr-2 h-4 w-4" />
+                            Verifikasi KTP
+                            <span className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[12px]">
+                              ✦
+                            </span>
+                          </Button>
+                        </div>
 
-                      {!ktpVerified ? (
-                        <div className="flex items-center gap-2 text-sm font-semibold text-rose-600">
-                          <XCircle className="h-4 w-4" />
-                          Data KTP Belum Terverifikasi
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
-                          <CheckSquare className="h-4 w-4" />
-                          Data KTP Terverifikasi
-                        </div>
-                      )}
-                    </div>
-                  </FieldRow>
+                        {!ktpVerified ? (
+                          <div className="flex items-center gap-2 text-sm font-semibold text-rose-600">
+                            <XCircle className="h-4 w-4" />
+                            Data KTP Belum Terverifikasi
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
+                            <CheckSquare className="h-4 w-4" />
+                            Data KTP Terverifikasi
+                          </div>
+                        )}
+                      </div>
+                    </FieldRow>
+                  </div>
 
                   <FieldRow label="Nama" required>
                     <Input
@@ -402,7 +417,9 @@ export default function LoanApplicationCreate() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                        <SelectItem value="Pilih Kolektor">
+                          Pilih Kolektor
+                        </SelectItem>
                         <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                         <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                       </SelectContent>
@@ -414,26 +431,28 @@ export default function LoanApplicationCreate() {
                       value={tanggal}
                       onChange={(e) => setTanggal(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-white"
-                      placeholder={today}
+                      placeholder={getTodayDmy()}
                     />
                   </FieldRow>
 
-                  <FieldRow label="Produk Pinjaman" required>
-                    <LoanProductCombobox
-                      value={produkPinjaman}
-                      onChange={(v) => {
-                        setProdukPinjaman(v);
-                        if (v === "Pinjaman Billing") {
-                          toast.success("Pinjaman Billing dipilih", {
-                            description:
-                              "Tab Pengaturan Jadwal sekarang tersedia.",
-                          });
-                        } else {
-                          toast("Produk dipilih", { description: v });
-                        }
-                      }}
-                    />
-                  </FieldRow>
+                  <div className="md:col-span-2">
+                    <FieldRow label="Produk Pinjaman" required>
+                      <LoanProductCombobox
+                        value={produkPinjaman}
+                        onChange={(v) => {
+                          setProdukPinjaman(v);
+                          if (v === "Pinjaman Billing") {
+                            toast.success("Pinjaman Billing dipilih", {
+                              description:
+                                "Tab Pengaturan Jadwal sekarang tersedia.",
+                            });
+                          } else {
+                            toast("Produk dipilih", { description: v });
+                          }
+                        }}
+                      />
+                    </FieldRow>
+                  </div>
 
                   <FieldRow label="Sektor Pinjaman" required>
                     <Select
@@ -540,9 +559,132 @@ export default function LoanApplicationCreate() {
                 </div>
               </div>
             ) : tab === "jadwal" ? (
-              <div className="rounded-2xl bg-slate-50 p-5 text-sm text-slate-700 ring-1 ring-slate-200">
-                Tab <span className="font-semibold">Pengaturan Jadwal</span>{" "}
-                masih prototype (konten belum dibuat).
+              <div className="grid gap-10">
+                <div className="space-y-5">
+                  <div className="text-2xl font-semibold tracking-tight text-slate-900">
+                    Jadwal Perhitungan Bunga
+                  </div>
+
+                  <div className="grid gap-4 md:max-w-3xl">
+                    <FieldRow label="Jenis Perhitungan Bunga" required>
+                      <Select
+                        value={jenisPerhitunganBunga}
+                        onValueChange={setJenisPerhitunganBunga}
+                      >
+                        <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-white">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          <SelectItem value="Add-on">Add-on</SelectItem>
+                          <SelectItem value="In Advance">In Advance</SelectItem>
+                          <SelectItem value="In Arrear">In Arrear</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FieldRow>
+
+                    <FieldRow label="Metode Perhitungan Bunga" required>
+                      <Select
+                        value={metodePerhitunganBunga}
+                        onValueChange={setMetodePerhitunganBunga}
+                      >
+                        <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          <SelectItem value="Bunga Efektif">
+                            Bunga Efektif
+                          </SelectItem>
+                          <SelectItem value="Bunga Flat">Bunga Flat</SelectItem>
+                          <SelectItem value="Menurun">Menurun</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FieldRow>
+
+                    <FieldRow label="Frekuensi Bunga" required>
+                      <Select value={frekuensiBunga} onValueChange={setFrekuensiBunga}>
+                        <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          <SelectItem value="Bulanan">Bulanan</SelectItem>
+                          <SelectItem value="Mingguan">Mingguan</SelectItem>
+                          <SelectItem value="Harian">Harian</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FieldRow>
+
+                    <FieldRow label="Periode" required>
+                      <Input
+                        value={periode}
+                        onChange={(e) => setPeriode(e.target.value)}
+                        className="h-11 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                        placeholder=""
+                      />
+                    </FieldRow>
+
+                    <FieldRow label="Tanggal Tagihan Ke-1" required>
+                      <div className="relative">
+                        <Input
+                          value={tanggalTagihanKe1}
+                          onChange={(e) => setTanggalTagihanKe1(e.target.value)}
+                          className="h-11 rounded-xl border-slate-200 bg-white pr-11"
+                        />
+                        <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                      </div>
+                    </FieldRow>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between gap-4">
+                  <div className="text-2xl font-semibold tracking-tight text-slate-900">
+                    Jadwal Denda
+                  </div>
+
+                  <Button
+                    className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
+                    onClick={() =>
+                      toast("Tambah Jadwal Denda (prototype)", {
+                        description: "Item jadwal denda belum dibuat di prototype.",
+                      })
+                    }
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Tambah
+                  </Button>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                  <Button
+                    className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
+                    onClick={() =>
+                      toast("Simulasi (prototype)", {
+                        description:
+                          "Simulasi jadwal belum diimplementasikan di prototype ini.",
+                      })
+                    }
+                  >
+                    <CalendarDays className="mr-2 h-4 w-4" />
+                    Simulasi
+                  </Button>
+
+                  <Button
+                    className="h-11 rounded-xl bg-slate-600 px-5 text-white hover:bg-slate-700"
+                    onClick={() => navigate("/loans/applications")}
+                  >
+                    Batalkan
+                  </Button>
+
+                  <Button
+                    className="h-11 rounded-xl bg-emerald-600 px-6 text-white hover:bg-emerald-700"
+                    onClick={() =>
+                      toast.success("Jadwal tersimpan (prototype)", {
+                        description: "Pengaturan jadwal belum disimpan permanen.",
+                      })
+                    }
+                  >
+                    Simpan
+                  </Button>
+                </div>
               </div>
             ) : (
               <div className="rounded-2xl bg-slate-50 p-5 text-sm text-slate-700 ring-1 ring-slate-200">
