@@ -15,10 +15,7 @@ export default function SectionHighlight({
       <div className="text-center text-lg font-semibold tracking-tight text-slate-900">
         {title}
       </div>
-      <div className="mt-2 flex items-center gap-3">
-        <div className="h-px flex-1 bg-slate-300/70" />
-        <div className="h-px flex-1 bg-slate-300/70" />
-      </div>
+      <div className="mt-2 h-px w-full bg-slate-300/70" />
     </div>
   );
 }
