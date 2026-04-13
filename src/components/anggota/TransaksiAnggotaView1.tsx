@@ -131,44 +131,47 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
         <div className="space-y-3">
           <SectionHighlight title="Informasi Rekening" />
 
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-            <div className="rounded-2xl bg-sky-600 px-4 py-4 text-white shadow-sm ring-1 ring-sky-700/20">
-              <div className="text-sm font-extrabold tracking-wide">
-                PINJAMAN BILLING
+          <Card className="rounded-2xl border-slate-200/70 bg-[#12a3b4] p-4 text-white shadow-sm">
+            <div className="text-sm font-extrabold tracking-wide">
+              PINJAMAN BILLING
+            </div>
+
+            <div className="mt-4 space-y-3 text-sm">
+              <div>
+                <div className="text-white/85">No. Rekening Pinjaman</div>
+                <div className="mt-0.5 text-base font-extrabold">PB260001</div>
               </div>
-              <div className="mt-4 space-y-2 text-sm">
-                <div className="text-white/80">No. Rekening Pinjaman</div>
-                <div className="text-base font-extrabold">PB260001</div>
 
-                <Separator className="my-3 bg-white/15" />
+              <div>
+                <div className="text-white/85">Skema Tagihan</div>
+                <div className="mt-0.5 font-semibold">
+                  Tagihan Sesuai Jadwal Angsuran
+                </div>
+              </div>
 
-                <div className="text-white/80">Skema Tagihan</div>
-                <div className="font-semibold">Tagihan Sesuai Jadwal Angsuran</div>
+              <div>
+                <div className="text-white/85">Satuan Grace Period</div>
+                <div className="mt-0.5 font-semibold">Bulan</div>
+              </div>
 
-                <div className="mt-3 text-white/80">Satuan Grace Period</div>
-                <div className="font-semibold">Bulan</div>
+              <div>
+                <div className="text-white/85">Durasi Grace Period</div>
+                <div className="mt-0.5 font-semibold">3</div>
+              </div>
 
-                <div className="mt-3 text-white/80">Durasi Grace Period</div>
-                <div className="font-semibold">3</div>
-
-                <Separator className="my-3 bg-white/15" />
-
-                <div className="text-white/80">Sisa Pokok Pinjaman</div>
-                <div className="text-base font-extrabold">10.000.000,00</div>
+              <div>
+                <div className="text-white/85">Sisa Pokok Pinjaman</div>
+                <div className="mt-0.5 text-base font-extrabold">
+                  10.000.000,00
+                </div>
               </div>
             </div>
 
-            <div className="mt-3 grid gap-2">
-              <Button
-                variant="outline"
-                className="h-10 rounded-xl border-slate-200 bg-white text-slate-800 hover:bg-slate-50"
-              >
+            <div className="mt-4 grid gap-2">
+              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
                 Riwayat Transaksi
               </Button>
-              <Button
-                variant="outline"
-                className="h-10 rounded-xl border-slate-200 bg-white text-slate-800 hover:bg-slate-50"
-              >
+              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
                 Simulasi Tunggakan
               </Button>
             </div>
