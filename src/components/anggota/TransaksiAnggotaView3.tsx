@@ -190,16 +190,24 @@ function UpcomingBillsAccordion({ open, rows }: { open: boolean; rows: Row[] }) 
                 >
                   {r.jatuhTempo}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.totalBelumDibayar}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.tagihanPokok}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.tagihanBunga}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.sisaPokok}
                 </td>
                 <td
@@ -398,7 +406,10 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
             { label: "Kode Pinjaman", value: "PB260001" },
             { label: "Sektor Pinjaman", value: "Umum" },
             { label: "Tujuan Pinjaman", value: "Konsumtif" },
-            { label: "Kolektor", value: kolektor === "Pilih Kolektor" ? "-" : kolektor },
+            {
+              label: "Kolektor",
+              value: kolektor === "Pilih Kolektor" ? "-" : kolektor,
+            },
             { label: "Tanggal Dibuat", value: "07 Apr 2026" },
             { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
             { label: "Tanggal Transaksi Terakhir", value: "07 Apr 2026" },
@@ -447,7 +458,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       <table className="w-full min-w-[540px] border-collapse text-[13px]">
                         <thead className="bg-white">
                           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                            <th className={cn("w-[30px]", thClass, edgePadLeft)}>
+                            <th
+                              className={cn("w-[30px]", thClass, edgePadLeft)}
+                            >
                               <input
                                 ref={headerCheckboxRef}
                                 type="checkbox"
@@ -473,7 +486,11 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               Sisa Tagihan Pokok
                             </th>
                             <th
-                              className={cn("w-[108px]", thClass, edgePadRight)}
+                              className={cn(
+                                "w-[108px]",
+                                thClass,
+                                edgePadRight,
+                              )}
                             >
                               Sisa Tagihan Bunga
                             </th>
@@ -575,7 +592,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                          <th className={cn("w-[30px]", thClass, edgePadLeft)}>
+                          <th
+                            className={cn("w-[30px]", thClass, edgePadLeft)}
+                          >
                             <input
                               ref={headerCheckboxRef}
                               type="checkbox"
@@ -635,16 +654,36 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               >
                                 {bill.jatuhTempo}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.totalBelumDibayar}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.tagihanPokok}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.tagihanBunga}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.sisaPokok}
                               </td>
                               <td
@@ -691,7 +730,10 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 <div
                   className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
                 >
-                  <UpcomingBillsAccordion open={openUpcoming} rows={upcomingRows} />
+                  <UpcomingBillsAccordion
+                    open={openUpcoming}
+                    rows={upcomingRows}
+                  />
                 </div>
               </div>
             ) : null}
@@ -741,7 +783,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
             </div>
 
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-              <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
+              <div className="text-sm font-semibold text-slate-900">
+                TRANSAKSI
+              </div>
               <Separator className="my-3 bg-slate-200/70" />
 
               <div className="grid gap-3">
@@ -762,10 +806,14 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </div>
 
                 <div className="grid gap-1.5">
-                  <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
+                  <Label className="text-xs text-slate-600">
+                    Jenis Transaksi*
+                  </Label>
                   <Select
                     value={jenisTransaksi}
-                    onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
+                    onValueChange={(v) =>
+                      setJenisTransaksi(v as TransactionType)
+                    }
                   >
                     <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                       <SelectValue />
@@ -787,7 +835,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                      <SelectItem value="Pilih Kolektor">
+                        Pilih Kolektor
+                      </SelectItem>
                       <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                       <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                     </SelectContent>
@@ -833,7 +883,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 ) : (
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">
-                      {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
+                      {isPelunasan
+                        ? "Nominal Pelunasan*"
+                        : "Nominal Pembayaran*"}
                     </Label>
 
                     {isPelunasan ? (
@@ -858,7 +910,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+                      <SelectItem value="Tanpa Tabungan">
+                        Tanpa Tabungan
+                      </SelectItem>
                       <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
                     </SelectContent>
                   </Select>
@@ -912,7 +966,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 Cetak Prima Nota
               </Button>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
 
