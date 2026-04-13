@@ -1,3 +1,4 @@
+semua row tercentang), dengan indeterminate, dan tetap mengunci saat mode pelunasan.">
 "use client";
 
 import * as React from "react";
@@ -226,6 +227,41 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
+  // --- Select all / row selection state (for non-pelunasan) ---
+  const [selected, setSelected] = React.useState<boolean[]>(
+    () => billsInMainTable.map(() => false),
+  );
+
+  React.useEffect(() => {
+    if (isPelunasan) {
+      setSelected(billsInMainTable.map(() => true));
+    } else {
+      setSelected(billsInMainTable.map(() => false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPelunasan]);
+
+  React.useEffect(() => {
+    // Keep selection length in sync if bill list changes (not typical in prototype, but safe)
+    setSelected((prev) => {
+      const next = billsInMainTable.map((_, idx) => prev[idx] ?? false);
+      return next;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [billsInMainTable.length]);
+
+  const allChecked = React.useMemo(
+    () => selected.length > 0 && selected.every(Boolean),
+    [selected],
+  );
+  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
+  const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
+
+  React.useEffect(() => {
+    if (!headerCheckboxRef.current) return;
+    headerCheckboxRef.current.indeterminate = !isPelunasan && anyChecked && !allChecked;
+  }, [allChecked, anyChecked, isPelunasan]);
+
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
 
@@ -319,10 +355,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                         <th className="w-[40px] px-3 py-2.5">
                           <input
+                            ref={headerCheckboxRef}
                             type="checkbox"
                             aria-label="Pilih semua"
-                            checked={isPelunasan ? true : undefined}
+                            checked={isPelunasan ? true : allChecked}
                             disabled={isPelunasan}
+                            onChange={(e) => {
+                              const next = e.target.checked;
+                              setSelected(billsInMainTable.map(() => next));
+                            }}
                           />
                         </th>
                         <th className="w-[120px] px-3 py-2.5">Jatuh Tempo</th>
@@ -352,8 +393,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                             <input
                               type="checkbox"
                               aria-label="Pilih tagihan"
-                              checked={isPelunasan ? true : undefined}
+                              checked={isPelunasan ? true : selected[idx] ?? false}
                               disabled={isPelunasan}
+                              onChange={(e) => {
+                                const next = e.target.checked;
+                                setSelected((prev) => {
+                                  const copy = [...prev];
+                                  copy[idx] = next;
+                                  return copy;
+                                });
+                              }}
                             />
                           </td>
                           <td className="px-3 py-2.5 font-medium text-slate-900">

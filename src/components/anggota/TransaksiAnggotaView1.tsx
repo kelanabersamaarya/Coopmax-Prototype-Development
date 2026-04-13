@@ -1,3 +1,4 @@
+semua row tercentang), plus sinkronisasi checked/indeterminate untuk mode non-pelunasan.">
 "use client";
 
 import * as React from "react";
@@ -109,6 +110,33 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const nominalPelunasan = "9.625.000";
 
+  // --- Select all / row selection state (for non-pelunasan) ---
+  const [selected, setSelected] = React.useState<boolean[]>(
+    () => rows.map(() => false),
+  );
+
+  React.useEffect(() => {
+    // Reset selection when switching to pelunasan (because UI forces checked)
+    if (isPelunasan) {
+      setSelected(rows.map(() => true));
+    } else {
+      setSelected(rows.map(() => false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPelunasan]);
+
+  const allChecked = React.useMemo(
+    () => selected.length > 0 && selected.every(Boolean),
+    [selected],
+  );
+  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
+  const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
+
+  React.useEffect(() => {
+    if (!headerCheckboxRef.current) return;
+    headerCheckboxRef.current.indeterminate = !isPelunasan && anyChecked && !allChecked;
+  }, [allChecked, anyChecked, isPelunasan]);
+
   const totalRincian = React.useMemo(() => {
     return (
       parseAmount(nominalPokok) +
@@ -206,10 +234,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                       <th className="w-[42px] px-4 py-3">
                         <input
+                          ref={headerCheckboxRef}
                           type="checkbox"
                           aria-label="Pilih semua"
-                          checked={isPelunasan ? true : undefined}
+                          checked={isPelunasan ? true : allChecked}
                           disabled={isPelunasan}
+                          onChange={(e) => {
+                            const next = e.target.checked;
+                            setSelected(rows.map(() => next));
+                          }}
                         />
                       </th>
                       <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
@@ -258,8 +291,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                           <input
                             type="checkbox"
                             aria-label={`Pilih row ${idx + 1}`}
-                            checked={isPelunasan ? true : undefined}
+                            checked={isPelunasan ? true : selected[idx] ?? false}
                             disabled={isPelunasan}
+                            onChange={(e) => {
+                              const next = e.target.checked;
+                              setSelected((prev) => {
+                                const copy = [...prev];
+                                copy[idx] = next;
+                                return copy;
+                              });
+                            }}
                           />
                         </td>
                         <td className="px-4 py-3 font-medium text-slate-900">
