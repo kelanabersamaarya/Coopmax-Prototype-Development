@@ -433,25 +433,29 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             <Separator className="my-3 bg-slate-200/70" />
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
-              <div className="font-semibold text-slate-900">TAGIHAN SAAT INI</div>
+              {/* HIDE header + info box when Pelunasan */}
+              {!isPelunasan ? (
+                <>
+                  <div className="font-semibold text-slate-900">TAGIHAN SAAT INI</div>
 
-              <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
-                <div className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                    <Info className="h-4 w-4" />
-                  </span>
-                  <div className="leading-relaxed text-slate-700">
-                    {isPelunasan
-                      ? "Mode pelunasan: seluruh rincian tagihan ditampilkan dan otomatis terpilih."
-                      : "Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada periode ini serta harus dibayarkan sebelum tanggal jatuh tempo"}
+                  <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
+                    <div className="flex items-start gap-2">
+                      <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                        <Info className="h-4 w-4" />
+                      </span>
+                      <div className="leading-relaxed text-slate-700">
+                        Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada
+                        periode ini serta harus dibayarkan sebelum tanggal jatuh tempo
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </>
+              ) : null}
 
               {/* Saat Pelunasan: samakan tabel dengan View 1 */}
               {isPelunasan ? (
                 <>
-                  <div className="mt-3 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+                  <div className="mt-0 overflow-hidden rounded-2xl ring-1 ring-slate-200">
                     <div className="overflow-auto">
                       <table className="w-full min-w-[860px] border-collapse">
                         <thead className="bg-white">
@@ -470,12 +474,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                             <th className="w-[190px] px-4 py-3">
                               Total Tagihan Belum Dibayar
                             </th>
-                            <th className="w-[140px] px-4 py-3">
-                              Tagihan Pokok
-                            </th>
-                            <th className="w-[140px] px-4 py-3">
-                              Tagihan Bunga
-                            </th>
+                            <th className="w-[140px] px-4 py-3">Tagihan Pokok</th>
+                            <th className="w-[140px] px-4 py-3">Tagihan Bunga</th>
                             <th className="w-[140px] px-4 py-3">
                               Sisa Tagihan Pokok
                             </th>
@@ -539,7 +539,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       sampai {Math.min(billsInMainTable.length, page * pageSize)}{" "}
                       dari {billsInMainTable.length} entri
                     </div>
-                    <Pagination page={page} pageCount={pageCount} onPage={setPage} />
+                    <Pagination
+                      page={page}
+                      pageCount={pageCount}
+                      onPage={setPage}
+                    />
                   </div>
                 </>
               ) : (
@@ -651,9 +655,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   </span>
                 </button>
 
-                <div
-                  className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
-                >
+                <div className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}>
                   <UpcomingBillsAccordion open={openUpcoming} />
                 </div>
               </div>
@@ -802,7 +804,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               ) : (
                 <div className="grid gap-1.5">
                   <Label className="text-xs text-slate-600">
-                    {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
+                    {isPelunasan
+                      ? "Nominal Pelunasan*"
+                      : "Nominal Pembayaran*"}
                   </Label>
 
                   {isPelunasan ? (
