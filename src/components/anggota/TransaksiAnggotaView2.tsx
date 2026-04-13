@@ -172,7 +172,9 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
                 <td className="px-4 py-3 font-medium text-slate-900">
                   {r.jatuhTempo}
                 </td>
-                <td className="px-4 py-3 text-slate-800">{r.totalBelumDibayar}</td>
+                <td className="px-4 py-3 text-slate-800">
+                  {r.totalBelumDibayar}
+                </td>
                 <td className="px-4 py-3 text-slate-800">{r.tagihanPokok}</td>
                 <td className="px-4 py-3 text-slate-800">{r.tagihanBunga}</td>
                 <td className="px-4 py-3 text-slate-800">{r.sisaPokok}</td>
@@ -319,12 +321,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                         </th>
                         <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
                         <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
-                        <th className="w-[130px] px-3 py-2.5">
-                          Sisa Tagihan Pokok
-                        </th>
-                        <th className="w-[130px] px-3 py-2.5">
-                          Sisa Tagihan Bunga
-                        </th>
+                        <th className="w-[130px] px-3 py-2.5">Sisa Tagihan Pokok</th>
+                        <th className="w-[130px] px-3 py-2.5">Sisa Tagihan Bunga</th>
                       </tr>
                     </thead>
 
@@ -363,20 +361,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   </table>
                 </div>
               </div>
-
-              {isPelunasan ? (
-                <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-slate-700">
-                  <div className="flex items-start gap-2">
-                    <CheckSquare className="mt-0.5 h-4 w-4 text-emerald-700" />
-                    <div>
-                      <div className="font-semibold text-slate-900">Mode Pelunasan</div>
-                      <div className="mt-0.5 text-slate-600">
-                        Checklist tagihan otomatis terpilih dan tidak bisa diubah.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
             </div>
 
             <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
@@ -423,7 +407,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Total Denda", "0"],
                   ["Total Tagihan", "2.708.333"],
                 ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3">
+                  <div
+                    key={k}
+                    className="flex items-center justify-between gap-3"
+                  >
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -436,7 +423,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Angsuran Lunas", "0"],
                   ["Angsuran Seharusnya", "0"],
                 ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3">
+                  <div
+                    key={k}
+                    className="flex items-center justify-between gap-3"
+                  >
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>

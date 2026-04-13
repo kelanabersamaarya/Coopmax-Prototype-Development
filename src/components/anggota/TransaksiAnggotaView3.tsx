@@ -298,20 +298,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </table>
                 </div>
               </div>
-
-              {isPelunasan ? (
-                <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-slate-700">
-                  <div className="flex items-start gap-2">
-                    <CheckSquare className="mt-0.5 h-4 w-4 text-emerald-700" />
-                    <div>
-                      <div className="font-semibold text-slate-900">Mode Pelunasan</div>
-                      <div className="mt-0.5 text-slate-600">
-                        Checklist tagihan otomatis terpilih dan tidak bisa diubah.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
             </div>
           </Card>
         </div>
