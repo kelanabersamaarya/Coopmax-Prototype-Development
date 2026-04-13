@@ -347,19 +347,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <div className="text-sm font-semibold text-slate-900">
-                    INFORMASI TAGIHAN DAN DENDA
-                  </div>
-                  <div className="mt-1 text-xs text-slate-600">
-                    Detail Angsuran (mock sesuai referensi)
-                  </div>
-                </div>
-
-                <Badge className="h-7 rounded-full bg-slate-900 px-3 text-white hover:bg-slate-900">
-                  Detail Angsuran
-                </Badge>
+              <div className="text-sm font-semibold text-slate-900">
+                INFORMASI TAGIHAN DAN DENDA
               </div>
 
               <Separator className="my-3 w-full bg-slate-200/70" />
