@@ -196,7 +196,7 @@ export default function Index() {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[hsl(var(--app-bg))]">
+    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-3 py-6 md:px-6">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div />
@@ -245,7 +245,8 @@ export default function Index() {
             </Card>
           </aside>
 
-          <div className="min-w-0">{isHome ? <Outlet /> : <Outlet />}</div>
+          {/* Konten boleh scroll horizontal jika ada tabel/komponen lebar */}
+          <div className="min-w-0 overflow-x-auto">{isHome ? <Outlet /> : <Outlet />}</div>
         </div>
       </div>
     </div>
