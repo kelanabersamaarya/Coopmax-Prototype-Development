@@ -1,4 +1,3 @@
-semua row tercentang), plus sinkronisasi checked/indeterminate untuk mode non-pelunasan.">
 "use client";
 
 import * as React from "react";
@@ -134,7 +133,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   React.useEffect(() => {
     if (!headerCheckboxRef.current) return;
-    headerCheckboxRef.current.indeterminate = !isPelunasan && anyChecked && !allChecked;
+    headerCheckboxRef.current.indeterminate =
+      !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
   const totalRincian = React.useMemo(() => {
