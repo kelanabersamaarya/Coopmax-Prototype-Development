@@ -25,7 +25,6 @@ import {
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
-import BillingTablePagination from "@/components/anggota/BillingTablePagination";
 
 type Props = {
   nasabah: {
@@ -70,8 +69,8 @@ const rows: Row[] = [
     sisaPokok: "783.333",
     sisaBunga: "26.389",
   },
-  ...Array.from({ length: 54 }).map((_, i) => ({
-    jatuhTempo: `25-${String(4 + (i % 9)).padStart(2, "0")}-2026`,
+  ...Array.from({ length: 8 }).map((_, i) => ({
+    jatuhTempo: `25-${String(4 + i).padStart(2, "0")}-2026`,
     totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
@@ -141,38 +140,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
   const nominalPelunasan = "9.625.000";
 
-  // Pagination khusus mode pelunasan
-  const [pageSize, setPageSize] = React.useState<number>(10);
-  const [page, setPage] = React.useState<number>(1);
-
-  React.useEffect(() => setPage(1), [pageSize, isPelunasan]);
-
-  const billsInMainTable = isPelunasan ? rows : rows.slice(0, 1);
-
-  const pageCount = React.useMemo(() => {
-    if (!isPelunasan) return 1;
-    return Math.max(1, Math.ceil(billsInMainTable.length / pageSize));
-  }, [billsInMainTable.length, isPelunasan, pageSize]);
-
-  React.useEffect(() => {
-    if (page > pageCount) setPage(pageCount);
-  }, [page, pageCount]);
-
-  const pagedBills = React.useMemo(() => {
-    if (!isPelunasan) return billsInMainTable;
-    const start = (page - 1) * pageSize;
-    return billsInMainTable.slice(start, start + pageSize);
-  }, [billsInMainTable, isPelunasan, page, pageSize]);
-
-  const showingStart = !isPelunasan
-    ? 1
-    : billsInMainTable.length === 0
-      ? 0
-      : (page - 1) * pageSize + 1;
-  const showingEnd = !isPelunasan
-    ? billsInMainTable.length
-    : Math.min(billsInMainTable.length, page * pageSize);
-
   // --- Select all / row selection state (for non-pelunasan) ---
   const [selected, setSelected] = React.useState<boolean[]>(
     () => rows.map(() => false),
@@ -207,6 +174,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
       parseAmount(nominalDenda)
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
+
+  const billingRows = isPelunasan ? rows : rows.slice(0, 1);
 
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
@@ -288,7 +257,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </span>
                   <div className="leading-relaxed text-slate-700">
                     {isPelunasan
-                      ? "Mode pelunasan: semua rincian tagihan ditampilkan dan otomatis terpilih. Gunakan pagination untuk melihat periode lain."
+                      ? "Mode pelunasan: semua rincian tagihan ditampilkan dan otomatis terpilih."
                       : "Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada periode ini serta harus dibayarkan sebelum tanggal jatuh tempo."}
                   </div>
                 </div>
@@ -330,9 +299,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <tbody className="bg-white">
                       <GracePeriodRow colSpan={7} />
 
-                      {pagedBills.map((r, idx) => (
+                      {billingRows.map((r, idx) => (
                         <tr
-                          key={`${idx}-${r.jatuhTempo}`}
+                          key={idx}
                           className="border-t border-slate-200 text-sm"
                         >
                           <td className="px-3 py-2.5">
@@ -375,36 +344,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </table>
                 </div>
               </div>
-
-              {isPelunasan ? (
-                <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                  <div className="text-xs text-slate-600">
-                    Menampilkan {showingStart} sampai {showingEnd} dari {billsInMainTable.length} periode
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Select
-                      value={String(pageSize)}
-                      onValueChange={(v) => setPageSize(Number(v))}
-                    >
-                      <SelectTrigger className="h-9 w-[110px] rounded-xl border-slate-200 bg-white text-sm">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        {[10, 20, 50].map((n) => (
-                          <SelectItem key={n} value={String(n)}>
-                            {n} / page
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <BillingTablePagination
-                      page={page}
-                      pageCount={pageCount}
-                      onPage={setPage}
-                    />
-                  </div>
-                </div>
-              ) : null}
             </div>
           </Card>
         </div>

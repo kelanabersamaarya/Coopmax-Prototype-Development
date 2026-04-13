@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
-import BillingTablePagination from "@/components/anggota/BillingTablePagination";
 
 type Props = {
   nasabah: {
@@ -61,8 +60,8 @@ const rows: Row[] = [
     sisaPokok: "783.333",
     sisaBunga: "26.389",
   },
-  ...Array.from({ length: 58 }).map((_, i) => ({
-    jatuhTempo: `25-${String(((i + 2) % 12) + 1).padStart(2, "0")}-202${Math.floor((i + 2) / 12) + 6}`,
+  ...Array.from({ length: 8 }).map((_, i) => ({
+    jatuhTempo: `25-0${(i % 7) + 2}-2026`,
     totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
@@ -110,37 +109,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const nominalPelunasan = "9.625.000";
 
-  // --- Pagination khusus tabel tagihan ---
-  const [pageSize, setPageSize] = React.useState<number>(10);
-  const [page, setPage] = React.useState<number>(1);
-
-  React.useEffect(() => {
-    setPage(1);
-  }, [pageSize, isPelunasan]);
-
-  const pageCount = React.useMemo(
-    () => Math.max(1, Math.ceil(rows.length / pageSize)),
-    [pageSize],
-  );
-
-  React.useEffect(() => {
-    if (page > pageCount) setPage(pageCount);
-  }, [page, pageCount]);
-
-  const pagedRows = React.useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return rows.slice(start, start + pageSize);
-  }, [page, pageSize]);
-
-  const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
-  const showingEnd = Math.min(rows.length, page * pageSize);
-
-  // --- Selection state: simpan per-row global, select-all hanya untuk page yang tampil ---
+  // --- Select all / row selection state (for non-pelunasan) ---
   const [selected, setSelected] = React.useState<boolean[]>(
     () => rows.map(() => false),
   );
 
   React.useEffect(() => {
+    // Reset selection when switching to pelunasan (because UI forces checked)
     if (isPelunasan) {
       setSelected(rows.map(() => true));
     } else {
@@ -149,32 +124,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
-  React.useEffect(() => {
-    // jaga panjang selection sinkron dengan rows
-    setSelected((prev) => rows.map((_, idx) => prev[idx] ?? false));
-  }, []);
-
-  const pageIndices = React.useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return pagedRows.map((_, i) => start + i);
-  }, [page, pageSize, pagedRows]);
-
-  const pageAllChecked = React.useMemo(() => {
-    if (pageIndices.length === 0) return false;
-    return pageIndices.every((i) => selected[i] === true);
-  }, [pageIndices, selected]);
-
-  const pageAnyChecked = React.useMemo(() => {
-    return pageIndices.some((i) => selected[i] === true);
-  }, [pageIndices, selected]);
-
+  const allChecked = React.useMemo(
+    () => selected.length > 0 && selected.every(Boolean),
+    [selected],
+  );
+  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
   const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     if (!headerCheckboxRef.current) return;
     headerCheckboxRef.current.indeterminate =
-      !isPelunasan && pageAnyChecked && !pageAllChecked;
-  }, [pageAllChecked, pageAnyChecked, isPelunasan]);
+      !isPelunasan && anyChecked && !allChecked;
+  }, [allChecked, anyChecked, isPelunasan]);
 
   const totalRincian = React.useMemo(() => {
     return (
@@ -255,31 +216,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   INFORMASI TAGIHAN DAN DENDA
                 </div>
                 <div className="mt-1 text-xs text-slate-600">
-                  Tagihan banyak periode — dilengkapi pagination.
+                  Detail Angsuran (mock sesuai referensi)
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge className="w-fit rounded-full bg-slate-900 px-3 text-white hover:bg-slate-900">
-                  Detail Angsuran
-                </Badge>
-
-                <Select
-                  value={String(pageSize)}
-                  onValueChange={(v) => setPageSize(Number(v))}
-                >
-                  <SelectTrigger className="h-9 w-[110px] rounded-xl border-slate-200 bg-white text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    {[10, 20, 50].map((n) => (
-                      <SelectItem key={n} value={String(n)}>
-                        {n} / page
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <Badge className="w-fit rounded-full bg-slate-900 px-3 text-white hover:bg-slate-900">
+                Detail Angsuran
+              </Badge>
             </div>
 
             <Separator className="my-4 bg-slate-200/70" />
@@ -293,18 +236,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         <input
                           ref={headerCheckboxRef}
                           type="checkbox"
-                          aria-label="Pilih semua (halaman ini)"
-                          checked={isPelunasan ? true : pageAllChecked}
+                          aria-label="Pilih semua"
+                          checked={isPelunasan ? true : allChecked}
                           disabled={isPelunasan}
                           onChange={(e) => {
                             const next = e.target.checked;
-                            setSelected((prev) => {
-                              const copy = [...prev];
-                              pageIndices.forEach((i) => {
-                                copy[i] = next;
-                              });
-                              return copy;
-                            });
+                            setSelected(rows.map(() => next));
                           }}
                         />
                       </th>
@@ -345,60 +282,50 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       </td>
                     </tr>
 
-                    {pagedRows.map((r, localIdx) => {
-                      const globalIdx = pageIndices[localIdx] ?? localIdx;
-                      return (
-                        <tr
-                          key={`${globalIdx}-${r.jatuhTempo}`}
-                          className="border-t border-slate-100 text-sm"
-                        >
-                          <td className="px-4 py-3">
-                            <input
-                              type="checkbox"
-                              aria-label={`Pilih row ${globalIdx + 1}`}
-                              checked={isPelunasan ? true : selected[globalIdx] ?? false}
-                              disabled={isPelunasan}
-                              onChange={(e) => {
-                                const next = e.target.checked;
-                                setSelected((prev) => {
-                                  const copy = [...prev];
-                                  copy[globalIdx] = next;
-                                  return copy;
-                                });
-                              }}
-                            />
-                          </td>
-                          <td className="px-4 py-3 font-medium text-slate-900">
-                            {r.jatuhTempo}
-                          </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
-                            {r.totalBelumDibayar}
-                          </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
-                            {r.tagihanPokok}
-                          </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
-                            {r.tagihanBunga}
-                          </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
-                            {r.sisaPokok}
-                          </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
-                            {r.sisaBunga}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {rows.map((r, idx) => (
+                      <tr
+                        key={idx}
+                        className="border-t border-slate-100 text-sm"
+                      >
+                        <td className="px-4 py-3">
+                          <input
+                            type="checkbox"
+                            aria-label={`Pilih row ${idx + 1}`}
+                            checked={isPelunasan ? true : selected[idx] ?? false}
+                            disabled={isPelunasan}
+                            onChange={(e) => {
+                              const next = e.target.checked;
+                              setSelected((prev) => {
+                                const copy = [...prev];
+                                copy[idx] = next;
+                                return copy;
+                              });
+                            }}
+                          />
+                        </td>
+                        <td className="px-4 py-3 font-medium text-slate-900">
+                          {r.jatuhTempo}
+                        </td>
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          {r.totalBelumDibayar}
+                        </td>
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          {r.tagihanPokok}
+                        </td>
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          {r.tagihanBunga}
+                        </td>
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          {r.sisaPokok}
+                        </td>
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          {r.sisaBunga}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-            </div>
-
-            <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-              <div className="text-xs text-slate-600">
-                Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} periode
-              </div>
-              <BillingTablePagination page={page} pageCount={pageCount} onPage={setPage} />
             </div>
           </Card>
         </div>
