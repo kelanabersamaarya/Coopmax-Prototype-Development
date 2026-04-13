@@ -28,7 +28,6 @@ import {
   Users,
   Wallet,
   ChevronRight,
-  ChevronDown,
   Sparkles,
 } from "lucide-react";
 
@@ -90,31 +89,6 @@ const implementedRoutes = new Set([
   "/loans/new",
   "/anggota/transaksi",
 ]);
-
-const loanSubmenu: Array<{ label: string; to: string }> = [
-  { label: "Pengajuan Baru", to: "/loans/new" },
-  { label: "Daftar Pengajuan Pinjaman", to: "/pinjaman/daftar-pengajuan" },
-  { label: "Rekening Pinjaman", to: "/pinjaman/rekening" },
-  { label: "Transaksi Pinjaman", to: "/pinjaman/transaksi" },
-  { label: "Pinjaman Lunas", to: "/pinjaman/lunas" },
-  { label: "Perpanjangan Pinjaman", to: "/pinjaman/perpanjangan" },
-  { label: "Produk Pinjaman", to: "/loan-products" },
-  { label: "Sektor Pinjaman", to: "/pinjaman/sektor" },
-  { label: "Tujuan Pinjaman", to: "/pinjaman/tujuan" },
-  { label: "Cetak Buku", to: "/pinjaman/cetak-buku" },
-  { label: "Prima Nota", to: "/pinjaman/prima-nota" },
-];
-
-const anggotaSubmenu: Array<{ label: string; to: string }> = [
-  { label: "Pendaftaran Anggota", to: "/anggota/pendaftaran" },
-  { label: "Pendaftaran Calon Anggota", to: "/anggota/pendaftaran-calon" },
-  { label: "Anggota", to: "/anggota/daftar" },
-  { label: "Calon Anggota", to: "/anggota/calon" },
-  { label: "Transaksi", to: "/anggota/transaksi" },
-  { label: "Cetak Buku Anggota", to: "/anggota/cetak-buku" },
-  { label: "Kategori Anggota", to: "/anggota/kategori" },
-  { label: "Penggabungan Data", to: "/anggota/penggabungan-data" },
-];
 
 function SidebarPromo() {
   return (
@@ -205,209 +179,6 @@ function SidebarNavItem({ item }: { item: NavItem }) {
   );
 }
 
-function SidebarAnggotaSection() {
-  const location = useLocation();
-  const shouldOpen = React.useMemo(() => {
-    const p = location.pathname;
-    return p.startsWith("/anggota");
-  }, [location.pathname]);
-
-  const [open, setOpen] = React.useState<boolean>(shouldOpen);
-
-  React.useEffect(() => {
-    setOpen(shouldOpen);
-  }, [shouldOpen]);
-
-  const isActive = location.pathname.startsWith("/anggota");
-
-  return (
-    <div className="px-2 pb-2 pt-1">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className={cn(
-          "flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left ring-1 transition",
-          isActive
-            ? "bg-violet-50 text-slate-900 ring-violet-200"
-            : "bg-white text-slate-900 ring-slate-200 hover:bg-slate-50",
-        )}
-      >
-        <div className="flex items-center gap-3">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-            <Users className="h-5 w-5" />
-          </span>
-          <span className="text-[15px] font-semibold">Anggota</span>
-        </div>
-
-        <span
-          className={cn(
-            "inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 transition",
-            open ? "rotate-180" : "rotate-0",
-          )}
-        >
-          <ChevronDown className="h-4.5 w-4.5" />
-        </span>
-      </button>
-
-      {open ? (
-        <div className="mt-2 space-y-1 pl-[52px]">
-          {anggotaSubmenu.map((s) => {
-            const isReal = implementedRoutes.has(s.to);
-            const isSubActive = location.pathname === s.to;
-
-            if (!isReal) {
-              return (
-                <button
-                  key={s.to}
-                  type="button"
-                  onClick={() => {
-                    window.location.href = "/";
-                  }}
-                  className={cn(
-                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
-                    "text-slate-700 hover:bg-slate-50",
-                  )}
-                >
-                  <span className="truncate">{s.label}</span>
-                  <ChevronRight className="h-5 w-5 text-slate-200" />
-                </button>
-              );
-            }
-
-            return (
-              <NavLink
-                key={s.to}
-                to={s.to}
-                className={() =>
-                  cn(
-                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
-                    isSubActive
-                      ? "bg-slate-900 text-white"
-                      : "text-slate-700 hover:bg-slate-50",
-                  )
-                }
-              >
-                <span className="truncate">{s.label}</span>
-                <ChevronRight
-                  className={cn(
-                    "h-5 w-5",
-                    isSubActive ? "text-white/70" : "text-slate-200",
-                  )}
-                />
-              </NavLink>
-            );
-          })}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function SidebarLoanSection() {
-  const location = useLocation();
-  const shouldOpen = React.useMemo(() => {
-    const p = location.pathname;
-    return (
-      p.startsWith("/pinjaman") ||
-      p.startsWith("/loan-products") ||
-      p.startsWith("/loans")
-    );
-  }, [location.pathname]);
-
-  const [open, setOpen] = React.useState<boolean>(shouldOpen);
-
-  React.useEffect(() => {
-    setOpen(shouldOpen);
-  }, [shouldOpen]);
-
-  const isActive =
-    location.pathname.startsWith("/pinjaman") ||
-    location.pathname.startsWith("/loan-products") ||
-    location.pathname.startsWith("/loans");
-
-  return (
-    <div className="px-2 pb-2 pt-1">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className={cn(
-          "flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left ring-1 transition",
-          isActive
-            ? "bg-violet-50 text-slate-900 ring-violet-200"
-            : "bg-white text-slate-900 ring-slate-200 hover:bg-slate-50",
-        )}
-      >
-        <div className="flex items-center gap-3">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-            <HandCoins className="h-5 w-5" />
-          </span>
-          <span className="text-[15px] font-semibold">Pinjaman</span>
-        </div>
-
-        <span
-          className={cn(
-            "inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 transition",
-            open ? "rotate-180" : "rotate-0",
-          )}
-        >
-          <ChevronDown className="h-4.5 w-4.5" />
-        </span>
-      </button>
-
-      {open ? (
-        <div className="mt-2 space-y-1 pl-[52px]">
-          {loanSubmenu.map((s) => {
-            const isReal = implementedRoutes.has(s.to);
-            const isSubActive = location.pathname === s.to;
-
-            if (!isReal) {
-              return (
-                <button
-                  key={s.to}
-                  type="button"
-                  onClick={() => {
-                    window.location.href = "/";
-                  }}
-                  className={cn(
-                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
-                    "text-slate-700 hover:bg-slate-50",
-                  )}
-                >
-                  <span className="truncate">{s.label}</span>
-                  <ChevronRight className="h-5 w-5 text-slate-200" />
-                </button>
-              );
-            }
-
-            return (
-              <NavLink
-                key={s.to}
-                to={s.to}
-                className={() =>
-                  cn(
-                    "flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-[15px] font-semibold transition",
-                    isSubActive
-                      ? "bg-slate-900 text-white"
-                      : "text-slate-700 hover:bg-slate-50",
-                  )
-                }
-              >
-                <span className="truncate">{s.label}</span>
-                <ChevronRight
-                  className={cn(
-                    "h-5 w-5",
-                    isSubActive ? "text-white/70" : "text-slate-200",
-                  )}
-                />
-              </NavLink>
-            );
-          })}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 export default function Index() {
   const location = useLocation();
   const isHome = location.pathname === "/";
@@ -418,24 +189,16 @@ export default function Index() {
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           {/* Logo/icon header DIHILANGKAN sesuai permintaan */}
           <div />
-
           <div className="hidden md:block" />
         </header>
 
         <div className="mt-6 grid gap-4 md:grid-cols-[320px_1fr]">
-          {/* Sidebar: pastikan benar-benar center tanpa whitespace kiri */}
           <aside className="space-y-4 px-0">
             <SidebarPromo />
 
             <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
-              {/* Hilangkan padding tambahan yang bikin menu terlihat geser */}
               <div className="max-h-[70vh] overflow-auto px-0 py-1">
                 <div className="space-y-1">
-                  <SidebarAnggotaSection />
-                  <SidebarLoanSection />
-
-                  <Separator className="my-2 bg-slate-100" />
-
                   {nav.map((g, idx) => (
                     <div key={g.group ?? idx} className="px-0">
                       {g.group ? (
@@ -444,19 +207,15 @@ export default function Index() {
                         </div>
                       ) : null}
 
-                      {/* menu container dibuat simetris kiri-kanan */}
                       <div className="space-y-1 px-2">
-                        {g.items
-                          .filter(
-                            (it) =>
-                              it.label !== "Pinjaman" && it.label !== "Anggota",
-                          )
-                          .map((it) => (
-                            <SidebarNavItem key={it.to} item={it} />
-                          ))}
+                        {g.items.map((it) => (
+                          <SidebarNavItem key={it.to} item={it} />
+                        ))}
                       </div>
                     </div>
                   ))}
+
+                  <Separator className="my-2 bg-slate-100" />
                 </div>
               </div>
             </Card>
