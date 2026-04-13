@@ -314,13 +314,11 @@ export default function LoanApplications() {
           <Button
             variant="outline"
             className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
-            onClick={() =>
-              toast("Tambah Pengajuan (prototype)", {
-                description: "Halaman tambah pengajuan belum dibuat.",
-              })
-            }
+            asChild
           >
-            <Plus className="mr-2 h-4 w-4" /> Tambah
+            <Link to="/loans/applications/new">
+              <Plus className="mr-2 h-4 w-4" /> Tambah
+            </Link>
           </Button>
         </div>
 
@@ -352,6 +350,18 @@ export default function LoanApplications() {
                 asChild
               >
                 <Link to="/loan-products">Produk Pinjaman</Link>
+              </Button>
+
+              <Button
+                variant="outline"
+                className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+                onClick={() =>
+                  toast("Filter (prototype)", {
+                    description: "Filter lanjutan belum diaktifkan.",
+                  })
+                }
+              >
+                Filter
               </Button>
             </div>
           </div>
