@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Plus, FileText } from "lucide-react";
-import { toast } from "sonner";
+import { Plus } from "lucide-react";
 
 type LoanApplicationRow = {
   id: string;
@@ -69,17 +68,9 @@ export default function LoanApplications() {
     <div className="min-h-[calc(100vh-2rem)] rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
       <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
         <div>
-          <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-xs font-medium text-slate-700 ring-1 ring-slate-200 backdrop-blur">
-            <FileText className="h-3.5 w-3.5 text-[hsl(var(--app-accent))]" />
-            Pengajuan Pinjaman
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
             Daftar Pengajuan Pinjaman
           </h1>
-          <p className="mt-1 max-w-2xl text-sm text-slate-600">
-            Ini masih prototype: data hanya contoh, tapi tombol “Tambah” sudah
-            mengarah ke form.
-          </p>
         </div>
 
         <Button
@@ -97,7 +88,7 @@ export default function LoanApplications() {
 
       <Card className="overflow-hidden rounded-3xl border-slate-200/70 bg-white/80 shadow-sm backdrop-blur">
         <div className="overflow-auto">
-          <table className="w-full min-w-[880px] border-collapse">
+          <table className="w-full min-w-[740px] border-collapse">
             <thead className="bg-slate-50">
               <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                 <th className="w-[160px] px-5 py-4">ID</th>
@@ -106,7 +97,6 @@ export default function LoanApplications() {
                 <th className="min-w-[220px] px-5 py-4">Produk</th>
                 <th className="w-[160px] px-5 py-4">Nominal</th>
                 <th className="w-[140px] px-5 py-4">Status</th>
-                <th className="w-[140px] px-5 py-4">Aksi</th>
               </tr>
             </thead>
 
@@ -122,19 +112,6 @@ export default function LoanApplications() {
                   <td className="px-5 py-4 text-slate-800">{r.nominal}</td>
                   <td className="px-5 py-4">
                     <StatusBadge status={r.status} />
-                  </td>
-                  <td className="px-5 py-4">
-                    <Button
-                      variant="outline"
-                      className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-800 hover:bg-slate-50"
-                      onClick={() =>
-                        toast("Detail (prototype)", {
-                          description: `Pengajuan: ${r.id}`,
-                        })
-                      }
-                    >
-                      Lihat
-                    </Button>
                   </td>
                 </tr>
               ))}
