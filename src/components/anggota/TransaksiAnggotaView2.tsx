@@ -16,15 +16,14 @@ import {
 import { cn } from "@/lib/utils";
 import {
   CalendarDays,
-  CheckSquare,
   Info,
-  Printer,
-  ReceiptText,
-  ScrollText,
   ChevronUp,
   History,
   Calculator,
   BookOpenText,
+  Printer,
+  ReceiptText,
+  ScrollText,
   ChevronDown,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
@@ -39,6 +38,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
+import AnggotaTablePagination from "@/components/anggota/AnggotaTablePagination";
+import UpcomingBillsAccordionView2, {
+  type BillRow,
+} from "@/components/anggota/UpcomingBillsAccordionView2";
+import TransactionFormCardView2, {
+  type TransactionType,
+} from "@/components/anggota/TransactionFormCardView2";
 
 type Props = {
   nasabah: {
@@ -49,16 +56,7 @@ type Props = {
   };
 };
 
-type Row = {
-  jatuhTempo: string;
-  totalBelumDibayar: string;
-  tagihanPokok: string;
-  tagihanBunga: string;
-  sisaPokok: string;
-  sisaBunga: string;
-};
-
-const currentBill: Row = {
+const currentBill: BillRow = {
   jatuhTempo: "25-01-2026",
   totalBelumDibayar: "916.667",
   tagihanPokok: "833.333",
@@ -67,7 +65,7 @@ const currentBill: Row = {
   sisaBunga: "26.389",
 };
 
-const upcomingRows: Row[] = [
+const upcomingRows: BillRow[] = [
   {
     jatuhTempo: "25-01-2026",
     totalBelumDibayar: "916.667",
@@ -102,239 +100,6 @@ const upcomingRows: Row[] = [
   })),
 ];
 
-const transactionTypes = [
-  "Pembayaran Angsuran",
-  "Pembayaran Rincian Tagihan",
-  "Pelunasan",
-] as const;
-
-type TransactionType = (typeof transactionTypes)[number];
-
-function parseAmount(input: string) {
-  const cleaned = input.replace(/[^\d.-]/g, "");
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function formatIdrLike(n: number) {
-  const s = Math.round(n).toString();
-  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-function GracePeriodRow({ colSpan }: { colSpan: number }) {
-  return (
-    <tr className="border-t border-slate-200">
-      <td colSpan={colSpan} className="px-1 py-2.5">
-        <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
-          <div className="flex items-start gap-2">
-            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-              <Info className="h-4 w-4" />
-            </span>
-            <div>
-              <div className="font-semibold">Periode Grace Period</div>
-              <div className="mt-0.5 text-slate-700">
-                Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
-                dalam grace period. Selama periode grace period nasabah hanya
-                membayar bunga.
-              </div>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  );
-}
-
-function UpcomingBillsAccordion({ open, rows }: { open: boolean; rows: Row[] }) {
-  if (!open) return null;
-
-  const thClass = "px-1 py-2.5";
-  const tdClass = "px-1 py-2.5";
-  const edgePadLeft = "pl-3";
-  const edgePadRight = "pr-3";
-
-  return (
-    <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-      <div className="p-3">
-        <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
-          <div className="flex items-start gap-2">
-            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-              <Info className="h-4 w-4" />
-            </span>
-            <div className="leading-relaxed">
-              Berikut ini merupakan perkiraan tagihan untuk periode mendatang.
-              Nominal tagihan dapat berubah jika ada transaksi pembayaran atau
-              terjadi perubahan pada pinjaman.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="overflow-auto">
-        <table className="w-full min-w-[520px] border-collapse text-[13px]">
-          <thead className="bg-white">
-            <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
-              <th className={cn("w-[104px]", thClass, edgePadLeft)}>
-                Jatuh Tempo
-              </th>
-              <th className={cn("w-[146px]", thClass)}>
-                Total Tagihan Belum Dibayar
-              </th>
-              <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
-              <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
-              <th className={cn("w-[108px]", thClass)}>Sisa Tagihan Pokok</th>
-              <th className={cn("w-[108px]", thClass, edgePadRight)}>
-                Sisa Tagihan Bunga
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="bg-white">
-            <GracePeriodRow colSpan={6} />
-            {rows.map((r, idx) => (
-              <tr key={idx} className="border-t border-slate-200 text-sm">
-                <td
-                  className={cn(
-                    tdClass,
-                    edgePadLeft,
-                    "font-medium text-slate-900",
-                  )}
-                >
-                  {r.jatuhTempo}
-                </td>
-                <td
-                  className={cn(
-                    tdClass,
-                    "text-right tabular-nums text-slate-800",
-                  )}
-                >
-                  {r.totalBelumDibayar}
-                </td>
-                <td
-                  className={cn(
-                    tdClass,
-                    "text-right tabular-nums text-slate-800",
-                  )}
-                >
-                  {r.tagihanPokok}
-                </td>
-                <td
-                  className={cn(
-                    tdClass,
-                    "text-right tabular-nums text-slate-800",
-                  )}
-                >
-                  {r.tagihanBunga}
-                </td>
-                <td
-                  className={cn(
-                    tdClass,
-                    "text-right tabular-nums text-slate-800",
-                  )}
-                >
-                  {r.sisaPokok}
-                </td>
-                <td
-                  className={cn(
-                    tdClass,
-                    edgePadRight,
-                    "text-right tabular-nums text-slate-800",
-                  )}
-                >
-                  {r.sisaBunga}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-function Pagination({
-  page,
-  pageCount,
-  onPage,
-}: {
-  page: number;
-  pageCount: number;
-  onPage: (p: number) => void;
-}) {
-  if (pageCount <= 1) return null;
-
-  const items: Array<number | "ellipsis"> = [];
-  const push = (v: number | "ellipsis") => items.push(v);
-
-  const first = 1;
-  const last = pageCount;
-
-  push(first);
-
-  const around = 2;
-  const left = Math.max(first + 1, page - around);
-  const right = Math.min(last - 1, page + around);
-
-  if (left > first + 1) push("ellipsis");
-  for (let i = left; i <= right; i++) push(i);
-  if (right < last - 1) push("ellipsis");
-
-  if (last !== first) push(last);
-
-  return (
-    <div className="flex items-center justify-end gap-2">
-      <Button
-        variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-        disabled={page === 1}
-        onClick={() => onPage(Math.max(1, page - 1))}
-      >
-        Sebelumnya
-      </Button>
-
-      <div className="flex items-center gap-1">
-        {items.map((it, idx) => {
-          if (it === "ellipsis") {
-            return (
-              <div
-                key={`e-${idx}`}
-                className="px-2 text-sm font-semibold text-slate-400"
-              >
-                …
-              </div>
-            );
-          }
-          const active = it === page;
-          return (
-            <button
-              key={it}
-              type="button"
-              onClick={() => onPage(it)}
-              className={cn(
-                "h-9 w-9 rounded-xl text-sm font-semibold ring-1 transition",
-                active
-                  ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
-                  : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50",
-              )}
-            >
-              {it}
-            </button>
-          );
-        })}
-      </div>
-
-      <Button
-        variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-        disabled={page === pageCount}
-        onClick={() => onPage(Math.min(pageCount, page + 1))}
-      >
-        Selanjutnya
-      </Button>
-    </div>
-  );
-}
-
 export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] =
@@ -352,17 +117,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [openUpcoming, setOpenUpcoming] = React.useState(false);
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
-  const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
-  const nominalPelunasan = "9.625.000";
-
-  const totalRincian = React.useMemo(() => {
-    return (
-      parseAmount(nominalPokok) +
-      parseAmount(nominalBunga) +
-      parseAmount(nominalDenda)
-    );
-  }, [nominalBunga, nominalDenda, nominalPokok]);
-
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
   const [pageSize] = React.useState<number>(6);
@@ -508,7 +262,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-            {/* Sisa file tetap sama seperti sebelumnya */}
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
@@ -529,9 +282,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                           <Info className="h-4 w-4" />
                         </span>
                         <div className="leading-relaxed text-slate-700">
-                          Berikut ini merupakan tagihan yang sudah dapat dibayarkan
-                          pada periode ini serta harus dibayarkan sebelum tanggal
-                          jatuh tempo
+                          Berikut ini merupakan tagihan yang sudah dapat
+                          dibayarkan pada periode ini serta harus dibayarkan
+                          sebelum tanggal jatuh tempo
                         </div>
                       </div>
                     </div>
@@ -570,14 +323,20 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               <th className={cn("w-[108px]", thClass)}>
                                 Sisa Tagihan Pokok
                               </th>
-                              <th className={cn("w-[108px]", thClass, edgePadRight)}>
+                              <th
+                                className={cn(
+                                  "w-[108px]",
+                                  thClass,
+                                  edgePadRight,
+                                )}
+                              >
                                 Sisa Tagihan Bunga
                               </th>
                             </tr>
                           </thead>
 
                           <tbody className="bg-white">
-                            <GracePeriodRow colSpan={7} />
+                            <GracePeriodInfoRow colSpan={7} />
 
                             {pagedBillsInMainTable.map((bill, idx) => {
                               const realIdx = (page - 1) * pageSize + idx;
@@ -595,44 +354,19 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                       onChange={() => {}}
                                     />
                                   </td>
-                                  <td
-                                    className={cn(
-                                      tdClass,
-                                      "font-medium text-slate-900",
-                                    )}
-                                  >
+                                  <td className={cn(tdClass, "font-medium text-slate-900")}>
                                     {bill.jatuhTempo}
                                   </td>
-                                  <td
-                                    className={cn(
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800",
-                                    )}
-                                  >
+                                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                     {bill.totalBelumDibayar}
                                   </td>
-                                  <td
-                                    className={cn(
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800",
-                                    )}
-                                  >
+                                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                     {bill.tagihanPokok}
                                   </td>
-                                  <td
-                                    className={cn(
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800",
-                                    )}
-                                  >
+                                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                     {bill.tagihanBunga}
                                   </td>
-                                  <td
-                                    className={cn(
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800",
-                                    )}
-                                  >
+                                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                     {bill.sisaPokok}
                                   </td>
                                   <td
@@ -662,7 +396,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                         {Math.min(billsInMainTable.length, page * pageSize)} dari{" "}
                         {billsInMainTable.length} entri
                       </div>
-                      <Pagination
+                      <AnggotaTablePagination
                         page={page}
                         pageCount={pageCount}
                         onPage={setPage}
@@ -703,7 +437,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                         </thead>
 
                         <tbody className="bg-white">
-                          <GracePeriodRow colSpan={7} />
+                          <GracePeriodInfoRow colSpan={7} />
 
                           {pagedBillsInMainTable.map((bill, idx) => {
                             const realIdx = idx;
@@ -727,44 +461,19 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                     }}
                                   />
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "font-medium text-slate-900",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "font-medium text-slate-900")}>
                                   {bill.jatuhTempo}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.totalBelumDibayar}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.tagihanPokok}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.tagihanBunga}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.sisaPokok}
                                 </td>
                                 <td
@@ -808,10 +517,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     </span>
                   </button>
 
-                  <div
-                    className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
-                  >
-                    <UpcomingBillsAccordion open={openUpcoming} rows={upcomingRows} />
+                  <div className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}>
+                    <UpcomingBillsAccordionView2 open={openUpcoming} rows={upcomingRows} />
                   </div>
                 </div>
               ) : null}
@@ -830,10 +537,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     ["Total Denda", "0"],
                     ["Total Tagihan", "2.708.333"],
                   ].map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex items-center justify-between gap-3"
-                    >
+                    <div key={k} className="flex items-center justify-between gap-3">
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -846,10 +550,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     ["Angsuran Lunas", "0"],
                     ["Angsuran Seharusnya", "0"],
                   ].map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex items-center justify-between gap-3"
-                    >
+                    <div key={k} className="flex items-center justify-between gap-3">
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -857,150 +558,26 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 </div>
               </Card>
 
-              <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
-                <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
-                <Separator className="my-3 bg-slate-200/70" />
-
-                <div className="grid gap-3">
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      {isPelunasan
-                        ? "Tanggal Efektif Pelunasan*"
-                        : "Tanggal Efektif Bayar*"}
-                    </Label>
-                    <div className="relative">
-                      <Input
-                        value={tanggalEfektif}
-                        onChange={(e) => setTanggalEfektif(e.target.value)}
-                        className="h-10 rounded-xl border-slate-200 bg-white pr-10"
-                      />
-                      <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                    </div>
-                  </div>
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
-                    <Select
-                      value={jenisTransaksi}
-                      onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
-                    >
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        {transactionTypes.map((t) => (
-                          <SelectItem key={t} value={t}>
-                            {t}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Kolektor*</Label>
-                    <Select value={kolektor} onValueChange={setKolektor}>
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
-                        <SelectItem value="Kolektor A">Kolektor A</SelectItem>
-                        <SelectItem value="Kolektor B">Kolektor B</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {isRincian ? (
-                    <>
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
-                        <Input
-                          value={nominalPokok}
-                          onChange={(e) => setNominalPokok(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      </div>
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
-                        <Input
-                          value={nominalBunga}
-                          onChange={(e) => setNominalBunga(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      </div>
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">Nominal Denda*</Label>
-                        <Input
-                          value={nominalDenda}
-                          onChange={(e) => setNominalDenda(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="grid gap-1.5">
-                      <Label className="text-xs text-slate-600">
-                        {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
-                      </Label>
-
-                      {isPelunasan ? (
-                        <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
-                          {nominalPelunasan}
-                        </div>
-                      ) : (
-                        <Input
-                          value={nominal}
-                          onChange={(e) => setNominal(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      )}
-                    </div>
-                  )}
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Tabungan</Label>
-                    <Select value={tabungan} onValueChange={setTabungan}>
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
-                        <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Keterangan</Label>
-                    <Input
-                      value={keterangan}
-                      onChange={(e) => setKeterangan(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-white"
-                    />
-                  </div>
-
-                  {isRincian ? (
-                    <div className="pt-1">
-                      <div className="text-xs font-semibold text-slate-600">
-                        Total Pembayaran
-                      </div>
-                      <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
-                        {formatIdrLike(totalRincian)},00
-                      </div>
-                    </div>
-                  ) : null}
-
-                  <Button className="mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
-                    <CheckSquare className="mr-2 h-4 w-4" />
-                    Bayar Tagihan
-                  </Button>
-                </div>
-              </Card>
+              <TransactionFormCardView2
+                tanggalEfektif={tanggalEfektif}
+                setTanggalEfektif={setTanggalEfektif}
+                jenisTransaksi={jenisTransaksi}
+                setJenisTransaksi={setJenisTransaksi}
+                kolektor={kolektor}
+                setKolektor={setKolektor}
+                nominal={nominal}
+                setNominal={setNominal}
+                nominalPokok={nominalPokok}
+                setNominalPokok={setNominalPokok}
+                nominalBunga={nominalBunga}
+                setNominalBunga={setNominalBunga}
+                nominalDenda={nominalDenda}
+                setNominalDenda={setNominalDenda}
+                tabungan={tabungan}
+                setTabungan={setTabungan}
+                keterangan={keterangan}
+                setKeterangan={setKeterangan}
+              />
             </div>
           </div>
         </div>
