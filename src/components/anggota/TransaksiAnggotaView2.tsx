@@ -324,8 +324,12 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                         </th>
                         <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
                         <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
-                        <th className="w-[130px] px-3 py-2.5">Sisa Tagihan Pokok</th>
-                        <th className="w-[130px] px-3 py-2.5">Sisa Tagihan Bunga</th>
+                        <th className="w-[130px] px-3 py-2.5">
+                          Sisa Tagihan Pokok
+                        </th>
+                        <th className="w-[130px] px-3 py-2.5">
+                          Sisa Tagihan Bunga
+                        </th>
                       </tr>
                     </thead>
 
@@ -333,7 +337,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       <GracePeriodRow colSpan={7} />
 
                       {billsInMainTable.map((bill, idx) => (
-                        <tr key={idx} className="border-t border-slate-200 text-sm">
+                        <tr
+                          key={idx}
+                          className="border-t border-slate-200 text-sm"
+                        >
                           <td className="px-3 py-2.5">
                             <input
                               type="checkbox"
@@ -368,31 +375,36 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               </div>
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
-              <button
-                type="button"
-                onClick={() => setOpenUpcoming((v) => !v)}
-                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
-                aria-expanded={openUpcoming}
-              >
-                <span className="uppercase tracking-wide">
-                  Perkiraan Tagihan Mendatang
-                </span>
-                <span
-                  className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
-                    openUpcoming ? "rotate-0" : "rotate-180",
-                  )}
-                  aria-hidden="true"
+            {/* Hide 'Perkiraan Tagihan Mendatang' when Pelunasan */}
+            {!isPelunasan ? (
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
+                <button
+                  type="button"
+                  onClick={() => setOpenUpcoming((v) => !v)}
+                  className="flex w-full items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
+                  aria-expanded={openUpcoming}
                 >
-                  <ChevronUp className="h-4.5 w-4.5" />
-                </span>
-              </button>
+                  <span className="uppercase tracking-wide">
+                    Perkiraan Tagihan Mendatang
+                  </span>
+                  <span
+                    className={cn(
+                      "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
+                      openUpcoming ? "rotate-0" : "rotate-180",
+                    )}
+                    aria-hidden="true"
+                  >
+                    <ChevronUp className="h-4.5 w-4.5" />
+                  </span>
+                </button>
 
-              <div className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}>
-                <UpcomingBillsAccordion open={openUpcoming} />
+                <div
+                  className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
+                >
+                  <UpcomingBillsAccordion open={openUpcoming} />
+                </div>
               </div>
-            </div>
+            ) : null}
           </Card>
         </div>
 
@@ -401,7 +413,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
           <div className="space-y-3">
             <SectionHighlight title="Pembayaran Angsuran" />
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-              <div className="text-sm font-semibold text-slate-900">RINGKASAN TAGIHAN</div>
+              <div className="text-sm font-semibold text-slate-900">
+                RINGKASAN TAGIHAN
+              </div>
               <Separator className="my-3 bg-slate-200/70" />
               <div className="space-y-2 text-sm">
                 {[
@@ -410,7 +424,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Total Denda", "0"],
                   ["Total Tagihan", "2.708.333"],
                 ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3">
+                  <div
+                    key={k}
+                    className="flex items-center justify-between gap-3"
+                  >
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -423,7 +440,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Angsuran Lunas", "0"],
                   ["Angsuran Seharusnya", "0"],
                 ].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3">
+                  <div
+                    key={k}
+                    className="flex items-center justify-between gap-3"
+                  >
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -439,7 +459,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             <div className="grid gap-3">
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">
-                  {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
+                  {isPelunasan
+                    ? "Tanggal Efektif Pelunasan*"
+                    : "Tanggal Efektif Bayar*"}
                 </Label>
                 <div className="relative">
                   <Input
@@ -559,7 +581,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               {isRincian ? (
                 <div className="pt-1">
-                  <div className="text-xs font-semibold text-slate-600">Total Pembayaran</div>
+                  <div className="text-xs font-semibold text-slate-600">
+                    Total Pembayaran
+                  </div>
                   <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
                     {formatIdrLike(totalRincian)},00
                   </div>
