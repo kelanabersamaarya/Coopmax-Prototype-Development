@@ -1,4 +1,5 @@
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+/anggota/transaksi, Pinjaman -> /loan-products) sehingga navigasi tidak 'kembali ke home' dan terlihat seperti menghilangkan menu lainnya.">
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -90,6 +91,12 @@ const implementedRoutes = new Set([
   "/anggota/transaksi",
 ]);
 
+function resolveNavTo(to: string) {
+  if (to === "/anggota") return "/anggota/transaksi";
+  if (to === "/pinjaman") return "/loan-products";
+  return to;
+}
+
 function SidebarPromo() {
   return (
     <div className="rounded-3xl border border-violet-200 bg-white p-4 shadow-sm">
@@ -131,7 +138,9 @@ function SidebarPromo() {
 
 function SidebarNavItem({ item }: { item: NavItem }) {
   const Icon = item.icon;
-  const isReal = implementedRoutes.has(item.to);
+
+  const resolvedTo = resolveNavTo(item.to);
+  const isReal = implementedRoutes.has(resolvedTo);
 
   const common =
     "group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition";
@@ -158,7 +167,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 
   return (
     <NavLink
-      to={item.to}
+      to={resolvedTo}
       className={({ isActive }) =>
         cn(
           common,
