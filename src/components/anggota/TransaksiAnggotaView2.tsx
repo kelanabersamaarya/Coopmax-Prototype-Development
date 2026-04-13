@@ -25,6 +25,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
+import SectionHighlight from "@/components/anggota/SectionHighlight";
 
 type Props = {
   nasabah: {
@@ -224,51 +225,54 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
       <div className="grid gap-4 lg:grid-cols-[260px_1fr_320px_180px]">
         {/* PINJAMAN BILLING */}
-        <Card className="rounded-2xl border-slate-200/70 bg-[#12a3b4] p-4 text-white shadow-sm">
-          <div className="text-sm font-extrabold tracking-wide">
-            PINJAMAN BILLING
-          </div>
-
-          <div className="mt-4 space-y-3 text-sm">
-            <div>
-              <div className="text-white/85">No. Rekening Pinjaman</div>
-              <div className="mt-0.5 text-base font-extrabold">PB260001</div>
+        <div className="space-y-3">
+          <SectionHighlight title="Informasi Rekening" />
+          <Card className="rounded-2xl border-slate-200/70 bg-[#12a3b4] p-4 text-white shadow-sm">
+            <div className="text-sm font-extrabold tracking-wide">
+              PINJAMAN BILLING
             </div>
 
-            <div>
-              <div className="text-white/85">Skema Tagihan</div>
-              <div className="mt-0.5 font-semibold">
-                Tagihan Diterbitkan Per Periode
+            <div className="mt-4 space-y-3 text-sm">
+              <div>
+                <div className="text-white/85">No. Rekening Pinjaman</div>
+                <div className="mt-0.5 text-base font-extrabold">PB260001</div>
+              </div>
+
+              <div>
+                <div className="text-white/85">Skema Tagihan</div>
+                <div className="mt-0.5 font-semibold">
+                  Tagihan Diterbitkan Per Periode
+                </div>
+              </div>
+
+              <div>
+                <div className="text-white/85">Satuan Grace Period</div>
+                <div className="mt-0.5 font-semibold">Bulan</div>
+              </div>
+
+              <div>
+                <div className="text-white/85">Durasi Grace Period</div>
+                <div className="mt-0.5 font-semibold">3</div>
+              </div>
+
+              <div>
+                <div className="text-white/85">Sisa Pokok Pinjaman</div>
+                <div className="mt-0.5 text-base font-extrabold">
+                  10.000.000,00
+                </div>
               </div>
             </div>
 
-            <div>
-              <div className="text-white/85">Satuan Grace Period</div>
-              <div className="mt-0.5 font-semibold">Bulan</div>
+            <div className="mt-4 grid gap-2">
+              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
+                Riwayat Transaksi
+              </Button>
+              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
+                Simulasi Tunggakan
+              </Button>
             </div>
-
-            <div>
-              <div className="text-white/85">Durasi Grace Period</div>
-              <div className="mt-0.5 font-semibold">3</div>
-            </div>
-
-            <div>
-              <div className="text-white/85">Sisa Pokok Pinjaman</div>
-              <div className="mt-0.5 text-base font-extrabold">
-                10.000.000,00
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 grid gap-2">
-            <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
-              Riwayat Transaksi
-            </Button>
-            <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
-              Simulasi Tunggakan
-            </Button>
-          </div>
-        </Card>
+          </Card>
+        </div>
 
         {/* INFORMASI TAGIHAN DAN DENDA */}
         <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">

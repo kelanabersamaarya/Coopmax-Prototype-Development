@@ -25,6 +25,7 @@ import {
   Info,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
+import SectionHighlight from "@/components/anggota/SectionHighlight";
 
 type Props = {
   nasabah: {
@@ -129,48 +130,52 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[260px_1fr_520px]">
         {/* Left: Pinjaman billing */}
-        <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-          <div className="rounded-2xl bg-sky-600 px-4 py-4 text-white shadow-sm ring-1 ring-sky-700/20">
-            <div className="text-sm font-extrabold tracking-wide">
-              PINJAMAN BILLING
+        <div className="space-y-3">
+          <SectionHighlight title="Informasi Rekening" />
+
+          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
+            <div className="rounded-2xl bg-sky-600 px-4 py-4 text-white shadow-sm ring-1 ring-sky-700/20">
+              <div className="text-sm font-extrabold tracking-wide">
+                PINJAMAN BILLING
+              </div>
+              <div className="mt-4 space-y-2 text-sm">
+                <div className="text-white/80">No. Rekening Pinjaman</div>
+                <div className="text-base font-extrabold">PB260001</div>
+
+                <Separator className="my-3 bg-white/15" />
+
+                <div className="text-white/80">Skema Tagihan</div>
+                <div className="font-semibold">Tagihan Sesuai Jadwal Angsuran</div>
+
+                <div className="mt-3 text-white/80">Satuan Grace Period</div>
+                <div className="font-semibold">Bulan</div>
+
+                <div className="mt-3 text-white/80">Durasi Grace Period</div>
+                <div className="font-semibold">3</div>
+
+                <Separator className="my-3 bg-white/15" />
+
+                <div className="text-white/80">Sisa Pokok Pinjaman</div>
+                <div className="text-base font-extrabold">10.000.000,00</div>
+              </div>
             </div>
-            <div className="mt-4 space-y-2 text-sm">
-              <div className="text-white/80">No. Rekening Pinjaman</div>
-              <div className="text-base font-extrabold">PB260001</div>
 
-              <Separator className="my-3 bg-white/15" />
-
-              <div className="text-white/80">Skema Tagihan</div>
-              <div className="font-semibold">Tagihan Sesuai Jadwal Angsuran</div>
-
-              <div className="mt-3 text-white/80">Satuan Grace Period</div>
-              <div className="font-semibold">Bulan</div>
-
-              <div className="mt-3 text-white/80">Durasi Grace Period</div>
-              <div className="font-semibold">3</div>
-
-              <Separator className="my-3 bg-white/15" />
-
-              <div className="text-white/80">Sisa Pokok Pinjaman</div>
-              <div className="text-base font-extrabold">10.000.000,00</div>
+            <div className="mt-3 grid gap-2">
+              <Button
+                variant="outline"
+                className="h-10 rounded-xl border-slate-200 bg-white text-slate-800 hover:bg-slate-50"
+              >
+                Riwayat Transaksi
+              </Button>
+              <Button
+                variant="outline"
+                className="h-10 rounded-xl border-slate-200 bg-white text-slate-800 hover:bg-slate-50"
+              >
+                Simulasi Tunggakan
+              </Button>
             </div>
-          </div>
-
-          <div className="mt-3 grid gap-2">
-            <Button
-              variant="outline"
-              className="h-10 rounded-xl border-slate-200 bg-white text-slate-800 hover:bg-slate-50"
-            >
-              Riwayat Transaksi
-            </Button>
-            <Button
-              variant="outline"
-              className="h-10 rounded-xl border-slate-200 bg-white text-slate-800 hover:bg-slate-50"
-            >
-              Simulasi Tunggakan
-            </Button>
-          </div>
-        </Card>
+          </Card>
+        </div>
 
         {/* Middle: Detail Angsuran */}
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
@@ -216,7 +221,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 </thead>
 
                 <tbody className="bg-white">
-                  {/* Grace period header INSIDE table body (seperti referensi) */}
                   <tr className="border-t border-slate-200">
                     <td colSpan={7} className="px-4 py-3">
                       <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
@@ -328,7 +332,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </div>
             </Card>
 
-            {/* Tombol aksi diposisikan di kanan ringkasan (desktop), stack (mobile) */}
             <div className="grid gap-2">
               <Button className="h-11 justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
                 <ReceiptText className="mr-2 h-4 w-4" />
