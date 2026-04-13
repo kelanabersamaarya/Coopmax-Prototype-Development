@@ -90,6 +90,8 @@ const implementedRoutes = new Set([
   "/loan-products",
   "/loan-products/new",
   "/loans/new",
+  "/loans/applications",
+  "/loans/applications/new",
   "/anggota/transaksi",
 ]);
 
@@ -194,14 +196,14 @@ export default function Index() {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="mx-auto w-full max-w-6xl px-4 py-6 md:px-8">
+    <div className="min-h-screen overflow-x-hidden bg-[hsl(var(--app-bg))]">
+      <div className="w-full px-3 py-6 md:px-6">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div />
           <div className="hidden md:block" />
         </header>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-[320px_1fr]">
+        <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-[320px_minmax(0,1fr)]">
           <aside className="space-y-4 px-0">
             <SidebarPromo />
 
@@ -243,7 +245,7 @@ export default function Index() {
             </Card>
           </aside>
 
-          <div>{isHome ? <Outlet /> : <Outlet />}</div>
+          <div className="min-w-0">{isHome ? <Outlet /> : <Outlet />}</div>
         </div>
       </div>
     </div>
