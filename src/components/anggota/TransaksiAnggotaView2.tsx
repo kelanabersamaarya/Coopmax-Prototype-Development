@@ -4,18 +4,8 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import {
-  CalendarDays,
   Info,
   ChevronUp,
   History,
@@ -176,7 +166,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const edgePadRight = "pr-3";
 
   return (
-    <div className="w-full px-0 sm:px-1 md:px-2">
+    <div className="w-full px-0">
       <div className="space-y-5">
         <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
