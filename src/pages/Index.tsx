@@ -197,17 +197,23 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="w-full px-3 py-6 md:px-6">
+      <div className="w-full px-[var(--shell-gutter)] py-6 md:py-8">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div />
           <div className="hidden md:block" />
         </header>
 
-        <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-[215px_minmax(0,1fr)]">
-          <aside className="space-y-4 px-0">
+        <div
+          className={cn(
+            "mt-6 grid min-w-0 gap-[var(--shell-gap)]",
+            // Mobile: stack, Desktop: sidebar + content (sidebar width fluid)
+            "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
+          )}
+        >
+          <aside className="min-w-0 space-y-4 px-0">
             <SidebarPromo />
 
-            <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
+            <Card className="min-w-0 rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
               {/* no scroll on sidebar */}
               <div className="px-0 py-1">
                 <div className="space-y-1">
@@ -246,10 +252,10 @@ export default function Index() {
             </Card>
           </aside>
 
-          {/* Konten: jangan biarkan wrapper ikut horizontal scroll saat zoom */}
-          <div className="min-w-0 overflow-x-hidden">
+          {/* Konten: min-w-0 penting agar tidak "dorong" grid melebar saat zoom */}
+          <main className="min-w-0 overflow-x-hidden">
             {isHome ? <Outlet /> : <Outlet />}
-          </div>
+          </main>
         </div>
       </div>
     </div>

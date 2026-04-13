@@ -48,6 +48,11 @@
     --app-bg: 230 55% 97%;
     --app-accent: 252 83% 58%;
     --app-accent-2: 266 85% 55%;
+
+    /* Fluid layout tokens (helps with zoom up to ~125%) */
+    --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
+    --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
+    --sidebar-w: clamp(12.25rem, 18vw, 15.5rem); /* ~196px..248px */
   }
 
   .dark {
@@ -91,6 +96,10 @@
     --app-bg: 240 12% 12%;
     --app-accent: 252 83% 68%;
     --app-accent-2: 266 85% 66%;
+
+    --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
+    --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
+    --sidebar-w: clamp(12.25rem, 18vw, 15.5rem);
   }
 }
 
