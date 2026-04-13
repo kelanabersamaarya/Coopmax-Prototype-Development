@@ -101,7 +101,7 @@ function formatIdrLike(n: number) {
 function GracePeriodRow({ colSpan }: { colSpan: number }) {
   return (
     <tr className="border-t border-slate-200">
-      <td colSpan={colSpan} className="px-4 py-3">
+      <td colSpan={colSpan} className="px-3 py-2.5">
         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
           <div className="flex items-start gap-2">
             <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -278,6 +278,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
 
+  const thClass = "px-3 py-2.5";
+  const tdClass = "px-3 py-2.5";
+
   return (
     <div className="space-y-5">
       <AnggotaAccountTabs
@@ -361,15 +364,15 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </div>
               </div>
 
-              {/* Saat Pelunasan: samakan tabel dengan View 1 */}
+              {/* Saat Pelunasan: tabel dibuat lebih compact */}
               {isPelunasan ? (
                 <>
                   <div className="mt-3 overflow-hidden rounded-2xl ring-1 ring-slate-200">
                     <div className="overflow-auto">
-                      <table className="w-full min-w-[860px] border-collapse">
+                      <table className="w-full min-w-[760px] border-collapse text-[13px]">
                         <thead className="bg-white">
-                          <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                            <th className="w-[42px] px-4 py-3">
+                          <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                            <th className={cn("w-[42px]", thClass)}>
                               <input
                                 ref={headerCheckboxRef}
                                 type="checkbox"
@@ -379,20 +382,22 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 onChange={() => {}}
                               />
                             </th>
-                            <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
-                            <th className="w-[190px] px-4 py-3">
+                            <th className={cn("w-[140px]", thClass)}>
+                              Jatuh Tempo
+                            </th>
+                            <th className={cn("w-[190px]", thClass)}>
                               Total Tagihan Belum Dibayar
                             </th>
-                            <th className="w-[140px] px-4 py-3">
+                            <th className={cn("w-[130px]", thClass)}>
                               Tagihan Pokok
                             </th>
-                            <th className="w-[140px] px-4 py-3">
+                            <th className={cn("w-[130px]", thClass)}>
                               Tagihan Bunga
                             </th>
-                            <th className="w-[140px] px-4 py-3">
+                            <th className={cn("w-[140px]", thClass)}>
                               Sisa Tagihan Pokok
                             </th>
-                            <th className="w-[140px] px-4 py-3">
+                            <th className={cn("w-[140px]", thClass)}>
                               Sisa Tagihan Bunga
                             </th>
                           </tr>
@@ -408,7 +413,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 key={`${r.jatuhTempo}-${realIdx}`}
                                 className="border-t border-slate-100 text-sm"
                               >
-                                <td className="px-4 py-3">
+                                <td className={tdClass}>
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
@@ -417,22 +422,52 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                     onChange={() => {}}
                                   />
                                 </td>
-                                <td className="px-4 py-3 font-medium text-slate-900">
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "font-medium text-slate-900",
+                                  )}
+                                >
                                   {r.jatuhTempo}
                                 </td>
-                                <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "text-right tabular-nums text-slate-800",
+                                  )}
+                                >
                                   {r.totalBelumDibayar}
                                 </td>
-                                <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "text-right tabular-nums text-slate-800",
+                                  )}
+                                >
                                   {r.tagihanPokok}
                                 </td>
-                                <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "text-right tabular-nums text-slate-800",
+                                  )}
+                                >
                                   {r.tagihanBunga}
                                 </td>
-                                <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "text-right tabular-nums text-slate-800",
+                                  )}
+                                >
                                   {r.sisaPokok}
                                 </td>
-                                <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "text-right tabular-nums text-slate-800",
+                                  )}
+                                >
                                   {r.sisaBunga}
                                 </td>
                               </tr>
@@ -446,7 +481,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div className="text-xs text-slate-600">
                       Menampilkan{" "}
-                      {(billingRows.length === 0 ? 0 : (page - 1) * pageSize + 1)}{" "}
+                      {billingRows.length === 0
+                        ? 0
+                        : (page - 1) * pageSize + 1}{" "}
                       sampai {Math.min(billingRows.length, page * pageSize)} dari{" "}
                       {billingRows.length} entri
                     </div>
@@ -456,10 +493,10 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               ) : (
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
-                    <table className="w-full min-w-[740px] border-collapse">
+                    <table className="w-full min-w-[700px] border-collapse text-[13px]">
                       <thead className="bg-white">
-                        <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                          <th className="w-[40px] px-3 py-2.5">
+                        <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                          <th className={cn("w-[40px]", thClass)}>
                             <input
                               ref={headerCheckboxRef}
                               type="checkbox"
@@ -471,16 +508,16 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               }}
                             />
                           </th>
-                          <th className="w-[120px] px-3 py-2.5">Jatuh Tempo</th>
-                          <th className="w-[170px] px-3 py-2.5">
+                          <th className={cn("w-[120px]", thClass)}>Jatuh Tempo</th>
+                          <th className={cn("w-[170px]", thClass)}>
                             Total Tagihan Belum Dibayar
                           </th>
-                          <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
-                          <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
-                          <th className="w-[130px] px-3 py-2.5">
+                          <th className={cn("w-[120px]", thClass)}>Tagihan Pokok</th>
+                          <th className={cn("w-[120px]", thClass)}>Tagihan Bunga</th>
+                          <th className={cn("w-[130px]", thClass)}>
                             Sisa Tagihan Pokok
                           </th>
-                          <th className="w-[130px] px-3 py-2.5">
+                          <th className={cn("w-[130px]", thClass)}>
                             Sisa Tagihan Bunga
                           </th>
                         </tr>
@@ -496,7 +533,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               key={`${r.jatuhTempo}-${realIdx}`}
                               className="border-t border-slate-200 text-sm"
                             >
-                              <td className="px-3 py-2.5">
+                              <td className={tdClass}>
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
@@ -511,22 +548,47 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td className="px-3 py-2.5 font-medium text-slate-900">
+                              <td className={cn(tdClass, "font-medium text-slate-900")}>
                                 {r.jatuhTempo}
                               </td>
-                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {r.totalBelumDibayar}
                               </td>
-                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {r.tagihanPokok}
                               </td>
-                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {r.tagihanBunga}
                               </td>
-                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {r.sisaPokok}
                               </td>
-                              <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {r.sisaBunga}
                               </td>
                             </tr>
@@ -557,10 +619,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   ["Total Denda", "0"],
                   ["Total Tagihan", "2.708.333"],
                 ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-center justify-between gap-3"
-                  >
+                  <div key={k} className="flex items-center justify-between gap-3">
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -573,10 +632,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   ["Angsuran Lunas", "0"],
                   ["Angsuran Seharusnya", "0"],
                 ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-center justify-between gap-3"
-                  >
+                  <div key={k} className="flex items-center justify-between gap-3">
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -607,9 +663,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               </div>
 
               <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">
-                  Jenis Transaksi*
-                </Label>
+                <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
                 <Select
                   value={jenisTransaksi}
                   onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
@@ -634,9 +688,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih Kolektor">
-                      Pilih Kolektor
-                    </SelectItem>
+                    <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
                     <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                     <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                   </SelectContent>
@@ -646,9 +698,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               {isRincian ? (
                 <>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      Nominal Pokok*
-                    </Label>
+                    <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
                     <Input
                       value={nominalPokok}
                       onChange={(e) => setNominalPokok(e.target.value)}
@@ -657,9 +707,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      Nominal Bunga*
-                    </Label>
+                    <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
                     <Input
                       value={nominalBunga}
                       onChange={(e) => setNominalBunga(e.target.value)}
@@ -668,9 +716,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      Nominal Denda*
-                    </Label>
+                    <Label className="text-xs text-slate-600">Nominal Denda*</Label>
                     <Input
                       value={nominalDenda}
                       onChange={(e) => setNominalDenda(e.target.value)}
@@ -707,9 +753,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Tanpa Tabungan">
-                      Tanpa Tabungan
-                    </SelectItem>
+                    <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
                     <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
                   </SelectContent>
                 </Select>

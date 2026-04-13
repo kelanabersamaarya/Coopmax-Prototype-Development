@@ -246,6 +246,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
 
+  const thClass = "px-3 py-2.5";
+  const tdClass = "px-3 py-2.5";
+
   return (
     <div className="mt-6">
       <AnggotaAccountTabs
@@ -327,10 +330,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
             <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
               <div className="overflow-auto">
-                <table className="w-full min-w-[860px] border-collapse">
+                <table className="w-full min-w-[760px] border-collapse text-[13px]">
                   <thead className="bg-white">
-                    <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                      <th className="w-[42px] px-4 py-3">
+                    <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                      <th className={cn("w-[42px]", thClass)}>
                         <input
                           ref={headerCheckboxRef}
                           type="checkbox"
@@ -343,22 +346,24 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                           }}
                         />
                       </th>
-                      <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
-                      <th className="w-[190px] px-4 py-3">
+                      <th className={cn("w-[140px]", thClass)}>Jatuh Tempo</th>
+                      <th className={cn("w-[190px]", thClass)}>
                         Total Tagihan Belum Dibayar
                       </th>
-                      <th className="w-[140px] px-4 py-3">Tagihan Pokok</th>
-                      <th className="w-[140px] px-4 py-3">Tagihan Bunga</th>
-                      <th className="w-[140px] px-4 py-3">
+                      <th className={cn("w-[130px]", thClass)}>Tagihan Pokok</th>
+                      <th className={cn("w-[130px]", thClass)}>Tagihan Bunga</th>
+                      <th className={cn("w-[140px]", thClass)}>
                         Sisa Tagihan Pokok
                       </th>
-                      <th className="w-[140px] px-4 py-3">Sisa Tagihan Bunga</th>
+                      <th className={cn("w-[140px]", thClass)}>
+                        Sisa Tagihan Bunga
+                      </th>
                     </tr>
                   </thead>
 
                   <tbody className="bg-white">
                     <tr className="border-t border-slate-200">
-                      <td colSpan={7} className="px-4 py-3">
+                      <td colSpan={7} className={tdClass}>
                         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
                           <div className="flex items-start gap-2">
                             <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -385,13 +390,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       return (
                         <tr
                           key={`${r.jatuhTempo}-${realIdx}`}
-                          className="border-t border-slate-100 text-sm"
+                          className="border-t border-slate-100"
                         >
-                          <td className="px-4 py-3">
+                          <td className={tdClass}>
                             <input
                               type="checkbox"
                               aria-label={`Pilih row ${realIdx + 1}`}
-                              checked={isPelunasan ? true : selected[realIdx] ?? false}
+                              checked={
+                                isPelunasan ? true : selected[realIdx] ?? false
+                              }
                               disabled={isPelunasan}
                               onChange={(e) => {
                                 const next = e.target.checked;
@@ -403,22 +410,47 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                               }}
                             />
                           </td>
-                          <td className="px-4 py-3 font-medium text-slate-900">
+                          <td className={cn(tdClass, "font-medium text-slate-900")}>
                             {r.jatuhTempo}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.totalBelumDibayar}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.tagihanPokok}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.tagihanBunga}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.sisaPokok}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.sisaBunga}
                           </td>
                         </tr>
@@ -431,7 +463,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
             <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-xs text-slate-600">
-                Menampilkan {(rows.length === 0 ? 0 : (page - 1) * pageSize + 1)} sampai{" "}
+                Menampilkan{" "}
+                {rows.length === 0 ? 0 : (page - 1) * pageSize + 1} sampai{" "}
                 {Math.min(rows.length, page * pageSize)} dari {rows.length} entri
               </div>
               <Pagination page={page} pageCount={pageCount} onPage={setPage} />
