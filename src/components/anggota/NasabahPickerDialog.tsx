@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { X, ChevronDown, Plus } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -182,16 +182,13 @@ export default function NasabahPickerDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          // lebih kecil dari sebelumnya dan tidak mentok layar
           "w-[calc(100vw-1.5rem)] sm:w-[calc(100vw-2.5rem)]",
           "max-w-[920px]",
-          // batasi tinggi modal agar nyaman saat zoom 110-125%
           "max-h-[82vh]",
           "overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-xl",
         )}
       >
-        {/* Header tetap, body yang scroll */}
         <div className="flex items-center justify-between gap-3 px-6 py-5">
           <div className="text-2xl font-semibold tracking-tight text-slate-900">
             Nasabah
@@ -220,21 +217,11 @@ export default function NasabahPickerDialog({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 hover:bg-slate-100"
-              onClick={() => onOpenChange(false)}
-              aria-label="Tutup"
-            >
-              <X className="h-6 w-6" />
-            </button>
           </div>
         </div>
 
         <Separator className="bg-slate-200" />
 
-        {/* Body scroll */}
         <div className="max-h-[calc(82vh-84px)] overflow-y-auto px-6 py-5">
           <div className="flex flex-wrap items-center gap-3">
             <div className="text-sm text-slate-700">Tampilkan</div>
@@ -384,7 +371,7 @@ export default function NasabahPickerDialog({
               onClick={() => onOpenChange(false)}
             >
               <span className="mr-3 inline-flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-400 text-white">
-                <X className="h-5 w-5" />
+                ×
               </span>
               Batalkan
             </Button>
