@@ -111,7 +111,7 @@ function formatIdrLike(n: number) {
 function GracePeriodRow({ colSpan }: { colSpan: number }) {
   return (
     <tr className="border-t border-slate-200">
-      <td colSpan={colSpan} className="px-3 py-2.5">
+      <td colSpan={colSpan} className="px-2 py-2.5">
         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
           <div className="flex items-start gap-2">
             <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -156,14 +156,14 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
         <table className="w-full min-w-[900px] border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
-              <th className="w-[130px] px-3 py-2.5">Jatuh Tempo</th>
-              <th className="w-[190px] px-3 py-2.5">
+              <th className="w-[130px] px-2 py-2.5">Jatuh Tempo</th>
+              <th className="w-[190px] px-2 py-2.5">
                 Total Tagihan Belum Dibayar
               </th>
-              <th className="w-[140px] px-3 py-2.5">Tagihan Pokok</th>
-              <th className="w-[140px] px-3 py-2.5">Tagihan Bunga</th>
-              <th className="w-[140px] px-3 py-2.5">Sisa Tagihan Pokok</th>
-              <th className="w-[140px] px-3 py-2.5">Sisa Tagihan Bunga</th>
+              <th className="w-[140px] px-2 py-2.5">Tagihan Pokok</th>
+              <th className="w-[140px] px-2 py-2.5">Tagihan Bunga</th>
+              <th className="w-[140px] px-2 py-2.5">Sisa Tagihan Pokok</th>
+              <th className="w-[140px] px-2 py-2.5">Sisa Tagihan Bunga</th>
             </tr>
           </thead>
 
@@ -171,22 +171,22 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
             <GracePeriodRow colSpan={6} />
             {upcomingRows.map((r, idx) => (
               <tr key={idx} className="border-t border-slate-200 text-sm">
-                <td className="px-3 py-2.5 font-medium text-slate-900">
+                <td className="px-2 py-2.5 font-medium text-slate-900">
                   {r.jatuhTempo}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                <td className="px-2 py-2.5 text-right tabular-nums text-slate-800">
                   {r.totalBelumDibayar}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                <td className="px-2 py-2.5 text-right tabular-nums text-slate-800">
                   {r.tagihanPokok}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                <td className="px-2 py-2.5 text-right tabular-nums text-slate-800">
                   {r.tagihanBunga}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                <td className="px-2 py-2.5 text-right tabular-nums text-slate-800">
                   {r.sisaPokok}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                <td className="px-2 py-2.5 text-right tabular-nums text-slate-800">
                   {r.sisaBunga}
                 </td>
               </tr>
@@ -365,8 +365,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
 
-  const thClass = "px-3 py-2.5";
-  const tdClass = "px-3 py-2.5";
+  // Tighten spacing: smaller horizontal padding for table cells (no font size changes).
+  const thClass = "px-2 py-2.5";
+  const tdClass = "px-2 py-2.5";
 
   return (
     <div className="space-y-5">
@@ -458,7 +459,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 </>
               ) : null}
 
-              {/* Saat Pelunasan: tabel dibuat lebih compact */}
               {isPelunasan ? (
                 <>
                   <div className="mt-0 overflow-hidden rounded-2xl ring-1 ring-slate-200">
@@ -516,52 +516,22 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                     onChange={() => {}}
                                   />
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "font-medium text-slate-900",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "font-medium text-slate-900")}>
                                   {bill.jatuhTempo}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.totalBelumDibayar}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.tagihanPokok}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.tagihanBunga}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.sisaPokok}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.sisaBunga}
                                 </td>
                               </tr>
@@ -582,11 +552,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       {Math.min(billsInMainTable.length, page * pageSize)} dari{" "}
                       {billsInMainTable.length} entri
                     </div>
-                    <Pagination
-                      page={page}
-                      pageCount={pageCount}
-                      onPage={setPage}
-                    />
+                    <Pagination page={page} pageCount={pageCount} onPage={setPage} />
                   </div>
                 </>
               ) : (
@@ -607,18 +573,12 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               }}
                             />
                           </th>
-                          <th className={cn("w-[120px]", thClass)}>
-                            Jatuh Tempo
-                          </th>
+                          <th className={cn("w-[120px]", thClass)}>Jatuh Tempo</th>
                           <th className={cn("w-[170px]", thClass)}>
                             Total Tagihan Belum Dibayar
                           </th>
-                          <th className={cn("w-[120px]", thClass)}>
-                            Tagihan Pokok
-                          </th>
-                          <th className={cn("w-[120px]", thClass)}>
-                            Tagihan Bunga
-                          </th>
+                          <th className={cn("w-[120px]", thClass)}>Tagihan Pokok</th>
+                          <th className={cn("w-[120px]", thClass)}>Tagihan Bunga</th>
                           <th className={cn("w-[130px]", thClass)}>
                             Sisa Tagihan Pokok
                           </th>
@@ -653,52 +613,22 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "font-medium text-slate-900",
-                                )}
-                              >
+                              <td className={cn(tdClass, "font-medium text-slate-900")}>
                                 {bill.jatuhTempo}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.totalBelumDibayar}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.tagihanPokok}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.tagihanBunga}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.sisaPokok}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.sisaBunga}
                               </td>
                             </tr>
@@ -711,7 +641,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               )}
             </div>
 
-            {/* Hide 'Perkiraan Tagihan Mendatang' when Pelunasan */}
             {!isPelunasan ? (
               <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
                 <button
@@ -734,12 +663,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   </span>
                 </button>
 
-                <div
-                  className={cn(
-                    "px-4 pb-4",
-                    openUpcoming ? "block" : "hidden",
-                  )}
-                >
+                <div className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}>
                   <UpcomingBillsAccordion open={openUpcoming} />
                 </div>
               </div>
@@ -763,10 +687,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Total Denda", "0"],
                   ["Total Tagihan", "2.708.333"],
                 ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-center justify-between gap-3"
-                  >
+                  <div key={k} className="flex items-center justify-between gap-3">
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -779,10 +700,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Angsuran Lunas", "0"],
                   ["Angsuran Seharusnya", "0"],
                 ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-center justify-between gap-3"
-                  >
+                  <div key={k} className="flex items-center justify-between gap-3">
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -813,9 +731,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               </div>
 
               <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">
-                  Jenis Transaksi*
-                </Label>
+                <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
                 <Select
                   value={jenisTransaksi}
                   onValueChange={(v) => setJenisTransaksi(v as TransactionType)}

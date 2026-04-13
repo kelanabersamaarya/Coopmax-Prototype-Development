@@ -246,8 +246,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
 
-  const thClass = "px-3 py-2.5";
-  const tdClass = "px-3 py-2.5";
+  // Tighten spacing: smaller horizontal padding for table cells (no font size changes).
+  const thClass = "px-2 py-2.5";
+  const tdClass = "px-2 py-2.5";
 
   return (
     <div className="mt-6">
