@@ -20,7 +20,6 @@ import {
   ReceiptText,
   ScrollText,
   CalendarDays,
-  CheckSquare,
   Info,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
@@ -231,11 +230,14 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                               <Info className="h-4 w-4" />
                             </span>
                             <div>
-                              <div className="font-semibold">Periode Grace Period</div>
+                              <div className="font-semibold">
+                                Periode Grace Period
+                              </div>
                               <div className="mt-0.5 text-slate-700">
                                 Berikut ini merupakan periode tagihan pinjaman
                                 yang termasuk ke dalam grace period. Selama
-                                periode grace period nasabah hanya membayar bunga.
+                                periode grace period nasabah hanya membayar
+                                bunga.
                               </div>
                             </div>
                           </div>
@@ -273,20 +275,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 </table>
               </div>
             </div>
-
-            {isPelunasan ? (
-              <div className="mt-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-slate-700">
-                <div className="flex items-start gap-2">
-                  <CheckSquare className="mt-0.5 h-4 w-4 text-emerald-700" />
-                  <div>
-                    <div className="font-semibold text-slate-900">Mode Pelunasan</div>
-                    <div className="mt-0.5 leading-relaxed text-slate-700">
-                      Semua rincian tagihan otomatis dipilih dan tidak bisa diubah.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
           </Card>
         </div>
 
@@ -309,7 +297,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     ["Total Denda", "0"],
                     ["Total Tagihan", "2.708.333"],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex items-center justify-between gap-3">
+                    <div
+                      key={k}
+                      className="flex items-center justify-between gap-3"
+                    >
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -322,7 +313,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     ["Angsuran Lunas", "0"],
                     ["Angsuran Seharusnya", "0"],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex items-center justify-between gap-3">
+                    <div
+                      key={k}
+                      className="flex items-center justify-between gap-3"
+                    >
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -332,7 +326,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             </div>
 
             <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-              <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
+              <div className="text-sm font-semibold text-slate-900">
+                TRANSAKSI
+              </div>
               <Separator className="my-3 bg-slate-200/70" />
 
               <div className="grid gap-3">
@@ -353,10 +349,14 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 </div>
 
                 <div className="grid gap-1.5">
-                  <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
+                  <Label className="text-xs text-slate-600">
+                    Jenis Transaksi*
+                  </Label>
                   <Select
                     value={jenisTransaksi}
-                    onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
+                    onValueChange={(v) =>
+                      setJenisTransaksi(v as TransactionType)
+                    }
                   >
                     <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                       <SelectValue />
@@ -368,7 +368,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <SelectItem value="Pembayaran Rincian Tagihan">
                         Pembayaran Rincian Tagihan
                       </SelectItem>
-                      <SelectItem value="Pelunasan">Pelunasan Pinjaman</SelectItem>
+                      <SelectItem value="Pelunasan">
+                        Pelunasan Pinjaman
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -380,7 +382,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                      <SelectItem value="Pilih Kolektor">
+                        Pilih Kolektor
+                      </SelectItem>
                       <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                       <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                     </SelectContent>
@@ -426,7 +430,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 ) : (
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">
-                      {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
+                      {isPelunasan
+                        ? "Nominal Pelunasan*"
+                        : "Nominal Pembayaran*"}
                     </Label>
 
                     {isPelunasan ? (
@@ -451,7 +457,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+                      <SelectItem value="Tanpa Tabungan">
+                        Tanpa Tabungan
+                      </SelectItem>
                       <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
                     </SelectContent>
                   </Select>
@@ -478,7 +486,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 ) : null}
 
                 <Button className="mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
-                  <CheckSquare className="mr-2 h-4 w-4" />
                   Bayar Tagihan
                 </Button>
               </div>
@@ -511,7 +518,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       </div>
 
       <div className="mt-5 text-xs text-slate-500">
-        Catatan: ini tampilan mock untuk anggota pertama (akan kita perluas untuk anggota lainnya).
+        Catatan: ini tampilan mock untuk anggota pertama (akan kita perluas untuk
+        anggota lainnya).
       </div>
 
       <div className="sr-only">{nasabah.nama}</div>
