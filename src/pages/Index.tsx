@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import {
   BadgeDollarSign,
   Bookmark,
@@ -41,7 +42,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
   {
     items: [
       { to: "/dashboard", label: "Dashboard", icon: Home },
-      { to: "/anggota", label: "Anggota", icon: Users },
+      // Anggota akan dirender sebagai menu collapsible khusus (lihat SidebarAnggotaMenu)
       { to: "/simpanan", label: "Simpanan", icon: Wallet },
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
       { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
@@ -91,7 +92,6 @@ const implementedRoutes = new Set([
 ]);
 
 function resolveNavTo(to: string) {
-  if (to === "/anggota") return "/anggota/transaksi";
   if (to === "/pinjaman") return "/loan-products";
   return to;
 }
@@ -215,7 +215,14 @@ export default function Index() {
                       ) : null}
 
                       <div className="space-y-1 px-2">
-                        {g.items.map((it) => (
+                        {/* Dashboard */}
+                        <SidebarNavItem item={g.items[0]!} />
+
+                        {/* Anggota (collapsible) tepat di bawah Dashboard */}
+                        <SidebarAnggotaMenu />
+
+                        {/* Sisa menu lainnya (mulai dari Simpanan dst) */}
+                        {g.items.slice(1).map((it) => (
                           <SidebarNavItem key={it.to} item={it} />
                         ))}
                       </div>
