@@ -250,15 +250,19 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                           />
                         </th>
                         <th className="w-[120px] px-3 py-2.5">Jatuh Tempo</th>
-                        <th className="w-[170px] px-3 py-2.5">
+                        <th className="w-[170px] px-3 py-2.5 text-right">
                           Total Tagihan Belum Dibayar
                         </th>
-                        <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
-                        <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
-                        <th className="w-[130px] px-3 py-2.5">
+                        <th className="w-[120px] px-3 py-2.5 text-right">
+                          Tagihan Pokok
+                        </th>
+                        <th className="w-[120px] px-3 py-2.5 text-right">
+                          Tagihan Bunga
+                        </th>
+                        <th className="w-[130px] px-3 py-2.5 text-right">
                           Sisa Tagihan Pokok
                         </th>
-                        <th className="w-[130px] px-3 py-2.5">
+                        <th className="w-[130px] px-3 py-2.5 text-right">
                           Sisa Tagihan Bunga
                         </th>
                       </tr>
@@ -283,19 +287,19 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                           <td className="px-3 py-2.5 font-medium text-slate-900">
                             {r.jatuhTempo}
                           </td>
-                          <td className="px-3 py-2.5 text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.totalBelumDibayar}
                           </td>
-                          <td className="px-3 py-2.5 text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.tagihanPokok}
                           </td>
-                          <td className="px-3 py-2.5 text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.tagihanBunga}
                           </td>
-                          <td className="px-3 py-2.5 text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.sisaPokok}
                           </td>
-                          <td className="px-3 py-2.5 text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.sisaBunga}
                           </td>
                         </tr>

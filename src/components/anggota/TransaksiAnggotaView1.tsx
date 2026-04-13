@@ -212,18 +212,20 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                           disabled={isPelunasan}
                         />
                       </th>
-                      <th className="w-[150px] px-4 py-3">
-                        Jatuh Tempo
-                      </th>
-                      <th className="w-[190px] px-4 py-3">
+                      <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
+                      <th className="w-[190px] px-4 py-3 text-right">
                         Total Tagihan Belum Dibayar
                       </th>
-                      <th className="w-[140px] px-4 py-3">Tagihan Pokok</th>
-                      <th className="w-[140px] px-4 py-3">Tagihan Bunga</th>
-                      <th className="w-[140px] px-4 py-3">
+                      <th className="w-[140px] px-4 py-3 text-right">
+                        Tagihan Pokok
+                      </th>
+                      <th className="w-[140px] px-4 py-3 text-right">
+                        Tagihan Bunga
+                      </th>
+                      <th className="w-[140px] px-4 py-3 text-right">
                         Sisa Tagihan Pokok
                       </th>
-                      <th className="w-[140px] px-4 py-3">
+                      <th className="w-[140px] px-4 py-3 text-right">
                         Sisa Tagihan Bunga
                       </th>
                     </tr>
@@ -269,19 +271,21 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         <td className="px-4 py-3 font-medium text-slate-900">
                           {r.jatuhTempo}
                         </td>
-                        <td className="px-4 py-3 text-slate-800">
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
                           {r.totalBelumDibayar}
                         </td>
-                        <td className="px-4 py-3 text-slate-800">
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
                           {r.tagihanPokok}
                         </td>
-                        <td className="px-4 py-3 text-slate-800">
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
                           {r.tagihanBunga}
                         </td>
-                        <td className="px-4 py-3 text-slate-800">
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
                           {r.sisaPokok}
                         </td>
-                        <td className="px-4 py-3 text-slate-800">{r.sisaBunga}</td>
+                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          {r.sisaBunga}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -381,9 +385,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <SelectItem value="Pembayaran Rincian Tagihan">
                         Pembayaran Rincian Tagihan
                       </SelectItem>
-                      <SelectItem value="Pelunasan">
-                        Pelunasan Pinjaman
-                      </SelectItem>
+                      <SelectItem value="Pelunasan">Pelunasan Pinjaman</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
