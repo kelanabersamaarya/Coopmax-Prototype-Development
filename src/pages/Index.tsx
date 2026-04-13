@@ -416,11 +416,8 @@ export default function Index() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="mx-auto w-full max-w-6xl px-4 py-6 md:px-8">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <Link to="/" className="inline-flex items-center gap-3">
-            <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[hsl(var(--app-accent))] text-white shadow-sm">
-              <CreditCard className="h-5 w-5" />
-            </div>
-          </Link>
+          {/* Logo/icon header DIHILANGKAN sesuai permintaan */}
+          <div />
 
           <div className="hidden md:block" />
         </header>
