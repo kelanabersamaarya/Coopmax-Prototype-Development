@@ -66,16 +66,20 @@ export default function LoanApplications() {
 
   return (
     <div className="min-h-[calc(100vh-2rem)] rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
-      <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
-            Daftar Pengajuan Pinjaman
-          </h1>
+          <div className="flex items-baseline gap-3">
+            <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
+              Daftar Pengajuan Pinjaman
+            </h1>
+            <div className="text-sm font-semibold text-slate-500">Daftar</div>
+          </div>
         </div>
 
         <Button
           asChild
-          className="mt-2 h-11 rounded-full bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))] md:mt-0"
+          variant="outline"
+          className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
         >
           <Link to="/loans/applications/new">
             <Plus className="mr-2 h-4 w-4" />
