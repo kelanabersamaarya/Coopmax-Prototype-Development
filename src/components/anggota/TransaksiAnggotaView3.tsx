@@ -17,7 +17,6 @@ import { cn } from "@/lib/utils";
 import {
   CalendarDays,
   CheckSquare,
-  FileText,
   Info,
   Printer,
   ReceiptText,
@@ -202,24 +201,16 @@ function UpcomingBillsAccordion({ open, rows }: { open: boolean; rows: Row[] }) 
                 >
                   {r.jatuhTempo}
                 </td>
-                <td
-                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
-                >
+                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   {r.totalBelumDibayar}
                 </td>
-                <td
-                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
-                >
+                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   {r.tagihanPokok}
                 </td>
-                <td
-                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
-                >
+                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   {r.tagihanBunga}
                 </td>
-                <td
-                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
-                >
+                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   {r.sisaPokok}
                 </td>
                 <td
@@ -473,7 +464,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="rounded-xl"
-                  onClick={() => toast("Cetak Buku Transaksi Terakhir (prototype)")}
+                  onClick={() =>
+                    toast("Cetak Buku Transaksi Terakhir (prototype)")
+                  }
                 >
                   <BookOpenText className="mr-2 h-4 w-4" />
                   Cetak Buku Transaksi Terakhir
@@ -497,7 +490,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-[1fr_320px_180px]">
+        <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
           <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
             <div className="text-sm font-semibold text-slate-900">
               INFORMASI TAGIHAN DAN DENDA
@@ -534,9 +527,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       <table className="w-full min-w-[540px] border-collapse text-[13px]">
                         <thead className="bg-white">
                           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                            <th
-                              className={cn("w-[30px]", thClass, edgePadLeft)}
-                            >
+                            <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                               <input
                                 ref={headerCheckboxRef}
                                 type="checkbox"
@@ -592,44 +583,19 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                     onChange={() => {}}
                                   />
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "font-medium text-slate-900",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "font-medium text-slate-900")}>
                                   {bill.jatuhTempo}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.totalBelumDibayar}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.tagihanPokok}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.tagihanBunga}
                                 </td>
-                                <td
-                                  className={cn(
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800",
-                                  )}
-                                >
+                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.sisaPokok}
                                 </td>
                                 <td
@@ -668,9 +634,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                          <th
-                            className={cn("w-[30px]", thClass, edgePadLeft)}
-                          >
+                          <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                             <input
                               ref={headerCheckboxRef}
                               type="checkbox"
@@ -722,44 +686,19 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "font-medium text-slate-900",
-                                )}
-                              >
+                              <td className={cn(tdClass, "font-medium text-slate-900")}>
                                 {bill.jatuhTempo}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.totalBelumDibayar}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.tagihanPokok}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.tagihanBunga}
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
+                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.sisaPokok}
                               </td>
                               <td
@@ -803,13 +742,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </span>
                 </button>
 
-                <div
-                  className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
-                >
-                  <UpcomingBillsAccordion
-                    open={openUpcoming}
-                    rows={upcomingRows}
-                  />
+                <div className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}>
+                  <UpcomingBillsAccordion open={openUpcoming} rows={upcomingRows} />
                 </div>
               </div>
             ) : null}
@@ -830,10 +764,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     ["Total Denda", "0"],
                     ["Total Tagihan", "2.708.333"],
                   ].map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex items-center justify-between gap-3"
-                    >
+                    <div key={k} className="flex items-center justify-between gap-3">
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -846,10 +777,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     ["Angsuran Lunas", "0"],
                     ["Angsuran Seharusnya", "0"],
                   ].map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex items-center justify-between gap-3"
-                    >
+                    <div key={k} className="flex items-center justify-between gap-3">
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -867,9 +795,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               <div className="grid gap-3">
                 <div className="grid gap-1.5">
                   <Label className="text-xs text-slate-600">
-                    {isPelunasan
-                      ? "Tanggal Efektif Pelunasan*"
-                      : "Tanggal Efektif Bayar*"}
+                    {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
                   </Label>
                   <div className="relative">
                     <Input
@@ -887,9 +813,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </Label>
                   <Select
                     value={jenisTransaksi}
-                    onValueChange={(v) =>
-                      setJenisTransaksi(v as TransactionType)
-                    }
+                    onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
                   >
                     <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                       <SelectValue />
@@ -911,9 +835,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Pilih Kolektor">
-                        Pilih Kolektor
-                      </SelectItem>
+                      <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
                       <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                       <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                     </SelectContent>
@@ -923,9 +845,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 {isRincian ? (
                   <>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-slate-600">
-                        Nominal Pokok*
-                      </Label>
+                      <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
                       <Input
                         value={nominalPokok}
                         onChange={(e) => setNominalPokok(e.target.value)}
@@ -934,9 +854,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       />
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-slate-600">
-                        Nominal Bunga*
-                      </Label>
+                      <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
                       <Input
                         value={nominalBunga}
                         onChange={(e) => setNominalBunga(e.target.value)}
@@ -945,9 +863,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       />
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-slate-600">
-                        Nominal Denda*
-                      </Label>
+                      <Label className="text-xs text-slate-600">Nominal Denda*</Label>
                       <Input
                         value={nominalDenda}
                         onChange={(e) => setNominalDenda(e.target.value)}
@@ -959,9 +875,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 ) : (
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">
-                      {isPelunasan
-                        ? "Nominal Pelunasan*"
-                        : "Nominal Pembayaran*"}
+                      {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
                     </Label>
 
                     {isPelunasan ? (
@@ -986,9 +900,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Tanpa Tabungan">
-                        Tanpa Tabungan
-                      </SelectItem>
+                      <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
                       <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
                     </SelectContent>
                   </Select>
@@ -1020,28 +932,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </Button>
               </div>
             </Card>
-          </div>
-
-          <div className="space-y-3">
-            <SectionHighlight title="Aksi" />
-            <div className="space-y-2">
-              <Button className="h-10 w-full justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
-                <ReceiptText className="mr-2 h-4 w-4" />
-                Cetak Kwitansi
-              </Button>
-              <Button className="h-10 w-full justify-start rounded-xl bg-blue-600 text-white hover:bg-blue-700">
-                <Printer className="mr-2 h-4 w-4" />
-                Cetak Buku
-              </Button>
-              <Button className="h-10 w-full justify-start rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
-                <FileText className="mr-2 h-4 w-4" />
-                Cetak Buku
-              </Button>
-              <Button className="h-10 w-full justify-start rounded-xl bg-green-600 text-white hover:bg-green-700">
-                <ScrollText className="mr-2 h-4 w-4" />
-                Cetak Prima Nota
-              </Button>
-            </div>
           </div>
         </div>
       </div>
