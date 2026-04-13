@@ -1,4 +1,3 @@
-semua row tercentang), dengan indeterminate, dan tetap mengunci saat mode pelunasan.">
 "use client";
 
 import * as React from "react";
@@ -158,7 +157,9 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
           <thead className="bg-white">
             <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-700">
               <th className="w-[140px] px-4 py-3">Jatuh Tempo</th>
-              <th className="w-[200px] px-4 py-3">Total Tagihan Belum Dibayar</th>
+              <th className="w-[200px] px-4 py-3">
+                Total Tagihan Belum Dibayar
+              </th>
               <th className="w-[160px] px-4 py-3">Tagihan Pokok</th>
               <th className="w-[160px] px-4 py-3">Tagihan Bunga</th>
               <th className="w-[160px] px-4 py-3">Sisa Tagihan Pokok</th>
@@ -259,7 +260,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   React.useEffect(() => {
     if (!headerCheckboxRef.current) return;
-    headerCheckboxRef.current.indeterminate = !isPelunasan && anyChecked && !allChecked;
+    headerCheckboxRef.current.indeterminate =
+      !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
   const billingActionBtn =
