@@ -97,9 +97,50 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: clip;
+  }
+
+  /* Media should never force overflow at any zoom */
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Long strings can force overflow (IDs, URLs, etc.) */
+  p,
+  a,
+  span,
+  div {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* Tables: ensure they don't expand the page; scroll should be handled by a wrapper */
+  table {
+    max-width: 100%;
+  }
+}
+
+/* Utility class for "safe table scrolling" (only horizontal inside table area) */
+@layer utilities {
+  .safe-x-scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }

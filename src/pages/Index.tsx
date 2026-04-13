@@ -246,8 +246,8 @@ export default function Index() {
             </Card>
           </aside>
 
-          {/* Konten boleh scroll horizontal jika ada tabel/komponen lebar */}
-          <div className="min-w-0 overflow-x-auto">
+          {/* Konten: jangan biarkan wrapper ikut horizontal scroll saat zoom */}
+          <div className="min-w-0 overflow-x-hidden">
             {isHome ? <Outlet /> : <Outlet />}
           </div>
         </div>

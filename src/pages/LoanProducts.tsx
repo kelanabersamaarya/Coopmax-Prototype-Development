@@ -245,7 +245,7 @@ export default function LoanProducts() {
           </div>
 
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
-            <div className="overflow-auto">
+            <div className="safe-x-scroll">
               <table className="w-full min-w-[980px] border-collapse">
                 <thead className="bg-slate-50">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
