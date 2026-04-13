@@ -9,7 +9,7 @@ import LoanProducts from "./pages/LoanProducts";
 import NewLoan from "./pages/NewLoan";
 import LoanProductCreate from "./pages/LoanProductCreate";
 import AnggotaTransaksi from "./pages/AnggotaTransaksi";
-import LoanApplications from "./pages/loanApplications";
+import LoanApplications from "./pages/LoanApplications";
 import LoanApplicationCreate from "./pages/LoanApplicationCreate";
 
 const queryClient = new QueryClient();
@@ -26,7 +26,10 @@ const App = () => (
             <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loans/new" element={<NewLoan />} />
             <Route path="loans/applications" element={<LoanApplications />} />
-            <Route path="loans/applications/new" element={<LoanApplicationCreate />} />
+            <Route
+              path="loans/applications/new"
+              element={<LoanApplicationCreate />}
+            />
             <Route path="anggota/transaksi" element={<AnggotaTransaksi />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
