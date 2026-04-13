@@ -7,17 +7,23 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { RotateCcw, Search, CheckSquare } from "lucide-react";
+import { RotateCcw, Search, CheckSquare, ChevronDown, Check } from "lucide-react";
 
-type TabId = "general" | "agunan" | "penanggung" | "upload";
+type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
 function FieldRow({
   label,
@@ -93,6 +99,75 @@ function ActionIconButton({
   );
 }
 
+const loanProductOptions = [
+  "Pinjaman Koperasi",
+  "Pinjaman RC",
+  "PINJAMAN EMAS",
+  "Pinjaman Billing",
+  "PINJAMAN BILLING - BARU",
+  "PINJAMAN BULANAN TETAP",
+] as const;
+
+type LoanProductOption = (typeof loanProductOptions)[number];
+
+function LoanProductCombobox({
+  value,
+  onChange,
+}: {
+  value: LoanProductOption | "Pilih Pinjaman";
+  onChange: (v: LoanProductOption) => void;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className={cn(
+            "flex h-10 w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 text-left text-sm font-medium text-slate-900 shadow-sm transition hover:bg-slate-50",
+          )}
+        >
+          <span className={cn(value === "Pilih Pinjaman" ? "text-slate-500" : "")}>
+            {value}
+          </span>
+          <ChevronDown className="h-4 w-4 text-slate-400" />
+        </button>
+      </PopoverTrigger>
+
+      <PopoverContent
+        align="start"
+        className="w-[--radix-popover-trigger-width] rounded-2xl border-slate-200 p-0"
+      >
+        <Command className="rounded-2xl">
+          <CommandInput placeholder="Cari..." />
+          <CommandList>
+            <CommandEmpty>Tidak ada hasil.</CommandEmpty>
+            <CommandGroup>
+              {loanProductOptions.map((opt) => (
+                <CommandItem
+                  key={opt}
+                  value={opt}
+                  onSelect={() => {
+                    onChange(opt);
+                    setOpen(false);
+                  }}
+                  className="rounded-xl"
+                >
+                  <span className="min-w-0 flex-1 truncate">{opt}</span>
+                  {value === opt ? (
+                    <Check className="h-4 w-4 text-[hsl(var(--app-accent-2))]" />
+                  ) : null}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export default function LoanApplicationCreate() {
   const navigate = useNavigate();
   const [tab, setTab] = React.useState<TabId>("general");
@@ -112,7 +187,10 @@ export default function LoanApplicationCreate() {
   const [kolektor, setKolektor] = React.useState("Pilih Kolektor");
   const [tanggal, setTanggal] = React.useState(today);
 
-  const [produkPinjaman, setProdukPinjaman] = React.useState("Pilih Pinjaman");
+  const [produkPinjaman, setProdukPinjaman] = React.useState<
+    LoanProductOption | "Pilih Pinjaman"
+  >("Pilih Pinjaman");
+
   const [sektorPinjaman, setSektorPinjaman] = React.useState(
     "Pilih Sektor Pinjaman",
   );
@@ -128,6 +206,8 @@ export default function LoanApplicationCreate() {
   const [besarPinjaman, setBesarPinjaman] = React.useState("0");
   const [jangkaWaktu, setJangkaWaktu] = React.useState("");
 
+  const showJadwalTab = produkPinjaman === "Pinjaman Billing";
+
   function save() {
     if (!noRekening.trim()) {
       toast("No. Rekening wajib diisi");
@@ -141,11 +221,20 @@ export default function LoanApplicationCreate() {
       toast("Kolektor wajib dipilih");
       return;
     }
+    if (produkPinjaman === "Pilih Pinjaman") {
+      toast("Produk Pinjaman wajib dipilih");
+      return;
+    }
+
     toast.success("Tersimpan (prototype)", {
       description: "Data pengajuan pinjaman belum disimpan ke database.",
     });
     navigate("/loans/applications");
   }
+
+  React.useEffect(() => {
+    if (!showJadwalTab && tab === "jadwal") setTab("general");
+  }, [showJadwalTab, tab]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -185,6 +274,15 @@ export default function LoanApplicationCreate() {
               active={tab === "upload"}
               onClick={() => setTab("upload")}
             />
+
+            {showJadwalTab ? (
+              <TabPill
+                value="jadwal"
+                label="Pengaturan Jadwal"
+                active={tab === "jadwal"}
+                onClick={() => setTab("jadwal")}
+              />
+            ) : null}
           </div>
 
           <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
@@ -195,17 +293,20 @@ export default function LoanApplicationCreate() {
                   <TabsTrigger value="agunan">Agunan</TabsTrigger>
                   <TabsTrigger value="penanggung">Penanggung</TabsTrigger>
                   <TabsTrigger value="upload">Upload</TabsTrigger>
+                  {showJadwalTab ? (
+                    <TabsTrigger value="jadwal">Jadwal</TabsTrigger>
+                  ) : null}
                 </TabsList>
                 <TabsContent value="general" />
                 <TabsContent value="agunan" />
                 <TabsContent value="penanggung" />
                 <TabsContent value="upload" />
+                <TabsContent value="jadwal" />
               </Tabs>
             </div>
 
             {tab === "general" ? (
               <div className="grid gap-5">
-                {/* ONE COLUMN FORM */}
                 <div className="space-y-5">
                   <FieldRow label="No. Rekening" required>
                     <div className="flex items-center gap-2">
@@ -284,28 +385,34 @@ export default function LoanApplicationCreate() {
                   </FieldRow>
 
                   <FieldRow label="Produk Pinjaman" required>
-                    <Select
+                    <LoanProductCombobox
                       value={produkPinjaman}
-                      onValueChange={setProdukPinjaman}
+                      onChange={(v) => {
+                        setProdukPinjaman(v);
+                        if (v === "Pinjaman Billing") {
+                          toast.success("Pinjaman Billing dipilih", {
+                            description:
+                              "Tab Pengaturan Jadwal sekarang tersedia.",
+                          });
+                        } else {
+                          toast("Produk dipilih", { description: v });
+                        }
+                      }}
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Sektor Pinjaman" required>
+                    <Select
+                      value={sektorPinjaman}
+                      onValueChange={setSektorPinjaman}
                     >
                       <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Pilih Pinjaman">Pilih Pinjaman</SelectItem>
-                        <SelectItem value="Pinjaman Billing">Pinjaman Billing</SelectItem>
-                        <SelectItem value="Pinjaman Koperasi">Pinjaman Koperasi</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FieldRow>
-
-                  <FieldRow label="Sektor Pinjaman" required>
-                    <Select value={sektorPinjaman} onValueChange={setSektorPinjaman}>
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Pilih Sektor Pinjaman">Pilih Sektor Pinjaman</SelectItem>
+                        <SelectItem value="Pilih Sektor Pinjaman">
+                          Pilih Sektor Pinjaman
+                        </SelectItem>
                         <SelectItem value="Perdagangan">Perdagangan</SelectItem>
                         <SelectItem value="Pertanian">Pertanian</SelectItem>
                         <SelectItem value="Jasa">Jasa</SelectItem>
@@ -314,12 +421,17 @@ export default function LoanApplicationCreate() {
                   </FieldRow>
 
                   <FieldRow label="Tujuan Peminjaman">
-                    <Select value={tujuanPeminjaman} onValueChange={setTujuanPeminjaman}>
+                    <Select
+                      value={tujuanPeminjaman}
+                      onValueChange={setTujuanPeminjaman}
+                    >
                       <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Pilih Tujuan Peminjaman">Pilih Tujuan Peminjaman</SelectItem>
+                        <SelectItem value="Pilih Tujuan Peminjaman">
+                          Pilih Tujuan Peminjaman
+                        </SelectItem>
                         <SelectItem value="Modal Usaha">Modal Usaha</SelectItem>
                         <SelectItem value="Konsumtif">Konsumtif</SelectItem>
                       </SelectContent>
@@ -386,6 +498,11 @@ export default function LoanApplicationCreate() {
                     Simpan
                   </Button>
                 </div>
+              </div>
+            ) : tab === "jadwal" ? (
+              <div className="rounded-2xl bg-slate-50 p-5 text-sm text-slate-700 ring-1 ring-slate-200">
+                Tab <span className="font-semibold">Pengaturan Jadwal</span>{" "}
+                masih prototype (konten belum dibuat).
               </div>
             ) : (
               <div className="rounded-2xl bg-slate-50 p-5 text-sm text-slate-700 ring-1 ring-slate-200">
