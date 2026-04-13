@@ -1004,26 +1004,23 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             </Card>
           </div>
 
-          <div className="space-y-3">
-            <SectionHighlight title="Aksi" />
-            <div className="space-y-2">
-              <Button className="h-10 w-full justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
-                <ReceiptText className="mr-2 h-4 w-4" />
-                Cetak Kwitansi
-              </Button>
-              <Button className="h-10 w-full justify-start rounded-xl bg-blue-600 text-white hover:bg-blue-700">
-                <Printer className="mr-2 h-4 w-4" />
-                Cetak Buku
-              </Button>
-              <Button className="h-10 w-full justify-start rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
-                <FileText className="mr-2 h-4 w-4" />
-                Cetak Buku
-              </Button>
-              <Button className="h-10 w-full justify-start rounded-xl bg-green-600 text-white hover:bg-green-700">
-                <ScrollText className="mr-2 h-4 w-4" />
-                Cetak Prima Nota
-              </Button>
-            </div>
+          <div className="space-y-2">
+            <Button className="h-10 w-full justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
+              <ReceiptText className="mr-2 h-4 w-4" />
+              Cetak Kwitansi
+            </Button>
+            <Button className="h-10 w-full justify-start rounded-xl bg-blue-600 text-white hover:bg-blue-700">
+              <Printer className="mr-2 h-4 w-4" />
+              Cetak Buku
+            </Button>
+            <Button className="h-10 w-full justify-start rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
+              <FileText className="mr-2 h-4 w-4" />
+              Cetak Buku
+            </Button>
+            <Button className="h-10 w-full justify-start rounded-xl bg-green-600 text-white hover:bg-green-700">
+              <ScrollText className="mr-2 h-4 w-4" />
+              Cetak Prima Nota
+            </Button>
           </div>
         </div>
       </div>
