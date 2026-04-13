@@ -393,7 +393,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [allChecked, anyChecked, isPelunasan]);
 
   const billingActionBtn =
-    "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
+    "h-9 rounded-full bg-white px-4 text-slate-900 ring-1 ring-white/60 hover:bg-white/90";
 
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
@@ -429,7 +429,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             ]}
           />
 
-          <div className="absolute right-4 top-4">
+          <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className={billingActionBtn}>

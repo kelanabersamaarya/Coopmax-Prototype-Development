@@ -426,7 +426,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
             ]}
           />
 
-          <div className="absolute right-4 top-4">
+          <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="h-9 rounded-full bg-white px-4 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
@@ -553,11 +553,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               Sisa Tagihan Pokok
                             </th>
                             <th
-                              className={cn(
-                                "w-[108px]",
-                                thClass,
-                                edgePadRight,
-                              )}
+                              className={cn("w-[108px]", thClass, edgePadRight)}
                             >
                               Sisa Tagihan Bunga
                             </th>
