@@ -5,12 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -210,188 +205,167 @@ export default function LoanApplicationCreate() {
 
             {tab === "general" ? (
               <div className="grid gap-5">
-                <div className="grid gap-5 md:grid-cols-2 md:items-start">
-                  <div className="space-y-5">
-                    <FieldRow label="No. Rekening" required>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          value={noRekening}
-                          onChange={(e) => setNoRekening(e.target.value)}
-                          className="h-10 rounded-xl bg-slate-200/70 text-slate-800"
-                        />
-                        <ActionIconButton
-                          label="Generate ulang"
-                          onClick={() => toast("Generate (prototype)")}
-                          icon={<RotateCcw className="h-4.5 w-4.5" />}
-                        />
-                      </div>
-                    </FieldRow>
+                {/* ONE COLUMN FORM */}
+                <div className="space-y-5">
+                  <FieldRow label="No. Rekening" required>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        value={noRekening}
+                        onChange={(e) => setNoRekening(e.target.value)}
+                        className="h-10 rounded-xl bg-slate-200/70 text-slate-800"
+                      />
+                      <ActionIconButton
+                        label="Generate ulang"
+                        onClick={() => toast("Generate (prototype)")}
+                        icon={<RotateCcw className="h-4.5 w-4.5" />}
+                      />
+                    </div>
+                  </FieldRow>
 
-                    <FieldRow
-                      label="ID Nasabah"
-                      required
-                      hint={
-                        <Link
-                          to="/anggota/transaksi"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Lihat Rekening Nasabah
-                        </Link>
-                      }
+                  <FieldRow
+                    label="ID Nasabah"
+                    required
+                    hint={
+                      <Link
+                        to="/anggota/transaksi"
+                        className="text-blue-600 hover:underline"
+                      >
+                        Lihat Rekening Nasabah
+                      </Link>
+                    }
+                  >
+                    <div className="flex items-center gap-2">
+                      <Input
+                        value={idNasabah}
+                        onChange={(e) => setIdNasabah(e.target.value)}
+                        placeholder="Cari Nasabah"
+                        className="h-10 rounded-xl"
+                      />
+                      <ActionIconButton
+                        label="Cari nasabah"
+                        onClick={() =>
+                          toast("Cari Nasabah (prototype)", {
+                            description:
+                              "Dialog pencarian nasabah belum dihubungkan di halaman ini.",
+                          })
+                        }
+                        icon={<Search className="h-4.5 w-4.5" />}
+                      />
+                    </div>
+                  </FieldRow>
+
+                  <FieldRow label="Unit Anggota">
+                    <Input
+                      value={unitAnggota}
+                      readOnly
+                      className="h-10 rounded-xl bg-slate-200/70 text-slate-700"
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Kolektor" required>
+                    <Select value={kolektor} onValueChange={setKolektor}>
+                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                        <SelectItem value="Kolektor A">Kolektor A</SelectItem>
+                        <SelectItem value="Kolektor B">Kolektor B</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
+
+                  <FieldRow label="Tanggal" required>
+                    <Input
+                      value={tanggal}
+                      onChange={(e) => setTanggal(e.target.value)}
+                      className="h-10 rounded-xl"
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Produk Pinjaman" required>
+                    <Select
+                      value={produkPinjaman}
+                      onValueChange={setProdukPinjaman}
                     >
-                      <div className="flex items-center gap-2">
-                        <Input
-                          value={idNasabah}
-                          onChange={(e) => setIdNasabah(e.target.value)}
-                          placeholder="Cari Nasabah"
-                          className="h-10 rounded-xl"
-                        />
-                        <ActionIconButton
-                          label="Cari nasabah"
-                          onClick={() =>
-                            toast("Cari Nasabah (prototype)", {
-                              description:
-                                "Dialog pencarian nasabah belum dihubungkan di halaman ini.",
-                            })
-                          }
-                          icon={<Search className="h-4.5 w-4.5" />}
-                        />
-                      </div>
-                    </FieldRow>
+                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        <SelectItem value="Pilih Pinjaman">Pilih Pinjaman</SelectItem>
+                        <SelectItem value="Pinjaman Billing">Pinjaman Billing</SelectItem>
+                        <SelectItem value="Pinjaman Koperasi">Pinjaman Koperasi</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
 
-                    <FieldRow label="Unit Anggota">
-                      <Input
-                        value={unitAnggota}
-                        readOnly
-                        className="h-10 rounded-xl bg-slate-200/70 text-slate-700"
-                      />
-                    </FieldRow>
-                  </div>
+                  <FieldRow label="Sektor Pinjaman" required>
+                    <Select value={sektorPinjaman} onValueChange={setSektorPinjaman}>
+                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        <SelectItem value="Pilih Sektor Pinjaman">Pilih Sektor Pinjaman</SelectItem>
+                        <SelectItem value="Perdagangan">Perdagangan</SelectItem>
+                        <SelectItem value="Pertanian">Pertanian</SelectItem>
+                        <SelectItem value="Jasa">Jasa</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
 
-                  <div className="space-y-5">
-                    <FieldRow label="Kolektor" required>
-                      <Select value={kolektor} onValueChange={setKolektor}>
-                        <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Pilih Kolektor">
-                            Pilih Kolektor
-                          </SelectItem>
-                          <SelectItem value="Kolektor A">Kolektor A</SelectItem>
-                          <SelectItem value="Kolektor B">Kolektor B</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FieldRow>
+                  <FieldRow label="Tujuan Peminjaman">
+                    <Select value={tujuanPeminjaman} onValueChange={setTujuanPeminjaman}>
+                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        <SelectItem value="Pilih Tujuan Peminjaman">Pilih Tujuan Peminjaman</SelectItem>
+                        <SelectItem value="Modal Usaha">Modal Usaha</SelectItem>
+                        <SelectItem value="Konsumtif">Konsumtif</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
 
-                    <FieldRow label="Tanggal" required>
-                      <Input
-                        value={tanggal}
-                        onChange={(e) => setTanggal(e.target.value)}
-                        className="h-10 rounded-xl"
-                      />
-                    </FieldRow>
+                  <FieldRow label="Bunga Per Tahun (%)" required>
+                    <Input
+                      value={bungaPerTahun}
+                      onChange={(e) => setBungaPerTahun(e.target.value)}
+                      className="h-10 rounded-xl"
+                    />
+                  </FieldRow>
 
-                    <FieldRow label="Produk Pinjaman" required>
-                      <Select
-                        value={produkPinjaman}
-                        onValueChange={setProdukPinjaman}
-                      >
-                        <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Pilih Pinjaman">
-                            Pilih Pinjaman
-                          </SelectItem>
-                          <SelectItem value="Pinjaman Billing">
-                            Pinjaman Billing
-                          </SelectItem>
-                          <SelectItem value="Pinjaman Koperasi">
-                            Pinjaman Koperasi
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FieldRow>
+                  <FieldRow label="Metode Bunga Pinjaman" required>
+                    <Select value={metodeBunga} onValueChange={setMetodeBunga}>
+                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        <SelectItem value="Pilih Metode Bunga Pinjaman">
+                          Pilih Metode Bunga Pinjaman
+                        </SelectItem>
+                        <SelectItem value="Anuitas">Anuitas</SelectItem>
+                        <SelectItem value="Flat">Flat</SelectItem>
+                        <SelectItem value="Menurun">Menurun</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
 
-                    <FieldRow label="Sektor Pinjaman" required>
-                      <Select
-                        value={sektorPinjaman}
-                        onValueChange={setSektorPinjaman}
-                      >
-                        <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Pilih Sektor Pinjaman">
-                            Pilih Sektor Pinjaman
-                          </SelectItem>
-                          <SelectItem value="Perdagangan">Perdagangan</SelectItem>
-                          <SelectItem value="Pertanian">Pertanian</SelectItem>
-                          <SelectItem value="Jasa">Jasa</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FieldRow>
+                  <FieldRow label="Besar Pinjaman" required>
+                    <Input
+                      value={besarPinjaman}
+                      onChange={(e) => setBesarPinjaman(e.target.value)}
+                      inputMode="numeric"
+                      className="h-10 rounded-xl"
+                    />
+                  </FieldRow>
 
-                    <FieldRow label="Tujuan Peminjaman">
-                      <Select
-                        value={tujuanPeminjaman}
-                        onValueChange={setTujuanPeminjaman}
-                      >
-                        <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Pilih Tujuan Peminjaman">
-                            Pilih Tujuan Peminjaman
-                          </SelectItem>
-                          <SelectItem value="Modal Usaha">Modal Usaha</SelectItem>
-                          <SelectItem value="Konsumtif">Konsumtif</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FieldRow>
-
-                    <FieldRow label="Bunga Per Tahun (%)" required>
-                      <Input
-                        value={bungaPerTahun}
-                        onChange={(e) => setBungaPerTahun(e.target.value)}
-                        className="h-10 rounded-xl"
-                      />
-                    </FieldRow>
-
-                    <FieldRow label="Metode Bunga Pinjaman" required>
-                      <Select value={metodeBunga} onValueChange={setMetodeBunga}>
-                        <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Pilih Metode Bunga Pinjaman">
-                            Pilih Metode Bunga Pinjaman
-                          </SelectItem>
-                          <SelectItem value="Anuitas">Anuitas</SelectItem>
-                          <SelectItem value="Flat">Flat</SelectItem>
-                          <SelectItem value="Menurun">Menurun</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FieldRow>
-
-                    <FieldRow label="Besar Pinjaman" required>
-                      <Input
-                        value={besarPinjaman}
-                        onChange={(e) => setBesarPinjaman(e.target.value)}
-                        inputMode="numeric"
-                        className="h-10 rounded-xl"
-                      />
-                    </FieldRow>
-
-                    <FieldRow label="Jangka Waktu" required>
-                      <Input
-                        value={jangkaWaktu}
-                        onChange={(e) => setJangkaWaktu(e.target.value)}
-                        className="h-10 rounded-xl"
-                      />
-                    </FieldRow>
-                  </div>
+                  <FieldRow label="Jangka Waktu" required>
+                    <Input
+                      value={jangkaWaktu}
+                      onChange={(e) => setJangkaWaktu(e.target.value)}
+                      className="h-10 rounded-xl"
+                    />
+                  </FieldRow>
                 </div>
 
                 <Separator className="bg-slate-200/70" />
