@@ -153,3 +153,8 @@
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* Hide default shadcn Dialog close button (the small X in top-right). */
+[data-radix-dialog-content] > button[aria-label="Close"] {
+  display: none !important;
+}
