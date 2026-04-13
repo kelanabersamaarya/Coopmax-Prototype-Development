@@ -101,7 +101,7 @@ function formatIdrLike(n: number) {
 function GracePeriodRow({ colSpan }: { colSpan: number }) {
   return (
     <tr className="border-t border-slate-200">
-      <td colSpan={colSpan} className="px-2 py-2.5">
+      <td colSpan={colSpan} className="px-1.5 py-2.5">
         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
           <div className="flex items-start gap-2">
             <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -233,7 +233,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
   const billingRows = isPelunasan ? rows : rows.slice(0, 1);
 
-  // Pagination (only for pelunasan)
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
   const pageCount = Math.max(1, Math.ceil(billingRows.length / pageSize));
@@ -248,7 +247,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     return billingRows.slice(start, start + pageSize);
   }, [billingRows, isPelunasan, page, pageSize]);
 
-  // --- Select all / row selection state (for non-pelunasan) ---
   const [selected, setSelected] = React.useState<boolean[]>(
     () => rows.map(() => false),
   );
@@ -278,21 +276,14 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
 
-  // Tighten spacing: smaller horizontal padding for table cells (no font size changes).
-  const thClass = "px-2 py-2.5";
-  const tdClass = "px-2 py-2.5";
+  const thClass = "px-1.5 py-2.5";
+  const tdClass = "px-1.5 py-2.5";
 
   return (
     <div className="space-y-5">
-      <AnggotaAccountTabs
-        active="pinjaman"
-        onChange={() => {
-          /* prototype: tab lain belum dibuat */
-        }}
-      />
+      <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
       <div className="grid gap-4 lg:grid-cols-[260px_1fr_320px_180px]">
-        {/* PINJAMAN BILLING */}
         <div className="space-y-3">
           <SectionHighlight title="Informasi Rekening" />
           <Card className="rounded-2xl border-slate-200/70 bg-[#12a3b4] p-4 text-white shadow-sm">
@@ -338,7 +329,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
           </Card>
         </div>
 
-        {/* INFORMASI TAGIHAN DAN DENDA */}
         <div className="space-y-3">
           <SectionHighlight title="Detail Angsuran" />
 
@@ -369,10 +359,10 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 <>
                   <div className="mt-3 overflow-hidden rounded-2xl ring-1 ring-slate-200">
                     <div className="overflow-auto">
-                      <table className="w-full min-w-[760px] border-collapse text-[13px]">
+                      <table className="w-full min-w-[660px] border-collapse text-[13px]">
                         <thead className="bg-white">
                           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                            <th className={cn("w-[42px]", thClass)}>
+                            <th className={cn("w-[36px]", thClass)}>
                               <input
                                 ref={headerCheckboxRef}
                                 type="checkbox"
@@ -382,22 +372,22 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 onChange={() => {}}
                               />
                             </th>
-                            <th className={cn("w-[140px]", thClass)}>
+                            <th className={cn("w-[120px]", thClass)}>
                               Jatuh Tempo
                             </th>
-                            <th className={cn("w-[190px]", thClass)}>
+                            <th className={cn("w-[170px]", thClass)}>
                               Total Tagihan Belum Dibayar
                             </th>
-                            <th className={cn("w-[130px]", thClass)}>
+                            <th className={cn("w-[112px]", thClass)}>
                               Tagihan Pokok
                             </th>
-                            <th className={cn("w-[130px]", thClass)}>
+                            <th className={cn("w-[112px]", thClass)}>
                               Tagihan Bunga
                             </th>
-                            <th className={cn("w-[140px]", thClass)}>
+                            <th className={cn("w-[120px]", thClass)}>
                               Sisa Tagihan Pokok
                             </th>
-                            <th className={cn("w-[140px]", thClass)}>
+                            <th className={cn("w-[120px]", thClass)}>
                               Sisa Tagihan Bunga
                             </th>
                           </tr>
@@ -463,10 +453,10 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               ) : (
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
-                    <table className="w-full min-w-[700px] border-collapse text-[13px]">
+                    <table className="w-full min-w-[660px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                          <th className={cn("w-[40px]", thClass)}>
+                          <th className={cn("w-[36px]", thClass)}>
                             <input
                               ref={headerCheckboxRef}
                               type="checkbox"
@@ -474,7 +464,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               checked={allChecked}
                               onChange={(e) => {
                                 const next = e.target.checked;
-                                setSelected(rows.map(() => next));
+                                setSelected(billingRows.map(() => next));
                               }}
                             />
                           </th>
@@ -482,12 +472,12 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                           <th className={cn("w-[170px]", thClass)}>
                             Total Tagihan Belum Dibayar
                           </th>
-                          <th className={cn("w-[120px]", thClass)}>Tagihan Pokok</th>
-                          <th className={cn("w-[120px]", thClass)}>Tagihan Bunga</th>
-                          <th className={cn("w-[130px]", thClass)}>
+                          <th className={cn("w-[112px]", thClass)}>Tagihan Pokok</th>
+                          <th className={cn("w-[112px]", thClass)}>Tagihan Bunga</th>
+                          <th className={cn("w-[120px]", thClass)}>
                             Sisa Tagihan Pokok
                           </th>
-                          <th className={cn("w-[130px]", thClass)}>
+                          <th className={cn("w-[120px]", thClass)}>
                             Sisa Tagihan Bunga
                           </th>
                         </tr>
@@ -548,7 +538,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
           </Card>
         </div>
 
-        {/* RINGKASAN + TRANSAKSI */}
         <div className="space-y-4">
           <div className="space-y-3">
             <SectionHighlight title="Pembayaran Angsuran" />
@@ -643,9 +632,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               {isRincian ? (
                 <>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      Nominal Pokok*
-                    </Label>
+                    <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
                     <Input
                       value={nominalPokok}
                       onChange={(e) => setNominalPokok(e.target.value)}
@@ -654,9 +641,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      Nominal Bunga*
-                    </Label>
+                    <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
                     <Input
                       value={nominalBunga}
                       onChange={(e) => setNominalBunga(e.target.value)}
@@ -665,9 +650,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      Nominal Denda*
-                    </Label>
+                    <Label className="text-xs text-slate-600">Nominal Denda*</Label>
                     <Input
                       value={nominalDenda}
                       onChange={(e) => setNominalDenda(e.target.value)}
@@ -738,7 +721,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
           </Card>
         </div>
 
-        {/* AKSI */}
         <div className="space-y-3">
           <SectionHighlight title="Aksi" />
           <div className="space-y-2">
