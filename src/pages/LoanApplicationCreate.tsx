@@ -280,7 +280,8 @@ export default function LoanApplicationCreate() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
+      {/* Full-width supaya lebih mepet sidebar dan memanfaatkan sisi kanan */}
+      <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
             Pengajuan Pinjaman
@@ -300,7 +301,7 @@ export default function LoanApplicationCreate() {
             ))}
           </div>
 
-          <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+          <Card className="mt-6 w-full rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
             {tab === "general" ? (
               <div className="grid gap-5">
                 {/* GENERAL INFORMATION: 1 kolom */}
@@ -646,7 +647,8 @@ export default function LoanApplicationCreate() {
                     className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
                     onClick={() =>
                       toast("Tambah Jadwal Denda (prototype)", {
-                        description: "Item jadwal denda belum dibuat di prototype.",
+                        description:
+                          "Item jadwal denda belum dibuat di prototype.",
                       })
                     }
                   >
