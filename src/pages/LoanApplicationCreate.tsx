@@ -273,7 +273,9 @@ export default function LoanApplicationCreate() {
     { id: "agunan" as const, label: "Agunan" },
     { id: "penanggung" as const, label: "Penanggung Jawab" },
     { id: "upload" as const, label: "Upload File" },
-    ...(showJadwalTab ? [{ id: "jadwal" as const, label: "Pengaturan Jadwal" }] : []),
+    ...(showJadwalTab
+      ? [{ id: "jadwal" as const, label: "Pengaturan Jadwal" }]
+      : []),
   ];
 
   return (
@@ -301,7 +303,8 @@ export default function LoanApplicationCreate() {
           <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
             {tab === "general" ? (
               <div className="grid gap-5">
-                <div className="grid gap-4 md:grid-cols-2">
+                {/* GENERAL INFORMATION: 1 kolom */}
+                <div className="grid gap-4">
                   <FieldRow label="No Rekening" required>
                     <div className="flex items-center">
                       <Input
@@ -348,44 +351,42 @@ export default function LoanApplicationCreate() {
                     </div>
                   </FieldRow>
 
-                  <div className="md:col-span-2">
-                    <FieldRow label="NIK" required>
-                      <div className="grid gap-2">
-                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                          <Input
-                            value={nik}
-                            onChange={(e) => {
-                              setNik(e.target.value);
-                              setKtpVerified(false);
-                            }}
-                            className="h-10 rounded-xl border-slate-200 bg-white"
-                          />
-                          <Button
-                            onClick={verifyKtp}
-                            className="h-10 shrink-0 rounded-xl bg-violet-600 px-4 text-white hover:bg-violet-700"
-                          >
-                            <ShieldCheck className="mr-2 h-4 w-4" />
-                            Verifikasi KTP
-                            <span className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[12px]">
-                              ✦
-                            </span>
-                          </Button>
-                        </div>
-
-                        {!ktpVerified ? (
-                          <div className="flex items-center gap-2 text-sm font-semibold text-rose-600">
-                            <XCircle className="h-4 w-4" />
-                            Data KTP Belum Terverifikasi
-                          </div>
-                        ) : (
-                          <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
-                            <CheckSquare className="h-4 w-4" />
-                            Data KTP Terverifikasi
-                          </div>
-                        )}
+                  <FieldRow label="NIK" required>
+                    <div className="grid gap-2">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                        <Input
+                          value={nik}
+                          onChange={(e) => {
+                            setNik(e.target.value);
+                            setKtpVerified(false);
+                          }}
+                          className="h-10 rounded-xl border-slate-200 bg-white"
+                        />
+                        <Button
+                          onClick={verifyKtp}
+                          className="h-10 shrink-0 rounded-xl bg-violet-600 px-4 text-white hover:bg-violet-700"
+                        >
+                          <ShieldCheck className="mr-2 h-4 w-4" />
+                          Verifikasi KTP
+                          <span className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[12px]">
+                            ✦
+                          </span>
+                        </Button>
                       </div>
-                    </FieldRow>
-                  </div>
+
+                      {!ktpVerified ? (
+                        <div className="flex items-center gap-2 text-sm font-semibold text-rose-600">
+                          <XCircle className="h-4 w-4" />
+                          Data KTP Belum Terverifikasi
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
+                          <CheckSquare className="h-4 w-4" />
+                          Data KTP Terverifikasi
+                        </div>
+                      )}
+                    </div>
+                  </FieldRow>
 
                   <FieldRow label="Nama" required>
                     <Input
@@ -435,24 +436,22 @@ export default function LoanApplicationCreate() {
                     />
                   </FieldRow>
 
-                  <div className="md:col-span-2">
-                    <FieldRow label="Produk Pinjaman" required>
-                      <LoanProductCombobox
-                        value={produkPinjaman}
-                        onChange={(v) => {
-                          setProdukPinjaman(v);
-                          if (v === "Pinjaman Billing") {
-                            toast.success("Pinjaman Billing dipilih", {
-                              description:
-                                "Tab Pengaturan Jadwal sekarang tersedia.",
-                            });
-                          } else {
-                            toast("Produk dipilih", { description: v });
-                          }
-                        }}
-                      />
-                    </FieldRow>
-                  </div>
+                  <FieldRow label="Produk Pinjaman" required>
+                    <LoanProductCombobox
+                      value={produkPinjaman}
+                      onChange={(v) => {
+                        setProdukPinjaman(v);
+                        if (v === "Pinjaman Billing") {
+                          toast.success("Pinjaman Billing dipilih", {
+                            description:
+                              "Tab Pengaturan Jadwal sekarang tersedia.",
+                          });
+                        } else {
+                          toast("Produk dipilih", { description: v });
+                        }
+                      }}
+                    />
+                  </FieldRow>
 
                   <FieldRow label="Sektor Pinjaman" required>
                     <Select
@@ -601,7 +600,10 @@ export default function LoanApplicationCreate() {
                     </FieldRow>
 
                     <FieldRow label="Frekuensi Bunga" required>
-                      <Select value={frekuensiBunga} onValueChange={setFrekuensiBunga}>
+                      <Select
+                        value={frekuensiBunga}
+                        onValueChange={setFrekuensiBunga}
+                      >
                         <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
                           <SelectValue />
                         </SelectTrigger>
