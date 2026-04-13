@@ -21,11 +21,23 @@ import {
   ScrollText,
   CalendarDays,
   Info,
+  ChevronDown,
+  History,
+  Calculator,
+  BookOpenText,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
 import { cn } from "@/lib/utils";
 import InformasiRekeningHeader from "@/components/anggota/InformasiRekeningHeader";
+import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Props = {
   nasabah: {
@@ -258,23 +270,91 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
         <div className="space-y-3">
           <SectionHighlight title="Informasi Tagihan & Denda" />
 
-          <InformasiRekeningHeader
-            title="PINJAMAN BILLING"
-            items={[
-              { label: "Kode Pinjaman", value: "SMG260004" },
-              { label: "Sektor Pinjaman", value: "Umum" },
-              { label: "Tujuan Pinjaman", value: "Konsumtif" },
-              { label: "Kolektor", value: kolektor === "Pilih Kolektor" ? "-" : kolektor },
-              { label: "Tanggal Dibuat", value: "07 Apr 2026" },
-              { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
-              { label: "Tanggal Transaksi Terakhir", value: "07 Apr 2026" },
-              { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
-              { label: "Periode Waktu", value: "12 Bulan" },
-              { label: "Metode Bunga Pinjaman", value: "Bunga Efektif" },
-              { label: "Sisa Pinjaman", value: "11.000.000,00" },
-              { label: "Total Harus Bayar", value: "1.120.000,00" },
-            ]}
-          />
+          <div className="relative">
+            <InformasiRekeningHeader
+              title="PINJAMAN BILLING"
+              items={[
+                { label: "Kode Pinjaman", value: "SMG260004" },
+                { label: "Sektor Pinjaman", value: "Umum" },
+                { label: "Tujuan Pinjaman", value: "Konsumtif" },
+                {
+                  label: "Kolektor",
+                  value: kolektor === "Pilih Kolektor" ? "-" : kolektor,
+                },
+                { label: "Tanggal Dibuat", value: "07 Apr 2026" },
+                { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
+                { label: "Tanggal Transaksi Terakhir", value: "07 Apr 2026" },
+                { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+                { label: "Periode Waktu", value: "12 Bulan" },
+                { label: "Metode Bunga Pinjaman", value: "Bunga Efektif" },
+                { label: "Sisa Pinjaman", value: "11.000.000,00" },
+                { label: "Total Harus Bayar", value: "1.120.000,00" },
+              ]}
+            />
+
+            <div className="absolute right-4 top-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="h-9 rounded-full bg-white px-4 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
+                    Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-600" />
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  align="end"
+                  className="w-72 rounded-2xl border-slate-200 p-1"
+                >
+                  <DropdownMenuItem
+                    className="rounded-xl"
+                    onClick={() => toast("Riwayat Transaksi (prototype)")}
+                  >
+                    <History className="mr-2 h-4 w-4" />
+                    Riwayat Transaksi
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="rounded-xl"
+                    onClick={() => toast("Simulasi Tunggakan (prototype)")}
+                  >
+                    <Calculator className="mr-2 h-4 w-4" />
+                    Simulasi Tunggakan
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className="my-1" />
+
+                  <DropdownMenuItem
+                    className="rounded-xl"
+                    onClick={() => toast("Cetak Kwitansi Terakhir (prototype)")}
+                  >
+                    <ReceiptText className="mr-2 h-4 w-4" />
+                    Cetak Kwitansi Terakhir
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="rounded-xl"
+                    onClick={() =>
+                      toast("Cetak Buku Transaksi Terakhir (prototype)")
+                    }
+                  >
+                    <BookOpenText className="mr-2 h-4 w-4" />
+                    Cetak Buku Transaksi Terakhir
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="rounded-xl"
+                    onClick={() => toast("Cetak Buku (prototype)")}
+                  >
+                    <Printer className="mr-2 h-4 w-4" />
+                    Cetak Buku
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="rounded-xl"
+                    onClick={() => toast("Cetak Prima Nota (prototype)")}
+                  >
+                    <ScrollText className="mr-2 h-4 w-4" />
+                    Cetak Prima Nota
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
 
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -329,7 +409,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
                   <tbody className="bg-white">
                     <tr className="border-t border-slate-200">
-                      <td colSpan={7} className={cn(tdClass, edgePadLeft, edgePadRight)}>
+                      <td
+                        colSpan={7}
+                        className={cn(tdClass, edgePadLeft, edgePadRight)}
+                      >
                         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
                           <div className="flex items-start gap-2">
                             <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -376,22 +459,53 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                               }}
                             />
                           </td>
-                          <td className={cn(tdClass, "font-medium text-slate-900")}>
+                          <td
+                            className={cn(
+                              tdClass,
+                              "font-medium text-slate-900",
+                            )}
+                          >
                             {r.jatuhTempo}
                           </td>
-                          <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.totalBelumDibayar}
                           </td>
-                          <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.tagihanPokok}
                           </td>
-                          <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.tagihanBunga}
                           </td>
-                          <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                          <td
+                            className={cn(
+                              tdClass,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.sisaPokok}
                           </td>
-                          <td className={cn(tdClass, edgePadRight, "text-right tabular-nums text-slate-800")}>
+                          <td
+                            className={cn(
+                              tdClass,
+                              edgePadRight,
+                              "text-right tabular-nums text-slate-800",
+                            )}
+                          >
                             {r.sisaBunga}
                           </td>
                         </tr>
