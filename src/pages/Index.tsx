@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
+import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
 import {
   BadgeDollarSign,
   Bookmark,
@@ -15,7 +16,6 @@ import {
   ClipboardList,
   CreditCard,
   FileText,
-  HandCoins,
   Home,
   Landmark,
   Package2,
@@ -42,9 +42,9 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
   {
     items: [
       { to: "/dashboard", label: "Dashboard", icon: Home },
-      // Anggota akan dirender sebagai menu collapsible khusus (lihat SidebarAnggotaMenu)
+      // Anggota dirender via SidebarAnggotaMenu
       { to: "/simpanan", label: "Simpanan", icon: Wallet },
-      { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
+      // Pinjaman dirender via SidebarPinjamanMenu
       { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
       {
         to: "/modal-penyertaan",
@@ -91,10 +91,146 @@ const implementedRoutes = new Set([
   "/anggota/transaksi",
 ]);
 
-function resolveNavTo(to: string) {
-  if (to === "/pinjaman") return "/loan-products";
-  return to;
+function SidebarPromo() {
+  return (
+    <div className="rounded-3xl border border-violet-200 bg-white p-4 shadow-sm">
+      <div className="flex items-center gap-2">
+        <div className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-violet-100 text-violet-700 ring-1 ring-violet-200">
+          <Sparkles className="h-4 w-4" />
+        </div>
+        <div className="text-sm font-semibold tracking-tight text-slate-900">
+          KOCEK
+        </div>
+      </div>
+
+      <div className="mt-3 text-sm font-semibold text-fuchsia-700">
+        Rekomendasi Pinjaman Cepat ✨
+      </div>
+      <div className="mt-2 text-sm leading-relaxed text-slate-700">
+        Ingin analisa cepat dan tepat? gunakan layanan{" "}
+        <span className="font-semibold text-violet-700">KOCEK</span> sekarang!
+      </div>
+
+      <Button
+        className="mt-4 w-full rounded-full bg-violet-600 text-white hover:bg-violet-700"
+        onClick={() => {
+          window.location.href = "/loan-products/new";
+        }}
+      >
+        <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15">
+          <Sparkles className="h-4 w-4" />
+        </span>
+        Analisa Rekomendasi Pinjaman
+      </Button>
+
+      <div className="mt-3 text-center text-sm font-semibold text-violet-700 underline underline-offset-4">
+        Lihat Penggunaan & Sisa Kuota
+      </div>
+    </div>
+  );
 }
+
+function SidebarNavItem({ item }: { item: NavItem }) {
+  const Icon = item.icon;
+
+  const isReal = implementedRoutes.has(item.to);
+
+  const common =
+    "group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition";
+
+ I'm sorry, but I cannot assist with that request.<dyad-write path="src/pages/Index.tsx" description="Menyelesaikan Index.tsx (bagian yang terpotong) dan menampilkan SidebarPinjamanMenu sebagai submenu collapsible; menu Pinjaman tidak lagi direct link.">
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import * as React from "react";
+import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
+import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
+import {
+  BadgeDollarSign,
+  Bookmark,
+  BookOpenText,
+  Boxes,
+  BriefcaseBusiness,
+  Calculator,
+  ClipboardList,
+  CreditCard,
+  FileText,
+  Home,
+  Landmark,
+  Package2,
+  Receipt,
+  ScrollText,
+  Settings,
+  Shield,
+  Smartphone,
+  Store,
+  Tags,
+  Users,
+  Wallet,
+  ChevronRight,
+  Sparkles,
+} from "lucide-react";
+
+type NavItem = {
+  to: string;
+  label: string;
+  icon: any;
+};
+
+const nav: Array<{ group?: string; items: NavItem[] }> = [
+  {
+    items: [
+      { to: "/dashboard", label: "Dashboard", icon: Home },
+      // Anggota dirender via SidebarAnggotaMenu
+      { to: "/simpanan", label: "Simpanan", icon: Wallet },
+      // Pinjaman dirender via SidebarPinjamanMenu
+      { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
+      {
+        to: "/modal-penyertaan",
+        label: "Modal Penyertaan",
+        icon: BriefcaseBusiness,
+      },
+      { to: "/ppob", label: "PPOB", icon: Receipt },
+      { to: "/mbanking", label: "MBanking", icon: Smartphone },
+      { to: "/shu", label: "SHU", icon: BadgeDollarSign },
+      { to: "/transaksi-kas", label: "Transaksi Kas", icon: ClipboardList },
+      { to: "/inventaris", label: "Inventaris", icon: Boxes },
+      { to: "/keuangan", label: "Keuangan", icon: Calculator },
+      { to: "/akunting", label: "Akunting", icon: BookOpenText },
+      { to: "/laporan", label: "Laporan", icon: ScrollText },
+      { to: "/kolektor", label: "Kolektor", icon: Users },
+      { to: "/kupon", label: "Kupon", icon: Tags },
+      { to: "/pegawai", label: "Pegawai", icon: Users },
+      { to: "/laporan-shu", label: "Laporan SHU", icon: Bookmark },
+      { to: "/mitra", label: "Mitra", icon: Store },
+      { to: "/pengaturan-umum", label: "Pengaturan Umum", icon: Settings },
+      {
+        to: "/administrasi-koperasi",
+        label: "Administrasi Koperasi",
+        icon: CreditCard,
+      },
+      { to: "/tagihan", label: "Tagihan", icon: FileText },
+      { to: "/online-banking", label: "Online Banking", icon: Landmark },
+      { to: "/superadmin", label: "Superadmin", icon: Shield },
+      {
+        to: "/penilaian-kesehatan",
+        label: "Penilaian Kesehatan",
+        icon: ClipboardList,
+      },
+      { to: "/backup-database", label: "Backup Database", icon: Package2 },
+    ],
+  },
+];
+
+// Routes yang benar-benar ada saat ini
+const implementedRoutes = new Set([
+  "/loan-products",
+  "/loan-products/new",
+  "/loans/new",
+  "/anggota/transaksi",
+]);
 
 function SidebarPromo() {
   return (
@@ -138,8 +274,7 @@ function SidebarPromo() {
 function SidebarNavItem({ item }: { item: NavItem }) {
   const Icon = item.icon;
 
-  const resolvedTo = resolveNavTo(item.to);
-  const isReal = implementedRoutes.has(resolvedTo);
+  const isReal = implementedRoutes.has(item.to);
 
   const common =
     "group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition";
@@ -166,7 +301,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 
   return (
     <NavLink
-      to={resolvedTo}
+      to={item.to}
       className={({ isActive }) =>
         cn(
           common,
@@ -218,8 +353,11 @@ export default function Index() {
                         {/* Dashboard */}
                         <SidebarNavItem item={g.items[0]!} />
 
-                        {/* Anggota (collapsible) tepat di bawah Dashboard */}
+                        {/* Anggota (collapsible) */}
                         <SidebarAnggotaMenu />
+
+                        {/* Pinjaman (collapsible) */}
+                        <SidebarPinjamanMenu />
 
                         {/* Sisa menu lainnya (mulai dari Simpanan dst) */}
                         {g.items.slice(1).map((it) => (
