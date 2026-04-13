@@ -37,7 +37,7 @@ import {
   XCircle,
 } from "lucide-react";
 
-type TabId = "general" | "agunan" | "penanggung" | "upload" | "analisa" | "jadwal";
+type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
 function FieldRow({
   label,
@@ -260,7 +260,6 @@ export default function LoanApplicationCreate() {
     { id: "agunan" as const, label: "Agunan" },
     { id: "penanggung" as const, label: "Penanggung Jawab" },
     { id: "upload" as const, label: "Upload File" },
-    { id: "analisa" as const, label: "Formulir Analisa" },
     ...(showJadwalTab ? [{ id: "jadwal" as const, label: "Pengaturan Jadwal" }] : []),
   ];
 
@@ -415,6 +414,7 @@ export default function LoanApplicationCreate() {
                       value={tanggal}
                       onChange={(e) => setTanggal(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-white"
+                      placeholder={today}
                     />
                   </FieldRow>
 
