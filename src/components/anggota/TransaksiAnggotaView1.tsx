@@ -290,9 +290,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
           </Card>
         </div>
 
-        {/* Right: Ringkasan + Aksi (sejajar) + Form transaksi di bawah */}
+        {/* Right: Ringkasan + Aksi (lebar disamakan) + Form transaksi di bawah */}
         <div className="space-y-4">
-          <div className="grid gap-4 xl:grid-cols-[1fr_220px] xl:items-start">
+          <div className="grid gap-4 xl:grid-cols-2 xl:items-start">
             <div className="space-y-3">
               <SectionHighlight title="Pembayaran Angsuran" />
               <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
@@ -333,19 +333,19 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             <div className="space-y-3">
               <SectionHighlight title="Aksi" />
               <div className="grid gap-2">
-                <Button className="h-11 justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
+                <Button className="h-11 w-full justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
                   <ReceiptText className="mr-2 h-4 w-4" />
                   Cetak Kwitansi Transaksi Terakhir
                 </Button>
-                <Button className="h-11 justify-start rounded-xl bg-blue-600 text-white hover:bg-blue-700">
+                <Button className="h-11 w-full justify-start rounded-xl bg-blue-600 text-white hover:bg-blue-700">
                   <Printer className="mr-2 h-4 w-4" />
                   Cetak Buku Transaksi Terakhir
                 </Button>
-                <Button className="h-11 justify-start rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
+                <Button className="h-11 w-full justify-start rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
                   <FileText className="mr-2 h-4 w-4" />
                   Cetak Buku
                 </Button>
-                <Button className="h-11 justify-start rounded-xl bg-green-600 text-white hover:bg-green-700">
+                <Button className="h-11 w-full justify-start rounded-xl bg-green-600 text-white hover:bg-green-700">
                   <ScrollText className="mr-2 h-4 w-4" />
                   Cetak Prima Nota
                 </Button>
@@ -360,7 +360,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             <div className="grid gap-3">
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">
-                  {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
+                  {isPelunasan
+                    ? "Tanggal Efektif Pelunasan*"
+                    : "Tanggal Efektif Bayar*"}
                 </Label>
                 <div className="relative">
                   <Input
@@ -382,7 +384,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pembayaran Angsuran">Pembayaran Angsuran</SelectItem>
+                    <SelectItem value="Pembayaran Angsuran">
+                      Pembayaran Angsuran
+                    </SelectItem>
                     <SelectItem value="Pembayaran Rincian Tagihan">
                       Pembayaran Rincian Tagihan
                     </SelectItem>
@@ -480,7 +484,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               {isRincian ? (
                 <div className="pt-1">
-                  <div className="text-xs font-semibold text-slate-600">Total Pembayaran</div>
+                  <div className="text-xs font-semibold text-slate-600">
+                    Total Pembayaran
+                  </div>
                   <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
                     {formatIdrLike(totalRincian)},00
                   </div>
