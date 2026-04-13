@@ -150,7 +150,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     <div className="mt-6">
       <TabsLike />
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[260px_1fr_320px]">
+      <div className="mt-4 grid gap-4 lg:grid-cols-[260px_1fr_520px]">
         {/* Left: Pinjaman billing */}
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
           <div className="rounded-2xl bg-sky-600 px-4 py-4 text-white shadow-sm ring-1 ring-sky-700/20">
@@ -227,7 +227,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         disabled={isPelunasan}
                       />
                     </th>
-                    <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
+                    <th className="w-[150px] px-4 py-3">
+                      Jatuh Tempo
+                    </th>
                     <th className="w-[190px] px-4 py-3">
                       Total Tagihan Belum Dibayar
                     </th>
@@ -248,11 +250,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                             <Info className="h-4 w-4" />
                           </span>
                           <div>
-                            <div className="font-semibold">Periode Grace Period</div>
+                            <div className="font-semibold">
+                              Periode Grace Period
+                            </div>
                             <div className="mt-0.5 text-slate-700">
-                              Berikut ini merupakan periode tagihan pinjaman yang
-                              termasuk ke dalam grace period. Selama periode grace
-                              period nasabah hanya membayar bunga.
+                              Berikut ini merupakan periode tagihan pinjaman
+                              yang termasuk ke dalam grace period. Selama
+                              periode grace period nasabah hanya membayar bunga.
                             </div>
                           </div>
                         </div>
@@ -276,8 +280,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <td className="px-4 py-3 text-slate-800">
                         {r.totalBelumDibayar}
                       </td>
-                      <td className="px-4 py-3 text-slate-800">{r.tagihanPokok}</td>
-                      <td className="px-4 py-3 text-slate-800">{r.tagihanBunga}</td>
+                      <td className="px-4 py-3 text-slate-800">
+                        {r.tagihanPokok}
+                      </td>
+                      <td className="px-4 py-3 text-slate-800">
+                        {r.tagihanBunga}
+                      </td>
                       <td className="px-4 py-3 text-slate-800">{r.sisaPokok}</td>
                       <td className="px-4 py-3 text-slate-800">{r.sisaBunga}</td>
                     </tr>
@@ -292,7 +300,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <div className="flex items-start gap-2">
                 <CheckSquare className="mt-0.5 h-4 w-4 text-emerald-700" />
                 <div>
-                  <div className="font-semibold text-slate-900">Mode Pelunasan</div>
+                  <div className="font-semibold text-slate-900">
+                    Mode Pelunasan
+                  </div>
                   <div className="mt-0.5 leading-relaxed text-slate-700">
                     Semua rincian tagihan otomatis dipilih dan tidak bisa diubah.
                   </div>
@@ -302,39 +312,69 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
           ) : null}
         </Card>
 
-        {/* Right: Ringkasan + Form + Aksi */}
+        {/* Right: Ringkasan + Aksi (sejajar) + Form transaksi di bawah */}
         <div className="space-y-4">
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-            <div className="text-sm font-semibold text-slate-900">RINGKASAN TAGIHAN</div>
-            <Separator className="my-3 bg-slate-200/70" />
-
-            <div className="space-y-2 text-sm">
-              {[
-                ["Total Pokok", "2.500.000"],
-                ["Total Bunga", "208.333"],
-                ["Total Denda", "0"],
-                ["Total Tagihan", "2.708.333"],
-              ].map(([k, v]) => (
-                <div key={k} className="flex items-center justify-between gap-3">
-                  <div className="text-slate-600">{k}</div>
-                  <div className="font-semibold text-slate-900">{v}</div>
-                </div>
-              ))}
-
+          <div className="grid gap-4 xl:grid-cols-[1fr_220px] xl:items-start">
+            <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
+              <div className="text-sm font-semibold text-slate-900">
+                RINGKASAN TAGIHAN
+              </div>
               <Separator className="my-3 bg-slate-200/70" />
 
-              {[
-                ["Angsuran Ke", "1"],
-                ["Angsuran Lunas", "0"],
-                ["Angsuran Seharusnya", "0"],
-              ].map(([k, v]) => (
-                <div key={k} className="flex items-center justify-between gap-3">
-                  <div className="text-slate-600">{k}</div>
-                  <div className="font-semibold text-slate-900">{v}</div>
-                </div>
-              ))}
+              <div className="space-y-2 text-sm">
+                {[
+                  ["Total Pokok", "2.500.000"],
+                  ["Total Bunga", "208.333"],
+                  ["Total Denda", "0"],
+                  ["Total Tagihan", "2.708.333"],
+                ].map(([k, v]) => (
+                  <div
+                    key={k}
+                    className="flex items-center justify-between gap-3"
+                  >
+                    <div className="text-slate-600">{k}</div>
+                    <div className="font-semibold text-slate-900">{v}</div>
+                  </div>
+                ))}
+
+                <Separator className="my-3 bg-slate-200/70" />
+
+                {[
+                  ["Angsuran Ke", "1"],
+                  ["Angsuran Lunas", "0"],
+                  ["Angsuran Seharusnya", "0"],
+                ].map(([k, v]) => (
+                  <div
+                    key={k}
+                    className="flex items-center justify-between gap-3"
+                  >
+                    <div className="text-slate-600">{k}</div>
+                    <div className="font-semibold text-slate-900">{v}</div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            {/* Tombol aksi diposisikan di kanan ringkasan (desktop), stack (mobile) */}
+            <div className="grid gap-2">
+              <Button className="h-11 justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
+                <ReceiptText className="mr-2 h-4 w-4" />
+                Cetak Kwitansi Transaksi Terakhir
+              </Button>
+              <Button className="h-11 justify-start rounded-xl bg-blue-600 text-white hover:bg-blue-700">
+                <Printer className="mr-2 h-4 w-4" />
+                Cetak Buku Transaksi Terakhir
+              </Button>
+              <Button className="h-11 justify-start rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
+                <FileText className="mr-2 h-4 w-4" />
+                Cetak Buku
+              </Button>
+              <Button className="h-11 justify-start rounded-xl bg-green-600 text-white hover:bg-green-700">
+                <ScrollText className="mr-2 h-4 w-4" />
+                Cetak Prima Nota
+              </Button>
             </div>
-          </Card>
+          </div>
 
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
             <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
@@ -343,7 +383,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             <div className="grid gap-3">
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">
-                  {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
+                  {isPelunasan
+                    ? "Tanggal Efektif Pelunasan*"
+                    : "Tanggal Efektif Bayar*"}
                 </Label>
                 <div className="relative">
                   <Input
@@ -365,7 +407,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pembayaran Angsuran">Pembayaran Angsuran</SelectItem>
+                    <SelectItem value="Pembayaran Angsuran">
+                      Pembayaran Angsuran
+                    </SelectItem>
                     <SelectItem value="Pembayaran Rincian Tagihan">
                       Pembayaran Rincian Tagihan
                     </SelectItem>
@@ -478,25 +522,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </Button>
             </div>
           </Card>
-
-          <div className="grid gap-2">
-            <Button className="h-10 justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
-              <ReceiptText className="mr-2 h-4 w-4" />
-              Cetak Kwitansi Transaksi Terakhir
-            </Button>
-            <Button className="h-10 justify-start rounded-xl bg-blue-600 text-white hover:bg-blue-700">
-              <Printer className="mr-2 h-4 w-4" />
-              Cetak Buku Transaksi Terakhir
-            </Button>
-            <Button className="h-10 justify-start rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
-              <FileText className="mr-2 h-4 w-4" />
-              Cetak Buku
-            </Button>
-            <Button className="h-10 justify-start rounded-xl bg-green-600 text-white hover:bg-green-700">
-              <ScrollText className="mr-2 h-4 w-4" />
-              Cetak Prima Nota
-            </Button>
-          </div>
         </div>
       </div>
 
@@ -504,6 +529,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
         Catatan: ini tampilan mock untuk anggota pertama (akan kita perluas untuk
         anggota lainnya).
       </div>
+
+      <div className="sr-only">{nasabah.nama}</div>
     </div>
   );
 }
