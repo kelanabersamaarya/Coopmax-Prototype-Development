@@ -126,13 +126,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
         }}
       />
 
-      {/* Layout responsif agar tidak overflow:
-          - mobile: 1 kolom (stack)
-          - lg: 2 kolom (info + detail)
-          - xl: 3 kolom (tambah ringkasan/transaksi)
-          - 2xl: 4 kolom (aksi jadi kolom sendiri)
+      {/* Tujuan: tabel billing (Detail Angsuran) harus selalu terlihat.
+          - lg: 2 kolom (Info + Detail) supaya tabel dapat ruang.
+          - 2xl: 3 kolom (tambah Ringkasan/Transaksi). Aksi tetap turun sebagai full row,
+                 agar tidak mengorbankan lebar tabel.
       */}
-      <div className="mt-4 grid gap-4 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[260px_minmax(0,1fr)_360px] 2xl:grid-cols-[260px_minmax(0,1fr)_360px_240px]">
+      <div className="mt-4 grid gap-4 lg:grid-cols-[260px_minmax(0,1fr)] 2xl:grid-cols-[260px_minmax(0,1fr)_360px]">
         {/* Informasi Rekening */}
         <div className="space-y-3">
           <SectionHighlight title="Informasi Rekening" />
@@ -475,10 +474,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
           </Card>
         </div>
 
-        {/* Aksi */}
-        <div className="space-y-3 min-w-0 2xl:mt-0 xl:col-span-3 2xl:col-span-1">
+        {/* Aksi: selalu full row (tidak memakan lebar tabel) */}
+        <div className="space-y-3 min-w-0 lg:col-span-2 2xl:col-span-3">
           <SectionHighlight title="Aksi" />
-          <div className="grid gap-2">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
             <Button className="h-11 w-full justify-start rounded-xl bg-slate-700 text-white hover:bg-slate-800">
               <ReceiptText className="mr-2 h-4 w-4" />
               Cetak Kwitansi Transaksi Terakhir
