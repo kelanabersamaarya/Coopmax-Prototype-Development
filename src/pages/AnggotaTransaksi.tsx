@@ -15,10 +15,12 @@ export default function AnggotaTransaksi() {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Nasabah | null>(null);
 
+  const selectedName = (selected?.nama ?? "").trim().toLowerCase();
+
   // Seed dialog saat ini: index 0 = "Gaby", index 1 = "Nyoman Ariana", index 2 = "Komang Dewa"
-  const showView1 = selected?.nama === "Gaby";
-  const showView3 = selected?.nama === "Komang Dewa";
-  const showView2 = selected?.nama === "Nyoman Ariana";
+  const showView1 = selectedName === "gaby";
+  const showView2 = selectedName === "nyoman ariana";
+  const showView3 = selectedName === "komang dewa";
 
   return (
     <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
