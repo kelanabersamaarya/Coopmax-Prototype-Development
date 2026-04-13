@@ -238,7 +238,7 @@ export default function LoanApplicationCreate() {
 
   // --- Jadwal tab state (prototype) ---
   const [jenisPerhitunganBunga, setJenisPerhitunganBunga] =
-    React.useState<string>("Add-on");
+    React.useState<string>("Jadwal Tetap");
   const [metodePerhitunganBunga, setMetodePerhitunganBunga] =
     React.useState<string>("Bunga Efektif");
   const [frekuensiBunga, setFrekuensiBunga] = React.useState<string>("Bulanan");
@@ -566,7 +566,7 @@ export default function LoanApplicationCreate() {
                   </div>
 
                   {/* dibuat full-width supaya field mendekati ujung kanan section */}
-                  <div className="grid gap-4 w-full max-w-none">
+                  <div className="grid w-full max-w-none gap-4">
                     <FieldRow label="Jenis Perhitungan Bunga" required>
                       <Select
                         value={jenisPerhitunganBunga}
@@ -576,9 +576,13 @@ export default function LoanApplicationCreate() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Add-on">Add-on</SelectItem>
-                          <SelectItem value="In Advance">In Advance</SelectItem>
-                          <SelectItem value="In Arrear">In Arrear</SelectItem>
+                          <SelectItem value="Jadwal Tetap">Jadwal Tetap</SelectItem>
+                          <SelectItem value="Jadwal Fleksibel & Tagihan Berkala">
+                            Jadwal Fleksibel & Tagihan Berkala
+                          </SelectItem>
+                          <SelectItem value="Tagihan Dihitung dari Sisa Saldo Pokok">
+                            Tagihan Dihitung dari Sisa Saldo Pokok
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </FieldRow>
