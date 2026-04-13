@@ -193,13 +193,13 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="mx-auto w-full max-w-6xl px-4 py-6 md:px-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-6 md:px-8">
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div />
           <div className="hidden md:block" />
         </header>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-[320px_1fr]">
+        <div className="mt-6 grid w-full grid-cols-1 gap-4 md:grid-cols-[320px_minmax(0,1fr)]">
           <aside className="space-y-4 px-0">
             <SidebarPromo />
 
@@ -235,7 +235,9 @@ export default function Index() {
             </Card>
           </aside>
 
-          <div>{isHome ? <Outlet /> : <Outlet />}</div>
+          <main className="w-full min-w-0">
+            {isHome ? <Outlet /> : <Outlet />}
+          </main>
         </div>
       </div>
     </div>
