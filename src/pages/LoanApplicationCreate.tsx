@@ -565,13 +565,14 @@ export default function LoanApplicationCreate() {
                     Jadwal Perhitungan Bunga
                   </div>
 
-                  <div className="grid gap-4 md:max-w-3xl">
+                  {/* dibuat full-width supaya field mendekati ujung kanan section */}
+                  <div className="grid gap-4 w-full max-w-none">
                     <FieldRow label="Jenis Perhitungan Bunga" required>
                       <Select
                         value={jenisPerhitunganBunga}
                         onValueChange={setJenisPerhitunganBunga}
                       >
-                        <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-white">
+                        <SelectTrigger className="h-11 w-full rounded-xl border-slate-200 bg-white">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -587,7 +588,7 @@ export default function LoanApplicationCreate() {
                         value={metodePerhitunganBunga}
                         onValueChange={setMetodePerhitunganBunga}
                       >
-                        <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
+                        <SelectTrigger className="h-11 w-full rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -605,7 +606,7 @@ export default function LoanApplicationCreate() {
                         value={frekuensiBunga}
                         onValueChange={setFrekuensiBunga}
                       >
-                        <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
+                        <SelectTrigger className="h-11 w-full rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -620,17 +621,17 @@ export default function LoanApplicationCreate() {
                       <Input
                         value={periode}
                         onChange={(e) => setPeriode(e.target.value)}
-                        className="h-11 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                        className="h-11 w-full rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
                         placeholder=""
                       />
                     </FieldRow>
 
                     <FieldRow label="Tanggal Tagihan Ke-1" required>
-                      <div className="relative">
+                      <div className="relative w-full">
                         <Input
                           value={tanggalTagihanKe1}
                           onChange={(e) => setTanggalTagihanKe1(e.target.value)}
-                          className="h-11 rounded-xl border-slate-200 bg-white pr-11"
+                          className="h-11 w-full rounded-xl border-slate-200 bg-white pr-11"
                         />
                         <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       </div>
