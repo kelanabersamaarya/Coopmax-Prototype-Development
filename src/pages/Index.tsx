@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
+import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
 import {
   BadgeDollarSign,
   Bookmark,
@@ -44,6 +45,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
       { to: "/dashboard", label: "Dashboard", icon: Home },
       // Anggota akan dirender sebagai menu collapsible khusus (lihat SidebarAnggotaMenu)
       { to: "/simpanan", label: "Simpanan", icon: Wallet },
+      // Pinjaman akan dirender sebagai menu collapsible khusus (lihat SidebarPinjamanMenu)
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
       { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
       {
@@ -221,10 +223,16 @@ export default function Index() {
                         {/* Anggota (collapsible) tepat di bawah Dashboard */}
                         <SidebarAnggotaMenu />
 
+                        {/* Pinjaman (collapsible) tepat di bawah Anggota */}
+                        <SidebarPinjamanMenu />
+
                         {/* Sisa menu lainnya (mulai dari Simpanan dst) */}
-                        {g.items.slice(1).map((it) => (
-                          <SidebarNavItem key={it.to} item={it} />
-                        ))}
+                        {g.items
+                          .slice(1)
+                          .filter((it) => it.to !== "/pinjaman")
+                          .map((it) => (
+                            <SidebarNavItem key={it.to} item={it} />
+                          ))}
                       </div>
                     </div>
                   ))}
