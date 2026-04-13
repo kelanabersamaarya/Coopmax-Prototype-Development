@@ -13,7 +13,7 @@ type SubItem = {
 
 const items: SubItem[] = [
   { label: "Pengajuan Baru", disabled: true },
-  { label: "Daftar Pengajuan Pinjaman", disabled: true },
+  { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", disabled: true },
   { label: "Transaksi Pinjaman", disabled: true },
   { label: "Pinjaman Lunas", disabled: true },
