@@ -218,6 +218,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
+  const billingActionBtn =
+    "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
+
   return (
     <div className="space-y-5">
       <AnggotaAccountTabs
@@ -268,12 +271,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             </div>
 
             <div className="mt-4 grid gap-2">
-              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
-                Riwayat Transaksi
-              </Button>
-              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
-                Simulasi Tunggakan
-              </Button>
+              <Button className={billingActionBtn}>Riwayat Transaksi</Button>
+              <Button className={billingActionBtn}>Simulasi Tunggakan</Button>
             </div>
           </Card>
         </div>
@@ -474,7 +473,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               </div>
 
               <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
+                <Label className="text-xs text-slate-600">
+                  Jenis Transaksi*
+                </Label>
                 <Select
                   value={jenisTransaksi}
                   onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
@@ -499,7 +500,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                    <SelectItem value="Pilih Kolektor">
+                      Pilih Kolektor
+                    </SelectItem>
                     <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                     <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                   </SelectContent>
@@ -509,7 +512,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               {isRincian ? (
                 <>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
+                    <Label className="text-xs text-slate-600">
+                      Nominal Pokok*
+                    </Label>
                     <Input
                       value={nominalPokok}
                       onChange={(e) => setNominalPokok(e.target.value)}
@@ -518,7 +523,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
+                    <Label className="text-xs text-slate-600">
+                      Nominal Bunga*
+                    </Label>
                     <Input
                       value={nominalBunga}
                       onChange={(e) => setNominalBunga(e.target.value)}
@@ -527,7 +534,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     />
                   </div>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Nominal Denda*</Label>
+                    <Label className="text-xs text-slate-600">
+                      Nominal Denda*
+                    </Label>
                     <Input
                       value={nominalDenda}
                       onChange={(e) => setNominalDenda(e.target.value)}
@@ -564,7 +573,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+                    <SelectItem value="Tanpa Tabungan">
+                      Tanpa Tabungan
+                    </SelectItem>
                     <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
                   </SelectContent>
                 </Select>

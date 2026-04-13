@@ -117,6 +117,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
+  const billingActionBtn =
+    "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
+
   return (
     <div className="mt-6">
       <AnggotaAccountTabs
@@ -168,12 +171,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             </div>
 
             <div className="mt-4 grid gap-2">
-              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
-                Riwayat Transaksi
-              </Button>
-              <Button className="h-9 rounded-xl bg-white/10 text-white hover:bg-white/15">
-                Simulasi Tunggakan
-              </Button>
+              <Button className={billingActionBtn}>Riwayat Transaksi</Button>
+              <Button className={billingActionBtn}>Simulasi Tunggakan</Button>
             </div>
           </Card>
         </div>
@@ -213,14 +212,20 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                           disabled={isPelunasan}
                         />
                       </th>
-                      <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
+                      <th className="w-[150px] px-4 py-3">
+                        Jatuh Tempo
+                      </th>
                       <th className="w-[190px] px-4 py-3">
                         Total Tagihan Belum Dibayar
                       </th>
                       <th className="w-[140px] px-4 py-3">Tagihan Pokok</th>
                       <th className="w-[140px] px-4 py-3">Tagihan Bunga</th>
-                      <th className="w-[140px] px-4 py-3">Sisa Tagihan Pokok</th>
-                      <th className="w-[140px] px-4 py-3">Sisa Tagihan Bunga</th>
+                      <th className="w-[140px] px-4 py-3">
+                        Sisa Tagihan Pokok
+                      </th>
+                      <th className="w-[140px] px-4 py-3">
+                        Sisa Tagihan Bunga
+                      </th>
                     </tr>
                   </thead>
 
@@ -249,7 +254,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     </tr>
 
                     {rows.map((r, idx) => (
-                      <tr key={idx} className="border-t border-slate-100 text-sm">
+                      <tr
+                        key={idx}
+                        className="border-t border-slate-100 text-sm"
+                      >
                         <td className="px-4 py-3">
                           <input
                             type="checkbox"
@@ -270,7 +278,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         <td className="px-4 py-3 text-slate-800">
                           {r.tagihanBunga}
                         </td>
-                        <td className="px-4 py-3 text-slate-800">{r.sisaPokok}</td>
+                        <td className="px-4 py-3 text-slate-800">
+                          {r.sisaPokok}
+                        </td>
                         <td className="px-4 py-3 text-slate-800">{r.sisaBunga}</td>
                       </tr>
                     ))}
