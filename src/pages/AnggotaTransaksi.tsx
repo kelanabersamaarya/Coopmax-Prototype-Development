@@ -21,7 +21,7 @@ export default function AnggotaTransaksi() {
   const showView2 = selected?.nama === "Nyoman Ariana";
 
   return (
-    <div className="min-h-[calc(100vh-2rem)] rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
+    <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
       <NasabahPickerDialog
         open={open}
         onOpenChange={setOpen}
@@ -90,19 +90,24 @@ export default function AnggotaTransaksi() {
           </div>
         ) : null}
 
-        <div className="mt-3">
-          {showView1 && selected ? (
-            <TransaksiAnggotaView1 nasabah={selected} />
-          ) : showView3 && selected ? (
-            <TransaksiAnggotaView3 nasabah={selected} />
-          ) : showView2 && selected ? (
-            <TransaksiAnggotaView2 nasabah={selected} />
-          ) : selected ? (
-            <div className="rounded-2xl bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
-              Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
-              pertama & kedua yang memiliki tampilan khusus.)
+        {/* Area transaksi: scroll horizontal terjadi DI DALAM section putih ini */}
+        <div className="-mx-4 md:-mx-6">
+          <div className="overflow-x-auto px-4 pb-2 md:px-6">
+            <div className="min-w-max pr-6 md:pr-10">
+              {showView1 && selected ? (
+                <TransaksiAnggotaView1 nasabah={selected} />
+              ) : showView3 && selected ? (
+                <TransaksiAnggotaView3 nasabah={selected} />
+              ) : showView2 && selected ? (
+                <TransaksiAnggotaView2 nasabah={selected} />
+              ) : selected ? (
+                <div className="rounded-2xl bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
+                  Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
+                  pertama & kedua yang memiliki tampilan khusus.)
+                </div>
+              ) : null}
             </div>
-          ) : null}
+          </div>
         </div>
       </div>
 
