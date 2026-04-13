@@ -146,7 +146,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
   const isReal = implementedRoutes.has(resolvedTo);
 
   const common =
-    "group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition";
+    "group flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left transition";
 
   if (!isReal) {
     return (
@@ -157,13 +157,13 @@ function SidebarNavItem({ item }: { item: NavItem }) {
           window.location.href = "/";
         }}
       >
-        <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-          <Icon className="h-5 w-5" />
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+          <Icon className="h-4.5 w-4.5" />
         </span>
-        <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">
+        <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
           {item.label}
         </span>
-        <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400" />
+        <ChevronRight className="h-4.5 w-4.5 text-slate-300 group-hover:text-slate-400" />
       </button>
     );
   }
@@ -180,13 +180,13 @@ function SidebarNavItem({ item }: { item: NavItem }) {
         )
       }
     >
-      <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
-        <Icon className="h-5 w-5" />
+      <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+        <Icon className="h-4.5 w-4.5" />
       </span>
-      <span className="min-w-0 flex-1 truncate text-[15px] font-semibold">
+      <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
         {item.label}
       </span>
-      <ChevronRight className="h-5 w-5 text-slate-300 group-hover:text-slate-400" />
+      <ChevronRight className="h-4.5 w-4.5 text-slate-300 group-hover:text-slate-400" />
     </NavLink>
   );
 }
@@ -203,17 +203,18 @@ export default function Index() {
           <div className="hidden md:block" />
         </header>
 
-        <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-[320px_minmax(0,1fr)]">
+        <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-[215px_minmax(0,1fr)]">
           <aside className="space-y-4 px-0">
             <SidebarPromo />
 
             <Card className="rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
-              <div className="max-h-[70vh] overflow-auto px-0 py-1">
+              {/* no scroll on sidebar */}
+              <div className="px-0 py-1">
                 <div className="space-y-1">
                   {nav.map((g, idx) => (
                     <div key={g.group ?? idx} className="px-0">
                       {g.group ? (
-                        <div className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                        <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
                           {g.group}
                         </div>
                       ) : null}
@@ -246,7 +247,9 @@ export default function Index() {
           </aside>
 
           {/* Konten boleh scroll horizontal jika ada tabel/komponen lebar */}
-          <div className="min-w-0 overflow-x-auto">{isHome ? <Outlet /> : <Outlet />}</div>
+          <div className="min-w-0 overflow-x-auto">
+            {isHome ? <Outlet /> : <Outlet />}
+          </div>
         </div>
       </div>
     </div>
