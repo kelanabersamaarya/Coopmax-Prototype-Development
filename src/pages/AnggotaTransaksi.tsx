@@ -110,10 +110,6 @@ export default function AnggotaTransaksi() {
           </div>
         </div>
       </div>
-
-      <div className="mt-10 border-t border-slate-200/70 pt-4 text-sm text-slate-500">
-        © 2026 PT. Solusi Anak Sakti
-      </div>
     </div>
   );
 }
