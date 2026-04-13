@@ -213,21 +213,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         />
                       </th>
                       <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
-                      <th className="w-[190px] px-4 py-3 text-right">
+                      <th className="w-[190px] px-4 py-3">
                         Total Tagihan Belum Dibayar
                       </th>
-                      <th className="w-[140px] px-4 py-3 text-right">
-                        Tagihan Pokok
-                      </th>
-                      <th className="w-[140px] px-4 py-3 text-right">
-                        Tagihan Bunga
-                      </th>
-                      <th className="w-[140px] px-4 py-3 text-right">
+                      <th className="w-[140px] px-4 py-3">Tagihan Pokok</th>
+                      <th className="w-[140px] px-4 py-3">Tagihan Bunga</th>
+                      <th className="w-[140px] px-4 py-3">
                         Sisa Tagihan Pokok
                       </th>
-                      <th className="w-[140px] px-4 py-3 text-right">
-                        Sisa Tagihan Bunga
-                      </th>
+                      <th className="w-[140px] px-4 py-3">Sisa Tagihan Bunga</th>
                     </tr>
                   </thead>
 

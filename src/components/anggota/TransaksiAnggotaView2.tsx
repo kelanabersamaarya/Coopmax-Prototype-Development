@@ -157,17 +157,11 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
           <thead className="bg-white">
             <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-700">
               <th className="w-[140px] px-4 py-3">Jatuh Tempo</th>
-              <th className="w-[200px] px-4 py-3 text-right">
-                Total Tagihan Belum Dibayar
-              </th>
-              <th className="w-[160px] px-4 py-3 text-right">Tagihan Pokok</th>
-              <th className="w-[160px] px-4 py-3 text-right">Tagihan Bunga</th>
-              <th className="w-[160px] px-4 py-3 text-right">
-                Sisa Tagihan Pokok
-              </th>
-              <th className="w-[160px] px-4 py-3 text-right">
-                Sisa Tagihan Bunga
-              </th>
+              <th className="w-[200px] px-4 py-3">Total Tagihan Belum Dibayar</th>
+              <th className="w-[160px] px-4 py-3">Tagihan Pokok</th>
+              <th className="w-[160px] px-4 py-3">Tagihan Bunga</th>
+              <th className="w-[160px] px-4 py-3">Sisa Tagihan Pokok</th>
+              <th className="w-[160px] px-4 py-3">Sisa Tagihan Bunga</th>
             </tr>
           </thead>
 
@@ -332,19 +326,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                           />
                         </th>
                         <th className="w-[120px] px-3 py-2.5">Jatuh Tempo</th>
-                        <th className="w-[170px] px-3 py-2.5 text-right">
+                        <th className="w-[170px] px-3 py-2.5">
                           Total Tagihan Belum Dibayar
                         </th>
-                        <th className="w-[120px] px-3 py-2.5 text-right">
-                          Tagihan Pokok
-                        </th>
-                        <th className="w-[120px] px-3 py-2.5 text-right">
-                          Tagihan Bunga
-                        </th>
-                        <th className="w-[130px] px-3 py-2.5 text-right">
+                        <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
+                        <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
+                        <th className="w-[130px] px-3 py-2.5">
                           Sisa Tagihan Pokok
                         </th>
-                        <th className="w-[130px] px-3 py-2.5 text-right">
+                        <th className="w-[130px] px-3 py-2.5">
                           Sisa Tagihan Bunga
                         </th>
                       </tr>
