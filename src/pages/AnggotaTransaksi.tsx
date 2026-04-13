@@ -98,11 +98,7 @@ export default function AnggotaTransaksi() {
               Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
               pertama & kedua yang memiliki tampilan khusus.)
             </div>
-          ) : (
-            <div className="rounded-2xl bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
-              Klik tombol <span className="font-semibold">Cari</span> untuk memilih nasabah.
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
 
