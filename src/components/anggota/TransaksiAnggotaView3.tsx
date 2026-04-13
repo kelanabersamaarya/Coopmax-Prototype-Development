@@ -18,16 +18,13 @@ import {
   CalendarDays,
   CheckSquare,
   FileText,
+  Info,
   Printer,
   ReceiptText,
   ScrollText,
-  Sparkles,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
-import BillingRowsResponsive, {
-  type BillingRow,
-} from "@/components/anggota/BillingRowsResponsive";
 
 type Props = {
   nasabah: {
@@ -38,7 +35,16 @@ type Props = {
   };
 };
 
-const rows: BillingRow[] = [
+type Row = {
+  jatuhTempo: string;
+  totalBelumDibayar: string;
+  tagihanPokok: string;
+  tagihanBunga: string;
+  sisaPokok: string;
+  sisaBunga: string;
+};
+
+const rows: Row[] = [
   {
     jatuhTempo: "25-01-2026",
     totalBelumDibayar: "916.667",
@@ -90,6 +96,30 @@ function parseAmount(input: string) {
 function formatIdrLike(n: number) {
   const s = Math.round(n).toString();
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function GracePeriodRow({ colSpan }: { colSpan: number }) {
+  return (
+    <tr className="border-b border-slate-200">
+      <td colSpan={colSpan} className="px-4 py-3">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+          <div className="flex items-start gap-2">
+            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+              <Info className="h-4 w-4" />
+            </span>
+            <div>
+              <div className="font-semibold">Periode Grace Period</div>
+              <div className="mt-0.5 text-slate-700">
+                Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
+                dalam grace period. Selama periode grace period nasabah hanya
+                membayar bunga.
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  );
 }
 
 export default function TransaksiAnggotaView3({ nasabah }: Props) {
@@ -195,22 +225,78 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               <div className="font-semibold text-slate-900">TAGIHAN</div>
 
               <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
-                <div className="leading-relaxed text-slate-700">
-                  {isPelunasan
-                    ? "Mode pelunasan: semua rincian tagihan ditampilkan dan otomatis terpilih."
-                    : "Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada periode ini serta harus dibayarkan sebelum tanggal jatuh tempo."}
+                <div className="flex items-start gap-2">
+                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                    <Info className="h-4 w-4" />
+                  </span>
+                  <div className="leading-relaxed text-slate-700">
+                    {isPelunasan
+                      ? "Mode pelunasan: semua rincian tagihan ditampilkan dan otomatis terpilih."
+                      : "Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada periode ini serta harus dibayarkan sebelum tanggal jatuh tempo."}
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-3">
-                <BillingRowsResponsive
-                  rows={billingRows}
-                  selectable
-                  disableChecks={isPelunasan}
-                  selectAllChecked={isPelunasan ? true : undefined}
-                  rowChecked={() => (isPelunasan ? true : false)}
-                  compact
-                />
+              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+                <div className="overflow-auto">
+                  <table className="w-full min-w-[740px] border-collapse">
+                    <thead className="bg-white">
+                      <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
+                        <th className="w-[40px] px-3 py-2.5">
+                          <input
+                            type="checkbox"
+                            aria-label="Pilih semua"
+                            checked={isPelunasan ? true : undefined}
+                            disabled={isPelunasan}
+                          />
+                        </th>
+                        <th className="w-[120px] px-3 py-2.5">Jatuh Tempo</th>
+                        <th className="w-[170px] px-3 py-2.5">
+                          Total Tagihan Belum Dibayar
+                        </th>
+                        <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
+                        <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
+                        <th className="w-[130px] px-3 py-2.5">
+                          Sisa Tagihan Pokok
+                        </th>
+                        <th className="w-[130px] px-3 py-2.5">
+                          Sisa Tagihan Bunga
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody className="bg-white">
+                      <GracePeriodRow colSpan={7} />
+
+                      {billingRows.map((r, idx) => (
+                        <tr key={idx} className="border-t border-slate-200 text-sm">
+                          <td className="px-3 py-2.5">
+                            <input
+                              type="checkbox"
+                              aria-label="Pilih tagihan"
+                              checked={isPelunasan ? true : undefined}
+                              disabled={isPelunasan}
+                            />
+                          </td>
+                          <td className="px-3 py-2.5 font-medium text-slate-900">
+                            {r.jatuhTempo}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {r.totalBelumDibayar}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {r.tagihanPokok}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {r.tagihanBunga}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">{r.sisaPokok}</td>
+                          <td className="px-3 py-2.5 text-slate-800">{r.sisaBunga}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </Card>
@@ -419,7 +505,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
       </div>
 
       <div className="sr-only">{cn(nasabah.nama)}</div>
-      <div className="sr-only">{Sparkles}</div>
     </div>
   );
 }
