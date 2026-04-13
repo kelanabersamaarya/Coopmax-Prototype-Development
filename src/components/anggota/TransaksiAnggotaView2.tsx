@@ -216,6 +216,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
+  const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
+
   return (
     <div className="space-y-5">
       <AnggotaAccountTabs
@@ -296,8 +298,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     <Info className="h-4 w-4" />
                   </span>
                   <div className="leading-relaxed text-slate-700">
-                    Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada
-                    periode ini serta harus dibayarkan sebelum tanggal jatuh tempo
+                    {isPelunasan
+                      ? "Mode pelunasan: seluruh rincian tagihan ditampilkan dan otomatis terpilih."
+                      : "Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada periode ini serta harus dibayarkan sebelum tanggal jatuh tempo"}
                   </div>
                 </div>
               </div>
@@ -329,34 +332,36 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     <tbody className="bg-white">
                       <GracePeriodRow colSpan={7} />
 
-                      <tr className="border-t border-slate-200 text-sm">
-                        <td className="px-3 py-2.5">
-                          <input
-                            type="checkbox"
-                            aria-label="Pilih tagihan"
-                            checked={isPelunasan ? true : undefined}
-                            disabled={isPelunasan}
-                          />
-                        </td>
-                        <td className="px-3 py-2.5 font-medium text-slate-900">
-                          {currentBill.jatuhTempo}
-                        </td>
-                        <td className="px-3 py-2.5 text-slate-800">
-                          {currentBill.totalBelumDibayar}
-                        </td>
-                        <td className="px-3 py-2.5 text-slate-800">
-                          {currentBill.tagihanPokok}
-                        </td>
-                        <td className="px-3 py-2.5 text-slate-800">
-                          {currentBill.tagihanBunga}
-                        </td>
-                        <td className="px-3 py-2.5 text-slate-800">
-                          {currentBill.sisaPokok}
-                        </td>
-                        <td className="px-3 py-2.5 text-slate-800">
-                          {currentBill.sisaBunga}
-                        </td>
-                      </tr>
+                      {billsInMainTable.map((bill, idx) => (
+                        <tr key={idx} className="border-t border-slate-200 text-sm">
+                          <td className="px-3 py-2.5">
+                            <input
+                              type="checkbox"
+                              aria-label="Pilih tagihan"
+                              checked={isPelunasan ? true : undefined}
+                              disabled={isPelunasan}
+                            />
+                          </td>
+                          <td className="px-3 py-2.5 font-medium text-slate-900">
+                            {bill.jatuhTempo}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {bill.totalBelumDibayar}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {bill.tagihanPokok}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {bill.tagihanBunga}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {bill.sisaPokok}
+                          </td>
+                          <td className="px-3 py-2.5 text-slate-800">
+                            {bill.sisaBunga}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -396,9 +401,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
           <div className="space-y-3">
             <SectionHighlight title="Pembayaran Angsuran" />
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-              <div className="text-sm font-semibold text-slate-900">
-                RINGKASAN TAGIHAN
-              </div>
+              <div className="text-sm font-semibold text-slate-900">RINGKASAN TAGIHAN</div>
               <Separator className="my-3 bg-slate-200/70" />
               <div className="space-y-2 text-sm">
                 {[
@@ -407,10 +410,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Total Denda", "0"],
                   ["Total Tagihan", "2.708.333"],
                 ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-center justify-between gap-3"
-                  >
+                  <div key={k} className="flex items-center justify-between gap-3">
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -423,10 +423,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ["Angsuran Lunas", "0"],
                   ["Angsuran Seharusnya", "0"],
                 ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-center justify-between gap-3"
-                  >
+                  <div key={k} className="flex items-center justify-between gap-3">
                     <div className="text-slate-600">{k}</div>
                     <div className="font-semibold text-slate-900">{v}</div>
                   </div>
@@ -438,6 +435,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
           <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
             <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
             <Separator className="my-3 bg-slate-200/70" />
+
             <div className="grid gap-3">
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">
