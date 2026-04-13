@@ -5,7 +5,13 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Popover,
   PopoverContent,
@@ -21,9 +27,17 @@ import {
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { RotateCcw, Search, CheckSquare, ChevronDown, Check } from "lucide-react";
+import {
+  RotateCcw,
+  Search,
+  CheckSquare,
+  ChevronDown,
+  Check,
+  ShieldCheck,
+  XCircle,
+} from "lucide-react";
 
-type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
+type TabId = "general" | "agunan" | "penanggung" | "upload" | "analisa" | "jadwal";
 
 function FieldRow({
   label,
@@ -37,11 +51,11 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 md:grid-cols-[220px_1fr] md:items-start">
+    <div className="grid gap-2 md:grid-cols-[180px_1fr] md:items-start">
       <div className="pt-2">
         <Label className="text-sm font-semibold text-slate-900">
           {label}
-          {required ? <span className="text-rose-600">*</span> : null}
+          {required ? <span className="text-rose-600"> *</span> : null}
         </Label>
         {hint ? <div className="mt-1 text-xs text-slate-500">{hint}</div> : null}
       </div>
@@ -51,12 +65,10 @@ function FieldRow({
 }
 
 function TabPill({
-  value,
   label,
   active,
   onClick,
 }: {
-  value: TabId;
   label: string;
   active: boolean;
   onClick: () => void;
@@ -66,7 +78,7 @@ function TabPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-11 rounded-full px-5 text-sm font-semibold transition",
+        "h-10 rounded-full px-5 text-sm font-semibold transition",
         active
           ? "bg-violet-600 text-white shadow-sm"
           : "bg-transparent text-slate-600 hover:bg-white/60",
@@ -92,7 +104,7 @@ function ActionIconButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="inline-flex h-10 w-11 items-center justify-center rounded-xl bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700"
+      className="inline-flex h-10 w-11 items-center justify-center rounded-r-xl bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700"
     >
       {icon}
     </button>
@@ -180,12 +192,22 @@ export default function LoanApplicationCreate() {
     return `${dd}-${mm}-${yyyy}`;
   }, []);
 
-  const [noRekening, setNoRekening] = React.useState("260144");
-  const [idNasabah, setIdNasabah] = React.useState("");
-  const [unitAnggota] = React.useState("Tidak Terdapat Data Unit Anggota");
+  const [noRekening, setNoRekening] = React.useState("6459.00");
+  const [idNasabah, setIdNasabah] = React.useState("Z261283");
+
+  const [nik, setNik] = React.useState("1601095402960002");
+  const [ktpVerified, setKtpVerified] = React.useState(false);
+
+  const [nama, setNama] = React.useState("FERNA MARLENA");
+  const [alamat, setAlamat] = React.useState(
+    "Tidak Dusun IV Sumber Sari Blok N Batumarta XI",
+  );
+  const [unitAnggota, setUnitAnggota] = React.useState(
+    "Tidak Terdapat Unit Anggota",
+  );
 
   const [kolektor, setKolektor] = React.useState("Pilih Kolektor");
-  const [tanggal, setTanggal] = React.useState(today);
+  const [tanggal, setTanggal] = React.useState("02-10-2025");
 
   const [produkPinjaman, setProdukPinjaman] = React.useState<
     LoanProductOption | "Pilih Pinjaman"
@@ -203,28 +225,22 @@ export default function LoanApplicationCreate() {
     "Pilih Metode Bunga Pinjaman",
   );
 
-  const [besarPinjaman, setBesarPinjaman] = React.useState("0");
-  const [jangkaWaktu, setJangkaWaktu] = React.useState("");
+  const [besarPinjaman, setBesarPinjaman] = React.useState("0,00");
+  const [jangkaWaktu, setJangkaWaktu] = React.useState("0,00");
 
   const showJadwalTab = produkPinjaman === "Pinjaman Billing";
 
+  React.useEffect(() => {
+    if (!showJadwalTab && tab === "jadwal") setTab("general");
+  }, [showJadwalTab, tab]);
+
   function save() {
-    if (!noRekening.trim()) {
-      toast("No. Rekening wajib diisi");
-      return;
-    }
-    if (!idNasabah.trim()) {
-      toast("ID Nasabah wajib diisi");
-      return;
-    }
-    if (kolektor === "Pilih Kolektor") {
-      toast("Kolektor wajib dipilih");
-      return;
-    }
-    if (produkPinjaman === "Pilih Pinjaman") {
-      toast("Produk Pinjaman wajib dipilih");
-      return;
-    }
+    if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
+    if (!idNasabah.trim()) return toast("ID Nasabah wajib diisi");
+    if (!nik.trim()) return toast("NIK wajib diisi");
+    if (kolektor === "Pilih Kolektor") return toast("Kolektor wajib dipilih");
+    if (produkPinjaman === "Pilih Pinjaman")
+      return toast("Produk Pinjaman wajib dipilih");
 
     toast.success("Tersimpan (prototype)", {
       description: "Data pengajuan pinjaman belum disimpan ke database.",
@@ -232,88 +248,54 @@ export default function LoanApplicationCreate() {
     navigate("/loans/applications");
   }
 
-  React.useEffect(() => {
-    if (!showJadwalTab && tab === "jadwal") setTab("general");
-  }, [showJadwalTab, tab]);
+  function verifyKtp() {
+    setKtpVerified(true);
+    toast.success("KTP terverifikasi (prototype)", {
+      description: "Status verifikasi hanya disimpan di UI.",
+    });
+  }
+
+  const tabs = [
+    { id: "general" as const, label: "General Information" },
+    { id: "agunan" as const, label: "Agunan" },
+    { id: "penanggung" as const, label: "Penanggung Jawab" },
+    { id: "upload" as const, label: "Upload File" },
+    { id: "analisa" as const, label: "Formulir Analisa" },
+    ...(showJadwalTab ? [{ id: "jadwal" as const, label: "Pengaturan Jadwal" }] : []),
+  ];
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-baseline gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Pengajuan Pinjaman
-            </h1>
-            <div className="text-base font-semibold text-slate-500">Tambah</div>
-          </div>
+        <div className="flex items-baseline gap-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+            Pengajuan Pinjaman
+          </h1>
+          <div className="text-base font-semibold text-slate-500">Tambah</div>
         </div>
 
-        <div className="mt-6">
-          <div className="flex flex-wrap items-center gap-3">
-            <TabPill
-              value="general"
-              label="General Information"
-              active={tab === "general"}
-              onClick={() => setTab("general")}
-            />
-            <TabPill
-              value="agunan"
-              label="Agunan"
-              active={tab === "agunan"}
-              onClick={() => setTab("agunan")}
-            />
-            <TabPill
-              value="penanggung"
-              label="Penanggung Jawab"
-              active={tab === "penanggung"}
-              onClick={() => setTab("penanggung")}
-            />
-            <TabPill
-              value="upload"
-              label="Upload File"
-              active={tab === "upload"}
-              onClick={() => setTab("upload")}
-            />
-
-            {showJadwalTab ? (
+        <div className="mt-5">
+          <div className="flex flex-wrap items-center gap-2">
+            {tabs.map((t) => (
               <TabPill
-                value="jadwal"
-                label="Pengaturan Jadwal"
-                active={tab === "jadwal"}
-                onClick={() => setTab("jadwal")}
+                key={t.id}
+                label={t.label}
+                active={tab === t.id}
+                onClick={() => setTab(t.id)}
               />
-            ) : null}
+            ))}
           </div>
 
-          <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="hidden">
-              <Tabs value={tab}>
-                <TabsList>
-                  <TabsTrigger value="general">General</TabsTrigger>
-                  <TabsTrigger value="agunan">Agunan</TabsTrigger>
-                  <TabsTrigger value="penanggung">Penanggung</TabsTrigger>
-                  <TabsTrigger value="upload">Upload</TabsTrigger>
-                  {showJadwalTab ? (
-                    <TabsTrigger value="jadwal">Jadwal</TabsTrigger>
-                  ) : null}
-                </TabsList>
-                <TabsContent value="general" />
-                <TabsContent value="agunan" />
-                <TabsContent value="penanggung" />
-                <TabsContent value="upload" />
-                <TabsContent value="jadwal" />
-              </Tabs>
-            </div>
-
+          <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
             {tab === "general" ? (
               <div className="grid gap-5">
-                <div className="space-y-5">
-                  <FieldRow label="No. Rekening" required>
-                    <div className="flex items-center gap-2">
+                <div className="grid gap-4">
+                  <FieldRow label="No Rekening" required>
+                    <div className="flex items-center">
                       <Input
                         value={noRekening}
                         onChange={(e) => setNoRekening(e.target.value)}
-                        className="h-10 rounded-xl bg-slate-200/70 text-slate-800"
+                        className="h-10 rounded-l-xl rounded-r-none border-slate-200 bg-slate-200/70 text-slate-800"
                       />
                       <ActionIconButton
                         label="Generate ulang"
@@ -335,12 +317,11 @@ export default function LoanApplicationCreate() {
                       </Link>
                     }
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center">
                       <Input
                         value={idNasabah}
                         onChange={(e) => setIdNasabah(e.target.value)}
-                        placeholder="Cari Nasabah"
-                        className="h-10 rounded-xl"
+                        className="h-10 rounded-l-xl rounded-r-none border-slate-200 bg-white"
                       />
                       <ActionIconButton
                         label="Cari nasabah"
@@ -355,11 +336,64 @@ export default function LoanApplicationCreate() {
                     </div>
                   </FieldRow>
 
+                  <FieldRow label="NIK" required>
+                    <div className="grid gap-2">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                        <Input
+                          value={nik}
+                          onChange={(e) => {
+                            setNik(e.target.value);
+                            setKtpVerified(false);
+                          }}
+                          className="h-10 rounded-xl border-slate-200 bg-white"
+                        />
+                        <Button
+                          onClick={verifyKtp}
+                          className="h-10 shrink-0 rounded-xl bg-violet-600 px-4 text-white hover:bg-violet-700"
+                        >
+                          <ShieldCheck className="mr-2 h-4 w-4" />
+                          Verifikasi KTP
+                          <span className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[12px]">
+                            ✦
+                          </span>
+                        </Button>
+                      </div>
+
+                      {!ktpVerified ? (
+                        <div className="flex items-center gap-2 text-sm font-semibold text-rose-600">
+                          <XCircle className="h-4 w-4" />
+                          Data KTP Belum Terverifikasi
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
+                          <CheckSquare className="h-4 w-4" />
+                          Data KTP Terverifikasi
+                        </div>
+                      )}
+                    </div>
+                  </FieldRow>
+
+                  <FieldRow label="Nama" required>
+                    <Input
+                      value={nama}
+                      onChange={(e) => setNama(e.target.value)}
+                      className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Alamat" required>
+                    <Input
+                      value={alamat}
+                      onChange={(e) => setAlamat(e.target.value)}
+                      className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                    />
+                  </FieldRow>
+
                   <FieldRow label="Unit Anggota">
                     <Input
                       value={unitAnggota}
-                      readOnly
-                      className="h-10 rounded-xl bg-slate-200/70 text-slate-700"
+                      onChange={(e) => setUnitAnggota(e.target.value)}
+                      className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-700"
                     />
                   </FieldRow>
 
@@ -376,11 +410,11 @@ export default function LoanApplicationCreate() {
                     </Select>
                   </FieldRow>
 
-                  <FieldRow label="Tanggal" required>
+                  <FieldRow label="Tanggal Daftar" required>
                     <Input
                       value={tanggal}
                       onChange={(e) => setTanggal(e.target.value)}
-                      className="h-10 rounded-xl"
+                      className="h-10 rounded-xl border-slate-200 bg-white"
                     />
                   </FieldRow>
 
@@ -420,7 +454,7 @@ export default function LoanApplicationCreate() {
                     </Select>
                   </FieldRow>
 
-                  <FieldRow label="Tujuan Peminjaman">
+                  <FieldRow label="Tujuan Peminjaman" required>
                     <Select
                       value={tujuanPeminjaman}
                       onValueChange={setTujuanPeminjaman}
@@ -438,11 +472,12 @@ export default function LoanApplicationCreate() {
                     </Select>
                   </FieldRow>
 
-                  <FieldRow label="Bunga Per Tahun (%)" required>
+                  <FieldRow label="Bunga Pertahun (%)" required>
                     <Input
                       value={bungaPerTahun}
                       onChange={(e) => setBungaPerTahun(e.target.value)}
-                      className="h-10 rounded-xl"
+                      className="h-10 rounded-xl border-slate-200 bg-white"
+                      placeholder="0,00"
                     />
                   </FieldRow>
 
@@ -466,8 +501,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={besarPinjaman}
                       onChange={(e) => setBesarPinjaman(e.target.value)}
-                      inputMode="numeric"
-                      className="h-10 rounded-xl"
+                      className="h-10 rounded-xl border-slate-200 bg-white"
                     />
                   </FieldRow>
 
@@ -475,7 +509,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={jangkaWaktu}
                       onChange={(e) => setJangkaWaktu(e.target.value)}
-                      className="h-10 rounded-xl"
+                      className="h-10 rounded-xl border-slate-200 bg-white"
                     />
                   </FieldRow>
                 </div>
@@ -484,17 +518,23 @@ export default function LoanApplicationCreate() {
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
-                    variant="secondary"
-                    className="h-11 rounded-xl bg-slate-600 px-5 text-white hover:bg-slate-700"
+                    variant="outline"
+                    className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
                     onClick={() => navigate("/loans/applications")}
                   >
-                    ✕ Batalkan
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-slate-200 text-slate-700">
+                      ×
+                    </span>
+                    Batalkan
                   </Button>
+
                   <Button
-                    className="h-11 rounded-xl bg-lime-600 px-5 text-white hover:bg-lime-700"
+                    className="h-10 rounded-xl bg-emerald-600 px-4 text-white hover:bg-emerald-700"
                     onClick={save}
                   >
-                    <CheckSquare className="mr-2 h-4 w-4" />
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/15">
+                      ✓
+                    </span>
                     Simpan
                   </Button>
                 </div>
