@@ -17,15 +17,14 @@ import { cn } from "@/lib/utils";
 import {
   CalendarDays,
   CheckSquare,
-  CreditCard,
   FileText,
   Info,
-  Landmark,
   Printer,
   ReceiptText,
   ScrollText,
   ChevronUp,
 } from "lucide-react";
+import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 
 type Props = {
   nasabah: {
@@ -106,34 +105,6 @@ function parseAmount(input: string) {
 function formatIdrLike(n: number) {
   const s = Math.round(n).toString();
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-function TabsHeader() {
-  const items = [
-    { label: "Simpanan", icon: Landmark, active: false },
-    { label: "Deposito", icon: CreditCard, active: false },
-    { label: "Pinjaman", icon: CreditCard, active: true },
-  ];
-  return (
-    <div className="flex flex-wrap items-center gap-4">
-      {items.map((it) => {
-        const Icon = it.icon;
-        return (
-          <button
-            key={it.label}
-            type="button"
-            className={cn(
-              "inline-flex items-center gap-2 text-sm font-semibold transition",
-              it.active ? "text-[hsl(var(--app-accent))]" : "text-slate-500",
-            )}
-          >
-            <Icon className={cn("h-4 w-4", it.active ? "" : "opacity-70")} />
-            {it.label}
-          </button>
-        );
-      })}
-    </div>
-  );
 }
 
 function GracePeriodRow({ colSpan }: { colSpan: number }) {
@@ -244,9 +215,12 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   return (
     <div className="space-y-5">
-      {/* DIHILANGKAN: header "Transaksi" + detail No/Nama/Alamat sesuai permintaan */}
-
-      <TabsHeader />
+      <AnggotaAccountTabs
+        active="pinjaman"
+        onChange={() => {
+          /* prototype: tab lain belum dibuat */
+        }}
+      />
 
       <div className="grid gap-4 lg:grid-cols-[260px_1fr_320px_180px]">
         {/* PINJAMAN BILLING */}
@@ -615,7 +589,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         </div>
       </div>
 
-      {/* mencegah unused prop lint & memastikan data nasabah tetap dipakai tanpa menampilkan header */}
       <div className="sr-only">{nasabah.nama}</div>
     </div>
   );

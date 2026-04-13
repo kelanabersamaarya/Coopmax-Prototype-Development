@@ -16,16 +16,15 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import {
-  CreditCard,
   FileText,
   Printer,
   ReceiptText,
   ScrollText,
-  ShieldCheck,
   CalendarDays,
   CheckSquare,
   Info,
 } from "lucide-react";
+import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 
 type Props = {
   nasabah: {
@@ -71,33 +70,6 @@ const rows: Row[] = [
     sisaBunga: "33.333",
   })),
 ];
-
-function TabsLike() {
-  const items = [
-    { label: "Simpanan" },
-    { label: "Deposito" },
-    { label: "Pinjaman", active: true },
-  ];
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      {items.map((it) => (
-        <button
-          key={it.label}
-          type="button"
-          className={cn(
-            "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ring-1 transition",
-            it.active
-              ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
-              : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50",
-          )}
-        >
-          <CreditCard className="h-4 w-4 opacity-90" />
-          {it.label}
-        </button>
-      ))}
-    </div>
-  );
-}
 
 const transactionTypes = [
   "Pembayaran Angsuran",
@@ -148,7 +120,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   return (
     <div className="mt-6">
-      <TabsLike />
+      <AnggotaAccountTabs
+        active="pinjaman"
+        onChange={() => {
+          /* prototype: tab lain belum dibuat */
+        }}
+      />
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[260px_1fr_520px]">
         {/* Left: Pinjaman billing */}
@@ -227,9 +204,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         disabled={isPelunasan}
                       />
                     </th>
-                    <th className="w-[150px] px-4 py-3">
-                      Jatuh Tempo
-                    </th>
+                    <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
                     <th className="w-[190px] px-4 py-3">
                       Total Tagihan Belum Dibayar
                     </th>
@@ -250,9 +225,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                             <Info className="h-4 w-4" />
                           </span>
                           <div>
-                            <div className="font-semibold">
-                              Periode Grace Period
-                            </div>
+                            <div className="font-semibold">Periode Grace Period</div>
                             <div className="mt-0.5 text-slate-700">
                               Berikut ini merupakan periode tagihan pinjaman
                               yang termasuk ke dalam grace period. Selama
