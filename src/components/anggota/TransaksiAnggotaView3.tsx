@@ -101,7 +101,7 @@ function formatIdrLike(n: number) {
 
 function GracePeriodRow({ colSpan }: { colSpan: number }) {
   return (
-    <tr className="border-t border-slate-200">
+    <tr className="border-b border-slate-200">
       <td colSpan={colSpan} className="px-4 py-3">
         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
           <div className="flex items-start gap-2">
@@ -147,71 +147,58 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
   React.useEffect(() => setPage(1), [pageSize, isPelunasan]);
 
-  const billsAll = rows;
-  const billRows = isPelunasan ? billsAll : billsAll.slice(0, 1);
+  const billsInMainTable = isPelunasan ? rows : rows.slice(0, 1);
 
   const pageCount = React.useMemo(() => {
     if (!isPelunasan) return 1;
-    return Math.max(1, Math.ceil(billRows.length / pageSize));
-  }, [billRows.length, isPelunasan, pageSize]);
+    return Math.max(1, Math.ceil(billsInMainTable.length / pageSize));
+  }, [billsInMainTable.length, isPelunasan, pageSize]);
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
   }, [page, pageCount]);
 
   const pagedBills = React.useMemo(() => {
-    if (!isPelunasan) return billRows;
+    if (!isPelunasan) return billsInMainTable;
     const start = (page - 1) * pageSize;
-    return billRows.slice(start, start + pageSize);
-  }, [billRows, isPelunasan, page, pageSize]);
+    return billsInMainTable.slice(start, start + pageSize);
+  }, [billsInMainTable, isPelunasan, page, pageSize]);
 
   const showingStart = !isPelunasan
     ? 1
-    : billRows.length === 0
+    : billsInMainTable.length === 0
       ? 0
       : (page - 1) * pageSize + 1;
   const showingEnd = !isPelunasan
-    ? billRows.length
-    : Math.min(billRows.length, page * pageSize);
+    ? billsInMainTable.length
+    : Math.min(billsInMainTable.length, page * pageSize);
 
-  // Selection per-row global (select-all per page seperti View 1)
+  // --- Select all / row selection state (for non-pelunasan) ---
   const [selected, setSelected] = React.useState<boolean[]>(
-    () => billsAll.map(() => false),
+    () => rows.map(() => false),
   );
 
   React.useEffect(() => {
     if (isPelunasan) {
-      setSelected(billsAll.map(() => true));
+      setSelected(rows.map(() => true));
     } else {
-      setSelected(billsAll.map(() => false));
+      setSelected(rows.map(() => false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
-  const pageIndices = React.useMemo(() => {
-    if (!isPelunasan) return [0];
-    const start = (page - 1) * pageSize;
-    return pagedBills.map((_, i) => start + i);
-  }, [isPelunasan, page, pageSize, pagedBills]);
-
-  const pageAllChecked = React.useMemo(() => {
-    if (!isPelunasan) return false;
-    if (pageIndices.length === 0) return false;
-    return pageIndices.every((i) => selected[i] === true);
-  }, [isPelunasan, pageIndices, selected]);
-
-  const pageAnyChecked = React.useMemo(() => {
-    if (!isPelunasan) return false;
-    return pageIndices.some((i) => selected[i] === true);
-  }, [isPelunasan, pageIndices, selected]);
-
+  const allChecked = React.useMemo(
+    () => selected.length > 0 && selected.every(Boolean),
+    [selected],
+  );
+  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
   const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     if (!headerCheckboxRef.current) return;
     headerCheckboxRef.current.indeterminate =
-      isPelunasan && pageAnyChecked && !pageAllChecked;
-  }, [isPelunasan, pageAllChecked, pageAnyChecked]);
+      !isPelunasan && anyChecked && !allChecked;
+  }, [allChecked, anyChecked, isPelunasan]);
 
   const totalRincian = React.useMemo(() => {
     return (
@@ -285,182 +272,140 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
           <SectionHighlight title="Detail Angsuran" />
 
           <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div>
-                <div className="text-sm font-semibold text-slate-900">
-                  INFORMASI TAGIHAN DAN DENDA
-                </div>
-                <div className="mt-1 text-xs text-slate-600">
-                  {isPelunasan
-                    ? "Mode pelunasan — tampilkan seluruh periode dengan pagination."
-                    : "Tagihan periode saat ini."}
-                </div>
-              </div>
-
-              {isPelunasan ? (
-                <Select
-                  value={String(pageSize)}
-                  onValueChange={(v) => setPageSize(Number(v))}
-                >
-                  <SelectTrigger className="h-9 w-[110px] rounded-xl border-slate-200 bg-white text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    {[10, 20, 50].map((n) => (
-                      <SelectItem key={n} value={String(n)}>
-                        {n} / page
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : null}
+            <div className="text-sm font-semibold text-slate-900">
+              INFORMASI TAGIHAN DAN DENDA
             </div>
 
             <Separator className="my-3 bg-slate-200/70" />
 
-            <div className="mt-2 overflow-hidden rounded-2xl ring-1 ring-slate-200">
-              <div className="overflow-auto">
-                <table className="w-full min-w-[860px] border-collapse">
-                  <thead className="bg-white">
-                    <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                      <th className="w-[42px] px-4 py-3">
-                        <input
-                          ref={headerCheckboxRef}
-                          type="checkbox"
-                          aria-label="Pilih semua (halaman ini)"
-                          checked={isPelunasan ? pageAllChecked : false}
-                          disabled={!isPelunasan}
-                          onChange={(e) => {
-                            const next = e.target.checked;
-                            if (!isPelunasan) return;
-                            setSelected((prev) => {
-                              const copy = [...prev];
-                              pageIndices.forEach((i) => {
-                                copy[i] = next;
-                              });
-                              return copy;
-                            });
-                          }}
-                        />
-                      </th>
-                      <th className="w-[150px] px-4 py-3">Jatuh Tempo</th>
-                      <th className="w-[190px] px-4 py-3">
-                        Total Tagihan Belum Dibayar
-                      </th>
-                      <th className="w-[140px] px-4 py-3">Tagihan Pokok</th>
-                      <th className="w-[140px] px-4 py-3">Tagihan Bunga</th>
-                      <th className="w-[140px] px-4 py-3">
-                        Sisa Tagihan Pokok
-                      </th>
-                      <th className="w-[140px] px-4 py-3">Sisa Tagihan Bunga</th>
-                    </tr>
-                  </thead>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+              <div className="font-semibold text-slate-900">TAGIHAN</div>
 
-                  <tbody className="bg-white">
-                    <GracePeriodRow colSpan={7} />
+              <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5">
+                <div className="flex items-start gap-2">
+                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                    <Info className="h-4 w-4" />
+                  </span>
+                  <div className="leading-relaxed text-slate-700">
+                    {isPelunasan
+                      ? "Mode pelunasan: semua rincian tagihan ditampilkan dan otomatis terpilih. Gunakan pagination untuk melihat periode lain."
+                      : "Berikut ini merupakan tagihan yang sudah dapat dibayarkan pada periode ini serta harus dibayarkan sebelum tanggal jatuh tempo."}
+                  </div>
+                </div>
+              </div>
 
-                    {pagedBills.map((r, localIdx) => {
-                      const globalIdx = isPelunasan
-                        ? (pageIndices[localIdx] ?? localIdx)
-                        : localIdx;
-                      const checked = isPelunasan
-                        ? selected[globalIdx] ?? false
-                        : false;
+              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+                <div className="overflow-auto">
+                  <table className="w-full min-w-[740px] border-collapse">
+                    <thead className="bg-white">
+                      <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
+                        <th className="w-[40px] px-3 py-2.5">
+                          <input
+                            ref={headerCheckboxRef}
+                            type="checkbox"
+                            aria-label="Pilih semua"
+                            checked={isPelunasan ? true : allChecked}
+                            disabled={isPelunasan}
+                            onChange={(e) => {
+                              const next = e.target.checked;
+                              setSelected(rows.map(() => next));
+                            }}
+                          />
+                        </th>
+                        <th className="w-[120px] px-3 py-2.5">Jatuh Tempo</th>
+                        <th className="w-[170px] px-3 py-2.5">
+                          Total Tagihan Belum Dibayar
+                        </th>
+                        <th className="w-[120px] px-3 py-2.5">Tagihan Pokok</th>
+                        <th className="w-[120px] px-3 py-2.5">Tagihan Bunga</th>
+                        <th className="w-[130px] px-3 py-2.5">
+                          Sisa Tagihan Pokok
+                        </th>
+                        <th className="w-[130px] px-3 py-2.5">
+                          Sisa Tagihan Bunga
+                        </th>
+                      </tr>
+                    </thead>
 
-                      return (
+                    <tbody className="bg-white">
+                      <GracePeriodRow colSpan={7} />
+
+                      {pagedBills.map((r, idx) => (
                         <tr
-                          key={`${globalIdx}-${r.jatuhTempo}`}
-                          className="border-t border-slate-100 text-sm"
+                          key={`${idx}-${r.jatuhTempo}`}
+                          className="border-t border-slate-200 text-sm"
                         >
-                          <td className="px-4 py-3">
+                          <td className="px-3 py-2.5">
                             <input
                               type="checkbox"
-                              aria-label={`Pilih row ${globalIdx + 1}`}
-                              checked={checked}
-                              disabled={!isPelunasan}
+                              aria-label="Pilih tagihan"
+                              checked={isPelunasan ? true : selected[idx] ?? false}
+                              disabled={isPelunasan}
                               onChange={(e) => {
                                 const next = e.target.checked;
-                                if (!isPelunasan) return;
                                 setSelected((prev) => {
                                   const copy = [...prev];
-                                  copy[globalIdx] = next;
+                                  copy[idx] = next;
                                   return copy;
                                 });
                               }}
                             />
                           </td>
-                          <td className="px-4 py-3 font-medium text-slate-900">
+                          <td className="px-3 py-2.5 font-medium text-slate-900">
                             {r.jatuhTempo}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.totalBelumDibayar}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.tagihanPokok}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.tagihanBunga}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.sisaPokok}
                           </td>
-                          <td className="px-4 py-3 text-right tabular-nums text-slate-800">
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
                             {r.sisaBunga}
                           </td>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
+
+              {isPelunasan ? (
+                <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                  <div className="text-xs text-slate-600">
+                    Menampilkan {showingStart} sampai {showingEnd} dari {billsInMainTable.length} periode
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Select
+                      value={String(pageSize)}
+                      onValueChange={(v) => setPageSize(Number(v))}
+                    >
+                      <SelectTrigger className="h-9 w-[110px] rounded-xl border-slate-200 bg-white text-sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        {[10, 20, 50].map((n) => (
+                          <SelectItem key={n} value={String(n)}>
+                            {n} / page
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <BillingTablePagination
+                      page={page}
+                      pageCount={pageCount}
+                      onPage={setPage}
+                    />
+                  </div>
+                </div>
+              ) : null}
             </div>
-
-            {isPelunasan ? (
-              <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                <div className="text-xs text-slate-600">
-                  Menampilkan {showingStart} sampai {showingEnd} dari{" "}
-                  {billRows.length} periode
-                </div>
-                <BillingTablePagination
-                  page={page}
-                  pageCount={pageCount}
-                  onPage={setPage}
-                />
-              </div>
-            ) : null}
-
-            {!isPelunasan ? (
-              <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
-                <button
-                  type="button"
-                  onClick={() => setOpenUpcoming((v) => !v)}
-                  className="flex w-full items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
-                  aria-expanded={openUpcoming}
-                >
-                  <span className="uppercase tracking-wide">
-                    Perkiraan Tagihan Mendatang
-                  </span>
-                  <span
-                    className={cn(
-                      "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
-                      openUpcoming ? "rotate-0" : "rotate-180",
-                    )}
-                    aria-hidden="true"
-                  >
-                    <ChevronUp className="h-4.5 w-4.5" />
-                  </span>
-                </button>
-
-                <div
-                  className={cn(
-                    "px-4 pb-4",
-                    openUpcoming ? "block" : "hidden",
-                  )}
-                >
-                  <UpcomingBillsAccordion open={openUpcoming} />
-                </div>
-              </div>
-            ) : null}
           </Card>
         </div>
 
