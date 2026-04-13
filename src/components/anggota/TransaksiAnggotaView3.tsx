@@ -141,76 +141,64 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
   const nominalPelunasan = "9.625.000";
 
-  // --- Pagination (seragam dengan View 1) ---
+  // Pagination khusus mode pelunasan
   const [pageSize, setPageSize] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);
 
   React.useEffect(() => setPage(1), [pageSize, isPelunasan]);
 
-  const bills = isPelunasan ? rows : rows.slice(0, 1);
+  const billsInMainTable = isPelunasan ? rows : rows.slice(0, 1);
 
   const pageCount = React.useMemo(() => {
     if (!isPelunasan) return 1;
-    return Math.max(1, Math.ceil(bills.length / pageSize));
-  }, [bills.length, isPelunasan, pageSize]);
+    return Math.max(1, Math.ceil(billsInMainTable.length / pageSize));
+  }, [billsInMainTable.length, isPelunasan, pageSize]);
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
   }, [page, pageCount]);
 
   const pagedBills = React.useMemo(() => {
-    if (!isPelunasan) return bills;
+    if (!isPelunasan) return billsInMainTable;
     const start = (page - 1) * pageSize;
-    return bills.slice(start, start + pageSize);
-  }, [bills, isPelunasan, page, pageSize]);
+    return billsInMainTable.slice(start, start + pageSize);
+  }, [billsInMainTable, isPelunasan, page, pageSize]);
 
   const showingStart = !isPelunasan
     ? 1
-    : bills.length === 0
+    : billsInMainTable.length === 0
       ? 0
       : (page - 1) * pageSize + 1;
-  const showingEnd = !isPelunasan ? bills.length : Math.min(bills.length, page * pageSize);
+  const showingEnd = !isPelunasan
+    ? billsInMainTable.length
+    : Math.min(billsInMainTable.length, page * pageSize);
 
-  const pageIndices = React.useMemo(() => {
-    if (!isPelunasan) return [0];
-    const start = (page - 1) * pageSize;
-    return pagedBills.map((_, i) => start + i);
-  }, [isPelunasan, page, pageSize, pagedBills]);
-
-  // --- Selection (global) ---
-  const [selected, setSelected] = React.useState<boolean[]>(() =>
-    bills.map(() => false),
+  // --- Select all / row selection state (for non-pelunasan) ---
+  const [selected, setSelected] = React.useState<boolean[]>(
+    () => rows.map(() => false),
   );
 
   React.useEffect(() => {
     if (isPelunasan) {
-      setSelected(bills.map(() => true));
+      setSelected(rows.map(() => true));
     } else {
-      setSelected(bills.map(() => false));
+      setSelected(rows.map(() => false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
-  React.useEffect(() => {
-    setSelected((prev) => bills.map((_, idx) => prev[idx] ?? false));
-  }, [bills]);
-
-  const pageAllChecked = React.useMemo(() => {
-    if (pageIndices.length === 0) return false;
-    return pageIndices.every((i) => selected[i] === true);
-  }, [pageIndices, selected]);
-
-  const pageAnyChecked = React.useMemo(() => {
-    return pageIndices.some((i) => selected[i] === true);
-  }, [pageIndices, selected]);
-
+  const allChecked = React.useMemo(
+    () => selected.length > 0 && selected.every(Boolean),
+    [selected],
+  );
+  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
   const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     if (!headerCheckboxRef.current) return;
     headerCheckboxRef.current.indeterminate =
-      !isPelunasan && pageAnyChecked && !pageAllChecked;
-  }, [isPelunasan, pageAllChecked, pageAnyChecked]);
+      !isPelunasan && anyChecked && !allChecked;
+  }, [allChecked, anyChecked, isPelunasan]);
 
   const totalRincian = React.useMemo(() => {
     return (
@@ -316,17 +304,11 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                             ref={headerCheckboxRef}
                             type="checkbox"
                             aria-label="Pilih semua"
-                            checked={isPelunasan ? true : pageAllChecked}
+                            checked={isPelunasan ? true : allChecked}
                             disabled={isPelunasan}
                             onChange={(e) => {
                               const next = e.target.checked;
-                              setSelected((prev) => {
-                                const copy = [...prev];
-                                pageIndices.forEach((i) => {
-                                  copy[i] = next;
-                                });
-                                return copy;
-                              });
+                              setSelected(rows.map(() => next));
                             }}
                           />
                         </th>
@@ -348,50 +330,47 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <tbody className="bg-white">
                       <GracePeriodRow colSpan={7} />
 
-                      {pagedBills.map((r, localIdx) => {
-                        const globalIdx = pageIndices[localIdx] ?? localIdx;
-                        return (
-                          <tr
-                            key={`${globalIdx}-${r.jatuhTempo}`}
-                            className="border-t border-slate-200 text-sm"
-                          >
-                            <td className="px-3 py-2.5">
-                              <input
-                                type="checkbox"
-                                aria-label="Pilih tagihan"
-                                checked={isPelunasan ? true : selected[globalIdx] ?? false}
-                                disabled={isPelunasan}
-                                onChange={(e) => {
-                                  const next = e.target.checked;
-                                  setSelected((prev) => {
-                                    const copy = [...prev];
-                                    copy[globalIdx] = next;
-                                    return copy;
-                                  });
-                                }}
-                              />
-                            </td>
-                            <td className="px-3 py-2.5 font-medium text-slate-900">
-                              {r.jatuhTempo}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                              {r.totalBelumDibayar}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                              {r.tagihanPokok}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                              {r.tagihanBunga}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                              {r.sisaPokok}
-                            </td>
-                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                              {r.sisaBunga}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {pagedBills.map((r, idx) => (
+                        <tr
+                          key={`${idx}-${r.jatuhTempo}`}
+                          className="border-t border-slate-200 text-sm"
+                        >
+                          <td className="px-3 py-2.5">
+                            <input
+                              type="checkbox"
+                              aria-label="Pilih tagihan"
+                              checked={isPelunasan ? true : selected[idx] ?? false}
+                              disabled={isPelunasan}
+                              onChange={(e) => {
+                                const next = e.target.checked;
+                                setSelected((prev) => {
+                                  const copy = [...prev];
+                                  copy[idx] = next;
+                                  return copy;
+                                });
+                              }}
+                            />
+                          </td>
+                          <td className="px-3 py-2.5 font-medium text-slate-900">
+                            {r.jatuhTempo}
+                          </td>
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                            {r.totalBelumDibayar}
+                          </td>
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                            {r.tagihanPokok}
+                          </td>
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                            {r.tagihanBunga}
+                          </td>
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                            {r.sisaPokok}
+                          </td>
+                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                            {r.sisaBunga}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -400,7 +379,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               {isPelunasan ? (
                 <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <div className="text-xs text-slate-600">
-                    Menampilkan {showingStart} sampai {showingEnd} dari {bills.length} periode
+                    Menampilkan {showingStart} sampai {showingEnd} dari {billsInMainTable.length} periode
                   </div>
                   <div className="flex items-center gap-2">
                     <Select
@@ -418,7 +397,11 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                         ))}
                       </SelectContent>
                     </Select>
-                    <BillingTablePagination page={page} pageCount={pageCount} onPage={setPage} />
+                    <BillingTablePagination
+                      page={page}
+                      pageCount={pageCount}
+                      onPage={setPage}
+                    />
                   </div>
                 </div>
               ) : null}
@@ -519,7 +502,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                    <SelectItem value="Pilih Kolektor">
+                      Pilih Kolektor
+                    </SelectItem>
                     <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                     <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                   </SelectContent>
@@ -590,7 +575,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+                    <SelectItem value="Tanpa Tabungan">
+                      Tanpa Tabungan
+                    </SelectItem>
                     <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
                   </SelectContent>
                 </Select>

@@ -227,7 +227,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
-  // --- Pagination: hanya dipakai saat pelunasan (banyak periode) ---
+  // --- Pagination khusus untuk mode pelunasan (banyak row) ---
   const [pageSize, setPageSize] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);
 
@@ -235,29 +235,50 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     setPage(1);
   }, [pageSize, isPelunasan]);
 
-  const bills = isPelunasan ? upcomingRows : [currentBill];
+  const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
   const pageCount = React.useMemo(() => {
     if (!isPelunasan) return 1;
-    return Math.max(1, Math.ceil(bills.length / pageSize));
-  }, [bills.length, isPelunasan, pageSize]);
+    return Math.max(1, Math.ceil(billsInMainTable.length / pageSize));
+  }, [billsInMainTable.length, isPelunasan, pageSize]);
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
   }, [page, pageCount]);
 
   const pagedBills = React.useMemo(() => {
-    if (!isPelunasan) return bills;
+    if (!isPelunasan) return billsInMainTable;
     const start = (page - 1) * pageSize;
-    return bills.slice(start, start + pageSize);
-  }, [bills, isPelunasan, page, pageSize]);
+    return billsInMainTable.slice(start, start + pageSize);
+  }, [billsInMainTable, isPelunasan, page, pageSize]);
 
   const showingStart = !isPelunasan
     ? 1
-    : bills.length === 0
+    : billsInMainTable.length === 0
       ? 0
       : (page - 1) * pageSize + 1;
-  const showingEnd = !isPelunasan ? bills.length : Math.min(bills.length, page * pageSize);
+  const showingEnd = !isPelunasan
+    ? billsInMainTable.length
+    : Math.min(billsInMainTable.length, page * pageSize);
+
+  // --- Selection state (global per billsInMainTable) ---
+  const [selected, setSelected] = React.useState<boolean[]>(
+    () => billsInMainTable.map(() => false),
+  );
+
+  React.useEffect(() => {
+    if (isPelunasan) {
+      setSelected(billsInMainTable.map(() => true));
+    } else {
+      setSelected(billsInMainTable.map(() => false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPelunasan]);
+
+  React.useEffect(() => {
+    setSelected((prev) => billsInMainTable.map((_, idx) => prev[idx] ?? false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [billsInMainTable.length]);
 
   const pageIndices = React.useMemo(() => {
     if (!isPelunasan) return [0];
@@ -265,42 +286,18 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return pagedBills.map((_, i) => start + i);
   }, [isPelunasan, page, pageSize, pagedBills]);
 
-  // --- selection mengikuti panjang dataset bills ---
-  const [selected, setSelected] = React.useState<boolean[]>(() =>
-    upcomingRows.map(() => false),
+  const allChecked = React.useMemo(
+    () => selected.length > 0 && selected.every(Boolean),
+    [selected],
   );
-
-  React.useEffect(() => {
-    // saat pelunasan: auto check semua periode yang ada
-    if (isPelunasan) {
-      setSelected(bills.map(() => true));
-    } else {
-      setSelected(bills.map(() => false));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan]);
-
-  React.useEffect(() => {
-    // sinkronkan panjang selection kalau dataset berubah
-    setSelected((prev) => bills.map((_, idx) => prev[idx] ?? false));
-  }, [bills]);
-
-  const pageAllChecked = React.useMemo(() => {
-    if (pageIndices.length === 0) return false;
-    return pageIndices.every((i) => selected[i] === true);
-  }, [pageIndices, selected]);
-
-  const pageAnyChecked = React.useMemo(() => {
-    return pageIndices.some((i) => selected[i] === true);
-  }, [pageIndices, selected]);
-
+  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
   const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     if (!headerCheckboxRef.current) return;
     headerCheckboxRef.current.indeterminate =
-      !isPelunasan && pageAnyChecked && !pageAllChecked;
-  }, [isPelunasan, pageAllChecked, pageAnyChecked]);
+      !isPelunasan && anyChecked && !allChecked;
+  }, [allChecked, anyChecked, isPelunasan]);
 
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
@@ -398,17 +395,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                             ref={headerCheckboxRef}
                             type="checkbox"
                             aria-label="Pilih semua"
-                            checked={isPelunasan ? true : pageAllChecked}
+                            checked={isPelunasan ? true : allChecked}
                             disabled={isPelunasan}
                             onChange={(e) => {
                               const next = e.target.checked;
-                              setSelected((prev) => {
-                                const copy = [...prev];
-                                pageIndices.forEach((i) => {
-                                  copy[i] = next;
-                                });
-                                return copy;
-                              });
+                              setSelected(billsInMainTable.map(() => next));
                             }}
                           />
                         </th>
@@ -441,9 +432,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               <input
                                 type="checkbox"
                                 aria-label="Pilih tagihan"
-                                checked={
-                                  isPelunasan ? true : selected[globalIdx] ?? false
-                                }
+                                checked={isPelunasan ? true : selected[globalIdx] ?? false}
                                 disabled={isPelunasan}
                                 onChange={(e) => {
                                   const next = e.target.checked;
@@ -484,7 +473,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               {isPelunasan ? (
                 <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <div className="text-xs text-slate-600">
-                    Menampilkan {showingStart} sampai {showingEnd} dari {bills.length} periode
+                    Menampilkan {showingStart} sampai {showingEnd} dari {billsInMainTable.length} periode
                   </div>
                   <div className="flex items-center gap-2">
                     <Select
