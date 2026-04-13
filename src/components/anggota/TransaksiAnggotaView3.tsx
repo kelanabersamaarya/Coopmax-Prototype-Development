@@ -411,94 +411,91 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
       <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
       <div className="space-y-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <SectionHighlight title="Informasi Tagihan & Denda" />
+        <SectionHighlight title="Informasi Tagihan & Denda" />
+
+        <div className="relative">
+          <InformasiRekeningHeader
+            title="PINJAMAN BILLING"
+            items={[
+              { label: "Kode Pinjaman", value: "PB260001" },
+              { label: "Sektor Pinjaman", value: "Umum" },
+              { label: "Tujuan Pinjaman", value: "Konsumtif" },
+              {
+                label: "Kolektor",
+                value: kolektor === "Pilih Kolektor" ? "-" : kolektor,
+              },
+              { label: "Tanggal Dibuat", value: "07 Apr 2026" },
+              { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
+              { label: "Tanggal Transaksi Terakhir", value: "07 Apr 2026" },
+              { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+              { label: "Periode Waktu", value: "12 Bulan" },
+              { label: "Metode Bunga Pinjaman", value: "Bunga Efektif" },
+              { label: "Sisa Pinjaman", value: "11.000.000,00" },
+              { label: "Total Harus Bayar", value: "1.120.000,00" },
+            ]}
+          />
+
+          <div className="absolute right-4 top-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="h-9 rounded-full bg-white px-4 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
+                  Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-600" />
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent
+                align="end"
+                className="w-72 rounded-2xl border-slate-200 p-1"
+              >
+                <DropdownMenuItem
+                  className="rounded-xl"
+                  onClick={() => toast("Riwayat Transaksi (prototype)")}
+                >
+                  <History className="mr-2 h-4 w-4" />
+                  Riwayat Transaksi
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="rounded-xl"
+                  onClick={() => toast("Simulasi Tunggakan (prototype)")}
+                >
+                  <Calculator className="mr-2 h-4 w-4" />
+                  Simulasi Tunggakan
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator className="my-1" />
+
+                <DropdownMenuItem
+                  className="rounded-xl"
+                  onClick={() => toast("Cetak Kwitansi Terakhir (prototype)")}
+                >
+                  <ReceiptText className="mr-2 h-4 w-4" />
+                  Cetak Kwitansi Terakhir
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="rounded-xl"
+                  onClick={() => toast("Cetak Buku Transaksi Terakhir (prototype)")}
+                >
+                  <BookOpenText className="mr-2 h-4 w-4" />
+                  Cetak Buku Transaksi Terakhir
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="rounded-xl"
+                  onClick={() => toast("Cetak Buku (prototype)")}
+                >
+                  <Printer className="mr-2 h-4 w-4" />
+                  Cetak Buku
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="rounded-xl"
+                  onClick={() => toast("Cetak Prima Nota (prototype)")}
+                >
+                  <ScrollText className="mr-2 h-4 w-4" />
+                  Cetak Prima Nota
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="h-10 shrink-0 rounded-full border-slate-200 bg-white px-4 text-slate-900 hover:bg-slate-50"
-              >
-                Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-500" />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              align="end"
-              className="w-72 rounded-2xl border-slate-200 p-1"
-            >
-              <DropdownMenuItem
-                className="rounded-xl"
-                onClick={() => toast("Riwayat Transaksi (prototype)")}
-              >
-                <History className="mr-2 h-4 w-4" />
-                Riwayat Transaksi
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="rounded-xl"
-                onClick={() => toast("Simulasi Tunggakan (prototype)")}
-              >
-                <Calculator className="mr-2 h-4 w-4" />
-                Simulasi Tunggakan
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator className="my-1" />
-
-              <DropdownMenuItem
-                className="rounded-xl"
-                onClick={() => toast("Cetak Kwitansi Terakhir (prototype)")}
-              >
-                <ReceiptText className="mr-2 h-4 w-4" />
-                Cetak Kwitansi Terakhir
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="rounded-xl"
-                onClick={() => toast("Cetak Buku Transaksi Terakhir (prototype)")}
-              >
-                <BookOpenText className="mr-2 h-4 w-4" />
-                Cetak Buku Transaksi Terakhir
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="rounded-xl"
-                onClick={() => toast("Cetak Buku (prototype)")}
-              >
-                <Printer className="mr-2 h-4 w-4" />
-                Cetak Buku
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="rounded-xl"
-                onClick={() => toast("Cetak Prima Nota (prototype)")}
-              >
-                <ScrollText className="mr-2 h-4 w-4" />
-                Cetak Prima Nota
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
-
-        <InformasiRekeningHeader
-          title="PINJAMAN BILLING"
-          items={[
-            { label: "Kode Pinjaman", value: "PB260001" },
-            { label: "Sektor Pinjaman", value: "Umum" },
-            { label: "Tujuan Pinjaman", value: "Konsumtif" },
-            {
-              label: "Kolektor",
-              value: kolektor === "Pilih Kolektor" ? "-" : kolektor,
-            },
-            { label: "Tanggal Dibuat", value: "07 Apr 2026" },
-            { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
-            { label: "Tanggal Transaksi Terakhir", value: "07 Apr 2026" },
-            { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
-            { label: "Periode Waktu", value: "12 Bulan" },
-            { label: "Metode Bunga Pinjaman", value: "Bunga Efektif" },
-            { label: "Sisa Pinjaman", value: "11.000.000,00" },
-            { label: "Total Harus Bayar", value: "1.120.000,00" },
-          ]}
-        />
 
         <div className="grid gap-4 lg:grid-cols-[1fr_320px_180px]">
           <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur">
