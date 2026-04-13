@@ -23,10 +23,22 @@ import {
   ReceiptText,
   ScrollText,
   ChevronUp,
+  ChevronDown,
+  History,
+  Calculator,
+  BookOpenText,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
 import InformasiRekeningHeader from "@/components/anggota/InformasiRekeningHeader";
+import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Props = {
   nasabah: {
@@ -399,7 +411,74 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
       <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
       <div className="space-y-4">
-        <SectionHighlight title="Informasi Tagihan & Denda" />
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <SectionHighlight title="Informasi Tagihan & Denda" />
+          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="h-10 shrink-0 rounded-full border-slate-200 bg-white px-4 text-slate-900 hover:bg-slate-50"
+              >
+                Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-500" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent
+              align="end"
+              className="w-72 rounded-2xl border-slate-200 p-1"
+            >
+              <DropdownMenuItem
+                className="rounded-xl"
+                onClick={() => toast("Riwayat Transaksi (prototype)")}
+              >
+                <History className="mr-2 h-4 w-4" />
+                Riwayat Transaksi
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-xl"
+                onClick={() => toast("Simulasi Tunggakan (prototype)")}
+              >
+                <Calculator className="mr-2 h-4 w-4" />
+                Simulasi Tunggakan
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator className="my-1" />
+
+              <DropdownMenuItem
+                className="rounded-xl"
+                onClick={() => toast("Cetak Kwitansi Terakhir (prototype)")}
+              >
+                <ReceiptText className="mr-2 h-4 w-4" />
+                Cetak Kwitansi Terakhir
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-xl"
+                onClick={() => toast("Cetak Buku Transaksi Terakhir (prototype)")}
+              >
+                <BookOpenText className="mr-2 h-4 w-4" />
+                Cetak Buku Transaksi Terakhir
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-xl"
+                onClick={() => toast("Cetak Buku (prototype)")}
+              >
+                <Printer className="mr-2 h-4 w-4" />
+                Cetak Buku
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-xl"
+                onClick={() => toast("Cetak Prima Nota (prototype)")}
+              >
+                <ScrollText className="mr-2 h-4 w-4" />
+                Cetak Prima Nota
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
         <InformasiRekeningHeader
           title="PINJAMAN BILLING"
           items={[
