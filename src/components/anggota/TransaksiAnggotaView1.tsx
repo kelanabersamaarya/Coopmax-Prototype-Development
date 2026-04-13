@@ -248,6 +248,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   // More compact table spacing & widths (keep font size unchanged)
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
+  const edgePadLeft = "pl-3";
+  const edgePadRight = "pr-3";
 
   return (
     <div className="mt-6">
@@ -328,7 +330,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 <table className="w-full min-w-[540px] border-collapse text-[13px]">
                   <thead className="bg-white">
                     <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                      <th className={cn("w-[30px]", thClass)}>
+                      <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                         <input
                           ref={headerCheckboxRef}
                           type="checkbox"
@@ -350,7 +352,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       <th className={cn("w-[108px]", thClass)}>
                         Sisa Tagihan Pokok
                       </th>
-                      <th className={cn("w-[108px]", thClass)}>
+                      <th className={cn("w-[108px]", thClass, edgePadRight)}>
                         Sisa Tagihan Bunga
                       </th>
                     </tr>
@@ -358,7 +360,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
                   <tbody className="bg-white">
                     <tr className="border-t border-slate-200">
-                      <td colSpan={7} className={tdClass}>
+                      <td colSpan={7} className={cn(tdClass, edgePadLeft, edgePadRight)}>
                         <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
                           <div className="flex items-start gap-2">
                             <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -387,7 +389,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                           key={`${r.jatuhTempo}-${realIdx}`}
                           className="border-t border-slate-100"
                         >
-                          <td className={tdClass}>
+                          <td className={cn(tdClass, edgePadLeft)}>
                             <input
                               type="checkbox"
                               aria-label={`Pilih row ${realIdx + 1}`}
@@ -420,7 +422,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                           <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                             {r.sisaPokok}
                           </td>
-                          <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                          <td className={cn(tdClass, edgePadRight, "text-right tabular-nums text-slate-800")}>
                             {r.sisaBunga}
                           </td>
                         </tr>

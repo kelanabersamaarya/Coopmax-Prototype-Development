@@ -278,6 +278,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
+  const edgePadLeft = "pl-3";
+  const edgePadRight = "pr-3";
 
   return (
     <div className="space-y-5">
@@ -362,7 +364,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       <table className="w-full min-w-[540px] border-collapse text-[13px]">
                         <thead className="bg-white">
                           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                            <th className={cn("w-[30px]", thClass)}>
+                            <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                               <input
                                 ref={headerCheckboxRef}
                                 type="checkbox"
@@ -387,7 +389,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                             <th className={cn("w-[108px]", thClass)}>
                               Sisa Tagihan Pokok
                             </th>
-                            <th className={cn("w-[108px]", thClass)}>
+                            <th className={cn("w-[108px]", thClass, edgePadRight)}>
                               Sisa Tagihan Bunga
                             </th>
                           </tr>
@@ -403,7 +405,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 key={`${r.jatuhTempo}-${realIdx}`}
                                 className="border-t border-slate-100 text-sm"
                               >
-                                <td className={tdClass}>
+                                <td className={cn(tdClass, edgePadLeft)}>
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
@@ -427,7 +429,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {r.sisaPokok}
                                 </td>
-                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                                <td className={cn(tdClass, edgePadRight, "text-right tabular-nums text-slate-800")}>
                                   {r.sisaBunga}
                                 </td>
                               </tr>
@@ -456,7 +458,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                          <th className={cn("w-[30px]", thClass)}>
+                          <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                             <input
                               ref={headerCheckboxRef}
                               type="checkbox"
@@ -477,7 +479,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                           <th className={cn("w-[108px]", thClass)}>
                             Sisa Tagihan Pokok
                           </th>
-                          <th className={cn("w-[108px]", thClass)}>
+                          <th className={cn("w-[108px]", thClass, edgePadRight)}>
                             Sisa Tagihan Bunga
                           </th>
                         </tr>
@@ -493,7 +495,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               key={`${r.jatuhTempo}-${realIdx}`}
                               className="border-t border-slate-200 text-sm"
                             >
-                              <td className={tdClass}>
+                              <td className={cn(tdClass, edgePadLeft)}>
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
@@ -523,7 +525,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {r.sisaPokok}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td className={cn(tdClass, edgePadRight, "text-right tabular-nums text-slate-800")}>
                                 {r.sisaBunga}
                               </td>
                             </tr>
@@ -535,6 +537,36 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </div>
               )}
             </div>
+
+            {!isPelunasan ? (
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
+                <button
+                  type="button"
+                  onClick={() => setOpenUpcoming((v) => !v)}
+                  className="flex w-full items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
+                  aria-expanded={openUpcoming}
+                >
+                  <span className="uppercase tracking-wide">
+                    Perkiraan Tagihan Mendatang
+                  </span>
+                  <span
+                    className={cn(
+                      "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
+                      openUpcoming ? "rotate-0" : "rotate-180",
+                    )}
+                    aria-hidden="true"
+                  >
+                    <ChevronUp className="h-4.5 w-4.5" />
+                  </span>
+                </button>
+
+                <div
+                  className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
+                >
+                  <UpcomingBillsAccordion open={openUpcoming} />
+                </div>
+              </div>
+            ) : null}
           </Card>
         </div>
 

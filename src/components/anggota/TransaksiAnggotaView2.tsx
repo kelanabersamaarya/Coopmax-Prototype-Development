@@ -137,6 +137,8 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
 
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
+  const edgePadLeft = "pl-3";
+  const edgePadRight = "pr-3";
 
   return (
     <div className="mt-3 overflow-hidden rounded-2xl border border-slate-200 bg-white">
@@ -159,14 +161,18 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
         <table className="w-full min-w-[520px] border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
-              <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
+              <th className={cn("w-[104px]", thClass, edgePadLeft)}>
+                Jatuh Tempo
+              </th>
               <th className={cn("w-[146px]", thClass)}>
                 Total Tagihan Belum Dibayar
               </th>
               <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
               <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
               <th className={cn("w-[108px]", thClass)}>Sisa Tagihan Pokok</th>
-              <th className={cn("w-[108px]", thClass)}>Sisa Tagihan Bunga</th>
+              <th className={cn("w-[108px]", thClass, edgePadRight)}>
+                Sisa Tagihan Bunga
+              </th>
             </tr>
           </thead>
 
@@ -174,7 +180,7 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
             <GracePeriodRow colSpan={6} />
             {upcomingRows.map((r, idx) => (
               <tr key={idx} className="border-t border-slate-200 text-sm">
-                <td className={cn(tdClass, "font-medium text-slate-900")}>
+                <td className={cn(tdClass, edgePadLeft, "font-medium text-slate-900")}>
                   {r.jatuhTempo}
                 </td>
                 <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
@@ -189,7 +195,7 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
                 <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   {r.sisaPokok}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td className={cn(tdClass, edgePadRight, "text-right tabular-nums text-slate-800")}>
                   {r.sisaBunga}
                 </td>
               </tr>
@@ -367,6 +373,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
+  const edgePadLeft = "pl-3";
+  const edgePadRight = "pr-3";
 
   return (
     <div className="space-y-5">
@@ -457,7 +465,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       <table className="w-full min-w-[540px] border-collapse text-[13px]">
                         <thead className="bg-white">
                           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                            <th className={cn("w-[30px]", thClass)}>
+                            <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                               <input
                                 ref={headerCheckboxRef}
                                 type="checkbox"
@@ -482,7 +490,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                             <th className={cn("w-[108px]", thClass)}>
                               Sisa Tagihan Pokok
                             </th>
-                            <th className={cn("w-[108px]", thClass)}>
+                            <th className={cn("w-[108px]", thClass, edgePadRight)}>
                               Sisa Tagihan Bunga
                             </th>
                           </tr>
@@ -498,7 +506,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                 key={`${bill.jatuhTempo}-${realIdx}`}
                                 className="border-t border-slate-100 text-sm"
                               >
-                                <td className={tdClass}>
+                                <td className={cn(tdClass, edgePadLeft)}>
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
@@ -522,7 +530,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                 <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                   {bill.sisaPokok}
                                 </td>
-                                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                                <td className={cn(tdClass, edgePadRight, "text-right tabular-nums text-slate-800")}>
                                   {bill.sisaBunga}
                                 </td>
                               </tr>
@@ -552,7 +560,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                          <th className={cn("w-[30px]", thClass)}>
+                          <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                             <input
                               ref={headerCheckboxRef}
                               type="checkbox"
@@ -573,7 +581,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                           <th className={cn("w-[108px]", thClass)}>
                             Sisa Tagihan Pokok
                           </th>
-                          <th className={cn("w-[108px]", thClass)}>
+                          <th className={cn("w-[108px]", thClass, edgePadRight)}>
                             Sisa Tagihan Bunga
                           </th>
                         </tr>
@@ -589,7 +597,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               key={`${bill.jatuhTempo}-${realIdx}`}
                               className="border-t border-slate-200 text-sm"
                             >
-                              <td className={tdClass}>
+                              <td className={cn(tdClass, edgePadLeft)}>
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
@@ -619,7 +627,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                                 {bill.sisaPokok}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td className={cn(tdClass, edgePadRight, "text-right tabular-nums text-slate-800")}>
                                 {bill.sisaBunga}
                               </td>
                             </tr>
