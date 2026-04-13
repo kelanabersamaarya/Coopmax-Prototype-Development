@@ -12,7 +12,7 @@ export default function SectionHighlight({
 }) {
   return (
     <div className={cn("w-full", className)}>
-      <div className="text-center text-lg font-semibold tracking-tight text-slate-900">
+      <div className="text-center text-[14px] font-semibold tracking-tight text-slate-900">
         {title}
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
