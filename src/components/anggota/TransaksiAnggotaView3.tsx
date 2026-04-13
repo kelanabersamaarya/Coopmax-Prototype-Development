@@ -122,6 +122,89 @@ function GracePeriodRow({ colSpan }: { colSpan: number }) {
   );
 }
 
+function Pagination({
+  page,
+  pageCount,
+  onPage,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (p: number) => void;
+}) {
+  if (pageCount <= 1) return null;
+
+  const items: Array<number | "ellipsis"> = [];
+  const push = (v: number | "ellipsis") => items.push(v);
+
+  const first = 1;
+  const last = pageCount;
+
+  push(first);
+
+  const around = 2;
+  const left = Math.max(first + 1, page - around);
+  const right = Math.min(last - 1, page + around);
+
+  if (left > first + 1) push("ellipsis");
+  for (let i = left; i <= right; i++) push(i);
+  if (right < last - 1) push("ellipsis");
+
+  if (last !== first) push(last);
+
+  return (
+    <div className="flex items-center justify-end gap-2">
+      <Button
+        variant="outline"
+        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+        disabled={page === 1}
+        onClick={() => onPage(Math.max(1, page - 1))}
+      >
+        Sebelumnya
+      </Button>
+
+      <div className="flex items-center gap-1">
+        {items.map((it, idx) => {
+          if (it === "ellipsis") {
+            return (
+              <div
+                key={`e-${idx}`}
+                className="px-2 text-sm font-semibold text-slate-400"
+              >
+                …
+              </div>
+            );
+          }
+          const active = it === page;
+          return (
+            <button
+              key={it}
+              type="button"
+              onClick={() => onPage(it)}
+              className={cn(
+                "h-9 w-9 rounded-xl text-sm font-semibold ring-1 transition",
+                active
+                  ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
+                  : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50",
+              )}
+            >
+              {it}
+            </button>
+          );
+        })}
+      </div>
+
+      <Button
+        variant="outline"
+        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+        disabled={page === pageCount}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+      >
+        Selanjutnya
+      </Button>
+    </div>
+  );
+}
+
 export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] =
@@ -139,6 +222,31 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
   const nominalPelunasan = "9.625.000";
+
+  const totalRincian = React.useMemo(() => {
+    return (
+      parseAmount(nominalPokok) +
+      parseAmount(nominalBunga) +
+      parseAmount(nominalDenda)
+    );
+  }, [nominalBunga, nominalDenda, nominalPokok]);
+
+  const billingRows = isPelunasan ? rows : rows.slice(0, 1);
+
+  // Pagination (only for pelunasan)
+  const [pageSize] = React.useState<number>(6);
+  const [page, setPage] = React.useState<number>(1);
+  const pageCount = Math.max(1, Math.ceil(billingRows.length / pageSize));
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [isPelunasan, pageSize]);
+
+  const pagedBillingRows = React.useMemo(() => {
+    if (!isPelunasan) return billingRows;
+    const start = (page - 1) * pageSize;
+    return billingRows.slice(start, start + pageSize);
+  }, [billingRows, isPelunasan, page, pageSize]);
 
   // --- Select all / row selection state (for non-pelunasan) ---
   const [selected, setSelected] = React.useState<boolean[]>(
@@ -166,16 +274,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     headerCheckboxRef.current.indeterminate =
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
-
-  const totalRincian = React.useMemo(() => {
-    return (
-      parseAmount(nominalPokok) +
-      parseAmount(nominalBunga) +
-      parseAmount(nominalDenda)
-    );
-  }, [nominalBunga, nominalDenda, nominalPokok]);
-
-  const billingRows = isPelunasan ? rows : rows.slice(0, 1);
 
   const billingActionBtn =
     "h-9 rounded-xl bg-white text-[#0f8f9f] ring-1 ring-white/70 hover:bg-white/90";
@@ -299,51 +397,66 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     <tbody className="bg-white">
                       <GracePeriodRow colSpan={7} />
 
-                      {billingRows.map((r, idx) => (
-                        <tr
-                          key={idx}
-                          className="border-t border-slate-200 text-sm"
-                        >
-                          <td className="px-3 py-2.5">
-                            <input
-                              type="checkbox"
-                              aria-label="Pilih tagihan"
-                              checked={isPelunasan ? true : selected[idx] ?? false}
-                              disabled={isPelunasan}
-                              onChange={(e) => {
-                                const next = e.target.checked;
-                                setSelected((prev) => {
-                                  const copy = [...prev];
-                                  copy[idx] = next;
-                                  return copy;
-                                });
-                              }}
-                            />
-                          </td>
-                          <td className="px-3 py-2.5 font-medium text-slate-900">
-                            {r.jatuhTempo}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {r.totalBelumDibayar}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {r.tagihanPokok}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {r.tagihanBunga}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {r.sisaPokok}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {r.sisaBunga}
-                          </td>
-                        </tr>
-                      ))}
+                      {pagedBillingRows.map((r, idx) => {
+                        const realIdx = isPelunasan
+                          ? (page - 1) * pageSize + idx
+                          : idx;
+                        return (
+                          <tr
+                            key={`${r.jatuhTempo}-${realIdx}`}
+                            className="border-t border-slate-200 text-sm"
+                          >
+                            <td className="px-3 py-2.5">
+                              <input
+                                type="checkbox"
+                                aria-label="Pilih tagihan"
+                                checked={isPelunasan ? true : selected[realIdx] ?? false}
+                                disabled={isPelunasan}
+                                onChange={(e) => {
+                                  const next = e.target.checked;
+                                  setSelected((prev) => {
+                                    const copy = [...prev];
+                                    copy[realIdx] = next;
+                                    return copy;
+                                  });
+                                }}
+                              />
+                            </td>
+                            <td className="px-3 py-2.5 font-medium text-slate-900">
+                              {r.jatuhTempo}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {r.totalBelumDibayar}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {r.tagihanPokok}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {r.tagihanBunga}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {r.sisaPokok}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {r.sisaBunga}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
               </div>
+
+              {isPelunasan ? (
+                <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                  <div className="text-xs text-slate-600">
+                    Menampilkan {(billingRows.length === 0 ? 0 : (page - 1) * pageSize + 1)} sampai{" "}
+                    {Math.min(billingRows.length, page * pageSize)} dari {billingRows.length} entri
+                  </div>
+                  <Pagination page={page} pageCount={pageCount} onPage={setPage} />
+                </div>
+              ) : null}
             </div>
           </Card>
         </div>

@@ -198,6 +198,89 @@ function UpcomingBillsAccordion({ open }: { open: boolean }) {
   );
 }
 
+function Pagination({
+  page,
+  pageCount,
+  onPage,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (p: number) => void;
+}) {
+  if (pageCount <= 1) return null;
+
+  const items: Array<number | "ellipsis"> = [];
+  const push = (v: number | "ellipsis") => items.push(v);
+
+  const first = 1;
+  const last = pageCount;
+
+  push(first);
+
+  const around = 2;
+  const left = Math.max(first + 1, page - around);
+  const right = Math.min(last - 1, page + around);
+
+  if (left > first + 1) push("ellipsis");
+  for (let i = left; i <= right; i++) push(i);
+  if (right < last - 1) push("ellipsis");
+
+  if (last !== first) push(last);
+
+  return (
+    <div className="flex items-center justify-end gap-2">
+      <Button
+        variant="outline"
+        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+        disabled={page === 1}
+        onClick={() => onPage(Math.max(1, page - 1))}
+      >
+        Sebelumnya
+      </Button>
+
+      <div className="flex items-center gap-1">
+        {items.map((it, idx) => {
+          if (it === "ellipsis") {
+            return (
+              <div
+                key={`e-${idx}`}
+                className="px-2 text-sm font-semibold text-slate-400"
+              >
+                …
+              </div>
+            );
+          }
+          const active = it === page;
+          return (
+            <button
+              key={it}
+              type="button"
+              onClick={() => onPage(it)}
+              className={cn(
+                "h-9 w-9 rounded-xl text-sm font-semibold ring-1 transition",
+                active
+                  ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
+                  : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50",
+              )}
+            >
+              {it}
+            </button>
+          );
+        })}
+      </div>
+
+      <Button
+        variant="outline"
+        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+        disabled={page === pageCount}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+      >
+        Selanjutnya
+      </Button>
+    </div>
+  );
+}
+
 export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] =
@@ -228,6 +311,21 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
+  // Pagination (only for pelunasan, because list becomes long)
+  const [pageSize] = React.useState<number>(6);
+  const [page, setPage] = React.useState<number>(1);
+  const pageCount = Math.max(1, Math.ceil(billsInMainTable.length / pageSize));
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [isPelunasan, pageSize]);
+
+  const pagedBillsInMainTable = React.useMemo(() => {
+    if (!isPelunasan) return billsInMainTable;
+    const start = (page - 1) * pageSize;
+    return billsInMainTable.slice(start, start + pageSize);
+  }, [billsInMainTable, isPelunasan, page, pageSize]);
+
   // --- Select all / row selection state (for non-pelunasan) ---
   const [selected, setSelected] = React.useState<boolean[]>(
     () => billsInMainTable.map(() => false),
@@ -243,7 +341,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [isPelunasan]);
 
   React.useEffect(() => {
-    // Keep selection length in sync if bill list changes (not typical in prototype, but safe)
+    // Keep selection length in sync if bill list changes
     setSelected((prev) => {
       const next = billsInMainTable.map((_, idx) => prev[idx] ?? false);
       return next;
@@ -386,51 +484,66 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     <tbody className="bg-white">
                       <GracePeriodRow colSpan={7} />
 
-                      {billsInMainTable.map((bill, idx) => (
-                        <tr
-                          key={idx}
-                          className="border-t border-slate-200 text-sm"
-                        >
-                          <td className="px-3 py-2.5">
-                            <input
-                              type="checkbox"
-                              aria-label="Pilih tagihan"
-                              checked={isPelunasan ? true : selected[idx] ?? false}
-                              disabled={isPelunasan}
-                              onChange={(e) => {
-                                const next = e.target.checked;
-                                setSelected((prev) => {
-                                  const copy = [...prev];
-                                  copy[idx] = next;
-                                  return copy;
-                                });
-                              }}
-                            />
-                          </td>
-                          <td className="px-3 py-2.5 font-medium text-slate-900">
-                            {bill.jatuhTempo}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {bill.totalBelumDibayar}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {bill.tagihanPokok}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {bill.tagihanBunga}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {bill.sisaPokok}
-                          </td>
-                          <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
-                            {bill.sisaBunga}
-                          </td>
-                        </tr>
-                      ))}
+                      {pagedBillsInMainTable.map((bill, idx) => {
+                        const realIdx = isPelunasan ? (page - 1) * pageSize + idx : idx;
+                        return (
+                          <tr
+                            key={`${bill.jatuhTempo}-${realIdx}`}
+                            className="border-t border-slate-200 text-sm"
+                          >
+                            <td className="px-3 py-2.5">
+                              <input
+                                type="checkbox"
+                                aria-label="Pilih tagihan"
+                                checked={isPelunasan ? true : selected[realIdx] ?? false}
+                                disabled={isPelunasan}
+                                onChange={(e) => {
+                                  const next = e.target.checked;
+                                  setSelected((prev) => {
+                                    const copy = [...prev];
+                                    copy[realIdx] = next;
+                                    return copy;
+                                  });
+                                }}
+                              />
+                            </td>
+                            <td className="px-3 py-2.5 font-medium text-slate-900">
+                              {bill.jatuhTempo}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {bill.totalBelumDibayar}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {bill.tagihanPokok}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {bill.tagihanBunga}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {bill.sisaPokok}
+                            </td>
+                            <td className="px-3 py-2.5 text-right tabular-nums text-slate-800">
+                              {bill.sisaBunga}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
               </div>
+
+              {isPelunasan ? (
+                <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                  <div className="text-xs text-slate-600">
+                    Menampilkan{" "}
+                    {(billsInMainTable.length === 0 ? 0 : (page - 1) * pageSize + 1)}{" "}
+                    sampai {Math.min(billsInMainTable.length, page * pageSize)} dari{" "}
+                    {billsInMainTable.length} entri
+                  </div>
+                  <Pagination page={page} pageCount={pageCount} onPage={setPage} />
+                </div>
+              ) : null}
             </div>
 
             {/* Hide 'Perkiraan Tagihan Mendatang' when Pelunasan */}
