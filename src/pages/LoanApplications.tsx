@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -167,8 +166,7 @@ export default function LoanApplications() {
       const okNama = namaQ ? r.namaNasabah.toLowerCase().includes(namaQ) : true;
       const okBunga = bungaQ ? r.bungaPerTahun.toLowerCase().includes(bungaQ) : true;
 
-      // qNominal di referensi tampak default "0,00" dan tidak harus memfilter,
-      // jadi kita tidak pakai untuk filter agar UX-nya tidak "menghilangkan" data.
+      // qNominal default "0,00" tidak dipakai untuk filter (sesuai pola referensi).
       const okNominal = true;
 
       const okStatus = statusQ === "Semua" ? true : r.status === statusQ;
@@ -202,10 +200,6 @@ export default function LoanApplications() {
               </h1>
               <div className="text-sm font-semibold text-slate-500">Daftar</div>
             </div>
-            <p className="mt-1 max-w-2xl text-sm text-slate-600">
-              Kelola daftar pengajuan pinjaman. Tampilan daftar mengikuti pola
-              halaman lain dengan tabel yang ringkas.
-            </p>
           </div>
 
           <Button
@@ -259,13 +253,10 @@ export default function LoanApplications() {
                     <th className="w-[150px] px-4 py-3">ID. Nasabah</th>
                     <th className="min-w-[220px] px-4 py-3">Nama Nasabah</th>
                     <th className="w-[190px] px-4 py-3 text-right">Nominal</th>
-                    <th className="w-[160px] px-4 py-3">
-                      Bunga per Tahun (%)
-                    </th>
+                    <th className="w-[160px] px-4 py-3">Bunga per Tahun (%)</th>
                     <th className="w-[190px] px-4 py-3">Status</th>
                   </tr>
 
-                  {/* filter row */}
                   <tr className="border-t border-slate-200 bg-white">
                     <th className="px-4 py-2" />
                     <th className="px-4 py-2">
@@ -380,9 +371,7 @@ export default function LoanApplications() {
                           </a>
                         </td>
 
-                        <td className="px-4 py-3 text-slate-800">
-                          {r.tanggalDaftar}
-                        </td>
+                        <td className="px-4 py-3 text-slate-800">{r.tanggalDaftar}</td>
 
                         <td className="px-4 py-3">
                           <div className="leading-tight text-slate-900">
