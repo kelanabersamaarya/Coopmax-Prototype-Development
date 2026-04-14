@@ -36,6 +36,7 @@ import UpcomingBillsAccordionView2, {
 import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
+import AksiButtonIcon from "@/components/anggota/AksiButtonIcon";
 
 type Props = {
   nasabah: {
@@ -158,7 +159,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [allChecked, anyChecked, isPelunasan]);
 
   const billingActionBtn =
-    "h-9 rounded-full bg-white px-4 text-slate-900 ring-1 ring-white/60 hover:bg-white/90";
+    "h-9 rounded-full bg-white px-3 text-slate-900 ring-1 ring-white/60 hover:bg-white/90";
 
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
@@ -192,6 +193,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button className={billingActionBtn}>
+                    <AksiButtonIcon />
                     Aksi{" "}
                     <ChevronDown className="ml-2 h-4 w-4 text-[#0f8f9f]" />
                   </Button>

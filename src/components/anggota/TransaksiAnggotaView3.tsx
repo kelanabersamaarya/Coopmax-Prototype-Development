@@ -38,6 +38,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import AksiButtonIcon from "@/components/anggota/AksiButtonIcon";
 
 type Props = {
   nasabah: {
@@ -334,7 +335,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
             <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="h-9 rounded-full bg-white px-4 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
+                  <Button className="h-9 rounded-full bg-white px-3 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
+                    <AksiButtonIcon />
                     Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-600" />
                   </Button>
                 </DropdownMenuTrigger>
