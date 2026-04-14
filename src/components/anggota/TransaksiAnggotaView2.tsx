@@ -170,8 +170,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          {/* HEADER: samakan pola View 1 */}
-          <div className="relative">
+          {/* HEADER: samakan pola View 1 + lebar header detail rekening */}
+          <div className="relative w-full max-w-[725.16px]">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -282,7 +282,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   </>
                 ) : null}
 
-                {/* TABLE WRAPPER: samakan pola View 1 (overflow hanya di area tabel) */}
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
@@ -333,7 +332,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={isPelunasan ? true : selected[realIdx] ?? false}
+                                  checked={
+                                    isPelunasan ? true : selected[realIdx] ?? false
+                                  }
                                   disabled={isPelunasan}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -345,7 +346,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td className={cn(tdClass, "font-medium text-slate-900")}>
+                              <td
+                                className={cn(tdClass, "font-medium text-slate-900")}
+                              >
                                 {bill.jatuhTempo}
                               </td>
                               <td

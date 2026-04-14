@@ -4,19 +4,8 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import {
-  CalendarDays,
-  CheckSquare,
   Info,
   Printer,
   ReceiptText,
@@ -266,8 +255,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          {/* HEADER: samakan pola View 1 */}
-          <div className="relative">
+          {/* HEADER: samakan pola View 1 + lebar header detail rekening */}
+          <div className="relative w-full max-w-[725.16px]">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -378,7 +367,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </>
                 ) : null}
 
-                {/* TABLE WRAPPER: samakan pola View 1 */}
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
@@ -429,7 +417,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={isPelunasan ? true : selected[realIdx] ?? false}
+                                  checked={
+                                    isPelunasan ? true : selected[realIdx] ?? false
+                                  }
                                   disabled={isPelunasan}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -551,24 +541,24 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 setJenisTransaksi={setJenisTransaksi}
                 kolektor={kolektor}
                 setKolektor={setKolektor}
-                nominal={nominal}
-                setNominal={setNominal}
-                nominalPokok={nominalPokok}
-                setNominalPokok={setNominalPokok}
-                nominalBunga={nominalBunga}
-                setNominalBunga={setNominalBunga}
-                nominalDenda={nominalDenda}
-                setNominalDenda={setNominalDenda}
-                tabungan={tabungan}
-                setTabungan={setTabungan}
+                nominal={"0"}
+                setNominal={() => {}}
+                nominalPokok={"0"}
+                setNominalPokok={() => {}}
+                nominalBunga={"0"}
+                setNominalBunga={() => {}}
+                nominalDenda={"0"}
+                setNominalDenda={() => {}}
+                tabungan={"Tanpa Tabungan"}
+                setTabungan={() => {}}
                 keterangan={keterangan}
                 setKeterangan={setKeterangan}
               />
             </div>
           </div>
-        </div>
 
-        <div className="sr-only">{nasabah.nama}</div>
+          <div className="sr-only">{nasabah.nama}</div>
+        </div>
       </div>
     </div>
   );
