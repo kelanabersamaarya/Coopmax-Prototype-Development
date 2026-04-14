@@ -336,6 +336,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
+          {/* UBAH: 2 kolom baru aktif di xl supaya konten kiri tidak kepotong */}
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">

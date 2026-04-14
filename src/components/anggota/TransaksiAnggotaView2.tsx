@@ -251,6 +251,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
+          {/* UBAH: 2 kolom baru aktif di xl supaya konten kiri tidak kepotong */}
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
@@ -345,7 +346,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td className={cn(tdClass, "font-medium text-slate-900")}>
+                              <td
+                                className={cn(tdClass, "font-medium text-slate-900")}
+                              >
                                 {bill.jatuhTempo}
                               </td>
                               <td
