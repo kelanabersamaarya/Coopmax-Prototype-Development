@@ -170,28 +170,26 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          {/* Header + tombol Aksi: tanpa absolute agar tidak ter-clip saat zoom kecil */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div className="min-w-0 flex-1">
-              <InformasiRekeningHeader
-                title="PINJAMAN BILLING"
-                items={[
-                  { label: "No. Rekening Pinjaman", value: "SMG260004" },
-                  {
-                    label: "Skema Tagihan",
-                    value: "Tagihan Sesuai Jadwal Angsuran",
-                  },
-                  { label: "Satuan Grace Period", value: "Bulan" },
-                  { label: "Durasi Grace Period", value: "3" },
-                  { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
-                ]}
-              />
-            </div>
+          {/* HEADER: samakan persis seperti View 1 (tanpa max-w) */}
+          <div className="relative">
+            <InformasiRekeningHeader
+              title="PINJAMAN BILLING"
+              items={[
+                { label: "No. Rekening Pinjaman", value: "SMG260004" },
+                {
+                  label: "Skema Tagihan",
+                  value: "Tagihan Sesuai Jadwal Angsuran",
+                },
+                { label: "Satuan Grace Period", value: "Bulan" },
+                { label: "Durasi Grace Period", value: "3" },
+                { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
+              ]}
+            />
 
-            <div className="shrink-0 sm:pt-1">
+            <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="h-9 w-full rounded-full bg-white px-3 text-slate-900 ring-1 ring-white/60 hover:bg-white/90 sm:w-auto">
+                  <Button className="h-9 rounded-full bg-white px-3 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
                     Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-600" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -348,9 +346,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td
-                                className={cn(tdClass, "font-medium text-slate-900")}
-                              >
+                              <td className={cn(tdClass, "font-medium text-slate-900")}>
                                 {bill.jatuhTempo}
                               </td>
                               <td
