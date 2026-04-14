@@ -163,14 +163,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const edgePadRight = "pr-3";
 
   return (
-    <div className="w-full min-w-0 px-0 sm:px-1 md:px-2">
-      <div className="min-w-0 space-y-5">
+    <div className="w-full px-0 sm:px-1 md:px-2">
+      <div className="space-y-5">
         <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
-        <div className="min-w-0 space-y-4">
+        <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          <div className="relative w-full min-w-0 max-w-full overflow-hidden">
+          <div className="relative">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -183,7 +183,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 { label: "Durasi Grace Period", value: "3" },
                 { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
               ]}
-              className="w-full max-w-full"
             />
 
             <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
@@ -252,15 +251,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
-            <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
+            <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
               </div>
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              <div className="min-w-0 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
                 {!isPelunasan ? (
                   <>
                     <div className="font-semibold text-slate-900">
@@ -283,8 +282,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 ) : null}
 
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-                  <div className="safe-x-scroll">
-                    <table className="w-full min-w-0 table-fixed border-collapse text-[13px]">
+                  <div className="overflow-auto">
+                    <table className="w-full min-w-[540px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                           <th className={cn("w-[30px]", thClass, edgePadLeft)}>
@@ -346,18 +345,13 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "font-medium text-slate-900 whitespace-nowrap",
-                                )}
-                              >
+                              <td className={cn(tdClass, "font-medium text-slate-900")}>
                                 {bill.jatuhTempo}
                               </td>
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                  "text-right tabular-nums text-slate-800",
                                 )}
                               >
                                 {bill.totalBelumDibayar}
@@ -365,7 +359,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                  "text-right tabular-nums text-slate-800",
                                 )}
                               >
                                 {bill.tagihanPokok}
@@ -373,7 +367,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                  "text-right tabular-nums text-slate-800",
                                 )}
                               >
                                 {bill.tagihanBunga}
@@ -381,7 +375,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                  "text-right tabular-nums text-slate-800",
                                 )}
                               >
                                 {bill.sisaPokok}
@@ -390,7 +384,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                 className={cn(
                                   tdClass,
                                   edgePadRight,
-                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                  "text-right tabular-nums text-slate-800",
                                 )}
                               >
                                 {bill.sisaBunga}
@@ -404,7 +398,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 </div>
 
                 {isPelunasan ? (
-                  <div className="mt-3 flex min-w-0 flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                  <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div className="text-xs text-slate-600">
                       Menampilkan{" "}
                       {billsInMainTable.length === 0
@@ -424,19 +418,19 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               </div>
 
               {!isPelunasan ? (
-                <div className="mt-4 min-w-0 rounded-2xl border border-slate-200 bg-white">
+                <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
                   <button
                     type="button"
                     onClick={() => setOpenUpcoming((v) => !v)}
-                    className="flex w-full min-w-0 items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
+                    className="flex w-full items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
                     aria-expanded={openUpcoming}
                   >
-                    <span className="min-w-0 uppercase tracking-wide">
+                    <span className="uppercase tracking-wide">
                       Perkiraan Tagihan Mendatang
                     </span>
                     <span
                       className={cn(
-                        "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
+                        "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
                         openUpcoming ? "rotate-0" : "rotate-180",
                       )}
                       aria-hidden="true"
@@ -446,10 +440,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   </button>
 
                   <div
-                    className={cn(
-                      "min-w-0 px-4 pb-4",
-                      openUpcoming ? "block" : "hidden",
-                    )}
+                    className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
                   >
                     <UpcomingBillsAccordionView2
                       open={openUpcoming}
@@ -460,13 +451,13 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               ) : null}
             </Card>
 
-            <div className="min-w-0 space-y-4">
-              <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
+            <div className="space-y-4">
+              <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
                 <div className="text-sm font-semibold text-slate-900">
                   RINGKASAN TAGIHAN
                 </div>
                 <Separator className="my-3 bg-slate-200/70" />
-                <div className="min-w-0 space-y-2 text-sm">
+                <div className="space-y-2 text-sm">
                   {[
                     ["Total Pokok", "2.500.000"],
                     ["Total Bunga", "208.333"],
@@ -475,12 +466,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ].map(([k, v]) => (
                     <div
                       key={k}
-                      className="flex min-w-0 items-center justify-between gap-3"
+                      className="flex items-center justify-between gap-3"
                     >
-                      <div className="min-w-0 text-slate-600">{k}</div>
-                      <div className="shrink-0 whitespace-nowrap font-semibold tabular-nums text-slate-900">
-                        {v}
-                      </div>
+                      <div className="text-slate-600">{k}</div>
+                      <div className="font-semibold text-slate-900">{v}</div>
                     </div>
                   ))}
 
@@ -493,12 +482,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   ].map(([k, v]) => (
                     <div
                       key={k}
-                      className="flex min-w-0 items-center justify-between gap-3"
+                      className="flex items-center justify-between gap-3"
                     >
-                      <div className="min-w-0 text-slate-600">{k}</div>
-                      <div className="shrink-0 whitespace-nowrap font-semibold tabular-nums text-slate-900">
-                        {v}
-                      </div>
+                      <div className="text-slate-600">{k}</div>
+                      <div className="font-semibold text-slate-900">{v}</div>
                     </div>
                   ))}
                 </div>
