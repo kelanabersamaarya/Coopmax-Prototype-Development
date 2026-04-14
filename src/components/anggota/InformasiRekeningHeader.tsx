@@ -28,25 +28,19 @@ export default function InformasiRekeningHeader({
 
         <div
           className={cn(
-            "mt-4 grid min-w-0 gap-x-8 gap-y-4",
-            // Auto-fit lebih tahan zoom daripada breakpoint kolom fixed
-            "[grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]",
+            "mt-4 grid min-w-0 gap-x-6 gap-y-4 sm:gap-x-8",
+            // Lebih fleksibel agar tidak mendorong overflow saat zoom kecil
+            "[grid-template-columns:repeat(auto-fit,minmax(160px,1fr))]",
           )}
         >
           {items.map((it, idx) => (
-            <div
-              key={`${it.label}-${idx}`}
-              className="min-w-0 max-w-full"
-            >
+            <div key={`${it.label}-${idx}`} className="min-w-0 max-w-full">
               <div className="text-xs font-semibold text-white/85">
                 <span className="block break-words">{it.label}</span>
               </div>
 
               <div className="mt-0.5 text-sm font-extrabold tracking-tight">
-                {/* Jangan biarkan value memaksa satu baris panjang */}
-                <span className="block break-words leading-snug">
-                  {it.value}
-                </span>
+                <span className="block break-words leading-snug">{it.value}</span>
               </div>
             </div>
           ))}
