@@ -173,7 +173,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          <div className="relative">
+          {/* Samakan pola View 1: overflow-hidden agar button absolute tidak kepotong/keluar */}
+          <div className="relative overflow-hidden rounded-3xl">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -288,7 +289,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   <>
                     <div className="mt-0 overflow-hidden rounded-2xl ring-1 ring-slate-200">
                       <div className="overflow-auto">
-                        <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                        <table className="w-full min-w-[520px] border-collapse text-[13px]">
                           <thead className="bg-white">
                             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                               <th
@@ -430,7 +431,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 ) : (
                   <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                     <div className="overflow-auto">
-                      <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                      <table className="w-full min-w-[520px] border-collapse text-[13px]">
                         <thead className="bg-white">
                           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                             <th
@@ -584,8 +585,13 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     </span>
                   </button>
 
-                  <div className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}>
-                    <UpcomingBillsAccordionView2 open={openUpcoming} rows={upcomingRows} />
+                  <div
+                    className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
+                  >
+                    <UpcomingBillsAccordionView2
+                      open={openUpcoming}
+                      rows={upcomingRows}
+                    />
                   </div>
                 </div>
               ) : null}
@@ -604,7 +610,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     ["Total Denda", "0"],
                     ["Total Tagihan", "2.708.333"],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex items-center justify-between gap-3">
+                    <div
+                      key={k}
+                      className="flex items-center justify-between gap-3"
+                    >
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -617,7 +626,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     ["Angsuran Lunas", "0"],
                     ["Angsuran Seharusnya", "0"],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex items-center justify-between gap-3">
+                    <div
+                      key={k}
+                      className="flex items-center justify-between gap-3"
+                    >
                       <div className="text-slate-600">{k}</div>
                       <div className="font-semibold text-slate-900">{v}</div>
                     </div>
@@ -652,5 +664,29 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         </div>
       </div>
     </div>
+  );
+}
+
+function GracePeriodRow({ colSpan }: { colSpan: number }) {
+  return (
+    <tr className="border-t border-slate-200">
+      <td colSpan={colSpan} className="px-1 py-2.5">
+        <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+          <div className="flex items-start gap-2">
+            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+              <Info className="h-4 w-4" />
+            </span>
+            <div>
+              <div className="font-semibold">Periode Grace Period</div>
+              <div className="mt-0.5 text-slate-700">
+                Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
+                dalam grace period. Selama periode grace period nasabah hanya
+                membayar bunga.
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
   );
 }

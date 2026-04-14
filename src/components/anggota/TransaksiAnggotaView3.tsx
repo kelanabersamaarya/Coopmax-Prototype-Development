@@ -316,7 +316,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          <div className="relative">
+          {/* Samakan pola View 1: overflow-hidden agar button absolute tidak kepotong/keluar */}
+          <div className="relative overflow-hidden rounded-3xl">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -428,7 +429,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 ) : null}
 
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-                  <div className="safe-x-scroll">
+                  <div className="overflow-auto">
                     <table className="w-full min-w-[520px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
@@ -477,9 +478,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={
-                                    isPelunasan ? true : selected[realIdx] ?? false
-                                  }
+                                  checked={isPelunasan ? true : selected[realIdx] ?? false}
                                   disabled={isPelunasan}
                                   onChange={(e) => {
                                     const next = e.target.checked;
