@@ -248,14 +248,14 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const edgePadRight = "pr-3";
 
   return (
-    <div className="w-full px-0 sm:px-1 md:px-2">
-      <div className="space-y-5">
+    <div className="w-full min-w-0 px-0 sm:px-1 md:px-2">
+      <div className="min-w-0 space-y-5">
         <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          <div className="relative">
+          <div className="relative w-full min-w-0 max-w-full overflow-hidden">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -268,6 +268,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 { label: "Durasi Grace Period", value: "3" },
                 { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
               ]}
+              className="w-full max-w-full"
             />
 
             <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
@@ -336,7 +337,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
@@ -344,7 +345,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
+              <div className="min-w-0 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700">
                 {!isPelunasan ? (
                   <>
                     <div className="font-semibold text-slate-900">
@@ -367,8 +368,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 ) : null}
 
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-                  <div className="overflow-auto">
-                    <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                  <div className="safe-x-scroll">
+                    <table className="w-full min-w-0 table-fixed border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                           <th className={cn("w-[30px]", thClass, edgePadLeft)}>
@@ -430,13 +431,18 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td className={cn(tdClass, "font-medium text-slate-900")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "font-medium text-slate-900 whitespace-nowrap",
+                                )}
+                              >
                                 {bill.jatuhTempo}
                               </td>
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800",
+                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                 )}
                               >
                                 {bill.totalBelumDibayar}
@@ -444,7 +450,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800",
+                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                 )}
                               >
                                 {bill.tagihanPokok}
@@ -452,7 +458,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800",
+                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                 )}
                               >
                                 {bill.tagihanBunga}
@@ -460,7 +466,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               <td
                                 className={cn(
                                   tdClass,
-                                  "text-right tabular-nums text-slate-800",
+                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                 )}
                               >
                                 {bill.sisaPokok}
@@ -469,7 +475,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 className={cn(
                                   tdClass,
                                   edgePadRight,
-                                  "text-right tabular-nums text-slate-800",
+                                  "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                 )}
                               >
                                 {bill.sisaBunga}
@@ -483,7 +489,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </div>
 
                 {isPelunasan ? (
-                  <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                  <div className="mt-3 flex min-w-0 flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div className="text-xs text-slate-600">
                       Menampilkan{" "}
                       {billsInMainTable.length === 0
@@ -499,22 +505,27 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               </div>
             </Card>
 
-            <div className="space-y-4">
-              <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
+            <div className="min-w-0 space-y-4">
+              <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
                 <div className="text-sm font-semibold text-slate-900">
                   RINGKASAN TAGIHAN
                 </div>
                 <Separator className="my-3 bg-slate-200/70" />
-                <div className="space-y-2 text-sm">
+                <div className="min-w-0 space-y-2 text-sm">
                   {[
                     ["Total Pokok", "2.500.000"],
                     ["Total Bunga", "208.333"],
                     ["Total Denda", "0"],
                     ["Total Tagihan", "2.708.333"],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex items-center justify-between gap-3">
-                      <div className="text-slate-600">{k}</div>
-                      <div className="font-semibold text-slate-900">{v}</div>
+                    <div
+                      key={k}
+                      className="flex min-w-0 items-center justify-between gap-3"
+                    >
+                      <div className="min-w-0 text-slate-600">{k}</div>
+                      <div className="shrink-0 whitespace-nowrap font-semibold tabular-nums text-slate-900">
+                        {v}
+                      </div>
                     </div>
                   ))}
 
@@ -525,9 +536,14 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                     ["Angsuran Lunas", "0"],
                     ["Angsuran Seharusnya", "0"],
                   ].map(([k, v]) => (
-                    <div key={k} className="flex items-center justify-between gap-3">
-                      <div className="text-slate-600">{k}</div>
-                      <div className="font-semibold text-slate-900">{v}</div>
+                    <div
+                      key={k}
+                      className="flex min-w-0 items-center justify-between gap-3"
+                    >
+                      <div className="min-w-0 text-slate-600">{k}</div>
+                      <div className="shrink-0 whitespace-nowrap font-semibold tabular-nums text-slate-900">
+                        {v}
+                      </div>
                     </div>
                   ))}
                 </div>
