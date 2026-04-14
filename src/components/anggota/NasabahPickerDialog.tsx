@@ -194,10 +194,10 @@ export default function NasabahPickerDialog({
             Nasabah
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-10 rounded-xl bg-[hsl(var(--app-accent))] px-4 text-white hover:bg-[hsl(var(--app-accent-2))]">
+                <Button className="h-10 rounded-[28px] bg-[hsl(var(--app-accent))] px-6 text-white hover:bg-[hsl(var(--app-accent-2))]">
                   Tambah <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -218,14 +218,15 @@ export default function NasabahPickerDialog({
               </DropdownMenuContent>
             </DropdownMenu>
 
+            {/* X besar: icon-only (tanpa background) */}
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
               aria-label="Tutup dialog"
               title="Tutup"
             >
-              <X className="h-5 w-5" />
+              <X className="h-6 w-6" />
             </button>
           </div>
         </div>
