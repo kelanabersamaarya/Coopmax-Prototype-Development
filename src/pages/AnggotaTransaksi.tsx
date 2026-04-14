@@ -29,7 +29,7 @@ export default function AnggotaTransaksi() {
           setSelected(n);
           setQuery(n.id);
           setOpen(false);
-          toast.success("Nasabah dipilih", {
+          toast.success("Berhasil Menampilan Tagihan Nasabah", {
             description: `${n.nama} • ${n.noIdentitas}`,
           });
         }}
