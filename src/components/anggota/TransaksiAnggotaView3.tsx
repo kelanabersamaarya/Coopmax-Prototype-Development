@@ -398,7 +398,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-            <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
+            <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
               </div>
@@ -428,8 +428,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 ) : null}
 
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-                  <div className="overflow-auto">
-                    <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                  <div className="safe-x-scroll">
+                    <table className="w-full min-w-[520px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                           <th className={cn("w-[30px]", thClass, edgePadLeft)}>
@@ -477,7 +477,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={isPelunasan ? true : selected[realIdx] ?? false}
+                                  checked={
+                                    isPelunasan ? true : selected[realIdx] ?? false
+                                  }
                                   disabled={isPelunasan}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -492,16 +494,36 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                               <td className={cn(tdClass, "font-medium text-slate-900")}>
                                 {bill.jatuhTempo}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.totalBelumDibayar}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.tagihanPokok}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.tagihanBunga}
                               </td>
-                              <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                              <td
+                                className={cn(
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
                                 {bill.sisaPokok}
                               </td>
                               <td
@@ -579,9 +601,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 <div className="grid gap-3">
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">
-                      {isPelunasan
-                        ? "Tanggal Efektif Pelunasan*"
-                        : "Tanggal Efektif Bayar*"}
+                      {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
                     </Label>
                     <div className="relative">
                       <Input
