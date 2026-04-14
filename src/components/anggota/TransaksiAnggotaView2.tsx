@@ -170,8 +170,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          {/* HEADER: samakan pola View 1 + lebar header detail rekening */}
-          <div className="relative w-full max-w-[725.16px]">
+          {/* HEADER: samakan persis seperti View 1 (tanpa max-w) */}
+          <div className="relative">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -346,9 +346,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                   }}
                                 />
                               </td>
-                              <td
-                                className={cn(tdClass, "font-medium text-slate-900")}
-                              >
+                              <td className={cn(tdClass, "font-medium text-slate-900")}>
                                 {bill.jatuhTempo}
                               </td>
                               <td
