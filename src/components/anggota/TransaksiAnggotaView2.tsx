@@ -36,7 +36,6 @@ import UpcomingBillsAccordionView2, {
 import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
-import AksiButtonIcon from "@/components/anggota/AksiButtonIcon";
 
 type Props = {
   nasabah: {
@@ -193,9 +192,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button className={billingActionBtn}>
-                    <AksiButtonIcon />
-                    Aksi{" "}
-                    <ChevronDown className="ml-2 h-4 w-4 text-[#0f8f9f]" />
+                    Aksi <ChevronDown className="ml-2 h-4 w-4 text-[#0f8f9f]" />
                   </Button>
                 </DropdownMenuTrigger>
 

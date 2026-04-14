@@ -39,7 +39,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import AksiButtonIcon from "@/components/anggota/AksiButtonIcon";
 
 type Props = {
   nasabah: {
@@ -284,7 +283,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button className="h-9 rounded-full bg-white px-3 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
-                    <AksiButtonIcon />
                     Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-600" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -552,9 +550,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 <div className="grid gap-3">
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">
-                      {isPelunasan
-                        ? "Tanggal Efektif Pelunasan*"
-                        : "Tanggal Efektif Bayar*"}
+                      {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
                     </Label>
                     <div className="relative">
                       <Input
@@ -604,9 +600,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   {isRincian ? (
                     <>
                       <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">
-                          Nominal Pokok*
-                        </Label>
+                        <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
                         <Input
                           value={nominalPokok}
                           onChange={(e) => setNominalPokok(e.target.value)}
@@ -615,9 +609,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         />
                       </div>
                       <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">
-                          Nominal Bunga*
-                        </Label>
+                        <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
                         <Input
                           value={nominalBunga}
                           onChange={(e) => setNominalBunga(e.target.value)}
@@ -626,9 +618,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         />
                       </div>
                       <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">
-                          Nominal Denda*
-                        </Label>
+                        <Label className="text-xs text-slate-600">Nominal Denda*</Label>
                         <Input
                           value={nominalDenda}
                           onChange={(e) => setNominalDenda(e.target.value)}
@@ -682,9 +672,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
                   {isRincian ? (
                     <div className="pt-1">
-                      <div className="text-xs font-semibold text-slate-600">
-                        Total Pembayaran
-                      </div>
+                      <div className="text-xs font-semibold text-slate-600">Total Pembayaran</div>
                       <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
                         {formatIdrLike(totalRincian)},00
                       </div>
