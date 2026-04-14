@@ -38,6 +38,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
+import TransactionFormCardView2, {
+  type TransactionType,
+} from "@/components/anggota/TransactionFormCardView2";
 
 type Props = {
   nasabah: {
@@ -100,49 +104,6 @@ const upcomingRows: Row[] = [
     sisaBunga: "83.333",
   })),
 ];
-
-const transactionTypes = [
-  "Pembayaran Angsuran",
-  "Pembayaran Rincian Tagihan",
-  "Pelunasan",
-] as const;
-
-type TransactionType = (typeof transactionTypes)[number];
-
-function parseAmount(input: string) {
-  const cleaned = input.replace(/[^\d.-]/g, "");
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function formatIdrLike(n: number) {
-  const s = Math.round(n).toString();
-  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-function GracePeriodRow({ colSpan }: { colSpan: number }) {
-  return (
-    <tr className="border-t border-slate-200">
-      <td colSpan={colSpan} className="px-1 py-2.5">
-        <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
-          <div className="flex items-start gap-2">
-            <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-              <Info className="h-4 w-4" />
-            </span>
-            <div>
-              <div className="font-semibold">Periode Grace Period</div>
-              <div className="mt-0.5 text-slate-700">
-                Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
-                dalam grace period. Selama periode grace period nasabah hanya
-                membayar bunga.
-              </div>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  );
-}
 
 function Pagination({
   page,
@@ -242,17 +203,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
-  const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
-  const nominalPelunasan = "9.625.000";
-
-  const totalRincian = React.useMemo(() => {
-    return (
-      parseAmount(nominalPokok) +
-      parseAmount(nominalBunga) +
-      parseAmount(nominalDenda)
-    );
-  }, [nominalBunga, nominalDenda, nominalPokok]);
-
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
   const [pageSize] = React.useState<number>(6);
@@ -316,8 +266,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
 
-          {/* Samakan pola View 1: overflow-hidden agar button absolute tidak kepotong/keluar */}
-          <div className="relative overflow-hidden rounded-3xl">
+          {/* HEADER: samakan pola View 1 */}
+          <div className="relative">
             <InformasiRekeningHeader
               title="PINJAMAN BILLING"
               items={[
@@ -428,9 +378,10 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </>
                 ) : null}
 
+                {/* TABLE WRAPPER: samakan pola View 1 */}
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
-                    <table className="w-full min-w-[520px] border-collapse text-[13px]">
+                    <table className="w-full min-w-[540px] border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                           <th className={cn("w-[30px]", thClass, edgePadLeft)}>
@@ -462,7 +413,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       </thead>
 
                       <tbody className="bg-white">
-                        <GracePeriodRow colSpan={7} />
+                        <GracePeriodInfoRow colSpan={7} />
 
                         {pagedBillsInMainTable.map((bill, idx) => {
                           const realIdx = isPelunasan
@@ -593,148 +544,26 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </div>
               </Card>
 
-              <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
-                <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
-                <Separator className="my-3 bg-slate-200/70" />
-
-                <div className="grid gap-3">
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
-                    </Label>
-                    <div className="relative">
-                      <Input
-                        value={tanggalEfektif}
-                        onChange={(e) => setTanggalEfektif(e.target.value)}
-                        className="h-10 rounded-xl border-slate-200 bg-white pr-10"
-                      />
-                      <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                    </div>
-                  </div>
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
-                    <Select
-                      value={jenisTransaksi}
-                      onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
-                    >
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        {transactionTypes.map((t) => (
-                          <SelectItem key={t} value={t}>
-                            {t}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Kolektor*</Label>
-                    <Select value={kolektor} onValueChange={setKolektor}>
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
-                        <SelectItem value="Kolektor A">Kolektor A</SelectItem>
-                        <SelectItem value="Kolektor B">Kolektor B</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {isRincian ? (
-                    <>
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
-                        <Input
-                          value={nominalPokok}
-                          onChange={(e) => setNominalPokok(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      </div>
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
-                        <Input
-                          value={nominalBunga}
-                          onChange={(e) => setNominalBunga(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      </div>
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-slate-600">Nominal Denda*</Label>
-                        <Input
-                          value={nominalDenda}
-                          onChange={(e) => setNominalDenda(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="grid gap-1.5">
-                      <Label className="text-xs text-slate-600">
-                        {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
-                      </Label>
-
-                      {isPelunasan ? (
-                        <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
-                          {nominalPelunasan}
-                        </div>
-                      ) : (
-                        <Input
-                          value={nominal}
-                          onChange={(e) => setNominal(e.target.value)}
-                          inputMode="numeric"
-                          className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        />
-                      )}
-                    </div>
-                  )}
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Tabungan</Label>
-                    <Select value={tabungan} onValueChange={setTabungan}>
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
-                        <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Keterangan</Label>
-                    <Input
-                      value={keterangan}
-                      onChange={(e) => setKeterangan(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-white"
-                    />
-                  </div>
-
-                  {isRincian ? (
-                    <div className="pt-1">
-                      <div className="text-xs font-semibold text-slate-600">
-                        Total Pembayaran
-                      </div>
-                      <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
-                        {formatIdrLike(totalRincian)},00
-                      </div>
-                    </div>
-                  ) : null}
-
-                  <Button className="mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
-                    <CheckSquare className="mr-2 h-4 w-4" />
-                    Bayar Tagihan
-                  </Button>
-                </div>
-              </Card>
+              <TransactionFormCardView2
+                tanggalEfektif={tanggalEfektif}
+                setTanggalEfektif={setTanggalEfektif}
+                jenisTransaksi={jenisTransaksi}
+                setJenisTransaksi={setJenisTransaksi}
+                kolektor={kolektor}
+                setKolektor={setKolektor}
+                nominal={nominal}
+                setNominal={setNominal}
+                nominalPokok={nominalPokok}
+                setNominalPokok={setNominalPokok}
+                nominalBunga={nominalBunga}
+                setNominalBunga={setNominalBunga}
+                nominalDenda={nominalDenda}
+                setNominalDenda={setNominalDenda}
+                tabungan={tabungan}
+                setTabungan={setTabungan}
+                keterangan={keterangan}
+                setKeterangan={setKeterangan}
+              />
             </div>
           </div>
         </div>
