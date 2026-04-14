@@ -16,7 +16,15 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ChevronLeft, Info, Plus, Save, X, Settings2, SlidersHorizontal } from "lucide-react";
+import {
+  ChevronLeft,
+  Info,
+  Plus,
+  Save,
+  X,
+  Settings2,
+  SlidersHorizontal,
+} from "lucide-react";
 import { createLoanProduct, BillingScheme } from "@/lib/loanProductsStore";
 
 type PeriodUnit = "Bulan" | "Hari";
@@ -729,7 +737,7 @@ export default function LoanProductCreate() {
                 {collectorFees.map((f, idx) => (
                   <div
                     key={f.id}
-                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_44px] md:items-center"
+                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_48px] md:items-start"
                   >
                     <div className="grid gap-2">
                       <Label className="text-xs text-slate-600">Nama</Label>
@@ -743,9 +751,10 @@ export default function LoanProductCreate() {
                             ),
                           );
                         }}
-                        className="rounded-2xl"
+                        className="h-11 rounded-2xl"
                       />
                     </div>
+
                     <div className="grid gap-2">
                       <Label className="text-xs text-slate-600">Nominal</Label>
                       <Input
@@ -758,12 +767,13 @@ export default function LoanProductCreate() {
                             ),
                           );
                         }}
-                        className="rounded-2xl"
+                        className="h-11 rounded-2xl"
                       />
                     </div>
+
                     <button
                       type="button"
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white md:mt-[22px] md:self-start"
                       onClick={() => {
                         setCollectorFees((prev) =>
                           prev.filter((x) => x.id !== f.id),
