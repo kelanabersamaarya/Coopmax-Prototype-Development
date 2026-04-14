@@ -154,7 +154,8 @@
   }
 }
 
-/* Hide default shadcn Dialog close button (the small X in top-right). */
-[data-radix-dialog-content] > button[aria-label="Close"] {
+/* Hide default shadcn/Radix Dialog close button (the small X in top-right). */
+[data-radix-dialog-content] > button[aria-label="Close"],
+[data-radix-dialog-content] [aria-label="Close"] {
   display: none !important;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, Plus } from "lucide-react";
+import { ChevronDown, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -217,6 +217,16 @@ export default function NasabahPickerDialog({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
+              aria-label="Tutup dialog"
+              title="Tutup"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
         </div>
 
