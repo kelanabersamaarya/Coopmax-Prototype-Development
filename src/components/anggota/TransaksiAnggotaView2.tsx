@@ -7,7 +7,6 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
   Info,
-  ChevronUp,
   History,
   Calculator,
   BookOpenText,
@@ -30,9 +29,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import AnggotaTablePagination from "@/components/anggota/AnggotaTablePagination";
-import UpcomingBillsAccordionView2, {
-  type BillRow,
-} from "@/components/anggota/UpcomingBillsAccordionView2";
 import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
@@ -44,6 +40,15 @@ type Props = {
     noIdentitas: string;
     alamat: string;
   };
+};
+
+type BillRow = {
+  jatuhTempo: string;
+  totalBelumDibayar: string;
+  tagihanPokok: string;
+  tagihanBunga: string;
+  sisaPokok: string;
+  sisaBunga: string;
 };
 
 const currentBill: BillRow = {
@@ -104,8 +109,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
   const [keterangan, setKeterangan] = React.useState("");
 
-  const [openUpcoming, setOpenUpcoming] = React.useState(false);
-
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
@@ -157,8 +160,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
-  // Ring biru + baris info grace period hanya untuk "tagihan saat ini" (bukan pelunasan)
-  // dan hanya muncul di halaman 1.
   const showGraceHighlightMain = !isPelunasan && page === 1;
 
   const thClass = "px-1 py-2.5";
@@ -317,7 +318,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       </tr>
                     </thead>
 
-                    {/* Body dibungkus supaya ring biru bisa hilang/muncul tanpa mempengaruhi header */}
                     <tbody className="bg-white">
                       <tr>
                         <td colSpan={7} className="p-0">
@@ -445,39 +445,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     pageCount={pageCount}
                     onPage={setPage}
                   />
-                </div>
-              ) : null}
-
-              {!isPelunasan ? (
-                <div className="mt-4 rounded-2xl border border-slate-200 bg-white">
-                  <button
-                    type="button"
-                    onClick={() => setOpenUpcoming((v) => !v)}
-                    className="flex w-full items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900"
-                    aria-expanded={openUpcoming}
-                  >
-                    <span className="uppercase tracking-wide">
-                      Perkiraan Tagihan Mendatang
-                    </span>
-                    <span
-                      className={cn(
-                        "inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition",
-                        openUpcoming ? "rotate-0" : "rotate-180",
-                      )}
-                      aria-hidden="true"
-                    >
-                      <ChevronUp className="h-4.5 w-4.5" />
-                    </span>
-                  </button>
-
-                  <div
-                    className={cn("px-4 pb-4", openUpcoming ? "block" : "hidden")}
-                  >
-                    <UpcomingBillsAccordionView2
-                      open={openUpcoming}
-                      rows={upcomingRows}
-                    />
-                  </div>
                 </div>
               ) : null}
             </Card>
