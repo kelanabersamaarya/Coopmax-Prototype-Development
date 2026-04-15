@@ -282,7 +282,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                 <div className="overflow-auto">
-                  <table className="w-full min-w-[860px] border-collapse text-[13px]">
+                  {/* Sama persis dengan View 1 */}
+                  <table className="w-full min-w-[540px] border-collapse text-[13px]">
                     <thead className="bg-white">
                       <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                         <th className={cn("w-[30px]", thClass, edgePadLeft)}>
@@ -299,15 +300,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                           />
                         </th>
                         <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
-                        <th className={cn("w-[190px]", thClass)}>
+                        <th className={cn("w-[146px]", thClass)}>
                           Total Tagihan Belum Dibayar
                         </th>
-                        <th className={cn("w-[130px]", thClass)}>Tagihan Pokok</th>
-                        <th className={cn("w-[130px]", thClass)}>Tagihan Bunga</th>
-                        <th className={cn("w-[150px]", thClass)}>
+                        <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
+                        <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
+                        <th className={cn("w-[108px]", thClass)}>
                           Sisa Tagihan Pokok
                         </th>
-                        <th className={cn("w-[150px]", thClass, edgePadRight)}>
+                        <th className={cn("w-[108px]", thClass, edgePadRight)}>
                           Sisa Tagihan Bunga
                         </th>
                       </tr>

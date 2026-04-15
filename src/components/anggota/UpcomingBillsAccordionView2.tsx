@@ -46,7 +46,8 @@ export default function UpcomingBillsAccordionView2({
       </div>
 
       <div className="overflow-auto">
-        <table className="w-full min-w-[520px] border-collapse text-[13px]">
+        {/* Samakan dengan tabel utama (View 1 / View 2) */}
+        <table className="w-full min-w-[540px] border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
               <th className={cn("w-[104px]", thClass, edgePadLeft)}>
