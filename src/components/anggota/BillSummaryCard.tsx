@@ -22,20 +22,26 @@ function SummaryRow({
   strong?: boolean;
 }) {
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)_14px_auto] items-start gap-x-3 py-1.5 text-sm">
+    <div
+      className={cn(
+        "grid items-baseline gap-x-3 py-3",
+        // label | : | value
+        "[grid-template-columns:minmax(0,1fr)_14px_minmax(0,1fr)]",
+      )}
+    >
       <div
         className={cn(
-          "leading-snug text-slate-800",
-          strong ? "font-semibold text-slate-900" : "font-normal",
+          "text-[15px] leading-snug text-slate-500",
+          strong ? "font-semibold text-slate-600" : "font-normal",
         )}
       >
         {label}
       </div>
-      <div className="text-center text-slate-500">:</div>
+      <div className="text-center text-[15px] font-semibold text-slate-400">:</div>
       <div
         className={cn(
-          "text-right tabular-nums text-slate-800",
-          strong ? "font-semibold text-slate-900" : "font-normal",
+          "text-right tabular-nums tracking-tight text-slate-900",
+          strong ? "text-[28px] font-extrabold" : "text-[28px] font-bold",
         )}
       >
         {value}
@@ -84,15 +90,11 @@ export default function BillSummaryCard({
   return (
     <Card
       className={cn(
-        "relative rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4",
+        "relative rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur",
         className,
       )}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="text-sm font-semibold text-slate-900">
-          RINGKASAN TAGIHAN
-        </div>
-      </div>
+      <div className="text-sm font-semibold text-slate-900">RINGKASAN TAGIHAN</div>
 
       <div className="mt-3">
         <DropdownMenu>
@@ -101,8 +103,8 @@ export default function BillSummaryCard({
               type="button"
               className={cn(
                 "inline-flex h-10 w-full items-center justify-between gap-2",
-                "rounded-[5px]",
-                "bg-white px-4 text-sm font-normal text-slate-800",
+                "rounded-[6px]",
+                "bg-white px-4 text-sm font-medium text-slate-900",
                 "ring-1 ring-slate-200 transition hover:bg-slate-50",
               )}
               aria-label="Pilih transaksi"
@@ -159,7 +161,7 @@ export default function BillSummaryCard({
 
       <Separator className="my-4 bg-slate-200/70" />
 
-      <div className={cn("space-y-0", isPembayaranKhusus ? "px-2 sm:px-3" : "")}>
+      <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
         <SummaryRow
           label={isPembayaranKhusus ? labelStack("Total", "Pokok") : "Total Pokok"}
           value={totals.pokok}
@@ -185,19 +187,21 @@ export default function BillSummaryCard({
           strong
         />
 
-        <div className="py-2">
-          <Separator className="bg-slate-300" />
+        <div className="py-3">
+          <Separator className="bg-slate-300/70" />
         </div>
 
         <SummaryRow
           label={isPembayaranKhusus ? labelStack("Angsuran", "Ke") : "Angsuran Ke"}
           value={installment.ke}
+          strong={false}
         />
         <SummaryRow
           label={
             isPembayaranKhusus ? labelStack("Angsuran", "Lunas") : "Angsuran Lunas"
           }
           value={installment.lunas}
+          strong={false}
         />
         <SummaryRow
           label={
@@ -206,11 +210,8 @@ export default function BillSummaryCard({
               : "Angsuran Seharusnya"
           }
           value={installment.seharusnya}
+          strong={false}
         />
-      </div>
-
-      <div className="pt-2">
-        <Separator className="bg-slate-300" />
       </div>
     </Card>
   );
