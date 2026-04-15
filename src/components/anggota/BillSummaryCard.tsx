@@ -42,7 +42,7 @@ function SummaryRow({
       <div
         className={cn(
           "text-right tabular-nums tracking-tight text-slate-900",
-          strong ? "text-[24px] font-extrabold" : "text-[22px] font-bold",
+          strong ? "text-[12px] font-extrabold" : "text-[12px] font-bold",
         )}
       >
         {value}
