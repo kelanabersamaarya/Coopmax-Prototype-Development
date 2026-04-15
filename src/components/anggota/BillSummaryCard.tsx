@@ -38,6 +38,12 @@ type TransactionType =
   | "Pembayaran Rincian Tagihan"
   | "Pelunasan";
 
+function transactionLabel(v: TransactionType) {
+  if (v === "Pembayaran Angsuran") return "Pembayaran angsuran";
+  if (v === "Pembayaran Rincian Tagihan") return "Pembayaran rincian tagihan";
+  return "Pelunasan";
+}
+
 export default function BillSummaryCard({
   mode,
   totals,
@@ -60,24 +66,34 @@ export default function BillSummaryCard({
         className,
       )}
     >
+      {/* Header: title only */}
       <div className="flex items-start justify-between gap-3">
         <div className="text-sm font-semibold text-slate-900">RINGKASAN TAGIHAN</div>
+      </div>
 
+      {/* Dropdown moved BELOW title */}
+      <div className="mt-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="inline-flex h-8 items-center gap-2 rounded-full bg-slate-50 px-3 text-xs font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:bg-white"
+              className={cn(
+                "inline-flex h-9 w-full items-center justify-between gap-2 rounded-full",
+                "bg-white px-4 text-sm font-semibold text-slate-800",
+                "ring-1 ring-slate-200 transition hover:bg-slate-50",
+              )}
               aria-label="Pilih transaksi"
             >
-              Pilih transaksi
+              <span className="truncate">
+                {transactionType ? transactionLabel(transactionType) : "Pilih transaksi"}
+              </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            align="end"
-            className="w-64 rounded-2xl border-slate-200 p-1"
+            align="start"
+            className="w-[--radix-dropdown-menu-trigger-width] rounded-2xl border-slate-200 p-1"
           >
             <DropdownMenuItem
               className={cn(
@@ -96,9 +112,7 @@ export default function BillSummaryCard({
                   ? "bg-slate-100"
                   : "",
               )}
-              onClick={() =>
-                onTransactionTypeChange("Pembayaran Rincian Tagihan")
-              }
+              onClick={() => onTransactionTypeChange("Pembayaran Rincian Tagihan")}
             >
               Pembayaran rincian tagihan
             </DropdownMenuItem>
@@ -114,9 +128,13 @@ export default function BillSummaryCard({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <div className="mt-2 text-[11px] font-medium text-slate-500">
+          Pilihan ini akan mengubah field transaksi di panel sebelah.
+        </div>
       </div>
 
-      <Separator className="my-3 bg-slate-200/70" />
+      <Separator className="my-4 bg-slate-200/70" />
 
       <div className="space-y-2 text-sm">
         <SummaryRow label="Total Pokok" value={totals.pokok} />
