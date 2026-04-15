@@ -255,9 +255,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
   const thClass = "px-1 py-2.5";
-  const tdClass = "px-1 py-2.5";
   const edgePadLeft = "pl-4";
   const edgePadRight = "pr-4";
+
+  const showGraceHighlight = page === 1;
 
   return (
     <div className="w-full px-0">
@@ -353,13 +354,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {/* Header tabel (TIDAK ikut ring biru) */}
+              {/* Header tabel */}
               <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                 <div className="overflow-auto">
                   <table className="w-full min-w-[540px] border-collapse text-[13px]">
                     <thead className="bg-white">
                       <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                        <th className={cn("w-[30px]", thClass, edgePadLeft)}>
+                        <th className={cn("w-[30px]", "px-1 py-2.5", edgePadLeft)}>
                           <input
                             ref={headerCheckboxRef}
                             type="checkbox"
@@ -372,16 +373,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                             }}
                           />
                         </th>
-                        <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
-                        <th className={cn("w-[146px]", thClass)}>
+                        <th className={cn("w-[104px]", "px-1 py-2.5")}>Jatuh Tempo</th>
+                        <th className={cn("w-[146px]", "px-1 py-2.5")}>
                           Total Tagihan Belum Dibayar
                         </th>
-                        <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
-                        <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
-                        <th className={cn("w-[108px]", thClass)}>
+                        <th className={cn("w-[98px]", "px-1 py-2.5")}>Tagihan Pokok</th>
+                        <th className={cn("w-[98px]", "px-1 py-2.5")}>Tagihan Bunga</th>
+                        <th className={cn("w-[108px]", "px-1 py-2.5")}>
                           Sisa Tagihan Pokok
                         </th>
-                        <th className={cn("w-[108px]", thClass, edgePadRight)}>
+                        <th className={cn("w-[108px]", "px-1 py-2.5", edgePadRight)}>
                           Sisa Tagihan Bunga
                         </th>
                       </tr>
@@ -389,34 +390,41 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   </table>
                 </div>
 
-                {/* Body tabel (ikut kotak biru sesuai referensi) */}
+                {/* Body tabel: halaman 1 pakai kotak biru + info, halaman lain tanpa itu */}
                 <div className="px-2 pb-2">
-                  <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
+                  <div
+                    className={cn(
+                      "overflow-hidden rounded-xl bg-white",
+                      showGraceHighlight ? "border-2 border-blue-600/70" : "border border-slate-200",
+                    )}
+                  >
                     <div className="overflow-auto">
                       <table className="w-full min-w-[540px] border-collapse text-[13px]">
                         <tbody className="bg-white">
-                          <tr className="border-b border-slate-200">
-                            <td colSpan={7} className="px-3 py-3">
-                              <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
-                                <div className="flex items-start gap-2">
-                                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                                    <Info className="h-4 w-4" />
-                                  </span>
-                                  <div>
-                                    <div className="font-semibold">
-                                      Periode Grace Period
-                                    </div>
-                                    <div className="mt-0.5 text-slate-700">
-                                      Berikut ini merupakan periode tagihan
-                                      pinjaman yang termasuk ke dalam grace
-                                      period. Selama periode grace period nasabah
-                                      hanya membayar bunga.
+                          {showGraceHighlight ? (
+                            <tr className="border-b border-slate-200">
+                              <td colSpan={7} className="px-3 py-3">
+                                <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+                                  <div className="flex items-start gap-2">
+                                    <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                                      <Info className="h-4 w-4" />
+                                    </span>
+                                    <div>
+                                      <div className="font-semibold">
+                                        Periode Grace Period
+                                      </div>
+                                      <div className="mt-0.5 text-slate-700">
+                                        Berikut ini merupakan periode tagihan
+                                        pinjaman yang termasuk ke dalam grace
+                                        period. Selama periode grace period nasabah
+                                        hanya membayar bunga.
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>
-                          </tr>
+                              </td>
+                            </tr>
+                          ) : null}
 
                           {pagedRows.map((r, idx) => {
                             const realIdx = (page - 1) * pageSize + idx;
