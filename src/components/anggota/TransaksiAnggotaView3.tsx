@@ -341,7 +341,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {/* WRAPPER agar info box & tabel punya ujung yang sejajar */}
               <div className="space-y-3">
                 {!isPelunasan ? (
                   <div className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
@@ -359,8 +358,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 ) : null}
 
                 <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-                  <div className="overflow-auto">
-                    <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                  <div className="safe-x-scroll">
+                    <table className="w-full min-w-[520px] table-fixed border-collapse text-[13px]">
                       <thead className="bg-white">
                         <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                           <th className={cn("w-[30px]", thClass, edgePadLeft)}>
