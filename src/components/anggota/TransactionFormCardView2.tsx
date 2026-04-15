@@ -75,7 +75,9 @@ export default function TransactionFormCardView2({
 
   const totalRincian = React.useMemo(() => {
     return (
-      parseAmount(nominalPokok) + parseAmount(nominalBunga) + parseAmount(nominalDenda)
+      parseAmount(nominalPokok) +
+      parseAmount(nominalBunga) +
+      parseAmount(nominalDenda)
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
@@ -109,11 +111,11 @@ export default function TransactionFormCardView2({
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-slate-200">
-              {transactionTypes.map((t) => (
-                <SelectItem key={t} value={t}>
-                  {t}
-                </SelectItem>
-              ))}
+              <SelectItem value="Pembayaran Angsuran">Pembayaran angsuran</SelectItem>
+              <SelectItem value="Pembayaran Rincian Tagihan">
+                Pembayaran rincian tagihan
+              </SelectItem>
+              <SelectItem value="Pelunasan">Pelunasan</SelectItem>
             </SelectContent>
           </Select>
         </div>
