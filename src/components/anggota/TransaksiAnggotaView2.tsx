@@ -265,13 +265,13 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               <Separator className="my-3 bg-slate-200/70" />
 
               {!isPelunasan ? (
-                <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-700">
-                  <div className="flex items-start gap-2">
-                    <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                      <Info className="h-4 w-4" />
+                <div className="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
+                      <Info className="h-5 w-5" />
                     </span>
 
-                    <div className="leading-relaxed text-slate-800">
+                    <div className="min-w-0 text-sm leading-snug text-slate-900">
                       Tagihan berikutnya akan diterbitkan pada{" "}
                       <span className="font-bold text-[#3366FF]">
                         20 April 2025
