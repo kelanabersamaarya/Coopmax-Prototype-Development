@@ -25,23 +25,24 @@ function SummaryRow({
     <div
       className={cn(
         "grid items-baseline gap-x-3 py-3",
-        // label | : | value
         "[grid-template-columns:minmax(0,1fr)_14px_minmax(0,1fr)]",
       )}
     >
       <div
         className={cn(
-          "text-[15px] leading-snug text-slate-500",
-          strong ? "font-semibold text-slate-600" : "font-normal",
+          "text-[15px] leading-snug",
+          strong ? "font-semibold text-slate-700" : "font-medium text-slate-600",
         )}
       >
         {label}
       </div>
+
       <div className="text-center text-[15px] font-semibold text-slate-400">:</div>
+
       <div
         className={cn(
           "text-right tabular-nums tracking-tight text-slate-900",
-          strong ? "text-[28px] font-extrabold" : "text-[28px] font-bold",
+          strong ? "text-[30px] font-extrabold" : "text-[28px] font-bold",
         )}
       >
         {value}
