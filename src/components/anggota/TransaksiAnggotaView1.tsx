@@ -353,8 +353,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {/* Wrapper normal (tanpa ring biru global). Highlight biru hanya untuk 3 periode pertama */}
-              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+              {/* Penanda kotak biru seperti referensi */}
+              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-2 ring-blue-600/70">
                 <div className="overflow-auto">
                   <table className="w-full min-w-[540px] border-collapse text-[13px]">
                     <thead className="bg-white">
@@ -416,17 +416,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
                       {pagedRows.map((r, idx) => {
                         const realIdx = (page - 1) * pageSize + idx;
-                        const highlight = !isPelunasan && realIdx >= 0 && realIdx <= 2;
-
                         return (
                           <tr
                             key={`${r.jatuhTempo}-${realIdx}`}
-                            className={cn(
-                              "border-t border-slate-100",
-                              highlight
-                                ? "relative z-10 ring-2 ring-inset ring-blue-600/70"
-                                : "",
-                            )}
+                            className="border-t border-slate-100"
                           >
                             <td className={cn(tdClass, edgePadLeft)}>
                               <input
