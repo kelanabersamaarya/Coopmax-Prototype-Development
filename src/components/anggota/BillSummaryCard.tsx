@@ -30,14 +30,14 @@ function SummaryRow({
     >
       <div
         className={cn(
-          "text-[15px] leading-snug",
+          "text-[14px] leading-snug",
           strong ? "font-semibold text-slate-700" : "font-medium text-slate-600",
         )}
       >
         {label}
       </div>
 
-      <div className="text-center text-[15px] font-semibold text-slate-400">:</div>
+      <div className="text-center text-[14px] font-semibold text-slate-400">:</div>
 
       <div
         className={cn(
