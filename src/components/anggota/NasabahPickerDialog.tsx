@@ -254,22 +254,22 @@ export default function NasabahPickerDialog({
           </div>
 
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
-            {/* Biar table tidak maksa melebar: kita kurangi min-width dan pakai fixed layout */}
-            <div className="overflow-x-hidden">
-              <table className="w-full table-fixed border-collapse">
+            {/* Pastikan tidak ada scroll horizontal: wrapper min-w-0 + table-fixed */}
+            <div className="min-w-0 max-w-full overflow-x-hidden">
+              <table className="w-full max-w-full table-fixed border-collapse">
                 <thead className="bg-white">
                   <tr className="text-left text-sm font-semibold text-slate-900">
-                    <th className="w-[56px] px-4 py-3">No.</th>
-                    <th className="w-[120px] px-4 py-3">ID</th>
-                    <th className="w-[170px] px-4 py-3">NAMA</th>
-                    <th className="w-[150px] px-4 py-3">NO. IDENTITAS</th>
-                    <th className="w-[220px] px-4 py-3">ALAMAT</th>
-                    <th className="w-[170px] px-4 py-3">STATUS</th>
+                    <th className="w-[52px] px-3 py-3">No.</th>
+                    <th className="w-[110px] px-3 py-3">ID</th>
+                    <th className="w-[140px] px-3 py-3">NAMA</th>
+                    <th className="w-[140px] px-3 py-3">NO. IDENTITAS</th>
+                    <th className="w-[180px] px-3 py-3">ALAMAT</th>
+                    <th className="w-[120px] px-3 py-3">STATUS</th>
                   </tr>
 
                   <tr className="border-t border-slate-200 bg-white">
-                    <th className="px-4 py-3" />
-                    <th className="px-4 py-3">
+                    <th className="px-3 py-3" />
+                    <th className="px-3 py-3">
                       <Input
                         value={qId}
                         onChange={(e) => setQId(e.target.value)}
@@ -277,7 +277,7 @@ export default function NasabahPickerDialog({
                         className="h-10 w-full rounded-xl border-slate-200 bg-white"
                       />
                     </th>
-                    <th className="px-4 py-3">
+                    <th className="px-3 py-3">
                       <Input
                         value={qNama}
                         onChange={(e) => setQNama(e.target.value)}
@@ -285,7 +285,7 @@ export default function NasabahPickerDialog({
                         className="h-10 w-full rounded-xl border-slate-200 bg-white"
                       />
                     </th>
-                    <th className="px-4 py-3">
+                    <th className="px-3 py-3">
                       <Input
                         value={qNo}
                         onChange={(e) => setQNo(e.target.value)}
@@ -293,7 +293,7 @@ export default function NasabahPickerDialog({
                         className="h-10 w-full rounded-xl border-slate-200 bg-white"
                       />
                     </th>
-                    <th className="px-4 py-3">
+                    <th className="px-3 py-3">
                       <Input
                         value={qAlamat}
                         onChange={(e) => setQAlamat(e.target.value)}
@@ -301,7 +301,7 @@ export default function NasabahPickerDialog({
                         className="h-10 w-full rounded-xl border-slate-200 bg-white"
                       />
                     </th>
-                    <th className="px-4 py-3">
+                    <th className="px-3 py-3">
                       <Select
                         value={status}
                         onValueChange={(v) =>
@@ -353,28 +353,28 @@ export default function NasabahPickerDialog({
                             if (e.key === "Enter" || e.key === " ") onPick(n);
                           }}
                         >
-                          <td className="px-4 py-4">{no}</td>
-                          <td className="bg-slate-50 px-4 py-4">
+                          <td className="px-3 py-4">{no}</td>
+                          <td className="bg-slate-50 px-3 py-4">
                             <div className="truncate" title={n.id}>
                               {n.id}
                             </div>
                           </td>
-                          <td className="px-4 py-4 font-medium">
+                          <td className="px-3 py-4 font-medium">
                             <div className="truncate" title={n.nama}>
                               {n.nama}
                             </div>
                           </td>
-                          <td className="px-4 py-4">
+                          <td className="px-3 py-4">
                             <div className="truncate" title={n.noIdentitas}>
                               {n.noIdentitas}
                             </div>
                           </td>
-                          <td className="px-4 py-4 text-slate-800">
+                          <td className="px-3 py-4 text-slate-800">
                             <div className="truncate" title={n.alamat}>
                               {n.alamat}
                             </div>
                           </td>
-                          <td className="px-4 py-4">
+                          <td className="px-3 py-4">
                             <div className="truncate" title={n.status}>
                               {n.status}
                             </div>
