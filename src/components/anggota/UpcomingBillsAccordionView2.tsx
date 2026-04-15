@@ -67,7 +67,7 @@ export default function UpcomingBillsAccordionView2({
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                 {/* dummy kolom seleksi agar struktur sama dengan tabel utama */}
-                <th className={cn("w-[30px]", thClass, edgePadLeft)}>
+                <th className={cn("w-[18px]", thClass, edgePadLeft)}>
                   <span className="sr-only">Pilih</span>
                 </th>
                 <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
@@ -91,7 +91,7 @@ export default function UpcomingBillsAccordionView2({
                   key={`${r.jatuhTempo}-${idx}`}
                   className="border-t border-slate-100/60 text-sm"
                 >
-                  <td className={cn(tdClass, edgePadLeft)} />
+                  <td className={cn(tdClass, edgePadLeft, "pr-0")} />
                   <td className={cn(tdClass, "font-medium text-slate-900")}>
                     {r.jatuhTempo}
                   </td>
