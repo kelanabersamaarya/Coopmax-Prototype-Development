@@ -38,11 +38,11 @@ export default function UpcomingBillsAccordionView2({
 
   if (!open) return null;
 
-  // Sedikit lebih "ke kiri" (lebih rapat) agar align dengan tabel utama.
+  // Samakan spacing dengan tabel tagihan terkini
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
-  const edgePadLeft = "pl-2";
-  const edgePadRight = "pr-2";
+  const edgePadLeft = "pl-3";
+  const edgePadRight = "pr-3";
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
@@ -60,97 +60,67 @@ export default function UpcomingBillsAccordionView2({
         </div>
       </div>
 
-      <div className="mt-3 rounded-xl bg-white">
-        <table className="w-full border-collapse text-[13px]">
-          <thead className="bg-white">
-            <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-              {/* dummy kolom seleksi agar struktur sama dengan tabel utama */}
-              <th className={cn("w-[30px]", thClass, edgePadLeft)}>
-                <span className="sr-only">Pilih</span>
-              </th>
-
-              <th className={cn("w-[104px]", thClass)}>
-                <span className="block whitespace-nowrap">Jatuh Tempo</span>
-              </th>
-
-              <th className={cn("w-[170px]", thClass)}>
-                <span className="block whitespace-nowrap">
+      {/* Samakan: wrapper overflow-hidden + overflow-auto di dalam (seperti tabel utama) */}
+      <div className="mt-3 overflow-hidden rounded-xl bg-white">
+        <div className="overflow-auto">
+          <table className="w-full min-w-[540px] border-collapse text-[13px]">
+            <thead className="bg-white">
+              <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                {/* dummy kolom seleksi agar struktur sama dengan tabel utama */}
+                <th className={cn("w-[30px]", thClass, edgePadLeft)}>
+                  <span className="sr-only">Pilih</span>
+                </th>
+                <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
+                <th className={cn("w-[146px]", thClass)}>
                   Total Tagihan Belum Dibayar
-                </span>
-              </th>
-
-              <th className={cn("w-[120px]", thClass)}>
-                <span className="block whitespace-nowrap">Tagihan Pokok</span>
-              </th>
-
-              <th className={cn("w-[120px]", thClass)}>
-                <span className="block whitespace-nowrap">Tagihan Bunga</span>
-              </th>
-
-              <th className={cn("hidden lg:table-cell w-[140px]", thClass)}>
-                <span className="block whitespace-nowrap">Sisa Tagihan Pokok</span>
-              </th>
-
-              <th
-                className={cn(
-                  "hidden lg:table-cell w-[140px]",
-                  thClass,
-                  edgePadRight,
-                )}
-              >
-                <span className="block whitespace-nowrap">Sisa Tagihan Bunga</span>
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="bg-white">
-            <GracePeriodInfoRow colSpan={7} />
-
-            {paged.map((r, idx) => (
-              <tr
-                key={`${r.jatuhTempo}-${idx}`}
-                className="border-t border-slate-100/60 text-sm"
-              >
-                <td className={cn(tdClass, edgePadLeft)} />
-
-                <td className={cn(tdClass, "font-medium text-slate-900")}>
-                  <span className="block whitespace-nowrap">{r.jatuhTempo}</span>
-                </td>
-
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                  <span className="block whitespace-nowrap">{r.totalBelumDibayar}</span>
-                </td>
-
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                  <span className="block whitespace-nowrap">{r.tagihanPokok}</span>
-                </td>
-
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                  <span className="block whitespace-nowrap">{r.tagihanBunga}</span>
-                </td>
-
-                <td
-                  className={cn(
-                    tdClass,
-                    "hidden text-right tabular-nums text-slate-800 lg:table-cell",
-                  )}
-                >
-                  <span className="block whitespace-nowrap">{r.sisaPokok}</span>
-                </td>
-
-                <td
-                  className={cn(
-                    tdClass,
-                    edgePadRight,
-                    "hidden text-right tabular-nums text-slate-800 lg:table-cell",
-                  )}
-                >
-                  <span className="block whitespace-nowrap">{r.sisaBunga}</span>
-                </td>
+                </th>
+                <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
+                <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
+                <th className={cn("w-[108px]", thClass)}>Sisa Tagihan Pokok</th>
+                <th className={cn("w-[108px]", thClass, edgePadRight)}>
+                  Sisa Tagihan Bunga
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="bg-white">
+              <GracePeriodInfoRow colSpan={7} />
+
+              {paged.map((r, idx) => (
+                <tr
+                  key={`${r.jatuhTempo}-${idx}`}
+                  className="border-t border-slate-100/60 text-sm"
+                >
+                  <td className={cn(tdClass, edgePadLeft)} />
+                  <td className={cn(tdClass, "font-medium text-slate-900")}>
+                    {r.jatuhTempo}
+                  </td>
+                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                    {r.totalBelumDibayar}
+                  </td>
+                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                    {r.tagihanPokok}
+                  </td>
+                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                    {r.tagihanBunga}
+                  </td>
+                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                    {r.sisaPokok}
+                  </td>
+                  <td
+                    className={cn(
+                      tdClass,
+                      edgePadRight,
+                      "text-right tabular-nums text-slate-800",
+                    )}
+                  >
+                    {r.sisaBunga}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <div className="mt-3 flex flex-col gap-2 px-3 pb-2 md:flex-row md:items-center md:justify-between">
           <div className="text-xs text-slate-600">
