@@ -18,7 +18,7 @@ import { formatIdrLike, parseAmount } from "@/components/anggota/anggota-money";
 import { cn } from "@/lib/utils";
 
 const transactionTypes = [
-  "Pembayaran Angsuran",
+  "Pembayaran Reguler",
   "Pembayaran Rincian Tagihan",
   "Pelunasan",
 ] as const;
@@ -27,7 +27,7 @@ export type TransactionType = (typeof transactionTypes)[number];
 
 function titleForTransaction(t: TransactionType | null) {
   if (!t) return "PILIH TRANSAKSI";
-  if (t === "Pembayaran Angsuran") return "PEMBAYARAN ANGSURAN";
+  if (t === "Pembayaran Reguler") return "PEMBAYARAN REGULER";
   if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
   return "PELUNASAN";
 }
@@ -126,7 +126,7 @@ export default function TransactionFormCardView2({
               <SelectItem value="__unset__" className="text-slate-500">
                 Pilih Transaksi
               </SelectItem>
-              <SelectItem value="Pembayaran Angsuran">Pembayaran angsuran</SelectItem>
+              <SelectItem value="Pembayaran Reguler">Pembayaran reguler</SelectItem>
               <SelectItem value="Pembayaran Rincian Tagihan">
                 Pembayaran rincian tagihan
               </SelectItem>

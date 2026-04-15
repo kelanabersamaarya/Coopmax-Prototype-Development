@@ -45,12 +45,12 @@ function SummaryRow({
 }
 
 type TransactionType =
-  | "Pembayaran Angsuran"
+  | "Pembayaran Reguler"
   | "Pembayaran Rincian Tagihan"
   | "Pelunasan";
 
 function transactionLabel(v: TransactionType) {
-  if (v === "Pembayaran Angsuran") return "Pembayaran angsuran";
+  if (v === "Pembayaran Reguler") return "Pembayaran reguler";
   if (v === "Pembayaran Rincian Tagihan") return "Pembayaran rincian tagihan";
   return "Pelunasan";
 }
@@ -125,11 +125,11 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Pembayaran Angsuran" ? "bg-slate-100" : "",
+                transactionType === "Pembayaran Reguler" ? "bg-slate-100" : "",
               )}
-              onClick={() => onTransactionTypeChange("Pembayaran Angsuran")}
+              onClick={() => onTransactionTypeChange("Pembayaran Reguler")}
             >
-              Pembayaran angsuran
+              Pembayaran reguler
             </DropdownMenuItem>
 
             <DropdownMenuItem
