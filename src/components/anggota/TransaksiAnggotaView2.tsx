@@ -267,7 +267,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               {!isPelunasan ? (
                 <div className="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-[9999px] bg-blue-100 text-blue-700 ring-1 ring-blue-200">
                       <Info className="h-5 w-5" />
                     </span>
 
