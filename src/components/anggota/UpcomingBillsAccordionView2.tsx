@@ -38,7 +38,6 @@ export default function UpcomingBillsAccordionView2({
 
   if (!open) return null;
 
-  // Samakan spacing dengan tabel tagihan terkini
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
   const edgePadLeft = "pl-3";
@@ -83,41 +82,88 @@ export default function UpcomingBillsAccordionView2({
               </tr>
             </thead>
 
+            {/* Body dibungkus supaya ring biru bisa hilang/muncul tanpa mempengaruhi header */}
             <tbody className="bg-white">
-              {showGraceHighlight ? <GracePeriodInfoRow colSpan={7} /> : null}
-
-              {paged.map((r, idx) => (
-                <tr
-                  key={`${r.jatuhTempo}-${idx}`}
-                  className="border-t border-slate-100/60 text-sm"
-                >
-                  <td className={cn(tdClass, edgePadLeft, "pr-0")} />
-                  <td className={cn(tdClass, "font-medium text-slate-900")}>
-                    {r.jatuhTempo}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.totalBelumDibayar}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.tagihanPokok}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.tagihanBunga}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.sisaPokok}
-                  </td>
-                  <td
+              <tr>
+                <td colSpan={7} className="p-0">
+                  <div
                     className={cn(
-                      tdClass,
-                      edgePadRight,
-                      "text-right tabular-nums text-slate-800",
+                      "overflow-hidden bg-white",
+                      showGraceHighlight
+                        ? "rounded-xl border-2 border-blue-600/70"
+                        : "rounded-xl border border-slate-200",
                     )}
                   >
-                    {r.sisaBunga}
-                  </td>
-                </tr>
-              ))}
+                    <div className="overflow-auto">
+                      <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                        <tbody className="bg-white">
+                          {showGraceHighlight ? (
+                            <GracePeriodInfoRow colSpan={7} />
+                          ) : null}
+
+                          {paged.map((r, idx) => (
+                            <tr
+                              key={`${r.jatuhTempo}-${idx}`}
+                              className="border-t border-slate-100/60 text-sm"
+                            >
+                              <td className={cn("w-[18px]", tdClass, edgePadLeft, "pr-0")} />
+                              <td className={cn("w-[104px]", tdClass, "font-medium text-slate-900")}>
+                                {r.jatuhTempo}
+                              </td>
+                              <td
+                                className={cn(
+                                  "w-[146px]",
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
+                                {r.totalBelumDibayar}
+                              </td>
+                              <td
+                                className={cn(
+                                  "w-[98px]",
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
+                                {r.tagihanPokok}
+                              </td>
+                              <td
+                                className={cn(
+                                  "w-[98px]",
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
+                                {r.tagihanBunga}
+                              </td>
+                              <td
+                                className={cn(
+                                  "w-[108px]",
+                                  tdClass,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
+                                {r.sisaPokok}
+                              </td>
+                              <td
+                                className={cn(
+                                  "w-[108px]",
+                                  tdClass,
+                                  edgePadRight,
+                                  "text-right tabular-nums text-slate-800",
+                                )}
+                              >
+                                {r.sisaBunga}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

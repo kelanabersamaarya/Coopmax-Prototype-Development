@@ -157,7 +157,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
-  const showGraceHighlightMain = page === 1;
+  const showGraceHighlightMain = !isPelunasan && page === 1;
 
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
