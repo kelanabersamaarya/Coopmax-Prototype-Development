@@ -338,7 +338,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          {/* UBAH: items-start agar kolom kiri tidak ikut "stretch" mengikuti tinggi kolom kanan */}
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
@@ -347,25 +346,29 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              <div className="space-y-3">
-                {!isPelunasan ? (
-                  <div className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
-                    <div className="font-semibold text-slate-900">
-                      TAGIHAN SAAT INI
-                    </div>
-                    <div className="mt-3 flex items-start gap-3">
-                      <span className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
-                        <Info className="h-5 w-5" />
+              {!isPelunasan ? (
+                <div className="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-[9999px] bg-blue-100 text-blue-700 ring-1 ring-blue-200">
+                      <Info className="h-5 w-5" />
+                    </span>
+
+                    <div className="min-w-0 text-sm leading-snug text-slate-900">
+                      Tagihan berikutnya akan diterbitkan pada{" "}
+                      <span className="font-bold text-[#3366FF]">
+                        20 April 2025
+                      </span>{" "}
+                      dan jatuh tempo pada{" "}
+                      <span className="font-bold text-[#3366FF]">
+                        5 Mei 2025
                       </span>
-                      <div className="leading-relaxed">
-                        Berikut ini merupakan tagihan yang sudah dapat dibayarkan
-                        pada periode ini serta harus dibayarkan sebelum tanggal
-                        jatuh tempo
-                      </div>
+                      .
                     </div>
                   </div>
-                ) : null}
+                </div>
+              ) : null}
 
+              <div className="space-y-3">
                 <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
@@ -399,7 +402,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                         </tr>
                       </thead>
 
-                      {/* Body dibungkus supaya ring biru bisa hilang/muncul tanpa mempengaruhi header */}
                       <tbody className="bg-white">
                         <tr>
                           <td colSpan={7} className="p-0">
