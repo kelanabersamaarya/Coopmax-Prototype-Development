@@ -68,15 +68,6 @@ function transactionLabel(v: TransactionType) {
   return titleCaseEachWord(v);
 }
 
-function labelStack(top: string, bottom: string) {
-  return (
-    <span className="block">
-      <span className="block">{top}</span>
-      <span className="block">{bottom}</span>
-    </span>
-  );
-}
-
 export default function BillSummaryCard({
   mode,
   totals,
@@ -177,26 +168,20 @@ export default function BillSummaryCard({
 
       <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
         <SummaryRow
-          label={isPembayaranKhusus ? labelStack("Total", "Pokok") : "Total Pokok"}
+          label={isPembayaranKhusus ? "Total Pokok" : "Total Pokok"}
           value={displayTotals.pokok}
         />
         <SummaryRow
-          label={isPembayaranKhusus ? labelStack("Total", "Bunga") : "Total Bunga"}
+          label={isPembayaranKhusus ? "Total Bunga" : "Total Bunga"}
           value={displayTotals.bunga}
         />
         <SummaryRow
-          label={isPembayaranKhusus ? labelStack("Total", "Denda") : "Total Denda"}
+          label={isPembayaranKhusus ? "Total Denda" : "Total Denda"}
           value={displayTotals.denda}
         />
 
         <SummaryRow
-          label={
-            mode === "pelunasan"
-              ? labelStack("Total", "Pelunasan")
-              : isPembayaranKhusus
-                ? labelStack("Total", "Tagihan")
-                : "Total Tagihan"
-          }
+          label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
           value={displayTotals.total}
           strong
         />
@@ -206,23 +191,17 @@ export default function BillSummaryCard({
         </div>
 
         <SummaryRow
-          label={isPembayaranKhusus ? labelStack("Angsuran", "Ke") : "Angsuran Ke"}
+          label={isPembayaranKhusus ? "Angsuran Ke" : "Angsuran Ke"}
           value={displayInstallment.ke}
           strong={false}
         />
         <SummaryRow
-          label={
-            isPembayaranKhusus ? labelStack("Angsuran", "Lunas") : "Angsuran Lunas"
-          }
+          label={isPembayaranKhusus ? "Angsuran Lunas" : "Angsuran Lunas"}
           value={displayInstallment.lunas}
           strong={false}
         />
         <SummaryRow
-          label={
-            isPembayaranKhusus
-              ? labelStack("Angsuran", "Seharusnya")
-              : "Angsuran Seharusnya"
-          }
+          label={isPembayaranKhusus ? "Angsuran Seharusnya" : "Angsuran Seharusnya"}
           value={displayInstallment.seharusnya}
           strong={false}
         />
