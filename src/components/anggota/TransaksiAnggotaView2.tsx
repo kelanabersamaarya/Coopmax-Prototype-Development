@@ -251,7 +251,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          {/* 2 kolom baru aktif di xl supaya konten kiri tidak kepotong */}
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
@@ -281,10 +280,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 </div>
               ) : null}
 
-              {/* Samakan wrapper tabel seperti View 1 */}
               <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                 <div className="overflow-auto">
-                  <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                  <table className="w-full min-w-[860px] border-collapse text-[13px]">
                     <thead className="bg-white">
                       <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                         <th className={cn("w-[30px]", thClass, edgePadLeft)}>
@@ -301,15 +299,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                           />
                         </th>
                         <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
-                        <th className={cn("w-[146px]", thClass)}>
+                        <th className={cn("w-[190px]", thClass)}>
                           Total Tagihan Belum Dibayar
                         </th>
-                        <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
-                        <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
-                        <th className={cn("w-[108px]", thClass)}>
+                        <th className={cn("w-[130px]", thClass)}>Tagihan Pokok</th>
+                        <th className={cn("w-[130px]", thClass)}>Tagihan Bunga</th>
+                        <th className={cn("w-[150px]", thClass)}>
                           Sisa Tagihan Pokok
                         </th>
-                        <th className={cn("w-[108px]", thClass, edgePadRight)}>
+                        <th className={cn("w-[150px]", thClass, edgePadRight)}>
                           Sisa Tagihan Bunga
                         </th>
                       </tr>
