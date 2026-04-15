@@ -21,16 +21,16 @@ export default function InformasiRekeningHeader({
         className,
       )}
     >
-      <div className="min-w-0 px-5 py-4 sm:px-6 sm:py-5">
+      <div className="min-w-0 px-6 py-5 sm:px-7 sm:py-6">
         <div className="min-w-0 text-sm font-extrabold tracking-wide">
           <span className="block break-words">{title}</span>
         </div>
 
         <div
           className={cn(
-            "mt-4 grid min-w-0 gap-x-6 gap-y-4 sm:gap-x-8",
+            "mt-4 grid min-w-0 gap-x-6 gap-y-4 sm:gap-x-10",
             // Lebih fleksibel agar tidak mendorong overflow saat zoom kecil
-            "[grid-template-columns:repeat(auto-fit,minmax(160px,1fr))]",
+            "[grid-template-columns:repeat(auto-fit,minmax(170px,1fr))]",
           )}
         >
           {items.map((it, idx) => (

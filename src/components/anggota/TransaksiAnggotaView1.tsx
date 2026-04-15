@@ -256,11 +256,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
-  const edgePadLeft = "pl-3";
-  const edgePadRight = "pr-3";
+  const edgePadLeft = "pl-4";
+  const edgePadRight = "pr-4";
 
   return (
-    <div className="w-full px-0 sm:px-1 md:px-2">
+    <div className="w-full px-3 sm:px-4 md:px-5">
       <div className="space-y-5">
         <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
@@ -550,7 +550,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 <div className="grid gap-3">
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">
-                      {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
+                      {isPelunasan
+                        ? "Tanggal Efektif Pelunasan*"
+                        : "Tanggal Efektif Bayar*"}
                     </Label>
                     <div className="relative">
                       <Input
@@ -566,7 +568,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
                     <Select
                       value={jenisTransaksi}
-                      onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
+                      onValueChange={(v) =>
+                        setJenisTransaksi(v as TransactionType)
+                      }
                     >
                       <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                         <SelectValue />
@@ -672,7 +676,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
                   {isRincian ? (
                     <div className="pt-1">
-                      <div className="text-xs font-semibold text-slate-600">Total Pembayaran</div>
+                      <div className="text-xs font-semibold text-slate-600">
+                        Total Pembayaran
+                      </div>
                       <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
                         {formatIdrLike(totalRincian)},00
                       </div>

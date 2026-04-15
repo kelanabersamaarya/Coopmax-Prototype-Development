@@ -242,14 +242,13 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
-  // Samakan spacing dengan View 2
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
-  const edgePadLeft = "pl-3";
-  const edgePadRight = "pr-3";
+  const edgePadLeft = "pl-4";
+  const edgePadRight = "pr-4";
 
   return (
-    <div className="w-full px-0 sm:px-1 md:px-2">
+    <div className="w-full px-3 sm:px-4 md:px-5">
       <div className="space-y-5">
         <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
@@ -364,7 +363,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </div>
                 ) : null}
 
-                {/* Sama seperti View 2: wrapper overflow-hidden + overflow-auto */}
                 <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
