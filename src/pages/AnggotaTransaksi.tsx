@@ -93,7 +93,9 @@ export default function AnggotaTransaksi() {
         {/* Area transaksi: scroll horizontal terjadi DI DALAM section putih ini */}
         <div className="-mx-4 md:-mx-6">
           <div className="overflow-x-auto px-4 pb-2 md:px-6">
-            <div className="min-w-max pr-6 md:pr-10">
+            {/* UBAH: jangan pakai min-w-max karena itu memaksa konten melebar.
+               Biarkan komponen di dalam yang mengatur overflow (tabel sudah safe-x-scroll). */}
+            <div className="min-w-0 pr-6 md:pr-10">
               {showView1 && selected ? (
                 <TransaksiAnggotaView1 nasabah={selected} />
               ) : showView3 && selected ? (
