@@ -24,6 +24,12 @@ const transactionTypes = [
 
 export type TransactionType = (typeof transactionTypes)[number];
 
+function titleForTransaction(t: TransactionType) {
+  if (t === "Pembayaran Angsuran") return "PEMBAYARAN ANGSURAN";
+  if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
+  return "PELUNASAN";
+}
+
 export default function TransactionFormCardView2({
   tanggalEfektif,
   setTanggalEfektif,
@@ -83,7 +89,9 @@ export default function TransactionFormCardView2({
 
   return (
     <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
-      <div className="text-sm font-semibold text-slate-900">PILIH TRANSAKSI</div>
+      <div className="text-sm font-semibold tracking-wide text-slate-900">
+        {titleForTransaction(jenisTransaksi)}
+      </div>
       <Separator className="my-3 bg-slate-200/70" />
 
       <div className="grid gap-3">
