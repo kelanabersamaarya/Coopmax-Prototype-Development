@@ -345,7 +345,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          {/* UBAH: items-start agar kolom kiri tidak ikut "stretch" mengikuti tinggi kolom kanan */}
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
@@ -354,7 +353,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+              {/* Penanda kotak biru seperti referensi */}
+              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-2 ring-blue-600/70">
                 <div className="overflow-auto">
                   <table className="w-full min-w-[540px] border-collapse text-[13px]">
                     <thead className="bg-white">
