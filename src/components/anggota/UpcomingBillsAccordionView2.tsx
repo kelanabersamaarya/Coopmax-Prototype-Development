@@ -47,6 +47,8 @@ export default function UpcomingBillsAccordionView2({
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
 
+  const showGraceHighlight = page === 1;
+
   return (
     <div className="mt-3">
       <div className="flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
@@ -60,13 +62,11 @@ export default function UpcomingBillsAccordionView2({
         </div>
       </div>
 
-      {/* Samakan: wrapper overflow-hidden + overflow-auto di dalam (seperti tabel utama) */}
       <div className="mt-3 overflow-hidden rounded-xl bg-white">
         <div className="overflow-auto">
           <table className="w-full min-w-[540px] border-collapse text-[13px]">
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                {/* dummy kolom seleksi agar struktur sama dengan tabel utama */}
                 <th className={cn("w-[18px]", thClass, edgePadLeft)}>
                   <span className="sr-only">Pilih</span>
                 </th>
@@ -84,7 +84,7 @@ export default function UpcomingBillsAccordionView2({
             </thead>
 
             <tbody className="bg-white">
-              <GracePeriodInfoRow colSpan={7} />
+              {showGraceHighlight ? <GracePeriodInfoRow colSpan={7} /> : null}
 
               {paged.map((r, idx) => (
                 <tr

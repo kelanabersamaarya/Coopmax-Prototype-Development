@@ -157,6 +157,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
+  const showGraceHighlightMain = page === 1;
+
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
   const edgePadLeft = "pl-4";
@@ -251,8 +253,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          {/* UBAH: items-start agar kolom kiri tidak ikut "stretch" mengikuti tinggi kolom kanan,
-              dan tinggi kartu kiri akan adaptif saat Perkiraan Tagihan Mendatang dibuka/tutup */}
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
@@ -316,7 +316,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     </thead>
 
                     <tbody className="bg-white">
-                      <GracePeriodInfoRow colSpan={7} />
+                      {showGraceHighlightMain ? <GracePeriodInfoRow colSpan={7} /> : null}
 
                       {pagedBillsInMainTable.map((bill, idx) => {
                         const realIdx = isPelunasan
@@ -346,9 +346,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                                 }}
                               />
                             </td>
-                            <td
-                              className={cn(tdClass, "font-medium text-slate-900")}
-                            >
+                            <td className={cn(tdClass, "font-medium text-slate-900")}>
                               {bill.jatuhTempo}
                             </td>
                             <td
