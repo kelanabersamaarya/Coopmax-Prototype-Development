@@ -38,14 +38,17 @@ export default function UpcomingBillsAccordionView2({
 
   if (!open) return null;
 
-  const thClass = "px-3 py-2.5";
-  const tdClass = "px-3 py-2.5";
+  const thClass = "px-1 py-2.5";
+  const tdClass = "px-1 py-2.5";
+  const edgePadLeft = "pl-3";
+  const edgePadRight = "pr-3";
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
 
   return (
     <div className="mt-3">
+      {/* Info bar (mirip pola di area tagihan) */}
       <div className="flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
         <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
           <Info className="h-4 w-4" />
@@ -57,53 +60,71 @@ export default function UpcomingBillsAccordionView2({
         </div>
       </div>
 
-      {/* Satu blok tabel tanpa horizontal scroll */}
-      <div className="mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white">
+      {/* Struktur tabel dibuat mengikuti tabel utama "Informasi Tagihan dan Denda" */}
+      <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
         <table className="w-full table-fixed border-collapse text-[13px]">
           <thead className="bg-white">
-            <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
-              <th className={cn("w-[86px] sm:w-[110px]", thClass)}>
+            <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+              {/* Dummy kolom seleksi (tanpa checkbox) agar struktur sama */}
+              <th className={cn("w-[30px]", thClass, edgePadLeft)}>
+                <span className="sr-only">Pilih</span>
+              </th>
+
+              <th className={cn("w-[104px]", thClass)}>
                 <span className="block truncate">Jatuh Tempo</span>
               </th>
-              <th className={cn("w-[120px] sm:w-[160px]", thClass)}>
-                <span className="block truncate">Total Tagihan</span>
+
+              <th className={cn("w-[146px]", thClass)}>
+                <span className="block truncate">Total Tagihan Belum Dibayar</span>
               </th>
-              <th className={cn("w-[92px] sm:w-[120px]", thClass)}>
-                <span className="block truncate">Pokok</span>
+
+              <th className={cn("w-[98px]", thClass)}>
+                <span className="block truncate">Tagihan Pokok</span>
               </th>
-              <th className={cn("w-[92px] sm:w-[120px]", thClass)}>
-                <span className="block truncate">Bunga</span>
+
+              <th className={cn("w-[98px]", thClass)}>
+                <span className="block truncate">Tagihan Bunga</span>
               </th>
+
+              {/* Tanpa scroll horizontal: kolom sisa disembunyikan di layar kecil */}
               <th className={cn("hidden lg:table-cell", thClass)}>
-                <span className="block truncate">Sisa Pokok</span>
+                <span className="block truncate">Sisa Tagihan Pokok</span>
               </th>
-              <th className={cn("hidden lg:table-cell", thClass)}>
-                <span className="block truncate">Sisa Bunga</span>
+
+              <th className={cn("hidden lg:table-cell", thClass, edgePadRight)}>
+                <span className="block truncate">Sisa Tagihan Bunga</span>
               </th>
-            </tr>
-            <tr>
-              <th colSpan={6} className="h-px bg-slate-200 p-0" />
             </tr>
           </thead>
 
           <tbody className="bg-white">
-            {/* Baris info tetap ada, tapi pada layar kecil kolom efektif cuma 4 (karena 2 kolom disembunyikan) */}
-            <GracePeriodInfoRow colSpan={6} />
+            {/* Info grace period tetap satu baris tabel */}
+            <GracePeriodInfoRow colSpan={7} />
 
             {paged.map((r, idx) => (
-              <tr key={`${r.jatuhTempo}-${idx}`} className="border-t border-slate-100 text-sm">
-                <td className={cn(tdClass, "font-semibold text-slate-900")}>
+              <tr
+                key={`${r.jatuhTempo}-${idx}`}
+                className="border-t border-slate-100 text-sm"
+              >
+                {/* Dummy cell agar struktur kolom sama */}
+                <td className={cn(tdClass, edgePadLeft)} />
+
+                <td className={cn(tdClass, "font-medium text-slate-900")}>
                   <span className="block whitespace-nowrap">{r.jatuhTempo}</span>
                 </td>
+
                 <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   <span className="block whitespace-nowrap">{r.totalBelumDibayar}</span>
                 </td>
+
                 <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   <span className="block whitespace-nowrap">{r.tagihanPokok}</span>
                 </td>
+
                 <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
                   <span className="block whitespace-nowrap">{r.tagihanBunga}</span>
                 </td>
+
                 <td
                   className={cn(
                     tdClass,
@@ -112,9 +133,11 @@ export default function UpcomingBillsAccordionView2({
                 >
                   <span className="block whitespace-nowrap">{r.sisaPokok}</span>
                 </td>
+
                 <td
                   className={cn(
                     tdClass,
+                    edgePadRight,
                     "hidden text-right tabular-nums text-slate-800 lg:table-cell",
                   )}
                 >
