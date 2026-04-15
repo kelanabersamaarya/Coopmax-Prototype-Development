@@ -154,18 +154,17 @@
   }
 }
 
-/* Hide default shadcn/Radix Dialog close button (the small X in top-right). */
+/* --- Dialog close button rules --- */
+/* HIDE only the default shadcn/Radix close button (small X in top-right) */
 [data-radix-dialog-content] > button[aria-label="Close"],
-[data-radix-dialog-content] [aria-label="Close"] {
+[data-radix-dialog-content] button[aria-label="Close"],
+[data-radix-dialog-content] button[data-radix-dialog-close],
+[data-radix-dialog-content] > button[data-radix-dialog-close] {
   display: none !important;
 }
 
-/* Extra guard: shadcn default close is usually `absolute right-4 top-4` inside DialogContent */
-[data-radix-dialog-content] > button.absolute.right-4.top-4 {
-  display: none !important;
-}
-
-/* Strongest: Radix DialogClose renders `data-radix-dialog-close` */
-[data-radix-dialog-content] button[data-radix-dialog-close] {
+/* Extra guard for shadcn default close: it is usually the absolute button inside content */
+[data-radix-dialog-content] > button.absolute.right-4.top-4,
+[data-radix-dialog-content] button.absolute.right-4.top-4 {
   display: none !important;
 }
