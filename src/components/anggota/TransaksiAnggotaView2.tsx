@@ -163,7 +163,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const edgePadRight = "pr-4";
 
   return (
-    <div className="w-full px-3 sm:px-4 md:px-5">
+    <div className="w-full px-0">
       <div className="space-y-5">
         <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
 
