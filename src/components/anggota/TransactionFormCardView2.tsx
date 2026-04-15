@@ -24,7 +24,8 @@ const transactionTypes = [
 
 export type TransactionType = (typeof transactionTypes)[number];
 
-function titleForTransaction(t: TransactionType) {
+function titleForTransaction(t: TransactionType | null) {
+  if (!t) return "TRANSAKSI";
   if (t === "Pembayaran Angsuran") return "PEMBAYARAN ANGSURAN";
   if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
   return "PELUNASAN";
@@ -53,7 +54,7 @@ export default function TransactionFormCardView2({
   tanggalEfektif: string;
   setTanggalEfektif: (v: string) => void;
 
-  jenisTransaksi: TransactionType;
+  jenisTransaksi: TransactionType | null;
   setJenisTransaksi: (v: TransactionType) => void;
 
   kolektor: string;
@@ -87,6 +88,9 @@ export default function TransactionFormCardView2({
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
+  const canPay =
+    !!jenisTransaksi && kolektor !== "Pilih Kolektor" && tanggalEfektif.trim() !== "";
+
   return (
     <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
       <div className="text-sm font-semibold tracking-wide text-slate-900">
@@ -112,11 +116,11 @@ export default function TransactionFormCardView2({
         <div className="grid gap-1.5">
           <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
           <Select
-            value={jenisTransaksi}
+            value={jenisTransaksi ?? ""}
             onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
           >
             <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-              <SelectValue />
+              <SelectValue placeholder="Pilih transaksi" />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-slate-200">
               <SelectItem value="Pembayaran Angsuran">Pembayaran angsuran</SelectItem>
@@ -172,7 +176,7 @@ export default function TransactionFormCardView2({
               />
             </div>
           </>
-        ) : (
+        ) : jenisTransaksi ? (
           <div className="grid gap-1.5">
             <Label className="text-xs text-slate-600">
               {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
@@ -190,6 +194,11 @@ export default function TransactionFormCardView2({
                 className="h-10 rounded-xl border-slate-200 bg-white text-right"
               />
             )}
+          </div>
+        ) : (
+          <div className="rounded-xl bg-slate-50 p-3 text-sm text-slate-600 ring-1 ring-slate-200">
+            Pilih <span className="font-semibold">Jenis Transaksi</span> untuk
+            menampilkan field pembayaran.
           </div>
         )}
 
@@ -224,7 +233,15 @@ export default function TransactionFormCardView2({
           </div>
         ) : null}
 
-        <Button className="mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
+        <Button
+          disabled={!canPay}
+          className={cn(
+            "mt-1 h-10 rounded-xl text-white",
+            canPay
+              ? "bg-emerald-600 hover:bg-emerald-700"
+              : "bg-slate-300 hover:bg-slate-300",
+          )}
+        >
           <CheckSquare className="mr-2 h-4 w-4" />
           Bayar Tagihan
         </Button>
