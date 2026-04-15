@@ -76,7 +76,7 @@ export default function BillSummaryCard({
   totals: { pokok: string; bunga: string; denda: string; total: string };
   installment: { ke: string; lunas: string; seharusnya: string };
   className?: string;
-  transactionType?: TransactionType | null;
+  transactionType?: TransactionType;
   onTransactionTypeChange: (v: TransactionType) => void;
 }) {
   const isPembayaranKhusus = transactionType === "Pembayaran Rincian Tagihan";
@@ -105,12 +105,8 @@ export default function BillSummaryCard({
               )}
               aria-label="Pilih transaksi"
             >
-              <span
-                className={cn("truncate", transactionType ? "" : "text-slate-500")}
-              >
-                {transactionType
-                  ? transactionLabel(transactionType)
-                  : "Pilih Transaksi"}
+              <span className={cn("truncate", transactionType ? "" : "text-slate-500")}>
+                {transactionType ? transactionLabel(transactionType) : "Pilih Transaksi"}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
