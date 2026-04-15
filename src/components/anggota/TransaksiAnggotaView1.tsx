@@ -500,6 +500,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   total: isPelunasan ? "2.500.000" : "2.708.333",
                 }}
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
+                transactionType={jenisTransaksi}
+                onTransactionTypeChange={setJenisTransaksi}
               />
 
               <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">

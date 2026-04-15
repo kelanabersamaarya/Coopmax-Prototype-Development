@@ -461,6 +461,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   total: "2.455.555",
                 }}
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
+                transactionType={jenisTransaksi}
+                onTransactionTypeChange={setJenisTransaksi}
               />
 
               <TransactionFormCardView2
