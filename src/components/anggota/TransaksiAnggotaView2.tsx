@@ -32,6 +32,7 @@ import AnggotaTablePagination from "@/components/anggota/AnggotaTablePagination"
 import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
+import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 
 type Props = {
   nasabah: {
@@ -451,44 +452,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             </Card>
 
             <div className="space-y-4">
-              <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
-                <div className="text-sm font-semibold text-slate-900">
-                  RINGKASAN TAGIHAN
-                </div>
-                <Separator className="my-3 bg-slate-200/70" />
-                <div className="space-y-2 text-sm">
-                  {[
-                    ["Total Pokok", "2.500.000"],
-                    ["Total Bunga", "208.333"],
-                    ["Total Denda", "0"],
-                    ["Total Tagihan", "2.708.333"],
-                  ].map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex items-center justify-between gap-3"
-                    >
-                      <div className="text-slate-600">{k}</div>
-                      <div className="font-semibold text-slate-900">{v}</div>
-                    </div>
-                  ))}
-
-                  <Separator className="my-3 bg-slate-200/70" />
-
-                  {[
-                    ["Angsuran Ke", "1"],
-                    ["Angsuran Lunas", "0"],
-                    ["Angsuran Seharusnya", "0"],
-                  ].map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex items-center justify-between gap-3"
-                    >
-                      <div className="text-slate-600">{k}</div>
-                      <div className="font-semibold text-slate-900">{v}</div>
-                    </div>
-                  ))}
-                </div>
-              </Card>
+              <BillSummaryCard
+                mode={isPelunasan ? "pelunasan" : "regular"}
+                totals={{
+                  pokok: "2.455.555",
+                  bunga: "0",
+                  denda: "0",
+                  total: "2.455.555",
+                }}
+                installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
+              />
 
               <TransactionFormCardView2
                 tanggalEfektif={tanggalEfektif}

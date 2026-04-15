@@ -39,6 +39,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 
 type Props = {
   nasabah: {
@@ -354,7 +355,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {/* Header tabel */}
               <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                 <div className="overflow-auto">
                   <table className="w-full min-w-[540px] border-collapse text-[13px]">
@@ -390,7 +390,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   </table>
                 </div>
 
-                {/* Body tabel: halaman 1 pakai kotak biru + info, halaman lain tanpa itu */}
                 <div className="px-2 pb-2">
                   <div
                     className={cn(
@@ -492,47 +491,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             </Card>
 
             <div className="space-y-4">
-              <div className="space-y-3">
-                <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
-                  <div className="text-sm font-semibold text-slate-900">
-                    RINGKASAN TAGIHAN
-                  </div>
-                  <Separator className="my-3 w-full bg-slate-200/70" />
-
-                  <div className="space-y-2 text-sm">
-                    {[
-                      ["Total Pokok", "2.500.000"],
-                      ["Total Bunga", "208.333"],
-                      ["Total Denda", "0"],
-                      ["Total Tagihan", "2.708.333"],
-                    ].map(([k, v]) => (
-                      <div
-                        key={k}
-                        className="flex items-center justify-between gap-3"
-                      >
-                        <div className="text-slate-600">{k}</div>
-                        <div className="font-semibold text-slate-900">{v}</div>
-                      </div>
-                    ))}
-
-                    <Separator className="my-3 w-full bg-slate-200/70" />
-
-                    {[
-                      ["Angsuran Ke", "1"],
-                      ["Angsuran Lunas", "0"],
-                      ["Angsuran Seharusnya", "0"],
-                    ].map(([k, v]) => (
-                      <div
-                        key={k}
-                        className="flex items-center justify-between gap-3"
-                      >
-                        <div className="text-slate-600">{k}</div>
-                        <div className="font-semibold text-slate-900">{v}</div>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              </div>
+              <BillSummaryCard
+                mode={isPelunasan ? "pelunasan" : "regular"}
+                totals={{
+                  pokok: "2.500.000",
+                  bunga: isPelunasan ? "0" : "208.333",
+                  denda: "0",
+                  total: isPelunasan ? "2.500.000" : "2.708.333",
+                }}
+                installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
+              />
 
               <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
                 <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
