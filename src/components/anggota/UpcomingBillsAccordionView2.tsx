@@ -48,7 +48,6 @@ export default function UpcomingBillsAccordionView2({
 
   return (
     <div className="mt-3">
-      {/* Info bar (mirip pola di area tagihan) */}
       <div className="flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
         <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
           <Info className="h-4 w-4" />
@@ -60,12 +59,11 @@ export default function UpcomingBillsAccordionView2({
         </div>
       </div>
 
-      {/* Struktur tabel dibuat mengikuti tabel utama "Informasi Tagihan dan Denda" */}
-      <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+      {/* Tanpa ring/border pembungkus agar tidak terasa banyak kotak */}
+      <div className="mt-3 rounded-xl bg-white">
         <table className="w-full table-fixed border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-              {/* Dummy kolom seleksi (tanpa checkbox) agar struktur sama */}
               <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                 <span className="sr-only">Pilih</span>
               </th>
@@ -86,7 +84,6 @@ export default function UpcomingBillsAccordionView2({
                 <span className="block truncate">Tagihan Bunga</span>
               </th>
 
-              {/* Tanpa scroll horizontal: kolom sisa disembunyikan di layar kecil */}
               <th className={cn("hidden lg:table-cell", thClass)}>
                 <span className="block truncate">Sisa Tagihan Pokok</span>
               </th>
@@ -98,15 +95,13 @@ export default function UpcomingBillsAccordionView2({
           </thead>
 
           <tbody className="bg-white">
-            {/* Info grace period tetap satu baris tabel */}
             <GracePeriodInfoRow colSpan={7} />
 
             {paged.map((r, idx) => (
               <tr
                 key={`${r.jatuhTempo}-${idx}`}
-                className="border-t border-slate-100 text-sm"
+                className="border-t border-slate-100/60 text-sm"
               >
-                {/* Dummy cell agar struktur kolom sama */}
                 <td className={cn(tdClass, edgePadLeft)} />
 
                 <td className={cn(tdClass, "font-medium text-slate-900")}>
@@ -148,7 +143,8 @@ export default function UpcomingBillsAccordionView2({
           </tbody>
         </table>
 
-        <div className="flex flex-col gap-2 border-t border-slate-200 px-4 py-3 md:flex-row md:items-center md:justify-between">
+        {/* Footer tanpa border-top agar terasa satu blok yang ringan */}
+        <div className="mt-3 flex flex-col gap-2 px-4 pb-2 md:flex-row md:items-center md:justify-between">
           <div className="text-xs text-slate-600">
             Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
           </div>
