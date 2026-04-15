@@ -45,8 +45,8 @@ export default function UpcomingBillsAccordionView2({
         </div>
       </div>
 
-      <div className="overflow-auto">
-        {/* Samakan dengan tabel utama (View 1 / View 2) */}
+      {/* Penting: scroll horizontal hanya di area tabel, tidak mendorong layout/page */}
+      <div className="safe-x-scroll">
         <table className="w-full min-w-[540px] border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
@@ -78,16 +78,24 @@ export default function UpcomingBillsAccordionView2({
                 >
                   {r.jatuhTempo}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.totalBelumDibayar}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.tagihanPokok}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.tagihanBunga}
                 </td>
-                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                <td
+                  className={cn(tdClass, "text-right tabular-nums text-slate-800")}
+                >
                   {r.sisaPokok}
                 </td>
                 <td
