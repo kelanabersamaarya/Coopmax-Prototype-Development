@@ -35,7 +35,10 @@ function SummaryRow({
   );
 }
 
-type TransactionType = "Pembayaran Angsuran" | "Pembayaran Rincian Tagihan" | "Pelunasan";
+type TransactionType =
+  | "Pembayaran Angsuran"
+  | "Pembayaran Rincian Tagihan"
+  | "Pelunasan";
 
 export default function BillSummaryCard({
   mode,
@@ -67,9 +70,9 @@ export default function BillSummaryCard({
             <button
               type="button"
               className="inline-flex h-8 items-center gap-2 rounded-full bg-slate-50 px-3 text-xs font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:bg-white"
-              aria-label="Action ringkasan tagihan"
+              aria-label="Pilih transaksi"
             >
-              Action
+              Pilih transaksi
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
           </DropdownMenuTrigger>
