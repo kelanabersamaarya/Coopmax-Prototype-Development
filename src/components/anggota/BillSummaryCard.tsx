@@ -8,8 +8,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
@@ -81,11 +79,6 @@ export default function BillSummaryCard({
             align="end"
             className="w-64 rounded-2xl border-slate-200 p-1"
           >
-            <DropdownMenuLabel className="px-2 py-2 text-xs font-semibold text-slate-600">
-              Pilih transaksi
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator className="my-1" />
-
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
