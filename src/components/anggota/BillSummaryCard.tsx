@@ -56,10 +56,17 @@ type TransactionType =
   | "Pembayaran Rincian Tagihan"
   | "Pelunasan";
 
+function titleCaseEachWord(input: string) {
+  return input
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
+}
+
 function transactionLabel(v: TransactionType) {
-  if (v === "Pembayaran Reguler") return "Pembayaran reguler";
-  if (v === "Pembayaran Rincian Tagihan") return "Pembayaran rincian tagihan";
-  return "Pelunasan";
+  // Pastikan title case untuk semua label
+  return titleCaseEachWord(v);
 }
 
 function labelStack(top: string, bottom: string) {
@@ -113,9 +120,7 @@ export default function BillSummaryCard({
               <span
                 className={cn("truncate", transactionType ? "" : "text-slate-500")}
               >
-                {transactionType
-                  ? transactionLabel(transactionType)
-                  : "Pilih Transaksi"}
+                {transactionType ? transactionLabel(transactionType) : "Pilih Transaksi"}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
@@ -132,7 +137,7 @@ export default function BillSummaryCard({
               )}
               onClick={() => onTransactionTypeChange("Pembayaran Reguler")}
             >
-              Pembayaran reguler
+              {transactionLabel("Pembayaran Reguler")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -144,7 +149,7 @@ export default function BillSummaryCard({
               )}
               onClick={() => onTransactionTypeChange("Pembayaran Rincian Tagihan")}
             >
-              Pembayaran rincian tagihan
+              {transactionLabel("Pembayaran Rincian Tagihan")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -154,7 +159,7 @@ export default function BillSummaryCard({
               )}
               onClick={() => onTransactionTypeChange("Pelunasan")}
             >
-              Pelunasan
+              {transactionLabel("Pelunasan")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
