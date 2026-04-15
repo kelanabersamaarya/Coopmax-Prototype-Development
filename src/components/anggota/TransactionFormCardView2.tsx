@@ -113,13 +113,10 @@ export default function TransactionFormCardView2({
 
         <div className="grid gap-1.5">
           <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
-          <Select
-            value={jenisTransaksi ?? "__unset__"}
-            onValueChange={(v) =>
-              setJenisTransaksi(v === "__unset__" ? null : (v as TransactionType))
-            }
-          >
-            <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+
+          {/* Read-only: mengikuti pilihan dari Ringkasan Tagihan */}
+          <Select value={jenisTransaksi ?? "__unset__"} disabled>
+            <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-slate-100 text-slate-700 data-[placeholder]:text-slate-500">
               <SelectValue placeholder="Pilih Transaksi" />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-slate-200">
@@ -136,9 +133,16 @@ export default function TransactionFormCardView2({
 
           {!jenisTransaksi ? (
             <div className="text-[11px] text-slate-600">
-              Pilih jenis transaksi agar form menampilkan field yang sesuai.
+              Pilih jenis transaksi dari Ringkasan Tagihan.
             </div>
           ) : null}
+
+          {/* tetap terima setter untuk kompatibilitas, tapi form tidak mengubahnya */}
+          <div className="sr-only">
+            <button type="button" onClick={() => setJenisTransaksi(jenisTransaksi)}>
+              sync
+            </button>
+          </div>
         </div>
 
         <div className="grid gap-1.5">
