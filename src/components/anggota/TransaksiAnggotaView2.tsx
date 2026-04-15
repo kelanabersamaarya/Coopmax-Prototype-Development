@@ -177,7 +177,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 { label: "No. Rekening Pinjaman", value: "SMG260004" },
                 {
                   label: "Skema Tagihan",
-                  value: "Tagihan Sesuai Jadwal Angsuran",
+                  value: "Jadwal Fleksibel & Tagihan Berkala",
                 },
                 { label: "Satuan Grace Period", value: "Bulan" },
                 { label: "Durasi Grace Period", value: "3" },
