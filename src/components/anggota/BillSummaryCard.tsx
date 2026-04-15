@@ -56,7 +56,7 @@ export default function BillSummaryCard({
   totals: { pokok: string; bunga: string; denda: string; total: string };
   installment: { ke: string; lunas: string; seharusnya: string };
   className?: string;
-  transactionType: TransactionType;
+  transactionType?: TransactionType;
   onTransactionTypeChange: (v: TransactionType) => void;
 }) {
   return (
@@ -66,26 +66,25 @@ export default function BillSummaryCard({
         className,
       )}
     >
-      {/* Header: title only */}
       <div className="flex items-start justify-between gap-3">
         <div className="text-sm font-semibold text-slate-900">RINGKASAN TAGIHAN</div>
       </div>
 
-      {/* Dropdown moved BELOW title */}
       <div className="mt-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
               type="button"
               className={cn(
-                "inline-flex h-9 w-full items-center justify-between gap-2 rounded-full",
-                "bg-white px-4 text-sm font-semibold text-slate-800",
+                "inline-flex h-10 w-full items-center justify-between gap-2",
+                "rounded-[5px]",
+                "bg-white px-4 text-sm font-normal text-slate-800",
                 "ring-1 ring-slate-200 transition hover:bg-slate-50",
               )}
               aria-label="Pilih transaksi"
             >
-              <span className="truncate">
-                {transactionType ? transactionLabel(transactionType) : "Pilih transaksi"}
+              <span className={cn("truncate", transactionType ? "" : "text-slate-500")}>
+                {transactionType ? transactionLabel(transactionType) : "Pilih Transaksi"}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
@@ -128,10 +127,6 @@ export default function BillSummaryCard({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <div className="mt-2 text-[11px] font-medium text-slate-500">
-          Pilihan ini akan mengubah field transaksi di panel sebelah.
-        </div>
       </div>
 
       <Separator className="my-4 bg-slate-200/70" />
