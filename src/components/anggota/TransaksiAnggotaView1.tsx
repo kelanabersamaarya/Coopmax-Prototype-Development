@@ -353,8 +353,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {/* Penanda kotak biru seperti referensi */}
-              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-2 ring-blue-600/70">
+              {/* Header tabel (TIDAK ikut ring biru) */}
+              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                 <div className="overflow-auto">
                   <table className="w-full min-w-[540px] border-collapse text-[13px]">
                     <thead className="bg-white">
@@ -386,108 +386,90 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         </th>
                       </tr>
                     </thead>
+                  </table>
+                </div>
 
-                    <tbody className="bg-white">
-                      <tr className="border-t border-slate-200">
-                        <td
-                          colSpan={7}
-                          className={cn(tdClass, edgePadLeft, edgePadRight)}
-                        >
-                          <div className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
-                            <div className="flex items-start gap-2">
-                              <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                                <Info className="h-4 w-4" />
-                              </span>
-                              <div>
-                                <div className="font-semibold">
-                                  Periode Grace Period
-                                </div>
-                                <div className="mt-0.5 text-slate-700">
-                                  Berikut ini merupakan periode tagihan pinjaman
-                                  yang termasuk ke dalam grace period. Selama
-                                  periode grace period nasabah hanya membayar
-                                  bunga.
+                {/* Body tabel (ikut kotak biru sesuai referensi) */}
+                <div className="px-2 pb-2">
+                  <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
+                    <div className="overflow-auto">
+                      <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                        <tbody className="bg-white">
+                          <tr className="border-b border-slate-200">
+                            <td colSpan={7} className="px-3 py-3">
+                              <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
+                                <div className="flex items-start gap-2">
+                                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                                    <Info className="h-4 w-4" />
+                                  </span>
+                                  <div>
+                                    <div className="font-semibold">
+                                      Periode Grace Period
+                                    </div>
+                                    <div className="mt-0.5 text-slate-700">
+                                      Berikut ini merupakan periode tagihan
+                                      pinjaman yang termasuk ke dalam grace
+                                      period. Selama periode grace period nasabah
+                                      hanya membayar bunga.
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-
-                      {pagedRows.map((r, idx) => {
-                        const realIdx = (page - 1) * pageSize + idx;
-                        return (
-                          <tr
-                            key={`${r.jatuhTempo}-${realIdx}`}
-                            className="border-t border-slate-100"
-                          >
-                            <td className={cn(tdClass, edgePadLeft)}>
-                              <input
-                                type="checkbox"
-                                aria-label={`Pilih row ${realIdx + 1}`}
-                                checked={
-                                  isPelunasan ? true : selected[realIdx] ?? false
-                                }
-                                disabled={isPelunasan}
-                                onChange={(e) => {
-                                  const next = e.target.checked;
-                                  setSelected((prev) => {
-                                    const copy = [...prev];
-                                    copy[realIdx] = next;
-                                    return copy;
-                                  });
-                                }}
-                              />
-                            </td>
-                            <td className={cn(tdClass, "font-medium text-slate-900")}>
-                              {r.jatuhTempo}
-                            </td>
-                            <td
-                              className={cn(
-                                tdClass,
-                                "text-right tabular-nums text-slate-800",
-                              )}
-                            >
-                              {r.totalBelumDibayar}
-                            </td>
-                            <td
-                              className={cn(
-                                tdClass,
-                                "text-right tabular-nums text-slate-800",
-                              )}
-                            >
-                              {r.tagihanPokok}
-                            </td>
-                            <td
-                              className={cn(
-                                tdClass,
-                                "text-right tabular-nums text-slate-800",
-                              )}
-                            >
-                              {r.tagihanBunga}
-                            </td>
-                            <td
-                              className={cn(
-                                tdClass,
-                                "text-right tabular-nums text-slate-800",
-                              )}
-                            >
-                              {r.sisaPokok}
-                            </td>
-                            <td
-                              className={cn(
-                                tdClass,
-                                edgePadRight,
-                                "text-right tabular-nums text-slate-800",
-                              )}
-                            >
-                              {r.sisaBunga}
                             </td>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+
+                          {pagedRows.map((r, idx) => {
+                            const realIdx = (page - 1) * pageSize + idx;
+                            const checked = isPelunasan
+                              ? true
+                              : selected[realIdx] ?? false;
+
+                            return (
+                              <tr
+                                key={`${r.jatuhTempo}-${realIdx}`}
+                                className="border-b border-slate-200 last:border-b-0"
+                              >
+                                <td className="w-[30px] px-3 py-3">
+                                  <input
+                                    type="checkbox"
+                                    aria-label={`Pilih row ${realIdx + 1}`}
+                                    checked={checked}
+                                    disabled={isPelunasan}
+                                    onChange={(e) => {
+                                      const next = e.target.checked;
+                                      setSelected((prev) => {
+                                        const copy = [...prev];
+                                        copy[realIdx] = next;
+                                        return copy;
+                                      });
+                                    }}
+                                  />
+                                </td>
+                                <td className="w-[104px] px-3 py-3 font-medium text-slate-900">
+                                  {r.jatuhTempo}
+                                </td>
+                                <td className="w-[146px] px-3 py-3 text-right tabular-nums text-slate-800">
+                                  {r.totalBelumDibayar}
+                                </td>
+                                <td className="w-[98px] px-3 py-3 text-right tabular-nums text-slate-800">
+                                  {r.tagihanPokok}
+                                </td>
+                                <td className="w-[98px] px-3 py-3 text-right tabular-nums text-slate-800">
+                                  {r.tagihanBunga}
+                                </td>
+                                <td className="w-[108px] px-3 py-3 text-right tabular-nums text-slate-800">
+                                  {r.sisaPokok}
+                                </td>
+                                <td className="w-[108px] px-3 py-3 text-right tabular-nums text-slate-800">
+                                  {r.sisaBunga}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
 
