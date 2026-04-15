@@ -367,6 +367,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   </>
                 ) : null}
 
+                {/* Samakan dengan View2: wrapper overflow-hidden + overflow-auto + ring */}
                 <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
@@ -411,7 +412,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                           return (
                             <tr
                               key={`${bill.jatuhTempo}-${realIdx}`}
-                              className="border-t border-slate-200 text-sm"
+                              className="border-t border-slate-100 text-sm"
                             >
                               <td className={cn(tdClass, edgePadLeft)}>
                                 <input
@@ -541,16 +542,16 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 setJenisTransaksi={setJenisTransaksi}
                 kolektor={kolektor}
                 setKolektor={setKolektor}
-                nominal={"0"}
-                setNominal={() => {}}
-                nominalPokok={"0"}
-                setNominalPokok={() => {}}
-                nominalBunga={"0"}
-                setNominalBunga={() => {}}
-                nominalDenda={"0"}
-                setNominalDenda={() => {}}
-                tabungan={"Tanpa Tabungan"}
-                setTabungan={() => {}}
+                nominal={nominal}
+                setNominal={setNominal}
+                nominalPokok={nominalPokok}
+                setNominalPokok={setNominalPokok}
+                nominalBunga={nominalBunga}
+                setNominalBunga={setNominalBunga}
+                nominalDenda={nominalDenda}
+                setNominalDenda={setNominalDenda}
+                tabungan={tabungan}
+                setTabungan={setTabungan}
                 keterangan={keterangan}
                 setKeterangan={setKeterangan}
               />
