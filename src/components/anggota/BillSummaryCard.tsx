@@ -65,7 +65,6 @@ function titleCaseEachWord(input: string) {
 }
 
 function transactionLabel(v: TransactionType) {
-  // Pastikan title case untuk semua label
   return titleCaseEachWord(v);
 }
 
@@ -94,6 +93,15 @@ export default function BillSummaryCard({
   onTransactionTypeChange: (v: TransactionType) => void;
 }) {
   const isPembayaranKhusus = transactionType === "Pembayaran Rincian Tagihan";
+  const isUnset = !transactionType;
+
+  const displayTotals = isUnset
+    ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
+    : totals;
+
+  const displayInstallment = isUnset
+    ? { ke: "0", lunas: "0", seharusnya: "0" }
+    : installment;
 
   return (
     <Card
@@ -170,15 +178,15 @@ export default function BillSummaryCard({
       <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
         <SummaryRow
           label={isPembayaranKhusus ? labelStack("Total", "Pokok") : "Total Pokok"}
-          value={totals.pokok}
+          value={displayTotals.pokok}
         />
         <SummaryRow
           label={isPembayaranKhusus ? labelStack("Total", "Bunga") : "Total Bunga"}
-          value={totals.bunga}
+          value={displayTotals.bunga}
         />
         <SummaryRow
           label={isPembayaranKhusus ? labelStack("Total", "Denda") : "Total Denda"}
-          value={totals.denda}
+          value={displayTotals.denda}
         />
 
         <SummaryRow
@@ -189,7 +197,7 @@ export default function BillSummaryCard({
                 ? labelStack("Total", "Tagihan")
                 : "Total Tagihan"
           }
-          value={totals.total}
+          value={displayTotals.total}
           strong
         />
 
@@ -199,14 +207,14 @@ export default function BillSummaryCard({
 
         <SummaryRow
           label={isPembayaranKhusus ? labelStack("Angsuran", "Ke") : "Angsuran Ke"}
-          value={installment.ke}
+          value={displayInstallment.ke}
           strong={false}
         />
         <SummaryRow
           label={
             isPembayaranKhusus ? labelStack("Angsuran", "Lunas") : "Angsuran Lunas"
           }
-          value={installment.lunas}
+          value={displayInstallment.lunas}
           strong={false}
         />
         <SummaryRow
@@ -215,7 +223,7 @@ export default function BillSummaryCard({
               ? labelStack("Angsuran", "Seharusnya")
               : "Angsuran Seharusnya"
           }
-          value={installment.seharusnya}
+          value={displayInstallment.seharusnya}
           strong={false}
         />
       </div>
