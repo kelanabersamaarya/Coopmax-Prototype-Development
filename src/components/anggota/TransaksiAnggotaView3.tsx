@@ -247,6 +247,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const edgePadLeft = "pl-4";
   const edgePadRight = "pr-4";
 
+  const showGraceHighlightMain = !isPelunasan && page === 1;
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -397,84 +399,113 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                         </tr>
                       </thead>
 
+                      {/* Body dibungkus supaya ring biru bisa hilang/muncul tanpa mempengaruhi header */}
                       <tbody className="bg-white">
-                        <GracePeriodInfoRow colSpan={7} />
-
-                        {pagedBillsInMainTable.map((bill, idx) => {
-                          const realIdx = isPelunasan
-                            ? (page - 1) * pageSize + idx
-                            : idx;
-
-                          return (
-                            <tr
-                              key={`${bill.jatuhTempo}-${realIdx}`}
-                              className="border-t border-slate-100 text-sm"
+                        <tr>
+                          <td colSpan={7} className="p-0">
+                            <div
+                              className={cn(
+                                "overflow-hidden bg-white",
+                                showGraceHighlightMain
+                                  ? "rounded-xl border-2 border-blue-600/70"
+                                  : "rounded-xl border border-slate-200",
+                              )}
                             >
-                              <td className={cn(tdClass, edgePadLeft)}>
-                                <input
-                                  type="checkbox"
-                                  aria-label="Pilih tagihan"
-                                  checked={
-                                    isPelunasan ? true : selected[realIdx] ?? false
-                                  }
-                                  disabled={isPelunasan}
-                                  onChange={(e) => {
-                                    const next = e.target.checked;
-                                    setSelected((prev) => {
-                                      const copy = [...prev];
-                                      copy[realIdx] = next;
-                                      return copy;
-                                    });
-                                  }}
-                                />
-                              </td>
-                              <td className={cn(tdClass, "font-medium text-slate-900")}>
-                                {bill.jatuhTempo}
-                              </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {bill.totalBelumDibayar}
-                              </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {bill.tagihanPokok}
-                              </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {bill.tagihanBunga}
-                              </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {bill.sisaPokok}
-                              </td>
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  edgePadRight,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {bill.sisaBunga}
-                              </td>
-                            </tr>
-                          );
-                        })}
+                              <div className="overflow-auto">
+                                <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                                  <tbody className="bg-white">
+                                    {showGraceHighlightMain ? (
+                                      <GracePeriodInfoRow colSpan={7} />
+                                    ) : null}
+
+                                    {pagedBillsInMainTable.map((bill, idx) => {
+                                      const realIdx = isPelunasan
+                                        ? (page - 1) * pageSize + idx
+                                        : idx;
+
+                                      return (
+                                        <tr
+                                          key={`${bill.jatuhTempo}-${realIdx}`}
+                                          className="border-t border-slate-100 text-sm"
+                                        >
+                                          <td className={cn(tdClass, edgePadLeft)}>
+                                            <input
+                                              type="checkbox"
+                                              aria-label="Pilih tagihan"
+                                              checked={
+                                                isPelunasan
+                                                  ? true
+                                                  : selected[realIdx] ?? false
+                                              }
+                                              disabled={isPelunasan}
+                                              onChange={(e) => {
+                                                const next = e.target.checked;
+                                                setSelected((prev) => {
+                                                  const copy = [...prev];
+                                                  copy[realIdx] = next;
+                                                  return copy;
+                                                });
+                                              }}
+                                            />
+                                          </td>
+                                          <td
+                                            className={cn(
+                                              tdClass,
+                                              "font-medium text-slate-900",
+                                            )}
+                                          >
+                                            {bill.jatuhTempo}
+                                          </td>
+                                          <td
+                                            className={cn(
+                                              tdClass,
+                                              "text-right tabular-nums text-slate-800",
+                                            )}
+                                          >
+                                            {bill.totalBelumDibayar}
+                                          </td>
+                                          <td
+                                            className={cn(
+                                              tdClass,
+                                              "text-right tabular-nums text-slate-800",
+                                            )}
+                                          >
+                                            {bill.tagihanPokok}
+                                          </td>
+                                          <td
+                                            className={cn(
+                                              tdClass,
+                                              "text-right tabular-nums text-slate-800",
+                                            )}
+                                          >
+                                            {bill.tagihanBunga}
+                                          </td>
+                                          <td
+                                            className={cn(
+                                              tdClass,
+                                              "text-right tabular-nums text-slate-800",
+                                            )}
+                                          >
+                                            {bill.sisaPokok}
+                                          </td>
+                                          <td
+                                            className={cn(
+                                              tdClass,
+                                              edgePadRight,
+                                              "text-right tabular-nums text-slate-800",
+                                            )}
+                                          >
+                                            {bill.sisaBunga}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
