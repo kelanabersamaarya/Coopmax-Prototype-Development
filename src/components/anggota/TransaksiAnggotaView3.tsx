@@ -369,7 +369,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </div>
               ) : null}
 
-              <div className="space-y-3">
+              {/* Tambah jarak antara info di atas dan tabel */}
+              <div className="mt-4 space-y-3">
                 <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                   <div className="overflow-auto">
                     <table className="w-full min-w-[540px] border-collapse text-[13px]">
