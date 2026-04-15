@@ -266,20 +266,21 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               {!isPelunasan ? (
                 <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-700">
-                  <div className="font-semibold text-slate-900">
-                    TAGIHAN SAAT INI
-                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+                      <Info className="h-4 w-4" />
+                    </span>
 
-                  <div className="mt-2">
-                    <div className="flex items-start gap-2">
-                      <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                        <Info className="h-4 w-4" />
+                    <div className="leading-relaxed text-slate-800">
+                      Tagihan berikutnya akan diterbitkan pada{" "}
+                      <span className="font-bold text-[#3366FF]">
+                        20 April 2025
+                      </span>{" "}
+                      dan jatuh tempo pada{" "}
+                      <span className="font-bold text-[#3366FF]">
+                        5 Mei 2025
                       </span>
-                      <div className="leading-relaxed text-slate-700">
-                        Berikut ini merupakan tagihan yang sudah dapat dibayarkan
-                        pada periode ini serta harus dibayarkan sebelum tanggal
-                        jatuh tempo
-                      </div>
+                      .
                     </div>
                   </div>
                 </div>
