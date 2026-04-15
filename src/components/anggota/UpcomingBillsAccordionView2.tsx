@@ -38,10 +38,11 @@ export default function UpcomingBillsAccordionView2({
 
   if (!open) return null;
 
+  // Sedikit lebih "ke kiri" (lebih rapat) agar align dengan tabel utama.
   const thClass = "px-1 py-2.5";
   const tdClass = "px-1 py-2.5";
-  const edgePadLeft = "pl-3";
-  const edgePadRight = "pr-3";
+  const edgePadLeft = "pl-2";
+  const edgePadRight = "pr-2";
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
@@ -59,37 +60,45 @@ export default function UpcomingBillsAccordionView2({
         </div>
       </div>
 
-      {/* Tanpa ring/border pembungkus agar tidak terasa banyak kotak */}
       <div className="mt-3 rounded-xl bg-white">
-        <table className="w-full table-fixed border-collapse text-[13px]">
+        <table className="w-full border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+              {/* dummy kolom seleksi agar struktur sama dengan tabel utama */}
               <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                 <span className="sr-only">Pilih</span>
               </th>
 
               <th className={cn("w-[104px]", thClass)}>
-                <span className="block truncate">Jatuh Tempo</span>
+                <span className="block whitespace-nowrap">Jatuh Tempo</span>
               </th>
 
-              <th className={cn("w-[146px]", thClass)}>
-                <span className="block truncate">Total Tagihan Belum Dibayar</span>
+              <th className={cn("w-[170px]", thClass)}>
+                <span className="block whitespace-nowrap">
+                  Total Tagihan Belum Dibayar
+                </span>
               </th>
 
-              <th className={cn("w-[98px]", thClass)}>
-                <span className="block truncate">Tagihan Pokok</span>
+              <th className={cn("w-[120px]", thClass)}>
+                <span className="block whitespace-nowrap">Tagihan Pokok</span>
               </th>
 
-              <th className={cn("w-[98px]", thClass)}>
-                <span className="block truncate">Tagihan Bunga</span>
+              <th className={cn("w-[120px]", thClass)}>
+                <span className="block whitespace-nowrap">Tagihan Bunga</span>
               </th>
 
-              <th className={cn("hidden lg:table-cell", thClass)}>
-                <span className="block truncate">Sisa Tagihan Pokok</span>
+              <th className={cn("hidden lg:table-cell w-[140px]", thClass)}>
+                <span className="block whitespace-nowrap">Sisa Tagihan Pokok</span>
               </th>
 
-              <th className={cn("hidden lg:table-cell", thClass, edgePadRight)}>
-                <span className="block truncate">Sisa Tagihan Bunga</span>
+              <th
+                className={cn(
+                  "hidden lg:table-cell w-[140px]",
+                  thClass,
+                  edgePadRight,
+                )}
+              >
+                <span className="block whitespace-nowrap">Sisa Tagihan Bunga</span>
               </th>
             </tr>
           </thead>
@@ -143,8 +152,7 @@ export default function UpcomingBillsAccordionView2({
           </tbody>
         </table>
 
-        {/* Footer tanpa border-top agar terasa satu blok yang ringan */}
-        <div className="mt-3 flex flex-col gap-2 px-4 pb-2 md:flex-row md:items-center md:justify-between">
+        <div className="mt-3 flex flex-col gap-2 px-3 pb-2 md:flex-row md:items-center md:justify-between">
           <div className="text-xs text-slate-600">
             Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
           </div>
