@@ -242,11 +242,11 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
-  // layout table mengikuti View 2 (table card)
-  const thClass = "px-4 py-3 text-left text-[12px] font-semibold text-slate-600";
-  const tdClass = "px-4 py-4 text-sm text-slate-800";
-  const edgePadLeft = "pl-4";
-  const edgePadRight = "pr-4";
+  // Samakan persis dengan View 2 (compact, tidak memaksa scroll horizontal)
+  const thClass = "px-1 py-2.5";
+  const tdClass = "px-1 py-2.5";
+  const edgePadLeft = "pl-3";
+  const edgePadRight = "pr-3";
 
   return (
     <div className="w-full px-0 sm:px-1 md:px-2">
@@ -357,13 +357,13 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 </div>
               ) : null}
 
-              {/* TABLE CARD (samakan dengan View 2) */}
-              <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+              {/* TABLE (samakan dengan View 2) */}
+              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                 <div className="overflow-auto">
-                  <table className="w-full min-w-[760px] border-collapse">
+                  <table className="w-full min-w-[540px] border-collapse text-[13px]">
                     <thead className="bg-white">
-                      <tr>
-                        <th className={cn("w-[44px]", thClass, edgePadLeft)}>
+                      <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                        <th className={cn("w-[30px]", thClass, edgePadLeft)}>
                           <input
                             ref={headerCheckboxRef}
                             type="checkbox"
@@ -376,15 +376,17 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                             }}
                           />
                         </th>
-                        <th className={cn("w-[140px]", thClass)}>JATUH TEMPO</th>
-                        <th className={cn("min-w-[220px]", thClass)}>
-                          TOTAL TAGIHAN BELUM DIBAYAR
+                        <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
+                        <th className={cn("w-[146px]", thClass)}>
+                          Total Tagihan Belum Dibayar
                         </th>
-                        <th className={cn("w-[160px]", thClass)}>TAGIHAN POKOK</th>
-                        <th className={cn("w-[160px]", thClass)}>TAGIHAN BUNGA</th>
-                        <th className={cn("w-[170px]", thClass)}>SISA TAGIHAN POKOK</th>
-                        <th className={cn("w-[170px]", thClass, edgePadRight)}>
-                          SISA TAGIHAN BUNGA
+                        <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
+                        <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
+                        <th className={cn("w-[108px]", thClass)}>
+                          Sisa Tagihan Pokok
+                        </th>
+                        <th className={cn("w-[108px]", thClass, edgePadRight)}>
+                          Sisa Tagihan Bunga
                         </th>
                       </tr>
                     </thead>
@@ -400,7 +402,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                         return (
                           <tr
                             key={`${bill.jatuhTempo}-${realIdx}`}
-                            className="border-t border-slate-200"
+                            className="border-t border-slate-100 text-sm"
                           >
                             <td className={cn(tdClass, edgePadLeft)}>
                               <input
@@ -420,22 +422,48 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                 }}
                               />
                             </td>
-                            <td className={cn(tdClass, "font-semibold text-slate-900")}>
+                            <td className={cn(tdClass, "font-medium text-slate-900")}>
                               {bill.jatuhTempo}
                             </td>
-                            <td className={cn(tdClass, "text-right tabular-nums")}>
+                            <td
+                              className={cn(
+                                tdClass,
+                                "text-right tabular-nums text-slate-800",
+                              )}
+                            >
                               {bill.totalBelumDibayar}
                             </td>
-                            <td className={cn(tdClass, "text-right tabular-nums")}>
+                            <td
+                              className={cn(
+                                tdClass,
+                                "text-right tabular-nums text-slate-800",
+                              )}
+                            >
                               {bill.tagihanPokok}
                             </td>
-                            <td className={cn(tdClass, "text-right tabular-nums")}>
+                            <td
+                              className={cn(
+                                tdClass,
+                                "text-right tabular-nums text-slate-800",
+                              )}
+                            >
                               {bill.tagihanBunga}
                             </td>
-                            <td className={cn(tdClass, "text-right tabular-nums")}>
+                            <td
+                              className={cn(
+                                tdClass,
+                                "text-right tabular-nums text-slate-800",
+                              )}
+                            >
                               {bill.sisaPokok}
                             </td>
-                            <td className={cn(tdClass, edgePadRight, "text-right tabular-nums")}>
+                            <td
+                              className={cn(
+                                tdClass,
+                                edgePadRight,
+                                "text-right tabular-nums text-slate-800",
+                              )}
+                            >
                               {bill.sisaBunga}
                             </td>
                           </tr>
@@ -450,8 +478,11 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <div className="text-xs text-slate-600">
                     Menampilkan{" "}
-                    {billsInMainTable.length === 0 ? 0 : (page - 1) * pageSize + 1}{" "}
-                    sampai {Math.min(billsInMainTable.length, page * pageSize)} dari{" "}
+                    {billsInMainTable.length === 0
+                      ? 0
+                      : (page - 1) * pageSize + 1}{" "}
+                    sampai{" "}
+                    {Math.min(billsInMainTable.length, page * pageSize)} dari{" "}
                     {billsInMainTable.length} entri
                   </div>
                   <Pagination page={page} pageCount={pageCount} onPage={setPage} />
