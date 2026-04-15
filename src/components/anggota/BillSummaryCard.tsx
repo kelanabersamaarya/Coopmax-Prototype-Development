@@ -22,11 +22,22 @@ function SummaryRow({
   strong?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <div className={cn("text-slate-600", strong ? "font-semibold" : "")}>
+    <div className="grid grid-cols-[minmax(0,1fr)_14px_auto] items-start gap-x-3 py-1.5 text-sm">
+      <div
+        className={cn(
+          "leading-snug text-slate-800",
+          strong ? "font-semibold text-slate-900" : "font-normal",
+        )}
+      >
         {label}
       </div>
-      <div className={cn("text-slate-900", strong ? "font-semibold" : "")}>
+      <div className="text-center text-slate-500">:</div>
+      <div
+        className={cn(
+          "text-right tabular-nums text-slate-800",
+          strong ? "font-semibold text-slate-900" : "font-normal",
+        )}
+      >
         {value}
       </div>
     </div>
@@ -44,6 +55,15 @@ function transactionLabel(v: TransactionType) {
   return "Pelunasan";
 }
 
+function labelStack(top: string, bottom: string) {
+  return (
+    <span className="block">
+      <span className="block">{top}</span>
+      <span className="block">{bottom}</span>
+    </span>
+  );
+}
+
 export default function BillSummaryCard({
   mode,
   totals,
@@ -59,6 +79,8 @@ export default function BillSummaryCard({
   transactionType?: TransactionType;
   onTransactionTypeChange: (v: TransactionType) => void;
 }) {
+  const isPembayaranKhusus = transactionType === "Pembayaran Rincian Tagihan";
+
   return (
     <Card
       className={cn(
@@ -131,31 +153,58 @@ export default function BillSummaryCard({
 
       <Separator className="my-4 bg-slate-200/70" />
 
-      <div className="space-y-2 text-sm">
-        <SummaryRow label="Total Pokok" value={totals.pokok} />
-        <SummaryRow label="Total Bunga" value={totals.bunga} />
-        <SummaryRow label="Total Denda" value={totals.denda} />
+      <div className={cn("space-y-0", isPembayaranKhusus ? "px-2 sm:px-3" : "")}>
+        <SummaryRow
+          label={isPembayaranKhusus ? labelStack("Total", "Pokok") : "Total Pokok"}
+          value={totals.pokok}
+        />
+        <SummaryRow
+          label={isPembayaranKhusus ? labelStack("Total", "Bunga") : "Total Bunga"}
+          value={totals.bunga}
+        />
+        <SummaryRow
+          label={isPembayaranKhusus ? labelStack("Total", "Denda") : "Total Denda"}
+          value={totals.denda}
+        />
 
         <SummaryRow
           label={
-            mode === "pelunasan" ? (
-              <span className="text-slate-900">
-                <span className="block">Total</span>
-                <span className="block">Pelunasan</span>
-              </span>
-            ) : (
-              "Total Tagihan"
-            )
+            mode === "pelunasan"
+              ? labelStack("Total", "Pelunasan")
+              : isPembayaranKhusus
+                ? labelStack("Total", "Tagihan")
+                : "Total Tagihan"
           }
           value={totals.total}
           strong
         />
 
-        <Separator className="my-3 bg-slate-200/70" />
+        <div className="py-2">
+          <Separator className="bg-slate-300" />
+        </div>
 
-        <SummaryRow label="Angsuran Ke" value={installment.ke} />
-        <SummaryRow label="Angsuran Lunas" value={installment.lunas} />
-        <SummaryRow label="Angsuran Seharusnya" value={installment.seharusnya} />
+        <SummaryRow
+          label={isPembayaranKhusus ? labelStack("Angsuran", "Ke") : "Angsuran Ke"}
+          value={installment.ke}
+        />
+        <SummaryRow
+          label={
+            isPembayaranKhusus ? labelStack("Angsuran", "Lunas") : "Angsuran Lunas"
+          }
+          value={installment.lunas}
+        />
+        <SummaryRow
+          label={
+            isPembayaranKhusus
+              ? labelStack("Angsuran", "Seharusnya")
+              : "Angsuran Seharusnya"
+          }
+          value={installment.seharusnya}
+        />
+      </div>
+
+      <div className="pt-2">
+        <Separator className="bg-slate-300" />
       </div>
     </Card>
   );
