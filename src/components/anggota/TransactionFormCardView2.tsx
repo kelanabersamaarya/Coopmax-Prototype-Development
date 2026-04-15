@@ -83,7 +83,7 @@ export default function TransactionFormCardView2({
 
   return (
     <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
-      <div className="text-sm font-semibold text-slate-900">TRANSAKSI</div>
+      <div className="text-sm font-semibold text-slate-900">PILIH TRANSAKSI</div>
       <Separator className="my-3 bg-slate-200/70" />
 
       <div className="grid gap-3">
