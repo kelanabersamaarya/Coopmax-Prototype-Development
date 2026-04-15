@@ -181,7 +181,7 @@ function Pagination({
 export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] =
-    React.useState<TransactionType>("Pembayaran Angsuran");
+    React.useState<TransactionType | null>(null);
   const [kolektor, setKolektor] = React.useState<string>("Pilih Kolektor");
 
   const [nominal, setNominal] = React.useState("0");
@@ -542,7 +542,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 }}
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
                 transactionType={jenisTransaksi}
-                onTransactionTypeChange={setJenisTransaksi}
+                onTransactionTypeChange={(v) => setJenisTransaksi(v)}
               />
 
               <TransactionFormCardView2

@@ -4,19 +4,9 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import {
   ReceiptText,
-  CalendarDays,
   Info,
   ChevronDown,
   History,
@@ -24,12 +14,10 @@ import {
   BookOpenText,
   Printer,
   ScrollText,
-  CheckSquare,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
 import SectionHighlightWide from "@/components/anggota/SectionHighlightWide";
-import { cn } from "@/lib/utils";
 import InformasiRekeningHeader from "@/components/anggota/InformasiRekeningHeader";
 import { toast } from "sonner";
 import {
@@ -88,17 +76,6 @@ const rows: Row[] = [
     sisaBunga: "33.333",
   })),
 ];
-
-function parseAmount(input: string) {
-  const cleaned = input.replace(/[^\d.-]/g, "");
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function formatIdrLike(n: number) {
-  const s = Math.round(n).toString();
-  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
 
 function Pagination({
   page,
@@ -186,11 +163,10 @@ function Pagination({
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] =
-    React.useState<TransactionType>("Pembayaran Angsuran");
+    React.useState<TransactionType | null>(null);
   const [kolektor, setKolektor] = React.useState<string>("Pilih Kolektor");
 
   const [nominal, setNominal] = React.useState("0");
-
   const [nominalPokok, setNominalPokok] = React.useState("0");
   const [nominalBunga, setNominalBunga] = React.useState("0");
   const [nominalDenda, setNominalDenda] = React.useState("0");
@@ -199,8 +175,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
-
-  const nominalPelunasan = "9.625.000";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -240,14 +214,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     headerCheckboxRef.current.indeterminate =
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
-
-  const totalRincian = React.useMemo(() => {
-    return (
-      parseAmount(nominalPokok) +
-      parseAmount(nominalBunga) +
-      parseAmount(nominalDenda)
-    );
-  }, [nominalBunga, nominalDenda, nominalPokok]);
 
   const thClass = "px-1 py-2.5";
   const edgePadLeft = "pl-4";
@@ -298,7 +264,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     className="rounded-xl"
                     onClick={() => toast("Simulasi Tunggakan (prototype)")}
                   >
-                    <Calculator className="mr-2 h-4 w-4" />
+                    <Info className="mr-2 h-4 w-4" />
                     Simulasi Tunggakan
                   </DropdownMenuItem>
 
@@ -497,7 +463,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 }}
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi}
-                onTransactionTypeChange={setJenisTransaksi}
+                onTransactionTypeChange={(v) => setJenisTransaksi(v)}
               />
 
               <TransactionFormCardView2
@@ -520,12 +486,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 keterangan={keterangan}
                 setKeterangan={setKeterangan}
               />
-
-              {/* tetap simpan nilai yang sebelumnya dihitung (dipakai oleh form saat pembayaran khusus) */}
-              <div className="sr-only">
-                {nominalPelunasan}
-                {formatIdrLike(totalRincian)}
-              </div>
             </div>
           </div>
         </div>

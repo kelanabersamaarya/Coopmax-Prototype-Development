@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { CalendarDays, CheckSquare } from "lucide-react";
 import { formatIdrLike, parseAmount } from "@/components/anggota/anggota-money";
+import { cn } from "@/lib/utils";
 
 const transactionTypes = [
   "Pembayaran Angsuran",
@@ -24,7 +25,8 @@ const transactionTypes = [
 
 export type TransactionType = (typeof transactionTypes)[number];
 
-function titleForTransaction(t: TransactionType) {
+function titleForTransaction(t: TransactionType | null) {
+  if (!t) return "PILIH TRANSAKSI";
   if (t === "Pembayaran Angsuran") return "PEMBAYARAN ANGSURAN";
   if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
   return "PELUNASAN";
@@ -53,8 +55,8 @@ export default function TransactionFormCardView2({
   tanggalEfektif: string;
   setTanggalEfektif: (v: string) => void;
 
-  jenisTransaksi: TransactionType;
-  setJenisTransaksi: (v: TransactionType) => void;
+  jenisTransaksi: TransactionType | null;
+  setJenisTransaksi: (v: TransactionType | null) => void;
 
   kolektor: string;
   setKolektor: (v: string) => void;
@@ -112,13 +114,18 @@ export default function TransactionFormCardView2({
         <div className="grid gap-1.5">
           <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
           <Select
-            value={jenisTransaksi}
-            onValueChange={(v) => setJenisTransaksi(v as TransactionType)}
+            value={jenisTransaksi ?? "__unset__"}
+            onValueChange={(v) =>
+              setJenisTransaksi(v === "__unset__" ? null : (v as TransactionType))
+            }
           >
             <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-              <SelectValue />
+              <SelectValue placeholder="Pilih Transaksi" />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-slate-200">
+              <SelectItem value="__unset__" className="text-slate-500">
+                Pilih Transaksi
+              </SelectItem>
               <SelectItem value="Pembayaran Angsuran">Pembayaran angsuran</SelectItem>
               <SelectItem value="Pembayaran Rincian Tagihan">
                 Pembayaran rincian tagihan
@@ -126,6 +133,12 @@ export default function TransactionFormCardView2({
               <SelectItem value="Pelunasan">Pelunasan</SelectItem>
             </SelectContent>
           </Select>
+
+          {!jenisTransaksi ? (
+            <div className="text-[11px] text-slate-600">
+              Pilih jenis transaksi agar form menampilkan field yang sesuai.
+            </div>
+          ) : null}
         </div>
 
         <div className="grid gap-1.5">
@@ -174,11 +187,20 @@ export default function TransactionFormCardView2({
           </>
         ) : (
           <div className="grid gap-1.5">
-            <Label className="text-xs text-slate-600">
+            <Label
+              className={cn(
+                "text-xs text-slate-600",
+                !jenisTransaksi ? "text-slate-400" : "",
+              )}
+            >
               {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
             </Label>
 
-            {isPelunasan ? (
+            {!jenisTransaksi ? (
+              <div className="flex h-10 items-center justify-end rounded-xl bg-slate-100 px-4 text-right text-sm font-semibold text-slate-500 ring-1 ring-slate-200">
+                —
+              </div>
+            ) : isPelunasan ? (
               <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
                 {nominalPelunasan}
               </div>
@@ -224,7 +246,15 @@ export default function TransactionFormCardView2({
           </div>
         ) : null}
 
-        <Button className="mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">
+        <Button
+          disabled={!jenisTransaksi}
+          className={cn(
+            "mt-1 h-10 rounded-xl text-white",
+            !jenisTransaksi
+              ? "bg-emerald-600/50 hover:bg-emerald-600/50"
+              : "bg-emerald-600 hover:bg-emerald-700",
+          )}
+        >
           <CheckSquare className="mr-2 h-4 w-4" />
           Bayar Tagihan
         </Button>
