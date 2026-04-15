@@ -89,6 +89,8 @@ export default function TransactionFormCardView2({
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
+  const isUnset = !jenisTransaksi;
+
   return (
     <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
       <div className="text-sm font-semibold tracking-wide text-slate-900">
@@ -96,173 +98,172 @@ export default function TransactionFormCardView2({
       </div>
       <Separator className="my-3 bg-slate-200/70" />
 
-      <div className="grid gap-3">
-        <div className="grid gap-1.5">
-          <Label className="text-xs text-slate-600">
-            {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
-          </Label>
-          <div className="relative">
-            <Input
-              value={tanggalEfektif}
-              onChange={(e) => setTanggalEfektif(e.target.value)}
-              className="h-10 rounded-xl border-slate-200 bg-white pr-10"
-            />
-            <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      {isUnset ? (
+        <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
+          <div className="font-semibold text-slate-900">
+            Pilih jenis transaksi dari Ringkasan Tagihan.
           </div>
-        </div>
+          <div className="mt-1 text-sm text-slate-600">
+            Setelah dipilih, form pembayaran akan muncul di sini.
+          </div>
 
-        <div className="grid gap-1.5">
-          <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
-
-          {/* Read-only: mengikuti pilihan dari Ringkasan Tagihan */}
-          <Select value={jenisTransaksi ?? "__unset__"} disabled>
-            <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-slate-100 text-slate-700 data-[placeholder]:text-slate-500">
-              <SelectValue placeholder="Pilih Transaksi" />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl border-slate-200">
-              <SelectItem value="__unset__" className="text-slate-500">
-                Pilih Transaksi
-              </SelectItem>
-              <SelectItem value="Pembayaran Reguler">Pembayaran reguler</SelectItem>
-              <SelectItem value="Pembayaran Rincian Tagihan">
-                Pembayaran rincian tagihan
-              </SelectItem>
-              <SelectItem value="Pelunasan">Pelunasan</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {!jenisTransaksi ? (
-            <div className="text-[11px] text-slate-600">
-              Pilih jenis transaksi dari Ringkasan Tagihan.
-            </div>
-          ) : null}
-
-          {/* tetap terima setter untuk kompatibilitas, tapi form tidak mengubahnya */}
+          {/* tetap terima setter untuk kompatibilitas (tanpa mengubah state) */}
           <div className="sr-only">
             <button type="button" onClick={() => setJenisTransaksi(jenisTransaksi)}>
               sync
             </button>
           </div>
         </div>
-
-        <div className="grid gap-1.5">
-          <Label className="text-xs text-slate-600">Kolektor*</Label>
-          <Select value={kolektor} onValueChange={setKolektor}>
-            <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl border-slate-200">
-              <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
-              <SelectItem value="Kolektor A">Kolektor A</SelectItem>
-              <SelectItem value="Kolektor B">Kolektor B</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {isRincian ? (
-          <>
-            <div className="grid gap-1.5">
-              <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
-              <Input
-                value={nominalPokok}
-                onChange={(e) => setNominalPokok(e.target.value)}
-                inputMode="numeric"
-                className="h-10 rounded-xl border-slate-200 bg-white text-right"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
-              <Input
-                value={nominalBunga}
-                onChange={(e) => setNominalBunga(e.target.value)}
-                inputMode="numeric"
-                className="h-10 rounded-xl border-slate-200 bg-white text-right"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label className="text-xs text-slate-600">Nominal Denda*</Label>
-              <Input
-                value={nominalDenda}
-                onChange={(e) => setNominalDenda(e.target.value)}
-                inputMode="numeric"
-                className="h-10 rounded-xl border-slate-200 bg-white text-right"
-              />
-            </div>
-          </>
-        ) : (
+      ) : (
+        <div className="grid gap-3">
           <div className="grid gap-1.5">
-            <Label
-              className={cn(
-                "text-xs text-slate-600",
-                !jenisTransaksi ? "text-slate-400" : "",
-              )}
-            >
-              {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
+            <Label className="text-xs text-slate-600">
+              {isPelunasan ? "Tanggal Efektif Pelunasan*" : "Tanggal Efektif Bayar*"}
             </Label>
-
-            {!jenisTransaksi ? (
-              <div className="flex h-10 items-center justify-end rounded-xl bg-slate-100 px-4 text-right text-sm font-semibold text-slate-500 ring-1 ring-slate-200">
-                —
-              </div>
-            ) : isPelunasan ? (
-              <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
-                {nominalPelunasan}
-              </div>
-            ) : (
+            <div className="relative">
               <Input
-                value={nominal}
-                onChange={(e) => setNominal(e.target.value)}
-                inputMode="numeric"
-                className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                value={tanggalEfektif}
+                onChange={(e) => setTanggalEfektif(e.target.value)}
+                className="h-10 rounded-xl border-slate-200 bg-white pr-10"
               />
-            )}
-          </div>
-        )}
-
-        <div className="grid gap-1.5">
-          <Label className="text-xs text-slate-600">Tabungan</Label>
-          <Select value={tabungan} onValueChange={setTabungan}>
-            <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl border-slate-200">
-              <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
-              <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="grid gap-1.5">
-          <Label className="text-xs text-slate-600">Keterangan</Label>
-          <Input
-            value={keterangan}
-            onChange={(e) => setKeterangan(e.target.value)}
-            className="h-10 rounded-xl border-slate-200 bg-white"
-          />
-        </div>
-
-        {isRincian ? (
-          <div className="pt-1">
-            <div className="text-xs font-semibold text-slate-600">Total Pembayaran</div>
-            <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
-              {formatIdrLike(totalRincian)},00
+              <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
-        ) : null}
 
-        <Button
-          disabled={!jenisTransaksi}
-          className={cn(
-            "mt-1 h-10 rounded-xl text-white",
-            !jenisTransaksi
-              ? "bg-emerald-600/50 hover:bg-emerald-600/50"
-              : "bg-emerald-600 hover:bg-emerald-700",
+          <div className="grid gap-1.5">
+            <Label className="text-xs text-slate-600">Jenis Transaksi*</Label>
+
+            {/* Read-only: mengikuti pilihan dari Ringkasan Tagihan */}
+            <Select value={jenisTransaksi ?? "__unset__"} disabled>
+              <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-slate-100 text-slate-700 data-[placeholder]:text-slate-500">
+                <SelectValue placeholder="Pilih Transaksi" />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-slate-200">
+                <SelectItem value="__unset__" className="text-slate-500">
+                  Pilih Transaksi
+                </SelectItem>
+                <SelectItem value="Pembayaran Reguler">Pembayaran reguler</SelectItem>
+                <SelectItem value="Pembayaran Rincian Tagihan">
+                  Pembayaran rincian tagihan
+                </SelectItem>
+                <SelectItem value="Pelunasan">Pelunasan</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* tetap terima setter untuk kompatibilitas, tapi form tidak mengubahnya */}
+            <div className="sr-only">
+              <button type="button" onClick={() => setJenisTransaksi(jenisTransaksi)}>
+                sync
+              </button>
+            </div>
+          </div>
+
+          <div className="grid gap-1.5">
+            <Label className="text-xs text-slate-600">Kolektor*</Label>
+            <Select value={kolektor} onValueChange={setKolektor}>
+              <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-slate-200">
+                <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                <SelectItem value="Kolektor A">Kolektor A</SelectItem>
+                <SelectItem value="Kolektor B">Kolektor B</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {isRincian ? (
+            <>
+              <div className="grid gap-1.5">
+                <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
+                <Input
+                  value={nominalPokok}
+                  onChange={(e) => setNominalPokok(e.target.value)}
+                  inputMode="numeric"
+                  className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
+                <Input
+                  value={nominalBunga}
+                  onChange={(e) => setNominalBunga(e.target.value)}
+                  inputMode="numeric"
+                  className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label className="text-xs text-slate-600">Nominal Denda*</Label>
+                <Input
+                  value={nominalDenda}
+                  onChange={(e) => setNominalDenda(e.target.value)}
+                  inputMode="numeric"
+                  className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                />
+              </div>
+            </>
+          ) : (
+            <div className="grid gap-1.5">
+              <Label className="text-xs text-slate-600">
+                {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
+              </Label>
+
+              {isPelunasan ? (
+                <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
+                  {nominalPelunasan}
+                </div>
+              ) : (
+                <Input
+                  value={nominal}
+                  onChange={(e) => setNominal(e.target.value)}
+                  inputMode="numeric"
+                  className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                />
+              )}
+            </div>
           )}
-        >
-          <CheckSquare className="mr-2 h-4 w-4" />
-          Bayar Tagihan
-        </Button>
-      </div>
+
+          <div className="grid gap-1.5">
+            <Label className="text-xs text-slate-600">Tabungan</Label>
+            <Select value={tabungan} onValueChange={setTabungan}>
+              <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-slate-200">
+                <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+                <SelectItem value="Tabungan 01">Tabungan 01</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid gap-1.5">
+            <Label className="text-xs text-slate-600">Keterangan</Label>
+            <Input
+              value={keterangan}
+              onChange={(e) => setKeterangan(e.target.value)}
+              className="h-10 rounded-xl border-slate-200 bg-white"
+            />
+          </div>
+
+          {isRincian ? (
+            <div className="pt-1">
+              <div className="text-xs font-semibold text-slate-600">
+                Total Pembayaran
+              </div>
+              <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
+                {formatIdrLike(totalRincian)},00
+              </div>
+            </div>
+          ) : null}
+
+          <Button
+            className={cn("mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700")}
+          >
+            <CheckSquare className="mr-2 h-4 w-4" />
+            Bayar Tagihan
+          </Button>
+        </div>
+      )}
     </Card>
   );
 }
