@@ -38,8 +38,8 @@ export default function UpcomingBillsAccordionView2({
 
   if (!open) return null;
 
-  const thClass = "px-4 py-3";
-  const tdClass = "px-4 py-3";
+  const thClass = "px-3 py-2.5";
+  const tdClass = "px-3 py-2.5";
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
@@ -57,60 +57,74 @@ export default function UpcomingBillsAccordionView2({
         </div>
       </div>
 
-      {/* Satu "blok tabel" saja: no nested card/section */}
+      {/* Satu blok tabel tanpa horizontal scroll */}
       <div className="mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white">
-        {/* Scroll horizontal hanya di area tabel */}
-        <div className="safe-x-scroll">
-          <table className="w-full min-w-[760px] border-collapse text-[13px]">
-            <thead className="bg-white">
-              <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
-                <th className={cn("w-[120px]", thClass)}>Jatuh Tempo</th>
-                <th className={cn("w-[210px]", thClass)}>
-                  Total Tagihan Belum Dibayar
-                </th>
-                <th className={cn("w-[160px]", thClass)}>Tagihan Pokok</th>
-                <th className={cn("w-[150px]", thClass)}>Tagihan Bunga</th>
-                <th className={cn("w-[160px]", thClass)}>Sisa Tagihan Pokok</th>
-                <th className={cn("w-[160px]", thClass)}>Sisa Tagihan Bunga</th>
-              </tr>
-              <tr>
-                <th colSpan={6} className="h-px bg-slate-200 p-0" />
-              </tr>
-            </thead>
+        <table className="w-full table-fixed border-collapse text-[13px]">
+          <thead className="bg-white">
+            <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-700">
+              <th className={cn("w-[86px] sm:w-[110px]", thClass)}>
+                <span className="block truncate">Jatuh Tempo</span>
+              </th>
+              <th className={cn("w-[120px] sm:w-[160px]", thClass)}>
+                <span className="block truncate">Total Tagihan</span>
+              </th>
+              <th className={cn("w-[92px] sm:w-[120px]", thClass)}>
+                <span className="block truncate">Pokok</span>
+              </th>
+              <th className={cn("w-[92px] sm:w-[120px]", thClass)}>
+                <span className="block truncate">Bunga</span>
+              </th>
+              <th className={cn("hidden lg:table-cell", thClass)}>
+                <span className="block truncate">Sisa Pokok</span>
+              </th>
+              <th className={cn("hidden lg:table-cell", thClass)}>
+                <span className="block truncate">Sisa Bunga</span>
+              </th>
+            </tr>
+            <tr>
+              <th colSpan={6} className="h-px bg-slate-200 p-0" />
+            </tr>
+          </thead>
 
-            <tbody className="bg-white">
-              <GracePeriodInfoRow colSpan={6} />
+          <tbody className="bg-white">
+            {/* Baris info tetap ada, tapi pada layar kecil kolom efektif cuma 4 (karena 2 kolom disembunyikan) */}
+            <GracePeriodInfoRow colSpan={6} />
 
-              {paged.map((r, idx) => (
-                <tr
-                  key={`${r.jatuhTempo}-${idx}`}
-                  className="border-t border-slate-100 text-sm"
+            {paged.map((r, idx) => (
+              <tr key={`${r.jatuhTempo}-${idx}`} className="border-t border-slate-100 text-sm">
+                <td className={cn(tdClass, "font-semibold text-slate-900")}>
+                  <span className="block whitespace-nowrap">{r.jatuhTempo}</span>
+                </td>
+                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                  <span className="block whitespace-nowrap">{r.totalBelumDibayar}</span>
+                </td>
+                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                  <span className="block whitespace-nowrap">{r.tagihanPokok}</span>
+                </td>
+                <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
+                  <span className="block whitespace-nowrap">{r.tagihanBunga}</span>
+                </td>
+                <td
+                  className={cn(
+                    tdClass,
+                    "hidden text-right tabular-nums text-slate-800 lg:table-cell",
+                  )}
                 >
-                  <td className={cn(tdClass, "font-semibold text-slate-900")}>
-                    {r.jatuhTempo}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.totalBelumDibayar}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.tagihanPokok}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.tagihanBunga}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.sisaPokok}
-                  </td>
-                  <td className={cn(tdClass, "text-right tabular-nums text-slate-800")}>
-                    {r.sisaBunga}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  <span className="block whitespace-nowrap">{r.sisaPokok}</span>
+                </td>
+                <td
+                  className={cn(
+                    tdClass,
+                    "hidden text-right tabular-nums text-slate-800 lg:table-cell",
+                  )}
+                >
+                  <span className="block whitespace-nowrap">{r.sisaBunga}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-        {/* Footer yang menyatu (tanpa "kotak" tambahan) */}
         <div className="flex flex-col gap-2 border-t border-slate-200 px-4 py-3 md:flex-row md:items-center md:justify-between">
           <div className="text-xs text-slate-600">
             Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
