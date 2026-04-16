@@ -9,6 +9,13 @@ import { Button } from "@/components/ui/button";
 import { CalendarDays, CheckSquare } from "lucide-react";
 import { formatIdrLike, parseAmount } from "@/components/anggota/anggota-money";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const transactionTypes = [
   "Pembayaran Reguler",
@@ -83,6 +90,7 @@ export default function TransactionFormCardView2({
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
   const isUnset = !jenisTransaksi;
+  const useTabunganSelect = isPelunasan || isRincian;
 
   return (
     <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
@@ -90,7 +98,6 @@ export default function TransactionFormCardView2({
         {titleForTransaction(jenisTransaksi)}
       </div>
 
-      {/* Saat transaksi belum dipilih: hilangkan seluruh konten di bawah judul */}
       {isUnset ? (
         <div className="sr-only">
           <Separator />
@@ -119,9 +126,7 @@ export default function TransactionFormCardView2({
               </div>
             </div>
 
-            {/* Field "Jenis Transaksi*" dihilangkan sesuai permintaan */}
-
-            {/* tetap terima setter untuk kompatibilitas */}
+            {/* Field "Jenis Transaksi*" memang tidak ditampilkan */}
             <div className="sr-only">
               <button
                 type="button"
@@ -133,8 +138,6 @@ export default function TransactionFormCardView2({
 
             <div className="grid gap-1.5">
               <Label className="text-xs text-slate-600">Kolektor*</Label>
-              {/* Select dari shadcn tidak diperlukan di sini; tetap gunakan pola sebelumnya via Input? */}
-              {/* Karena view memakai Select shadcn sebelumnya, kita pertahankan API dengan input sederhana agar file tetap mandiri */}
               <Input
                 value={kolektor}
                 onChange={(e) => setKolektor(e.target.value)}
@@ -146,9 +149,7 @@ export default function TransactionFormCardView2({
             {isRincian ? (
               <>
                 <div className="grid gap-1.5">
-                  <Label className="text-xs text-slate-600">
-                    Nominal Pokok*
-                  </Label>
+                  <Label className="text-xs text-slate-600">Nominal Pokok*</Label>
                   <Input
                     value={nominalPokok}
                     onChange={(e) => setNominalPokok(e.target.value)}
@@ -157,9 +158,7 @@ export default function TransactionFormCardView2({
                   />
                 </div>
                 <div className="grid gap-1.5">
-                  <Label className="text-xs text-slate-600">
-                    Nominal Bunga*
-                  </Label>
+                  <Label className="text-xs text-slate-600">Nominal Bunga*</Label>
                   <Input
                     value={nominalBunga}
                     onChange={(e) => setNominalBunga(e.target.value)}
@@ -168,9 +167,7 @@ export default function TransactionFormCardView2({
                   />
                 </div>
                 <div className="grid gap-1.5">
-                  <Label className="text-xs text-slate-600">
-                    Nominal Denda*
-                  </Label>
+                  <Label className="text-xs text-slate-600">Nominal Denda*</Label>
                   <Input
                     value={nominalDenda}
                     onChange={(e) => setNominalDenda(e.target.value)}
@@ -202,12 +199,27 @@ export default function TransactionFormCardView2({
 
             <div className="grid gap-1.5">
               <Label className="text-xs text-slate-600">Tabungan</Label>
-              <Input
-                value={tabungan}
-                onChange={(e) => setTabungan(e.target.value)}
-                className="h-10 rounded-xl border-slate-200 bg-white"
-                placeholder="Tanpa Tabungan"
-              />
+
+              {useTabunganSelect ? (
+                <Select
+                  value={tabungan || "Tanpa Tabungan"}
+                  onValueChange={(v) => setTabungan(v)}
+                >
+                  <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                    <SelectValue placeholder="Tanpa Tabungan" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-slate-200">
+                    <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+                  </SelectContent>
+                </Select>
+              ) : (
+                <Input
+                  value={tabungan}
+                  onChange={(e) => setTabungan(e.target.value)}
+                  className="h-10 rounded-xl border-slate-200 bg-white"
+                  placeholder="Tanpa Tabungan"
+                />
+              )}
             </div>
 
             <div className="grid gap-1.5">
@@ -230,9 +242,7 @@ export default function TransactionFormCardView2({
               </div>
             ) : null}
 
-            <Button
-              className={cn("mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700")}
-            >
+            <Button className={cn("mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700")}>
               <CheckSquare className="mr-2 h-4 w-4" />
               Bayar Tagihan
             </Button>
