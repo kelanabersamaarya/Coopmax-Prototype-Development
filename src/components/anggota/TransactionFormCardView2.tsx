@@ -32,6 +32,8 @@ function titleForTransaction(t: TransactionType | null) {
   return "PELUNASAN";
 }
 
+const ONLY_TABUNGAN = "Tanpa Tabungan";
+
 export default function TransactionFormCardView2({
   tanggalEfektif,
   setTanggalEfektif,
@@ -91,6 +93,21 @@ export default function TransactionFormCardView2({
 
   const isUnset = !jenisTransaksi;
   const useTabunganSelect = isPelunasan || isRincian;
+
+  // Pastikan untuk mode yang mengharuskan dropdown, value-nya selalu valid.
+  React.useEffect(() => {
+    if (isUnset) return;
+
+    if (useTabunganSelect) {
+      if (!tabungan) setTabungan(ONLY_TABUNGAN);
+      if (tabungan && tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
+      return;
+    }
+
+    // Pembayaran Reguler: tampilkan sebagai read-only (bukan free text)
+    if (tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPelunasan, isRincian, isUnset]);
 
   return (
     <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
@@ -202,22 +219,26 @@ export default function TransactionFormCardView2({
 
               {useTabunganSelect ? (
                 <Select
-                  value={tabungan || "Tanpa Tabungan"}
+                  value={tabungan || ONLY_TABUNGAN}
                   onValueChange={(v) => setTabungan(v)}
                 >
                   <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                    <SelectValue placeholder="Tanpa Tabungan" />
+                    <SelectValue placeholder={ONLY_TABUNGAN} />
                   </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+                  <SelectContent className="rounded-xl border-slate-200 p-1">
+                    <SelectItem
+                      value={ONLY_TABUNGAN}
+                      className="rounded-xl [&>span.absolute.right-2]:hidden"
+                    >
+                      {ONLY_TABUNGAN}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               ) : (
                 <Input
-                  value={tabungan}
-                  onChange={(e) => setTabungan(e.target.value)}
-                  className="h-10 rounded-xl border-slate-200 bg-white"
-                  placeholder="Tanpa Tabungan"
+                  value={ONLY_TABUNGAN}
+                  readOnly
+                  className="h-10 rounded-xl border-slate-200 bg-slate-100 text-slate-800"
                 />
               )}
             </div>
@@ -242,7 +263,11 @@ export default function TransactionFormCardView2({
               </div>
             ) : null}
 
-            <Button className={cn("mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700")}>
+            <Button
+              className={cn(
+                "mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700",
+              )}
+            >
               <CheckSquare className="mr-2 h-4 w-4" />
               Bayar Tagihan
             </Button>
