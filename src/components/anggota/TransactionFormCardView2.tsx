@@ -34,6 +34,30 @@ function titleForTransaction(t: TransactionType | null) {
 
 const ONLY_TABUNGAN = "Tanpa Tabungan";
 
+function SingleOptionSelect({
+  value,
+  onValueChange,
+}: {
+  value: string;
+  onValueChange: (v: string) => void;
+}) {
+  return (
+    <Select value={value} onValueChange={onValueChange}>
+      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+        <SelectValue placeholder={ONLY_TABUNGAN} />
+      </SelectTrigger>
+      <SelectContent className="rounded-xl border-slate-200 p-1">
+        <SelectItem
+          value={ONLY_TABUNGAN}
+          className="rounded-xl [&>span.absolute.right-2]:hidden"
+        >
+          {ONLY_TABUNGAN}
+        </SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+
 export default function TransactionFormCardView2({
   tanggalEfektif,
   setTanggalEfektif,
@@ -92,22 +116,13 @@ export default function TransactionFormCardView2({
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
   const isUnset = !jenisTransaksi;
-  const useTabunganSelect = isPelunasan || isRincian;
 
-  // Pastikan untuk mode yang mengharuskan dropdown, value-nya selalu valid.
+  // Tabungan: selalu dropdown, tapi hanya ada opsi "Tanpa Tabungan"
   React.useEffect(() => {
     if (isUnset) return;
-
-    if (useTabunganSelect) {
-      if (!tabungan) setTabungan(ONLY_TABUNGAN);
-      if (tabungan && tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
-      return;
-    }
-
-    // Pembayaran Reguler: tampilkan sebagai read-only (bukan free text)
-    if (tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
+    if (!tabungan || tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan, isRincian, isUnset]);
+  }, [isUnset, isPelunasan, isRincian]);
 
   return (
     <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
@@ -216,31 +231,10 @@ export default function TransactionFormCardView2({
 
             <div className="grid gap-1.5">
               <Label className="text-xs text-slate-600">Tabungan</Label>
-
-              {useTabunganSelect ? (
-                <Select
-                  value={tabungan || ONLY_TABUNGAN}
-                  onValueChange={(v) => setTabungan(v)}
-                >
-                  <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-                    <SelectValue placeholder={ONLY_TABUNGAN} />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200 p-1">
-                    <SelectItem
-                      value={ONLY_TABUNGAN}
-                      className="rounded-xl [&>span.absolute.right-2]:hidden"
-                    >
-                      {ONLY_TABUNGAN}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              ) : (
-                <Input
-                  value={ONLY_TABUNGAN}
-                  readOnly
-                  className="h-10 rounded-xl border-slate-200 bg-slate-100 text-slate-800"
-                />
-              )}
+              <SingleOptionSelect
+                value={tabungan || ONLY_TABUNGAN}
+                onValueChange={setTabungan}
+              />
             </div>
 
             <div className="grid gap-1.5">
