@@ -197,9 +197,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   React.useEffect(() => {
     if (isPelunasan) {
       setSelected(rows.map(() => true));
-    } else {
-      setSelected(rows.map(() => false));
+      return;
     }
+
+    // Default (reguler / rincian): otomatis centang 1 tagihan (baris pertama)
+    const next = rows.map(() => false);
+    if (next.length > 0) next[0] = true;
+    setSelected(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
