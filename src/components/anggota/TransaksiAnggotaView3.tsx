@@ -210,22 +210,24 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     return billsInMainTable.slice(start, start + pageSize);
   }, [billsInMainTable, isPelunasan, page, pageSize]);
 
-  const [selected, setSelected] = React.useState<boolean[]>(
-    () => billsInMainTable.map(() => false),
+  // Default: ketika bukan pelunasan (regular), otomatis centang semua baris yang tampil.
+  const [selected, setSelected] = React.useState<boolean[]>(() =>
+    billsInMainTable.map(() => !isPelunasan),
   );
 
   React.useEffect(() => {
     if (isPelunasan) {
       setSelected(billsInMainTable.map(() => true));
     } else {
-      setSelected(billsInMainTable.map(() => false));
+      // Regular: auto-check tagihan yang tampil
+      setSelected(billsInMainTable.map(() => true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
   React.useEffect(() => {
     setSelected((prev) => {
-      const next = billsInMainTable.map((_, idx) => prev[idx] ?? false);
+      const next = billsInMainTable.map((_, idx) => prev[idx] ?? true);
       return next;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -440,7 +442,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                                               checked={
                                                 isPelunasan
                                                   ? true
-                                                  : selected[realIdx] ?? false
+                                                  : selected[realIdx] ?? true
                                               }
                                               disabled={isPelunasan}
                                               onChange={(e) => {
