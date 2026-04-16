@@ -17,7 +17,7 @@ export default function InformasiRekeningHeader({
   return (
     <div
       className={cn(
-        "min-w-0 overflow-hidden rounded-3xl bg-[#1aa0b5] text-white shadow-sm ring-1 ring-white/10",
+        "min-w-0 overflow-hidden rounded-[10px] bg-[#1aa0b5] text-white shadow-sm ring-1 ring-white/10",
         className,
       )}
     >
