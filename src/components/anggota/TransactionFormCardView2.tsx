@@ -37,6 +37,16 @@ function titleForTransaction(t: TransactionType | null) {
 }
 
 const ONLY_TABUNGAN = "Tanpa Tabungan";
+const KOLEKTOR_PLACEHOLDER = "Pilih Kolektor";
+
+const kolektorOptions = [
+  "Purwanto Santoso",
+  "Kolektor A",
+  "Kolektor B",
+  "Kolektor C",
+] as const;
+
+type KolektorValue = (typeof kolektorOptions)[number] | typeof KOLEKTOR_PLACEHOLDER;
 
 function SingleOptionSelect({
   value,
@@ -57,6 +67,32 @@ function SingleOptionSelect({
         >
           {ONLY_TABUNGAN}
         </SelectItem>
+      </SelectContent>
+    </Select>
+  );
+}
+
+function KolektorSelect({
+  value,
+  onValueChange,
+}: {
+  value: KolektorValue;
+  onValueChange: (v: KolektorValue) => void;
+}) {
+  return (
+    <Select value={value} onValueChange={(v) => onValueChange(v as KolektorValue)}>
+      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+        <SelectValue placeholder={KOLEKTOR_PLACEHOLDER} />
+      </SelectTrigger>
+      <SelectContent className="rounded-xl border-slate-200 p-1">
+        <SelectItem value={KOLEKTOR_PLACEHOLDER} className="rounded-xl">
+          {KOLEKTOR_PLACEHOLDER}
+        </SelectItem>
+        {kolektorOptions.map((k) => (
+          <SelectItem key={k} value={k} className="rounded-xl">
+            {k}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );
@@ -131,6 +167,16 @@ export default function TransactionFormCardView2({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUnset, isPelunasan, isRincian]);
 
+  // Kolektor: enforce dropdown placeholder/values (bukan free text)
+  React.useEffect(() => {
+    if (isUnset) return;
+    const isValid =
+      kolektor === KOLEKTOR_PLACEHOLDER ||
+      (kolektorOptions as readonly string[]).includes(kolektor);
+    if (!isValid) setKolektor(KOLEKTOR_PLACEHOLDER);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isUnset]);
+
   return (
     <>
       <PaymentConfirmModal
@@ -197,11 +243,9 @@ export default function TransactionFormCardView2({
 
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">Kolektor*</Label>
-                <Input
-                  value={kolektor}
-                  onChange={(e) => setKolektor(e.target.value)}
-                  className="h-10 rounded-xl border-slate-200 bg-white"
-                  placeholder="Pilih Kolektor"
+                <KolektorSelect
+                  value={(kolektor as KolektorValue) || KOLEKTOR_PLACEHOLDER}
+                  onValueChange={(v) => setKolektor(v)}
                 />
               </div>
 
