@@ -82,10 +82,10 @@ export default function UpcomingBillsAccordionView2({
               </tr>
             </thead>
 
-            {/* Body dibungkus supaya ring biru bisa hilang/muncul tanpa mempengaruhi header */}
             <tbody className="bg-white">
               <tr>
                 <td colSpan={7} className="p-0">
+                  {/* OUTER BOX: border highlight */}
                   <div
                     className={cn(
                       "overflow-hidden bg-white",
@@ -94,72 +94,91 @@ export default function UpcomingBillsAccordionView2({
                         : "rounded-xl border border-slate-200",
                     )}
                   >
-                    <div className="overflow-auto">
-                      <table className="w-full min-w-[540px] border-collapse text-[13px]">
-                        <tbody className="bg-white">
-                          {showGraceHighlight ? (
-                            <GracePeriodInfoRow colSpan={7} />
-                          ) : null}
+                    {/* INNER GAP: ini yang bikin border tidak menempel */}
+                    <div className="bg-white p-2">
+                      {/* INNER BOX: border normal (selalu ada) */}
+                      <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+                        <div className="overflow-auto">
+                          <table className="w-full min-w-[540px] border-collapse text-[13px]">
+                            <tbody className="bg-white">
+                              {showGraceHighlight ? (
+                                <GracePeriodInfoRow colSpan={7} />
+                              ) : null}
 
-                          {paged.map((r, idx) => (
-                            <tr
-                              key={`${r.jatuhTempo}-${idx}`}
-                              className="border-t border-slate-100/60 text-sm"
-                            >
-                              <td className={cn("w-[18px]", tdClass, edgePadLeft, "pr-0")} />
-                              <td className={cn("w-[104px]", tdClass, "font-medium text-slate-900")}>
-                                {r.jatuhTempo}
-                              </td>
-                              <td
-                                className={cn(
-                                  "w-[146px]",
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {r.totalBelumDibayar}
-                              </td>
-                              <td
-                                className={cn(
-                                  "w-[98px]",
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {r.tagihanPokok}
-                              </td>
-                              <td
-                                className={cn(
-                                  "w-[98px]",
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {r.tagihanBunga}
-                              </td>
-                              <td
-                                className={cn(
-                                  "w-[108px]",
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {r.sisaPokok}
-                              </td>
-                              <td
-                                className={cn(
-                                  "w-[108px]",
-                                  tdClass,
-                                  edgePadRight,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {r.sisaBunga}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                              {paged.map((r, idx) => (
+                                <tr
+                                  key={`${r.jatuhTempo}-${idx}`}
+                                  className="border-t border-slate-100/60 text-sm"
+                                >
+                                  <td
+                                    className={cn(
+                                      "w-[18px]",
+                                      tdClass,
+                                      edgePadLeft,
+                                      "pr-0",
+                                    )}
+                                  />
+                                  <td
+                                    className={cn(
+                                      "w-[104px]",
+                                      tdClass,
+                                      "font-medium text-slate-900",
+                                    )}
+                                  >
+                                    {r.jatuhTempo}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      "w-[146px]",
+                                      tdClass,
+                                      "text-right tabular-nums text-slate-800",
+                                    )}
+                                  >
+                                    {r.totalBelumDibayar}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      "w-[98px]",
+                                      tdClass,
+                                      "text-right tabular-nums text-slate-800",
+                                    )}
+                                  >
+                                    {r.tagihanPokok}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      "w-[98px]",
+                                      tdClass,
+                                      "text-right tabular-nums text-slate-800",
+                                    )}
+                                  >
+                                    {r.tagihanBunga}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      "w-[108px]",
+                                      tdClass,
+                                      "text-right tabular-nums text-slate-800",
+                                    )}
+                                  >
+                                    {r.sisaPokok}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      "w-[108px]",
+                                      tdClass,
+                                      edgePadRight,
+                                      "text-right tabular-nums text-slate-800",
+                                    )}
+                                  >
+                                    {r.sisaBunga}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -172,7 +191,11 @@ export default function UpcomingBillsAccordionView2({
           <div className="text-xs text-slate-600">
             Menampilkan {showingStart} sampai {showingEnd} dari {rows.length} entri
           </div>
-          <AnggotaTablePagination page={page} pageCount={pageCount} onPage={setPage} />
+          <AnggotaTablePagination
+            page={page}
+            pageCount={pageCount}
+            onPage={setPage}
+          />
         </div>
       </div>
     </div>
