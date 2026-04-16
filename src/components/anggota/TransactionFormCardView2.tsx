@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, CheckSquare } from "lucide-react";
+import { CalendarDays, CheckSquare, X } from "lucide-react";
 import { formatIdrLike, parseAmount } from "@/components/anggota/anggota-money";
 import { cn } from "@/lib/utils";
 import {
@@ -75,26 +75,53 @@ function SingleOptionSelect({
 function KolektorSelect({
   value,
   onValueChange,
+  onClear,
 }: {
   value: KolektorValue;
   onValueChange: (v: KolektorValue) => void;
+  onClear: () => void;
 }) {
+  const hasSelected = value !== KOLEKTOR_PLACEHOLDER;
+
   return (
-    <Select value={value} onValueChange={(v) => onValueChange(v as KolektorValue)}>
-      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
-        <SelectValue placeholder={KOLEKTOR_PLACEHOLDER} />
-      </SelectTrigger>
-      <SelectContent className="rounded-xl border-slate-200 p-1">
-        <SelectItem value={KOLEKTOR_PLACEHOLDER} className="rounded-xl">
-          {KOLEKTOR_PLACEHOLDER}
-        </SelectItem>
-        {kolektorOptions.map((k) => (
-          <SelectItem key={k} value={k} className="rounded-xl">
-            {k}
+    <div className="relative">
+      <Select value={value} onValueChange={(v) => onValueChange(v as KolektorValue)}>
+        <SelectTrigger
+          className={cn(
+            "h-10 rounded-xl border-slate-200 bg-white",
+            hasSelected ? "pl-11" : "",
+          )}
+        >
+          <SelectValue placeholder={KOLEKTOR_PLACEHOLDER} />
+        </SelectTrigger>
+        <SelectContent className="rounded-xl border-slate-200 p-1">
+          <SelectItem value={KOLEKTOR_PLACEHOLDER} className="rounded-xl">
+            {KOLEKTOR_PLACEHOLDER}
           </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+          {kolektorOptions.map((k) => (
+            <SelectItem key={k} value={k} className="rounded-xl">
+              {k}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {hasSelected ? (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClear();
+          }}
+          aria-label="Hapus kolektor"
+          title="Hapus kolektor"
+          className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-7 w-7 items-center justify-center rounded-lg text-red-600 transition hover:bg-red-50"
+        >
+          <X className="h-5 w-5" strokeWidth={3} />
+        </button>
+      ) : null}
+    </div>
   );
 }
 
@@ -246,6 +273,7 @@ export default function TransactionFormCardView2({
                 <KolektorSelect
                   value={(kolektor as KolektorValue) || KOLEKTOR_PLACEHOLDER}
                   onValueChange={(v) => setKolektor(v)}
+                  onClear={() => setKolektor(KOLEKTOR_PLACEHOLDER)}
                 />
               </div>
 
