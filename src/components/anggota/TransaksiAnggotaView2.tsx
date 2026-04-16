@@ -98,8 +98,9 @@ const upcomingRows: BillRow[] = [
 
 export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
-  const [jenisTransaksi, setJenisTransaksi] =
-    React.useState<TransactionType | null>(null);
+  const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
+    "Pembayaran Reguler",
+  );
   const [kolektor, setKolektor] = React.useState<string>("Pilih Kolektor");
 
   const [nominal, setNominal] = React.useState("0");
