@@ -75,8 +75,8 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [logoOk, setLogoOk] = React.useState(true);
 
-  // Pastikan file ini ada di folder /public
-  const logoSrc = "/coopmax-logo.png";
+  // Pastikan nama ini sama persis dengan file di /public
+  const logoSrc = "/publiccoopmax-logo.png.png";
 
   return (
     <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
