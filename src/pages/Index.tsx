@@ -15,7 +15,7 @@ type NavItem = {
 const nav: Array<{ group?: string; items: NavItem[] }> = [
   {
     items: [
-      { to: "/dashboard", label: "Dashboard", icon: Home },
+      { to: "/dashboard", label: "Dashboard Pengembangan", icon: Home },
       // Anggota akan dirender sebagai menu collapsible khusus (lihat SidebarAnggotaMenu)
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
     ],
