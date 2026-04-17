@@ -13,12 +13,12 @@ type SubItem = {
 
 const items: SubItem[] = [
   { label: "Pengajuan Baru", disabled: true },
-  // DIHAPUS: Daftar Pengajuan Pinjaman
+  { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", disabled: true },
   { label: "Transaksi Pinjaman", disabled: true },
   { label: "Pinjaman Lunas", disabled: true },
   { label: "Perpanjangan Pinjaman", disabled: true },
-  // DIHAPUS: Produk Pinjaman
+  { label: "Produk Pinjaman", to: "/loan-products" },
   { label: "Sektor Pinjaman", disabled: true },
   { label: "Tujuan Pinjaman", disabled: true },
   { label: "Cetak Buku", disabled: true },
