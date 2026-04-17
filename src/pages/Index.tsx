@@ -1,11 +1,10 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
-import { HandCoins, Home, Sparkles, ChevronRight } from "lucide-react";
+import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
   to: string;
@@ -37,45 +36,6 @@ const implementedRoutes = new Set([
 function resolveNavTo(to: string) {
   if (to === "/pinjaman") return "/loan-products";
   return to;
-}
-
-function SidebarPromo() {
-  return (
-    <div className="rounded-3xl border border-violet-200 bg-white p-4 shadow-sm">
-      <div className="flex items-center gap-2">
-        <div className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-violet-100 text-violet-700 ring-1 ring-violet-200">
-          <Sparkles className="h-4 w-4" />
-        </div>
-        <div className="text-sm font-semibold tracking-tight text-slate-900">
-          KOCEK
-        </div>
-      </div>
-
-      <div className="mt-3 text-sm font-semibold text-fuchsia-700">
-        Rekomendasi Pinjaman Cepat ✨
-      </div>
-      <div className="mt-2 text-sm leading-relaxed text-slate-700">
-        Ingin analisa cepat dan tepat? gunakan layanan{" "}
-        <span className="font-semibold text-violet-700">KOCEK</span> sekarang!
-      </div>
-
-      <Button
-        className="mt-4 w-full rounded-full bg-violet-600 text-white hover:bg-violet-700"
-        onClick={() => {
-          window.location.href = "/loan-products/new";
-        }}
-      >
-        <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15">
-          <Sparkles className="h-4 w-4" />
-        </span>
-        Analisa Rekomendasi Pinjaman
-      </Button>
-
-      <div className="mt-3 text-center text-sm font-semibold text-violet-700 underline underline-offset-4">
-        Lihat Penggunaan & Sisa Kuota
-      </div>
-    </div>
-  );
 }
 
 function SidebarNavItem({ item }: { item: NavItem }) {
@@ -150,8 +110,6 @@ export default function Index() {
           )}
         >
           <aside className="min-w-0 space-y-4 px-0">
-            <SidebarPromo />
-
             <Card className="min-w-0 rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
               {/* no scroll on sidebar */}
               <div className="px-0 py-1">
