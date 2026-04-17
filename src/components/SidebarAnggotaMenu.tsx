@@ -11,16 +11,7 @@ type SubItem = {
   disabled?: boolean;
 };
 
-const items: SubItem[] = [
-  { label: "Pendaftaran Anggota", disabled: true },
-  { label: "Pendaftaran Calon Anggota", disabled: true },
-  { label: "Anggota", disabled: true },
-  { label: "Calon Anggota", disabled: true },
-  { label: "Transaksi", to: "/anggota/transaksi" },
-  { label: "Cetak Buku Anggota", disabled: true },
-  { label: "Kategori Anggota", disabled: true },
-  { label: "Penggabungan Data", disabled: true },
-];
+const items: SubItem[] = [{ label: "Transaksi", to: "/anggota/transaksi" }];
 
 export default function SidebarAnggotaMenu() {
   const location = useLocation();
@@ -70,41 +61,22 @@ export default function SidebarAnggotaMenu() {
               {items.map((it) => {
                 const base =
                   "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition";
-                if (it.to) {
-                  return (
-                    <NavLink
-                      key={it.label}
-                      to={it.to}
-                      className={({ isActive }) =>
-                        cn(
-                          base,
-                          isActive
-                            ? "bg-violet-600 text-white"
-                            : "text-slate-800 hover:bg-slate-50",
-                        )
-                      }
-                    >
-                      {it.label}
-                    </NavLink>
-                  );
-                }
 
                 return (
-                  <button
+                  <NavLink
                     key={it.label}
-                    type="button"
-                    className={cn(
-                      base,
-                      "text-slate-500 hover:bg-slate-50 text-left",
-                      it.disabled ? "cursor-not-allowed opacity-70" : "",
-                    )}
-                    disabled={it.disabled}
-                    onClick={() => {
-                      // menu placeholder: belum ada route
-                    }}
+                    to={it.to!}
+                    className={({ isActive }) =>
+                      cn(
+                        base,
+                        isActive
+                          ? "bg-violet-600 text-white"
+                          : "text-slate-800 hover:bg-slate-50",
+                      )
+                    }
                   >
                     {it.label}
-                  </button>
+                  </NavLink>
                 );
               })}
             </div>
