@@ -82,6 +82,16 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
+      <div className="mb-4 rounded-3xl bg-white/90 p-5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:mb-5 md:p-6">
+        <div className="text-xl font-extrabold tracking-tight text-slate-900 md:text-2xl">
+          Hi, Admin
+        </div>
+        <div className="mt-1 text-sm font-semibold tracking-tight text-slate-700 md:text-base">
+          Selamat datang di dashboard pengembangan{" "}
+          <span className="text-violet-700">Coopmax</span>
+        </div>
+      </div>
+
       <div className="rounded-3xl bg-slate-50/70 p-4 ring-1 ring-slate-200 md:p-5">
         <div className="flex items-center justify-between gap-3">
           <div>
