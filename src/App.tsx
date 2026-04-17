@@ -11,6 +11,7 @@ import LoanProductCreate from "./pages/LoanProductCreate";
 import AnggotaTransaksi from "./pages/AnggotaTransaksi";
 import LoanApplications from "./pages/LoanApplications";
 import LoanApplicationCreate from "./pages/LoanApplicationCreate";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />}>
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="loan-products" element={<LoanProducts />} />
             <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loans/new" element={<NewLoan />} />
