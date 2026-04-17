@@ -93,6 +93,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 export default function Index() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isDashboard = location.pathname === "/dashboard";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -105,49 +106,52 @@ export default function Index() {
         <div
           className={cn(
             "mt-6 grid min-w-0 gap-[var(--shell-gap)]",
-            // Mobile: stack, Desktop: sidebar + content (sidebar width fluid)
-            "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
+            isDashboard
+              ? "grid-cols-1"
+              : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          <aside className="min-w-0 space-y-4 px-0">
-            <Card className="min-w-0 rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
-              {/* no scroll on sidebar */}
-              <div className="px-0 py-1">
-                <div className="space-y-1">
-                  {nav.map((g, idx) => (
-                    <div key={g.group ?? idx} className="px-0">
-                      {g.group ? (
-                        <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                          {g.group}
+          {!isDashboard ? (
+            <aside className="min-w-0 space-y-4 px-0">
+              <Card className="min-w-0 rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
+                {/* no scroll on sidebar */}
+                <div className="px-0 py-1">
+                  <div className="space-y-1">
+                    {nav.map((g, idx) => (
+                      <div key={g.group ?? idx} className="px-0">
+                        {g.group ? (
+                          <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                            {g.group}
+                          </div>
+                        ) : null}
+
+                        <div className="space-y-1 px-2">
+                          {/* Dashboard */}
+                          <SidebarNavItem item={g.items[0]!} />
+
+                          {/* Anggota (collapsible) tepat di bawah Dashboard */}
+                          <SidebarAnggotaMenu />
+
+                          {/* Pinjaman (collapsible) tepat di bawah Anggota */}
+                          <SidebarPinjamanMenu />
+
+                          {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
+                          {g.items
+                            .slice(1)
+                            .filter((it) => it.to !== "/pinjaman")
+                            .map((it) => (
+                              <SidebarNavItem key={it.to} item={it} />
+                            ))}
                         </div>
-                      ) : null}
-
-                      <div className="space-y-1 px-2">
-                        {/* Dashboard */}
-                        <SidebarNavItem item={g.items[0]!} />
-
-                        {/* Anggota (collapsible) tepat di bawah Dashboard */}
-                        <SidebarAnggotaMenu />
-
-                        {/* Pinjaman (collapsible) tepat di bawah Anggota */}
-                        <SidebarPinjamanMenu />
-
-                        {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
-                        {g.items
-                          .slice(1)
-                          .filter((it) => it.to !== "/pinjaman")
-                          .map((it) => (
-                            <SidebarNavItem key={it.to} item={it} />
-                          ))}
                       </div>
-                    </div>
-                  ))}
+                    ))}
 
-                  <Separator className="my-2 bg-slate-100" />
+                    <Separator className="my-2 bg-slate-100" />
+                  </div>
                 </div>
-              </div>
-            </Card>
-          </aside>
+              </Card>
+            </aside>
+          ) : null}
 
           {/* Konten: min-w-0 penting agar tidak "dorong" grid melebar saat zoom */}
           <main className="min-w-0 overflow-x-hidden">
