@@ -3,35 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import * as React from "react";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
-import {
-  BadgeDollarSign,
-  Bookmark,
-  BookOpenText,
-  Boxes,
-  BriefcaseBusiness,
-  Calculator,
-  ClipboardList,
-  CreditCard,
-  FileText,
-  HandCoins,
-  Home,
-  Landmark,
-  Package2,
-  Receipt,
-  ScrollText,
-  Settings,
-  Shield,
-  Smartphone,
-  Store,
-  Tags,
-  Users,
-  Wallet,
-  ChevronRight,
-  Sparkles,
-} from "lucide-react";
+import { HandCoins, Home, Sparkles, ChevronRight, Wallet } from "lucide-react";
 
 type NavItem = {
   to: string;
@@ -47,40 +21,6 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
       { to: "/simpanan", label: "Simpanan", icon: Wallet },
       // Pinjaman akan dirender sebagai menu collapsible khusus (lihat SidebarPinjamanMenu)
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
-      { to: "/simpanan-berjangka", label: "Simpanan Berjangka", icon: Landmark },
-      {
-        to: "/modal-penyertaan",
-        label: "Modal Penyertaan",
-        icon: BriefcaseBusiness,
-      },
-      { to: "/ppob", label: "PPOB", icon: Receipt },
-      { to: "/mbanking", label: "MBanking", icon: Smartphone },
-      { to: "/shu", label: "SHU", icon: BadgeDollarSign },
-      { to: "/transaksi-kas", label: "Transaksi Kas", icon: ClipboardList },
-      { to: "/inventaris", label: "Inventaris", icon: Boxes },
-      { to: "/keuangan", label: "Keuangan", icon: Calculator },
-      { to: "/akunting", label: "Akunting", icon: BookOpenText },
-      { to: "/laporan", label: "Laporan", icon: ScrollText },
-      { to: "/kolektor", label: "Kolektor", icon: Users },
-      { to: "/kupon", label: "Kupon", icon: Tags },
-      { to: "/pegawai", label: "Pegawai", icon: Users },
-      { to: "/laporan-shu", label: "Laporan SHU", icon: Bookmark },
-      { to: "/mitra", label: "Mitra", icon: Store },
-      { to: "/pengaturan-umum", label: "Pengaturan Umum", icon: Settings },
-      {
-        to: "/administrasi-koperasi",
-        label: "Administrasi Koperasi",
-        icon: CreditCard,
-      },
-      { to: "/tagihan", label: "Tagihan", icon: FileText },
-      { to: "/online-banking", label: "Online Banking", icon: Landmark },
-      { to: "/superadmin", label: "Superadmin", icon: Shield },
-      {
-        to: "/penilaian-kesehatan",
-        label: "Penilaian Kesehatan",
-        icon: ClipboardList,
-      },
-      { to: "/backup-database", label: "Backup Database", icon: Package2 },
     ],
   },
 ];
@@ -235,7 +175,7 @@ export default function Index() {
                         {/* Pinjaman (collapsible) tepat di bawah Anggota */}
                         <SidebarPinjamanMenu />
 
-                        {/* Sisa menu lainnya (mulai dari Simpanan dst) */}
+                        {/* (opsional) Simpanan placeholder tetap ditampilkan */}
                         {g.items
                           .slice(1)
                           .filter((it) => it.to !== "/pinjaman")
