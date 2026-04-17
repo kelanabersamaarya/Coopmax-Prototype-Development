@@ -98,9 +98,6 @@ export default function Dashboard() {
             <div className="text-sm font-extrabold tracking-tight text-slate-900">
               Menu Pengembangan
             </div>
-            <div className="mt-1 text-xs text-slate-600">
-              Shortcut modul yang sedang dikembangkan untuk prototype UI.
-            </div>
           </div>
           <div className="hidden sm:block">
             <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-slate-700 ring-1 ring-slate-200">
