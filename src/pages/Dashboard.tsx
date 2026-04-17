@@ -93,20 +93,7 @@ export default function Dashboard() {
       </div>
 
       <div className="rounded-3xl bg-slate-50/70 p-4 ring-1 ring-slate-200 md:p-5">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <div className="text-sm font-extrabold tracking-tight text-slate-900">
-              Menu Pengembangan
-            </div>
-          </div>
-          <div className="hidden sm:block">
-            <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-slate-700 ring-1 ring-slate-200">
-              Internal
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <div className="mt-1 grid gap-3 md:grid-cols-2">
           <DevMenuCard
             title="Pinjaman Billing"
             subtitle="Alur pinjaman dengan penjadwalan billing & pembayaran angsuran."
