@@ -73,18 +73,27 @@ function DevMenuCard({
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [logoOk, setLogoOk] = React.useState(true);
+
+  // Pastikan file ini ada di folder /public
+  const logoSrc = "/coopmax-logo.png";
 
   return (
     <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
       <div className="mb-4 rounded-3xl bg-white/90 p-5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:mb-5 md:p-6">
         <div className="flex items-center gap-4">
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white ring-1 ring-slate-200">
-            <img
-              src="/pasted-image-2026-04-17T05-24-58-914Z.png"
-              alt="Logo"
-              className="h-9 w-9 object-contain"
-              draggable={false}
-            />
+            {logoOk ? (
+              <img
+                src={logoSrc}
+                alt="Coopmax"
+                className="h-9 w-9 object-contain"
+                draggable={false}
+                onError={() => setLogoOk(false)}
+              />
+            ) : (
+              <div className="text-xs font-bold text-slate-600">Logo</div>
+            )}
           </div>
 
           <div className="min-w-0">
