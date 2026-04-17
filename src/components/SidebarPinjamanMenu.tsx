@@ -12,17 +12,8 @@ type SubItem = {
 };
 
 const items: SubItem[] = [
-  { label: "Pengajuan Baru", disabled: true },
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
-  { label: "Rekening Pinjaman", disabled: true },
-  { label: "Transaksi Pinjaman", disabled: true },
-  { label: "Pinjaman Lunas", disabled: true },
-  { label: "Perpanjangan Pinjaman", disabled: true },
   { label: "Produk Pinjaman", to: "/loan-products" },
-  { label: "Sektor Pinjaman", disabled: true },
-  { label: "Tujuan Pinjaman", disabled: true },
-  { label: "Cetak Buku", disabled: true },
-  { label: "Prima Nota", disabled: true },
 ];
 
 export default function SidebarPinjamanMenu() {
@@ -77,38 +68,21 @@ export default function SidebarPinjamanMenu() {
                 const base =
                   "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition";
 
-                if (it.to) {
-                  return (
-                    <NavLink
-                      key={it.label}
-                      to={it.to}
-                      className={({ isActive }) =>
-                        cn(
-                          base,
-                          isActive
-                            ? "bg-violet-600 text-white"
-                            : "text-slate-800 hover:bg-slate-50",
-                        )
-                      }
-                    >
-                      {it.label}
-                    </NavLink>
-                  );
-                }
-
                 return (
-                  <button
+                  <NavLink
                     key={it.label}
-                    type="button"
-                    className={cn(
-                      base,
-                      "text-slate-500 hover:bg-slate-50 text-left",
-                      it.disabled ? "cursor-not-allowed opacity-70" : "",
-                    )}
-                    disabled={it.disabled}
+                    to={it.to!}
+                    className={({ isActive }) =>
+                      cn(
+                        base,
+                        isActive
+                          ? "bg-violet-600 text-white"
+                          : "text-slate-800 hover:bg-slate-50",
+                      )
+                    }
                   >
                     {it.label}
-                  </button>
+                  </NavLink>
                 );
               })}
             </div>
