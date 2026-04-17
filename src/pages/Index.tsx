@@ -25,6 +25,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 
 // Routes yang benar-benar ada saat ini
 const implementedRoutes = new Set([
+  "/dashboard",
   "/loan-products",
   "/loan-products/new",
   "/loans/new",
