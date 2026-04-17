@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { ChevronRight, ReceiptText, UsersRound } from "lucide-react";
@@ -77,6 +78,8 @@ function DevMenuCard({
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
       <div className="rounded-3xl bg-slate-50/70 p-4 ring-1 ring-slate-200 md:p-5">
@@ -102,11 +105,12 @@ export default function Dashboard() {
             subtitle="Alur pinjaman dengan penjadwalan billing & pembayaran angsuran."
             icon={ReceiptText}
             accent="sky"
-            onClick={() =>
-              toast("Pinjaman Billing (prototype)", {
-                description: "Shortcut ini masih menu pengembangan.",
-              })
-            }
+            onClick={() => {
+              toast("Membuka Pinjaman Billing", {
+                description: "Diarahkan ke Anggota → Transaksi (prototype).",
+              });
+              navigate("/anggota/transaksi");
+            }}
           />
 
           <DevMenuCard
