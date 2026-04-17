@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
-import { HandCoins, Home, Sparkles, ChevronRight, Wallet } from "lucide-react";
+import { HandCoins, Home, Sparkles, ChevronRight } from "lucide-react";
 
 type NavItem = {
   to: string;
@@ -18,8 +18,6 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
     items: [
       { to: "/dashboard", label: "Dashboard", icon: Home },
       // Anggota akan dirender sebagai menu collapsible khusus (lihat SidebarAnggotaMenu)
-      { to: "/simpanan", label: "Simpanan", icon: Wallet },
-      // Pinjaman akan dirender sebagai menu collapsible khusus (lihat SidebarPinjamanMenu)
       { to: "/pinjaman", label: "Pinjaman", icon: HandCoins },
     ],
   },
@@ -175,7 +173,7 @@ export default function Index() {
                         {/* Pinjaman (collapsible) tepat di bawah Anggota */}
                         <SidebarPinjamanMenu />
 
-                        {/* (opsional) Simpanan placeholder tetap ditampilkan */}
+                        {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
                         {g.items
                           .slice(1)
                           .filter((it) => it.to !== "/pinjaman")
