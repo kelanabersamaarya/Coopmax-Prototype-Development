@@ -3,9 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Eye, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -163,7 +161,10 @@ export default function RekeningPinjaman() {
   ]);
 
   // Prototype: tetap 1 halaman (agar mirip referensi yang menampilkan "Tampilkan 20 entri")
-  const paged = React.useMemo(() => filtered.slice(0, pageSize), [filtered, pageSize]);
+  const paged = React.useMemo(
+    () => filtered.slice(0, pageSize),
+    [filtered, pageSize],
+  );
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -185,7 +186,10 @@ export default function RekeningPinjaman() {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-2">
               <div className="text-sm text-slate-700">Tampilkan</div>
-              <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+              <Select
+                value={String(pageSize)}
+                onValueChange={(v) => setPageSize(Number(v))}
+              >
                 <SelectTrigger className="h-9 w-[92px] rounded-xl border-slate-200 bg-white">
                   <SelectValue />
                 </SelectTrigger>
@@ -200,30 +204,20 @@ export default function RekeningPinjaman() {
               <div className="text-sm text-slate-700">entri</div>
             </div>
 
-            <Button
-              variant="outline"
-              className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-              onClick={() => {
-                setQNoRek("");
-                setQTanggal("");
-                setQProduk("Semua");
-                setQIdNasabah("");
-                setQNamaNasabah("");
-                setQNominal("0,00");
-                setQSisa("0,00");
-                setQBunga("");
-                setQStatus("Semua");
-                toast("Filter direset", { description: "Semua filter kembali ke default." });
-              }}
-            >
-              <XCircle className="mr-2 h-4 w-4" />
-              Reset
-            </Button>
+            <div className="hidden">
+              <button
+                type="button"
+                onClick={() => toast("noop")}
+                aria-hidden="true"
+              >
+                reset-placeholder
+              </button>
+            </div>
           </div>
 
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1320px] border-collapse">
+              <table className="w-full min-w-[1200px] border-collapse">
                 <thead className="bg-slate-50">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                     <th className="w-[70px] px-4 py-3">No.</th>
@@ -233,10 +227,11 @@ export default function RekeningPinjaman() {
                     <th className="w-[150px] px-4 py-3">ID. Nasabah</th>
                     <th className="min-w-[220px] px-4 py-3">Nama Nasabah</th>
                     <th className="w-[190px] px-4 py-3 text-right">Nominal</th>
-                    <th className="w-[190px] px-4 py-3 text-right">Sisa Pinjaman</th>
+                    <th className="w-[190px] px-4 py-3 text-right">
+                      Sisa Pinjaman
+                    </th>
                     <th className="w-[160px] px-4 py-3">Bunga per Tahun (%)</th>
                     <th className="w-[220px] px-4 py-3">Status</th>
-                    <th className="w-[120px] px-4 py-3">Aksi</th>
                   </tr>
 
                   <tr className="border-t border-slate-200 bg-white">
@@ -332,7 +327,6 @@ export default function RekeningPinjaman() {
                         </SelectContent>
                       </Select>
                     </th>
-                    <th className="px-4 py-2" />
                   </tr>
                 </thead>
 
@@ -340,7 +334,7 @@ export default function RekeningPinjaman() {
                   {paged.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={11}
+                        colSpan={10}
                         className="px-4 py-10 text-center text-sm text-slate-600"
                       >
                         Tidak ada data yang cocok dengan filter.
@@ -389,19 +383,6 @@ export default function RekeningPinjaman() {
 
                         <td className="px-4 py-3">
                           <StatusBadge status={r.status} />
-                        </td>
-
-                        <td className="px-4 py-3">
-                          <button
-                            type="button"
-                            className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-slate-700 ring-1 ring-slate-200 hover:bg-white"
-                            onClick={() =>
-                              toast("Lihat (prototype)", { description: r.noRekening })
-                            }
-                            aria-label="Lihat"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </button>
                         </td>
                       </tr>
                     ))
