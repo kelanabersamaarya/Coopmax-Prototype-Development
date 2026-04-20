@@ -217,7 +217,7 @@ export default function LoanPemutihanDialog({
                     });
                     return;
                   }
-                  toast.success("Pemutihan tersimpan (prototype)", {
+                  toast.success("Pemutihan Pinjaman Berhasil Dilakukan", {
                     description: `Rekening: ${accountNo} • Tanggal: ${tanggal}`,
                   });
                   onOpenChange(false);
