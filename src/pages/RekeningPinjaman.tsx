@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import LoanAccountDetailHeader from "@/components/loans/LoanAccountDetailHeader";
+import LoanAccountDetailSections from "@/components/loans/LoanAccountDetailSections";
 
 type StatusFilter = "Semua" | "Aktif / Sudah Dicairkan" | "Lunas" | "Macet";
 
@@ -182,7 +183,6 @@ export default function RekeningPinjaman() {
     [filtered, pageSize],
   );
 
-  // padding dibuat lebih rapat
   const th = "px-2 py-2.5";
   const td = "px-2 py-3";
   const filterCell = "px-2 py-2";
@@ -193,15 +193,19 @@ export default function RekeningPinjaman() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         {selectedAccountNo ? (
-          <LoanAccountDetailHeader
-            accountNo={selectedAccountNo}
-            onBack={() => setSelectedAccountNo(null)}
-            onAction={(label) =>
-              toast(`${label} (prototype)`, {
-                description: `Rekening: ${selectedAccountNo}`,
-              })
-            }
-          />
+          <>
+            <LoanAccountDetailHeader
+              accountNo={selectedAccountNo}
+              onBack={() => setSelectedAccountNo(null)}
+              onAction={(label) =>
+                toast(`${label} (prototype)`, {
+                  description: `Rekening: ${selectedAccountNo}`,
+                })
+              }
+            />
+
+            <LoanAccountDetailSections accountNo={selectedAccountNo} />
+          </>
         ) : null}
 
         {isDetail ? null : (
