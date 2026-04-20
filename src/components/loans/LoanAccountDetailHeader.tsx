@@ -72,10 +72,9 @@ export default function LoanAccountDetailHeader({
             </div>
             <div className="text-sm font-semibold text-slate-600">Detail</div>
           </div>
-          <div className="mt-1 text-xs text-slate-600">
-            No. Rekening:{" "}
-            <span className="font-semibold text-slate-900">{accountNo}</span>
-          </div>
+
+          {/* accountNo tetap dipertahankan sebagai data context untuk aksi/toast */}
+          <div className="sr-only">{accountNo}</div>
         </div>
 
         <Button
