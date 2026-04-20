@@ -129,13 +129,11 @@ export default function LoanTransactionDetailDialog({
               </div>
             </div>
 
-            <div className="mt-5 rounded-3xl bg-white p-4 ring-1 ring-slate-200 sm:p-5">
+            {/* Alasan: tanpa kotak luar + tanpa teks deskripsi */}
+            <div className="mt-5">
               <div className="text-sm font-extrabold tracking-tight text-slate-900">
                 Alasan Pembatalan Transaksi
                 <span className="text-rose-600"> *</span>
-              </div>
-              <div className="mt-1 text-xs font-semibold text-slate-600">
-                Jelaskan alasan pembatalan untuk kebutuhan audit.
               </div>
 
               <Textarea
