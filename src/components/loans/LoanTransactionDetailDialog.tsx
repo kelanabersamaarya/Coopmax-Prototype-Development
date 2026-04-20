@@ -80,9 +80,9 @@ export default function LoanTransactionDetailDialog({
               <div className="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">
                 Pembatalan Transaksi
               </div>
-              <div className="mt-0.5 text-xs font-semibold text-slate-500">
-                Rekening: <span className="text-slate-700">{accountNo}</span>
-              </div>
+
+              {/* tetap terpakai agar prop tidak unused saat build */}
+              <div className="sr-only">{accountNo}</div>
             </div>
 
             <button
@@ -129,7 +129,6 @@ export default function LoanTransactionDetailDialog({
               </div>
             </div>
 
-            {/* Alasan: tanpa kotak luar + tanpa teks deskripsi */}
             <div className="mt-5">
               <div className="text-sm font-extrabold tracking-tight text-slate-900">
                 Alasan Pembatalan Transaksi
