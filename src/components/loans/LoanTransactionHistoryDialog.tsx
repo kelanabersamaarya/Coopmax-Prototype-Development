@@ -74,11 +74,11 @@ function IconCellButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-slate-700 ring-1 ring-slate-200 transition hover:bg-white"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-50 text-slate-700 ring-1 ring-slate-200 transition hover:bg-white"
       aria-label="Detail transaksi"
       title="Detail transaksi"
     >
-      <ExternalLink className="h-4 w-4" />
+      <ExternalLink className="h-4.5 w-4.5" />
     </button>
   );
 }
@@ -88,12 +88,18 @@ function DeleteCellButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 transition hover:bg-white"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 transition hover:bg-white"
       aria-label="Hapus"
       title="Hapus"
     >
-      <XCircle className="h-4 w-4" />
+      <XCircle className="h-4.5 w-4.5" />
     </button>
+  );
+}
+
+function NoWrapTh({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="whitespace-nowrap leading-none tracking-wide">{children}</div>
   );
 }
 
@@ -270,37 +276,47 @@ export default function LoanTransactionHistoryDialog({
 
               <div className="mt-2 overflow-hidden rounded-2xl ring-1 ring-slate-200">
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[1180px] border-collapse">
+                  <table className="w-full min-w-[1300px] border-collapse">
                     <thead className="bg-white">
-                      <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-800">
-                        <th className="w-[70px] px-4 py-3">No.</th>
-                        <th className="w-[120px] px-4 py-3">Angsuran Ke-</th>
-                        <th className="w-[140px] px-4 py-3">Tanggal</th>
-                        <th className="min-w-[190px] px-4 py-3">
-                          Tipe Transaksi
+                      <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
+                        <th className="w-[70px] px-4 py-3">
+                          <NoWrapTh>No.</NoWrapTh>
                         </th>
-                        <th className="w-[140px] px-4 py-3 text-right">
-                          Nominal
+                        <th className="w-[140px] px-4 py-3">
+                          <NoWrapTh>Angsuran Ke-</NoWrapTh>
+                        </th>
+                        <th className="w-[140px] px-4 py-3">
+                          <NoWrapTh>Tanggal</NoWrapTh>
+                        </th>
+                        <th className="min-w-[220px] px-4 py-3">
+                          <NoWrapTh>Tipe Transaksi</NoWrapTh>
                         </th>
                         <th className="w-[150px] px-4 py-3 text-right">
-                          Angsuran Pokok
+                          <NoWrapTh>Nominal</NoWrapTh>
                         </th>
-                        <th className="w-[150px] px-4 py-3 text-right">
-                          Angsuran Bunga
-                        </th>
-                        <th className="w-[130px] px-4 py-3 text-right">
-                          Hutang Pokok
-                        </th>
-                        <th className="w-[130px] px-4 py-3 text-right">
-                          Hutang Bunga
-                        </th>
-                        <th className="w-[110px] px-4 py-3 text-right">Denda</th>
                         <th className="w-[170px] px-4 py-3 text-right">
-                          Sisa Pinjaman Akhir
+                          <NoWrapTh>Angsuran Pokok</NoWrapTh>
                         </th>
-                        <th className="min-w-[200px] px-4 py-3">Keterangan</th>
+                        <th className="w-[170px] px-4 py-3 text-right">
+                          <NoWrapTh>Angsuran Bunga</NoWrapTh>
+                        </th>
+                        <th className="w-[150px] px-4 py-3 text-right">
+                          <NoWrapTh>Hutang Pokok</NoWrapTh>
+                        </th>
+                        <th className="w-[150px] px-4 py-3 text-right">
+                          <NoWrapTh>Hutang Bunga</NoWrapTh>
+                        </th>
+                        <th className="w-[120px] px-4 py-3 text-right">
+                          <NoWrapTh>Denda</NoWrapTh>
+                        </th>
+                        <th className="w-[180px] px-4 py-3 text-right">
+                          <NoWrapTh>Sisa Pinjaman Akhir</NoWrapTh>
+                        </th>
+                        <th className="min-w-[260px] px-4 py-3">
+                          <NoWrapTh>Keterangan</NoWrapTh>
+                        </th>
                         <th className="w-[140px] px-4 py-3 text-center">
-                          Aksi
+                          <NoWrapTh>Aksi</NoWrapTh>
                         </th>
                       </tr>
                     </thead>
@@ -320,46 +336,66 @@ export default function LoanTransactionHistoryDialog({
                           <tr
                             key={`${r.no}-${idx}`}
                             className={cn(
-                              "border-t border-slate-100 text-sm",
+                              "border-t border-slate-100 text-[13px]",
                               idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
                             )}
                           >
-                            <td className="px-4 py-3 text-slate-700">{r.no}</td>
-                            <td className="px-4 py-3 text-slate-700">
-                              {r.angsuranKe}
+                            <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">
+                              {r.no}
                             </td>
-                            <td className="px-4 py-3 font-medium text-slate-900">
+
+                            <td className="px-4 py-3 text-slate-700 tabular-nums">
+                              {r.angsuranKe || "-"}
+                            </td>
+
+                            <td className="px-4 py-3 font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                               {r.tanggal}
                             </td>
+
                             <td className="px-4 py-3 text-slate-900">
-                              <div className="leading-tight">{r.tipe}</div>
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-emerald-700 tabular-nums">
-                              {r.nominal}
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-emerald-700 tabular-nums">
-                              {r.angsuranPokok}
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-emerald-700 tabular-nums">
-                              {r.angsuranBunga}
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-emerald-700 tabular-nums">
-                              {r.hutangPokok}
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-emerald-700 tabular-nums">
-                              {r.hutangBunga}
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-emerald-700 tabular-nums">
-                              {r.denda}
-                            </td>
-                            <td className="px-4 py-3 text-right font-semibold text-emerald-700 tabular-nums">
-                              {r.sisaPinjamanAkhir}
-                            </td>
-                            <td className="px-4 py-3 text-slate-700">
-                              <div className="max-w-[260px] leading-snug">
-                                {r.keterangan}
+                              <div className="whitespace-nowrap font-semibold">
+                                {r.tipe}
                               </div>
                             </td>
+
+                            <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
+                              {r.nominal}
+                            </td>
+
+                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                              {r.angsuranPokok}
+                            </td>
+
+                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                              {r.angsuranBunga}
+                            </td>
+
+                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                              {r.hutangPokok}
+                            </td>
+
+                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                              {r.hutangBunga}
+                            </td>
+
+                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                              {r.denda}
+                            </td>
+
+                            <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
+                              {r.sisaPinjamanAkhir}
+                            </td>
+
+                            <td className="px-4 py-3 text-slate-700">
+                              {r.keterangan ? (
+                                <div className="max-w-[320px] leading-relaxed">
+                                  {r.keterangan}
+                                </div>
+                              ) : (
+                                <span className="text-slate-400">-</span>
+                              )}
+                            </td>
+
                             <td className="px-4 py-3">
                               <div className="flex justify-center gap-2">
                                 <DeleteCellButton
