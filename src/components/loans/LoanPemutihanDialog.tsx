@@ -58,9 +58,11 @@ export default function LoanPemutihanDialog({
           "max-h-[85vh]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
-          // hide default close (kita pakai tombol sendiri)
+          // HIDE default shadcn/radix close button (biar X cuma 1)
           "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
+          "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
         <div className="bg-white">
