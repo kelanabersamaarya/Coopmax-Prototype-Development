@@ -4,7 +4,9 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
+import { X, CheckSquare } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 export type LoanTransactionDetail = {
   transactionNo: string;
@@ -47,14 +49,22 @@ export default function LoanTransactionDetailDialog({
   accountNo: string;
   detail: LoanTransactionDetail | null;
 }) {
+  const [reason, setReason] = React.useState("");
+
+  React.useEffect(() => {
+    if (!open) return;
+    setReason("");
+  }, [open]);
+
   if (!detail) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[760px]",
-          "max-w-[760px]",
+          "w-[calc(100vw-1rem)] sm:w-[820px]",
+          "max-w-[820px]",
+          "max-h-[85vh]",
           "overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           // hide default close button (biar hanya X custom)
@@ -68,7 +78,7 @@ export default function LoanTransactionDetailDialog({
           <div className="flex items-center justify-between gap-3 px-5 py-4 sm:px-6">
             <div className="min-w-0">
               <div className="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">
-                Detail Transaksi
+                Pembatalan Transaksi
               </div>
               <div className="mt-0.5 text-xs font-semibold text-slate-500">
                 Rekening: <span className="text-slate-700">{accountNo}</span>
@@ -88,7 +98,10 @@ export default function LoanTransactionDetailDialog({
 
           <Separator className="bg-slate-200" />
 
-          <div className="px-5 py-5 sm:px-6 sm:py-6">
+          <div
+            className="overflow-auto px-5 py-5 sm:px-6 sm:py-6"
+            style={{ maxHeight: "calc(85vh - 64px - 86px)" }}
+          >
             <div className="overflow-hidden rounded-3xl bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 sm:p-6">
               <div className="text-sm font-extrabold tracking-wide">
                 TRANSAKSI PINJAMAN
@@ -114,6 +127,59 @@ export default function LoanTransactionDetailDialog({
                 <Field label="Pinjaman Awal" value={detail.loanStart} />
                 <Field label="Pinjaman Akhir" value={detail.loanEnd} />
               </div>
+            </div>
+
+            <div className="mt-5 rounded-3xl bg-white p-4 ring-1 ring-slate-200 sm:p-5">
+              <div className="text-sm font-extrabold tracking-tight text-slate-900">
+                Alasan Pembatalan Transaksi
+                <span className="text-rose-600"> *</span>
+              </div>
+              <div className="mt-1 text-xs font-semibold text-slate-600">
+                Jelaskan alasan pembatalan untuk kebutuhan audit.
+              </div>
+
+              <Textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className="mt-3 min-h-[110px] rounded-2xl border-slate-200 bg-white"
+                placeholder="Tulis alasan pembatalan transaksi…"
+              />
+            </div>
+          </div>
+
+          <Separator className="bg-slate-200" />
+
+          <div className="px-5 py-4 sm:px-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-11 w-full items-center justify-center rounded-2xl bg-slate-600 px-6 text-sm font-semibold text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700 sm:w-auto"
+              >
+                <X className="mr-2 h-4 w-4" />
+                Batal
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (!reason.trim()) {
+                    toast("Alasan wajib diisi", {
+                      description:
+                        "Mohon isi alasan pembatalan transaksi sebelum menyimpan.",
+                    });
+                    return;
+                  }
+                  toast.success("Pembatalan tersimpan (prototype)", {
+                    description: `Transaksi: ${detail.transactionNo}`,
+                  });
+                  onOpenChange(false);
+                }}
+                className="inline-flex h-11 w-full items-center justify-center rounded-2xl bg-emerald-600 px-6 text-sm font-semibold text-white ring-1 ring-emerald-600/20 transition hover:bg-emerald-700 sm:w-auto"
+              >
+                <CheckSquare className="mr-2 h-4 w-4" />
+                Simpan
+              </button>
             </div>
           </div>
         </div>
