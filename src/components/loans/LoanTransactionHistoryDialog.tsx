@@ -22,6 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import LoanTransactionDetailDialog, {
+  type LoanTransactionDetail,
+} from "@/components/loans/LoanTransactionDetailDialog";
 
 type Row = {
   no: number;
@@ -117,12 +120,17 @@ export default function LoanTransactionHistoryDialog({
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState(1);
 
+  const [detailOpen, setDetailOpen] = React.useState(false);
+  const [detail, setDetail] = React.useState<LoanTransactionDetail | null>(null);
+
   React.useEffect(() => {
     if (!open) return;
     setDateStart("");
     setDateEnd("");
     setPageSize(20);
     setPage(1);
+    setDetailOpen(false);
+    setDetail(null);
   }, [open]);
 
   const filtered = React.useMemo(() => {
@@ -148,337 +156,354 @@ export default function LoanTransactionHistoryDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
+  function openDeleteDetail(r: Row) {
+    // Prototype detail: beberapa field diturunkan dari row yang ada,
+    // sisanya memakai nilai contoh.
+    setDetail({
+      transactionNo: `TRX-${String(r.no).padStart(6, "0")}`,
+      nominal: r.nominal,
+      transactionType: "Bayar Angsuran",
+      transactionDateTime: `${r.tanggal} 09:15`,
+      principalInstallment: r.angsuranPokok,
+      interestInstallment: r.angsuranBunga,
+      loanStart: "10.000.000",
+      loanEnd: r.sisaPinjamanAkhir,
+    });
+    setDetailOpen(true);
+  }
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[calc(100vw-2.5rem)]",
-          "max-w-[1240px]",
-          "max-h-[85vh]",
-          "overflow-hidden",
-          "rounded-3xl border-slate-200 p-0 shadow-2xl",
-          // pastikan X bawaan shadcn tidak muncul (biar X hanya satu)
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-          "[&_[data-radix-dialog-close]]:hidden",
-        )}
-      >
-        <div className="bg-white">
-          {/* Header */}
-          <div className="flex items-center justify-between gap-3 px-5 py-4 sm:px-6">
-            <div className="min-w-0">
-              <div className="text-xl font-extrabold tracking-tight text-slate-900">
-                Riwayat Transaksi
+    <>
+      <LoanTransactionDetailDialog
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+        accountNo={accountNo}
+        detail={detail}
+      />
+
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1rem)] sm:w-[calc(100vw-2.5rem)]",
+            "max-w-[1240px]",
+            "max-h-[85vh]",
+            "overflow-hidden",
+            "rounded-3xl border-slate-200 p-0 shadow-2xl",
+            // pastikan X bawaan shadcn tidak muncul (biar X hanya satu)
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+            "[&_[data-radix-dialog-close]]:hidden",
+          )}
+        >
+          <div className="bg-white">
+            {/* Header */}
+            <div className="flex items-center justify-between gap-3 px-5 py-4 sm:px-6">
+              <div className="min-w-0">
+                <div className="text-xl font-extrabold tracking-tight text-slate-900">
+                  Riwayat Transaksi
+                </div>
+
+                {/* (dihapus sesuai request) */}
+                <div className="sr-only">{accountNo}</div>
               </div>
 
-              {/* (dihapus sesuai request) */}
-              <div className="sr-only">{accountNo}</div>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+                aria-label="Tutup"
+                title="Tutup"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
 
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
-              aria-label="Tutup"
-              title="Tutup"
+            <Separator className="bg-slate-200" />
+
+            {/* Body */}
+            <div
+              className="overflow-auto px-5 py-4 sm:px-6"
+              style={{ maxHeight: "calc(85vh - 64px - 84px)" }}
             >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-
-          <Separator className="bg-slate-200" />
-
-          {/* Body */}
-          <div
-            className="overflow-auto px-5 py-4 sm:px-6"
-            style={{ maxHeight: "calc(85vh - 64px - 84px)" }}
-          >
-            <div className="grid gap-3">
-              <div className="text-sm font-semibold text-slate-900">
-                Tanggal Transaksi
-              </div>
-
-              <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center">
-                <div className="relative">
-                  <Input
-                    value={dateStart}
-                    onChange={(e) => setDateStart(e.target.value)}
-                    placeholder="Tanggal awal"
-                    className="h-11 rounded-2xl border-slate-200 bg-white pr-11"
-                  />
-                  {dateStart ? (
-                    <button
-                      type="button"
-                      onClick={() => setDateStart("")}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-9 items-center justify-center rounded-xl bg-slate-700 text-white hover:bg-slate-800"
-                      aria-label="Clear tanggal awal"
-                      title="Clear"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  ) : null}
+              <div className="grid gap-3">
+                <div className="text-sm font-semibold text-slate-900">
+                  Tanggal Transaksi
                 </div>
 
-                <div className="relative">
-                  <Input
-                    value={dateEnd}
-                    onChange={(e) => setDateEnd(e.target.value)}
-                    placeholder="Tanggal akhir"
-                    className="h-11 rounded-2xl border-slate-200 bg-white pr-11"
-                  />
-                  {dateEnd ? (
-                    <button
-                      type="button"
-                      onClick={() => setDateEnd("")}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-9 items-center justify-center rounded-xl bg-slate-700 text-white hover:bg-slate-800"
-                      aria-label="Clear tanggal akhir"
-                      title="Clear"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  ) : null}
-                </div>
+                <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center">
+                  <div className="relative">
+                    <Input
+                      value={dateStart}
+                      onChange={(e) => setDateStart(e.target.value)}
+                      placeholder="Tanggal awal"
+                      className="h-11 rounded-2xl border-slate-200 bg-white pr-11"
+                    />
+                    {dateStart ? (
+                      <button
+                        type="button"
+                        onClick={() => setDateStart("")}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-9 items-center justify-center rounded-xl bg-slate-700 text-white hover:bg-slate-800"
+                        aria-label="Clear tanggal awal"
+                        title="Clear"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    ) : null}
+                  </div>
 
-                <Button
-                  onClick={() =>
-                    toast("Cari (prototype)", {
-                      description:
-                        "Filter diterapkan otomatis saat Anda mengetik.",
-                    })
-                  }
-                  className="h-11 rounded-2xl bg-slate-700 px-6 text-white hover:bg-slate-800"
-                >
-                  <Search className="mr-2 h-4 w-4" />
-                  Cari
-                </Button>
-              </div>
-
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                <div className="text-sm text-slate-700">Show</div>
-                <Select
-                  value={String(pageSize)}
-                  onValueChange={(v) => setPageSize(Number(v))}
-                >
-                  <SelectTrigger className="h-9 w-[96px] rounded-xl border-slate-200 bg-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    {[10, 20, 50, 100].map((n) => (
-                      <SelectItem key={n} value={String(n)}>
-                        {n}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <div className="text-sm text-slate-700">entries</div>
-              </div>
-
-              <div className="mt-2 overflow-hidden rounded-2xl ring-1 ring-slate-200">
-                <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[1300px] border-collapse">
-                    <thead className="bg-white">
-                      <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-                        <th className="w-[70px] px-4 py-3">
-                          <NoWrapTh>No.</NoWrapTh>
-                        </th>
-                        <th className="w-[140px] px-4 py-3">
-                          <NoWrapTh>Angsuran Ke-</NoWrapTh>
-                        </th>
-                        <th className="w-[140px] px-4 py-3">
-                          <NoWrapTh>Tanggal</NoWrapTh>
-                        </th>
-
-                        {/* Diperkecil */}
-                        <th className="w-[190px] px-4 py-3">
-                          <NoWrapTh>Tipe Transaksi</NoWrapTh>
-                        </th>
-
-                        <th className="w-[150px] px-4 py-3 text-right">
-                          <NoWrapTh>Nominal</NoWrapTh>
-                        </th>
-                        <th className="w-[170px] px-4 py-3 text-right">
-                          <NoWrapTh>Angsuran Pokok</NoWrapTh>
-                        </th>
-                        <th className="w-[170px] px-4 py-3 text-right">
-                          <NoWrapTh>Angsuran Bunga</NoWrapTh>
-                        </th>
-                        <th className="w-[150px] px-4 py-3 text-right">
-                          <NoWrapTh>Hutang Pokok</NoWrapTh>
-                        </th>
-                        <th className="w-[150px] px-4 py-3 text-right">
-                          <NoWrapTh>Hutang Bunga</NoWrapTh>
-                        </th>
-                        <th className="w-[120px] px-4 py-3 text-right">
-                          <NoWrapTh>Denda</NoWrapTh>
-                        </th>
-                        <th className="w-[180px] px-4 py-3 text-right">
-                          <NoWrapTh>Sisa Pinjaman Akhir</NoWrapTh>
-                        </th>
-
-                        <th className="w-[170px] px-4 py-3">
-                          <NoWrapTh>Keterangan</NoWrapTh>
-                        </th>
-
-                        <th className="w-[140px] px-4 py-3 text-center">
-                          <NoWrapTh>Aksi</NoWrapTh>
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody className="bg-white">
-                      {paged.length === 0 ? (
-                        <tr>
-                          <td
-                            colSpan={13}
-                            className="px-4 py-10 text-center text-sm text-slate-600"
-                          >
-                            Tidak ada transaksi.
-                          </td>
-                        </tr>
-                      ) : (
-                        paged.map((r, idx) => (
-                          <tr
-                            key={`${r.no}-${idx}`}
-                            className={cn(
-                              "border-t border-slate-100 text-[13px]",
-                              idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
-                            )}
-                          >
-                            <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">
-                              {r.no}
-                            </td>
-
-                            <td className="px-4 py-3 text-slate-700 tabular-nums">
-                              {r.angsuranKe || "-"}
-                            </td>
-
-                            <td className="px-4 py-3 font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-                              {r.tanggal}
-                            </td>
-
-                            {/* Disesuaikan supaya ikut ngepas kolom lebih kecil */}
-                            <td className="px-4 py-3 text-slate-900">
-                              <div className="whitespace-normal font-semibold leading-snug">
-                                {r.tipe}
-                              </div>
-                            </td>
-
-                            <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
-                              {r.nominal}
-                            </td>
-
-                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                              {r.angsuranPokok}
-                            </td>
-
-                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                              {r.angsuranBunga}
-                            </td>
-
-                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                              {r.hutangPokok}
-                            </td>
-
-                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                              {r.hutangBunga}
-                            </td>
-
-                            <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                              {r.denda}
-                            </td>
-
-                            <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
-                              {r.sisaPinjamanAkhir}
-                            </td>
-
-                            <td className="px-4 py-3 text-slate-700">
-                              {r.keterangan ? (
-                                <div className="line-clamp-2 leading-snug">
-                                  {r.keterangan}
-                                </div>
-                              ) : (
-                                <span className="text-slate-400">-</span>
-                              )}
-                            </td>
-
-                            <td className="px-4 py-3">
-                              <div className="flex justify-center gap-2">
-                                <DeleteCellButton
-                                  onClick={() =>
-                                    toast("Hapus (prototype)", {
-                                      description: `Transaksi #${r.no} belum terhubung ke data.`,
-                                    })
-                                  }
-                                />
-                                <IconCellButton
-                                  onClick={() =>
-                                    toast("Detail transaksi (prototype)", {
-                                      description: `${r.tipe} • ${r.tanggal}`,
-                                    })
-                                  }
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="text-sm text-slate-700">
-                  Showing {showingStart} to {showingEnd} of {filtered.length}{" "}
-                  entries
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    className="h-10 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-                    disabled={page === 1}
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  >
-                    <ChevronLeft className="mr-1 h-4 w-4" />
-                    Previous
-                  </Button>
-
-                  <div className="inline-flex h-10 min-w-10 items-center justify-center rounded-xl bg-violet-600 px-4 text-sm font-extrabold text-white">
-                    {page}
+                  <div className="relative">
+                    <Input
+                      value={dateEnd}
+                      onChange={(e) => setDateEnd(e.target.value)}
+                      placeholder="Tanggal akhir"
+                      className="h-11 rounded-2xl border-slate-200 bg-white pr-11"
+                    />
+                    {dateEnd ? (
+                      <button
+                        type="button"
+                        onClick={() => setDateEnd("")}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-9 items-center justify-center rounded-xl bg-slate-700 text-white hover:bg-slate-800"
+                        aria-label="Clear tanggal akhir"
+                        title="Clear"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    ) : null}
                   </div>
 
                   <Button
-                    variant="outline"
-                    className="h-10 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-                    disabled={page === pageCount}
-                    onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                    onClick={() =>
+                      toast("Cari (prototype)", {
+                        description:
+                          "Filter diterapkan otomatis saat Anda mengetik.",
+                      })
+                    }
+                    className="h-11 rounded-2xl bg-slate-700 px-6 text-white hover:bg-slate-800"
                   >
-                    Next
-                    <ChevronRight className="ml-1 h-4 w-4" />
+                    <Search className="mr-2 h-4 w-4" />
+                    Cari
                   </Button>
+                </div>
+
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <div className="text-sm text-slate-700">Show</div>
+                  <Select
+                    value={String(pageSize)}
+                    onValueChange={(v) => setPageSize(Number(v))}
+                  >
+                    <SelectTrigger className="h-9 w-[96px] rounded-xl border-slate-200 bg-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      {[10, 20, 50, 100].map((n) => (
+                        <SelectItem key={n} value={String(n)}>
+                          {n}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <div className="text-sm text-slate-700">entries</div>
+                </div>
+
+                <div className="mt-2 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+                  <div className="safe-x-scroll bg-white">
+                    <table className="w-full min-w-[1300px] border-collapse">
+                      <thead className="bg-white">
+                        <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
+                          <th className="w-[70px] px-4 py-3">
+                            <NoWrapTh>No.</NoWrapTh>
+                          </th>
+                          <th className="w-[140px] px-4 py-3">
+                            <NoWrapTh>Angsuran Ke-</NoWrapTh>
+                          </th>
+                          <th className="w-[140px] px-4 py-3">
+                            <NoWrapTh>Tanggal</NoWrapTh>
+                          </th>
+
+                          <th className="w-[190px] px-4 py-3">
+                            <NoWrapTh>Tipe Transaksi</NoWrapTh>
+                          </th>
+
+                          <th className="w-[150px] px-4 py-3 text-right">
+                            <NoWrapTh>Nominal</NoWrapTh>
+                          </th>
+                          <th className="w-[170px] px-4 py-3 text-right">
+                            <NoWrapTh>Angsuran Pokok</NoWrapTh>
+                          </th>
+                          <th className="w-[170px] px-4 py-3 text-right">
+                            <NoWrapTh>Angsuran Bunga</NoWrapTh>
+                          </th>
+                          <th className="w-[150px] px-4 py-3 text-right">
+                            <NoWrapTh>Hutang Pokok</NoWrapTh>
+                          </th>
+                          <th className="w-[150px] px-4 py-3 text-right">
+                            <NoWrapTh>Hutang Bunga</NoWrapTh>
+                          </th>
+                          <th className="w-[120px] px-4 py-3 text-right">
+                            <NoWrapTh>Denda</NoWrapTh>
+                          </th>
+                          <th className="w-[180px] px-4 py-3 text-right">
+                            <NoWrapTh>Sisa Pinjaman Akhir</NoWrapTh>
+                          </th>
+
+                          <th className="w-[170px] px-4 py-3">
+                            <NoWrapTh>Keterangan</NoWrapTh>
+                          </th>
+
+                          <th className="w-[140px] px-4 py-3 text-center">
+                            <NoWrapTh>Aksi</NoWrapTh>
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody className="bg-white">
+                        {paged.length === 0 ? (
+                          <tr>
+                            <td
+                              colSpan={13}
+                              className="px-4 py-10 text-center text-sm text-slate-600"
+                            >
+                              Tidak ada transaksi.
+                            </td>
+                          </tr>
+                        ) : (
+                          paged.map((r, idx) => (
+                            <tr
+                              key={`${r.no}-${idx}`}
+                              className={cn(
+                                "border-t border-slate-100 text-[13px]",
+                                idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
+                              )}
+                            >
+                              <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">
+                                {r.no}
+                              </td>
+
+                              <td className="px-4 py-3 text-slate-700 tabular-nums">
+                                {r.angsuranKe || "-"}
+                              </td>
+
+                              <td className="px-4 py-3 font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.tanggal}
+                              </td>
+
+                              <td className="px-4 py-3 text-slate-900">
+                                <div className="whitespace-normal font-semibold leading-snug">
+                                  {r.tipe}
+                                </div>
+                              </td>
+
+                              <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
+                                {r.nominal}
+                              </td>
+
+                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                {r.angsuranPokok}
+                              </td>
+
+                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                {r.angsuranBunga}
+                              </td>
+
+                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                {r.hutangPokok}
+                              </td>
+
+                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                {r.hutangBunga}
+                              </td>
+
+                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                {r.denda}
+                              </td>
+
+                              <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
+                                {r.sisaPinjamanAkhir}
+                              </td>
+
+                              <td className="px-4 py-3 text-slate-700">
+                                {r.keterangan ? (
+                                  <div className="line-clamp-2 leading-snug">
+                                    {r.keterangan}
+                                  </div>
+                                ) : (
+                                  <span className="text-slate-400">-</span>
+                                )}
+                              </td>
+
+                              <td className="px-4 py-3">
+                                <div className="flex justify-center gap-2">
+                                  <DeleteCellButton onClick={() => openDeleteDetail(r)} />
+                                  <IconCellButton
+                                    onClick={() =>
+                                      toast("Detail transaksi (prototype)", {
+                                        description: `${r.tipe} • ${r.tanggal}`,
+                                      })
+                                    }
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="text-sm text-slate-700">
+                    Showing {showingStart} to {showingEnd} of {filtered.length}{" "}
+                    entries
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      className="h-10 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+                      disabled={page === 1}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    >
+                      <ChevronLeft className="mr-1 h-4 w-4" />
+                      Previous
+                    </Button>
+
+                    <div className="inline-flex h-10 min-w-10 items-center justify-center rounded-xl bg-violet-600 px-4 text-sm font-extrabold text-white">
+                      {page}
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      className="h-10 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+                      disabled={page === pageCount}
+                      onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                    >
+                      Next
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <Separator className="bg-slate-200" />
+            <Separator className="bg-slate-200" />
 
-          {/* Footer */}
-          <div className="px-5 py-4 sm:px-6">
-            <div className="flex justify-end">
-              <Button
-                onClick={() => onOpenChange(false)}
-                className="h-11 rounded-2xl bg-slate-600 px-6 text-white hover:bg-slate-700"
-              >
-                <X className="mr-2 h-4 w-4" />
-                Tutup
-              </Button>
+            {/* Footer */}
+            <div className="px-5 py-4 sm:px-6">
+              <div className="flex justify-end">
+                <Button
+                  onClick={() => onOpenChange(false)}
+                  className="h-11 rounded-2xl bg-slate-600 px-6 text-white hover:bg-slate-700"
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  Tutup
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
