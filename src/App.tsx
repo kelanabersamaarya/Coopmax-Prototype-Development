@@ -12,6 +12,7 @@ import AnggotaTransaksi from "./pages/AnggotaTransaksi";
 import LoanApplications from "./pages/LoanApplications";
 import LoanApplicationCreate from "./pages/LoanApplicationCreate";
 import Dashboard from "./pages/Dashboard";
+import RekeningPinjaman from "./pages/RekeningPinjaman";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loans/new" element={<NewLoan />} />
             <Route path="loans/applications" element={<LoanApplications />} />
+            <Route path="loans/accounts" element={<RekeningPinjaman />} />
             <Route
               path="loans/applications/new"
               element={<LoanApplicationCreate />}
