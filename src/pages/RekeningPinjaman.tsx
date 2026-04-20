@@ -66,6 +66,14 @@ const seed: Row[] = [
   },
 ];
 
+function shortenAccountNo(v: string) {
+  const s = v.trim();
+  if (s.length <= 10) return s;
+  const head = s.slice(0, 6);
+  const tail = s.slice(-4);
+  return `${head}…${tail}`;
+}
+
 function StatusBadge({ status }: { status: Row["status"] }) {
   const map: Record<Row["status"], { className: string; label: string }> = {
     "Aktif / Sudah Dicairkan": {
@@ -214,11 +222,11 @@ export default function RekeningPinjaman() {
 
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1100px] border-collapse">
+              <table className="w-full min-w-[1080px] border-collapse">
                 <thead className="bg-slate-50">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                     <th className={cn("w-[64px] whitespace-nowrap", th)}>No.</th>
-                    <th className={cn("w-[170px]", th)}>No. Rekening</th>
+                    <th className={cn("w-[140px]", th)}>No. Rekening</th>
                     <th className={cn("w-[140px]", th)}>Tanggal Daftar</th>
                     <th className={cn("w-[180px]", th)}>Produk Pinjaman</th>
                     <th className={cn("w-[140px]", th)}>ID. Nasabah</th>
@@ -352,8 +360,9 @@ export default function RekeningPinjaman() {
                               window.alert(`Detail rekening: ${r.noRekening}`)
                             }
                             className="font-semibold text-blue-600 hover:underline"
+                            title={r.noRekening}
                           >
-                            {r.noRekening}
+                            {shortenAccountNo(r.noRekening)}
                           </button>
                         </td>
 
