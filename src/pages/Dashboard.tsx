@@ -39,19 +39,19 @@ function DevMenuCard({
       onClick={onClick}
       className={cn(
         "group w-full text-left",
-        "rounded-3xl bg-white/90 p-5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur",
+        "rounded-3xl bg-white/90 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur",
         "transition hover:bg-white",
       )}
     >
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-3">
         <div
           className={cn(
-            "inline-flex h-12 w-12 items-center justify-center rounded-2xl ring-1",
+            "inline-flex h-10 w-10 items-center justify-center rounded-2xl ring-1",
             a.bg,
             a.ring,
           )}
         >
-          <Icon className={cn("h-6 w-6", a.text)} />
+          <Icon className={cn("h-5 w-5", a.text)} />
         </div>
 
         <div className="min-w-0">
@@ -75,28 +75,28 @@ export default function Dashboard() {
   const logoSrc = "/publiccoopmax-logo.png.png";
 
   return (
-    <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-6">
-      <div className="mb-4 rounded-3xl bg-white/90 p-5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:mb-5 md:p-6">
-        <div className="flex items-center gap-4">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white ring-1 ring-slate-200">
+    <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-3 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-4">
+      <div className="mb-3 rounded-3xl bg-white/90 p-4 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:mb-4">
+        <div className="flex items-center gap-3">
+          <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white ring-1 ring-slate-200">
             {logoOk ? (
               <img
                 src={logoSrc}
                 alt="Coopmax"
-                className="h-9 w-9 object-contain"
+                className="h-7 w-7 object-contain"
                 draggable={false}
                 onError={() => setLogoOk(false)}
               />
             ) : (
-              <div className="text-xs font-bold text-slate-600">Logo</div>
+              <div className="text-[11px] font-bold text-slate-600">Logo</div>
             )}
           </div>
 
           <div className="min-w-0">
-            <div className="text-xl font-extrabold tracking-tight text-slate-900 md:text-2xl">
+            <div className="text-lg font-extrabold tracking-tight text-slate-900 md:text-xl">
               Hi, Admin
             </div>
-            <div className="mt-1 text-sm font-semibold tracking-tight text-slate-700 md:text-base">
+            <div className="mt-0.5 text-sm font-semibold tracking-tight text-slate-700">
               Selamat datang di dashboard pengembangan{" "}
               <span className="text-violet-700">Coopmax</span>
             </div>
@@ -104,8 +104,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="rounded-3xl bg-slate-50/70 p-4 ring-1 ring-slate-200 md:p-5">
-        <div className="mt-1 grid gap-3 md:grid-cols-2">
+      <div className="rounded-3xl bg-slate-50/70 p-3 ring-1 ring-slate-200 md:p-4">
+        <div className="grid gap-3 md:grid-cols-2">
           <DevMenuCard
             title="Pinjaman Billing"
             subtitle="Alur pinjaman dengan penjadwalan billing & pembayaran angsuran."
