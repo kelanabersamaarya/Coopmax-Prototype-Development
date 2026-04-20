@@ -21,6 +21,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
+import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
 
 type ActionPillProps = {
   icon: React.ComponentType<{ className?: string }>;
@@ -64,12 +65,19 @@ export default function LoanAccountDetailHeader({
   onAction: (label: string) => void;
 }) {
   const [pemutihanOpen, setPemutihanOpen] = React.useState(false);
+  const [txHistoryOpen, setTxHistoryOpen] = React.useState(false);
 
   return (
     <>
       <LoanPemutihanDialog
         open={pemutihanOpen}
         onOpenChange={setPemutihanOpen}
+        accountNo={accountNo}
+      />
+
+      <LoanTransactionHistoryDialog
+        open={txHistoryOpen}
+        onOpenChange={setTxHistoryOpen}
         accountNo={accountNo}
       />
 
@@ -115,7 +123,7 @@ export default function LoanAccountDetailHeader({
           <ActionPill
             icon={Clock3}
             label="Riwayat Angsuran"
-            onClick={() => onAction("Riwayat Angsuran")}
+            onClick={() => setTxHistoryOpen(true)}
           />
           <ActionPill
             icon={Wrench}
