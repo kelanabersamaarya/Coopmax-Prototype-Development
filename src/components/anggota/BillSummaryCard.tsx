@@ -54,7 +54,11 @@ function SummaryRow({
 type TransactionType =
   | "Pembayaran Reguler"
   | "Pembayaran Rincian Tagihan"
-  | "Pelunasan";
+  | "Pelunasan"
+  | "Bayar Pokok"
+  | "Bayar Bunga"
+  | "Bayar Denda"
+  | "Bayar Biaya Tambahan";
 
 function titleCaseEachWord(input: string) {
   return input
@@ -159,6 +163,48 @@ export default function BillSummaryCard({
               onClick={() => onTransactionTypeChange("Pelunasan")}
             >
               {transactionLabel("Pelunasan")}
+            </DropdownMenuItem>
+
+            <div className="my-1 h-px bg-slate-200" />
+
+            <DropdownMenuItem
+              className={cn(
+                "rounded-xl",
+                transactionType === "Bayar Pokok" ? "bg-slate-100" : "",
+              )}
+              onClick={() => onTransactionTypeChange("Bayar Pokok")}
+            >
+              {transactionLabel("Bayar Pokok")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              className={cn(
+                "rounded-xl",
+                transactionType === "Bayar Bunga" ? "bg-slate-100" : "",
+              )}
+              onClick={() => onTransactionTypeChange("Bayar Bunga")}
+            >
+              {transactionLabel("Bayar Bunga")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              className={cn(
+                "rounded-xl",
+                transactionType === "Bayar Denda" ? "bg-slate-100" : "",
+              )}
+              onClick={() => onTransactionTypeChange("Bayar Denda")}
+            >
+              {transactionLabel("Bayar Denda")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              className={cn(
+                "rounded-xl",
+                transactionType === "Bayar Biaya Tambahan" ? "bg-slate-100" : "",
+              )}
+              onClick={() => onTransactionTypeChange("Bayar Biaya Tambahan")}
+            >
+              {transactionLabel("Bayar Biaya Tambahan")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

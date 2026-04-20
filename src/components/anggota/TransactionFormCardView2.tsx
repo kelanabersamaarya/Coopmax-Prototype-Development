@@ -25,6 +25,10 @@ const transactionTypes = [
   "Pembayaran Reguler",
   "Pembayaran Rincian Tagihan",
   "Pelunasan",
+  "Bayar Pokok",
+  "Bayar Bunga",
+  "Bayar Denda",
+  "Bayar Biaya Tambahan",
 ] as const;
 
 export type TransactionType = (typeof transactionTypes)[number];
@@ -33,7 +37,11 @@ function titleForTransaction(t: TransactionType | null) {
   if (!t) return "PILIH TRANSAKSI";
   if (t === "Pembayaran Reguler") return "PEMBAYARAN REGULER";
   if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
-  return "PELUNASAN";
+  if (t === "Pelunasan") return "PELUNASAN";
+  if (t === "Bayar Pokok") return "BAYAR POKOK";
+  if (t === "Bayar Bunga") return "BAYAR BUNGA";
+  if (t === "Bayar Denda") return "BAYAR DENDA";
+  return "BAYAR BIAYA TAMBAHAN";
 }
 
 const ONLY_TABUNGAN = "Tanpa Tabungan";
