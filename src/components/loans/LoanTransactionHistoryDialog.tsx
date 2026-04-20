@@ -312,9 +312,12 @@ export default function LoanTransactionHistoryDialog({
                         <th className="w-[180px] px-4 py-3 text-right">
                           <NoWrapTh>Sisa Pinjaman Akhir</NoWrapTh>
                         </th>
-                        <th className="min-w-[260px] px-4 py-3">
+
+                        {/* Diperkecil */}
+                        <th className="w-[170px] px-4 py-3">
                           <NoWrapTh>Keterangan</NoWrapTh>
                         </th>
+
                         <th className="w-[140px] px-4 py-3 text-center">
                           <NoWrapTh>Aksi</NoWrapTh>
                         </th>
@@ -386,9 +389,10 @@ export default function LoanTransactionHistoryDialog({
                               {r.sisaPinjamanAkhir}
                             </td>
 
+                            {/* Diperkecil + lebih ringkas: 2 baris */}
                             <td className="px-4 py-3 text-slate-700">
                               {r.keterangan ? (
-                                <div className="max-w-[320px] leading-relaxed">
+                                <div className="line-clamp-2 leading-snug">
                                   {r.keterangan}
                                 </div>
                               ) : (
