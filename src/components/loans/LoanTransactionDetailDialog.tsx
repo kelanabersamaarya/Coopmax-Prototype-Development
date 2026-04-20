@@ -58,6 +58,9 @@ export default function LoanTransactionDetailDialog({
 
   if (!detail) return null;
 
+  // Prototype: nama produk pinjaman (bisa diganti jadi data dinamis nanti)
+  const loanProductName = "PINJAMAN BULANAN 9";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -104,7 +107,7 @@ export default function LoanTransactionDetailDialog({
           >
             <div className="overflow-hidden rounded-3xl bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 sm:p-6">
               <div className="text-sm font-extrabold tracking-wide">
-                TRANSAKSI PINJAMAN
+                {loanProductName}
               </div>
 
               <div
