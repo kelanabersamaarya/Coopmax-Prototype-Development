@@ -41,7 +41,6 @@ export default function LoanPemutihanDialog({
 
   React.useEffect(() => {
     if (!open) return;
-    // reset ringan saat dibuka supaya konsisten
     setTanggal("20-04-2026");
     setTipeTransaksi(TIPE_TRANSAKSI);
     setKeterangan("");
@@ -52,8 +51,9 @@ export default function LoanPemutihanDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)] sm:w-[920px]",
-          "max-w-[920px]",
+          "w-[calc(100vw-1.25rem)] sm:w-[760px]",
+          "max-w-[760px]",
+          "max-h-[85vh]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
           // hide default close (kita pakai tombol sendiri)
@@ -80,7 +80,8 @@ export default function LoanPemutihanDialog({
 
           <Separator className="bg-slate-200" />
 
-          <div className="px-6 py-5">
+          {/* Body (scroll jika kepanjangan) */}
+          <div className="max-h-[calc(85vh-64px-57px)] overflow-auto px-6 py-5">
             {/* Summary */}
             <div className="rounded-2xl bg-white">
               <div className="grid gap-1">
@@ -161,14 +162,17 @@ export default function LoanPemutihanDialog({
                 <Textarea
                   value={keterangan}
                   onChange={(e) => setKeterangan(e.target.value)}
-                  className="min-h-[140px] rounded-xl border-slate-200 bg-white"
+                  className="min-h-[120px] rounded-xl border-slate-200 bg-white"
                 />
               </div>
 
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <div className="hidden sm:block" />
                 <label className="flex items-center gap-3 text-sm font-medium text-slate-800">
-                  <Checkbox checked={confirm} onCheckedChange={(v) => setConfirm(!!v)} />
+                  <Checkbox
+                    checked={confirm}
+                    onCheckedChange={(v) => setConfirm(!!v)}
+                  />
                   Yakin untuk melunasi pemutihan pinjaman ini
                 </label>
               </div>
@@ -194,7 +198,9 @@ export default function LoanPemutihanDialog({
               type="button"
               onClick={() => {
                 if (!keterangan.trim()) {
-                  toast("Keterangan wajib diisi", { description: "Mohon isi keterangan terlebih dahulu." });
+                  toast("Keterangan wajib diisi", {
+                    description: "Mohon isi keterangan terlebih dahulu.",
+                  });
                   return;
                 }
                 if (!confirm) {
