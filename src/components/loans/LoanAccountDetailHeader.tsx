@@ -76,7 +76,7 @@ export default function LoanAccountDetailHeader({
         <div className="sr-only">{accountNo}</div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap items-center gap-2">
         <Button
           variant="outline"
           onClick={onBack}
@@ -149,8 +149,6 @@ export default function LoanAccountDetailHeader({
           label="Simulasi"
           onClick={() => onAction("Simulasi")}
         />
-
-        <div className="w-full" />
 
         <Button
           onClick={() => onAction("Dapatkan Analisa 5C")}
