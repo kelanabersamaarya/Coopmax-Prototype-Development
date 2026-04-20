@@ -39,9 +39,25 @@ type Row = {
   denda: string;
   sisaPinjamanAkhir: string;
   keterangan: string;
+  canceled?: boolean;
 };
 
 const seed: Row[] = [
+  {
+    no: 3,
+    angsuranKe: "",
+    tanggal: "20-04-2026",
+    tipe: "Pembayaran Angsuran",
+    nominal: "250.000",
+    angsuranPokok: "166.667",
+    angsuranBunga: "83.333",
+    hutangPokok: "0",
+    hutangBunga: "0",
+    denda: "0",
+    sisaPinjamanAkhir: "9.333.333",
+    keterangan: "DIBATALKAN — Salah input nominal, transaksi diganti.",
+    canceled: true,
+  },
   {
     no: 2,
     angsuranKe: "",
@@ -347,7 +363,7 @@ export default function LoanTransactionHistoryDialog({
                             <NoWrapTh>Sisa Pinjaman Akhir</NoWrapTh>
                           </th>
 
-                          <th className="w-[170px] px-4 py-3">
+                          <th className="w-[220px] px-4 py-3">
                             <NoWrapTh>Keterangan</NoWrapTh>
                           </th>
 
@@ -424,7 +440,13 @@ export default function LoanTransactionHistoryDialog({
 
                               <td className="px-4 py-3 text-slate-700">
                                 {r.keterangan ? (
-                                  <div className="line-clamp-2 leading-snug">
+                                  <div
+                                    className={cn(
+                                      "leading-snug",
+                                      r.canceled ? "text-rose-700 font-semibold" : "",
+                                      r.canceled ? "" : "line-clamp-2",
+                                    )}
+                                  >
                                     {r.keterangan}
                                   </div>
                                 ) : (
@@ -434,7 +456,12 @@ export default function LoanTransactionHistoryDialog({
 
                               <td className="px-4 py-3">
                                 <div className="flex justify-center gap-2">
-                                  <DeleteCellButton onClick={() => openDeleteDetail(r)} />
+                                  {!r.canceled ? (
+                                    <DeleteCellButton
+                                      onClick={() => openDeleteDetail(r)}
+                                    />
+                                  ) : null}
+
                                   <IconCellButton
                                     onClick={() =>
                                       toast("Detail transaksi (prototype)", {
