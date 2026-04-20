@@ -288,9 +288,12 @@ export default function LoanTransactionHistoryDialog({
                         <th className="w-[140px] px-4 py-3">
                           <NoWrapTh>Tanggal</NoWrapTh>
                         </th>
-                        <th className="min-w-[220px] px-4 py-3">
+
+                        {/* Diperkecil */}
+                        <th className="w-[190px] px-4 py-3">
                           <NoWrapTh>Tipe Transaksi</NoWrapTh>
                         </th>
+
                         <th className="w-[150px] px-4 py-3 text-right">
                           <NoWrapTh>Nominal</NoWrapTh>
                         </th>
@@ -354,8 +357,9 @@ export default function LoanTransactionHistoryDialog({
                               {r.tanggal}
                             </td>
 
+                            {/* Disesuaikan supaya ikut ngepas kolom lebih kecil */}
                             <td className="px-4 py-3 text-slate-900">
-                              <div className="whitespace-nowrap font-semibold">
+                              <div className="whitespace-normal font-semibold leading-snug">
                                 {r.tipe}
                               </div>
                             </td>
