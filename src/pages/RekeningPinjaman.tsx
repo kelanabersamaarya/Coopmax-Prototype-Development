@@ -214,15 +214,15 @@ export default function RekeningPinjaman() {
 
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1160px] border-collapse">
+              <table className="w-full min-w-[1100px] border-collapse">
                 <thead className="bg-slate-50">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                     <th className={cn("w-[64px] whitespace-nowrap", th)}>No.</th>
                     <th className={cn("w-[170px]", th)}>No. Rekening</th>
                     <th className={cn("w-[140px]", th)}>Tanggal Daftar</th>
-                    <th className={cn("min-w-[220px]", th)}>Produk Pinjaman</th>
+                    <th className={cn("w-[180px]", th)}>Produk Pinjaman</th>
                     <th className={cn("w-[140px]", th)}>ID. Nasabah</th>
-                    <th className={cn("min-w-[200px]", th)}>Nama Nasabah</th>
+                    <th className={cn("w-[170px]", th)}>Nama Nasabah</th>
                     <th className={cn("w-[170px] text-right", th)}>Nominal</th>
                     <th className={cn("w-[170px] text-right", th)}>Sisa Pinjaman</th>
                     <th className={cn("w-[150px]", th)}>Bunga / Tahun</th>
@@ -391,7 +391,9 @@ export default function RekeningPinjaman() {
                           {r.sisaPinjaman}
                         </td>
 
-                        <td className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}>
+                        <td
+                          className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}
+                        >
                           {r.bungaPerTahun}
                         </td>
 
