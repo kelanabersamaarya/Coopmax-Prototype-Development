@@ -27,7 +27,6 @@ import LoanTransactionDetailDialog, {
 } from "@/components/loans/LoanTransactionDetailDialog";
 
 type Row = {
-  no: number;
   angsuranKe: string;
   tanggal: string;
   tipe: string;
@@ -43,8 +42,8 @@ type Row = {
 };
 
 const seed: Row[] = [
+  // transaksi dibatalkan (contoh tambahan)
   {
-    no: 3,
     angsuranKe: "",
     tanggal: "20-04-2026",
     tipe: "Pembayaran Angsuran",
@@ -59,7 +58,6 @@ const seed: Row[] = [
     canceled: true,
   },
   {
-    no: 2,
     angsuranKe: "",
     tanggal: "17-04-2026",
     tipe: "Pembayaran Angsuran",
@@ -73,7 +71,6 @@ const seed: Row[] = [
     keterangan: "",
   },
   {
-    no: 1,
     angsuranKe: "",
     tanggal: "10-04-2026",
     tipe: "Pembayaran Angsuran",
@@ -172,11 +169,9 @@ export default function LoanTransactionHistoryDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  function openDeleteDetail(r: Row) {
-    // Prototype detail: beberapa field diturunkan dari row yang ada,
-    // sisanya memakai nilai contoh.
+  function openDeleteDetail(r: Row, derivedNo: number) {
     setDetail({
-      transactionNo: `TRX-${String(r.no).padStart(6, "0")}`,
+      transactionNo: `TRX-${String(derivedNo).padStart(6, "0")}`,
       nominal: r.nominal,
       transactionType: "Bayar Angsuran",
       transactionDateTime: `${r.tanggal} 09:15`,
@@ -187,6 +182,8 @@ export default function LoanTransactionHistoryDialog({
     });
     setDetailOpen(true);
   }
+
+  const totalCount = filtered.length;
 
   return (
     <>
@@ -220,7 +217,6 @@ export default function LoanTransactionHistoryDialog({
                   Riwayat Transaksi
                 </div>
 
-                {/* (dihapus sesuai request) */}
                 <div className="sr-only">{accountNo}</div>
               </div>
 
@@ -384,95 +380,102 @@ export default function LoanTransactionHistoryDialog({
                             </td>
                           </tr>
                         ) : (
-                          paged.map((r, idx) => (
-                            <tr
-                              key={`${r.no}-${idx}`}
-                              className={cn(
-                                "border-t border-slate-100 text-[13px]",
-                                idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
-                              )}
-                            >
-                              <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">
-                                {r.no}
-                              </td>
+                          paged.map((r, idx) => {
+                            // Nomor menurun: baris paling atas = total, dst.
+                            // Konsisten walau pagination/filter.
+                            const derivedNo =
+                              totalCount - ((page - 1) * pageSize + idx);
 
-                              <td className="px-4 py-3 text-slate-700 tabular-nums">
-                                {r.angsuranKe || "-"}
-                              </td>
-
-                              <td className="px-4 py-3 font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-                                {r.tanggal}
-                              </td>
-
-                              <td className="px-4 py-3 text-slate-900">
-                                <div className="whitespace-normal font-semibold leading-snug">
-                                  {r.tipe}
-                                </div>
-                              </td>
-
-                              <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
-                                {r.nominal}
-                              </td>
-
-                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                                {r.angsuranPokok}
-                              </td>
-
-                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                                {r.angsuranBunga}
-                              </td>
-
-                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                                {r.hutangPokok}
-                              </td>
-
-                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                                {r.hutangBunga}
-                              </td>
-
-                              <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
-                                {r.denda}
-                              </td>
-
-                              <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
-                                {r.sisaPinjamanAkhir}
-                              </td>
-
-                              <td className="px-4 py-3 text-slate-700">
-                                {r.keterangan ? (
-                                  <div
-                                    className={cn(
-                                      "leading-snug",
-                                      r.canceled ? "text-rose-700 font-semibold" : "",
-                                      r.canceled ? "" : "line-clamp-2",
-                                    )}
-                                  >
-                                    {r.keterangan}
-                                  </div>
-                                ) : (
-                                  <span className="text-slate-400">-</span>
+                            return (
+                              <tr
+                                key={`${r.tanggal}-${derivedNo}`}
+                                className={cn(
+                                  "border-t border-slate-100 text-[13px]",
+                                  idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
                                 )}
-                              </td>
+                              >
+                                <td className="px-4 py-3 font-semibold text-slate-700 tabular-nums">
+                                  {derivedNo}
+                                </td>
 
-                              <td className="px-4 py-3">
-                                <div className="flex justify-center gap-2">
-                                  {!r.canceled ? (
-                                    <DeleteCellButton
-                                      onClick={() => openDeleteDetail(r)}
+                                <td className="px-4 py-3 text-slate-700 tabular-nums">
+                                  {r.angsuranKe || "-"}
+                                </td>
+
+                                <td className="px-4 py-3 font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                  {r.tanggal}
+                                </td>
+
+                                <td className="px-4 py-3 text-slate-900">
+                                  <div className="whitespace-normal font-semibold leading-snug">
+                                    {r.tipe}
+                                  </div>
+                                </td>
+
+                                <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
+                                  {r.nominal}
+                                </td>
+
+                                <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                  {r.angsuranPokok}
+                                </td>
+
+                                <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                  {r.angsuranBunga}
+                                </td>
+
+                                <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                  {r.hutangPokok}
+                                </td>
+
+                                <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                  {r.hutangBunga}
+                                </td>
+
+                                <td className="px-4 py-3 text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap">
+                                  {r.denda}
+                                </td>
+
+                                <td className="px-4 py-3 text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap">
+                                  {r.sisaPinjamanAkhir}
+                                </td>
+
+                                <td className="px-4 py-3 text-slate-700">
+                                  {r.keterangan ? (
+                                    <div
+                                      className={cn(
+                                        "leading-snug",
+                                        r.canceled ? "text-rose-700 font-semibold" : "",
+                                        r.canceled ? "" : "line-clamp-2",
+                                      )}
+                                    >
+                                      {r.keterangan}
+                                    </div>
+                                  ) : (
+                                    <span className="text-slate-400">-</span>
+                                  )}
+                                </td>
+
+                                <td className="px-4 py-3">
+                                  <div className="flex justify-center gap-2">
+                                    {!r.canceled ? (
+                                      <DeleteCellButton
+                                        onClick={() => openDeleteDetail(r, derivedNo)}
+                                      />
+                                    ) : null}
+
+                                    <IconCellButton
+                                      onClick={() =>
+                                        toast("Detail transaksi (prototype)", {
+                                          description: `${r.tipe} • ${r.tanggal}`,
+                                        })
+                                      }
                                     />
-                                  ) : null}
-
-                                  <IconCellButton
-                                    onClick={() =>
-                                      toast("Detail transaksi (prototype)", {
-                                        description: `${r.tipe} • ${r.tanggal}`,
-                                      })
-                                    }
-                                  />
-                                </div>
-                              </td>
-                            </tr>
-                          ))
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })
                         )}
                       </tbody>
                     </table>
