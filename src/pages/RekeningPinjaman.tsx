@@ -205,7 +205,7 @@ export default function RekeningPinjaman() {
               <table className="w-full min-w-[1160px] border-collapse">
                 <thead className="bg-slate-50">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                    <th className={cn("w-[56px]", th)}>No.</th>
+                    <th className={cn("w-[64px] whitespace-nowrap", th)}>No.</th>
                     <th className={cn("w-[170px]", th)}>No. Rekening</th>
                     <th className={cn("w-[140px]", th)}>Tanggal Daftar</th>
                     <th className={cn("min-w-[220px]", th)}>Produk Pinjaman</th>
@@ -352,11 +352,21 @@ export default function RekeningPinjaman() {
 
                         <td className={cn(td, "text-slate-900")}>{r.namaNasabah}</td>
 
-                        <td className={cn(td, "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums")}>
+                        <td
+                          className={cn(
+                            td,
+                            "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums",
+                          )}
+                        >
                           {r.nominal}
                         </td>
 
-                        <td className={cn(td, "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums")}>
+                        <td
+                          className={cn(
+                            td,
+                            "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums",
+                          )}
+                        >
                           {r.sisaPinjaman}
                         </td>
 
