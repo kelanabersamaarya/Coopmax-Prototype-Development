@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -85,7 +84,7 @@ function StatusBadge({ status }: { status: Row["status"] }) {
 
   const v = map[status];
   return (
-    <Badge className={cn("rounded-md px-3 py-1 text-[12px]", v.className)}>
+    <Badge className={cn("whitespace-nowrap rounded-md px-2.5 py-1 text-[12px]", v.className)}>
       {v.label}
     </Badge>
   );
@@ -131,7 +130,6 @@ export default function RekeningPinjaman() {
       const okBunga = bungaQ ? r.bungaPerTahun.toLowerCase().includes(bungaQ) : true;
       const okStatus = statusQ === "Semua" ? true : r.status === statusQ;
 
-      // qNominal & qSisa default "0,00" di contoh biasanya tidak dipakai filter ketat
       const okNominal = true;
       const okSisa = true;
 
@@ -160,11 +158,11 @@ export default function RekeningPinjaman() {
     rows,
   ]);
 
-  // Prototype: tetap 1 halaman (agar mirip referensi yang menampilkan "Tampilkan 20 entri")
-  const paged = React.useMemo(
-    () => filtered.slice(0, pageSize),
-    [filtered, pageSize],
-  );
+  const paged = React.useMemo(() => filtered.slice(0, pageSize), [filtered, pageSize]);
+
+  const th = "px-3 py-2.5";
+  const td = "px-3 py-3";
+  const filterCell = "px-3 py-2";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -186,10 +184,7 @@ export default function RekeningPinjaman() {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-2">
               <div className="text-sm text-slate-700">Tampilkan</div>
-              <Select
-                value={String(pageSize)}
-                onValueChange={(v) => setPageSize(Number(v))}
-              >
+              <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
                 <SelectTrigger className="h-9 w-[92px] rounded-xl border-slate-200 bg-white">
                   <SelectValue />
                 </SelectTrigger>
@@ -203,40 +198,28 @@ export default function RekeningPinjaman() {
               </Select>
               <div className="text-sm text-slate-700">entri</div>
             </div>
-
-            <div className="hidden">
-              <button
-                type="button"
-                onClick={() => toast("noop")}
-                aria-hidden="true"
-              >
-                reset-placeholder
-              </button>
-            </div>
           </div>
 
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1200px] border-collapse">
+              <table className="w-full min-w-[1160px] border-collapse">
                 <thead className="bg-slate-50">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                    <th className="w-[70px] px-4 py-3">No.</th>
-                    <th className="w-[190px] px-4 py-3">No. Rekening</th>
-                    <th className="w-[160px] px-4 py-3">Tanggal Daftar</th>
-                    <th className="min-w-[220px] px-4 py-3">Produk Pinjaman</th>
-                    <th className="w-[150px] px-4 py-3">ID. Nasabah</th>
-                    <th className="min-w-[220px] px-4 py-3">Nama Nasabah</th>
-                    <th className="w-[190px] px-4 py-3 text-right">Nominal</th>
-                    <th className="w-[190px] px-4 py-3 text-right">
-                      Sisa Pinjaman
-                    </th>
-                    <th className="w-[160px] px-4 py-3">Bunga per Tahun (%)</th>
-                    <th className="w-[220px] px-4 py-3">Status</th>
+                    <th className={cn("w-[56px]", th)}>No.</th>
+                    <th className={cn("w-[170px]", th)}>No. Rekening</th>
+                    <th className={cn("w-[140px]", th)}>Tanggal Daftar</th>
+                    <th className={cn("min-w-[220px]", th)}>Produk Pinjaman</th>
+                    <th className={cn("w-[140px]", th)}>ID. Nasabah</th>
+                    <th className={cn("min-w-[200px]", th)}>Nama Nasabah</th>
+                    <th className={cn("w-[170px] text-right", th)}>Nominal</th>
+                    <th className={cn("w-[170px] text-right", th)}>Sisa Pinjaman</th>
+                    <th className={cn("w-[150px]", th)}>Bunga / Tahun</th>
+                    <th className={cn("w-[190px]", th)}>Status</th>
                   </tr>
 
                   <tr className="border-t border-slate-200 bg-white">
-                    <th className="px-4 py-2" />
-                    <th className="px-4 py-2">
+                    <th className={filterCell} />
+                    <th className={filterCell}>
                       <Input
                         value={qNoRek}
                         onChange={(e) => setQNoRek(e.target.value)}
@@ -244,7 +227,7 @@ export default function RekeningPinjaman() {
                         placeholder=""
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Input
                         value={qTanggal}
                         onChange={(e) => setQTanggal(e.target.value)}
@@ -252,7 +235,7 @@ export default function RekeningPinjaman() {
                         placeholder=""
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Select value={qProduk} onValueChange={setQProduk}>
                         <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
                           <SelectValue placeholder="-- Semua --" />
@@ -266,7 +249,7 @@ export default function RekeningPinjaman() {
                         </SelectContent>
                       </Select>
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Input
                         value={qIdNasabah}
                         onChange={(e) => setQIdNasabah(e.target.value)}
@@ -274,7 +257,7 @@ export default function RekeningPinjaman() {
                         placeholder=""
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Input
                         value={qNamaNasabah}
                         onChange={(e) => setQNamaNasabah(e.target.value)}
@@ -282,38 +265,35 @@ export default function RekeningPinjaman() {
                         placeholder=""
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Input
                         value={qNominal}
                         onChange={(e) => setQNominal(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right"
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right tabular-nums"
                         placeholder="0,00"
                         inputMode="decimal"
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Input
                         value={qSisa}
                         onChange={(e) => setQSisa(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right"
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right tabular-nums"
                         placeholder="0,00"
                         inputMode="decimal"
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Input
                         value={qBunga}
                         onChange={(e) => setQBunga(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className="h-9 rounded-xl border-slate-200 bg-white text-sm tabular-nums"
                         placeholder=""
                         inputMode="decimal"
                       />
                     </th>
-                    <th className="px-4 py-2">
-                      <Select
-                        value={qStatus}
-                        onValueChange={(v) => setQStatus(v as StatusFilter)}
-                      >
+                    <th className={filterCell}>
+                      <Select value={qStatus} onValueChange={(v) => setQStatus(v as StatusFilter)}>
                         <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
                           <SelectValue placeholder="-- Semua --" />
                         </SelectTrigger>
@@ -342,46 +322,49 @@ export default function RekeningPinjaman() {
                     </tr>
                   ) : (
                     paged.map((r, idx) => (
-                      <tr key={r.id} className="border-t border-slate-100 text-sm">
-                        <td className="px-4 py-3 text-slate-700">{idx + 1}</td>
+                      <tr
+                        key={r.id}
+                        className="border-t border-slate-100 text-sm align-top"
+                      >
+                        <td className={cn(td, "text-slate-700 tabular-nums")}>
+                          {idx + 1}
+                        </td>
 
-                        <td className="px-4 py-3">
+                        <td className={cn(td, "whitespace-nowrap")}>
                           <button
                             type="button"
-                            onClick={() =>
-                              toast("Detail rekening (prototype)", {
-                                description: r.noRekening,
-                              })
-                            }
+                            onClick={() => window.alert(`Detail rekening: ${r.noRekening}`)}
                             className="font-semibold text-blue-600 hover:underline"
                           >
                             {r.noRekening}
                           </button>
                         </td>
 
-                        <td className="px-4 py-3 text-slate-800">{r.tanggalDaftar}</td>
-
-                        <td className="px-4 py-3">
-                          <div className="leading-tight text-slate-900">
-                            {r.produkPinjaman}
-                          </div>
+                        <td className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}>
+                          {r.tanggalDaftar}
                         </td>
 
-                        <td className="px-4 py-3 text-slate-800">{r.idNasabah}</td>
+                        <td className={cn(td, "text-slate-900")}>{r.produkPinjaman}</td>
 
-                        <td className="px-4 py-3 text-slate-900">{r.namaNasabah}</td>
+                        <td className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}>
+                          {r.idNasabah}
+                        </td>
 
-                        <td className="px-4 py-3 text-right font-semibold text-slate-900">
+                        <td className={cn(td, "text-slate-900")}>{r.namaNasabah}</td>
+
+                        <td className={cn(td, "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums")}>
                           {r.nominal}
                         </td>
 
-                        <td className="px-4 py-3 text-right font-semibold text-slate-900">
+                        <td className={cn(td, "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums")}>
                           {r.sisaPinjaman}
                         </td>
 
-                        <td className="px-4 py-3 text-slate-800">{r.bungaPerTahun}</td>
+                        <td className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}>
+                          {r.bungaPerTahun}
+                        </td>
 
-                        <td className="px-4 py-3">
+                        <td className={cn(td, "whitespace-nowrap")}>
                           <StatusBadge status={r.status} />
                         </td>
                       </tr>
