@@ -84,7 +84,12 @@ function StatusBadge({ status }: { status: Row["status"] }) {
 
   const v = map[status];
   return (
-    <Badge className={cn("whitespace-nowrap rounded-md px-2.5 py-1 text-[12px]", v.className)}>
+    <Badge
+      className={cn(
+        "whitespace-nowrap rounded-md px-2.5 py-1 text-[12px]",
+        v.className,
+      )}
+    >
       {v.label}
     </Badge>
   );
@@ -158,11 +163,15 @@ export default function RekeningPinjaman() {
     rows,
   ]);
 
-  const paged = React.useMemo(() => filtered.slice(0, pageSize), [filtered, pageSize]);
+  const paged = React.useMemo(
+    () => filtered.slice(0, pageSize),
+    [filtered, pageSize],
+  );
 
-  const th = "px-3 py-2.5";
-  const td = "px-3 py-3";
-  const filterCell = "px-3 py-2";
+  // padding dibuat lebih rapat
+  const th = "px-2 py-2.5";
+  const td = "px-2 py-3";
+  const filterCell = "px-2 py-2";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -184,7 +193,10 @@ export default function RekeningPinjaman() {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-2">
               <div className="text-sm text-slate-700">Tampilkan</div>
-              <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+              <Select
+                value={String(pageSize)}
+                onValueChange={(v) => setPageSize(Number(v))}
+              >
                 <SelectTrigger className="h-9 w-[92px] rounded-xl border-slate-200 bg-white">
                   <SelectValue />
                 </SelectTrigger>
@@ -293,7 +305,10 @@ export default function RekeningPinjaman() {
                       />
                     </th>
                     <th className={filterCell}>
-                      <Select value={qStatus} onValueChange={(v) => setQStatus(v as StatusFilter)}>
+                      <Select
+                        value={qStatus}
+                        onValueChange={(v) => setQStatus(v as StatusFilter)}
+                      >
                         <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
                           <SelectValue placeholder="-- Semua --" />
                         </SelectTrigger>
@@ -333,20 +348,26 @@ export default function RekeningPinjaman() {
                         <td className={cn(td, "whitespace-nowrap")}>
                           <button
                             type="button"
-                            onClick={() => window.alert(`Detail rekening: ${r.noRekening}`)}
+                            onClick={() =>
+                              window.alert(`Detail rekening: ${r.noRekening}`)
+                            }
                             className="font-semibold text-blue-600 hover:underline"
                           >
                             {r.noRekening}
                           </button>
                         </td>
 
-                        <td className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}>
+                        <td
+                          className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}
+                        >
                           {r.tanggalDaftar}
                         </td>
 
                         <td className={cn(td, "text-slate-900")}>{r.produkPinjaman}</td>
 
-                        <td className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}>
+                        <td
+                          className={cn(td, "whitespace-nowrap text-slate-800 tabular-nums")}
+                        >
                           {r.idNasabah}
                         </td>
 
