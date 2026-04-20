@@ -6,7 +6,14 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Search, X, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Search,
+  X,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  XCircle,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   Select,
@@ -72,6 +79,20 @@ function IconCellButton({ onClick }: { onClick: () => void }) {
       title="Detail transaksi"
     >
       <ExternalLink className="h-4 w-4" />
+    </button>
+  );
+}
+
+function DeleteCellButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 transition hover:bg-white"
+      aria-label="Hapus"
+      title="Hapus"
+    >
+      <XCircle className="h-4 w-4" />
     </button>
   );
 }
@@ -163,9 +184,14 @@ export default function LoanTransactionHistoryDialog({
           <Separator className="bg-slate-200" />
 
           {/* Body */}
-          <div className="overflow-auto px-5 py-4 sm:px-6" style={{ maxHeight: "calc(85vh - 64px - 84px)" }}>
+          <div
+            className="overflow-auto px-5 py-4 sm:px-6"
+            style={{ maxHeight: "calc(85vh - 64px - 84px)" }}
+          >
             <div className="grid gap-3">
-              <div className="text-sm font-semibold text-slate-900">Tanggal Transaksi</div>
+              <div className="text-sm font-semibold text-slate-900">
+                Tanggal Transaksi
+              </div>
 
               <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center">
                 <div className="relative">
@@ -211,7 +237,8 @@ export default function LoanTransactionHistoryDialog({
                 <Button
                   onClick={() =>
                     toast("Cari (prototype)", {
-                      description: "Filter diterapkan otomatis saat Anda mengetik.",
+                      description:
+                        "Filter diterapkan otomatis saat Anda mengetik.",
                     })
                   }
                   className="h-11 rounded-2xl bg-slate-700 px-6 text-white hover:bg-slate-800"
@@ -223,7 +250,10 @@ export default function LoanTransactionHistoryDialog({
 
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <div className="text-sm text-slate-700">Show</div>
-                <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+                <Select
+                  value={String(pageSize)}
+                  onValueChange={(v) => setPageSize(Number(v))}
+                >
                   <SelectTrigger className="h-9 w-[96px] rounded-xl border-slate-200 bg-white">
                     <SelectValue />
                   </SelectTrigger>
@@ -246,23 +276,42 @@ export default function LoanTransactionHistoryDialog({
                         <th className="w-[70px] px-4 py-3">No.</th>
                         <th className="w-[120px] px-4 py-3">Angsuran Ke-</th>
                         <th className="w-[140px] px-4 py-3">Tanggal</th>
-                        <th className="min-w-[190px] px-4 py-3">Tipe Transaksi</th>
-                        <th className="w-[140px] px-4 py-3 text-right">Nominal</th>
-                        <th className="w-[150px] px-4 py-3 text-right">Angsuran Pokok</th>
-                        <th className="w-[150px] px-4 py-3 text-right">Angsuran Bunga</th>
-                        <th className="w-[130px] px-4 py-3 text-right">Hutang Pokok</th>
-                        <th className="w-[130px] px-4 py-3 text-right">Hutang Bunga</th>
+                        <th className="min-w-[190px] px-4 py-3">
+                          Tipe Transaksi
+                        </th>
+                        <th className="w-[140px] px-4 py-3 text-right">
+                          Nominal
+                        </th>
+                        <th className="w-[150px] px-4 py-3 text-right">
+                          Angsuran Pokok
+                        </th>
+                        <th className="w-[150px] px-4 py-3 text-right">
+                          Angsuran Bunga
+                        </th>
+                        <th className="w-[130px] px-4 py-3 text-right">
+                          Hutang Pokok
+                        </th>
+                        <th className="w-[130px] px-4 py-3 text-right">
+                          Hutang Bunga
+                        </th>
                         <th className="w-[110px] px-4 py-3 text-right">Denda</th>
-                        <th className="w-[170px] px-4 py-3 text-right">Sisa Pinjaman Akhir</th>
+                        <th className="w-[170px] px-4 py-3 text-right">
+                          Sisa Pinjaman Akhir
+                        </th>
                         <th className="min-w-[200px] px-4 py-3">Keterangan</th>
-                        <th className="w-[160px] px-4 py-3 text-center">Detail Transaks</th>
+                        <th className="w-[140px] px-4 py-3 text-center">
+                          Aksi
+                        </th>
                       </tr>
                     </thead>
 
                     <tbody className="bg-white">
                       {paged.length === 0 ? (
                         <tr>
-                          <td colSpan={13} className="px-4 py-10 text-center text-sm text-slate-600">
+                          <td
+                            colSpan={13}
+                            className="px-4 py-10 text-center text-sm text-slate-600"
+                          >
                             Tidak ada transaksi.
                           </td>
                         </tr>
@@ -276,8 +325,12 @@ export default function LoanTransactionHistoryDialog({
                             )}
                           >
                             <td className="px-4 py-3 text-slate-700">{r.no}</td>
-                            <td className="px-4 py-3 text-slate-700">{r.angsuranKe}</td>
-                            <td className="px-4 py-3 font-medium text-slate-900">{r.tanggal}</td>
+                            <td className="px-4 py-3 text-slate-700">
+                              {r.angsuranKe}
+                            </td>
+                            <td className="px-4 py-3 font-medium text-slate-900">
+                              {r.tanggal}
+                            </td>
                             <td className="px-4 py-3 text-slate-900">
                               <div className="leading-tight">{r.tipe}</div>
                             </td>
@@ -303,10 +356,19 @@ export default function LoanTransactionHistoryDialog({
                               {r.sisaPinjamanAkhir}
                             </td>
                             <td className="px-4 py-3 text-slate-700">
-                              <div className="max-w-[260px] leading-snug">{r.keterangan}</div>
+                              <div className="max-w-[260px] leading-snug">
+                                {r.keterangan}
+                              </div>
                             </td>
                             <td className="px-4 py-3">
-                              <div className="flex justify-center">
+                              <div className="flex justify-center gap-2">
+                                <DeleteCellButton
+                                  onClick={() =>
+                                    toast("Hapus (prototype)", {
+                                      description: `Transaksi #${r.no} belum terhubung ke data.`,
+                                    })
+                                  }
+                                />
                                 <IconCellButton
                                   onClick={() =>
                                     toast("Detail transaksi (prototype)", {
@@ -326,7 +388,8 @@ export default function LoanTransactionHistoryDialog({
 
               <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="text-sm text-slate-700">
-                  Showing {showingStart} to {showingEnd} of {filtered.length} entries
+                  Showing {showingStart} to {showingEnd} of {filtered.length}{" "}
+                  entries
                 </div>
 
                 <div className="flex items-center gap-2">
