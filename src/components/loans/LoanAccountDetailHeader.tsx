@@ -64,19 +64,19 @@ export default function LoanAccountDetailHeader({
 }) {
   return (
     <div className="rounded-3xl border border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div className="min-w-0">
-          <div className="flex items-baseline gap-2">
-            <div className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-              Rekening Pinjaman
-            </div>
-            <div className="text-sm font-semibold text-slate-600">Detail</div>
+      <div className="min-w-0">
+        <div className="flex items-baseline gap-2">
+          <div className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
+            Rekening Pinjaman
           </div>
-
-          {/* accountNo tetap dipertahankan sebagai data context untuk aksi/toast */}
-          <div className="sr-only">{accountNo}</div>
+          <div className="text-sm font-semibold text-slate-600">Detail</div>
         </div>
 
+        {/* accountNo tetap dipertahankan sebagai data context untuk aksi/toast */}
+        <div className="sr-only">{accountNo}</div>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
         <Button
           variant="outline"
           onClick={onBack}
@@ -85,9 +85,7 @@ export default function LoanAccountDetailHeader({
           <ArrowLeft className="mr-2 h-4 w-4" />
           Kembali ke Daftar
         </Button>
-      </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
         <ActionPill
           icon={Calendar}
           label="Perpanjangan Pinjaman"
