@@ -2,7 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { ChevronRight, ReceiptText, UsersRound } from "lucide-react";
+import { ReceiptText, UsersRound } from "lucide-react";
 
 function DevMenuCard({
   title,
@@ -60,11 +60,6 @@ function DevMenuCard({
           </div>
           <div className="mt-1 text-xs leading-relaxed text-slate-600">
             {subtitle}
-          </div>
-
-          <div className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-slate-700">
-            <span className="sr-only">Buka modul</span>
-            <ChevronRight className="h-4 w-4 text-slate-400" />
           </div>
         </div>
       </div>
