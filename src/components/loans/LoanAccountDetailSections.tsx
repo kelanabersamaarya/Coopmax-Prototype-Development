@@ -4,7 +4,7 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { QrCode, Printer, Eye, ExternalLink } from "lucide-react";
+import { QrCode, Printer, Eye, ExternalLink, AlertTriangle, ShieldCheck, XCircle } from "lucide-react";
 import { toast } from "sonner";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -96,11 +96,47 @@ function StatusPill({
   );
 }
 
+type StatusHistoryRow = {
+  no: number;
+  status: string;
+  tanggal: string;
+  diubahOleh: string;
+  deskripsi: string;
+};
+
+const statusHistorySeed: StatusHistoryRow[] = [
+  {
+    no: 1,
+    status: "Aktif / Sudah Dicairkan",
+    tanggal: "07-04-2026",
+    diubahOleh: "Gusman",
+    deskripsi: "tess",
+  },
+  {
+    no: 2,
+    status: "Disetujui",
+    tanggal: "07-04-2026",
+    diubahOleh: "Gusman",
+    deskripsi: "Tes",
+  },
+  {
+    no: 3,
+    status: "Diajukan",
+    tanggal: "07-04-2026",
+    diubahOleh: "Gusman",
+    deskripsi: "Tes",
+  },
+];
+
 export default function LoanAccountDetailSections({
   accountNo,
 }: {
   accountNo: string;
 }) {
+  const [history, setHistory] = React.useState<StatusHistoryRow[]>(
+    () => statusHistorySeed,
+  );
+
   return (
     <Card className="mt-4 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
       {/* SUBSECTION: INFORMASI REKENING */}
@@ -136,7 +172,9 @@ export default function LoanAccountDetailSections({
             <button
               type="button"
               onClick={() =>
-                toast("Preview (prototype)", { description: `Rekening: ${accountNo}` })
+                toast("Preview (prototype)", {
+                  description: `Rekening: ${accountNo}`,
+                })
               }
               className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-semibold text-white ring-1 ring-blue-600/20 transition hover:bg-blue-700"
             >
@@ -254,7 +292,10 @@ export default function LoanAccountDetailSections({
               label="Status Verifikasi KTP"
               value={<StatusPill tone="bad">BELUM TERVERIFIKASI</StatusPill>}
             />
-            <KeyValueRow label="Status" value={<StatusPill tone="ok">Aktif</StatusPill>} />
+            <KeyValueRow
+              label="Status"
+              value={<StatusPill tone="ok">Aktif</StatusPill>}
+            />
           </div>
 
           <div className="divide-y divide-slate-100">
@@ -279,7 +320,10 @@ export default function LoanAccountDetailSections({
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="divide-y divide-slate-100">
             <KeyValueRow label="Tanggal Realisasi" value="07-04-2026" />
-            <KeyValueRow label="Besar Pinjaman / Plafond" value="12.000.000,00" />
+            <KeyValueRow
+              label="Besar Pinjaman / Plafond"
+              value="12.000.000,00"
+            />
             <KeyValueRow label="Propisi" value="0,00" />
             <KeyValueRow label="Administrasi" value="120.000,00" />
             <KeyValueRow label="Biaya Asuransi" value="0,00" />
@@ -287,13 +331,139 @@ export default function LoanAccountDetailSections({
 
           <div className="divide-y divide-slate-100">
             <KeyValueRow label="Jumlah Potongan" value="0" right />
-            <KeyValueRow label="Penerimaan Bersih" value="11.880.000,00" right />
+            <KeyValueRow
+              label="Penerimaan Bersih"
+              value="11.880.000,00"
+              right
+            />
             <KeyValueRow
               label="Terbilang"
               value="Sebelas Juta Delapan Ratus Delapan Puluh Ribu"
               right
             />
-            <KeyValueRow label="Dicairkan ke Rekening Tabungan" value="-" right />
+            <KeyValueRow
+              label="Dicairkan ke Rekening Tabungan"
+              value="-"
+              right
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Divider antar subsection */}
+      <Separator className="my-6 bg-slate-200/70" />
+
+      {/* SUBSECTION: DATA ANGGOTA KELUARGA */}
+      <SubSectionHeader title="DATA ANGGOTA KELUARGA" />
+      <Separator className="my-4 bg-slate-200/70" />
+
+      <div className="space-y-6 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
+        {/* Warning banner */}
+        <div className="flex flex-col gap-3 rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-800 ring-1 ring-amber-200">
+              <AlertTriangle className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+              <div className="text-sm font-extrabold tracking-tight text-amber-950">
+                Data nasabah belum terverifikasi.
+              </div>
+              <div className="mt-1 text-sm leading-relaxed text-amber-900">
+                Silakan lakukan verifikasi nasabah untuk mendapatkan data anggota
+                keluarga. Anda dapat melakukan verifikasi nasabah melalui form
+                edit pinjaman dengan mengklik tombol di samping.
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() =>
+              toast("Proses Verifikasi Data (prototype)", {
+                description: "Aksi verifikasi belum terhubung.",
+              })
+            }
+            className={cn(
+              "inline-flex h-10 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold",
+              "bg-[#0b3b72] text-white ring-1 ring-[#0b3b72]/20 transition hover:bg-[#0a3363]",
+              "w-full sm:w-[320px]",
+            )}
+          >
+            <ShieldCheck className="h-4.5 w-4.5" />
+            Proses Verifikasi Data
+          </button>
+        </div>
+
+        {/* Informasi file */}
+        <div>
+          <SectionTitle>INFORMASI FILE</SectionTitle>
+          <Separator className="my-3 bg-slate-200/70" />
+          <div className="text-sm text-slate-700">Tidak ada file yang diupload</div>
+        </div>
+
+        {/* Riwayat perubahan status */}
+        <div>
+          <SectionTitle>RIWAYAT PERUBAHAN STATUS</SectionTitle>
+          <Separator className="my-3 bg-slate-200/70" />
+
+          <div className="overflow-hidden rounded-2xl ring-1 ring-slate-200">
+            <div className="safe-x-scroll">
+              <table className="w-full min-w-[980px] border-collapse bg-white">
+                <thead className="bg-slate-50">
+                  <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
+                    <th className="w-[70px] px-4 py-3">No.</th>
+                    <th className="w-[280px] px-4 py-3">Status</th>
+                    <th className="w-[160px] px-4 py-3">Tanggal</th>
+                    <th className="w-[160px] px-4 py-3">Diubah Oleh</th>
+                    <th className="min-w-[360px] px-4 py-3">Deskripsi</th>
+                    <th className="w-[100px] px-4 py-3 text-center">Aksi</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {history.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="px-4 py-10 text-center text-sm text-slate-600"
+                      >
+                        Belum ada riwayat.
+                      </td>
+                    </tr>
+                  ) : (
+                    history.map((r) => (
+                      <tr key={r.no} className="border-t border-slate-100 text-sm">
+                        <td className="px-4 py-3 text-slate-700">{r.no}</td>
+                        <td className="px-4 py-3 font-semibold text-slate-900">
+                          {r.status}
+                        </td>
+                        <td className="px-4 py-3 text-slate-800">{r.tanggal}</td>
+                        <td className="px-4 py-3 text-slate-800">{r.diubahOleh}</td>
+                        <td className="px-4 py-3 text-slate-800">{r.deskripsi}</td>
+                        <td className="px-4 py-3">
+                          <div className="flex justify-center">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setHistory((prev) => prev.filter((x) => x.no !== r.no));
+                                toast("Hapus (prototype)", {
+                                  description: `Riwayat #${r.no} dihapus.`,
+                                });
+                              }}
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white"
+                              aria-label="Hapus"
+                              title="Hapus"
+                            >
+                              <XCircle className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
