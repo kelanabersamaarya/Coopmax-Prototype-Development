@@ -183,8 +183,6 @@ export default function LoanTransactionHistoryDialog({
     setDetailOpen(true);
   }
 
-  const totalCount = filtered.length;
-
   return (
     <>
       <LoanTransactionDetailDialog
@@ -381,10 +379,9 @@ export default function LoanTransactionHistoryDialog({
                           </tr>
                         ) : (
                           paged.map((r, idx) => {
-                            // Nomor menurun: baris paling atas = total, dst.
+                            // NOMOR MENINGKAT: baris paling atas = 1
                             // Konsisten walau pagination/filter.
-                            const derivedNo =
-                              totalCount - ((page - 1) * pageSize + idx);
+                            const derivedNo = (page - 1) * pageSize + idx + 1;
 
                             return (
                               <tr
