@@ -165,8 +165,6 @@ export default function BillSummaryCard({
               {transactionLabel("Pelunasan")}
             </DropdownMenuItem>
 
-            <div className="my-1 h-px bg-slate-200" />
-
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
@@ -213,18 +211,9 @@ export default function BillSummaryCard({
       <Separator className="my-4 bg-slate-200/70" />
 
       <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
-        <SummaryRow
-          label={isPembayaranKhusus ? "Total Pokok" : "Total Pokok"}
-          value={displayTotals.pokok}
-        />
-        <SummaryRow
-          label={isPembayaranKhusus ? "Total Bunga" : "Total Bunga"}
-          value={displayTotals.bunga}
-        />
-        <SummaryRow
-          label={isPembayaranKhusus ? "Total Denda" : "Total Denda"}
-          value={displayTotals.denda}
-        />
+        <SummaryRow label="Total Pokok" value={displayTotals.pokok} />
+        <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
+        <SummaryRow label="Total Denda" value={displayTotals.denda} />
 
         <SummaryRow
           label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
@@ -236,20 +225,11 @@ export default function BillSummaryCard({
           <Separator className="bg-slate-300/70" />
         </div>
 
+        <SummaryRow label="Angsuran Ke" value={displayInstallment.ke} />
+        <SummaryRow label="Angsuran Lunas" value={displayInstallment.lunas} />
         <SummaryRow
-          label={isPembayaranKhusus ? "Angsuran Ke" : "Angsuran Ke"}
-          value={displayInstallment.ke}
-          strong={false}
-        />
-        <SummaryRow
-          label={isPembayaranKhusus ? "Angsuran Lunas" : "Angsuran Lunas"}
-          value={displayInstallment.lunas}
-          strong={false}
-        />
-        <SummaryRow
-          label={isPembayaranKhusus ? "Angsuran Seharusnya" : "Angsuran Seharusnya"}
+          label="Angsuran Seharusnya"
           value={displayInstallment.seharusnya}
-          strong={false}
         />
       </div>
     </Card>
