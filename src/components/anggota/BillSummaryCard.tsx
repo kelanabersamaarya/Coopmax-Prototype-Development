@@ -93,6 +93,7 @@ export default function BillSummaryCard({
   const isBayarPokok = transactionType === "Bayar Pokok";
   const isBayarBunga = transactionType === "Bayar Bunga";
   const isBayarDenda = transactionType === "Bayar Denda";
+  const isBayarBiayaLainnya = transactionType === "Bayar Biaya Lainnya";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -102,7 +103,7 @@ export default function BillSummaryCard({
     ? { ke: "0", lunas: "0", seharusnya: "0" }
     : installment;
 
-  const showInstallmentSection = !isBayarDenda;
+  const showInstallmentSection = !isBayarDenda && !isBayarBiayaLainnya;
 
   const handleChange = React.useCallback(
     (v: TransactionType) => {
@@ -240,6 +241,12 @@ export default function BillSummaryCard({
           <SummaryRow label="Total Tagihan Pokok" value={displayTotals.pokok} strong />
         ) : isBayarDenda ? (
           <SummaryRow label="Total Tagihan Denda" value={displayTotals.denda} strong />
+        ) : isBayarBiayaLainnya ? (
+          <SummaryRow
+            label="Total Tagihan Biaya Lainnya"
+            value={displayTotals.total}
+            strong
+          />
         ) : (
           <>
             <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} />
