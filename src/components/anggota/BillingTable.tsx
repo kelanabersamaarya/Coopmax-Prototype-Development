@@ -34,11 +34,23 @@ export default function BillingTable({
   penaltyOnlyCols?: boolean;
   className?: string;
 }) {
-  const allChecked = React.useMemo(
-    () => selected.length > 0 && selected.every(Boolean),
-    [selected],
-  );
-  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
+  // Pastikan array selected selalu sejajar dengan rows supaya tidak ada kondisi UI "blank"
+  React.useEffect(() => {
+    if (selected.length === rows.length) return;
+    setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows.length]);
+
+  const allChecked = React.useMemo(() => {
+    const aligned = rows.map((_, idx) => selected[idx] ?? true);
+    return aligned.length > 0 && aligned.every(Boolean);
+  }, [rows, selected]);
+
+  const anyChecked = React.useMemo(() => {
+    const aligned = rows.map((_, idx) => selected[idx] ?? true);
+    return aligned.some(Boolean);
+  }, [rows, selected]);
+
   const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
@@ -67,7 +79,8 @@ export default function BillingTable({
       return rows.map((_, idx) => {
         const total = base + idx * 5000; // 25.000, 30.000, 35.000, ...
         const remaining = Math.max(0, total - 10000); // sisa sedikit lebih kecil
-        const fmt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        const fmt = (n: number) =>
+          n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         return { total: fmt(total), remaining: fmt(remaining) };
       });
     }, [rows]);
@@ -130,11 +143,15 @@ export default function BillingTable({
                                   key={`${bill.jatuhTempo}-${idx}`}
                                   className="border-t border-slate-100 text-sm"
                                 >
-                                  <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                                  <td
+                                    className={cn(checkboxColW, tdClass, "pl-4")}
+                                  >
                                     <input
                                       type="checkbox"
                                       aria-label="Pilih tagihan"
-                                      checked={isPelunasan ? true : selected[idx] ?? true}
+                                      checked={
+                                        isPelunasan ? true : (selected[idx] ?? true)
+                                      }
                                       disabled={isPelunasan}
                                       onChange={(e) => {
                                         const next = e.target.checked;
@@ -268,11 +285,15 @@ export default function BillingTable({
                                   key={`${bill.jatuhTempo}-${idx}`}
                                   className="border-t border-slate-100 text-sm"
                                 >
-                                  <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                                  <td
+                                    className={cn(checkboxColW, tdClass, "pl-4")}
+                                  >
                                     <input
                                       type="checkbox"
                                       aria-label="Pilih tagihan"
-                                      checked={isPelunasan ? true : selected[idx] ?? true}
+                                      checked={
+                                        isPelunasan ? true : (selected[idx] ?? true)
+                                      }
                                       disabled={isPelunasan}
                                       onChange={(e) => {
                                         const next = e.target.checked;
@@ -334,7 +355,6 @@ export default function BillingTable({
   const colCount = hideInterestCols ? 4 : 7;
   const minW = hideInterestCols ? "min-w-[600px]" : "min-w-[720px]";
 
-  // Mode "Bayar Pokok": kecilkan Jatuh Tempo supaya Tagihan Pokok "geser ke tengah"
   const dateColW = hideInterestCols ? "w-[200px]" : "w-[140px]";
   const pokokColW = hideInterestCols ? "w-[200px]" : "w-[170px]";
   const sisaPokokColW = hideInterestCols ? "w-[200px]" : "w-[180px]";
@@ -429,7 +449,7 @@ export default function BillingTable({
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
-                                    checked={isPelunasan ? true : selected[idx] ?? true}
+                                    checked={isPelunasan ? true : (selected[idx] ?? true)}
                                     disabled={isPelunasan}
                                     onChange={(e) => {
                                       const next = e.target.checked;
