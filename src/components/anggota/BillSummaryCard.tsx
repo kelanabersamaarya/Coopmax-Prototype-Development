@@ -58,7 +58,8 @@ type TransactionType =
   | "Bayar Pokok"
   | "Bayar Bunga"
   | "Bayar Denda"
-  | "Bayar Biaya Tambahan";
+  | "Bayar Biaya Tambahan"
+  | "Pembayaran Biaya Lainnya";
 
 function titleCaseEachWord(input: string) {
   return input
@@ -215,6 +216,18 @@ export default function BillSummaryCard({
               onClick={() => handleChange("Bayar Biaya Tambahan")}
             >
               {transactionLabel("Bayar Biaya Tambahan")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              className={cn(
+                "rounded-xl",
+                transactionType === "Pembayaran Biaya Lainnya"
+                  ? "bg-slate-100"
+                  : "",
+              )}
+              onClick={() => handleChange("Pembayaran Biaya Lainnya")}
+            >
+              {transactionLabel("Pembayaran Biaya Lainnya")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
