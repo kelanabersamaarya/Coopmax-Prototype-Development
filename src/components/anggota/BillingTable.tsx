@@ -191,7 +191,7 @@ export default function BillingTable({
                     key={`${bill.periode}-${idx}`}
                     className={cn(
                       "text-sm",
-                      idx === 0 ? "border-t border-slate-100" : "border-t border-slate-100",
+                      "border-t border-slate-100",
                       idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                     )}
                   >
@@ -306,94 +306,81 @@ export default function BillingTable({
             </thead>
 
             <tbody className="bg-white">
-              <tr>
-                <td colSpan={colCount} className="p-0">
-                  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                    <div className="bg-white p-2">
-                      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                        <div className="overflow-auto">
-                          <table
-                            className={cn(
-                              "w-full border-collapse text-[13px]",
-                              minW,
-                            )}
-                          >
-                            <tbody className="bg-white">
-                              {rows.map((bill, idx) => (
-                                <tr
-                                  key={`${bill.jatuhTempo}-${idx}`}
-                                  className="border-t border-slate-100 text-sm"
-                                >
-                                  <td
-                                    className={cn(checkboxColW, tdClass, "pl-4")}
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      aria-label="Pilih tagihan"
-                                      checked={
-                                        isPelunasan ? true : (selected[idx] ?? true)
-                                      }
-                                      disabled={isPelunasan}
-                                      onChange={(e) => {
-                                        const next = e.target.checked;
-                                        setSelected((prev) => {
-                                          const copy = [...prev];
-                                          copy[idx] = next;
-                                          return copy;
-                                        });
-                                      }}
-                                    />
-                                  </td>
+              {rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={colCount}
+                    className="px-4 py-10 text-center text-sm text-slate-600"
+                  >
+                    Tidak ada data.
+                  </td>
+                </tr>
+              ) : (
+                rows.map((bill, idx) => (
+                  <tr
+                    key={`${bill.jatuhTempo}-${idx}`}
+                    className={cn(
+                      "border-t border-slate-100 text-sm",
+                      idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                    )}
+                  >
+                    <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                      <CheckboxCell
+                        aria-label="Pilih tagihan"
+                        checked={isPelunasan ? true : (selected[idx] ?? true)}
+                        disabled={isPelunasan}
+                        onChange={(next) =>
+                          setSelected((prev) => {
+                            const copy = [...prev];
+                            copy[idx] = next;
+                            return copy;
+                          })
+                        }
+                      />
+                    </td>
 
-                                  <td
-                                    className={cn(
-                                      angsuranColW,
-                                      tdClass,
-                                      "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
-                                    )}
-                                  >
-                                    {idx + 1}
-                                  </td>
+                    <td
+                      className={cn(
+                        angsuranColW,
+                        tdClass,
+                        "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                      )}
+                    >
+                      {idx + 1}
+                    </td>
 
-                                  <td
-                                    className={cn(
-                                      dateColW,
-                                      tdClass,
-                                      "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.jatuhTempo}
-                                  </td>
+                    <td
+                      className={cn(
+                        dateColW,
+                        tdClass,
+                        "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                      )}
+                    >
+                      {bill.jatuhTempo}
+                    </td>
 
-                                  <td
-                                    className={cn(
-                                      dendaColW,
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {penalties[idx]?.total ?? "0"}
-                                  </td>
+                    <td
+                      className={cn(
+                        dendaColW,
+                        tdClass,
+                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                      )}
+                    >
+                      {penalties[idx]?.total ?? "0"}
+                    </td>
 
-                                  <td
-                                    className={cn(
-                                      sisaDendaColW,
-                                      tdClass,
-                                      "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {penalties[idx]?.remaining ?? "0"}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+                    <td
+                      className={cn(
+                        sisaDendaColW,
+                        tdClass,
+                        "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                      )}
+                    >
+                      {penalties[idx]?.remaining ?? "0"}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
