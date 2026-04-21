@@ -87,11 +87,11 @@ export default function BillSummaryCard({
   transactionType?: TransactionType | null;
   onTransactionTypeChange: (v: TransactionType) => void;
 }) {
-  const isPembayaranKhusus = transactionType === "Pembayaran Rincian Tagihan";
   const isUnset = !transactionType;
 
   const isBayarPokok = transactionType === "Bayar Pokok";
   const isBayarBunga = transactionType === "Bayar Bunga";
+  const isBayarDenda = transactionType === "Bayar Denda";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -100,6 +100,8 @@ export default function BillSummaryCard({
   const displayInstallment = isUnset
     ? { ke: "0", lunas: "0", seharusnya: "0" }
     : installment;
+
+  const showInstallmentSection = !isBayarDenda;
 
   return (
     <Card
@@ -213,38 +215,41 @@ export default function BillSummaryCard({
 
       <Separator className="my-4 bg-slate-200/70" />
 
-      <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
+      <div>
         {isBayarBunga ? (
           <SummaryRow label="Total Tagihan Bunga" value={displayTotals.bunga} strong />
         ) : isBayarPokok ? (
           <SummaryRow label="Total Tagihan Pokok" value={displayTotals.pokok} strong />
+        ) : isBayarDenda ? (
+          <SummaryRow label="Total Tagihan Denda" value={displayTotals.denda} strong />
         ) : (
           <>
             <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} />
+            <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
+            <SummaryRow label="Total Denda" value={displayTotals.denda} />
 
-            <>
-              <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
-              <SummaryRow label="Total Denda" value={displayTotals.denda} />
-
-              <SummaryRow
-                label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
-                value={displayTotals.total}
-                strong
-              />
-            </>
+            <SummaryRow
+              label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
+              value={displayTotals.total}
+              strong
+            />
           </>
         )}
 
-        <div className="py-3">
-          <Separator className="bg-slate-300/70" />
-        </div>
+        {showInstallmentSection ? (
+          <>
+            <div className="py-3">
+              <Separator className="bg-slate-300/70" />
+            </div>
 
-        <SummaryRow label="Angsuran Ke" value={displayInstallment.ke} />
-        <SummaryRow label="Angsuran Lunas" value={displayInstallment.lunas} />
-        <SummaryRow
-          label="Angsuran Seharusnya"
-          value={displayInstallment.seharusnya}
-        />
+            <SummaryRow label="Angsuran Ke" value={displayInstallment.ke} />
+            <SummaryRow label="Angsuran Lunas" value={displayInstallment.lunas} />
+            <SummaryRow
+              label="Angsuran Seharusnya"
+              value={displayInstallment.seharusnya}
+            />
+          </>
+        ) : null}
       </div>
     </Card>
   );
