@@ -93,7 +93,8 @@ export default function BillingTable({
     size?: "sm" | "md";
     tone?: "accent" | "blue";
   }) => {
-    const sizeClass = size === "sm" ? "h-4 w-4 rounded-[5px]" : "h-5 w-5 rounded-md";
+    const sizeClass =
+      size === "sm" ? "h-4 w-4 rounded-[5px]" : "h-5 w-5 rounded-md";
     const toneClass =
       tone === "blue"
         ? "accent-blue-600 focus:ring-blue-500/25"
@@ -163,7 +164,7 @@ export default function BillingTable({
                     />
                   </th>
 
-                  <th className={cn(wJenis, thClass)}>Jenis Fee</th>
+                  <th className={cn(wJenis, thClass)}>Jenis Biaya Lainnya (Fee)</th>
                   <th className={cn(wPeriode, thClass)}>Periode</th>
 
                   <th className={cn(wTotal, thClass, "text-right")}>
@@ -186,7 +187,12 @@ export default function BillingTable({
                     <div className="bg-white p-2">
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                         <div className="overflow-auto">
-                          <table className={cn("w-full border-collapse text-[13px]", minW)}>
+                          <table
+                            className={cn(
+                              "w-full border-collapse text-[13px]",
+                              minW,
+                            )}
+                          >
                             <tbody className="bg-white">
                               {feeRows.length === 0 ? (
                                 <tr>
@@ -203,7 +209,9 @@ export default function BillingTable({
                                     key={`${bill.periode}-${idx}`}
                                     className={cn(
                                       "border-t border-slate-100 text-sm",
-                                      idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                                      idx % 2 === 0
+                                        ? "bg-white"
+                                        : "bg-slate-50/40",
                                     )}
                                   >
                                     <td
@@ -217,7 +225,9 @@ export default function BillingTable({
                                       <CheckboxCell
                                         aria-label="Pilih fee"
                                         checked={
-                                          isPelunasan ? true : (selected[idx] ?? true)
+                                          isPelunasan
+                                            ? true
+                                            : (selected[idx] ?? true)
                                         }
                                         disabled={isPelunasan}
                                         onChange={(next) =>
@@ -232,7 +242,13 @@ export default function BillingTable({
                                       />
                                     </td>
 
-                                    <td className={cn(wJenis, tdClass, "text-slate-900")}>
+                                    <td
+                                      className={cn(
+                                        wJenis,
+                                        tdClass,
+                                        "text-slate-900",
+                                      )}
+                                    >
                                       <div className="leading-snug">{bill.feeName}</div>
                                     </td>
 
@@ -335,7 +351,12 @@ export default function BillingTable({
                     <div className="bg-white p-2">
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                         <div className="overflow-auto">
-                          <table className={cn("w-full border-collapse text-[13px]", minW)}>
+                          <table
+                            className={cn(
+                              "w-full border-collapse text-[13px]",
+                              minW,
+                            )}
+                          >
                             <tbody className="bg-white">
                               {rows.length === 0 ? (
                                 <tr>
@@ -352,14 +373,18 @@ export default function BillingTable({
                                     key={`${bill.jatuhTempo}-${idx}`}
                                     className={cn(
                                       "border-t border-slate-100 text-sm",
-                                      idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                                      idx % 2 === 0
+                                        ? "bg-white"
+                                        : "bg-slate-50/40",
                                     )}
                                   >
                                     <td className={cn(checkboxColW, tdClass, "pl-4")}>
                                       <CheckboxCell
                                         aria-label="Pilih tagihan"
                                         checked={
-                                          isPelunasan ? true : (selected[idx] ?? true)
+                                          isPelunasan
+                                            ? true
+                                            : (selected[idx] ?? true)
                                         }
                                         disabled={isPelunasan}
                                         onChange={(next) =>
@@ -512,7 +537,9 @@ export default function BillingTable({
                                       type="checkbox"
                                       aria-label="Pilih tagihan"
                                       checked={
-                                        isPelunasan ? true : (selected[idx] ?? true)
+                                        isPelunasan
+                                          ? true
+                                          : (selected[idx] ?? true)
                                       }
                                       disabled={isPelunasan}
                                       onChange={(e) => {
@@ -652,7 +679,12 @@ export default function BillingTable({
                   <div className="bg-white p-2">
                     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                       <div className="overflow-auto">
-                        <table className={cn("w-full border-collapse text-[13px]", minW)}>
+                        <table
+                          className={cn(
+                            "w-full border-collapse text-[13px]",
+                            minW,
+                          )}
+                        >
                           <tbody className="bg-white">
                             {showGraceHighlight ? (
                               <GracePeriodInfoRow colSpan={colCount} />
@@ -667,7 +699,11 @@ export default function BillingTable({
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
-                                    checked={isPelunasan ? true : (selected[idx] ?? true)}
+                                    checked={
+                                      isPelunasan
+                                        ? true
+                                        : (selected[idx] ?? true)
+                                    }
                                     disabled={isPelunasan}
                                     onChange={(e) => {
                                       const next = e.target.checked;
