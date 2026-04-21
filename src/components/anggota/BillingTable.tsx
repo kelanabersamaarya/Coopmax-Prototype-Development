@@ -79,6 +79,8 @@ export default function BillingTable({
   // Mode "Bayar Biaya Lainnya": kolom sesuai request (tanpa horizontal scroll)
   if (feeOnlyCols) {
     const colCount = 5;
+    const edgeL = "pl-5";
+    const edgeR = "pr-5";
 
     // Prototype data: turunkan dari rows agar tidak perlu ubah data sumber
     const feeRows = rows.map((r, idx) => {
@@ -106,7 +108,7 @@ export default function BillingTable({
           <table className="w-full table-fixed border-collapse text-[13px]">
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                <th className={cn(checkboxColW, thClass, "pl-4")}>
+                <th className={cn(checkboxColW, thClass, edgeL)}>
                   <input
                     ref={headerCheckboxRef}
                     type="checkbox"
@@ -128,7 +130,7 @@ export default function BillingTable({
                     Total Tagihan Biaya Lainnya
                   </span>
                 </th>
-                <th className={cn(thClass, "w-[20%] pr-4 text-right")}>
+                <th className={cn(thClass, "w-[20%] text-right", edgeR)}>
                   <span className="whitespace-nowrap">
                     Sisa Tagihan Biaya Lainnya
                   </span>
@@ -140,7 +142,8 @@ export default function BillingTable({
               <tr>
                 <td colSpan={colCount} className="p-0">
                   <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                    <div className="bg-white p-2">
+                    {/* tambah padding supaya konten tidak terasa nempel border luar */}
+                    <div className="bg-white p-3">
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                         {/* tidak ada scroll */}
                         <div className="overflow-hidden">
@@ -151,7 +154,7 @@ export default function BillingTable({
                                   key={`${bill.periode}-${idx}`}
                                   className="border-t border-slate-100 text-sm"
                                 >
-                                  <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                                  <td className={cn(checkboxColW, tdClass, edgeL)}>
                                     <input
                                       type="checkbox"
                                       aria-label="Pilih fee"
@@ -172,9 +175,7 @@ export default function BillingTable({
 
                                   {/* boleh wrap agar tidak memaksa scroll */}
                                   <td className={cn(tdClass, "w-[34%] text-slate-900")}>
-                                    <div className="leading-snug">
-                                      {bill.feeName}
-                                    </div>
+                                    <div className="leading-snug">{bill.feeName}</div>
                                   </td>
 
                                   <td
@@ -198,7 +199,8 @@ export default function BillingTable({
                                   <td
                                     className={cn(
                                       tdClass,
-                                      "w-[20%] pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      "w-[20%] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      edgeR,
                                     )}
                                   >
                                     {bill.sisa}
