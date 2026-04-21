@@ -45,11 +45,24 @@ export default function BillingTable({
 
   const thClass = "px-3 py-2.5";
   const tdClass = "px-3 py-3";
+
   const colCount = hideInterestCols ? 4 : 7;
 
-  const minW = hideInterestCols ? "min-w-[520px]" : "min-w-[720px]";
+  // Lebih kecil saat mode "Bayar Pokok", tapi tetap rapi & tidak terlalu sempit.
+  const minW = hideInterestCols ? "min-w-[600px]" : "min-w-[720px]";
+
   const checkboxColW = "w-[44px]";
-  const dateColW = hideInterestCols ? "w-[180px]" : "w-[140px]";
+
+  // Saat hideInterestCols, buat "Jatuh Tempo" lebih lebar supaya kolom angka tidak nempel di kanan
+  const dateColW = hideInterestCols ? "w-[280px]" : "w-[140px]";
+
+  // Saat hideInterestCols, buat "Tagihan Pokok" sedikit lebih kecil agar visualnya terasa lebih "tengah"
+  const pokokColW = hideInterestCols ? "w-[160px]" : "w-[170px]";
+
+  const totalColW = "w-[210px]";
+  const bungaColW = "w-[150px]";
+  const sisaPokokColW = "w-[180px]";
+  const sisaBungaColW = "w-[170px]";
 
   return (
     <div
@@ -79,27 +92,27 @@ export default function BillingTable({
               <th className={cn(dateColW, thClass)}>Jatuh Tempo</th>
 
               {!hideInterestCols ? (
-                <th className={cn("w-[210px]", thClass, "text-right")}>
+                <th className={cn(totalColW, thClass, "text-right")}>
                   Total Tagihan Belum Dibayar
                 </th>
               ) : null}
 
-              <th className={cn("w-[170px]", thClass, "text-right")}>
+              <th className={cn(pokokColW, thClass, "text-right")}>
                 Tagihan Pokok
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn("w-[150px]", thClass, "text-right")}>
+                <th className={cn(bungaColW, thClass, "text-right")}>
                   Tagihan Bunga
                 </th>
               ) : null}
 
-              <th className={cn("w-[180px]", thClass, "pr-4 text-right")}>
+              <th className={cn(sisaPokokColW, thClass, "pr-4 text-right")}>
                 Sisa Tagihan Pokok
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn("w-[170px]", thClass, "pr-4 text-right")}>
+                <th className={cn(sisaBungaColW, thClass, "pr-4 text-right")}>
                   Sisa Tagihan Bunga
                 </th>
               ) : null}
@@ -109,16 +122,19 @@ export default function BillingTable({
           <tbody className="bg-white">
             <tr>
               <td colSpan={colCount} className="p-0">
+                {/* Outer highlight */}
                 <div
                   className={cn(
                     "bg-white",
                     showGraceHighlight
-                      ? "rounded-2xl border-2 border-blue-600/70"
-                      : "rounded-2xl border border-slate-200",
+                      ? "rounded-2xl ring-2 ring-blue-500/70"
+                      : "rounded-2xl ring-1 ring-slate-200",
                   )}
                 >
+                  {/* Gap agar ring tidak mepet konten */}
                   <div className="bg-white p-2">
-                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                    {/* Inner container */}
+                    <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
                       <div className="overflow-auto">
                         <table className={cn("w-full border-collapse text-[13px]", minW)}>
                           <tbody className="bg-white">
@@ -135,9 +151,7 @@ export default function BillingTable({
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
-                                    checked={
-                                      isPelunasan ? true : selected[idx] ?? true
-                                    }
+                                    checked={isPelunasan ? true : selected[idx] ?? true}
                                     disabled={isPelunasan}
                                     onChange={(e) => {
                                       const next = e.target.checked;
@@ -163,8 +177,9 @@ export default function BillingTable({
                                 {!hideInterestCols ? (
                                   <td
                                     className={cn(
+                                      totalColW,
                                       tdClass,
-                                      "w-[210px] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {bill.totalBelumDibayar}
@@ -173,8 +188,9 @@ export default function BillingTable({
 
                                 <td
                                   className={cn(
+                                    pokokColW,
                                     tdClass,
-                                    "w-[170px] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                   )}
                                 >
                                   {bill.tagihanPokok}
@@ -183,8 +199,9 @@ export default function BillingTable({
                                 {!hideInterestCols ? (
                                   <td
                                     className={cn(
+                                      bungaColW,
                                       tdClass,
-                                      "w-[150px] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {bill.tagihanBunga}
@@ -193,8 +210,9 @@ export default function BillingTable({
 
                                 <td
                                   className={cn(
+                                    sisaPokokColW,
                                     tdClass,
-                                    "w-[180px] pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
                                   )}
                                 >
                                   {bill.sisaPokok}
@@ -203,8 +221,9 @@ export default function BillingTable({
                                 {!hideInterestCols ? (
                                   <td
                                     className={cn(
+                                      sisaBungaColW,
                                       tdClass,
-                                      "w-[170px] pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {bill.sisaBunga}
