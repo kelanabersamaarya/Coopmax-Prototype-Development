@@ -43,18 +43,18 @@ export default function BillingTable({
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
-  const thClass = "px-1 py-2.5";
-  const tdClass = "px-1 py-2.5";
-  const edgePadLeft = "pl-4";
-  const edgePadRight = "pr-4";
-
+  const thClass = "px-3 py-2.5";
+  const tdClass = "px-3 py-3";
   const colCount = hideInterestCols ? 4 : 7;
-  const minW = hideInterestCols ? "min-w-[420px]" : "min-w-[540px]";
+
+  const minW = hideInterestCols ? "min-w-[520px]" : "min-w-[720px]";
+  const checkboxColW = "w-[44px]";
+  const dateColW = hideInterestCols ? "w-[180px]" : "w-[140px]";
 
   return (
     <div
       className={cn(
-        "mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200",
+        "mt-3 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200",
         className,
       )}
     >
@@ -62,7 +62,7 @@ export default function BillingTable({
         <table className={cn("w-full border-collapse text-[13px]", minW)}>
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-              <th className={cn("w-[30px]", thClass, edgePadLeft)}>
+              <th className={cn(checkboxColW, thClass, "pl-4")}>
                 <input
                   ref={headerCheckboxRef}
                   type="checkbox"
@@ -76,31 +76,33 @@ export default function BillingTable({
                 />
               </th>
 
-              <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
+              <th className={cn(dateColW, thClass)}>Jatuh Tempo</th>
 
               {!hideInterestCols ? (
-                <th className={cn("w-[146px]", thClass)}>
+                <th className={cn("w-[210px]", thClass, "text-right")}>
                   Total Tagihan Belum Dibayar
                 </th>
               ) : null}
 
-              <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
+              <th className={cn("w-[170px]", thClass, "text-right")}>
+                Tagihan Pokok
+              </th>
 
               {!hideInterestCols ? (
-                <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
+                <th className={cn("w-[150px]", thClass, "text-right")}>
+                  Tagihan Bunga
+                </th>
               ) : null}
 
-              <th className={cn("w-[108px]", thClass)}>Sisa Tagihan Pokok</th>
+              <th className={cn("w-[180px]", thClass, "pr-4 text-right")}>
+                Sisa Tagihan Pokok
+              </th>
 
               {!hideInterestCols ? (
-                <th className={cn("w-[108px]", thClass, edgePadRight)}>
+                <th className={cn("w-[170px]", thClass, "pr-4 text-right")}>
                   Sisa Tagihan Bunga
                 </th>
-              ) : (
-                <th className={cn("w-[12px]", thClass, edgePadRight)}>
-                  <span className="sr-only">Spacer</span>
-                </th>
-              )}
+              ) : null}
             </tr>
           </thead>
 
@@ -109,102 +111,111 @@ export default function BillingTable({
               <td colSpan={colCount} className="p-0">
                 <div
                   className={cn(
-                    "overflow-hidden bg-white",
+                    "bg-white",
                     showGraceHighlight
-                      ? "rounded-xl border-2 border-blue-600/70"
-                      : "rounded-xl border border-slate-200",
+                      ? "rounded-2xl border-2 border-blue-600/70"
+                      : "rounded-2xl border border-slate-200",
                   )}
                 >
-                  <div className="overflow-auto">
-                    <table className={cn("w-full border-collapse text-[13px]", minW)}>
-                      <tbody className="bg-white">
-                        {showGraceHighlight ? (
-                          <GracePeriodInfoRow colSpan={colCount} />
-                        ) : null}
-
-                        {rows.map((bill, idx) => (
-                          <tr
-                            key={`${bill.jatuhTempo}-${idx}`}
-                            className="border-t border-slate-100 text-sm"
-                          >
-                            <td className={cn(tdClass, edgePadLeft)}>
-                              <input
-                                type="checkbox"
-                                aria-label="Pilih tagihan"
-                                checked={isPelunasan ? true : selected[idx] ?? true}
-                                disabled={isPelunasan}
-                                onChange={(e) => {
-                                  const next = e.target.checked;
-                                  setSelected((prev) => {
-                                    const copy = [...prev];
-                                    copy[idx] = next;
-                                    return copy;
-                                  });
-                                }}
-                              />
-                            </td>
-
-                            <td className={cn(tdClass, "font-medium text-slate-900")}>
-                              {bill.jatuhTempo}
-                            </td>
-
-                            {!hideInterestCols ? (
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {bill.totalBelumDibayar}
-                              </td>
+                  <div className="bg-white p-2">
+                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                      <div className="overflow-auto">
+                        <table className={cn("w-full border-collapse text-[13px]", minW)}>
+                          <tbody className="bg-white">
+                            {showGraceHighlight ? (
+                              <GracePeriodInfoRow colSpan={colCount} />
                             ) : null}
 
-                            <td
-                              className={cn(
-                                tdClass,
-                                "text-right tabular-nums text-slate-800",
-                              )}
-                            >
-                              {bill.tagihanPokok}
-                            </td>
-
-                            {!hideInterestCols ? (
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
+                            {rows.map((bill, idx) => (
+                              <tr
+                                key={`${bill.jatuhTempo}-${idx}`}
+                                className="border-t border-slate-100 text-sm"
                               >
-                                {bill.tagihanBunga}
-                              </td>
-                            ) : null}
+                                <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                                  <input
+                                    type="checkbox"
+                                    aria-label="Pilih tagihan"
+                                    checked={
+                                      isPelunasan ? true : selected[idx] ?? true
+                                    }
+                                    disabled={isPelunasan}
+                                    onChange={(e) => {
+                                      const next = e.target.checked;
+                                      setSelected((prev) => {
+                                        const copy = [...prev];
+                                        copy[idx] = next;
+                                        return copy;
+                                      });
+                                    }}
+                                  />
+                                </td>
 
-                            <td
-                              className={cn(
-                                tdClass,
-                                "text-right tabular-nums text-slate-800",
-                              )}
-                            >
-                              {bill.sisaPokok}
-                            </td>
+                                <td
+                                  className={cn(
+                                    dateColW,
+                                    tdClass,
+                                    "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                                  )}
+                                >
+                                  {bill.jatuhTempo}
+                                </td>
 
-                            {!hideInterestCols ? (
-                              <td
-                                className={cn(
-                                  tdClass,
-                                  edgePadRight,
-                                  "text-right tabular-nums text-slate-800",
-                                )}
-                              >
-                                {bill.sisaBunga}
-                              </td>
-                            ) : (
-                              <td className={cn(tdClass, edgePadRight)} />
-                            )}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                                {!hideInterestCols ? (
+                                  <td
+                                    className={cn(
+                                      tdClass,
+                                      "w-[210px] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.totalBelumDibayar}
+                                  </td>
+                                ) : null}
+
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "w-[170px] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                  )}
+                                >
+                                  {bill.tagihanPokok}
+                                </td>
+
+                                {!hideInterestCols ? (
+                                  <td
+                                    className={cn(
+                                      tdClass,
+                                      "w-[150px] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.tagihanBunga}
+                                  </td>
+                                ) : null}
+
+                                <td
+                                  className={cn(
+                                    tdClass,
+                                    "w-[180px] pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                  )}
+                                >
+                                  {bill.sisaPokok}
+                                </td>
+
+                                {!hideInterestCols ? (
+                                  <td
+                                    className={cn(
+                                      tdClass,
+                                      "w-[170px] pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.sisaBunga}
+                                  </td>
+                                ) : null}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </td>
