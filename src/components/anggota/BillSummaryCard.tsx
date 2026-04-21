@@ -215,27 +215,23 @@ export default function BillSummaryCard({
 
       <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
         {isBayarBunga ? (
-          <SummaryRow
-            label="Total Tagihan Bunga"
-            value={displayTotals.bunga}
-            strong
-          />
+          <SummaryRow label="Total Tagihan Bunga" value={displayTotals.bunga} strong />
+        ) : isBayarPokok ? (
+          <SummaryRow label="Total Tagihan Pokok" value={displayTotals.pokok} strong />
         ) : (
           <>
             <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} />
 
-            {!isBayarPokok ? (
-              <>
-                <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
-                <SummaryRow label="Total Denda" value={displayTotals.denda} />
+            <>
+              <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
+              <SummaryRow label="Total Denda" value={displayTotals.denda} />
 
-                <SummaryRow
-                  label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
-                  value={displayTotals.total}
-                  strong
-                />
-              </>
-            ) : null}
+              <SummaryRow
+                label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
+                value={displayTotals.total}
+                strong
+              />
+            </>
           </>
         )}
 
