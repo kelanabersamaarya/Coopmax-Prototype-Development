@@ -76,14 +76,9 @@ export default function BillingTable({
   const tdClass = "px-3 py-3";
   const checkboxColW = "w-[44px]";
 
-  // Mode "Bayar Biaya Lainnya": kolom sesuai request
+  // Mode "Bayar Biaya Lainnya": kolom sesuai request (tanpa horizontal scroll)
   if (feeOnlyCols) {
     const colCount = 5;
-    const minW = "min-w-[820px]";
-    const jenisFeeW = "w-[260px]";
-    const periodeW = "w-[170px]";
-    const totalW = "w-[240px]";
-    const sisaW = "w-[220px]";
 
     // Prototype data: turunkan dari rows agar tidak perlu ubah data sumber
     const feeRows = rows.map((r, idx) => {
@@ -106,8 +101,9 @@ export default function BillingTable({
           className,
         )}
       >
-        <div className="overflow-auto">
-          <table className={cn("w-full border-collapse text-[13px]", minW)}>
+        {/* tidak ada scroll */}
+        <div className="overflow-hidden">
+          <table className="w-full table-fixed border-collapse text-[13px]">
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                 <th className={cn(checkboxColW, thClass, "pl-4")}>
@@ -124,15 +120,15 @@ export default function BillingTable({
                   />
                 </th>
 
-                <th className={cn(jenisFeeW, thClass)}>Jenis Fee</th>
-                <th className={cn(periodeW, thClass)}>Periode</th>
+                <th className={cn(thClass, "w-[34%]")}>Jenis Fee</th>
+                <th className={cn(thClass, "w-[20%]")}>Periode</th>
 
-                <th className={cn(totalW, thClass, "text-right")}>
+                <th className={cn(thClass, "w-[26%] text-right")}>
                   <span className="whitespace-nowrap">
                     Total Tagihan Biaya Lainnya
                   </span>
                 </th>
-                <th className={cn(sisaW, thClass, "pr-4 text-right")}>
+                <th className={cn(thClass, "w-[20%] pr-4 text-right")}>
                   <span className="whitespace-nowrap">
                     Sisa Tagihan Biaya Lainnya
                   </span>
@@ -146,13 +142,9 @@ export default function BillingTable({
                   <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
                     <div className="bg-white p-2">
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                        <div className="overflow-auto">
-                          <table
-                            className={cn(
-                              "w-full border-collapse text-[13px]",
-                              minW,
-                            )}
-                          >
+                        {/* tidak ada scroll */}
+                        <div className="overflow-hidden">
+                          <table className="w-full table-fixed border-collapse text-[13px]">
                             <tbody className="bg-white">
                               {feeRows.map((bill, idx) => (
                                 <tr
@@ -163,7 +155,9 @@ export default function BillingTable({
                                     <input
                                       type="checkbox"
                                       aria-label="Pilih fee"
-                                      checked={isPelunasan ? true : (selected[idx] ?? true)}
+                                      checked={
+                                        isPelunasan ? true : (selected[idx] ?? true)
+                                      }
                                       disabled={isPelunasan}
                                       onChange={(e) => {
                                         const next = e.target.checked;
@@ -176,19 +170,37 @@ export default function BillingTable({
                                     />
                                   </td>
 
-                                  <td className={cn(jenisFeeW, tdClass, "text-slate-900")}>
-                                    {bill.feeName}
+                                  {/* boleh wrap agar tidak memaksa scroll */}
+                                  <td className={cn(tdClass, "w-[34%] text-slate-900")}>
+                                    <div className="leading-snug">
+                                      {bill.feeName}
+                                    </div>
                                   </td>
 
-                                  <td className={cn(periodeW, tdClass, "text-slate-800 tabular-nums whitespace-nowrap")}>
+                                  <td
+                                    className={cn(
+                                      tdClass,
+                                      "w-[20%] text-slate-800 tabular-nums whitespace-nowrap",
+                                    )}
+                                  >
                                     {bill.periode}
                                   </td>
 
-                                  <td className={cn(totalW, tdClass, "text-right tabular-nums text-slate-800 whitespace-nowrap")}>
+                                  <td
+                                    className={cn(
+                                      tdClass,
+                                      "w-[26%] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
                                     {bill.total}
                                   </td>
 
-                                  <td className={cn(sisaW, tdClass, "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap")}>
+                                  <td
+                                    className={cn(
+                                      tdClass,
+                                      "w-[20%] pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
                                     {bill.sisa}
                                   </td>
                                 </tr>
