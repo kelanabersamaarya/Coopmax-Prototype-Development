@@ -54,7 +54,9 @@ const kolektorOptions = [
   "Kolektor C",
 ] as const;
 
-type KolektorValue = (typeof kolektorOptions)[number] | typeof KOLEKTOR_PLACEHOLDER;
+type KolektorValue =
+  | (typeof kolektorOptions)[number]
+  | typeof KOLEKTOR_PLACEHOLDER;
 
 function SingleOptionSelect({
   value,
@@ -93,7 +95,10 @@ function KolektorSelect({
 
   return (
     <div className="relative">
-      <Select value={value} onValueChange={(v) => onValueChange(v as KolektorValue)}>
+      <Select
+        value={value}
+        onValueChange={(v) => onValueChange(v as KolektorValue)}
+      >
         <SelectTrigger
           className={cn(
             "h-10 rounded-xl border-slate-200 bg-white",
@@ -194,6 +199,13 @@ export default function TransactionFormCardView2({
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
+
+  // Penalty Pelunasan (baru) — hanya untuk UI (prototype)
+  const [penaltyPelunasan, setPenaltyPelunasan] = React.useState("0");
+
+  React.useEffect(() => {
+    if (!isPelunasan) setPenaltyPelunasan("0");
+  }, [isPelunasan]);
 
   // Tabungan: selalu dropdown, tapi hanya ada opsi "Tanpa Tabungan"
   React.useEffect(() => {
@@ -322,24 +334,41 @@ export default function TransactionFormCardView2({
                   </div>
                 </>
               ) : (
-                <div className="grid gap-1.5">
-                  <Label className="text-xs text-slate-600">
-                    {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
-                  </Label>
-
+                <>
                   {isPelunasan ? (
-                    <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
-                      {nominalPelunasan}
+                    <div className="grid gap-1.5">
+                      <Label className="text-xs text-slate-600">
+                        Penalty Pelunasan
+                      </Label>
+                      <Input
+                        value={penaltyPelunasan}
+                        onChange={(e) => setPenaltyPelunasan(e.target.value)}
+                        inputMode="numeric"
+                        className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                        placeholder="0"
+                      />
                     </div>
-                  ) : (
-                    <Input
-                      value={nominal}
-                      onChange={(e) => setNominal(e.target.value)}
-                      inputMode="numeric"
-                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                    />
-                  )}
-                </div>
+                  ) : null}
+
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs text-slate-600">
+                      {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
+                    </Label>
+
+                    {isPelunasan ? (
+                      <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
+                        {nominalPelunasan}
+                      </div>
+                    ) : (
+                      <Input
+                        value={nominal}
+                        onChange={(e) => setNominal(e.target.value)}
+                        inputMode="numeric"
+                        className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                      />
+                    )}
+                  </div>
+                </>
               )}
 
               <div className="grid gap-1.5">
