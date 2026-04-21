@@ -31,7 +31,10 @@ import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
-import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
+import {
+  calcPenaltyTotal,
+  formatIdrLike,
+} from "@/components/anggota/calc-penalties";
 
 type Props = {
   nasabah: {
@@ -168,10 +171,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
-  const hideInterestCols = jenisTransaksi === "Bayar Pokok";
-  const interestOnlyCols = jenisTransaksi === "Bayar Bunga";
-  const penaltyOnlyCols = jenisTransaksi === "Bayar Denda";
-  const feeOnlyCols = jenisTransaksi === "Bayar Biaya Lainnya";
+
+  // sink label baru dari BillSummaryCard: "Pembayaran ..."
+  const hideInterestCols = jenisTransaksi === "Pembayaran Pokok";
+  const interestOnlyCols = jenisTransaksi === "Pembayaran Bunga";
+  const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
+  const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -340,8 +345,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   total: isPelunasan ? "2.500.000" : "2.708.333",
                 }}
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
-                transactionType={jenisTransaksi}
-                onTransactionTypeChange={(v) => setJenisTransaksi(v)}
+                transactionType={jenisTransaksi as any}
+                onTransactionTypeChange={(v: any) => setJenisTransaksi(v)}
               />
 
               <TransactionFormCardView2
