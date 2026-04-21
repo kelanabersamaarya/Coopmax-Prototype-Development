@@ -90,6 +90,8 @@ export default function BillSummaryCard({
   const isPembayaranKhusus = transactionType === "Pembayaran Rincian Tagihan";
   const isUnset = !transactionType;
 
+  const isBayarPokok = transactionType === "Bayar Pokok";
+
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
     : totals;
@@ -212,8 +214,14 @@ export default function BillSummaryCard({
 
       <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
         <SummaryRow label="Total Pokok" value={displayTotals.pokok} />
-        <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
-        <SummaryRow label="Total Denda" value={displayTotals.denda} />
+
+        {/* Khusus skema Bayar Pokok: sembunyikan Total Bunga & Total Denda */}
+        {!isBayarPokok ? (
+          <>
+            <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
+            <SummaryRow label="Total Denda" value={displayTotals.denda} />
+          </>
+        ) : null}
 
         <SummaryRow
           label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
