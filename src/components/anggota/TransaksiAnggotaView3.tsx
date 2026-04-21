@@ -106,6 +106,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
   const hideInterestCols = jenisTransaksi === "Bayar Pokok";
   const interestOnlyCols = jenisTransaksi === "Bayar Bunga";
+  const penaltyOnlyCols = jenisTransaksi === "Bayar Denda";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -142,7 +143,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [billsInMainTable.length]);
 
-  const showGraceHighlightMain = !isPelunasan && page === 1;
+  const showGraceHighlightMain = !penaltyOnlyCols && !isPelunasan && page === 1;
 
   return (
     <div className="w-full px-0">
@@ -274,6 +275,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 showGraceHighlight={showGraceHighlightMain}
                 hideInterestCols={hideInterestCols}
                 interestOnlyCols={interestOnlyCols}
+                penaltyOnlyCols={penaltyOnlyCols}
               />
 
               {isPelunasan ? (

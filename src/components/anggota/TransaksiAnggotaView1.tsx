@@ -169,6 +169,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const hideInterestCols = jenisTransaksi === "Bayar Pokok";
   const interestOnlyCols = jenisTransaksi === "Bayar Bunga";
+  const penaltyOnlyCols = jenisTransaksi === "Bayar Denda";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -200,7 +201,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
-  const showGraceHighlight = page === 1;
+  // Grace highlight dimatikan pada mode Bayar Denda
+  const showGraceHighlight = !penaltyOnlyCols && page === 1;
 
   return (
     <div className="w-full px-0">
@@ -307,6 +309,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 showGraceHighlight={showGraceHighlight}
                 hideInterestCols={hideInterestCols}
                 interestOnlyCols={interestOnlyCols}
+                penaltyOnlyCols={penaltyOnlyCols}
               />
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

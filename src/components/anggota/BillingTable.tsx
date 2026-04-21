@@ -21,6 +21,7 @@ export default function BillingTable({
   showGraceHighlight,
   hideInterestCols,
   interestOnlyCols = false,
+  penaltyOnlyCols = false,
   className,
 }: {
   rows: BillingRow[];
@@ -30,6 +31,7 @@ export default function BillingTable({
   showGraceHighlight: boolean;
   hideInterestCols: boolean;
   interestOnlyCols?: boolean;
+  penaltyOnlyCols?: boolean;
   className?: string;
 }) {
   const allChecked = React.useMemo(
@@ -49,6 +51,139 @@ export default function BillingTable({
   const tdClass = "px-3 py-3";
 
   const checkboxColW = "w-[44px]";
+
+  // Mode "Bayar Denda": tampilkan hanya kolom denda, tanpa info grace period
+  if (penaltyOnlyCols) {
+    const colCount = 4;
+    const minW = "min-w-[620px]";
+    const dateColW = "w-[250px]";
+    const dendaColW = "w-[180px]";
+    const sisaDendaColW = "w-[190px]";
+
+    // Prototype: karena dataset belum punya denda, kita isi "0" agar UI sesuai.
+    const getPenalty = () => "0";
+    const getRemainingPenalty = () => "0";
+
+    return (
+      <div
+        className={cn(
+          "mt-3 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200",
+          className,
+        )}
+      >
+        <div className="overflow-auto">
+          <table className={cn("w-full border-collapse text-[13px]", minW)}>
+            <thead className="bg-white">
+              <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                <th className={cn(checkboxColW, thClass, "pl-4")}>
+                  <input
+                    ref={headerCheckboxRef}
+                    type="checkbox"
+                    aria-label="Pilih semua"
+                    checked={isPelunasan ? true : allChecked}
+                    disabled={isPelunasan}
+                    onChange={(e) => {
+                      const next = e.target.checked;
+                      setSelected(rows.map(() => next));
+                    }}
+                  />
+                </th>
+
+                <th className={cn(dateColW, thClass)}>
+                  Jatuh Tempo Tagihan Pinjaman
+                </th>
+
+                <th className={cn(dendaColW, thClass, "text-right")}>
+                  Total Tagihan Denda
+                </th>
+
+                <th className={cn(sisaDendaColW, thClass, "pr-4 text-right")}>
+                  Sisa Tagihan Denda
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="bg-white">
+              <tr>
+                <td colSpan={colCount} className="p-0">
+                  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                    <div className="bg-white p-2">
+                      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                        <div className="overflow-auto">
+                          <table
+                            className={cn(
+                              "w-full border-collapse text-[13px]",
+                              minW,
+                            )}
+                          >
+                            <tbody className="bg-white">
+                              {rows.map((bill, idx) => (
+                                <tr
+                                  key={`${bill.jatuhTempo}-${idx}`}
+                                  className="border-t border-slate-100 text-sm"
+                                >
+                                  <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                                    <input
+                                      type="checkbox"
+                                      aria-label="Pilih tagihan"
+                                      checked={isPelunasan ? true : selected[idx] ?? true}
+                                      disabled={isPelunasan}
+                                      onChange={(e) => {
+                                        const next = e.target.checked;
+                                        setSelected((prev) => {
+                                          const copy = [...prev];
+                                          copy[idx] = next;
+                                          return copy;
+                                        });
+                                      }}
+                                    />
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      dateColW,
+                                      tdClass,
+                                      "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.jatuhTempo}
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      dendaColW,
+                                      tdClass,
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {getPenalty()}
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      sisaDendaColW,
+                                      tdClass,
+                                      "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {getRemainingPenalty()}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
 
   // Mode "Bayar Bunga": tampilkan hanya kolom bunga
   if (interestOnlyCols) {
@@ -269,7 +404,9 @@ export default function BillingTable({
                   <div className="bg-white p-2">
                     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                       <div className="overflow-auto">
-                        <table className={cn("w-full border-collapse text-[13px]", minW)}>
+                        <table
+                          className={cn("w-full border-collapse text-[13px]", minW)}
+                        >
                           <tbody className="bg-white">
                             {showGraceHighlight ? (
                               <GracePeriodInfoRow colSpan={colCount} />
