@@ -77,15 +77,12 @@ export default function BillingTable({
   if (feeOnlyCols) {
     const colCount = 5;
 
-    // Edge padding: kolom pertama & terakhir dibuat lebih lega
     const edgeL = "pl-6";
     const edgeR = "pr-8";
 
-    // Gutter antar kolom (lebih rapi)
     const thMid = "px-4 py-2.5";
     const tdMid = "px-4 py-3";
 
-    // Lebar kolom (dibuat lebih seimbang, kolom terakhir lebih lebar)
     const wJenis = "w-[30%]";
     const wPeriode = "w-[18%]";
     const wTotal = "w-[26%]";
@@ -129,7 +126,7 @@ export default function BillingTable({
                   />
                 </th>
 
-                <th className={cn(wJenis, thMid)}>Jenis Fee</th>
+                <th className={cn(wJenis, thMid)}>Jenis Biaya Lainnya (Fee)</th>
                 <th className={cn(wPeriode, thMid)}>Periode</th>
 
                 <th className={cn(wTotal, thMid, "text-right")}>
@@ -229,8 +226,6 @@ export default function BillingTable({
       </div>
     );
   }
-
-  // ====== BAGIAN LAIN TIDAK DIUBAH (tetap sama seperti sebelumnya) ======
 
   if (penaltyOnlyCols) {
     const colCount = 5;
