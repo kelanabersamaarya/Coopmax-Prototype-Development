@@ -59,9 +59,19 @@ export default function BillingTable({
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
+  // IMPORTANT: Hooks harus selalu dipanggil (jangan di dalam conditional return)
+  const penalties = React.useMemo(() => {
+    const base = 25000;
+    const fmt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return rows.map((_, idx) => {
+      const total = base + idx * 5000;
+      const remaining = Math.max(0, total - 10000);
+      return { total: fmt(total), remaining: fmt(remaining) };
+    });
+  }, [rows]);
+
   const thClass = "px-3 py-2.5";
   const tdClass = "px-3 py-3";
-
   const checkboxColW = "w-[44px]";
 
   // Mode "Bayar Denda": tampilkan hanya kolom denda, tanpa info grace period
@@ -71,19 +81,6 @@ export default function BillingTable({
     const dateColW = "w-[250px]";
     const dendaColW = "w-[180px]";
     const sisaDendaColW = "w-[190px]";
-
-    // Prototype: isi contoh agar UI tidak selalu 0.
-    // Pola sederhana: makin belakang, sisa denda makin kecil.
-    const penalties = React.useMemo(() => {
-      const base = 25000;
-      return rows.map((_, idx) => {
-        const total = base + idx * 5000; // 25.000, 30.000, 35.000, ...
-        const remaining = Math.max(0, total - 10000); // sisa sedikit lebih kecil
-        const fmt = (n: number) =>
-          n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        return { total: fmt(total), remaining: fmt(remaining) };
-      });
-    }, [rows]);
 
     return (
       <div
