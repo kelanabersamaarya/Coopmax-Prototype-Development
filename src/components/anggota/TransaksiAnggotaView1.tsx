@@ -168,6 +168,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const hideInterestCols = jenisTransaksi === "Bayar Pokok";
+  const interestOnlyCols = jenisTransaksi === "Bayar Bunga";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -305,6 +306,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 isPelunasan={isPelunasan}
                 showGraceHighlight={showGraceHighlight}
                 hideInterestCols={hideInterestCols}
+                interestOnlyCols={interestOnlyCols}
               />
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

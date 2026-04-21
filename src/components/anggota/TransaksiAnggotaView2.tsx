@@ -105,6 +105,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
   const hideInterestCols = jenisTransaksi === "Bayar Pokok";
+  const interestOnlyCols = jenisTransaksi === "Bayar Bunga";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -274,6 +275,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 isPelunasan={isPelunasan}
                 showGraceHighlight={showGraceHighlightMain}
                 hideInterestCols={hideInterestCols}
+                interestOnlyCols={interestOnlyCols}
               />
 
               {isPelunasan ? (

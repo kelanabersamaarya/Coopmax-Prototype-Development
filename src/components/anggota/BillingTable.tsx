@@ -20,6 +20,7 @@ export default function BillingTable({
   isPelunasan,
   showGraceHighlight,
   hideInterestCols,
+  interestOnlyCols = false,
   className,
 }: {
   rows: BillingRow[];
@@ -28,6 +29,7 @@ export default function BillingTable({
   isPelunasan: boolean;
   showGraceHighlight: boolean;
   hideInterestCols: boolean;
+  interestOnlyCols?: boolean;
   className?: string;
 }) {
   const allChecked = React.useMemo(
@@ -46,10 +48,148 @@ export default function BillingTable({
   const thClass = "px-3 py-2.5";
   const tdClass = "px-3 py-3";
 
+  const checkboxColW = "w-[44px]";
+
+  // Mode "Bayar Bunga": tampilkan hanya kolom bunga
+  if (interestOnlyCols) {
+    const colCount = 4;
+    const minW = "min-w-[560px]";
+    const dateColW = "w-[200px]";
+    const bungaColW = "w-[190px]";
+    const sisaBungaColW = "w-[200px]";
+
+    return (
+      <div
+        className={cn(
+          "mt-3 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200",
+          className,
+        )}
+      >
+        <div className="overflow-auto">
+          <table className={cn("w-full border-collapse text-[13px]", minW)}>
+            <thead className="bg-white">
+              <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                <th className={cn(checkboxColW, thClass, "pl-4")}>
+                  <input
+                    ref={headerCheckboxRef}
+                    type="checkbox"
+                    aria-label="Pilih semua"
+                    checked={isPelunasan ? true : allChecked}
+                    disabled={isPelunasan}
+                    onChange={(e) => {
+                      const next = e.target.checked;
+                      setSelected(rows.map(() => next));
+                    }}
+                  />
+                </th>
+
+                <th className={cn(dateColW, thClass)}>Jatuh Tempo</th>
+
+                <th className={cn(bungaColW, thClass, "text-right")}>
+                  Tagihan Bunga
+                </th>
+
+                <th className={cn(sisaBungaColW, thClass, "pr-4 text-right")}>
+                  Sisa Tagihan Bunga
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="bg-white">
+              <tr>
+                <td colSpan={colCount} className="p-0">
+                  <div
+                    className={cn(
+                      "overflow-hidden bg-white",
+                      showGraceHighlight
+                        ? "rounded-2xl border-2 border-blue-600/70"
+                        : "rounded-2xl border border-slate-200",
+                    )}
+                  >
+                    <div className="bg-white p-2">
+                      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                        <div className="overflow-auto">
+                          <table
+                            className={cn(
+                              "w-full border-collapse text-[13px]",
+                              minW,
+                            )}
+                          >
+                            <tbody className="bg-white">
+                              {showGraceHighlight ? (
+                                <GracePeriodInfoRow colSpan={colCount} />
+                              ) : null}
+
+                              {rows.map((bill, idx) => (
+                                <tr
+                                  key={`${bill.jatuhTempo}-${idx}`}
+                                  className="border-t border-slate-100 text-sm"
+                                >
+                                  <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                                    <input
+                                      type="checkbox"
+                                      aria-label="Pilih tagihan"
+                                      checked={isPelunasan ? true : selected[idx] ?? true}
+                                      disabled={isPelunasan}
+                                      onChange={(e) => {
+                                        const next = e.target.checked;
+                                        setSelected((prev) => {
+                                          const copy = [...prev];
+                                          copy[idx] = next;
+                                          return copy;
+                                        });
+                                      }}
+                                    />
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      dateColW,
+                                      tdClass,
+                                      "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.jatuhTempo}
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      bungaColW,
+                                      tdClass,
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.tagihanBunga}
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      sisaBungaColW,
+                                      tdClass,
+                                      "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.sisaBunga}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
   const colCount = hideInterestCols ? 4 : 7;
   const minW = hideInterestCols ? "min-w-[600px]" : "min-w-[720px]";
-
-  const checkboxColW = "w-[44px]";
 
   // Mode "Bayar Pokok": kecilkan Jatuh Tempo supaya Tagihan Pokok "geser ke tengah"
   const dateColW = hideInterestCols ? "w-[200px]" : "w-[140px]";

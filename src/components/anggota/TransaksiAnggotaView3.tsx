@@ -105,6 +105,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
   const hideInterestCols = jenisTransaksi === "Bayar Pokok";
+  const interestOnlyCols = jenisTransaksi === "Bayar Bunga";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -272,6 +273,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 isPelunasan={isPelunasan}
                 showGraceHighlight={showGraceHighlightMain}
                 hideInterestCols={hideInterestCols}
+                interestOnlyCols={interestOnlyCols}
               />
 
               {isPelunasan ? (
@@ -297,7 +299,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   pokok: "2.455.555",
                   bunga: isPelunasan ? "0" : "208.333",
                   denda: "0",
-                  total: "2.455.555",
+                  total: isPelunasan ? "2.455.555" : "2.455.555",
                 }}
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
                 transactionType={jenisTransaksi}
