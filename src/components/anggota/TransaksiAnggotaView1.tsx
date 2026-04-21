@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
@@ -31,6 +30,7 @@ import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
+import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
 
 type Props = {
   nasabah: {
@@ -41,16 +41,7 @@ type Props = {
   };
 };
 
-type Row = {
-  jatuhTempo: string;
-  totalBelumDibayar: string;
-  tagihanPokok: string;
-  tagihanBunga: string;
-  sisaPokok: string;
-  sisaBunga: string;
-};
-
-const rows: Row[] = [
+const rows: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
     totalBelumDibayar: "916.667",
@@ -108,14 +99,14 @@ function Pagination({
 
   return (
     <div className="flex items-center justify-end gap-2">
-      <Button
-        variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+      <button
+        type="button"
+        className="h-9 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
         disabled={page === 1}
         onClick={() => onPage(Math.max(1, page - 1))}
       >
         Sebelumnya
-      </Button>
+      </button>
 
       <div className="flex items-center gap-1">
         {items.map((it, idx) => {
@@ -148,14 +139,14 @@ function Pagination({
         })}
       </div>
 
-      <Button
-        variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+      <button
+        type="button"
+        className="h-9 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
         disabled={page === pageCount}
         onClick={() => onPage(Math.min(pageCount, page + 1))}
       >
         Selanjutnya
-      </Button>
+      </button>
     </div>
   );
 }
@@ -176,6 +167,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
+  const hideInterestCols = jenisTransaksi === "Bayar Pokok";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -207,23 +199,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
-  const allChecked = React.useMemo(
-    () => selected.length > 0 && selected.every(Boolean),
-    [selected],
-  );
-  const anyChecked = React.useMemo(() => selected.some(Boolean), [selected]);
-  const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
-
-  React.useEffect(() => {
-    if (!headerCheckboxRef.current) return;
-    headerCheckboxRef.current.indeterminate =
-      !isPelunasan && anyChecked && !allChecked;
-  }, [allChecked, anyChecked, isPelunasan]);
-
-  const thClass = "px-1 py-2.5";
-  const edgePadLeft = "pl-4";
-  const edgePadRight = "pr-4";
-
   const showGraceHighlight = page === 1;
 
   return (
@@ -249,9 +224,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             <div className="absolute right-3 top-3 sm:right-4 sm:top-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="h-9 rounded-full bg-white px-3 text-slate-900 ring-1 ring-white/60 hover:bg-white/90">
+                  <button
+                    type="button"
+                    className="inline-flex h-9 items-center rounded-full bg-white px-3 text-sm font-semibold text-slate-900 ring-1 ring-white/60 hover:bg-white/90"
+                  >
                     Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-600" />
-                  </Button>
+                  </button>
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent
@@ -269,7 +247,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     className="rounded-xl"
                     onClick={() => toast("Simulasi Tunggakan (prototype)")}
                   >
-                    <Info className="mr-2 h-4 w-4" />
+                    <Calculator className="mr-2 h-4 w-4" />
                     Simulasi Tunggakan
                   </DropdownMenuItem>
 
@@ -320,132 +298,14 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              <div className="mt-3 overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-                <div className="overflow-auto">
-                  <table className="w-full min-w-[540px] border-collapse text-[13px]">
-                    <thead className="bg-white">
-                      <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                        <th className={cn("w-[30px]", thClass, edgePadLeft)}>
-                          <input
-                            ref={headerCheckboxRef}
-                            type="checkbox"
-                            aria-label="Pilih semua"
-                            checked={isPelunasan ? true : allChecked}
-                            disabled={isPelunasan}
-                            onChange={(e) => {
-                              const next = e.target.checked;
-                              setSelected(rows.map(() => next));
-                            }}
-                          />
-                        </th>
-                        <th className={cn("w-[104px]", thClass)}>Jatuh Tempo</th>
-                        <th className={cn("w-[146px]", thClass)}>
-                          Total Tagihan Belum Dibayar
-                        </th>
-                        <th className={cn("w-[98px]", thClass)}>Tagihan Pokok</th>
-                        <th className={cn("w-[98px]", thClass)}>Tagihan Bunga</th>
-                        <th className={cn("w-[108px]", thClass)}>
-                          Sisa Tagihan Pokok
-                        </th>
-                        <th className={cn("w-[108px]", thClass, edgePadRight)}>
-                          Sisa Tagihan Bunga
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
-
-                <div className="px-2 pb-2">
-                  <div
-                    className={cn(
-                      "overflow-hidden rounded-xl bg-white",
-                      showGraceHighlight
-                        ? "border-2 border-blue-600/70"
-                        : "border border-slate-200",
-                    )}
-                  >
-                    <div className="overflow-auto">
-                      <table className="w-full min-w-[540px] border-collapse text-[13px]">
-                        <tbody className="bg-white">
-                          {showGraceHighlight ? (
-                            <tr className="border-b border-slate-200">
-                              <td colSpan={7} className="px-3 py-3">
-                                <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-slate-800">
-                                  <div className="flex items-start gap-2">
-                                    <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                                      <Info className="h-4 w-4" />
-                                    </span>
-                                    <div>
-                                      <div className="font-semibold">
-                                        Periode Grace Period
-                                      </div>
-                                      <div className="mt-0.5 text-slate-700">
-                                        Berikut ini merupakan periode tagihan
-                                        pinjaman yang termasuk ke dalam grace
-                                        period. Selama periode grace period nasabah
-                                        hanya membayar bunga.
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          ) : null}
-
-                          {pagedRows.map((r, idx) => {
-                            const realIdx = (page - 1) * pageSize + idx;
-                            const checked = isPelunasan
-                              ? true
-                              : selected[realIdx] ?? false;
-
-                            return (
-                              <tr
-                                key={`${r.jatuhTempo}-${realIdx}`}
-                                className="border-b border-slate-200 last:border-b-0"
-                              >
-                                <td className="w-[30px] px-3 py-3">
-                                  <input
-                                    type="checkbox"
-                                    aria-label={`Pilih row ${realIdx + 1}`}
-                                    checked={checked}
-                                    disabled={isPelunasan}
-                                    onChange={(e) => {
-                                      const next = e.target.checked;
-                                      setSelected((prev) => {
-                                        const copy = [...prev];
-                                        copy[realIdx] = next;
-                                        return copy;
-                                      });
-                                    }}
-                                  />
-                                </td>
-                                <td className="w-[104px] px-3 py-3 font-medium text-slate-900">
-                                  {r.jatuhTempo}
-                                </td>
-                                <td className="w-[146px] px-3 py-3 text-right tabular-nums text-slate-800">
-                                  {r.totalBelumDibayar}
-                                </td>
-                                <td className="w-[98px] px-3 py-3 text-right tabular-nums text-slate-800">
-                                  {r.tagihanPokok}
-                                </td>
-                                <td className="w-[98px] px-3 py-3 text-right tabular-nums text-slate-800">
-                                  {r.tagihanBunga}
-                                </td>
-                                <td className="w-[108px] px-3 py-3 text-right tabular-nums text-slate-800">
-                                  {r.sisaPokok}
-                                </td>
-                                <td className="w-[108px] px-3 py-3 text-right tabular-nums text-slate-800">
-                                  {r.sisaBunga}
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <BillingTable
+                rows={pagedRows}
+                selected={selected}
+                setSelected={setSelected}
+                isPelunasan={isPelunasan}
+                showGraceHighlight={showGraceHighlight}
+                hideInterestCols={hideInterestCols}
+              />
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-600">
