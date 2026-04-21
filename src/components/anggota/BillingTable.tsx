@@ -81,6 +81,8 @@ export default function BillingTable({
     "aria-label": ariaLabel,
     className,
     refEl,
+    size = "md",
+    tone = "accent",
   }: {
     checked: boolean;
     disabled?: boolean;
@@ -88,7 +90,15 @@ export default function BillingTable({
     "aria-label": string;
     className?: string;
     refEl?: React.RefObject<HTMLInputElement | null>;
+    size?: "sm" | "md";
+    tone?: "accent" | "blue";
   }) => {
+    const sizeClass = size === "sm" ? "h-4 w-4 rounded-[5px]" : "h-5 w-5 rounded-md";
+    const toneClass =
+      tone === "blue"
+        ? "accent-blue-600 focus:ring-blue-500/25"
+        : "accent-[hsl(var(--app-accent))] focus:ring-[hsl(var(--app-accent))]/25";
+
     return (
       <div className={cn("flex items-center justify-center", className)}>
         <input
@@ -99,9 +109,9 @@ export default function BillingTable({
           disabled={disabled}
           onChange={(e) => onChange(e.target.checked)}
           className={cn(
-            "h-5 w-5 accent-[hsl(var(--app-accent))]",
-            "rounded-md",
-            "focus:outline-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/25",
+            sizeClass,
+            toneClass,
+            "focus:outline-none focus:ring-2",
             disabled ? "opacity-70" : "",
           )}
         />
@@ -136,7 +146,6 @@ export default function BillingTable({
 
     return (
       <div className={cn("mt-3", className)}>
-        {/* BORDER OUTER sekarang meng-cover header juga */}
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="overflow-auto">
             <table className={cn("w-full border-collapse text-[13px]", minW)}>
@@ -149,6 +158,8 @@ export default function BillingTable({
                       checked={isPelunasan ? true : allChecked}
                       disabled={isPelunasan}
                       onChange={(next) => setSelected(rows.map(() => next))}
+                      size="sm"
+                      tone="blue"
                     />
                   </th>
 
@@ -172,7 +183,6 @@ export default function BillingTable({
               <tbody className="bg-white">
                 <tr>
                   <td colSpan={colCount} className="p-0">
-                    {/* Inner: padding putih + inner border (gaya bunga), tanpa border biru */}
                     <div className="bg-white p-2">
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                         <div className="overflow-auto">
@@ -217,6 +227,8 @@ export default function BillingTable({
                                             return copy;
                                           })
                                         }
+                                        size="sm"
+                                        tone="blue"
                                       />
                                     </td>
 
@@ -282,23 +294,20 @@ export default function BillingTable({
 
     return (
       <div className={cn("mt-3", className)}>
-        {/* BORDER OUTER sekarang meng-cover header juga */}
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="overflow-auto">
             <table className={cn("w-full border-collapse text-[13px]", minW)}>
               <thead className="bg-white">
                 <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                   <th className={cn(checkboxColW, thClass, "pl-4")}>
-                    <input
-                      ref={headerCheckboxRef}
-                      type="checkbox"
+                    <CheckboxCell
+                      refEl={headerCheckboxRef}
                       aria-label="Pilih semua"
                       checked={isPelunasan ? true : allChecked}
                       disabled={isPelunasan}
-                      onChange={(e) => {
-                        const next = e.target.checked;
-                        setSelected(rows.map(() => next));
-                      }}
+                      onChange={(next) => setSelected(rows.map(() => next))}
+                      size="sm"
+                      tone="blue"
                     />
                   </th>
 
@@ -323,7 +332,6 @@ export default function BillingTable({
               <tbody className="bg-white">
                 <tr>
                   <td colSpan={colCount} className="p-0">
-                    {/* Inner: padding putih + inner border (gaya bunga), tanpa border biru */}
                     <div className="bg-white p-2">
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                         <div className="overflow-auto">
@@ -350,7 +358,9 @@ export default function BillingTable({
                                     <td className={cn(checkboxColW, tdClass, "pl-4")}>
                                       <CheckboxCell
                                         aria-label="Pilih tagihan"
-                                        checked={isPelunasan ? true : (selected[idx] ?? true)}
+                                        checked={
+                                          isPelunasan ? true : (selected[idx] ?? true)
+                                        }
                                         disabled={isPelunasan}
                                         onChange={(next) =>
                                           setSelected((prev) => {
@@ -359,6 +369,8 @@ export default function BillingTable({
                                             return copy;
                                           })
                                         }
+                                        size="sm"
+                                        tone="blue"
                                       />
                                     </td>
 
