@@ -55,10 +55,10 @@ type TransactionType =
   | "Pembayaran Reguler"
   | "Pembayaran Rincian Tagihan"
   | "Pelunasan"
-  | "Bayar Pokok"
-  | "Bayar Bunga"
-  | "Bayar Denda"
-  | "Bayar Biaya Lainnya";
+  | "Pembayaran Pokok"
+  | "Pembayaran Bunga"
+  | "Pembayaran Denda"
+  | "Pembayaran Biaya Lainnya";
 
 function titleCaseEachWord(input: string) {
   return input
@@ -89,10 +89,10 @@ export default function BillSummaryCard({
 }) {
   const isUnset = !transactionType;
 
-  const isBayarPokok = transactionType === "Bayar Pokok";
-  const isBayarBunga = transactionType === "Bayar Bunga";
-  const isBayarDenda = transactionType === "Bayar Denda";
-  const isBayarBiayaLainnya = transactionType === "Bayar Biaya Lainnya";
+  const isPembayaranPokok = transactionType === "Pembayaran Pokok";
+  const isPembayaranBunga = transactionType === "Pembayaran Bunga";
+  const isPembayaranDenda = transactionType === "Pembayaran Denda";
+  const isPembayaranBiayaLainnya = transactionType === "Pembayaran Biaya Lainnya";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -102,7 +102,8 @@ export default function BillSummaryCard({
     ? { ke: "0", lunas: "0", seharusnya: "0" }
     : installment;
 
-  const showInstallmentSection = !isBayarDenda && !isBayarBiayaLainnya;
+  const showInstallmentSection =
+    !isPembayaranDenda && !isPembayaranBiayaLainnya;
 
   const handleChange = React.useCallback(
     (v: TransactionType) => {
@@ -183,41 +184,41 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Bayar Pokok" ? "bg-slate-100" : "",
+                transactionType === "Pembayaran Pokok" ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Bayar Pokok")}
+              onClick={() => handleChange("Pembayaran Pokok")}
             >
-              {transactionLabel("Bayar Pokok")}
+              {transactionLabel("Pembayaran Pokok")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Bayar Bunga" ? "bg-slate-100" : "",
+                transactionType === "Pembayaran Bunga" ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Bayar Bunga")}
+              onClick={() => handleChange("Pembayaran Bunga")}
             >
-              {transactionLabel("Bayar Bunga")}
+              {transactionLabel("Pembayaran Bunga")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Bayar Denda" ? "bg-slate-100" : "",
+                transactionType === "Pembayaran Denda" ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Bayar Denda")}
+              onClick={() => handleChange("Pembayaran Denda")}
             >
-              {transactionLabel("Bayar Denda")}
+              {transactionLabel("Pembayaran Denda")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Bayar Biaya Lainnya" ? "bg-slate-100" : "",
+                transactionType === "Pembayaran Biaya Lainnya" ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Bayar Biaya Lainnya")}
+              onClick={() => handleChange("Pembayaran Biaya Lainnya")}
             >
-              {transactionLabel("Bayar Biaya Lainnya")}
+              {transactionLabel("Pembayaran Biaya Lainnya")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -226,25 +227,25 @@ export default function BillSummaryCard({
       <Separator className="my-4 bg-slate-200/70" />
 
       <div>
-        {isBayarBunga ? (
+        {isPembayaranBunga ? (
           <SummaryRow
             label="Total Tagihan Bunga"
             value={displayTotals.bunga}
             strong
           />
-        ) : isBayarPokok ? (
+        ) : isPembayaranPokok ? (
           <SummaryRow
             label="Total Tagihan Pokok"
             value={displayTotals.pokok}
             strong
           />
-        ) : isBayarDenda ? (
+        ) : isPembayaranDenda ? (
           <SummaryRow
             label="Total Tagihan Denda"
             value={displayTotals.denda}
             strong
           />
-        ) : isBayarBiayaLainnya ? (
+        ) : isPembayaranBiayaLainnya ? (
           <SummaryRow
             label="Total Tagihan Biaya Lainnya"
             value={displayTotals.total}
