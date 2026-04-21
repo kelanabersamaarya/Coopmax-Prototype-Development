@@ -76,11 +76,12 @@ export default function BillingTable({
 
   // Mode "Bayar Denda": tampilkan hanya kolom denda, tanpa info grace period
   if (penaltyOnlyCols) {
-    const colCount = 4;
-    const minW = "min-w-[620px]";
-    const dateColW = "w-[250px]";
-    const dendaColW = "w-[180px]";
-    const sisaDendaColW = "w-[190px]";
+    const colCount = 5;
+    const minW = "min-w-[720px]";
+    const angsuranColW = "w-[140px]";
+    const dateColW = "w-[260px]";
+    const dendaColW = "w-[160px]";
+    const sisaDendaColW = "w-[170px]";
 
     return (
       <div
@@ -105,6 +106,10 @@ export default function BillingTable({
                       setSelected(rows.map(() => next));
                     }}
                   />
+                </th>
+
+                <th className={cn(angsuranColW, thClass)}>
+                  <span className="leading-none">ANGSURAN KE-</span>
                 </th>
 
                 <th className={cn(dateColW, thClass)}>
@@ -159,6 +164,16 @@ export default function BillingTable({
                                         });
                                       }}
                                     />
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      angsuranColW,
+                                      tdClass,
+                                      "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                                    )}
+                                  >
+                                    {idx + 1}
                                   </td>
 
                                   <td
