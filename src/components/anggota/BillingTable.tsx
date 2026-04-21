@@ -50,12 +50,14 @@ export default function BillingTable({
   const minW = hideInterestCols ? "min-w-[600px]" : "min-w-[720px]";
 
   const checkboxColW = "w-[44px]";
-  const dateColW = hideInterestCols ? "w-[280px]" : "w-[140px]";
-  const pokokColW = hideInterestCols ? "w-[160px]" : "w-[170px]";
+
+  // Mode "Bayar Pokok": kecilkan Jatuh Tempo supaya Tagihan Pokok "geser ke tengah"
+  const dateColW = hideInterestCols ? "w-[200px]" : "w-[140px]";
+  const pokokColW = hideInterestCols ? "w-[200px]" : "w-[170px]";
+  const sisaPokokColW = hideInterestCols ? "w-[200px]" : "w-[180px]";
 
   const totalColW = "w-[210px]";
   const bungaColW = "w-[150px]";
-  const sisaPokokColW = "w-[180px]";
   const sisaBungaColW = "w-[170px]";
 
   return (
@@ -116,7 +118,6 @@ export default function BillingTable({
           <tbody className="bg-white">
             <tr>
               <td colSpan={colCount} className="p-0">
-                {/* OUTER BOX: border highlight (kembali seperti awal) */}
                 <div
                   className={cn(
                     "overflow-hidden bg-white",
@@ -125,9 +126,7 @@ export default function BillingTable({
                       : "rounded-2xl border border-slate-200",
                   )}
                 >
-                  {/* INNER GAP: biar border tidak menempel */}
                   <div className="bg-white p-2">
-                    {/* INNER BOX: border normal */}
                     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                       <div className="overflow-auto">
                         <table className={cn("w-full border-collapse text-[13px]", minW)}>
