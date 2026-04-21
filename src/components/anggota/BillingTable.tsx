@@ -79,11 +79,11 @@ export default function BillingTable({
   // Mode "Bayar Biaya Lainnya": kolom sesuai request
   if (feeOnlyCols) {
     const colCount = 5;
-    const minW = "min-w-[780px]";
+    const minW = "min-w-[820px]";
     const jenisFeeW = "w-[260px]";
     const periodeW = "w-[170px]";
-    const totalW = "w-[190px]";
-    const sisaW = "w-[190px]";
+    const totalW = "w-[240px]";
+    const sisaW = "w-[220px]";
 
     // Prototype data: turunkan dari rows agar tidak perlu ubah data sumber
     const feeRows = rows.map((r, idx) => {
@@ -128,10 +128,14 @@ export default function BillingTable({
                 <th className={cn(periodeW, thClass)}>Periode</th>
 
                 <th className={cn(totalW, thClass, "text-right")}>
-                  Total Tagihan Biaya Lainnya
+                  <span className="whitespace-nowrap">
+                    Total Tagihan Biaya Lainnya
+                  </span>
                 </th>
                 <th className={cn(sisaW, thClass, "pr-4 text-right")}>
-                  Sisa Tagihan Biaya Lainnya
+                  <span className="whitespace-nowrap">
+                    Sisa Tagihan Biaya Lainnya
+                  </span>
                 </th>
               </tr>
             </thead>
