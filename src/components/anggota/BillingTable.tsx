@@ -74,19 +74,55 @@ export default function BillingTable({
   const tdClass = "px-3 py-3";
   const checkboxColW = "w-[44px]";
 
+  const CheckboxCell = ({
+    checked,
+    disabled,
+    onChange,
+    "aria-label": ariaLabel,
+    className,
+    refEl,
+  }: {
+    checked: boolean;
+    disabled?: boolean;
+    onChange: (next: boolean) => void;
+    "aria-label": string;
+    className?: string;
+    refEl?: React.RefObject<HTMLInputElement | null>;
+  }) => {
+    return (
+      <div className={cn("flex items-center justify-center", className)}>
+        <input
+          ref={refEl}
+          type="checkbox"
+          aria-label={ariaLabel}
+          checked={checked}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.checked)}
+          className={cn(
+            "h-5 w-5 accent-[hsl(var(--app-accent))]",
+            "rounded-md",
+            "focus:outline-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/25",
+            disabled ? "opacity-70" : "",
+          )}
+        />
+      </div>
+    );
+  };
+
   if (feeOnlyCols) {
     const colCount = 5;
 
-    const edgeL = "pl-6";
-    const edgeR = "pr-8";
+    // Lebih bersih: hilangkan border berlapis, cukup 1 ring + divider halus
+    const edgeL = "pl-5";
+    const edgeR = "pr-5";
 
     const thMid = "px-4 py-2.5";
     const tdMid = "px-4 py-3";
 
-    const wJenis = "w-[30%]";
+    const wJenis = "w-[34%]";
     const wPeriode = "w-[18%]";
-    const wTotal = "w-[26%]";
-    const wSisa = "w-[26%]";
+    const wTotal = "w-[24%]";
+    const wSisa = "w-[24%]";
 
     const feeRows = rows.map((r, idx) => {
       const feeName =
@@ -108,25 +144,21 @@ export default function BillingTable({
           className,
         )}
       >
-        <div className="overflow-hidden">
+        <div className="overflow-auto">
           <table className="w-full table-fixed border-collapse text-[13px]">
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                <th className={cn(checkboxColW, thClass, edgeL)}>
-                  <input
-                    ref={headerCheckboxRef}
-                    type="checkbox"
+                <th className={cn(checkboxColW, thClass, edgeL, "text-center")}>
+                  <CheckboxCell
+                    refEl={headerCheckboxRef}
                     aria-label="Pilih semua"
                     checked={isPelunasan ? true : allChecked}
                     disabled={isPelunasan}
-                    onChange={(e) => {
-                      const next = e.target.checked;
-                      setSelected(rows.map(() => next));
-                    }}
+                    onChange={(next) => setSelected(rows.map(() => next))}
                   />
                 </th>
 
-                <th className={cn(wJenis, thMid)}>Jenis Biaya Lainnya (Fee)</th>
+                <th className={cn(wJenis, thMid)}>Jenis Fee</th>
                 <th className={cn(wPeriode, thMid)}>Periode</th>
 
                 <th className={cn(wTotal, thMid, "text-right")}>
@@ -144,82 +176,77 @@ export default function BillingTable({
             </thead>
 
             <tbody className="bg-white">
-              <tr>
-                <td colSpan={colCount} className="p-0">
-                  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                    <div className="bg-white p-3">
-                      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                        <div className="overflow-hidden">
-                          <table className="w-full table-fixed border-collapse text-[13px]">
-                            <tbody className="bg-white">
-                              {feeRows.map((bill, idx) => (
-                                <tr
-                                  key={`${bill.periode}-${idx}`}
-                                  className="border-t border-slate-100 text-sm"
-                                >
-                                  <td className={cn(checkboxColW, tdClass, edgeL)}>
-                                    <input
-                                      type="checkbox"
-                                      aria-label="Pilih fee"
-                                      checked={
-                                        isPelunasan ? true : (selected[idx] ?? true)
-                                      }
-                                      disabled={isPelunasan}
-                                      onChange={(e) => {
-                                        const next = e.target.checked;
-                                        setSelected((prev) => {
-                                          const copy = [...prev];
-                                          copy[idx] = next;
-                                          return copy;
-                                        });
-                                      }}
-                                    />
-                                  </td>
+              {feeRows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={colCount}
+                    className="px-5 py-10 text-center text-sm text-slate-600"
+                  >
+                    Tidak ada data.
+                  </td>
+                </tr>
+              ) : (
+                feeRows.map((bill, idx) => (
+                  <tr
+                    key={`${bill.periode}-${idx}`}
+                    className={cn(
+                      "text-sm",
+                      idx === 0 ? "border-t border-slate-100" : "border-t border-slate-100",
+                      idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                    )}
+                  >
+                    <td className={cn(checkboxColW, tdClass, edgeL, "text-center")}>
+                      <CheckboxCell
+                        aria-label="Pilih fee"
+                        checked={isPelunasan ? true : (selected[idx] ?? true)}
+                        disabled={isPelunasan}
+                        onChange={(next) =>
+                          setSelected((prev) => {
+                            const copy = [...prev];
+                            copy[idx] = next;
+                            return copy;
+                          })
+                        }
+                      />
+                    </td>
 
-                                  <td className={cn(wJenis, tdMid, "text-slate-900")}>
-                                    <div className="leading-snug">{bill.feeName}</div>
-                                  </td>
+                    <td className={cn(wJenis, tdMid, "text-slate-900")}>
+                      <div className="leading-snug">{bill.feeName}</div>
+                    </td>
 
-                                  <td
-                                    className={cn(
-                                      wPeriode,
-                                      tdMid,
-                                      "text-slate-800 tabular-nums whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.periode}
-                                  </td>
+                    <td
+                      className={cn(
+                        wPeriode,
+                        tdMid,
+                        "text-slate-800 tabular-nums whitespace-nowrap",
+                      )}
+                    >
+                      {bill.periode}
+                    </td>
 
-                                  <td
-                                    className={cn(
-                                      wTotal,
-                                      tdMid,
-                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.total}
-                                  </td>
+                    <td
+                      className={cn(
+                        wTotal,
+                        tdMid,
+                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                      )}
+                    >
+                      {bill.total}
+                    </td>
 
-                                  <td
-                                    className={cn(
-                                      wSisa,
-                                      tdMid,
-                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                      edgeR,
-                                    )}
-                                  >
-                                    {bill.sisa}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+                    <td
+                      className={cn(
+                        wSisa,
+                        tdMid,
+                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                        edgeR,
+                      )}
+                    >
+                      {bill.sisa}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -612,7 +639,9 @@ export default function BillingTable({
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
-                                    checked={isPelunasan ? true : (selected[idx] ?? true)}
+                                    checked={
+                                      isPelunasan ? true : (selected[idx] ?? true)
+                                    }
                                     disabled={isPelunasan}
                                     onChange={(e) => {
                                       const next = e.target.checked;
