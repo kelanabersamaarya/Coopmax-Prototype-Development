@@ -106,7 +106,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
-  const billsInMainTable = isPelunasan ? upcomingRows : [currentBill];
 
   // sink label baru dari BillSummaryCard: "Pembayaran ..."
   const hideInterestCols = jenisTransaksi === "Pembayaran Pokok";
@@ -114,32 +113,49 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
 
+  // View2 rule:
+  // - normal: tabel utama hanya currentBill
+  // - pelunasan: tabel utama upcomingRows (paginate)
+  // - pembayaran denda: tampilkan semua upcomingRows (tanpa paginate)
+  const showAllPenalties = penaltyOnlyCols;
+  const billsInMainTable: BillingRow[] = isPelunasan
+    ? upcomingRows
+    : showAllPenalties
+      ? upcomingRows
+      : [currentBill];
+
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
-  const pageCount = Math.max(1, Math.ceil(billsInMainTable.length / pageSize));
+
+  const pageCount = React.useMemo(() => {
+    if (!isPelunasan) return 1;
+    return Math.max(1, Math.ceil(billsInMainTable.length / pageSize));
+  }, [billsInMainTable.length, isPelunasan, pageSize]);
 
   React.useEffect(() => {
     setPage(1);
-  }, [isPelunasan, pageSize]);
+  }, [isPelunasan, pageSize, penaltyOnlyCols]);
 
   const pagedBillsInMainTable = React.useMemo(() => {
+    if (showAllPenalties) return billsInMainTable;
     if (!isPelunasan) return billsInMainTable;
     const start = (page - 1) * pageSize;
     return billsInMainTable.slice(start, start + pageSize);
-  }, [billsInMainTable, isPelunasan, page, pageSize]);
+  }, [billsInMainTable, isPelunasan, page, pageSize, showAllPenalties]);
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     billsInMainTable.map(() => !isPelunasan),
   );
 
   React.useEffect(() => {
-    if (isPelunasan) {
+    // pelunasan dan denda: default semua terpilih (lebih masuk akal untuk pembayaran massal)
+    if (isPelunasan || showAllPenalties) {
       setSelected(billsInMainTable.map(() => true));
     } else {
       setSelected(billsInMainTable.map(() => true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan]);
+  }, [isPelunasan, showAllPenalties]);
 
   React.useEffect(() => {
     setSelected((prev) => {
@@ -154,8 +170,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const penaltyTotal = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
-    return calcPenaltyTotal(pagedBillsInMainTable, selected);
-  }, [pagedBillsInMainTable, penaltyOnlyCols, selected]);
+    // untuk denda: hitung dari SEMUA baris (bukan cuma paged) supaya total sesuai "seluruh denda"
+    return calcPenaltyTotal(billsInMainTable, selected);
+  }, [billsInMainTable, penaltyOnlyCols, selected]);
+
+  const showNextBillInfo = !isPelunasan && !penaltyOnlyCols;
 
   return (
     <div className="w-full px-0">
@@ -257,7 +276,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {!isPelunasan ? (
+              {showNextBillInfo ? (
                 <div className="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
                   <div className="flex items-center gap-3">
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-[9999px] bg-blue-100 text-blue-700 ring-1 ring-blue-200">
