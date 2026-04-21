@@ -60,9 +60,17 @@ export default function BillingTable({
     const dendaColW = "w-[180px]";
     const sisaDendaColW = "w-[190px]";
 
-    // Prototype: karena dataset belum punya denda, kita isi "0" agar UI sesuai.
-    const getPenalty = () => "0";
-    const getRemainingPenalty = () => "0";
+    // Prototype: isi contoh agar UI tidak selalu 0.
+    // Pola sederhana: makin belakang, sisa denda makin kecil.
+    const penalties = React.useMemo(() => {
+      const base = 25000;
+      return rows.map((_, idx) => {
+        const total = base + idx * 5000; // 25.000, 30.000, 35.000, ...
+        const remaining = Math.max(0, total - 10000); // sisa sedikit lebih kecil
+        const fmt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return { total: fmt(total), remaining: fmt(remaining) };
+      });
+    }, [rows]);
 
     return (
       <div
@@ -156,7 +164,7 @@ export default function BillingTable({
                                       "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
-                                    {getPenalty()}
+                                    {penalties[idx]?.total ?? "0"}
                                   </td>
 
                                   <td
@@ -166,7 +174,7 @@ export default function BillingTable({
                                       "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
-                                    {getRemainingPenalty()}
+                                    {penalties[idx]?.remaining ?? "0"}
                                   </td>
                                 </tr>
                               ))}
