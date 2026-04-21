@@ -31,6 +31,7 @@ import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
+import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
 
 type Props = {
   nasabah: {
@@ -194,15 +195,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       return;
     }
 
-    // Default (reguler / rincian): otomatis centang 1 tagihan (baris pertama)
     const next = rows.map(() => false);
     if (next.length > 0) next[0] = true;
     setSelected(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan]);
 
-  // Grace highlight dimatikan pada mode Bayar Denda
   const showGraceHighlight = !penaltyOnlyCols && page === 1;
+
+  const penaltyTotal = React.useMemo(() => {
+    if (!penaltyOnlyCols) return null;
+    return calcPenaltyTotal(pagedRows, selected);
+  }, [pagedRows, penaltyOnlyCols, selected]);
 
   return (
     <div className="w-full px-0">
@@ -328,7 +332,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 totals={{
                   pokok: "2.500.000",
                   bunga: isPelunasan ? "0" : "208.333",
-                  denda: "0",
+                  denda: penaltyOnlyCols
+                    ? formatIdrLike(penaltyTotal ?? 0)
+                    : "0",
                   total: isPelunasan ? "2.500.000" : "2.708.333",
                 }}
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}

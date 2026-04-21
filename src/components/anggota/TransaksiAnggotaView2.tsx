@@ -32,6 +32,7 @@ import TransactionFormCardView2, {
 } from "@/components/anggota/TransactionFormCardView2";
 import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
+import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
 
 type Props = {
   nasabah: {
@@ -122,7 +123,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return billsInMainTable.slice(start, start + pageSize);
   }, [billsInMainTable, isPelunasan, page, pageSize]);
 
-  // Default: ketika bukan pelunasan (regular), otomatis centang semua baris yang tampil.
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     billsInMainTable.map(() => !isPelunasan),
   );
@@ -131,7 +131,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     if (isPelunasan) {
       setSelected(billsInMainTable.map(() => true));
     } else {
-      // Regular: auto-check tagihan yang tampil
       setSelected(billsInMainTable.map(() => true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -146,6 +145,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [billsInMainTable.length]);
 
   const showGraceHighlightMain = !penaltyOnlyCols && !isPelunasan && page === 1;
+
+  const penaltyTotal = React.useMemo(() => {
+    if (!penaltyOnlyCols) return null;
+    return calcPenaltyTotal(pagedBillsInMainTable, selected);
+  }, [pagedBillsInMainTable, penaltyOnlyCols, selected]);
 
   return (
     <div className="w-full px-0">
@@ -306,7 +310,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 totals={{
                   pokok: "2.455.555",
                   bunga: "0",
-                  denda: "0",
+                  denda: penaltyOnlyCols
+                    ? formatIdrLike(penaltyTotal ?? 0)
+                    : "0",
                   total: "2.455.555",
                 }}
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}

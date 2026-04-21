@@ -32,6 +32,7 @@ import TransactionFormCardView2, {
 import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
 import AnggotaTablePagination from "@/components/anggota/AnggotaTablePagination";
+import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
 
 type Props = {
   nasabah: {
@@ -144,6 +145,11 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   }, [billsInMainTable.length]);
 
   const showGraceHighlightMain = !penaltyOnlyCols && !isPelunasan && page === 1;
+
+  const penaltyTotal = React.useMemo(() => {
+    if (!penaltyOnlyCols) return null;
+    return calcPenaltyTotal(pagedBillsInMainTable, selected);
+  }, [pagedBillsInMainTable, penaltyOnlyCols, selected]);
 
   return (
     <div className="w-full px-0">
@@ -300,7 +306,9 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 totals={{
                   pokok: "2.455.555",
                   bunga: isPelunasan ? "0" : "208.333",
-                  denda: "0",
+                  denda: penaltyOnlyCols
+                    ? formatIdrLike(penaltyTotal ?? 0)
+                    : "0",
                   total: isPelunasan ? "2.455.555" : "2.455.555",
                 }}
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
