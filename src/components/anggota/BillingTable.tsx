@@ -172,7 +172,7 @@ export default function BillingTable({
                                     />
                                   </td>
 
-                                  <td className={cn(jenisFeeW, tdClass, "font-semibold text-slate-900")}>
+                                  <td className={cn(jenisFeeW, tdClass, "text-slate-900")}>
                                     {bill.feeName}
                                   </td>
 
