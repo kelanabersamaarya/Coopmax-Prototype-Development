@@ -58,7 +58,6 @@ type TransactionType =
   | "Bayar Pokok"
   | "Bayar Bunga"
   | "Bayar Denda"
-  | "Bayar Biaya Tambahan"
   | "Bayar Biaya Lainnya";
 
 function titleCaseEachWord(input: string) {
@@ -137,7 +136,9 @@ export default function BillSummaryCard({
               <span
                 className={cn("truncate", transactionType ? "" : "text-slate-500")}
               >
-                {transactionType ? transactionLabel(transactionType) : "Pilih Transaksi"}
+                {transactionType
+                  ? transactionLabel(transactionType)
+                  : "Pilih Transaksi"}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
@@ -212,16 +213,6 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Bayar Biaya Tambahan" ? "bg-slate-100" : "",
-              )}
-              onClick={() => handleChange("Bayar Biaya Tambahan")}
-            >
-              {transactionLabel("Bayar Biaya Tambahan")}
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              className={cn(
-                "rounded-xl",
                 transactionType === "Bayar Biaya Lainnya" ? "bg-slate-100" : "",
               )}
               onClick={() => handleChange("Bayar Biaya Lainnya")}
@@ -236,11 +227,23 @@ export default function BillSummaryCard({
 
       <div>
         {isBayarBunga ? (
-          <SummaryRow label="Total Tagihan Bunga" value={displayTotals.bunga} strong />
+          <SummaryRow
+            label="Total Tagihan Bunga"
+            value={displayTotals.bunga}
+            strong
+          />
         ) : isBayarPokok ? (
-          <SummaryRow label="Total Tagihan Pokok" value={displayTotals.pokok} strong />
+          <SummaryRow
+            label="Total Tagihan Pokok"
+            value={displayTotals.pokok}
+            strong
+          />
         ) : isBayarDenda ? (
-          <SummaryRow label="Total Tagihan Denda" value={displayTotals.denda} strong />
+          <SummaryRow
+            label="Total Tagihan Denda"
+            value={displayTotals.denda}
+            strong
+          />
         ) : isBayarBiayaLainnya ? (
           <SummaryRow
             label="Total Tagihan Biaya Lainnya"
