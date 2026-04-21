@@ -29,7 +29,7 @@ const transactionTypes = [
   "Bayar Bunga",
   "Bayar Denda",
   "Bayar Biaya Tambahan",
-  "Pembayaran Biaya Lainnya",
+  "Bayar Biaya Lainnya",
 ] as const;
 
 export type TransactionType = (typeof transactionTypes)[number];
@@ -43,7 +43,7 @@ function titleForTransaction(t: TransactionType | null) {
   if (t === "Bayar Bunga") return "BAYAR BUNGA";
   if (t === "Bayar Denda") return "BAYAR DENDA";
   if (t === "Bayar Biaya Tambahan") return "BAYAR BIAYA TAMBAHAN";
-  return "PEMBAYARAN BIAYA LAINNYA";
+  return "BAYAR BIAYA LAINNYA";
 }
 
 const ONLY_TABUNGAN = "Tanpa Tabungan";
