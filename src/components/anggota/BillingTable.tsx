@@ -47,16 +47,10 @@ export default function BillingTable({
   const tdClass = "px-3 py-3";
 
   const colCount = hideInterestCols ? 4 : 7;
-
-  // Lebih kecil saat mode "Bayar Pokok", tapi tetap rapi & tidak terlalu sempit.
   const minW = hideInterestCols ? "min-w-[600px]" : "min-w-[720px]";
 
   const checkboxColW = "w-[44px]";
-
-  // Saat hideInterestCols, buat "Jatuh Tempo" lebih lebar supaya kolom angka tidak nempel di kanan
   const dateColW = hideInterestCols ? "w-[280px]" : "w-[140px]";
-
-  // Saat hideInterestCols, buat "Tagihan Pokok" sedikit lebih kecil agar visualnya terasa lebih "tengah"
   const pokokColW = hideInterestCols ? "w-[160px]" : "w-[170px]";
 
   const totalColW = "w-[210px]";
@@ -122,19 +116,19 @@ export default function BillingTable({
           <tbody className="bg-white">
             <tr>
               <td colSpan={colCount} className="p-0">
-                {/* Outer highlight */}
+                {/* OUTER BOX: border highlight (kembali seperti awal) */}
                 <div
                   className={cn(
-                    "bg-white",
+                    "overflow-hidden bg-white",
                     showGraceHighlight
-                      ? "rounded-2xl ring-2 ring-blue-500/70"
-                      : "rounded-2xl ring-1 ring-slate-200",
+                      ? "rounded-2xl border-2 border-blue-600/70"
+                      : "rounded-2xl border border-slate-200",
                   )}
                 >
-                  {/* Gap agar ring tidak mepet konten */}
+                  {/* INNER GAP: biar border tidak menempel */}
                   <div className="bg-white p-2">
-                    {/* Inner container */}
-                    <div className="overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+                    {/* INNER BOX: border normal */}
+                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                       <div className="overflow-auto">
                         <table className={cn("w-full border-collapse text-[13px]", minW)}>
                           <tbody className="bg-white">
