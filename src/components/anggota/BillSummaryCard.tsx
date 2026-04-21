@@ -91,6 +91,7 @@ export default function BillSummaryCard({
   const isUnset = !transactionType;
 
   const isBayarPokok = transactionType === "Bayar Pokok";
+  const isBayarBunga = transactionType === "Bayar Bunga";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -213,20 +214,30 @@ export default function BillSummaryCard({
       <Separator className="my-4 bg-slate-200/70" />
 
       <div className={cn(isPembayaranKhusus ? "px-0" : "px-0")}>
-        <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} />
-
-        {!isBayarPokok ? (
+        {isBayarBunga ? (
+          <SummaryRow
+            label="Total Tagihan Bunga"
+            value={displayTotals.bunga}
+            strong
+          />
+        ) : (
           <>
-            <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
-            <SummaryRow label="Total Denda" value={displayTotals.denda} />
+            <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} />
 
-            <SummaryRow
-              label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
-              value={displayTotals.total}
-              strong
-            />
+            {!isBayarPokok ? (
+              <>
+                <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
+                <SummaryRow label="Total Denda" value={displayTotals.denda} />
+
+                <SummaryRow
+                  label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
+                  value={displayTotals.total}
+                  strong
+                />
+              </>
+            ) : null}
           </>
-        ) : null}
+        )}
 
         <div className="py-3">
           <Separator className="bg-slate-300/70" />
