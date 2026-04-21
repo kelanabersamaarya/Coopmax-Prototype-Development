@@ -108,6 +108,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const hideInterestCols = jenisTransaksi === "Bayar Pokok";
   const interestOnlyCols = jenisTransaksi === "Bayar Bunga";
   const penaltyOnlyCols = jenisTransaksi === "Bayar Denda";
+  const feeOnlyCols = jenisTransaksi === "Bayar Biaya Lainnya";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -144,7 +145,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [billsInMainTable.length]);
 
-  const showGraceHighlightMain = !penaltyOnlyCols && !isPelunasan && page === 1;
+  const showGraceHighlightMain =
+    !penaltyOnlyCols && !feeOnlyCols && !isPelunasan && page === 1;
 
   const penaltyTotal = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
@@ -282,6 +284,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 hideInterestCols={hideInterestCols}
                 interestOnlyCols={interestOnlyCols}
                 penaltyOnlyCols={penaltyOnlyCols}
+                feeOnlyCols={feeOnlyCols}
               />
 
               {isPelunasan ? (
