@@ -58,6 +58,7 @@ type TransactionType =
   | "Pembayaran Pokok"
   | "Pembayaran Bunga"
   | "Pembayaran Denda"
+  | "Pembayaran Biaya Tambahan"
   | "Pembayaran Biaya Lainnya";
 
 function titleCaseEachWord(input: string) {
@@ -92,6 +93,7 @@ export default function BillSummaryCard({
   const isPembayaranPokok = transactionType === "Pembayaran Pokok";
   const isPembayaranBunga = transactionType === "Pembayaran Bunga";
   const isPembayaranDenda = transactionType === "Pembayaran Denda";
+  const isPembayaranBiayaTambahan = transactionType === "Pembayaran Biaya Tambahan";
   const isPembayaranBiayaLainnya = transactionType === "Pembayaran Biaya Lainnya";
 
   const displayTotals = isUnset
@@ -103,7 +105,7 @@ export default function BillSummaryCard({
     : installment;
 
   const showInstallmentSection =
-    !isPembayaranDenda && !isPembayaranBiayaLainnya;
+    !isPembayaranDenda && !isPembayaranBiayaTambahan && !isPembayaranBiayaLainnya;
 
   const handleChange = React.useCallback(
     (v: TransactionType) => {
@@ -214,6 +216,16 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
+                transactionType === "Pembayaran Biaya Tambahan" ? "bg-slate-100" : "",
+              )}
+              onClick={() => handleChange("Pembayaran Biaya Tambahan")}
+            >
+              {transactionLabel("Pembayaran Biaya Tambahan")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              className={cn(
+                "rounded-xl",
                 transactionType === "Pembayaran Biaya Lainnya" ? "bg-slate-100" : "",
               )}
               onClick={() => handleChange("Pembayaran Biaya Lainnya")}
@@ -243,6 +255,12 @@ export default function BillSummaryCard({
           <SummaryRow
             label="Total Tagihan Denda"
             value={displayTotals.denda}
+            strong
+          />
+        ) : isPembayaranBiayaTambahan ? (
+          <SummaryRow
+            label="Total Tagihan Biaya Tambahan"
+            value={displayTotals.total}
             strong
           />
         ) : isPembayaranBiayaLainnya ? (
