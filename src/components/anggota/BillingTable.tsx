@@ -36,7 +36,6 @@ export default function BillingTable({
   feeOnlyCols?: boolean;
   className?: string;
 }) {
-  // Pastikan array selected selalu sejajar dengan rows supaya tidak ada kondisi UI "blank"
   React.useEffect(() => {
     if (selected.length === rows.length) return;
     setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
@@ -61,7 +60,6 @@ export default function BillingTable({
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
-  // IMPORTANT: Hooks harus selalu dipanggil (jangan di dalam conditional return)
   const penalties = React.useMemo(() => {
     const base = 25000;
     const fmt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -76,13 +74,23 @@ export default function BillingTable({
   const tdClass = "px-3 py-3";
   const checkboxColW = "w-[44px]";
 
-  // Mode "Bayar Biaya Lainnya": kolom sesuai request (tanpa horizontal scroll)
   if (feeOnlyCols) {
     const colCount = 5;
-    const edgeL = "pl-5";
-    const edgeR = "pr-5";
 
-    // Prototype data: turunkan dari rows agar tidak perlu ubah data sumber
+    // Edge padding: kolom pertama & terakhir dibuat lebih lega
+    const edgeL = "pl-6";
+    const edgeR = "pr-8";
+
+    // Gutter antar kolom (lebih rapi)
+    const thMid = "px-4 py-2.5";
+    const tdMid = "px-4 py-3";
+
+    // Lebar kolom (dibuat lebih seimbang, kolom terakhir lebih lebar)
+    const wJenis = "w-[30%]";
+    const wPeriode = "w-[18%]";
+    const wTotal = "w-[26%]";
+    const wSisa = "w-[26%]";
+
     const feeRows = rows.map((r, idx) => {
       const feeName =
         idx % 3 === 0
@@ -90,9 +98,9 @@ export default function BillingTable({
           : idx % 3 === 1
             ? "Biaya Materai"
             : "Biaya Layanan";
-      const periode = r.jatuhTempo; // pakai tanggal sebagai periode (prototype)
-      const total = r.totalBelumDibayar; // pakai totalBelumDibayar sebagai total fee (prototype)
-      const sisa = r.sisaBunga; // pakai sisaBunga sebagai sisa fee (prototype)
+      const periode = r.jatuhTempo;
+      const total = r.totalBelumDibayar;
+      const sisa = r.sisaBunga;
       return { feeName, periode, total, sisa };
     });
 
@@ -103,7 +111,6 @@ export default function BillingTable({
           className,
         )}
       >
-        {/* tidak ada scroll */}
         <div className="overflow-hidden">
           <table className="w-full table-fixed border-collapse text-[13px]">
             <thead className="bg-white">
@@ -122,15 +129,16 @@ export default function BillingTable({
                   />
                 </th>
 
-                <th className={cn(thClass, "w-[34%]")}>Jenis Fee</th>
-                <th className={cn(thClass, "w-[20%]")}>Periode</th>
+                <th className={cn(wJenis, thMid)}>Jenis Fee</th>
+                <th className={cn(wPeriode, thMid)}>Periode</th>
 
-                <th className={cn(thClass, "w-[26%] text-right")}>
+                <th className={cn(wTotal, thMid, "text-right")}>
                   <span className="whitespace-nowrap">
                     Total Tagihan Biaya Lainnya
                   </span>
                 </th>
-                <th className={cn(thClass, "w-[20%] text-right", edgeR)}>
+
+                <th className={cn(wSisa, thMid, "text-right", edgeR)}>
                   <span className="whitespace-nowrap">
                     Sisa Tagihan Biaya Lainnya
                   </span>
@@ -142,10 +150,8 @@ export default function BillingTable({
               <tr>
                 <td colSpan={colCount} className="p-0">
                   <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                    {/* tambah padding supaya konten tidak terasa nempel border luar */}
                     <div className="bg-white p-3">
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                        {/* tidak ada scroll */}
                         <div className="overflow-hidden">
                           <table className="w-full table-fixed border-collapse text-[13px]">
                             <tbody className="bg-white">
@@ -173,15 +179,15 @@ export default function BillingTable({
                                     />
                                   </td>
 
-                                  {/* boleh wrap agar tidak memaksa scroll */}
-                                  <td className={cn(tdClass, "w-[34%] text-slate-900")}>
+                                  <td className={cn(wJenis, tdMid, "text-slate-900")}>
                                     <div className="leading-snug">{bill.feeName}</div>
                                   </td>
 
                                   <td
                                     className={cn(
-                                      tdClass,
-                                      "w-[20%] text-slate-800 tabular-nums whitespace-nowrap",
+                                      wPeriode,
+                                      tdMid,
+                                      "text-slate-800 tabular-nums whitespace-nowrap",
                                     )}
                                   >
                                     {bill.periode}
@@ -189,8 +195,9 @@ export default function BillingTable({
 
                                   <td
                                     className={cn(
-                                      tdClass,
-                                      "w-[26%] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      wTotal,
+                                      tdMid,
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {bill.total}
@@ -198,8 +205,9 @@ export default function BillingTable({
 
                                   <td
                                     className={cn(
-                                      tdClass,
-                                      "w-[20%] text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      wSisa,
+                                      tdMid,
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                       edgeR,
                                     )}
                                   >
@@ -222,7 +230,8 @@ export default function BillingTable({
     );
   }
 
-  // Mode "Bayar Denda": tampilkan hanya kolom denda, tanpa info grace period
+  // ====== BAGIAN LAIN TIDAK DIUBAH (tetap sama seperti sebelumnya) ======
+
   if (penaltyOnlyCols) {
     const colCount = 5;
     const minW = "min-w-[720px]";
@@ -370,7 +379,6 @@ export default function BillingTable({
     );
   }
 
-  // Mode "Bayar Bunga": tampilkan hanya kolom bunga
   if (interestOnlyCols) {
     const colCount = 4;
     const minW = "min-w-[560px]";
