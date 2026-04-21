@@ -85,7 +85,7 @@ export default function BillSummaryCard({
   installment: { ke: string; lunas: string; seharusnya: string };
   className?: string;
   transactionType?: TransactionType | null;
-  onTransactionTypeChange: (v: TransactionType) => void;
+  onTransactionTypeChange?: (v: TransactionType) => void;
 }) {
   const isUnset = !transactionType;
 
@@ -102,6 +102,13 @@ export default function BillSummaryCard({
     : installment;
 
   const showInstallmentSection = !isBayarDenda;
+
+  const handleChange = React.useCallback(
+    (v: TransactionType) => {
+      onTransactionTypeChange?.(v);
+    },
+    [onTransactionTypeChange],
+  );
 
   return (
     <Card
@@ -143,7 +150,7 @@ export default function BillSummaryCard({
                 "rounded-xl",
                 transactionType === "Pembayaran Reguler" ? "bg-slate-100" : "",
               )}
-              onClick={() => onTransactionTypeChange("Pembayaran Reguler")}
+              onClick={() => handleChange("Pembayaran Reguler")}
             >
               {transactionLabel("Pembayaran Reguler")}
             </DropdownMenuItem>
@@ -155,7 +162,7 @@ export default function BillSummaryCard({
                   ? "bg-slate-100"
                   : "",
               )}
-              onClick={() => onTransactionTypeChange("Pembayaran Rincian Tagihan")}
+              onClick={() => handleChange("Pembayaran Rincian Tagihan")}
             >
               {transactionLabel("Pembayaran Rincian Tagihan")}
             </DropdownMenuItem>
@@ -165,7 +172,7 @@ export default function BillSummaryCard({
                 "rounded-xl",
                 transactionType === "Pelunasan" ? "bg-slate-100" : "",
               )}
-              onClick={() => onTransactionTypeChange("Pelunasan")}
+              onClick={() => handleChange("Pelunasan")}
             >
               {transactionLabel("Pelunasan")}
             </DropdownMenuItem>
@@ -175,7 +182,7 @@ export default function BillSummaryCard({
                 "rounded-xl",
                 transactionType === "Bayar Pokok" ? "bg-slate-100" : "",
               )}
-              onClick={() => onTransactionTypeChange("Bayar Pokok")}
+              onClick={() => handleChange("Bayar Pokok")}
             >
               {transactionLabel("Bayar Pokok")}
             </DropdownMenuItem>
@@ -185,7 +192,7 @@ export default function BillSummaryCard({
                 "rounded-xl",
                 transactionType === "Bayar Bunga" ? "bg-slate-100" : "",
               )}
-              onClick={() => onTransactionTypeChange("Bayar Bunga")}
+              onClick={() => handleChange("Bayar Bunga")}
             >
               {transactionLabel("Bayar Bunga")}
             </DropdownMenuItem>
@@ -195,7 +202,7 @@ export default function BillSummaryCard({
                 "rounded-xl",
                 transactionType === "Bayar Denda" ? "bg-slate-100" : "",
               )}
-              onClick={() => onTransactionTypeChange("Bayar Denda")}
+              onClick={() => handleChange("Bayar Denda")}
             >
               {transactionLabel("Bayar Denda")}
             </DropdownMenuItem>
@@ -205,7 +212,7 @@ export default function BillSummaryCard({
                 "rounded-xl",
                 transactionType === "Bayar Biaya Tambahan" ? "bg-slate-100" : "",
               )}
-              onClick={() => onTransactionTypeChange("Bayar Biaya Tambahan")}
+              onClick={() => handleChange("Bayar Biaya Tambahan")}
             >
               {transactionLabel("Bayar Biaya Tambahan")}
             </DropdownMenuItem>
