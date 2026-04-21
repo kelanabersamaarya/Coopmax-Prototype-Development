@@ -117,10 +117,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   // - normal: tabel utama hanya currentBill
   // - pelunasan: tabel utama upcomingRows (paginate)
   // - pembayaran denda: tampilkan semua upcomingRows (tanpa paginate)
+  // - pembayaran biaya lainnya: tampilkan semua upcomingRows (tanpa paginate)
   const showAllPenalties = penaltyOnlyCols;
+  const showAllFees = feeOnlyCols;
+  const showAllRows = showAllPenalties || showAllFees;
+
   const billsInMainTable: BillingRow[] = isPelunasan
     ? upcomingRows
-    : showAllPenalties
+    : showAllRows
       ? upcomingRows
       : [currentBill];
 
@@ -134,28 +138,28 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   React.useEffect(() => {
     setPage(1);
-  }, [isPelunasan, pageSize, penaltyOnlyCols]);
+  }, [isPelunasan, pageSize, penaltyOnlyCols, feeOnlyCols]);
 
   const pagedBillsInMainTable = React.useMemo(() => {
-    if (showAllPenalties) return billsInMainTable;
+    if (showAllRows) return billsInMainTable;
     if (!isPelunasan) return billsInMainTable;
     const start = (page - 1) * pageSize;
     return billsInMainTable.slice(start, start + pageSize);
-  }, [billsInMainTable, isPelunasan, page, pageSize, showAllPenalties]);
+  }, [billsInMainTable, isPelunasan, page, pageSize, showAllRows]);
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     billsInMainTable.map(() => !isPelunasan),
   );
 
   React.useEffect(() => {
-    // pelunasan dan denda: default semua terpilih (lebih masuk akal untuk pembayaran massal)
-    if (isPelunasan || showAllPenalties) {
+    // pelunasan, denda, biaya lainnya: default semua terpilih
+    if (isPelunasan || showAllRows) {
       setSelected(billsInMainTable.map(() => true));
     } else {
       setSelected(billsInMainTable.map(() => true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan, showAllPenalties]);
+  }, [isPelunasan, showAllRows]);
 
   React.useEffect(() => {
     setSelected((prev) => {
@@ -174,7 +178,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return calcPenaltyTotal(billsInMainTable, selected);
   }, [billsInMainTable, penaltyOnlyCols, selected]);
 
-  const showNextBillInfo = !isPelunasan && !penaltyOnlyCols;
+  // Info penerbitan tagihan berikutnya: hilang untuk denda & biaya lainnya
+  const showNextBillInfo = !isPelunasan && !penaltyOnlyCols && !feeOnlyCols;
 
   return (
     <div className="w-full px-0">
