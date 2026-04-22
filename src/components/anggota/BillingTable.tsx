@@ -543,7 +543,13 @@ export default function BillingTable({
     );
   }
 
-  const colCount = hideInterestCols ? (hideSelection ? 3 : 4) : hideSelection ? 6 : 7;
+  const colCount = hideInterestCols
+    ? hideSelection
+      ? 3
+      : 4
+    : hideSelection
+      ? 6
+      : 7;
 
   // percent widths so the table always fits container (no horizontal scroll)
   const dateColW = hideInterestCols ? "w-[25%]" : "w-[15%]";
@@ -553,17 +559,24 @@ export default function BillingTable({
   const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[18%]";
   const sisaBungaColW = hideInterestCols ? "" : "w-[19%]";
 
-  // KHUSUS: tambahkan 1 baris setelah area grace period (di luar border biru).
-  // Kita render sebagian rows di dalam box (grace + row-row awal), dan 1 row terakhir di luar.
+  // KHUSUS: tampilkan 5 baris terakhir di luar border biru (grace period)
+  const OUTSIDE_ROWS_COUNT = 5;
+
   const shouldSplitGraceBox =
-    showGraceHighlight && !hideInterestCols && !hideSelection && rows.length > 1;
+    showGraceHighlight &&
+    !hideInterestCols &&
+    !hideSelection &&
+    rows.length > OUTSIDE_ROWS_COUNT;
 
-  const insideRows = shouldSplitGraceBox ? rows.slice(0, -1) : rows;
-  const outsideRow = shouldSplitGraceBox ? rows[rows.length - 1] : null;
+  const insideRows = shouldSplitGraceBox
+    ? rows.slice(0, rows.length - OUTSIDE_ROWS_COUNT)
+    : rows;
 
-  function renderRow(bill: BillingRow, idx: number, baseIndex: number) {
-    const globalIndex = baseIndex + idx;
+  const outsideRows = shouldSplitGraceBox
+    ? rows.slice(rows.length - OUTSIDE_ROWS_COUNT)
+    : [];
 
+  function renderRow(bill: BillingRow, idx: number, globalIndex: number) {
     return (
       <tr
         key={`${bill.jatuhTempo}-${globalIndex}`}
@@ -704,7 +717,7 @@ export default function BillingTable({
                             </td>
                           </tr>
                         ) : (
-                          insideRows.map((bill, idx) => renderRow(bill, idx, 0))
+                          insideRows.map((bill, idx) => renderRow(bill, idx, idx))
                         )}
                       </tbody>
                     </table>
@@ -714,8 +727,16 @@ export default function BillingTable({
             </td>
           </tr>
 
-          {/* ROW TAMBAHAN di luar box biru (grace period) */}
-          {outsideRow ? renderRow(outsideRow, 0, rows.length - 1) : null}
+          {/* 5 ROW TAMBAHAN di luar box biru (grace period) */}
+          {outsideRows.length
+            ? outsideRows.map((bill, idx) =>
+                renderRow(
+                  bill,
+                  idx,
+                  (rows.length - OUTSIDE_ROWS_COUNT) + idx,
+                ),
+              )
+            : null}
         </tbody>
       </table>
     </div>
