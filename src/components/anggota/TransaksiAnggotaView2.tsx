@@ -133,8 +133,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
+    // REGULER (View2/3): tagihan langsung tercentang
     if (isReguler) {
-      setSelected(rowsToShow.map(() => false));
+      setSelected(rowsToShow.map(() => true));
       return;
     }
     if (isPelunasan || showAllRows) {
