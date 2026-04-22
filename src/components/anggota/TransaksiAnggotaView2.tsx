@@ -33,6 +33,7 @@ import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
+import BillingTablePelunasanView2 from "@/components/anggota/BillingTablePelunasanView2";
 import {
   calcPenaltyTotal,
   formatIdrLike,
@@ -148,7 +149,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  // UBAH: reguler juga menampilkan info grace period (kecuali mode rincian tagihan).
   const showGraceInfo = !isRincian;
 
   return (
@@ -251,14 +251,18 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              <BillingTableView2
-                rows={rowsToShow}
-                selected={selected}
-                setSelected={setSelected}
-                isLocked={isPelunasan}
-                showNextBillInfo={true}
-                showGraceInfo={showGraceInfo}
-              />
+              {isPelunasan ? (
+                <BillingTablePelunasanView2 rows={rowsToShow as any} />
+              ) : (
+                <BillingTableView2
+                  rows={rowsToShow}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={isPelunasan}
+                  showNextBillInfo={true}
+                  showGraceInfo={showGraceInfo}
+                />
+              )}
 
               <div className="sr-only">
                 <Info />
