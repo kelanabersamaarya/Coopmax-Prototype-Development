@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -125,49 +124,9 @@ function SelectLike({
   );
 }
 
-function LoanTypeSelect({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        size={1}
-        className={cn(
-          "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
-          "shadow-sm outline-none transition",
-          "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-        )}
-      >
-        <option value="Pilih pinjaman">Pilih pinjaman</option>
-        {loanOptions.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-
-      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
-
-      {/* Styling dropdown list (browser native) is limited, but we can ensure it opens with many items via size on focus */}
-      <style>{`
-        /* Make the opened list feel like the screenshot: taller list with scroll.
-           This uses the native select's 'size' trick on focus for most browsers. */
-        select[data-loan-open="true"] {
-          height: auto;
-        }
-      `}</style>
-    </div>
-  );
-}
-
 export default function LaporanKolektibilitas() {
-  const [jenisPinjaman, setJenisPinjaman] = React.useState<string>("Pilih pinjaman");
+  const [jenisPinjaman, setJenisPinjaman] =
+    React.useState<string>("Pilih pinjaman");
   const [namaKode, setNamaKode] = React.useState("");
   const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
   const [tahun, setTahun] = React.useState("2026");
@@ -225,95 +184,93 @@ export default function LaporanKolektibilitas() {
 
         <Separator className="my-6 bg-slate-200/70" />
 
-        <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-          <div className="grid gap-4">
-            <FieldRow label="Jenis Pinjaman">
-              <div className="relative">
-                {/* Native select; options list as requested */}
-                <select
-                  value={jenisPinjaman}
-                  onChange={(e) => setJenisPinjaman(e.target.value)}
-                  className={cn(
-                    "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
-                    "shadow-sm outline-none transition",
-                    "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-                  )}
-                >
-                  <option value="Pilih pinjaman">Pilih pinjaman</option>
-                  {loanOptions.map((o) => (
-                    <option key={o} value={o}>
-                      {o}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
-              </div>
-            </FieldRow>
-
-            <FieldRow label="Nama/Kode Pinjaman">
-              <Input
-                value={namaKode}
-                onChange={(e) => setNamaKode(e.target.value)}
-                placeholder="Masukkan nama/kode pinjaman.."
-                className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
-              />
-            </FieldRow>
-
-            <FieldRow label="Bulan">
-              <SelectLike
-                value={bulan}
-                onChange={(v) => setBulan(v as (typeof months)[number])}
-                options={[...months]}
-              />
-            </FieldRow>
-
-            <FieldRow label="Tahun">
-              <Input
-                value={tahun}
-                onChange={(e) => setTahun(e.target.value)}
-                className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
-                inputMode="numeric"
-              />
-            </FieldRow>
-
-            <FieldRow label="Tipe Kolektibilitas">
-              <SelectLike
-                value={tipe}
-                onChange={(v) => setTipe(v as KolektibilitasType)}
-                options={[
-                  "-- Semua --",
-                  "Lancar",
-                  "Dalam Perhatian Khusus",
-                  "Kurang Lancar",
-                  "Diragukan",
-                  "Macet",
-                ]}
-              />
-            </FieldRow>
-
-            <FieldRow label="Status Anggota">
-              <SelectLike
-                value={statusAnggota}
-                onChange={(v) => setStatusAnggota(v as StatusAnggota)}
-                options={["Pilih Jenis Anggota", "Anggota", "Calon"]}
-              />
-            </FieldRow>
-
-            <div className="flex justify-end pt-1">
-              <button
-                type="button"
-                onClick={doSearch}
+        {/* FORM (tanpa Card / background putih) */}
+        <div className="grid gap-4">
+          <FieldRow label="Jenis Pinjaman">
+            <div className="relative">
+              <select
+                value={jenisPinjaman}
+                onChange={(e) => setJenisPinjaman(e.target.value)}
                 className={cn(
-                  "inline-flex h-10 items-center gap-2 rounded-md px-5 text-sm font-semibold text-white",
-                  "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
+                  "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
+                  "shadow-sm outline-none transition",
+                  "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
                 )}
               >
-                <Search className="h-4.5 w-4.5" />
-                Cari
-              </button>
+                <option value="Pilih pinjaman">Pilih pinjaman</option>
+                {loanOptions.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
             </div>
+          </FieldRow>
+
+          <FieldRow label="Nama/Kode Pinjaman">
+            <Input
+              value={namaKode}
+              onChange={(e) => setNamaKode(e.target.value)}
+              placeholder="Masukkan nama/kode pinjaman.."
+              className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
+            />
+          </FieldRow>
+
+          <FieldRow label="Bulan">
+            <SelectLike
+              value={bulan}
+              onChange={(v) => setBulan(v as (typeof months)[number])}
+              options={[...months]}
+            />
+          </FieldRow>
+
+          <FieldRow label="Tahun">
+            <Input
+              value={tahun}
+              onChange={(e) => setTahun(e.target.value)}
+              className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
+              inputMode="numeric"
+            />
+          </FieldRow>
+
+          <FieldRow label="Tipe Kolektibilitas">
+            <SelectLike
+              value={tipe}
+              onChange={(v) => setTipe(v as KolektibilitasType)}
+              options={[
+                "-- Semua --",
+                "Lancar",
+                "Dalam Perhatian Khusus",
+                "Kurang Lancar",
+                "Diragukan",
+                "Macet",
+              ]}
+            />
+          </FieldRow>
+
+          <FieldRow label="Status Anggota">
+            <SelectLike
+              value={statusAnggota}
+              onChange={(v) => setStatusAnggota(v as StatusAnggota)}
+              options={["Pilih Jenis Anggota", "Anggota", "Calon"]}
+            />
+          </FieldRow>
+
+          <div className="flex justify-end pt-1">
+            <button
+              type="button"
+              onClick={doSearch}
+              className={cn(
+                "inline-flex h-10 items-center gap-2 rounded-full px-6 text-sm font-semibold text-white",
+                "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
+              )}
+            >
+              <Search className="h-4.5 w-4.5" />
+              Cari
+            </button>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );
