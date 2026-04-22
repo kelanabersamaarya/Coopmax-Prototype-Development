@@ -12,6 +12,9 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog";
+import KolektibilitasReportTable, {
+  type KolektibilitasRow,
+} from "@/components/laporan/KolektibilitasReportTable";
 
 type KolektibilitasType =
   | "-- Semua --"
@@ -125,6 +128,49 @@ function SelectLike({
   );
 }
 
+const seedRows: KolektibilitasRow[] = [
+  {
+    no: 1,
+    noNsb: "N2400026",
+    nama: "Hendrianto",
+    alamat: "Jl. Sunset APRIL 43",
+    aoId: "A01",
+    jangkaWaktuBln: 12,
+    dari: "18-01-2025",
+    sampai: "08-12-2025",
+    pinjamanSldPokok: 3822341,
+    pinjamanBng: 5.78,
+    angsuranPerBln: 370331,
+    angsuranSdhHr: 16.2,
+    tunggakanBln: 0,
+    tunggakanNilai: 0,
+    tunggakan1_30: 0,
+    tunggakan31_60: 0,
+    tunggakan61_90: 0,
+    tunggakan90p: 0,
+  },
+  {
+    no: 2,
+    noNsb: "N2500010",
+    nama: "Gaby",
+    alamat: "Jl. Galang",
+    aoId: "A01",
+    jangkaWaktuBln: 9,
+    dari: "03-03-2025",
+    sampai: "03-12-2025",
+    pinjamanSldPokok: 5000000,
+    pinjamanBng: 0.99,
+    angsuranPerBln: 650000,
+    angsuranSdhHr: 21.0,
+    tunggakanBln: 1,
+    tunggakanNilai: 150000,
+    tunggakan1_30: 150000,
+    tunggakan31_60: 0,
+    tunggakan61_90: 0,
+    tunggakan90p: 0,
+  },
+];
+
 export default function LaporanKolektibilitas() {
   const [jenisPinjaman, setJenisPinjaman] =
     React.useState<string>("Pilih pinjaman");
@@ -136,6 +182,7 @@ export default function LaporanKolektibilitas() {
     React.useState<StatusAnggota>("Pilih Jenis Anggota");
 
   const [warnOpen, setWarnOpen] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(false);
 
   function doSearch() {
     if (jenisPinjaman === "Pilih pinjaman") {
@@ -143,14 +190,9 @@ export default function LaporanKolektibilitas() {
       return;
     }
 
-    toast.success("Filter diterapkan (prototype)", {
-      description: [
-        `Jenis: ${jenisPinjaman}`,
-        namaKode ? `Query: ${namaKode}` : "Query: (kosong)",
-        `Periode: ${bulan} ${tahun}`,
-        `Tipe: ${tipe}`,
-        `Status: ${statusAnggota}`,
-      ].join(" • "),
+    setSubmitted(true);
+    toast.success("Laporan ditampilkan (prototype)", {
+      description: `Jenis: ${jenisPinjaman} • ${bulan} ${tahun}`,
     });
   }
 
@@ -281,6 +323,15 @@ export default function LaporanKolektibilitas() {
             </button>
           </div>
         </div>
+
+        {submitted ? (
+          <KolektibilitasReportTable
+            rows={seedRows}
+            page={1}
+            pageSize={20}
+            totalEntries={495}
+          />
+        ) : null}
       </div>
     </div>
   );
