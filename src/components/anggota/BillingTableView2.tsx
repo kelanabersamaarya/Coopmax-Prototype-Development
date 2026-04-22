@@ -3,6 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Info } from "lucide-react";
+import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -12,34 +13,6 @@ export type BillingRow = {
   sisaPokok: string;
   sisaBunga: string;
 };
-
-function GraceInfoRow({ colSpan }: { colSpan: number }) {
-  return (
-    <tr className="border-t border-slate-200">
-      <td colSpan={colSpan} className="p-0">
-        <div className="bg-white px-3 py-3">
-          <div className="rounded-2xl border border-blue-200 bg-blue-50/70 px-4 py-4 text-[14px] text-slate-800">
-            <div className="flex items-start gap-4">
-              <span className="mt-0.5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
-                <Info className="h-5 w-5" />
-              </span>
-              <div className="min-w-0">
-                <div className="text-[15px] font-extrabold tracking-tight text-slate-900">
-                  Periode Grace Period
-                </div>
-                <div className="mt-2 leading-relaxed text-slate-700">
-                  Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
-                  dalam grace period. Selama periode grace period nasabah hanya
-                  membayar bunga.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  );
-}
 
 function RowShell({
   children,
@@ -90,6 +63,7 @@ export default function BillingTableView2({
   isLocked = false,
   showNextBillInfo = true,
   showGraceInfo = true,
+  highlightGraceBlock = false,
   className,
 }: {
   rows: BillingRow[];
@@ -98,6 +72,7 @@ export default function BillingTableView2({
   isLocked?: boolean; // misalnya pelunasan: disable checklist
   showNextBillInfo?: boolean;
   showGraceInfo?: boolean;
+  highlightGraceBlock?: boolean; // NEW: border biru mencakup info + 2 baris pertama
   className?: string;
 }) {
   const colCount = 7;
@@ -124,6 +99,10 @@ export default function BillingTableView2({
     setSelected((prev) => rows.map((_, idx) => prev[idx] ?? false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows.length]);
+
+  const graceCount = showGraceInfo && highlightGraceBlock ? Math.min(2, rows.length) : 0;
+  const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
+  const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
   return (
     <div className={cn("mt-3", className)}>
@@ -162,76 +141,219 @@ export default function BillingTableView2({
           </thead>
 
           <tbody className="bg-white">
-            {showGraceInfo ? <GraceInfoRow colSpan={colCount} /> : null}
+            {/* MODE HIGHLIGHT: border biru cover info + 2 baris pertama */}
+            {showGraceInfo && highlightGraceBlock && graceRows.length > 0 ? (
+              <>
+                <tr className="border-t border-slate-200">
+                  <td colSpan={colCount} className="p-0">
+                    <div className="bg-white px-3 py-3">
+                      <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
+                        <table className="w-full border-collapse text-[13px]">
+                          <tbody className="bg-white">
+                            <GracePeriodInfoRow colSpan={colCount} noBorder />
 
-            {rows.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={colCount}
-                  className="px-4 py-10 text-center text-sm text-slate-600"
-                >
-                  Tidak ada data.
-                </td>
-              </tr>
+                            {graceRows.map((r, idx) => {
+                              const rowIndex = idx;
+                              const active = selected[rowIndex] === true;
+
+                              return (
+                                <tr
+                                  key={`${r.jatuhTempo}-grace-${idx}`}
+                                  className={cn(
+                                    idx === 0 ? "" : "border-t border-slate-200",
+                                  )}
+                                >
+                                  <td colSpan={colCount} className="p-0">
+                                    <RowShell active={active}>
+                                      <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
+                                        <div className="flex items-center justify-center px-4 py-4">
+                                          <input
+                                            type="checkbox"
+                                            aria-label="Pilih tagihan"
+                                            checked={
+                                              isLocked ? true : (selected[rowIndex] ?? false)
+                                            }
+                                            disabled={isLocked}
+                                            onChange={(e) => {
+                                              const next = e.target.checked;
+                                              setSelected((prev) => {
+                                                const copy = [...prev];
+                                                copy[rowIndex] = next;
+                                                return copy;
+                                              });
+                                            }}
+                                            className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                          />
+                                        </div>
+
+                                        <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                                          {r.jatuhTempo}
+                                        </div>
+
+                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                          {r.totalBelumDibayar}
+                                        </div>
+
+                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                          {r.tagihanPokok}
+                                        </div>
+
+                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                          {r.tagihanBunga}
+                                        </div>
+
+                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                          {r.sisaPokok}
+                                        </div>
+
+                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                          {r.sisaBunga}
+                                        </div>
+                                      </div>
+                                    </RowShell>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                {afterGraceRows.map((r, idx) => {
+                  const rowIndex = graceCount + idx;
+                  const active = selected[rowIndex] === true;
+
+                  return (
+                    <tr key={`${r.jatuhTempo}-${rowIndex}`} className="border-t border-slate-200">
+                      <td colSpan={colCount} className="p-0">
+                        <RowShell active={active}>
+                          <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
+                            <div className="flex items-center justify-center px-4 py-4">
+                              <input
+                                type="checkbox"
+                                aria-label="Pilih tagihan"
+                                checked={isLocked ? true : (selected[rowIndex] ?? false)}
+                                disabled={isLocked}
+                                onChange={(e) => {
+                                  const next = e.target.checked;
+                                  setSelected((prev) => {
+                                    const copy = [...prev];
+                                    copy[rowIndex] = next;
+                                    return copy;
+                                  });
+                                }}
+                                className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                              />
+                            </div>
+
+                            <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.jatuhTempo}
+                            </div>
+
+                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.totalBelumDibayar}
+                            </div>
+
+                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.tagihanPokok}
+                            </div>
+
+                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.tagihanBunga}
+                            </div>
+
+                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.sisaPokok}
+                            </div>
+
+                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.sisaBunga}
+                            </div>
+                          </div>
+                        </RowShell>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </>
             ) : (
-              rows.map((r, idx) => {
-                const active = selected[idx] === true;
+              <>
+                {/* MODE NORMAL: info grace period tampil seperti biasa */}
+                {showGraceInfo ? <GracePeriodInfoRow colSpan={colCount} /> : null}
 
-                return (
-                  <tr
-                    key={`${r.jatuhTempo}-${idx}`}
-                    className="border-t border-slate-200"
-                  >
-                    <td colSpan={colCount} className="p-0">
-                      <RowShell active={active}>
-                        <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
-                          <div className="flex items-center justify-center px-4 py-4">
-                            <input
-                              type="checkbox"
-                              aria-label="Pilih tagihan"
-                              checked={isLocked ? true : (selected[idx] ?? false)}
-                              disabled={isLocked}
-                              onChange={(e) => {
-                                const next = e.target.checked;
-                                setSelected((prev) => {
-                                  const copy = [...prev];
-                                  copy[idx] = next;
-                                  return copy;
-                                });
-                              }}
-                              className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-                            />
-                          </div>
-
-                          <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.jatuhTempo}
-                          </div>
-
-                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.totalBelumDibayar}
-                          </div>
-
-                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.tagihanPokok}
-                          </div>
-
-                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.tagihanBunga}
-                          </div>
-
-                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.sisaPokok}
-                          </div>
-
-                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.sisaBunga}
-                          </div>
-                        </div>
-                      </RowShell>
+                {rows.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={colCount}
+                      className="px-4 py-10 text-center text-sm text-slate-600"
+                    >
+                      Tidak ada data.
                     </td>
                   </tr>
-                );
-              })
+                ) : (
+                  rows.map((r, idx) => {
+                    const active = selected[idx] === true;
+
+                    return (
+                      <tr
+                        key={`${r.jatuhTempo}-${idx}`}
+                        className="border-t border-slate-200"
+                      >
+                        <td colSpan={colCount} className="p-0">
+                          <RowShell active={active}>
+                            <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
+                              <div className="flex items-center justify-center px-4 py-4">
+                                <input
+                                  type="checkbox"
+                                  aria-label="Pilih tagihan"
+                                  checked={isLocked ? true : (selected[idx] ?? false)}
+                                  disabled={isLocked}
+                                  onChange={(e) => {
+                                    const next = e.target.checked;
+                                    setSelected((prev) => {
+                                      const copy = [...prev];
+                                      copy[idx] = next;
+                                      return copy;
+                                    });
+                                  }}
+                                  className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                />
+                              </div>
+
+                              <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.jatuhTempo}
+                              </div>
+
+                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.totalBelumDibayar}
+                              </div>
+
+                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.tagihanPokok}
+                              </div>
+
+                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.tagihanBunga}
+                              </div>
+
+                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.sisaPokok}
+                              </div>
+
+                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.sisaBunga}
+                              </div>
+                            </div>
+                          </RowShell>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </>
             )}
           </tbody>
         </table>

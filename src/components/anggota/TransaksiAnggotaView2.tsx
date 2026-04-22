@@ -118,6 +118,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const showAllRows = penaltyOnlyCols || feeOnlyCols;
 
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
+  const isPenurunanPlafon = jenisTransaksi === "Pembayaran Penurunan Plafon";
 
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
@@ -149,8 +150,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  // UBAH: Rincian Tagihan juga menampilkan info grace period.
   const showGraceInfo = true;
+
+  // NEW: highlight biru di mode-mode ini
+  const highlightGraceBlock = isReguler || isRincian || isPenurunanPlafon;
 
   return (
     <div className="w-full px-0">
@@ -262,6 +265,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   isLocked={isPelunasan}
                   showNextBillInfo={true}
                   showGraceInfo={showGraceInfo}
+                  highlightGraceBlock={highlightGraceBlock}
                 />
               )}
 

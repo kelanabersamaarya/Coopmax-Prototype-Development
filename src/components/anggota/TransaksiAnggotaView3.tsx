@@ -118,6 +118,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const showAllRows = penaltyOnlyCols || feeOnlyCols;
 
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
+  const isPenurunanPlafon = jenisTransaksi === "Pembayaran Penurunan Plafon";
 
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
@@ -149,9 +150,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  // Samakan dengan View2: grace info tampil termasuk reguler & rincian.
-  // (BillingTableView2 tidak dipakai pada mode pelunasan)
   const showGraceInfo = true;
+  const highlightGraceBlock = isReguler || isRincian || isPenurunanPlafon;
 
   return (
     <div className="w-full px-0">
@@ -263,14 +263,13 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   isLocked={isPelunasan}
                   showNextBillInfo={true}
                   showGraceInfo={showGraceInfo}
+                  highlightGraceBlock={highlightGraceBlock}
                 />
               )}
 
               <div className="sr-only">
                 <Info />
               </div>
-
-              <div className="sr-only">{isRincian ? "rincian" : "normal"}</div>
             </Card>
 
             <div className="space-y-4">
