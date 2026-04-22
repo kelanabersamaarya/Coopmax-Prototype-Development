@@ -11,6 +11,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { toast } from "sonner";
+import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog";
 
 type KolektibilitasType =
   | "-- Semua --"
@@ -134,7 +135,14 @@ export default function LaporanKolektibilitas() {
   const [statusAnggota, setStatusAnggota] =
     React.useState<StatusAnggota>("Pilih Jenis Anggota");
 
+  const [warnOpen, setWarnOpen] = React.useState(false);
+
   function doSearch() {
+    if (jenisPinjaman === "Pilih pinjaman") {
+      setWarnOpen(true);
+      return;
+    }
+
     toast.success("Filter diterapkan (prototype)", {
       description: [
         `Jenis: ${jenisPinjaman}`,
@@ -148,6 +156,8 @@ export default function LaporanKolektibilitas() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <LoanTypeRequiredDialog open={warnOpen} onOpenChange={setWarnOpen} />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
