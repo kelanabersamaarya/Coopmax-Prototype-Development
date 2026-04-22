@@ -23,6 +23,7 @@ export default function BillingTable({
   interestOnlyCols = false,
   penaltyOnlyCols = false,
   feeOnlyCols = false,
+  hideSelection = false,
   className,
 }: {
   rows: BillingRow[];
@@ -34,6 +35,7 @@ export default function BillingTable({
   interestOnlyCols?: boolean;
   penaltyOnlyCols?: boolean;
   feeOnlyCols?: boolean;
+  hideSelection?: boolean;
   className?: string;
 }) {
   React.useEffect(() => {
@@ -130,7 +132,7 @@ export default function BillingTable({
   };
 
   if (feeOnlyCols) {
-    const colCount = 5;
+    const colCount = hideSelection ? 4 : 5;
 
     // Percent widths so the table always fits container (no horizontal scroll)
     const wJenis = "w-[40%]";
@@ -162,19 +164,23 @@ export default function BillingTable({
           <table className={tableBase}>
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                <th className={cn(checkboxColW, thClass, edgeL, "text-center")}>
-                  <CheckboxCell
-                    refEl={headerCheckboxRef}
-                    aria-label="Pilih semua"
-                    checked={isPelunasan ? true : allChecked}
-                    disabled={isPelunasan}
-                    onChange={(next) => setSelected(rows.map(() => next))}
-                    size="sm"
-                    tone="blue"
-                  />
-                </th>
+                {!hideSelection ? (
+                  <th className={cn(checkboxColW, thClass, edgeL, "text-center")}>
+                    <CheckboxCell
+                      refEl={headerCheckboxRef}
+                      aria-label="Pilih semua"
+                      checked={isPelunasan ? true : allChecked}
+                      disabled={isPelunasan}
+                      onChange={(next) => setSelected(rows.map(() => next))}
+                      size="sm"
+                      tone="blue"
+                    />
+                  </th>
+                ) : null}
 
-                <th className={cn(wJenis, thClass)}>Jenis Biaya Lainnya (Fee)</th>
+                <th className={cn(wJenis, thClass, hideSelection ? edgeL : "")}>
+                  Jenis Biaya Lainnya (Fee)
+                </th>
                 <th className={cn(wPeriode, thClass)}>Periode</th>
 
                 <th className={cn(wTotal, thClass, "text-right")}>
@@ -210,31 +216,40 @@ export default function BillingTable({
                       idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                     )}
                   >
+                    {!hideSelection ? (
+                      <td
+                        className={cn(
+                          checkboxColW,
+                          tdClass,
+                          edgeL,
+                          "text-center",
+                        )}
+                      >
+                        <CheckboxCell
+                          aria-label="Pilih fee"
+                          checked={isPelunasan ? true : (selected[idx] ?? true)}
+                          disabled={isPelunasan}
+                          onChange={(next) =>
+                            setSelected((prev) => {
+                              const copy = [...prev];
+                              copy[idx] = next;
+                              return copy;
+                            })
+                          }
+                          size="sm"
+                          tone="blue"
+                        />
+                      </td>
+                    ) : null}
+
                     <td
                       className={cn(
-                        checkboxColW,
+                        wJenis,
                         tdClass,
-                        edgeL,
-                        "text-center",
+                        "text-slate-900",
+                        hideSelection ? edgeL : "",
                       )}
                     >
-                      <CheckboxCell
-                        aria-label="Pilih fee"
-                        checked={isPelunasan ? true : (selected[idx] ?? true)}
-                        disabled={isPelunasan}
-                        onChange={(next) =>
-                          setSelected((prev) => {
-                            const copy = [...prev];
-                            copy[idx] = next;
-                            return copy;
-                          })
-                        }
-                        size="sm"
-                        tone="blue"
-                      />
-                    </td>
-
-                    <td className={cn(wJenis, tdClass, "text-slate-900")}>
                       <div className="truncate" title={bill.feeName}>
                         {bill.feeName}
                       </div>
@@ -270,7 +285,7 @@ export default function BillingTable({
   }
 
   if (penaltyOnlyCols) {
-    const colCount = 5;
+    const colCount = hideSelection ? 4 : 5;
 
     const angsuranColW = "w-[16%]";
     const dateColW = "w-[32%]";
@@ -288,19 +303,21 @@ export default function BillingTable({
           <table className={tableBase}>
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                <th className={cn(checkboxColW, thClass, edgeL)}>
-                  <CheckboxCell
-                    refEl={headerCheckboxRef}
-                    aria-label="Pilih semua"
-                    checked={isPelunasan ? true : allChecked}
-                    disabled={isPelunasan}
-                    onChange={(next) => setSelected(rows.map(() => next))}
-                    size="sm"
-                    tone="blue"
-                  />
-                </th>
+                {!hideSelection ? (
+                  <th className={cn(checkboxColW, thClass, edgeL)}>
+                    <CheckboxCell
+                      refEl={headerCheckboxRef}
+                      aria-label="Pilih semua"
+                      checked={isPelunasan ? true : allChecked}
+                      disabled={isPelunasan}
+                      onChange={(next) => setSelected(rows.map(() => next))}
+                      size="sm"
+                      tone="blue"
+                    />
+                  </th>
+                ) : null}
 
-                <th className={cn(angsuranColW, thClass)}>
+                <th className={cn(angsuranColW, thClass, hideSelection ? edgeL : "")}>
                   <span className="leading-none">ANGSURAN KE-</span>
                 </th>
 
@@ -335,28 +352,31 @@ export default function BillingTable({
                       idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                     )}
                   >
-                    <td className={cn(checkboxColW, tdClass, edgeL)}>
-                      <CheckboxCell
-                        aria-label="Pilih tagihan"
-                        checked={isPelunasan ? true : (selected[idx] ?? true)}
-                        disabled={isPelunasan}
-                        onChange={(next) =>
-                          setSelected((prev) => {
-                            const copy = [...prev];
-                            copy[idx] = next;
-                            return copy;
-                          })
-                        }
-                        size="sm"
-                        tone="blue"
-                      />
-                    </td>
+                    {!hideSelection ? (
+                      <td className={cn(checkboxColW, tdClass, edgeL)}>
+                        <CheckboxCell
+                          aria-label="Pilih tagihan"
+                          checked={isPelunasan ? true : (selected[idx] ?? true)}
+                          disabled={isPelunasan}
+                          onChange={(next) =>
+                            setSelected((prev) => {
+                              const copy = [...prev];
+                              copy[idx] = next;
+                              return copy;
+                            })
+                          }
+                          size="sm"
+                          tone="blue"
+                        />
+                      </td>
+                    ) : null}
 
                     <td
                       className={cn(
                         angsuranColW,
                         tdClass,
                         "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                        hideSelection ? edgeL : "",
                       )}
                     >
                       {idx + 1}
@@ -392,7 +412,7 @@ export default function BillingTable({
   }
 
   if (interestOnlyCols) {
-    const colCount = 4;
+    const colCount = hideSelection ? 3 : 4;
 
     const dateColW = "w-[28%]";
     const bungaColW = "w-[36%]";
@@ -408,21 +428,25 @@ export default function BillingTable({
         <table className={tableBase}>
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-              <th className={cn(checkboxColW, thClass, edgeL)}>
-                <input
-                  ref={headerCheckboxRef}
-                  type="checkbox"
-                  aria-label="Pilih semua"
-                  checked={isPelunasan ? true : allChecked}
-                  disabled={isPelunasan}
-                  onChange={(e) => {
-                    const next = e.target.checked;
-                    setSelected(rows.map(() => next));
-                  }}
-                />
-              </th>
+              {!hideSelection ? (
+                <th className={cn(checkboxColW, thClass, edgeL)}>
+                  <input
+                    ref={headerCheckboxRef}
+                    type="checkbox"
+                    aria-label="Pilih semua"
+                    checked={isPelunasan ? true : allChecked}
+                    disabled={isPelunasan}
+                    onChange={(e) => {
+                      const next = e.target.checked;
+                      setSelected(rows.map(() => next));
+                    }}
+                  />
+                </th>
+              ) : null}
 
-              <th className={cn(dateColW, thClass)}>Jatuh Tempo</th>
+              <th className={cn(dateColW, thClass, hideSelection ? edgeL : "")}>
+                Jatuh Tempo
+              </th>
 
               <th className={cn(bungaColW, thClass, "text-right")}>Tagihan Bunga</th>
 
@@ -466,24 +490,33 @@ export default function BillingTable({
                                 key={`${bill.jatuhTempo}-${idx}`}
                                 className="border-t border-slate-100 text-sm"
                               >
-                                <td className={cn(checkboxColW, tdClass, edgeL)}>
-                                  <input
-                                    type="checkbox"
-                                    aria-label="Pilih tagihan"
-                                    checked={isPelunasan ? true : (selected[idx] ?? true)}
-                                    disabled={isPelunasan}
-                                    onChange={(e) => {
-                                      const next = e.target.checked;
-                                      setSelected((prev) => {
-                                        const copy = [...prev];
-                                        copy[idx] = next;
-                                        return copy;
-                                      });
-                                    }}
-                                  />
-                                </td>
+                                {!hideSelection ? (
+                                  <td className={cn(checkboxColW, tdClass, edgeL)}>
+                                    <input
+                                      type="checkbox"
+                                      aria-label="Pilih tagihan"
+                                      checked={isPelunasan ? true : (selected[idx] ?? true)}
+                                      disabled={isPelunasan}
+                                      onChange={(e) => {
+                                        const next = e.target.checked;
+                                        setSelected((prev) => {
+                                          const copy = [...prev];
+                                          copy[idx] = next;
+                                          return copy;
+                                        });
+                                      }}
+                                    />
+                                  </td>
+                                ) : null}
 
-                                <td className={cn(dateColW, tdClass, dateCell)}>
+                                <td
+                                  className={cn(
+                                    dateColW,
+                                    tdClass,
+                                    dateCell,
+                                    hideSelection ? edgeL : "",
+                                  )}
+                                >
                                   {bill.jatuhTempo}
                                 </td>
 
@@ -510,7 +543,7 @@ export default function BillingTable({
     );
   }
 
-  const colCount = hideInterestCols ? 4 : 7;
+  const colCount = hideInterestCols ? (hideSelection ? 3 : 4) : hideSelection ? 6 : 7;
 
   // percent widths so the table always fits container (no horizontal scroll)
   const dateColW = hideInterestCols ? "w-[25%]" : "w-[15%]";
@@ -530,21 +563,25 @@ export default function BillingTable({
       <table className={tableBase}>
         <thead className="bg-white">
           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-            <th className={cn(checkboxColW, thClass, edgeL)}>
-              <input
-                ref={headerCheckboxRef}
-                type="checkbox"
-                aria-label="Pilih semua"
-                checked={isPelunasan ? true : allChecked}
-                disabled={isPelunasan}
-                onChange={(e) => {
-                  const next = e.target.checked;
-                  setSelected(rows.map(() => next));
-                }}
-              />
-            </th>
+            {!hideSelection ? (
+              <th className={cn(checkboxColW, thClass, edgeL)}>
+                <input
+                  ref={headerCheckboxRef}
+                  type="checkbox"
+                  aria-label="Pilih semua"
+                  checked={isPelunasan ? true : allChecked}
+                  disabled={isPelunasan}
+                  onChange={(e) => {
+                    const next = e.target.checked;
+                    setSelected(rows.map(() => next));
+                  }}
+                />
+              </th>
+            ) : null}
 
-            <th className={cn(dateColW, thClass)}>Jatuh Tempo</th>
+            <th className={cn(dateColW, thClass, hideSelection ? edgeL : "")}>
+              Jatuh Tempo
+            </th>
 
             {!hideInterestCols ? (
               <th className={cn(totalColW, thClass, "text-right")}>
@@ -604,24 +641,33 @@ export default function BillingTable({
                               key={`${bill.jatuhTempo}-${idx}`}
                               className="border-t border-slate-100 text-sm"
                             >
-                              <td className={cn(checkboxColW, tdClass, edgeL)}>
-                                <input
-                                  type="checkbox"
-                                  aria-label="Pilih tagihan"
-                                  checked={isPelunasan ? true : (selected[idx] ?? true)}
-                                  disabled={isPelunasan}
-                                  onChange={(e) => {
-                                    const next = e.target.checked;
-                                    setSelected((prev) => {
-                                      const copy = [...prev];
-                                      copy[idx] = next;
-                                      return copy;
-                                    });
-                                  }}
-                                />
-                              </td>
+                              {!hideSelection ? (
+                                <td className={cn(checkboxColW, tdClass, edgeL)}>
+                                  <input
+                                    type="checkbox"
+                                    aria-label="Pilih tagihan"
+                                    checked={isPelunasan ? true : (selected[idx] ?? true)}
+                                    disabled={isPelunasan}
+                                    onChange={(e) => {
+                                      const next = e.target.checked;
+                                      setSelected((prev) => {
+                                        const copy = [...prev];
+                                        copy[idx] = next;
+                                        return copy;
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              ) : null}
 
-                              <td className={cn(dateColW, tdClass, dateCell)}>
+                              <td
+                                className={cn(
+                                  dateColW,
+                                  tdClass,
+                                  dateCell,
+                                  hideSelection ? edgeL : "",
+                                )}
+                              >
                                 {bill.jatuhTempo}
                               </td>
 

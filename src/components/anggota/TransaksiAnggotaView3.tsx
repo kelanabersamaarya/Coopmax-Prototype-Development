@@ -113,6 +113,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
 
+  const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
+
   // Samakan dengan View2:
   // - normal: tabel utama hanya currentBill
   // - pelunasan: tabel utama upcomingRows (paginate)
@@ -313,6 +315,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 interestOnlyCols={interestOnlyCols}
                 penaltyOnlyCols={penaltyOnlyCols}
                 feeOnlyCols={feeOnlyCols}
+                hideSelection={isRincian}
               />
 
               {isPelunasan ? (
