@@ -86,8 +86,6 @@ export default function BillingTable({
     const needed = rows.length + extraOutsideRows.length;
     if (selected.length === needed) return;
 
-    // Penting: jangan auto-true (karena Pembayaran Reguler harus default kosong).
-    // Hanya Pelunasan yang boleh default true.
     const defaultValue = isPelunasan ? true : false;
 
     setSelected((prev) => {
@@ -104,14 +102,14 @@ export default function BillingTable({
   const allChecked = React.useMemo(() => {
     const aligned = Array.from({
       length: displayRows.length + extraOutsideRows.length,
-    }).map((_, idx) => selected[idx] ?? true);
+    }).map((_, idx) => selected[idx] ?? false);
     return aligned.length > 0 && aligned.every(Boolean);
   }, [displayRows.length, extraOutsideRows.length, selected]);
 
   const anyChecked = React.useMemo(() => {
     const aligned = Array.from({
       length: displayRows.length + extraOutsideRows.length,
-    }).map((_, idx) => selected[idx] ?? true);
+    }).map((_, idx) => selected[idx] ?? false);
     return aligned.some(Boolean);
   }, [displayRows.length, extraOutsideRows.length, selected]);
 
@@ -285,7 +283,7 @@ export default function BillingTable({
                       >
                         <CheckboxCell
                           aria-label="Pilih fee"
-                          checked={isPelunasan ? true : (selected[idx] ?? true)}
+                          checked={isPelunasan ? true : (selected[idx] ?? false)}
                           disabled={isPelunasan}
                           onChange={(next) =>
                             setSelected((prev) => {
@@ -410,7 +408,7 @@ export default function BillingTable({
                       <td className={cn(checkboxColW, tdClass, edgeL)}>
                         <CheckboxCell
                           aria-label="Pilih tagihan"
-                          checked={isPelunasan ? true : (selected[idx] ?? true)}
+                          checked={isPelunasan ? true : (selected[idx] ?? false)}
                           disabled={isPelunasan}
                           onChange={(next) =>
                             setSelected((prev) => {
@@ -541,7 +539,7 @@ export default function BillingTable({
                       <input
                         type="checkbox"
                         aria-label="Pilih tagihan"
-                        checked={isPelunasan ? true : (selected[idx] ?? true)}
+                        checked={isPelunasan ? true : (selected[idx] ?? false)}
                         disabled={isPelunasan}
                         onChange={(e) => {
                           const next = e.target.checked;
@@ -648,7 +646,7 @@ export default function BillingTable({
             <input
               type="checkbox"
               aria-label="Pilih tagihan"
-              checked={isPelunasan ? true : (selected[globalIndex] ?? true)}
+              checked={isPelunasan ? true : (selected[globalIndex] ?? false)}
               disabled={isPelunasan}
               onChange={(e) => {
                 const next = e.target.checked;
@@ -770,7 +768,6 @@ export default function BillingTable({
             </tr>
           ) : graceRows.length > 0 && showGraceHighlight ? (
             <>
-              {/* Highlight box untuk info + grace rows */}
               <tr className="border-t border-slate-100">
                 <td colSpan={colCount} className="p-0">
                   <div className="bg-white p-2">
@@ -793,9 +790,7 @@ export default function BillingTable({
                                     <input
                                       type="checkbox"
                                       aria-label="Pilih tagihan"
-                                      checked={
-                                        isPelunasan ? true : (selected[idx] ?? true)
-                                      }
+                                      checked={isPelunasan ? true : (selected[idx] ?? false)}
                                       disabled={isPelunasan}
                                       onChange={(e) => {
                                         const next = e.target.checked;
@@ -908,7 +903,7 @@ export default function BillingTable({
                           type="checkbox"
                           aria-label="Pilih tagihan"
                           checked={
-                            isPelunasan ? true : (selected[globalIndex] ?? true)
+                            isPelunasan ? true : (selected[globalIndex] ?? false)
                           }
                           disabled={isPelunasan}
                           onChange={(e) => {
@@ -993,7 +988,7 @@ export default function BillingTable({
                     <input
                       type="checkbox"
                       aria-label="Pilih tagihan"
-                      checked={isPelunasan ? true : (selected[idx] ?? true)}
+                      checked={isPelunasan ? true : (selected[idx] ?? false)}
                       disabled={isPelunasan}
                       onChange={(e) => {
                         const next = e.target.checked;
@@ -1063,7 +1058,7 @@ export default function BillingTable({
                     <input
                       type="checkbox"
                       aria-label="Pilih tagihan"
-                      checked={isPelunasan ? true : (selected[globalIndex] ?? true)}
+                      checked={isPelunasan ? true : (selected[globalIndex] ?? false)}
                       disabled={isPelunasan}
                       onChange={(e) => {
                         const next = e.target.checked;
