@@ -38,6 +38,19 @@ const months = [
   "Desember",
 ] as const;
 
+const loanOptions = [
+  "Pinjaman Bulanan 9",
+  "Pinjaman Harian",
+  "Pinjaman Bulanan 17",
+  "Pinjaman Emas",
+  "Pinjaman Bulanan 18",
+  "Pinjaman Bulanan 8",
+  "Pinjaman Bulanan 3",
+  "Pinjaman Bulanan 1",
+  "Pinjaman Bulanan 5",
+  "Pinjaman Billing",
+] as const;
+
 function ActionPill({
   icon: Icon,
   label,
@@ -112,6 +125,47 @@ function SelectLike({
   );
 }
 
+function LoanTypeSelect({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="relative">
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        size={1}
+        className={cn(
+          "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
+          "shadow-sm outline-none transition",
+          "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
+        )}
+      >
+        <option value="Pilih pinjaman">Pilih pinjaman</option>
+        {loanOptions.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+
+      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
+
+      {/* Styling dropdown list (browser native) is limited, but we can ensure it opens with many items via size on focus */}
+      <style>{`
+        /* Make the opened list feel like the screenshot: taller list with scroll.
+           This uses the native select's 'size' trick on focus for most browsers. */
+        select[data-loan-open="true"] {
+          height: auto;
+        }
+      `}</style>
+    </div>
+  );
+}
+
 export default function LaporanKolektibilitas() {
   const [jenisPinjaman, setJenisPinjaman] = React.useState<string>("Pilih pinjaman");
   const [namaKode, setNamaKode] = React.useState("");
@@ -174,18 +228,26 @@ export default function LaporanKolektibilitas() {
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
           <div className="grid gap-4">
             <FieldRow label="Jenis Pinjaman">
-              <SelectLike
-                value={jenisPinjaman}
-                onChange={setJenisPinjaman}
-                placeholder="Pilih pinjaman"
-                options={[
-                  "Pilih pinjaman",
-                  "Pinjaman Bulanan",
-                  "Pinjaman Bulanan 9",
-                  "Pinjaman Harian",
-                  "Pinjaman Billing",
-                ]}
-              />
+              <div className="relative">
+                {/* Native select; options list as requested */}
+                <select
+                  value={jenisPinjaman}
+                  onChange={(e) => setJenisPinjaman(e.target.value)}
+                  className={cn(
+                    "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
+                    "shadow-sm outline-none transition",
+                    "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
+                  )}
+                >
+                  <option value="Pilih pinjaman">Pilih pinjaman</option>
+                  {loanOptions.map((o) => (
+                    <option key={o} value={o}>
+                      {o}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
+              </div>
             </FieldRow>
 
             <FieldRow label="Nama/Kode Pinjaman">
