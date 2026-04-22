@@ -106,7 +106,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
-  const isReguler = jenisTransaksi === "Pembayaran Reguler";
+
+  // View2: saat "Pembayaran Reguler" cukup tampil 1 tagihan (currentBill).
+  // Guard ekstra untuk state lama bila pernah ada label berbeda.
+  const isReguler =
+    jenisTransaksi === "Pembayaran Reguler" || (jenisTransaksi as any) === "Bayar Reguler";
 
   // sink label baru dari BillSummaryCard: "Pembayaran ..."
   const hideInterestCols = jenisTransaksi === "Pembayaran Pokok";
@@ -117,7 +121,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
 
   // View2 rule:
-  // - normal: tabel utama hanya currentBill
+  // - reguler: tabel utama hanya currentBill
   // - pelunasan: tabel utama upcomingRows (paginate)
   // - pembayaran denda: tampilkan semua upcomingRows (tanpa paginate)
   // - pembayaran biaya lainnya: tampilkan semua upcomingRows (tanpa paginate)
@@ -125,11 +129,13 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const showAllFees = feeOnlyCols;
   const showAllRows = showAllPenalties || showAllFees;
 
-  const billsInMainTable: BillingRow[] = isPelunasan
-    ? upcomingRows
-    : showAllRows
+  const billsInMainTable: BillingRow[] = isReguler
+    ? [currentBill]
+    : isPelunasan
       ? upcomingRows
-      : [currentBill];
+      : showAllRows
+        ? upcomingRows
+        : [currentBill];
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -141,7 +147,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   React.useEffect(() => {
     setPage(1);
-  }, [isPelunasan, pageSize, penaltyOnlyCols, feeOnlyCols]);
+  }, [isPelunasan, pageSize, penaltyOnlyCols, feeOnlyCols, isReguler]);
 
   const pagedBillsInMainTable = React.useMemo(() => {
     if (showAllRows) return billsInMainTable;
@@ -185,12 +191,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const penaltyTotal = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
-    // untuk denda: hitung dari SEMUA baris (bukan cuma paged) supaya total sesuai "seluruh denda"
     return calcPenaltyTotal(billsInMainTable, selected);
   }, [billsInMainTable, penaltyOnlyCols, selected]);
 
-  // Info penerbitan tagihan berikutnya: hilang untuk denda & biaya lainnya
-  const showNextBillInfo = !isPelunasan && !penaltyOnlyCols && !feeOnlyCols;
+  // Info penerbitan tagihan berikutnya: hilang untuk reguler, pelunasan, denda & biaya lainnya
+  const showNextBillInfo = !isReguler && !isPelunasan && !penaltyOnlyCols && !feeOnlyCols;
 
   return (
     <div className="w-full px-0">
