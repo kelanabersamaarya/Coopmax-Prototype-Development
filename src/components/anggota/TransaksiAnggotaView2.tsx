@@ -149,7 +149,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  const showGraceInfo = !isRincian;
+  // UBAH: Rincian Tagihan juga menampilkan info grace period.
+  const showGraceInfo = true;
 
   return (
     <div className="w-full px-0">
