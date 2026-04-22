@@ -33,7 +33,10 @@ import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
-import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
+import {
+  calcPenaltyTotal,
+  formatIdrLike,
+} from "@/components/anggota/calc-penalties";
 
 type Props = {
   nasabah: {
@@ -106,7 +109,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
 
   const isReguler =
-    jenisTransaksi === "Pembayaran Reguler" || (jenisTransaksi as any) === "Bayar Reguler";
+    jenisTransaksi === "Pembayaran Reguler" ||
+    (jenisTransaksi as any) === "Bayar Reguler";
 
   const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
@@ -144,10 +148,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  const showNextBillInfo = !isReguler && !isPelunasan && !penaltyOnlyCols && !feeOnlyCols;
-
   // Sesuai referensi: grace period info muncul di tabel untuk mode non-reguler tertentu
-  const showGraceInfo = showNextBillInfo && !isRincian;
+  const showGraceInfo = !isReguler && !isRincian;
 
   return (
     <div className="w-full px-0">
@@ -249,17 +251,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {/* TABEL KHUSUS VIEW2 (sesuai referensi) */}
               <BillingTableView2
                 rows={rowsToShow}
                 selected={selected}
                 setSelected={setSelected}
                 isLocked={isPelunasan}
-                showNextBillInfo={showNextBillInfo}
+                showNextBillInfo={true}
                 showGraceInfo={showGraceInfo}
               />
 
-              {/* dummy usage biar Info import tidak dianggap sia-sia oleh tooling */}
               <div className="sr-only">
                 <Info />
               </div>
