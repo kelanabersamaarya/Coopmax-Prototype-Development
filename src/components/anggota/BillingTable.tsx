@@ -130,7 +130,7 @@ export default function BillingTable({
     });
   }, [displayRows]);
 
-  const thClass = "px-3 py-2.5";
+  const thClass = "px-3 py-3";
   const tdClass = "px-3 py-3";
   const checkboxColW = "w-[44px]";
 
@@ -138,22 +138,17 @@ export default function BillingTable({
   const edgeR = "pr-4";
 
   const tableBase = "w-full table-fixed border-collapse text-[13px]";
-  const scrollOff = "overflow-hidden";
 
   const numCell = "text-right tabular-nums whitespace-nowrap";
-  const dateCell = "font-semibold text-slate-900 tabular-nums whitespace-nowrap";
-  const dateLeft = "!text-left";
-
-  // Geser sedikit ke kiri agar angka tanggal tidak terlihat “ketengah”
-  // (tanpa mengubah layout kolom tabel)
-  const dateTight = "-ml-1 pl-1";
+  const dateCell =
+    "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
   const CheckboxCell = ({
     checked,
     disabled,
     onChange,
     "aria-label": ariaLabel,
-    className,
+    className: c,
     refEl,
     size = "md",
     tone = "accent",
@@ -175,7 +170,7 @@ export default function BillingTable({
         : "accent-[hsl(var(--app-accent))] focus:ring-[hsl(var(--app-accent))]/25";
 
     return (
-      <div className={cn("flex items-center justify-center", className)}>
+      <div className={cn("flex items-center justify-center", c)}>
         <input
           ref={refEl}
           type="checkbox"
@@ -194,6 +189,7 @@ export default function BillingTable({
     );
   };
 
+  // ===== Specialized: Fee only =====
   if (feeOnlyCols) {
     const colCount = hideSelection ? 4 : 5;
 
@@ -217,24 +213,12 @@ export default function BillingTable({
 
     return (
       <div className={cn("mt-3", className)}>
-        <div
-          className={cn(
-            "overflow-hidden rounded-2xl border border-slate-200 bg-white",
-            scrollOff,
-          )}
-        >
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <table className={tableBase}>
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
                 {!hideSelection ? (
-                  <th
-                    className={cn(
-                      checkboxColW,
-                      thClass,
-                      edgeL,
-                      "text-center",
-                    )}
-                  >
+                  <th className={cn(checkboxColW, thClass, edgeL, "text-center")}>
                     <CheckboxCell
                       refEl={headerCheckboxRef}
                       aria-label="Pilih semua"
@@ -293,12 +277,7 @@ export default function BillingTable({
                   >
                     {!hideSelection ? (
                       <td
-                        className={cn(
-                          checkboxColW,
-                          tdClass,
-                          edgeL,
-                          "text-center",
-                        )}
+                        className={cn(checkboxColW, tdClass, edgeL, "text-center")}
                       >
                         <CheckboxCell
                           aria-label="Pilih fee"
@@ -330,31 +309,15 @@ export default function BillingTable({
                       </div>
                     </td>
 
-                    <td
-                      className={cn(
-                        wPeriode,
-                        tdClass,
-                        "text-slate-800",
-                        dateCell,
-                        dateLeft,
-                      )}
-                    >
-                      <div className={dateTight}>{bill.periode}</div>
+                    <td className={cn(wPeriode, tdClass, dateCell)}>
+                      {bill.periode}
                     </td>
 
                     <td className={cn(wTotal, tdClass, "text-slate-800", numCell)}>
                       {bill.total}
                     </td>
 
-                    <td
-                      className={cn(
-                        wSisa,
-                        tdClass,
-                        edgeR,
-                        "text-slate-800",
-                        numCell,
-                      )}
-                    >
+                    <td className={cn(wSisa, tdClass, edgeR, "text-slate-800", numCell)}>
                       {bill.sisa}
                     </td>
                   </tr>
@@ -367,6 +330,7 @@ export default function BillingTable({
     );
   }
 
+  // ===== Specialized: Penalty only =====
   if (penaltyOnlyCols) {
     const colCount = hideSelection ? 4 : 5;
 
@@ -377,12 +341,7 @@ export default function BillingTable({
 
     return (
       <div className={cn("mt-3", className)}>
-        <div
-          className={cn(
-            "overflow-hidden rounded-2xl border border-slate-200 bg-white",
-            scrollOff,
-          )}
-        >
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <table className={tableBase}>
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
@@ -406,13 +365,7 @@ export default function BillingTable({
                   </th>
                 ) : null}
 
-                <th
-                  className={cn(
-                    angsuranColW,
-                    thClass,
-                    hideSelection ? edgeL : "",
-                  )}
-                >
+                <th className={cn(angsuranColW, thClass, hideSelection ? edgeL : "")}>
                   <span className="leading-none">ANGSURAN KE-</span>
                 </th>
 
@@ -479,8 +432,8 @@ export default function BillingTable({
                       {idx + 1}
                     </td>
 
-                    <td className={cn(dateColW, tdClass, dateCell, dateLeft)}>
-                      <div className={dateTight}>{bill.jatuhTempo}</div>
+                    <td className={cn(dateColW, tdClass, dateCell)}>
+                      {bill.jatuhTempo}
                     </td>
 
                     <td className={cn(dendaColW, tdClass, "text-slate-800", numCell)}>
@@ -488,13 +441,7 @@ export default function BillingTable({
                     </td>
 
                     <td
-                      className={cn(
-                        sisaDendaColW,
-                        tdClass,
-                        edgeR,
-                        "text-slate-800",
-                        numCell,
-                      )}
+                      className={cn(sisaDendaColW, tdClass, edgeR, "text-slate-800", numCell)}
                     >
                       {penalties[idx]?.remaining ?? "0"}
                     </td>
@@ -508,6 +455,7 @@ export default function BillingTable({
     );
   }
 
+  // ===== Specialized: Interest only =====
   if (interestOnlyCols) {
     const colCount = hideSelection ? 3 : 4;
 
@@ -549,9 +497,7 @@ export default function BillingTable({
                 Jatuh Tempo
               </th>
 
-              <th className={cn(bungaColW, thClass, "text-right")}>
-                Tagihan Bunga
-              </th>
+              <th className={cn(bungaColW, thClass, "text-right")}>Tagihan Bunga</th>
 
               <th className={cn(sisaBungaColW, thClass, edgeR, "text-right")}>
                 Sisa Tagihan Bunga
@@ -560,103 +506,60 @@ export default function BillingTable({
           </thead>
 
           <tbody className="bg-white">
-            <tr>
-              <td colSpan={colCount} className="p-0">
-                <div
-                  className={cn(
-                    "overflow-hidden bg-white",
-                    showGraceHighlight
-                      ? "rounded-2xl border-2 border-blue-600/70"
-                      : "rounded-2xl border border-slate-200",
-                  )}
+            {showGraceHighlight ? <GracePeriodInfoRow colSpan={colCount} /> : null}
+
+            {displayRows.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={colCount}
+                  className="px-4 py-10 text-center text-sm text-slate-600"
                 >
-                  <div className="bg-white p-2">
-                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                      <table className={tableBase}>
-                        <tbody className="bg-white">
-                          {showGraceHighlight ? (
-                            <GracePeriodInfoRow colSpan={colCount} />
-                          ) : null}
+                  Tidak ada data.
+                </td>
+              </tr>
+            ) : (
+              displayRows.map((bill, idx) => (
+                <tr key={`${bill.jatuhTempo}-${idx}`} className="border-t border-slate-100 text-sm">
+                  {!hideSelection ? (
+                    <td className={cn(checkboxColW, tdClass, edgeL)}>
+                      <input
+                        type="checkbox"
+                        aria-label="Pilih tagihan"
+                        checked={isPelunasan ? true : (selected[idx] ?? true)}
+                        disabled={isPelunasan}
+                        onChange={(e) => {
+                          const next = e.target.checked;
+                          setSelected((prev) => {
+                            const copy = [...prev];
+                            copy[idx] = next;
+                            return copy;
+                          });
+                        }}
+                      />
+                    </td>
+                  ) : null}
 
-                          {displayRows.length === 0 ? (
-                            <tr>
-                              <td
-                                colSpan={colCount}
-                                className="px-4 py-10 text-center text-sm text-slate-600"
-                              >
-                                Tidak ada data.
-                              </td>
-                            </tr>
-                          ) : (
-                            displayRows.map((bill, idx) => (
-                              <tr
-                                key={`${bill.jatuhTempo}-${idx}`}
-                                className="border-t border-slate-100 text-sm"
-                              >
-                                {!hideSelection ? (
-                                  <td className={cn(checkboxColW, tdClass, edgeL)}>
-                                    <input
-                                      type="checkbox"
-                                      aria-label="Pilih tagihan"
-                                      checked={
-                                        isPelunasan ? true : (selected[idx] ?? true)
-                                      }
-                                      disabled={isPelunasan}
-                                      onChange={(e) => {
-                                        const next = e.target.checked;
-                                        setSelected((prev) => {
-                                          const copy = [...prev];
-                                          copy[idx] = next;
-                                          return copy;
-                                        });
-                                      }}
-                                    />
-                                  </td>
-                                ) : null}
+                  <td className={cn(dateColW, tdClass, dateCell, hideSelection ? edgeL : "")}>
+                    {bill.jatuhTempo}
+                  </td>
 
-                                <td
-                                  className={cn(
-                                    dateColW,
-                                    tdClass,
-                                    dateCell,
-                                    dateLeft,
-                                    hideSelection ? edgeL : "",
-                                  )}
-                                >
-                                  <div className={dateTight}>{bill.jatuhTempo}</div>
-                                </td>
+                  <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
+                    {bill.tagihanBunga}
+                  </td>
 
-                                <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
-                                  {bill.tagihanBunga}
-                                </td>
-
-                                <td
-                                  className={cn(
-                                    sisaBungaColW,
-                                    tdClass,
-                                    edgeR,
-                                    "text-slate-800",
-                                    numCell,
-                                  )}
-                                >
-                                  {bill.sisaBunga}
-                                </td>
-                              </tr>
-                            ))
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
+                  <td className={cn(sisaBungaColW, tdClass, edgeR, "text-slate-800", numCell)}>
+                    {bill.sisaBunga}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
     );
   }
 
+  // ===== Default (regular) =====
   const colCount = hideInterestCols
     ? hideSelection
       ? 3
@@ -675,11 +578,18 @@ export default function BillingTable({
   const outsideCount = extraOutsideRows.length;
   const totalSelectableRows = displayRows.length + outsideCount;
 
-  function renderRow(bill: BillingRow, globalIndex: number) {
+  function renderRow(bill: BillingRow, globalIndex: number, rowTone?: "inside" | "outside") {
+    const rowClass =
+      rowTone === "outside"
+        ? "bg-white"
+        : globalIndex % 2 === 0
+          ? "bg-white"
+          : "bg-slate-50/40";
+
     return (
       <tr
         key={`${bill.jatuhTempo}-${globalIndex}`}
-        className="border-t border-slate-100 text-sm"
+        className={cn("border-t border-slate-100 text-sm", rowClass)}
       >
         {!hideSelection ? (
           <td className={cn(checkboxColW, tdClass, edgeL)}>
@@ -700,16 +610,8 @@ export default function BillingTable({
           </td>
         ) : null}
 
-        <td
-          className={cn(
-            dateColW,
-            tdClass,
-            dateCell,
-            dateLeft,
-            hideSelection ? edgeL : "",
-          )}
-        >
-          <div className={dateTight}>{bill.jatuhTempo}</div>
+        <td className={cn(dateColW, tdClass, dateCell, hideSelection ? edgeL : "")}>
+          {bill.jatuhTempo}
         </td>
 
         {!hideInterestCols ? (
@@ -779,14 +681,10 @@ export default function BillingTable({
               </th>
             ) : null}
 
-            <th className={cn(pokokColW, thClass, "text-right")}>
-              Tagihan Pokok
-            </th>
+            <th className={cn(pokokColW, thClass, "text-right")}>Tagihan Pokok</th>
 
             {!hideInterestCols ? (
-              <th className={cn(bungaColW, thClass, "text-right")}>
-                Tagihan Bunga
-              </th>
+              <th className={cn(bungaColW, thClass, "text-right")}>Tagihan Bunga</th>
             ) : null}
 
             <th className={cn(sisaPokokColW, thClass, edgeR, "text-right")}>
@@ -802,45 +700,23 @@ export default function BillingTable({
         </thead>
 
         <tbody className="bg-white">
-          <tr>
-            <td colSpan={colCount} className="p-0">
-              <div
-                className={cn(
-                  "overflow-hidden bg-white",
-                  showGraceHighlight
-                    ? "rounded-2xl border-2 border-blue-600/70"
-                    : "rounded-2xl border border-slate-200",
-                )}
+          {showGraceHighlight ? <GracePeriodInfoRow colSpan={colCount} /> : null}
+
+          {displayRows.length === 0 ? (
+            <tr>
+              <td
+                colSpan={colCount}
+                className="px-4 py-10 text-center text-sm text-slate-600"
               >
-                <div className="bg-white p-2">
-                  <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                    <table className={tableBase}>
-                      <tbody className="bg-white">
-                        {showGraceHighlight ? (
-                          <GracePeriodInfoRow colSpan={colCount} />
-                        ) : null}
-                        {displayRows.length === 0 ? (
-                          <tr>
-                            <td
-                              colSpan={colCount}
-                              className="px-4 py-10 text-center text-sm text-slate-600"
-                            >
-                              Tidak ada data.
-                            </td>
-                          </tr>
-                        ) : (
-                          displayRows.map((bill, idx) => renderRow(bill, idx))
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
+                Tidak ada data.
+              </td>
+            </tr>
+          ) : (
+            displayRows.map((bill, idx) => renderRow(bill, idx, "inside"))
+          )}
 
           {extraOutsideRows.map((bill, idx) =>
-            renderRow(bill, displayRows.length + idx),
+            renderRow(bill, displayRows.length + idx, "outside"),
           )}
         </tbody>
       </table>
