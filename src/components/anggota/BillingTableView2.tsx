@@ -25,10 +25,10 @@ function RowShell({
     <div className="bg-white px-3 py-3">
       <div
         className={cn(
-          "rounded-2xl border bg-white",
-          active
-            ? "border-slate-300 ring-2 ring-slate-900/5"
-            : "border-slate-200",
+          "rounded-2xl bg-white",
+          // Jangan pakai border di row agar tidak double border dengan wrapper luar.
+          // Aktif cukup pakai ring halus.
+          active ? "ring-2 ring-slate-900/5" : "",
         )}
       >
         {children}
