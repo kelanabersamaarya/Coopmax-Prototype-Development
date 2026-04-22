@@ -186,8 +186,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [billsInMainTable.length]);
 
+  // Penting: untuk REGULER di View2, jangan tampilkan highlight grace period
+  // karena BillingTable akan menambah extraOutsideRows (preview tagihan lain).
   const showGraceHighlightMain =
-    !penaltyOnlyCols && !feeOnlyCols && !isPelunasan && page === 1;
+    !isReguler && !penaltyOnlyCols && !feeOnlyCols && !isPelunasan && page === 1;
 
   const penaltyTotal = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
