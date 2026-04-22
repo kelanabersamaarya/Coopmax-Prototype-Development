@@ -13,6 +13,7 @@ import LoanApplications from "./pages/LoanApplications";
 import LoanApplicationCreate from "./pages/LoanApplicationCreate";
 import Dashboard from "./pages/Dashboard";
 import RekeningPinjaman from "./pages/RekeningPinjaman";
+import LaporanKolektibilitas from "./pages/LaporanKolektibilitas";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,10 @@ const App = () => (
               element={<LoanApplicationCreate />}
             />
             <Route path="anggota/transaksi" element={<AnggotaTransaksi />} />
+            <Route
+              path="laporan/kolektibilitas"
+              element={<LaporanKolektibilitas />}
+            />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

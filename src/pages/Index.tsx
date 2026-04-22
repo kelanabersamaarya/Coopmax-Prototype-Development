@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
+import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -31,6 +32,7 @@ const implementedRoutes = new Set([
   "/loans/applications",
   "/loans/applications/new",
   "/anggota/transaksi",
+  "/laporan/kolektibilitas",
 ]);
 
 function resolveNavTo(to: string) {
@@ -134,6 +136,9 @@ export default function Index() {
 
                           {/* Pinjaman (collapsible) tepat di bawah Anggota */}
                           <SidebarPinjamanMenu />
+
+                          {/* Laporan (collapsible) */}
+                          <SidebarLaporanMenu />
 
                           {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
                           {g.items
