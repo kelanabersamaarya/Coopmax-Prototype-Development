@@ -18,16 +18,16 @@ function GraceInfoRow({ colSpan }: { colSpan: number }) {
     <tr className="border-t border-slate-200">
       <td colSpan={colSpan} className="p-0">
         <div className="bg-white px-3 py-3">
-          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-slate-800">
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
+          <div className="rounded-2xl border border-blue-200 bg-blue-50/70 px-4 py-4 text-[14px] text-slate-800">
+            <div className="flex items-start gap-4">
+              <span className="mt-0.5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
                 <Info className="h-5 w-5" />
               </span>
               <div className="min-w-0">
-                <div className="font-extrabold tracking-tight">
+                <div className="text-[15px] font-extrabold tracking-tight text-slate-900">
                   Periode Grace Period
                 </div>
-                <div className="mt-1 leading-relaxed text-slate-700">
+                <div className="mt-2 leading-relaxed text-slate-700">
                   Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
                   dalam grace period. Selama periode grace period nasabah hanya
                   membayar bunga.
@@ -53,7 +53,9 @@ function RowShell({
       <div
         className={cn(
           "rounded-2xl border bg-white",
-          active ? "border-blue-500 ring-1 ring-blue-500/20" : "border-slate-200",
+          active
+            ? "border-blue-600 ring-2 ring-blue-600/15"
+            : "border-slate-200",
         )}
       >
         {children}
@@ -135,7 +137,7 @@ export default function BillingTableView2({
       >
         <table className="w-full border-collapse text-[13px]">
           <thead className="bg-white">
-            <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
+            <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700">
               <th className="w-[44px] px-4 py-3">
                 <input
                   ref={headerCheckboxRef}
@@ -201,27 +203,27 @@ export default function BillingTableView2({
                             />
                           </div>
 
-                          <div className="px-4 py-4 text-sm font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                          <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                             {r.jatuhTempo}
                           </div>
 
-                          <div className="px-4 py-4 text-right font-semibold text-slate-800 tabular-nums whitespace-nowrap">
+                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                             {r.totalBelumDibayar}
                           </div>
 
-                          <div className="px-4 py-4 text-right font-semibold text-slate-800 tabular-nums whitespace-nowrap">
+                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                             {r.tagihanPokok}
                           </div>
 
-                          <div className="px-4 py-4 text-right font-semibold text-slate-800 tabular-nums whitespace-nowrap">
+                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                             {r.tagihanBunga}
                           </div>
 
-                          <div className="px-4 py-4 text-right font-semibold text-slate-800 tabular-nums whitespace-nowrap">
+                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                             {r.sisaPokok}
                           </div>
 
-                          <div className="px-4 py-4 text-right font-semibold text-slate-800 tabular-nums whitespace-nowrap">
+                          <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                             {r.sisaBunga}
                           </div>
                         </div>
