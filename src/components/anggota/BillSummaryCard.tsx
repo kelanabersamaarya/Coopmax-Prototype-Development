@@ -107,9 +107,6 @@ export default function BillSummaryCard({
     ? { ke: "0", lunas: "0", seharusnya: "0" }
     : installment;
 
-  const showInstallmentSection =
-    mode !== "pelunasan" && !isPembayaranDenda && !isPembayaranBiayaLainnya;
-
   const handleChange = React.useCallback(
     (v: TransactionType) => {
       onTransactionTypeChange?.(v);
@@ -117,8 +114,15 @@ export default function BillSummaryCard({
     [onTransactionTypeChange],
   );
 
-  // Perlakuan sama seperti "Pembayaran Reguler" untuk copywriting ringkas
-  const useShortLabels = isRegular || isRincian || isPenurunanPlafon;
+  // mode Penurunan Plafon: hanya pokok, tanpa section angsuran
+  const showInstallmentSection =
+    mode !== "pelunasan" &&
+    !isPembayaranDenda &&
+    !isPembayaranBiayaLainnya &&
+    !isPenurunanPlafon;
+
+  // label ringkas untuk reguler & rincian (tanpa kata "Total")
+  const useShortLabels = isRegular || isRincian;
 
   return (
     <Card
@@ -209,7 +213,12 @@ export default function BillSummaryCard({
       <Separator className="my-4 bg-slate-200/70" />
 
       <div>
-        {isPembayaranBunga ? (
+        {isPenurunanPlafon ? (
+          <>
+            <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} strong />
+            <SummaryRow label="Total Tagihan" value={displayTotals.pokok} strong />
+          </>
+        ) : isPembayaranBunga ? (
           <SummaryRow
             label="Total Tagihan Bunga"
             value={displayTotals.bunga}

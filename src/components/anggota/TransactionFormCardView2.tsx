@@ -32,11 +32,12 @@ const transactionTypes = [
   "Bayar Biaya Lainnya",
 ] as const;
 
-export type TransactionType = (typeof transactionTypes)[number];
+export type TransactionType = (typeof transactionTypes)[number] | "Pembayaran Penurunan Plafon";
 
 function titleForTransaction(t: TransactionType | null) {
   if (!t) return "PILIH TRANSAKSI";
   if (t === "Pembayaran Reguler") return "PEMBAYARAN REGULER";
+  if (t === "Pembayaran Penurunan Plafon") return "PEMBAYARAN PENURUNAN PLAFON";
   if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
   if (t === "Pelunasan") return "PELUNASAN";
   if (t === "Bayar Pokok") return "BAYAR POKOK";
@@ -187,6 +188,7 @@ export default function TransactionFormCardView2({
 }) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
+  const isPenurunanPlafon = jenisTransaksi === "Pembayaran Penurunan Plafon";
   const nominalPelunasan = "9.625.000";
 
   const isUnset = !jenisTransaksi;
@@ -199,7 +201,7 @@ export default function TransactionFormCardView2({
     if (isUnset) return;
     if (!tabungan || tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUnset, isPelunasan, isRincian]);
+  }, [isUnset, isPelunasan, isRincian, isPenurunanPlafon]);
 
   // Kolektor: enforce dropdown placeholder/values (bukan free text)
   React.useEffect(() => {
@@ -221,6 +223,12 @@ export default function TransactionFormCardView2({
   const totalRincianPokokBunga = React.useMemo(() => {
     return parseAmount(nominalPokok) + parseAmount(nominalBunga);
   }, [nominalBunga, nominalPokok]);
+
+  const nominalLabel = isPenurunanPlafon
+    ? "Nominal Pokok*"
+    : isPelunasan
+      ? "Nominal Pelunasan*"
+      : "Nominal Pembayaran*";
 
   return (
     <>
@@ -349,9 +357,7 @@ export default function TransactionFormCardView2({
               ) : (
                 <>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">
-                      {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
-                    </Label>
+                    <Label className="text-xs text-slate-600">{nominalLabel}</Label>
 
                     {isPelunasan ? (
                       <div className="flex h-10 items-center justify-end rounded-xl bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
