@@ -62,6 +62,25 @@ function RowShell({
   );
 }
 
+function NextBillInfoBanner() {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+      <div className="flex items-center gap-4">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
+          <Info className="h-5 w-5" />
+        </span>
+
+        <div className="min-w-0 text-sm font-medium text-slate-900">
+          Tagihan berikutnya akan diterbitkan pada{" "}
+          <span className="font-extrabold text-[#3366FF]">20 April 2025</span>{" "}
+          dan jatuh tempo pada{" "}
+          <span className="font-extrabold text-[#3366FF]">5 Mei 2025</span>.
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function BillingTableView2({
   rows,
   selected,
@@ -94,7 +113,8 @@ export default function BillingTableView2({
 
   React.useEffect(() => {
     if (!headerCheckboxRef.current) return;
-    headerCheckboxRef.current.indeterminate = !isLocked && anyChecked && !allChecked;
+    headerCheckboxRef.current.indeterminate =
+      !isLocked && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isLocked]);
 
   React.useEffect(() => {
@@ -105,23 +125,14 @@ export default function BillingTableView2({
 
   return (
     <div className={cn("mt-3", className)}>
-      {showNextBillInfo ? (
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-          <div className="flex items-center gap-3">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
-              <Info className="h-5 w-5" />
-            </span>
-            <div className="min-w-0 text-sm font-semibold text-slate-900">
-              Tagihan berikutnya akan diterbitkan pada{" "}
-              <span className="font-extrabold text-blue-600">20 April 2025</span>{" "}
-              dan jatuh tempo pada{" "}
-              <span className="font-extrabold text-blue-600">5 Mei 2025</span>.
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {showNextBillInfo ? <NextBillInfoBanner /> : null}
 
-      <div className={cn(showNextBillInfo ? "mt-3" : "", "overflow-hidden rounded-2xl border border-slate-200 bg-white")}>
+      <div
+        className={cn(
+          showNextBillInfo ? "mt-3" : "",
+          "overflow-hidden rounded-2xl border border-slate-200 bg-white",
+        )}
+      >
         <table className="w-full border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
@@ -165,7 +176,10 @@ export default function BillingTableView2({
                 const active = selected[idx] === true;
 
                 return (
-                  <tr key={`${r.jatuhTempo}-${idx}`} className="border-t border-slate-200">
+                  <tr
+                    key={`${r.jatuhTempo}-${idx}`}
+                    className="border-t border-slate-200"
+                  >
                     <td colSpan={colCount} className="p-0">
                       <RowShell active={active}>
                         <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
