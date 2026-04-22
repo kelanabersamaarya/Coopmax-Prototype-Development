@@ -38,21 +38,48 @@ export default function BillingTable({
   hideSelection?: boolean;
   className?: string;
 }) {
+  const extraOutsideRows = React.useMemo<BillingRow[]>(() => {
+    if (!showGraceHighlight) return [];
+    // Tambahan data DIBAWAH box biru (bukan memindahkan yang existing)
+    return Array.from({ length: 5 }).map((_, i) => {
+      const n = i + 1;
+      return {
+        jatuhTempo: `EXTRA-${n.toString().padStart(2, "0")}`,
+        totalBelumDibayar: "916.667",
+        tagihanPokok: "833.333",
+        tagihanBunga: "83.333",
+        sisaPokok: "783.333",
+        sisaBunga: "26.389",
+      };
+    });
+  }, [showGraceHighlight]);
+
   React.useEffect(() => {
-    if (selected.length === rows.length) return;
-    setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
+    const needed = rows.length + extraOutsideRows.length;
+    if (selected.length === needed) return;
+
+    setSelected((prev) => {
+      const next = Array.from({ length: needed }).map((_, idx) => prev[idx] ?? true);
+      return next;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rows.length]);
+  }, [rows.length, extraOutsideRows.length]);
+
+  const displayRows = React.useMemo(() => rows, [rows]);
 
   const allChecked = React.useMemo(() => {
-    const aligned = rows.map((_, idx) => selected[idx] ?? true);
+    const aligned = Array.from({ length: displayRows.length + extraOutsideRows.length }).map(
+      (_, idx) => selected[idx] ?? true,
+    );
     return aligned.length > 0 && aligned.every(Boolean);
-  }, [rows, selected]);
+  }, [displayRows.length, extraOutsideRows.length, selected]);
 
   const anyChecked = React.useMemo(() => {
-    const aligned = rows.map((_, idx) => selected[idx] ?? true);
+    const aligned = Array.from({ length: displayRows.length + extraOutsideRows.length }).map(
+      (_, idx) => selected[idx] ?? true,
+    );
     return aligned.some(Boolean);
-  }, [rows, selected]);
+  }, [displayRows.length, extraOutsideRows.length, selected]);
 
   const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -65,12 +92,12 @@ export default function BillingTable({
   const penalties = React.useMemo(() => {
     const base = 25000;
     const fmt = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return rows.map((_, idx) => {
+    return displayRows.map((_, idx) => {
       const total = base + idx * 5000;
       const remaining = Math.max(0, total - 10000);
       return { total: fmt(total), remaining: fmt(remaining) };
     });
-  }, [rows]);
+  }, [displayRows]);
 
   const thClass = "px-3 py-2.5";
   const tdClass = "px-3 py-3";
@@ -134,13 +161,12 @@ export default function BillingTable({
   if (feeOnlyCols) {
     const colCount = hideSelection ? 4 : 5;
 
-    // Percent widths so the table always fits container (no horizontal scroll)
     const wJenis = "w-[40%]";
     const wPeriode = "w-[16%]";
     const wTotal = "w-[22%]";
     const wSisa = "w-[22%]";
 
-    const feeRows = rows.map((r, idx) => {
+    const feeRows = displayRows.map((r, idx) => {
       const feeName =
         idx % 3 === 0
           ? "Biaya Administrasi Lainnya"
@@ -171,7 +197,13 @@ export default function BillingTable({
                       aria-label="Pilih semua"
                       checked={isPelunasan ? true : allChecked}
                       disabled={isPelunasan}
-                      onChange={(next) => setSelected(rows.map(() => next))}
+                      onChange={(next) =>
+                        setSelected(
+                          Array.from({
+                            length: displayRows.length + extraOutsideRows.length,
+                          }).map(() => next),
+                        )
+                      }
                       size="sm"
                       tone="blue"
                     />
@@ -310,7 +342,13 @@ export default function BillingTable({
                       aria-label="Pilih semua"
                       checked={isPelunasan ? true : allChecked}
                       disabled={isPelunasan}
-                      onChange={(next) => setSelected(rows.map(() => next))}
+                      onChange={(next) =>
+                        setSelected(
+                          Array.from({
+                            length: displayRows.length + extraOutsideRows.length,
+                          }).map(() => next),
+                        )
+                      }
                       size="sm"
                       tone="blue"
                     />
@@ -334,7 +372,7 @@ export default function BillingTable({
             </thead>
 
             <tbody className="bg-white">
-              {rows.length === 0 ? (
+              {displayRows.length === 0 ? (
                 <tr>
                   <td
                     colSpan={colCount}
@@ -344,7 +382,7 @@ export default function BillingTable({
                   </td>
                 </tr>
               ) : (
-                rows.map((bill, idx) => (
+                displayRows.map((bill, idx) => (
                   <tr
                     key={`${bill.jatuhTempo}-${idx}`}
                     className={cn(
@@ -438,7 +476,11 @@ export default function BillingTable({
                     disabled={isPelunasan}
                     onChange={(e) => {
                       const next = e.target.checked;
-                      setSelected(rows.map(() => next));
+                      setSelected(
+                        Array.from({
+                          length: displayRows.length + extraOutsideRows.length,
+                        }).map(() => next),
+                      );
                     }}
                   />
                 </th>
@@ -475,7 +517,7 @@ export default function BillingTable({
                             <GracePeriodInfoRow colSpan={colCount} />
                           ) : null}
 
-                          {rows.length === 0 ? (
+                          {displayRows.length === 0 ? (
                             <tr>
                               <td
                                 colSpan={colCount}
@@ -485,7 +527,7 @@ export default function BillingTable({
                               </td>
                             </tr>
                           ) : (
-                            rows.map((bill, idx) => (
+                            displayRows.map((bill, idx) => (
                               <tr
                                 key={`${bill.jatuhTempo}-${idx}`}
                                 className="border-t border-slate-100 text-sm"
@@ -559,24 +601,10 @@ export default function BillingTable({
   const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[18%]";
   const sisaBungaColW = hideInterestCols ? "" : "w-[19%]";
 
-  // KHUSUS: tampilkan 5 baris terakhir di luar border biru (grace period)
-  const OUTSIDE_ROWS_COUNT = 5;
+  const outsideCount = extraOutsideRows.length;
+  const totalSelectableRows = displayRows.length + outsideCount;
 
-  const shouldSplitGraceBox =
-    showGraceHighlight &&
-    !hideInterestCols &&
-    !hideSelection &&
-    rows.length > OUTSIDE_ROWS_COUNT;
-
-  const insideRows = shouldSplitGraceBox
-    ? rows.slice(0, rows.length - OUTSIDE_ROWS_COUNT)
-    : rows;
-
-  const outsideRows = shouldSplitGraceBox
-    ? rows.slice(rows.length - OUTSIDE_ROWS_COUNT)
-    : [];
-
-  function renderRow(bill: BillingRow, idx: number, globalIndex: number) {
+  function renderRow(bill: BillingRow, globalIndex: number) {
     return (
       <tr
         key={`${bill.jatuhTempo}-${globalIndex}`}
@@ -654,7 +682,7 @@ export default function BillingTable({
                   disabled={isPelunasan}
                   onChange={(e) => {
                     const next = e.target.checked;
-                    setSelected(rows.map(() => next));
+                    setSelected(Array.from({ length: totalSelectableRows }).map(() => next));
                   }}
                 />
               </th>
@@ -707,7 +735,7 @@ export default function BillingTable({
                           <GracePeriodInfoRow colSpan={colCount} />
                         ) : null}
 
-                        {insideRows.length === 0 ? (
+                        {displayRows.length === 0 ? (
                           <tr>
                             <td
                               colSpan={colCount}
@@ -717,7 +745,7 @@ export default function BillingTable({
                             </td>
                           </tr>
                         ) : (
-                          insideRows.map((bill, idx) => renderRow(bill, idx, idx))
+                          displayRows.map((bill, idx) => renderRow(bill, idx))
                         )}
                       </tbody>
                     </table>
@@ -727,16 +755,10 @@ export default function BillingTable({
             </td>
           </tr>
 
-          {/* 5 ROW TAMBAHAN di luar box biru (grace period) */}
-          {outsideRows.length
-            ? outsideRows.map((bill, idx) =>
-                renderRow(
-                  bill,
-                  idx,
-                  (rows.length - OUTSIDE_ROWS_COUNT) + idx,
-                ),
-              )
-            : null}
+          {/* Tambahan 5 data di luar border biru */}
+          {extraOutsideRows.map((bill, idx) =>
+            renderRow(bill, displayRows.length + idx),
+          )}
         </tbody>
       </table>
     </div>
