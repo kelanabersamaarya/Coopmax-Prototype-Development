@@ -90,7 +90,9 @@ export default function BillingTable({
     if (selected.length === needed) return;
 
     setSelected((prev) => {
-      const next = Array.from({ length: needed }).map((_, idx) => prev[idx] ?? true);
+      const next = Array.from({ length: needed }).map(
+        (_, idx) => prev[idx] ?? true,
+      );
       return next;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,16 +101,16 @@ export default function BillingTable({
   const displayRows = React.useMemo(() => rows, [rows]);
 
   const allChecked = React.useMemo(() => {
-    const aligned = Array.from({ length: displayRows.length + extraOutsideRows.length }).map(
-      (_, idx) => selected[idx] ?? true,
-    );
+    const aligned = Array.from({
+      length: displayRows.length + extraOutsideRows.length,
+    }).map((_, idx) => selected[idx] ?? true);
     return aligned.length > 0 && aligned.every(Boolean);
   }, [displayRows.length, extraOutsideRows.length, selected]);
 
   const anyChecked = React.useMemo(() => {
-    const aligned = Array.from({ length: displayRows.length + extraOutsideRows.length }).map(
-      (_, idx) => selected[idx] ?? true,
-    );
+    const aligned = Array.from({
+      length: displayRows.length + extraOutsideRows.length,
+    }).map((_, idx) => selected[idx] ?? true);
     return aligned.some(Boolean);
   }, [displayRows.length, extraOutsideRows.length, selected]);
 
@@ -136,6 +138,11 @@ export default function BillingTable({
 
   const edgeL = "pl-4";
   const edgeR = "pr-4";
+
+  // khusus untuk tabel di dalam box biru: geser kolom "Jatuh Tempo" ke kiri
+  // supaya sejajar dengan baris di luar box biru.
+  // (kolom checkbox tetap punya padding, jadi tanggal perlu offset ke kiri)
+  const innerDateShiftLeft = showGraceHighlight && !hideSelection ? "-ml-3" : "";
 
   const tableBase = "w-full table-fixed border-collapse text-[13px]";
   const scrollOff = "overflow-hidden"; // jangan ada scrollbar horizontal
@@ -649,7 +656,9 @@ export default function BillingTable({
   const outsideCount = extraOutsideRows.length;
   const totalSelectableRows = displayRows.length + outsideCount;
 
-  function renderRow(bill: BillingRow, globalIndex: number) {
+  function renderRow(bill: BillingRow, globalIndex: number, opts?: { inner?: boolean }) {
+    const isInner = opts?.inner;
+
     return (
       <tr
         key={`${bill.jatuhTempo}-${globalIndex}`}
@@ -674,7 +683,15 @@ export default function BillingTable({
           </td>
         ) : null}
 
-        <td className={cn(dateColW, tdClass, dateCell, hideSelection ? edgeL : "")}>
+        <td
+          className={cn(
+            dateColW,
+            tdClass,
+            dateCell,
+            hideSelection ? edgeL : "",
+            isInner ? innerDateShiftLeft : "",
+          )}
+        >
           {bill.jatuhTempo}
         </td>
 
@@ -790,7 +807,7 @@ export default function BillingTable({
                             </td>
                           </tr>
                         ) : (
-                          displayRows.map((bill, idx) => renderRow(bill, idx))
+                          displayRows.map((bill, idx) => renderRow(bill, idx, { inner: true }))
                         )}
                       </tbody>
                     </table>
@@ -802,7 +819,7 @@ export default function BillingTable({
 
           {/* Tambahan 5 data di luar border biru */}
           {extraOutsideRows.map((bill, idx) =>
-            renderRow(bill, displayRows.length + idx),
+            renderRow(bill, displayRows.length + idx, { inner: false }),
           )}
         </tbody>
       </table>

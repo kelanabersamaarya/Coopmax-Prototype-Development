@@ -106,6 +106,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
+  const isReguler = jenisTransaksi === "Pembayaran Reguler";
 
   // sink label baru dari BillSummaryCard: "Pembayaran ..."
   const hideInterestCols = jenisTransaksi === "Pembayaran Pokok";
@@ -150,22 +151,30 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   }, [billsInMainTable, isPelunasan, page, pageSize, showAllRows]);
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
-    billsInMainTable.map(() => !isPelunasan),
+    billsInMainTable.map(() => false),
   );
 
   React.useEffect(() => {
+    // REGULER: default tidak ada yang ter-checklist
+    if (isReguler) {
+      setSelected(billsInMainTable.map(() => false));
+      return;
+    }
+
     // pelunasan, denda, biaya lainnya: default semua terpilih
     if (isPelunasan || showAllRows) {
       setSelected(billsInMainTable.map(() => true));
-    } else {
-      setSelected(billsInMainTable.map(() => true));
+      return;
     }
+
+    // selain reguler (dan bukan pelunasan): default 1 baris (currentBill) terpilih
+    setSelected(billsInMainTable.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan, showAllRows]);
+  }, [isPelunasan, showAllRows, isReguler]);
 
   React.useEffect(() => {
     setSelected((prev) => {
-      const next = billsInMainTable.map((_, idx) => prev[idx] ?? true);
+      const next = billsInMainTable.map((_, idx) => prev[idx] ?? false);
       return next;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

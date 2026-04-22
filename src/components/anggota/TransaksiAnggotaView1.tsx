@@ -171,6 +171,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
+  const isReguler = jenisTransaksi === "Pembayaran Reguler";
 
   // sink label baru dari BillSummaryCard: "Pembayaran ..."
   const hideInterestCols = jenisTransaksi === "Pembayaran Pokok";
@@ -203,11 +204,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       return;
     }
 
+    // REGULER: default tidak ada yang ter-checklist
+    if (isReguler) {
+      setSelected(rows.map(() => false));
+      return;
+    }
+
+    // selain reguler: default baris pertama saja
     const next = rows.map(() => false);
     if (next.length > 0) next[0] = true;
     setSelected(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan]);
+  }, [isPelunasan, isReguler]);
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
