@@ -25,7 +25,6 @@ function addMonths(base: Date, months: number) {
   const day = d.getDate();
   d.setMonth(d.getMonth() + months);
 
-  // guard: kalau overflow (misal 31 ke Feb), mundurkan ke hari terakhir bulan tsb
   if (d.getDate() !== day) {
     d.setDate(0);
   }
@@ -60,7 +59,6 @@ export default function BillingTable({
   const extraOutsideRows = React.useMemo<BillingRow[]>(() => {
     if (!showGraceHighlight) return [];
 
-    // ambil tanggal terakhir dari rows sebagai anchor (fallback: hari ini)
     const last = rows[rows.length - 1]?.jatuhTempo ?? "";
     const lastDate = (() => {
       const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(last);
@@ -71,7 +69,6 @@ export default function BillingTable({
       return new Date(yyyy, mm - 1, dd);
     })();
 
-    // Tambahan 5 tagihan di bawah box biru: +1..+5 bulan dari tanggal terakhir
     return Array.from({ length: 5 }).map((_, i) => {
       const due = addMonths(lastDate, i + 1);
       return {
@@ -139,13 +136,11 @@ export default function BillingTable({
   const edgeL = "pl-4";
   const edgeR = "pr-4";
 
-  // khusus untuk tabel di dalam box biru: geser kolom "Jatuh Tempo" ke kiri
-  // supaya sejajar dengan baris di luar box biru.
-  // (kolom checkbox tetap punya padding, jadi tanggal perlu offset ke kiri)
+  // geser tanggal di dalam box biru agar start-nya sejajar dengan yang di luar
   const innerDateShiftLeft = showGraceHighlight && !hideSelection ? "-ml-3" : "";
 
   const tableBase = "w-full table-fixed border-collapse text-[13px]";
-  const scrollOff = "overflow-hidden"; // jangan ada scrollbar horizontal
+  const scrollOff = "overflow-hidden";
 
   const numCell = "text-right tabular-nums whitespace-nowrap";
   const dateCell = "font-semibold text-slate-900 tabular-nums whitespace-nowrap";
@@ -575,7 +570,9 @@ export default function BillingTable({
                                     <input
                                       type="checkbox"
                                       aria-label="Pilih tagihan"
-                                      checked={isPelunasan ? true : (selected[idx] ?? true)}
+                                      checked={
+                                        isPelunasan ? true : (selected[idx] ?? true)
+                                      }
                                       disabled={isPelunasan}
                                       onChange={(e) => {
                                         const next = e.target.checked;
@@ -656,7 +653,16 @@ export default function BillingTable({
   const outsideCount = extraOutsideRows.length;
   const totalSelectableRows = displayRows.length + outsideCount;
 
-  function renderRow(bill: BillingRow, globalIndex: number, opts?: { inner?: boolean }) {
+  // Untuk inner row: override padding kiri tanggal supaya benar-benar sama dengan outer.
+  // Outer tanggal: tdClass (px-3) + edgeL pada checkbox cell.
+  // Inner tanggal: karena checkbox cell tetap ada, tanggal perlu "dibawa" sedikit ke kiri.
+  const innerDateTdPadding = !hideSelection ? "pl-4 pr-3" : "";
+
+  function renderRow(
+    bill: BillingRow,
+    globalIndex: number,
+    opts?: { inner?: boolean },
+  ) {
     const isInner = opts?.inner;
 
     return (
@@ -690,6 +696,7 @@ export default function BillingTable({
             dateCell,
             hideSelection ? edgeL : "",
             isInner ? innerDateShiftLeft : "",
+            isInner ? innerDateTdPadding : "",
           )}
         >
           {bill.jatuhTempo}
@@ -744,7 +751,9 @@ export default function BillingTable({
                   disabled={isPelunasan}
                   onChange={(e) => {
                     const next = e.target.checked;
-                    setSelected(Array.from({ length: totalSelectableRows }).map(() => next));
+                    setSelected(
+                      Array.from({ length: totalSelectableRows }).map(() => next),
+                    );
                   }}
                 />
               </th>
@@ -807,7 +816,9 @@ export default function BillingTable({
                             </td>
                           </tr>
                         ) : (
-                          displayRows.map((bill, idx) => renderRow(bill, idx, { inner: true }))
+                          displayRows.map((bill, idx) =>
+                            renderRow(bill, idx, { inner: true }),
+                          )
                         )}
                       </tbody>
                     </table>
@@ -817,7 +828,6 @@ export default function BillingTable({
             </td>
           </tr>
 
-          {/* Tambahan 5 data di luar border biru */}
           {extraOutsideRows.map((bill, idx) =>
             renderRow(bill, displayRows.length + idx, { inner: false }),
           )}
