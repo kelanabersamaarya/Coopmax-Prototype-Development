@@ -20,6 +20,7 @@ import {
   PaymentConfirmModal,
   PaymentSuccessModal,
 } from "@/components/anggota/PaymentConfirmModals";
+import { Switch } from "@/components/ui/switch";
 
 const transactionTypes = [
   "Pembayaran Reguler",
@@ -140,6 +141,31 @@ function KolektorSelect({
   );
 }
 
+function allocatePayment({
+  payment,
+  bungaDue,
+  dendaDue,
+  pokokDue,
+}: {
+  payment: number;
+  bungaDue: number;
+  dendaDue: number;
+  pokokDue: number;
+}) {
+  let remaining = Math.max(0, payment);
+
+  const bunga = Math.min(bungaDue, remaining);
+  remaining -= bunga;
+
+  const denda = Math.min(dendaDue, remaining);
+  remaining -= denda;
+
+  const pokok = Math.min(pokokDue, remaining);
+  remaining -= pokok;
+
+  return { bunga, denda, pokok };
+}
+
 export default function TransactionFormCardView2({
   tanggalEfektif,
   setTanggalEfektif,
@@ -189,14 +215,6 @@ export default function TransactionFormCardView2({
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
   const nominalPelunasan = "9.625.000";
 
-  const totalRincian = React.useMemo(() => {
-    return (
-      parseAmount(nominalPokok) +
-      parseAmount(nominalBunga) +
-      parseAmount(nominalDenda)
-    );
-  }, [nominalBunga, nominalDenda, nominalPokok]);
-
   const isUnset = !jenisTransaksi;
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -205,9 +223,50 @@ export default function TransactionFormCardView2({
   // Penalty Pelunasan (baru) — hanya untuk UI (prototype)
   const [penaltyPelunasan, setPenaltyPelunasan] = React.useState("0");
 
+  // RINCIAN TAGIHAN: toggle alokasi manual + nominal pembayaran (auto-allocate)
+  const [alokasiManual, setAlokasiManual] = React.useState(false);
+  const [nominalPembayaran, setNominalPembayaran] = React.useState("0");
+
+  // Prototype "due" amounts (karena belum ada data real dari tabel)
+  const DUE_BUNGA = 83333;
+  const DUE_DENDA = 25000;
+  const DUE_POKOK = 833333;
+
   React.useEffect(() => {
     if (!isPelunasan) setPenaltyPelunasan("0");
   }, [isPelunasan]);
+
+  // Reset state khusus rincian saat pindah jenis transaksi
+  React.useEffect(() => {
+    if (!isRincian) {
+      setAlokasiManual(false);
+      setNominalPembayaran("0");
+      return;
+    }
+    // default: non-aktif sesuai request
+    setAlokasiManual(false);
+    setNominalPembayaran("0");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRincian]);
+
+  // Auto alokasi saat rincian & toggle OFF
+  React.useEffect(() => {
+    if (!isRincian) return;
+    if (alokasiManual) return;
+
+    const payment = parseAmount(nominalPembayaran);
+    const allocated = allocatePayment({
+      payment,
+      bungaDue: DUE_BUNGA,
+      dendaDue: DUE_DENDA,
+      pokokDue: DUE_POKOK,
+    });
+
+    setNominalBunga(String(Math.round(allocated.bunga)));
+    setNominalDenda(String(Math.round(allocated.denda)));
+    setNominalPokok(String(Math.round(allocated.pokok)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [alokasiManual, isRincian, nominalPembayaran]);
 
   // Tabungan: selalu dropdown, tapi hanya ada opsi "Tanpa Tabungan"
   React.useEffect(() => {
@@ -225,6 +284,19 @@ export default function TransactionFormCardView2({
     if (!isValid) setKolektor(KOLEKTOR_PLACEHOLDER);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUnset]);
+
+  const totalRincian = React.useMemo(() => {
+    return (
+      parseAmount(nominalPokok) +
+      parseAmount(nominalBunga) +
+      parseAmount(nominalDenda)
+    );
+  }, [nominalBunga, nominalDenda, nominalPokok]);
+
+  const showRincianManualToggle = isRincian;
+  const showNominalPembayaran = isRincian && !alokasiManual;
+
+  const rincianFieldsReadOnly = isRincian && !alokasiManual;
 
   return (
     <>
@@ -264,6 +336,7 @@ export default function TransactionFormCardView2({
             <Separator className="my-3 bg-slate-200/70" />
 
             <div className="grid gap-3">
+              {/* Selalu tampil */}
               <div className="grid gap-1.5">
                 <Label className="text-xs text-slate-600">
                   {isPelunasan
@@ -299,6 +372,41 @@ export default function TransactionFormCardView2({
                 />
               </div>
 
+              {showRincianManualToggle ? (
+                <div className="mt-1 rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-200">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-slate-900">
+                        Alokasi Pembayaran Manual
+                      </div>
+                      <div className="mt-0.5 text-xs text-slate-600">
+                        OFF = otomatis (bunga → denda → pokok)
+                      </div>
+                    </div>
+                    <Switch checked={alokasiManual} onCheckedChange={setAlokasiManual} />
+                  </div>
+                </div>
+              ) : null}
+
+              {showNominalPembayaran ? (
+                <div className="grid gap-1.5">
+                  <Label className="text-xs text-slate-600">
+                    Nominal Pembayaran
+                  </Label>
+                  <Input
+                    value={nominalPembayaran}
+                    onChange={(e) => setNominalPembayaran(e.target.value)}
+                    inputMode="numeric"
+                    className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                    placeholder="0"
+                  />
+                  <div className="text-[11px] text-slate-600">
+                    Akan dialokasikan otomatis ke bunga, lalu denda, lalu pokok.
+                  </div>
+                </div>
+              ) : null}
+
+              {/* RINCIAN TAGIHAN: field selalu tampil, tapi read-only saat alokasiManual OFF */}
               {isRincian ? (
                 <>
                   <div className="grid gap-1.5">
@@ -309,7 +417,11 @@ export default function TransactionFormCardView2({
                       value={nominalPokok}
                       onChange={(e) => setNominalPokok(e.target.value)}
                       inputMode="numeric"
-                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                      readOnly={rincianFieldsReadOnly}
+                      className={cn(
+                        "h-10 rounded-xl border-slate-200 text-right",
+                        rincianFieldsReadOnly ? "bg-slate-200/70 text-slate-800" : "bg-white",
+                      )}
                     />
                   </div>
                   <div className="grid gap-1.5">
@@ -320,7 +432,11 @@ export default function TransactionFormCardView2({
                       value={nominalBunga}
                       onChange={(e) => setNominalBunga(e.target.value)}
                       inputMode="numeric"
-                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                      readOnly={rincianFieldsReadOnly}
+                      className={cn(
+                        "h-10 rounded-xl border-slate-200 text-right",
+                        rincianFieldsReadOnly ? "bg-slate-200/70 text-slate-800" : "bg-white",
+                      )}
                     />
                   </div>
                   <div className="grid gap-1.5">
@@ -331,9 +447,35 @@ export default function TransactionFormCardView2({
                       value={nominalDenda}
                       onChange={(e) => setNominalDenda(e.target.value)}
                       inputMode="numeric"
-                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                      readOnly={rincianFieldsReadOnly}
+                      className={cn(
+                        "h-10 rounded-xl border-slate-200 text-right",
+                        rincianFieldsReadOnly ? "bg-slate-200/70 text-slate-800" : "bg-white",
+                      )}
                     />
                   </div>
+
+                  {/* Saat alokasi manual ON: tampilkan tabungan & keterangan (sesuai request) */}
+                  {alokasiManual ? (
+                    <>
+                      <div className="grid gap-1.5">
+                        <Label className="text-xs text-slate-600">Tabungan</Label>
+                        <SingleOptionSelect
+                          value={tabungan || ONLY_TABUNGAN}
+                          onValueChange={setTabungan}
+                        />
+                      </div>
+
+                      <div className="grid gap-1.5">
+                        <Label className="text-xs text-slate-600">Keterangan</Label>
+                        <Input
+                          value={keterangan}
+                          onChange={(e) => setKeterangan(e.target.value)}
+                          className="h-10 rounded-xl border-slate-200 bg-white"
+                        />
+                      </div>
+                    </>
+                  ) : null}
                 </>
               ) : (
                 <>
@@ -370,26 +512,27 @@ export default function TransactionFormCardView2({
                       />
                     )}
                   </div>
+
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs text-slate-600">Tabungan</Label>
+                    <SingleOptionSelect
+                      value={tabungan || ONLY_TABUNGAN}
+                      onValueChange={setTabungan}
+                    />
+                  </div>
+
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs text-slate-600">Keterangan</Label>
+                    <Input
+                      value={keterangan}
+                      onChange={(e) => setKeterangan(e.target.value)}
+                      className="h-10 rounded-xl border-slate-200 bg-white"
+                    />
+                  </div>
                 </>
               )}
 
-              <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">Tabungan</Label>
-                <SingleOptionSelect
-                  value={tabungan || ONLY_TABUNGAN}
-                  onValueChange={setTabungan}
-                />
-              </div>
-
-              <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">Keterangan</Label>
-                <Input
-                  value={keterangan}
-                  onChange={(e) => setKeterangan(e.target.value)}
-                  className="h-10 rounded-xl border-slate-200 bg-white"
-                />
-              </div>
-
+              {/* Total Pembayaran: tampil untuk Rincian Tagihan */}
               {isRincian ? (
                 <div className="pt-1">
                   <div className="text-xs font-semibold text-slate-600">
