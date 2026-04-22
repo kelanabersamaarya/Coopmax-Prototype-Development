@@ -25,8 +25,7 @@ export default function BillingTablePelunasanView2({
 
   const colCount = 7;
 
-  // Samakan dengan View1: grace highlight box muncul di page pertama (di View1 dihitung dari parent),
-  // untuk View2 pelunasan kita tampilkan selalu agar konsisten dengan screenshot.
+  // Samakan dengan View1: highlight box muncul dan mencakup info + 2 baris pertama.
   const showGraceHighlight = true;
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
@@ -67,9 +66,6 @@ export default function BillingTablePelunasanView2({
         </thead>
 
         <tbody className="bg-white">
-          {/* Info grace period (sama seperti View1) */}
-          <GracePeriodInfoRow colSpan={colCount} />
-
           {rows.length === 0 ? (
             <tr>
               <td
@@ -81,58 +77,97 @@ export default function BillingTablePelunasanView2({
             </tr>
           ) : graceRows.length > 0 ? (
             <>
-              {/* Highlight box untuk grace period rows (sama seperti View1) */}
+              {/* Highlight box untuk info + grace rows */}
               <tr className="border-t border-slate-100">
                 <td colSpan={colCount} className="p-0">
                   <div className="bg-white p-2">
                     <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
-                      <div>
-                        {graceRows.map((bill, idx) => (
-                          <div
-                            key={`grace-${bill.jatuhTempo}-${idx}`}
-                            className={cn(
-                              "grid items-center",
-                              "grid-cols-[44px_minmax(0,15%)_minmax(0,19%)_minmax(0,17%)_minmax(0,12%)_minmax(0,18%)_minmax(0,19%)]",
-                              idx === 0 ? "" : "border-t border-slate-100",
-                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
-                            )}
-                          >
-                            <div className={cn("px-3 py-3", edgeL)}>
-                              <input
-                                type="checkbox"
-                                aria-label="Pilih tagihan"
-                                checked
-                                disabled
-                                className="h-4 w-4 rounded-[5px] accent-blue-600 opacity-70"
-                              />
-                            </div>
+                      <div className="bg-white">
+                        <table className="w-full border-collapse text-[13px]">
+                          <tbody className="bg-white">
+                            <GracePeriodInfoRow colSpan={colCount} noBorder />
 
-                            <div className={cn("px-3 py-3", dateCell)}>
-                              {bill.jatuhTempo}
-                            </div>
-                            <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-                              {bill.totalBelumDibayar}
-                            </div>
-                            <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-                              {bill.tagihanPokok}
-                            </div>
-                            <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-                              {bill.tagihanBunga}
-                            </div>
-                            <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-                              {bill.sisaPokok}
-                            </div>
-                            <div
-                              className={cn(
-                                "px-3 py-3 text-slate-800",
-                                numCell,
-                                edgeR,
-                              )}
-                            >
-                              {bill.sisaBunga}
-                            </div>
-                          </div>
-                        ))}
+                            {graceRows.map((bill, idx) => (
+                              <tr
+                                key={`grace-${bill.jatuhTempo}-${idx}`}
+                                className={cn(
+                                  idx === 0 ? "" : "border-t border-slate-100",
+                                  idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                                )}
+                              >
+                                <td className={cn(checkboxColW, tdClass, edgeL)}>
+                                  <input
+                                    type="checkbox"
+                                    aria-label="Pilih tagihan"
+                                    checked
+                                    disabled
+                                    className="h-4 w-4 rounded-[5px] accent-blue-600 opacity-70"
+                                  />
+                                </td>
+
+                                <td className={cn("w-[15%]", tdClass, dateCell)}>
+                                  {bill.jatuhTempo}
+                                </td>
+
+                                <td
+                                  className={cn(
+                                    "w-[19%]",
+                                    tdClass,
+                                    "text-slate-800",
+                                    numCell,
+                                  )}
+                                >
+                                  {bill.totalBelumDibayar}
+                                </td>
+
+                                <td
+                                  className={cn(
+                                    "w-[17%]",
+                                    tdClass,
+                                    "text-slate-800",
+                                    numCell,
+                                  )}
+                                >
+                                  {bill.tagihanPokok}
+                                </td>
+
+                                <td
+                                  className={cn(
+                                    "w-[12%]",
+                                    tdClass,
+                                    "text-slate-800",
+                                    numCell,
+                                  )}
+                                >
+                                  {bill.tagihanBunga}
+                                </td>
+
+                                <td
+                                  className={cn(
+                                    "w-[18%]",
+                                    tdClass,
+                                    "text-slate-800",
+                                    numCell,
+                                  )}
+                                >
+                                  {bill.sisaPokok}
+                                </td>
+
+                                <td
+                                  className={cn(
+                                    "w-[19%]",
+                                    tdClass,
+                                    edgeR,
+                                    "text-slate-800",
+                                    numCell,
+                                  )}
+                                >
+                                  {bill.sisaBunga}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
@@ -208,7 +243,7 @@ export default function BillingTablePelunasanView2({
               })}
             </>
           ) : (
-            rows.map((bill, idx) => (
+            afterGraceRows.map((bill, idx) => (
               <tr
                 key={`${bill.jatuhTempo}-${idx}`}
                 className={cn(
