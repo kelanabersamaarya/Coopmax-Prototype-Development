@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export type KolektibilitasRow = {
   no: number;
@@ -105,8 +104,7 @@ function PaginationLikeExample({
   onPage: (p: number) => void;
   className?: string;
 }) {
-  if (pageCount <= 1) return null;
-
+  // Selalu tampil, meski 1 halaman (sesuai kebutuhan UI contoh)
   const disabledPrev = page <= 1;
   const disabledNext = page >= pageCount;
 
@@ -158,8 +156,7 @@ const colW = {
   angPerBln: "w-[130px]",
   angSdhHr: "w-[90px]",
 
-  // Tungggakan: dilebarkan agar angkanya tidak terasa "nge-press" dan lebih rapi.
-  // Boleh scroll horizontal.
+  // Tunggakan: dibuat lebih lega (boleh scroll horizontal)
   tBln: "w-[90px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
@@ -187,18 +184,19 @@ export default function KolektibilitasReportTable({
     setPage(controlledPage);
   }, [controlledPage]);
 
-  const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+  const totalEntriesResolved = totalEntries ?? rows.length;
+
+  // Penting: pageCount dihitung dari totalEntries (agar pagination muncul walau rows masih seed)
+  const pageCount = Math.max(1, Math.ceil(totalEntriesResolved / pageSize));
 
   React.useEffect(() => {
     setPage(1);
-  }, [pageSize, rows.length]);
+  }, [pageSize, rows.length, totalEntriesResolved]);
 
-  const paged = React.useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return rows.slice(start, start + pageSize);
-  }, [page, pageSize, rows]);
+  // Prototype: data per halaman belum terhubung ke backend.
+  // Untuk sekarang, kita tetap render "rows" yang diberikan.
+  const paged = React.useMemo(() => rows, [rows]);
 
-  const totalEntriesResolved = totalEntries ?? rows.length;
   const showingStart =
     totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(totalEntriesResolved, page * pageSize);
@@ -214,7 +212,6 @@ export default function KolektibilitasReportTable({
     );
   }, [paged]);
 
-  // Prototype total global: sementara samakan dengan total per halaman.
   const totalsAll = totalsPage;
 
   const totalRowLabelClass =
@@ -389,7 +386,6 @@ export default function KolektibilitasReportTable({
                 ))
               )}
 
-              {/* TOTAL PER HALAMAN — tidak bold */}
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
                   <td colSpan={8} className={totalRowLabelClass}>
@@ -407,7 +403,6 @@ export default function KolektibilitasReportTable({
                 </tr>
               ) : null}
 
-              {/* TOTAL — tidak bold */}
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
                   <td colSpan={8} className={totalRowLabelClass}>
@@ -428,7 +423,6 @@ export default function KolektibilitasReportTable({
           </table>
         </div>
 
-        {/* Pagination/footer style sesuai contoh */}
         <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-sm text-slate-700">
             Menampilkan {showingStart} sampai {showingEnd} dari{" "}
