@@ -74,6 +74,9 @@ export default function BillingTable({
   const tdClass = "px-3 py-3";
   const checkboxColW = "w-[44px]";
 
+  const edgeL = "pl-4";
+  const edgeR = "pr-4";
+
   const CheckboxCell = ({
     checked,
     disabled,
@@ -123,9 +126,6 @@ export default function BillingTable({
   if (feeOnlyCols) {
     const colCount = 5;
     const minW = "min-w-[720px]";
-
-    const edgeL = "pl-4";
-    const edgeR = "pr-4";
 
     const wJenis = "w-[34%]";
     const wPeriode = "w-[18%]";
@@ -315,7 +315,7 @@ export default function BillingTable({
             <table className={cn("w-full border-collapse text-[13px]", minW)}>
               <thead className="bg-white">
                 <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                  <th className={cn(checkboxColW, thClass, "pl-4")}>
+                  <th className={cn(checkboxColW, thClass, edgeL)}>
                     <CheckboxCell
                       refEl={headerCheckboxRef}
                       aria-label="Pilih semua"
@@ -339,7 +339,7 @@ export default function BillingTable({
                     Total Tagihan Denda
                   </th>
 
-                  <th className={cn(sisaDendaColW, thClass, "pr-4 text-right")}>
+                  <th className={cn(sisaDendaColW, thClass, edgeR, "text-right")}>
                     Sisa Tagihan Denda
                   </th>
                 </tr>
@@ -378,7 +378,7 @@ export default function BillingTable({
                                         : "bg-slate-50/40",
                                     )}
                                   >
-                                    <td className={cn(checkboxColW, tdClass, "pl-4")}>
+                                    <td className={cn(checkboxColW, tdClass, edgeL)}>
                                       <CheckboxCell
                                         aria-label="Pilih tagihan"
                                         checked={
@@ -433,7 +433,8 @@ export default function BillingTable({
                                       className={cn(
                                         sisaDendaColW,
                                         tdClass,
-                                        "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                        edgeR,
+                                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                       )}
                                     >
                                       {penalties[idx]?.remaining ?? "0"}
@@ -474,7 +475,7 @@ export default function BillingTable({
           <table className={cn("w-full border-collapse text-[13px]", minW)}>
             <thead className="bg-white">
               <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-                <th className={cn(checkboxColW, thClass, "pl-4")}>
+                <th className={cn(checkboxColW, thClass, edgeL)}>
                   <input
                     ref={headerCheckboxRef}
                     type="checkbox"
@@ -494,7 +495,7 @@ export default function BillingTable({
                   Tagihan Bunga
                 </th>
 
-                <th className={cn(sisaBungaColW, thClass, "pr-4 text-right")}>
+                <th className={cn(sisaBungaColW, thClass, edgeR, "text-right")}>
                   Sisa Tagihan Bunga
                 </th>
               </tr>
@@ -503,6 +504,7 @@ export default function BillingTable({
             <tbody className="bg-white">
               <tr>
                 <td colSpan={colCount} className="p-0">
+                  {/* OUTER BOX: border highlight */}
                   <div
                     className={cn(
                       "overflow-hidden bg-white",
@@ -511,7 +513,9 @@ export default function BillingTable({
                         : "rounded-2xl border border-slate-200",
                     )}
                   >
+                    {/* INNER GAP: biar border tidak nempel ke konten */}
                     <div className="bg-white p-2">
+                      {/* INNER BOX: border normal (selalu ada) */}
                       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                         <div className="overflow-auto">
                           <table
@@ -525,65 +529,75 @@ export default function BillingTable({
                                 <GracePeriodInfoRow colSpan={colCount} />
                               ) : null}
 
-                              {rows.map((bill, idx) => (
-                                <tr
-                                  key={`${bill.jatuhTempo}-${idx}`}
-                                  className="border-t border-slate-100 text-sm"
-                                >
+                              {rows.length === 0 ? (
+                                <tr>
                                   <td
-                                    className={cn(checkboxColW, tdClass, "pl-4")}
+                                    colSpan={colCount}
+                                    className="px-4 py-10 text-center text-sm text-slate-600"
                                   >
-                                    <input
-                                      type="checkbox"
-                                      aria-label="Pilih tagihan"
-                                      checked={
-                                        isPelunasan
-                                          ? true
-                                          : (selected[idx] ?? true)
-                                      }
-                                      disabled={isPelunasan}
-                                      onChange={(e) => {
-                                        const next = e.target.checked;
-                                        setSelected((prev) => {
-                                          const copy = [...prev];
-                                          copy[idx] = next;
-                                          return copy;
-                                        });
-                                      }}
-                                    />
-                                  </td>
-
-                                  <td
-                                    className={cn(
-                                      dateColW,
-                                      tdClass,
-                                      "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.jatuhTempo}
-                                  </td>
-
-                                  <td
-                                    className={cn(
-                                      bungaColW,
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.tagihanBunga}
-                                  </td>
-
-                                  <td
-                                    className={cn(
-                                      sisaBungaColW,
-                                      tdClass,
-                                      "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.sisaBunga}
+                                    Tidak ada data.
                                   </td>
                                 </tr>
-                              ))}
+                              ) : (
+                                rows.map((bill, idx) => (
+                                  <tr
+                                    key={`${bill.jatuhTempo}-${idx}`}
+                                    className="border-t border-slate-100 text-sm"
+                                  >
+                                    <td className={cn(checkboxColW, tdClass, edgeL)}>
+                                      <input
+                                        type="checkbox"
+                                        aria-label="Pilih tagihan"
+                                        checked={
+                                          isPelunasan
+                                            ? true
+                                            : (selected[idx] ?? true)
+                                        }
+                                        disabled={isPelunasan}
+                                        onChange={(e) => {
+                                          const next = e.target.checked;
+                                          setSelected((prev) => {
+                                            const copy = [...prev];
+                                            copy[idx] = next;
+                                            return copy;
+                                          });
+                                        }}
+                                      />
+                                    </td>
+
+                                    <td
+                                      className={cn(
+                                        dateColW,
+                                        tdClass,
+                                        "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                                      )}
+                                    >
+                                      {bill.jatuhTempo}
+                                    </td>
+
+                                    <td
+                                      className={cn(
+                                        bungaColW,
+                                        tdClass,
+                                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      )}
+                                    >
+                                      {bill.tagihanBunga}
+                                    </td>
+
+                                    <td
+                                      className={cn(
+                                        sisaBungaColW,
+                                        tdClass,
+                                        edgeR,
+                                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      )}
+                                    >
+                                      {bill.sisaBunga}
+                                    </td>
+                                  </tr>
+                                ))
+                              )}
                             </tbody>
                           </table>
                         </div>
@@ -621,7 +635,7 @@ export default function BillingTable({
         <table className={cn("w-full border-collapse text-[13px]", minW)}>
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
-              <th className={cn(checkboxColW, thClass, "pl-4")}>
+              <th className={cn(checkboxColW, thClass, edgeL)}>
                 <input
                   ref={headerCheckboxRef}
                   type="checkbox"
@@ -653,12 +667,12 @@ export default function BillingTable({
                 </th>
               ) : null}
 
-              <th className={cn(sisaPokokColW, thClass, "pr-4 text-right")}>
+              <th className={cn(sisaPokokColW, thClass, edgeR, "text-right")}>
                 Sisa Tagihan Pokok
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn(sisaBungaColW, thClass, "pr-4 text-right")}>
+                <th className={cn(sisaBungaColW, thClass, edgeR, "text-right")}>
                   Sisa Tagihan Bunga
                 </th>
               ) : null}
@@ -668,6 +682,7 @@ export default function BillingTable({
           <tbody className="bg-white">
             <tr>
               <td colSpan={colCount} className="p-0">
+                {/* OUTER BOX: border highlight */}
                 <div
                   className={cn(
                     "overflow-hidden bg-white",
@@ -676,7 +691,9 @@ export default function BillingTable({
                       : "rounded-2xl border border-slate-200",
                   )}
                 >
+                  {/* INNER GAP: biar border tidak nempel ke konten */}
                   <div className="bg-white p-2">
+                    {/* INNER BOX: border normal (selalu ada) */}
                     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
                       <div className="overflow-auto">
                         <table
@@ -690,99 +707,110 @@ export default function BillingTable({
                               <GracePeriodInfoRow colSpan={colCount} />
                             ) : null}
 
-                            {rows.map((bill, idx) => (
-                              <tr
-                                key={`${bill.jatuhTempo}-${idx}`}
-                                className="border-t border-slate-100 text-sm"
-                              >
-                                <td className={cn(checkboxColW, tdClass, "pl-4")}>
-                                  <input
-                                    type="checkbox"
-                                    aria-label="Pilih tagihan"
-                                    checked={
-                                      isPelunasan
-                                        ? true
-                                        : (selected[idx] ?? true)
-                                    }
-                                    disabled={isPelunasan}
-                                    onChange={(e) => {
-                                      const next = e.target.checked;
-                                      setSelected((prev) => {
-                                        const copy = [...prev];
-                                        copy[idx] = next;
-                                        return copy;
-                                      });
-                                    }}
-                                  />
-                                </td>
-
+                            {rows.length === 0 ? (
+                              <tr>
                                 <td
-                                  className={cn(
-                                    dateColW,
-                                    tdClass,
-                                    "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
-                                  )}
+                                  colSpan={colCount}
+                                  className="px-4 py-10 text-center text-sm text-slate-600"
                                 >
-                                  {bill.jatuhTempo}
+                                  Tidak ada data.
                                 </td>
-
-                                {!hideInterestCols ? (
-                                  <td
-                                    className={cn(
-                                      totalColW,
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.totalBelumDibayar}
-                                  </td>
-                                ) : null}
-
-                                <td
-                                  className={cn(
-                                    pokokColW,
-                                    tdClass,
-                                    "text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                  )}
-                                >
-                                  {bill.tagihanPokok}
-                                </td>
-
-                                {!hideInterestCols ? (
-                                  <td
-                                    className={cn(
-                                      bungaColW,
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.tagihanBunga}
-                                  </td>
-                                ) : null}
-
-                                <td
-                                  className={cn(
-                                    sisaPokokColW,
-                                    tdClass,
-                                    "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                  )}
-                                >
-                                  {bill.sisaPokok}
-                                </td>
-
-                                {!hideInterestCols ? (
-                                  <td
-                                    className={cn(
-                                      sisaBungaColW,
-                                      tdClass,
-                                      "pr-4 text-right tabular-nums text-slate-800 whitespace-nowrap",
-                                    )}
-                                  >
-                                    {bill.sisaBunga}
-                                  </td>
-                                ) : null}
                               </tr>
-                            ))}
+                            ) : (
+                              rows.map((bill, idx) => (
+                                <tr
+                                  key={`${bill.jatuhTempo}-${idx}`}
+                                  className="border-t border-slate-100 text-sm"
+                                >
+                                  <td className={cn(checkboxColW, tdClass, edgeL)}>
+                                    <input
+                                      type="checkbox"
+                                      aria-label="Pilih tagihan"
+                                      checked={
+                                        isPelunasan ? true : (selected[idx] ?? true)
+                                      }
+                                      disabled={isPelunasan}
+                                      onChange={(e) => {
+                                        const next = e.target.checked;
+                                        setSelected((prev) => {
+                                          const copy = [...prev];
+                                          copy[idx] = next;
+                                          return copy;
+                                        });
+                                      }}
+                                    />
+                                  </td>
+
+                                  <td
+                                    className={cn(
+                                      dateColW,
+                                      tdClass,
+                                      "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.jatuhTempo}
+                                  </td>
+
+                                  {!hideInterestCols ? (
+                                    <td
+                                      className={cn(
+                                        totalColW,
+                                        tdClass,
+                                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      )}
+                                    >
+                                      {bill.totalBelumDibayar}
+                                    </td>
+                                  ) : null}
+
+                                  <td
+                                    className={cn(
+                                      pokokColW,
+                                      tdClass,
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.tagihanPokok}
+                                  </td>
+
+                                  {!hideInterestCols ? (
+                                    <td
+                                      className={cn(
+                                        bungaColW,
+                                        tdClass,
+                                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      )}
+                                    >
+                                      {bill.tagihanBunga}
+                                    </td>
+                                  ) : null}
+
+                                  <td
+                                    className={cn(
+                                      sisaPokokColW,
+                                      tdClass,
+                                      edgeR,
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                    )}
+                                  >
+                                    {bill.sisaPokok}
+                                  </td>
+
+                                  {!hideInterestCols ? (
+                                    <td
+                                      className={cn(
+                                        sisaBungaColW,
+                                        tdClass,
+                                        edgeR,
+                                        "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      )}
+                                    >
+                                      {bill.sisaBunga}
+                                    </td>
+                                  ) : null}
+                                </tr>
+                              ))
+                            )}
                           </tbody>
                         </table>
                       </div>
