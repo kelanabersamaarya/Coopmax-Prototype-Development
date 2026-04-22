@@ -27,7 +27,7 @@ function RowShell({
         className={cn(
           "rounded-2xl border bg-white",
           active
-            ? "border-blue-600 ring-2 ring-blue-600/15"
+            ? "border-slate-300 ring-2 ring-slate-900/5"
             : "border-slate-200",
         )}
       >
@@ -72,7 +72,7 @@ export default function BillingTableView2({
   isLocked?: boolean; // misalnya pelunasan: disable checklist
   showNextBillInfo?: boolean;
   showGraceInfo?: boolean;
-  highlightGraceBlock?: boolean; // NEW: border biru mencakup info + 2 baris pertama
+  highlightGraceBlock?: boolean; // border highlight (wrapper) untuk grace rows
   className?: string;
 }) {
   const colCount = 7;
@@ -100,7 +100,8 @@ export default function BillingTableView2({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows.length]);
 
-  const graceCount = showGraceInfo && highlightGraceBlock ? Math.min(2, rows.length) : 0;
+  const graceCount =
+    showGraceInfo && highlightGraceBlock ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
@@ -141,7 +142,6 @@ export default function BillingTableView2({
           </thead>
 
           <tbody className="bg-white">
-            {/* MODE HIGHLIGHT: border biru cover info + 2 baris pertama */}
             {showGraceInfo && highlightGraceBlock && graceRows.length > 0 ? (
               <>
                 <tr className="border-t border-slate-200">
@@ -171,7 +171,9 @@ export default function BillingTableView2({
                                             type="checkbox"
                                             aria-label="Pilih tagihan"
                                             checked={
-                                              isLocked ? true : (selected[rowIndex] ?? false)
+                                              isLocked
+                                                ? true
+                                                : (selected[rowIndex] ?? false)
                                             }
                                             disabled={isLocked}
                                             onChange={(e) => {
@@ -227,7 +229,10 @@ export default function BillingTableView2({
                   const active = selected[rowIndex] === true;
 
                   return (
-                    <tr key={`${r.jatuhTempo}-${rowIndex}`} className="border-t border-slate-200">
+                    <tr
+                      key={`${r.jatuhTempo}-${rowIndex}`}
+                      className="border-t border-slate-200"
+                    >
                       <td colSpan={colCount} className="p-0">
                         <RowShell active={active}>
                           <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
@@ -235,7 +240,9 @@ export default function BillingTableView2({
                               <input
                                 type="checkbox"
                                 aria-label="Pilih tagihan"
-                                checked={isLocked ? true : (selected[rowIndex] ?? false)}
+                                checked={
+                                  isLocked ? true : (selected[rowIndex] ?? false)
+                                }
                                 disabled={isLocked}
                                 onChange={(e) => {
                                   const next = e.target.checked;
@@ -281,7 +288,6 @@ export default function BillingTableView2({
               </>
             ) : (
               <>
-                {/* MODE NORMAL: info grace period tampil seperti biasa */}
                 {showGraceInfo ? <GracePeriodInfoRow colSpan={colCount} /> : null}
 
                 {rows.length === 0 ? (
