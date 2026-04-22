@@ -181,35 +181,7 @@ export default function BillSummaryCard({
               {transactionLabel("Pelunasan")}
             </DropdownMenuItem>
 
-            <DropdownMenuItem
-              className={cn(
-                "rounded-xl",
-                transactionType === "Pembayaran Pokok" ? "bg-slate-100" : "",
-              )}
-              onClick={() => handleChange("Pembayaran Pokok")}
-            >
-              {transactionLabel("Pembayaran Pokok")}
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              className={cn(
-                "rounded-xl",
-                transactionType === "Pembayaran Bunga" ? "bg-slate-100" : "",
-              )}
-              onClick={() => handleChange("Pembayaran Bunga")}
-            >
-              {transactionLabel("Pembayaran Bunga")}
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              className={cn(
-                "rounded-xl",
-                transactionType === "Pembayaran Denda" ? "bg-slate-100" : "",
-              )}
-              onClick={() => handleChange("Pembayaran Denda")}
-            >
-              {transactionLabel("Pembayaran Denda")}
-            </DropdownMenuItem>
+            {/* DISABLED/HIDDEN: Pembayaran Pokok, Pembayaran Bunga, Pembayaran Denda */}
 
             <DropdownMenuItem
               className={cn(
