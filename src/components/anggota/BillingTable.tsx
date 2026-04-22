@@ -86,14 +86,18 @@ export default function BillingTable({
     const needed = rows.length + extraOutsideRows.length;
     if (selected.length === needed) return;
 
+    // Penting: jangan auto-true (karena Pembayaran Reguler harus default kosong).
+    // Hanya Pelunasan yang boleh default true.
+    const defaultValue = isPelunasan ? true : false;
+
     setSelected((prev) => {
       const next = Array.from({ length: needed }).map(
-        (_, idx) => prev[idx] ?? true,
+        (_, idx) => prev[idx] ?? defaultValue,
       );
       return next;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rows.length, extraOutsideRows.length]);
+  }, [rows.length, extraOutsideRows.length, isPelunasan]);
 
   const displayRows = React.useMemo(() => rows, [rows]);
 
@@ -682,9 +686,7 @@ export default function BillingTable({
             {bill.sisaBunga}
           </div>
         ) : (
-          <div className={cn("px-3 py-3 text-slate-800", numCell, edgeR)}>
-            {/* filler agar edge kanan tetap konsisten */}
-          </div>
+          <div className={cn("px-3 py-3 text-slate-800", numCell, edgeR)} />
         )}
       </div>
     );
@@ -751,7 +753,6 @@ export default function BillingTable({
         </thead>
 
         <tbody className="bg-white">
-          {/* GracePeriod info row tetap seperti sebelumnya (colSpan), tapi tidak mengubah layout kolom */}
           {showGraceHighlight ? <GracePeriodInfoRow colSpan={colCount} /> : null}
 
           {displayRows.length === 0 ? (
@@ -765,7 +766,6 @@ export default function BillingTable({
             </tr>
           ) : graceRows.length > 0 ? (
             <>
-              {/* Wrapper row untuk penanda grace period (border biru), tapi isi row memakai grid dengan kolom yang sama */}
               <tr className="border-t border-slate-100">
                 <td colSpan={colCount} className="p-0">
                   <div className="bg-white p-2">
@@ -786,7 +786,6 @@ export default function BillingTable({
                 </td>
               </tr>
 
-              {/* Row setelah grace */}
               {afterGraceRows.map((bill, idx) => {
                 const globalIndex = graceCount + idx;
                 return (
@@ -941,7 +940,6 @@ export default function BillingTable({
             ))
           )}
 
-          {/* Baris "di luar grace period" tambahan (jika ada) tetap ikut tabel rapi */}
           {extraOutsideRows.map((bill, idx) => {
             const globalIndex = displayRows.length + idx;
             return (
@@ -996,7 +994,15 @@ export default function BillingTable({
                 </td>
 
                 {!hideInterestCols ? (
-                  <td className={cn(sisaBungaColW, tdClass, edgeR, "text-slate-800", numCell)}>
+                  <td
+                    className={cn(
+                      sisaBungaColW,
+                      tdClass,
+                      edgeR,
+                      "text-slate-800",
+                      numCell,
+                    )}
+                  >
                     {bill.sisaBunga}
                   </td>
                 ) : null}
