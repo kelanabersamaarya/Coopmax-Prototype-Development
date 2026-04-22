@@ -2,7 +2,6 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
   RefreshCw,
@@ -10,7 +9,6 @@ import {
   FileText,
   Printer,
   Search,
-  X,
   ChevronDown,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -40,21 +38,6 @@ const months = [
   "Desember",
 ] as const;
 
-function FieldRow({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-      <div className="text-sm font-semibold text-slate-900">{label}</div>
-      <div className="min-w-0">{children}</div>
-    </div>
-  );
-}
-
 function ActionPill({
   icon: Icon,
   label,
@@ -79,6 +62,21 @@ function ActionPill({
   );
 }
 
+function FieldRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
+      <div className="pt-2 text-sm font-semibold text-slate-900">{label}</div>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
 function SelectLike({
   value,
   onChange,
@@ -96,7 +94,7 @@ function SelectLike({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
+          "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
           "shadow-sm outline-none transition",
           "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
         )}
@@ -108,59 +106,17 @@ function SelectLike({
           </option>
         ))}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-slate-400" />
-    </div>
-  );
-}
 
-function LoanTypeChips({
-  value,
-  onClear,
-}: {
-  value: string | null;
-  onClear: () => void;
-}) {
-  return (
-    <div className="flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3 shadow-sm">
-      <div className="min-w-0">
-        {value ? (
-          <span className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--app-accent))] px-3 py-1.5 text-sm font-semibold text-white">
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-sm bg-white/15 text-[12px]">
-              ×
-            </span>
-            <span className="truncate">{value}</span>
-          </span>
-        ) : (
-          <div className="text-sm font-medium text-slate-500">
-            Pilih jenis pinjaman…
-          </div>
-        )}
-      </div>
-
-      {value ? (
-        <button
-          type="button"
-          onClick={onClear}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-700 transition hover:bg-slate-100"
-          aria-label="Hapus pilihan"
-          title="Hapus"
-        >
-          <X className="h-5 w-5" />
-        </button>
-      ) : (
-        <div className="h-9 w-9" />
-      )}
+      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
     </div>
   );
 }
 
 export default function LaporanKolektibilitas() {
-  const [jenisPinjaman, setJenisPinjaman] = React.useState<string | null>(
-    "Pinjaman Bulanan 9",
-  );
+  const [jenisPinjaman, setJenisPinjaman] = React.useState<string>("Pilih pinjaman");
   const [namaKode, setNamaKode] = React.useState("");
-  const [bulan, setBulan] = React.useState<(typeof months)[number]>("Februari");
-  const [tahun, setTahun] = React.useState("2025");
+  const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
+  const [tahun, setTahun] = React.useState("2026");
   const [tipe, setTipe] = React.useState<KolektibilitasType>("-- Semua --");
   const [statusAnggota, setStatusAnggota] =
     React.useState<StatusAnggota>("Pilih Jenis Anggota");
@@ -168,7 +124,7 @@ export default function LaporanKolektibilitas() {
   function doSearch() {
     toast.success("Filter diterapkan (prototype)", {
       description: [
-        jenisPinjaman ? `Jenis: ${jenisPinjaman}` : "Jenis: (kosong)",
+        `Jenis: ${jenisPinjaman}`,
         namaKode ? `Query: ${namaKode}` : "Query: (kosong)",
         `Periode: ${bulan} ${tahun}`,
         `Tipe: ${tipe}`,
@@ -218,9 +174,17 @@ export default function LaporanKolektibilitas() {
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
           <div className="grid gap-4">
             <FieldRow label="Jenis Pinjaman">
-              <LoanTypeChips
+              <SelectLike
                 value={jenisPinjaman}
-                onClear={() => setJenisPinjaman(null)}
+                onChange={setJenisPinjaman}
+                placeholder="Pilih pinjaman"
+                options={[
+                  "Pilih pinjaman",
+                  "Pinjaman Bulanan",
+                  "Pinjaman Bulanan 9",
+                  "Pinjaman Harian",
+                  "Pinjaman Billing",
+                ]}
               />
             </FieldRow>
 
@@ -228,8 +192,8 @@ export default function LaporanKolektibilitas() {
               <Input
                 value={namaKode}
                 onChange={(e) => setNamaKode(e.target.value)}
-                placeholder="Masukkan nama/kode pinjaman..."
-                className="h-11 rounded-xl border-slate-200 bg-white"
+                placeholder="Masukkan nama/kode pinjaman.."
+                className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
               />
             </FieldRow>
 
@@ -245,7 +209,7 @@ export default function LaporanKolektibilitas() {
               <Input
                 value={tahun}
                 onChange={(e) => setTahun(e.target.value)}
-                className="h-11 rounded-xl border-slate-200 bg-white"
+                className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
                 inputMode="numeric"
               />
             </FieldRow>
@@ -273,16 +237,18 @@ export default function LaporanKolektibilitas() {
               />
             </FieldRow>
 
-            <div className="flex justify-end pt-2">
-              <Button
+            <div className="flex justify-end pt-1">
+              <button
+                type="button"
                 onClick={doSearch}
                 className={cn(
-                  "h-11 rounded-xl bg-emerald-600 px-6 text-white hover:bg-emerald-700",
+                  "inline-flex h-10 items-center gap-2 rounded-md px-5 text-sm font-semibold text-white",
+                  "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
                 )}
               >
-                <Search className="mr-2 h-4.5 w-4.5" />
+                <Search className="h-4.5 w-4.5" />
                 Cari
-              </Button>
+              </button>
             </div>
           </div>
         </Card>
