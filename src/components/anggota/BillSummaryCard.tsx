@@ -103,7 +103,7 @@ export default function BillSummaryCard({
     : installment;
 
   const showInstallmentSection =
-    !isPembayaranDenda && !isPembayaranBiayaLainnya;
+    mode !== "pelunasan" && !isPembayaranDenda && !isPembayaranBiayaLainnya;
 
   const handleChange = React.useCallback(
     (v: TransactionType) => {
@@ -253,9 +253,9 @@ export default function BillSummaryCard({
           />
         ) : (
           <>
-            <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} />
-            <SummaryRow label="Total Bunga" value={displayTotals.bunga} />
-            <SummaryRow label="Total Denda" value={displayTotals.denda} />
+            <SummaryRow label="Total Tagihan Pokok" value={displayTotals.pokok} />
+            <SummaryRow label="Total Tagihan Bunga" value={displayTotals.bunga} />
+            <SummaryRow label="Total Tagihan Denda" value={displayTotals.denda} />
 
             <SummaryRow
               label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}

@@ -220,9 +220,6 @@ export default function TransactionFormCardView2({
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
 
-  // Penalty Pelunasan (baru) — hanya untuk UI (prototype)
-  const [penaltyPelunasan, setPenaltyPelunasan] = React.useState("0");
-
   // RINCIAN TAGIHAN: toggle alokasi manual + nominal pembayaran (auto-allocate)
   const [alokasiManual, setAlokasiManual] = React.useState(false);
   const [nominalPembayaran, setNominalPembayaran] = React.useState("0");
@@ -231,10 +228,6 @@ export default function TransactionFormCardView2({
   const DUE_BUNGA = 83333;
   const DUE_DENDA = 25000;
   const DUE_POKOK = 833333;
-
-  React.useEffect(() => {
-    if (!isPelunasan) setPenaltyPelunasan("0");
-  }, [isPelunasan]);
 
   // Reset state khusus rincian saat pindah jenis transaksi
   React.useEffect(() => {
@@ -297,7 +290,6 @@ export default function TransactionFormCardView2({
   const showNominalPembayaran = isRincian && !alokasiManual;
 
   const rincianFieldsReadOnly = isRincian && !alokasiManual;
-
   const showTabunganKeteranganForRincian = isRincian; // now both OFF and ON
 
   return (
@@ -486,21 +478,6 @@ export default function TransactionFormCardView2({
                 </>
               ) : (
                 <>
-                  {isPelunasan ? (
-                    <div className="grid gap-1.5">
-                      <Label className="text-xs text-slate-600">
-                        Penalty Pelunasan
-                      </Label>
-                      <Input
-                        value={penaltyPelunasan}
-                        onChange={(e) => setPenaltyPelunasan(e.target.value)}
-                        inputMode="numeric"
-                        className="h-10 rounded-xl border-slate-200 bg-white text-right"
-                        placeholder="0"
-                      />
-                    </div>
-                  ) : null}
-
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">
                       {isPelunasan ? "Nominal Pelunasan*" : "Nominal Pembayaran*"}
