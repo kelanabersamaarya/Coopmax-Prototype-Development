@@ -298,6 +298,8 @@ export default function TransactionFormCardView2({
 
   const rincianFieldsReadOnly = isRincian && !alokasiManual;
 
+  const showTabunganKeteranganForRincian = isRincian; // now both OFF and ON
+
   return (
     <>
       <PaymentConfirmModal
@@ -406,7 +408,7 @@ export default function TransactionFormCardView2({
                 </div>
               ) : null}
 
-              {/* RINCIAN TAGIHAN: field selalu tampil, tapi read-only saat alokasiManual OFF */}
+              {/* RINCIAN TAGIHAN */}
               {isRincian ? (
                 <>
                   <div className="grid gap-1.5">
@@ -420,7 +422,9 @@ export default function TransactionFormCardView2({
                       readOnly={rincianFieldsReadOnly}
                       className={cn(
                         "h-10 rounded-xl border-slate-200 text-right",
-                        rincianFieldsReadOnly ? "bg-slate-200/70 text-slate-800" : "bg-white",
+                        rincianFieldsReadOnly
+                          ? "bg-slate-200/70 text-slate-800"
+                          : "bg-white",
                       )}
                     />
                   </div>
@@ -435,7 +439,9 @@ export default function TransactionFormCardView2({
                       readOnly={rincianFieldsReadOnly}
                       className={cn(
                         "h-10 rounded-xl border-slate-200 text-right",
-                        rincianFieldsReadOnly ? "bg-slate-200/70 text-slate-800" : "bg-white",
+                        rincianFieldsReadOnly
+                          ? "bg-slate-200/70 text-slate-800"
+                          : "bg-white",
                       )}
                     />
                   </div>
@@ -450,13 +456,14 @@ export default function TransactionFormCardView2({
                       readOnly={rincianFieldsReadOnly}
                       className={cn(
                         "h-10 rounded-xl border-slate-200 text-right",
-                        rincianFieldsReadOnly ? "bg-slate-200/70 text-slate-800" : "bg-white",
+                        rincianFieldsReadOnly
+                          ? "bg-slate-200/70 text-slate-800"
+                          : "bg-white",
                       )}
                     />
                   </div>
 
-                  {/* Saat alokasi manual ON: tampilkan tabungan & keterangan (sesuai request) */}
-                  {alokasiManual ? (
+                  {showTabunganKeteranganForRincian ? (
                     <>
                       <div className="grid gap-1.5">
                         <Label className="text-xs text-slate-600">Tabungan</Label>
