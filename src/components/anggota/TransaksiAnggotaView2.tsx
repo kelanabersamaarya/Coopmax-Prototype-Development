@@ -148,8 +148,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  // Sesuai referensi: grace period info muncul di tabel untuk mode non-reguler tertentu
-  const showGraceInfo = !isReguler && !isRincian;
+  // UBAH: reguler juga menampilkan info grace period (kecuali mode rincian tagihan).
+  const showGraceInfo = !isRincian;
 
   return (
     <div className="w-full px-0">
