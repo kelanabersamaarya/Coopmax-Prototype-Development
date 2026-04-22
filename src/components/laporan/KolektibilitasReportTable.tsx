@@ -94,7 +94,7 @@ function Td({
   );
 }
 
-function Pagination({
+function PaginationLikeExample({
   page,
   pageCount,
   onPage,
@@ -107,30 +107,38 @@ function Pagination({
 }) {
   if (pageCount <= 1) return null;
 
+  const disabledPrev = page <= 1;
+  const disabledNext = page >= pageCount;
+
+  const navBtn = (disabled: boolean) =>
+    cn(
+      "h-10 px-4 text-sm font-semibold",
+      "bg-slate-100 text-slate-400",
+      disabled ? "opacity-70" : "text-slate-600 hover:bg-slate-200",
+    );
+
   return (
-    <div className={cn("flex items-center justify-end gap-2", className)}>
+    <div className={cn("inline-flex items-center gap-2", className)}>
       <button
         type="button"
-        className="inline-flex h-10 items-center gap-2 rounded-md bg-slate-100 px-4 text-sm font-semibold text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:opacity-50"
-        disabled={page === 1}
+        className={cn("rounded-none", navBtn(disabledPrev))}
+        disabled={disabledPrev}
         onClick={() => onPage(Math.max(1, page - 1))}
       >
-        <ChevronLeft className="h-4 w-4" />
         Sebelumnya
       </button>
 
-      <div className="inline-flex h-10 min-w-10 items-center justify-center rounded-md bg-violet-600 px-4 text-sm font-extrabold text-white ring-1 ring-violet-600/30">
+      <div className="inline-flex h-10 min-w-10 items-center justify-center bg-violet-600 px-4 text-sm font-extrabold text-white">
         {page}
       </div>
 
       <button
         type="button"
-        className="inline-flex h-10 items-center gap-2 rounded-md bg-slate-100 px-4 text-sm font-semibold text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-50 disabled:opacity-50"
-        disabled={page === pageCount}
+        className={cn("rounded-none", navBtn(disabledNext))}
+        disabled={disabledNext}
         onClick={() => onPage(Math.min(pageCount, page + 1))}
       >
         Selanjutnya
-        <ChevronRight className="h-4 w-4" />
       </button>
     </div>
   );
@@ -420,13 +428,14 @@ export default function KolektibilitasReportTable({
           </table>
         </div>
 
+        {/* Pagination/footer style sesuai contoh */}
         <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-sm text-slate-700">
             Menampilkan {showingStart} sampai {showingEnd} dari{" "}
             {totalEntriesResolved} entri
           </div>
 
-          <Pagination page={page} pageCount={pageCount} onPage={setPage} />
+          <PaginationLikeExample page={page} pageCount={pageCount} onPage={setPage} />
         </div>
       </div>
     </div>
