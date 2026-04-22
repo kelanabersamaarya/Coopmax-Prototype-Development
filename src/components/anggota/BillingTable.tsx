@@ -141,9 +141,12 @@ export default function BillingTable({
   const scrollOff = "overflow-hidden";
 
   const numCell = "text-right tabular-nums whitespace-nowrap";
-  // IMPORTANT: do not force centering here; we control alignment per-cell
   const dateCell = "font-semibold text-slate-900 tabular-nums whitespace-nowrap";
   const dateLeft = "!text-left";
+
+  // Geser sedikit ke kiri agar angka tanggal tidak terlihat “ketengah”
+  // (tanpa mengubah layout kolom tabel)
+  const dateTight = "-ml-1 pl-1";
 
   const CheckboxCell = ({
     checked,
@@ -327,8 +330,16 @@ export default function BillingTable({
                       </div>
                     </td>
 
-                    <td className={cn(wPeriode, tdClass, "text-slate-800", dateCell, dateLeft)}>
-                      {bill.periode}
+                    <td
+                      className={cn(
+                        wPeriode,
+                        tdClass,
+                        "text-slate-800",
+                        dateCell,
+                        dateLeft,
+                      )}
+                    >
+                      <div className={dateTight}>{bill.periode}</div>
                     </td>
 
                     <td className={cn(wTotal, tdClass, "text-slate-800", numCell)}>
@@ -469,7 +480,7 @@ export default function BillingTable({
                     </td>
 
                     <td className={cn(dateColW, tdClass, dateCell, dateLeft)}>
-                      {bill.jatuhTempo}
+                      <div className={dateTight}>{bill.jatuhTempo}</div>
                     </td>
 
                     <td className={cn(dendaColW, tdClass, "text-slate-800", numCell)}>
@@ -612,7 +623,7 @@ export default function BillingTable({
                                     hideSelection ? edgeL : "",
                                   )}
                                 >
-                                  {bill.jatuhTempo}
+                                  <div className={dateTight}>{bill.jatuhTempo}</div>
                                 </td>
 
                                 <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
@@ -698,7 +709,7 @@ export default function BillingTable({
             hideSelection ? edgeL : "",
           )}
         >
-          {bill.jatuhTempo}
+          <div className={dateTight}>{bill.jatuhTempo}</div>
         </td>
 
         {!hideInterestCols ? (
