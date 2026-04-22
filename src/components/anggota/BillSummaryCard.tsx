@@ -95,6 +95,7 @@ export default function BillSummaryCard({
   const isPembayaranBiayaLainnya = transactionType === "Pembayaran Biaya Lainnya";
 
   const isRegular = transactionType === "Pembayaran Reguler";
+  const isRincian = transactionType === "Pembayaran Rincian Tagihan";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -113,6 +114,8 @@ export default function BillSummaryCard({
     },
     [onTransactionTypeChange],
   );
+
+  const useShortLabels = isRegular || isRincian;
 
   return (
     <Card
@@ -218,15 +221,15 @@ export default function BillSummaryCard({
         ) : (
           <>
             <SummaryRow
-              label={isRegular ? "Tagihan Pokok" : "Total Tagihan Pokok"}
+              label={useShortLabels ? "Tagihan Pokok" : "Total Tagihan Pokok"}
               value={displayTotals.pokok}
             />
             <SummaryRow
-              label={isRegular ? "Tagihan Bunga" : "Total Tagihan Bunga"}
+              label={useShortLabels ? "Tagihan Bunga" : "Total Tagihan Bunga"}
               value={displayTotals.bunga}
             />
             <SummaryRow
-              label={isRegular ? "Tagihan Denda" : "Total Tagihan Denda"}
+              label={useShortLabels ? "Tagihan Denda" : "Total Tagihan Denda"}
               value={displayTotals.denda}
             />
 
