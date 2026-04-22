@@ -138,9 +138,9 @@ function Pagination({
 
 const colW = {
   no: "w-[60px]",
-  noNsb: "w-[120px]", // sedikit lebih lebar supaya 1 baris
-  nama: "w-[220px]", // diperbesar
-  alamat: "w-[170px]", // diperkecil
+  noNsb: "w-[120px]",
+  nama: "w-[220px]",
+  alamat: "w-[170px]",
   aoId: "w-[90px]",
   jwBln: "w-[70px]",
   jwDari: "w-[130px]",
@@ -149,12 +149,15 @@ const colW = {
   pinBng: "w-[90px]",
   angPerBln: "w-[130px]",
   angSdhHr: "w-[90px]",
-  tBln: "w-[70px]",
-  tNilai: "w-[130px]",
-  t1_30: "w-[90px]",
-  t31_60: "w-[90px]",
-  t61_90: "w-[90px]",
-  t90p: "w-[90px]",
+
+  // Tungggakan: dilebarkan agar angkanya tidak terasa "nge-press" dan lebih rapi.
+  // Boleh scroll horizontal.
+  tBln: "w-[90px]",
+  tNilai: "w-[160px]",
+  t1_30: "w-[140px]",
+  t31_60: "w-[140px]",
+  t61_90: "w-[140px]",
+  t90p: "w-[140px]",
 };
 
 export default function KolektibilitasReportTable({
@@ -217,7 +220,7 @@ export default function KolektibilitasReportTable({
         <div
           className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}
         >
-          <table className="min-w-[1640px] w-full border-collapse bg-white">
+          <table className="min-w-[1860px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className={colW.no}>
