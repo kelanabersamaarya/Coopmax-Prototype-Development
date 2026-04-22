@@ -53,6 +53,7 @@ function SummaryRow({
 
 type TransactionType =
   | "Pembayaran Reguler"
+  | "Pembayaran Penurunan Plafon"
   | "Pembayaran Rincian Tagihan"
   | "Pelunasan"
   | "Pembayaran Pokok"
@@ -96,6 +97,7 @@ export default function BillSummaryCard({
 
   const isRegular = transactionType === "Pembayaran Reguler";
   const isRincian = transactionType === "Pembayaran Rincian Tagihan";
+  const isPenurunanPlafon = transactionType === "Pembayaran Penurunan Plafon";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -115,7 +117,8 @@ export default function BillSummaryCard({
     [onTransactionTypeChange],
   );
 
-  const useShortLabels = isRegular || isRincian;
+  // Perlakuan sama seperti "Pembayaran Reguler" untuk copywriting ringkas
+  const useShortLabels = isRegular || isRincian || isPenurunanPlafon;
 
   return (
     <Card
@@ -162,6 +165,18 @@ export default function BillSummaryCard({
               onClick={() => handleChange("Pembayaran Reguler")}
             >
               {transactionLabel("Pembayaran Reguler")}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              className={cn(
+                "rounded-xl",
+                transactionType === "Pembayaran Penurunan Plafon"
+                  ? "bg-slate-100"
+                  : "",
+              )}
+              onClick={() => handleChange("Pembayaran Penurunan Plafon")}
+            >
+              {transactionLabel("Pembayaran Penurunan Plafon")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
