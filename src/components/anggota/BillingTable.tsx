@@ -13,6 +13,25 @@ export type BillingRow = {
   sisaBunga: string;
 };
 
+function formatDmy(d: Date) {
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(d.getFullYear());
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function addMonths(base: Date, months: number) {
+  const d = new Date(base);
+  const day = d.getDate();
+  d.setMonth(d.getMonth() + months);
+
+  // guard: kalau overflow (misal 31 ke Feb), mundurkan ke hari terakhir bulan tsb
+  if (d.getDate() !== day) {
+    d.setDate(0);
+  }
+  return d;
+}
+
 export default function BillingTable({
   rows,
   selected,
@@ -40,11 +59,23 @@ export default function BillingTable({
 }) {
   const extraOutsideRows = React.useMemo<BillingRow[]>(() => {
     if (!showGraceHighlight) return [];
-    // Tambahan data DIBAWAH box biru (bukan memindahkan yang existing)
+
+    // ambil tanggal terakhir dari rows sebagai anchor (fallback: hari ini)
+    const last = rows[rows.length - 1]?.jatuhTempo ?? "";
+    const lastDate = (() => {
+      const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(last);
+      if (!m) return new Date();
+      const dd = Number(m[1]);
+      const mm = Number(m[2]);
+      const yyyy = Number(m[3]);
+      return new Date(yyyy, mm - 1, dd);
+    })();
+
+    // Tambahan 5 tagihan di bawah box biru: +1..+5 bulan dari tanggal terakhir
     return Array.from({ length: 5 }).map((_, i) => {
-      const n = i + 1;
+      const due = addMonths(lastDate, i + 1);
       return {
-        jatuhTempo: `EXTRA-${n.toString().padStart(2, "0")}`,
+        jatuhTempo: formatDmy(due),
         totalBelumDibayar: "916.667",
         tagihanPokok: "833.333",
         tagihanBunga: "83.333",
@@ -52,7 +83,7 @@ export default function BillingTable({
         sisaBunga: "26.389",
       };
     });
-  }, [showGraceHighlight]);
+  }, [showGraceHighlight, rows]);
 
   React.useEffect(() => {
     const needed = rows.length + extraOutsideRows.length;
@@ -562,11 +593,26 @@ export default function BillingTable({
                                   {bill.jatuhTempo}
                                 </td>
 
-                                <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
+                                <td
+                                  className={cn(
+                                    bungaColW,
+                                    tdClass,
+                                    "text-slate-800",
+                                    numCell,
+                                  )}
+                                >
                                   {bill.tagihanBunga}
                                 </td>
 
-                                <td className={cn(sisaBungaColW, tdClass, edgeR, "text-slate-800", numCell)}>
+                                <td
+                                  className={cn(
+                                    sisaBungaColW,
+                                    tdClass,
+                                    edgeR,
+                                    "text-slate-800",
+                                    numCell,
+                                  )}
+                                >
                                   {bill.sisaBunga}
                                 </td>
                               </tr>
@@ -593,7 +639,6 @@ export default function BillingTable({
       ? 6
       : 7;
 
-  // percent widths so the table always fits container (no horizontal scroll)
   const dateColW = hideInterestCols ? "w-[25%]" : "w-[15%]";
   const totalColW = hideInterestCols ? "" : "w-[19%]";
   const pokokColW = hideInterestCols ? "w-[25%]" : "w-[17%]";
