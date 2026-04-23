@@ -588,7 +588,7 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      {/* kolektibilitas: tidak bold + rata kiri */}
+                      {/* UBAH: kolektibilitas tidak bold + rata kiri */}
                       <Td className={cn(colW.kolektibilitas, "text-left")} align="left">
                         {kolek}
                       </Td>
@@ -597,31 +597,37 @@ export default function KolektibilitasReportTable({
                 })
               )}
 
-              {/* FIX: pastikan baris total align dengan semua kolom hingga Kolektibilitas */}
+              {/* UBAH: sel Kolektibilitas di baris total dikosongkan supaya tidak muncul angka */}
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
-                  {/* 16 kolom pertama (sampai AO ID) */}
                   <td colSpan={16} className={totalRowLabelClass}>
                     Total per Halaman
                   </td>
 
-                  {/* Pinjaman: Sld. Pokok */}
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.pokok)}</td>
-                  {/* Pinjaman: Bng (kosong) */}
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.pokok)}
+                  </td>
+
                   <td className="border border-slate-200/70 px-3 py-3" />
 
-                  {/* Angsuran (2 kolom) kosong */}
                   <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
 
-                  {/* Tunggakan (6 kolom): Bln (kosong), Nilai, 1-30, 31-60, 61-90, >90 */}
-                  <td className="border border-slate-200/70 px-3 py-3" />
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.nilai)}</td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t1_30)}</td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t31_60)}</td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t61_90)}</td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t90p)}</td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.nilai)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t1_30)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t31_60)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t61_90)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t90p)}
+                  </td>
 
-                  {/* Tambahan setelah tunggakan (3 kolom) */}
                   <td className={totalRowNumberClass}>{formatIdr0(totalsPage.sisa)}</td>
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.hutangPokok)}
@@ -630,35 +636,35 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsPage.hutangBunga)}
                   </td>
 
-                  {/* Kolektibilitas (kosong) */}
+                  {/* Kolom Kolektibilitas (kosong) */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
 
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
-                  {/* 16 kolom pertama (sampai AO ID) */}
                   <td colSpan={16} className={totalRowLabelClass}>
                     Total
                   </td>
 
-                  {/* Pinjaman: Sld. Pokok */}
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.pokok)}</td>
-                  {/* Pinjaman: Bng (kosong) */}
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.pokok)}
+                  </td>
+
                   <td className="border border-slate-200/70 px-3 py-3" />
 
-                  {/* Angsuran (2 kolom) kosong */}
                   <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
 
-                  {/* Tunggakan (6 kolom): Bln (kosong), Nilai, 1-30, 31-60, 61-90, >90 */}
-                  <td className="border border-slate-200/70 px-3 py-3" />
                   <td className={totalRowNumberClass}>{formatIdr0(totalsAll.nilai)}</td>
                   <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t1_30)}</td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t31_60)}</td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t61_90)}</td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t31_60)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t61_90)}
+                  </td>
                   <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t90p)}</td>
 
-                  {/* Tambahan setelah tunggakan (3 kolom) */}
                   <td className={totalRowNumberClass}>{formatIdr0(totalsAll.sisa)}</td>
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsAll.hutangPokok)}
@@ -667,7 +673,7 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsAll.hutangBunga)}
                   </td>
 
-                  {/* Kolektibilitas (kosong) */}
+                  {/* Kolom Kolektibilitas (kosong) */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
