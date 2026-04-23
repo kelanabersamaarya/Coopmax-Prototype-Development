@@ -154,7 +154,6 @@ const colW = {
 
   alamat: "w-[170px]",
 
-  // Kolom tambahan UI sesuai request
   kodePinjaman: "w-[150px]",
   tanggalPinjaman: "w-[150px]",
   tanggalJatuhTempo: "w-[170px]",
@@ -173,7 +172,6 @@ const colW = {
   angPerBln: "w-[130px]",
   angSdhHr: "w-[90px]",
 
-  // Tunggakan
   tBln: "w-[90px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
@@ -181,7 +179,6 @@ const colW = {
   t61_90: "w-[140px]",
   t90p: "w-[140px]",
 
-  // Tambahan setelah tunggakan
   sisaPinjaman: "w-[160px]",
   hutangPokok: "w-[150px]",
   hutangBunga: "w-[150px]",
@@ -192,7 +189,6 @@ const colW = {
 type KolektibilitasLabel = "Macet" | "Lancar" | "Diragukan" | "Kurang Lancar";
 
 function deriveKolektibilitas(r: KolektibilitasRow): KolektibilitasLabel {
-  // Aturan sederhana berbasis tunggakan bulan (prototype)
   if (r.tunggakanBln >= 4) return "Macet";
   if (r.tunggakanBln === 3) return "Diragukan";
   if (r.tunggakanBln === 2) return "Kurang Lancar";
@@ -219,16 +215,12 @@ export default function KolektibilitasReportTable({
   }, [controlledPage]);
 
   const totalEntriesResolved = totalEntries ?? rows.length;
-
-  // Penting: pageCount dihitung dari totalEntries (agar pagination muncul walau rows masih seed)
   const pageCount = Math.max(1, Math.ceil(totalEntriesResolved / pageSize));
 
   React.useEffect(() => {
     setPage(1);
   }, [pageSize, rows.length, totalEntriesResolved]);
 
-  // Prototype: data per halaman belum terhubung ke backend.
-  // Untuk sekarang, kita tetap render "rows" yang diberikan.
   const paged = React.useMemo(() => rows, [rows]);
 
   const showingStart =
@@ -246,7 +238,6 @@ export default function KolektibilitasReportTable({
         acc.t61_90 += r.tunggakan61_90;
         acc.t90p += r.tunggakan90p;
 
-        // dummy totals untuk kolom tambahan UI (agar total row tetap rapi)
         acc.sisa += Math.max(0, r.pinjamanSldPokok - r.tunggakanNilai);
         acc.hutangPokok += Math.max(0, Math.round(r.tunggakanNilai * 0.35));
         acc.hutangBunga += Math.max(0, Math.round(r.tunggakanNilai * 0.15));
@@ -274,25 +265,24 @@ export default function KolektibilitasReportTable({
   const totalRowNumberClass =
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
-  // Total jumlah kolom pada tbody (harus sinkron untuk colSpan empty state)
   const totalColumns =
-    1 /*No*/ +
-    1 /*NO.REKENING*/ +
-    1 /*Nama*/ +
-    1 /*Status*/ +
-    1 /*Alamat*/ +
-    1 /*Kode Pinjaman*/ +
-    1 /*Tanggal Pinjaman*/ +
-    1 /*Tanggal Jatuh Tempo*/ +
-    1 /*Jenis Pinjaman*/ +
-    1 /*Plafon*/ +
-    1 /*AO ID*/ +
-    3 /*Jangka Waktu*/ +
-    2 /*Pinjaman*/ +
-    2 /*Angsuran*/ +
-    6 /*Tunggakan*/ +
-    3 /*Tambahan setelah tunggakan*/ +
-    1; /*Kolektiblilitas*/
+    1 +
+    1 +
+    1 +
+    1 +
+    1 +
+    1 +
+    1 +
+    1 +
+    1 +
+    1 +
+    1 +
+    3 +
+    2 +
+    2 +
+    6 +
+    3 +
+    1;
 
   return (
     <div className={cn("mt-6", className)}>
@@ -521,17 +511,11 @@ export default function KolektibilitasReportTable({
                         {jenisPinjaman}
                       </Td>
 
-                      <Td
-                        className={cn(colW.plafon, "whitespace-nowrap text-left")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.plafon, "whitespace-nowrap text-left")} align="left">
                         {formatIdr0(plafon)}
                       </Td>
 
-                      <Td
-                        className={cn(colW.aoId, "whitespace-nowrap text-left")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.aoId, "whitespace-nowrap text-left")} align="left">
                         {r.aoId}
                       </Td>
 
@@ -597,7 +581,7 @@ export default function KolektibilitasReportTable({
                 })
               )}
 
-              {/* UBAH: sel Kolektibilitas di baris total dikosongkan supaya tidak muncul angka */}
+              {/* UBAH: kolom Kolektibilitas dikosongkan agar tidak menampilkan angka */}
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
                   <td colSpan={16} className={totalRowLabelClass}>
