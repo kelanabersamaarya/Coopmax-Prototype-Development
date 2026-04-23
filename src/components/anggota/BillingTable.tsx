@@ -54,8 +54,10 @@ function PenaltyAmountWithDangerIcon({
   return (
     <span className="inline-flex items-center justify-end gap-2 whitespace-nowrap">
       <span>{amount}</span>
+
+      {/* Gunakan Portal (default shadcn) + z-index tinggi agar tidak ketutup section lain */}
       <TooltipProvider>
-        <Tooltip>
+        <Tooltip delayDuration={120}>
           <TooltipTrigger asChild>
             <button
               type="button"
@@ -65,8 +67,18 @@ function PenaltyAmountWithDangerIcon({
               <AlertTriangle className="h-4 w-4" />
             </button>
           </TooltipTrigger>
-          <TooltipContent className="border-slate-200 bg-white text-slate-900 shadow-md">
-            Tagihan denda untuk periode ini
+
+          <TooltipContent
+            side="top"
+            align="center"
+            sideOffset={10}
+            avoidCollisions
+            className={cn(
+              "z-[9999] max-w-[260px]",
+              "border-slate-200 bg-white text-slate-900 shadow-lg",
+            )}
+          >
+            Terdapat Keterlambatan Pembayaran Selama 3 Hari
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -208,26 +220,13 @@ export default function BillingTable({
     isFirstNumeric?: boolean;
     isLastNumeric?: boolean;
   }) {
-    // base = tdClass (px-3) agar match dengan inner-table row
     const base = cn(tdClass, "text-slate-800", col === "date" ? dateCell : numCell);
 
-    // date column: outer table butuh edgeL supaya start sejajar (karena ada checkbox col)
     if (col === "date") return cn(base, edgeL);
-
-    // kolom numeric pertama (Total) di dalam grace tidak punya edgeR, tapi kita tetap pakai pr-0
-    // agar tidak "mepet" dan align dengan tampilan sebelumnya.
     if (isFirstNumeric) return cn(base, "pr-0");
-
-    // sisaPokok di dalam grace pakai edgeR => samakan
     if (col === "sisaPokok") return cn(base, edgeR);
-
-    // sisaBunga di dalam grace TIDAK pakai edgeR => harus pakai padding default tdClass (px-3)
-    // (hapus custom pr-3 yang sebelumnya membuat geser)
     if (col === "sisaBunga") return base;
-
-    // denda kolom paling kanan: edgeR
     if (isLastNumeric) return cn(base, edgeR);
-
     return base;
   }
 
