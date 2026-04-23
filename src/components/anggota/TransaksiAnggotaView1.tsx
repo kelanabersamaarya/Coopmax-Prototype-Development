@@ -217,10 +217,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
+    // Saat membuka view 1 / ganti transaksi / ganti page:
+    // Default: tidak ada yang tercentang.
+    // Pengecualian: Pelunasan => semuanya tercentang (sesuai perilaku pelunasan).
     if (isPelunasan) {
       setSelected(pagedRows.map(() => true));
       return;
     }
+
+    // Untuk transaksi lain, tidak auto-check (sesuai request).
     setSelected(pagedRows.map(() => false));
   }, [isPelunasan, pagedRows]);
 
@@ -228,6 +233,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
+  // Denda untuk Reguler/Khusus/Pelunasan mengikuti checklist (rumus 25k + idx*5k)
   const selectedPenaltyTotal = React.useMemo(() => {
     if (!(isReguler || isKhusus || isPelunasan)) return 0;
     return calcSelectedPenaltyTotal(selected, pagedRows.length);
@@ -263,11 +269,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const computedTotals = React.useMemo(() => {
     const denda =
-      penaltyOnlyCols
-        ? penaltyTotalExplicit
-        : isReguler || isKhusus
-          ? selectedPenaltyTotal
-          : 0;
+      penaltyOnlyCols ? penaltyTotalExplicit : isReguler || isKhusus ? selectedPenaltyTotal : 0;
 
     const total = computedBaseTotals.total + denda;
 
@@ -315,15 +317,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     };
   }, [isPelunasan, pagedRows, selected]);
 
+  // Total pokok untuk Penurunan Baki Debet = jumlah seluruh tagihan pokok pada tabel yang ditampilkan (pagedRows)
   const penurunanTotalPokok = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return 0;
     return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.tagihanPokok), 0);
   }, [isPenurunanBakiDebet, pagedRows]);
 
+  // Sisa pinjaman: awal 0, baru terisi setelah klik Bayar Tagihan
   const [penurunanSisaPinjaman, setPenurunanSisaPinjaman] =
     React.useState<number>(0);
 
   React.useEffect(() => {
+    // reset hasil ketika ganti transaksi
     setPenurunanSisaPinjaman(0);
   }, [jenisTransaksi]);
 
@@ -436,21 +441,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {/* FIX: biarkan tabel melebar dan bisa digeser horizontal */}
-              <div className="safe-x-scroll">
-                <BillingTable
-                  rows={pagedRows}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isPelunasan={isPelunasan}
-                  showGraceHighlight={showGraceHighlight}
-                  hideInterestCols={hideInterestCols}
-                  interestOnlyCols={interestOnlyCols}
-                  penaltyOnlyCols={penaltyOnlyCols}
-                  feeOnlyCols={feeOnlyCols}
-                  hideSelection={isPenurunanBakiDebet}
-                />
-              </div>
+              <BillingTable
+                rows={pagedRows}
+                selected={selected}
+                setSelected={setSelected}
+                isPelunasan={isPelunasan}
+                showGraceHighlight={showGraceHighlight}
+                hideInterestCols={hideInterestCols}
+                interestOnlyCols={interestOnlyCols}
+                penaltyOnlyCols={penaltyOnlyCols}
+                feeOnlyCols={feeOnlyCols}
+                hideSelection={isPenurunanBakiDebet}
+              />
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-600">
