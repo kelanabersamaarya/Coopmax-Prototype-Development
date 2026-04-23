@@ -393,8 +393,8 @@ export default function KolektibilitasReportTable({
                 <Th className={colW.angPerBln} align="right">
                   Per bln
                 </Th>
-                <Th className={colW.angSdhHr} align="right">
-                  Sdh/Hr
+                <Th className={cn(colW.angSdhHr, "whitespace-nowrap")} align="right">
+                  SDH/HR
                 </Th>
 
                 <Th className={colW.tBln} align="center">
@@ -478,7 +478,10 @@ export default function KolektibilitasReportTable({
                         {r.alamat}
                       </Td>
 
-                      <Td className={cn(colW.kodePinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.kodePinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {kodePinjaman}
                       </Td>
 
@@ -496,7 +499,10 @@ export default function KolektibilitasReportTable({
                         {tanggalJatuhTempo}
                       </Td>
 
-                      <Td className={cn(colW.jenisPinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.jenisPinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {jenisPinjaman}
                       </Td>
 
