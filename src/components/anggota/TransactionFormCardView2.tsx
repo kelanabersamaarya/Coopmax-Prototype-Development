@@ -200,8 +200,9 @@ export default function TransactionFormCardView2({
 }) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const isKhusus = jenisTransaksi === "Pembayaran Khusus";
-  const isPenurunanBakiDebet = jenisTransaksi === "Pembayaran Penurunan Baki Debet";
-  const nominalPelunasan = "9.625.000";
+  const isPenurunanBakiDebet =
+    jenisTransaksi === "Pembayaran Penurunan Baki Debet";
+  const nominalPelunasan = "5.500.002";
 
   const isUnset = !jenisTransaksi;
 
