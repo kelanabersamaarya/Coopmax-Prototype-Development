@@ -217,6 +217,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return rows.slice(start, start + pageSize);
   }, [page, pageSize]);
 
+  const pageOffset = (page - 1) * pageSize;
+
   const [selected, setSelected] = React.useState<boolean[]>(
     () => rows.map(() => false),
   );
@@ -253,14 +255,17 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const penaltyTotal = React.useMemo(() => {
     if (!penaltyOnlyCols) return 0;
 
-    // Hitung denda mengikuti checklist & mengikuti angka yang tampil di kolom Tagihan Denda.
-    // Karena View1 pakai pagedRows, index denda juga mengikuti index pada halaman ini.
-    return pagedRows.reduce((sum, _r, idx) => {
-      const checked = selected[idx] ?? false;
+    // Penting: selected[] itu untuk GLOBAL rows, sedangkan UI menampilkan pagedRows.
+    // Jadi mapping ke selected harus pakai offset page.
+    return pagedRows.reduce((sum, _r, idxOnPage) => {
+      const globalIdx = pageOffset + idxOnPage;
+      const checked = selected[globalIdx] ?? false;
       if (!checked) return sum;
-      return sum + calcPenaltyForRowIndex(idx);
+
+      // Denda di tabel dihitung berdasarkan index di halaman (bukan global), sesuai BillingTable.tsx
+      return sum + calcPenaltyForRowIndex(idxOnPage);
     }, 0);
-  }, [pagedRows, penaltyOnlyCols, selected]);
+  }, [pageOffset, pagedRows, penaltyOnlyCols, selected]);
 
   const penaltyTotalText = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
@@ -284,12 +289,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const computedTotals = React.useMemo(() => {
     // NOTE: Untuk View1, checklist yang terlihat hanya pagedRows,
-    // dan selected[] dipakai index 0..pagedRows.length-1 di BillingTable.
+    // dan selected[] dipakai index GLOBAL, jadi perlu offset.
     let pokok = 0;
     let bunga = 0;
 
     for (let i = 0; i < pagedRows.length; i++) {
-      if (!(selected[i] ?? false)) continue;
+      const globalIdx = pageOffset + i;
+      if (!(selected[globalIdx] ?? false)) continue;
       pokok += parseMoneyLikeId(pagedRows[i]?.tagihanPokok ?? "0");
       bunga += parseMoneyLikeId(pagedRows[i]?.tagihanBunga ?? "0");
     }
@@ -305,7 +311,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       denda: formatMoneyIdNoDecimals(denda),
       total: formatMoneyIdNoDecimals(total),
     };
-  }, [pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
+  }, [pageOffset, pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
