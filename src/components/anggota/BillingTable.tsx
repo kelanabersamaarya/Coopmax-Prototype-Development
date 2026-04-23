@@ -74,6 +74,38 @@ function DueDateWithPenaltyMarker({
   );
 }
 
+function PenaltyAmountWithDangerIcon({
+  amount,
+  show,
+}: {
+  amount: string;
+  show: boolean;
+}) {
+  if (!show) return <span>{amount}</span>;
+
+  return (
+    <span className="inline-flex items-center justify-end gap-2 whitespace-nowrap">
+      <span>{amount}</span>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              aria-label="Tagihan denda"
+              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-800 ring-1 ring-amber-200 transition-colors hover:bg-amber-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 cursor-help"
+            >
+              <AlertTriangle className="h-4 w-4" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent className="border-slate-200 bg-white text-slate-900 shadow-md">
+            Tagihan denda untuk periode ini
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </span>
+  );
+}
+
 export default function BillingTable({
   rows,
   selected,
@@ -741,7 +773,6 @@ export default function BillingTable({
             <>
               {graceRows.length > 0 ? (
                 <>
-                  {/* Highlight box untuk grace period + 3 baris pertama (seperti screenshot) */}
                   <tr className="border-t border-slate-100">
                     <td colSpan={colCount} className="p-0">
                       <div className="bg-white p-2">
@@ -861,7 +892,10 @@ export default function BillingTable({
                                             numCell,
                                           )}
                                         >
-                                          {penalties[rowIdx]?.total ?? "0"}
+                                          <PenaltyAmountWithDangerIcon
+                                            amount={penalties[rowIdx]?.total ?? "0"}
+                                            show={shouldShowPenaltyMarker(rowIdx)}
+                                          />
                                         </td>
                                       ) : null}
                                     </tr>
@@ -955,7 +989,10 @@ export default function BillingTable({
                               numCell,
                             )}
                           >
-                            {penalties[rowIdx]?.total ?? "0"}
+                            <PenaltyAmountWithDangerIcon
+                              amount={penalties[rowIdx]?.total ?? "0"}
+                              show={shouldShowPenaltyMarker(rowIdx)}
+                            />
                           </td>
                         ) : null}
                       </tr>
@@ -1043,7 +1080,10 @@ export default function BillingTable({
 
                       {showPenaltyCol ? (
                         <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                          {penalties[idx]?.total ?? "0"}
+                          <PenaltyAmountWithDangerIcon
+                            amount={penalties[idx]?.total ?? "0"}
+                            show={shouldShowPenaltyMarker(idx)}
+                          />
                         </td>
                       ) : null}
                     </tr>
@@ -1130,7 +1170,10 @@ export default function BillingTable({
 
                         {showPenaltyCol ? (
                           <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                            {penalties[globalIndex]?.total ?? "0"}
+                            <PenaltyAmountWithDangerIcon
+                              amount={penalties[globalIndex]?.total ?? "0"}
+                              show={shouldShowPenaltyMarker(globalIndex)}
+                            />
                           </td>
                         ) : null}
                       </tr>
