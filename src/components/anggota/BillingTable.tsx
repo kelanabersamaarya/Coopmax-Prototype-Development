@@ -3,6 +3,13 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { AlertTriangle } from "lucide-react";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -29,6 +36,42 @@ function addMonths(base: Date, months: number) {
     d.setDate(0);
   }
   return d;
+}
+
+function shouldShowPenaltyMarker(idx: number) {
+  return idx < 3;
+}
+
+function DueDateWithPenaltyMarker({
+  date,
+  show,
+}: {
+  date: string;
+  show: boolean;
+}) {
+  return (
+    <span className="inline-flex items-center gap-2 whitespace-nowrap">
+      <span>{date}</span>
+      {show ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                aria-label="Info denda"
+                className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-800 ring-1 ring-amber-200 transition-colors hover:bg-amber-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 cursor-help"
+              >
+                <AlertTriangle className="h-4 w-4" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="border-slate-200 bg-white text-slate-900 shadow-md">
+              Terdapat Tagihan Denda
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : null}
+    </span>
+  );
 }
 
 export default function BillingTable({
@@ -435,7 +478,10 @@ export default function BillingTable({
                     </td>
 
                     <td className={cn(dateColW, tdClass, dateCell)}>
-                      {bill.jatuhTempo}
+                      <DueDateWithPenaltyMarker
+                        date={bill.jatuhTempo}
+                        show={shouldShowPenaltyMarker(idx)}
+                      />
                     </td>
 
                     <td className={cn(dendaColW, tdClass, "text-slate-800", numCell)}>
@@ -561,7 +607,10 @@ export default function BillingTable({
                       hideSelection ? edgeL : "",
                     )}
                   >
-                    {bill.jatuhTempo}
+                    <DueDateWithPenaltyMarker
+                      date={bill.jatuhTempo}
+                      show={shouldShowPenaltyMarker(idx)}
+                    />
                   </td>
 
                   <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
@@ -662,7 +711,10 @@ export default function BillingTable({
         ) : null}
 
         <div className={cn("px-3 py-3", hideSelection ? edgeL : "", dateCell)}>
-          {bill.jatuhTempo}
+          <DueDateWithPenaltyMarker
+            date={bill.jatuhTempo}
+            show={shouldShowPenaltyMarker(globalIndex)}
+          />
         </div>
 
         {!hideInterestCols ? (
@@ -698,7 +750,8 @@ export default function BillingTable({
 
   const graceCount = showGraceHighlight ? Math.min(2, displayRows.length) : 0;
   const graceRows = graceCount > 0 ? displayRows.slice(0, graceCount) : [];
-  const afterGraceRows = graceCount > 0 ? displayRows.slice(graceCount) : displayRows;
+  const afterGraceRows =
+    graceCount > 0 ? displayRows.slice(graceCount) : displayRows;
 
   return (
     <div
@@ -790,7 +843,11 @@ export default function BillingTable({
                                     <input
                                       type="checkbox"
                                       aria-label="Pilih tagihan"
-                                      checked={isPelunasan ? true : (selected[idx] ?? false)}
+                                      checked={
+                                        isPelunasan
+                                          ? true
+                                          : (selected[idx] ?? false)
+                                      }
                                       disabled={isPelunasan}
                                       onChange={(e) => {
                                         const next = e.target.checked;
@@ -812,7 +869,10 @@ export default function BillingTable({
                                     hideSelection ? edgeL : "",
                                   )}
                                 >
-                                  {bill.jatuhTempo}
+                                  <DueDateWithPenaltyMarker
+                                    date={bill.jatuhTempo}
+                                    show={shouldShowPenaltyMarker(idx)}
+                                  />
                                 </td>
 
                                 {!hideInterestCols ? (
@@ -903,7 +963,9 @@ export default function BillingTable({
                           type="checkbox"
                           aria-label="Pilih tagihan"
                           checked={
-                            isPelunasan ? true : (selected[globalIndex] ?? false)
+                            isPelunasan
+                              ? true
+                              : (selected[globalIndex] ?? false)
                           }
                           disabled={isPelunasan}
                           onChange={(e) => {
@@ -926,7 +988,10 @@ export default function BillingTable({
                         hideSelection ? edgeL : "",
                       )}
                     >
-                      {bill.jatuhTempo}
+                      <DueDateWithPenaltyMarker
+                        date={bill.jatuhTempo}
+                        show={shouldShowPenaltyMarker(globalIndex)}
+                      />
                     </td>
 
                     {!hideInterestCols ? (
@@ -1002,8 +1067,18 @@ export default function BillingTable({
                   </td>
                 ) : null}
 
-                <td className={cn(dateColW, tdClass, dateCell, hideSelection ? edgeL : "")}>
-                  {bill.jatuhTempo}
+                <td
+                  className={cn(
+                    dateColW,
+                    tdClass,
+                    dateCell,
+                    hideSelection ? edgeL : "",
+                  )}
+                >
+                  <DueDateWithPenaltyMarker
+                    date={bill.jatuhTempo}
+                    show={shouldShowPenaltyMarker(idx)}
+                  />
                 </td>
 
                 {!hideInterestCols ? (
@@ -1058,7 +1133,9 @@ export default function BillingTable({
                     <input
                       type="checkbox"
                       aria-label="Pilih tagihan"
-                      checked={isPelunasan ? true : (selected[globalIndex] ?? false)}
+                      checked={
+                        isPelunasan ? true : (selected[globalIndex] ?? false)
+                      }
                       disabled={isPelunasan}
                       onChange={(e) => {
                         const next = e.target.checked;
@@ -1072,8 +1149,18 @@ export default function BillingTable({
                   </td>
                 ) : null}
 
-                <td className={cn(dateColW, tdClass, dateCell, hideSelection ? edgeL : "")}>
-                  {bill.jatuhTempo}
+                <td
+                  className={cn(
+                    dateColW,
+                    tdClass,
+                    dateCell,
+                    hideSelection ? edgeL : "",
+                  )}
+                >
+                  <DueDateWithPenaltyMarker
+                    date={bill.jatuhTempo}
+                    show={shouldShowPenaltyMarker(globalIndex)}
+                  />
                 </td>
 
                 {!hideInterestCols ? (
