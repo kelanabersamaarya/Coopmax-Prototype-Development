@@ -92,6 +92,12 @@ const upcomingRows: BillingRow[] = [
   })),
 ];
 
+function parseNumLikeId(input: string) {
+  const cleaned = input.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
 export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -119,7 +125,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
   const isKhusus = jenisTransaksi === "Pembayaran Khusus";
   const isPenurunanPlafon = jenisTransaksi === "Pembayaran Penurunan Plafon";
-  const isPenurunanBakiDebet = jenisTransaksi === "Pembayaran Penurunan Baki Debet";
+  const isPenurunanBakiDebet =
+    jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
@@ -151,6 +158,21 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     if (!penaltyOnlyCols) return null;
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
+
+  const penurunanBakiDebetPokokTotal = React.useMemo(() => {
+    if (!isPenurunanBakiDebet) return null;
+
+    return rowsToShow.reduce((sum, r, idx) => {
+      const checked = selected[idx] ?? true;
+      if (!checked) return sum;
+      return sum + parseNumLikeId(r.tagihanPokok);
+    }, 0);
+  }, [isPenurunanBakiDebet, rowsToShow, selected]);
+
+  const penurunanBakiDebetPokokText = React.useMemo(() => {
+    if (penurunanBakiDebetPokokTotal === null) return null;
+    return formatIdrLike(penurunanBakiDebetPokokTotal);
+  }, [penurunanBakiDebetPokokTotal]);
 
   const showGraceInfo = true;
   const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
@@ -279,12 +301,16 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 totals={{
-                  pokok: "2.455.555",
+                  pokok: isPenurunanBakiDebet
+                    ? penurunanBakiDebetPokokText ?? "0"
+                    : "2.455.555",
                   bunga: "0",
                   denda: penaltyOnlyCols
                     ? formatIdrLike(penaltyTotal ?? 0)
                     : "0",
-                  total: "2.455.555",
+                  total: isPenurunanBakiDebet
+                    ? penurunanBakiDebetPokokText ?? "0"
+                    : "2.455.555",
                 }}
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
                 transactionType={jenisTransaksi as any}

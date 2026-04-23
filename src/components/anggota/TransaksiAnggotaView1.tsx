@@ -155,6 +155,12 @@ function Pagination({
   );
 }
 
+function parseNumLikeId(input: string) {
+  const cleaned = input.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -179,7 +185,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
 
-  const isPenurunanBakiDebet = jenisTransaksi === "Pembayaran Penurunan Baki Debet";
+  const isPenurunanBakiDebet =
+    jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -223,6 +230,23 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     if (!penaltyOnlyCols) return null;
     return calcPenaltyTotal(pagedRows, selected);
   }, [pagedRows, penaltyOnlyCols, selected]);
+
+  const penurunanBakiDebetPokokTotal = React.useMemo(() => {
+    if (!isPenurunanBakiDebet) return null;
+
+    // Karena checklist disembunyikan, kita gunakan selected[] sebagai "simulasi pilihan"
+    // (tetap realistis kalau nanti selection diaktifkan lagi).
+    return pagedRows.reduce((sum, r, idx) => {
+      const checked = selected[idx] ?? true;
+      if (!checked) return sum;
+      return sum + parseNumLikeId(r.tagihanPokok);
+    }, 0);
+  }, [isPenurunanBakiDebet, pagedRows, selected]);
+
+  const penurunanBakiDebetPokokText = React.useMemo(() => {
+    if (penurunanBakiDebetPokokTotal === null) return null;
+    return formatIdrLike(penurunanBakiDebetPokokTotal);
+  }, [penurunanBakiDebetPokokTotal]);
 
   return (
     <div className="w-full px-0">
@@ -348,12 +372,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 totals={{
-                  pokok: "2.500.000",
+                  pokok: isPenurunanBakiDebet
+                    ? penurunanBakiDebetPokokText ?? "0"
+                    : "2.500.000",
                   bunga: isPelunasan ? "0" : "208.333",
                   denda: penaltyOnlyCols
                     ? formatIdrLike(penaltyTotal ?? 0)
                     : "0",
-                  total: isPelunasan ? "2.500.000" : "2.708.333",
+                  total: isPenurunanBakiDebet
+                    ? penurunanBakiDebetPokokText ?? "0"
+                    : isPelunasan
+                      ? "2.500.000"
+                      : "2.708.333",
                 }}
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}
