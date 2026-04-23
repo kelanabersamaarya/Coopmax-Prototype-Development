@@ -247,65 +247,98 @@ export default function KolektibilitasReportTable({
     );
   }, [paged]);
 
-  const totalRowLabelClass =
+  const totalRowText =
     "border border-slate-200/70 px-3 py-3 text-[14px] font-extrabold text-slate-900";
-  const totalRowNumberClass =
+  const totalRowNumber =
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
-  // Total kolom body: 28
-  const TOTAL_COLS = 28;
-
-  function EmptyCell() {
-    return <td className="border border-slate-200/70 px-3 py-3" />;
-  }
-
   function TotalRow({ label }: { label: string }) {
-    // Label menutup sampai kolom "Jangka Waktu s/d tgl." (16 kolom pertama)
-    const labelColSpan = 16;
+    const dash = <span className="text-slate-400">—</span>;
 
     return (
-      <tr className="border-t border-black">
-        <td colSpan={labelColSpan} className={totalRowLabelClass}>
-          {label}
+      <tr className="border-t border-black bg-white">
+        {/* 1 No. */}
+        <td className={totalRowText} />
+        {/* 2 NO.REKENING */}
+        <td className={totalRowText} />
+        {/* 3 Nama (label ditaruh di sini) */}
+        <td className={totalRowText}>{label}</td>
+        {/* 4 Status */}
+        <td className={totalRowText} />
+        {/* 5 Alamat */}
+        <td className={totalRowText} />
+        {/* 6 Kode Pinjaman */}
+        <td className={totalRowText} />
+        {/* 7 Tanggal Pinjaman */}
+        <td className={totalRowText} />
+        {/* 8 Tanggal Jatuh Tempo */}
+        <td className={totalRowText} />
+        {/* 9 Jenis Pinjaman */}
+        <td className={totalRowText} />
+        {/* 10 Plafon */}
+        <td className={totalRowText} />
+
+        {/* 11 AO ID */}
+        <td className={totalRowText} />
+
+        {/* 12 Jangka Waktu Bln */}
+        <td className={totalRowText} align="center">
+          {dash}
+        </td>
+        {/* 13 Dari tgl */}
+        <td className={totalRowText} align="center">
+          {dash}
+        </td>
+        {/* 14 s/d tgl */}
+        <td className={totalRowText} align="center">
+          {dash}
         </td>
 
-        {/* 17: Pinjaman Sld. Pokok */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.pokok)}</td>
+        {/* 15 Pinjaman Sld. Pokok */}
+        <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
+        {/* 16 Pinjaman Bng */}
+        <td className={totalRowText} align="right">
+          {dash}
+        </td>
 
-        {/* 18: Pinjaman Bng */}
-        <EmptyCell />
+        {/* 17 Angsuran Per bln */}
+        <td className={totalRowText} align="right">
+          {dash}
+        </td>
+        {/* 18 Angsuran Sdh/Hr */}
+        <td className={totalRowText} align="right">
+          {dash}
+        </td>
 
-        {/* 19: Angsuran Per bln */}
-        <EmptyCell />
-        {/* 20: Angsuran Sdh/Hr */}
-        <EmptyCell />
+        {/* 19 Tunggakan Bln */}
+        <td className={totalRowText} align="center">
+          {dash}
+        </td>
+        {/* 20 Tunggakan Nilai */}
+        <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
+        {/* 21 1-30 */}
+        <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
+        {/* 22 31-60 */}
+        <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
+        {/* 23 61-90 */}
+        <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
+        {/* 24 >90 */}
+        <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
 
-        {/* 21: Tunggakan Bln */}
-        <EmptyCell />
+        {/* 25 Sisa Pinjaman */}
+        <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
+        {/* 26 Hutang Pokok */}
+        <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
+        {/* 27 Hutang Bunga */}
+        <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
 
-        {/* 22: Tunggakan Nilai */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.nilai)}</td>
-        {/* 23: 1-30 */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.t1_30)}</td>
-        {/* 24: 31-60 */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.t31_60)}</td>
-        {/* 25: 61-90 */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.t61_90)}</td>
-        {/* 26: >90 */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.t90p)}</td>
-
-        {/* 27: Sisa Pinjaman */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.sisa)}</td>
-        {/* 28: Hutang Pokok */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.hutangPokok)}</td>
-        {/* 29: Hutang Bunga */}
-        <td className={totalRowNumberClass}>{formatIdr0(totals.hutangBunga)}</td>
-
-        {/* 30: Kolektibilitas (kosong) */}
-        <EmptyCell />
+        {/* 28 Kolektibilitas (kosong) */}
+        <td className={totalRowText} />
       </tr>
     );
   }
+
+  const TOTAL_COLS = 28;
 
   return (
     <div className={cn("mt-6", className)}>
