@@ -155,10 +155,23 @@ function Pagination({
   );
 }
 
-function parseNumLikeId(input: string) {
-  const cleaned = input.replace(/[^\d.-]/g, "");
+function parseMoneyLikeId(input: string) {
+  const s = (input ?? "").trim();
+  if (!s) return 0;
+
+  const hasComma = s.includes(",");
+
+  const normalized = hasComma
+    ? s.replace(/\./g, "").replace(",", ".")
+    : s.replace(/\./g, "");
+
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
   return Number.isFinite(n) ? n : 0;
+}
+
+function formatMoneyIdNoDecimals(n: number) {
+  return formatIdrLike(Math.round(Number.isFinite(n) ? n : 0));
 }
 
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
@@ -241,14 +254,39 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return pagedRows.reduce((sum, r, idx) => {
       const checked = selected[idx] ?? true;
       if (!checked) return sum;
-      return sum + parseNumLikeId(r.tagihanPokok);
+      return sum + parseMoneyLikeId(r.tagihanPokok);
     }, 0);
   }, [isPenurunanBakiDebet, pagedRows, selected]);
 
   const penurunanBakiDebetPokokText = React.useMemo(() => {
     if (penurunanBakiDebetPokokTotal === null) return null;
-    return formatIdrLike(penurunanBakiDebetPokokTotal);
+    return formatMoneyIdNoDecimals(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
+
+  const computedTotals = React.useMemo(() => {
+    // NOTE: Untuk View1, checklist yang terlihat hanya pagedRows,
+    // dan selected[] dipakai index 0..pagedRows.length-1 di BillingTable.
+    let pokok = 0;
+    let bunga = 0;
+
+    for (let i = 0; i < pagedRows.length; i++) {
+      if (!(selected[i] ?? false)) continue;
+      pokok += parseMoneyLikeId(pagedRows[i]?.tagihanPokok ?? "0");
+      bunga += parseMoneyLikeId(pagedRows[i]?.tagihanBunga ?? "0");
+    }
+
+    const denda = penaltyOnlyCols ? Number(penaltyTotal ?? 0) : 0;
+
+    // Total Tagihan = pokok + bunga + denda
+    const total = pokok + bunga + denda;
+
+    return {
+      pokok: formatMoneyIdNoDecimals(pokok),
+      bunga: formatMoneyIdNoDecimals(bunga),
+      denda: formatMoneyIdNoDecimals(denda),
+      total: formatMoneyIdNoDecimals(total),
+    };
+  }, [pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
 
   return (
     <div className="w-full px-0">
@@ -377,16 +415,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 totals={{
                   pokok: isPenurunanBakiDebet
                     ? penurunanBakiDebetPokokText ?? "0"
-                    : "2.500.000",
-                  bunga: isPelunasan ? "0" : "208.333",
-                  denda: penaltyOnlyCols
-                    ? formatIdrLike(penaltyTotal ?? 0)
-                    : "0",
+                    : computedTotals.pokok,
+                  bunga: isPelunasan ? "0" : computedTotals.bunga,
+                  denda: computedTotals.denda,
                   total: isPenurunanBakiDebet
                     ? penurunanBakiDebetPokokText ?? "0"
-                    : isPelunasan
-                      ? "2.500.000"
-                      : "2.708.333",
+                    : computedTotals.total,
                 }}
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}
