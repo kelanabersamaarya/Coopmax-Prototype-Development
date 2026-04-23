@@ -53,7 +53,7 @@ function SummaryRow({
 
 type TransactionType =
   | "Pembayaran Reguler"
-  | "Pembayaran Penurunan Plafon"
+  | "Pembayaran Penurunan Baki Debit"
   | "Pembayaran Rincian Tagihan"
   | "Pelunasan"
   | "Pembayaran Pokok"
@@ -97,7 +97,8 @@ export default function BillSummaryCard({
 
   const isRegular = transactionType === "Pembayaran Reguler";
   const isRincian = transactionType === "Pembayaran Rincian Tagihan";
-  const isPenurunanPlafon = transactionType === "Pembayaran Penurunan Plafon";
+  const isPenurunanBakiDebit =
+    transactionType === "Pembayaran Penurunan Baki Debit";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -114,12 +115,12 @@ export default function BillSummaryCard({
     [onTransactionTypeChange],
   );
 
-  // mode Penurunan Plafon: hanya pokok, tanpa section angsuran
+  // mode Penurunan Baki Debit: hanya pokok, tanpa section angsuran
   const showInstallmentSection =
     mode !== "pelunasan" &&
     !isPembayaranDenda &&
     !isPembayaranBiayaLainnya &&
-    !isPenurunanPlafon;
+    !isPenurunanBakiDebit;
 
   // label ringkas untuk reguler & rincian (tanpa kata "Total")
   const useShortLabels = isRegular || isRincian;
@@ -174,13 +175,13 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Pembayaran Penurunan Plafon"
+                transactionType === "Pembayaran Penurunan Baki Debit"
                   ? "bg-slate-100"
                   : "",
               )}
-              onClick={() => handleChange("Pembayaran Penurunan Plafon")}
+              onClick={() => handleChange("Pembayaran Penurunan Baki Debit")}
             >
-              {transactionLabel("Pembayaran Penurunan Plafon")}
+              {transactionLabel("Pembayaran Penurunan Baki Debit")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -213,7 +214,7 @@ export default function BillSummaryCard({
       <Separator className="my-4 bg-slate-200/70" />
 
       <div>
-        {isPenurunanPlafon ? (
+        {isPenurunanBakiDebit ? (
           <>
             <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} strong />
             <SummaryRow
