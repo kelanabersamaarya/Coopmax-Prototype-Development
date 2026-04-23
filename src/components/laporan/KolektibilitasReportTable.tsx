@@ -257,12 +257,13 @@ export default function KolektibilitasReportTable({
 
     return (
       <tr className="border-t border-black bg-white">
-        {/* 1 No. */}
-        <td className={totalRowText} />
+        {/* 1 No. -> label di paling kiri */}
+        <td className={totalRowText}>{label}</td>
+
         {/* 2 NO.REKENING */}
         <td className={totalRowText} />
-        {/* 3 Nama (label ditaruh di sini) */}
-        <td className={totalRowText}>{label}</td>
+        {/* 3 Nama */}
+        <td className={totalRowText} />
         {/* 4 Status */}
         <td className={totalRowText} />
         {/* 5 Alamat */}
