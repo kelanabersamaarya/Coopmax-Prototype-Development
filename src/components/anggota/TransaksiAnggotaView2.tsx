@@ -210,6 +210,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
 
   const useTableLikeScreenshotForPenurunanBakiDebet = isPenurunanBakiDebet;
+  const useTableLikeScreenshotForReguler = isReguler;
 
   return (
     <div className="w-full px-0">
@@ -322,6 +323,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showGraceHighlight={true}
                   hideInterestCols={false}
                   hideSelection={true}
+                  className="mt-0"
+                />
+              ) : useTableLikeScreenshotForReguler ? (
+                <BillingTable
+                  rows={rowsToShowV1}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isPelunasan={false}
+                  showGraceHighlight={true}
+                  hideInterestCols={false}
                   className="mt-0"
                 />
               ) : isKhusus ? (
