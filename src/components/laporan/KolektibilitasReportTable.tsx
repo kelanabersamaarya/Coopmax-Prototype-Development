@@ -186,7 +186,6 @@ const colW = {
   hutangPokok: "w-[150px]",
   hutangBunga: "w-[150px]",
 
-  // UBAH: sedikit dilebarkan biar header muat 1 baris
   kolektibilitas: "w-[190px]",
 };
 
@@ -374,7 +373,6 @@ export default function KolektibilitasReportTable({
                   Hutang Bunga
                 </Th>
 
-                {/* UBAH: nowrap biar 1 baris */}
                 <Th
                   rowSpan={2}
                   className={cn(colW.kolektibilitas, "whitespace-nowrap")}
@@ -523,11 +521,17 @@ export default function KolektibilitasReportTable({
                         {jenisPinjaman}
                       </Td>
 
-                      <Td className={cn(colW.plafon, "whitespace-nowrap text-left")} align="left">
+                      <Td
+                        className={cn(colW.plafon, "whitespace-nowrap text-left")}
+                        align="left"
+                      >
                         {formatIdr0(plafon)}
                       </Td>
 
-                      <Td className={cn(colW.aoId, "whitespace-nowrap text-left")} align="left">
+                      <Td
+                        className={cn(colW.aoId, "whitespace-nowrap text-left")}
+                        align="left"
+                      >
                         {r.aoId}
                       </Td>
 
@@ -584,10 +588,8 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      <Td
-                        className={cn(colW.kolektibilitas, "font-semibold")}
-                        align="center"
-                      >
+                      {/* UBAH: kolektibilitas tidak bold + rata kiri */}
+                      <Td className={cn(colW.kolektibilitas, "text-left")} align="left">
                         {kolek}
                       </Td>
                     </tr>
@@ -595,6 +597,7 @@ export default function KolektibilitasReportTable({
                 })
               )}
 
+              {/* UBAH: sel Kolektibilitas di baris total dikosongkan supaya tidak muncul angka */}
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
                   <td colSpan={16} className={totalRowLabelClass}>
@@ -633,6 +636,7 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsPage.hutangBunga)}
                   </td>
 
+                  {/* Kolom Kolektibilitas (kosong) */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
@@ -669,6 +673,7 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsAll.hutangBunga)}
                   </td>
 
+                  {/* Kolom Kolektibilitas (kosong) */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
