@@ -195,14 +195,6 @@ function deriveKolektibilitas(r: KolektibilitasRow): KolektibilitasLabel {
   return "Lancar";
 }
 
-function EmptyTotalCell() {
-  return (
-    <td className="border border-slate-200/70 px-3 py-3">
-      <span className="sr-only">-</span>
-    </td>
-  );
-}
-
 export default function KolektibilitasReportTable({
   rows,
   pageSize = 20,
@@ -272,25 +264,60 @@ export default function KolektibilitasReportTable({
   const totalRowNumberClass =
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
-  // jumlah kolom = tabel header
-  const totalColumns =
-    1 +
-    1 +
-    1 +
-    1 +
-    1 +
-    1 +
-    1 +
-    1 +
-    1 +
-    1 +
-    1 +
-    3 +
-    2 +
-    2 +
-    6 +
-    3 +
-    1;
+  // jumlah kolom data (final): 27 kolom (lihat urutan header)
+  const TOTAL_COLS = 27;
+
+  function TotalRow({ label }: { label: string }) {
+    // Label mengisi semua kolom sampai sebelum "Pinjaman: Sld Pokok"
+    // Kolom 1..16 = No..Jangka Waktu(s/d) => 16 kolom
+    const labelColSpan = 16;
+
+    return (
+      <tr className="border-t border-black">
+        <td colSpan={labelColSpan} className={totalRowLabelClass}>
+          {label}
+        </td>
+
+        {/* 17: Pinjaman Sld. Pokok */}
+        <td className={totalRowNumberClass}>{formatIdr0(totals.pokok)}</td>
+
+        {/* 18: Pinjaman Bng */}
+        <td className="border border-slate-200/70 px-3 py-3">
+          <span className="sr-only">-</span>
+        </td>
+
+        {/* 19-20: Angsuran (Per bln, Sdh/Hr) */}
+        <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
+
+        {/* 21-26: Tunggakan (Bln, Nilai, 1-30, 31-60, 61-90, >90) */}
+        <td className={totalRowNumberClass}>
+          <span className="sr-only">-</span>
+        </td>
+        <td className={totalRowNumberClass}>{formatIdr0(totals.nilai)}</td>
+        <td className={totalRowNumberClass}>{formatIdr0(totals.t1_30)}</td>
+        <td className={totalRowNumberClass}>{formatIdr0(totals.t31_60)}</td>
+        <td className={totalRowNumberClass}>{formatIdr0(totals.t61_90)}</td>
+        <td className={totalRowNumberClass}>{formatIdr0(totals.t90p)}</td>
+
+        {/* 27: Sisa Pinjaman */}
+        <td className={totalRowNumberClass}>{formatIdr0(totals.sisa)}</td>
+
+        {/* 28: Hutang Pokok */}
+        <td className={totalRowNumberClass}>{formatIdr0(totals.hutangPokok)}</td>
+
+        {/* 29: Hutang Bunga */}
+        <td className={totalRowNumberClass}>{formatIdr0(totals.hutangBunga)}</td>
+
+        {/* 30: Kolektibilitas (HARUS KOSONG) */}
+        <td className="border border-slate-200/70 px-3 py-3">
+          <span className="sr-only">-</span>
+        </td>
+
+        {/* Guard: kalau suatu saat kolom berubah, ini bantu kita sadar (dev only) */}
+        <td className="hidden">{TOTAL_COLS}</td>
+      </tr>
+    );
+  }
 
   return (
     <div className={cn("mt-6", className)}>
@@ -430,7 +457,7 @@ export default function KolektibilitasReportTable({
               {paged.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={totalColumns}
+                    colSpan={TOTAL_COLS}
                     className="px-4 py-10 text-center text-sm text-slate-600"
                   >
                     Tidak ada data laporan.
@@ -594,66 +621,10 @@ export default function KolektibilitasReportTable({
                 })
               )}
 
-              {/* TOTAL ROWS: tetap ada, tapi kolom Kolektibilitas dikosongkan */}
               {paged.length > 0 ? (
                 <>
-                  <tr className="border-t border-black">
-                    <td colSpan={16} className={totalRowLabelClass}>
-                      Total per Halaman
-                    </td>
-
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.pokok)}</td>
-
-                    <EmptyTotalCell />
-
-                    <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
-
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.nilai)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t1_30)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t31_60)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t61_90)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t90p)}</td>
-
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.sisa)}</td>
-                    <td className={totalRowNumberClass}>
-                      {formatIdr0(totals.hutangPokok)}
-                    </td>
-                    <td className={totalRowNumberClass}>
-                      {formatIdr0(totals.hutangBunga)}
-                    </td>
-
-                    {/* KOLEKTIBILITAS: harus kosong (tidak ada angka) */}
-                    <EmptyTotalCell />
-                  </tr>
-
-                  <tr className="border-t border-black">
-                    <td colSpan={16} className={totalRowLabelClass}>
-                      Total
-                    </td>
-
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.pokok)}</td>
-
-                    <EmptyTotalCell />
-
-                    <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
-
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.nilai)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t1_30)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t31_60)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t61_90)}</td>
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.t90p)}</td>
-
-                    <td className={totalRowNumberClass}>{formatIdr0(totals.sisa)}</td>
-                    <td className={totalRowNumberClass}>
-                      {formatIdr0(totals.hutangPokok)}
-                    </td>
-                    <td className={totalRowNumberClass}>
-                      {formatIdr0(totals.hutangBunga)}
-                    </td>
-
-                    {/* KOLEKTIBILITAS: harus kosong (tidak ada angka) */}
-                    <EmptyTotalCell />
-                  </tr>
+                  <TotalRow label="Total per Halaman" />
+                  <TotalRow label="Total" />
                 </>
               ) : null}
             </tbody>
