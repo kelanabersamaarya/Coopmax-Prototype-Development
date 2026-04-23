@@ -139,15 +139,15 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  const dateTextClass =
-    tone === "khusus"
-      ? "text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
-      : "text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap";
+  // Samakan tipografi agar tidak "terlalu bold/besar":
+  // - Jatuh tempo: tetap bold
+  // - Nominal: medium (tidak bold)
+  const dateTextClass = "text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClass =
     tone === "khusus"
       ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
-      : "text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
+      : "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
 
   function PenaltyCell({ idx }: { idx: number }) {
     const nominal = formatIdrLike(penaltyForIndex(idx));
