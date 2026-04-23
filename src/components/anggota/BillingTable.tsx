@@ -187,10 +187,6 @@ export default function BillingTable({
   const edgeL = "pl-4";
   const edgeR = "pr-4";
 
-  // NEW: padding lebih kecil untuk semua kolom angka (agar bergeser ke kiri)
-  const numPad = "px-2";
-  const numPadEdgeR = "pr-2";
-
   const tableBase = "w-full table-fixed border-collapse text-[13px]";
 
   const numCell = "text-right tabular-nums whitespace-nowrap";
@@ -654,15 +650,15 @@ export default function BillingTable({
       ? 7
       : 8;
 
-  // Biarkan proporsi kolom seperti sebelumnya (tidak "memotong" tabel),
-  // kita hanya menggeser isi kolom angka dengan padding yang lebih kecil.
+  // Lebarkan kolom denda, dan "geser ke kiri" dengan mengecilkan kolom nominal lainnya.
+  // (Tabel tetap table-fixed, jadi lebar kolom wajib cukup agar icon tidak kepotong.)
   const dateColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
-  const totalColW = hideInterestCols ? "" : "w-[18%]";
-  const pokokColW = hideInterestCols ? "w-[25%]" : "w-[16%]";
-  const bungaColW = hideInterestCols ? "" : "w-[12%]";
-  const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[16%]";
-  const sisaBungaColW = hideInterestCols ? "" : "w-[14%]";
-  const dendaColW = hideInterestCols ? "" : "w-[10%]";
+  const totalColW = hideInterestCols ? "" : "w-[16%]";
+  const pokokColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
+  const bungaColW = hideInterestCols ? "" : "w-[10%]";
+  const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
+  const sisaBungaColW = hideInterestCols ? "" : "w-[12%]";
+  const dendaColW = hideInterestCols ? "" : "w-[20%]";
 
   const totalSelectableRows = displayRows.length + extraOutsideRows.length;
 
@@ -673,7 +669,7 @@ export default function BillingTable({
         className,
       )}
     >
-      <table className={tableBase}>
+      <table className={cn(tableBase, "min-w-[980px]")}>
         <thead className="bg-white">
           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
             {!hideSelection ? (
@@ -699,27 +695,23 @@ export default function BillingTable({
             </th>
 
             {!hideInterestCols ? (
-              <th className={cn(totalColW, thClass, numPad, "text-right")}>
+              <th className={cn(totalColW, thClass, "text-right")}>
                 Total Tagihan Belum Dibayar
               </th>
             ) : null}
 
-            <th className={cn(pokokColW, thClass, numPad, "text-right")}>
-              Tagihan Pokok
-            </th>
+            <th className={cn(pokokColW, thClass, "text-right")}>Tagihan Pokok</th>
 
             {!hideInterestCols ? (
-              <th className={cn(bungaColW, thClass, numPad, "text-right")}>
-                Tagihan Bunga
-              </th>
+              <th className={cn(bungaColW, thClass, "text-right")}>Tagihan Bunga</th>
             ) : null}
 
-            <th className={cn(sisaPokokColW, thClass, numPad, "text-right")}>
+            <th className={cn(sisaPokokColW, thClass, "text-right")}>
               Sisa Tagihan Pokok
             </th>
 
             {!hideInterestCols ? (
-              <th className={cn(sisaBungaColW, thClass, numPad, "text-right")}>
+              <th className={cn(sisaBungaColW, thClass, "text-right")}>
                 Sisa Tagihan Bunga
               </th>
             ) : null}
@@ -789,73 +781,33 @@ export default function BillingTable({
                     </td>
 
                     {!hideInterestCols ? (
-                      <td
-                        className={cn(
-                          totalColW,
-                          tdClass,
-                          numPad,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(totalColW, tdClass, "text-slate-800", numCell)}>
                         {bill.totalBelumDibayar}
                       </td>
                     ) : null}
 
-                    <td
-                      className={cn(
-                        pokokColW,
-                        tdClass,
-                        numPad,
-                        "text-slate-800",
-                        numCell,
-                      )}
-                    >
+                    <td className={cn(pokokColW, tdClass, "text-slate-800", numCell)}>
                       {bill.tagihanPokok}
                     </td>
 
                     {!hideInterestCols ? (
-                      <td
-                        className={cn(
-                          bungaColW,
-                          tdClass,
-                          numPad,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
                         {bill.tagihanBunga}
                       </td>
                     ) : null}
 
-                    <td
-                      className={cn(
-                        sisaPokokColW,
-                        tdClass,
-                        numPad,
-                        "text-slate-800",
-                        numCell,
-                      )}
-                    >
+                    <td className={cn(sisaPokokColW, tdClass, "text-slate-800", numCell)}>
                       {bill.sisaPokok}
                     </td>
 
                     {!hideInterestCols ? (
-                      <td
-                        className={cn(
-                          sisaBungaColW,
-                          tdClass,
-                          numPad,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(sisaBungaColW, tdClass, "text-slate-800", numCell)}>
                         {bill.sisaBunga}
                       </td>
                     ) : null}
 
                     {showPenaltyCol ? (
-                      <td className={cn(dendaColW, tdClass, edgeR, numPadEdgeR, "text-slate-800")}>
+                      <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800")}>
                         <div className="flex items-center justify-end gap-2">
                           <span className={cn(numCell)}>{penaltyValue}</span>
                           <PenaltyIcon show={showPenalty} />
@@ -914,73 +866,33 @@ export default function BillingTable({
                     </td>
 
                     {!hideInterestCols ? (
-                      <td
-                        className={cn(
-                          totalColW,
-                          tdClass,
-                          numPad,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(totalColW, tdClass, "text-slate-800", numCell)}>
                         {bill.totalBelumDibayar}
                       </td>
                     ) : null}
 
-                    <td
-                      className={cn(
-                        pokokColW,
-                        tdClass,
-                        numPad,
-                        "text-slate-800",
-                        numCell,
-                      )}
-                    >
+                    <td className={cn(pokokColW, tdClass, "text-slate-800", numCell)}>
                       {bill.tagihanPokok}
                     </td>
 
                     {!hideInterestCols ? (
-                      <td
-                        className={cn(
-                          bungaColW,
-                          tdClass,
-                          numPad,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
                         {bill.tagihanBunga}
                       </td>
                     ) : null}
 
-                    <td
-                      className={cn(
-                        sisaPokokColW,
-                        tdClass,
-                        numPad,
-                        "text-slate-800",
-                        numCell,
-                      )}
-                    >
+                    <td className={cn(sisaPokokColW, tdClass, "text-slate-800", numCell)}>
                       {bill.sisaPokok}
                     </td>
 
                     {!hideInterestCols ? (
-                      <td
-                        className={cn(
-                          sisaBungaColW,
-                          tdClass,
-                          numPad,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(sisaBungaColW, tdClass, "text-slate-800", numCell)}>
                         {bill.sisaBunga}
                       </td>
                     ) : null}
 
                     {showPenaltyCol ? (
-                      <td className={cn(dendaColW, tdClass, edgeR, numPadEdgeR, "text-slate-800")}>
+                      <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800")}>
                         <div className="flex items-center justify-end gap-2">
                           <span className={cn(numCell)}>{penaltyValue}</span>
                           <PenaltyIcon show={showPenalty} />
