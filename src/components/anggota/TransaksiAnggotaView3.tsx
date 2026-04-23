@@ -34,10 +34,7 @@ import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
 import BillingTablePelunasanView2 from "@/components/anggota/BillingTablePelunasanView2";
-import {
-  calcPenaltyTotal,
-  formatIdrLike,
-} from "@/components/anggota/calc-penalties";
+import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
 
 type Props = {
   nasabah: {
@@ -170,9 +167,11 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   }, [isPenurunanBakiDebet, rowsToShow, selected]);
 
   const penurunanBakiDebetPokokText = React.useMemo(() => {
-    if (penurunanBakiDebetPokokTotal === null) return null;
-    return formatIdrLike(penurunanBakiDebetPokokTotal);
-  }, [penurunanBakiDebetPokokTotal]);
+    if (!isPenurunanBakiDebet) return null;
+
+    // Sesuai permintaan: di View 3, set nilai ringkasan Penurunan Baki Debet jadi 916.667
+    return "916.667";
+  }, [isPenurunanBakiDebet]);
 
   const showGraceInfo = true;
   const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
@@ -341,7 +340,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                           ? formatIdrLike(penaltyTotal ?? 0)
                           : "0",
                         total: isPenurunanBakiDebet
-                          ? penurunanBakiDebetPokokText ?? "0"
+                          ? "916.667"
                           : "2.455.555",
                       }
                 }
