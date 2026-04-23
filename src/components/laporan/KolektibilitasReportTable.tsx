@@ -478,7 +478,6 @@ export default function KolektibilitasReportTable({
                         {r.nama}
                       </Td>
 
-                      {/* UBAH: status tidak bold */}
                       <Td className={colW.status} align="center">
                         {status}
                       </Td>
@@ -487,42 +486,34 @@ export default function KolektibilitasReportTable({
                         {r.alamat}
                       </Td>
 
-                      <Td
-                        className={cn(colW.kodePinjaman, "whitespace-nowrap")}
-                        align="center"
-                      >
+                      {/* UBAH: isi kolom-kolom ini rata kiri */}
+                      <Td className={cn(colW.kodePinjaman, "whitespace-nowrap")} align="left">
                         {kodePinjaman}
                       </Td>
 
                       <Td
                         className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
-                        align="center"
+                        align="left"
                       >
                         {tanggalPinjaman}
                       </Td>
 
                       <Td
                         className={cn(colW.tanggalJatuhTempo, "whitespace-nowrap")}
-                        align="center"
+                        align="left"
                       >
                         {tanggalJatuhTempo}
                       </Td>
 
-                      <Td
-                        className={cn(colW.jenisPinjaman, "whitespace-nowrap")}
-                        align="center"
-                      >
+                      <Td className={cn(colW.jenisPinjaman, "whitespace-nowrap")} align="left">
                         {jenisPinjaman}
                       </Td>
 
-                      <Td
-                        className={cn(colW.plafon, "whitespace-nowrap")}
-                        align="right"
-                      >
+                      <Td className={cn(colW.plafon, "whitespace-nowrap")} align="left">
                         {formatIdr0(plafon)}
                       </Td>
 
-                      <Td className={colW.aoId} align="center">
+                      <Td className={cn(colW.aoId, "whitespace-nowrap")} align="left">
                         {r.aoId}
                       </Td>
 
