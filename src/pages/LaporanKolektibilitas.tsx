@@ -68,11 +68,11 @@ function ActionPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-slate-700",
+        "inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[13px] font-semibold text-slate-700",
         "ring-1 ring-slate-200 shadow-sm transition hover:bg-slate-50",
       )}
     >
-      <Icon className="h-4.5 w-4.5 text-slate-500" />
+      <Icon className="h-4 w-4 text-slate-500" />
       {label}
     </button>
   );
@@ -86,8 +86,10 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
-      <div className="pt-2 text-sm font-semibold text-slate-900">{label}</div>
+    <div className="grid gap-2 md:grid-cols-[220px_1fr] md:items-center">
+      <div className="pt-0.5 text-[13px] font-semibold text-slate-900">
+        {label}
+      </div>
       <div className="min-w-0">{children}</div>
     </div>
   );
@@ -110,7 +112,7 @@ function SelectLike({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
+          "h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[13px] font-medium text-slate-900",
           "shadow-sm outline-none transition",
           "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
         )}
@@ -261,12 +263,12 @@ export default function LaporanKolektibilitas() {
       <LoanTypeRequiredDialog open={warnOpen} onOpenChange={setWarnOpen} />
 
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
             Laporan Kolektibilitas
           </h1>
 
-          <div className="flex flex-wrap items-center justify-start gap-3 md:justify-end">
+          <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
             <ActionPill
               icon={RefreshCw}
               label="Proses Kolektibilitas"
@@ -286,25 +288,21 @@ export default function LaporanKolektibilitas() {
               label="Export PDF"
               onClick={() => toast("Export PDF (prototype)")}
             />
-            <ActionPill
-              icon={Printer}
-              label="Cetak"
-              onClick={() => toast("Cetak (prototype)")}
-            />
+            <ActionPill icon={Printer} label="Cetak" onClick={() => toast("Cetak (prototype)")} />
           </div>
         </div>
 
-        <Separator className="my-6 bg-slate-200/70" />
+        <Separator className="my-5 bg-slate-200/70" />
 
-        {/* FORM (tanpa Card / background putih) */}
-        <div className="grid gap-4">
+        {/* FORM (lebih ringkas) */}
+        <div className="grid gap-3">
           <FieldRow label="Jenis Pinjaman">
             <div className="relative">
               <select
                 value={jenisPinjaman}
                 onChange={(e) => setJenisPinjaman(e.target.value)}
                 className={cn(
-                  "h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm font-medium text-slate-900",
+                  "h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[13px] font-medium text-slate-900",
                   "shadow-sm outline-none transition",
                   "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
                 )}
@@ -325,7 +323,7 @@ export default function LaporanKolektibilitas() {
               value={namaKode}
               onChange={(e) => setNamaKode(e.target.value)}
               placeholder="Masukkan nama/kode pinjaman.."
-              className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
+              className="h-10 rounded-md border-slate-200 bg-white text-[13px] shadow-sm"
             />
           </FieldRow>
 
@@ -341,7 +339,7 @@ export default function LaporanKolektibilitas() {
             <Input
               value={tahun}
               onChange={(e) => setTahun(e.target.value)}
-              className="h-11 rounded-md border-slate-200 bg-white shadow-sm"
+              className="h-10 rounded-md border-slate-200 bg-white text-[13px] shadow-sm"
               inputMode="numeric"
             />
           </FieldRow>
@@ -369,16 +367,16 @@ export default function LaporanKolektibilitas() {
             />
           </FieldRow>
 
-          <div className="flex justify-end pt-1">
+          <div className="flex justify-end pt-0.5">
             <button
               type="button"
               onClick={doSearch}
               className={cn(
-                "inline-flex h-10 items-center gap-2 rounded-full px-6 text-sm font-semibold text-white",
+                "inline-flex h-9 items-center gap-2 rounded-full px-5 text-[13px] font-semibold text-white",
                 "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
               )}
             >
-              <Search className="h-4.5 w-4.5" />
+              <Search className="h-4 w-4" />
               Cari
             </button>
           </div>
