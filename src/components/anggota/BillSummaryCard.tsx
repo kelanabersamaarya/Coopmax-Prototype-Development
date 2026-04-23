@@ -272,7 +272,7 @@ export default function BillSummaryCard({
               label={
                 mode === "pelunasan"
                   ? "Total Pelunasan"
-                  : isRegular
+                  : isRegular || isKhusus
                     ? "Total Tagihan"
                     : "Total Tagihan Pokok"
               }
