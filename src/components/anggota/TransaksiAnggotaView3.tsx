@@ -34,6 +34,9 @@ import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
 import BillingTablePelunasanView2 from "@/components/anggota/BillingTablePelunasanView2";
+import BillingTable, {
+  type BillingRow as BillingRowV1,
+} from "@/components/anggota/BillingTable";
 import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
 
@@ -153,7 +156,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  // NEW: denda checklist untuk Reguler/Khusus/Pelunasan
+  // denda checklist untuk Reguler/Khusus/Pelunasan
   const selectedPenaltyTotal = React.useMemo(() => {
     if (!(isReguler || isKhusus || isPelunasan)) return 0;
     return calcSelectedPenaltyTotal(selected, rowsToShow.length);
@@ -196,6 +199,8 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
       sisaBunga: formatIdrLike(sum.sisaBunga),
     };
   }, [isPelunasan, rowsToShow]);
+
+  const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
 
   return (
     <div className="w-full px-0">
@@ -298,18 +303,32 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
               <Separator className="my-3 bg-slate-200/70" />
 
               {isPelunasan ? (
-                <BillingTablePelunasanView2 rows={rowsToShow as any} />
-              ) : (
-                <BillingTableView2
-                  rows={rowsToShow}
+                <BillingTable
+                  rows={rowsToShowV1}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={isPelunasan}
-                  showNextBillInfo={true}
-                  showGraceInfo={showGraceInfo}
-                  highlightGraceBlock={highlightGraceBlock}
-                  hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
+                  isPelunasan={true}
+                  showGraceHighlight={true}
+                  hideInterestCols={false}
+                  className="mt-0"
                 />
+              ) : (
+                <>
+                  {isPelunasan ? (
+                    <BillingTablePelunasanView2 rows={rowsToShow as any} />
+                  ) : (
+                    <BillingTableView2
+                      rows={rowsToShow}
+                      selected={selected}
+                      setSelected={setSelected}
+                      isLocked={isPelunasan}
+                      showNextBillInfo={true}
+                      showGraceInfo={showGraceInfo}
+                      highlightGraceBlock={highlightGraceBlock}
+                      hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
+                    />
+                  )}
+                </>
               )}
 
               <div className="sr-only">
