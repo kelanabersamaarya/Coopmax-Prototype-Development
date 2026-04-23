@@ -188,6 +188,32 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
+  // Untuk baris di luar grace, kita buat padding kolom mengikuti edgeL/edgeR seperti table luar,
+  // supaya teks/angka sejajar dengan yang ada di dalam blok grace.
+  function buildOutsideCellClass({
+    col,
+    isFirstNumeric,
+    isLastNumeric,
+  }: {
+    col: "date" | "total" | "pokok" | "bunga" | "sisaPokok" | "sisaBunga" | "denda";
+    isFirstNumeric?: boolean;
+    isLastNumeric?: boolean;
+  }) {
+    const base = cn(tdClass, "text-slate-800", col === "date" ? dateCell : numCell);
+
+    // kolom paling kiri (jatuh tempo) ikut edgeL agar segaris dengan block grace yg punya checkbox column
+    if (col === "date") return cn(base, edgeL);
+
+    // numeric pertama (totalBelumDibayar) diset pr-0 agar tidak bergeser (lebih mirip dalam block)
+    if (isFirstNumeric) return cn(base, "pr-0");
+
+    // numeric terakhir (denda) tetap edgeR
+    if (isLastNumeric) return cn(base, edgeR);
+
+    // default: biarkan padding standar tdClass
+    return base;
+  }
+
   const CheckboxCell = ({
     checked,
     disabled,
@@ -896,47 +922,37 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
-                        <td className={cn(dateColW, tdClass, dateCell)}>
-                          {bill.jatuhTempo}
-                        </td>
+                        <td className={cn(dateColW, tdClass, dateCell)}>{bill.jatuhTempo}</td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(totalColW, tdClass, "text-slate-800", numCell)}>
+                          <td className={buildOutsideCellClass({ col: "total", isFirstNumeric: true })}>
                             {bill.totalBelumDibayar}
                           </td>
                         ) : null}
 
-                        <td className={cn(pokokColW, tdClass, "text-slate-800", numCell)}>
+                        <td className={buildOutsideCellClass({ col: "pokok" })}>
                           {bill.tagihanPokok}
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
+                          <td className={buildOutsideCellClass({ col: "bunga" })}>
                             {bill.tagihanBunga}
                           </td>
                         ) : null}
 
-                        <td
-                          className={cn(
-                            sisaPokokColW,
-                            tdClass,
-                            edgeR,
-                            "text-slate-800",
-                            numCell,
-                          )}
-                        >
+                        <td className={buildOutsideCellClass({ col: "sisaPokok" })}>
                           {bill.sisaPokok}
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(sisaBungaColW, tdClass, "text-slate-800", numCell)}>
+                          <td className={buildOutsideCellClass({ col: "sisaBunga" })}>
                             {bill.sisaBunga}
                           </td>
                         ) : null}
 
-                        {/* Sesuai request: di luar grace period, denda tidak tampil */}
+                        {/* di luar grace period: denda tidak tampil, tapi posisi harus tetap lurus */}
                         {showPenaltyCol ? (
-                          <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
+                          <td className={buildOutsideCellClass({ col: "denda", isLastNumeric: true })}>
                             <span className="text-slate-400">-</span>
                           </td>
                         ) : null}
