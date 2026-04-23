@@ -383,7 +383,7 @@ export default function KolektibilitasReportTable({
                   s/d tgl.
                 </Th>
 
-                <Th className={colW.pinPokok} align="right">
+                <Th className={cn(colW.pinPokok, "whitespace-nowrap")} align="right">
                   Sld. Pokok
                 </Th>
                 <Th className={colW.pinBng} align="right">
