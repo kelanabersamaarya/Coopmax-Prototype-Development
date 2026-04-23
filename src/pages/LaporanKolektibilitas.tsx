@@ -297,8 +297,8 @@ export default function LaporanKolektibilitas() {
 
         <Separator className="my-5 bg-slate-200/70" />
 
-        {/* FORM: elemen tetap sama, hanya field diperkecil & rata kiri */}
-        <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
+        {/* FORM: background putih dihilangkan */}
+        <Card className="rounded-3xl border-slate-200/70 bg-transparent p-4 shadow-none backdrop-blur-0 md:p-5">
           <div className="w-full max-w-[920px]">
             <div className="grid gap-3">
               <FieldRow label="Jenis Pinjaman">
