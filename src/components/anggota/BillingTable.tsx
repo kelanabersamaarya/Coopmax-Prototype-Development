@@ -638,13 +638,15 @@ export default function BillingTable({
   }
 
   // ===== Default (regular) =====
+  const showPenaltyCol = !hideInterestCols;
+
   const colCount = hideInterestCols
     ? hideSelection
       ? 3
       : 4
     : hideSelection
-      ? 6
-      : 7;
+      ? 7
+      : 8;
 
   const dateColW = hideInterestCols ? "w-[25%]" : "w-[15%]";
   const totalColW = hideInterestCols ? "" : "w-[19%]";
@@ -652,106 +654,9 @@ export default function BillingTable({
   const bungaColW = hideInterestCols ? "" : "w-[12%]";
   const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[18%]";
   const sisaBungaColW = hideInterestCols ? "" : "w-[19%]";
+  const dendaColW = hideInterestCols ? "" : "w-[14%]";
 
   const totalSelectableRows = displayRows.length + extraOutsideRows.length;
-
-  const gridCols = hideSelection
-    ? hideInterestCols
-      ? "grid-cols-[minmax(0,15%)_minmax(0,25%)_minmax(0,25%)]"
-      : "grid-cols-[minmax(0,15%)_minmax(0,19%)_minmax(0,17%)_minmax(0,12%)_minmax(0,18%)_minmax(0,19%)]"
-    : hideInterestCols
-      ? "grid-cols-[44px_minmax(0,15%)_minmax(0,25%)_minmax(0,25%)]"
-      : "grid-cols-[44px_minmax(0,15%)_minmax(0,19%)_minmax(0,17%)_minmax(0,12%)_minmax(0,18%)_minmax(0,19%)]";
-
-  function TableRowGrid({
-    bill,
-    globalIndex,
-    tone = "inside",
-    hideTopBorder = false,
-  }: {
-    bill: BillingRow;
-    globalIndex: number;
-    tone?: "inside" | "outside";
-    hideTopBorder?: boolean;
-  }) {
-    const rowBg =
-      tone === "outside"
-        ? "bg-white"
-        : globalIndex % 2 === 0
-          ? "bg-white"
-          : "bg-slate-50/40";
-
-    return (
-      <div
-        className={cn(
-          "grid items-center",
-          gridCols,
-          rowBg,
-          hideTopBorder ? "" : "border-t border-slate-100",
-        )}
-      >
-        {!hideSelection ? (
-          <div className={cn("px-3 py-3", edgeL)}>
-            <input
-              type="checkbox"
-              aria-label="Pilih tagihan"
-              checked={isPelunasan ? true : (selected[globalIndex] ?? false)}
-              disabled={isPelunasan}
-              onChange={(e) => {
-                const next = e.target.checked;
-                setSelected((prev) => {
-                  const copy = [...prev];
-                  copy[globalIndex] = next;
-                  return copy;
-                });
-              }}
-              className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-            />
-          </div>
-        ) : null}
-
-        <div className={cn("px-3 py-3", hideSelection ? edgeL : "", dateCell)}>
-          <DueDateWithPenaltyMarker
-            date={bill.jatuhTempo}
-            show={shouldShowPenaltyMarker(globalIndex)}
-          />
-        </div>
-
-        {!hideInterestCols ? (
-          <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-            {bill.totalBelumDibayar}
-          </div>
-        ) : null}
-
-        <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-          {bill.tagihanPokok}
-        </div>
-
-        {!hideInterestCols ? (
-          <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-            {bill.tagihanBunga}
-          </div>
-        ) : null}
-
-        <div className={cn("px-3 py-3 text-slate-800", numCell)}>
-          {bill.sisaPokok}
-        </div>
-
-        {!hideInterestCols ? (
-          <div className={cn("px-3 py-3 text-slate-800", numCell, edgeR)}>
-            {bill.sisaBunga}
-          </div>
-        ) : (
-          <div className={cn("px-3 py-3 text-slate-800", numCell, edgeR)} />
-        )}
-      </div>
-    );
-  }
-
-  const graceCount = showGraceHighlight ? Math.min(2, displayRows.length) : 0;
-  const graceRows = graceCount > 0 ? displayRows.slice(0, graceCount) : [];
-  const afterGraceRows =
-    graceCount > 0 ? displayRows.slice(graceCount) : displayRows;
 
   return (
     <div
@@ -802,8 +707,14 @@ export default function BillingTable({
             </th>
 
             {!hideInterestCols ? (
-              <th className={cn(sisaBungaColW, thClass, edgeR, "text-right")}>
+              <th className={cn(sisaBungaColW, thClass, "text-right")}>
                 Sisa Tagihan Bunga
+              </th>
+            ) : null}
+
+            {showPenaltyCol ? (
+              <th className={cn(dendaColW, thClass, edgeR, "text-right")}>
+                Tagihan Denda
               </th>
             ) : null}
           </tr>
@@ -819,139 +730,98 @@ export default function BillingTable({
                 Tidak ada data.
               </td>
             </tr>
-          ) : graceRows.length > 0 && showGraceHighlight ? (
+          ) : (
             <>
-              <tr className="border-t border-slate-100">
-                <td colSpan={colCount} className="p-0">
-                  <div className="bg-white p-2">
-                    <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
-                      <div className="bg-white">
-                        <table className="w-full border-collapse text-[13px]">
-                          <tbody className="bg-white">
-                            <GracePeriodInfoRow colSpan={colCount} noBorder />
+              {showGraceHighlight ? <GracePeriodInfoRow colSpan={colCount} /> : null}
 
-                            {graceRows.map((bill, idx) => (
-                              <tr
-                                key={`grace-${bill.jatuhTempo}-${idx}`}
-                                className={cn(
-                                  idx === 0 ? "" : "border-t border-slate-100",
-                                  idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
-                                )}
-                              >
-                                {!hideSelection ? (
-                                  <td className={cn(checkboxColW, tdClass, edgeL)}>
-                                    <input
-                                      type="checkbox"
-                                      aria-label="Pilih tagihan"
-                                      checked={
-                                        isPelunasan
-                                          ? true
-                                          : (selected[idx] ?? false)
-                                      }
-                                      disabled={isPelunasan}
-                                      onChange={(e) => {
-                                        const next = e.target.checked;
-                                        setSelected((prev) => {
-                                          const copy = [...prev];
-                                          copy[idx] = next;
-                                          return copy;
-                                        });
-                                      }}
-                                    />
-                                  </td>
-                                ) : null}
+              {displayRows.map((bill, idx) => (
+                <tr
+                  key={`${bill.jatuhTempo}-${idx}`}
+                  className={cn(
+                    "border-t border-slate-100 text-sm",
+                    idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                  )}
+                >
+                  {!hideSelection ? (
+                    <td className={cn(checkboxColW, tdClass, edgeL)}>
+                      <input
+                        type="checkbox"
+                        aria-label="Pilih tagihan"
+                        checked={isPelunasan ? true : (selected[idx] ?? false)}
+                        disabled={isPelunasan}
+                        onChange={(e) => {
+                          const next = e.target.checked;
+                          setSelected((prev) => {
+                            const copy = [...prev];
+                            copy[idx] = next;
+                            return copy;
+                          });
+                        }}
+                      />
+                    </td>
+                  ) : null}
 
-                                <td
-                                  className={cn(
-                                    dateColW,
-                                    tdClass,
-                                    dateCell,
-                                    hideSelection ? edgeL : "",
-                                  )}
-                                >
-                                  <DueDateWithPenaltyMarker
-                                    date={bill.jatuhTempo}
-                                    show={shouldShowPenaltyMarker(idx)}
-                                  />
-                                </td>
+                  <td
+                    className={cn(
+                      dateColW,
+                      tdClass,
+                      dateCell,
+                      hideSelection ? edgeL : "",
+                    )}
+                  >
+                    <DueDateWithPenaltyMarker
+                      date={bill.jatuhTempo}
+                      show={shouldShowPenaltyMarker(idx)}
+                    />
+                  </td>
 
-                                {!hideInterestCols ? (
-                                  <td
-                                    className={cn(
-                                      totalColW,
-                                      tdClass,
-                                      "text-slate-800",
-                                      numCell,
-                                    )}
-                                  >
-                                    {bill.totalBelumDibayar}
-                                  </td>
-                                ) : null}
+                  {!hideInterestCols ? (
+                    <td className={cn(totalColW, tdClass, "text-slate-800", numCell)}>
+                      {bill.totalBelumDibayar}
+                    </td>
+                  ) : null}
 
-                                <td
-                                  className={cn(
-                                    pokokColW,
-                                    tdClass,
-                                    "text-slate-800",
-                                    numCell,
-                                  )}
-                                >
-                                  {bill.tagihanPokok}
-                                </td>
+                  <td className={cn(pokokColW, tdClass, "text-slate-800", numCell)}>
+                    {bill.tagihanPokok}
+                  </td>
 
-                                {!hideInterestCols ? (
-                                  <td
-                                    className={cn(
-                                      bungaColW,
-                                      tdClass,
-                                      "text-slate-800",
-                                      numCell,
-                                    )}
-                                  >
-                                    {bill.tagihanBunga}
-                                  </td>
-                                ) : null}
+                  {!hideInterestCols ? (
+                    <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
+                      {bill.tagihanBunga}
+                    </td>
+                  ) : null}
 
-                                <td
-                                  className={cn(
-                                    sisaPokokColW,
-                                    tdClass,
-                                    edgeR,
-                                    "text-slate-800",
-                                    numCell,
-                                  )}
-                                >
-                                  {bill.sisaPokok}
-                                </td>
+                  <td
+                    className={cn(
+                      sisaPokokColW,
+                      tdClass,
+                      edgeR,
+                      "text-slate-800",
+                      numCell,
+                    )}
+                  >
+                    {bill.sisaPokok}
+                  </td>
 
-                                {!hideInterestCols ? (
-                                  <td
-                                    className={cn(
-                                      sisaBungaColW,
-                                      tdClass,
-                                      edgeR,
-                                      "text-slate-800",
-                                      numCell,
-                                    )}
-                                  >
-                                    {bill.sisaBunga}
-                                  </td>
-                                ) : null}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+                  {!hideInterestCols ? (
+                    <td className={cn(sisaBungaColW, tdClass, "text-slate-800", numCell)}>
+                      {bill.sisaBunga}
+                    </td>
+                  ) : null}
 
-              {afterGraceRows.map((bill, idx) => {
-                const globalIndex = graceCount + idx;
+                  {showPenaltyCol ? (
+                    <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
+                      {penalties[idx]?.total ?? "0"}
+                    </td>
+                  ) : null}
+                </tr>
+              ))}
+
+              {extraOutsideRows.map((bill, idx) => {
+                const globalIndex = displayRows.length + idx;
                 return (
                   <tr
-                    key={`${bill.jatuhTempo}-${globalIndex}`}
+                    key={`outside-${bill.jatuhTempo}-${globalIndex}`}
                     className={cn(
                       "border-t border-slate-100 text-sm",
                       globalIndex % 2 === 0 ? "bg-white" : "bg-slate-50/40",
@@ -963,9 +833,7 @@ export default function BillingTable({
                           type="checkbox"
                           aria-label="Pilih tagihan"
                           checked={
-                            isPelunasan
-                              ? true
-                              : (selected[globalIndex] ?? false)
+                            isPelunasan ? true : (selected[globalIndex] ?? false)
                           }
                           disabled={isPelunasan}
                           onChange={(e) => {
@@ -1023,182 +891,21 @@ export default function BillingTable({
                     </td>
 
                     {!hideInterestCols ? (
-                      <td
-                        className={cn(
-                          sisaBungaColW,
-                          tdClass,
-                          edgeR,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(sisaBungaColW, tdClass, "text-slate-800", numCell)}>
                         {bill.sisaBunga}
+                      </td>
+                    ) : null}
+
+                    {showPenaltyCol ? (
+                      <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
+                        {penalties[globalIndex]?.total ?? "0"}
                       </td>
                     ) : null}
                   </tr>
                 );
               })}
             </>
-          ) : (
-            displayRows.map((bill, idx) => (
-              <tr
-                key={`${bill.jatuhTempo}-${idx}`}
-                className={cn(
-                  "border-t border-slate-100 text-sm",
-                  idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
-                )}
-              >
-                {!hideSelection ? (
-                  <td className={cn(checkboxColW, tdClass, edgeL)}>
-                    <input
-                      type="checkbox"
-                      aria-label="Pilih tagihan"
-                      checked={isPelunasan ? true : (selected[idx] ?? false)}
-                      disabled={isPelunasan}
-                      onChange={(e) => {
-                        const next = e.target.checked;
-                        setSelected((prev) => {
-                          const copy = [...prev];
-                          copy[idx] = next;
-                          return copy;
-                        });
-                      }}
-                    />
-                  </td>
-                ) : null}
-
-                <td
-                  className={cn(
-                    dateColW,
-                    tdClass,
-                    dateCell,
-                    hideSelection ? edgeL : "",
-                  )}
-                >
-                  <DueDateWithPenaltyMarker
-                    date={bill.jatuhTempo}
-                    show={shouldShowPenaltyMarker(idx)}
-                  />
-                </td>
-
-                {!hideInterestCols ? (
-                  <td className={cn(totalColW, tdClass, "text-slate-800", numCell)}>
-                    {bill.totalBelumDibayar}
-                  </td>
-                ) : null}
-
-                <td className={cn(pokokColW, tdClass, "text-slate-800", numCell)}>
-                  {bill.tagihanPokok}
-                </td>
-
-                {!hideInterestCols ? (
-                  <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
-                    {bill.tagihanBunga}
-                  </td>
-                ) : null}
-
-                <td className={cn(sisaPokokColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                  {bill.sisaPokok}
-                </td>
-
-                {!hideInterestCols ? (
-                  <td
-                    className={cn(
-                      sisaBungaColW,
-                      tdClass,
-                      edgeR,
-                      "text-slate-800",
-                      numCell,
-                    )}
-                  >
-                    {bill.sisaBunga}
-                  </td>
-                ) : null}
-              </tr>
-            ))
           )}
-
-          {extraOutsideRows.map((bill, idx) => {
-            const globalIndex = displayRows.length + idx;
-            return (
-              <tr
-                key={`outside-${bill.jatuhTempo}-${globalIndex}`}
-                className={cn(
-                  "border-t border-slate-100 text-sm",
-                  globalIndex % 2 === 0 ? "bg-white" : "bg-slate-50/40",
-                )}
-              >
-                {!hideSelection ? (
-                  <td className={cn(checkboxColW, tdClass, edgeL)}>
-                    <input
-                      type="checkbox"
-                      aria-label="Pilih tagihan"
-                      checked={
-                        isPelunasan ? true : (selected[globalIndex] ?? false)
-                      }
-                      disabled={isPelunasan}
-                      onChange={(e) => {
-                        const next = e.target.checked;
-                        setSelected((prev) => {
-                          const copy = [...prev];
-                          copy[globalIndex] = next;
-                          return copy;
-                        });
-                      }}
-                    />
-                  </td>
-                ) : null}
-
-                <td
-                  className={cn(
-                    dateColW,
-                    tdClass,
-                    dateCell,
-                    hideSelection ? edgeL : "",
-                  )}
-                >
-                  <DueDateWithPenaltyMarker
-                    date={bill.jatuhTempo}
-                    show={shouldShowPenaltyMarker(globalIndex)}
-                  />
-                </td>
-
-                {!hideInterestCols ? (
-                  <td className={cn(totalColW, tdClass, "text-slate-800", numCell)}>
-                    {bill.totalBelumDibayar}
-                  </td>
-                ) : null}
-
-                <td className={cn(pokokColW, tdClass, "text-slate-800", numCell)}>
-                  {bill.tagihanPokok}
-                </td>
-
-                {!hideInterestCols ? (
-                  <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
-                    {bill.tagihanBunga}
-                  </td>
-                ) : null}
-
-                <td className={cn(sisaPokokColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                  {bill.sisaPokok}
-                </td>
-
-                {!hideInterestCols ? (
-                  <td
-                    className={cn(
-                      sisaBungaColW,
-                      tdClass,
-                      edgeR,
-                      "text-slate-800",
-                      numCell,
-                    )}
-                  >
-                    {bill.sisaBunga}
-                  </td>
-                ) : null}
-              </tr>
-            );
-          })}
         </tbody>
       </table>
     </div>
