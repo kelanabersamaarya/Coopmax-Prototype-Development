@@ -54,6 +54,30 @@ function SummaryRow({
   );
 }
 
+function SummaryRowInline({
+  label,
+  value,
+  className,
+}: {
+  label: string;
+  value: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex items-baseline gap-2 py-3 text-[14px]",
+        "text-slate-900",
+        className,
+      )}
+    >
+      <span className="font-semibold text-slate-700">{label}</span>
+      <span className="font-semibold text-slate-400">:</span>
+      <span className="font-extrabold tabular-nums tracking-tight">{value}</span>
+    </div>
+  );
+}
+
 type TransactionType =
   | "Pembayaran Reguler"
   | "Pembayaran Penurunan Baki Debet"
@@ -224,20 +248,10 @@ export default function BillSummaryCard({
 
       <div>
         {isPenurunanBakiDebet ? (
-          <>
-            <SummaryRow
-              label="Total Tagihan Pokok"
-              value={displayTotals.pokok}
-              strong
-              valueAlign="left"
-            />
-            <SummaryRow
-              label="Sisa Pinjaman"
-              value={displayTotals.pokok}
-              strong
-              valueAlign="left"
-            />
-          </>
+          <div className="space-y-0">
+            <SummaryRowInline label="Total Tagihan Pokok" value={displayTotals.pokok} />
+            <SummaryRowInline label="Sisa Pinjaman" value={displayTotals.pokok} />
+          </div>
         ) : isPembayaranBunga ? (
           <SummaryRow
             label="Total Tagihan Bunga"
