@@ -253,15 +253,15 @@ export default function KolektibilitasReportTable({
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
   function TotalRow({ label }: { label: string }) {
+    // Header/Body punya total 28 kolom. Kita merge 3 kolom pertama => sisa harus 25 td.
+    // 3 merged: No + NO.REKENING + Nama
+    // Remaining columns start from Status (kolom 4) sampai Kolektibilitas (kolom 28) = 25 kolom.
     return (
       <tr className="border-t border-black bg-white">
-        {/* 1 No. -> label di paling kiri */}
-        <td className={totalRowText}>{label}</td>
+        <td className={cn(totalRowText, "whitespace-nowrap")} colSpan={3}>
+          {label}
+        </td>
 
-        {/* 2 NO.REKENING */}
-        <td className={totalRowText} />
-        {/* 3 Nama */}
-        <td className={totalRowText} />
         {/* 4 Status */}
         <td className={totalRowText} />
         {/* 5 Alamat */}
@@ -280,11 +280,11 @@ export default function KolektibilitasReportTable({
         {/* 11 AO ID */}
         <td className={totalRowText} />
 
-        {/* 12 Jangka Waktu Bln */}
+        {/* 12 Bln */}
         <td className={totalRowText} />
-        {/* 13 Dari tgl */}
+        {/* 13 Dari tgl. */}
         <td className={totalRowText} />
-        {/* 14 s/d tgl */}
+        {/* 14 s/d tgl. */}
         <td className={totalRowText} />
 
         {/* 15 Pinjaman Sld. Pokok */}
@@ -317,7 +317,7 @@ export default function KolektibilitasReportTable({
         {/* 27 Hutang Bunga */}
         <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
 
-        {/* 28 Kolektibilitas (kosong) */}
+        {/* 28 Kolektibilitas */}
         <td className={totalRowText} />
       </tr>
     );
