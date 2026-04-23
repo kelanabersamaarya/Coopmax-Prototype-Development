@@ -221,11 +221,14 @@ export default function BillSummaryCard({
 
       <div>
         {isPenurunanBakiDebet ? (
-          <SummaryRow
-            label="Total Tagihan Pokok"
-            value={displayTotals.pokok}
-            strong
-          />
+          <>
+            <SummaryRow
+              label="Total Tagihan Pokok"
+              value={displayTotals.pokok}
+              strong
+            />
+            <SummaryRow label="Sisa Pinjaman" value={displayTotals.pokok} strong />
+          </>
         ) : isPembayaranBunga ? (
           <SummaryRow
             label="Total Tagihan Bunga"
