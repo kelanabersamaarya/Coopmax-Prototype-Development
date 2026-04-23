@@ -169,6 +169,7 @@ export default function TransactionFormCardView2({
   setTabungan,
   keterangan,
   setKeterangan,
+  onPayPenurunanBakiDebet,
 }: {
   tanggalEfektif: string;
   setTanggalEfektif: (v: string) => void;
@@ -194,6 +195,8 @@ export default function TransactionFormCardView2({
 
   keterangan: string;
   setKeterangan: (v: string) => void;
+
+  onPayPenurunanBakiDebet?: (nominalPokokInput: string) => void;
 }) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const isKhusus = jenisTransaksi === "Pembayaran Khusus";
@@ -242,6 +245,18 @@ export default function TransactionFormCardView2({
     : isPelunasan
       ? "Nominal Pelunasan*"
       : "Nominal Pembayaran*";
+
+  function handlePayClick() {
+    if (isPenurunanBakiDebet) {
+      // untuk penurunan baki debet: trigger perhitungan sisa pinjaman di parent
+      onPayPenurunanBakiDebet?.(nominal);
+      // tetap tampilkan flow modal yang sama
+      setConfirmOpen(true);
+      return;
+    }
+
+    setConfirmOpen(true);
+  }
 
   return (
     <>
@@ -418,7 +433,7 @@ export default function TransactionFormCardView2({
 
               <Button
                 type="button"
-                onClick={() => setConfirmOpen(true)}
+                onClick={handlePayClick}
                 className={cn(
                   "mt-1 h-10 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700",
                 )}

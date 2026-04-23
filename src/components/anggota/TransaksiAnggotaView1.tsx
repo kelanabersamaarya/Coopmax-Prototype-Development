@@ -230,12 +230,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       return;
     }
 
+    // PENURUNAN BAKI DEBET: semua baris dianggap ikut perhitungan (agar total pokok = jumlah seluruh tabel)
+    if (isPenurunanBakiDebet) {
+      setSelected(rows.map(() => true));
+      return;
+    }
+
     // selain reguler: default baris pertama saja
     const next = rows.map(() => false);
     if (next.length > 0) next[0] = true;
     setSelected(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan, isReguler]);
+  }, [isPelunasan, isReguler, isPenurunanBakiDebet]);
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
@@ -246,22 +252,20 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return calcPenaltyTotal(pagedRows, selected);
   }, [pagedRows, penaltyOnlyCols, selected]);
 
-  const penurunanBakiDebetPokokTotal = React.useMemo(() => {
-    if (!isPenurunanBakiDebet) return null;
+  // Total pokok untuk Penurunan Baki Debet = jumlah seluruh tagihan pokok pada tabel yang ditampilkan (pagedRows)
+  const penurunanTotalPokok = React.useMemo(() => {
+    if (!isPenurunanBakiDebet) return 0;
+    return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.tagihanPokok), 0);
+  }, [isPenurunanBakiDebet, pagedRows]);
 
-    // Karena checklist disembunyikan, kita gunakan selected[] sebagai "simulasi pilihan"
-    // (tetap realistis kalau nanti selection diaktifkan lagi).
-    return pagedRows.reduce((sum, r, idx) => {
-      const checked = selected[idx] ?? true;
-      if (!checked) return sum;
-      return sum + parseMoneyLikeId(r.tagihanPokok);
-    }, 0);
-  }, [isPenurunanBakiDebet, pagedRows, selected]);
+  // Sisa pinjaman: awal 0, baru terisi setelah klik Bayar Tagihan
+  const [penurunanSisaPinjaman, setPenurunanSisaPinjaman] =
+    React.useState<number>(0);
 
-  const penurunanBakiDebetPokokText = React.useMemo(() => {
-    if (penurunanBakiDebetPokokTotal === null) return null;
-    return formatMoneyIdNoDecimals(penurunanBakiDebetPokokTotal);
-  }, [penurunanBakiDebetPokokTotal]);
+  React.useEffect(() => {
+    // reset hasil ketika ganti transaksi
+    setPenurunanSisaPinjaman(0);
+  }, [jenisTransaksi]);
 
   const computedTotals = React.useMemo(() => {
     // NOTE: Untuk View1, checklist yang terlihat hanya pagedRows,
@@ -287,6 +291,21 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       total: formatMoneyIdNoDecimals(total),
     };
   }, [pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
+
+  const penurunanTotals = React.useMemo(() => {
+    if (!isPenurunanBakiDebet) return null;
+
+    // total pokok dihitung dari seluruh tabel (paged)
+    const totalPokokText = formatMoneyIdNoDecimals(penurunanTotalPokok);
+
+    // sisa pinjaman: awal 0, lalu update setelah bayar
+    const sisaText = formatMoneyIdNoDecimals(penurunanSisaPinjaman);
+
+    return {
+      totalPokokText,
+      sisaText,
+    };
+  }, [isPenurunanBakiDebet, penurunanSisaPinjaman, penurunanTotalPokok]);
 
   return (
     <div className="w-full px-0">
@@ -412,16 +431,21 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 hasAnySelected={hasAnySelected}
-                totals={{
-                  pokok: isPenurunanBakiDebet
-                    ? penurunanBakiDebetPokokText ?? "0"
-                    : computedTotals.pokok,
-                  bunga: isPelunasan ? "0" : computedTotals.bunga,
-                  denda: computedTotals.denda,
-                  total: isPenurunanBakiDebet
-                    ? penurunanBakiDebetPokokText ?? "0"
-                    : computedTotals.total,
-                }}
+                totals={
+                  isPenurunanBakiDebet
+                    ? {
+                        pokok: penurunanTotals?.totalPokokText ?? "0",
+                        bunga: "0",
+                        denda: "0",
+                        total: penurunanTotals?.sisaText ?? "0",
+                      }
+                    : {
+                        pokok: computedTotals.pokok,
+                        bunga: isPelunasan ? "0" : computedTotals.bunga,
+                        denda: computedTotals.denda,
+                        total: computedTotals.total,
+                      }
+                }
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}
                 onTransactionTypeChange={(v: any) => setJenisTransaksi(v)}
@@ -446,6 +470,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 setTabungan={setTabungan}
                 keterangan={keterangan}
                 setKeterangan={setKeterangan}
+                onPayPenurunanBakiDebet={(nominalPokokInput) => {
+                  const input = parseMoneyLikeId(nominalPokokInput || "0");
+                  const sisa = Math.max(0, penurunanTotalPokok - input);
+                  setPenurunanSisaPinjaman(sisa);
+                }}
               />
             </div>
           </div>
