@@ -363,18 +363,19 @@ export default function KolektibilitasReportTable({
                   Tunggakan
                 </Th>
 
-                {/* Kolom setelah tunggakan: buat rowSpan=2 agar tidak ada header kosong di atas */}
-                <Th rowSpan={2} className={colW.sisaPinjaman} align="right">
+                {/* UBAH: rata kiri */}
+                <Th rowSpan={2} className={colW.sisaPinjaman} align="left">
                   Sisa Pinjaman
                 </Th>
-                <Th rowSpan={2} className={colW.hutangPokok} align="right">
+                <Th rowSpan={2} className={colW.hutangPokok} align="left">
                   Hutang Pokok
                 </Th>
-                <Th rowSpan={2} className={colW.hutangBunga} align="right">
+                <Th rowSpan={2} className={colW.hutangBunga} align="left">
                   Hutang Bunga
                 </Th>
 
-                <Th rowSpan={2} className={colW.kolektibilitas} align="center">
+                {/* UBAH: rata kiri */}
+                <Th rowSpan={2} className={colW.kolektibilitas} align="left">
                   Kolektiblilitas
                 </Th>
               </tr>
@@ -427,7 +428,7 @@ export default function KolektibilitasReportTable({
                   {"\u003E"} 90 Hr
                 </Th>
 
-                {/* NOTE: tidak ada header tambahan di baris kedua untuk Sisa/Hutang karena sudah rowSpan=2 */}
+                {/* NOTE: tidak ada header tambahan di baris kedua untuk Sisa/Hutang/Kolektibilitas karena sudah rowSpan=2 */}
               </tr>
             </thead>
 
@@ -525,7 +526,10 @@ export default function KolektibilitasReportTable({
                         {jenisPinjaman}
                       </Td>
 
-                      <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
+                      <Td
+                        className={cn(colW.plafon, "whitespace-nowrap")}
+                        align="right"
+                      >
                         {formatIdr0(plafon)}
                       </Td>
 
