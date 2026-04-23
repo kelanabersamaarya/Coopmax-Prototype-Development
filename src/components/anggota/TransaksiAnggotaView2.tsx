@@ -98,6 +98,11 @@ function parseNumLikeId(input: string) {
   return Number.isFinite(n) ? n : 0;
 }
 
+function penaltyForIndex(idx: number) {
+  const base = 25000;
+  return base + idx * 5000;
+}
+
 export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -158,6 +163,20 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     if (!penaltyOnlyCols) return null;
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
+
+  // NEW: denda ikut masuk ringkasan untuk mode reguler/khusus berdasarkan checklist
+  const selectedPenaltyTotal = React.useMemo(() => {
+    if (!(isReguler || isKhusus)) return 0;
+    return rowsToShow.reduce((sum, _r, idx) => {
+      const checked = selected[idx] ?? false;
+      if (!checked) return sum;
+      return sum + penaltyForIndex(idx);
+    }, 0);
+  }, [isKhusus, isReguler, rowsToShow, selected]);
+
+  const selectedPenaltyText = React.useMemo(() => {
+    return formatIdrLike(selectedPenaltyTotal);
+  }, [selectedPenaltyTotal]);
 
   const penurunanBakiDebetPokokTotal = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
@@ -339,12 +358,22 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                           ? penurunanBakiDebetPokokText ?? "0"
                           : "2.455.555",
                         bunga: "0",
-                        denda: penaltyOnlyCols
-                          ? formatIdrLike(penaltyTotal ?? 0)
-                          : "0",
+                        denda:
+                          penaltyOnlyCols
+                            ? formatIdrLike(penaltyTotal ?? 0)
+                            : isReguler || isKhusus
+                              ? selectedPenaltyText
+                              : "0",
                         total: isPenurunanBakiDebet
                           ? penurunanBakiDebetPokokText ?? "0"
-                          : "2.455.555",
+                          : formatIdrLike(
+                              2455555 +
+                                (penaltyOnlyCols
+                                  ? penaltyTotal ?? 0
+                                  : isReguler || isKhusus
+                                    ? selectedPenaltyTotal
+                                    : 0),
+                            ),
                       }
                 }
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
