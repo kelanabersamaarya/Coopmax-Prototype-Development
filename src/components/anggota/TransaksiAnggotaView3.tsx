@@ -326,6 +326,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                       showGraceInfo={showGraceInfo}
                       highlightGraceBlock={highlightGraceBlock}
                       hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
+                      tone={isKhusus ? "khusus" : "default"}
                     />
                   )}
                 </>

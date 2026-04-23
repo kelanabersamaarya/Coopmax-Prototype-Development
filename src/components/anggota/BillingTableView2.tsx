@@ -76,6 +76,7 @@ export default function BillingTableView2({
   highlightGraceBlock = false,
   hideSelection = false,
   showPenaltyColumn = false,
+  tone = "default",
   className,
 }: {
   rows: BillingRow[];
@@ -87,9 +88,16 @@ export default function BillingTableView2({
   highlightGraceBlock?: boolean; // border highlight (wrapper) untuk grace rows
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
+  tone?: "default" | "khusus";
   className?: string;
 }) {
-  const colCount = hideSelection ? (showPenaltyColumn ? 7 : 6) : showPenaltyColumn ? 8 : 7;
+  const colCount = hideSelection
+    ? showPenaltyColumn
+      ? 7
+      : 6
+    : showPenaltyColumn
+      ? 8
+      : 7;
 
   const allChecked = React.useMemo(() => {
     if (rows.length === 0) return false;
@@ -131,13 +139,19 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
+  const dateTextClass =
+    tone === "khusus"
+      ? "text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
+      : "text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap";
+
+  const numberTextClass =
+    tone === "khusus"
+      ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
+      : "text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
+
   function PenaltyCell({ idx }: { idx: number }) {
     const nominal = formatIdrLike(penaltyForIndex(idx));
-    return (
-      <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-        {nominal}
-      </div>
-    );
+    return <div className={cn("px-4 py-4", numberTextClass)}>{nominal}</div>;
   }
 
   return (
@@ -233,27 +247,27 @@ export default function BillingTableView2({
                                           </div>
                                         ) : null}
 
-                                        <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                                        <div className={cn("px-4 py-4", dateTextClass)}>
                                           {r.jatuhTempo}
                                         </div>
 
-                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.totalBelumDibayar}
                                         </div>
 
-                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.tagihanPokok}
                                         </div>
 
-                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.tagihanBunga}
                                         </div>
 
-                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.sisaPokok}
                                         </div>
 
-                                        <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.sisaBunga}
                                         </div>
 
@@ -290,9 +304,7 @@ export default function BillingTableView2({
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={
-                                    isLocked ? true : (selected[rowIndex] ?? false)
-                                  }
+                                  checked={isLocked ? true : (selected[rowIndex] ?? false)}
                                   disabled={isLocked}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -307,27 +319,27 @@ export default function BillingTableView2({
                               </div>
                             ) : null}
 
-                            <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                            <div className={cn("px-4 py-4", dateTextClass)}>
                               {r.jatuhTempo}
                             </div>
 
-                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.totalBelumDibayar}
                             </div>
 
-                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.tagihanPokok}
                             </div>
 
-                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.tagihanBunga}
                             </div>
 
-                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.sisaPokok}
                             </div>
 
-                            <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.sisaBunga}
                             </div>
 
@@ -384,27 +396,27 @@ export default function BillingTableView2({
                                 </div>
                               ) : null}
 
-                              <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              <div className={cn("px-4 py-4", dateTextClass)}>
                                 {r.jatuhTempo}
                               </div>
 
-                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.totalBelumDibayar}
                               </div>
 
-                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.tagihanPokok}
                               </div>
 
-                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.tagihanBunga}
                               </div>
 
-                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.sisaPokok}
                               </div>
 
-                              <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.sisaBunga}
                               </div>
 
