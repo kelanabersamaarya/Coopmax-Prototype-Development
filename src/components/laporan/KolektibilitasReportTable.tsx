@@ -511,7 +511,10 @@ export default function KolektibilitasReportTable({
                         {jenisPinjaman}
                       </Td>
 
-                      <Td className={cn(colW.plafon, "whitespace-nowrap text-left")} align="left">
+                      <Td
+                        className={cn(colW.plafon, "whitespace-nowrap text-left")}
+                        align="left"
+                      >
                         {formatIdr0(plafon)}
                       </Td>
 
@@ -572,7 +575,7 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      {/* UBAH: kolektibilitas tidak bold + rata kiri */}
+                      {/* Kolektibilitas: tidak bold, rata kiri */}
                       <Td className={cn(colW.kolektibilitas, "text-left")} align="left">
                         {kolek}
                       </Td>
@@ -581,7 +584,7 @@ export default function KolektibilitasReportTable({
                 })
               )}
 
-              {/* UBAH: kolom Kolektibilitas dikosongkan agar tidak menampilkan angka */}
+              {/* Total per Halaman */}
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
                   <td colSpan={16} className={totalRowLabelClass}>
@@ -612,7 +615,9 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsPage.t90p)}
                   </td>
 
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.sisa)}</td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.sisa)}
+                  </td>
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.hutangPokok)}
                   </td>
@@ -620,11 +625,12 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsPage.hutangBunga)}
                   </td>
 
-                  {/* Kolom Kolektibilitas (kosong) */}
+                  {/* KOLEKTIBILITAS: kosongkan supaya tidak ada nominal */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
 
+              {/* Total */}
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
                   <td colSpan={16} className={totalRowLabelClass}>
@@ -639,15 +645,21 @@ export default function KolektibilitasReportTable({
 
                   <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
 
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.nilai)}</td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t1_30)}</td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.nilai)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t1_30)}
+                  </td>
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsAll.t31_60)}
                   </td>
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsAll.t61_90)}
                   </td>
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t90p)}</td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t90p)}
+                  </td>
 
                   <td className={totalRowNumberClass}>{formatIdr0(totalsAll.sisa)}</td>
                   <td className={totalRowNumberClass}>
@@ -657,7 +669,7 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsAll.hutangBunga)}
                   </td>
 
-                  {/* Kolom Kolektibilitas (kosong) */}
+                  {/* KOLEKTIBILITAS: kosongkan supaya tidak ada nominal */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
