@@ -1,3 +1,4 @@
+'Total Tagihan Pokok'.">
 "use client";
 
 import * as React from "react";
@@ -214,7 +215,11 @@ export default function BillSummaryCard({
       <div>
         {isPenurunanBakiDebet ? (
           <>
-            <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} strong />
+            <SummaryRow
+              label="Total Tagihan Pokok"
+              value={displayTotals.pokok}
+              strong
+            />
             <SummaryRow label="Sisa Pinjaman" value={displayTotals.pokok} strong />
           </>
         ) : isPembayaranBunga ? (
