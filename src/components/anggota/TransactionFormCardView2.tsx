@@ -34,7 +34,7 @@ const transactionTypes = [
 
 export type TransactionType =
   | (typeof transactionTypes)[number]
-  | "Pembayaran Penurunan Baki Debit"
+  | "Pembayaran Penurunan Baki Debet"
   | "Pembayaran Pokok"
   | "Pembayaran Bunga"
   | "Pembayaran Denda"
@@ -43,8 +43,8 @@ export type TransactionType =
 function titleForTransaction(t: TransactionType | null) {
   if (!t) return "PILIH TRANSAKSI";
   if (t === "Pembayaran Reguler") return "PEMBAYARAN REGULER";
-  if (t === "Pembayaran Penurunan Baki Debit")
-    return "PEMBAYARAN PENURUNAN BAKI DEBIT";
+  if (t === "Pembayaran Penurunan Baki Debet")
+    return "PEMBAYARAN PENURUNAN BAKI DEBET";
   if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
   if (t === "Pelunasan") return "PELUNASAN";
   if (t === "Bayar Pokok" || t === "Pembayaran Pokok") return "BAYAR POKOK";
@@ -197,7 +197,7 @@ export default function TransactionFormCardView2({
 }) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
-  const isPenurunanBakiDebit = jenisTransaksi === "Pembayaran Penurunan Baki Debit";
+  const isPenurunanBakiDebet = jenisTransaksi === "Pembayaran Penurunan Baki Debet";
   const nominalPelunasan = "9.625.000";
 
   const isUnset = !jenisTransaksi;
@@ -210,7 +210,7 @@ export default function TransactionFormCardView2({
     if (isUnset) return;
     if (!tabungan || tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUnset, isPelunasan, isRincian, isPenurunanBakiDebit]);
+  }, [isUnset, isPelunasan, isRincian, isPenurunanBakiDebet]);
 
   // Kolektor: enforce dropdown placeholder/values (bukan free text)
   React.useEffect(() => {
@@ -237,7 +237,7 @@ export default function TransactionFormCardView2({
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
-  const nominalLabel = isPenurunanBakiDebit
+  const nominalLabel = isPenurunanBakiDebet
     ? "Nominal Pokok*"
     : isPelunasan
       ? "Nominal Pelunasan*"

@@ -53,7 +53,7 @@ function SummaryRow({
 
 type TransactionType =
   | "Pembayaran Reguler"
-  | "Pembayaran Penurunan Baki Debit"
+  | "Pembayaran Penurunan Baki Debet"
   | "Pembayaran Rincian Tagihan"
   | "Pelunasan"
   | "Pembayaran Pokok"
@@ -97,8 +97,8 @@ export default function BillSummaryCard({
 
   const isRegular = transactionType === "Pembayaran Reguler";
   const isRincian = transactionType === "Pembayaran Rincian Tagihan";
-  const isPenurunanBakiDebit =
-    transactionType === "Pembayaran Penurunan Baki Debit";
+  const isPenurunanBakiDebet =
+    transactionType === "Pembayaran Penurunan Baki Debet";
 
   const displayTotals = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -115,12 +115,12 @@ export default function BillSummaryCard({
     [onTransactionTypeChange],
   );
 
-  // mode Penurunan Baki Debit: hanya pokok, tanpa section angsuran
+  // mode Penurunan Baki Debet: hanya pokok, tanpa section angsuran
   const showInstallmentSection =
     mode !== "pelunasan" &&
     !isPembayaranDenda &&
     !isPembayaranBiayaLainnya &&
-    !isPenurunanBakiDebit;
+    !isPenurunanBakiDebet;
 
   // label ringkas untuk reguler & rincian (tanpa kata "Total")
   const useShortLabels = isRegular || isRincian;
@@ -175,13 +175,13 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Pembayaran Penurunan Baki Debit"
+                transactionType === "Pembayaran Penurunan Baki Debet"
                   ? "bg-slate-100"
                   : "",
               )}
-              onClick={() => handleChange("Pembayaran Penurunan Baki Debit")}
+              onClick={() => handleChange("Pembayaran Penurunan Baki Debet")}
             >
-              {transactionLabel("Pembayaran Penurunan Baki Debit")}
+              {transactionLabel("Pembayaran Penurunan Baki Debet")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -214,7 +214,7 @@ export default function BillSummaryCard({
       <Separator className="my-4 bg-slate-200/70" />
 
       <div>
-        {isPenurunanBakiDebit ? (
+        {isPenurunanBakiDebet ? (
           <>
             <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} strong />
             <SummaryRow
