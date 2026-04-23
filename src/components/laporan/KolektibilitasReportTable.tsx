@@ -107,7 +107,6 @@ function PaginationLikeExample({
   onPage: (p: number) => void;
   className?: string;
 }) {
-  // Selalu tampil, meski 1 halaman (sesuai kebutuhan UI contoh)
   const disabledPrev = page <= 1;
   const disabledNext = page >= pageCount;
 
@@ -227,7 +226,7 @@ export default function KolektibilitasReportTable({
     totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(totalEntriesResolved, page * pageSize);
 
-  // Total "per halaman" & "total" (prototype) dihitung dari rows yang sedang ditampilkan.
+  // Total "per halaman" & "total" (prototype)
   const totals = React.useMemo(() => {
     return paged.reduce(
       (acc, r) => {
@@ -264,12 +263,11 @@ export default function KolektibilitasReportTable({
   const totalRowNumberClass =
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
-  // jumlah kolom data (final): 27 kolom (lihat urutan header)
-  const TOTAL_COLS = 27;
+  // TOTAL kolom sesuai header:
+  // 11 kolom awal + 3 (jangka waktu) + 2 (pinjaman) + 2 (angsuran) + 6 (tunggakan) + 3 (sisa/hutang) + 1 (kolektibilitas) = 28
+  const TOTAL_COLS = 28;
 
   function TotalRow({ label }: { label: string }) {
-    // Label mengisi semua kolom sampai sebelum "Pinjaman: Sld Pokok"
-    // Kolom 1..16 = No..Jangka Waktu(s/d) => 16 kolom
     const labelColSpan = 16;
 
     return (
@@ -281,7 +279,7 @@ export default function KolektibilitasReportTable({
         {/* 17: Pinjaman Sld. Pokok */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.pokok)}</td>
 
-        {/* 18: Pinjaman Bng */}
+        {/* 18: Pinjaman Bng (kosong seperti sebelumnya) */}
         <td className="border border-slate-200/70 px-3 py-3">
           <span className="sr-only">-</span>
         </td>
@@ -289,10 +287,12 @@ export default function KolektibilitasReportTable({
         {/* 19-20: Angsuran (Per bln, Sdh/Hr) */}
         <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
 
-        {/* 21-26: Tunggakan (Bln, Nilai, 1-30, 31-60, 61-90, >90) */}
-        <td className={totalRowNumberClass}>
+        {/* 21: Tunggakan Bln (kosong) */}
+        <td className="border border-slate-200/70 px-3 py-3">
           <span className="sr-only">-</span>
         </td>
+
+        {/* 22-26: Tunggakan Nilai..>90 */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.nilai)}</td>
         <td className={totalRowNumberClass}>{formatIdr0(totals.t1_30)}</td>
         <td className={totalRowNumberClass}>{formatIdr0(totals.t31_60)}</td>
@@ -313,7 +313,7 @@ export default function KolektibilitasReportTable({
           <span className="sr-only">-</span>
         </td>
 
-        {/* Guard: kalau suatu saat kolom berubah, ini bantu kita sadar (dev only) */}
+        {/* pastikan tidak ada sel ekstra */}
         <td className="hidden">{TOTAL_COLS}</td>
       </tr>
     );
