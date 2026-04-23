@@ -34,55 +34,61 @@ function addMonths(base: Date, months: number) {
 }
 
 /**
- * Sesuai permintaan: nominal denda hanya tampil untuk tagihan yang termasuk grace period.
- * Di UI ini, grace period = baris yang berada di dalam blok highlight (graceRows).
+ * Denda:
+ * - Di grace period: tampilkan nominal + icon + tooltip.
+ * - Di luar grace: tetap render "slot icon" dengan lebar tetap (hidden),
+ *   supaya alignment angka (dan simbol "-") konsisten antar baris.
  *
- * NOTE: Tooltip harus pakai Portal agar tidak ter-clip oleh container overflow (table wrappers).
+ * Tooltip pakai Portal agar tidak ter-clip oleh container overflow.
  */
-function PenaltyAmountWithDangerIcon({
+function PenaltyAmountCell({
   amount,
-  show,
+  showIcon,
+  showAmount,
 }: {
   amount: string;
-  show: boolean;
+  showIcon: boolean;
+  showAmount: boolean;
 }) {
-  if (!show) return null;
-
   return (
-    <span className="inline-flex items-center justify-end gap-2 whitespace-nowrap">
-      <span>{amount}</span>
+    <span className="inline-flex w-full items-center justify-end gap-2 whitespace-nowrap">
+      <span>{showAmount ? amount : "-"}</span>
 
-      <TooltipPrimitive.Provider delayDuration={120}>
-        <TooltipPrimitive.Root>
-          <TooltipPrimitive.Trigger asChild>
-            <button
-              type="button"
-              aria-label="Tagihan denda"
-              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-800 ring-1 ring-amber-200 transition-colors hover:bg-amber-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 cursor-help"
-            >
-              <AlertTriangle className="h-4 w-4" />
-            </button>
-          </TooltipPrimitive.Trigger>
+      {/* Slot icon fixed width supaya alignment tidak geser */}
+      {showIcon ? (
+        <TooltipPrimitive.Provider delayDuration={120}>
+          <TooltipPrimitive.Root>
+            <TooltipPrimitive.Trigger asChild>
+              <button
+                type="button"
+                aria-label="Tagihan denda"
+                className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-800 ring-1 ring-amber-200 transition-colors hover:bg-amber-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 cursor-help"
+              >
+                <AlertTriangle className="h-4 w-4" />
+              </button>
+            </TooltipPrimitive.Trigger>
 
-          {/* Portal => render ke body, jadi tidak ketutup/terpotong oleh overflow parent */}
-          <TooltipPrimitive.Portal>
-            <TooltipPrimitive.Content
-              side="top"
-              align="center"
-              sideOffset={10}
-              avoidCollisions
-              collisionPadding={12}
-              className={cn(
-                "z-[99999]",
-                "max-w-[320px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-xl",
-              )}
-            >
-              Terdapat Keterlambatan Pembayaran Selama 3 Hari
-              <TooltipPrimitive.Arrow className="fill-white" />
-            </TooltipPrimitive.Content>
-          </TooltipPrimitive.Portal>
-        </TooltipPrimitive.Root>
-      </TooltipPrimitive.Provider>
+            <TooltipPrimitive.Portal>
+              <TooltipPrimitive.Content
+                side="top"
+                align="center"
+                sideOffset={10}
+                avoidCollisions
+                collisionPadding={12}
+                className={cn(
+                  "z-[99999]",
+                  "max-w-[320px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-xl",
+                )}
+              >
+                Terdapat Keterlambatan Pembayaran Selama 3 Hari
+                <TooltipPrimitive.Arrow className="fill-white" />
+              </TooltipPrimitive.Content>
+            </TooltipPrimitive.Portal>
+          </TooltipPrimitive.Root>
+        </TooltipPrimitive.Provider>
+      ) : (
+        <span className="h-6 w-6" aria-hidden="true" />
+      )}
     </span>
   );
 }
@@ -891,9 +897,10 @@ export default function BillingTable({
                                             numCell,
                                           )}
                                         >
-                                          <PenaltyAmountWithDangerIcon
+                                          <PenaltyAmountCell
                                             amount={penalties[rowIdx]?.total ?? "0"}
-                                            show={true}
+                                            showIcon={true}
+                                            showAmount={true}
                                           />
                                         </td>
                                       ) : null}
@@ -978,7 +985,11 @@ export default function BillingTable({
                               isLastNumeric: true,
                             })}
                           >
-                            <span className="text-slate-400">-</span>
+                            <PenaltyAmountCell
+                              amount={penalties[rowIdx]?.total ?? "0"}
+                              showIcon={false}
+                              showAmount={false}
+                            />
                           </td>
                         ) : null}
                       </tr>
@@ -1063,7 +1074,11 @@ export default function BillingTable({
 
                       {showPenaltyCol ? (
                         <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                          <span className="text-slate-400">-</span>
+                          <PenaltyAmountCell
+                            amount={penalties[idx]?.total ?? "0"}
+                            showIcon={false}
+                            showAmount={false}
+                          />
                         </td>
                       ) : null}
                     </tr>
@@ -1147,7 +1162,11 @@ export default function BillingTable({
 
                         {showPenaltyCol ? (
                           <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                            <span className="text-slate-400">-</span>
+                            <PenaltyAmountCell
+                              amount={penalties[globalIndex]?.total ?? "0"}
+                              showIcon={false}
+                              showAmount={false}
+                            />
                           </td>
                         ) : null}
                       </tr>
