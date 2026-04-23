@@ -32,6 +32,7 @@ import TransactionFormCardView2, {
 } from "@/components/anggota/TransactionFormCardView2";
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
 import { formatIdrLike } from "@/components/anggota/calc-penalties";
+import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
 
 type Props = {
   nasabah: {
@@ -171,12 +172,6 @@ function formatMoneyIdNoDecimals(n: number) {
   return formatIdrLike(Math.round(Number.isFinite(n) ? n : 0));
 }
 
-function calcPenaltyForRowIndex(idx: number) {
-  // HARUS sama dengan BillingTable.tsx
-  const base = 25000;
-  return base + idx * 5000;
-}
-
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -194,8 +189,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
   const isReguler = jenisTransaksi === "Pembayaran Reguler";
+  const isKhusus = jenisTransaksi === "Pembayaran Khusus";
 
-  // sink label baru dari BillSummaryCard: "Pembayaran ..."
   const hideInterestCols = jenisTransaksi === "Pembayaran Pokok";
   const interestOnlyCols = jenisTransaksi === "Pembayaran Bunga";
   const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
@@ -217,20 +212,14 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return rows.slice(start, start + pageSize);
   }, [page, pageSize]);
 
-  // Selected SEKARANG selalu mengikuti baris yang sedang tampil (pagedRows)
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     pagedRows.map(() => false),
   );
 
   React.useEffect(() => {
     // Reset selected saat halaman / transaksi berubah (biar konsisten dengan UI)
-    if (isPelunasan) {
+    if (isPelunasan || isReguler || isKhusus) {
       setSelected(pagedRows.map(() => true));
-      return;
-    }
-
-    if (isReguler) {
-      setSelected(pagedRows.map(() => false));
       return;
     }
 
@@ -243,43 +232,28 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     const next = pagedRows.map(() => false);
     if (next.length > 0) next[0] = true;
     setSelected(next);
-  }, [isPelunasan, isReguler, isPenurunanBakiDebet, pagedRows]);
+  }, [isPelunasan, isReguler, isKhusus, isPenurunanBakiDebet, pagedRows]);
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
-  const penaltyTotal = React.useMemo(() => {
+  // Denda untuk Reguler/Khusus/Pelunasan mengikuti checklist (rumus 25k + idx*5k)
+  const selectedPenaltyTotal = React.useMemo(() => {
+    if (!(isReguler || isKhusus || isPelunasan)) return 0;
+    return calcSelectedPenaltyTotal(selected, pagedRows.length);
+  }, [isKhusus, isPelunasan, isReguler, pagedRows.length, selected]);
+
+  const selectedPenaltyText = React.useMemo(() => {
+    return formatMoneyIdNoDecimals(selectedPenaltyTotal);
+  }, [selectedPenaltyTotal]);
+
+  const penaltyTotalExplicit = React.useMemo(() => {
     if (!penaltyOnlyCols) return 0;
+    return calcSelectedPenaltyTotal(selected, pagedRows.length);
+  }, [pagedRows.length, penaltyOnlyCols, selected]);
 
-    return pagedRows.reduce((sum, _r, idxOnPage) => {
-      const checked = selected[idxOnPage] ?? false;
-      if (!checked) return sum;
-      return sum + calcPenaltyForRowIndex(idxOnPage);
-    }, 0);
-  }, [pagedRows, penaltyOnlyCols, selected]);
-
-  const penaltyTotalText = React.useMemo(() => {
-    if (!penaltyOnlyCols) return null;
-    return formatMoneyIdNoDecimals(penaltyTotal);
-  }, [penaltyOnlyCols, penaltyTotal]);
-
-  // Total pokok untuk Penurunan Baki Debet = jumlah seluruh tagihan pokok pada tabel yang ditampilkan (pagedRows)
-  const penurunanTotalPokok = React.useMemo(() => {
-    if (!isPenurunanBakiDebet) return 0;
-    return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.tagihanPokok), 0);
-  }, [isPenurunanBakiDebet, pagedRows]);
-
-  // Sisa pinjaman: awal 0, baru terisi setelah klik Bayar Tagihan
-  const [penurunanSisaPinjaman, setPenurunanSisaPinjaman] =
-    React.useState<number>(0);
-
-  React.useEffect(() => {
-    // reset hasil ketika ganti transaksi
-    setPenurunanSisaPinjaman(0);
-  }, [jenisTransaksi]);
-
-  const computedTotals = React.useMemo(() => {
+  const computedBaseTotals = React.useMemo(() => {
     let pokok = 0;
     let bunga = 0;
 
@@ -289,22 +263,46 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       bunga += parseMoneyLikeId(pagedRows[i]?.tagihanBunga ?? "0");
     }
 
-    const denda = penaltyOnlyCols ? penaltyTotal : 0;
-    const total = pokok + bunga + denda;
+    const total = pokok + bunga;
 
     return {
-      pokok: formatMoneyIdNoDecimals(pokok),
-      bunga: formatMoneyIdNoDecimals(bunga),
+      pokok,
+      bunga,
+      total,
+    };
+  }, [pagedRows, selected]);
+
+  const computedTotals = React.useMemo(() => {
+    const denda =
+      penaltyOnlyCols ? penaltyTotalExplicit : isReguler || isKhusus ? selectedPenaltyTotal : 0;
+
+    const total = computedBaseTotals.total + denda;
+
+    return {
+      pokok: formatMoneyIdNoDecimals(computedBaseTotals.pokok),
+      bunga: formatMoneyIdNoDecimals(computedBaseTotals.bunga),
       denda: formatMoneyIdNoDecimals(denda),
       total: formatMoneyIdNoDecimals(total),
     };
-  }, [pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
+  }, [
+    computedBaseTotals.bunga,
+    computedBaseTotals.pokok,
+    computedBaseTotals.total,
+    isKhusus,
+    isReguler,
+    penaltyOnlyCols,
+    penaltyTotalExplicit,
+    selectedPenaltyTotal,
+  ]);
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
 
     const sum = pagedRows.reduce(
-      (acc, r) => {
+      (acc, r, idx) => {
+        const checked = selected[idx] ?? false;
+        if (!checked) return acc;
+
         acc.total += parseMoneyLikeId(r.totalBelumDibayar);
         acc.pokok += parseMoneyLikeId(r.tagihanPokok);
         acc.bunga += parseMoneyLikeId(r.tagihanBunga);
@@ -322,7 +320,22 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       sisaPokok: formatMoneyIdNoDecimals(sum.sisaPokok),
       sisaBunga: formatMoneyIdNoDecimals(sum.sisaBunga),
     };
-  }, [isPelunasan, pagedRows]);
+  }, [isPelunasan, pagedRows, selected]);
+
+  // Total pokok untuk Penurunan Baki Debet = jumlah seluruh tagihan pokok pada tabel yang ditampilkan (pagedRows)
+  const penurunanTotalPokok = React.useMemo(() => {
+    if (!isPenurunanBakiDebet) return 0;
+    return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.tagihanPokok), 0);
+  }, [isPenurunanBakiDebet, pagedRows]);
+
+  // Sisa pinjaman: awal 0, baru terisi setelah klik Bayar Tagihan
+  const [penurunanSisaPinjaman, setPenurunanSisaPinjaman] =
+    React.useState<number>(0);
+
+  React.useEffect(() => {
+    // reset hasil ketika ganti transaksi
+    setPenurunanSisaPinjaman(0);
+  }, [jenisTransaksi]);
 
   const penurunanTotals = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
@@ -465,15 +478,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     ? {
                         pokok: pelunasanTotals?.pokok ?? "0",
                         bunga: pelunasanTotals?.bunga ?? "0",
-                        denda: "0",
-                        total: pelunasanTotals?.totalBelumDibayar ?? "0",
+                        denda: selectedPenaltyText,
+                        total: formatMoneyIdNoDecimals(
+                          parseMoneyLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
+                            selectedPenaltyTotal,
+                        ),
                       }
                     : penaltyOnlyCols
                       ? {
                           pokok: "0",
                           bunga: "0",
-                          denda: penaltyTotalText ?? "0",
-                          total: penaltyTotalText ?? "0",
+                          denda: formatMoneyIdNoDecimals(penaltyTotalExplicit),
+                          total: formatMoneyIdNoDecimals(penaltyTotalExplicit),
                         }
                       : isPenurunanBakiDebet
                         ? {
