@@ -3,12 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { AlertTriangle } from "lucide-react";
 
 export type BillingRow = {
@@ -41,6 +36,8 @@ function addMonths(base: Date, months: number) {
 /**
  * Sesuai permintaan: nominal denda hanya tampil untuk tagihan yang termasuk grace period.
  * Di UI ini, grace period = baris yang berada di dalam blok highlight (graceRows).
+ *
+ * NOTE: Tooltip harus pakai Portal agar tidak ter-clip oleh container overflow (table wrappers).
  */
 function PenaltyAmountWithDangerIcon({
   amount,
@@ -55,10 +52,9 @@ function PenaltyAmountWithDangerIcon({
     <span className="inline-flex items-center justify-end gap-2 whitespace-nowrap">
       <span>{amount}</span>
 
-      {/* Gunakan Portal (default shadcn) + z-index tinggi agar tidak ketutup section lain */}
-      <TooltipProvider>
-        <Tooltip delayDuration={120}>
-          <TooltipTrigger asChild>
+      <TooltipPrimitive.Provider delayDuration={120}>
+        <TooltipPrimitive.Root>
+          <TooltipPrimitive.Trigger asChild>
             <button
               type="button"
               aria-label="Tagihan denda"
@@ -66,22 +62,27 @@ function PenaltyAmountWithDangerIcon({
             >
               <AlertTriangle className="h-4 w-4" />
             </button>
-          </TooltipTrigger>
+          </TooltipPrimitive.Trigger>
 
-          <TooltipContent
-            side="top"
-            align="center"
-            sideOffset={10}
-            avoidCollisions
-            className={cn(
-              "z-[9999] max-w-[260px]",
-              "border-slate-200 bg-white text-slate-900 shadow-lg",
-            )}
-          >
-            Terdapat Keterlambatan Pembayaran Selama 3 Hari
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+          {/* Portal => render ke body, jadi tidak ketutup/terpotong oleh overflow parent */}
+          <TooltipPrimitive.Portal>
+            <TooltipPrimitive.Content
+              side="top"
+              align="center"
+              sideOffset={10}
+              avoidCollisions
+              collisionPadding={12}
+              className={cn(
+                "z-[99999]",
+                "max-w-[320px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-xl",
+              )}
+            >
+              Terdapat Keterlambatan Pembayaran Selama 3 Hari
+              <TooltipPrimitive.Arrow className="fill-white" />
+            </TooltipPrimitive.Content>
+          </TooltipPrimitive.Portal>
+        </TooltipPrimitive.Root>
+      </TooltipPrimitive.Provider>
     </span>
   );
 }
@@ -200,10 +201,6 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  /**
-   * Alignment helper untuk baris "di luar grace period".
-   * Targetnya: padding & right-edge kolom harus sama persis dengan tabel di dalam block grace.
-   */
   function buildOutsideCellClass({
     col,
     isFirstNumeric,
@@ -720,7 +717,9 @@ export default function BillingTable({
                     disabled={isPelunasan}
                     onChange={(e) => {
                       const next = e.target.checked;
-                      setSelected(Array.from({ length: totalSelectableRows }).map(() => next));
+                      setSelected(
+                        Array.from({ length: totalSelectableRows }).map(() => next),
+                      );
                     }}
                     className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
                   />
