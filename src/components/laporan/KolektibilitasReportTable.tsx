@@ -323,27 +323,28 @@ export default function KolektibilitasReportTable({
                   Alamat
                 </Th>
 
-                <Th rowSpan={2} className={colW.kodePinjaman} align="center">
+                {/* UBAH: header jadi rata kiri */}
+                <Th rowSpan={2} className={colW.kodePinjaman} align="left">
                   Kode Pinjaman
                 </Th>
 
-                <Th rowSpan={2} className={colW.tanggalPinjaman} align="center">
+                <Th rowSpan={2} className={colW.tanggalPinjaman} align="left">
                   Tanggal Pinjaman
                 </Th>
 
-                <Th rowSpan={2} className={colW.tanggalJatuhTempo} align="center">
+                <Th rowSpan={2} className={colW.tanggalJatuhTempo} align="left">
                   Tanggal Jatuh Tempo
                 </Th>
 
-                <Th rowSpan={2} className={colW.jenisPinjaman} align="center">
+                <Th rowSpan={2} className={colW.jenisPinjaman} align="left">
                   Jenis Pinjaman
                 </Th>
 
-                <Th rowSpan={2} className={colW.plafon} align="right">
+                <Th rowSpan={2} className={colW.plafon} align="left">
                   Plafon
                 </Th>
 
-                <Th rowSpan={2} className={colW.aoId} align="center">
+                <Th rowSpan={2} className={colW.aoId} align="left">
                   AO ID
                 </Th>
 
@@ -486,34 +487,43 @@ export default function KolektibilitasReportTable({
                         {r.alamat}
                       </Td>
 
-                      {/* UBAH: isi kolom-kolom ini rata kiri */}
-                      <Td className={cn(colW.kodePinjaman, "whitespace-nowrap")} align="left">
+                      {/* UBAH: isi kolom-kolom ini rata kiri (dan dipaksa text-left) */}
+                      <Td
+                        className={cn(colW.kodePinjaman, "whitespace-nowrap text-left")}
+                        align="left"
+                      >
                         {kodePinjaman}
                       </Td>
 
                       <Td
-                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
+                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap text-left")}
                         align="left"
                       >
                         {tanggalPinjaman}
                       </Td>
 
                       <Td
-                        className={cn(colW.tanggalJatuhTempo, "whitespace-nowrap")}
+                        className={cn(
+                          colW.tanggalJatuhTempo,
+                          "whitespace-nowrap text-left",
+                        )}
                         align="left"
                       >
                         {tanggalJatuhTempo}
                       </Td>
 
-                      <Td className={cn(colW.jenisPinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.jenisPinjaman, "whitespace-nowrap text-left")}
+                        align="left"
+                      >
                         {jenisPinjaman}
                       </Td>
 
-                      <Td className={cn(colW.plafon, "whitespace-nowrap")} align="left">
+                      <Td className={cn(colW.plafon, "whitespace-nowrap text-left")} align="left">
                         {formatIdr0(plafon)}
                       </Td>
 
-                      <Td className={cn(colW.aoId, "whitespace-nowrap")} align="left">
+                      <Td className={cn(colW.aoId, "whitespace-nowrap text-left")} align="left">
                         {r.aoId}
                       </Td>
 
