@@ -153,7 +153,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return calcPenaltyTotal(rowsToShow as any, selected);
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
-  // NEW: denda checklist untuk Reguler/Khusus/Pelunasan
   const selectedPenaltyTotal = React.useMemo(() => {
     if (!(isReguler || isKhusus || isPelunasan)) return 0;
     return calcSelectedPenaltyTotal(selected, rowsToShow.length);
@@ -317,6 +316,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showGraceInfo={showGraceInfo}
                   highlightGraceBlock={highlightGraceBlock}
                   hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
+                  showPenaltyColumn={isKhusus}
                 />
               )}
 

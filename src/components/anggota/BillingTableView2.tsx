@@ -56,6 +56,16 @@ function NextBillInfoBanner() {
   );
 }
 
+function formatIdrLike(n: number) {
+  const s = Math.round(n).toString();
+  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function penaltyForIndex(idx: number) {
+  const base = 25000;
+  return base + idx * 5000;
+}
+
 export default function BillingTableView2({
   rows,
   selected,
@@ -65,6 +75,7 @@ export default function BillingTableView2({
   showGraceInfo = true,
   highlightGraceBlock = false,
   hideSelection = false,
+  showPenaltyColumn = false,
   className,
 }: {
   rows: BillingRow[];
@@ -75,9 +86,10 @@ export default function BillingTableView2({
   showGraceInfo?: boolean;
   highlightGraceBlock?: boolean; // border highlight (wrapper) untuk grace rows
   hideSelection?: boolean;
+  showPenaltyColumn?: boolean;
   className?: string;
 }) {
-  const colCount = hideSelection ? 6 : 7;
+  const colCount = hideSelection ? (showPenaltyColumn ? 7 : 6) : showPenaltyColumn ? 8 : 7;
 
   const allChecked = React.useMemo(() => {
     if (rows.length === 0) return false;
@@ -107,9 +119,26 @@ export default function BillingTableView2({
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
-  const gridTemplate = hideSelection
-    ? "[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]"
-    : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
+  const gridTemplate = (() => {
+    if (hideSelection) {
+      return showPenaltyColumn
+        ? "[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)]"
+        : "[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
+    }
+
+    return showPenaltyColumn
+      ? "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)]"
+      : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
+  })();
+
+  function PenaltyCell({ idx }: { idx: number }) {
+    const nominal = formatIdrLike(penaltyForIndex(idx));
+    return (
+      <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+        {nominal}
+      </div>
+    );
+  }
 
   return (
     <div className={cn("mt-3", className)}>
@@ -147,6 +176,9 @@ export default function BillingTableView2({
               <th className="px-4 py-3 text-right">Tagihan Bunga</th>
               <th className="px-4 py-3 text-right">Sisa Tagihan Pokok</th>
               <th className="px-4 py-3 text-right">Sisa Tagihan Bunga</th>
+              {showPenaltyColumn ? (
+                <th className="px-4 py-3 text-right">Tagihan Denda</th>
+              ) : null}
             </tr>
           </thead>
 
@@ -224,6 +256,10 @@ export default function BillingTableView2({
                                         <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                                           {r.sisaBunga}
                                         </div>
+
+                                        {showPenaltyColumn ? (
+                                          <PenaltyCell idx={rowIndex} />
+                                        ) : null}
                                       </div>
                                     </RowShell>
                                   </td>
@@ -294,6 +330,8 @@ export default function BillingTableView2({
                             <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                               {r.sisaBunga}
                             </div>
+
+                            {showPenaltyColumn ? <PenaltyCell idx={rowIndex} /> : null}
                           </div>
                         </RowShell>
                       </td>
@@ -331,9 +369,7 @@ export default function BillingTableView2({
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
-                                    checked={
-                                      isLocked ? true : (selected[idx] ?? false)
-                                    }
+                                    checked={isLocked ? true : (selected[idx] ?? false)}
                                     disabled={isLocked}
                                     onChange={(e) => {
                                       const next = e.target.checked;
@@ -371,6 +407,8 @@ export default function BillingTableView2({
                               <div className="px-4 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.sisaBunga}
                               </div>
+
+                              {showPenaltyColumn ? <PenaltyCell idx={idx} /> : null}
                             </div>
                           </RowShell>
                         </td>
