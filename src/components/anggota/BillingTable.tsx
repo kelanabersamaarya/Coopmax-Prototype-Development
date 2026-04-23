@@ -188,29 +188,41 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  // Untuk baris di luar grace, kita buat padding kolom mengikuti edgeL/edgeR seperti table luar,
-  // supaya teks/angka sejajar dengan yang ada di dalam blok grace.
+  // Selaraskan padding kanan untuk baris di luar grace agar sama dengan tabel di dalam grace.
+  // Di dalam grace: kolom Sisa Pokok punya edgeR, kolom Sisa Bunga TIDAK punya edgeR (punya padding default tdClass).
+  // Jadi: untuk baris luar grace, kita:
+  // - Total: pr-0 (sesuai sebelumnya)
+  // - Sisa Pokok: pr-4 (edgeR)
+  // - Sisa Bunga: pr-3 (default tdClass)
+  // - Denda: pr-4 (edgeR)
   function buildOutsideCellClass({
     col,
     isFirstNumeric,
     isLastNumeric,
   }: {
-    col: "date" | "total" | "pokok" | "bunga" | "sisaPokok" | "sisaBunga" | "denda";
+    col:
+      | "date"
+      | "total"
+      | "pokok"
+      | "bunga"
+      | "sisaPokok"
+      | "sisaBunga"
+      | "denda";
     isFirstNumeric?: boolean;
     isLastNumeric?: boolean;
   }) {
     const base = cn(tdClass, "text-slate-800", col === "date" ? dateCell : numCell);
 
-    // kolom paling kiri (jatuh tempo) ikut edgeL agar segaris dengan block grace yg punya checkbox column
     if (col === "date") return cn(base, edgeL);
 
-    // numeric pertama (totalBelumDibayar) diset pr-0 agar tidak bergeser (lebih mirip dalam block)
     if (isFirstNumeric) return cn(base, "pr-0");
 
-    // numeric terakhir (denda) tetap edgeR
+    if (col === "sisaPokok") return cn(base, edgeR);
+
+    if (col === "sisaBunga") return cn(base, "pr-3");
+
     if (isLastNumeric) return cn(base, edgeR);
 
-    // default: biarkan padding standar tdClass
     return base;
   }
 
@@ -925,7 +937,12 @@ export default function BillingTable({
                         <td className={cn(dateColW, tdClass, dateCell)}>{bill.jatuhTempo}</td>
 
                         {!hideInterestCols ? (
-                          <td className={buildOutsideCellClass({ col: "total", isFirstNumeric: true })}>
+                          <td
+                            className={buildOutsideCellClass({
+                              col: "total",
+                              isFirstNumeric: true,
+                            })}
+                          >
                             {bill.totalBelumDibayar}
                           </td>
                         ) : null}
@@ -950,9 +967,13 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
-                        {/* di luar grace period: denda tidak tampil, tapi posisi harus tetap lurus */}
                         {showPenaltyCol ? (
-                          <td className={buildOutsideCellClass({ col: "denda", isLastNumeric: true })}>
+                          <td
+                            className={buildOutsideCellClass({
+                              col: "denda",
+                              isLastNumeric: true,
+                            })}
+                          >
                             <span className="text-slate-400">-</span>
                           </td>
                         ) : null}
