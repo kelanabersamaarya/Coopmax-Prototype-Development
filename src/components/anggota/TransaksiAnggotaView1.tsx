@@ -217,36 +217,33 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return rows.slice(start, start + pageSize);
   }, [page, pageSize]);
 
-  const pageOffset = (page - 1) * pageSize;
-
-  const [selected, setSelected] = React.useState<boolean[]>(
-    () => rows.map(() => false),
+  // Selected SEKARANG selalu mengikuti baris yang sedang tampil (pagedRows)
+  const [selected, setSelected] = React.useState<boolean[]>(() =>
+    pagedRows.map(() => false),
   );
 
   React.useEffect(() => {
+    // Reset selected saat halaman / transaksi berubah (biar konsisten dengan UI)
     if (isPelunasan) {
-      setSelected(rows.map(() => true));
+      setSelected(pagedRows.map(() => true));
       return;
     }
 
-    // REGULER: default tidak ada yang ter-checklist
     if (isReguler) {
-      setSelected(rows.map(() => false));
+      setSelected(pagedRows.map(() => false));
       return;
     }
 
-    // PENURUNAN BAKI DEBET: semua baris dianggap ikut perhitungan (agar total pokok = jumlah seluruh tabel)
     if (isPenurunanBakiDebet) {
-      setSelected(rows.map(() => true));
+      setSelected(pagedRows.map(() => true));
       return;
     }
 
     // selain reguler: default baris pertama saja
-    const next = rows.map(() => false);
+    const next = pagedRows.map(() => false);
     if (next.length > 0) next[0] = true;
     setSelected(next);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPelunasan, isReguler, isPenurunanBakiDebet]);
+  }, [isPelunasan, isReguler, isPenurunanBakiDebet, pagedRows]);
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
@@ -255,17 +252,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const penaltyTotal = React.useMemo(() => {
     if (!penaltyOnlyCols) return 0;
 
-    // Penting: selected[] itu untuk GLOBAL rows, sedangkan UI menampilkan pagedRows.
-    // Jadi mapping ke selected harus pakai offset page.
     return pagedRows.reduce((sum, _r, idxOnPage) => {
-      const globalIdx = pageOffset + idxOnPage;
-      const checked = selected[globalIdx] ?? false;
+      const checked = selected[idxOnPage] ?? false;
       if (!checked) return sum;
-
-      // Denda di tabel dihitung berdasarkan index di halaman (bukan global), sesuai BillingTable.tsx
       return sum + calcPenaltyForRowIndex(idxOnPage);
     }, 0);
-  }, [pageOffset, pagedRows, penaltyOnlyCols, selected]);
+  }, [pagedRows, penaltyOnlyCols, selected]);
 
   const penaltyTotalText = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
@@ -288,21 +280,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   }, [jenisTransaksi]);
 
   const computedTotals = React.useMemo(() => {
-    // NOTE: Untuk View1, checklist yang terlihat hanya pagedRows,
-    // dan selected[] dipakai index GLOBAL, jadi perlu offset.
     let pokok = 0;
     let bunga = 0;
 
     for (let i = 0; i < pagedRows.length; i++) {
-      const globalIdx = pageOffset + i;
-      if (!(selected[globalIdx] ?? false)) continue;
+      if (!(selected[i] ?? false)) continue;
       pokok += parseMoneyLikeId(pagedRows[i]?.tagihanPokok ?? "0");
       bunga += parseMoneyLikeId(pagedRows[i]?.tagihanBunga ?? "0");
     }
 
     const denda = penaltyOnlyCols ? penaltyTotal : 0;
-
-    // Total Tagihan = pokok + bunga + denda
     const total = pokok + bunga + denda;
 
     return {
@@ -311,13 +298,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       denda: formatMoneyIdNoDecimals(denda),
       total: formatMoneyIdNoDecimals(total),
     };
-  }, [pageOffset, pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
+  }, [pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
 
-    // Pelunasan: jumlahkan seluruh nilai yang ada di tabel tagihan (berdasarkan tampilan sekarang)
-    // tetap dihitung per-row agar fleksibel kalau format string berubah.
     const sum = pagedRows.reduce(
       (acc, r) => {
         acc.total += parseMoneyLikeId(r.totalBelumDibayar);
@@ -342,10 +327,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const penurunanTotals = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
 
-    // total pokok dihitung dari seluruh tabel (paged)
     const totalPokokText = formatMoneyIdNoDecimals(penurunanTotalPokok);
-
-    // sisa pinjaman: awal 0, lalu update setelah bayar
     const sisaText = formatMoneyIdNoDecimals(penurunanSisaPinjaman);
 
     return {
