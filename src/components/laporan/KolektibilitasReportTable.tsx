@@ -147,25 +147,44 @@ function PaginationLikeExample({
 
 const colW = {
   no: "w-[60px]",
-  noNsb: "w-[120px]",
+  noNsb: "w-[140px]",
+
   nama: "w-[220px]",
+  status: "w-[140px]",
+
   alamat: "w-[170px]",
+
+  // Kolom tambahan UI sesuai request
+  kodePinjaman: "w-[150px]",
+  tanggalPinjaman: "w-[150px]",
+  tanggalJatuhTempo: "w-[170px]",
+  jenisPinjaman: "w-[170px]",
+  plafon: "w-[160px]",
+
   aoId: "w-[90px]",
+
   jwBln: "w-[70px]",
   jwDari: "w-[130px]",
   jwSampai: "w-[130px]",
+
   pinPokok: "w-[130px]",
   pinBng: "w-[90px]",
+
   angPerBln: "w-[130px]",
   angSdhHr: "w-[90px]",
 
-  // Tunggakan: dibuat lebih lega (boleh scroll horizontal)
+  // Tunggakan
   tBln: "w-[90px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
   t31_60: "w-[140px]",
   t61_90: "w-[140px]",
   t90p: "w-[140px]",
+
+  // Tambahan setelah tunggakan
+  sisaPinjaman: "w-[160px]",
+  hutangPokok: "w-[150px]",
+  hutangBunga: "w-[150px]",
 
   kolektibilitas: "w-[160px]",
 };
@@ -227,9 +246,24 @@ export default function KolektibilitasReportTable({
         acc.t61_90 += r.tunggakan61_90;
         acc.t90p += r.tunggakan90p;
 
+        // dummy totals untuk kolom tambahan UI (agar total row tetap rapi)
+        acc.sisa += Math.max(0, r.pinjamanSldPokok - r.tunggakanNilai);
+        acc.hutangPokok += Math.max(0, Math.round(r.tunggakanNilai * 0.35));
+        acc.hutangBunga += Math.max(0, Math.round(r.tunggakanNilai * 0.15));
+
         return acc;
       },
-      { pokok: 0, nilai: 0, t1_30: 0, t31_60: 0, t61_90: 0, t90p: 0 },
+      {
+        pokok: 0,
+        nilai: 0,
+        t1_30: 0,
+        t31_60: 0,
+        t61_90: 0,
+        t90p: 0,
+        sisa: 0,
+        hutangPokok: 0,
+        hutangBunga: 0,
+      },
     );
   }, [paged]);
 
@@ -240,42 +274,96 @@ export default function KolektibilitasReportTable({
   const totalRowNumberClass =
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
+  // Total jumlah kolom pada tbody (harus sinkron untuk colSpan empty state)
+  const totalColumns = 1 /*No*/ +
+    1 /*NO.REKENING*/ +
+    1 /*Nama*/ +
+    1 /*Status*/ +
+    1 /*Alamat*/ +
+    1 /*Kode Pinjaman*/ +
+    1 /*Tanggal Pinjaman*/ +
+    1 /*Tanggal Jatuh Tempo*/ +
+    1 /*Jenis Pinjaman*/ +
+    1 /*Plafon*/ +
+    1 /*AO ID*/ +
+    3 /*Jangka Waktu*/ +
+    2 /*Pinjaman*/ +
+    2 /*Angsuran*/ +
+    6 /*Tunggakan*/ +
+    3 /*Tambahan setelah tunggakan*/ +
+    1; /*Kolektiblilitas*/
+
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div
           className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}
         >
-          <table className="min-w-[2020px] w-full border-collapse bg-white">
+          <table className="min-w-[2860px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className={colW.no}>
                   No.
                 </Th>
+
                 <Th rowSpan={2} className={colW.noNsb}>
                   NO.REKENING
                 </Th>
+
                 <Th rowSpan={2} className={colW.nama}>
                   Nama
                 </Th>
+
+                <Th rowSpan={2} className={colW.status} align="center">
+                  Status
+                </Th>
+
                 <Th rowSpan={2} className={colW.alamat}>
                   Alamat
                 </Th>
-                <Th rowSpan={2} className={colW.aoId}>
+
+                <Th rowSpan={2} className={colW.kodePinjaman} align="center">
+                  Kode Pinjaman
+                </Th>
+
+                <Th rowSpan={2} className={colW.tanggalPinjaman} align="center">
+                  Tanggal Pinjaman
+                </Th>
+
+                <Th rowSpan={2} className={colW.tanggalJatuhTempo} align="center">
+                  Tanggal Jatuh Tempo
+                </Th>
+
+                <Th rowSpan={2} className={colW.jenisPinjaman} align="center">
+                  Jenis Pinjaman
+                </Th>
+
+                <Th rowSpan={2} className={colW.plafon} align="right">
+                  Plafon
+                </Th>
+
+                <Th rowSpan={2} className={colW.aoId} align="center">
                   AO ID
                 </Th>
 
                 <Th colSpan={3} align="center">
                   Jangka Waktu
                 </Th>
+
                 <Th colSpan={2} align="center">
                   Pinjaman
                 </Th>
+
                 <Th colSpan={2} align="center">
                   Angsuran
                 </Th>
+
                 <Th colSpan={6} align="center">
                   Tunggakan
+                </Th>
+
+                <Th colSpan={3} align="center">
+                  Tambahan
                 </Th>
 
                 <Th rowSpan={2} className={colW.kolektibilitas} align="center">
@@ -284,6 +372,7 @@ export default function KolektibilitasReportTable({
               </tr>
 
               <tr>
+                {/* Jangka Waktu */}
                 <Th className={colW.jwBln} align="center">
                   Bln
                 </Th>
@@ -294,6 +383,7 @@ export default function KolektibilitasReportTable({
                   s/d tgl.
                 </Th>
 
+                {/* Pinjaman */}
                 <Th className={colW.pinPokok} align="right">
                   Sld. Pokok
                 </Th>
@@ -301,6 +391,7 @@ export default function KolektibilitasReportTable({
                   Bng
                 </Th>
 
+                {/* Angsuran */}
                 <Th className={colW.angPerBln} align="right">
                   Per bln
                 </Th>
@@ -308,6 +399,7 @@ export default function KolektibilitasReportTable({
                   Sdh/Hr
                 </Th>
 
+                {/* Tunggakan */}
                 <Th className={colW.tBln} align="center">
                   Bln
                 </Th>
@@ -326,6 +418,17 @@ export default function KolektibilitasReportTable({
                 <Th className={colW.t90p} align="right">
                   {"\u003E"} 90 Hr
                 </Th>
+
+                {/* Tambahan */}
+                <Th className={colW.sisaPinjaman} align="right">
+                  Sisa Pinjaman
+                </Th>
+                <Th className={colW.hutangPokok} align="right">
+                  Hutang Pokok
+                </Th>
+                <Th className={colW.hutangBunga} align="right">
+                  Hutang Bunga
+                </Th>
               </tr>
             </thead>
 
@@ -333,7 +436,7 @@ export default function KolektibilitasReportTable({
               {paged.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={19}
+                    colSpan={totalColumns}
                     className="px-4 py-10 text-center text-sm text-slate-600"
                   >
                     Tidak ada data laporan.
@@ -342,6 +445,18 @@ export default function KolektibilitasReportTable({
               ) : (
                 paged.map((r, idx) => {
                   const kolek = deriveKolektibilitas(r);
+
+                  // Dummy UI values
+                  const status = idx % 5 === 0 ? "Calon" : "Anggota";
+                  const kodePinjaman = `KP-${String(r.no).padStart(3, "0")}`;
+                  const tanggalPinjaman = r.dari;
+                  const tanggalJatuhTempo = r.sampai;
+                  const jenisPinjaman = idx % 2 === 0 ? "Pinjaman Bulanan" : "Pinjaman Harian";
+                  const plafon = r.pinjamanSldPokok + 1500000;
+
+                  const sisaPinjaman = Math.max(0, r.pinjamanSldPokok - r.tunggakanNilai);
+                  const hutangPokok = Math.max(0, Math.round(r.tunggakanNilai * 0.35));
+                  const hutangBunga = Math.max(0, Math.round(r.tunggakanNilai * 0.15));
 
                   return (
                     <tr
@@ -360,8 +475,32 @@ export default function KolektibilitasReportTable({
                         {r.nama}
                       </Td>
 
+                      <Td className={cn(colW.status, "font-semibold")} align="center">
+                        {status}
+                      </Td>
+
                       <Td className={cn(colW.alamat, "truncate")} title={r.alamat}>
                         {r.alamat}
+                      </Td>
+
+                      <Td className={cn(colW.kodePinjaman, "whitespace-nowrap")} align="center">
+                        {kodePinjaman}
+                      </Td>
+
+                      <Td className={cn(colW.tanggalPinjaman, "whitespace-nowrap")} align="center">
+                        {tanggalPinjaman}
+                      </Td>
+
+                      <Td className={cn(colW.tanggalJatuhTempo, "whitespace-nowrap")} align="center">
+                        {tanggalJatuhTempo}
+                      </Td>
+
+                      <Td className={cn(colW.jenisPinjaman, "whitespace-nowrap")} align="center">
+                        {jenisPinjaman}
+                      </Td>
+
+                      <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
+                        {formatIdr0(plafon)}
                       </Td>
 
                       <Td className={colW.aoId} align="center">
@@ -411,6 +550,16 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(r.tunggakan90p)}
                       </Td>
 
+                      <Td className={colW.sisaPinjaman} align="right">
+                        {formatIdr0(sisaPinjaman)}
+                      </Td>
+                      <Td className={colW.hutangPokok} align="right">
+                        {formatIdr0(hutangPokok)}
+                      </Td>
+                      <Td className={colW.hutangBunga} align="right">
+                        {formatIdr0(hutangBunga)}
+                      </Td>
+
                       <Td className={cn(colW.kolektibilitas, "font-semibold")} align="center">
                         {kolek}
                       </Td>
@@ -421,58 +570,71 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
-                  <td colSpan={8} className={totalRowLabelClass}>
+                  {/* Total label: sampai sebelum Pinjaman Sld. Pokok (agar total numerik rapi) */}
+                  <td colSpan={16} className={totalRowLabelClass}>
                     Total per Halaman
                   </td>
+
+                  {/* Pinjaman: Sld Pokok */}
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.pokok)}
                   </td>
+
+                  {/* Pinjaman: Bng */}
                   <td className="border border-slate-200/70 px-3 py-3" />
-                  <td colSpan={3} className="border border-slate-200/70 px-3 py-3" />
+
+                  {/* Angsuran: 2 kolom */}
+                  <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
+
+                  {/* Tunggakan: Nilai + breakdown (5) */}
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.nilai)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t1_30)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t31_60)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t61_90)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.t90p)}</td>
+
+                  {/* Tambahan */}
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsPage.sisa)}</td>
                   <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.nilai)}
+                    {formatIdr0(totalsPage.hutangPokok)}
                   </td>
                   <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t1_30)}
+                    {formatIdr0(totalsPage.hutangBunga)}
                   </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t31_60)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t61_90)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t90p)}
-                  </td>
+
+                  {/* Kolektiblilitas */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
 
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
-                  <td colSpan={8} className={totalRowLabelClass}>
+                  <td colSpan={16} className={totalRowLabelClass}>
                     Total
                   </td>
+
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsAll.pokok)}
                   </td>
+
                   <td className="border border-slate-200/70 px-3 py-3" />
-                  <td colSpan={3} className="border border-slate-200/70 px-3 py-3" />
+
+                  <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
+
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.nilai)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t1_30)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t31_60)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t61_90)}</td>
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.t90p)}</td>
+
+                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.sisa)}</td>
                   <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.nilai)}
+                    {formatIdr0(totalsAll.hutangPokok)}
                   </td>
                   <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t1_30)}
+                    {formatIdr0(totalsAll.hutangBunga)}
                   </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t31_60)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t61_90)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t90p)}
-                  </td>
+
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
