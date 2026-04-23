@@ -292,6 +292,32 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     };
   }, [pagedRows, penaltyOnlyCols, penaltyTotal, selected]);
 
+  const pelunasanTotals = React.useMemo(() => {
+    if (!isPelunasan) return null;
+
+    // Pelunasan: jumlahkan seluruh nilai yang ada di tabel tagihan (berdasarkan tampilan sekarang)
+    // tetap dihitung per-row agar fleksibel kalau format string berubah.
+    const sum = pagedRows.reduce(
+      (acc, r) => {
+        acc.total += parseMoneyLikeId(r.totalBelumDibayar);
+        acc.pokok += parseMoneyLikeId(r.tagihanPokok);
+        acc.bunga += parseMoneyLikeId(r.tagihanBunga);
+        acc.sisaPokok += parseMoneyLikeId(r.sisaPokok);
+        acc.sisaBunga += parseMoneyLikeId(r.sisaBunga);
+        return acc;
+      },
+      { total: 0, pokok: 0, bunga: 0, sisaPokok: 0, sisaBunga: 0 },
+    );
+
+    return {
+      totalBelumDibayar: formatMoneyIdNoDecimals(sum.total),
+      pokok: formatMoneyIdNoDecimals(sum.pokok),
+      bunga: formatMoneyIdNoDecimals(sum.bunga),
+      sisaPokok: formatMoneyIdNoDecimals(sum.sisaPokok),
+      sisaBunga: formatMoneyIdNoDecimals(sum.sisaBunga),
+    };
+  }, [isPelunasan, pagedRows]);
+
   const penurunanTotals = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
 
@@ -432,19 +458,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 hasAnySelected={hasAnySelected}
                 totals={
-                  isPenurunanBakiDebet
+                  isPelunasan
                     ? {
-                        pokok: penurunanTotals?.totalPokokText ?? "0",
-                        bunga: "0",
+                        pokok: pelunasanTotals?.pokok ?? "0",
+                        bunga: pelunasanTotals?.bunga ?? "0",
                         denda: "0",
-                        total: penurunanTotals?.sisaText ?? "0",
+                        total: pelunasanTotals?.totalBelumDibayar ?? "0",
                       }
-                    : {
-                        pokok: computedTotals.pokok,
-                        bunga: isPelunasan ? "0" : computedTotals.bunga,
-                        denda: computedTotals.denda,
-                        total: computedTotals.total,
-                      }
+                    : isPenurunanBakiDebet
+                      ? {
+                          pokok: penurunanTotals?.totalPokokText ?? "0",
+                          bunga: "0",
+                          denda: "0",
+                          total: penurunanTotals?.sisaText ?? "0",
+                        }
+                      : {
+                          pokok: computedTotals.pokok,
+                          bunga: computedTotals.bunga,
+                          denda: computedTotals.denda,
+                          total: computedTotals.total,
+                        }
                 }
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}

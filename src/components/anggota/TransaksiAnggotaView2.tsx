@@ -179,6 +179,30 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   // highlight biru di mode-mode ini
   const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
 
+  const pelunasanTotals = React.useMemo(() => {
+    if (!isPelunasan) return null;
+
+    const sum = rowsToShow.reduce(
+      (acc, r) => {
+        acc.total += parseNumLikeId(r.totalBelumDibayar);
+        acc.pokok += parseNumLikeId(r.tagihanPokok);
+        acc.bunga += parseNumLikeId(r.tagihanBunga);
+        acc.sisaPokok += parseNumLikeId(r.sisaPokok);
+        acc.sisaBunga += parseNumLikeId(r.sisaBunga);
+        return acc;
+      },
+      { total: 0, pokok: 0, bunga: 0, sisaPokok: 0, sisaBunga: 0 },
+    );
+
+    return {
+      totalBelumDibayar: formatIdrLike(sum.total),
+      pokok: formatIdrLike(sum.pokok),
+      bunga: formatIdrLike(sum.bunga),
+      sisaPokok: formatIdrLike(sum.sisaPokok),
+      sisaBunga: formatIdrLike(sum.sisaBunga),
+    };
+  }, [isPelunasan, rowsToShow]);
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -302,18 +326,27 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
             <div className="space-y-4">
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
-                totals={{
-                  pokok: isPenurunanBakiDebet
-                    ? penurunanBakiDebetPokokText ?? "0"
-                    : "2.455.555",
-                  bunga: "0",
-                  denda: penaltyOnlyCols
-                    ? formatIdrLike(penaltyTotal ?? 0)
-                    : "0",
-                  total: isPenurunanBakiDebet
-                    ? penurunanBakiDebetPokokText ?? "0"
-                    : "2.455.555",
-                }}
+                totals={
+                  isPelunasan
+                    ? {
+                        pokok: pelunasanTotals?.pokok ?? "0",
+                        bunga: pelunasanTotals?.bunga ?? "0",
+                        denda: "0",
+                        total: pelunasanTotals?.totalBelumDibayar ?? "0",
+                      }
+                    : {
+                        pokok: isPenurunanBakiDebet
+                          ? penurunanBakiDebetPokokText ?? "0"
+                          : "2.455.555",
+                        bunga: "0",
+                        denda: penaltyOnlyCols
+                          ? formatIdrLike(penaltyTotal ?? 0)
+                          : "0",
+                        total: isPenurunanBakiDebet
+                          ? penurunanBakiDebetPokokText ?? "0"
+                          : "2.455.555",
+                      }
+                }
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
                 transactionType={jenisTransaksi as any}
                 onTransactionTypeChange={(v: any) => setJenisTransaksi(v)}
