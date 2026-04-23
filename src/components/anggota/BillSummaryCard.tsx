@@ -261,7 +261,13 @@ export default function BillSummaryCard({
             />
 
             <SummaryRow
-              label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan Pokok"}
+              label={
+                mode === "pelunasan"
+                  ? "Total Pelunasan"
+                  : isRegular
+                    ? "Total Tagihan"
+                    : "Total Tagihan Pokok"
+              }
               value={displayTotals.total}
               strong
             />
