@@ -216,7 +216,11 @@ export default function BillSummaryCard({
         {isPenurunanPlafon ? (
           <>
             <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} strong />
-            <SummaryRow label="Total Tagihan" value={displayTotals.pokok} strong />
+            <SummaryRow
+              label="Total Tagihan Pokok"
+              value={displayTotals.pokok}
+              strong
+            />
           </>
         ) : isPembayaranBunga ? (
           <SummaryRow
@@ -258,7 +262,7 @@ export default function BillSummaryCard({
             />
 
             <SummaryRow
-              label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan"}
+              label={mode === "pelunasan" ? "Total Pelunasan" : "Total Tagihan Pokok"}
               value={displayTotals.total}
               strong
             />
