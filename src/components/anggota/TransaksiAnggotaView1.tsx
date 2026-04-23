@@ -217,22 +217,17 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Reset selected saat halaman / transaksi berubah (biar konsisten dengan UI)
-    if (isPelunasan || isReguler || isKhusus) {
+    // Saat membuka view 1 / ganti transaksi / ganti page:
+    // Default: tidak ada yang tercentang.
+    // Pengecualian: Pelunasan => semuanya tercentang (sesuai perilaku pelunasan).
+    if (isPelunasan) {
       setSelected(pagedRows.map(() => true));
       return;
     }
 
-    if (isPenurunanBakiDebet) {
-      setSelected(pagedRows.map(() => true));
-      return;
-    }
-
-    // selain reguler: default baris pertama saja
-    const next = pagedRows.map(() => false);
-    if (next.length > 0) next[0] = true;
-    setSelected(next);
-  }, [isPelunasan, isReguler, isKhusus, isPenurunanBakiDebet, pagedRows]);
+    // Untuk transaksi lain, tidak auto-check (sesuai request).
+    setSelected(pagedRows.map(() => false));
+  }, [isPelunasan, pagedRows]);
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
