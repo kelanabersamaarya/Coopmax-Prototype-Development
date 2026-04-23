@@ -166,7 +166,62 @@ const colW = {
   t31_60: "w-[140px]",
   t61_90: "w-[140px]",
   t90p: "w-[140px]",
+
+  kolektibilitas: "w-[160px]",
 };
+
+type KolektibilitasLabel = "Macet" | "Lancar" | "Diragukan" | "Kurang Lancar";
+
+function deriveKolektibilitas(r: KolektibilitasRow): KolektibilitasLabel {
+  // Aturan sederhana berbasis tunggakan bulan (prototype)
+  if (r.tunggakanBln >= 4) return "Macet";
+  if (r.tunggakanBln === 3) return "Diragukan";
+  if (r.tunggakanBln === 2) return "Kurang Lancar";
+  return "Lancar";
+}
+
+function KolektibilitasPill({ v }: { v: KolektibilitasLabel }) {
+  const map: Record<
+    KolektibilitasLabel,
+    { bg: string; ring: string; text: string }
+  > = {
+    Lancar: {
+      bg: "bg-emerald-50",
+      ring: "ring-emerald-200",
+      text: "text-emerald-800",
+    },
+    "Kurang Lancar": {
+      bg: "bg-amber-50",
+      ring: "ring-amber-200",
+      text: "text-amber-900",
+    },
+    Diragukan: {
+      bg: "bg-orange-50",
+      ring: "ring-orange-200",
+      text: "text-orange-900",
+    },
+    Macet: {
+      bg: "bg-rose-50",
+      ring: "ring-rose-200",
+      text: "text-rose-800",
+    },
+  };
+
+  const s = map[v];
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-extrabold ring-1",
+        s.bg,
+        s.ring,
+        s.text,
+      )}
+    >
+      {v}
+    </span>
+  );
+}
 
 export default function KolektibilitasReportTable({
   rows,
@@ -234,7 +289,7 @@ export default function KolektibilitasReportTable({
         <div
           className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}
         >
-          <table className="min-w-[1860px] w-full border-collapse bg-white">
+          <table className="min-w-[2020px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className={colW.no}>
@@ -264,6 +319,10 @@ export default function KolektibilitasReportTable({
                 </Th>
                 <Th colSpan={6} align="center">
                   Tunggakan
+                </Th>
+
+                <Th rowSpan={2} className={colW.kolektibilitas} align="center">
+                  Kolektiblilitas
                 </Th>
               </tr>
 
@@ -317,82 +376,90 @@ export default function KolektibilitasReportTable({
               {paged.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={18}
+                    colSpan={19}
                     className="px-4 py-10 text-center text-sm text-slate-600"
                   >
                     Tidak ada data laporan.
                   </td>
                 </tr>
               ) : (
-                paged.map((r, idx) => (
-                  <tr
-                    key={`${r.noNsb}-${idx}`}
-                    className={cn(idx % 2 === 0 ? "bg-slate-50/40" : "bg-white")}
-                  >
-                    <Td className={colW.no} align="center">
-                      {r.no}
-                    </Td>
+                paged.map((r, idx) => {
+                  const kolek = deriveKolektibilitas(r);
 
-                    <Td className={cn(colW.noNsb, "whitespace-nowrap")}>
-                      {r.noNsb}
-                    </Td>
+                  return (
+                    <tr
+                      key={`${r.noNsb}-${idx}`}
+                      className={cn(idx % 2 === 0 ? "bg-slate-50/40" : "bg-white")}
+                    >
+                      <Td className={colW.no} align="center">
+                        {r.no}
+                      </Td>
 
-                    <Td className={cn(colW.nama, "whitespace-nowrap")}>
-                      {r.nama}
-                    </Td>
+                      <Td className={cn(colW.noNsb, "whitespace-nowrap")}>
+                        {r.noNsb}
+                      </Td>
 
-                    <Td className={cn(colW.alamat, "truncate")} title={r.alamat}>
-                      {r.alamat}
-                    </Td>
+                      <Td className={cn(colW.nama, "whitespace-nowrap")}>
+                        {r.nama}
+                      </Td>
 
-                    <Td className={colW.aoId} align="center">
-                      {r.aoId}
-                    </Td>
+                      <Td className={cn(colW.alamat, "truncate")} title={r.alamat}>
+                        {r.alamat}
+                      </Td>
 
-                    <Td className={colW.jwBln} align="center">
-                      {r.jangkaWaktuBln}
-                    </Td>
-                    <Td className={colW.jwDari} align="center">
-                      {r.dari}
-                    </Td>
-                    <Td className={colW.jwSampai} align="center">
-                      {r.sampai}
-                    </Td>
+                      <Td className={colW.aoId} align="center">
+                        {r.aoId}
+                      </Td>
 
-                    <Td className={colW.pinPokok} align="right">
-                      {formatIdr0(r.pinjamanSldPokok)}
-                    </Td>
-                    <Td className={colW.pinBng} align="right">
-                      {formatFloat2(r.pinjamanBng)}
-                    </Td>
+                      <Td className={colW.jwBln} align="center">
+                        {r.jangkaWaktuBln}
+                      </Td>
+                      <Td className={colW.jwDari} align="center">
+                        {r.dari}
+                      </Td>
+                      <Td className={colW.jwSampai} align="center">
+                        {r.sampai}
+                      </Td>
 
-                    <Td className={colW.angPerBln} align="right">
-                      {formatIdr0(r.angsuranPerBln)}
-                    </Td>
-                    <Td className={colW.angSdhHr} align="right">
-                      {formatFloat2(r.angsuranSdhHr)}
-                    </Td>
+                      <Td className={colW.pinPokok} align="right">
+                        {formatIdr0(r.pinjamanSldPokok)}
+                      </Td>
+                      <Td className={colW.pinBng} align="right">
+                        {formatFloat2(r.pinjamanBng)}
+                      </Td>
 
-                    <Td className={colW.tBln} align="center">
-                      {r.tunggakanBln}
-                    </Td>
-                    <Td className={colW.tNilai} align="right">
-                      {formatIdr0(r.tunggakanNilai)}
-                    </Td>
-                    <Td className={colW.t1_30} align="right">
-                      {formatIdr0(r.tunggakan1_30)}
-                    </Td>
-                    <Td className={colW.t31_60} align="right">
-                      {formatIdr0(r.tunggakan31_60)}
-                    </Td>
-                    <Td className={colW.t61_90} align="right">
-                      {formatIdr0(r.tunggakan61_90)}
-                    </Td>
-                    <Td className={colW.t90p} align="right">
-                      {formatIdr0(r.tunggakan90p)}
-                    </Td>
-                  </tr>
-                ))
+                      <Td className={colW.angPerBln} align="right">
+                        {formatIdr0(r.angsuranPerBln)}
+                      </Td>
+                      <Td className={colW.angSdhHr} align="right">
+                        {formatFloat2(r.angsuranSdhHr)}
+                      </Td>
+
+                      <Td className={colW.tBln} align="center">
+                        {r.tunggakanBln}
+                      </Td>
+                      <Td className={colW.tNilai} align="right">
+                        {formatIdr0(r.tunggakanNilai)}
+                      </Td>
+                      <Td className={colW.t1_30} align="right">
+                        {formatIdr0(r.tunggakan1_30)}
+                      </Td>
+                      <Td className={colW.t31_60} align="right">
+                        {formatIdr0(r.tunggakan31_60)}
+                      </Td>
+                      <Td className={colW.t61_90} align="right">
+                        {formatIdr0(r.tunggakan61_90)}
+                      </Td>
+                      <Td className={colW.t90p} align="right">
+                        {formatIdr0(r.tunggakan90p)}
+                      </Td>
+
+                      <Td className={colW.kolektibilitas} align="center">
+                        <KolektibilitasPill v={kolek} />
+                      </Td>
+                    </tr>
+                  );
+                })
               )}
 
               {paged.length > 0 ? (
@@ -420,6 +487,7 @@ export default function KolektibilitasReportTable({
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.t90p)}
                   </td>
+                  <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
 
@@ -448,6 +516,7 @@ export default function KolektibilitasReportTable({
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsAll.t90p)}
                   </td>
+                  <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
             </tbody>
