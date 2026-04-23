@@ -1,3 +1,4 @@
+' character in table header label.">
 "use client";
 
 import * as React from "react";
@@ -299,7 +300,7 @@ export default function KolektibilitasReportTable({
                   61-90 Hr
                 </Th>
                 <Th className={colW.t90p} align="right">
-                  > 90 Hr
+                  {"\u003E"} 90 Hr
                 </Th>
               </tr>
             </thead>
