@@ -34,6 +34,9 @@ import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
 import BillingTablePelunasanView2 from "@/components/anggota/BillingTablePelunasanView2";
+import BillingTable, {
+  type BillingRow as BillingRowV1,
+} from "@/components/anggota/BillingTable";
 import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
 
@@ -204,6 +207,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     };
   }, [isPelunasan, rowsToShow]);
 
+  const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -306,6 +311,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               {isPelunasan ? (
                 <BillingTablePelunasanView2 rows={rowsToShow as any} />
+              ) : isKhusus ? (
+                <BillingTable
+                  rows={rowsToShowV1}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isPelunasan={false}
+                  showGraceHighlight={true}
+                  hideInterestCols={false}
+                  className="mt-0"
+                />
               ) : (
                 <BillingTableView2
                   rows={rowsToShow}
@@ -316,7 +331,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showGraceInfo={showGraceInfo}
                   highlightGraceBlock={highlightGraceBlock}
                   hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
-                  showPenaltyColumn={isKhusus}
+                  showPenaltyColumn={false}
                 />
               )}
 
