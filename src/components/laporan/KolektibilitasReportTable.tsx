@@ -1,4 +1,3 @@
-' character in table header label.">
 "use client";
 
 import * as React from "react";
@@ -223,9 +222,7 @@ export default function KolektibilitasReportTable({
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
-        <div
-          className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}
-        >
+        <div className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}>
           <table className="min-w-[1860px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr>
@@ -430,7 +427,11 @@ export default function KolektibilitasReportTable({
             {totalEntriesResolved} entri
           </div>
 
-          <PaginationLikeExample page={page} pageCount={pageCount} onPage={setPage} />
+          <PaginationLikeExample
+            page={page}
+            pageCount={pageCount}
+            onPage={setPage}
+          />
         </div>
       </div>
     </div>
