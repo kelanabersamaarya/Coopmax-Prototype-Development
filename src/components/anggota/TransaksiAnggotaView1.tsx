@@ -31,10 +31,7 @@ import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
-import {
-  calcPenaltyTotal,
-  formatIdrLike,
-} from "@/components/anggota/calc-penalties";
+import { formatIdrLike } from "@/components/anggota/calc-penalties";
 
 type Props = {
   nasabah: {
@@ -174,6 +171,12 @@ function formatMoneyIdNoDecimals(n: number) {
   return formatIdrLike(Math.round(Number.isFinite(n) ? n : 0));
 }
 
+function calcPenaltyForRowIndex(idx: number) {
+  // HARUS sama dengan BillingTable.tsx
+  const base = 25000;
+  return base + idx * 5000;
+}
+
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -248,13 +251,20 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
   const penaltyTotal = React.useMemo(() => {
-    if (!penaltyOnlyCols) return null;
-    return calcPenaltyTotal(pagedRows, selected);
+    if (!penaltyOnlyCols) return 0;
+
+    // Hitung denda mengikuti checklist & mengikuti angka yang tampil di kolom Tagihan Denda.
+    // Karena View1 pakai pagedRows, index denda juga mengikuti index pada halaman ini.
+    return pagedRows.reduce((sum, _r, idx) => {
+      const checked = selected[idx] ?? false;
+      if (!checked) return sum;
+      return sum + calcPenaltyForRowIndex(idx);
+    }, 0);
   }, [pagedRows, penaltyOnlyCols, selected]);
 
   const penaltyTotalText = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
-    return formatMoneyIdNoDecimals(Number(penaltyTotal ?? 0));
+    return formatMoneyIdNoDecimals(penaltyTotal);
   }, [penaltyOnlyCols, penaltyTotal]);
 
   // Total pokok untuk Penurunan Baki Debet = jumlah seluruh tagihan pokok pada tabel yang ditampilkan (pagedRows)
@@ -284,7 +294,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       bunga += parseMoneyLikeId(pagedRows[i]?.tagihanBunga ?? "0");
     }
 
-    const denda = penaltyOnlyCols ? Number(penaltyTotal ?? 0) : 0;
+    const denda = penaltyOnlyCols ? penaltyTotal : 0;
 
     // Total Tagihan = pokok + bunga + denda
     const total = pokok + bunga + denda;
