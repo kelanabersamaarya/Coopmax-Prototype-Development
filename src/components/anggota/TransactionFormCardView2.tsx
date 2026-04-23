@@ -32,7 +32,13 @@ const transactionTypes = [
   "Bayar Biaya Lainnya",
 ] as const;
 
-export type TransactionType = (typeof transactionTypes)[number] | "Pembayaran Penurunan Plafon";
+export type TransactionType =
+  | (typeof transactionTypes)[number]
+  | "Pembayaran Penurunan Plafon"
+  | "Pembayaran Pokok"
+  | "Pembayaran Bunga"
+  | "Pembayaran Denda"
+  | "Pembayaran Biaya Lainnya";
 
 function titleForTransaction(t: TransactionType | null) {
   if (!t) return "PILIH TRANSAKSI";
@@ -40,11 +46,13 @@ function titleForTransaction(t: TransactionType | null) {
   if (t === "Pembayaran Penurunan Plafon") return "PEMBAYARAN PENURUNAN PLAFON";
   if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
   if (t === "Pelunasan") return "PELUNASAN";
-  if (t === "Bayar Pokok") return "BAYAR POKOK";
-  if (t === "Bayar Bunga") return "BAYAR BUNGA";
-  if (t === "Bayar Denda") return "BAYAR DENDA";
+  if (t === "Bayar Pokok" || t === "Pembayaran Pokok") return "BAYAR POKOK";
+  if (t === "Bayar Bunga" || t === "Pembayaran Bunga") return "BAYAR BUNGA";
+  if (t === "Bayar Denda" || t === "Pembayaran Denda") return "BAYAR DENDA";
   if (t === "Bayar Biaya Tambahan") return "BAYAR BIAYA TAMBAHAN";
-  return "BAYAR BIAYA LAINNYA";
+  if (t === "Bayar Biaya Lainnya" || t === "Pembayaran Biaya Lainnya")
+    return "BAYAR BIAYA LAINNYA";
+  return "PEMBAYARAN";
 }
 
 const ONLY_TABUNGAN = "Tanpa Tabungan";

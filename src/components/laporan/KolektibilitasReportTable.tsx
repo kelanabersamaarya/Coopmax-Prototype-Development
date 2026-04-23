@@ -1,4 +1,3 @@
-90) pada baris Total per Halaman dan Total di laporan kolektibilitas.">
 "use client";
 
 import * as React from "react";
@@ -71,13 +70,16 @@ function Td({
   children,
   className,
   align = "left",
+  title,
 }: {
   children: React.ReactNode;
   className?: string;
   align?: "left" | "center" | "right";
+  title?: string;
 }) {
   return (
     <td
+      title={title}
       className={cn(
         "border border-slate-200/70 px-3 py-2.5 align-top",
         "text-[14px] font-normal text-slate-900",
