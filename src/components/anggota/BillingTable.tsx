@@ -38,10 +38,10 @@ function addMonths(base: Date, months: number) {
   return d;
 }
 
-function shouldShowPenaltyMarker(idx: number) {
-  return idx < 3;
-}
-
+/**
+ * Sesuai permintaan: nominal denda hanya tampil untuk tagihan yang termasuk grace period.
+ * Di UI ini, grace period = baris yang berada di dalam blok highlight (graceRows).
+ */
 function PenaltyAmountWithDangerIcon({
   amount,
   show,
@@ -49,7 +49,7 @@ function PenaltyAmountWithDangerIcon({
   amount: string;
   show: boolean;
 }) {
-  if (!show) return <span>{amount}</span>;
+  if (!show) return null;
 
   return (
     <span className="inline-flex items-center justify-end gap-2 whitespace-nowrap">
@@ -477,9 +477,7 @@ export default function BillingTable({
                       {idx + 1}
                     </td>
 
-                    <td className={cn(dateColW, tdClass, dateCell)}>
-                      {bill.jatuhTempo}
-                    </td>
+                    <td className={cn(dateColW, tdClass, dateCell)}>{bill.jatuhTempo}</td>
 
                     <td className={cn(dendaColW, tdClass, "text-slate-800", numCell)}>
                       {penalties[idx]?.total ?? "0"}
@@ -853,7 +851,7 @@ export default function BillingTable({
                                         >
                                           <PenaltyAmountWithDangerIcon
                                             amount={penalties[rowIdx]?.total ?? "0"}
-                                            show={shouldShowPenaltyMarker(rowIdx)}
+                                            show={true}
                                           />
                                         </td>
                                       ) : null}
@@ -870,6 +868,7 @@ export default function BillingTable({
 
                   {afterGraceRows.map((bill, idx) => {
                     const rowIdx = graceBlockCount + idx;
+
                     return (
                       <tr
                         key={`${bill.jatuhTempo}-${rowIdx}`}
@@ -935,20 +934,10 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
+                        {/* Sesuai request: di luar grace period, denda tidak tampil */}
                         {showPenaltyCol ? (
-                          <td
-                            className={cn(
-                              dendaColW,
-                              tdClass,
-                              edgeR,
-                              "text-slate-800",
-                              numCell,
-                            )}
-                          >
-                            <PenaltyAmountWithDangerIcon
-                              amount={penalties[rowIdx]?.total ?? "0"}
-                              show={shouldShowPenaltyMarker(rowIdx)}
-                            />
+                          <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
+                            <span className="text-slate-400">-</span>
                           </td>
                         ) : null}
                       </tr>
@@ -1033,10 +1022,7 @@ export default function BillingTable({
 
                       {showPenaltyCol ? (
                         <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                          <PenaltyAmountWithDangerIcon
-                            amount={penalties[idx]?.total ?? "0"}
-                            show={shouldShowPenaltyMarker(idx)}
-                          />
+                          <span className="text-slate-400">-</span>
                         </td>
                       ) : null}
                     </tr>
@@ -1120,10 +1106,7 @@ export default function BillingTable({
 
                         {showPenaltyCol ? (
                           <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
-                            <PenaltyAmountWithDangerIcon
-                              amount={penalties[globalIndex]?.total ?? "0"}
-                              show={shouldShowPenaltyMarker(globalIndex)}
-                            />
+                            <span className="text-slate-400">-</span>
                           </td>
                         ) : null}
                       </tr>
