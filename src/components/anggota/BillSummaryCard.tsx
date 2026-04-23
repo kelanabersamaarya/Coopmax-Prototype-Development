@@ -80,6 +80,7 @@ export default function BillSummaryCard({
   className,
   transactionType,
   onTransactionTypeChange,
+  penurunanPlafonSummary,
 }: {
   mode: "regular" | "pelunasan";
   totals: { pokok: string; bunga: string; denda: string; total: string };
@@ -87,6 +88,10 @@ export default function BillSummaryCard({
   className?: string;
   transactionType?: TransactionType | null;
   onTransactionTypeChange?: (v: TransactionType) => void;
+  penurunanPlafonSummary?: {
+    sisaPinjaman: string;
+    tagihanPokokTotal: string;
+  } | null;
 }) {
   const isUnset = !transactionType;
 
@@ -124,6 +129,9 @@ export default function BillSummaryCard({
 
   // label ringkas untuk reguler & khusus (tanpa kata "Total")
   const useShortLabels = isRegular || isKhusus;
+
+  const showPenurunanPlafonSummary =
+    !!penurunanPlafonSummary && !isUnset && !isPenurunanBakiDebet;
 
   return (
     <Card
@@ -216,6 +224,19 @@ export default function BillSummaryCard({
           <>
             <SummaryRow label="Tagihan Pokok" value={displayTotals.pokok} strong />
             <SummaryRow label="Sisa Pinjaman" value={displayTotals.pokok} strong />
+          </>
+        ) : showPenurunanPlafonSummary ? (
+          <>
+            <SummaryRow
+              label="Sisa Pinjaman"
+              value={penurunanPlafonSummary!.sisaPinjaman}
+              strong
+            />
+            <SummaryRow
+              label="Tagihan Pokok"
+              value={penurunanPlafonSummary!.tagihanPokokTotal}
+              strong
+            />
           </>
         ) : isPembayaranBunga ? (
           <SummaryRow

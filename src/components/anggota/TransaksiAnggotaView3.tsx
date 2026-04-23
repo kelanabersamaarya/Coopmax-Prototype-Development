@@ -92,6 +92,16 @@ const upcomingRows: BillingRow[] = [
   })),
 ];
 
+function parseIdrLike(v: string) {
+  const n = Number(String(v ?? "").replace(/[^\d-]/g, ""));
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdrLike0(n: number) {
+  const s = Math.round(Number.isFinite(n) ? n : 0).toString();
+  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -153,6 +163,23 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
 
   const showGraceInfo = true;
   const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
+
+  const penurunanPlafonSummary = React.useMemo(() => {
+    if (!isPenurunanPlafon) return null;
+
+    const tagihanPokokTotal = rowsToShow.reduce(
+      (sum, r) => sum + parseIdrLike(r.tagihanPokok),
+      0,
+    );
+
+    // Prototype: Sisa Pinjaman sementara mengikuti total pokok (bisa diganti jika sudah ada data khusus)
+    const sisaPinjaman = tagihanPokokTotal;
+
+    return {
+      sisaPinjaman: formatIdrLike0(sisaPinjaman),
+      tagihanPokokTotal: formatIdrLike0(tagihanPokokTotal),
+    };
+  }, [isPenurunanPlafon, rowsToShow]);
 
   return (
     <div className="w-full px-0">
@@ -261,7 +288,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                   rows={rowsToShow}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={isPelunasan}
+                  isLocked={isPelunasan || isPenurunanPlafon}
                   showNextBillInfo={true}
                   showGraceInfo={showGraceInfo}
                   highlightGraceBlock={highlightGraceBlock}
@@ -287,6 +314,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
                 transactionType={jenisTransaksi as any}
                 onTransactionTypeChange={(v: any) => setJenisTransaksi(v)}
+                penurunanPlafonSummary={isPenurunanPlafon ? penurunanPlafonSummary : null}
               />
 
               <TransactionFormCardView2
