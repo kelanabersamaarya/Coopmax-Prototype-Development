@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -295,10 +294,10 @@ export default function LaporanKolektibilitas() {
           </div>
         </div>
 
-        <Separator className="my-5 bg-slate-200/70" />
+        {/* Divider dihapus */}
 
-        {/* FORM: background putih dihilangkan */}
-        <Card className="rounded-3xl border-slate-200/70 bg-transparent p-4 shadow-none backdrop-blur-0 md:p-5">
+        {/* FORM: tanpa border & divider */}
+        <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[920px]">
             <div className="grid gap-3">
               <FieldRow label="Jenis Pinjaman">
