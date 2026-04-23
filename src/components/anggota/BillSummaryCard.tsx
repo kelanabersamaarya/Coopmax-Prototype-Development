@@ -16,10 +16,12 @@ function SummaryRow({
   label,
   value,
   strong = false,
+  valueAlign = "right",
 }: {
   label: React.ReactNode;
   value: React.ReactNode;
   strong?: boolean;
+  valueAlign?: "left" | "right";
 }) {
   return (
     <div
@@ -41,7 +43,8 @@ function SummaryRow({
 
       <div
         className={cn(
-          "text-right tabular-nums tracking-tight text-slate-900",
+          "tabular-nums tracking-tight text-slate-900",
+          valueAlign === "left" ? "text-left" : "text-right",
           strong ? "text-[14px] font-extrabold" : "text-[14px] font-bold",
         )}
       >
@@ -226,8 +229,14 @@ export default function BillSummaryCard({
               label="Total Tagihan Pokok"
               value={displayTotals.pokok}
               strong
+              valueAlign="left"
             />
-            <SummaryRow label="Sisa Pinjaman" value={displayTotals.pokok} strong />
+            <SummaryRow
+              label="Sisa Pinjaman"
+              value={displayTotals.pokok}
+              strong
+              valueAlign="left"
+            />
           </>
         ) : isPembayaranBunga ? (
           <SummaryRow
