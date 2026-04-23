@@ -186,7 +186,8 @@ const colW = {
   hutangPokok: "w-[150px]",
   hutangBunga: "w-[150px]",
 
-  kolektibilitas: "w-[160px]",
+  // UBAH: sedikit dilebarkan biar header muat 1 baris
+  kolektibilitas: "w-[190px]",
 };
 
 type KolektibilitasLabel = "Macet" | "Lancar" | "Diragukan" | "Kurang Lancar";
@@ -323,7 +324,6 @@ export default function KolektibilitasReportTable({
                   Alamat
                 </Th>
 
-                {/* UBAH: header jadi rata kiri */}
                 <Th rowSpan={2} className={colW.kodePinjaman} align="left">
                   Kode Pinjaman
                 </Th>
@@ -374,7 +374,12 @@ export default function KolektibilitasReportTable({
                   Hutang Bunga
                 </Th>
 
-                <Th rowSpan={2} className={colW.kolektibilitas} align="left">
+                {/* UBAH: nowrap biar 1 baris */}
+                <Th
+                  rowSpan={2}
+                  className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                  align="left"
+                >
                   Kolektiblilitas
                 </Th>
               </tr>
@@ -487,7 +492,6 @@ export default function KolektibilitasReportTable({
                         {r.alamat}
                       </Td>
 
-                      {/* UBAH: isi kolom-kolom ini rata kiri (dan dipaksa text-left) */}
                       <Td
                         className={cn(colW.kodePinjaman, "whitespace-nowrap text-left")}
                         align="left"
