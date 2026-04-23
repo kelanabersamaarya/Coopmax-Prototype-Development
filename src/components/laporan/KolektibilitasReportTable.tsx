@@ -224,14 +224,16 @@ export default function KolektibilitasReportTable({
   const totalsAll = totalsPage;
 
   const totalRowLabelClass =
-    "border border-slate-200/70 px-3 py-3 text-[14px] font-normal text-slate-900";
+    "border border-slate-200/70 px-3 py-3 text-[14px] font-extrabold text-slate-900";
   const totalRowNumberClass =
-    "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-normal tabular-nums text-slate-900";
+    "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
-        <div className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}>
+        <div
+          className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}
+        >
           <table className="min-w-[1860px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr>
@@ -458,11 +460,7 @@ export default function KolektibilitasReportTable({
             {totalEntriesResolved} entri
           </div>
 
-          <PaginationLikeExample
-            page={page}
-            pageCount={pageCount}
-            onPage={setPage}
-          />
+          <PaginationLikeExample page={page} pageCount={pageCount} onPage={setPage} />
         </div>
       </div>
     </div>
