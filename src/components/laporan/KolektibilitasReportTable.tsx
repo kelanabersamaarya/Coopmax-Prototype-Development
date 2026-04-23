@@ -275,7 +275,8 @@ export default function KolektibilitasReportTable({
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
   // Total jumlah kolom pada tbody (harus sinkron untuk colSpan empty state)
-  const totalColumns = 1 /*No*/ +
+  const totalColumns =
+    1 /*No*/ +
     1 /*NO.REKENING*/ +
     1 /*Nama*/ +
     1 /*Status*/ +
@@ -362,9 +363,15 @@ export default function KolektibilitasReportTable({
                   Tunggakan
                 </Th>
 
-                {/* HILANGKAN TEKS "TAMBAHAN" (tetap ada colSpan untuk kolom-kolom di bawahnya) */}
-                <Th colSpan={3} align="center">
-                  {/* intentionally blank */}
+                {/* Kolom setelah tunggakan: buat rowSpan=2 agar tidak ada header kosong di atas */}
+                <Th rowSpan={2} className={colW.sisaPinjaman} align="right">
+                  Sisa Pinjaman
+                </Th>
+                <Th rowSpan={2} className={colW.hutangPokok} align="right">
+                  Hutang Pokok
+                </Th>
+                <Th rowSpan={2} className={colW.hutangBunga} align="right">
+                  Hutang Bunga
                 </Th>
 
                 <Th rowSpan={2} className={colW.kolektibilitas} align="center">
@@ -420,16 +427,7 @@ export default function KolektibilitasReportTable({
                   {"\u003E"} 90 Hr
                 </Th>
 
-                {/* Kolom setelah tunggakan (tanpa label grup) */}
-                <Th className={colW.sisaPinjaman} align="right">
-                  Sisa Pinjaman
-                </Th>
-                <Th className={colW.hutangPokok} align="right">
-                  Hutang Pokok
-                </Th>
-                <Th className={colW.hutangBunga} align="right">
-                  Hutang Bunga
-                </Th>
+                {/* NOTE: tidak ada header tambahan di baris kedua untuk Sisa/Hutang karena sudah rowSpan=2 */}
               </tr>
             </thead>
 
