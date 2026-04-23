@@ -80,6 +80,7 @@ export default function BillSummaryCard({
   className,
   transactionType,
   onTransactionTypeChange,
+  hasAnySelected,
 }: {
   mode: "regular" | "pelunasan";
   totals: { pokok: string; bunga: string; denda: string; total: string };
@@ -87,6 +88,7 @@ export default function BillSummaryCard({
   className?: string;
   transactionType?: TransactionType | null;
   onTransactionTypeChange?: (v: TransactionType) => void;
+  hasAnySelected?: boolean;
 }) {
   const isUnset = !transactionType;
 
@@ -100,7 +102,7 @@ export default function BillSummaryCard({
   const isPenurunanBakiDebet =
     transactionType === "Pembayaran Penurunan Baki Debet";
 
-  const displayTotals = isUnset
+  const displayTotalsBase = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
     : totals;
 
@@ -124,6 +126,12 @@ export default function BillSummaryCard({
 
   // label ringkas untuk reguler & khusus (tanpa kata "Total")
   const useShortLabels = isRegular || isKhusus;
+
+  const shouldZeroRegular = isRegular && hasAnySelected === false;
+
+  const displayTotals = shouldZeroRegular
+    ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
+    : displayTotalsBase;
 
   return (
     <Card

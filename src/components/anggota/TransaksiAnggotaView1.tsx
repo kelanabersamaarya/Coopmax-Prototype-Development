@@ -224,6 +224,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPelunasan, isReguler]);
 
+  const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
+
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
   const penaltyTotal = React.useMemo(() => {
@@ -371,6 +373,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             <div className="space-y-4">
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
+                hasAnySelected={hasAnySelected}
                 totals={{
                   pokok: isPenurunanBakiDebet
                     ? penurunanBakiDebetPokokText ?? "0"
