@@ -65,7 +65,7 @@ function DueDateWithPenaltyMarker({
               </button>
             </TooltipTrigger>
             <TooltipContent className="border-slate-200 bg-white text-slate-900 shadow-md">
-              Terdapat Tagihan Denda
+              Terdapat Tagihan Denda Pada Periode Ini
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
