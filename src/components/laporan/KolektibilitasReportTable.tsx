@@ -1,3 +1,4 @@
+90) pada baris Total per Halaman dan Total di laporan kolektibilitas.">
 "use client";
 
 import * as React from "react";
@@ -205,10 +206,16 @@ export default function KolektibilitasReportTable({
     return paged.reduce(
       (acc, r) => {
         acc.pokok += r.pinjamanSldPokok;
+
         acc.nilai += r.tunggakanNilai;
+        acc.t1_30 += r.tunggakan1_30;
+        acc.t31_60 += r.tunggakan31_60;
+        acc.t61_90 += r.tunggakan61_90;
+        acc.t90p += r.tunggakan90p;
+
         return acc;
       },
-      { pokok: 0, nilai: 0 },
+      { pokok: 0, nilai: 0, t1_30: 0, t31_60: 0, t61_90: 0, t90p: 0 },
     );
   }, [paged]);
 
@@ -397,7 +404,18 @@ export default function KolektibilitasReportTable({
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.nilai)}
                   </td>
-                  <td colSpan={4} className="border border-slate-200/70 px-3 py-3" />
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t1_30)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t31_60)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t61_90)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsPage.t90p)}
+                  </td>
                 </tr>
               ) : null}
 
@@ -414,7 +432,18 @@ export default function KolektibilitasReportTable({
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsAll.nilai)}
                   </td>
-                  <td colSpan={4} className="border border-slate-200/70 px-3 py-3" />
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t1_30)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t31_60)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t61_90)}
+                  </td>
+                  <td className={totalRowNumberClass}>
+                    {formatIdr0(totalsAll.t90p)}
+                  </td>
                 </tr>
               ) : null}
             </tbody>
