@@ -64,6 +64,7 @@ function PenaltyIcon({
               "transition-colors hover:bg-amber-200/70",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40",
               "cursor-help",
+              // bigger hitbox (mobile friendly)
               "h-8 w-8",
               className,
             )}
@@ -650,15 +651,14 @@ export default function BillingTable({
       ? 7
       : 8;
 
-  // Lebarkan kolom denda, dan "geser ke kiri" dengan mengecilkan kolom nominal lainnya.
-  // (Tabel tetap table-fixed, jadi lebar kolom wajib cukup agar icon tidak kepotong.)
+  // Geser/beri ruang lebih lebar untuk kolom nominal agar icon denda besar tidak "kepotong"
   const dateColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
-  const totalColW = hideInterestCols ? "" : "w-[16%]";
-  const pokokColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
-  const bungaColW = hideInterestCols ? "" : "w-[10%]";
-  const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
-  const sisaBungaColW = hideInterestCols ? "" : "w-[12%]";
-  const dendaColW = hideInterestCols ? "" : "w-[20%]";
+  const totalColW = hideInterestCols ? "" : "w-[18%]";
+  const pokokColW = hideInterestCols ? "w-[25%]" : "w-[16%]";
+  const bungaColW = hideInterestCols ? "" : "w-[12%]";
+  const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[16%]";
+  const sisaBungaColW = hideInterestCols ? "" : "w-[14%]";
+  const dendaColW = hideInterestCols ? "" : "w-[10%]";
 
   const totalSelectableRows = displayRows.length + extraOutsideRows.length;
 
@@ -669,7 +669,7 @@ export default function BillingTable({
         className,
       )}
     >
-      <table className={cn(tableBase, "min-w-[980px]")}>
+      <table className={tableBase}>
         <thead className="bg-white">
           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
             {!hideSelection ? (
@@ -706,7 +706,7 @@ export default function BillingTable({
               <th className={cn(bungaColW, thClass, "text-right")}>Tagihan Bunga</th>
             ) : null}
 
-            <th className={cn(sisaPokokColW, thClass, "text-right")}>
+            <th className={cn(sisaPokokColW, thClass, edgeR, "text-right")}>
               Sisa Tagihan Pokok
             </th>
 
@@ -796,7 +796,15 @@ export default function BillingTable({
                       </td>
                     ) : null}
 
-                    <td className={cn(sisaPokokColW, tdClass, "text-slate-800", numCell)}>
+                    <td
+                      className={cn(
+                        sisaPokokColW,
+                        tdClass,
+                        edgeR,
+                        "text-slate-800",
+                        numCell,
+                      )}
+                    >
                       {bill.sisaPokok}
                     </td>
 
@@ -881,7 +889,15 @@ export default function BillingTable({
                       </td>
                     ) : null}
 
-                    <td className={cn(sisaPokokColW, tdClass, "text-slate-800", numCell)}>
+                    <td
+                      className={cn(
+                        sisaPokokColW,
+                        tdClass,
+                        edgeR,
+                        "text-slate-800",
+                        numCell,
+                      )}
+                    >
                       {bill.sisaPokok}
                     </td>
 
