@@ -111,7 +111,7 @@ function SelectLike({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[13px] font-medium text-slate-900",
+          "h-9 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900",
           "shadow-sm outline-none transition",
           "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
         )}
@@ -297,9 +297,9 @@ export default function LaporanKolektibilitas() {
 
         <Separator className="my-5 bg-slate-200/70" />
 
-        {/* FORM: dibuat lebih pendek (max-width) seperti contoh */}
+        {/* FORM: elemen tetap sama, hanya field diperkecil & rata kiri */}
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          <div className="mx-auto w-full max-w-[920px]">
+          <div className="w-full max-w-[920px]">
             <div className="grid gap-3">
               <FieldRow label="Jenis Pinjaman">
                 <div className="relative">
@@ -307,7 +307,7 @@ export default function LaporanKolektibilitas() {
                     value={jenisPinjaman}
                     onChange={(e) => setJenisPinjaman(e.target.value)}
                     className={cn(
-                      "h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[13px] font-medium text-slate-900",
+                      "h-9 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900",
                       "shadow-sm outline-none transition",
                       "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
                     )}
@@ -328,7 +328,7 @@ export default function LaporanKolektibilitas() {
                   value={namaKode}
                   onChange={(e) => setNamaKode(e.target.value)}
                   placeholder="Masukkan nama/kode pinjaman.."
-                  className="h-10 rounded-md border-slate-200 bg-white text-[13px] shadow-sm"
+                  className="h-9 rounded-md border-slate-200 bg-white text-[12.5px] shadow-sm"
                 />
               </FieldRow>
 
@@ -344,7 +344,7 @@ export default function LaporanKolektibilitas() {
                 <Input
                   value={tahun}
                   onChange={(e) => setTahun(e.target.value)}
-                  className="h-10 rounded-md border-slate-200 bg-white text-[13px] shadow-sm"
+                  className="h-9 rounded-md border-slate-200 bg-white text-[12.5px] shadow-sm"
                   inputMode="numeric"
                 />
               </FieldRow>
