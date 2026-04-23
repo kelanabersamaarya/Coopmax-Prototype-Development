@@ -42,39 +42,35 @@ function shouldShowPenaltyMarker(idx: number) {
   return idx < 3;
 }
 
-function PenaltyIcon({
+function DueDateWithPenaltyMarker({
+  date,
   show,
-  className,
 }: {
+  date: string;
   show: boolean;
-  className?: string;
 }) {
-  if (!show) return null;
-
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            type="button"
-            aria-label="Info denda"
-            className={cn(
-              "inline-flex h-6 w-6 items-center justify-center rounded-full",
-              "bg-amber-100 text-amber-800 ring-1 ring-amber-200",
-              "transition-colors hover:bg-amber-200/70",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40",
-              "cursor-help",
-              className,
-            )}
-          >
-            <AlertTriangle className="h-4 w-4" />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent className="border-slate-200 bg-white text-slate-900 shadow-md">
-          Terdapat Tagihan Denda Pada Periode Ini
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <span className="inline-flex items-center gap-2 whitespace-nowrap">
+      <span>{date}</span>
+      {show ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                aria-label="Info denda"
+                className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-800 ring-1 ring-amber-200 transition-colors hover:bg-amber-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 cursor-help"
+              >
+                <AlertTriangle className="h-4 w-4" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="border-slate-200 bg-white text-slate-900 shadow-md">
+              Terdapat Tagihan Denda Pada Periode Ini
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : null}
+    </span>
   );
 }
 
@@ -483,7 +479,9 @@ export default function BillingTable({
                         {idx + 1}
                       </td>
 
-                      <td className={cn(dateColW, tdClass, dateCell)}>{bill.jatuhTempo}</td>
+                      <td className={cn(dateColW, tdClass, dateCell)}>
+                        <DueDateWithPenaltyMarker date={bill.jatuhTempo} show={showPenalty} />
+                      </td>
 
                       <td className={cn(dendaColW, tdClass, "text-slate-800", numCell)}>
                         {showPenalty ? penalties[idx]?.total ?? "0" : "-"}
@@ -609,7 +607,10 @@ export default function BillingTable({
                       hideSelection ? edgeL : "",
                     )}
                   >
-                    {bill.jatuhTempo}
+                    <DueDateWithPenaltyMarker
+                      date={bill.jatuhTempo}
+                      show={shouldShowPenaltyMarker(idx)}
+                    />
                   </td>
 
                   <td className={cn(bungaColW, tdClass, "text-slate-800", numCell)}>
@@ -735,8 +736,6 @@ export default function BillingTable({
 
               {displayRows.map((bill, idx) => {
                 const showPenalty = idx < 3;
-                const penaltyValue = showPenalty ? penalties[idx]?.total ?? "0" : "-";
-
                 return (
                   <tr
                     key={`${bill.jatuhTempo}-${idx}`}
@@ -772,7 +771,10 @@ export default function BillingTable({
                         hideSelection ? edgeL : "",
                       )}
                     >
-                      {bill.jatuhTempo}
+                      <DueDateWithPenaltyMarker
+                        date={bill.jatuhTempo}
+                        show={shouldShowPenaltyMarker(idx)}
+                      />
                     </td>
 
                     {!hideInterestCols ? (
@@ -810,11 +812,10 @@ export default function BillingTable({
                     ) : null}
 
                     {showPenaltyCol ? (
-                      <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800")}>
-                        <div className="flex items-center justify-end gap-2">
-                          <span className={cn(numCell)}>{penaltyValue}</span>
-                          <PenaltyIcon show={showPenalty} className="h-6 w-6" />
-                        </div>
+                      <td
+                        className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}
+                      >
+                        {showPenalty ? penalties[idx]?.total ?? "0" : "-"}
                       </td>
                     ) : null}
                   </tr>
@@ -824,10 +825,6 @@ export default function BillingTable({
               {extraOutsideRows.map((bill, idx) => {
                 const globalIndex = displayRows.length + idx;
                 const showPenalty = globalIndex < 3;
-                const penaltyValue = showPenalty
-                  ? penalties[globalIndex]?.total ?? "0"
-                  : "-";
-
                 return (
                   <tr
                     key={`outside-${bill.jatuhTempo}-${globalIndex}`}
@@ -865,7 +862,10 @@ export default function BillingTable({
                         hideSelection ? edgeL : "",
                       )}
                     >
-                      {bill.jatuhTempo}
+                      <DueDateWithPenaltyMarker
+                        date={bill.jatuhTempo}
+                        show={shouldShowPenaltyMarker(globalIndex)}
+                      />
                     </td>
 
                     {!hideInterestCols ? (
@@ -903,11 +903,10 @@ export default function BillingTable({
                     ) : null}
 
                     {showPenaltyCol ? (
-                      <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800")}>
-                        <div className="flex items-center justify-end gap-2">
-                          <span className={cn(numCell)}>{penaltyValue}</span>
-                          <PenaltyIcon show={showPenalty} className="h-6 w-6" />
-                        </div>
+                      <td
+                        className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}
+                      >
+                        {showPenalty ? penalties[globalIndex]?.total ?? "0" : "-"}
                       </td>
                     ) : null}
                   </tr>
