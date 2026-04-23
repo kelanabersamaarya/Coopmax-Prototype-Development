@@ -1,4 +1,3 @@
-'Total Tagihan Pokok'.">
 "use client";
 
 import * as React from "react";
