@@ -117,7 +117,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
   const showAllRows = penaltyOnlyCols || feeOnlyCols;
 
-  const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
+  const isKhusus = jenisTransaksi === "Pembayaran Khusus";
   const isPenurunanPlafon = jenisTransaksi === "Pembayaran Penurunan Plafon";
 
   const rowsToShow: BillingRow[] = isReguler
@@ -152,7 +152,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   }, [rowsToShow, penaltyOnlyCols, selected]);
 
   const showGraceInfo = true;
-  const highlightGraceBlock = isReguler || isRincian || isPenurunanPlafon;
+  const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
 
   return (
     <div className="w-full px-0">

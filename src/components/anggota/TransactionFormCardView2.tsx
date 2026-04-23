@@ -23,7 +23,7 @@ import {
 
 const transactionTypes = [
   "Pembayaran Reguler",
-  "Pembayaran Rincian Tagihan",
+  "Pembayaran Khusus",
   "Pelunasan",
   "Bayar Pokok",
   "Bayar Bunga",
@@ -45,7 +45,7 @@ function titleForTransaction(t: TransactionType | null) {
   if (t === "Pembayaran Reguler") return "PEMBAYARAN REGULER";
   if (t === "Pembayaran Penurunan Baki Debet")
     return "PEMBAYARAN PENURUNAN BAKI DEBET";
-  if (t === "Pembayaran Rincian Tagihan") return "PEMBAYARAN RINCIAN TAGIHAN";
+  if (t === "Pembayaran Khusus") return "PEMBAYARAN KHUSUS";
   if (t === "Pelunasan") return "PELUNASAN";
   if (t === "Bayar Pokok" || t === "Pembayaran Pokok") return "BAYAR POKOK";
   if (t === "Bayar Bunga" || t === "Pembayaran Bunga") return "BAYAR BUNGA";
@@ -196,7 +196,7 @@ export default function TransactionFormCardView2({
   setKeterangan: (v: string) => void;
 }) {
   const isPelunasan = jenisTransaksi === "Pelunasan";
-  const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
+  const isKhusus = jenisTransaksi === "Pembayaran Khusus";
   const isPenurunanBakiDebet = jenisTransaksi === "Pembayaran Penurunan Baki Debet";
   const nominalPelunasan = "9.625.000";
 
@@ -210,7 +210,7 @@ export default function TransactionFormCardView2({
     if (isUnset) return;
     if (!tabungan || tabungan !== ONLY_TABUNGAN) setTabungan(ONLY_TABUNGAN);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUnset, isPelunasan, isRincian, isPenurunanBakiDebet]);
+  }, [isUnset, isPelunasan, isKhusus, isPenurunanBakiDebet]);
 
   // Kolektor: enforce dropdown placeholder/values (bukan free text)
   React.useEffect(() => {
@@ -225,11 +225,11 @@ export default function TransactionFormCardView2({
   // Mode lain: default denda "0" agar tidak ikut nyasar.
   React.useEffect(() => {
     if (isUnset) return;
-    if (!isRincian && nominalDenda !== "0") setNominalDenda("0");
+    if (!isKhusus && nominalDenda !== "0") setNominalDenda("0");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isUnset, isRincian]);
+  }, [isUnset, isKhusus]);
 
-  const totalRincianAll = React.useMemo(() => {
+  const totalKhususAll = React.useMemo(() => {
     return (
       parseAmount(nominalPokok) +
       parseAmount(nominalBunga) +
@@ -316,8 +316,8 @@ export default function TransactionFormCardView2({
                 />
               </div>
 
-              {/* MODE RINCIAN TAGIHAN: tambah Nominal Denda */}
-              {isRincian ? (
+              {/* MODE KHUSUS: tambah Nominal Denda */}
+              {isKhusus ? (
                 <>
                   <div className="grid gap-1.5">
                     <Label className="text-xs text-slate-600">Nominal Pokok</Label>
@@ -374,7 +374,7 @@ export default function TransactionFormCardView2({
                       Total Pembayaran
                     </div>
                     <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
-                      {totalRincianAll.toLocaleString("id-ID")},00
+                      {totalKhususAll.toLocaleString("id-ID")},00
                     </div>
                   </div>
                 </>

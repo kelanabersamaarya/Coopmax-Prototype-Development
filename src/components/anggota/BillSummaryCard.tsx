@@ -54,7 +54,7 @@ function SummaryRow({
 type TransactionType =
   | "Pembayaran Reguler"
   | "Pembayaran Penurunan Baki Debet"
-  | "Pembayaran Rincian Tagihan"
+  | "Pembayaran Khusus"
   | "Pelunasan"
   | "Pembayaran Pokok"
   | "Pembayaran Bunga"
@@ -96,7 +96,7 @@ export default function BillSummaryCard({
   const isPembayaranBiayaLainnya = transactionType === "Pembayaran Biaya Lainnya";
 
   const isRegular = transactionType === "Pembayaran Reguler";
-  const isRincian = transactionType === "Pembayaran Rincian Tagihan";
+  const isKhusus = transactionType === "Pembayaran Khusus";
   const isPenurunanBakiDebet =
     transactionType === "Pembayaran Penurunan Baki Debet";
 
@@ -122,8 +122,8 @@ export default function BillSummaryCard({
     !isPembayaranBiayaLainnya &&
     !isPenurunanBakiDebet;
 
-  // label ringkas untuk reguler & rincian (tanpa kata "Total")
-  const useShortLabels = isRegular || isRincian;
+  // label ringkas untuk reguler & khusus (tanpa kata "Total")
+  const useShortLabels = isRegular || isKhusus;
 
   return (
     <Card
@@ -187,13 +187,11 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-xl",
-                transactionType === "Pembayaran Rincian Tagihan"
-                  ? "bg-slate-100"
-                  : "",
+                transactionType === "Pembayaran Khusus" ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Pembayaran Rincian Tagihan")}
+              onClick={() => handleChange("Pembayaran Khusus")}
             >
-              {transactionLabel("Pembayaran Rincian Tagihan")}
+              {transactionLabel("Pembayaran Khusus")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
