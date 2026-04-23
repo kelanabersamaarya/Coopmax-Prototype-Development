@@ -253,8 +253,6 @@ export default function KolektibilitasReportTable({
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
   function TotalRow({ label }: { label: string }) {
-    const dash = <span className="text-slate-400">—</span>;
-
     return (
       <tr className="border-t border-black bg-white">
         {/* 1 No. -> label di paling kiri */}
@@ -283,38 +281,24 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
 
         {/* 12 Jangka Waktu Bln */}
-        <td className={totalRowText} align="center">
-          {dash}
-        </td>
+        <td className={totalRowText} />
         {/* 13 Dari tgl */}
-        <td className={totalRowText} align="center">
-          {dash}
-        </td>
+        <td className={totalRowText} />
         {/* 14 s/d tgl */}
-        <td className={totalRowText} align="center">
-          {dash}
-        </td>
+        <td className={totalRowText} />
 
         {/* 15 Pinjaman Sld. Pokok */}
         <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
         {/* 16 Pinjaman Bng */}
-        <td className={totalRowText} align="right">
-          {dash}
-        </td>
+        <td className={totalRowText} />
 
         {/* 17 Angsuran Per bln */}
-        <td className={totalRowText} align="right">
-          {dash}
-        </td>
+        <td className={totalRowText} />
         {/* 18 Angsuran Sdh/Hr */}
-        <td className={totalRowText} align="right">
-          {dash}
-        </td>
+        <td className={totalRowText} />
 
         {/* 19 Tunggakan Bln */}
-        <td className={totalRowText} align="center">
-          {dash}
-        </td>
+        <td className={totalRowText} />
         {/* 20 Tunggakan Nilai */}
         <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
         {/* 21 1-30 */}
@@ -522,7 +506,10 @@ export default function KolektibilitasReportTable({
                         {r.alamat}
                       </Td>
 
-                      <Td className={cn(colW.kodePinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.kodePinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {kodePinjaman}
                       </Td>
 
@@ -540,7 +527,10 @@ export default function KolektibilitasReportTable({
                         {tanggalJatuhTempo}
                       </Td>
 
-                      <Td className={cn(colW.jenisPinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.jenisPinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {jenisPinjaman}
                       </Td>
 
