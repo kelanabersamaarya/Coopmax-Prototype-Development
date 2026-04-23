@@ -221,16 +221,18 @@ export default function TransactionFormCardView2({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUnset]);
 
-  // Saat mode Rincian Tagihan: pastikan field denda kosong (karena sudah dihilangkan dari UI)
+  // Mode lain: default denda "0" agar tidak ikut nyasar.
   React.useEffect(() => {
-    if (!isRincian) return;
-    if (nominalDenda !== "0") setNominalDenda("0");
+    if (isUnset) return;
+    if (!isRincian && nominalDenda !== "0") setNominalDenda("0");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRincian]);
+  }, [isUnset, isRincian]);
 
-  const totalRincianPokokBunga = React.useMemo(() => {
-    return parseAmount(nominalPokok) + parseAmount(nominalBunga);
-  }, [nominalBunga, nominalPokok]);
+  const totalRincianAll = React.useMemo(() => {
+    return (
+      parseAmount(nominalPokok) + parseAmount(nominalBunga) + parseAmount(nominalDenda)
+    );
+  }, [nominalBunga, nominalDenda, nominalPokok]);
 
   const nominalLabel = isPenurunanPlafon
     ? "Nominal Pokok*"
@@ -311,7 +313,7 @@ export default function TransactionFormCardView2({
                 />
               </div>
 
-              {/* MODE RINCIAN TAGIHAN: disederhanakan */}
+              {/* MODE RINCIAN TAGIHAN: tambah Nominal Denda */}
               {isRincian ? (
                 <>
                   <div className="grid gap-1.5">
@@ -330,6 +332,17 @@ export default function TransactionFormCardView2({
                     <Input
                       value={nominalBunga}
                       onChange={(e) => setNominalBunga(e.target.value)}
+                      inputMode="numeric"
+                      className="h-10 rounded-xl border-slate-200 bg-white text-right"
+                      placeholder="0"
+                    />
+                  </div>
+
+                  <div className="grid gap-1.5">
+                    <Label className="text-xs text-slate-600">Nominal Denda</Label>
+                    <Input
+                      value={nominalDenda}
+                      onChange={(e) => setNominalDenda(e.target.value)}
                       inputMode="numeric"
                       className="h-10 rounded-xl border-slate-200 bg-white text-right"
                       placeholder="0"
@@ -358,7 +371,7 @@ export default function TransactionFormCardView2({
                       Total Pembayaran
                     </div>
                     <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">
-                      {totalRincianPokokBunga.toLocaleString("id-ID")},00
+                      {totalRincianAll.toLocaleString("id-ID")},00
                     </div>
                   </div>
                 </>
