@@ -230,7 +230,7 @@ export default function KolektibilitasReportTable({
                   No.
                 </Th>
                 <Th rowSpan={2} className={colW.noNsb}>
-                  No.Nsb
+                  NO.REKENING
                 </Th>
                 <Th rowSpan={2} className={colW.nama}>
                   Nama
