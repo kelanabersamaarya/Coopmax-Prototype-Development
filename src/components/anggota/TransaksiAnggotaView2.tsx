@@ -119,6 +119,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const isKhusus = jenisTransaksi === "Pembayaran Khusus";
   const isPenurunanPlafon = jenisTransaksi === "Pembayaran Penurunan Plafon";
+  const isPenurunanBakiDebet = jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
@@ -267,7 +268,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showNextBillInfo={true}
                   showGraceInfo={showGraceInfo}
                   highlightGraceBlock={highlightGraceBlock}
-                  hideSelection={isPenurunanPlafon}
+                  hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
                 />
               )}
 

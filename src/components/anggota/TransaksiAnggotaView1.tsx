@@ -179,7 +179,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
 
-  const isRincian = jenisTransaksi === "Pembayaran Rincian Tagihan";
+  const isPenurunanBakiDebet = jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState<number>(1);
@@ -331,7 +331,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 interestOnlyCols={interestOnlyCols}
                 penaltyOnlyCols={penaltyOnlyCols}
                 feeOnlyCols={feeOnlyCols}
-                hideSelection={isRincian}
+                hideSelection={isPenurunanBakiDebet}
               />
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
