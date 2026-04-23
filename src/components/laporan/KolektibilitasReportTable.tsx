@@ -363,7 +363,6 @@ export default function KolektibilitasReportTable({
                   Tunggakan
                 </Th>
 
-                {/* UBAH: rata kiri */}
                 <Th rowSpan={2} className={colW.sisaPinjaman} align="left">
                   Sisa Pinjaman
                 </Th>
@@ -374,14 +373,12 @@ export default function KolektibilitasReportTable({
                   Hutang Bunga
                 </Th>
 
-                {/* UBAH: rata kiri */}
                 <Th rowSpan={2} className={colW.kolektibilitas} align="left">
                   Kolektiblilitas
                 </Th>
               </tr>
 
               <tr>
-                {/* Jangka Waktu */}
                 <Th className={colW.jwBln} align="center">
                   Bln
                 </Th>
@@ -392,7 +389,6 @@ export default function KolektibilitasReportTable({
                   s/d tgl.
                 </Th>
 
-                {/* Pinjaman */}
                 <Th className={colW.pinPokok} align="right">
                   Sld. Pokok
                 </Th>
@@ -400,7 +396,6 @@ export default function KolektibilitasReportTable({
                   Bng
                 </Th>
 
-                {/* Angsuran */}
                 <Th className={colW.angPerBln} align="right">
                   Per bln
                 </Th>
@@ -408,7 +403,6 @@ export default function KolektibilitasReportTable({
                   Sdh/Hr
                 </Th>
 
-                {/* Tunggakan */}
                 <Th className={colW.tBln} align="center">
                   Bln
                 </Th>
@@ -427,8 +421,6 @@ export default function KolektibilitasReportTable({
                 <Th className={colW.t90p} align="right">
                   {"\u003E"} 90 Hr
                 </Th>
-
-                {/* NOTE: tidak ada header tambahan di baris kedua untuk Sisa/Hutang/Kolektibilitas karena sudah rowSpan=2 */}
               </tr>
             </thead>
 
@@ -446,7 +438,6 @@ export default function KolektibilitasReportTable({
                 paged.map((r, idx) => {
                   const kolek = deriveKolektibilitas(r);
 
-                  // Dummy UI values
                   const status = idx % 5 === 0 ? "Calon" : "Anggota";
                   const kodePinjaman = `KP-${String(r.no).padStart(3, "0")}`;
                   const tanggalPinjaman = r.dari;
@@ -487,10 +478,8 @@ export default function KolektibilitasReportTable({
                         {r.nama}
                       </Td>
 
-                      <Td
-                        className={cn(colW.status, "font-semibold")}
-                        align="center"
-                      >
+                      {/* UBAH: status tidak bold */}
+                      <Td className={colW.status} align="center">
                         {status}
                       </Td>
 
@@ -603,23 +592,18 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <tr className="border-t border-black">
-                  {/* Total label: sampai sebelum Pinjaman Sld. Pokok (agar total numerik rapi) */}
                   <td colSpan={16} className={totalRowLabelClass}>
                     Total per Halaman
                   </td>
 
-                  {/* Pinjaman: Sld Pokok */}
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.pokok)}
                   </td>
 
-                  {/* Pinjaman: Bng */}
                   <td className="border border-slate-200/70 px-3 py-3" />
 
-                  {/* Angsuran: 2 kolom */}
                   <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
 
-                  {/* Tunggakan: Nilai + breakdown (5) */}
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.nilai)}
                   </td>
@@ -636,7 +620,6 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsPage.t90p)}
                   </td>
 
-                  {/* Kolom setelah tunggakan */}
                   <td className={totalRowNumberClass}>{formatIdr0(totalsPage.sisa)}</td>
                   <td className={totalRowNumberClass}>
                     {formatIdr0(totalsPage.hutangPokok)}
@@ -645,7 +628,6 @@ export default function KolektibilitasReportTable({
                     {formatIdr0(totalsPage.hutangBunga)}
                   </td>
 
-                  {/* Kolektiblilitas */}
                   <td className="border border-slate-200/70 px-3 py-3" />
                 </tr>
               ) : null}
