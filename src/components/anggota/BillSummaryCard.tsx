@@ -66,14 +66,16 @@ function SummaryRowInline({
   return (
     <div
       className={cn(
-        "flex items-baseline gap-2 py-3 text-[14px]",
-        "text-slate-900",
+        "grid items-baseline gap-x-2 py-3 text-[14px]",
+        "[grid-template-columns:minmax(0,1fr)_14px_minmax(0,1fr)]",
         className,
       )}
     >
       <span className="font-semibold text-slate-700">{label}</span>
-      <span className="font-semibold text-slate-400">:</span>
-      <span className="font-extrabold tabular-nums tracking-tight">{value}</span>
+      <span className="text-center font-semibold text-slate-400">:</span>
+      <span className="text-right font-extrabold tabular-nums tracking-tight text-slate-900">
+        {value}
+      </span>
     </div>
   );
 }
