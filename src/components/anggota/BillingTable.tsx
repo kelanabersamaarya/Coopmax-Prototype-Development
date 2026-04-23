@@ -59,15 +59,17 @@ function PenaltyIcon({
             type="button"
             aria-label="Info denda"
             className={cn(
-              "inline-flex h-6 w-6 items-center justify-center rounded-full",
+              "inline-flex items-center justify-center rounded-full",
               "bg-amber-100 text-amber-800 ring-1 ring-amber-200",
               "transition-colors hover:bg-amber-200/70",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40",
               "cursor-help",
+              // bigger hitbox (mobile friendly)
+              "h-8 w-8",
               className,
             )}
           >
-            <AlertTriangle className="h-4 w-4" />
+            <AlertTriangle className="h-5 w-5" />
           </button>
         </TooltipTrigger>
         <TooltipContent className="border-slate-200 bg-white text-slate-900 shadow-md">
@@ -366,7 +368,9 @@ export default function BillingTable({
                       {bill.total}
                     </td>
 
-                    <td className={cn(wSisa, tdClass, edgeR, "text-slate-800", numCell)}>
+                    <td
+                      className={cn(wSisa, tdClass, edgeR, "text-slate-800", numCell)}
+                    >
                       {bill.sisa}
                     </td>
                   </tr>
@@ -647,13 +651,14 @@ export default function BillingTable({
       ? 7
       : 8;
 
-  const dateColW = hideInterestCols ? "w-[25%]" : "w-[15%]";
-  const totalColW = hideInterestCols ? "" : "w-[19%]";
-  const pokokColW = hideInterestCols ? "w-[25%]" : "w-[17%]";
+  // Geser/beri ruang lebih lebar untuk kolom nominal agar icon denda besar tidak "kepotong"
+  const dateColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
+  const totalColW = hideInterestCols ? "" : "w-[18%]";
+  const pokokColW = hideInterestCols ? "w-[25%]" : "w-[16%]";
   const bungaColW = hideInterestCols ? "" : "w-[12%]";
-  const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[18%]";
-  const sisaBungaColW = hideInterestCols ? "" : "w-[19%]";
-  const dendaColW = hideInterestCols ? "" : "w-[14%]";
+  const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[16%]";
+  const sisaBungaColW = hideInterestCols ? "" : "w-[14%]";
+  const dendaColW = hideInterestCols ? "" : "w-[10%]";
 
   const totalSelectableRows = displayRows.length + extraOutsideRows.length;
 
@@ -813,7 +818,7 @@ export default function BillingTable({
                       <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800")}>
                         <div className="flex items-center justify-end gap-2">
                           <span className={cn(numCell)}>{penaltyValue}</span>
-                          <PenaltyIcon show={showPenalty} className="h-6 w-6" />
+                          <PenaltyIcon show={showPenalty} />
                         </div>
                       </td>
                     ) : null}
@@ -906,7 +911,7 @@ export default function BillingTable({
                       <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800")}>
                         <div className="flex items-center justify-end gap-2">
                           <span className={cn(numCell)}>{penaltyValue}</span>
-                          <PenaltyIcon show={showPenalty} className="h-6 w-6" />
+                          <PenaltyIcon show={showPenalty} />
                         </div>
                       </td>
                     ) : null}
