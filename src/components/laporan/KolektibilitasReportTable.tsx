@@ -147,41 +147,31 @@ function PaginationLikeExample({
 const colW = {
   no: "w-[60px]",
   noNsb: "w-[140px]",
-
   nama: "w-[220px]",
   status: "w-[140px]",
-
   alamat: "w-[170px]",
-
   kodePinjaman: "w-[150px]",
   tanggalPinjaman: "w-[150px]",
   tanggalJatuhTempo: "w-[170px]",
   jenisPinjaman: "w-[170px]",
   plafon: "w-[160px]",
-
   aoId: "w-[90px]",
-
   jwBln: "w-[70px]",
   jwDari: "w-[130px]",
   jwSampai: "w-[130px]",
-
   pinPokok: "w-[130px]",
   pinBng: "w-[90px]",
-
   angPerBln: "w-[130px]",
   angSdhHr: "w-[90px]",
-
   tBln: "w-[90px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
   t31_60: "w-[140px]",
   t61_90: "w-[140px]",
   t90p: "w-[140px]",
-
   sisaPinjaman: "w-[160px]",
   hutangPokok: "w-[150px]",
   hutangBunga: "w-[150px]",
-
   kolektibilitas: "w-[190px]",
 };
 
@@ -262,11 +252,15 @@ export default function KolektibilitasReportTable({
   const totalRowNumberClass =
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
-  // Jumlah kolom data (tbody): 28
+  // Total kolom body: 28
   const TOTAL_COLS = 28;
 
+  function EmptyCell() {
+    return <td className="border border-slate-200/70 px-3 py-3" />;
+  }
+
   function TotalRow({ label }: { label: string }) {
-    // Kolom 1..16 (No..Jangka Waktu s/d) disatukan jadi label.
+    // Label menutup sampai kolom "Jangka Waktu s/d tgl." (16 kolom pertama)
     const labelColSpan = 16;
 
     return (
@@ -278,38 +272,40 @@ export default function KolektibilitasReportTable({
         {/* 17: Pinjaman Sld. Pokok */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.pokok)}</td>
 
-        {/* 18: Pinjaman Bng (kosong) */}
-        <td className="border border-slate-200/70 px-3 py-3" />
+        {/* 18: Pinjaman Bng */}
+        <EmptyCell />
 
-        {/* 19-20: Angsuran (kosong) */}
-        <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
+        {/* 19: Angsuran Per bln */}
+        <EmptyCell />
+        {/* 20: Angsuran Sdh/Hr */}
+        <EmptyCell />
 
-        {/* 21: Tunggakan Bln (kosong) */}
-        <td className="border border-slate-200/70 px-3 py-3" />
+        {/* 21: Tunggakan Bln */}
+        <EmptyCell />
 
-        {/* 22-26 */}
+        {/* 22: Tunggakan Nilai */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.nilai)}</td>
+        {/* 23: 1-30 */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.t1_30)}</td>
+        {/* 24: 31-60 */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.t31_60)}</td>
+        {/* 25: 61-90 */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.t61_90)}</td>
+        {/* 26: >90 */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.t90p)}</td>
 
-        {/* 27-29 */}
+        {/* 27: Sisa Pinjaman */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.sisa)}</td>
+        {/* 28: Hutang Pokok */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.hutangPokok)}</td>
+        {/* 29: Hutang Bunga */}
         <td className={totalRowNumberClass}>{formatIdr0(totals.hutangBunga)}</td>
 
-        {/* 30: KOLEKTIBILITAS (kosong, tapi tetap ada cell-nya) */}
-        <td className="border border-slate-200/70 px-3 py-3" />
+        {/* 30: Kolektibilitas (kosong) */}
+        <EmptyCell />
       </tr>
     );
   }
-
-  // Validasi internal sederhana (tanpa render sel tambahan)
-  // labelColSpan(16) + (Pinjaman 2) + (Angsuran 2) + (Tunggakan 6) + (Sisa/Hutang 3) + (Kolektibilitas 1) = 30? -> tapi labelColSpan sudah menggantikan 16 kolom awal.
-  // Total = 16 + 2 + 2 + 6 + 3 + 1 = 30; namun tabel data sebenarnya 28 karena sebagian header adalah grouping.
-  // Di sini kita mengikuti struktur kolom tbody yang nyata (28) dari file sebelumnya; kalau kamu ubah kolom tabel, TotalRow harus ikut.
-  void TOTAL_COLS;
 
   return (
     <div className={cn("mt-6", className)}>
