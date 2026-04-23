@@ -64,6 +64,7 @@ export default function BillingTableView2({
   showNextBillInfo = true,
   showGraceInfo = true,
   highlightGraceBlock = false,
+  hideSelection = false,
   className,
 }: {
   rows: BillingRow[];
@@ -73,9 +74,10 @@ export default function BillingTableView2({
   showNextBillInfo?: boolean;
   showGraceInfo?: boolean;
   highlightGraceBlock?: boolean; // border highlight (wrapper) untuk grace rows
+  hideSelection?: boolean;
   className?: string;
 }) {
-  const colCount = 7;
+  const colCount = hideSelection ? 6 : 7;
 
   const allChecked = React.useMemo(() => {
     if (rows.length === 0) return false;
@@ -105,6 +107,10 @@ export default function BillingTableView2({
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
+  const gridTemplate = hideSelection
+    ? "[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]"
+    : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
+
   return (
     <div className={cn("mt-3", className)}>
       {showNextBillInfo ? <NextBillInfoBanner /> : null}
@@ -118,20 +124,23 @@ export default function BillingTableView2({
         <table className="w-full border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700">
-              <th className="w-[44px] px-4 py-3">
-                <input
-                  ref={headerCheckboxRef}
-                  type="checkbox"
-                  aria-label="Pilih semua"
-                  checked={isLocked ? true : allChecked}
-                  disabled={isLocked}
-                  onChange={(e) => {
-                    const next = e.target.checked;
-                    setSelected(rows.map(() => next));
-                  }}
-                  className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-                />
-              </th>
+              {!hideSelection ? (
+                <th className="w-[44px] px-4 py-3">
+                  <input
+                    ref={headerCheckboxRef}
+                    type="checkbox"
+                    aria-label="Pilih semua"
+                    checked={isLocked ? true : allChecked}
+                    disabled={isLocked}
+                    onChange={(e) => {
+                      const next = e.target.checked;
+                      setSelected(rows.map(() => next));
+                    }}
+                    className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                  />
+                </th>
+              ) : null}
+
               <th className="px-4 py-3">Jatuh Tempo</th>
               <th className="px-4 py-3 text-right">Total Tagihan Belum Dibayar</th>
               <th className="px-4 py-3 text-right">Tagihan Pokok</th>
@@ -154,7 +163,9 @@ export default function BillingTableView2({
 
                             {graceRows.map((r, idx) => {
                               const rowIndex = idx;
-                              const active = selected[rowIndex] === true;
+                              const active = hideSelection
+                                ? false
+                                : selected[rowIndex] === true;
 
                               return (
                                 <tr
@@ -165,28 +176,30 @@ export default function BillingTableView2({
                                 >
                                   <td colSpan={colCount} className="p-0">
                                     <RowShell active={active}>
-                                      <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
-                                        <div className="flex items-center justify-center px-4 py-4">
-                                          <input
-                                            type="checkbox"
-                                            aria-label="Pilih tagihan"
-                                            checked={
-                                              isLocked
-                                                ? true
-                                                : (selected[rowIndex] ?? false)
-                                            }
-                                            disabled={isLocked}
-                                            onChange={(e) => {
-                                              const next = e.target.checked;
-                                              setSelected((prev) => {
-                                                const copy = [...prev];
-                                                copy[rowIndex] = next;
-                                                return copy;
-                                              });
-                                            }}
-                                            className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-                                          />
-                                        </div>
+                                      <div className={cn("grid items-center gap-0", gridTemplate)}>
+                                        {!hideSelection ? (
+                                          <div className="flex items-center justify-center px-4 py-4">
+                                            <input
+                                              type="checkbox"
+                                              aria-label="Pilih tagihan"
+                                              checked={
+                                                isLocked
+                                                  ? true
+                                                  : (selected[rowIndex] ?? false)
+                                              }
+                                              disabled={isLocked}
+                                              onChange={(e) => {
+                                                const next = e.target.checked;
+                                                setSelected((prev) => {
+                                                  const copy = [...prev];
+                                                  copy[rowIndex] = next;
+                                                  return copy;
+                                                });
+                                              }}
+                                              className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                            />
+                                          </div>
+                                        ) : null}
 
                                         <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                           {r.jatuhTempo}
@@ -226,7 +239,7 @@ export default function BillingTableView2({
 
                 {afterGraceRows.map((r, idx) => {
                   const rowIndex = graceCount + idx;
-                  const active = selected[rowIndex] === true;
+                  const active = hideSelection ? false : selected[rowIndex] === true;
 
                   return (
                     <tr
@@ -235,26 +248,28 @@ export default function BillingTableView2({
                     >
                       <td colSpan={colCount} className="p-0">
                         <RowShell active={active}>
-                          <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
-                            <div className="flex items-center justify-center px-4 py-4">
-                              <input
-                                type="checkbox"
-                                aria-label="Pilih tagihan"
-                                checked={
-                                  isLocked ? true : (selected[rowIndex] ?? false)
-                                }
-                                disabled={isLocked}
-                                onChange={(e) => {
-                                  const next = e.target.checked;
-                                  setSelected((prev) => {
-                                    const copy = [...prev];
-                                    copy[rowIndex] = next;
-                                    return copy;
-                                  });
-                                }}
-                                className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-                              />
-                            </div>
+                          <div className={cn("grid items-center gap-0", gridTemplate)}>
+                            {!hideSelection ? (
+                              <div className="flex items-center justify-center px-4 py-4">
+                                <input
+                                  type="checkbox"
+                                  aria-label="Pilih tagihan"
+                                  checked={
+                                    isLocked ? true : (selected[rowIndex] ?? false)
+                                  }
+                                  disabled={isLocked}
+                                  onChange={(e) => {
+                                    const next = e.target.checked;
+                                    setSelected((prev) => {
+                                      const copy = [...prev];
+                                      copy[rowIndex] = next;
+                                      return copy;
+                                    });
+                                  }}
+                                  className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                />
+                              </div>
+                            ) : null}
 
                             <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                               {r.jatuhTempo}
@@ -301,7 +316,7 @@ export default function BillingTableView2({
                   </tr>
                 ) : (
                   rows.map((r, idx) => {
-                    const active = selected[idx] === true;
+                    const active = hideSelection ? false : selected[idx] === true;
 
                     return (
                       <tr
@@ -310,24 +325,28 @@ export default function BillingTableView2({
                       >
                         <td colSpan={colCount} className="p-0">
                           <RowShell active={active}>
-                            <div className="grid items-center gap-0 [grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]">
-                              <div className="flex items-center justify-center px-4 py-4">
-                                <input
-                                  type="checkbox"
-                                  aria-label="Pilih tagihan"
-                                  checked={isLocked ? true : (selected[idx] ?? false)}
-                                  disabled={isLocked}
-                                  onChange={(e) => {
-                                    const next = e.target.checked;
-                                    setSelected((prev) => {
-                                      const copy = [...prev];
-                                      copy[idx] = next;
-                                      return copy;
-                                    });
-                                  }}
-                                  className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-                                />
-                              </div>
+                            <div className={cn("grid items-center gap-0", gridTemplate)}>
+                              {!hideSelection ? (
+                                <div className="flex items-center justify-center px-4 py-4">
+                                  <input
+                                    type="checkbox"
+                                    aria-label="Pilih tagihan"
+                                    checked={
+                                      isLocked ? true : (selected[idx] ?? false)
+                                    }
+                                    disabled={isLocked}
+                                    onChange={(e) => {
+                                      const next = e.target.checked;
+                                      setSelected((prev) => {
+                                        const copy = [...prev];
+                                        copy[idx] = next;
+                                        return copy;
+                                      });
+                                    }}
+                                    className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                  />
+                                </div>
+                              ) : null}
 
                               <div className="px-4 py-4 text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.jatuhTempo}
