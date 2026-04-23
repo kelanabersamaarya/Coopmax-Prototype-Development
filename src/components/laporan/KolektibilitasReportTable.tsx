@@ -227,44 +227,6 @@ export default function KolektibilitasReportTable({
     totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(totalEntriesResolved, page * pageSize);
 
-  const totalsPage = React.useMemo(() => {
-    return paged.reduce(
-      (acc, r) => {
-        acc.pokok += r.pinjamanSldPokok;
-
-        acc.nilai += r.tunggakanNilai;
-        acc.t1_30 += r.tunggakan1_30;
-        acc.t31_60 += r.tunggakan31_60;
-        acc.t61_90 += r.tunggakan61_90;
-        acc.t90p += r.tunggakan90p;
-
-        acc.sisa += Math.max(0, r.pinjamanSldPokok - r.tunggakanNilai);
-        acc.hutangPokok += Math.max(0, Math.round(r.tunggakanNilai * 0.35));
-        acc.hutangBunga += Math.max(0, Math.round(r.tunggakanNilai * 0.15));
-
-        return acc;
-      },
-      {
-        pokok: 0,
-        nilai: 0,
-        t1_30: 0,
-        t31_60: 0,
-        t61_90: 0,
-        t90p: 0,
-        sisa: 0,
-        hutangPokok: 0,
-        hutangBunga: 0,
-      },
-    );
-  }, [paged]);
-
-  const totalsAll = totalsPage;
-
-  const totalRowLabelClass =
-    "border border-slate-200/70 px-3 py-3 text-[14px] font-extrabold text-slate-900";
-  const totalRowNumberClass =
-    "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
-
   const totalColumns =
     1 +
     1 +
@@ -575,7 +537,6 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      {/* Kolektibilitas: tidak bold, rata kiri */}
                       <Td className={cn(colW.kolektibilitas, "text-left")} align="left">
                         {kolek}
                       </Td>
@@ -584,95 +545,7 @@ export default function KolektibilitasReportTable({
                 })
               )}
 
-              {/* Total per Halaman */}
-              {paged.length > 0 ? (
-                <tr className="border-t border-black">
-                  <td colSpan={16} className={totalRowLabelClass}>
-                    Total per Halaman
-                  </td>
-
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.pokok)}
-                  </td>
-
-                  <td className="border border-slate-200/70 px-3 py-3" />
-
-                  <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
-
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.nilai)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t1_30)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t31_60)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t61_90)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.t90p)}
-                  </td>
-
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.sisa)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.hutangPokok)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsPage.hutangBunga)}
-                  </td>
-
-                  {/* KOLEKTIBILITAS: kosongkan supaya tidak ada nominal */}
-                  <td className="border border-slate-200/70 px-3 py-3" />
-                </tr>
-              ) : null}
-
-              {/* Total */}
-              {paged.length > 0 ? (
-                <tr className="border-t border-black">
-                  <td colSpan={16} className={totalRowLabelClass}>
-                    Total
-                  </td>
-
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.pokok)}
-                  </td>
-
-                  <td className="border border-slate-200/70 px-3 py-3" />
-
-                  <td colSpan={2} className="border border-slate-200/70 px-3 py-3" />
-
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.nilai)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t1_30)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t31_60)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t61_90)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.t90p)}
-                  </td>
-
-                  <td className={totalRowNumberClass}>{formatIdr0(totalsAll.sisa)}</td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.hutangPokok)}
-                  </td>
-                  <td className={totalRowNumberClass}>
-                    {formatIdr0(totalsAll.hutangBunga)}
-                  </td>
-
-                  {/* KOLEKTIBILITAS: kosongkan supaya tidak ada nominal */}
-                  <td className="border border-slate-200/70 px-3 py-3" />
-                </tr>
-              ) : null}
+              {/* UBAH: hilangkan baris total agar tidak ada angka muncul di area kolom Kolektibilitas */}
             </tbody>
           </table>
         </div>
