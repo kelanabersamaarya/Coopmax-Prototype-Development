@@ -180,49 +180,6 @@ function deriveKolektibilitas(r: KolektibilitasRow): KolektibilitasLabel {
   return "Lancar";
 }
 
-function KolektibilitasPill({ v }: { v: KolektibilitasLabel }) {
-  const map: Record<
-    KolektibilitasLabel,
-    { bg: string; ring: string; text: string }
-  > = {
-    Lancar: {
-      bg: "bg-emerald-50",
-      ring: "ring-emerald-200",
-      text: "text-emerald-800",
-    },
-    "Kurang Lancar": {
-      bg: "bg-amber-50",
-      ring: "ring-amber-200",
-      text: "text-amber-900",
-    },
-    Diragukan: {
-      bg: "bg-orange-50",
-      ring: "ring-orange-200",
-      text: "text-orange-900",
-    },
-    Macet: {
-      bg: "bg-rose-50",
-      ring: "ring-rose-200",
-      text: "text-rose-800",
-    },
-  };
-
-  const s = map[v];
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-[12px] font-extrabold ring-1",
-        s.bg,
-        s.ring,
-        s.text,
-      )}
-    >
-      {v}
-    </span>
-  );
-}
-
 export default function KolektibilitasReportTable({
   rows,
   pageSize = 20,
@@ -454,8 +411,8 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(r.tunggakan90p)}
                       </Td>
 
-                      <Td className={colW.kolektibilitas} align="center">
-                        <KolektibilitasPill v={kolek} />
+                      <Td className={cn(colW.kolektibilitas, "font-semibold")} align="center">
+                        {kolek}
                       </Td>
                     </tr>
                   );
