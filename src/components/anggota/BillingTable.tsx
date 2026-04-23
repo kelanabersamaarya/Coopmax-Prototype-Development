@@ -188,13 +188,10 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  // Selaraskan padding kanan untuk baris di luar grace agar sama dengan tabel di dalam grace.
-  // Di dalam grace: kolom Sisa Pokok punya edgeR, kolom Sisa Bunga TIDAK punya edgeR (punya padding default tdClass).
-  // Jadi: untuk baris luar grace, kita:
-  // - Total: pr-0 (sesuai sebelumnya)
-  // - Sisa Pokok: pr-4 (edgeR)
-  // - Sisa Bunga: pr-3 (default tdClass)
-  // - Denda: pr-4 (edgeR)
+  /**
+   * Alignment helper untuk baris "di luar grace period".
+   * Targetnya: padding & right-edge kolom harus sama persis dengan tabel di dalam block grace.
+   */
   function buildOutsideCellClass({
     col,
     isFirstNumeric,
@@ -211,16 +208,24 @@ export default function BillingTable({
     isFirstNumeric?: boolean;
     isLastNumeric?: boolean;
   }) {
+    // base = tdClass (px-3) agar match dengan inner-table row
     const base = cn(tdClass, "text-slate-800", col === "date" ? dateCell : numCell);
 
+    // date column: outer table butuh edgeL supaya start sejajar (karena ada checkbox col)
     if (col === "date") return cn(base, edgeL);
 
+    // kolom numeric pertama (Total) di dalam grace tidak punya edgeR, tapi kita tetap pakai pr-0
+    // agar tidak "mepet" dan align dengan tampilan sebelumnya.
     if (isFirstNumeric) return cn(base, "pr-0");
 
+    // sisaPokok di dalam grace pakai edgeR => samakan
     if (col === "sisaPokok") return cn(base, edgeR);
 
-    if (col === "sisaBunga") return cn(base, "pr-3");
+    // sisaBunga di dalam grace TIDAK pakai edgeR => harus pakai padding default tdClass (px-3)
+    // (hapus custom pr-3 yang sebelumnya membuat geser)
+    if (col === "sisaBunga") return base;
 
+    // denda kolom paling kanan: edgeR
     if (isLastNumeric) return cn(base, edgeR);
 
     return base;
@@ -470,7 +475,7 @@ export default function BillingTable({
               {displayRows.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={colCount}
+                    colSpan={4}
                     className="px-4 py-10 text-center text-sm text-slate-600"
                   >
                     Tidak ada data.
@@ -707,19 +712,20 @@ export default function BillingTable({
           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
             {!hideSelection ? (
               <th className={cn(checkboxColW, thClass, edgeL)}>
-                <CheckboxCell
-                  refEl={headerCheckboxRef}
-                  aria-label="Pilih semua"
-                  checked={isPelunasan ? true : allChecked}
-                  disabled={isPelunasan}
-                  onChange={(next) =>
-                    setSelected(
-                      Array.from({ length: totalSelectableRows }).map(() => next),
-                    )
-                  }
-                  size="sm"
-                  tone="blue"
-                />
+                <div className="flex items-center justify-center">
+                  <input
+                    ref={headerCheckboxRef}
+                    type="checkbox"
+                    aria-label="Pilih semua"
+                    checked={isPelunasan ? true : allChecked}
+                    disabled={isPelunasan}
+                    onChange={(e) => {
+                      const next = e.target.checked;
+                      setSelected(Array.from({ length: totalSelectableRows }).map(() => next));
+                    }}
+                    className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                  />
+                </div>
               </th>
             ) : null}
 
