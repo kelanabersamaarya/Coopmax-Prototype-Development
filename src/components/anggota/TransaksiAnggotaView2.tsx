@@ -33,7 +33,6 @@ import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
-import BillingTablePelunasanView2 from "@/components/anggota/BillingTablePelunasanView2";
 import BillingTable, {
   type BillingRow as BillingRowV1,
 } from "@/components/anggota/BillingTable";
@@ -313,7 +312,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               <Separator className="my-3 bg-slate-200/70" />
 
               {isPelunasan ? (
-                <BillingTablePelunasanView2 rows={rowsToShow as any} />
+                <BillingTable
+                  rows={rowsToShowV1}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isPelunasan={true}
+                  showGraceHighlight={true}
+                  hideInterestCols={false}
+                  className="mt-0"
+                />
               ) : useTableLikeScreenshotForPenurunanBakiDebet ? (
                 <BillingTable
                   rows={rowsToShowV1}
