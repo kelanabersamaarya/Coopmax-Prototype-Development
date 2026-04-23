@@ -172,7 +172,7 @@ const colW = {
   sisaPinjaman: "w-[160px]",
   hutangPokok: "w-[150px]",
   hutangBunga: "w-[150px]",
-  kolektibilitas: "w-[190px]",
+  kolektibilitas: "w-[150px]",
 };
 
 type KolektibilitasLabel = "Macet" | "Lancar" | "Diragukan" | "Kurang Lancar";
@@ -253,71 +253,43 @@ export default function KolektibilitasReportTable({
     "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
 
   function TotalRow({ label }: { label: string }) {
-    // Header/Body punya total 28 kolom. Kita merge 3 kolom pertama => sisa harus 25 td.
-    // 3 merged: No + NO.REKENING + Nama
-    // Remaining columns start from Status (kolom 4) sampai Kolektibilitas (kolom 28) = 25 kolom.
     return (
       <tr className="border-t border-black bg-white">
         <td className={cn(totalRowText, "whitespace-nowrap")} colSpan={3}>
           {label}
         </td>
 
-        {/* 4 Status */}
         <td className={totalRowText} />
-        {/* 5 Alamat */}
         <td className={totalRowText} />
-        {/* 6 Kode Pinjaman */}
         <td className={totalRowText} />
-        {/* 7 Tanggal Pinjaman */}
         <td className={totalRowText} />
-        {/* 8 Tanggal Jatuh Tempo */}
         <td className={totalRowText} />
-        {/* 9 Jenis Pinjaman */}
         <td className={totalRowText} />
-        {/* 10 Plafon */}
         <td className={totalRowText} />
 
-        {/* 11 AO ID */}
         <td className={totalRowText} />
 
-        {/* 12 Bln */}
         <td className={totalRowText} />
-        {/* 13 Dari tgl. */}
         <td className={totalRowText} />
-        {/* 14 s/d tgl. */}
         <td className={totalRowText} />
 
-        {/* 15 Pinjaman Sld. Pokok */}
         <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
-        {/* 16 Pinjaman Bng */}
         <td className={totalRowText} />
 
-        {/* 17 Angsuran Per bln */}
         <td className={totalRowText} />
-        {/* 18 Angsuran Sdh/Hr */}
         <td className={totalRowText} />
 
-        {/* 19 Tunggakan Bln */}
         <td className={totalRowText} />
-        {/* 20 Tunggakan Nilai */}
         <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
-        {/* 21 1-30 */}
         <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
-        {/* 22 31-60 */}
         <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
-        {/* 23 61-90 */}
         <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
-        {/* 24 >90 */}
         <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
 
-        {/* 25 Sisa Pinjaman */}
         <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
-        {/* 26 Hutang Pokok */}
         <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
-        {/* 27 Hutang Bunga */}
         <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
 
-        {/* 28 Kolektibilitas */}
         <td className={totalRowText} />
       </tr>
     );
@@ -506,10 +478,7 @@ export default function KolektibilitasReportTable({
                         {r.alamat}
                       </Td>
 
-                      <Td
-                        className={cn(colW.kodePinjaman, "whitespace-nowrap")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.kodePinjaman, "whitespace-nowrap")} align="left">
                         {kodePinjaman}
                       </Td>
 
@@ -527,10 +496,7 @@ export default function KolektibilitasReportTable({
                         {tanggalJatuhTempo}
                       </Td>
 
-                      <Td
-                        className={cn(colW.jenisPinjaman, "whitespace-nowrap")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.jenisPinjaman, "whitespace-nowrap")} align="left">
                         {jenisPinjaman}
                       </Td>
 
@@ -595,7 +561,10 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      <Td className={cn(colW.kolektibilitas, "text-left")} align="left">
+                      <Td
+                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {kolek}
                       </Td>
                     </tr>
