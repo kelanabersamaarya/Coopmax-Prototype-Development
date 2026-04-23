@@ -187,9 +187,9 @@ export default function BillingTable({
   const edgeL = "pl-4";
   const edgeR = "pr-4";
 
-  // Lebih rapat lagi untuk semua kolom angka (geser lebih kiri).
-  const numPad = "px-1";
-  const numPadEdgeR = "pr-1";
+  // NEW: padding lebih kecil untuk semua kolom angka (agar bergeser ke kiri)
+  const numPad = "px-2";
+  const numPadEdgeR = "pr-2";
 
   const tableBase = "w-full table-fixed border-collapse text-[13px]";
 
@@ -654,6 +654,8 @@ export default function BillingTable({
       ? 7
       : 8;
 
+  // Biarkan proporsi kolom seperti sebelumnya (tidak "memotong" tabel),
+  // kita hanya menggeser isi kolom angka dengan padding yang lebih kecil.
   const dateColW = hideInterestCols ? "w-[25%]" : "w-[14%]";
   const totalColW = hideInterestCols ? "" : "w-[18%]";
   const pokokColW = hideInterestCols ? "w-[25%]" : "w-[16%]";
@@ -853,15 +855,7 @@ export default function BillingTable({
                     ) : null}
 
                     {showPenaltyCol ? (
-                      <td
-                        className={cn(
-                          dendaColW,
-                          tdClass,
-                          edgeR,
-                          numPadEdgeR,
-                          "text-slate-800",
-                        )}
-                      >
+                      <td className={cn(dendaColW, tdClass, edgeR, numPadEdgeR, "text-slate-800")}>
                         <div className="flex items-center justify-end gap-2">
                           <span className={cn(numCell)}>{penaltyValue}</span>
                           <PenaltyIcon show={showPenalty} />
@@ -986,15 +980,7 @@ export default function BillingTable({
                     ) : null}
 
                     {showPenaltyCol ? (
-                      <td
-                        className={cn(
-                          dendaColW,
-                          tdClass,
-                          edgeR,
-                          numPadEdgeR,
-                          "text-slate-800",
-                        )}
-                      >
+                      <td className={cn(dendaColW, tdClass, edgeR, numPadEdgeR, "text-slate-800")}>
                         <div className="flex items-center justify-end gap-2">
                           <span className={cn(numCell)}>{penaltyValue}</span>
                           <PenaltyIcon show={showPenalty} />
