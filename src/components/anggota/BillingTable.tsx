@@ -241,9 +241,8 @@ export default function BillingTable({
   const sisaPokokTdClass = cn(tdClass, "text-slate-800", "pr-6");
   const sisaBungaTdClass = cn(tdClass, "text-slate-800", edgeR);
 
-  // KHUSUS baris di luar grace period: geser sedikit ke kiri supaya sejajar dengan yang di dalam kotak grace.
-  // (mengurangi padding kanan ~8px)
-  const sisaBungaTdOutsideGraceClass = cn(tdClass, "text-slate-800", "pr-2");
+  // KHUSUS baris di luar grace period: geser lebih ke kiri (hapus padding kanan)
+  const sisaBungaTdOutsideGraceClass = cn(tdClass, "text-slate-800", "pr-0");
 
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate = displayRows[rowIndex]?.jatuhTempo ?? "";
