@@ -238,17 +238,12 @@ export default function BillingTable({
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
   // Cell class kolom sisa: padding tetap di td, tapi isi angka dipaksa full-width via NumericCell
-  const sisaPokokTdClass = cn(
-    tdClass,
-    "text-slate-800",
-    "pr-6",
-  );
+  const sisaPokokTdClass = cn(tdClass, "text-slate-800", "pr-6");
+  const sisaBungaTdClass = cn(tdClass, "text-slate-800", edgeR);
 
-  const sisaBungaTdClass = cn(
-    tdClass,
-    "text-slate-800",
-    edgeR,
-  );
+  // KHUSUS baris di luar grace period: geser sedikit ke kiri supaya sejajar dengan yang di dalam kotak grace.
+  // (mengurangi padding kanan ~8px)
+  const sisaBungaTdOutsideGraceClass = cn(tdClass, "text-slate-800", "pr-2");
 
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate = displayRows[rowIndex]?.jatuhTempo ?? "";
@@ -996,7 +991,7 @@ export default function BillingTable({
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
+                          <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
                             <NumericCell>{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
@@ -1159,7 +1154,7 @@ export default function BillingTable({
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
+                          <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
                             <NumericCell>{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
