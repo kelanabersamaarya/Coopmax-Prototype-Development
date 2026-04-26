@@ -1,3 +1,4 @@
+25000) agar total tampil 75.000.">
 "use client";
 
 import * as React from "react";
@@ -12,8 +13,16 @@ export type PenaltyDetailRow = {
 };
 
 function parseIdrLike(input: string) {
-  const cleaned = (input ?? "").replace(/[^\d.-]/g, "");
+  const s = (input ?? "").trim();
+  if (!s) return 0;
+
+  // Format ID umum: 25.000 atau 25.000,50
+  // - hapus pemisah ribuan "."
+  // - ubah desimal "," jadi "."
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
+
   return Number.isFinite(n) ? n : 0;
 }
 
@@ -118,7 +127,6 @@ export default function PenaltyDetailDialog({
                       ))
                     )}
 
-                    {/* Total row: tanpa background */}
                     <tr className="border-t border-slate-200 bg-white">
                       <td className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
                         TOTAL NOMINAL DENDA
