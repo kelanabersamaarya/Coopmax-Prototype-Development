@@ -30,7 +30,8 @@ export default function BillingTablePelunasanView2({
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
   // HANYA angka: samakan padding kanan kolom sisa pokok
-  const sisaPokokTd = cn(tdClass, "text-slate-800", numCell, "pr-6");
+  const sisaPokokTd = cn(tdClass, "text-slate-800", numCell, "pr-6", "num-tabular");
+  const sisaBungaTd = cn(tdClass, "text-slate-800", numCell, edgeR, "num-tabular");
 
   return (
     <div
@@ -146,15 +147,7 @@ export default function BillingTablePelunasanView2({
                                   {bill.sisaPokok}
                                 </td>
 
-                                <td
-                                  className={cn(
-                                    "w-[19%]",
-                                    tdClass,
-                                    edgeR,
-                                    "text-slate-800",
-                                    numCell,
-                                  )}
-                                >
+                                <td className={cn("w-[19%]", sisaBungaTd)}>
                                   {bill.sisaBunga}
                                 </td>
                               </tr>
@@ -205,9 +198,7 @@ export default function BillingTablePelunasanView2({
 
                     <td className={cn("w-[18%]", sisaPokokTd)}>{bill.sisaPokok}</td>
 
-                    <td className={cn("w-[19%]", tdClass, edgeR, "text-slate-800", numCell)}>
-                      {bill.sisaBunga}
-                    </td>
+                    <td className={cn("w-[19%]", sisaBungaTd)}>{bill.sisaBunga}</td>
                   </tr>
                 );
               })}
@@ -247,9 +238,7 @@ export default function BillingTablePelunasanView2({
 
                 <td className={cn("w-[18%]", sisaPokokTd)}>{bill.sisaPokok}</td>
 
-                <td className={cn("w-[19%]", tdClass, edgeR, "text-slate-800", numCell)}>
-                  {bill.sisaBunga}
-                </td>
+                <td className={cn("w-[19%]", sisaBungaTd)}>{bill.sisaBunga}</td>
               </tr>
             ))
           )}

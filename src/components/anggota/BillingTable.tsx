@@ -236,12 +236,20 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  // HANYA angka: samakan gaya sisa pokok (tanpa ubah struktur tabel)
+  // HANYA angka: samakan gaya sisa pokok & sisa bunga (tanpa ubah struktur tabel)
   const sisaPokokNumberCell = cn(
     tdClass,
     "text-right tabular-nums whitespace-nowrap text-slate-800",
     "pr-6",
     "pl-3",
+    "num-tabular",
+  );
+
+  const sisaBungaNumberCell = cn(
+    tdClass,
+    "text-right tabular-nums whitespace-nowrap text-slate-800",
+    "pr-4",
+    "num-tabular",
   );
 
   function openPenaltyDetailForRow(rowIndex: number) {
@@ -428,7 +436,7 @@ export default function BillingTable({
                       {bill.total}
                     </td>
 
-                    <td className={cn(wSisa, tdClass, edgeR, "text-slate-800", numCell)}>
+                    <td className={cn(wSisa, tdClass, edgeR, "text-slate-800", numCell, "num-tabular")}>
                       {bill.sisa}
                     </td>
                   </tr>
@@ -567,6 +575,7 @@ export default function BillingTable({
                         edgeR,
                         "text-slate-800",
                         numCell,
+                        "num-tabular",
                       )}
                     >
                       {penalties[idx]?.remaining ?? "25.000"}
@@ -699,6 +708,7 @@ export default function BillingTable({
                       edgeR,
                       "text-slate-800",
                       numCell,
+                      "num-tabular",
                     )}
                   >
                     {bill.sisaBunga}
@@ -914,9 +924,8 @@ export default function BillingTable({
                                         <td
                                           className={cn(
                                             sisaBungaColW,
-                                            tdClass,
-                                            "text-slate-800",
-                                            numCell,
+                                            sisaBungaNumberCell,
+                                            edgeR,
                                           )}
                                         >
                                           {bill.sisaBunga}
@@ -1005,7 +1014,7 @@ export default function BillingTable({
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(tdClass, "text-slate-800", numCell)}>
+                          <td className={cn(sisaBungaColW, sisaBungaNumberCell, edgeR)}>
                             {bill.sisaBunga}
                           </td>
                         ) : null}
@@ -1087,7 +1096,7 @@ export default function BillingTable({
                       </td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(sisaBungaColW, tdClass, "text-slate-800", numCell)}>
+                        <td className={cn(sisaBungaColW, sisaBungaNumberCell, edgeR)}>
                           {bill.sisaBunga}
                         </td>
                       ) : null}
@@ -1168,7 +1177,7 @@ export default function BillingTable({
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(sisaBungaColW, tdClass, "text-slate-800", numCell)}>
+                          <td className={cn(sisaBungaColW, sisaBungaNumberCell, edgeR)}>
                             {bill.sisaBunga}
                           </td>
                         ) : null}

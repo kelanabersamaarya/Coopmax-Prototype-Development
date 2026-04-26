@@ -49,7 +49,10 @@ export default function UpcomingBillsAccordionView2({
   const showGraceHighlight = page === 1;
 
   // HANYA angka: tabular-nums + padding kanan konsisten
-  const sisaPokokCell = "text-right tabular-nums whitespace-nowrap text-slate-800 pr-6";
+  const sisaPokokCell =
+    "text-right tabular-nums whitespace-nowrap text-slate-800 pr-6 num-tabular";
+  const sisaBungaCell =
+    "text-right tabular-nums whitespace-nowrap text-slate-800 num-tabular";
 
   return (
     <div className="mt-3">
@@ -162,7 +165,7 @@ export default function UpcomingBillsAccordionView2({
                                       "w-[108px]",
                                       tdClass,
                                       edgePadRight,
-                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
+                                      sisaBungaCell,
                                     )}
                                   >
                                     {r.sisaBunga}
