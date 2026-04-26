@@ -7,6 +7,7 @@ import { Info } from "lucide-react";
 import PenaltyDetailDialog, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialog";
+import NumericCell from "@/components/anggota/NumericCell";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -236,20 +237,17 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  // HANYA angka: samakan gaya sisa pokok & sisa bunga (tanpa ubah struktur tabel)
-  const sisaPokokNumberCell = cn(
+  // Cell class kolom sisa: padding tetap di td, tapi isi angka dipaksa full-width via NumericCell
+  const sisaPokokTdClass = cn(
     tdClass,
-    "text-right tabular-nums whitespace-nowrap text-slate-800",
+    "text-slate-800",
     "pr-6",
-    "pl-3",
-    "num-tabular",
   );
 
-  const sisaBungaNumberCell = cn(
+  const sisaBungaTdClass = cn(
     tdClass,
-    "text-right tabular-nums whitespace-nowrap text-slate-800",
-    "pr-4",
-    "num-tabular",
+    "text-slate-800",
+    edgeR,
   );
 
   function openPenaltyDetailForRow(rowIndex: number) {
@@ -436,8 +434,8 @@ export default function BillingTable({
                       {bill.total}
                     </td>
 
-                    <td className={cn(wSisa, tdClass, edgeR, "text-slate-800", numCell, "num-tabular")}>
-                      {bill.sisa}
+                    <td className={cn(wSisa, sisaBungaTdClass)}>
+                      <NumericCell>{bill.sisa}</NumericCell>
                     </td>
                   </tr>
                 ))
@@ -575,10 +573,9 @@ export default function BillingTable({
                         edgeR,
                         "text-slate-800",
                         numCell,
-                        "num-tabular",
                       )}
                     >
-                      {penalties[idx]?.remaining ?? "25.000"}
+                      <NumericCell>{penalties[idx]?.remaining ?? "25.000"}</NumericCell>
                     </td>
                   </tr>
                 ))
@@ -701,17 +698,8 @@ export default function BillingTable({
                     {bill.tagihanBunga}
                   </td>
 
-                  <td
-                    className={cn(
-                      sisaBungaColW,
-                      tdClass,
-                      edgeR,
-                      "text-slate-800",
-                      numCell,
-                      "num-tabular",
-                    )}
-                  >
-                    {bill.sisaBunga}
+                  <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
+                    <NumericCell>{bill.sisaBunga}</NumericCell>
                   </td>
                 </tr>
               ))
@@ -916,19 +904,13 @@ export default function BillingTable({
                                         </td>
                                       ) : null}
 
-                                      <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
-                                        {bill.sisaPokok}
+                                      <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
+                                        <NumericCell>{bill.sisaPokok}</NumericCell>
                                       </td>
 
                                       {!hideInterestCols ? (
-                                        <td
-                                          className={cn(
-                                            sisaBungaColW,
-                                            sisaBungaNumberCell,
-                                            edgeR,
-                                          )}
-                                        >
-                                          {bill.sisaBunga}
+                                        <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
+                                          <NumericCell>{bill.sisaBunga}</NumericCell>
                                         </td>
                                       ) : null}
 
@@ -1009,13 +991,13 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
-                        <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
-                          {bill.sisaPokok}
+                        <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
+                          <NumericCell>{bill.sisaPokok}</NumericCell>
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(sisaBungaColW, sisaBungaNumberCell, edgeR)}>
-                            {bill.sisaBunga}
+                          <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
+                            <NumericCell>{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
 
@@ -1091,13 +1073,13 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
-                        {bill.sisaPokok}
+                      <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
+                        <NumericCell>{bill.sisaPokok}</NumericCell>
                       </td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(sisaBungaColW, sisaBungaNumberCell, edgeR)}>
-                          {bill.sisaBunga}
+                        <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
+                          <NumericCell>{bill.sisaBunga}</NumericCell>
                         </td>
                       ) : null}
 
@@ -1172,13 +1154,13 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
-                        <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
-                          {bill.sisaPokok}
+                        <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
+                          <NumericCell>{bill.sisaPokok}</NumericCell>
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={cn(sisaBungaColW, sisaBungaNumberCell, edgeR)}>
-                            {bill.sisaBunga}
+                          <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
+                            <NumericCell>{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
 
