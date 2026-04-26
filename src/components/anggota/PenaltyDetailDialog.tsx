@@ -80,11 +80,11 @@ export default function PenaltyDetailDialog({
                 <table className="w-full min-w-[420px] table-fixed border-collapse">
                   <thead className="bg-white">
                     <tr className="border-b border-slate-200 text-left">
-                      <th className="px-5 py-4 text-[13px] font-extrabold tracking-tight text-slate-900">
-                        Tanggal Keterlambatan
+                      <th className="px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+                        TANGGAL KETERLAMBATAN
                       </th>
-                      <th className="px-5 py-4 text-right text-[13px] font-extrabold tracking-tight text-slate-900">
-                        Nominal Denda
+                      <th className="px-5 py-4 text-right text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+                        NOMINAL DENDA
                       </th>
                     </tr>
                   </thead>
@@ -118,10 +118,9 @@ export default function PenaltyDetailDialog({
                       ))
                     )}
 
-                    {/* Total row: tampil seperti baris summary di bawah */}
                     <tr className="border-t border-slate-200 bg-slate-50">
-                      <td className="px-5 py-4 text-[14px] font-extrabold text-slate-900">
-                        Total
+                      <td className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                        TOTAL NOMINA DENDA
                       </td>
                       <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                         {totalText}
