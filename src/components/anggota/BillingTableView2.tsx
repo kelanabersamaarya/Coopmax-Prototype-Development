@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Info } from "lucide-react";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
+import NumericCell from "@/components/anggota/NumericCell";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -145,8 +146,20 @@ export default function BillingTableView2({
       ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
       : "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
 
-  // IMPORTANT: pakai num-tabular supaya digit benar-benar fixed-width (tidak bergantung font utama)
-  const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6", "num-tabular");
+  // Paksa kolom sisa: full-width right + padding kanan konsisten (biar tidak “ngambang”)
+  const sisaPokokNumberCell = cn(
+    "px-4 py-4",
+    numberTextClass,
+    "pr-6",
+    "num-tabular",
+  );
+
+  const sisaBungaNumberCell = cn(
+    "px-4 py-4",
+    numberTextClass,
+    "pr-6",
+    "num-tabular",
+  );
 
   function PenaltyCell({ idx }: { idx: number }) {
     const nominal = formatIdrLike(penaltyForIndex(idx));
@@ -221,7 +234,12 @@ export default function BillingTableView2({
                                 >
                                   <td colSpan={colCount} className="p-0">
                                     <RowShell active={active}>
-                                      <div className={cn("grid items-center gap-0", gridTemplate)}>
+                                      <div
+                                        className={cn(
+                                          "grid items-center gap-0",
+                                          gridTemplate,
+                                        )}
+                                      >
                                         {!hideSelection ? (
                                           <div className="flex items-center justify-center px-4 py-4">
                                             <input
@@ -246,28 +264,36 @@ export default function BillingTableView2({
                                           </div>
                                         ) : null}
 
-                                        <div className={cn("px-4 py-4", dateTextClass)}>
+                                        <div
+                                          className={cn("px-4 py-4", dateTextClass)}
+                                        >
                                           {r.jatuhTempo}
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                        <div
+                                          className={cn("px-4 py-4", numberTextClass)}
+                                        >
                                           {r.totalBelumDibayar}
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                        <div
+                                          className={cn("px-4 py-4", numberTextClass)}
+                                        >
                                           {r.tagihanPokok}
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                        <div
+                                          className={cn("px-4 py-4", numberTextClass)}
+                                        >
                                           {r.tagihanBunga}
                                         </div>
 
                                         <div className={sisaPokokNumberCell}>
-                                          {r.sisaPokok}
+                                          <NumericCell>{r.sisaPokok}</NumericCell>
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
-                                          {r.sisaBunga}
+                                        <div className={sisaBungaNumberCell}>
+                                          <NumericCell>{r.sisaBunga}</NumericCell>
                                         </div>
 
                                         {showPenaltyColumn ? (
@@ -288,7 +314,9 @@ export default function BillingTableView2({
 
                 {afterGraceRows.map((r, idx) => {
                   const rowIndex = graceCount + idx;
-                  const active = hideSelection ? false : selected[rowIndex] === true;
+                  const active = hideSelection
+                    ? false
+                    : selected[rowIndex] === true;
 
                   return (
                     <tr
@@ -297,13 +325,17 @@ export default function BillingTableView2({
                     >
                       <td colSpan={colCount} className="p-0">
                         <RowShell active={active}>
-                          <div className={cn("grid items-center gap-0", gridTemplate)}>
+                          <div
+                            className={cn("grid items-center gap-0", gridTemplate)}
+                          >
                             {!hideSelection ? (
                               <div className="flex items-center justify-center px-4 py-4">
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={isLocked ? true : (selected[rowIndex] ?? false)}
+                                  checked={
+                                    isLocked ? true : (selected[rowIndex] ?? false)
+                                  }
                                   disabled={isLocked}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -334,10 +366,12 @@ export default function BillingTableView2({
                               {r.tagihanBunga}
                             </div>
 
-                            <div className={sisaPokokNumberCell}>{r.sisaPokok}</div>
+                            <div className={sisaPokokNumberCell}>
+                              <NumericCell>{r.sisaPokok}</NumericCell>
+                            </div>
 
-                            <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.sisaBunga}
+                            <div className={sisaBungaNumberCell}>
+                              <NumericCell>{r.sisaBunga}</NumericCell>
                             </div>
 
                             {showPenaltyColumn ? <PenaltyCell idx={rowIndex} /> : null}
@@ -409,10 +443,12 @@ export default function BillingTableView2({
                                 {r.tagihanBunga}
                               </div>
 
-                              <div className={sisaPokokNumberCell}>{r.sisaPokok}</div>
+                              <div className={sisaPokokNumberCell}>
+                                <NumericCell>{r.sisaPokok}</NumericCell>
+                              </div>
 
-                              <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.sisaBunga}
+                              <div className={sisaBungaNumberCell}>
+                                <NumericCell>{r.sisaBunga}</NumericCell>
                               </div>
 
                               {showPenaltyColumn ? <PenaltyCell idx={idx} /> : null}
