@@ -17,42 +17,41 @@ export default function NumericCell({
   children,
   className,
   align = "separator",
+  debug = false,
 }: {
   children: React.ReactNode;
   className?: string;
   align?: "right" | "separator";
+  debug?: boolean;
 }) {
   const text = typeof children === "string" ? children : null;
 
+  const Marker = debug ? (
+    <span className="ml-2 text-[10px] font-semibold text-rose-500">•nc</span>
+  ) : null;
+
   if (align === "right" || !text || !text.includes(".")) {
     return (
-      <span
-        className={cn(
-          "block w-full text-right whitespace-nowrap",
-          "num-sans-tabular",
-          className,
-        )}
-      >
-        {children}
+      <span className={cn("block w-full whitespace-nowrap", className)}>
+        <span className="flex w-full items-baseline justify-end">
+          <span className={cn("text-right", "num-sans-tabular")}>{children}</span>
+          {Marker}
+        </span>
       </span>
     );
   }
 
   const { head, tail } = splitByLastDot(text);
 
-  // target: sejajarkan titik ribuan. tail (3 digit) dibuat fixed width.
   return (
-    <span
-      className={cn(
-        "block w-full whitespace-nowrap",
-        "num-sans-tabular",
-        className,
-      )}
-    >
-      <span className="grid w-full items-baseline [grid-template-columns:1fr_auto_auto]">
-        <span className="min-w-0 text-right">{head}</span>
-        <span className="px-0.5 text-right">.</span>
-        <span className="w-[3ch] text-left">{tail}</span>
+    <span className={cn("block w-full whitespace-nowrap", className)}>
+      <span className="flex w-full items-baseline justify-end">
+        <span className="grid items-baseline [grid-template-columns:1fr_auto_auto] w-full num-sans-tabular">
+          <span className="min-w-0 text-right">{head}</span>
+          <span className="px-0.5 text-right">.</span>
+          <span className="w-[3ch] text-left">{tail}</span>
+        </span>
+        {Marker}
       </span>
     </span>
   );
