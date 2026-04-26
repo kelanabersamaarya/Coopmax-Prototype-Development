@@ -325,9 +325,7 @@ export default function BillingTableView2({
                     >
                       <td colSpan={colCount} className="p-0">
                         <RowShell active={active}>
-                          <div
-                            className={cn("grid items-center gap-0", gridTemplate)}
-                          >
+                          <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
                               <div className="flex items-center justify-center px-4 py-4">
                                 <input
@@ -371,7 +369,7 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={sisaBungaNumberCell}>
-                              <NumericCell>{r.sisaBunga}</NumericCell>
+                              <NumericCell align="separator">{r.sisaBunga}</NumericCell>
                             </div>
 
                             {showPenaltyColumn ? <PenaltyCell idx={rowIndex} /> : null}
