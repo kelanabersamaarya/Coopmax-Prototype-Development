@@ -3,8 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { AlertTriangle } from "lucide-react";
+import { Info } from "lucide-react";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -35,11 +34,9 @@ function addMonths(base: Date, months: number) {
 
 /**
  * Denda:
- * - Di grace period: tampilkan nominal + icon + tooltip.
+ * - Di grace period: tampilkan nominal + icon info (tanpa tooltip).
  * - Di luar grace: tetap render "slot icon" dengan lebar tetap (hidden),
  *   supaya alignment angka (dan simbol "-") konsisten antar baris.
- *
- * Tooltip pakai Portal agar tidak ter-clip oleh container overflow.
  */
 function PenaltyAmountCell({
   amount,
@@ -56,36 +53,13 @@ function PenaltyAmountCell({
 
       {/* Slot icon fixed width supaya alignment tidak geser */}
       {showIcon ? (
-        <TooltipPrimitive.Provider delayDuration={120}>
-          <TooltipPrimitive.Root>
-            <TooltipPrimitive.Trigger asChild>
-              <button
-                type="button"
-                aria-label="Tagihan denda"
-                className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-800 ring-1 ring-amber-200 transition-colors hover:bg-amber-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 cursor-help"
-              >
-                <AlertTriangle className="h-4 w-4" />
-              </button>
-            </TooltipPrimitive.Trigger>
-
-            <TooltipPrimitive.Portal>
-              <TooltipPrimitive.Content
-                side="top"
-                align="center"
-                sideOffset={10}
-                avoidCollisions
-                collisionPadding={12}
-                className={cn(
-                  "z-[99999]",
-                  "max-w-[320px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-xl",
-                )}
-              >
-                Terdapat Keterlambatan Pembayaran Selama 3 Hari
-                <TooltipPrimitive.Arrow className="fill-white" />
-              </TooltipPrimitive.Content>
-            </TooltipPrimitive.Portal>
-          </TooltipPrimitive.Root>
-        </TooltipPrimitive.Provider>
+        <span
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200"
+          aria-label="Info denda"
+          title="Info denda"
+        >
+          <Info className="h-4 w-4" />
+        </span>
       ) : (
         <span className="h-6 w-6" aria-hidden="true" />
       )}
