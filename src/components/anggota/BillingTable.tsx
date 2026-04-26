@@ -236,11 +236,12 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  // Standar khusus agar angka kolom sisa pokok selalu "lurus" (seperti screenshot)
-  const sisaPokokCell = cn(
+  // HANYA angka: samakan gaya sisa pokok (tanpa ubah struktur tabel)
+  const sisaPokokNumberCell = cn(
     tdClass,
     "text-right tabular-nums whitespace-nowrap text-slate-800",
-    edgeR,
+    "pr-6",
+    "pl-3",
   );
 
   function openPenaltyDetailForRow(rowIndex: number) {
@@ -905,7 +906,7 @@ export default function BillingTable({
                                         </td>
                                       ) : null}
 
-                                      <td className={cn(sisaPokokColW, sisaPokokCell)}>
+                                      <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
                                         {bill.sisaPokok}
                                       </td>
 
@@ -999,7 +1000,7 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
-                        <td className={cn(sisaPokokColW, sisaPokokCell)}>
+                        <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
                           {bill.sisaPokok}
                         </td>
 
@@ -1081,7 +1082,7 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={cn(sisaPokokColW, sisaPokokCell)}>
+                      <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
                         {bill.sisaPokok}
                       </td>
 
@@ -1162,7 +1163,7 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
-                        <td className={cn(sisaPokokColW, sisaPokokCell)}>
+                        <td className={cn(sisaPokokColW, sisaPokokNumberCell)}>
                           {bill.sisaPokok}
                         </td>
 

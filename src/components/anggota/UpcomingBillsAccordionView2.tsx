@@ -48,8 +48,8 @@ export default function UpcomingBillsAccordionView2({
 
   const showGraceHighlight = page === 1;
 
-  // standar supaya angka sisa pokok selalu lurus (padding kanan tetap)
-  const sisaPokokCell = "text-right tabular-nums text-slate-800 pr-6";
+  // HANYA angka: tabular-nums + padding kanan konsisten
+  const sisaPokokCell = "text-right tabular-nums whitespace-nowrap text-slate-800 pr-6";
 
   return (
     <div className="mt-3">
@@ -131,7 +131,7 @@ export default function UpcomingBillsAccordionView2({
                                     className={cn(
                                       "w-[146px]",
                                       tdClass,
-                                      "text-right tabular-nums text-slate-800",
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {r.totalBelumDibayar}
@@ -140,7 +140,7 @@ export default function UpcomingBillsAccordionView2({
                                     className={cn(
                                       "w-[98px]",
                                       tdClass,
-                                      "text-right tabular-nums text-slate-800",
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {r.tagihanPokok}
@@ -149,7 +149,7 @@ export default function UpcomingBillsAccordionView2({
                                     className={cn(
                                       "w-[98px]",
                                       tdClass,
-                                      "text-right tabular-nums text-slate-800",
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {r.tagihanBunga}
@@ -162,7 +162,7 @@ export default function UpcomingBillsAccordionView2({
                                       "w-[108px]",
                                       tdClass,
                                       edgePadRight,
-                                      "text-right tabular-nums text-slate-800",
+                                      "text-right tabular-nums text-slate-800 whitespace-nowrap",
                                     )}
                                   >
                                     {r.sisaBunga}

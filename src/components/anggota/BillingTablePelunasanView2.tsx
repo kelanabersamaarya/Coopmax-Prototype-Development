@@ -29,7 +29,7 @@ export default function BillingTablePelunasanView2({
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
-  // standar agar angka di sisa pokok lurus
+  // HANYA angka: samakan padding kanan kolom sisa pokok
   const sisaPokokTd = cn(tdClass, "text-slate-800", numCell, "pr-6");
 
   return (

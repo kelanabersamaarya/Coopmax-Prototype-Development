@@ -145,8 +145,8 @@ export default function BillingTableView2({
       ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
       : "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
 
-  // Standar khusus: kolom Sisa Pokok punya padding kanan tetap (agar sejajar seperti screenshot)
-  const sisaPokokCellClass = cn("px-4 py-4", numberTextClass, "pr-6");
+  // HANYA angka: samakan gaya sisa pokok
+  const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
 
   function PenaltyCell({ idx }: { idx: number }) {
     const nominal = formatIdrLike(penaltyForIndex(idx));
@@ -262,7 +262,7 @@ export default function BillingTableView2({
                                           {r.tagihanBunga}
                                         </div>
 
-                                        <div className={sisaPokokCellClass}>
+                                        <div className={sisaPokokNumberCell}>
                                           {r.sisaPokok}
                                         </div>
 
@@ -334,7 +334,7 @@ export default function BillingTableView2({
                               {r.tagihanBunga}
                             </div>
 
-                            <div className={sisaPokokCellClass}>{r.sisaPokok}</div>
+                            <div className={sisaPokokNumberCell}>{r.sisaPokok}</div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.sisaBunga}
@@ -409,7 +409,7 @@ export default function BillingTableView2({
                                 {r.tagihanBunga}
                               </div>
 
-                              <div className={sisaPokokCellClass}>{r.sisaPokok}</div>
+                              <div className={sisaPokokNumberCell}>{r.sisaPokok}</div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.sisaBunga}
