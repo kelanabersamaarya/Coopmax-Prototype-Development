@@ -35,6 +35,8 @@ export default function PenaltyDetailDialog({
     return rows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
   }, [rows]);
 
+  const totalText = React.useMemo(() => formatIdrLike(total), [total]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -108,18 +110,18 @@ export default function PenaltyDetailDialog({
                         </tr>
                       ))
                     )}
+
+                    {/* TOTAL row: inside table */}
+                    <tr className="border-t border-slate-200 bg-slate-50">
+                      <td className="px-4 py-3 text-sm font-extrabold text-slate-900">
+                        Total
+                      </td>
+                      <td className="px-4 py-3 text-right text-sm font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        {totalText}
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-center justify-end">
-              <div className="inline-flex items-baseline gap-2 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200">
-                <div className="text-sm font-semibold text-slate-700">Total</div>
-                <div className="text-sm font-semibold text-slate-400">:</div>
-                <div className="text-lg font-extrabold text-slate-900 tabular-nums">
-                  {formatIdrLike(total)}
-                </div>
               </div>
             </div>
           </div>
