@@ -11,6 +11,17 @@ export type PenaltyDetailRow = {
   nominalDenda: string;
 };
 
+function parseIdrLike(input: string) {
+  const cleaned = (input ?? "").replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdrLike(n: number) {
+  const s = Math.round(Number.isFinite(n) ? n : 0).toString();
+  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -20,6 +31,10 @@ export default function PenaltyDetailDialog({
   onOpenChange: (v: boolean) => void;
   rows: PenaltyDetailRow[];
 }) {
+  const total = React.useMemo(() => {
+    return rows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
+  }, [rows]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -56,7 +71,7 @@ export default function PenaltyDetailDialog({
 
           <div
             className="overflow-auto px-6 py-5"
-            style={{ maxHeight: "calc(80vh - 64px)" }}
+            style={{ maxHeight: "calc(80vh - 64px - 84px)" }}
           >
             <div className="overflow-hidden rounded-2xl ring-1 ring-slate-200">
               <div className="safe-x-scroll bg-white">
@@ -98,8 +113,28 @@ export default function PenaltyDetailDialog({
               </div>
             </div>
 
-            <div className="mt-3 text-xs text-slate-500">
-              Prototype — rincian denda bersifat simulasi.
+            <div className="mt-4 flex items-center justify-end">
+              <div className="inline-flex items-baseline gap-2 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200">
+                <div className="text-sm font-semibold text-slate-700">Total</div>
+                <div className="text-sm font-semibold text-slate-400">:</div>
+                <div className="text-lg font-extrabold text-slate-900 tabular-nums">
+                  {formatIdrLike(total)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Separator className="bg-slate-200" />
+
+          <div className="px-6 py-4">
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="inline-flex h-11 items-center justify-center rounded-2xl bg-slate-600 px-6 text-sm font-semibold text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700"
+              >
+                Tutup
+              </button>
             </div>
           </div>
         </div>
