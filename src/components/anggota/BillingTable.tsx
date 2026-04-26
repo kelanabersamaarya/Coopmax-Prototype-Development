@@ -427,7 +427,7 @@ export default function BillingTable({
                     </td>
 
                     <td className={cn(wSisa, sisaBungaTdClass)}>
-                      <NumericCell debug>{bill.sisa}</NumericCell>
+                      <NumericCell align="right">{bill.sisa}</NumericCell>
                     </td>
                   </tr>
                 ))
@@ -567,7 +567,7 @@ export default function BillingTable({
                         numCell,
                       )}
                     >
-                      <NumericCell debug>{penalties[idx]?.remaining ?? "25.000"}</NumericCell>
+                      <NumericCell align="right">{penalties[idx]?.remaining ?? "25.000"}</NumericCell>
                     </td>
                   </tr>
                 ))
@@ -691,7 +691,7 @@ export default function BillingTable({
                   </td>
 
                   <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
-                    <NumericCell debug>{bill.sisaBunga}</NumericCell>
+                    <NumericCell align="right">{bill.sisaBunga}</NumericCell>
                   </td>
                 </tr>
               ))
@@ -897,12 +897,12 @@ export default function BillingTable({
                                       ) : null}
 
                                       <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                                        <NumericCell debug>{bill.sisaPokok}</NumericCell>
+                                        <NumericCell>{bill.sisaPokok}</NumericCell>
                                       </td>
 
                                       {!hideInterestCols ? (
                                         <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
-                                          <NumericCell debug>{bill.sisaBunga}</NumericCell>
+                                          <NumericCell align="right">{bill.sisaBunga}</NumericCell>
                                         </td>
                                       ) : null}
 
@@ -984,14 +984,12 @@ export default function BillingTable({
                         ) : null}
 
                         <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                          <NumericCell debug>{bill.sisaPokok}</NumericCell>
+                          <NumericCell>{bill.sisaPokok}</NumericCell>
                         </td>
 
                         {!hideInterestCols ? (
                           <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
-                            <NumericCell debug align="separator">
-                              {bill.sisaBunga}
-                            </NumericCell>
+                            <NumericCell align="right">{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
 
@@ -1068,12 +1066,12 @@ export default function BillingTable({
                       ) : null}
 
                       <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                        <NumericCell debug>{bill.sisaPokok}</NumericCell>
+                        <NumericCell>{bill.sisaPokok}</NumericCell>
                       </td>
 
                       {!hideInterestCols ? (
                         <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
-                          <NumericCell debug>{bill.sisaBunga}</NumericCell>
+                          <NumericCell align="right">{bill.sisaBunga}</NumericCell>
                         </td>
                       ) : null}
 
@@ -1149,14 +1147,12 @@ export default function BillingTable({
                         ) : null}
 
                         <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                          <NumericCell debug>{bill.sisaPokok}</NumericCell>
+                          <NumericCell>{bill.sisaPokok}</NumericCell>
                         </td>
 
                         {!hideInterestCols ? (
                           <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
-                            <NumericCell debug align="separator">
-                              {bill.sisaBunga}
-                            </NumericCell>
+                            <NumericCell align="right">{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
 
