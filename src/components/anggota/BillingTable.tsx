@@ -237,11 +237,9 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  // Cell class kolom sisa: padding tetap di td, tapi isi angka dipaksa full-width via NumericCell
   const sisaPokokTdClass = cn(tdClass, "text-slate-800", "pr-6");
   const sisaBungaTdClass = cn(tdClass, "text-slate-800", edgeR);
 
-  // Baris di luar grace period: tetap geser lebih ke kiri, tapi sekarang format angkanya disamakan.
   const sisaBungaTdOutsideGraceClass = cn(tdClass, "text-slate-800", "pr-0");
 
   function openPenaltyDetailForRow(rowIndex: number) {
@@ -429,7 +427,7 @@ export default function BillingTable({
                     </td>
 
                     <td className={cn(wSisa, sisaBungaTdClass)}>
-                      <NumericCell>{bill.sisa}</NumericCell>
+                      <NumericCell debug>{bill.sisa}</NumericCell>
                     </td>
                   </tr>
                 ))
@@ -569,7 +567,7 @@ export default function BillingTable({
                         numCell,
                       )}
                     >
-                      <NumericCell>{penalties[idx]?.remaining ?? "25.000"}</NumericCell>
+                      <NumericCell debug>{penalties[idx]?.remaining ?? "25.000"}</NumericCell>
                     </td>
                   </tr>
                 ))
@@ -693,7 +691,7 @@ export default function BillingTable({
                   </td>
 
                   <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
-                    <NumericCell>{bill.sisaBunga}</NumericCell>
+                    <NumericCell debug>{bill.sisaBunga}</NumericCell>
                   </td>
                 </tr>
               ))
@@ -899,12 +897,12 @@ export default function BillingTable({
                                       ) : null}
 
                                       <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                                        <NumericCell>{bill.sisaPokok}</NumericCell>
+                                        <NumericCell debug>{bill.sisaPokok}</NumericCell>
                                       </td>
 
                                       {!hideInterestCols ? (
                                         <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
-                                          <NumericCell>{bill.sisaBunga}</NumericCell>
+                                          <NumericCell debug>{bill.sisaBunga}</NumericCell>
                                         </td>
                                       ) : null}
 
@@ -986,12 +984,14 @@ export default function BillingTable({
                         ) : null}
 
                         <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                          <NumericCell>{bill.sisaPokok}</NumericCell>
+                          <NumericCell debug>{bill.sisaPokok}</NumericCell>
                         </td>
 
                         {!hideInterestCols ? (
                           <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
-                            <NumericCell align="separator">{bill.sisaBunga}</NumericCell>
+                            <NumericCell debug align="separator">
+                              {bill.sisaBunga}
+                            </NumericCell>
                           </td>
                         ) : null}
 
@@ -1068,12 +1068,12 @@ export default function BillingTable({
                       ) : null}
 
                       <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                        <NumericCell>{bill.sisaPokok}</NumericCell>
+                        <NumericCell debug>{bill.sisaPokok}</NumericCell>
                       </td>
 
                       {!hideInterestCols ? (
                         <td className={cn(sisaBungaColW, sisaBungaTdClass)}>
-                          <NumericCell>{bill.sisaBunga}</NumericCell>
+                          <NumericCell debug>{bill.sisaBunga}</NumericCell>
                         </td>
                       ) : null}
 
@@ -1149,12 +1149,14 @@ export default function BillingTable({
                         ) : null}
 
                         <td className={cn(sisaPokokColW, sisaPokokTdClass)}>
-                          <NumericCell>{bill.sisaPokok}</NumericCell>
+                          <NumericCell debug>{bill.sisaPokok}</NumericCell>
                         </td>
 
                         {!hideInterestCols ? (
                           <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
-                            <NumericCell align="separator">{bill.sisaBunga}</NumericCell>
+                            <NumericCell debug align="separator">
+                              {bill.sisaBunga}
+                            </NumericCell>
                           </td>
                         ) : null}
 
