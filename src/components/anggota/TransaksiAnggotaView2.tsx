@@ -137,6 +137,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
+  // IMPORTANT:
+  // View2 & View3 harus tetap menampilkan 1 tagihan saja (current bill) untuk mode khusus,
+  // sama seperti sebelumnya.
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
     : isPelunasan
@@ -144,7 +147,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       : showAllRows
         ? upcomingRows
         : isKhusus
-          ? upcomingRows
+          ? [currentBill]
           : [currentBill];
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
