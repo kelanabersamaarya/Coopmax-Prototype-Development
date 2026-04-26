@@ -75,13 +75,17 @@ export default function PenaltyDetailDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(80vh - 64px - 84px)" }}
           >
-            <div className="overflow-hidden rounded-2xl ring-1 ring-slate-200">
+            <div className="overflow-hidden rounded-3xl ring-1 ring-slate-200">
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[420px] border-collapse">
-                  <thead className="bg-slate-50">
-                    <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700">
-                      <th className="px-4 py-3">Tanggal Keterlambatan</th>
-                      <th className="px-4 py-3 text-right">Nominal Denda</th>
+                <table className="w-full min-w-[420px] table-fixed border-collapse">
+                  <thead className="bg-white">
+                    <tr className="border-b border-slate-200 text-left">
+                      <th className="px-5 py-4 text-[13px] font-extrabold tracking-tight text-slate-900">
+                        Tanggal Keterlambatan
+                      </th>
+                      <th className="px-5 py-4 text-right text-[13px] font-extrabold tracking-tight text-slate-900">
+                        Nominal Denda
+                      </th>
                     </tr>
                   </thead>
 
@@ -90,7 +94,7 @@ export default function PenaltyDetailDialog({
                       <tr>
                         <td
                           colSpan={2}
-                          className="px-4 py-10 text-center text-sm text-slate-600"
+                          className="px-5 py-10 text-center text-sm text-slate-600"
                         >
                           Tidak ada rincian denda.
                         </td>
@@ -99,24 +103,27 @@ export default function PenaltyDetailDialog({
                       rows.map((r, idx) => (
                         <tr
                           key={`${r.tanggalKeterlambatan}-${idx}`}
-                          className="border-t border-slate-100 text-sm"
+                          className={cn(
+                            "border-t border-slate-100",
+                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                          )}
                         >
-                          <td className="px-4 py-3 font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                          <td className="px-5 py-4 text-[14px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
                             {r.tanggalKeterlambatan}
                           </td>
-                          <td className="px-4 py-3 text-right font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                          <td className="px-5 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
                             {r.nominalDenda}
                           </td>
                         </tr>
                       ))
                     )}
 
-                    {/* TOTAL row: inside table */}
+                    {/* Total row: tampil seperti baris summary di bawah */}
                     <tr className="border-t border-slate-200 bg-slate-50">
-                      <td className="px-4 py-3 text-sm font-extrabold text-slate-900">
+                      <td className="px-5 py-4 text-[14px] font-extrabold text-slate-900">
                         Total
                       </td>
-                      <td className="px-4 py-3 text-right text-sm font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                      <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                         {totalText}
                       </td>
                     </tr>
