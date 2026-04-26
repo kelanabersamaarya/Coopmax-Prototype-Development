@@ -83,12 +83,6 @@ function buildPenaltyDetailRows(dueDateDmy: string) {
   return rows;
 }
 
-/**
- * Denda:
- * - Di grace period: tampilkan nominal + icon info (clickable, tanpa tooltip).
- * - Di luar grace: tetap render "slot icon" dengan lebar tetap (hidden),
- *   supaya alignment angka (dan simbol "-") konsisten antar baris.
- */
 function PenaltyAmountCell({
   amount,
   showIcon,
@@ -104,7 +98,6 @@ function PenaltyAmountCell({
     <span className="inline-flex w-full items-center justify-end gap-2 whitespace-nowrap">
       <span>{showAmount ? amount : "-"}</span>
 
-      {/* Slot icon fixed width supaya alignment tidak geser */}
       {showIcon ? (
         <button
           type="button"
@@ -218,13 +211,14 @@ export default function BillingTable({
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
+  // FIX: denda selalu 25.000 per baris (dan sisa denda juga 25.000)
   const penalties = React.useMemo(() => {
-    const base = 25000;
+    const perRow = 25000;
     const fmt = (n: number) =>
       n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return displayRows.map((_, idx) => {
-      const total = base + idx * 5000;
-      const remaining = Math.max(0, total - 10000);
+    return displayRows.map(() => {
+      const total = perRow;
+      const remaining = perRow;
       return { total: fmt(total), remaining: fmt(remaining), totalNum: total };
     });
   }, [displayRows]);
@@ -577,7 +571,7 @@ export default function BillingTable({
 
                     <td className={cn(dendaColW, tdClass, "text-slate-800", numCell)}>
                       <PenaltyAmountCell
-                        amount={penalties[idx]?.total ?? "0"}
+                        amount={penalties[idx]?.total ?? "25.000"}
                         showIcon={true}
                         showAmount={true}
                         onOpenDetail={() => openPenaltyDetailForRow(idx)}
@@ -593,7 +587,7 @@ export default function BillingTable({
                         numCell,
                       )}
                     >
-                      {penalties[idx]?.remaining ?? "0"}
+                      {penalties[idx]?.remaining ?? "25.000"}
                     </td>
                   </tr>
                 ))
@@ -966,7 +960,7 @@ export default function BillingTable({
                                           )}
                                         >
                                           <PenaltyAmountCell
-                                            amount={penalties[rowIdx]?.total ?? "0"}
+                                            amount={penalties[rowIdx]?.total ?? "25.000"}
                                             showIcon={true}
                                             showAmount={true}
                                             onOpenDetail={() => openPenaltyDetailForRow(rowIdx)}
@@ -1055,7 +1049,7 @@ export default function BillingTable({
                             })}
                           >
                             <PenaltyAmountCell
-                              amount={penalties[rowIdx]?.total ?? "0"}
+                              amount={penalties[rowIdx]?.total ?? "25.000"}
                               showIcon={false}
                               showAmount={false}
                               onOpenDetail={() => openPenaltyDetailForRow(rowIdx)}
@@ -1145,7 +1139,7 @@ export default function BillingTable({
                       {showPenaltyCol ? (
                         <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
                           <PenaltyAmountCell
-                            amount={penalties[idx]?.total ?? "0"}
+                            amount={penalties[idx]?.total ?? "25.000"}
                             showIcon={false}
                             showAmount={false}
                             onOpenDetail={() => openPenaltyDetailForRow(idx)}
@@ -1234,7 +1228,7 @@ export default function BillingTable({
                         {showPenaltyCol ? (
                           <td className={cn(dendaColW, tdClass, edgeR, "text-slate-800", numCell)}>
                             <PenaltyAmountCell
-                              amount={penalties[globalIndex]?.total ?? "0"}
+                              amount={penalties[globalIndex]?.total ?? "25.000"}
                               showIcon={false}
                               showAmount={false}
                               onOpenDetail={() => openPenaltyDetailForRow(globalIndex)}
