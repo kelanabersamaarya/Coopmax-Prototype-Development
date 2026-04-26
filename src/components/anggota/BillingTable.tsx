@@ -63,44 +63,21 @@ function formatIdrLike(n: number) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
-
 /**
- * Rincian denda yang lebih realistis:
- * - Denda harian bertambah (contoh 3 hari) dan dibulatkan ke kelipatan 250.
- * - Nilai akumulatif (hari ke-1, ke-2, ke-3) sehingga terlihat seperti contoh:
- *   8.750 -> 16.250 -> 25.000 (total).
- * - Total akumulasi HARI TERAKHIR selalu sama dengan basePenalty.
+ * Sesuai permintaan:
+ * - Selalu 3 baris rincian
+ * - Nominal denda per hari = 25.000
+ * - Total = 75.000 (ditangani di dialog melalui penjumlahan rows)
  */
-function buildPenaltyDetailRows(dueDateDmy: string, basePenalty: number) {
+function buildPenaltyDetailRows(dueDateDmy: string) {
   const due = parseDmyToDate(dueDateDmy) ?? new Date();
-  const total = Math.max(0, Math.round(basePenalty));
 
-  // pakai 3 hari agar mirip contoh; kalau total kecil tetap aman
   const days = 3;
-
-  // distribusi akumulasi: 35% -> 65% -> 100%
-  const ratios = [0.35, 0.65, 1] as const;
-
-  // rounding kelipatan 250 (umum di nominal denda)
-  const roundTo = (n: number, step: number) =>
-    Math.round(n / step) * step;
-
-  // nominal akumulasi per hari (monoton naik, <= total, terakhir = total)
-  const acc: number[] = ratios.map((r) =>
-    clamp(roundTo(total * r, 250), 0, total),
-  );
-
-  // pastikan strictly non-decreasing dan terakhir tepat total
-  acc[0] = clamp(acc[0], 0, total);
-  acc[1] = clamp(Math.max(acc[1], acc[0]), 0, total);
-  acc[2] = total;
+  const perDay = 25000;
 
   const rows: PenaltyDetailRow[] = Array.from({ length: days }).map((_, i) => ({
     tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
-    nominalDenda: formatIdrLike(acc[i] ?? total),
+    nominalDenda: formatIdrLike(perDay),
   }));
 
   return rows;
@@ -267,9 +244,7 @@ export default function BillingTable({
 
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate = displayRows[rowIndex]?.jatuhTempo ?? "";
-    const basePenalty = penalties[rowIndex]?.totalNum ?? 0;
-
-    setPenaltyRows(buildPenaltyDetailRows(dueDate, basePenalty));
+    setPenaltyRows(buildPenaltyDetailRows(dueDate));
     setPenaltyOpen(true);
   }
 
