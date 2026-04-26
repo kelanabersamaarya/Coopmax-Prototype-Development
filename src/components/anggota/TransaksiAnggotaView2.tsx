@@ -42,6 +42,10 @@ import {
 } from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
 import { calcKhususTotalsFromRows } from "@/components/anggota/khsus-summary";
+import {
+  calcKhususSelectedTotals,
+  formatIdr0,
+} from "@/components/anggota/khusus-selected-totals";
 
 type Props = {
   nasabah: {
@@ -155,6 +159,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     setSelected(rowsToShow.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReguler, isPelunasan, showAllRows, rowsToShow.length]);
+
+  // Auto-isi form saat Pembayaran Khusus & checklist berubah
+  React.useEffect(() => {
+    if (!isKhusus) return;
+    const t = calcKhususSelectedTotals(rowsToShow, selected);
+    setNominalPokok(formatIdr0(t.pokok));
+    setNominalBunga(formatIdr0(t.bunga));
+    setNominalDenda(formatIdr0(t.denda));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isKhusus, rowsToShow, selected]);
 
   const penaltyTotalExplicit = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;

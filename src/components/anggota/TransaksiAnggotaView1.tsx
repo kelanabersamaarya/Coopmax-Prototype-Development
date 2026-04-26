@@ -34,6 +34,10 @@ import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable
 import { formatIdrLike } from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
 import { calcKhususTotalsFromRows } from "@/components/anggota/khsus-summary";
+import {
+  calcKhususSelectedTotals,
+  formatIdr0,
+} from "@/components/anggota/khusus-selected-totals";
 
 type Props = {
   nasabah: {
@@ -224,6 +228,17 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     }
     setSelected(pagedRows.map(() => false));
   }, [isPelunasan, pagedRows]);
+
+  // Auto-isi form saat Pembayaran Khusus & checklist berubah
+  React.useEffect(() => {
+    if (!isKhusus) return;
+    const t = calcKhususSelectedTotals(pagedRows, selected);
+    setNominalPokok(formatIdr0(t.pokok));
+    setNominalBunga(formatIdr0(t.bunga));
+    setNominalDenda(formatIdr0(t.denda));
+    // nominal (single field) tidak dipakai di mode khusus
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isKhusus, pagedRows, selected]);
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
