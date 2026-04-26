@@ -236,12 +236,9 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
-  // Standar khusus agar angka kolom sisa pokok selalu "lurus" (seperti screenshot)
-  const sisaPokokCell = cn(
-    tdClass,
-    "text-right tabular-nums whitespace-nowrap text-slate-800",
-    edgeR,
-  );
+  // KUNCI: kolom Sisa Tagihan Pokok harus punya lebar tetap dan padding kanan konsisten.
+  const sisaPokokColW = "w-[150px]";
+  const sisaPokokCell = cn(tdClass, "text-right tabular-nums whitespace-nowrap text-slate-800 pr-6");
 
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate = displayRows[rowIndex]?.jatuhTempo ?? "";
@@ -726,7 +723,6 @@ export default function BillingTable({
   const totalColW = hideInterestCols ? "" : "w-[19%]";
   const pokokColW = hideInterestCols ? "w-[25%]" : "w-[17%]";
   const bungaColW = hideInterestCols ? "" : "w-[12%]";
-  const sisaPokokColW = hideInterestCols ? "w-[25%]" : "w-[18%]";
   const sisaBungaColW = hideInterestCols ? "" : "w-[19%]";
   const dendaColW = hideInterestCols ? "" : "w-[14%]";
 
@@ -792,7 +788,7 @@ export default function BillingTable({
               <th className={cn(bungaColW, thClass, "text-right")}>Tagihan Bunga</th>
             ) : null}
 
-            <th className={cn(sisaPokokColW, thClass, edgeR, "text-right")}>
+            <th className={cn(sisaPokokColW, thClass, "text-right pr-6")}>
               Sisa Tagihan Pokok
             </th>
 
@@ -829,7 +825,7 @@ export default function BillingTable({
                       <div className="bg-white p-2">
                         <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
                           <div className="bg-white">
-                            <table className="w-full border-collapse text-[13px]">
+                            <table className="w-full border-collapse text-[13px] table-fixed">
                               <tbody className="bg-white">
                                 <GracePeriodInfoRow colSpan={colCount} noBorder />
 
