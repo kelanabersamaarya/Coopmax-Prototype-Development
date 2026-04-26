@@ -241,7 +241,7 @@ export default function BillingTable({
   const sisaPokokTdClass = cn(tdClass, "text-slate-800", "pr-6");
   const sisaBungaTdClass = cn(tdClass, "text-slate-800", edgeR);
 
-  // KHUSUS baris di luar grace period: geser lebih ke kiri (hapus padding kanan)
+  // Baris di luar grace period: tetap geser lebih ke kiri, tapi sekarang format angkanya disamakan.
   const sisaBungaTdOutsideGraceClass = cn(tdClass, "text-slate-800", "pr-0");
 
   function openPenaltyDetailForRow(rowIndex: number) {
@@ -991,7 +991,7 @@ export default function BillingTable({
 
                         {!hideInterestCols ? (
                           <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
-                            <NumericCell>{bill.sisaBunga}</NumericCell>
+                            <NumericCell align="separator">{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
 
@@ -1154,7 +1154,7 @@ export default function BillingTable({
 
                         {!hideInterestCols ? (
                           <td className={cn(sisaBungaColW, sisaBungaTdOutsideGraceClass)}>
-                            <NumericCell>{bill.sisaBunga}</NumericCell>
+                            <NumericCell align="separator">{bill.sisaBunga}</NumericCell>
                           </td>
                         ) : null}
 
