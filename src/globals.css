@@ -185,12 +185,10 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Angka yang selalu lurus: pakai tabular-nums + fallback monospace untuk digit */
+  /* Angka tabular TANPA ganti font (biar konsisten). */
   .num-tabular {
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1, "lnum" 1;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
     letter-spacing: 0;
   }
 }
