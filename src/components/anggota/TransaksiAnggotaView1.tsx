@@ -33,6 +33,7 @@ import TransactionFormCardView2, {
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
 import { formatIdrLike } from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
+import { calcKhususTotalsFromRows } from "@/components/anggota/khsus-summary";
 
 type Props = {
   nasabah: {
@@ -217,15 +218,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Saat membuka view 1 / ganti transaksi / ganti page:
-    // Default: tidak ada yang tercentang.
-    // Pengecualian: Pelunasan => semuanya tercentang (sesuai perilaku pelunasan).
     if (isPelunasan) {
       setSelected(pagedRows.map(() => true));
       return;
     }
-
-    // Untuk transaksi lain, tidak auto-check (sesuai request).
     setSelected(pagedRows.map(() => false));
   }, [isPelunasan, pagedRows]);
 
@@ -233,7 +229,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
-  // Denda untuk Reguler/Khusus/Pelunasan mengikuti checklist (rumus 25k + idx*5k)
   const selectedPenaltyTotal = React.useMemo(() => {
     if (!(isReguler || isKhusus || isPelunasan)) return 0;
     return calcSelectedPenaltyTotal(selected, pagedRows.length);
@@ -269,7 +264,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const computedTotals = React.useMemo(() => {
     const denda =
-      penaltyOnlyCols ? penaltyTotalExplicit : isReguler || isKhusus ? selectedPenaltyTotal : 0;
+      penaltyOnlyCols
+        ? penaltyTotalExplicit
+        : isReguler
+          ? selectedPenaltyTotal
+          : 0;
 
     const total = computedBaseTotals.total + denda;
 
@@ -283,12 +282,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     computedBaseTotals.bunga,
     computedBaseTotals.pokok,
     computedBaseTotals.total,
-    isKhusus,
     isReguler,
     penaltyOnlyCols,
     penaltyTotalExplicit,
     selectedPenaltyTotal,
   ]);
+
+  const khususTotals = React.useMemo(() => {
+    if (!isKhusus) return null;
+    return calcKhususTotalsFromRows(pagedRows);
+  }, [isKhusus, pagedRows]);
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
@@ -317,18 +320,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     };
   }, [isPelunasan, pagedRows, selected]);
 
-  // Total pokok untuk Penurunan Baki Debet = jumlah seluruh tagihan pokok pada tabel yang ditampilkan (pagedRows)
   const penurunanTotalPokok = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return 0;
     return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.tagihanPokok), 0);
   }, [isPenurunanBakiDebet, pagedRows]);
 
-  // Sisa pinjaman: awal 0, baru terisi setelah klik Bayar Tagihan
   const [penurunanSisaPinjaman, setPenurunanSisaPinjaman] =
     React.useState<number>(0);
 
   React.useEffect(() => {
-    // reset hasil ketika ganti transaksi
     setPenurunanSisaPinjaman(0);
   }, [jenisTransaksi]);
 
@@ -469,36 +469,43 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 hasAnySelected={hasAnySelected}
                 totals={
-                  isPelunasan
+                  isKhusus
                     ? {
-                        pokok: pelunasanTotals?.pokok ?? "0",
-                        bunga: pelunasanTotals?.bunga ?? "0",
-                        denda: selectedPenaltyText,
-                        total: formatMoneyIdNoDecimals(
-                          parseMoneyLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
-                            selectedPenaltyTotal,
-                        ),
+                        pokok: formatMoneyIdNoDecimals(khususTotals?.pokok ?? 0),
+                        bunga: formatMoneyIdNoDecimals(khususTotals?.bunga ?? 0),
+                        denda: formatMoneyIdNoDecimals(khususTotals?.denda ?? 0),
+                        total: formatMoneyIdNoDecimals(khususTotals?.total ?? 0),
                       }
-                    : penaltyOnlyCols
+                    : isPelunasan
                       ? {
-                          pokok: "0",
-                          bunga: "0",
-                          denda: formatMoneyIdNoDecimals(penaltyTotalExplicit),
-                          total: formatMoneyIdNoDecimals(penaltyTotalExplicit),
+                          pokok: pelunasanTotals?.pokok ?? "0",
+                          bunga: pelunasanTotals?.bunga ?? "0",
+                          denda: selectedPenaltyText,
+                          total: formatMoneyIdNoDecimals(
+                            parseMoneyLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
+                              selectedPenaltyTotal,
+                          ),
                         }
-                      : isPenurunanBakiDebet
+                      : penaltyOnlyCols
                         ? {
-                            pokok: penurunanTotals?.totalPokokText ?? "0",
+                            pokok: "0",
                             bunga: "0",
-                            denda: "0",
-                            total: penurunanTotals?.sisaText ?? "0",
+                            denda: formatMoneyIdNoDecimals(penaltyTotalExplicit),
+                            total: formatMoneyIdNoDecimals(penaltyTotalExplicit),
                           }
-                        : {
-                            pokok: computedTotals.pokok,
-                            bunga: computedTotals.bunga,
-                            denda: computedTotals.denda,
-                            total: computedTotals.total,
-                          }
+                        : isPenurunanBakiDebet
+                          ? {
+                              pokok: penurunanTotals?.totalPokokText ?? "0",
+                              bunga: "0",
+                              denda: "0",
+                              total: penurunanTotals?.sisaText ?? "0",
+                            }
+                          : {
+                              pokok: computedTotals.pokok,
+                              bunga: computedTotals.bunga,
+                              denda: computedTotals.denda,
+                              total: computedTotals.total,
+                            }
                 }
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}

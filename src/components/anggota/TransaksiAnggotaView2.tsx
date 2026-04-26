@@ -36,8 +36,12 @@ import BillingTableView2, {
 import BillingTable, {
   type BillingRow as BillingRowV1,
 } from "@/components/anggota/BillingTable";
-import { calcPenaltyTotal, formatIdrLike } from "@/components/anggota/calc-penalties";
+import {
+  calcPenaltyTotal,
+  formatIdrLike,
+} from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
+import { calcKhususTotalsFromRows } from "@/components/anggota/khsus-summary";
 
 type Props = {
   nasabah: {
@@ -125,7 +129,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
   const showAllRows = penaltyOnlyCols || feeOnlyCols;
 
-  const isPenurunanPlafon = jenisTransaksi === "Pembayaran Penurunan Plafon";
+  const isPenurunanPlafon = (jenisTransaksi as any) === "Pembayaran Penurunan Plafon";
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
@@ -135,20 +139,22 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       ? upcomingRows
       : showAllRows
         ? upcomingRows
-        : [currentBill];
+        : isKhusus
+          ? upcomingRows
+          : [currentBill];
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rowsToShow.map(() => false),
   );
 
   React.useEffect(() => {
-    if (isReguler || isPelunasan || showAllRows || isKhusus) {
+    if (isReguler || isPelunasan || showAllRows) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
     setSelected(rowsToShow.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReguler, isPelunasan, showAllRows, isKhusus, rowsToShow.length]);
+  }, [isReguler, isPelunasan, showAllRows, rowsToShow.length]);
 
   const penaltyTotalExplicit = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
@@ -163,6 +169,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const selectedPenaltyText = React.useMemo(() => {
     return formatIdrLike(selectedPenaltyTotal);
   }, [selectedPenaltyTotal]);
+
+  const khususTotals = React.useMemo(() => {
+    if (!isKhusus) return null;
+    return calcKhususTotalsFromRows(rowsToShow);
+  }, [isKhusus, rowsToShow]);
 
   const penurunanBakiDebetPokokTotal = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
@@ -375,37 +386,44 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 totals={
-                  isPelunasan
+                  isKhusus
                     ? {
-                        pokok: pelunasanTotals?.pokok ?? "0",
-                        bunga: pelunasanTotals?.bunga ?? "0",
-                        denda: selectedPenaltyText,
-                        total: formatIdrLike(
-                          parseNumLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
-                            selectedPenaltyTotal,
-                        ),
+                        pokok: formatIdrLike(khususTotals?.pokok ?? 0),
+                        bunga: formatIdrLike(khususTotals?.bunga ?? 0),
+                        denda: formatIdrLike(khususTotals?.denda ?? 0),
+                        total: formatIdrLike(khususTotals?.total ?? 0),
                       }
-                    : {
-                        pokok: isPenurunanBakiDebet
-                          ? penurunanBakiDebetPokokText ?? "0"
-                          : "2.455.555",
-                        bunga: "0",
-                        denda: penaltyOnlyCols
-                          ? formatIdrLike(penaltyTotalExplicit ?? 0)
-                          : isReguler || isKhusus
-                            ? selectedPenaltyText
-                            : "0",
-                        total: isPenurunanBakiDebet
-                          ? penurunanBakiDebetPokokText ?? "0"
-                          : formatIdrLike(
-                              2455555 +
-                                (penaltyOnlyCols
-                                  ? penaltyTotalExplicit ?? 0
-                                  : isReguler || isKhusus
-                                    ? selectedPenaltyTotal
-                                    : 0),
-                            ),
-                      }
+                    : isPelunasan
+                      ? {
+                          pokok: pelunasanTotals?.pokok ?? "0",
+                          bunga: pelunasanTotals?.bunga ?? "0",
+                          denda: selectedPenaltyText,
+                          total: formatIdrLike(
+                            parseNumLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
+                              selectedPenaltyTotal,
+                          ),
+                        }
+                      : {
+                          pokok: isPenurunanBakiDebet
+                            ? penurunanBakiDebetPokokText ?? "0"
+                            : "2.455.555",
+                          bunga: "0",
+                          denda: penaltyOnlyCols
+                            ? formatIdrLike(penaltyTotalExplicit ?? 0)
+                            : isReguler
+                              ? selectedPenaltyText
+                              : "0",
+                          total: isPenurunanBakiDebet
+                            ? penurunanBakiDebetPokokText ?? "0"
+                            : formatIdrLike(
+                                2455555 +
+                                  (penaltyOnlyCols
+                                    ? penaltyTotalExplicit ?? 0
+                                    : isReguler
+                                      ? selectedPenaltyTotal
+                                      : 0),
+                              ),
+                        }
                 }
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
                 transactionType={jenisTransaksi as any}
