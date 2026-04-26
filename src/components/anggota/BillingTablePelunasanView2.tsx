@@ -12,7 +12,6 @@ export default function BillingTablePelunasanView2({
   rows: BillingRow[];
   className?: string;
 }) {
-  // Pelunasan: checkbox selalu checked & disabled
   const thClass = "px-3 py-3";
   const tdClass = "px-3 py-3";
   const checkboxColW = "w-[44px]";
@@ -25,11 +24,13 @@ export default function BillingTablePelunasanView2({
 
   const colCount = 7;
 
-  // Samakan dengan View1: highlight box muncul dan mencakup info + 2 baris pertama.
   const showGraceHighlight = true;
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
+
+  // standar agar angka di sisa pokok lurus
+  const sisaPokokTd = cn(tdClass, "text-slate-800", numCell, "pr-6");
 
   return (
     <div
@@ -77,7 +78,6 @@ export default function BillingTablePelunasanView2({
             </tr>
           ) : graceRows.length > 0 ? (
             <>
-              {/* Highlight box untuk info + grace rows */}
               <tr className="border-t border-slate-100">
                 <td colSpan={colCount} className="p-0">
                   <div className="bg-white p-2">
@@ -142,14 +142,7 @@ export default function BillingTablePelunasanView2({
                                   {bill.tagihanBunga}
                                 </td>
 
-                                <td
-                                  className={cn(
-                                    "w-[18%]",
-                                    tdClass,
-                                    "text-slate-800",
-                                    numCell,
-                                  )}
-                                >
+                                <td className={cn("w-[18%]", sisaPokokTd)}>
                                   {bill.sisaPokok}
                                 </td>
 
@@ -198,44 +191,21 @@ export default function BillingTablePelunasanView2({
                       {bill.jatuhTempo}
                     </td>
 
-                    <td
-                      className={cn("w-[19%]", tdClass, "text-slate-800", numCell)}
-                    >
+                    <td className={cn("w-[19%]", tdClass, "text-slate-800", numCell)}>
                       {bill.totalBelumDibayar}
                     </td>
 
-                    <td
-                      className={cn("w-[17%]", tdClass, "text-slate-800", numCell)}
-                    >
+                    <td className={cn("w-[17%]", tdClass, "text-slate-800", numCell)}>
                       {bill.tagihanPokok}
                     </td>
 
-                    <td
-                      className={cn("w-[12%]", tdClass, "text-slate-800", numCell)}
-                    >
+                    <td className={cn("w-[12%]", tdClass, "text-slate-800", numCell)}>
                       {bill.tagihanBunga}
                     </td>
 
-                    <td
-                      className={cn(
-                        "w-[18%]",
-                        tdClass,
-                        "text-slate-800",
-                        numCell,
-                      )}
-                    >
-                      {bill.sisaPokok}
-                    </td>
+                    <td className={cn("w-[18%]", sisaPokokTd)}>{bill.sisaPokok}</td>
 
-                    <td
-                      className={cn(
-                        "w-[19%]",
-                        tdClass,
-                        edgeR,
-                        "text-slate-800",
-                        numCell,
-                      )}
-                    >
+                    <td className={cn("w-[19%]", tdClass, edgeR, "text-slate-800", numCell)}>
                       {bill.sisaBunga}
                     </td>
                   </tr>
@@ -275,9 +245,7 @@ export default function BillingTablePelunasanView2({
                   {bill.tagihanBunga}
                 </td>
 
-                <td className={cn("w-[18%]", tdClass, "text-slate-800", numCell)}>
-                  {bill.sisaPokok}
-                </td>
+                <td className={cn("w-[18%]", sisaPokokTd)}>{bill.sisaPokok}</td>
 
                 <td className={cn("w-[19%]", tdClass, edgeR, "text-slate-800", numCell)}>
                   {bill.sisaBunga}

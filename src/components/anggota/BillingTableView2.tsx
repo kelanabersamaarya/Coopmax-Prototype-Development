@@ -26,8 +26,6 @@ function RowShell({
       <div
         className={cn(
           "rounded-2xl bg-white",
-          // Jangan pakai border di row agar tidak double border dengan wrapper luar.
-          // Aktif cukup pakai ring halus.
           active ? "ring-2 ring-slate-900/5" : "",
         )}
       >
@@ -82,10 +80,10 @@ export default function BillingTableView2({
   rows: BillingRow[];
   selected: boolean[];
   setSelected: React.Dispatch<React.SetStateAction<boolean[]>>;
-  isLocked?: boolean; // misalnya pelunasan: disable checklist
+  isLocked?: boolean;
   showNextBillInfo?: boolean;
   showGraceInfo?: boolean;
-  highlightGraceBlock?: boolean; // border highlight (wrapper) untuk grace rows
+  highlightGraceBlock?: boolean;
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
   tone?: "default" | "khusus";
@@ -139,15 +137,16 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // Samakan tipografi agar tidak "terlalu bold/besar":
-  // - Jatuh tempo: tetap bold
-  // - Nominal: medium (tidak bold)
-  const dateTextClass = "text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap";
+  const dateTextClass =
+    "text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClass =
     tone === "khusus"
       ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
       : "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
+
+  // Standar khusus: kolom Sisa Pokok punya padding kanan tetap (agar sejajar seperti screenshot)
+  const sisaPokokCellClass = cn("px-4 py-4", numberTextClass, "pr-6");
 
   function PenaltyCell({ idx }: { idx: number }) {
     const nominal = formatIdrLike(penaltyForIndex(idx));
@@ -263,7 +262,7 @@ export default function BillingTableView2({
                                           {r.tagihanBunga}
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                        <div className={sisaPokokCellClass}>
                                           {r.sisaPokok}
                                         </div>
 
@@ -335,9 +334,7 @@ export default function BillingTableView2({
                               {r.tagihanBunga}
                             </div>
 
-                            <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.sisaPokok}
-                            </div>
+                            <div className={sisaPokokCellClass}>{r.sisaPokok}</div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.sisaBunga}
@@ -412,9 +409,7 @@ export default function BillingTableView2({
                                 {r.tagihanBunga}
                               </div>
 
-                              <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.sisaPokok}
-                              </div>
+                              <div className={sisaPokokCellClass}>{r.sisaPokok}</div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.sisaBunga}

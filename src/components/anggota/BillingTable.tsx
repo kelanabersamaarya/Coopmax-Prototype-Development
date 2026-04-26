@@ -211,7 +211,7 @@ export default function BillingTable({
       !isPelunasan && anyChecked && !allChecked;
   }, [allChecked, anyChecked, isPelunasan]);
 
-  // FIX: denda selalu 25.000 per baris (dan sisa denda juga 25.000)
+  // denda selalu 25.000 per baris
   const penalties = React.useMemo(() => {
     const perRow = 25000;
     const fmt = (n: number) =>
@@ -236,36 +236,17 @@ export default function BillingTable({
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
+  // Standar khusus agar angka kolom sisa pokok selalu "lurus" (seperti screenshot)
+  const sisaPokokCell = cn(
+    tdClass,
+    "text-right tabular-nums whitespace-nowrap text-slate-800",
+    edgeR,
+  );
+
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate = displayRows[rowIndex]?.jatuhTempo ?? "";
     setPenaltyRows(buildPenaltyDetailRows(dueDate));
     setPenaltyOpen(true);
-  }
-
-  function buildOutsideCellClass({
-    col,
-    isFirstNumeric,
-    isLastNumeric,
-  }: {
-    col:
-      | "date"
-      | "total"
-      | "pokok"
-      | "bunga"
-      | "sisaPokok"
-      | "sisaBunga"
-      | "denda";
-    isFirstNumeric?: boolean;
-    isLastNumeric?: boolean;
-  }) {
-    const base = cn(tdClass, "text-slate-800", col === "date" ? dateCell : numCell);
-
-    if (col === "date") return cn(base, edgeL);
-    if (isFirstNumeric) return cn(base, "pr-0");
-    if (col === "sisaPokok") return cn(base, edgeR);
-    if (col === "sisaBunga") return base;
-    if (isLastNumeric) return cn(base, edgeR);
-    return base;
   }
 
   const CheckboxCell = ({
@@ -924,15 +905,7 @@ export default function BillingTable({
                                         </td>
                                       ) : null}
 
-                                      <td
-                                        className={cn(
-                                          sisaPokokColW,
-                                          tdClass,
-                                          edgeR,
-                                          "text-slate-800",
-                                          numCell,
-                                        )}
-                                      >
+                                      <td className={cn(sisaPokokColW, sisaPokokCell)}>
                                         {bill.sisaPokok}
                                       </td>
 
@@ -1011,43 +984,33 @@ export default function BillingTable({
                         <td className={cn(dateColW, tdClass, dateCell)}>{bill.jatuhTempo}</td>
 
                         {!hideInterestCols ? (
-                          <td
-                            className={buildOutsideCellClass({
-                              col: "total",
-                              isFirstNumeric: true,
-                            })}
-                          >
+                          <td className={cn(tdClass, "text-slate-800", numCell, "pr-0")}>
                             {bill.totalBelumDibayar}
                           </td>
                         ) : null}
 
-                        <td className={buildOutsideCellClass({ col: "pokok" })}>
+                        <td className={cn(tdClass, "text-slate-800", numCell)}>
                           {bill.tagihanPokok}
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={buildOutsideCellClass({ col: "bunga" })}>
+                          <td className={cn(tdClass, "text-slate-800", numCell)}>
                             {bill.tagihanBunga}
                           </td>
                         ) : null}
 
-                        <td className={buildOutsideCellClass({ col: "sisaPokok" })}>
+                        <td className={cn(sisaPokokColW, sisaPokokCell)}>
                           {bill.sisaPokok}
                         </td>
 
                         {!hideInterestCols ? (
-                          <td className={buildOutsideCellClass({ col: "sisaBunga" })}>
+                          <td className={cn(tdClass, "text-slate-800", numCell)}>
                             {bill.sisaBunga}
                           </td>
                         ) : null}
 
                         {showPenaltyCol ? (
-                          <td
-                            className={buildOutsideCellClass({
-                              col: "denda",
-                              isLastNumeric: true,
-                            })}
-                          >
+                          <td className={cn(tdClass, "text-slate-800", numCell, edgeR)}>
                             <PenaltyAmountCell
                               amount={penalties[rowIdx]?.total ?? "25.000"}
                               showIcon={false}
@@ -1118,15 +1081,7 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td
-                        className={cn(
-                          sisaPokokColW,
-                          tdClass,
-                          edgeR,
-                          "text-slate-800",
-                          numCell,
-                        )}
-                      >
+                      <td className={cn(sisaPokokColW, sisaPokokCell)}>
                         {bill.sisaPokok}
                       </td>
 
@@ -1207,15 +1162,7 @@ export default function BillingTable({
                           </td>
                         ) : null}
 
-                        <td
-                          className={cn(
-                            sisaPokokColW,
-                            tdClass,
-                            edgeR,
-                            "text-slate-800",
-                            numCell,
-                          )}
-                        >
+                        <td className={cn(sisaPokokColW, sisaPokokCell)}>
                           {bill.sisaPokok}
                         </td>
 

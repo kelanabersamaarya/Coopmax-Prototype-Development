@@ -48,6 +48,9 @@ export default function UpcomingBillsAccordionView2({
 
   const showGraceHighlight = page === 1;
 
+  // standar supaya angka sisa pokok selalu lurus (padding kanan tetap)
+  const sisaPokokCell = "text-right tabular-nums text-slate-800 pr-6";
+
   return (
     <div className="mt-3">
       <div className="flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
@@ -85,7 +88,6 @@ export default function UpcomingBillsAccordionView2({
             <tbody className="bg-white">
               <tr>
                 <td colSpan={7} className="p-0">
-                  {/* OUTER BOX: border highlight */}
                   <div
                     className={cn(
                       "overflow-hidden bg-white",
@@ -94,9 +96,7 @@ export default function UpcomingBillsAccordionView2({
                         : "rounded-xl border border-slate-200",
                     )}
                   >
-                    {/* INNER GAP: ini yang bikin border tidak menempel */}
                     <div className="bg-white p-2">
-                      {/* INNER BOX: border normal (selalu ada) */}
                       <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
                         <div className="overflow-auto">
                           <table className="w-full min-w-[540px] border-collapse text-[13px]">
@@ -154,13 +154,7 @@ export default function UpcomingBillsAccordionView2({
                                   >
                                     {r.tagihanBunga}
                                   </td>
-                                  <td
-                                    className={cn(
-                                      "w-[108px]",
-                                      tdClass,
-                                      "text-right tabular-nums text-slate-800",
-                                    )}
-                                  >
+                                  <td className={cn("w-[108px]", tdClass, sisaPokokCell)}>
                                     {r.sisaPokok}
                                   </td>
                                   <td
