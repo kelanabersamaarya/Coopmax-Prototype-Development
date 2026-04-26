@@ -82,6 +82,9 @@
     --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
     --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
     --sidebar-w: clamp(12.25rem, 18vw, 15.5rem); /* ~196px..248px */
+
+    /* Numeric font token (use a sans font with tabular digits) */
+    --font-numeric: "Inter";
   }
 
   .dark {
@@ -129,6 +132,8 @@
     --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
     --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
     --sidebar-w: clamp(12.25rem, 18vw, 15.5rem);
+
+    --font-numeric: "Inter";
   }
 }
 
@@ -185,8 +190,18 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Angka tabular TANPA ganti font (biar konsisten). */
+  /* Keep for general usage (no font change) */
   .num-tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    letter-spacing: 0;
+  }
+
+  /* Guaranteed tabular digits via a sans font that supports it (Inter) */
+  .num-sans-tabular {
+    font-family: var(--font-numeric), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+      "Liberation Sans", sans-serif;
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1, "lnum" 1;
     letter-spacing: 0;

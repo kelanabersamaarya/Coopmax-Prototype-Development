@@ -13,7 +13,8 @@ export default function NumericCell({
   return (
     <span
       className={cn(
-        "block w-full text-right tabular-nums num-tabular whitespace-nowrap",
+        "block w-full text-right whitespace-nowrap",
+        "num-sans-tabular",
         className,
       )}
     >
