@@ -4,6 +4,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import { Info } from "lucide-react";
+import PenaltyDetailDialog, {
+  type PenaltyDetailRow,
+} from "@/components/anggota/PenaltyDetailDialog";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -32,9 +35,55 @@ function addMonths(base: Date, months: number) {
   return d;
 }
 
+function addDays(base: Date, days: number) {
+  const d = new Date(base);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function parseDmyToDate(value: string): Date | undefined {
+  const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec((value ?? "").trim());
+  if (!m) return undefined;
+  const dd = Number(m[1]);
+  const mm = Number(m[2]);
+  const yyyy = Number(m[3]);
+  const d = new Date(yyyy, mm - 1, dd);
+  if (
+    d.getFullYear() !== yyyy ||
+    d.getMonth() !== mm - 1 ||
+    d.getDate() !== dd
+  ) {
+    return undefined;
+  }
+  return d;
+}
+
+function formatIdrLike(n: number) {
+  const s = Math.round(n).toString();
+  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function buildPenaltyDetailRows(dueDateDmy: string, basePenalty: number) {
+  const due = parseDmyToDate(dueDateDmy) ?? new Date();
+
+  // Prototype: rincian 3 hari keterlambatan dengan nominal bertambah.
+  const items: Array<{ daysLate: number; amount: number }> = [
+    { daysLate: 1, amount: Math.max(0, Math.round(basePenalty * 0.35)) },
+    { daysLate: 2, amount: Math.max(0, Math.round(basePenalty * 0.65)) },
+    { daysLate: 3, amount: Math.max(0, basePenalty) },
+  ];
+
+  const rows: PenaltyDetailRow[] = items.map((it) => ({
+    tanggalKeterlambatan: formatDmy(addDays(due, it.daysLate)),
+    nominalDenda: formatIdrLike(it.amount),
+  }));
+
+  return rows;
+}
+
 /**
  * Denda:
- * - Di grace period: tampilkan nominal + icon info (tanpa tooltip).
+ * - Di grace period: tampilkan nominal + icon info (clickable, tanpa tooltip).
  * - Di luar grace: tetap render "slot icon" dengan lebar tetap (hidden),
  *   supaya alignment angka (dan simbol "-") konsisten antar baris.
  */
@@ -42,10 +91,12 @@ function PenaltyAmountCell({
   amount,
   showIcon,
   showAmount,
+  onOpenDetail,
 }: {
   amount: string;
   showIcon: boolean;
   showAmount: boolean;
+  onOpenDetail: () => void;
 }) {
   return (
     <span className="inline-flex w-full items-center justify-end gap-2 whitespace-nowrap">
@@ -53,13 +104,18 @@ function PenaltyAmountCell({
 
       {/* Slot icon fixed width supaya alignment tidak geser */}
       {showIcon ? (
-        <span
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200"
-          aria-label="Info denda"
-          title="Info denda"
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onOpenDetail();
+          }}
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200 transition hover:bg-blue-50"
+          aria-label="Rincian denda"
         >
           <Info className="h-4 w-4" />
-        </span>
+        </button>
       ) : (
         <span className="h-6 w-6" aria-hidden="true" />
       )}
@@ -92,6 +148,9 @@ export default function BillingTable({
   hideSelection?: boolean;
   className?: string;
 }) {
+  const [penaltyOpen, setPenaltyOpen] = React.useState(false);
+  const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
+
   const extraOutsideRows = React.useMemo<BillingRow[]>(() => {
     if (!showGraceHighlight) return [];
 
@@ -164,7 +223,7 @@ export default function BillingTable({
     return displayRows.map((_, idx) => {
       const total = base + idx * 5000;
       const remaining = Math.max(0, total - 10000);
-      return { total: fmt(total), remaining: fmt(remaining) };
+      return { total: fmt(total), remaining: fmt(remaining), totalNum: total };
     });
   }, [displayRows]);
 
@@ -180,6 +239,14 @@ export default function BillingTable({
   const numCell = "text-right tabular-nums whitespace-nowrap";
   const dateCell =
     "text-left font-semibold text-slate-900 tabular-nums whitespace-nowrap";
+
+  function openPenaltyDetailForRow(rowIndex: number) {
+    const dueDate = displayRows[rowIndex]?.jatuhTempo ?? "";
+    const basePenalty = penalties[rowIndex]?.totalNum ?? 0;
+
+    setPenaltyRows(buildPenaltyDetailRows(dueDate, basePenalty));
+    setPenaltyOpen(true);
+  }
 
   function buildOutsideCellClass({
     col,
@@ -277,6 +344,12 @@ export default function BillingTable({
 
     return (
       <div className={cn("mt-3", className)}>
+        <PenaltyDetailDialog
+          open={penaltyOpen}
+          onOpenChange={setPenaltyOpen}
+          rows={penaltyRows}
+        />
+
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <table className={tableBase}>
             <thead className="bg-white">
@@ -368,9 +441,7 @@ export default function BillingTable({
                         hideSelection ? edgeL : "",
                       )}
                     >
-                      <div className="truncate" title={bill.feeName}>
-                        {bill.feeName}
-                      </div>
+                      <div className="truncate">{bill.feeName}</div>
                     </td>
 
                     <td className={cn(wPeriode, tdClass, dateCell)}>
@@ -405,6 +476,12 @@ export default function BillingTable({
 
     return (
       <div className={cn("mt-3", className)}>
+        <PenaltyDetailDialog
+          open={penaltyOpen}
+          onOpenChange={setPenaltyOpen}
+          rows={penaltyRows}
+        />
+
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <table className={tableBase}>
             <thead className="bg-white">
@@ -499,7 +576,12 @@ export default function BillingTable({
                     <td className={cn(dateColW, tdClass, dateCell)}>{bill.jatuhTempo}</td>
 
                     <td className={cn(dendaColW, tdClass, "text-slate-800", numCell)}>
-                      {penalties[idx]?.total ?? "0"}
+                      <PenaltyAmountCell
+                        amount={penalties[idx]?.total ?? "0"}
+                        showIcon={true}
+                        showAmount={true}
+                        onOpenDetail={() => openPenaltyDetailForRow(idx)}
+                      />
                     </td>
 
                     <td
@@ -538,6 +620,12 @@ export default function BillingTable({
           className,
         )}
       >
+        <PenaltyDetailDialog
+          open={penaltyOpen}
+          onOpenChange={setPenaltyOpen}
+          rows={penaltyRows}
+        />
+
         <table className={tableBase}>
           <thead className="bg-white">
             <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
@@ -683,6 +771,12 @@ export default function BillingTable({
         className,
       )}
     >
+      <PenaltyDetailDialog
+        open={penaltyOpen}
+        onOpenChange={setPenaltyOpen}
+        rows={penaltyRows}
+      />
+
       <table className={tableBase}>
         <thead className="bg-white">
           <tr className="text-left text-[10px] font-semibold uppercase tracking-wide text-slate-600">
@@ -875,6 +969,7 @@ export default function BillingTable({
                                             amount={penalties[rowIdx]?.total ?? "0"}
                                             showIcon={true}
                                             showAmount={true}
+                                            onOpenDetail={() => openPenaltyDetailForRow(rowIdx)}
                                           />
                                         </td>
                                       ) : null}
@@ -963,6 +1058,7 @@ export default function BillingTable({
                               amount={penalties[rowIdx]?.total ?? "0"}
                               showIcon={false}
                               showAmount={false}
+                              onOpenDetail={() => openPenaltyDetailForRow(rowIdx)}
                             />
                           </td>
                         ) : null}
@@ -1052,6 +1148,7 @@ export default function BillingTable({
                             amount={penalties[idx]?.total ?? "0"}
                             showIcon={false}
                             showAmount={false}
+                            onOpenDetail={() => openPenaltyDetailForRow(idx)}
                           />
                         </td>
                       ) : null}
@@ -1140,6 +1237,7 @@ export default function BillingTable({
                               amount={penalties[globalIndex]?.total ?? "0"}
                               showIcon={false}
                               showAmount={false}
+                              onOpenDetail={() => openPenaltyDetailForRow(globalIndex)}
                             />
                           </td>
                         ) : null}
