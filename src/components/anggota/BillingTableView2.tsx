@@ -145,8 +145,8 @@ export default function BillingTableView2({
       ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
       : "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
 
-  // HANYA angka: samakan gaya sisa pokok
-  const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
+  // IMPORTANT: pakai num-tabular supaya digit benar-benar fixed-width (tidak bergantung font utama)
+  const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6", "num-tabular");
 
   function PenaltyCell({ idx }: { idx: number }) {
     const nominal = formatIdrLike(penaltyForIndex(idx));
