@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 const transactionTypes = [
   "Pembayaran Reguler",
@@ -150,6 +152,93 @@ function KolektorSelect({
   );
 }
 
+function formatDmy(date: Date) {
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(date.getFullYear());
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function parseDmyToDate(value: string): Date | undefined {
+  const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec((value ?? "").trim());
+  if (!m) return undefined;
+  const dd = Number(m[1]);
+  const mm = Number(m[2]);
+  const yyyy = Number(m[3]);
+  const d = new Date(yyyy, mm - 1, dd);
+  if (
+    d.getFullYear() !== yyyy ||
+    d.getMonth() !== mm - 1 ||
+    d.getDate() !== dd
+  ) {
+    return undefined;
+  }
+  return d;
+}
+
+function EffectiveDateField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  const selectedDate = React.useMemo(() => parseDmyToDate(value), [value]);
+
+  return (
+    <div className="grid gap-1.5">
+      <Label className="text-xs text-slate-600">{label}</Label>
+
+      <div className="relative">
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-10 rounded-xl border-slate-200 bg-white pr-11"
+          placeholder="DD-MM-YYYY"
+          inputMode="numeric"
+        />
+
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className={cn(
+                "absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-lg",
+                "text-slate-500 transition hover:bg-slate-100",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/25",
+              )}
+              aria-label="Pilih tanggal"
+              title="Pilih tanggal"
+            >
+              <CalendarDays className="h-4 w-4" />
+            </button>
+          </PopoverTrigger>
+
+          <PopoverContent
+            align="end"
+            className="w-auto rounded-2xl border-slate-200 bg-white p-2 shadow-xl"
+          >
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={(d) => {
+                if (!d) return;
+                onChange(formatDmy(d));
+                setOpen(false);
+              }}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+    </div>
+  );
+}
+
 export default function TransactionFormCardView2({
   tanggalEfektif,
   setTanggalEfektif,
@@ -249,9 +338,7 @@ export default function TransactionFormCardView2({
 
   function handlePayClick() {
     if (isPenurunanBakiDebet) {
-      // untuk penurunan baki debet: trigger perhitungan sisa pinjaman di parent
       onPayPenurunanBakiDebet?.(nominal);
-      // tetap tampilkan flow modal yang sama
       setConfirmOpen(true);
       return;
     }
@@ -297,23 +384,16 @@ export default function TransactionFormCardView2({
             <Separator className="my-3 bg-slate-200/70" />
 
             <div className="grid gap-3">
-              <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">
-                  {isPelunasan
+              <EffectiveDateField
+                label={
+                  isPelunasan
                     ? "Tanggal Efektif Pelunasan*"
-                    : "Tanggal Efektif Bayar*"}
-                </Label>
-                <div className="relative">
-                  <Input
-                    value={tanggalEfektif}
-                    onChange={(e) => setTanggalEfektif(e.target.value)}
-                    className="h-10 rounded-xl border-slate-200 bg-white pr-10"
-                  />
-                  <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                </div>
-              </div>
+                    : "Tanggal Efektif Bayar*"
+                }
+                value={tanggalEfektif}
+                onChange={setTanggalEfektif}
+              />
 
-              {/* Field "Jenis Transaksi*" memang tidak ditampilkan */}
               <div className="sr-only">
                 <button
                   type="button"
@@ -332,7 +412,6 @@ export default function TransactionFormCardView2({
                 />
               </div>
 
-              {/* MODE KHUSUS: tambah Nominal Denda */}
               {isKhusus ? (
                 <>
                   <div className="grid gap-1.5">
