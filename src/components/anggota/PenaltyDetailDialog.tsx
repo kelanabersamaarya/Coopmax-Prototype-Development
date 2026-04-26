@@ -121,7 +121,7 @@ export default function PenaltyDetailDialog({
                     {/* Total row: tanpa background */}
                     <tr className="border-t border-slate-200 bg-white">
                       <td className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-                        TOTAL NOMINA DENDA
+                        TOTAL NOMINAL DENDA
                       </td>
                       <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                         {totalText}
