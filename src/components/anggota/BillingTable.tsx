@@ -96,7 +96,7 @@ function PenaltyAmountCell({
 }) {
   return (
     <span className="inline-flex w-full items-center justify-end gap-2 whitespace-nowrap">
-      <span>{showAmount ? amount : "-"}</span>
+      <span>{showAmount ? amount : ""}</span>
 
       {showIcon ? (
         <button
