@@ -1,4 +1,3 @@
-25000) agar total tampil 75.000.">
 "use client";
 
 import * as React from "react";
