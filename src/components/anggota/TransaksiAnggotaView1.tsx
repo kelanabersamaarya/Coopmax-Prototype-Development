@@ -233,7 +233,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       [isKhusus, isReguler, page],
     );
 
-  // Sync selected when page/rows change:
   React.useEffect(() => {
     if (isPelunasan) {
       _setSelected(pagedRows.map(() => true));
@@ -273,7 +272,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
-  // Pembayaran Khusus: field pembayaran auto-terisi hanya jika ada tagihan yang dicheck
   React.useEffect(() => {
     if (!isKhusus) return;
 
@@ -480,13 +478,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={false} // KHUSUS: bisa check/uncheck (logic), UI tetap sama
+                  isLocked={false}
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
                   hideSelection={false}
                   showPenaltyColumn={true}
-                  // hilangkan ring/border tebal baris SEPENUHNYA
                   disableRowRings
                   className="mt-0"
                 />
@@ -514,17 +511,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   {isReguler ? totalEntriesLocal : rows.length} entri
                 </div>
 
-                {isReguler ? (
-                  <PaginationLikeExample
-                    page={page}
-                    pageCount={pageCount}
-                    onPage={setPage}
-                  />
-                ) : (
-                  <div className="flex justify-end">
-                    <div className="sr-only" />
-                  </div>
-                )}
+                <PaginationLikeExample
+                  page={page}
+                  pageCount={pageCount}
+                  onPage={setPage}
+                />
               </div>
             </Card>
 
@@ -533,7 +524,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 hasAnySelected={hasAnySelected}
                 totals={
-                  // Ringkasan khusus: tetap otomatis dari tagihan (biarkan angka yang ada / behavior existing)
                   isKhusus
                     ? {
                         pokok: formatMoneyIdNoDecimals(khususTotals?.pokok ?? 0),
