@@ -52,7 +52,7 @@ function FieldRow({
   return (
     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
       <div className="pt-1">
-        <div className="text-sm font-semibold text-slate-900">{label}</div>
+        <div className="text-sm font-normal text-slate-900">{label}</div>
         {hint ? (
           <div className="mt-1 text-xs text-slate-500">{hint}</div>
         ) : null}
@@ -240,7 +240,7 @@ export default function LoanProductEdit() {
         <div className="mt-6 grid gap-4">
           {/* GABUNG: KONFIGURASI DASAR + PARAMETER LANJUTAN & BIAYA + COA */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="text-base font-semibold text-slate-900">
+            <div className="text-[20px] font-semibold text-slate-900">
               Konfigurasi Produk Pinjaman
             </div>
 
