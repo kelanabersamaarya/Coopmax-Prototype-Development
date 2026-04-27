@@ -35,8 +35,6 @@ export default function PenaltyRateField({
   function handleModeChange(next: PenaltyRateMode) {
     onModeChange(next);
 
-    // Sesuai permintaan: saat baru memilih persentase, tampilkan 0% di input.
-    // Dan saat kembali ke Rp, tampilkan 0,00.
     if (next === "percent") {
       if (isBlankish(value) || value === "0,00" || value === "0") {
         onValueChange("0%");
@@ -54,7 +52,10 @@ export default function PenaltyRateField({
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
-        <Select value={mode} onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}>
+        <Select
+          value={mode}
+          onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
+        >
           <SelectTrigger className="h-11 w-[92px] rounded-2xl border-slate-200 bg-white">
             <SelectValue />
           </SelectTrigger>
@@ -71,12 +72,6 @@ export default function PenaltyRateField({
           placeholder={isPercent ? "0%" : "0,00"}
           inputMode="decimal"
         />
-      </div>
-
-      <div className="text-[11px] text-slate-500">
-        {isPercent
-          ? "Masukkan tarif denda persentase (contoh: 0%)."
-          : "Masukkan tarif denda nominal (Rp)."}
       </div>
     </div>
   );
