@@ -320,6 +320,18 @@ export default function LoanProductEdit() {
     React.useState<GraceUnit>("Pilih Satuan Grace Period");
   const [graceDuration, setGraceDuration] = React.useState("");
 
+  const graceUnitSuffix =
+    graceUnit === "Hari" ? "(Hari)" : graceUnit === "Bulan" ? "(Bulan)" : "";
+
+  const graceDurationLabel = `Durasi Grace Period${graceUnitSuffix ? ` ${graceUnitSuffix}` : ""}`;
+
+  const graceDurationPlaceholder =
+    graceUnit === "Hari"
+      ? "Masukkan Jumlah Hari"
+      : graceUnit === "Bulan"
+        ? "Masukkan Jumlah Bulan"
+        : "Masukkan Durasi";
+
   function addCollectorFee() {
     setCollectorFees((prev) => [
       ...prev,
@@ -895,7 +907,6 @@ export default function LoanProductEdit() {
                     </div>
                   </div>
 
-                  {/* GRACE PERIOD: tanpa card/section tambahan + semua label sejajar */}
                   <div className="grid gap-5">
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                       <div className="pt-1 text-sm font-normal text-slate-900">
@@ -956,13 +967,13 @@ export default function LoanProductEdit() {
 
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            Durasi Grace Period (Hari/Bulan)
+                            {graceDurationLabel}
                           </div>
                           <Input
                             value={graceDuration}
                             onChange={(e) => setGraceDuration(e.target.value)}
                             className="h-12 rounded-2xl border-slate-200 bg-white"
-                            placeholder="Masukkan Jumlah Bulan"
+                            placeholder={graceDurationPlaceholder}
                             inputMode="numeric"
                           />
                         </div>
