@@ -840,56 +840,62 @@ export default function LoanProductEdit() {
                 </div>
               </FieldRow>
 
-              <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
-                <div className="pt-1">
-                  <div className="text-sm font-normal text-slate-900">
-                    Skema Tagihan <InfoDot />
-                  </div>
-                </div>
-                <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
-                  <RadioGroup
-                    value={installmentMode}
-                    onValueChange={(v) => setInstallmentMode(v as InstallmentMode)}
-                    className="grid gap-3"
-                  >
-                    {(
-                      [
-                        "Jadwal Tetap (Diterbitkan Penuh di Awal)",
-                        "Jadwal Fleksibel & Tagihan Berkala",
-                        "Dihitung dari Sisa Saldo Pokok",
-                      ] as InstallmentMode[]
-                    ).map((m) => (
-                      <label
-                        key={m}
-                        className="flex cursor-pointer items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 hover:bg-white"
+              {useInstallmentTable ? (
+                <>
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
+                    <div className="pt-1">
+                      <div className="text-sm font-normal text-slate-900">
+                        Skema Tagihan <InfoDot />
+                      </div>
+                    </div>
+                    <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
+                      <RadioGroup
+                        value={installmentMode}
+                        onValueChange={(v) =>
+                          setInstallmentMode(v as InstallmentMode)
+                        }
+                        className="grid gap-3"
                       >
-                        <RadioGroupItem
-                          value={m}
-                          id={`mode-${m}`}
-                          className="mt-1"
-                        />
-                        <div className="min-w-0">
-                          <div className="text-sm font-semibold text-slate-900">
-                            {m}
-                          </div>
-                          <div className="mt-1 text-xs text-slate-600">
-                            Prototype — pilihan ini hanya memengaruhi state UI.
-                          </div>
-                        </div>
-                      </label>
-                    ))}
-                  </RadioGroup>
-                </div>
-              </div>
+                        {(
+                          [
+                            "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+                            "Jadwal Fleksibel & Tagihan Berkala",
+                            "Dihitung dari Sisa Saldo Pokok",
+                          ] as InstallmentMode[]
+                        ).map((m) => (
+                          <label
+                            key={m}
+                            className="flex cursor-pointer items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 hover:bg-white"
+                          >
+                            <RadioGroupItem
+                              value={m}
+                              id={`mode-${m}`}
+                              className="mt-1"
+                            />
+                            <div className="min-w-0">
+                              <div className="text-sm font-semibold text-slate-900">
+                                {m}
+                              </div>
+                              <div className="mt-1 text-xs text-slate-600">
+                                Prototype — pilihan ini hanya memengaruhi state UI.
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                      </RadioGroup>
+                    </div>
+                  </div>
 
-              <FieldRow label="Grace Period">
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={gracePeriodEnabled}
-                    onCheckedChange={setGracePeriodEnabled}
-                  />
-                </div>
-              </FieldRow>
+                  <FieldRow label="Grace Period">
+                    <div className="flex items-center gap-3">
+                      <Switch
+                        checked={gracePeriodEnabled}
+                        onCheckedChange={setGracePeriodEnabled}
+                      />
+                    </div>
+                  </FieldRow>
+                </>
+              ) : null}
             </div>
 
             <Separator className="my-6 bg-slate-200/70" />
