@@ -203,7 +203,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       return;
     }
 
-    // Reguler & Khusus: tetap tercentang (sesuai perilaku sebelumnya di View1)
     if (isReguler || isKhusus) {
       setSelected(pagedRows.map(() => true));
       return;
@@ -310,8 +309,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
 
-  const showView2Table = !isReguler && !isKhusus;
-
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -409,35 +406,38 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {/* Kembalikan logic lama untuk Reguler & Khusus */}
               {isReguler || isKhusus ? (
+                <BillingTableView2
+                  rows={pagedRowsForView2}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={true}
+                  showNextBillInfo={false}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
+                  showPenaltyColumn={true}
+                  // hilangkan ring/border tebal baris SEPENUHNYA
+                  disableRowRings
+                  className="mt-0"
+                />
+              ) : (
                 <div className="billing-table-compact">
                   <BillingTable
                     rows={pagedRows}
                     selected={selected}
                     setSelected={setSelected}
-                    isPelunasan={false}
+                    isPelunasan={isPelunasan}
                     showGraceHighlight={showGraceHighlight}
-                    hideInterestCols={false}
-                    hideSelection={false}
-                    showPenaltyColumn={true}
-                    className="mt-0"
+                    hideInterestCols={hideInterestCols}
+                    interestOnlyCols={interestOnlyCols}
+                    penaltyOnlyCols={penaltyOnlyCols}
+                    feeOnlyCols={feeOnlyCols}
+                    hideSelection={isPenurunanBakiDebet}
+                    showPenaltyColumn={isPelunasan}
                   />
                 </div>
-              ) : showView2Table ? (
-                <BillingTableView2
-                  rows={pagedRowsForView2}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={isPelunasan}
-                  showNextBillInfo={false}
-                  showGraceInfo={true}
-                  highlightGraceBlock={true}
-                  hideSelection={isPenurunanBakiDebet}
-                  showPenaltyColumn={isPelunasan}
-                  className="mt-0"
-                />
-              ) : null}
+              )}
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
