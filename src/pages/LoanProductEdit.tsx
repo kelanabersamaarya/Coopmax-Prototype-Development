@@ -46,6 +46,8 @@ type InstallmentMode =
   | "Jadwal Fleksibel & Tagihan Berkala"
   | "Dihitung dari Sisa Saldo Pokok";
 
+type AmountMode = "rp" | "percent";
+
 function FieldRow({
   label,
   hint,
@@ -76,13 +78,59 @@ function InfoDot() {
   );
 }
 
+function AmountModeInput({
+  label,
+  mode,
+  onModeChange,
+  value,
+  onValueChange,
+  placeholder = "0,00",
+}: {
+  label: string;
+  mode: AmountMode;
+  onModeChange: (v: AmountMode) => void;
+  value: string;
+  onValueChange: (v: string) => void;
+  placeholder?: string;
+}) {
+  return (
+    <div className="grid gap-2">
+      <Label className="text-sm font-semibold text-slate-900">{label}</Label>
+
+      <div className="flex w-full items-center gap-2">
+        <Select value={mode} onValueChange={(v) => onModeChange(v as AmountMode)}>
+          <SelectTrigger className="h-11 w-[92px] rounded-2xl border-slate-200 bg-white">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-2xl border-slate-200">
+            <SelectItem value="rp">Rp.</SelectItem>
+            <SelectItem value="percent">%</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Input
+          value={value}
+          onChange={(e) => onValueChange(e.target.value)}
+          className="h-11 flex-1 rounded-2xl border-slate-200 bg-white"
+          placeholder={placeholder}
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="text-[11px] text-slate-500">
+        {mode === "rp"
+          ? "Masukkan nominal (Rp)."
+          : "Masukkan persentase (%)."}
+      </div>
+    </div>
+  );
+}
+
 export default function LoanProductEdit() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
   const id = params.id ?? "";
 
-  // NOTE: masih prototype — nanti setelah Anda kirim detail mapping field,
-  // kita bisa prefill dari store berdasarkan `id`.
   const [code, setCode] = React.useState("klpk04.07");
   const [name, setName] = React.useState("Pinjaman Emas");
 
@@ -121,6 +169,9 @@ export default function LoanProductEdit() {
   const [maxLoan, setMaxLoan] = React.useState("100.000.000,00");
 
   const [specialEndDate, setSpecialEndDate] = React.useState(false);
+
+  const [propisiMode, setPropisiMode] = React.useState<AmountMode>("rp");
+  const [adminMode, setAdminMode] = React.useState<AmountMode>("rp");
 
   const [propisi, setPropisi] = React.useState("0,00");
   const [admin, setAdmin] = React.useState("0,00");
@@ -490,29 +541,23 @@ export default function LoanProductEdit() {
                 </div>
               </FieldRow>
 
-              {/* UBAH: biaya jadi 1 kolom */}
+              {/* UBAH: biaya jadi 1 kolom + Propisi/Administrasi ada pilihan Rp/% */}
               <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Propisi
-                  </Label>
-                  <Input
-                    value={propisi}
-                    onChange={(e) => setPropisi(e.target.value)}
-                    className="rounded-2xl"
-                  />
-                </div>
+                <AmountModeInput
+                  label="Propisi"
+                  mode={propisiMode}
+                  onModeChange={setPropisiMode}
+                  value={propisi}
+                  onValueChange={setPropisi}
+                />
 
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Administrasi
-                  </Label>
-                  <Input
-                    value={admin}
-                    onChange={(e) => setAdmin(e.target.value)}
-                    className="rounded-2xl"
-                  />
-                </div>
+                <AmountModeInput
+                  label="Administrasi"
+                  mode={adminMode}
+                  onModeChange={setAdminMode}
+                  value={admin}
+                  onValueChange={setAdmin}
+                />
 
                 <div className="grid gap-2">
                   <Label className="text-sm font-semibold text-slate-900">
@@ -521,7 +566,8 @@ export default function LoanProductEdit() {
                   <Input
                     value={insurance}
                     onChange={(e) => setInsurance(e.target.value)}
-                    className="rounded-2xl"
+                    className="h-11 rounded-2xl border-slate-200 bg-white"
+                    inputMode="decimal"
                   />
                 </div>
 
@@ -532,7 +578,8 @@ export default function LoanProductEdit() {
                   <Input
                     value={mbankingActivation}
                     onChange={(e) => setMbankingActivation(e.target.value)}
-                    className="rounded-2xl"
+                    className="h-11 rounded-2xl border-slate-200 bg-white"
+                    inputMode="decimal"
                   />
                 </div>
               </div>
