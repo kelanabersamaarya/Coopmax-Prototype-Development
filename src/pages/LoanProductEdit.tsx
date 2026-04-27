@@ -238,7 +238,7 @@ export default function LoanProductEdit() {
         </div>
 
         <div className="mt-6 grid gap-4">
-          {/* GABUNG: KONFIGURASI DASAR + PARAMETER LANJUTAN & BIAYA + COA */}
+          {/* KONFIGURASI PRODUK PINJAMAN (gabungan) */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
             <div className="text-[20px] font-semibold text-slate-900">
               Konfigurasi Produk Pinjaman
@@ -414,7 +414,7 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
-            {/* === PARAMETER LANJUTAN & BIAYA (tanpa divider) === */}
+            {/* === PARAMETER LANJUTAN & BIAYA === */}
             <div className="mt-6 grid gap-5">
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
@@ -579,7 +579,7 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
-            {/* === COA (tanpa divider) === */}
+            {/* === COA === */}
             <div className="mt-6 grid gap-5">
               <FieldRow label="KP Pinjaman">
                 <Select
@@ -687,18 +687,14 @@ export default function LoanProductEdit() {
                 </Select>
               </FieldRow>
             </div>
-          </Card>
 
-          {/* KONFIGURASI FEE KOLEKTOR */}
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Konfigurasi Fee Kolektor
-                </div>
-                <div className="text-xs text-slate-500">
-                  Tambahkan fee kolektor (prototype list).
-                </div>
+            {/* divider saja (sesuai permintaan) */}
+            <Separator className="my-6 bg-slate-200/70" />
+
+            {/* KONFIGURASI FEE KOLEKTOR (di dalam card utama) */}
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="text-base font-semibold text-slate-900">
+                Konfigurasi Fee Kolektor
               </div>
               <Button
                 onClick={addCollectorFee}
@@ -709,88 +705,80 @@ export default function LoanProductEdit() {
               </Button>
             </div>
 
-            <Separator className="my-5 bg-slate-200/70" />
-
-            {collectorFees.length === 0 ? (
-              <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
-                Belum ada fee kolektor.
-              </div>
-            ) : (
-              <div className="grid gap-3">
-                {collectorFees.map((f, idx) => (
-                  <div
-                    key={f.id}
-                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_48px] md:items-start"
-                  >
-                    <div className="grid gap-2">
-                      <Label className="text-xs text-slate-600">Nama</Label>
-                      <Input
-                        value={f.name}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCollectorFees((prev) =>
-                            prev.map((x) =>
-                              x.id === f.id ? { ...x, name: val } : x,
-                            ),
-                          );
-                        }}
-                        className="h-11 rounded-2xl"
-                      />
-                    </div>
-
-                    <div className="grid gap-2">
-                      <Label className="text-xs text-slate-600">Nominal</Label>
-                      <Input
-                        value={f.amount}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCollectorFees((prev) =>
-                            prev.map((x) =>
-                              x.id === f.id ? { ...x, amount: val } : x,
-                            ),
-                          );
-                        }}
-                        className="h-11 rounded-2xl"
-                      />
-                    </div>
-
-                    <button
-                      type="button"
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white md:mt-[22px] md:self-start"
-                      onClick={() => {
-                        setCollectorFees((prev) =>
-                          prev.filter((x) => x.id !== f.id),
-                        );
-                        toast("Fee dihapus", {
-                          description: `Item #${idx + 1} dihapus.`,
-                        });
-                      }}
-                      aria-label="Hapus fee"
+            <div className="mt-4">
+              {collectorFees.length === 0 ? (
+                <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
+                  Belum ada fee kolektor.
+                </div>
+              ) : (
+                <div className="grid gap-3">
+                  {collectorFees.map((f, idx) => (
+                    <div
+                      key={f.id}
+                      className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_48px] md:items-start"
                     >
-                      <X className="h-4.5 w-4.5" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </Card>
+                      <div className="grid gap-2">
+                        <Label className="text-xs text-slate-600">Nama</Label>
+                        <Input
+                          value={f.name}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCollectorFees((prev) =>
+                              prev.map((x) =>
+                                x.id === f.id ? { ...x, name: val } : x,
+                              ),
+                            );
+                          }}
+                          className="h-11 rounded-2xl"
+                        />
+                      </div>
 
-          {/* KONFIGURASI TAGIHAN */}
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Konfigurasi Tagihan Angsuran <InfoDot />
+                      <div className="grid gap-2">
+                        <Label className="text-xs text-slate-600">Nominal</Label>
+                        <Input
+                          value={f.amount}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCollectorFees((prev) =>
+                              prev.map((x) =>
+                                x.id === f.id ? { ...x, amount: val } : x,
+                              ),
+                            );
+                          }}
+                          className="h-11 rounded-2xl"
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white md:mt-[22px] md:self-start"
+                        onClick={() => {
+                          setCollectorFees((prev) =>
+                            prev.filter((x) => x.id !== f.id),
+                          );
+                          toast("Fee dihapus", {
+                            description: `Item #${idx + 1} dihapus.`,
+                          });
+                        }}
+                        aria-label="Hapus fee"
+                      >
+                        <X className="h-4.5 w-4.5" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-xs text-slate-500">
-                  Pengaturan skema tagihan + grace period.
-                </div>
-              </div>
+              )}
             </div>
 
-            <Separator className="my-5 bg-slate-200/70" />
+            {/* divider saja (sesuai permintaan) */}
+            <Separator className="my-6 bg-slate-200/70" />
 
-            <div className="grid gap-5">
+            {/* KONFIGURASI TAGIHAN ANGSURAN (di dalam card utama) */}
+            <div className="text-base font-semibold text-slate-900">
+              Konfigurasi Tagihan Angsuran <InfoDot />
+            </div>
+
+            <div className="mt-4 grid gap-5">
               <FieldRow
                 label={
                   <span className="inline-flex items-center">
@@ -811,16 +799,14 @@ export default function LoanProductEdit() {
 
               <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
                 <div className="pt-1">
-                  <div className="text-sm font-semibold text-slate-900">
+                  <div className="text-sm font-normal text-slate-900">
                     Skema Tagihan <InfoDot />
                   </div>
                 </div>
                 <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
                   <RadioGroup
                     value={installmentMode}
-                    onValueChange={(v) =>
-                      setInstallmentMode(v as InstallmentMode)
-                    }
+                    onValueChange={(v) => setInstallmentMode(v as InstallmentMode)}
                     className="grid gap-3"
                   >
                     {(
@@ -866,6 +852,7 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
+            {/* CTA page (tetap ada, bukan di dalam section Konfigurasi Produk Pinjaman sebelumnya) */}
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
@@ -874,14 +861,12 @@ export default function LoanProductEdit() {
                 className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
                 onClick={() => navigate("/loan-products")}
               >
-                <X className="mr-2 h-4 w-4" />
                 Batalkan
               </Button>
               <Button
                 onClick={save}
                 className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
               >
-                <Save className="mr-2 h-4 w-4" />
                 Simpan
               </Button>
             </div>
