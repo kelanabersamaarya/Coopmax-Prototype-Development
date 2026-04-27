@@ -13,9 +13,12 @@ export default function GracePeriodInfoRow({
 }) {
   return (
     <tr className={cn(noBorder ? "" : "border-t border-slate-200")}>
-      <td colSpan={colSpan} className="px-1 py-2.5">
+      <td
+        colSpan={colSpan}
+        className={cn("py-2.5", noBorder ? "px-0" : "px-1")}
+      >
         {/* Spacer diperkecil agar jarak banner ke tepi tabel lebih rapat */}
-        <div className={cn("bg-white", noBorder ? "px-3 py-2" : "px-3 py-2")}>
+        <div className={cn("bg-white", noBorder ? "px-2 py-2" : "px-3 py-2")}>
           <div
             className={cn(
               "rounded-2xl px-4 py-3 text-xs text-slate-800",

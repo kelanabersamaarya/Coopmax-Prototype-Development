@@ -396,8 +396,8 @@ export default function BillingTable({
                 {graceEnabled && graceRows.length > 0 ? (
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      {/* Kurangi whitespace: p-2 -> p-1 */}
-                      <div className="bg-white p-1">
+                      {/* Kurangi whitespace kiri/kanan grace block */}
+                      <div className="bg-white p-0">
                         <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
