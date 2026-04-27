@@ -16,15 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import {
-  ChevronLeft,
-  Info,
-  Plus,
-  Save,
-  X,
-  Settings2,
-  SlidersHorizontal,
-} from "lucide-react";
+import { ChevronLeft, Info, Plus, Save, X, Settings2 } from "lucide-react";
 import { BillingScheme } from "@/lib/loanProductsStore";
 
 type PeriodUnit = "Bulan" | "Hari";
@@ -466,17 +458,8 @@ export default function LoanProductEdit() {
 
             <Separator className="my-6 bg-slate-200/70" />
 
-            {/* === PARAMETER LANJUTAN & BIAYA === */}
+            {/* === PARAMETER LANJUTAN & BIAYA (judul dihapus sesuai permintaan) === */}
             <div className="grid gap-5">
-              <div className="flex items-center gap-2">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 ring-1 ring-sky-200">
-                  <SlidersHorizontal className="h-4.5 w-4.5" />
-                </span>
-                <div className="text-sm font-extrabold tracking-tight text-slate-900">
-                  Parameter Lanjutan & Biaya
-                </div>
-              </div>
-
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
@@ -642,17 +625,8 @@ export default function LoanProductEdit() {
 
             <Separator className="my-6 bg-slate-200/70" />
 
-            {/* === PENGATURAN COA === */}
+            {/* === COA (judul + badge dihapus sesuai permintaan) === */}
             <div className="grid gap-5">
-              <div className="flex items-center justify-between gap-3">
-                <div className="text-sm font-extrabold tracking-tight text-slate-900">
-                  Pengaturan COA (Prototype)
-                </div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
-                  <Info className="h-3.5 w-3.5" /> Read-only mapping
-                </div>
-              </div>
-
               <FieldRow label="KP Pinjaman">
                 <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
