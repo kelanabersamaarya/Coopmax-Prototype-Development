@@ -387,7 +387,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          {/* Kanan dilebarkan sedikit agar konten tidak mepet, tabel kiri tetap compact */}
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
@@ -408,7 +407,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   penaltyOnlyCols={penaltyOnlyCols}
                   feeOnlyCols={feeOnlyCols}
                   hideSelection={isPenurunanBakiDebet}
-                  showPenaltyColumn={isReguler}
+                  showPenaltyColumn={isReguler || isKhusus}
                 />
               </div>
 
@@ -432,7 +431,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </div>
             </Card>
 
-            {/* padding kecil di wrapper kanan agar card tidak terasa nempel */}
             <div className="space-y-4 px-1">
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
