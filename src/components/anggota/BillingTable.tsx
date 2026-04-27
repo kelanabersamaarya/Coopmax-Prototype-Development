@@ -242,7 +242,6 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  // === Compact layout ===
   const thBase =
     "px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
@@ -251,7 +250,6 @@ export default function BillingTable({
   const tdBase = "px-3 py-3 text-[13px] text-slate-900";
   const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
 
-  // angka: tabular digits + rata kanan + padding kanan konsisten (biar lurus)
   const tdNum = cn(
     tdBase,
     "text-right whitespace-nowrap",
@@ -282,18 +280,15 @@ export default function BillingTable({
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
 
-  // Samakan alignment semua angka di dalam/luar grace period
   const numCell = cn(tdNum, "pr-5");
   const sisaPokokCell = cn(tdNum, "pr-5");
   const sisaBungaCell = cn(tdNum, "pr-5");
 
-  // Denda: harus reguler (bukan bold) + align sama dengan angka lain
-  const penaltyValueClass = cn(
-    "tabular-nums whitespace-nowrap font-normal text-slate-900",
-  );
+  // samakan kolom denda agar align dengan angka lain (gunakan pr-5 juga)
+  const penaltyTd = cn(tdNum, "pr-5");
+  const penaltyTdEmpty = cn(tdNum, "pr-5");
 
-  const penaltyTd = cn(tdNum, "pr-3");
-  const penaltyTdEmpty = cn(tdNum, "pr-3");
+  const penaltyValueClass = cn("tabular-nums whitespace-nowrap font-normal");
 
   return (
     <div className={cn("mt-3", className)}>
@@ -396,7 +391,6 @@ export default function BillingTable({
                 {graceEnabled && graceRows.length > 0 ? (
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      {/* Kurangi whitespace kiri/kanan grace block */}
                       <div className="bg-white p-0">
                         <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
