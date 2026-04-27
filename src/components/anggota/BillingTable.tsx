@@ -239,41 +239,35 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  // === Layout (tanpa kolom denda) + angka rapi ===
+  // === Compact layout (seperti screenshot) ===
   const thBase =
-    "px-3 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+    "px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
-    "px-3 py-4 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+    "px-3 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
 
-  const tdBase = "px-3 py-4 text-[14px] text-slate-900";
+  const tdBase = "px-3 py-3 text-[13px] text-slate-900";
+  const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
+
+  // angka: tabular digits + rata kanan + padding kanan konsisten (biar lurus)
   const tdNum = cn(
     tdBase,
     "text-right whitespace-nowrap",
     "num-sans-tabular tabular-nums",
-    "pr-6",
+    "pr-5",
   );
 
-  const twoLineHeader = "leading-[1.05] whitespace-nowrap";
-  const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-slate-50/35");
+  const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-white");
 
-  const checkboxColW = "w-[48px]";
-  const checkboxCell = cn(tdBase, "px-3 text-center");
+  const checkboxColW = "w-[40px]";
+  const checkboxTh = cn(thBase, "px-2");
+  const checkboxTd = cn(tdBase, "px-2 text-center");
 
-  const thDate = cn(thBase, "pl-2 pr-3");
-  const tdDate = cn(
-    tdBase,
-    "pl-2 pr-3",
-    "font-semibold tabular-nums whitespace-nowrap",
-  );
-
-  // Kolom denda dimatikan (layout kembali seperti sebelum denda)
   const showPenaltyCol = false;
 
   const showAllCols =
     !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
 
   const colCount = (() => {
-    // tanpa kolom denda
     if (feeOnlyCols) return hideSelection ? 4 : 5;
     if (penaltyOnlyCols) return hideSelection ? 4 : 5;
     if (interestOnlyCols) return hideSelection ? 3 : 4;
@@ -297,12 +291,12 @@ export default function BillingTable({
         rows={penaltyRows}
       />
 
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         <table className="w-full border-collapse">
-          <thead className="bg-slate-50/60">
+          <thead className="bg-white">
             <tr className="border-b border-slate-200">
               {!hideSelection ? (
-                <th className={cn(checkboxColW, thBase, "px-3")}>
+                <th className={cn(checkboxColW, checkboxTh)}>
                   <div className="flex justify-center">
                     <TableCheckbox
                       ariaLabel="Pilih semua"
@@ -319,53 +313,57 @@ export default function BillingTable({
                 </th>
               ) : null}
 
-              <th className={cn(thDate, twoLineHeader)}>
-                Jatuh
+              <th className={cn(thBase, "pl-3")}>
+                JATUH
                 <br />
-                Tempo
+                TEMPO
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, twoLineHeader)}>
-                  Total Tagihan
+                <th className={cn(thBase, "text-left")}>
+                  TOTAL TAGIHAN
                   <br />
-                  Belum Dibayar
+                  BELUM DIBAYAR
                 </th>
               ) : null}
 
-              <th className={cn(thRight, twoLineHeader)}>
-                Tagihan
+              <th className={thBase}>
+                TAGIHAN
                 <br />
-                Pokok
+                POKOK
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, twoLineHeader)}>
-                  Tagihan
+                <th className={thBase}>
+                  TAGIHAN
                   <br />
-                  Bunga
+                  BUNGA
                 </th>
               ) : null}
 
-              <th className={cn(thRight, twoLineHeader)}>
-                Sisa Tagihan
+              <th className={thBase}>
+                SISA
                 <br />
-                Pokok
+                TAGIHAN
+                <br />
+                POKOK
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, twoLineHeader)}>
-                  Sisa Tagihan
+                <th className={thBase}>
+                  SISA
                   <br />
-                  Bunga
+                  TAGIHAN
+                  <br />
+                  BUNGA
                 </th>
               ) : null}
 
               {showPenaltyCol ? (
-                <th className={cn(thRight, twoLineHeader, "w-[160px]")}>
-                  Tagihan
+                <th className={cn(thRight, "w-[160px]")}>
+                  TAGIHAN
                   <br />
-                  Denda
+                  DENDA
                 </th>
               ) : null}
             </tr>
@@ -386,8 +384,8 @@ export default function BillingTable({
                 {graceEnabled && graceRows.length > 0 ? (
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="bg-white px-2 py-3 sm:px-3 sm:py-3">
-                        <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
+                      <div className="bg-white p-2">
+                        <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
                               <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -398,12 +396,12 @@ export default function BillingTable({
                                   <tr
                                     key={`${bill.jatuhTempo}-grace-${idx}`}
                                     className={cn(
-                                      idx === 0 ? "" : "border-t border-blue-600/25",
+                                      idx === 0 ? "" : "border-t border-slate-200",
                                       zebra(idx),
                                     )}
                                   >
                                     {!hideSelection ? (
-                                      <td className={checkboxCell}>
+                                      <td className={checkboxTd}>
                                         <TableCheckbox
                                           ariaLabel="Pilih tagihan"
                                           checked={
@@ -423,7 +421,9 @@ export default function BillingTable({
                                       </td>
                                     ) : null}
 
-                                    <td className={tdDate}>{bill.jatuhTempo}</td>
+                                    <td className={cn(tdDate, "pl-3")}>
+                                      {bill.jatuhTempo}
+                                    </td>
 
                                     {!hideInterestCols ? (
                                       <td className={tdNum}>{bill.totalBelumDibayar}</td>
@@ -477,12 +477,10 @@ export default function BillingTable({
                       className={cn("border-t border-slate-200", zebra(rowIndex))}
                     >
                       {!hideSelection ? (
-                        <td className={checkboxCell}>
+                        <td className={checkboxTd}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
-                            checked={
-                              isPelunasan ? true : (selected[rowIndex] ?? false)
-                            }
+                            checked={isPelunasan ? true : (selected[rowIndex] ?? false)}
                             disabled={isPelunasan}
                             onChange={(next) =>
                               setSelected((prev) => {
@@ -495,7 +493,7 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={tdDate}>{bill.jatuhTempo}</td>
+                      <td className={cn(tdDate, "pl-3")}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
                         <td className={tdNum}>{bill.totalBelumDibayar}</td>
@@ -537,7 +535,7 @@ export default function BillingTable({
                       className={cn("border-t border-slate-200", zebra(globalIndex))}
                     >
                       {!hideSelection ? (
-                        <td className={checkboxCell}>
+                        <td className={checkboxTd}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
                             checked={
@@ -555,7 +553,7 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={tdDate}>{bill.jatuhTempo}</td>
+                      <td className={cn(tdDate, "pl-3")}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
                         <td className={tdNum}>{bill.totalBelumDibayar}</td>
