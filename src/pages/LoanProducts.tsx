@@ -374,6 +374,7 @@ export default function LoanProducts() {
                               >
                                 <Eye className="h-4 w-4" />
                               </button>
+
                               <button
                                 type="button"
                                 className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-amber-700 ring-1 ring-amber-200 hover:bg-white"
@@ -387,19 +388,16 @@ export default function LoanProducts() {
                               >
                                 <XCircle className="h-4 w-4" />
                               </button>
-                              <button
-                                type="button"
+
+                              <Link
+                                to={`/loan-products/${p.id}/edit`}
                                 className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-sky-50 text-sky-700 ring-1 ring-sky-200 hover:bg-white"
-                                onClick={() =>
-                                  toast("Edit (prototype)", {
-                                    description:
-                                      "Edit belum diimplementasikan di scope ini.",
-                                  })
-                                }
                                 aria-label="Edit"
+                                title="Ubah"
                               >
                                 <Pencil className="h-4 w-4" />
-                              </button>
+                              </Link>
+
                               <button
                                 type="button"
                                 className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white"
