@@ -251,9 +251,12 @@ export default function BillingTable({
     "num-sans-tabular tabular-nums",
   );
   const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
-  const checkboxTh = "w-[54px]";
   const twoLineHeader = "leading-[1.05] whitespace-nowrap";
   const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-slate-50/35");
+
+  // UBAH: samakan & kecilkan kolom checkbox supaya kolom Jatuh Tempo lurus
+  const checkboxColW = "w-[48px]";
+  const checkboxCell = cn(tdBase, "px-3 text-center");
 
   const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
   const showAllCols =
@@ -285,7 +288,7 @@ export default function BillingTable({
           <thead className="bg-slate-50/60">
             <tr className="border-b border-slate-200">
               {!hideSelection ? (
-                <th className={cn(checkboxTh, thBase)}>
+                <th className={cn(checkboxColW, thBase, "px-3")}>
                   <div className="flex justify-center">
                     <TableCheckbox
                       ariaLabel="Pilih semua"
@@ -386,7 +389,7 @@ export default function BillingTable({
                                     )}
                                   >
                                     {!hideSelection ? (
-                                      <td className={cn(tdBase, "text-center")}>
+                                      <td className={checkboxCell}>
                                         <TableCheckbox
                                           ariaLabel="Pilih tagihan"
                                           checked={
@@ -458,7 +461,7 @@ export default function BillingTable({
                       className={cn("border-t border-slate-200", zebra(rowIndex))}
                     >
                       {!hideSelection ? (
-                        <td className={cn(tdBase, "text-center")}>
+                        <td className={checkboxCell}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
                             checked={isPelunasan ? true : (selected[rowIndex] ?? false)}
@@ -516,7 +519,7 @@ export default function BillingTable({
                       className={cn("border-t border-slate-200", zebra(globalIndex))}
                     >
                       {!hideSelection ? (
-                        <td className={cn(tdBase, "text-center")}>
+                        <td className={checkboxCell}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
                             checked={
