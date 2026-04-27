@@ -69,6 +69,31 @@ function FieldRow({
   );
 }
 
+function FieldRowInline({
+  label,
+  required,
+  children,
+  hint,
+}: {
+  label: string;
+  required?: boolean;
+  children: React.ReactNode;
+  hint?: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+      <div className="text-left">
+        <div className="text-sm font-normal text-slate-900">
+          {label}
+          {required ? <span className="text-rose-600"> *</span> : null}
+        </div>
+        {hint ? <div className="mt-1 text-xs text-slate-500">{hint}</div> : null}
+      </div>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
 function TabPill({
   label,
   active,
@@ -580,7 +605,7 @@ export default function LoanApplicationCreate() {
                   </div>
 
                   <div className="grid w-full max-w-none gap-4">
-                    <FieldRow label="Jenis Perhitungan Bunga" required>
+                    <FieldRowInline label="Jenis Perhitungan Bunga" required>
                       <Select
                         value={jenisPerhitunganBunga}
                         onValueChange={setJenisPerhitunganBunga}
@@ -589,9 +614,7 @@ export default function LoanApplicationCreate() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Jadwal Tetap">
-                            Jadwal Tetap
-                          </SelectItem>
+                          <SelectItem value="Jadwal Tetap">Jadwal Tetap</SelectItem>
                           <SelectItem value="Jadwal Fleksibel & Tagihan Berkala">
                             Jadwal Fleksibel & Tagihan Berkala
                           </SelectItem>
@@ -600,9 +623,9 @@ export default function LoanApplicationCreate() {
                           </SelectItem>
                         </SelectContent>
                       </Select>
-                    </FieldRow>
+                    </FieldRowInline>
 
-                    <FieldRow label="Metode Perhitungan Bunga" required>
+                    <FieldRowInline label="Metode Perhitungan Bunga" required>
                       <Select
                         value={metodePerhitunganBunga}
                         onValueChange={setMetodePerhitunganBunga}
@@ -611,16 +634,14 @@ export default function LoanApplicationCreate() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Bunga Efektif">
-                            Bunga Efektif
-                          </SelectItem>
+                          <SelectItem value="Bunga Efektif">Bunga Efektif</SelectItem>
                           <SelectItem value="Bunga Flat">Bunga Flat</SelectItem>
                           <SelectItem value="Menurun">Menurun</SelectItem>
                         </SelectContent>
                       </Select>
-                    </FieldRow>
+                    </FieldRowInline>
 
-                    <FieldRow label="Frekuensi Bunga" required>
+                    <FieldRowInline label="Frekuensi Bunga" required>
                       <Select
                         value={frekuensiBunga}
                         onValueChange={setFrekuensiBunga}
@@ -634,18 +655,18 @@ export default function LoanApplicationCreate() {
                           <SelectItem value="Harian">Harian</SelectItem>
                         </SelectContent>
                       </Select>
-                    </FieldRow>
+                    </FieldRowInline>
 
-                    <FieldRow label="Periode" required>
+                    <FieldRowInline label="Periode" required>
                       <Input
                         value={periode}
                         onChange={(e) => setPeriode(e.target.value)}
                         className="h-11 w-full rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
                         placeholder=""
                       />
-                    </FieldRow>
+                    </FieldRowInline>
 
-                    <FieldRow label="Tanggal Tagihan Ke-1" required>
+                    <FieldRowInline label="Tanggal Tagihan Ke-1" required>
                       <div className="relative w-full">
                         <Input
                           value={tanggalTagihanKe1}
@@ -654,7 +675,7 @@ export default function LoanApplicationCreate() {
                         />
                         <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       </div>
-                    </FieldRow>
+                    </FieldRowInline>
                   </div>
                 </div>
 
