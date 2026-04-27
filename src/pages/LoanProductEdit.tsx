@@ -109,14 +109,12 @@ function AmountModeInput({
   value,
   onValueChange,
   placeholder = "0,00",
-  hint,
 }: {
   mode: AmountMode;
   onModeChange: (v: AmountMode) => void;
   value: string;
   onValueChange: (v: string) => void;
   placeholder?: string;
-  hint?: string;
 }) {
   return (
     <div className="grid gap-2">
@@ -139,8 +137,6 @@ function AmountModeInput({
           inputMode="decimal"
         />
       </div>
-
-      {hint ? <div className="text-[11px] text-slate-500">{hint}</div> : null}
     </div>
   );
 }
@@ -350,8 +346,8 @@ export default function LoanProductEdit() {
         ? "Masukkan Jumlah Bulan"
         : "Masukkan Durasi";
 
-  // Tarif Denda + Dasar Perhitungan + Hari Keterlambatan (prototype state)
-  const [tarifDendaMode, setTarifDendaMode] = React.useState<PenaltyRateMode>("rp");
+  const [tarifDendaMode, setTarifDendaMode] =
+    React.useState<PenaltyRateMode>("rp");
   const [tarifDendaValue, setTarifDendaValue] = React.useState("0,00");
 
   const [dasarPerhitungan, setDasarPerhitungan] =
@@ -497,10 +493,7 @@ export default function LoanProductEdit() {
                 </Select>
               </FieldRow>
 
-              <FieldRow
-                label="Bunga Pinjaman Memperhitungkan Hutang Bunga"
-                hint="Jika diaktifkan maka hutang bunga rekening mempengaruhi jumlah bunga yang harus dibayar."
-              >
+              <FieldRow label="Bunga Pinjaman Memperhitungkan Hutang Bunga">
                 <div className="flex items-center gap-3">
                   <Switch
                     checked={interestCountsOnInterestDebt}
@@ -558,10 +551,7 @@ export default function LoanProductEdit() {
                 />
               </FieldRow>
 
-              <FieldRow
-                label="Nominal Kelipatan"
-                hint="Nominal untuk kelipatan pinjaman pada pengajuan Mobile Banking."
-              >
+              <FieldRow label="Nominal Kelipatan">
                 <Input
                   value={nominalStep}
                   onChange={(e) => setNominalStep(e.target.value)}
@@ -570,10 +560,7 @@ export default function LoanProductEdit() {
                 />
               </FieldRow>
 
-              <FieldRow
-                label="Ketentuan Produk Pinjaman"
-                hint="Ketentuan produk pinjaman pada Mobile Banking."
-              >
+              <FieldRow label="Ketentuan Produk Pinjaman">
                 <Textarea
                   value={terms}
                   onChange={(e) => setTerms(e.target.value)}
@@ -660,11 +647,6 @@ export default function LoanProductEdit() {
                   onModeChange={setPropisiMode}
                   value={propisi}
                   onValueChange={setPropisi}
-                  hint={
-                    propisiMode === "rp"
-                      ? "Masukkan nominal (Rp)."
-                      : "Masukkan persentase (%)."
-                  }
                 />
               </FieldRow>
 
@@ -674,11 +656,6 @@ export default function LoanProductEdit() {
                   onModeChange={setAdminMode}
                   value={admin}
                   onValueChange={setAdmin}
-                  hint={
-                    adminMode === "rp"
-                      ? "Masukkan nominal (Rp)."
-                      : "Masukkan persentase (%)."
-                  }
                 />
               </FieldRow>
 
