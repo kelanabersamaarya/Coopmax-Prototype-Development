@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ChevronLeft, Info, Plus, Save, X, HelpCircle } from "lucide-react";
+import { Info, Plus, Save, X, HelpCircle } from "lucide-react";
 import { createLoanProduct, BillingScheme } from "@/lib/loanProductsStore";
 import PenaltyRateField, {
   type PenaltyRateMode,
@@ -232,37 +232,20 @@ export default function LoanProductCreate() {
       <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
-            <Button
-              asChild
-              variant="ghost"
-              className="-ml-3 w-fit rounded-full text-slate-700 hover:bg-white/60"
-            >
-              <Link to="/loan-products">
-                <ChevronLeft className="mr-2 h-4 w-4" /> Kembali
-              </Link>
-            </Button>
-
             <div className="mt-2 flex items-baseline gap-3">
               <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
                 Produk Pinjaman
               </h1>
-              <div className="text-sm font-semibold text-slate-500">Tambah</div>
             </div>
-
-            <p className="mt-1 max-w-3xl text-sm text-slate-600">
-              Lengkapi konfigurasi produk pinjaman seperti pada halaman Ubah.
-            </p>
           </div>
         </div>
 
         <div className="mt-6 grid gap-4">
-          {/* Single main card layout (match Edit page) */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
             <div className="text-[20px] font-semibold text-slate-900">
               Konfigurasi Produk Pinjaman
             </div>
 
-            {/* ===== Konfigurasi Dasar ===== */}
             <div className="mt-5 grid gap-5">
               <div className="text-sm font-extrabold tracking-tight text-slate-900">
                 Konfigurasi Dasar
@@ -417,7 +400,6 @@ export default function LoanProductCreate() {
               </FieldRow>
             </div>
 
-            {/* ===== Advanced/Fees ===== */}
             <div className="mt-6 grid gap-5">
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
@@ -552,7 +534,6 @@ export default function LoanProductCreate() {
               </FieldRow>
             </div>
 
-            {/* ===== COA ===== */}
             <div className="mt-6 grid gap-5">
               <FieldRow label="KP Pinjaman">
                 <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
@@ -662,7 +643,6 @@ export default function LoanProductCreate() {
               </FieldRow>
             </div>
 
-            {/* ===== Fee Kolektor ===== */}
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -743,7 +723,6 @@ export default function LoanProductCreate() {
               )}
             </div>
 
-            {/* ===== Konfigurasi Tagihan Angsuran ===== */}
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="text-base font-semibold text-slate-900">
@@ -929,7 +908,6 @@ export default function LoanProductCreate() {
               ) : null}
             </div>
 
-            {/* Footer actions (match Edit style) */}
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
