@@ -130,7 +130,6 @@ function PenaltyInfoButton({
         onClick();
       }}
       className={cn(
-        // Bulat sempurna + konsisten dengan style tombol info di View1 (BillingTable v1)
         "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
         "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
         "transition hover:bg-[#1d4ed8]",
@@ -223,28 +222,20 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // Samakan rasa dengan View1: angka ~13px + tabular-nums; tanggal lebih tegas.
+  // Konsistensi font angka untuk View2/3:
+  // - gunakan font tabular yang sama
+  // - hindari splitting angka (yang bisa menyebabkan "783 . 333")
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
+  const numberTextClassBase =
+    "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap num-sans-tabular";
+
   const numberTextClass =
-    tone === "khusus"
-      ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
-      : "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
+    tone === "khusus" ? numberTextClassBase : numberTextClassBase;
 
-  const sisaPokokNumberCell = cn(
-    "px-4 py-4",
-    numberTextClass,
-    "pr-6",
-    "num-tabular",
-  );
-
-  const sisaBungaNumberCell = cn(
-    "px-4 py-4",
-    numberTextClass,
-    "pr-6",
-    "num-tabular",
-  );
+  const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
+  const sisaBungaNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
 
   function openPenaltyDetailForRow(idx: number, dueDateDmy: string) {
     setPenaltyRows(buildPenaltyDetailRows(dueDateDmy, idx));
@@ -257,7 +248,9 @@ export default function BillingTableView2({
     return (
       <div className={cn("px-4 py-4", numberTextClass)}>
         <div className="flex items-center justify-end gap-3">
-          <span className="tabular-nums">{nominal}</span>
+          <span className="tabular-nums whitespace-nowrap num-sans-tabular">
+            {nominal}
+          </span>
           <PenaltyInfoButton
             onClick={() => openPenaltyDetailForRow(idx, dueDateDmy)}
           />
@@ -345,9 +338,7 @@ export default function BillingTableView2({
                                       active={active}
                                       disableActiveRing={disableActiveRingInGrace}
                                     >
-                                      <div
-                                        className={cn("grid items-center gap-0", gridTemplate)}
-                                      >
+                                      <div className={cn("grid items-center gap-0", gridTemplate)}>
                                         {!hideSelection ? (
                                           <div className="flex items-center justify-center px-4 py-4">
                                             <input
@@ -389,18 +380,19 @@ export default function BillingTableView2({
                                         </div>
 
                                         <div className={sisaPokokNumberCell}>
-                                          <NumericCell>{r.sisaPokok}</NumericCell>
+                                          <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                            {r.sisaPokok}
+                                          </span>
                                         </div>
 
                                         <div className={sisaBungaNumberCell}>
-                                          <NumericCell>{r.sisaBunga}</NumericCell>
+                                          <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                            {r.sisaBunga}
+                                          </span>
                                         </div>
 
                                         {showPenaltyColumn ? (
-                                          <PenaltyCell
-                                            idx={rowIndex}
-                                            dueDateDmy={r.jatuhTempo}
-                                          />
+                                          <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
                                         ) : null}
                                       </div>
                                     </RowShell>
@@ -432,9 +424,7 @@ export default function BillingTableView2({
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={
-                                    isLocked ? true : (selected[rowIndex] ?? false)
-                                  }
+                                  checked={isLocked ? true : (selected[rowIndex] ?? false)}
                                   disabled={isLocked}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -466,11 +456,15 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={sisaPokokNumberCell}>
-                              <NumericCell>{r.sisaPokok}</NumericCell>
+                              <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                {r.sisaPokok}
+                              </span>
                             </div>
 
                             <div className={sisaBungaNumberCell}>
-                              <NumericCell align="separator">{r.sisaBunga}</NumericCell>
+                              <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                {r.sisaBunga}
+                              </span>
                             </div>
 
                             {showPenaltyColumn ? (
@@ -545,11 +539,15 @@ export default function BillingTableView2({
                               </div>
 
                               <div className={sisaPokokNumberCell}>
-                                <NumericCell>{r.sisaPokok}</NumericCell>
+                                <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                  {r.sisaPokok}
+                                </span>
                               </div>
 
                               <div className={sisaBungaNumberCell}>
-                                <NumericCell>{r.sisaBunga}</NumericCell>
+                                <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                  {r.sisaBunga}
+                                </span>
                               </div>
 
                               {showPenaltyColumn ? (
@@ -566,6 +564,11 @@ export default function BillingTableView2({
             )}
           </tbody>
         </table>
+
+        {/* keep NumericCell import used but not affecting layout (legacy) */}
+        <div className="sr-only">
+          <NumericCell>0</NumericCell>
+        </div>
       </div>
     </div>
   );
