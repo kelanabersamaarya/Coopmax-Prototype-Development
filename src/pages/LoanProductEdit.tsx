@@ -120,6 +120,43 @@ function AmountModeInput({
   );
 }
 
+function SectionHeader({
+  icon: Icon,
+  title,
+  subtitle,
+  accent = "violet",
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  subtitle: string;
+  accent?: "violet" | "sky";
+}) {
+  const accentMap: Record<string, { bg: string; ring: string; text: string }> = {
+    violet: {
+      bg: "bg-violet-100",
+      ring: "ring-violet-200",
+      text: "text-violet-700",
+    },
+    sky: { bg: "bg-sky-100", ring: "ring-sky-200", text: "text-sky-700" },
+  };
+
+  const a = accentMap[accent];
+
+  return (
+    <div className="flex items-center gap-2">
+      <span
+        className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ${a.bg} ${a.ring} ${a.text}`}
+      >
+        <Icon className="h-5 w-5" />
+      </span>
+      <div>
+        <div className="text-base font-semibold text-slate-900">{title}</div>
+        <div className="text-xs text-slate-500">{subtitle}</div>
+      </div>
+    </div>
+  );
+}
+
 export default function LoanProductEdit() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -246,25 +283,23 @@ export default function LoanProductEdit() {
         </div>
 
         <div className="mt-6 grid gap-4">
-          {/* KONFIGURASI DASAR */}
+          {/* GABUNG: KONFIGURASI DASAR + PARAMETER LANJUTAN & BIAYA + COA */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-100 text-violet-700 ring-1 ring-violet-200">
-                <Settings2 className="h-5 w-5" />
-              </span>
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Konfigurasi Dasar Produk Pinjaman
-                </div>
-                <div className="text-xs text-slate-500">
-                  Urutan mengikuti screenshot yang Anda kirim.
-                </div>
-              </div>
-            </div>
+            <SectionHeader
+              icon={Settings2}
+              title="Konfigurasi Produk Pinjaman"
+              subtitle="Konfigurasi dasar, parameter lanjutan, biaya, dan COA."
+              accent="violet"
+            />
 
             <Separator className="my-5 bg-slate-200/70" />
 
+            {/* === KONFIGURASI DASAR === */}
             <div className="grid gap-5">
+              <div className="text-sm font-extrabold tracking-tight text-slate-900">
+                Konfigurasi Dasar
+              </div>
+
               <FieldRow label="Kode">
                 <Input
                   value={code}
@@ -428,27 +463,20 @@ export default function LoanProductEdit() {
                 />
               </FieldRow>
             </div>
-          </Card>
 
-          {/* PARAMETER LANJUTAN & BIAYA */}
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 ring-1 ring-sky-200">
-                <SlidersHorizontal className="h-5 w-5" />
-              </span>
-              <div>
-                <div className="text-base font-semibold text-slate-900">
+            <Separator className="my-6 bg-slate-200/70" />
+
+            {/* === PARAMETER LANJUTAN & BIAYA === */}
+            <div className="grid gap-5">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 ring-1 ring-sky-200">
+                  <SlidersHorizontal className="h-4.5 w-4.5" />
+                </span>
+                <div className="text-sm font-extrabold tracking-tight text-slate-900">
                   Parameter Lanjutan & Biaya
                 </div>
-                <div className="text-xs text-slate-500">
-                  Toggle dan biaya lain-lain.
-                </div>
               </div>
-            </div>
 
-            <Separator className="my-5 bg-slate-200/70" />
-
-            <div className="grid gap-5">
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
@@ -535,54 +563,51 @@ export default function LoanProductEdit() {
                 </div>
               </FieldRow>
 
-              {/* UBAH: Propisi/Administrasi konsisten: label di kiri */}
-              <div className="grid gap-5">
-                <FieldRow label="Propisi">
-                  <AmountModeInput
-                    mode={propisiMode}
-                    onModeChange={setPropisiMode}
-                    value={propisi}
-                    onValueChange={setPropisi}
-                    hint={
-                      propisiMode === "rp"
-                        ? "Masukkan nominal (Rp)."
-                        : "Masukkan persentase (%)."
-                    }
-                  />
-                </FieldRow>
+              <FieldRow label="Propisi">
+                <AmountModeInput
+                  mode={propisiMode}
+                  onModeChange={setPropisiMode}
+                  value={propisi}
+                  onValueChange={setPropisi}
+                  hint={
+                    propisiMode === "rp"
+                      ? "Masukkan nominal (Rp)."
+                      : "Masukkan persentase (%)."
+                  }
+                />
+              </FieldRow>
 
-                <FieldRow label="Administrasi">
-                  <AmountModeInput
-                    mode={adminMode}
-                    onModeChange={setAdminMode}
-                    value={admin}
-                    onValueChange={setAdmin}
-                    hint={
-                      adminMode === "rp"
-                        ? "Masukkan nominal (Rp)."
-                        : "Masukkan persentase (%)."
-                    }
-                  />
-                </FieldRow>
+              <FieldRow label="Administrasi">
+                <AmountModeInput
+                  mode={adminMode}
+                  onModeChange={setAdminMode}
+                  value={admin}
+                  onValueChange={setAdmin}
+                  hint={
+                    adminMode === "rp"
+                      ? "Masukkan nominal (Rp)."
+                      : "Masukkan persentase (%)."
+                  }
+                />
+              </FieldRow>
 
-                <FieldRow label="Biaya Asuransi">
-                  <Input
-                    value={insurance}
-                    onChange={(e) => setInsurance(e.target.value)}
-                    className="h-11 rounded-2xl border-slate-200 bg-white"
-                    inputMode="decimal"
-                  />
-                </FieldRow>
+              <FieldRow label="Biaya Asuransi">
+                <Input
+                  value={insurance}
+                  onChange={(e) => setInsurance(e.target.value)}
+                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  inputMode="decimal"
+                />
+              </FieldRow>
 
-                <FieldRow label="Biaya Aktivasi M-Banking">
-                  <Input
-                    value={mbankingActivation}
-                    onChange={(e) => setMbankingActivation(e.target.value)}
-                    className="h-11 rounded-2xl border-slate-200 bg-white"
-                    inputMode="decimal"
-                  />
-                </FieldRow>
-              </div>
+              <FieldRow label="Biaya Aktivasi M-Banking">
+                <Input
+                  value={mbankingActivation}
+                  onChange={(e) => setMbankingActivation(e.target.value)}
+                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  inputMode="decimal"
+                />
+              </FieldRow>
 
               <FieldRow label="Tanpa Agunan">
                 <div className="flex items-center gap-3">
@@ -614,32 +639,22 @@ export default function LoanProductEdit() {
                 </div>
               </FieldRow>
             </div>
-          </Card>
 
-          {/* PENGATURAN COA */}
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-base font-semibold text-slate-900">
+            <Separator className="my-6 bg-slate-200/70" />
+
+            {/* === PENGATURAN COA === */}
+            <div className="grid gap-5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-sm font-extrabold tracking-tight text-slate-900">
                   Pengaturan COA (Prototype)
                 </div>
-                <div className="text-xs text-slate-500">
-                  Daftar COA disederhanakan untuk mock UI.
+                <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
+                  <Info className="h-3.5 w-3.5" /> Read-only mapping
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
-                <Info className="h-3.5 w-3.5" /> Read-only mapping
-              </div>
-            </div>
 
-            <Separator className="my-5 bg-slate-200/70" />
-
-            <div className="grid gap-5">
               <FieldRow label="KP Pinjaman">
-                <Select
-                  value={coaLoan}
-                  onValueChange={(v) => setCoaLoan(v as CoaOption)}
-                >
+                <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
                     <SelectValue placeholder="Pilih CoA Pinjaman" />
                   </SelectTrigger>
@@ -740,6 +755,26 @@ export default function LoanProductEdit() {
                   </SelectContent>
                 </Select>
               </FieldRow>
+            </div>
+
+            <Separator className="my-6 bg-slate-200/70" />
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+              <Button
+                variant="outline"
+                className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
+                onClick={() => navigate("/loan-products")}
+              >
+                <X className="mr-2 h-4 w-4" />
+                Batalkan
+              </Button>
+              <Button
+                onClick={save}
+                className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
+              >
+                <Save className="mr-2 h-4 w-4" />
+                Simpan
+              </Button>
             </div>
           </Card>
 
