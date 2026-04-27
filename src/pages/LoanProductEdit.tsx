@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ChevronLeft, Info, Plus, Trash2 } from "lucide-react";
+import { Info, Plus, Trash2 } from "lucide-react";
 import { BillingScheme } from "@/lib/loanProductsStore";
 import PenaltyRateField, {
   type PenaltyRateMode,
@@ -384,26 +384,12 @@ export default function LoanProductEdit() {
       <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
-            <Button
-              asChild
-              variant="ghost"
-              className="-ml-3 w-fit rounded-full text-slate-700 hover:bg-white/60"
-            >
-              <Link to="/loan-products">
-                <ChevronLeft className="mr-2 h-4 w-4" /> Kembali
-              </Link>
-            </Button>
-
             <div className="mt-2 flex items-baseline gap-3">
               <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
                 Produk Pinjaman
               </h1>
               <div className="text-sm font-semibold text-slate-500">Ubah</div>
             </div>
-            <p className="mt-1 max-w-3xl text-sm text-slate-600">
-              Sesuaikan konfigurasi produk pinjaman. (Saat ini UI prototype,
-              belum terhubung ke penyimpanan permanen.)
-            </p>
 
             <div className="sr-only">{id}</div>
           </div>
