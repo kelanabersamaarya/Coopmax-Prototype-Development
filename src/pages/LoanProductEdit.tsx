@@ -688,10 +688,9 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
-            {/* divider saja (sesuai permintaan) */}
             <Separator className="my-6 bg-slate-200/70" />
 
-            {/* KONFIGURASI FEE KOLEKTOR (di dalam card utama) */}
+            {/* KONFIGURASI FEE KOLEKTOR (tanpa placeholder kosong) */}
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-base font-semibold text-slate-900">
                 Konfigurasi Fee Kolektor
@@ -706,11 +705,7 @@ export default function LoanProductEdit() {
             </div>
 
             <div className="mt-4">
-              {collectorFees.length === 0 ? (
-                <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
-                  Belum ada fee kolektor.
-                </div>
-              ) : (
+              {collectorFees.length > 0 ? (
                 <div className="grid gap-3">
                   {collectorFees.map((f, idx) => (
                     <div
@@ -767,10 +762,9 @@ export default function LoanProductEdit() {
                     </div>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
 
-            {/* divider saja (sesuai permintaan) */}
             <Separator className="my-6 bg-slate-200/70" />
 
             {/* KONFIGURASI TAGIHAN ANGSURAN (di dalam card utama) */}
@@ -852,7 +846,6 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
-            {/* CTA page (tetap ada, bukan di dalam section Konfigurasi Produk Pinjaman sebelumnya) */}
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
