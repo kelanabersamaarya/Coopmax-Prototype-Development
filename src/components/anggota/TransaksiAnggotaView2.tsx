@@ -138,14 +138,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
+  // Khusus harus hanya 1 tagihan (seperti reguler)
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
-    : isPelunasan
-      ? upcomingRows
-      : showAllRows
+    : isKhusus
+      ? [currentBill]
+      : isPelunasan
         ? upcomingRows
-        : isKhusus
-          ? [currentBill]
+        : showAllRows
+          ? upcomingRows
           : [currentBill];
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
@@ -209,7 +210,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [penurunanBakiDebetPokokTotal]);
 
   const showGraceInfo = true;
-  const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
+
+  // IMPORTANT: untuk Khusus, matikan showGraceHighlight agar BillingTable (v1)
+  // tidak menambahkan extraOutsideRows sehingga hanya tampil 1 tagihan.
+  const highlightGraceBlock = isReguler || isPenurunanPlafon;
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
@@ -380,7 +384,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   selected={selected}
                   setSelected={setSelected}
                   isPelunasan={false}
-                  showGraceHighlight={true}
+                  showGraceHighlight={false}
                   hideInterestCols={false}
                   className="mt-0"
                 />
