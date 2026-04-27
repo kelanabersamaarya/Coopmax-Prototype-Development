@@ -33,9 +33,6 @@ import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
-import BillingTable, {
-  type BillingRow as BillingRowV1,
-} from "@/components/anggota/BillingTable";
 import {
   calcPenaltyTotal,
   formatIdrLike,
@@ -136,6 +133,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
+  // === PERMINTAAN: Reguler & Khusus (View 2) hanya tampil 1 tagihan ===
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
     : isKhusus
@@ -151,12 +149,13 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Reguler & Khusus: tampil seperti screenshot => checkbox "locked" dan tercentang
+    // Reguler & Khusus: tampil seperti View 1 (locked + tercentang)
     if (isReguler || isKhusus) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
 
+    // Pelunasan & mode tabel penuh: default tercentang semua
     if (isPelunasan || showAllRows) {
       setSelected(rowsToShow.map(() => true));
       return;
@@ -209,9 +208,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return formatIdrLike(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
 
-  const showGraceInfo = true;
-  const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
-
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
 
@@ -236,9 +232,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     };
   }, [isPelunasan, rowsToShow]);
 
-  const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
-
-  const useTableLikeScreenshotForPenurunanBakiDebet = isPenurunanBakiDebet;
+  // === Layout rules (View2 disamakan dengan View1) ===
+  const usePenaltyColumn =
+    isPenurunanBakiDebet ? false : true; // khusus baki debet: tidak ada kolom denda
+  const penaltyLimit = 3;
 
   return (
     <div className="w-full px-0">
@@ -340,67 +337,21 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {isReguler ? (
-                <BillingTableView2
-                  rows={rowsToShow}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={true}
-                  showNextBillInfo={true}
-                  showGraceInfo={true}
-                  highlightGraceBlock={true}
-                  hideSelection={false}
-                  showPenaltyColumn={true}
-                  disableRowActiveRing={true}
-                />
-              ) : isKhusus ? (
-                <BillingTableView2
-                  rows={rowsToShow}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={true}
-                  showNextBillInfo={true}
-                  showGraceInfo={true}
-                  highlightGraceBlock={true}
-                  hideSelection={false}
-                  showPenaltyColumn={true}
-                  disableRowActiveRing={true}
-                />
-              ) : isPelunasan ? (
-                <BillingTable
-                  rows={rowsToShowV1}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isPelunasan={true}
-                  showGraceHighlight={true}
-                  hideInterestCols={false}
-                  showPenaltyColumn={true}
-                  className="mt-0"
-                />
-              ) : useTableLikeScreenshotForPenurunanBakiDebet ? (
-                <BillingTable
-                  rows={rowsToShowV1}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isPelunasan={false}
-                  showGraceHighlight={true}
-                  hideInterestCols={false}
-                  hideSelection={true}
-                  className="mt-0"
-                />
-              ) : (
-                <BillingTableView2
-                  rows={rowsToShow}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={isPelunasan}
-                  showNextBillInfo={true}
-                  showGraceInfo={showGraceInfo}
-                  highlightGraceBlock={highlightGraceBlock}
-                  hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
-                  showPenaltyColumn={false}
-                />
-              )}
+              {/* View2 disamakan: pakai BillingTableView2 untuk semua mode utama */}
+              <BillingTableView2
+                rows={rowsToShow}
+                selected={selected}
+                setSelected={setSelected}
+                isLocked={isReguler || isKhusus || isPelunasan}
+                showNextBillInfo={false}
+                showGraceInfo={true}
+                highlightGraceBlock={true}
+                hideSelection={false}
+                showPenaltyColumn={usePenaltyColumn}
+                penaltyDisplayLimit={usePenaltyColumn ? penaltyLimit : undefined}
+                disableRowRings
+                className="mt-0"
+              />
 
               <div className="sr-only">
                 <Info />
