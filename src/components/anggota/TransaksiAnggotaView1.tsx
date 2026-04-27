@@ -387,8 +387,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
+          {/* LAYOUT RAPi: samakan rasa seperti View2 (grid + spacing + panel kanan) */}
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
-            <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
+            {/* LEFT: Billing */}
+            <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
               </div>
@@ -411,6 +413,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 />
               </div>
 
+              {/* Pagination/footer: dibuat rapi & konsisten */}
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
                   Menampilkan {showingStart} sampai {showingEnd} dari{" "}
@@ -431,6 +434,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </div>
             </Card>
 
+            {/* RIGHT: Summary + Form (sejajar & konsisten) */}
             <div className="space-y-4 px-1">
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
