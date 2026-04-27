@@ -15,18 +15,18 @@ export default function GracePeriodInfoRow({
     <tr className={cn(noBorder ? "" : "border-t border-slate-200")}>
       <td colSpan={colSpan} className="px-1 py-2.5">
         {/* Spacer putih agar border luar dan border info tidak terlihat menempel */}
-        <div className="bg-white px-2 py-2">
+        <div className={cn("bg-white", noBorder ? "px-4 py-3" : "px-3 py-2.5")}>
           <div
             className={cn(
-              "rounded-xl px-3 py-2 text-xs text-slate-800",
+              "rounded-2xl px-5 py-3 text-xs text-slate-800",
               noBorder ? "bg-blue-50" : "border border-blue-200 bg-blue-50",
             )}
           >
-            <div className="flex items-start gap-2">
-              <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
                 <Info className="h-4 w-4" />
               </span>
-              <div>
+              <div className="min-w-0">
                 <div className="font-semibold">Periode Grace Period</div>
                 <div className="mt-0.5 text-slate-700">
                   Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
