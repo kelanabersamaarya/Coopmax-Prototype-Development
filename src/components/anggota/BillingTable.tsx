@@ -1,3 +1,4 @@
+px-3, tanggal pl-2 pr-3) agar tabel lebih rapat.">
 "use client";
 
 import * as React from "react";
@@ -240,11 +241,12 @@ export default function BillingTable({
   }
 
   // === Style tokens ===
+  // UBAH: padding kolom diperkecil agar gap antar kolom lebih rapat
   const thBase =
-    "px-4 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+    "px-3 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
-    "px-4 py-4 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
-  const tdBase = "px-4 py-4 text-[14px] text-slate-900";
+    "px-3 py-4 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+  const tdBase = "px-3 py-4 text-[14px] text-slate-900";
   const tdNum = cn(
     tdBase,
     "text-right whitespace-nowrap",
@@ -256,10 +258,11 @@ export default function BillingTable({
   const checkboxColW = "w-[48px]";
   const checkboxCell = cn(tdBase, "px-3 text-center");
 
-  const thDate = cn(thBase, "pl-2 pr-4");
+  // tanggal tetap sedikit lebih rapat dari default
+  const thDate = cn(thBase, "pl-2 pr-3");
   const tdDate = cn(
     tdBase,
-    "pl-2 pr-4",
+    "pl-2 pr-3",
     "font-semibold tabular-nums whitespace-nowrap",
   );
 
@@ -280,7 +283,6 @@ export default function BillingTable({
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
 
-  // UBAH: angka denda agak ditarik ke kiri (padding kanan dikurangi)
   const penaltyTd = cn(tdNum, "pr-2");
   const penaltyTdEmpty = cn(tdNum, "pr-2");
 
