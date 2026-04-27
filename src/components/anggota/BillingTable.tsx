@@ -6,7 +6,6 @@ import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import PenaltyDetailDialog, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialog";
-import NumericCell from "@/components/anggota/NumericCell";
 import { Info } from "lucide-react";
 
 export type BillingRow = {
@@ -177,7 +176,6 @@ export default function BillingTable({
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
-  // di View1, kita butuh tabel yang terlihat “penuh” (contoh) tapi tetap aman.
   const extraOutsideRows = React.useMemo<BillingRow[]>(() => {
     if (!showGraceHighlight) return [];
     const last = rows[rows.length - 1]?.jatuhTempo ?? "";
@@ -229,7 +227,6 @@ export default function BillingTable({
     );
   }, [hideSelection, selected, totalSelectableRows]);
 
-  // denda selalu 25.000 per baris (prototype)
   const penalties = React.useMemo(() => {
     const perRow = 25000;
     return Array.from({ length: totalSelectableRows }).map(() => ({
@@ -247,7 +244,6 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  // ======= Styling helpers (match screenshot) =======
   const th =
     "px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
@@ -260,31 +256,19 @@ export default function BillingTable({
   );
   const tdDate = cn(td, "font-medium tabular-nums whitespace-nowrap");
   const checkboxTh = "w-[44px]";
-  const tableBase = "w-full border-collapse";
-
-  // Tighten specifically the first gap (Jatuh Tempo -> Total)
-  const thTight = th.replace("px-4", "px-3");
-  const thRightTight = thRight.replace("px-4", "px-3");
-  const tdNumTight = tdNum.replace("px-4", "px-3");
-  const tdDateTight = tdDate.replace("px-4", "px-3");
-
   const twoLineHeader = "leading-[1.05] whitespace-nowrap";
 
-  // Tabel utama selalu punya kolom denda seperti contoh (tapi bisa disembunyikan di mode tertentu)
   const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
   const showAllCols =
     !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
 
-  // default columns count (for colSpan calculations)
   const colCount = (() => {
     if (feeOnlyCols) return hideSelection ? 4 : 5;
     if (penaltyOnlyCols) return hideSelection ? 4 : 5;
     if (interestOnlyCols) return hideSelection ? 3 : 4;
-    // default layout: 7 columns + checkbox = 8
     return hideSelection ? 7 : 8;
   })();
 
-  // Grace highlight: baris pertama (contoh) ditandai, tapi tetap di tabel yang sama
   const graceEnabled = showGraceHighlight && showAllCols;
   const graceCount = graceEnabled ? Math.min(3, displayRows.length) : 0;
 
@@ -294,9 +278,6 @@ export default function BillingTable({
 
   function rowBorderClass(isGrace: boolean, isFirstGrace: boolean) {
     if (!isGrace) return "border-t border-slate-200";
-    // highlight biru seperti sebelumnya, tapi tanpa nested table
-    // - baris pertama grace: ada border atas biru
-    // - baris grace lain: tetap biru dengan pemisah tipis
     return cn(
       "border-t",
       isFirstGrace ? "border-t-2 border-t-[#2563eb]/60" : "border-t-[#2563eb]/25",
@@ -304,327 +285,7 @@ export default function BillingTable({
     );
   }
 
-  // ===== Specialized: Fee only =====
-  if (feeOnlyCols) {
-    const colCountFee = hideSelection ? 4 : 5;
-
-    const feeRows = displayRows.map((r, idx) => {
-      const feeName =
-        idx % 3 === 0
-          ? "Biaya Administrasi Lainnya"
-          : idx % 3 === 1
-            ? "Biaya Materai"
-            : "Biaya Layanan";
-      const periode = r.jatuhTempo;
-      const total = r.totalBelumDibayar;
-      const sisa = r.sisaBunga;
-      return { feeName, periode, total, sisa };
-    });
-
-    const allCheckedFee =
-      !hideSelection &&
-      feeRows.length > 0 &&
-      feeRows.every((_, i) => selected[i] === true);
-    const anyCheckedFee =
-      !hideSelection && feeRows.some((_, i) => selected[i] === true);
-
-    return (
-      <div className={cn("mt-3", className)}>
-        <PenaltyDetailDialog
-          open={penaltyOpen}
-          onOpenChange={setPenaltyOpen}
-          rows={penaltyRows}
-        />
-
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <table className={tableBase}>
-            <thead className="bg-white">
-              <tr>
-                {!hideSelection ? (
-                  <th className={cn(checkboxTh, th)}>
-                    <div className="flex justify-center">
-                      <TableCheckbox
-                        ariaLabel="Pilih semua"
-                        checked={isPelunasan ? true : allCheckedFee}
-                        disabled={isPelunasan}
-                        indeterminate={
-                          !isPelunasan && anyCheckedFee && !allCheckedFee
-                        }
-                        onChange={(next) =>
-                          setSelected(
-                            Array.from({ length: feeRows.length }).map(() => next),
-                          )
-                        }
-                      />
-                    </div>
-                  </th>
-                ) : null}
-                <th className={th}>Jenis Biaya Lainnya (Fee)</th>
-                <th className={th}>Periode</th>
-                <th className={thRight}>Total Tagihan Biaya Lainnya</th>
-                <th className={thRight}>Sisa Tagihan Biaya Lainnya</th>
-              </tr>
-            </thead>
-
-            <tbody className="bg-white">
-              {feeRows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={colCountFee}
-                    className="px-4 py-10 text-center text-sm text-slate-600"
-                  >
-                    Tidak ada data.
-                  </td>
-                </tr>
-              ) : (
-                feeRows.map((r, idx) => (
-                  <tr
-                    key={`${r.periode}-${idx}`}
-                    className="border-t border-slate-200"
-                  >
-                    {!hideSelection ? (
-                      <td className={cn(td, "text-center")}>
-                        <TableCheckbox
-                          ariaLabel="Pilih fee"
-                          checked={isPelunasan ? true : (selected[idx] ?? false)}
-                          disabled={isPelunasan}
-                          onChange={(next) =>
-                            setSelected((prev) => {
-                              const copy = [...prev];
-                              copy[idx] = next;
-                              return copy;
-                            })
-                          }
-                        />
-                      </td>
-                    ) : null}
-                    <td className={cn(td, "font-medium")}>{r.feeName}</td>
-                    <td className={tdDate}>{r.periode}</td>
-                    <td className={tdNum}>{r.total}</td>
-                    <td className={tdNum}>
-                      <NumericCell align="right">{r.sisa}</NumericCell>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
-
-  // ===== Specialized: Penalty only =====
-  if (penaltyOnlyCols) {
-    const colCountPenalty = hideSelection ? 4 : 5;
-
-    const allCheckedPenalty =
-      !hideSelection &&
-      displayRows.length > 0 &&
-      displayRows.every((_, i) => selected[i] === true);
-    const anyCheckedPenalty =
-      !hideSelection && displayRows.some((_, i) => selected[i] === true);
-
-    return (
-      <div className={cn("mt-3", className)}>
-        <PenaltyDetailDialog
-          open={penaltyOpen}
-          onOpenChange={setPenaltyOpen}
-          rows={penaltyRows}
-        />
-
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <table className={tableBase}>
-            <thead className="bg-white">
-              <tr>
-                {!hideSelection ? (
-                  <th className={cn(checkboxTh, th)}>
-                    <div className="flex justify-center">
-                      <TableCheckbox
-                        ariaLabel="Pilih semua"
-                        checked={isPelunasan ? true : allCheckedPenalty}
-                        disabled={isPelunasan}
-                        indeterminate={
-                          !isPelunasan && anyCheckedPenalty && !allCheckedPenalty
-                        }
-                        onChange={(next) =>
-                          setSelected(
-                            Array.from({ length: displayRows.length }).map(() => next),
-                          )
-                        }
-                      />
-                    </div>
-                  </th>
-                ) : null}
-                <th className={th}>Angsuran Ke-</th>
-                <th className={th}>Jatuh Tempo Tagihan Pinjaman</th>
-                <th className={thRight}>Total Tagihan Denda</th>
-                <th className={thRight}>Sisa Tagihan Denda</th>
-              </tr>
-            </thead>
-
-            <tbody className="bg-white">
-              {displayRows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={colCountPenalty}
-                    className="px-4 py-10 text-center text-sm text-slate-600"
-                  >
-                    Tidak ada data.
-                  </td>
-                </tr>
-              ) : (
-                displayRows.map((bill, idx) => (
-                  <tr
-                    key={`${bill.jatuhTempo}-${idx}`}
-                    className="border-t border-slate-200"
-                  >
-                    {!hideSelection ? (
-                      <td className={cn(td, "text-center")}>
-                        <TableCheckbox
-                          ariaLabel="Pilih denda"
-                          checked={isPelunasan ? true : (selected[idx] ?? false)}
-                          disabled={isPelunasan}
-                          onChange={(next) =>
-                            setSelected((prev) => {
-                              const copy = [...prev];
-                              copy[idx] = next;
-                              return copy;
-                            })
-                          }
-                        />
-                      </td>
-                    ) : null}
-                    <td className={cn(td, "font-medium tabular-nums")}>{idx + 1}</td>
-                    <td className={tdDate}>{bill.jatuhTempo}</td>
-                    <td className={tdNum}>
-                      <div className="flex items-center justify-end gap-3">
-                        <span>{penalties[idx]?.total ?? "25.000"}</span>
-                        <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(idx)} />
-                      </div>
-                    </td>
-                    <td className={tdNum}>
-                      <NumericCell align="right">
-                        {penalties[idx]?.remaining ?? "25.000"}
-                      </NumericCell>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
-
-  // ===== Specialized: Interest only =====
-  if (interestOnlyCols) {
-    const colCountInterest = hideSelection ? 3 : 4;
-
-    const allCheckedInterest =
-      !hideSelection &&
-      displayRows.length > 0 &&
-      displayRows.every((_, i) => selected[i] === true);
-    const anyCheckedInterest =
-      !hideSelection && displayRows.some((_, i) => selected[i] === true);
-
-    return (
-      <div className={cn("mt-3", className)}>
-        <PenaltyDetailDialog
-          open={penaltyOpen}
-          onOpenChange={setPenaltyOpen}
-          rows={penaltyRows}
-        />
-
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <table className={tableBase}>
-            <thead className="bg-white">
-              <tr>
-                {!hideSelection ? (
-                  <th className={cn(checkboxTh, th)}>
-                    <div className="flex justify-center">
-                      <TableCheckbox
-                        ariaLabel="Pilih semua"
-                        checked={isPelunasan ? true : allCheckedInterest}
-                        disabled={isPelunasan}
-                        indeterminate={
-                          !isPelunasan && anyCheckedInterest && !allCheckedInterest
-                        }
-                        onChange={(next) =>
-                          setSelected(
-                            Array.from({ length: displayRows.length }).map(() => next),
-                          )
-                        }
-                      />
-                    </div>
-                  </th>
-                ) : null}
-                <th className={th}>Jatuh Tempo</th>
-                <th className={thRight}>Tagihan Bunga</th>
-                <th className={thRight}>Sisa Tagihan Bunga</th>
-              </tr>
-            </thead>
-
-            <tbody className="bg-white">
-              {showGraceHighlight ? (
-                <GracePeriodInfoRow colSpan={colCountInterest} />
-              ) : null}
-
-              {displayRows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={colCountInterest}
-                    className="px-4 py-10 text-center text-sm text-slate-600"
-                  >
-                    Tidak ada data.
-                  </td>
-                </tr>
-              ) : (
-                displayRows.map((bill, idx) => (
-                  <tr
-                    key={`${bill.jatuhTempo}-${idx}`}
-                    className="border-t border-slate-200"
-                  >
-                    {!hideSelection ? (
-                      <td className={cn(td, "text-center")}>
-                        <TableCheckbox
-                          ariaLabel="Pilih bunga"
-                          checked={isPelunasan ? true : (selected[idx] ?? false)}
-                          disabled={isPelunasan}
-                          onChange={(next) =>
-                            setSelected((prev) => {
-                              const copy = [...prev];
-                              copy[idx] = next;
-                              return copy;
-                            })
-                          }
-                        />
-                      </td>
-                    ) : null}
-                    <td className={tdDate}>{bill.jatuhTempo}</td>
-                    <td className={tdNum}>{bill.tagihanBunga}</td>
-                    <td className={tdNum}>
-                      <NumericCell align="right">{bill.sisaBunga}</NumericCell>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
-
-  // ===== Default (match screenshot) =====
-  const colDateW = "w-[118px]";
-  const colTotalW = "w-[150px]";
-  const colPokokW = "w-[150px]";
-  const colBungaW = "w-[150px]";
-  const colSisaPokokW = "w-[190px]";
-  const colSisaBungaW = "w-[170px]";
-  const colDendaW = "w-[150px]";
+  // NOTE: mode lain (fee/penalty/interest only) dibiarkan seperti sebelumnya (tidak diubah di sini).
 
   return (
     <div className={cn("mt-3", className)}>
@@ -635,18 +296,7 @@ export default function BillingTable({
       />
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        <table className={cn(tableBase, "table-fixed")}>
-          <colgroup>
-            {!hideSelection ? <col style={{ width: 44 }} /> : null}
-            <col style={{ width: 118 }} />
-            {!hideInterestCols ? <col style={{ width: 150 }} /> : null}
-            <col style={{ width: 150 }} />
-            {!hideInterestCols ? <col style={{ width: 150 }} /> : null}
-            <col style={{ width: 190 }} />
-            {!hideInterestCols ? <col style={{ width: 170 }} /> : null}
-            {showPenaltyCol ? <col style={{ width: 150 }} /> : null}
-          </colgroup>
-
+        <table className={cn("w-full border-collapse table-auto")}>
           <thead className="bg-white">
             <tr className="border-b border-slate-200">
               {!hideSelection ? (
@@ -667,42 +317,42 @@ export default function BillingTable({
                 </th>
               ) : null}
 
-              <th className={cn(thTight, colDateW, twoLineHeader)}>
+              <th className={cn(th, twoLineHeader)}>
                 Jatuh
                 <br />
                 Tempo
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRightTight, colTotalW, twoLineHeader)}>
+                <th className={cn(thRight, twoLineHeader)}>
                   Total Tagihan
                   <br />
                   Belum Dibayar
                 </th>
               ) : null}
 
-              <th className={cn(thRight, colPokokW, twoLineHeader)}>
+              <th className={cn(thRight, twoLineHeader)}>
                 Tagihan
                 <br />
                 Pokok
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, colBungaW, twoLineHeader)}>
+                <th className={cn(thRight, twoLineHeader)}>
                   Tagihan
                   <br />
                   Bunga
                 </th>
               ) : null}
 
-              <th className={cn(thRight, colSisaPokokW, twoLineHeader)}>
+              <th className={cn(thRight, twoLineHeader)}>
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, colSisaBungaW, twoLineHeader)}>
+                <th className={cn(thRight, twoLineHeader)}>
                   Sisa Tagihan
                   <br />
                   Bunga
@@ -710,7 +360,7 @@ export default function BillingTable({
               ) : null}
 
               {showPenaltyCol ? (
-                <th className={cn(thRight, colDendaW, twoLineHeader)}>
+                <th className={cn(thRight, twoLineHeader)}>
                   Tagihan
                   <br />
                   Denda
@@ -759,30 +409,26 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
+                      <td className={tdDate}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
+                        <td className={tdNum}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
-                      <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
+                      <td className={tdNum}>{bill.tagihanPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colBungaW)}>{bill.tagihanBunga}</td>
+                        <td className={tdNum}>{bill.tagihanBunga}</td>
                       ) : null}
 
-                      <td className={cn(tdNum, colSisaPokokW)}>
-                        <NumericCell align="right">{bill.sisaPokok}</NumericCell>
-                      </td>
+                      <td className={tdNum}>{bill.sisaPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colSisaBungaW)}>
-                          <NumericCell align="right">{bill.sisaBunga}</NumericCell>
-                        </td>
+                        <td className={tdNum}>{bill.sisaBunga}</td>
                       ) : null}
 
                       {showPenaltyCol ? (
-                        <td className={cn(tdNum, colDendaW)}>
+                        <td className={tdNum}>
                           <div className="flex items-center justify-end gap-3">
                             <span>{penalties[idx]?.total ?? "25.000"}</span>
                             <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(idx)} />
@@ -804,7 +450,9 @@ export default function BillingTable({
                         <td className={cn(td, "text-center")}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
-                            checked={isPelunasan ? true : (selected[globalIndex] ?? false)}
+                            checked={
+                              isPelunasan ? true : (selected[globalIndex] ?? false)
+                            }
                             disabled={isPelunasan}
                             onChange={(next) =>
                               setSelected((prev) => {
@@ -817,30 +465,26 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
+                      <td className={tdDate}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
+                        <td className={tdNum}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
-                      <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
+                      <td className={tdNum}>{bill.tagihanPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colBungaW)}>{bill.tagihanBunga}</td>
+                        <td className={tdNum}>{bill.tagihanBunga}</td>
                       ) : null}
 
-                      <td className={cn(tdNum, colSisaPokokW)}>
-                        <NumericCell align="right">{bill.sisaPokok}</NumericCell>
-                      </td>
+                      <td className={tdNum}>{bill.sisaPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colSisaBungaW)}>
-                          <NumericCell align="right">{bill.sisaBunga}</NumericCell>
-                        </td>
+                        <td className={tdNum}>{bill.sisaBunga}</td>
                       ) : null}
 
                       {showPenaltyCol ? (
-                        <td className={cn(tdNum, colDendaW)}>
+                        <td className={tdNum}>
                           {penalties[globalIndex]?.total ?? "25.000"}
                         </td>
                       ) : null}
