@@ -406,7 +406,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
 
-  const useBillingView2Layout = isReguler || isKhusus || isPelunasan;
+  const useBillingView2Layout =
+    isReguler || isKhusus || isPelunasan || isPenurunanBakiDebet;
 
   return (
     <div className="w-full px-0">
@@ -515,7 +516,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   showGraceInfo={true}
                   highlightGraceBlock={true}
                   hideSelection={false}
-                  showPenaltyColumn={true}
+                  showPenaltyColumn={isPenurunanBakiDebet ? false : true}
                   penaltyDisplayLimit={3}
                   disableRowRings
                   className="mt-0"
