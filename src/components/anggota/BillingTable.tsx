@@ -265,7 +265,9 @@ export default function BillingTable({
   })();
 
   const graceEnabled = showGraceHighlight && showAllCols;
-  const graceCount = graceEnabled ? Math.min(3, displayRows.length) : 0;
+
+  // FIX: kembalikan grace period hanya 2 baris (sesuai tampilan referensi)
+  const graceCount = graceEnabled ? Math.min(2, displayRows.length) : 0;
 
   function rowIsGrace(rowIndex: number) {
     return graceEnabled && rowIndex < graceCount;
