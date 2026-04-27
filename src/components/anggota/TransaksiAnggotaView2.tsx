@@ -137,9 +137,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // IMPORTANT:
-  // View2 & View3 harus tetap menampilkan 1 tagihan saja (current bill) untuk mode khusus,
-  // sama seperti sebelumnya.
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
     : isPelunasan
@@ -163,7 +160,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReguler, isPelunasan, showAllRows, rowsToShow.length]);
 
-  // Auto-isi form saat Pembayaran Khusus & checklist berubah
   React.useEffect(() => {
     if (!isKhusus) return;
     const t = calcKhususSelectedTotals(rowsToShow, selected);
@@ -331,7 +327,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_280px] xl:grid-cols-[minmax(0,1fr)_260px]">
             <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
