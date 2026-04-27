@@ -5,6 +5,9 @@ import { cn } from "@/lib/utils";
 import { Info } from "lucide-react";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
+import PenaltyDetailDialog, {
+  type PenaltyDetailRow,
+} from "@/components/anggota/PenaltyDetailDialog";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -57,6 +60,36 @@ function NextBillInfoBanner() {
   );
 }
 
+function formatDmy(d: Date) {
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(d.getFullYear());
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function addDays(base: Date, days: number) {
+  const d = new Date(base);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function parseDmyToDate(value: string): Date | undefined {
+  const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec((value ?? "").trim());
+  if (!m) return undefined;
+  const dd = Number(m[1]);
+  const mm = Number(m[2]);
+  const yyyy = Number(m[3]);
+  const d = new Date(yyyy, mm - 1, dd);
+  if (
+    d.getFullYear() !== yyyy ||
+    d.getMonth() !== mm - 1 ||
+    d.getDate() !== dd
+  ) {
+    return undefined;
+  }
+  return d;
+}
+
 function formatIdrLike(n: number) {
   const s = Math.round(n).toString();
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -65,6 +98,50 @@ function formatIdrLike(n: number) {
 function penaltyForIndex(idx: number) {
   const base = 25000;
   return base + idx * 5000;
+}
+
+function buildPenaltyDetailRows(dueDateDmy: string, idx: number) {
+  const due = parseDmyToDate(dueDateDmy) ?? new Date();
+  const days = 3;
+
+  // Samakan dengan nominal kolom utama (per row berdasarkan index)
+  const perDay = Math.round(penaltyForIndex(idx) / days);
+
+  const rows: PenaltyDetailRow[] = Array.from({ length: days }).map((_, i) => ({
+    tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
+    nominalDenda: formatIdrLike(perDay),
+  }));
+
+  return rows;
+}
+
+function PenaltyInfoButton({
+  onClick,
+  className,
+}: {
+  onClick: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
+      className={cn(
+        "inline-flex h-7 w-7 items-center justify-center rounded-full",
+        "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
+        "transition hover:bg-[#1d4ed8]",
+        className,
+      )}
+      aria-label="Rincian denda"
+      title="Rincian denda"
+    >
+      <Info className="h-4 w-4" />
+    </button>
+  );
 }
 
 export default function BillingTableView2({
@@ -94,6 +171,9 @@ export default function BillingTableView2({
   disableRowActiveRing?: boolean;
   className?: string;
 }) {
+  const [penaltyOpen, setPenaltyOpen] = React.useState(false);
+  const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
+
   const colCount = hideSelection
     ? showPenaltyColumn
       ? 7
@@ -164,15 +244,36 @@ export default function BillingTableView2({
     "num-tabular",
   );
 
-  function PenaltyCell({ idx }: { idx: number }) {
+  function openPenaltyDetailForRow(idx: number, dueDateDmy: string) {
+    setPenaltyRows(buildPenaltyDetailRows(dueDateDmy, idx));
+    setPenaltyOpen(true);
+  }
+
+  function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
     const nominal = formatIdrLike(penaltyForIndex(idx));
-    return <div className={cn("px-4 py-4", numberTextClass)}>{nominal}</div>;
+
+    return (
+      <div className={cn("px-4 py-4", numberTextClass)}>
+        <div className="flex items-center justify-end gap-3">
+          <span>{nominal}</span>
+          <PenaltyInfoButton
+            onClick={() => openPenaltyDetailForRow(idx, dueDateDmy)}
+          />
+        </div>
+      </div>
+    );
   }
 
   const disableActiveRingInGrace = disableRowActiveRing && graceRows.length > 0;
 
   return (
     <div className={cn("mt-3", className)}>
+      <PenaltyDetailDialog
+        open={penaltyOpen}
+        onOpenChange={setPenaltyOpen}
+        rows={penaltyRows}
+      />
+
       {showNextBillInfo ? <NextBillInfoBanner /> : null}
 
       <div
@@ -294,7 +395,10 @@ export default function BillingTableView2({
                                         </div>
 
                                         {showPenaltyColumn ? (
-                                          <PenaltyCell idx={rowIndex} />
+                                          <PenaltyCell
+                                            idx={rowIndex}
+                                            dueDateDmy={r.jatuhTempo}
+                                          />
                                         ) : null}
                                       </div>
                                     </RowShell>
@@ -367,7 +471,9 @@ export default function BillingTableView2({
                               <NumericCell align="separator">{r.sisaBunga}</NumericCell>
                             </div>
 
-                            {showPenaltyColumn ? <PenaltyCell idx={rowIndex} /> : null}
+                            {showPenaltyColumn ? (
+                              <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
+                            ) : null}
                           </div>
                         </RowShell>
                       </td>
@@ -441,7 +547,9 @@ export default function BillingTableView2({
                                 <NumericCell>{r.sisaBunga}</NumericCell>
                               </div>
 
-                              {showPenaltyColumn ? <PenaltyCell idx={idx} /> : null}
+                              {showPenaltyColumn ? (
+                                <PenaltyCell idx={idx} dueDateDmy={r.jatuhTempo} />
+                              ) : null}
                             </div>
                           </RowShell>
                         </td>
