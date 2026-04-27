@@ -353,6 +353,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   highlightGraceBlock={true}
                   hideSelection={false}
                   showPenaltyColumn={false}
+                  disableRowActiveRing={true}
                 />
               ) : isPelunasan ? (
                 <BillingTable

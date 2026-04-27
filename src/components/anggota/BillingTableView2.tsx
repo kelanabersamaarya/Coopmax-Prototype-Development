@@ -18,16 +18,18 @@ export type BillingRow = {
 function RowShell({
   children,
   active,
+  disableActiveRing = false,
 }: {
   children: React.ReactNode;
   active: boolean;
+  disableActiveRing?: boolean;
 }) {
   return (
     <div className="bg-white px-3 py-3">
       <div
         className={cn(
           "rounded-2xl bg-white",
-          active ? "ring-2 ring-slate-900/5" : "",
+          active && !disableActiveRing ? "ring-2 ring-slate-900/5" : "",
         )}
       >
         {children}
@@ -76,6 +78,7 @@ export default function BillingTableView2({
   hideSelection = false,
   showPenaltyColumn = false,
   tone = "default",
+  disableRowActiveRing = false,
   className,
 }: {
   rows: BillingRow[];
@@ -88,6 +91,7 @@ export default function BillingTableView2({
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
   tone?: "default" | "khusus";
+  disableRowActiveRing?: boolean;
   className?: string;
 }) {
   const colCount = hideSelection
@@ -146,7 +150,6 @@ export default function BillingTableView2({
       ? "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap"
       : "text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap";
 
-  // Paksa kolom sisa: full-width right + padding kanan konsisten (biar tidak “ngambang”)
   const sisaPokokNumberCell = cn(
     "px-4 py-4",
     numberTextClass,
@@ -165,6 +168,8 @@ export default function BillingTableView2({
     const nominal = formatIdrLike(penaltyForIndex(idx));
     return <div className={cn("px-4 py-4", numberTextClass)}>{nominal}</div>;
   }
+
+  const disableActiveRingInGrace = disableRowActiveRing && graceRows.length > 0;
 
   return (
     <div className={cn("mt-3", className)}>
@@ -233,12 +238,12 @@ export default function BillingTableView2({
                                   )}
                                 >
                                   <td colSpan={colCount} className="p-0">
-                                    <RowShell active={active}>
+                                    <RowShell
+                                      active={active}
+                                      disableActiveRing={disableActiveRingInGrace}
+                                    >
                                       <div
-                                        className={cn(
-                                          "grid items-center gap-0",
-                                          gridTemplate,
-                                        )}
+                                        className={cn("grid items-center gap-0", gridTemplate)}
                                       >
                                         {!hideSelection ? (
                                           <div className="flex items-center justify-center px-4 py-4">
@@ -264,27 +269,19 @@ export default function BillingTableView2({
                                           </div>
                                         ) : null}
 
-                                        <div
-                                          className={cn("px-4 py-4", dateTextClass)}
-                                        >
+                                        <div className={cn("px-4 py-4", dateTextClass)}>
                                           {r.jatuhTempo}
                                         </div>
 
-                                        <div
-                                          className={cn("px-4 py-4", numberTextClass)}
-                                        >
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.totalBelumDibayar}
                                         </div>
 
-                                        <div
-                                          className={cn("px-4 py-4", numberTextClass)}
-                                        >
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.tagihanPokok}
                                         </div>
 
-                                        <div
-                                          className={cn("px-4 py-4", numberTextClass)}
-                                        >
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
                                           {r.tagihanBunga}
                                         </div>
 
@@ -314,9 +311,7 @@ export default function BillingTableView2({
 
                 {afterGraceRows.map((r, idx) => {
                   const rowIndex = graceCount + idx;
-                  const active = hideSelection
-                    ? false
-                    : selected[rowIndex] === true;
+                  const active = hideSelection ? false : selected[rowIndex] === true;
 
                   return (
                     <tr
@@ -398,10 +393,7 @@ export default function BillingTableView2({
                     const active = hideSelection ? false : selected[idx] === true;
 
                     return (
-                      <tr
-                        key={`${r.jatuhTempo}-${idx}`}
-                        className="border-t border-slate-200"
-                      >
+                      <tr key={`${r.jatuhTempo}-${idx}`} className="border-t border-slate-200">
                         <td colSpan={colCount} className="p-0">
                           <RowShell active={active}>
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
