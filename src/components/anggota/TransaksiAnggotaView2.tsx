@@ -138,7 +138,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // Khusus harus hanya 1 tagihan (seperti reguler)
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
     : isKhusus
@@ -211,8 +210,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const showGraceInfo = true;
 
-  // IMPORTANT: untuk Khusus, matikan showGraceHighlight agar BillingTable (v1)
-  // tidak menambahkan extraOutsideRows sehingga hanya tampil 1 tagihan.
   const highlightGraceBlock = isReguler || isPenurunanPlafon;
 
   const pelunasanTotals = React.useMemo(() => {
@@ -385,7 +382,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   setSelected={setSelected}
                   isPelunasan={false}
                   showGraceHighlight={false}
+                  forceGraceInfo={true}
                   hideInterestCols={false}
+                  showPenaltyColumn={true}
                   className="mt-0"
                 />
               ) : (

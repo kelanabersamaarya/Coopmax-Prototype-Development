@@ -156,6 +156,7 @@ export default function BillingTable({
   feeOnlyCols = false,
   hideSelection = false,
   showPenaltyColumn = false,
+  forceGraceInfo = false,
   className,
 }: {
   rows: BillingRow[];
@@ -169,12 +170,15 @@ export default function BillingTable({
   feeOnlyCols?: boolean;
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
+  forceGraceInfo?: boolean;
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
   const extraOutsideRows = React.useMemo<BillingRow[]>(() => {
+    // HANYA tambahkan baris ekstra jika showGraceHighlight true.
+    // forceGraceInfo hanya untuk menampilkan banner grace, bukan menambah baris.
     if (!showGraceHighlight) return [];
     const last = rows[rows.length - 1]?.jatuhTempo ?? "";
     const lastDate = parseDmyToDate(last) ?? new Date();
@@ -284,11 +288,12 @@ export default function BillingTable({
   const sisaPokokCell = cn(tdNum, "pr-5");
   const sisaBungaCell = cn(tdNum, "pr-5");
 
-  // samakan kolom denda agar align dengan angka lain (gunakan pr-5 juga)
   const penaltyTd = cn(tdNum, "pr-5");
   const penaltyTdEmpty = cn(tdNum, "pr-5");
 
   const penaltyValueClass = cn("tabular-nums whitespace-nowrap font-normal");
+
+  const shouldShowGraceInfoRow = (showGraceHighlight || forceGraceInfo) && showAllCols;
 
   return (
     <div className={cn("mt-3", className)}>
@@ -471,7 +476,7 @@ export default function BillingTable({
                       </div>
                     </td>
                   </tr>
-                ) : showGraceHighlight ? (
+                ) : shouldShowGraceInfoRow ? (
                   <GracePeriodInfoRow colSpan={colCount} />
                 ) : null}
 
