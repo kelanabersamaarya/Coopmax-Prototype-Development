@@ -481,7 +481,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={false}
+                  isLocked={isPelunasan}
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
