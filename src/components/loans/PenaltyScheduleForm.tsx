@@ -43,7 +43,7 @@ function SelectLike({
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger
         className={cn(
-          "h-11 rounded-xl border-slate-200 bg-white text-slate-900",
+          "h-11 w-full rounded-xl border-slate-200 bg-white text-slate-900",
           className,
         )}
       >
@@ -90,13 +90,16 @@ export default function PenaltyScheduleForm({
 }) {
   const isPercent = value.rateMode === "percent";
 
+  // lebar tombol delete agar semua baris sejajar
+  const deleteW = "w-[64px]";
+
   return (
     <div className={cn("w-full", className)}>
       {/* Tarif Denda */}
       <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-center">
         <FieldLabel>Tarif Denda</FieldLabel>
 
-        <div className="flex min-w-0 items-center gap-2">
+        <div className="grid min-w-0 grid-cols-[92px_minmax(0,1fr)] gap-2">
           <Select
             value={value.rateMode}
             onValueChange={(v) => {
@@ -124,14 +127,14 @@ export default function PenaltyScheduleForm({
           <Input
             value={value.rateValue}
             onChange={(e) => onChange({ ...value, rateValue: e.target.value })}
-            className="h-11 flex-1 rounded-xl border-slate-200 bg-white"
+            className="h-11 w-full rounded-xl border-slate-200 bg-white"
             placeholder={isPercent ? "0%" : "Rp. 0"}
             inputMode="text"
             aria-label="Tarif denda"
           />
         </div>
 
-        <div className="flex justify-end md:justify-center">
+        <div className={cn("flex justify-end md:justify-center", deleteW)}>
           <button
             type="button"
             onClick={onDelete}
@@ -150,27 +153,33 @@ export default function PenaltyScheduleForm({
       </div>
 
       {/* Dasar Perhitungan */}
-      <div className="mt-4 grid gap-4 md:grid-cols-[200px_minmax(0,1fr)] md:items-center">
+      <div className="mt-4 grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-center">
         <FieldLabel>Dasar Perhitungan Denda</FieldLabel>
 
-        <SelectLike
-          value={value.base}
-          onValueChange={(v) => onChange({ ...value, base: v as PenaltyBase })}
-          options={["Pokok", "Bunga", "Hutang Pokok", "Hutang Bunga"]}
-        />
+        <div className="min-w-0">
+          <SelectLike
+            value={value.base}
+            onValueChange={(v) => onChange({ ...value, base: v as PenaltyBase })}
+            options={["Pokok", "Bunga", "Hutang Pokok", "Hutang Bunga"]}
+          />
+        </div>
+
+        <div className={deleteW} />
       </div>
 
       {/* Jumlah hari keterlambatan */}
-      <div className="mt-4 grid gap-4 md:grid-cols-[200px_minmax(0,1fr)] md:items-center">
+      <div className="mt-4 grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-center">
         <FieldLabel>Jumlah Hari Keterlambatan</FieldLabel>
 
         <Input
           value={value.lateDays}
           onChange={(e) => onChange({ ...value, lateDays: e.target.value })}
-          className="h-11 rounded-xl border-slate-200 bg-white"
+          className="h-11 w-full rounded-xl border-slate-200 bg-white"
           placeholder="0"
           inputMode="numeric"
         />
+
+        <div className={deleteW} />
       </div>
     </div>
   );
