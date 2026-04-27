@@ -16,7 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Info, Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, HelpCircle } from "lucide-react";
 import { BillingScheme } from "@/lib/loanProductsStore";
 import PenaltyRateField, {
   type PenaltyRateMode,
@@ -87,18 +87,14 @@ function FieldRow({
   );
 }
 
-function InfoDot() {
+function InfoBadge() {
+  // Match screenshot: solid blue circle with "?" feel
   return (
-    <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-violet-100 text-violet-700 ring-1 ring-violet-200">
-      <Info className="h-3.5 w-3.5" />
-    </span>
-  );
-}
-
-function TinyInfoBadge() {
-  return (
-    <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700 ring-1 ring-blue-200">
-      i
+    <span
+      className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+      aria-hidden="true"
+    >
+      <HelpCircle className="h-4 w-4" />
     </span>
   );
 }
@@ -675,7 +671,7 @@ export default function LoanProductEdit() {
               <FieldRow
                 label={
                   <span className="inline-flex items-center">
-                    Split Pendapatan Bunga <InfoDot />
+                    Split Pendapatan Bunga <InfoBadge />
                   </span> as any
                 }
               >
@@ -724,7 +720,11 @@ export default function LoanProductEdit() {
               </FieldRow>
 
               <FieldRow
-                label="KP Pembagi Pendapatan Bunga"
+                label={
+                  <span className="inline-flex items-center">
+                    KP Pembagi Pendapatan Bunga <InfoBadge />
+                  </span> as any
+                }
                 hint="Diisi jika ingin pembukuan pendapatan Bunga dibagi ke KP ini."
               >
                 <Select
@@ -832,14 +832,16 @@ export default function LoanProductEdit() {
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="text-base font-semibold text-slate-900">
-              Konfigurasi Tagihan Angsuran <InfoDot />
+              <span className="inline-flex items-center">
+                Konfigurasi Tagihan Angsuran <InfoBadge />
+              </span>
             </div>
 
             <div className="mt-4 grid gap-5">
               <FieldRow
                 label={
                   <span className="inline-flex items-center">
-                    Tagihan Angsuran Menggunakan Tabel Angsuran <InfoDot />
+                    Tagihan Angsuran Menggunakan Tabel Angsuran <InfoBadge />
                   </span> as any
                 }
               >
@@ -856,7 +858,7 @@ export default function LoanProductEdit() {
                   <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                     <div className="pt-1 text-sm font-normal text-slate-900">
                       <span className="inline-flex items-center">
-                        Skema Tagihan <TinyInfoBadge />
+                        Skema Tagihan <InfoBadge />
                       </span>
                     </div>
 
@@ -884,7 +886,7 @@ export default function LoanProductEdit() {
                                 ? "Tagihan Berkala Berdasarkan Periode"
                                 : "Tagihan Berdasarkan Sisa Angsuran"}
                           </span>
-                          <TinyInfoBadge />
+                          <InfoBadge />
                         </label>
                       ))}
                     </RadioGroup>
@@ -932,7 +934,9 @@ export default function LoanProductEdit() {
                   <div className="grid gap-5">
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                       <div className="pt-1 text-sm font-normal text-slate-900">
-                        Grace Period
+                        <span className="inline-flex items-center">
+                          Grace Period <InfoBadge />
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <Switch
@@ -946,7 +950,9 @@ export default function LoanProductEdit() {
                       <>
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            Skema Grace Period
+                            <span className="inline-flex items-center">
+                              Skema Grace Period <InfoBadge />
+                            </span>
                           </div>
                           <RadioGroup
                             value={graceScheme}
@@ -959,14 +965,16 @@ export default function LoanProductEdit() {
                                 id="grace-hanya-bayar-bunga"
                               />
                               Hanya Bayar Bunga
-                              <TinyInfoBadge />
+                              <InfoBadge />
                             </label>
                           </RadioGroup>
                         </div>
 
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            Satuan Grace Period
+                            <span className="inline-flex items-center">
+                              Satuan Grace Period <InfoBadge />
+                            </span>
                           </div>
                           <Select
                             value={graceUnit}
@@ -987,7 +995,9 @@ export default function LoanProductEdit() {
 
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            {graceDurationLabel}
+                            <span className="inline-flex items-center">
+                              {graceDurationLabel} <InfoBadge />
+                            </span>
                           </div>
                           <Input
                             value={graceDuration}
