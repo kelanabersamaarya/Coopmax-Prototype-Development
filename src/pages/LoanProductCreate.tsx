@@ -16,16 +16,11 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import {
-  ChevronLeft,
-  Info,
-  Plus,
-  Save,
-  X,
-  Settings2,
-  SlidersHorizontal,
-} from "lucide-react";
+import { ChevronLeft, Info, Plus, Save, X, HelpCircle } from "lucide-react";
 import { createLoanProduct, BillingScheme } from "@/lib/loanProductsStore";
+import PenaltyRateField, {
+  type PenaltyRateMode,
+} from "@/components/loans/PenaltyRateField";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -46,27 +41,45 @@ type InstallmentMode =
   | "Jadwal Fleksibel & Tagihan Berkala"
   | "Dihitung dari Sisa Saldo Pokok";
 
+type GraceScheme = "Hanya Bayar Bunga";
+type GraceUnit = "Pilih Satuan Grace Period" | "Hari" | "Bulan";
+
+type PenaltyBase =
+  | "Pokok"
+  | "Bunga"
+  | "Hutang Pokok"
+  | "Hutang Bunga"
+  | "Pilih Dasar Perhitungan";
+
 function FieldRow({
   label,
+  hint,
   children,
 }: {
   label: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
       <div className="pt-1">
-        <div className="text-sm font-semibold text-slate-900">{label}</div>
+        <div className="text-sm font-normal text-slate-900">{label}</div>
+        {hint ? (
+          <div className="mt-1 text-xs text-slate-500">{hint}</div>
+        ) : null}
       </div>
       <div className="min-w-0">{children}</div>
     </div>
   );
 }
 
-function InfoDot() {
+function InfoBadge() {
   return (
-    <span className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-violet-100 text-violet-700 ring-1 ring-violet-200">
-      <Info className="h-3.5 w-3.5" />
+    <span
+      className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+      aria-hidden="true"
+    >
+      <HelpCircle className="h-4 w-4" />
     </span>
   );
 }
@@ -74,9 +87,9 @@ function InfoDot() {
 export default function LoanProductCreate() {
   const navigate = useNavigate();
 
+  // --- Basic ---
   const [code, setCode] = React.useState("klp04.07");
   const [name, setName] = React.useState("Pinjaman Emas");
-
   const [rc, setRc] = React.useState(false);
 
   const [periodUnit, setPeriodUnit] = React.useState<PeriodUnit>("Bulan");
@@ -100,6 +113,7 @@ export default function LoanProductCreate() {
 
   const [terms, setTerms] = React.useState("");
 
+  // --- Advanced ---
   const [accPenalty, setAccPenalty] = React.useState(true);
   const [penaltyMethod, setPenaltyMethod] =
     React.useState<PenaltyMethod>("Hutang Bunga");
@@ -121,6 +135,7 @@ export default function LoanProductCreate() {
   const [withoutCollateral, setWithoutCollateral] = React.useState(false);
   const [splitInterestRevenue, setSplitInterestRevenue] = React.useState(false);
 
+  // --- COA ---
   const [coaLoan, setCoaLoan] = React.useState<CoaOption>(
     "PINJAMAN YANG DIBERIKAN",
   );
@@ -135,14 +150,41 @@ export default function LoanProductCreate() {
   const [coaAdminRevenue, setCoaAdminRevenue] =
     React.useState<CoaOption>("PEN. ADMINISTRASI");
 
+  // --- Fee Kolektor (simple list like before) ---
   const [collectorFees, setCollectorFees] = React.useState<
     Array<{ id: string; name: string; amount: string }>
   >([]);
 
+  // --- Installment ---
   const [useInstallmentTable, setUseInstallmentTable] = React.useState(true);
   const [installmentMode, setInstallmentMode] =
     React.useState<InstallmentMode>("Jadwal Tetap (Diterbitkan Penuh di Awal)");
+
+  const [tarifDendaMode, setTarifDendaMode] =
+    React.useState<PenaltyRateMode>("rp");
+  const [tarifDendaValue, setTarifDendaValue] = React.useState("0,00");
+  const [dasarPerhitungan, setDasarPerhitungan] =
+    React.useState<PenaltyBase>("Pilih Dasar Perhitungan");
+  const [hariKeterlambatan, setHariKeterlambatan] = React.useState<string>("0");
+
   const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(false);
+  const [graceScheme, setGraceScheme] =
+    React.useState<GraceScheme>("Hanya Bayar Bunga");
+  const [graceUnit, setGraceUnit] =
+    React.useState<GraceUnit>("Pilih Satuan Grace Period");
+  const [graceDuration, setGraceDuration] = React.useState("");
+
+  const graceUnitSuffix =
+    graceUnit === "Hari" ? "(Hari)" : graceUnit === "Bulan" ? "(Bulan)" : "";
+
+  const graceDurationLabel = `Durasi Grace Period${graceUnitSuffix ? ` ${graceUnitSuffix}` : ""}`;
+
+  const graceDurationPlaceholder =
+    graceUnit === "Hari"
+      ? "Masukkan Jumlah Hari"
+      : graceUnit === "Bulan"
+        ? "Masukkan Jumlah Bulan"
+        : "Masukkan Durasi";
 
   function addCollectorFee() {
     setCollectorFees((prev) => [
@@ -206,32 +248,26 @@ export default function LoanProductCreate() {
               </h1>
               <div className="text-sm font-semibold text-slate-500">Tambah</div>
             </div>
+
             <p className="mt-1 max-w-3xl text-sm text-slate-600">
-              Lengkapi konfigurasi dasar, biaya, COA, hingga pengaturan tagihan
-              angsuran seperti referensi.
+              Lengkapi konfigurasi produk pinjaman seperti pada halaman Ubah.
             </p>
           </div>
         </div>
 
         <div className="mt-6 grid gap-4">
+          {/* Single main card layout (match Edit page) */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-100 text-violet-700 ring-1 ring-violet-200">
-                <Settings2 className="h-5 w-5" />
-              </span>
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Konfigurasi Dasar Produk Pinjaman
-                </div>
-                <div className="text-xs text-slate-500">
-                  Parameter utama produk (prototype UI).
-                </div>
-              </div>
+            <div className="text-[20px] font-semibold text-slate-900">
+              Konfigurasi Produk Pinjaman
             </div>
 
-            <Separator className="my-5 bg-slate-200/70" />
+            {/* ===== Konfigurasi Dasar ===== */}
+            <div className="mt-5 grid gap-5">
+              <div className="text-sm font-extrabold tracking-tight text-slate-900">
+                Konfigurasi Dasar
+              </div>
 
-            <div className="grid gap-5">
               <FieldRow label="Kode">
                 <Input
                   value={code}
@@ -251,9 +287,6 @@ export default function LoanProductCreate() {
               <FieldRow label="RC">
                 <div className="flex items-center gap-3">
                   <Switch checked={rc} onCheckedChange={setRc} />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {rc ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -314,9 +347,6 @@ export default function LoanProductCreate() {
                     checked={interestCountsOnInterestDebt}
                     onCheckedChange={setInterestCountsOnInterestDebt}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {interestCountsOnInterestDebt ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -386,32 +416,12 @@ export default function LoanProductCreate() {
                 />
               </FieldRow>
             </div>
-          </Card>
 
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-100 text-sky-700 ring-1 ring-sky-200">
-                <SlidersHorizontal className="h-5 w-5" />
-              </span>
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Parameter Lanjutan & Biaya
-                </div>
-                <div className="text-xs text-slate-500">
-                  Toggle dan biaya lain-lain.
-                </div>
-              </div>
-            </div>
-
-            <Separator className="my-5 bg-slate-200/70" />
-
-            <div className="grid gap-5">
+            {/* ===== Advanced/Fees ===== */}
+            <div className="mt-6 grid gap-5">
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {accPenalty ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -434,9 +444,6 @@ export default function LoanProductCreate() {
               <FieldRow label="Akumulasi Bunga Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accInterest} onCheckedChange={setAccInterest} />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {accInterest ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -446,9 +453,6 @@ export default function LoanProductCreate() {
                     checked={ignorePrincipalDebt}
                     onCheckedChange={setIgnorePrincipalDebt}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {ignorePrincipalDebt ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -458,9 +462,6 @@ export default function LoanProductCreate() {
                     checked={ignoreInterestDebt}
                     onCheckedChange={setIgnoreInterestDebt}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {ignoreInterestDebt ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -486,54 +487,44 @@ export default function LoanProductCreate() {
                     checked={specialEndDate}
                     onCheckedChange={setSpecialEndDate}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {specialEndDate ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Propisi
-                  </Label>
-                  <Input
-                    value={propisi}
-                    onChange={(e) => setPropisi(e.target.value)}
-                    className="rounded-2xl"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Administrasi
-                  </Label>
-                  <Input
-                    value={admin}
-                    onChange={(e) => setAdmin(e.target.value)}
-                    className="rounded-2xl"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Biaya Asuransi
-                  </Label>
-                  <Input
-                    value={insurance}
-                    onChange={(e) => setInsurance(e.target.value)}
-                    className="rounded-2xl"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Biaya Aktivasi M-Banking
-                  </Label>
-                  <Input
-                    value={mbankingActivation}
-                    onChange={(e) => setMbankingActivation(e.target.value)}
-                    className="rounded-2xl"
-                  />
-                </div>
-              </div>
+              <FieldRow label="Propisi">
+                <Input
+                  value={propisi}
+                  onChange={(e) => setPropisi(e.target.value)}
+                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  inputMode="decimal"
+                />
+              </FieldRow>
+
+              <FieldRow label="Administrasi">
+                <Input
+                  value={admin}
+                  onChange={(e) => setAdmin(e.target.value)}
+                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  inputMode="decimal"
+                />
+              </FieldRow>
+
+              <FieldRow label="Biaya Asuransi">
+                <Input
+                  value={insurance}
+                  onChange={(e) => setInsurance(e.target.value)}
+                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  inputMode="decimal"
+                />
+              </FieldRow>
+
+              <FieldRow label="Biaya Aktivasi M-Banking">
+                <Input
+                  value={mbankingActivation}
+                  onChange={(e) => setMbankingActivation(e.target.value)}
+                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  inputMode="decimal"
+                />
+              </FieldRow>
 
               <FieldRow label="Tanpa Agunan">
                 <div className="flex items-center gap-3">
@@ -541,57 +532,32 @@ export default function LoanProductCreate() {
                     checked={withoutCollateral}
                     onCheckedChange={setWithoutCollateral}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {withoutCollateral ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
               <FieldRow
                 label={
                   <span className="inline-flex items-center">
-                    Split Pendapatan Bunga <InfoDot />
+                    Split Pendapatan Bunga <InfoBadge />
                   </span> as any
                 }
+                hint="Prototype UI."
               >
                 <div className="flex items-center gap-3">
                   <Switch
                     checked={splitInterestRevenue}
                     onCheckedChange={setSplitInterestRevenue}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {splitInterestRevenue ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
             </div>
-          </Card>
 
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Pengaturan COA (Prototype)
-                </div>
-                <div className="text-xs text-slate-500">
-                  Daftar COA disederhanakan untuk mock UI.
-                </div>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
-                <Info className="h-3.5 w-3.5" /> Read-only mapping
-              </div>
-            </div>
-
-            <Separator className="my-5 bg-slate-200/70" />
-
-            <div className="grid gap-5">
+            {/* ===== COA ===== */}
+            <div className="mt-6 grid gap-5">
               <FieldRow label="KP Pinjaman">
-                <Select
-                  value={coaLoan}
-                  onValueChange={(v) => setCoaLoan(v as CoaOption)}
-                >
+                <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
-                    <SelectValue />
+                    <SelectValue placeholder="Pilih CoA Pinjaman" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-slate-200">
                     <SelectItem value="PINJAMAN YANG DIBERIKAN">
@@ -608,7 +574,7 @@ export default function LoanProductCreate() {
                   onValueChange={(v) => setCoaInterestRevenue(v as CoaOption)}
                 >
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
-                    <SelectValue />
+                    <SelectValue placeholder="Pilih CoA Pendapatan Bunga" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-slate-200">
                     <SelectItem value="PEND. BUNGA PINJAMAN">
@@ -619,7 +585,14 @@ export default function LoanProductCreate() {
                 </Select>
               </FieldRow>
 
-              <FieldRow label="KP Pembagi Pendapatan Bunga">
+              <FieldRow
+                label={
+                  <span className="inline-flex items-center">
+                    KP Pembagi Pendapatan Bunga <InfoBadge />
+                  </span> as any
+                }
+                hint="Diisi jika ingin pembukuan pendapatan Bunga dibagi ke KP ini."
+              >
                 <Select
                   value={coaSplitInterestRevenue}
                   onValueChange={(v) => setCoaSplitInterestRevenue(v as CoaOption)}
@@ -645,7 +618,7 @@ export default function LoanProductCreate() {
                   onValueChange={(v) => setCoaPenaltyRevenue(v as CoaOption)}
                 >
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
-                    <SelectValue />
+                    <SelectValue placeholder="Pilih CoA Biaya Denda" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-slate-200">
                     <SelectItem value="PEND. DENDA">PEND. DENDA</SelectItem>
@@ -660,7 +633,7 @@ export default function LoanProductCreate() {
                   onValueChange={(v) => setCoaRoundingRevenue(v as CoaOption)}
                 >
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
-                    <SelectValue />
+                    <SelectValue placeholder="Pilih CoA Pembulatan" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-slate-200">
                     <SelectItem value="PENDAPATAN LAIN - LAIN">
@@ -677,7 +650,7 @@ export default function LoanProductCreate() {
                   onValueChange={(v) => setCoaAdminRevenue(v as CoaOption)}
                 >
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
-                    <SelectValue />
+                    <SelectValue placeholder="Pilih CoA Biaya Admin" />
                   </SelectTrigger>
                   <SelectContent className="rounded-2xl border-slate-200">
                     <SelectItem value="PEN. ADMINISTRASI">
@@ -688,17 +661,13 @@ export default function LoanProductCreate() {
                 </Select>
               </FieldRow>
             </div>
-          </Card>
 
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Konfigurasi Fee Kolektor
-                </div>
-                <div className="text-xs text-slate-500">
-                  Tambahkan fee kolektor (prototype list).
-                </div>
+            {/* ===== Fee Kolektor ===== */}
+            <Separator className="my-6 bg-slate-200/70" />
+
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="text-base font-semibold text-slate-900">
+                Konfigurasi Fee Kolektor
               </div>
               <Button
                 onClick={addCollectorFee}
@@ -709,37 +678,37 @@ export default function LoanProductCreate() {
               </Button>
             </div>
 
-            <Separator className="my-5 bg-slate-200/70" />
-
-            {collectorFees.length === 0 ? (
-              <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
-                Belum ada fee kolektor.
-              </div>
-            ) : (
-              <div className="grid gap-3">
-                {collectorFees.map((f, idx) => (
+            <div className="mt-4 grid gap-3">
+              {collectorFees.length === 0 ? (
+                <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
+                  Belum ada fee kolektor.
+                </div>
+              ) : (
+                collectorFees.map((f, idx) => (
                   <div
                     key={f.id}
-                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_48px] md:items-start"
+                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_56px] md:items-end"
                   >
                     <div className="grid gap-2">
-                      <Label className="text-xs text-slate-600">Nama</Label>
+                      <Label className="text-xs font-semibold text-slate-700">
+                        Nama
+                      </Label>
                       <Input
                         value={f.name}
                         onChange={(e) => {
                           const val = e.target.value;
                           setCollectorFees((prev) =>
-                            prev.map((x) =>
-                              x.id === f.id ? { ...x, name: val } : x,
-                            ),
+                            prev.map((x) => (x.id === f.id ? { ...x, name: val } : x)),
                           );
                         }}
-                        className="h-11 rounded-2xl"
+                        className="h-11 rounded-xl border-slate-200 bg-white"
                       />
                     </div>
 
                     <div className="grid gap-2">
-                      <Label className="text-xs text-slate-600">Nominal</Label>
+                      <Label className="text-xs font-semibold text-slate-700">
+                        Nominal
+                      </Label>
                       <Input
                         value={f.amount}
                         onChange={(e) => {
@@ -750,50 +719,44 @@ export default function LoanProductCreate() {
                             ),
                           );
                         }}
-                        className="h-11 rounded-2xl"
+                        className="h-11 rounded-xl border-slate-200 bg-white"
+                        inputMode="decimal"
                       />
                     </div>
 
                     <button
                       type="button"
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white md:mt-[22px] md:self-start"
+                      className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
                       onClick={() => {
-                        setCollectorFees((prev) =>
-                          prev.filter((x) => x.id !== f.id),
-                        );
+                        setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
                         toast("Fee dihapus", {
                           description: `Item #${idx + 1} dihapus.`,
                         });
                       }}
                       aria-label="Hapus fee"
+                      title="Hapus"
                     >
-                      <X className="h-4.5 w-4.5" />
+                      <X className="h-5 w-5" />
                     </button>
                   </div>
-                ))}
-              </div>
-            )}
-          </Card>
-
-          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-base font-semibold text-slate-900">
-                  Konfigurasi Tagihan Angsuran <InfoDot />
-                </div>
-                <div className="text-xs text-slate-500">
-                  Pengaturan skema tagihan + grace period.
-                </div>
-              </div>
+                ))
+              )}
             </div>
 
-            <Separator className="my-5 bg-slate-200/70" />
+            {/* ===== Konfigurasi Tagihan Angsuran ===== */}
+            <Separator className="my-6 bg-slate-200/70" />
 
-            <div className="grid gap-5">
+            <div className="text-base font-semibold text-slate-900">
+              <span className="inline-flex items-center">
+                Konfigurasi Tagihan Angsuran <InfoBadge />
+              </span>
+            </div>
+
+            <div className="mt-4 grid gap-5">
               <FieldRow
                 label={
                   <span className="inline-flex items-center">
-                    Tagihan Angsuran Menggunakan Tabel Angsuran <InfoDot />
+                    Tagihan Angsuran Menggunakan Tabel Angsuran <InfoBadge />
                   </span> as any
                 }
               >
@@ -802,69 +765,171 @@ export default function LoanProductCreate() {
                     checked={useInstallmentTable}
                     onCheckedChange={setUseInstallmentTable}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {useInstallmentTable ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
-              <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
-                <div className="pt-1">
-                  <div className="text-sm font-semibold text-slate-900">
-                    Skema Tagihan <InfoDot />
+              {useInstallmentTable ? (
+                <>
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                    <div className="pt-1 text-sm font-normal text-slate-900">
+                      <span className="inline-flex items-center">
+                        Skema Tagihan <InfoBadge />
+                      </span>
+                    </div>
+
+                    <RadioGroup
+                      value={installmentMode}
+                      onValueChange={(v) => setInstallmentMode(v as InstallmentMode)}
+                      className="flex flex-wrap items-center gap-x-6 gap-y-2"
+                    >
+                      {(
+                        [
+                          "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+                          "Jadwal Fleksibel & Tagihan Berkala",
+                          "Dihitung dari Sisa Saldo Pokok",
+                        ] as InstallmentMode[]
+                      ).map((m) => (
+                        <label
+                          key={m}
+                          className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
+                        >
+                          <RadioGroupItem value={m} id={`mode-${m}`} />
+                          <span className="whitespace-nowrap">
+                            {m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                              ? "Tagihan Sesuai Jadwal Angsuran"
+                              : m === "Jadwal Fleksibel & Tagihan Berkala"
+                                ? "Tagihan Berkala Berdasarkan Periode"
+                                : "Tagihan Berdasarkan Sisa Angsuran"}
+                          </span>
+                          <InfoBadge />
+                        </label>
+                      ))}
+                    </RadioGroup>
                   </div>
-                </div>
-                <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
-                  <RadioGroup
-                    value={installmentMode}
-                    onValueChange={(v) =>
-                      setInstallmentMode(v as InstallmentMode)
-                    }
-                    className="grid gap-3"
-                  >
-                    {(
-                      [
-                        "Jadwal Tetap (Diterbitkan Penuh di Awal)",
-                        "Jadwal Fleksibel & Tagihan Berkala",
-                        "Dihitung dari Sisa Saldo Pokok",
-                      ] as InstallmentMode[]
-                    ).map((m) => (
-                      <label
-                        key={m}
-                        className="flex cursor-pointer items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 hover:bg-white"
-                      >
-                        <RadioGroupItem
-                          value={m}
-                          id={`mode-${m}`}
-                          className="mt-1"
+
+                  <FieldRow label="Metode Denda">
+                    <PenaltyRateField
+                      mode={tarifDendaMode}
+                      onModeChange={setTarifDendaMode}
+                      value={tarifDendaValue}
+                      onValueChange={setTarifDendaValue}
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Dasar Perhitungan">
+                    <Select
+                      value={dasarPerhitungan}
+                      onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
+                    >
+                      <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
+                        <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-2xl border-slate-200">
+                        <SelectItem value="Pilih Dasar Perhitungan">
+                          Pilih Dasar Perhitungan
+                        </SelectItem>
+                        <SelectItem value="Pokok">Pokok</SelectItem>
+                        <SelectItem value="Bunga">Bunga</SelectItem>
+                        <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                        <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
+
+                  <FieldRow label="Jumlah Hari Keterlambatan">
+                    <Input
+                      value={hariKeterlambatan}
+                      onChange={(e) => setHariKeterlambatan(e.target.value)}
+                      className="h-12 rounded-2xl border-slate-200 bg-white"
+                      placeholder="Masukkan Jumlah Hari"
+                      inputMode="numeric"
+                    />
+                  </FieldRow>
+
+                  <div className="grid gap-5">
+                    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                      <div className="pt-1 text-sm font-normal text-slate-900">
+                        <span className="inline-flex items-center">
+                          Grace Period <InfoBadge />
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Switch
+                          checked={gracePeriodEnabled}
+                          onCheckedChange={setGracePeriodEnabled}
                         />
-                        <div className="min-w-0">
-                          <div className="text-sm font-semibold text-slate-900">
-                            {m}
-                          </div>
-                          <div className="mt-1 text-xs text-slate-600">
-                            Prototype — pilihan ini hanya memengaruhi state UI.
-                          </div>
-                        </div>
-                      </label>
-                    ))}
-                  </RadioGroup>
-                </div>
-              </div>
+                      </div>
+                    </div>
 
-              <FieldRow label="Grace Period">
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={gracePeriodEnabled}
-                    onCheckedChange={setGracePeriodEnabled}
-                  />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {gracePeriodEnabled ? "ON" : "OFF"}
+                    {gracePeriodEnabled ? (
+                      <>
+                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            <span className="inline-flex items-center">
+                              Skema Grace Period <InfoBadge />
+                            </span>
+                          </div>
+                          <RadioGroup
+                            value={graceScheme}
+                            onValueChange={(v) => setGraceScheme(v as GraceScheme)}
+                            className="flex items-center gap-6"
+                          >
+                            <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
+                              <RadioGroupItem
+                                value="Hanya Bayar Bunga"
+                                id="grace-hanya-bayar-bunga"
+                              />
+                              Hanya Bayar Bunga
+                              <InfoBadge />
+                            </label>
+                          </RadioGroup>
+                        </div>
+
+                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            <span className="inline-flex items-center">
+                              Satuan Grace Period <InfoBadge />
+                            </span>
+                          </div>
+                          <Select
+                            value={graceUnit}
+                            onValueChange={(v) => setGraceUnit(v as GraceUnit)}
+                          >
+                            <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
+                              <SelectValue placeholder="Pilih Satuan Grace Period" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-2xl border-slate-200">
+                              <SelectItem value="Pilih Satuan Grace Period">
+                                Pilih Satuan Grace Period
+                              </SelectItem>
+                              <SelectItem value="Hari">Hari</SelectItem>
+                              <SelectItem value="Bulan">Bulan</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            <span className="inline-flex items-center">
+                              {graceDurationLabel} <InfoBadge />
+                            </span>
+                          </div>
+                          <Input
+                            value={graceDuration}
+                            onChange={(e) => setGraceDuration(e.target.value)}
+                            className="h-12 rounded-2xl border-slate-200 bg-white"
+                            placeholder={graceDurationPlaceholder}
+                            inputMode="numeric"
+                          />
+                        </div>
+                      </>
+                    ) : null}
                   </div>
-                </div>
-              </FieldRow>
+                </>
+              ) : null}
             </div>
 
+            {/* Footer actions (match Edit style) */}
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
@@ -876,6 +941,7 @@ export default function LoanProductCreate() {
                 <X className="mr-2 h-4 w-4" />
                 Batalkan
               </Button>
+
               <Button
                 onClick={save}
                 className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
@@ -883,6 +949,10 @@ export default function LoanProductCreate() {
                 <Save className="mr-2 h-4 w-4" />
                 Simpan
               </Button>
+            </div>
+
+            <div className="sr-only">
+              <Info />
             </div>
           </Card>
         </div>
