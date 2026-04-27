@@ -174,10 +174,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // LOCAL pagination settings (untuk mengikuti contoh)
   const totalEntriesLocal = 495;
 
-  // Reguler: tampilkan lebih banyak row + pagination seperti contoh
   const pageSize = isReguler ? 20 : 6;
   const [page, setPage] = React.useState<number>(1);
 
@@ -222,10 +220,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return calcSelectedPenaltyTotal(selected, pagedRows.length);
   }, [isKhusus, isPelunasan, isReguler, pagedRows.length, selected]);
 
-  const selectedPenaltyText = React.useMemo(() => {
-    return formatMoneyIdNoDecimals(selectedPenaltyTotal);
-  }, [selectedPenaltyTotal]);
-
   const penaltyTotalExplicit = React.useMemo(() => {
     if (!penaltyOnlyCols) return 0;
     return calcSelectedPenaltyTotal(selected, pagedRows.length);
@@ -252,11 +246,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const computedTotals = React.useMemo(() => {
     const denda =
-      penaltyOnlyCols
-        ? penaltyTotalExplicit
-        : isReguler
-          ? selectedPenaltyTotal
-          : 0;
+      penaltyOnlyCols ? penaltyTotalExplicit : isReguler ? selectedPenaltyTotal : 0;
 
     const total = computedBaseTotals.total + denda;
 
@@ -397,7 +387,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_280px] xl:grid-cols-[minmax(0,1fr)_260px]">
+          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_340px]">
             <Card className="rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA

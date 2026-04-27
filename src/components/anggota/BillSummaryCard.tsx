@@ -26,13 +26,13 @@ function SummaryRow({
   return (
     <div
       className={cn(
-        "grid items-baseline gap-x-3 py-3",
-        "[grid-template-columns:minmax(0,1fr)_14px_minmax(0,1fr)]",
+        "grid items-center gap-x-3 py-3",
+        "[grid-template-columns:minmax(220px,1fr)_14px_minmax(0,1fr)]",
       )}
     >
       <div
         className={cn(
-          "text-[14px] leading-snug",
+          "text-[14px] leading-snug whitespace-nowrap",
           strong ? "font-semibold text-slate-700" : "font-medium text-slate-600",
         )}
       >
@@ -43,7 +43,7 @@ function SummaryRow({
 
       <div
         className={cn(
-          "tabular-nums tracking-tight text-slate-900",
+          "tabular-nums tracking-tight text-slate-900 whitespace-nowrap",
           valueAlign === "left" ? "text-left" : "text-right",
           strong ? "text-[14px] font-extrabold" : "text-[14px] font-bold",
         )}
@@ -66,14 +66,14 @@ function SummaryRowInline({
   return (
     <div
       className={cn(
-        "grid items-baseline gap-x-2 py-3 text-[14px]",
-        "[grid-template-columns:minmax(0,1fr)_14px_minmax(0,1fr)]",
+        "grid items-center gap-x-2 py-3 text-[14px]",
+        "[grid-template-columns:minmax(220px,1fr)_14px_minmax(0,1fr)]",
         className,
       )}
     >
-      <span className="font-semibold text-slate-700">{label}</span>
+      <span className="font-semibold text-slate-700 whitespace-nowrap">{label}</span>
       <span className="text-center font-semibold text-slate-400">:</span>
-      <span className="text-right font-extrabold tabular-nums tracking-tight text-slate-900">
+      <span className="text-right font-extrabold tabular-nums tracking-tight text-slate-900 whitespace-nowrap">
         {value}
       </span>
     </div>
@@ -146,14 +146,12 @@ export default function BillSummaryCard({
     [onTransactionTypeChange],
   );
 
-  // mode Penurunan Baki Debet: hanya pokok, tanpa section angsuran
   const showInstallmentSection =
     mode !== "pelunasan" &&
     !isPembayaranDenda &&
     !isPembayaranBiayaLainnya &&
     !isPenurunanBakiDebet;
 
-  // label ringkas untuk reguler & khusus (tanpa kata "Total")
   const useShortLabels = isRegular || isKhusus;
 
   const shouldZeroRegular = isRegular && hasAnySelected === false;
@@ -185,7 +183,10 @@ export default function BillSummaryCard({
               aria-label="Pilih transaksi"
             >
               <span
-                className={cn("truncate", transactionType ? "" : "text-slate-500")}
+                className={cn(
+                  "truncate",
+                  transactionType ? "" : "text-slate-500",
+                )}
               >
                 {transactionType
                   ? transactionLabel(transactionType)
@@ -240,8 +241,6 @@ export default function BillSummaryCard({
             >
               {transactionLabel("Pelunasan")}
             </DropdownMenuItem>
-
-            {/* DISABLED/HIDDEN: Pembayaran Pokok, Pembayaran Bunga, Pembayaran Denda, Pembayaran Biaya Lainnya */}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
