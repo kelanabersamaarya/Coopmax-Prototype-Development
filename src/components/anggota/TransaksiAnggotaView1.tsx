@@ -299,7 +299,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const pelunasanPenaltyTotal = React.useMemo(() => {
     if (!isPelunasan) return 0;
-    // semua checked by default, tapi tetap dihitung dari "selected" biar konsisten
     return calcSelectedPenaltyTotal(selected, pagedRows.length);
   }, [isPelunasan, pagedRows.length, selected]);
 
@@ -517,6 +516,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   highlightGraceBlock={true}
                   hideSelection={false}
                   showPenaltyColumn={true}
+                  penaltyDisplayLimit={3}
                   disableRowRings
                   className="mt-0"
                 />

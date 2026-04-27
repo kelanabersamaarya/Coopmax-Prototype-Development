@@ -158,6 +158,7 @@ export default function BillingTableView2({
   highlightGraceBlock = false,
   hideSelection = false,
   showPenaltyColumn = false,
+  penaltyDisplayLimit,
   tone = "default",
   disableRowActiveRing = false,
   disableRowRings = false,
@@ -173,6 +174,7 @@ export default function BillingTableView2({
   highlightGraceBlock?: boolean;
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
+  penaltyDisplayLimit?: number;
   tone?: "default" | "khusus";
   disableRowActiveRing?: boolean;
   disableRowRings?: boolean;
@@ -248,6 +250,18 @@ export default function BillingTableView2({
   }
 
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
+    const limit =
+      typeof penaltyDisplayLimit === "number" && penaltyDisplayLimit >= 0
+        ? penaltyDisplayLimit
+        : null;
+
+    const shouldShow = limit === null ? true : idx < limit;
+
+    if (!shouldShow) {
+      // penting: benar-benar kosong, tanpa "-" atau placeholder apa pun
+      return <div className={cn("px-4 py-3", numberTextClass)} />;
+    }
+
     const nominal = formatIdrLike(penaltyForIndex(idx));
 
     return (
