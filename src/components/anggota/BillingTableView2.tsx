@@ -156,6 +156,7 @@ export default function BillingTableView2({
   showPenaltyColumn = false,
   tone = "default",
   disableRowActiveRing = false,
+  hideRowDividers = false,
   className,
 }: {
   rows: BillingRow[];
@@ -169,6 +170,7 @@ export default function BillingTableView2({
   showPenaltyColumn?: boolean;
   tone?: "default" | "khusus";
   disableRowActiveRing?: boolean;
+  hideRowDividers?: boolean;
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -222,9 +224,6 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // Konsistensi font angka untuk View2/3:
-  // - gunakan font tabular yang sama
-  // - hindari splitting angka (yang bisa menyebabkan "783 . 333")
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
@@ -260,6 +259,8 @@ export default function BillingTableView2({
   }
 
   const disableActiveRingInGrace = disableRowActiveRing && graceRows.length > 0;
+
+  const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
 
   return (
     <div className={cn("mt-3", className)}>
@@ -312,7 +313,7 @@ export default function BillingTableView2({
           <tbody className="bg-white">
             {showGraceInfo && highlightGraceBlock && graceRows.length > 0 ? (
               <>
-                <tr className="border-t border-slate-200">
+                <tr className={cn(rowDividerClass)}>
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white px-3 py-3">
                       <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
@@ -330,7 +331,7 @@ export default function BillingTableView2({
                                 <tr
                                   key={`${r.jatuhTempo}-grace-${idx}`}
                                   className={cn(
-                                    idx === 0 ? "" : "border-t border-slate-200",
+                                    idx === 0 ? "" : rowDividerClass,
                                   )}
                                 >
                                   <td colSpan={colCount} className="p-0">
@@ -338,7 +339,12 @@ export default function BillingTableView2({
                                       active={active}
                                       disableActiveRing={disableActiveRingInGrace}
                                     >
-                                      <div className={cn("grid items-center gap-0", gridTemplate)}>
+                                      <div
+                                        className={cn(
+                                          "grid items-center gap-0",
+                                          gridTemplate,
+                                        )}
+                                      >
                                         {!hideSelection ? (
                                           <div className="flex items-center justify-center px-4 py-4">
                                             <input
@@ -367,15 +373,21 @@ export default function BillingTableView2({
                                           {r.jatuhTempo}
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                        <div
+                                          className={cn("px-4 py-4", numberTextClass)}
+                                        >
                                           {r.totalBelumDibayar}
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                        <div
+                                          className={cn("px-4 py-4", numberTextClass)}
+                                        >
                                           {r.tagihanPokok}
                                         </div>
 
-                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                        <div
+                                          className={cn("px-4 py-4", numberTextClass)}
+                                        >
                                           {r.tagihanBunga}
                                         </div>
 
@@ -392,7 +404,10 @@ export default function BillingTableView2({
                                         </div>
 
                                         {showPenaltyColumn ? (
-                                          <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
+                                          <PenaltyCell
+                                            idx={rowIndex}
+                                            dueDateDmy={r.jatuhTempo}
+                                          />
                                         ) : null}
                                       </div>
                                     </RowShell>
@@ -414,7 +429,7 @@ export default function BillingTableView2({
                   return (
                     <tr
                       key={`${r.jatuhTempo}-${rowIndex}`}
-                      className="border-t border-slate-200"
+                      className={cn(rowDividerClass)}
                     >
                       <td colSpan={colCount} className="p-0">
                         <RowShell active={active}>
@@ -424,7 +439,9 @@ export default function BillingTableView2({
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={isLocked ? true : (selected[rowIndex] ?? false)}
+                                  checked={
+                                    isLocked ? true : (selected[rowIndex] ?? false)
+                                  }
                                   disabled={isLocked}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -497,7 +514,7 @@ export default function BillingTableView2({
                     return (
                       <tr
                         key={`${r.jatuhTempo}-${idx}`}
-                        className="border-t border-slate-200"
+                        className={cn(rowDividerClass)}
                       >
                         <td colSpan={colCount} className="p-0">
                           <RowShell active={active}>
@@ -565,7 +582,6 @@ export default function BillingTableView2({
           </tbody>
         </table>
 
-        {/* keep NumericCell import used but not affecting layout (legacy) */}
         <div className="sr-only">
           <NumericCell>0</NumericCell>
         </div>

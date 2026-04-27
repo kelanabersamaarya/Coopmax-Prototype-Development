@@ -419,6 +419,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   hideSelection={false}
                   showPenaltyColumn={true}
                   disableRowActiveRing={true}
+                  hideRowDividers
                   className="mt-0"
                 />
               ) : (
