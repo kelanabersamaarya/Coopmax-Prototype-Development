@@ -193,8 +193,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return rows.slice(start, start + pageSize);
   }, [page, pageSize]);
 
-  // === NEW: Persist selection per page (only for Reguler) ===
+  // === Persist selection per page (Reguler) ===
   const [selectedByPage, setSelectedByPage] = React.useState<
+    Record<number, boolean[]>
+  >({});
+
+  // === Persist selection per page (Khusus) ===
+  const [selectedByPageKhusus, setSelectedByPageKhusus] = React.useState<
     Record<number, boolean[]>
   >({});
 
@@ -202,7 +207,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     pagedRows.map(() => false),
   );
 
-  // wrapper setSelected: keep UI unchanged, but sync with selectedByPage when reguler
   const setSelected: React.Dispatch<React.SetStateAction<boolean[]>> =
     React.useCallback(
       (next) => {
@@ -216,15 +220,20 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
             }));
           }
 
+          if (isKhusus) {
+            setSelectedByPageKhusus((map) => ({
+              ...map,
+              [page]: resolved,
+            }));
+          }
+
           return resolved;
         });
       },
-      [isReguler, page],
+      [isKhusus, isReguler, page],
     );
 
   // Sync selected when page/rows change:
-  // - Reguler: restore from selectedByPage[page] if exists, else default false
-  // - Khusus/Pelunasan: keep existing behavior
   React.useEffect(() => {
     if (isPelunasan) {
       _setSelected(pagedRows.map(() => true));
@@ -232,7 +241,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     }
 
     if (isKhusus) {
-      _setSelected(pagedRows.map(() => true));
+      const fromStore = selectedByPageKhusus[page];
+      if (fromStore && fromStore.length === pagedRows.length) {
+        _setSelected(fromStore);
+      } else {
+        _setSelected(pagedRows.map(() => false));
+      }
       return;
     }
 
@@ -247,18 +261,35 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     }
 
     _setSelected(pagedRows.map(() => false));
-  }, [isPelunasan, isKhusus, isReguler, pagedRows, page, selectedByPage]);
+  }, [
+    isPelunasan,
+    isKhusus,
+    isReguler,
+    pagedRows,
+    page,
+    selectedByPage,
+    selectedByPageKhusus,
+  ]);
 
+  const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
+
+  // Pembayaran Khusus: field pembayaran auto-terisi hanya jika ada tagihan yang dicheck
   React.useEffect(() => {
     if (!isKhusus) return;
+
+    if (!hasAnySelected) {
+      setNominalPokok("0");
+      setNominalBunga("0");
+      setNominalDenda("0");
+      return;
+    }
+
     const t = calcKhususSelectedTotals(pagedRows, selected);
     setNominalPokok(formatIdr0(t.pokok));
     setNominalBunga(formatIdr0(t.bunga));
     setNominalDenda(formatIdr0(t.denda));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKhusus, pagedRows, selected]);
-
-  const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
+  }, [isKhusus, hasAnySelected, pagedRows, selected]);
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
@@ -449,7 +480,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={isKhusus} // reguler = selectable, khusus = locked
+                  isLocked={false} // KHUSUS: bisa check/uncheck (logic), UI tetap sama
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
@@ -502,6 +533,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 hasAnySelected={hasAnySelected}
                 totals={
+                  // Ringkasan khusus: tetap otomatis dari tagihan (biarkan angka yang ada / behavior existing)
                   isKhusus
                     ? {
                         pokok: formatMoneyIdNoDecimals(khususTotals?.pokok ?? 0),
@@ -533,10 +565,14 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}
                 onTransactionTypeChange={(v: any) => {
-                  // reset selection cache when switching away from reguler,
-                  // but keep UI unchanged and avoid surprising persistence across modes
                   if (jenisTransaksi === "Pembayaran Reguler" && v !== "Pembayaran Reguler") {
                     setSelectedByPage({});
+                  }
+                  if (jenisTransaksi === "Pembayaran Khusus" && v !== "Pembayaran Khusus") {
+                    setSelectedByPageKhusus({});
+                    setNominalPokok("0");
+                    setNominalBunga("0");
+                    setNominalDenda("0");
                   }
                   setJenisTransaksi(v);
                 }}
