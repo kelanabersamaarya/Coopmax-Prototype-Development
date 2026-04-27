@@ -892,7 +892,7 @@ export default function LoanProductEdit() {
                     </RadioGroup>
                   </div>
 
-                  <FieldRow label="Tarif Denda">
+                  <FieldRow label="Metode Denda">
                     <PenaltyRateField
                       mode={tarifDendaMode}
                       onModeChange={setTarifDendaMode}
