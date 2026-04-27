@@ -618,7 +618,7 @@ export default function BillingTable({
       />
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        <table className={tableBase}>
+        <table className={cn(tableBase, "table-fixed")}>
           <thead className="bg-white">
             <tr className="border-b border-slate-200">
               {!hideSelection ? (
@@ -707,7 +707,7 @@ export default function BillingTable({
                   <td colSpan={colCount} className="p-0">
                     <div className="p-2">
                       <div className="overflow-hidden rounded-xl border-2 border-[#2563eb]/60 bg-white">
-                        <table className={tableBase}>
+                        <table className={cn(tableBase, "table-fixed")}>
                           <tbody>
                             <GracePeriodInfoRow colSpan={colCount} noBorder />
 
@@ -745,14 +745,24 @@ export default function BillingTable({
 
                                   {!hideInterestCols ? (
                                     <td className={cn(tdNumTight, colTotalW)}>
-                                      {bill.totalBelumDibayar}
+                                      <NumericCell align="right">
+                                        {bill.totalBelumDibayar}
+                                      </NumericCell>
                                     </td>
                                   ) : null}
 
-                                  <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
+                                  <td className={cn(tdNum, colPokokW)}>
+                                    <NumericCell align="right">
+                                      {bill.tagihanPokok}
+                                    </NumericCell>
+                                  </td>
 
                                   {!hideInterestCols ? (
-                                    <td className={cn(tdNum, colBungaW)}>{bill.tagihanBunga}</td>
+                                    <td className={cn(tdNum, colBungaW)}>
+                                      <NumericCell align="right">
+                                        {bill.tagihanBunga}
+                                      </NumericCell>
+                                    </td>
                                   ) : null}
 
                                   <td className={cn(tdNum, colSisaPokokW)}>
@@ -768,7 +778,9 @@ export default function BillingTable({
                                   {showPenaltyCol ? (
                                     <td className={cn(tdNum, colDendaW)}>
                                       <div className="flex items-center justify-end gap-3">
-                                        <span>{penalties[rowIdx]?.total ?? "25.000"}</span>
+                                        <NumericCell align="right">
+                                          {penalties[rowIdx]?.total ?? "25.000"}
+                                        </NumericCell>
                                         <PenaltyInfoButton
                                           onClick={() => openPenaltyDetailForRow(rowIdx)}
                                         />
@@ -812,13 +824,19 @@ export default function BillingTable({
                       <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
+                        <td className={cn(tdNumTight, colTotalW)}>
+                          <NumericCell align="right">{bill.totalBelumDibayar}</NumericCell>
+                        </td>
                       ) : null}
 
-                      <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
+                      <td className={cn(tdNum, colPokokW)}>
+                        <NumericCell align="right">{bill.tagihanPokok}</NumericCell>
+                      </td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colBungaW)}>{bill.tagihanBunga}</td>
+                        <td className={cn(tdNum, colBungaW)}>
+                          <NumericCell align="right">{bill.tagihanBunga}</NumericCell>
+                        </td>
                       ) : null}
 
                       <td className={cn(tdNum, colSisaPokokW)}>
@@ -833,7 +851,9 @@ export default function BillingTable({
 
                       {showPenaltyCol ? (
                         <td className={cn(tdNum, colDendaW)}>
-                          {penalties[rowIdx]?.total ?? "25.000"}
+                          <NumericCell align="right">
+                            {penalties[rowIdx]?.total ?? "25.000"}
+                          </NumericCell>
                         </td>
                       ) : null}
                     </tr>
@@ -869,13 +889,19 @@ export default function BillingTable({
                     <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
 
                     {!hideInterestCols ? (
-                      <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
+                      <td className={cn(tdNumTight, colTotalW)}>
+                        <NumericCell align="right">{bill.totalBelumDibayar}</NumericCell>
+                      </td>
                     ) : null}
 
-                    <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
+                    <td className={cn(tdNum, colPokokW)}>
+                      <NumericCell align="right">{bill.tagihanPokok}</NumericCell>
+                    </td>
 
                     {!hideInterestCols ? (
-                      <td className={cn(tdNum, colBungaW)}>{bill.tagihanBunga}</td>
+                      <td className={cn(tdNum, colBungaW)}>
+                        <NumericCell align="right">{bill.tagihanBunga}</NumericCell>
+                      </td>
                     ) : null}
 
                     <td className={cn(tdNum, colSisaPokokW)}>
@@ -890,7 +916,7 @@ export default function BillingTable({
 
                     {showPenaltyCol ? (
                       <td className={cn(tdNum, colDendaW)}>
-                        {penalties[idx]?.total ?? "25.000"}
+                        <NumericCell align="right">{penalties[idx]?.total ?? "25.000"}</NumericCell>
                       </td>
                     ) : null}
                   </tr>
@@ -923,13 +949,19 @@ export default function BillingTable({
                       <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
+                        <td className={cn(tdNumTight, colTotalW)}>
+                          <NumericCell align="right">{bill.totalBelumDibayar}</NumericCell>
+                        </td>
                       ) : null}
 
-                      <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
+                      <td className={cn(tdNum, colPokokW)}>
+                        <NumericCell align="right">{bill.tagihanPokok}</NumericCell>
+                      </td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colBungaW)}>{bill.tagihanBunga}</td>
+                        <td className={cn(tdNum, colBungaW)}>
+                          <NumericCell align="right">{bill.tagihanBunga}</NumericCell>
+                        </td>
                       ) : null}
 
                       <td className={cn(tdNum, colSisaPokokW)}>
@@ -944,7 +976,9 @@ export default function BillingTable({
 
                       {showPenaltyCol ? (
                         <td className={cn(tdNum, colDendaW)}>
-                          {penalties[globalIndex]?.total ?? "25.000"}
+                          <NumericCell align="right">
+                            {penalties[globalIndex]?.total ?? "25.000"}
+                          </NumericCell>
                         </td>
                       ) : null}
                     </tr>
