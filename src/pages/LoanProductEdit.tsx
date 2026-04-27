@@ -79,24 +79,22 @@ function InfoDot() {
 }
 
 function AmountModeInput({
-  label,
   mode,
   onModeChange,
   value,
   onValueChange,
   placeholder = "0,00",
+  hint,
 }: {
-  label: string;
   mode: AmountMode;
   onModeChange: (v: AmountMode) => void;
   value: string;
   onValueChange: (v: string) => void;
   placeholder?: string;
+  hint?: string;
 }) {
   return (
     <div className="grid gap-2">
-      <Label className="text-sm font-semibold text-slate-900">{label}</Label>
-
       <div className="flex w-full items-center gap-2">
         <Select value={mode} onValueChange={(v) => onModeChange(v as AmountMode)}>
           <SelectTrigger className="h-11 w-[92px] rounded-2xl border-slate-200 bg-white">
@@ -117,11 +115,7 @@ function AmountModeInput({
         />
       </div>
 
-      <div className="text-[11px] text-slate-500">
-        {mode === "rp"
-          ? "Masukkan nominal (Rp)."
-          : "Masukkan persentase (%)."}
-      </div>
+      {hint ? <div className="text-[11px] text-slate-500">{hint}</div> : null}
     </div>
   );
 }
@@ -541,47 +535,53 @@ export default function LoanProductEdit() {
                 </div>
               </FieldRow>
 
-              {/* UBAH: biaya jadi 1 kolom + Propisi/Administrasi ada pilihan Rp/% */}
-              <div className="grid gap-4">
-                <AmountModeInput
-                  label="Propisi"
-                  mode={propisiMode}
-                  onModeChange={setPropisiMode}
-                  value={propisi}
-                  onValueChange={setPropisi}
-                />
+              {/* UBAH: Propisi/Administrasi konsisten: label di kiri */}
+              <div className="grid gap-5">
+                <FieldRow label="Propisi">
+                  <AmountModeInput
+                    mode={propisiMode}
+                    onModeChange={setPropisiMode}
+                    value={propisi}
+                    onValueChange={setPropisi}
+                    hint={
+                      propisiMode === "rp"
+                        ? "Masukkan nominal (Rp)."
+                        : "Masukkan persentase (%)."
+                    }
+                  />
+                </FieldRow>
 
-                <AmountModeInput
-                  label="Administrasi"
-                  mode={adminMode}
-                  onModeChange={setAdminMode}
-                  value={admin}
-                  onValueChange={setAdmin}
-                />
+                <FieldRow label="Administrasi">
+                  <AmountModeInput
+                    mode={adminMode}
+                    onModeChange={setAdminMode}
+                    value={admin}
+                    onValueChange={setAdmin}
+                    hint={
+                      adminMode === "rp"
+                        ? "Masukkan nominal (Rp)."
+                        : "Masukkan persentase (%)."
+                    }
+                  />
+                </FieldRow>
 
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Biaya Asuransi
-                  </Label>
+                <FieldRow label="Biaya Asuransi">
                   <Input
                     value={insurance}
                     onChange={(e) => setInsurance(e.target.value)}
                     className="h-11 rounded-2xl border-slate-200 bg-white"
                     inputMode="decimal"
                   />
-                </div>
+                </FieldRow>
 
-                <div className="grid gap-2">
-                  <Label className="text-sm font-semibold text-slate-900">
-                    Biaya Aktivasi M-Banking
-                  </Label>
+                <FieldRow label="Biaya Aktivasi M-Banking">
                   <Input
                     value={mbankingActivation}
                     onChange={(e) => setMbankingActivation(e.target.value)}
                     className="h-11 rounded-2xl border-slate-200 bg-white"
                     inputMode="decimal"
                   />
-                </div>
+                </FieldRow>
               </div>
 
               <FieldRow label="Tanpa Agunan">
