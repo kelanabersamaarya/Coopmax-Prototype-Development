@@ -48,20 +48,15 @@ type InstallmentMode =
 
 function FieldRow({
   label,
-  hint,
   children,
 }: {
   label: string;
-  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
       <div className="pt-1">
         <div className="text-sm font-semibold text-slate-900">{label}</div>
-        {hint ? (
-          <div className="mt-1 text-xs text-slate-500">{hint}</div>
-        ) : null}
       </div>
       <div className="min-w-0">{children}</div>
     </div>
@@ -79,7 +74,7 @@ function InfoDot() {
 export default function LoanProductCreate() {
   const navigate = useNavigate();
 
-  const [code, setCode] = React.useState("klpk04.07");
+  const [code, setCode] = React.useState("klp04.07");
   const [name, setName] = React.useState("Pinjaman Emas");
 
   const [rc, setRc] = React.useState(false);
@@ -313,10 +308,7 @@ export default function LoanProductCreate() {
                 </Select>
               </FieldRow>
 
-              <FieldRow
-                label="Bunga Pinjaman Memperhitungkan Hutang Bunga"
-                hint="Jika diaktifkan maka hutang bunga rekening mempengaruhi jumlah bunga yang harus dibayar."
-              >
+              <FieldRow label="Bunga Pinjaman Memperhitungkan Hutang Bunga">
                 <div className="flex items-center gap-3">
                   <Switch
                     checked={interestCountsOnInterestDebt}
@@ -377,10 +369,7 @@ export default function LoanProductCreate() {
                 />
               </FieldRow>
 
-              <FieldRow
-                label="Nominal Kelipatan"
-                hint="Nominal untuk kelipatan pinjaman pada pengajuan Mobile Banking."
-              >
+              <FieldRow label="Nominal Kelipatan">
                 <Input
                   value={nominalStep}
                   onChange={(e) => setNominalStep(e.target.value)}
@@ -389,10 +378,7 @@ export default function LoanProductCreate() {
                 />
               </FieldRow>
 
-              <FieldRow
-                label="Ketentuan Produk Pinjaman"
-                hint="Ketentuan produk pinjaman pada Mobile Banking."
-              >
+              <FieldRow label="Ketentuan Produk Pinjaman">
                 <Textarea
                   value={terms}
                   onChange={(e) => setTerms(e.target.value)}
@@ -633,10 +619,7 @@ export default function LoanProductCreate() {
                 </Select>
               </FieldRow>
 
-              <FieldRow
-                label="KP Pembagi Pendapatan Bunga"
-                hint="Diisi jika ingin pembukuan pendapatan bunga dibagi ke KP ini."
-              >
+              <FieldRow label="KP Pembagi Pendapatan Bunga">
                 <Select
                   value={coaSplitInterestRevenue}
                   onValueChange={(v) => setCoaSplitInterestRevenue(v as CoaOption)}
