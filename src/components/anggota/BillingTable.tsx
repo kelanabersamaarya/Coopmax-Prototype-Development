@@ -239,7 +239,7 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  // === Style tokens: lebih mirip referensi ===
+  // === Style tokens ===
   const thBase =
     "px-4 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
@@ -366,11 +366,9 @@ export default function BillingTable({
               </tr>
             ) : (
               <>
-                {/* SECTION GRACE PERIOD (sub-table) */}
                 {graceEnabled && graceRows.length > 0 ? (
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      {/* UBAH: kecilkan padding kiri/kanan supaya gap ujung tidak besar */}
                       <div className="bg-white px-2 py-3 sm:px-3 sm:py-3">
                         <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
@@ -429,7 +427,7 @@ export default function BillingTable({
                                     {showPenaltyCol ? (
                                       <td className={cn(tdNum, "pr-3")}>
                                         <div className="flex items-center justify-end gap-3">
-                                          <span className="font-semibold text-slate-900">
+                                          <span className="font-medium text-slate-900">
                                             {penalties[rowIndex]?.total ?? "25.000"}
                                           </span>
                                           <PenaltyInfoButton
@@ -451,7 +449,6 @@ export default function BillingTable({
                   <GracePeriodInfoRow colSpan={colCount} />
                 ) : null}
 
-                {/* ROWS NON-GRACE */}
                 {nonGraceRows.map((bill, idx) => {
                   const rowIndex = graceEnabled ? graceCount + idx : idx;
 
@@ -498,7 +495,7 @@ export default function BillingTable({
                       {showPenaltyCol ? (
                         <td className={cn(tdNum, "pr-3")}>
                           <div className="flex items-center justify-end gap-3">
-                            <span className="font-semibold text-slate-900">
+                            <span className="font-medium text-slate-900">
                               {penalties[rowIndex]?.total ?? "25.000"}
                             </span>
                             <PenaltyInfoButton
@@ -511,7 +508,6 @@ export default function BillingTable({
                   );
                 })}
 
-                {/* EXTRA OUTSIDE ROWS */}
                 {extraOutsideRows.map((bill, idx) => {
                   const globalIndex = displayRows.length + idx;
                   return (
