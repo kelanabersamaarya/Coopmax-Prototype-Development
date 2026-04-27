@@ -133,13 +133,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
   const showAllRows = penaltyOnlyCols || feeOnlyCols;
 
-  const isPenurunanPlafon = (jenisTransaksi as any) === "Pembayaran Penurunan Plafon";
+  const isPenurunanPlafon =
+    (jenisTransaksi as any) === "Pembayaran Penurunan Plafon";
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // UBAH: Reguler sekarang tampilkan semua tagihan (bukan cuma currentBill)
+  // FIX: View2/3 reguler hanya tampilkan 1 tagihan
   const rowsToShow: BillingRow[] = isReguler
-    ? upcomingRows
+    ? [currentBill]
     : isPelunasan
       ? upcomingRows
       : showAllRows
@@ -153,7 +154,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    if (isReguler || isPelunasan || showAllRows) {
+    if (isReguler) {
+      setSelected(rowsToShow.map(() => true));
+      return;
+    }
+    if (isPelunasan || showAllRows) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
