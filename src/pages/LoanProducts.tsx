@@ -182,10 +182,6 @@ export default function LoanProducts() {
               </h1>
               <div className="text-sm font-semibold text-slate-500">Daftar</div>
             </div>
-            <p className="mt-1 max-w-2xl text-sm text-slate-600">
-              Kelola katalog produk pinjaman. Tampilan daftar meniru tabel
-              referensi (filter & pagination sederhana).
-            </p>
           </div>
 
           <Button
@@ -223,7 +219,7 @@ export default function LoanProducts() {
               <div className="text-xs text-slate-600">Entri</div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="sr-only">
               <Button
                 variant="outline"
                 className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
