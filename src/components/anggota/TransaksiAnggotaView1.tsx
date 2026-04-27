@@ -234,6 +234,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     );
 
   React.useEffect(() => {
+    // Pelunasan: selalu semua ter-checklist (per halaman)
     if (isPelunasan) {
       _setSelected(pagedRows.map(() => true));
       return;
@@ -376,6 +377,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
 
+  const useBillingView2Layout = isReguler || isKhusus || isPelunasan;
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -473,7 +476,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {isReguler || isKhusus ? (
+              {useBillingView2Layout ? (
                 <BillingTableView2
                   rows={pagedRowsForView2}
                   selected={selected}
