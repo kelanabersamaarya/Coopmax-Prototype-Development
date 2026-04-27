@@ -104,7 +104,6 @@ function buildPenaltyDetailRows(dueDateDmy: string, idx: number) {
   const due = parseDmyToDate(dueDateDmy) ?? new Date();
   const days = 3;
 
-  // Samakan dengan nominal kolom utama (per row berdasarkan index)
   const perDay = Math.round(penaltyForIndex(idx) / days);
 
   const rows: PenaltyDetailRow[] = Array.from({ length: days }).map((_, i) => ({
@@ -131,9 +130,11 @@ function PenaltyInfoButton({
         onClick();
       }}
       className={cn(
-        "inline-flex h-7 w-7 items-center justify-center rounded-full",
+        // Bulat sempurna + konsisten dengan style tombol info di View1 (BillingTable v1)
+        "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
         "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
         "transition hover:bg-[#1d4ed8]",
+        "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
         className,
       )}
       aria-label="Rincian denda"
@@ -222,8 +223,9 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
+  // Samakan rasa dengan View1: angka ~13px + tabular-nums; tanggal lebih tegas.
   const dateTextClass =
-    "text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap";
+    "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
   const numberTextClass =
     tone === "khusus"
@@ -255,7 +257,7 @@ export default function BillingTableView2({
     return (
       <div className={cn("px-4 py-4", numberTextClass)}>
         <div className="flex items-center justify-end gap-3">
-          <span>{nominal}</span>
+          <span className="tabular-nums">{nominal}</span>
           <PenaltyInfoButton
             onClick={() => openPenaltyDetailForRow(idx, dueDateDmy)}
           />
@@ -499,7 +501,10 @@ export default function BillingTableView2({
                     const active = hideSelection ? false : selected[idx] === true;
 
                     return (
-                      <tr key={`${r.jatuhTempo}-${idx}`} className="border-t border-slate-200">
+                      <tr
+                        key={`${r.jatuhTempo}-${idx}`}
+                        className="border-t border-slate-200"
+                      >
                         <td colSpan={colCount} className="p-0">
                           <RowShell active={active}>
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
