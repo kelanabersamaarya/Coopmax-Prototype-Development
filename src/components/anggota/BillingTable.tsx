@@ -258,9 +258,17 @@ export default function BillingTable({
   const checkboxTh = "w-[44px]";
   const tableBase = "w-full border-collapse";
 
+  // Tighten specifically the first gap (Jatuh Tempo -> Total)
+  const thTight = th.replace("px-4", "px-3");
+  const thRightTight = thRight.replace("px-4", "px-3");
+  const tdTight = td.replace("px-4", "px-3");
+  const tdNumTight = tdNum.replace("px-4", "px-3");
+  const tdDateTight = tdDate.replace("px-4", "px-3");
+
   // Tabel utama selalu punya kolom denda seperti contoh (tapi bisa disembunyikan di mode tertentu)
   const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
-  const showAllCols = !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
+  const showAllCols =
+    !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
 
   // default columns count (for colSpan calculations)
   const colCount = (() => {
@@ -295,7 +303,10 @@ export default function BillingTable({
       return { feeName, periode, total, sisa };
     });
 
-    const allCheckedFee = !hideSelection && feeRows.length > 0 && feeRows.every((_, i) => selected[i] === true);
+    const allCheckedFee =
+      !hideSelection &&
+      feeRows.length > 0 &&
+      feeRows.every((_, i) => selected[i] === true);
     const anyCheckedFee = !hideSelection && feeRows.some((_, i) => selected[i] === true);
 
     return (
@@ -382,7 +393,9 @@ export default function BillingTable({
     const colCountPenalty = hideSelection ? 4 : 5;
 
     const allCheckedPenalty =
-      !hideSelection && displayRows.length > 0 && displayRows.every((_, i) => selected[i] === true);
+      !hideSelection &&
+      displayRows.length > 0 &&
+      displayRows.every((_, i) => selected[i] === true);
     const anyCheckedPenalty =
       !hideSelection && displayRows.some((_, i) => selected[i] === true);
 
@@ -475,7 +488,9 @@ export default function BillingTable({
     const colCountInterest = hideSelection ? 3 : 4;
 
     const allCheckedInterest =
-      !hideSelection && displayRows.length > 0 && displayRows.every((_, i) => selected[i] === true);
+      !hideSelection &&
+      displayRows.length > 0 &&
+      displayRows.every((_, i) => selected[i] === true);
     const anyCheckedInterest =
       !hideSelection && displayRows.some((_, i) => selected[i] === true);
 
@@ -559,9 +574,9 @@ export default function BillingTable({
   }
 
   // ===== Default (match screenshot) =====
-  // Header tetap seperti contoh, tapi kolom-kolom tertentu bisa disembunyikan via flags.
-  const colDateW = "w-[140px]";
-  const colTotalW = "w-[190px]";
+  // diperkecil untuk mengurangi gap Jatuh Tempo -> Total
+  const colDateW = "w-[118px]";
+  const colTotalW = "w-[150px]";
   const colPokokW = "w-[150px]";
   const colBungaW = "w-[150px]";
   const colSisaPokokW = "w-[190px]";
@@ -596,10 +611,12 @@ export default function BillingTable({
                 </th>
               ) : null}
 
-              <th className={cn(th, colDateW)}>Jatuh Tempo</th>
+              <th className={cn(thTight, colDateW)}>Jatuh Tempo</th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, colTotalW)}>Total Tagihan Belum Dibayar</th>
+                <th className={cn(thRightTight, colTotalW)}>
+                  Total Tagihan Belum Dibayar
+                </th>
               ) : null}
 
               <th className={cn(thRight, colPokokW)}>Tagihan Pokok</th>
@@ -640,6 +657,7 @@ export default function BillingTable({
                         <table className={tableBase}>
                           <tbody>
                             <GracePeriodInfoRow colSpan={colCount} noBorder />
+
                             {graceRows.map((bill, idx) => {
                               const rowIdx = idx;
                               return (
@@ -668,10 +686,14 @@ export default function BillingTable({
                                     </td>
                                   ) : null}
 
-                                  <td className={cn(tdDate, colDateW)}>{bill.jatuhTempo}</td>
+                                  <td className={cn(tdDateTight, colDateW)}>
+                                    {bill.jatuhTempo}
+                                  </td>
 
                                   {!hideInterestCols ? (
-                                    <td className={cn(tdNum, colTotalW)}>{bill.totalBelumDibayar}</td>
+                                    <td className={cn(tdNumTight, colTotalW)}>
+                                      {bill.totalBelumDibayar}
+                                    </td>
                                   ) : null}
 
                                   <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
@@ -735,10 +757,10 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={cn(tdDate, colDateW)}>{bill.jatuhTempo}</td>
+                      <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colTotalW)}>{bill.totalBelumDibayar}</td>
+                        <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
                       <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
@@ -759,7 +781,6 @@ export default function BillingTable({
 
                       {showPenaltyCol ? (
                         <td className={cn(tdNum, colDendaW)}>
-                          {/* di luar grace block: tampilkan angka saja agar bersih seperti contoh */}
                           {penalties[rowIdx]?.total ?? "25.000"}
                         </td>
                       ) : null}
@@ -790,10 +811,10 @@ export default function BillingTable({
                       </td>
                     ) : null}
 
-                    <td className={cn(tdDate, colDateW)}>{bill.jatuhTempo}</td>
+                    <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
 
                     {!hideInterestCols ? (
-                      <td className={cn(tdNum, colTotalW)}>{bill.totalBelumDibayar}</td>
+                      <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
                     ) : null}
 
                     <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
@@ -844,10 +865,10 @@ export default function BillingTable({
                         </td>
                       ) : null}
 
-                      <td className={cn(tdDate, colDateW)}>{bill.jatuhTempo}</td>
+                      <td className={cn(tdDateTight, colDateW)}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={cn(tdNum, colTotalW)}>{bill.totalBelumDibayar}</td>
+                        <td className={cn(tdNumTight, colTotalW)}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
                       <td className={cn(tdNum, colPokokW)}>{bill.tagihanPokok}</td>
