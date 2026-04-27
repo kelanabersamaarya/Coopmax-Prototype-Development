@@ -266,7 +266,7 @@ export default function BillingTable({
 
   const graceEnabled = showGraceHighlight && showAllCols;
 
-  // FIX: kembalikan grace period hanya 2 baris (sesuai tampilan referensi)
+  // FIX: grace period hanya 2 baris (sesuai tampilan referensi)
   const graceCount = graceEnabled ? Math.min(2, displayRows.length) : 0;
 
   function rowIsGrace(rowIndex: number) {
@@ -481,8 +481,9 @@ export default function BillingTable({
                       ) : null}
 
                       {showPenaltyCol ? (
+                        // HILANGKAN angka denda untuk baris "di bawah" (extraOutsideRows)
                         <td className={tdNum}>
-                          {penalties[globalIndex]?.total ?? "25.000"}
+                          <span className="text-slate-400">-</span>
                         </td>
                       ) : null}
                     </tr>
