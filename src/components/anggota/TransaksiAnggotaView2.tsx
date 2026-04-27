@@ -133,22 +133,30 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // === PERMINTAAN: Reguler & Khusus (View 2) hanya tampil 1 tagihan ===
-  const rowsToShow: BillingRow[] = isReguler
-    ? [currentBill]
-    : isKhusus
+  // === PERMINTAAN: Baki debet tampil semua tagihan; Reguler & Khusus hanya 1 tagihan ===
+  const rowsToShow: BillingRow[] = isPenurunanBakiDebet
+    ? upcomingRows
+    : isReguler
       ? [currentBill]
-      : isPelunasan
-        ? upcomingRows
-        : showAllRows
+      : isKhusus
+        ? [currentBill]
+        : isPelunasan
           ? upcomingRows
-          : [currentBill];
+          : showAllRows
+            ? upcomingRows
+            : [currentBill];
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rowsToShow.map(() => false),
   );
 
   React.useEffect(() => {
+    // Baki debet: selection disembunyikan, tapi state tetap dibuat agar konsisten
+    if (isPenurunanBakiDebet) {
+      setSelected(rowsToShow.map(() => true));
+      return;
+    }
+
     // Reguler & Khusus: tampil seperti View 1 (locked + tercentang)
     if (isReguler || isKhusus) {
       setSelected(rowsToShow.map(() => true));
@@ -163,7 +171,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
     setSelected(rowsToShow.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReguler, isKhusus, isPelunasan, showAllRows, rowsToShow.length]);
+  }, [
+    isPenurunanBakiDebet,
+    isReguler,
+    isKhusus,
+    isPelunasan,
+    showAllRows,
+    rowsToShow.length,
+  ]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -233,8 +248,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [isPelunasan, rowsToShow]);
 
   // === Layout rules (View2 disamakan dengan View1) ===
-  const usePenaltyColumn =
-    isPenurunanBakiDebet ? false : true; // khusus baki debet: tidak ada kolom denda
+  const usePenaltyColumn = isPenurunanBakiDebet ? false : true;
   const penaltyLimit = 3;
 
   return (
@@ -337,16 +351,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {/* View2 disamakan: pakai BillingTableView2 untuk semua mode utama */}
               <BillingTableView2
                 rows={rowsToShow}
                 selected={selected}
                 setSelected={setSelected}
-                isLocked={isReguler || isKhusus || isPelunasan}
+                isLocked={isReguler || isKhusus || isPelunasan || isPenurunanBakiDebet}
                 showNextBillInfo={false}
                 showGraceInfo={true}
                 highlightGraceBlock={true}
-                hideSelection={false}
+                hideSelection={isPenurunanBakiDebet}
                 showPenaltyColumn={usePenaltyColumn}
                 penaltyDisplayLimit={usePenaltyColumn ? penaltyLimit : undefined}
                 disableRowRings
