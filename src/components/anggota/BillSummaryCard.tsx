@@ -27,23 +27,24 @@ function SummaryRow({
     <div
       className={cn(
         "grid items-center gap-x-3 py-3",
-        "[grid-template-columns:minmax(220px,1fr)_14px_minmax(0,1fr)]",
+        // sedikit diperkecil agar muat di panel kanan yang lebih kecil
+        "[grid-template-columns:minmax(190px,1fr)_14px_minmax(0,1fr)]",
       )}
     >
       <div
         className={cn(
-          "text-[14px] leading-snug whitespace-nowrap",
+          "min-w-0 overflow-hidden text-[14px] leading-snug whitespace-nowrap",
           strong ? "font-semibold text-slate-700" : "font-medium text-slate-600",
         )}
       >
-        {label}
+        <span className="block truncate">{label}</span>
       </div>
 
       <div className="text-center text-[14px] font-semibold text-slate-400">:</div>
 
       <div
         className={cn(
-          "tabular-nums tracking-tight text-slate-900 whitespace-nowrap",
+          "min-w-0 tabular-nums tracking-tight text-slate-900 whitespace-nowrap",
           valueAlign === "left" ? "text-left" : "text-right",
           strong ? "text-[14px] font-extrabold" : "text-[14px] font-bold",
         )}
@@ -67,13 +68,15 @@ function SummaryRowInline({
     <div
       className={cn(
         "grid items-center gap-x-2 py-3 text-[14px]",
-        "[grid-template-columns:minmax(220px,1fr)_14px_minmax(0,1fr)]",
+        "[grid-template-columns:minmax(190px,1fr)_14px_minmax(0,1fr)]",
         className,
       )}
     >
-      <span className="font-semibold text-slate-700 whitespace-nowrap">{label}</span>
+      <span className="min-w-0 overflow-hidden whitespace-nowrap font-semibold text-slate-700">
+        <span className="block truncate">{label}</span>
+      </span>
       <span className="text-center font-semibold text-slate-400">:</span>
-      <span className="text-right font-extrabold tabular-nums tracking-tight text-slate-900 whitespace-nowrap">
+      <span className="min-w-0 text-right font-extrabold tabular-nums tracking-tight text-slate-900 whitespace-nowrap">
         {value}
       </span>
     </div>
