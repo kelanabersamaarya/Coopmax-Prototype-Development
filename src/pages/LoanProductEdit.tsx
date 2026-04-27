@@ -16,7 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ChevronLeft, Info, Plus, Save, Trash2 } from "lucide-react";
+import { ChevronLeft, Info, Plus, Trash2 } from "lucide-react";
 import { BillingScheme } from "@/lib/loanProductsStore";
 
 type PeriodUnit = "Bulan" | "Hari";
@@ -79,8 +79,16 @@ function FieldRow({
 
 function InfoDot() {
   return (
-    <span className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-violet-100 text-violet-700 ring-1 ring-violet-200">
+    <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-violet-100 text-violet-700 ring-1 ring-violet-200">
       <Info className="h-3.5 w-3.5" />
+    </span>
+  );
+}
+
+function TinyInfoBadge() {
+  return (
+    <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700 ring-1 ring-blue-200">
+      i
     </span>
   );
 }
@@ -863,50 +871,50 @@ export default function LoanProductEdit() {
 
               {useInstallmentTable ? (
                 <>
-                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
-                    <div className="pt-1">
-                      <div className="text-sm font-normal text-slate-900">
-                        Skema Tagihan <InfoDot />
-                      </div>
+                  {/* Skema Tagihan — inline radio seperti referensi */}
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                    <div className="pt-1 text-sm font-normal text-slate-900">
+                      <span className="inline-flex items-center">
+                        Skema Tagihan <TinyInfoBadge />
+                      </span>
                     </div>
-                    <div className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200">
-                      <RadioGroup
-                        value={installmentMode}
-                        onValueChange={(v) =>
-                          setInstallmentMode(v as InstallmentMode)
-                        }
-                        className="grid gap-3"
-                      >
-                        {(
-                          [
-                            "Jadwal Tetap (Diterbitkan Penuh di Awal)",
-                            "Jadwal Fleksibel & Tagihan Berkala",
-                            "Dihitung dari Sisa Saldo Pokok",
-                          ] as InstallmentMode[]
-                        ).map((m) => (
-                          <label
-                            key={m}
-                            className="flex cursor-pointer items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 hover:bg-white"
-                          >
-                            <RadioGroupItem
-                              value={m}
-                              id={`mode-${m}`}
-                              className="mt-1"
-                            />
-                            <div className="min-w-0">
-                              <div className="text-sm font-semibold text-slate-900">
-                                {m}
-                              </div>
-                              <div className="mt-1 text-xs text-slate-600">
-                                Prototype — pilihan ini hanya memengaruhi state UI.
-                              </div>
-                            </div>
-                          </label>
-                        ))}
-                      </RadioGroup>
+
+                    <RadioGroup
+                      value={installmentMode}
+                      onValueChange={(v) => setInstallmentMode(v as InstallmentMode)}
+                      className="flex flex-wrap items-center gap-x-6 gap-y-2"
+                    >
+                      {(
+                        [
+                          "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+                          "Jadwal Fleksibel & Tagihan Berkala",
+                          "Dihitung dari Sisa Saldo Pokok",
+                        ] as InstallmentMode[]
+                      ).map((m) => (
+                        <label
+                          key={m}
+                          className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
+                        >
+                          <RadioGroupItem value={m} id={`mode-${m}`} />
+                          <span className="whitespace-nowrap">
+                            {m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                              ? "Tagihan Sesuai Jadwal Angsuran"
+                              : m === "Jadwal Fleksibel & Tagihan Berkala"
+                                ? "Tagihan Berkala Berdasarkan Periode"
+                                : "Tagihan Berdasarkan Sisa Angsuran"}
+                          </span>
+                          <TinyInfoBadge />
+                        </label>
+                      ))}
+                    </RadioGroup>
+
+                    <div className="sr-only">
+                      {/* keeps values used in case needed elsewhere */}
+                      {installmentMode}
                     </div>
                   </div>
 
+                  {/* Grace Period: tetap seperti sebelumnya */}
                   <div className="grid gap-5">
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                       <div className="pt-1 text-sm font-normal text-slate-900">
@@ -937,9 +945,7 @@ export default function LoanProductEdit() {
                                 id="grace-hanya-bayar-bunga"
                               />
                               Hanya Bayar Bunga
-                              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700 ring-1 ring-blue-200">
-                                i
-                              </span>
+                              <TinyInfoBadge />
                             </label>
                           </RadioGroup>
                         </div>
