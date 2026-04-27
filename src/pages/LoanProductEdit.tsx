@@ -238,13 +238,11 @@ export default function LoanProductEdit() {
         </div>
 
         <div className="mt-6 grid gap-4">
-          {/* KONFIGURASI PRODUK PINJAMAN (gabungan) */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
             <div className="text-[20px] font-semibold text-slate-900">
               Konfigurasi Produk Pinjaman
             </div>
 
-            {/* === KONFIGURASI DASAR === */}
             <div className="mt-5 grid gap-5">
               <div className="text-sm font-extrabold tracking-tight text-slate-900">
                 Konfigurasi Dasar
@@ -269,9 +267,6 @@ export default function LoanProductEdit() {
               <FieldRow label="RC">
                 <div className="flex items-center gap-3">
                   <Switch checked={rc} onCheckedChange={setRc} />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {rc ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -335,9 +330,6 @@ export default function LoanProductEdit() {
                     checked={interestCountsOnInterestDebt}
                     onCheckedChange={setInterestCountsOnInterestDebt}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {interestCountsOnInterestDebt ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -414,14 +406,10 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
-            {/* === PARAMETER LANJUTAN & BIAYA === */}
             <div className="mt-6 grid gap-5">
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {accPenalty ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -444,9 +432,6 @@ export default function LoanProductEdit() {
               <FieldRow label="Akumulasi Bunga Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accInterest} onCheckedChange={setAccInterest} />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {accInterest ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -456,9 +441,6 @@ export default function LoanProductEdit() {
                     checked={ignorePrincipalDebt}
                     onCheckedChange={setIgnorePrincipalDebt}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {ignorePrincipalDebt ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -468,9 +450,6 @@ export default function LoanProductEdit() {
                     checked={ignoreInterestDebt}
                     onCheckedChange={setIgnoreInterestDebt}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {ignoreInterestDebt ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -496,9 +475,6 @@ export default function LoanProductEdit() {
                     checked={specialEndDate}
                     onCheckedChange={setSpecialEndDate}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {specialEndDate ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -554,9 +530,6 @@ export default function LoanProductEdit() {
                     checked={withoutCollateral}
                     onCheckedChange={setWithoutCollateral}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {withoutCollateral ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -572,14 +545,10 @@ export default function LoanProductEdit() {
                     checked={splitInterestRevenue}
                     onCheckedChange={setSplitInterestRevenue}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {splitInterestRevenue ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
             </div>
 
-            {/* === COA === */}
             <div className="mt-6 grid gap-5">
               <FieldRow label="KP Pinjaman">
                 <Select
@@ -690,7 +659,6 @@ export default function LoanProductEdit() {
 
             <Separator className="my-6 bg-slate-200/70" />
 
-            {/* KONFIGURASI FEE KOLEKTOR (tanpa placeholder kosong) */}
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-base font-semibold text-slate-900">
                 Konfigurasi Fee Kolektor
@@ -767,7 +735,6 @@ export default function LoanProductEdit() {
 
             <Separator className="my-6 bg-slate-200/70" />
 
-            {/* KONFIGURASI TAGIHAN ANGSURAN (di dalam card utama) */}
             <div className="text-base font-semibold text-slate-900">
               Konfigurasi Tagihan Angsuran <InfoDot />
             </div>
@@ -785,9 +752,6 @@ export default function LoanProductEdit() {
                     checked={useInstallmentTable}
                     onCheckedChange={setUseInstallmentTable}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {useInstallmentTable ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
 
@@ -839,9 +803,6 @@ export default function LoanProductEdit() {
                     checked={gracePeriodEnabled}
                     onCheckedChange={setGracePeriodEnabled}
                   />
-                  <div className="text-sm font-semibold text-slate-700">
-                    {gracePeriodEnabled ? "ON" : "OFF"}
-                  </div>
                 </div>
               </FieldRow>
             </div>
