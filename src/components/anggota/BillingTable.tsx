@@ -366,11 +366,12 @@ export default function BillingTable({
               </tr>
             ) : (
               <>
-                {/* SECTION GRACE PERIOD (sub-table seperti contoh) */}
+                {/* SECTION GRACE PERIOD (sub-table) */}
                 {graceEnabled && graceRows.length > 0 ? (
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="bg-white px-4 py-4">
+                      {/* UBAH: kecilkan padding kiri/kanan supaya gap ujung tidak besar */}
+                      <div className="bg-white px-2 py-3 sm:px-3 sm:py-3">
                         <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
@@ -510,7 +511,7 @@ export default function BillingTable({
                   );
                 })}
 
-                {/* EXTRA OUTSIDE ROWS (tanpa nilai denda) */}
+                {/* EXTRA OUTSIDE ROWS */}
                 {extraOutsideRows.map((bill, idx) => {
                   const globalIndex = displayRows.length + idx;
                   return (
