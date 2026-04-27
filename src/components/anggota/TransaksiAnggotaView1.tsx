@@ -405,19 +405,21 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              <BillingTable
-                rows={pagedRows}
-                selected={selected}
-                setSelected={setSelected}
-                isPelunasan={isPelunasan}
-                showGraceHighlight={showGraceHighlight}
-                hideInterestCols={hideInterestCols}
-                interestOnlyCols={interestOnlyCols}
-                penaltyOnlyCols={penaltyOnlyCols}
-                feeOnlyCols={feeOnlyCols}
-                hideSelection={isPenurunanBakiDebet}
-                showPenaltyColumn={isReguler}
-              />
+              <div className="billing-table-compact">
+                <BillingTable
+                  rows={pagedRows}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isPelunasan={isPelunasan}
+                  showGraceHighlight={showGraceHighlight}
+                  hideInterestCols={hideInterestCols}
+                  interestOnlyCols={interestOnlyCols}
+                  penaltyOnlyCols={penaltyOnlyCols}
+                  feeOnlyCols={feeOnlyCols}
+                  hideSelection={isPenurunanBakiDebet}
+                  showPenaltyColumn={isReguler}
+                />
+              </div>
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
