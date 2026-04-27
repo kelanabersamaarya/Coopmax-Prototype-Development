@@ -349,7 +349,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showGraceInfo={true}
                   highlightGraceBlock={true}
                   hideSelection={false}
-                  showPenaltyColumn={false}
+                  showPenaltyColumn={true}
                   disableRowActiveRing={true}
                 />
               ) : isPelunasan ? (
