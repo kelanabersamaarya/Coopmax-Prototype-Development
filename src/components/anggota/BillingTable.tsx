@@ -261,9 +261,10 @@ export default function BillingTable({
   // Tighten specifically the first gap (Jatuh Tempo -> Total)
   const thTight = th.replace("px-4", "px-3");
   const thRightTight = thRight.replace("px-4", "px-3");
-  const tdTight = td.replace("px-4", "px-3");
   const tdNumTight = tdNum.replace("px-4", "px-3");
   const tdDateTight = tdDate.replace("px-4", "px-3");
+
+  const twoLineHeader = "leading-[1.05] whitespace-nowrap";
 
   // Tabel utama selalu punya kolom denda seperti contoh (tapi bisa disembunyikan di mode tertentu)
   const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
@@ -307,7 +308,8 @@ export default function BillingTable({
       !hideSelection &&
       feeRows.length > 0 &&
       feeRows.every((_, i) => selected[i] === true);
-    const anyCheckedFee = !hideSelection && feeRows.some((_, i) => selected[i] === true);
+    const anyCheckedFee =
+      !hideSelection && feeRows.some((_, i) => selected[i] === true);
 
     return (
       <div className={cn("mt-3", className)}>
@@ -328,9 +330,13 @@ export default function BillingTable({
                         ariaLabel="Pilih semua"
                         checked={isPelunasan ? true : allCheckedFee}
                         disabled={isPelunasan}
-                        indeterminate={!isPelunasan && anyCheckedFee && !allCheckedFee}
+                        indeterminate={
+                          !isPelunasan && anyCheckedFee && !allCheckedFee
+                        }
                         onChange={(next) =>
-                          setSelected(Array.from({ length: feeRows.length }).map(() => next))
+                          setSelected(
+                            Array.from({ length: feeRows.length }).map(() => next),
+                          )
                         }
                       />
                     </div>
@@ -355,7 +361,10 @@ export default function BillingTable({
                 </tr>
               ) : (
                 feeRows.map((r, idx) => (
-                  <tr key={`${r.periode}-${idx}`} className="border-t border-slate-200">
+                  <tr
+                    key={`${r.periode}-${idx}`}
+                    className="border-t border-slate-200"
+                  >
                     {!hideSelection ? (
                       <td className={cn(td, "text-center")}>
                         <TableCheckbox
@@ -418,9 +427,13 @@ export default function BillingTable({
                         ariaLabel="Pilih semua"
                         checked={isPelunasan ? true : allCheckedPenalty}
                         disabled={isPelunasan}
-                        indeterminate={!isPelunasan && anyCheckedPenalty && !allCheckedPenalty}
+                        indeterminate={
+                          !isPelunasan && anyCheckedPenalty && !allCheckedPenalty
+                        }
                         onChange={(next) =>
-                          setSelected(Array.from({ length: displayRows.length }).map(() => next))
+                          setSelected(
+                            Array.from({ length: displayRows.length }).map(() => next),
+                          )
                         }
                       />
                     </div>
@@ -445,7 +458,10 @@ export default function BillingTable({
                 </tr>
               ) : (
                 displayRows.map((bill, idx) => (
-                  <tr key={`${bill.jatuhTempo}-${idx}`} className="border-t border-slate-200">
+                  <tr
+                    key={`${bill.jatuhTempo}-${idx}`}
+                    className="border-t border-slate-200"
+                  >
                     {!hideSelection ? (
                       <td className={cn(td, "text-center")}>
                         <TableCheckbox
@@ -471,7 +487,9 @@ export default function BillingTable({
                       </div>
                     </td>
                     <td className={tdNum}>
-                      <NumericCell align="right">{penalties[idx]?.remaining ?? "25.000"}</NumericCell>
+                      <NumericCell align="right">
+                        {penalties[idx]?.remaining ?? "25.000"}
+                      </NumericCell>
                     </td>
                   </tr>
                 ))
@@ -513,9 +531,13 @@ export default function BillingTable({
                         ariaLabel="Pilih semua"
                         checked={isPelunasan ? true : allCheckedInterest}
                         disabled={isPelunasan}
-                        indeterminate={!isPelunasan && anyCheckedInterest && !allCheckedInterest}
+                        indeterminate={
+                          !isPelunasan && anyCheckedInterest && !allCheckedInterest
+                        }
                         onChange={(next) =>
-                          setSelected(Array.from({ length: displayRows.length }).map(() => next))
+                          setSelected(
+                            Array.from({ length: displayRows.length }).map(() => next),
+                          )
                         }
                       />
                     </div>
@@ -528,7 +550,9 @@ export default function BillingTable({
             </thead>
 
             <tbody className="bg-white">
-              {showGraceHighlight ? <GracePeriodInfoRow colSpan={colCountInterest} /> : null}
+              {showGraceHighlight ? (
+                <GracePeriodInfoRow colSpan={colCountInterest} />
+              ) : null}
 
               {displayRows.length === 0 ? (
                 <tr>
@@ -541,7 +565,10 @@ export default function BillingTable({
                 </tr>
               ) : (
                 displayRows.map((bill, idx) => (
-                  <tr key={`${bill.jatuhTempo}-${idx}`} className="border-t border-slate-200">
+                  <tr
+                    key={`${bill.jatuhTempo}-${idx}`}
+                    className="border-t border-slate-200"
+                  >
                     {!hideSelection ? (
                       <td className={cn(td, "text-center")}>
                         <TableCheckbox
@@ -574,7 +601,6 @@ export default function BillingTable({
   }
 
   // ===== Default (match screenshot) =====
-  // diperkecil untuk mengurangi gap Jatuh Tempo -> Total
   const colDateW = "w-[118px]";
   const colTotalW = "w-[150px]";
   const colPokokW = "w-[150px]";
@@ -604,35 +630,63 @@ export default function BillingTable({
                       disabled={isPelunasan}
                       indeterminate={!isPelunasan && anyChecked && !allChecked}
                       onChange={(next) =>
-                        setSelected(Array.from({ length: totalSelectableRows }).map(() => next))
+                        setSelected(
+                          Array.from({ length: totalSelectableRows }).map(() => next),
+                        )
                       }
                     />
                   </div>
                 </th>
               ) : null}
 
-              <th className={cn(thTight, colDateW)}>Jatuh Tempo</th>
+              <th className={cn(thTight, colDateW, twoLineHeader)}>
+                Jatuh
+                <br />
+                Tempo
+              </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRightTight, colTotalW)}>
-                  Total Tagihan Belum Dibayar
+                <th className={cn(thRightTight, colTotalW, twoLineHeader)}>
+                  Total Tagihan
+                  <br />
+                  Belum Dibayar
                 </th>
               ) : null}
 
-              <th className={cn(thRight, colPokokW)}>Tagihan Pokok</th>
+              <th className={cn(thRight, colPokokW, twoLineHeader)}>
+                Tagihan
+                <br />
+                Pokok
+              </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, colBungaW)}>Tagihan Bunga</th>
+                <th className={cn(thRight, colBungaW, twoLineHeader)}>
+                  Tagihan
+                  <br />
+                  Bunga
+                </th>
               ) : null}
 
-              <th className={cn(thRight, colSisaPokokW)}>Sisa Tagihan Pokok</th>
+              <th className={cn(thRight, colSisaPokokW, twoLineHeader)}>
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
 
               {!hideInterestCols ? (
-                <th className={cn(thRight, colSisaBungaW)}>Sisa Tagihan Bunga</th>
+                <th className={cn(thRight, colSisaBungaW, twoLineHeader)}>
+                  Sisa Tagihan
+                  <br />
+                  Bunga
+                </th>
               ) : null}
 
               {showPenaltyCol ? (
-                <th className={cn(thRight, colDendaW)}>Tagihan Denda</th>
+                <th className={cn(thRight, colDendaW, twoLineHeader)}>
+                  Tagihan
+                  <br />
+                  Denda
+                </th>
               ) : null}
             </tr>
           </thead>
@@ -649,7 +703,6 @@ export default function BillingTable({
               </tr>
             ) : graceRows.length > 0 ? (
               <>
-                {/* Grace block wrapper row */}
                 <tr className="border-t border-slate-200">
                   <td colSpan={colCount} className="p-0">
                     <div className="p-2">
@@ -732,7 +785,6 @@ export default function BillingTable({
                   </td>
                 </tr>
 
-                {/* rows after grace */}
                 {afterGraceRows.map((bill, idx) => {
                   const rowIdx = graceCount + idx;
                   return (
@@ -793,7 +845,10 @@ export default function BillingTable({
                 {showGraceHighlight ? <GracePeriodInfoRow colSpan={colCount} /> : null}
 
                 {displayRows.map((bill, idx) => (
-                  <tr key={`${bill.jatuhTempo}-${idx}`} className="border-t border-slate-200">
+                  <tr
+                    key={`${bill.jatuhTempo}-${idx}`}
+                    className="border-t border-slate-200"
+                  >
                     {!hideSelection ? (
                       <td className={cn(td, "text-center")}>
                         <TableCheckbox
