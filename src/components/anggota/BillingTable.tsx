@@ -250,13 +250,20 @@ export default function BillingTable({
     "text-right whitespace-nowrap",
     "num-sans-tabular tabular-nums",
   );
-  const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
   const twoLineHeader = "leading-[1.05] whitespace-nowrap";
   const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-slate-50/35");
 
-  // UBAH: samakan & kecilkan kolom checkbox supaya kolom Jatuh Tempo lurus
+  // checkbox column (rapat)
   const checkboxColW = "w-[48px]";
   const checkboxCell = cn(tdBase, "px-3 text-center");
+
+  // UBAH: kolom tanggal lebih rapat dari checkbox (kurangi padding kiri)
+  const thDate = cn(thBase, "pl-2 pr-4");
+  const tdDate = cn(
+    tdBase,
+    "pl-2 pr-4",
+    "font-semibold tabular-nums whitespace-nowrap",
+  );
 
   const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
   const showAllCols =
@@ -305,7 +312,7 @@ export default function BillingTable({
                 </th>
               ) : null}
 
-              <th className={cn(thBase, twoLineHeader)}>
+              <th className={cn(thDate, twoLineHeader)}>
                 Jatuh
                 <br />
                 Tempo
