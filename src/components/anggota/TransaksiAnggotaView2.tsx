@@ -122,11 +122,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [keterangan, setKeterangan] = React.useState("");
 
   const isPelunasan = jenisTransaksi === "Pelunasan";
-
   const isReguler =
     jenisTransaksi === "Pembayaran Reguler" ||
     (jenisTransaksi as any) === "Bayar Reguler";
-
   const isKhusus = jenisTransaksi === "Pembayaran Khusus";
 
   const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
@@ -153,17 +151,20 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    if (isReguler) {
+    // Reguler & Khusus: tampil seperti screenshot => checkbox "locked" dan tercentang
+    if (isReguler || isKhusus) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
+
     if (isPelunasan || showAllRows) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
+
     setSelected(rowsToShow.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReguler, isPelunasan, showAllRows, rowsToShow.length]);
+  }, [isReguler, isKhusus, isPelunasan, showAllRows, rowsToShow.length]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -209,8 +210,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [penurunanBakiDebetPokokTotal]);
 
   const showGraceInfo = true;
-
-  const highlightGraceBlock = isReguler || isPenurunanPlafon;
+  const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
@@ -353,6 +353,19 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showPenaltyColumn={true}
                   disableRowActiveRing={true}
                 />
+              ) : isKhusus ? (
+                <BillingTableView2
+                  rows={rowsToShow}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={true}
+                  showNextBillInfo={true}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
+                  showPenaltyColumn={true}
+                  disableRowActiveRing={true}
+                />
               ) : isPelunasan ? (
                 <BillingTable
                   rows={rowsToShowV1}
@@ -373,18 +386,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showGraceHighlight={true}
                   hideInterestCols={false}
                   hideSelection={true}
-                  className="mt-0"
-                />
-              ) : isKhusus ? (
-                <BillingTable
-                  rows={rowsToShowV1}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isPelunasan={false}
-                  showGraceHighlight={false}
-                  forceGraceInfo={true}
-                  hideInterestCols={false}
-                  showPenaltyColumn={true}
                   className="mt-0"
                 />
               ) : (
