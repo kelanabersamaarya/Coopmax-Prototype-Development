@@ -360,6 +360,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   isPelunasan={true}
                   showGraceHighlight={true}
                   hideInterestCols={false}
+                  showPenaltyColumn={true}
                   className="mt-0"
                 />
               ) : useTableLikeScreenshotForPenurunanBakiDebet ? (
