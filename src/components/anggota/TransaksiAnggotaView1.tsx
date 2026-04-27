@@ -515,7 +515,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
-                  hideSelection={false}
+                  hideSelection={isPenurunanBakiDebet}
                   showPenaltyColumn={isPenurunanBakiDebet ? false : true}
                   penaltyDisplayLimit={3}
                   disableRowRings
