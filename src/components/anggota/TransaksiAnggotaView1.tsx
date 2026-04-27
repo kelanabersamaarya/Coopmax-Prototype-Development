@@ -33,6 +33,9 @@ import TransactionFormCardView2, {
   type TransactionType,
 } from "@/components/anggota/TransactionFormCardView2";
 import BillingTable, { type BillingRow } from "@/components/anggota/BillingTable";
+import BillingTableView2, {
+  type BillingRow as BillingRowView2,
+} from "@/components/anggota/BillingTableView2";
 import { formatIdrLike } from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
 import { calcKhususTotalsFromRows } from "@/components/anggota/khsus-summary";
@@ -199,8 +202,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       setSelected(pagedRows.map(() => true));
       return;
     }
+
+    // Reguler & Khusus (View2 style) default: checked (seperti screenshot)
+    if (isReguler || isKhusus) {
+      setSelected(pagedRows.map(() => true));
+      return;
+    }
+
     setSelected(pagedRows.map(() => false));
-  }, [isPelunasan, pagedRows]);
+  }, [isPelunasan, isReguler, isKhusus, pagedRows]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -298,6 +308,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
 
+  const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -387,9 +399,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
-          {/* LAYOUT RAPi: samakan rasa seperti View2 (grid + spacing + panel kanan) */}
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
-            {/* LEFT: Billing */}
             <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
@@ -397,23 +407,38 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              <div className="billing-table-compact">
-                <BillingTable
-                  rows={pagedRows}
+              {isReguler || isKhusus ? (
+                <BillingTableView2
+                  rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isPelunasan={isPelunasan}
-                  showGraceHighlight={showGraceHighlight}
-                  hideInterestCols={hideInterestCols}
-                  interestOnlyCols={interestOnlyCols}
-                  penaltyOnlyCols={penaltyOnlyCols}
-                  feeOnlyCols={feeOnlyCols}
-                  hideSelection={isPenurunanBakiDebet}
-                  showPenaltyColumn={isReguler || isKhusus || isPelunasan}
+                  isLocked={true}
+                  showNextBillInfo={false}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
+                  showPenaltyColumn={true}
+                  disableRowActiveRing={true}
+                  className="mt-0"
                 />
-              </div>
+              ) : (
+                <div className="billing-table-compact">
+                  <BillingTable
+                    rows={pagedRows}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isPelunasan={isPelunasan}
+                    showGraceHighlight={showGraceHighlight}
+                    hideInterestCols={hideInterestCols}
+                    interestOnlyCols={interestOnlyCols}
+                    penaltyOnlyCols={penaltyOnlyCols}
+                    feeOnlyCols={feeOnlyCols}
+                    hideSelection={isPenurunanBakiDebet}
+                    showPenaltyColumn={isPelunasan}
+                  />
+                </div>
+              )}
 
-              {/* Pagination/footer: dibuat rapi & konsisten */}
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
                   Menampilkan {showingStart} sampai {showingEnd} dari{" "}
@@ -434,7 +459,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               </div>
             </Card>
 
-            {/* RIGHT: Summary + Form (sejajar & konsisten) */}
             <div className="space-y-4 px-1">
               <BillSummaryCard
                 mode={isPelunasan ? "pelunasan" : "regular"}
