@@ -13,6 +13,8 @@ import {
   BookOpenText,
   Printer,
   ScrollText,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
@@ -75,7 +77,7 @@ const rows: BillingRow[] = [
   })),
 ];
 
-function Pagination({
+function PaginationLikeExample({
   page,
   pageCount,
   onPage,
@@ -86,73 +88,41 @@ function Pagination({
 }) {
   if (pageCount <= 1) return null;
 
-  const items: Array<number | "ellipsis"> = [];
-  const push = (v: number | "ellipsis") => items.push(v);
-
-  const first = 1;
-  const last = pageCount;
-
-  push(first);
-
-  const around = 2;
-  const left = Math.max(first + 1, page - around);
-  const right = Math.min(last - 1, page + around);
-
-  if (left > first + 1) push("ellipsis");
-  for (let i = left; i <= right; i++) push(i);
-  if (right < last - 1) push("ellipsis");
-
-  if (last !== first) push(last);
+  const disabledPrev = page <= 1;
+  const disabledNext = page >= pageCount;
 
   return (
-    <div className="flex items-center justify-end gap-2">
+    <div className="flex items-center gap-2">
       <button
         type="button"
-        className="h-9 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
-        disabled={page === 1}
+        className={cn(
+          "inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold",
+          "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
+          disabledPrev ? "opacity-60 pointer-events-none" : "",
+        )}
         onClick={() => onPage(Math.max(1, page - 1))}
+        disabled={disabledPrev}
       >
+        <ChevronLeft className="mr-1 h-4 w-4" />
         Sebelumnya
       </button>
 
-      <div className="flex items-center gap-1">
-        {items.map((it, idx) => {
-          if (it === "ellipsis") {
-            return (
-              <div
-                key={`e-${idx}`}
-                className="px-2 text-sm font-semibold text-slate-400"
-              >
-                …
-              </div>
-            );
-          }
-          const active = it === page;
-          return (
-            <button
-              key={it}
-              type="button"
-              onClick={() => onPage(it)}
-              className={cn(
-                "h-9 w-9 rounded-xl text-sm font-semibold ring-1 transition",
-                active
-                  ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
-                  : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50",
-              )}
-            >
-              {it}
-            </button>
-          );
-        })}
+      <div className="inline-flex h-10 min-w-10 items-center justify-center rounded-xl bg-violet-600 px-4 text-sm font-extrabold text-white">
+        {page}
       </div>
 
       <button
         type="button"
-        className="h-9 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
-        disabled={page === pageCount}
+        className={cn(
+          "inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold",
+          "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
+          disabledNext ? "opacity-60 pointer-events-none" : "",
+        )}
         onClick={() => onPage(Math.min(pageCount, page + 1))}
+        disabled={disabledNext}
       >
         Selanjutnya
+        <ChevronRight className="ml-1 h-4 w-4" />
       </button>
     </div>
   );
@@ -204,8 +174,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  const [pageSize] = React.useState<number>(6);
+  // LOCAL pagination settings (untuk mengikuti contoh)
+  const totalEntriesLocal = 495;
+
+  // Reguler: tampilkan lebih banyak row + pagination seperti contoh
+  const pageSize = isReguler ? 20 : 6;
   const [page, setPage] = React.useState<number>(1);
+
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
   React.useEffect(() => {
@@ -306,33 +281,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return calcKhususTotalsFromRows(pagedRows);
   }, [isKhusus, pagedRows]);
 
-  const pelunasanTotals = React.useMemo(() => {
-    if (!isPelunasan) return null;
-
-    const sum = pagedRows.reduce(
-      (acc, r, idx) => {
-        const checked = selected[idx] ?? false;
-        if (!checked) return acc;
-
-        acc.total += parseMoneyLikeId(r.totalBelumDibayar);
-        acc.pokok += parseMoneyLikeId(r.tagihanPokok);
-        acc.bunga += parseMoneyLikeId(r.tagihanBunga);
-        acc.sisaPokok += parseMoneyLikeId(r.sisaPokok);
-        acc.sisaBunga += parseMoneyLikeId(r.sisaBunga);
-        return acc;
-      },
-      { total: 0, pokok: 0, bunga: 0, sisaPokok: 0, sisaBunga: 0 },
-    );
-
-    return {
-      totalBelumDibayar: formatMoneyIdNoDecimals(sum.total),
-      pokok: formatMoneyIdNoDecimals(sum.pokok),
-      bunga: formatMoneyIdNoDecimals(sum.bunga),
-      sisaPokok: formatMoneyIdNoDecimals(sum.sisaPokok),
-      sisaBunga: formatMoneyIdNoDecimals(sum.sisaBunga),
-    };
-  }, [isPelunasan, pagedRows, selected]);
-
   const penurunanTotalPokok = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return 0;
     return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.tagihanPokok), 0);
@@ -356,6 +304,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       sisaText,
     };
   }, [isPenurunanBakiDebet, penurunanSisaPinjaman, penurunanTotalPokok]);
+
+  const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(rows.length, page * pageSize);
 
   return (
     <div className="w-full px-0">
@@ -465,15 +416,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 penaltyOnlyCols={penaltyOnlyCols}
                 feeOnlyCols={feeOnlyCols}
                 hideSelection={isPenurunanBakiDebet}
+                showPenaltyColumn={isReguler}
               />
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <div className="text-xs text-slate-600">
-                  Menampilkan{" "}
-                  {rows.length === 0 ? 0 : (page - 1) * pageSize + 1} sampai{" "}
-                  {Math.min(rows.length, page * pageSize)} dari {rows.length} entri
+                <div className="text-xs text-slate-700">
+                  Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+                  {isReguler ? totalEntriesLocal : rows.length} entri
                 </div>
-                <Pagination page={page} pageCount={pageCount} onPage={setPage} />
+
+                {isReguler ? (
+                  <PaginationLikeExample
+                    page={page}
+                    pageCount={pageCount}
+                    onPage={setPage}
+                  />
+                ) : (
+                  <div className="flex justify-end">
+                    <div className="sr-only" />
+                  </div>
+                )}
               </div>
             </Card>
 
@@ -489,36 +451,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         denda: formatMoneyIdNoDecimals(khususTotals?.denda ?? 0),
                         total: formatMoneyIdNoDecimals(khususTotals?.total ?? 0),
                       }
-                    : isPelunasan
+                    : penaltyOnlyCols
                       ? {
-                          pokok: pelunasanTotals?.pokok ?? "0",
-                          bunga: pelunasanTotals?.bunga ?? "0",
-                          denda: selectedPenaltyText,
-                          total: formatMoneyIdNoDecimals(
-                            parseMoneyLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
-                              selectedPenaltyTotal,
-                          ),
+                          pokok: "0",
+                          bunga: "0",
+                          denda: formatMoneyIdNoDecimals(penaltyTotalExplicit),
+                          total: formatMoneyIdNoDecimals(penaltyTotalExplicit),
                         }
-                      : penaltyOnlyCols
+                      : isPenurunanBakiDebet
                         ? {
-                            pokok: "0",
+                            pokok: penurunanTotals?.totalPokokText ?? "0",
                             bunga: "0",
-                            denda: formatMoneyIdNoDecimals(penaltyTotalExplicit),
-                            total: formatMoneyIdNoDecimals(penaltyTotalExplicit),
+                            denda: "0",
+                            total: penurunanTotals?.sisaText ?? "0",
                           }
-                        : isPenurunanBakiDebet
-                          ? {
-                              pokok: penurunanTotals?.totalPokokText ?? "0",
-                              bunga: "0",
-                              denda: "0",
-                              total: penurunanTotals?.sisaText ?? "0",
-                            }
-                          : {
-                              pokok: computedTotals.pokok,
-                              bunga: computedTotals.bunga,
-                              denda: computedTotals.denda,
-                              total: computedTotals.total,
-                            }
+                        : {
+                            pokok: computedTotals.pokok,
+                            bunga: computedTotals.bunga,
+                            denda: computedTotals.denda,
+                            total: computedTotals.total,
+                          }
                 }
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}
