@@ -263,15 +263,18 @@ export default function BillingTable({
     "font-semibold tabular-nums whitespace-nowrap",
   );
 
-  const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
+  // UBAH: kolom denda dihilangkan
+  const showPenaltyCol = false;
+
   const showAllCols =
     !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
 
   const colCount = (() => {
+    // tanpa kolom denda
     if (feeOnlyCols) return hideSelection ? 4 : 5;
     if (penaltyOnlyCols) return hideSelection ? 4 : 5;
     if (interestOnlyCols) return hideSelection ? 3 : 4;
-    return hideSelection ? 7 : 8;
+    return hideSelection ? 6 : 7;
   })();
 
   const graceEnabled = showGraceHighlight && showAllCols;
