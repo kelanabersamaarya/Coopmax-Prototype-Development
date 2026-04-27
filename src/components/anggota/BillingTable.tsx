@@ -104,7 +104,7 @@ function TableCheckbox({
       disabled={disabled}
       onChange={(e) => onChange?.(e.target.checked)}
       className={cn(
-        "h-4 w-4 rounded-[3px] border border-slate-300 bg-white",
+        "h-4 w-4 rounded-[4px] border border-slate-300 bg-white",
         "accent-[#2563eb]",
         "focus:outline-none focus:ring-2 focus:ring-[#2563eb]/25",
         disabled ? "opacity-60" : "",
@@ -130,8 +130,8 @@ function PenaltyInfoButton({
         onClick();
       }}
       className={cn(
-        "inline-flex h-6 w-6 items-center justify-center rounded-full",
-        "bg-[#2563eb] text-white ring-1 ring-[#2563eb]/20",
+        "inline-flex h-7 w-7 items-center justify-center rounded-full",
+        "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
         "transition hover:bg-[#1d4ed8]",
         className,
       )}
@@ -239,20 +239,21 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  // Perkecil jarak antar kolom agar info grace period muat (tanpa membuat tabel scroll)
-  const th =
-    "px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+  // === Style tokens: lebih mirip referensi ===
+  const thBase =
+    "px-4 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
-    "px-3 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
-  const td = "px-3 py-3 text-[13px] text-slate-900";
+    "px-4 py-4 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+  const tdBase = "px-4 py-4 text-[14px] text-slate-900";
   const tdNum = cn(
-    td,
+    tdBase,
     "text-right whitespace-nowrap",
     "num-sans-tabular tabular-nums",
   );
-  const tdDate = cn(td, "font-medium tabular-nums whitespace-nowrap");
-  const checkboxTh = "w-[44px]";
+  const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
+  const checkboxTh = "w-[54px]";
   const twoLineHeader = "leading-[1.05] whitespace-nowrap";
+  const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-slate-50/35");
 
   const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
   const showAllCols =
@@ -266,28 +267,13 @@ export default function BillingTable({
   })();
 
   const graceEnabled = showGraceHighlight && showAllCols;
-
-  // Grace period = 2 baris pertama
   const graceCount = graceEnabled ? Math.min(2, displayRows.length) : 0;
-
-  function rowIsGrace(rowIndex: number) {
-    return graceEnabled && rowIndex < graceCount;
-  }
-
-  function rowBorderClass(isGrace: boolean, isFirstGrace: boolean) {
-    if (!isGrace) return "border-t border-slate-200";
-    return cn(
-      "border-t",
-      isFirstGrace ? "border-t-2 border-t-[#2563eb]/60" : "border-t-[#2563eb]/25",
-      "bg-white",
-    );
-  }
 
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
 
   return (
-    <div className={cn("mt-3 billing-table-compact", className)}>
+    <div className={cn("mt-3", className)}>
       <PenaltyDetailDialog
         open={penaltyOpen}
         onOpenChange={setPenaltyOpen}
@@ -295,11 +281,11 @@ export default function BillingTable({
       />
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        <table className={cn("w-full border-collapse")}>
-          <thead className="bg-white">
+        <table className="w-full border-collapse">
+          <thead className="bg-slate-50/60">
             <tr className="border-b border-slate-200">
               {!hideSelection ? (
-                <th className={cn(checkboxTh, th)}>
+                <th className={cn(checkboxTh, thBase)}>
                   <div className="flex justify-center">
                     <TableCheckbox
                       ariaLabel="Pilih semua"
@@ -316,7 +302,7 @@ export default function BillingTable({
                 </th>
               ) : null}
 
-              <th className={cn(th, twoLineHeader)}>
+              <th className={cn(thBase, twoLineHeader)}>
                 Jatuh
                 <br />
                 Tempo
@@ -359,7 +345,7 @@ export default function BillingTable({
               ) : null}
 
               {showPenaltyCol ? (
-                <th className={cn(thRight, twoLineHeader)}>
+                <th className={cn(thRight, twoLineHeader, "w-[160px]")}>
                   Tagihan
                   <br />
                   Denda
@@ -380,32 +366,34 @@ export default function BillingTable({
               </tr>
             ) : (
               <>
-                {/* SECTION GRACE PERIOD (membungkus info + baris grace) */}
+                {/* SECTION GRACE PERIOD (sub-table seperti contoh) */}
                 {graceEnabled && graceRows.length > 0 ? (
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="bg-white px-3 py-3">
+                      <div className="bg-white px-4 py-4">
                         <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
-                          <table className="w-full border-collapse text-[13px]">
+                          <table className="w-full border-collapse">
                             <tbody className="bg-white">
                               <GracePeriodInfoRow colSpan={colCount} noBorder />
 
                               {graceRows.map((bill, idx) => {
-                                const rowIndex = idx; // 0..graceCount-1
-                                const isFirstGrace = idx === 0;
-                                const isGrace = true;
-
+                                const rowIndex = idx;
                                 return (
                                   <tr
                                     key={`${bill.jatuhTempo}-grace-${idx}`}
-                                    className={rowBorderClass(isGrace, isFirstGrace)}
+                                    className={cn(
+                                      idx === 0 ? "" : "border-t border-blue-600/25",
+                                      zebra(idx),
+                                    )}
                                   >
                                     {!hideSelection ? (
-                                      <td className={cn(td, "text-center")}>
+                                      <td className={cn(tdBase, "text-center")}>
                                         <TableCheckbox
                                           ariaLabel="Pilih tagihan"
                                           checked={
-                                            isPelunasan ? true : (selected[rowIndex] ?? false)
+                                            isPelunasan
+                                              ? true
+                                              : (selected[rowIndex] ?? false)
                                           }
                                           disabled={isPelunasan}
                                           onChange={(next) =>
@@ -438,9 +426,11 @@ export default function BillingTable({
                                     ) : null}
 
                                     {showPenaltyCol ? (
-                                      <td className={tdNum}>
+                                      <td className={cn(tdNum, "pr-3")}>
                                         <div className="flex items-center justify-end gap-3">
-                                          <span>{penalties[rowIndex]?.total ?? "25.000"}</span>
+                                          <span className="font-semibold text-slate-900">
+                                            {penalties[rowIndex]?.total ?? "25.000"}
+                                          </span>
                                           <PenaltyInfoButton
                                             onClick={() => openPenaltyDetailForRow(rowIndex)}
                                           />
@@ -457,23 +447,20 @@ export default function BillingTable({
                     </td>
                   </tr>
                 ) : showGraceHighlight ? (
-                  // fallback (jika tidak pakai wrapper)
                   <GracePeriodInfoRow colSpan={colCount} />
                 ) : null}
 
                 {/* ROWS NON-GRACE */}
                 {nonGraceRows.map((bill, idx) => {
                   const rowIndex = graceEnabled ? graceCount + idx : idx;
-                  const isGrace = rowIsGrace(rowIndex);
-                  const isFirstGrace = isGrace && rowIndex === 0;
 
                   return (
                     <tr
                       key={`${bill.jatuhTempo}-${rowIndex}`}
-                      className={rowBorderClass(isGrace, isFirstGrace)}
+                      className={cn("border-t border-slate-200", zebra(rowIndex))}
                     >
                       {!hideSelection ? (
-                        <td className={cn(td, "text-center")}>
+                        <td className={cn(tdBase, "text-center")}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
                             checked={isPelunasan ? true : (selected[rowIndex] ?? false)}
@@ -508,9 +495,11 @@ export default function BillingTable({
                       ) : null}
 
                       {showPenaltyCol ? (
-                        <td className={tdNum}>
+                        <td className={cn(tdNum, "pr-3")}>
                           <div className="flex items-center justify-end gap-3">
-                            <span>{penalties[rowIndex]?.total ?? "25.000"}</span>
+                            <span className="font-semibold text-slate-900">
+                              {penalties[rowIndex]?.total ?? "25.000"}
+                            </span>
                             <PenaltyInfoButton
                               onClick={() => openPenaltyDetailForRow(rowIndex)}
                             />
@@ -527,13 +516,15 @@ export default function BillingTable({
                   return (
                     <tr
                       key={`outside-${bill.jatuhTempo}-${globalIndex}`}
-                      className="border-t border-slate-200"
+                      className={cn("border-t border-slate-200", zebra(globalIndex))}
                     >
                       {!hideSelection ? (
-                        <td className={cn(td, "text-center")}>
+                        <td className={cn(tdBase, "text-center")}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
-                            checked={isPelunasan ? true : (selected[globalIndex] ?? false)}
+                            checked={
+                              isPelunasan ? true : (selected[globalIndex] ?? false)
+                            }
                             disabled={isPelunasan}
                             onChange={(next) =>
                               setSelected((prev) => {
@@ -565,7 +556,7 @@ export default function BillingTable({
                       ) : null}
 
                       {showPenaltyCol ? (
-                        <td className={tdNum}>
+                        <td className={cn(tdNum, "pr-3")}>
                           <span className="text-slate-400">-</span>
                         </td>
                       ) : null}
