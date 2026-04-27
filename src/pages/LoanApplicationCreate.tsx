@@ -44,31 +44,6 @@ import PenaltyScheduleForm, {
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
-function FieldRow({
-  label,
-  required,
-  children,
-  hint,
-}: {
-  label: string;
-  required?: boolean;
-  hint?: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="grid gap-2">
-      <div className="text-left">
-        <Label className="text-sm font-normal text-slate-900">
-          {label}
-          {required ? <span className="text-rose-600"> *</span> : null}
-        </Label>
-        {hint ? <div className="mt-1 text-xs text-slate-500">{hint}</div> : null}
-      </div>
-      <div className="min-w-0">{children}</div>
-    </div>
-  );
-}
-
 function FieldRowInline({
   label,
   required,
@@ -345,7 +320,7 @@ export default function LoanApplicationCreate() {
             {tab === "general" ? (
               <div className="grid gap-5">
                 <div className="grid gap-4">
-                  <FieldRow label="No Rekening" required>
+                  <FieldRowInline label="No Rekening" required>
                     <div className="flex items-center">
                       <Input
                         value={noRekening}
@@ -358,9 +333,9 @@ export default function LoanApplicationCreate() {
                         icon={<RotateCcw className="h-4.5 w-4.5" />}
                       />
                     </div>
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow
+                  <FieldRowInline
                     label="ID Nasabah"
                     required
                     hint={
@@ -389,9 +364,9 @@ export default function LoanApplicationCreate() {
                         icon={<Search className="h-4.5 w-4.5" />}
                       />
                     </div>
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="NIK" required>
+                  <FieldRowInline label="NIK" required>
                     <div className="grid gap-2">
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                         <Input
@@ -426,33 +401,33 @@ export default function LoanApplicationCreate() {
                         </div>
                       )}
                     </div>
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Nama" required>
+                  <FieldRowInline label="Nama" required>
                     <Input
                       value={nama}
                       onChange={(e) => setNama(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
                     />
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Alamat" required>
+                  <FieldRowInline label="Alamat" required>
                     <Input
                       value={alamat}
                       onChange={(e) => setAlamat(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
                     />
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Unit Anggota">
+                  <FieldRowInline label="Unit Anggota">
                     <Input
                       value={unitAnggota}
                       onChange={(e) => setUnitAnggota(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-700"
                     />
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Kolektor" required>
+                  <FieldRowInline label="Kolektor" required>
                     <Select value={kolektor} onValueChange={setKolektor}>
                       <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                         <SelectValue />
@@ -465,18 +440,18 @@ export default function LoanApplicationCreate() {
                         <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Tanggal Daftar" required>
+                  <FieldRowInline label="Tanggal Daftar" required>
                     <Input
                       value={tanggal}
                       onChange={(e) => setTanggal(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-white"
                       placeholder={getTodayDmy()}
                     />
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Produk Pinjaman" required>
+                  <FieldRowInline label="Produk Pinjaman" required>
                     <LoanProductCombobox
                       value={produkPinjaman}
                       onChange={(v) => {
@@ -491,9 +466,9 @@ export default function LoanApplicationCreate() {
                         }
                       }}
                     />
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Sektor Pinjaman" required>
+                  <FieldRowInline label="Sektor Pinjaman" required>
                     <Select
                       value={sektorPinjaman}
                       onValueChange={setSektorPinjaman}
@@ -510,9 +485,9 @@ export default function LoanApplicationCreate() {
                         <SelectItem value="Jasa">Jasa</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Tujuan Peminjaman" required>
+                  <FieldRowInline label="Tujuan Peminjaman" required>
                     <Select
                       value={tujuanPeminjaman}
                       onValueChange={setTujuanPeminjaman}
@@ -528,18 +503,18 @@ export default function LoanApplicationCreate() {
                         <SelectItem value="Konsumtif">Konsumtif</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Bunga Pertahun (%)" required>
+                  <FieldRowInline label="Bunga Pertahun (%)" required>
                     <Input
                       value={bungaPerTahun}
                       onChange={(e) => setBungaPerTahun(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-white"
                       placeholder="0,00"
                     />
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Metode Bunga Pinjaman" required>
+                  <FieldRowInline label="Metode Bunga Pinjaman" required>
                     <Select value={metodeBunga} onValueChange={setMetodeBunga}>
                       <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
                         <SelectValue />
@@ -553,23 +528,23 @@ export default function LoanApplicationCreate() {
                         <SelectItem value="Menurun">Menurun</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Besar Pinjaman" required>
+                  <FieldRowInline label="Besar Pinjaman" required>
                     <Input
                       value={besarPinjaman}
                       onChange={(e) => setBesarPinjaman(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-white"
                     />
-                  </FieldRow>
+                  </FieldRowInline>
 
-                  <FieldRow label="Jangka Waktu" required>
+                  <FieldRowInline label="Jangka Waktu" required>
                     <Input
                       value={jangkaWaktu}
                       onChange={(e) => setJangkaWaktu(e.target.value)}
                       className="h-10 rounded-xl border-slate-200 bg-white"
                     />
-                  </FieldRow>
+                  </FieldRowInline>
                 </div>
 
                 <Separator className="bg-slate-200/70" />
