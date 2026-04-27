@@ -137,8 +137,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
+  // UBAH: Reguler sekarang tampilkan semua tagihan (bukan cuma currentBill)
   const rowsToShow: BillingRow[] = isReguler
-    ? [currentBill]
+    ? upcomingRows
     : isPelunasan
       ? upcomingRows
       : showAllRows
