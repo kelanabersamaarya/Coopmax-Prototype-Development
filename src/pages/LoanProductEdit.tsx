@@ -895,78 +895,80 @@ export default function LoanProductEdit() {
                     </div>
                   </div>
 
-                  <FieldRow label="Grace Period">
-                    <div className="grid gap-3">
+                  {/* GRACE PERIOD: tanpa card/section tambahan + semua label sejajar */}
+                  <div className="grid gap-5">
+                    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                      <div className="pt-1 text-sm font-normal text-slate-900">
+                        Grace Period
+                      </div>
                       <div className="flex items-center gap-3">
                         <Switch
                           checked={gracePeriodEnabled}
                           onCheckedChange={setGracePeriodEnabled}
                         />
                       </div>
-
-                      {gracePeriodEnabled ? (
-                        <div className="rounded-3xl border border-slate-200 bg-white p-5 md:p-6">
-                          <div className="grid gap-4">
-                            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                              <div className="text-sm font-normal text-slate-900">
-                                Skema Grace Period
-                              </div>
-                              <RadioGroup
-                                value={graceScheme}
-                                onValueChange={(v) => setGraceScheme(v as GraceScheme)}
-                                className="flex items-center gap-6"
-                              >
-                                <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
-                                  <RadioGroupItem
-                                    value="Hanya Bayar Bunga"
-                                    id="grace-hanya-bayar-bunga"
-                                  />
-                                  Hanya Bayar Bunga
-                                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700 ring-1 ring-blue-200">
-                                    i
-                                  </span>
-                                </label>
-                              </RadioGroup>
-                            </div>
-
-                            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                              <div className="text-sm font-normal text-slate-900">
-                                Satuan Grace Period
-                              </div>
-                              <Select
-                                value={graceUnit}
-                                onValueChange={(v) => setGraceUnit(v as GraceUnit)}
-                              >
-                                <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
-                                  <SelectValue placeholder="Pilih Satuan Grace Period" />
-                                </SelectTrigger>
-                                <SelectContent className="rounded-2xl border-slate-200">
-                                  <SelectItem value="Pilih Satuan Grace Period">
-                                    Pilih Satuan Grace Period
-                                  </SelectItem>
-                                  <SelectItem value="Hari">Hari</SelectItem>
-                                  <SelectItem value="Bulan">Bulan</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-
-                            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                              <div className="text-sm font-normal text-slate-900">
-                                Durasi Grace Period (Hari/Bulan)
-                              </div>
-                              <Input
-                                value={graceDuration}
-                                onChange={(e) => setGraceDuration(e.target.value)}
-                                className="h-12 rounded-2xl border-slate-200 bg-white"
-                                placeholder="Masukkan Jumlah Bulan"
-                                inputMode="numeric"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
                     </div>
-                  </FieldRow>
+
+                    {gracePeriodEnabled ? (
+                      <>
+                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            Skema Grace Period
+                          </div>
+                          <RadioGroup
+                            value={graceScheme}
+                            onValueChange={(v) => setGraceScheme(v as GraceScheme)}
+                            className="flex items-center gap-6"
+                          >
+                            <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
+                              <RadioGroupItem
+                                value="Hanya Bayar Bunga"
+                                id="grace-hanya-bayar-bunga"
+                              />
+                              Hanya Bayar Bunga
+                              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700 ring-1 ring-blue-200">
+                                i
+                              </span>
+                            </label>
+                          </RadioGroup>
+                        </div>
+
+                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            Satuan Grace Period
+                          </div>
+                          <Select
+                            value={graceUnit}
+                            onValueChange={(v) => setGraceUnit(v as GraceUnit)}
+                          >
+                            <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
+                              <SelectValue placeholder="Pilih Satuan Grace Period" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-2xl border-slate-200">
+                              <SelectItem value="Pilih Satuan Grace Period">
+                                Pilih Satuan Grace Period
+                              </SelectItem>
+                              <SelectItem value="Hari">Hari</SelectItem>
+                              <SelectItem value="Bulan">Bulan</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            Durasi Grace Period (Hari/Bulan)
+                          </div>
+                          <Input
+                            value={graceDuration}
+                            onChange={(e) => setGraceDuration(e.target.value)}
+                            className="h-12 rounded-2xl border-slate-200 bg-white"
+                            placeholder="Masukkan Jumlah Bulan"
+                            inputMode="numeric"
+                          />
+                        </div>
+                      </>
+                    ) : null}
+                  </div>
                 </>
               ) : null}
             </div>
