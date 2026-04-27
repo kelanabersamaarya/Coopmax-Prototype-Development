@@ -1,4 +1,3 @@
-px-3, tanggal pl-2 pr-3) agar tabel lebih rapat.">
 "use client";
 
 import * as React from "react";
@@ -241,7 +240,6 @@ export default function BillingTable({
   }
 
   // === Style tokens ===
-  // UBAH: padding kolom diperkecil agar gap antar kolom lebih rapat
   const thBase =
     "px-3 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
@@ -258,7 +256,6 @@ export default function BillingTable({
   const checkboxColW = "w-[48px]";
   const checkboxCell = cn(tdBase, "px-3 text-center");
 
-  // tanggal tetap sedikit lebih rapat dari default
   const thDate = cn(thBase, "pl-2 pr-3");
   const tdDate = cn(
     tdBase,
@@ -445,7 +442,9 @@ export default function BillingTable({
                                             {penalties[rowIndex]?.total ?? "25.000"}
                                           </span>
                                           <PenaltyInfoButton
-                                            onClick={() => openPenaltyDetailForRow(rowIndex)}
+                                            onClick={() =>
+                                              openPenaltyDetailForRow(rowIndex)
+                                            }
                                           />
                                         </div>
                                       </td>
@@ -475,7 +474,9 @@ export default function BillingTable({
                         <td className={checkboxCell}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
-                            checked={isPelunasan ? true : (selected[rowIndex] ?? false)}
+                            checked={
+                              isPelunasan ? true : (selected[rowIndex] ?? false)
+                            }
                             disabled={isPelunasan}
                             onChange={(next) =>
                               setSelected((prev) => {
