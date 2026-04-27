@@ -55,6 +55,13 @@ type CollectorFeeRow = {
 type GraceScheme = "Hanya Bayar Bunga";
 type GraceUnit = "Pilih Satuan Grace Period" | "Hari" | "Bulan";
 
+type PenaltyBase =
+  | "Pokok"
+  | "Bunga"
+  | "Hutang Pokok"
+  | "Hutang Bunga"
+  | "Pilih Dasar Perhitungan";
+
 function FieldRow({
   label,
   hint,
@@ -339,6 +346,15 @@ export default function LoanProductEdit() {
       : graceUnit === "Bulan"
         ? "Masukkan Jumlah Bulan"
         : "Masukkan Durasi";
+
+  // --- New: Tarif Denda + Dasar Perhitungan + Hari Keterlambatan (prototype state) ---
+  const [tarifDendaMode, setTarifDendaMode] = React.useState<AmountMode>("rp");
+  const [tarifDendaValue, setTarifDendaValue] = React.useState("0,00");
+
+  const [dasarPerhitungan, setDasarPerhitungan] =
+    React.useState<PenaltyBase>("Pilih Dasar Perhitungan");
+
+  const [hariKeterlambatan, setHariKeterlambatan] = React.useState<string>("0");
 
   function addCollectorFee() {
     setCollectorFees((prev) => [
@@ -871,7 +887,6 @@ export default function LoanProductEdit() {
 
               {useInstallmentTable ? (
                 <>
-                  {/* Skema Tagihan — inline radio seperti referensi */}
                   <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                     <div className="pt-1 text-sm font-normal text-slate-900">
                       <span className="inline-flex items-center">
@@ -907,14 +922,54 @@ export default function LoanProductEdit() {
                         </label>
                       ))}
                     </RadioGroup>
-
-                    <div className="sr-only">
-                      {/* keeps values used in case needed elsewhere */}
-                      {installmentMode}
-                    </div>
                   </div>
 
-                  {/* Grace Period: tetap seperti sebelumnya */}
+                  {/* New fields: tepat di bawah Skema Tagihan */}
+                  <FieldRow label="Tarif Denda">
+                    <AmountModeInput
+                      mode={tarifDendaMode}
+                      onModeChange={setTarifDendaMode}
+                      value={tarifDendaValue}
+                      onValueChange={setTarifDendaValue}
+                      placeholder="0,00"
+                      hint={
+                        tarifDendaMode === "rp"
+                          ? "Masukkan tarif denda nominal (Rp)."
+                          : "Masukkan tarif denda persentase (%)."
+                      }
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Dasar Perhitungan">
+                    <Select
+                      value={dasarPerhitungan}
+                      onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
+                    >
+                      <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
+                        <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-2xl border-slate-200">
+                        <SelectItem value="Pilih Dasar Perhitungan">
+                          Pilih Dasar Perhitungan
+                        </SelectItem>
+                        <SelectItem value="Pokok">Pokok</SelectItem>
+                        <SelectItem value="Bunga">Bunga</SelectItem>
+                        <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                        <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
+
+                  <FieldRow label="Jumlah Hari Keterlambatan">
+                    <Input
+                      value={hariKeterlambatan}
+                      onChange={(e) => setHariKeterlambatan(e.target.value)}
+                      className="h-12 rounded-2xl border-slate-200 bg-white"
+                      placeholder="Masukkan Jumlah Hari"
+                      inputMode="numeric"
+                    />
+                  </FieldRow>
+
                   <div className="grid gap-5">
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                       <div className="pt-1 text-sm font-normal text-slate-900">
