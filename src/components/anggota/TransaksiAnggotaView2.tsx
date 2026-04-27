@@ -46,7 +46,6 @@ import {
   calcKhususSelectedTotals,
   formatIdr0,
 } from "@/components/anggota/khusus-selected-totals";
-import RegulerBillTableNoBorder from "@/components/anggota/RegulerBillTableNoBorder";
 
 type Props = {
   nasabah: {
@@ -139,7 +138,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // Reguler View2/3: hanya 1 tagihan
+  // Reguler View2/3: hanya 1 tagihan, tetapi tampilannya pakai BillingTableView2 (sesuai contoh).
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
     : isPelunasan
@@ -212,6 +211,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const showGraceInfo = true;
 
+  // Reguler sesuai contoh: tampilkan block grace period (highlight) walaupun row cuma 1.
   const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
 
   const pelunasanTotals = React.useMemo(() => {
@@ -343,10 +343,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               <Separator className="my-3 bg-slate-200/70" />
 
               {isReguler ? (
-                <RegulerBillTableNoBorder
+                <BillingTableView2
                   rows={rowsToShow}
                   selected={selected}
                   setSelected={setSelected}
+                  isLocked={true}
+                  showNextBillInfo={true}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
+                  showPenaltyColumn={false}
                 />
               ) : isPelunasan ? (
                 <BillingTable
