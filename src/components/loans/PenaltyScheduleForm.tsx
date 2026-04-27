@@ -26,11 +26,7 @@ export type PenaltyScheduleDraft = {
 };
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-sm font-semibold text-slate-800 leading-tight">
-      {children}
-    </div>
-  );
+  return <div className="text-sm font-normal text-slate-800">{children}</div>;
 }
 
 function SelectLike({
@@ -81,12 +77,7 @@ export default function PenaltyScheduleForm({
   const amountModeLabel = value.amountMode === "percent" ? "%" : "Rp.";
 
   return (
-    <div
-      className={cn(
-        "rounded-2xl bg-white p-4 ring-1 ring-slate-200/80 md:p-5",
-        className,
-      )}
-    >
+    <div className={cn("w-full", className)}>
       <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-center">
         <FieldLabel>Nominal Denda</FieldLabel>
 
