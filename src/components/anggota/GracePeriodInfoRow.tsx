@@ -11,44 +11,40 @@ export default function GracePeriodInfoRow({
   colSpan: number;
   noBorder?: boolean;
 }) {
-  // Mode noBorder dipakai di dalam section grace (harus "table-native" dan tidak seperti card besar)
-  if (noBorder) {
-    return (
-      <tr className="border-t border-slate-200 bg-blue-50/40">
-        <td colSpan={colSpan} className="px-3 py-2">
-          <div className="flex items-start gap-3">
-            <span className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
-              <Info className="h-4 w-4" />
-            </span>
+  const outerPad = noBorder ? "px-2 py-1.5" : "px-3 py-2";
+  const boxPad = noBorder ? "px-3.5 py-2.5" : "px-4 py-3";
+  const iconSize = noBorder ? "h-6 w-6" : "h-7 w-7";
+  const iconWrap = noBorder ? "h-9 w-9" : "h-7 w-7";
 
-            <div className="min-w-0">
-              <div className="text-[12.5px] font-semibold leading-tight text-slate-900">
-                Periode Grace Period
-              </div>
-              <div className="mt-0.5 text-[12px] leading-snug text-slate-700">
-                Baris berikut termasuk grace period—nasabah hanya membayar bunga.
-              </div>
-            </div>
-          </div>
-        </td>
-      </tr>
-    );
-  }
-
-  // Mode biasa (dipakai di luar grace block): boleh lebih besar seperti sebelumnya
   return (
-    <tr className="border-t border-slate-200">
-      <td colSpan={colSpan} className="px-1 py-2.5">
-        <div className="bg-white px-3 py-2">
-          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs text-slate-800">
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
-                <Info className="h-5 w-5" />
+    <tr className={cn(noBorder ? "" : "border-t border-slate-200")}>
+      <td colSpan={colSpan} className={cn("py-2", noBorder ? "px-0" : "px-1")}>
+        <div className={cn("bg-white", outerPad)}>
+          <div
+            className={cn(
+              "rounded-2xl text-xs text-slate-800",
+              boxPad,
+              noBorder ? "bg-blue-50" : "border border-blue-200 bg-blue-50",
+            )}
+          >
+            <div className={cn("flex items-start", noBorder ? "gap-3" : "gap-3")}>
+              <span
+                className={cn(
+                  "mt-0.5 inline-flex shrink-0 items-center justify-center rounded-full",
+                  noBorder
+                    ? "bg-blue-100 text-blue-700 ring-1 ring-blue-200"
+                    : "bg-blue-100 text-blue-700 ring-1 ring-blue-200",
+                  iconWrap,
+                )}
+              >
+                <Info className={cn(noBorder ? "h-4 w-4" : iconSize)} />
               </span>
 
               <div className="min-w-0">
-                <div className="font-semibold">Periode Grace Period</div>
-                <div className="mt-0.5 text-slate-700">
+                <div className={cn("font-semibold", noBorder ? "leading-tight" : "")}>
+                  Periode Grace Period
+                </div>
+                <div className={cn("text-slate-700", noBorder ? "mt-0.5 leading-snug" : "mt-0.5")}>
                   Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
                   dalam grace period. Selama periode grace period nasabah hanya
                   membayar bunga.
