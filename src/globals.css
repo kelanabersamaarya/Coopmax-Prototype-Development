@@ -236,3 +236,28 @@
 [data-slot="dialog-content"] button[class*="right-4"][class*="top-4"] {
   display: none !important;
 }
+
+/* --- Global Radio (Radix/shadcn) to BLUE --- */
+:root {
+  --radio-blue: #2563eb; /* blue-600 */
+  --radio-blue-ring: rgba(37, 99, 235, 0.25);
+}
+
+/* Ensure the item border uses blue when checked */
+[data-radix-radio-group-item][data-state="checked"] {
+  border-color: var(--radio-blue) !important;
+  color: var(--radio-blue) !important;
+}
+
+/* Ensure the dot/indicator is blue */
+[data-radix-radio-group-item][data-state="checked"] svg,
+[data-radix-radio-group-item][data-state="checked"] [data-radix-radio-group-indicator] {
+  color: var(--radio-blue) !important;
+  fill: var(--radio-blue) !important;
+}
+
+/* Focus ring to match */
+[data-radix-radio-group-item]:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
+}
