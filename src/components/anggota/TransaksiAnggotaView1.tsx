@@ -407,7 +407,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   penaltyOnlyCols={penaltyOnlyCols}
                   feeOnlyCols={feeOnlyCols}
                   hideSelection={isPenurunanBakiDebet}
-                  showPenaltyColumn={isReguler || isKhusus}
+                  showPenaltyColumn={isReguler || isKhusus || isPelunasan}
                 />
               </div>
 
