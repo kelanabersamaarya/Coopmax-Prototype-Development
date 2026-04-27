@@ -54,6 +54,16 @@ const loanOptions = [
   "Pinjaman Billing",
 ] as const;
 
+const branchOptions = [
+  "Pilih Cabang",
+  "Kantor Pusat",
+  "Cabang Denpasar",
+  "Cabang Gianyar",
+  "Cabang Badung",
+] as const;
+
+type BranchOption = (typeof branchOptions)[number];
+
 function ActionPill({
   icon: Icon,
   label,
@@ -232,6 +242,7 @@ const seedRows: KolektibilitasRow[] = [
 ];
 
 export default function LaporanKolektibilitas() {
+  const [cabang, setCabang] = React.useState<BranchOption>("Pilih Cabang");
   const [jenisPinjaman, setJenisPinjaman] =
     React.useState<string>("Pilih pinjaman");
   const [namaKode, setNamaKode] = React.useState("");
@@ -252,7 +263,7 @@ export default function LaporanKolektibilitas() {
 
     setSubmitted(true);
     toast.success("Laporan ditampilkan (prototype)", {
-      description: `Jenis: ${jenisPinjaman} • ${bulan} ${tahun}`,
+      description: `Cabang: ${cabang} • Jenis: ${jenisPinjaman} • ${bulan} ${tahun}`,
     });
   }
 
@@ -294,12 +305,31 @@ export default function LaporanKolektibilitas() {
           </div>
         </div>
 
-        {/* Divider dihapus */}
-
         {/* FORM: tanpa border & divider */}
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[920px]">
             <div className="grid gap-3">
+              <FieldRow label="Cabang">
+                <div className="relative">
+                  <select
+                    value={cabang}
+                    onChange={(e) => setCabang(e.target.value as BranchOption)}
+                    className={cn(
+                      "h-9 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900",
+                      "shadow-sm outline-none transition",
+                      "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
+                    )}
+                  >
+                    {branchOptions.map((o) => (
+                      <option key={o} value={o}>
+                        {o}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
+                </div>
+              </FieldRow>
+
               <FieldRow label="Jenis Pinjaman">
                 <div className="relative">
                   <select
