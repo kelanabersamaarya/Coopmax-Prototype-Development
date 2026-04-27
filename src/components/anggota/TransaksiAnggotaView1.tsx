@@ -193,23 +193,61 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return rows.slice(start, start + pageSize);
   }, [page, pageSize]);
 
-  const [selected, setSelected] = React.useState<boolean[]>(() =>
+  // === NEW: Persist selection per page (only for Reguler) ===
+  const [selectedByPage, setSelectedByPage] = React.useState<
+    Record<number, boolean[]>
+  >({});
+
+  const [selected, _setSelected] = React.useState<boolean[]>(() =>
     pagedRows.map(() => false),
   );
 
+  // wrapper setSelected: keep UI unchanged, but sync with selectedByPage when reguler
+  const setSelected: React.Dispatch<React.SetStateAction<boolean[]>> =
+    React.useCallback(
+      (next) => {
+        _setSelected((prev) => {
+          const resolved = typeof next === "function" ? next(prev) : next;
+
+          if (isReguler) {
+            setSelectedByPage((map) => ({
+              ...map,
+              [page]: resolved,
+            }));
+          }
+
+          return resolved;
+        });
+      },
+      [isReguler, page],
+    );
+
+  // Sync selected when page/rows change:
+  // - Reguler: restore from selectedByPage[page] if exists, else default false
+  // - Khusus/Pelunasan: keep existing behavior
   React.useEffect(() => {
     if (isPelunasan) {
-      setSelected(pagedRows.map(() => true));
+      _setSelected(pagedRows.map(() => true));
       return;
     }
 
-    if (isReguler || isKhusus) {
-      setSelected(pagedRows.map(() => true));
+    if (isKhusus) {
+      _setSelected(pagedRows.map(() => true));
       return;
     }
 
-    setSelected(pagedRows.map(() => false));
-  }, [isPelunasan, isReguler, isKhusus, pagedRows]);
+    if (isReguler) {
+      const fromStore = selectedByPage[page];
+      if (fromStore && fromStore.length === pagedRows.length) {
+        _setSelected(fromStore);
+      } else {
+        _setSelected(pagedRows.map(() => false));
+      }
+      return;
+    }
+
+    _setSelected(pagedRows.map(() => false));
+  }, [isPelunasan, isKhusus, isReguler, pagedRows, page, selectedByPage]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -411,7 +449,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={true}
+                  isLocked={isKhusus} // reguler = selectable, khusus = locked
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
@@ -494,7 +532,14 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 }
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}
-                onTransactionTypeChange={(v: any) => setJenisTransaksi(v)}
+                onTransactionTypeChange={(v: any) => {
+                  // reset selection cache when switching away from reguler,
+                  // but keep UI unchanged and avoid surprising persistence across modes
+                  if (jenisTransaksi === "Pembayaran Reguler" && v !== "Pembayaran Reguler") {
+                    setSelectedByPage({});
+                  }
+                  setJenisTransaksi(v);
+                }}
               />
 
               <TransactionFormCardView2
