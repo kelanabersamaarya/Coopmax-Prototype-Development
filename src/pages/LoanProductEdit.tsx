@@ -366,8 +366,8 @@ export default function LoanProductEdit() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      {/* diperlebar agar Skema Tagihan muat 1 baris tanpa scrollbar */}
-      <div className="mx-auto w-full max-w-[1600px] px-4 py-8 md:px-8">
+      {/* diperlebar agar Skema Tagihan muat 1 baris di desktop */}
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 md:px-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
             <Button
@@ -396,7 +396,7 @@ export default function LoanProductEdit() {
         </div>
 
         <div className="mt-6 grid gap-4">
-          <Card className="w-full max-w-[1600px] rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
+          <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
             <div className="text-[20px] font-semibold text-slate-900">
               Konfigurasi Produk Pinjaman
             </div>
@@ -872,6 +872,7 @@ export default function LoanProductEdit() {
 
               {useInstallmentTable ? (
                 <>
+                  {/* Skema Tagihan — dipaksa 1 baris */}
                   <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                     <div className="pt-1 text-sm font-normal text-slate-900">
                       <span className="inline-flex items-center">
@@ -879,36 +880,40 @@ export default function LoanProductEdit() {
                       </span>
                     </div>
 
-                    <RadioGroup
-                      value={installmentMode}
-                      onValueChange={(v) =>
-                        setInstallmentMode(v as InstallmentMode)
-                      }
-                      className="flex flex-nowrap items-center gap-8 whitespace-nowrap"
-                    >
-                      {(
-                        [
-                          "Jadwal Tetap (Diterbitkan Penuh di Awal)",
-                          "Jadwal Fleksibel & Tagihan Berkala",
-                          "Dihitung dari Sisa Saldo Pokok",
-                        ] as InstallmentMode[]
-                      ).map((m) => (
-                        <label
-                          key={m}
-                          className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
+                    <div className="min-w-0">
+                      <div className="safe-x-scroll">
+                        <RadioGroup
+                          value={installmentMode}
+                          onValueChange={(v) =>
+                            setInstallmentMode(v as InstallmentMode)
+                          }
+                          className="flex flex-nowrap items-center gap-8 whitespace-nowrap"
                         >
-                          <RadioGroupItem value={m} id={`mode-${m}`} />
-                          <span className="whitespace-nowrap">
-                            {m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
-                              ? "Tagihan Sesuai Jadwal Angsuran"
-                              : m === "Jadwal Fleksibel & Tagihan Berkala"
-                                ? "Tagihan Berkala Berdasarkan Periode"
-                                : "Tagihan Berdasarkan Sisa Angsuran"}
-                          </span>
-                          <TinyInfoBadge />
-                        </label>
-                      ))}
-                    </RadioGroup>
+                          {(
+                            [
+                              "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+                              "Jadwal Fleksibel & Tagihan Berkala",
+                              "Dihitung dari Sisa Saldo Pokok",
+                            ] as InstallmentMode[]
+                          ).map((m) => (
+                            <label
+                              key={m}
+                              className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
+                            >
+                              <RadioGroupItem value={m} id={`mode-${m}`} />
+                              <span className="whitespace-nowrap">
+                                {m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                                  ? "Tagihan Sesuai Jadwal Angsuran"
+                                  : m === "Jadwal Fleksibel & Tagihan Berkala"
+                                    ? "Tagihan Berkala Berdasarkan Periode"
+                                    : "Tagihan Berdasarkan Sisa Angsuran"}
+                              </span>
+                              <TinyInfoBadge />
+                            </label>
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="grid gap-5">
