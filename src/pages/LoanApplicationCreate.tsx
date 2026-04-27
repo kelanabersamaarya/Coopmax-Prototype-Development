@@ -37,7 +37,11 @@ import {
   XCircle,
   CalendarDays,
   Plus,
+  ChevronUp,
 } from "lucide-react";
+import PenaltyScheduleForm, {
+  type PenaltyScheduleDraft,
+} from "@/components/loans/PenaltyScheduleForm";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
@@ -246,6 +250,17 @@ export default function LoanApplicationCreate() {
   const [tanggalTagihanKe1, setTanggalTagihanKe1] = React.useState<string>(
     getTodayDmy(),
   );
+
+  // --- Jadwal denda (baru) ---
+  const [penaltyOpen, setPenaltyOpen] = React.useState(false);
+  const [penaltyDraft, setPenaltyDraft] = React.useState<PenaltyScheduleDraft>({
+    amountMode: "percent",
+    amountValue: "0",
+    base: "Pokok",
+    frequency: "Harian",
+    periode: "",
+    tanggalTagihanKe1: getTodayDmy(),
+  });
 
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
@@ -576,7 +591,9 @@ export default function LoanApplicationCreate() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Jadwal Tetap">Jadwal Tetap</SelectItem>
+                          <SelectItem value="Jadwal Tetap">
+                            Jadwal Tetap
+                          </SelectItem>
                           <SelectItem value="Jadwal Fleksibel & Tagihan Berkala">
                             Jadwal Fleksibel & Tagihan Berkala
                           </SelectItem>
@@ -643,23 +660,72 @@ export default function LoanApplicationCreate() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-4">
-                  <div className="text-2xl font-semibold tracking-tight text-slate-900">
-                    Jadwal Denda
+                {/* Jadwal denda (baru) */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="text-2xl font-semibold tracking-tight text-slate-900">
+                      Jadwal Denda
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Button
+                        className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
+                        onClick={() => {
+                          setPenaltyOpen(true);
+                          toast("Tambah Jadwal Denda (prototype)", {
+                            description: "Form jadwal denda ditampilkan.",
+                          });
+                        }}
+                      >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Tambah
+                      </Button>
+                    </div>
                   </div>
 
-                  <Button
-                    className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
-                    onClick={() =>
-                      toast("Tambah Jadwal Denda (prototype)", {
-                        description:
-                          "Item jadwal denda belum dibuat di prototype.",
-                      })
-                    }
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Tambah
-                  </Button>
+                  <div className="rounded-3xl bg-slate-50/70 p-4 ring-1 ring-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => setPenaltyOpen((v) => !v)}
+                      className={cn(
+                        "flex w-full items-center justify-between gap-3",
+                        "rounded-2xl bg-white px-4 py-3 text-left ring-1 ring-slate-200",
+                        "transition hover:bg-slate-50",
+                      )}
+                      aria-expanded={penaltyOpen}
+                    >
+                      <div className="min-w-0">
+                        <div className="text-sm font-extrabold tracking-tight text-slate-900">
+                          Jadwal Denda
+                        </div>
+                        <div className="mt-0.5 text-xs text-slate-600">
+                          Atur nominal, dasar perhitungan, frekuensi, dan tanggal
+                          tagihan.
+                        </div>
+                      </div>
+
+                      {penaltyOpen ? (
+                        <ChevronUp className="h-5 w-5 text-slate-500" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-slate-500" />
+                      )}
+                    </button>
+
+                    {penaltyOpen ? (
+                      <div className="mt-4">
+                        <PenaltyScheduleForm
+                          value={penaltyDraft}
+                          onChange={setPenaltyDraft}
+                          onDelete={() => {
+                            setPenaltyOpen(false);
+                            toast("Jadwal denda dihapus (prototype)", {
+                              description: "Item jadwal denda dihapus dari UI.",
+                            });
+                          }}
+                        />
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
