@@ -138,7 +138,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // Reguler View2/3: hanya 1 tagihan, tetapi tampilannya pakai BillingTableView2 (sesuai contoh).
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
     : isPelunasan
@@ -210,8 +209,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [penurunanBakiDebetPokokTotal]);
 
   const showGraceInfo = true;
-
-  // Reguler sesuai contoh: tampilkan block grace period (highlight) walaupun row cuma 1.
   const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
 
   const pelunasanTotals = React.useMemo(() => {
@@ -343,6 +340,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               <Separator className="my-3 bg-slate-200/70" />
 
               {isReguler ? (
+                // LOCAL: kalau Anda mau tabel versi compact + kolom denda, tinggal ganti balik ke BillingTable di sini
                 <BillingTableView2
                   rows={rowsToShow}
                   selected={selected}
@@ -399,6 +397,22 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showPenaltyColumn={false}
                 />
               )}
+
+              <div className="mt-3">
+                {/* Kolom denda (compact BillingTable) khusus reguler untuk lokal */}
+                {isReguler ? (
+                  <BillingTable
+                    rows={rowsToShowV1}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isPelunasan={false}
+                    showGraceHighlight={true}
+                    hideInterestCols={false}
+                    showPenaltyColumn={true}
+                    className="mt-0"
+                  />
+                ) : null}
+              </div>
 
               <div className="sr-only">
                 <Info />

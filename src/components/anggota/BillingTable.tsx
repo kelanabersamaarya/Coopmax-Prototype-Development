@@ -154,6 +154,7 @@ export default function BillingTable({
   penaltyOnlyCols = false,
   feeOnlyCols = false,
   hideSelection = false,
+  showPenaltyColumn = false,
   className,
 }: {
   rows: BillingRow[];
@@ -166,6 +167,7 @@ export default function BillingTable({
   penaltyOnlyCols?: boolean;
   feeOnlyCols?: boolean;
   hideSelection?: boolean;
+  showPenaltyColumn?: boolean;
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -262,16 +264,17 @@ export default function BillingTable({
   const checkboxTh = cn(thBase, "px-2");
   const checkboxTd = cn(tdBase, "px-2 text-center");
 
-  const showPenaltyCol = false;
+  const showPenaltyCol = showPenaltyColumn;
 
   const showAllCols =
     !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
 
   const colCount = (() => {
-    if (feeOnlyCols) return hideSelection ? 4 : 5;
-    if (penaltyOnlyCols) return hideSelection ? 4 : 5;
-    if (interestOnlyCols) return hideSelection ? 3 : 4;
-    return hideSelection ? 6 : 7;
+    const penalty = showPenaltyCol ? 1 : 0;
+    if (feeOnlyCols) return (hideSelection ? 4 : 5) + penalty;
+    if (penaltyOnlyCols) return (hideSelection ? 4 : 5) + penalty;
+    if (interestOnlyCols) return (hideSelection ? 3 : 4) + penalty;
+    return (hideSelection ? 6 : 7) + penalty;
   })();
 
   const graceEnabled = showGraceHighlight && showAllCols;
