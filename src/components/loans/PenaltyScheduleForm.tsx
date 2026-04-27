@@ -12,12 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type PenaltyRateMode = "fix" | "percent";
+export type PenaltyRateMode = "rp" | "percent";
 export type PenaltyBase = "Pokok" | "Bunga" | "Hutang Pokok" | "Hutang Bunga";
 
 export type PenaltyScheduleDraft = {
   rateMode: PenaltyRateMode;
-  rateValue: string; // "0,00" atau "0"
+  rateValue: string; // contoh: "0%" atau "Rp. 0"
   base: PenaltyBase;
   lateDays: string; // numeric string
 };
@@ -62,13 +62,19 @@ function SelectLike({
 
 function normalizeRateValueForMode(mode: PenaltyRateMode, value: string) {
   const v = (value ?? "").trim();
+
   if (mode === "percent") {
-    if (v === "" || v === "0,00") return "0";
+    if (v === "" || v === "0" || v === "0,00" || v === "0%" || v === "Rp. 0")
+      return "0%";
+    if (!v.endsWith("%")) return `${v}%`;
     return v;
   }
-  // fix
-  if (v === "" || v === "0") return "0,00";
-  return v;
+
+  // mode === "rp"
+  if (v === "" || v === "0" || v === "0,00" || v === "0%" || v === "Rp. 0")
+    return "Rp. 0";
+  if (v.toLowerCase().startsWith("rp")) return v;
+  return `Rp. ${v}`;
 }
 
 export default function PenaltyScheduleForm({
@@ -102,15 +108,15 @@ export default function PenaltyScheduleForm({
               });
             }}
           >
-            <SelectTrigger className="h-11 w-[120px] rounded-xl border-slate-200 bg-white">
+            <SelectTrigger className="h-11 w-[92px] rounded-xl border-slate-200 bg-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-slate-200">
-              <SelectItem value="fix" className="rounded-lg">
-                Nominal Fix
-              </SelectItem>
               <SelectItem value="percent" className="rounded-lg">
-                Persentase
+                %
+              </SelectItem>
+              <SelectItem value="rp" className="rounded-lg">
+                Rp
               </SelectItem>
             </SelectContent>
           </Select>
@@ -119,8 +125,8 @@ export default function PenaltyScheduleForm({
             value={value.rateValue}
             onChange={(e) => onChange({ ...value, rateValue: e.target.value })}
             className="h-11 flex-1 rounded-xl border-slate-200 bg-white"
-            placeholder={isPercent ? "0" : "0,00"}
-            inputMode="decimal"
+            placeholder={isPercent ? "0%" : "Rp. 0"}
+            inputMode="text"
             aria-label="Tarif denda"
           />
         </div>
