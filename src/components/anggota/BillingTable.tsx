@@ -239,17 +239,20 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  // === Style tokens ===
+  // === Layout (tanpa kolom denda) + angka rapi ===
   const thBase =
     "px-3 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
     "px-3 py-4 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+
   const tdBase = "px-3 py-4 text-[14px] text-slate-900";
   const tdNum = cn(
     tdBase,
     "text-right whitespace-nowrap",
     "num-sans-tabular tabular-nums",
+    "pr-6",
   );
+
   const twoLineHeader = "leading-[1.05] whitespace-nowrap";
   const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-slate-50/35");
 
@@ -263,7 +266,7 @@ export default function BillingTable({
     "font-semibold tabular-nums whitespace-nowrap",
   );
 
-  // UBAH: kolom denda dihilangkan
+  // Kolom denda dimatikan (layout kembali seperti sebelum denda)
   const showPenaltyCol = false;
 
   const showAllCols =
