@@ -33,6 +33,7 @@ import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
+import NextBillInfoBanner from "@/components/anggota/NextBillInfoBanner";
 import {
   calcPenaltyTotal,
   formatIdrLike,
@@ -133,7 +134,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // === PERMINTAAN: Baki debet tampil semua tagihan; Reguler & Khusus hanya 1 tagihan ===
+  // Baki debet tampil semua tagihan; Reguler & Khusus hanya 1 tagihan
   const rowsToShow: BillingRow[] = isPenurunanBakiDebet
     ? upcomingRows
     : isReguler
@@ -151,19 +152,19 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Baki debet: selection disembunyikan, tapi state tetap dibuat agar konsisten
+    // Baki debet: selection disembunyikan
     if (isPenurunanBakiDebet) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
 
-    // Reguler & Khusus: tampil seperti View 1 (locked + tercentang)
+    // Reguler & Khusus: locked + tercentang
     if (isReguler || isKhusus) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
 
-    // Pelunasan & mode tabel penuh: default tercentang semua
+    // Pelunasan & mode tabel penuh
     if (isPelunasan || showAllRows) {
       setSelected(rowsToShow.map(() => true));
       return;
@@ -247,7 +248,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     };
   }, [isPelunasan, rowsToShow]);
 
-  // === Layout rules (View2 disamakan dengan View1) ===
+  const showNextBillBanner = isReguler || isKhusus;
+
+  // Layout rules: bakidebet tanpa kolom denda
   const usePenaltyColumn = isPenurunanBakiDebet ? false : true;
   const penaltyLimit = 3;
 
@@ -350,6 +353,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
               </div>
 
               <Separator className="my-3 bg-slate-200/70" />
+
+              {showNextBillBanner ? (
+                <NextBillInfoBanner className="mb-3" />
+              ) : null}
 
               <BillingTableView2
                 rows={rowsToShow}
