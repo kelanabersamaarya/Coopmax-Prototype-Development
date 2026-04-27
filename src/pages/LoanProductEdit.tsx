@@ -490,7 +490,8 @@ export default function LoanProductEdit() {
                 </div>
               </FieldRow>
 
-              <div className="grid gap-4 md:grid-cols-2">
+              {/* UBAH: biaya jadi 1 kolom */}
+              <div className="grid gap-4">
                 <div className="grid gap-2">
                   <Label className="text-sm font-semibold text-slate-900">
                     Propisi
@@ -501,6 +502,7 @@ export default function LoanProductEdit() {
                     className="rounded-2xl"
                   />
                 </div>
+
                 <div className="grid gap-2">
                   <Label className="text-sm font-semibold text-slate-900">
                     Administrasi
@@ -511,6 +513,7 @@ export default function LoanProductEdit() {
                     className="rounded-2xl"
                   />
                 </div>
+
                 <div className="grid gap-2">
                   <Label className="text-sm font-semibold text-slate-900">
                     Biaya Asuransi
@@ -521,6 +524,7 @@ export default function LoanProductEdit() {
                     className="rounded-2xl"
                   />
                 </div>
+
                 <div className="grid gap-2">
                   <Label className="text-sm font-semibold text-slate-900">
                     Biaya Aktivasi M-Banking
@@ -778,7 +782,7 @@ export default function LoanProductEdit() {
             )}
           </Card>
 
-          {/* KONFIGURASI TAGIHAN (sudah ada di create; kita taruh di bawah supaya nanti mudah lanjut) */}
+          {/* KONFIGURASI TAGIHAN */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
             <div className="flex items-center justify-between gap-3">
               <div>
