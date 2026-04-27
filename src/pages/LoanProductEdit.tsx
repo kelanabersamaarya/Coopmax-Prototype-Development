@@ -16,7 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ChevronLeft, Info, Plus, Save, X } from "lucide-react";
+import { ChevronLeft, Info, Plus, Save, Trash2 } from "lucide-react";
 import { BillingScheme } from "@/lib/loanProductsStore";
 
 type PeriodUnit = "Bulan" | "Hari";
@@ -39,6 +39,18 @@ type InstallmentMode =
   | "Dihitung dari Sisa Saldo Pokok";
 
 type AmountMode = "rp" | "percent";
+
+type CollectorKind = "Kolektor 1" | "Kolektor 2" | "Kolektor 3";
+type FeeMethod = "Plafon Pinjaman" | "Angsuran" | "Tenor";
+
+type CollectorFeeRow = {
+  id: string;
+  collectorKind: CollectorKind;
+  feeMethod: FeeMethod;
+  minLoan: string;
+  maxLoan: string;
+  feePercent: string;
+};
 
 function FieldRow({
   label,
@@ -112,6 +124,115 @@ function AmountModeInput({
   );
 }
 
+function FeeRow({
+  row,
+  onChange,
+  onRemove,
+}: {
+  row: CollectorFeeRow;
+  onChange: (next: CollectorFeeRow) => void;
+  onRemove: () => void;
+}) {
+  const selectCls =
+    "h-11 rounded-xl border-slate-200 bg-white [&>span.absolute.right-2]:hidden";
+
+  return (
+    <div className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1.05fr_1.05fr_1.25fr_1.25fr_0.75fr_56px] md:items-end">
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Jenis Kolektor
+        </Label>
+        <Select
+          value={row.collectorKind}
+          onValueChange={(v) =>
+            onChange({ ...row, collectorKind: v as CollectorKind })
+          }
+        >
+          <SelectTrigger className={selectCls}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl border-slate-200">
+            <SelectItem value="Kolektor 1">Kolektor 1</SelectItem>
+            <SelectItem value="Kolektor 2">Kolektor 2</SelectItem>
+            <SelectItem value="Kolektor 3">Kolektor 3</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Metode Perhitungan Fee
+        </Label>
+        <Select
+          value={row.feeMethod}
+          onValueChange={(v) => onChange({ ...row, feeMethod: v as FeeMethod })}
+        >
+          <SelectTrigger className={selectCls}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-xl border-slate-200">
+            <SelectItem value="Plafon Pinjaman">Plafon Pinjaman</SelectItem>
+            <SelectItem value="Angsuran">Angsuran</SelectItem>
+            <SelectItem value="Tenor">Tenor</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Minimal Jumlah Pinjaman
+        </Label>
+        <Input
+          value={row.minLoan}
+          onChange={(e) => onChange({ ...row, minLoan: e.target.value })}
+          className="h-11 rounded-xl border-slate-200 bg-white"
+          placeholder="1.000.000,00"
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Maksimal Jumlah Pinjaman
+        </Label>
+        <Input
+          value={row.maxLoan}
+          onChange={(e) => onChange({ ...row, maxLoan: e.target.value })}
+          className="h-11 rounded-xl border-slate-200 bg-white"
+          placeholder="50.000.000,00"
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">Jumlah Fee (%)</Label>
+        <div className="relative">
+          <Input
+            value={row.feePercent}
+            onChange={(e) => onChange({ ...row, feePercent: e.target.value })}
+            className="h-11 rounded-xl border-slate-200 bg-white pr-10"
+            placeholder="12"
+            inputMode="decimal"
+          />
+          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">
+            %
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={onRemove}
+        className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
+        aria-label="Hapus fee kolektor"
+        title="Hapus"
+      >
+        <Trash2 className="h-5 w-5" />
+      </button>
+    </div>
+  );
+}
+
 export default function LoanProductEdit() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -181,9 +302,9 @@ export default function LoanProductEdit() {
   const [coaAdminRevenue, setCoaAdminRevenue] =
     React.useState<CoaOption>("PEN. ADMINISTRASI");
 
-  const [collectorFees, setCollectorFees] = React.useState<
-    Array<{ id: string; name: string; amount: string }>
-  >([]);
+  const [collectorFees, setCollectorFees] = React.useState<CollectorFeeRow[]>(
+    [],
+  );
 
   const [useInstallmentTable, setUseInstallmentTable] = React.useState(true);
   const [installmentMode, setInstallmentMode] =
@@ -193,10 +314,17 @@ export default function LoanProductEdit() {
   function addCollectorFee() {
     setCollectorFees((prev) => [
       ...prev,
-      { id: String(Date.now()), name: `Fee ${prev.length + 1}`, amount: "0" },
+      {
+        id: String(Date.now()),
+        collectorKind: "Kolektor 1",
+        feeMethod: "Plafon Pinjaman",
+        minLoan: "1.000.000,00",
+        maxLoan: "50.000.000,00",
+        feePercent: "12",
+      },
     ]);
     toast("Fee kolektor ditambahkan", {
-      description: "Silakan sesuaikan nama dan nominalnya.",
+      description: "Silakan sesuaikan jenis, metode, dan nominalnya.",
     });
   }
 
@@ -672,65 +800,22 @@ export default function LoanProductEdit() {
               </Button>
             </div>
 
-            <div className="mt-4">
-              {collectorFees.length > 0 ? (
-                <div className="grid gap-3">
-                  {collectorFees.map((f, idx) => (
-                    <div
-                      key={f.id}
-                      className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_48px] md:items-start"
-                    >
-                      <div className="grid gap-2">
-                        <Label className="text-xs text-slate-600">Nama</Label>
-                        <Input
-                          value={f.name}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setCollectorFees((prev) =>
-                              prev.map((x) =>
-                                x.id === f.id ? { ...x, name: val } : x,
-                              ),
-                            );
-                          }}
-                          className="h-11 rounded-2xl"
-                        />
-                      </div>
-
-                      <div className="grid gap-2">
-                        <Label className="text-xs text-slate-600">Nominal</Label>
-                        <Input
-                          value={f.amount}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setCollectorFees((prev) =>
-                              prev.map((x) =>
-                                x.id === f.id ? { ...x, amount: val } : x,
-                              ),
-                            );
-                          }}
-                          className="h-11 rounded-2xl"
-                        />
-                      </div>
-
-                      <button
-                        type="button"
-                        className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white md:mt-[22px] md:self-start"
-                        onClick={() => {
-                          setCollectorFees((prev) =>
-                            prev.filter((x) => x.id !== f.id),
-                          );
-                          toast("Fee dihapus", {
-                            description: `Item #${idx + 1} dihapus.`,
-                          });
-                        }}
-                        aria-label="Hapus fee"
-                      >
-                        <X className="h-4.5 w-4.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
+            <div className="mt-4 grid gap-3">
+              {collectorFees.map((f) => (
+                <FeeRow
+                  key={f.id}
+                  row={f}
+                  onChange={(next) =>
+                    setCollectorFees((prev) =>
+                      prev.map((x) => (x.id === f.id ? next : x)),
+                    )
+                  }
+                  onRemove={() => {
+                    setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
+                    toast("Fee dihapus", { description: "Item fee kolektor dihapus." });
+                  }}
+                />
+              ))}
             </div>
 
             <Separator className="my-6 bg-slate-200/70" />
