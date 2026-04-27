@@ -320,13 +320,6 @@ export default function LoanProductEdit() {
     React.useState<GraceUnit>("Pilih Satuan Grace Period");
   const [graceDuration, setGraceDuration] = React.useState("");
 
-  React.useEffect(() => {
-    if (!gracePeriodEnabled) return;
-    // set default values when first enabled
-    setGraceScheme("Hanya Bayar Bunga");
-    if (!graceUnit) setGraceUnit("Pilih Satuan Grace Period");
-  }, [gracePeriodEnabled, graceUnit]);
-
   function addCollectorFee() {
     setCollectorFees((prev) => [
       ...prev,
@@ -912,31 +905,30 @@ export default function LoanProductEdit() {
                       </div>
 
                       {gracePeriodEnabled ? (
-                        <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200">
-                          <div className="grid gap-3 md:grid-cols-[240px_1fr] md:items-center">
-                            <div className="text-sm font-normal text-slate-900">
-                              Skema Grace Period
+                        <div className="rounded-3xl border border-slate-200 bg-white p-5 md:p-6">
+                          <div className="grid gap-4">
+                            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                              <div className="text-sm font-normal text-slate-900">
+                                Skema Grace Period
+                              </div>
+                              <RadioGroup
+                                value={graceScheme}
+                                onValueChange={(v) => setGraceScheme(v as GraceScheme)}
+                                className="flex items-center gap-6"
+                              >
+                                <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
+                                  <RadioGroupItem
+                                    value="Hanya Bayar Bunga"
+                                    id="grace-hanya-bayar-bunga"
+                                  />
+                                  Hanya Bayar Bunga
+                                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-[12px] font-semibold text-blue-700 ring-1 ring-blue-200">
+                                    i
+                                  </span>
+                                </label>
+                              </RadioGroup>
                             </div>
 
-                            <RadioGroup
-                              value={graceScheme}
-                              onValueChange={(v) => setGraceScheme(v as GraceScheme)}
-                              className="flex items-center gap-6"
-                            >
-                              <label className="inline-flex items-center gap-2 text-sm text-slate-800">
-                                <RadioGroupItem
-                                  value="Hanya Bayar Bunga"
-                                  id="grace-hanya-bayar-bunga"
-                                />
-                                Hanya Bayar Bunga
-                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-[11px] font-semibold text-blue-700 ring-1 ring-blue-200">
-                                  i
-                                </span>
-                              </label>
-                            </RadioGroup>
-                          </div>
-
-                          <div className="mt-4 grid gap-3">
                             <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                               <div className="text-sm font-normal text-slate-900">
                                 Satuan Grace Period
@@ -945,10 +937,10 @@ export default function LoanProductEdit() {
                                 value={graceUnit}
                                 onValueChange={(v) => setGraceUnit(v as GraceUnit)}
                               >
-                                <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-white">
+                                <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
                                   <SelectValue placeholder="Pilih Satuan Grace Period" />
                                 </SelectTrigger>
-                                <SelectContent className="rounded-xl border-slate-200">
+                                <SelectContent className="rounded-2xl border-slate-200">
                                   <SelectItem value="Pilih Satuan Grace Period">
                                     Pilih Satuan Grace Period
                                   </SelectItem>
@@ -965,7 +957,7 @@ export default function LoanProductEdit() {
                               <Input
                                 value={graceDuration}
                                 onChange={(e) => setGraceDuration(e.target.value)}
-                                className="h-11 rounded-xl border-slate-200 bg-white"
+                                className="h-12 rounded-2xl border-slate-200 bg-white"
                                 placeholder="Masukkan Jumlah Bulan"
                                 inputMode="numeric"
                               />
