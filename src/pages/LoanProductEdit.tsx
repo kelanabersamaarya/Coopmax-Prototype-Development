@@ -16,7 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ChevronLeft, Info, Plus, Save, X, Settings2 } from "lucide-react";
+import { ChevronLeft, Info, Plus, Save, X } from "lucide-react";
 import { BillingScheme } from "@/lib/loanProductsStore";
 
 type PeriodUnit = "Bulan" | "Hari";
@@ -108,43 +108,6 @@ function AmountModeInput({
       </div>
 
       {hint ? <div className="text-[11px] text-slate-500">{hint}</div> : null}
-    </div>
-  );
-}
-
-function SectionHeader({
-  icon: Icon,
-  title,
-  subtitle,
-  accent = "violet",
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  subtitle: string;
-  accent?: "violet" | "sky";
-}) {
-  const accentMap: Record<string, { bg: string; ring: string; text: string }> = {
-    violet: {
-      bg: "bg-violet-100",
-      ring: "ring-violet-200",
-      text: "text-violet-700",
-    },
-    sky: { bg: "bg-sky-100", ring: "ring-sky-200", text: "text-sky-700" },
-  };
-
-  const a = accentMap[accent];
-
-  return (
-    <div className="flex items-center gap-2">
-      <span
-        className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ${a.bg} ${a.ring} ${a.text}`}
-      >
-        <Icon className="h-5 w-5" />
-      </span>
-      <div>
-        <div className="text-base font-semibold text-slate-900">{title}</div>
-        <div className="text-xs text-slate-500">{subtitle}</div>
-      </div>
     </div>
   );
 }
@@ -277,17 +240,12 @@ export default function LoanProductEdit() {
         <div className="mt-6 grid gap-4">
           {/* GABUNG: KONFIGURASI DASAR + PARAMETER LANJUTAN & BIAYA + COA */}
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <SectionHeader
-              icon={Settings2}
-              title="Konfigurasi Produk Pinjaman"
-              subtitle="Konfigurasi dasar, parameter lanjutan, biaya, dan COA."
-              accent="violet"
-            />
-
-            <Separator className="my-5 bg-slate-200/70" />
+            <div className="text-base font-semibold text-slate-900">
+              Konfigurasi Produk Pinjaman
+            </div>
 
             {/* === KONFIGURASI DASAR === */}
-            <div className="grid gap-5">
+            <div className="mt-5 grid gap-5">
               <div className="text-sm font-extrabold tracking-tight text-slate-900">
                 Konfigurasi Dasar
               </div>
@@ -458,7 +416,7 @@ export default function LoanProductEdit() {
 
             <Separator className="my-6 bg-slate-200/70" />
 
-            {/* === PARAMETER LANJUTAN & BIAYA (judul dihapus sesuai permintaan) === */}
+            {/* === PARAMETER LANJUTAN & BIAYA (judul dihapus) === */}
             <div className="grid gap-5">
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
@@ -625,10 +583,13 @@ export default function LoanProductEdit() {
 
             <Separator className="my-6 bg-slate-200/70" />
 
-            {/* === COA (judul + badge dihapus sesuai permintaan) === */}
+            {/* === COA (judul dihapus) === */}
             <div className="grid gap-5">
               <FieldRow label="KP Pinjaman">
-                <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
+                <Select
+                  value={coaLoan}
+                  onValueChange={(v) => setCoaLoan(v as CoaOption)}
+                >
                   <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
                     <SelectValue placeholder="Pilih CoA Pinjaman" />
                   </SelectTrigger>
