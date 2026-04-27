@@ -60,11 +60,6 @@ function formatIdrLike(n: number) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-/**
- * Sesuai permintaan:
- * - Selalu 3 baris rincian
- * - Nominal denda per hari = 25.000
- */
 function buildPenaltyDetailRows(dueDateDmy: string) {
   const due = parseDmyToDate(dueDateDmy) ?? new Date();
   const days = 3;
@@ -285,10 +280,8 @@ export default function BillingTable({
     );
   }
 
-  // NOTE: mode lain (fee/penalty/interest only) dibiarkan seperti sebelumnya (tidak diubah di sini).
-
   return (
-    <div className={cn("mt-3", className)}>
+    <div className={cn("mt-3 billing-table-compact", className)}>
       <PenaltyDetailDialog
         open={penaltyOpen}
         onOpenChange={setPenaltyOpen}
@@ -296,7 +289,7 @@ export default function BillingTable({
       />
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        <table className={cn("w-full border-collapse table-auto")}>
+        <table className={cn("w-full border-collapse")}>
           <thead className="bg-white">
             <tr className="border-b border-slate-200">
               {!hideSelection ? (
@@ -431,7 +424,9 @@ export default function BillingTable({
                         <td className={tdNum}>
                           <div className="flex items-center justify-end gap-3">
                             <span>{penalties[idx]?.total ?? "25.000"}</span>
-                            <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(idx)} />
+                            <PenaltyInfoButton
+                              onClick={() => openPenaltyDetailForRow(idx)}
+                            />
                           </div>
                         </td>
                       ) : null}
