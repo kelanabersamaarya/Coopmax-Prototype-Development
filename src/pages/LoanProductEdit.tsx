@@ -414,10 +414,8 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
-            <Separator className="my-6 bg-slate-200/70" />
-
-            {/* === PARAMETER LANJUTAN & BIAYA (judul dihapus) === */}
-            <div className="grid gap-5">
+            {/* === PARAMETER LANJUTAN & BIAYA (tanpa divider) === */}
+            <div className="mt-6 grid gap-5">
               <FieldRow label="Akumulasi Denda Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
@@ -581,10 +579,8 @@ export default function LoanProductEdit() {
               </FieldRow>
             </div>
 
-            <Separator className="my-6 bg-slate-200/70" />
-
-            {/* === COA (judul dihapus) === */}
-            <div className="grid gap-5">
+            {/* === COA (tanpa divider) === */}
+            <div className="mt-6 grid gap-5">
               <FieldRow label="KP Pinjaman">
                 <Select
                   value={coaLoan}
@@ -690,26 +686,6 @@ export default function LoanProductEdit() {
                   </SelectContent>
                 </Select>
               </FieldRow>
-            </div>
-
-            <Separator className="my-6 bg-slate-200/70" />
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-              <Button
-                variant="outline"
-                className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
-                onClick={() => navigate("/loan-products")}
-              >
-                <X className="mr-2 h-4 w-4" />
-                Batalkan
-              </Button>
-              <Button
-                onClick={save}
-                className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
-              >
-                <Save className="mr-2 h-4 w-4" />
-                Simpan
-              </Button>
             </div>
           </Card>
 
