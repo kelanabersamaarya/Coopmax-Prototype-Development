@@ -85,6 +85,10 @@
 
     /* Numeric font token (use a sans font with tabular digits) */
     --font-numeric: "Inter";
+
+    /* Global Radio (force blue) */
+    --radio-blue: #2563eb; /* blue-600 */
+    --radio-blue-ring: rgba(37, 99, 235, 0.25);
   }
 
   .dark {
@@ -134,6 +138,9 @@
     --sidebar-w: clamp(12.25rem, 18vw, 15.5rem);
 
     --font-numeric: "Inter";
+
+    --radio-blue: #3b82f6; /* blue-500 in dark */
+    --radio-blue-ring: rgba(59, 130, 246, 0.3);
   }
 }
 
@@ -209,27 +216,20 @@
 }
 
 /* --- Dialog close button rules --- */
-/* HIDE only the default shadcn/Radix close button (small X in top-right) */
 [data-radix-dialog-content] > button[aria-label="Close"],
 [data-radix-dialog-content] button[aria-label="Close"],
 [data-radix-dialog-content] button[data-radix-dialog-close],
 [data-radix-dialog-content] > button[data-radix-dialog-close] {
   display: none !important;
 }
-
-/* Extra guard for shadcn default close: it is usually the absolute button inside content */
 [data-radix-dialog-content] > button.absolute.right-4.top-4,
 [data-radix-dialog-content] button.absolute.right-4.top-4 {
   display: none !important;
 }
-
-/* New shadcn (data-slot) close button */
 [data-slot="dialog-content"] > [data-slot="dialog-close"],
 [data-slot="dialog-content"] [data-slot="dialog-close"] {
   display: none !important;
 }
-
-/* Fallback: common close button layout in shadcn dialogs */
 [data-slot="dialog-content"] > button.absolute.right-4.top-4,
 [data-slot="dialog-content"] button.absolute.right-4.top-4,
 [data-slot="dialog-content"] > button[class*="right-4"][class*="top-4"],
@@ -237,27 +237,33 @@
   display: none !important;
 }
 
-/* --- Global Radio (Radix/shadcn) to BLUE --- */
-:root {
-  --radio-blue: #2563eb; /* blue-600 */
-  --radio-blue-ring: rgba(37, 99, 235, 0.25);
-}
-
-/* Ensure the item border uses blue when checked */
-[data-radix-radio-group-item][data-state="checked"] {
+/* --- Global Radio (Radix/shadcn) FORCE BLUE --- */
+/* Shadcn radio item is a <button role="radio" data-state="checked"> ... */
+button[role="radio"][data-state="checked"] {
   border-color: var(--radio-blue) !important;
   color: var(--radio-blue) !important;
 }
 
-/* Ensure the dot/indicator is blue */
-[data-radix-radio-group-item][data-state="checked"] svg,
-[data-radix-radio-group-item][data-state="checked"] [data-radix-radio-group-indicator] {
+/* The indicator inside usually uses currentColor */
+button[role="radio"][data-state="checked"] svg,
+button[role="radio"][data-state="checked"] [data-radix-radio-group-indicator] {
   color: var(--radio-blue) !important;
   fill: var(--radio-blue) !important;
 }
 
-/* Focus ring to match */
-[data-radix-radio-group-item]:focus-visible {
+/* Focus ring */
+button[role="radio"]:focus-visible {
   outline: none !important;
   box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
+}
+
+/* Also cover any Radix attribute variant (older/other builds) */
+[data-radix-radio-group-item][data-state="checked"] {
+  border-color: var(--radio-blue) !important;
+  color: var(--radio-blue) !important;
+}
+[data-radix-radio-group-item][data-state="checked"] svg,
+[data-radix-radio-group-item][data-state="checked"] [data-radix-radio-group-indicator] {
+  color: var(--radio-blue) !important;
+  fill: var(--radio-blue) !important;
 }
