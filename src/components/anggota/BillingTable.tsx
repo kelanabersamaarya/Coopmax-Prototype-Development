@@ -253,11 +253,9 @@ export default function BillingTable({
   const twoLineHeader = "leading-[1.05] whitespace-nowrap";
   const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-slate-50/35");
 
-  // checkbox column (rapat)
   const checkboxColW = "w-[48px]";
   const checkboxCell = cn(tdBase, "px-3 text-center");
 
-  // UBAH: kolom tanggal lebih rapat dari checkbox (kurangi padding kiri)
   const thDate = cn(thBase, "pl-2 pr-4");
   const tdDate = cn(
     tdBase,
@@ -281,6 +279,10 @@ export default function BillingTable({
 
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
+
+  // UBAH: angka denda agak ditarik ke kiri (padding kanan dikurangi)
+  const penaltyTd = cn(tdNum, "pr-2");
+  const penaltyTdEmpty = cn(tdNum, "pr-2");
 
   return (
     <div className={cn("mt-3", className)}>
@@ -435,7 +437,7 @@ export default function BillingTable({
                                     ) : null}
 
                                     {showPenaltyCol ? (
-                                      <td className={cn(tdNum, "pr-3")}>
+                                      <td className={penaltyTd}>
                                         <div className="flex items-center justify-end gap-3">
                                           <span className="font-medium text-slate-900">
                                             {penalties[rowIndex]?.total ?? "25.000"}
@@ -503,7 +505,7 @@ export default function BillingTable({
                       ) : null}
 
                       {showPenaltyCol ? (
-                        <td className={cn(tdNum, "pr-3")}>
+                        <td className={penaltyTd}>
                           <div className="flex items-center justify-end gap-3">
                             <span className="font-medium text-slate-900">
                               {penalties[rowIndex]?.total ?? "25.000"}
@@ -563,7 +565,7 @@ export default function BillingTable({
                       ) : null}
 
                       {showPenaltyCol ? (
-                        <td className={cn(tdNum, "pr-3")}>
+                        <td className={penaltyTdEmpty}>
                           <span className="text-slate-400">-</span>
                         </td>
                       ) : null}
