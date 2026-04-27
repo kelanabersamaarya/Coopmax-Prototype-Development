@@ -143,29 +143,6 @@ function PenaltyInfoButton({
   );
 }
 
-function TableColGroup({
-  hideSelection,
-  hideInterestCols,
-  showPenaltyCol,
-}: {
-  hideSelection: boolean;
-  hideInterestCols: boolean;
-  showPenaltyCol: boolean;
-}) {
-  return (
-    <colgroup>
-      {!hideSelection ? <col className="w-[48px]" /> : null}
-      <col className="w-[150px]" />
-      {!hideInterestCols ? <col className="w-[190px]" /> : null}
-      <col className="w-[150px]" />
-      {!hideInterestCols ? <col className="w-[140px]" /> : null}
-      <col className="w-[170px]" />
-      {!hideInterestCols ? <col className="w-[140px]" /> : null}
-      {showPenaltyCol ? <col className="w-[170px]" /> : null}
-    </colgroup>
-  );
-}
-
 export default function BillingTable({
   rows,
   selected,
@@ -262,24 +239,7 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
-  const showAllCols =
-    !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
-
-  const colCount = (() => {
-    if (feeOnlyCols) return hideSelection ? 4 : 5;
-    if (penaltyOnlyCols) return hideSelection ? 4 : 5;
-    if (interestOnlyCols) return hideSelection ? 3 : 4;
-    return hideSelection ? 7 : 8;
-  })();
-
-  const graceEnabled = showGraceHighlight && showAllCols;
-  const graceCount = graceEnabled ? Math.min(2, displayRows.length) : 0;
-
-  const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
-  const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
-
-  // === Style tokens (rapi & konsisten) ===
+  // === Style tokens ===
   const thBase =
     "px-3 py-4 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
@@ -303,6 +263,23 @@ export default function BillingTable({
     "font-semibold tabular-nums whitespace-nowrap",
   );
 
+  const showPenaltyCol = !hideInterestCols && !interestOnlyCols && !feeOnlyCols;
+  const showAllCols =
+    !hideInterestCols && !interestOnlyCols && !penaltyOnlyCols && !feeOnlyCols;
+
+  const colCount = (() => {
+    if (feeOnlyCols) return hideSelection ? 4 : 5;
+    if (penaltyOnlyCols) return hideSelection ? 4 : 5;
+    if (interestOnlyCols) return hideSelection ? 3 : 4;
+    return hideSelection ? 7 : 8;
+  })();
+
+  const graceEnabled = showGraceHighlight && showAllCols;
+  const graceCount = graceEnabled ? Math.min(2, displayRows.length) : 0;
+
+  const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
+  const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
+
   const penaltyTd = cn(tdNum, "pr-2");
   const penaltyTdEmpty = cn(tdNum, "pr-2");
 
@@ -315,13 +292,7 @@ export default function BillingTable({
       />
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        <table className="w-full table-fixed border-collapse">
-          <TableColGroup
-            hideSelection={hideSelection}
-            hideInterestCols={hideInterestCols}
-            showPenaltyCol={showPenaltyCol}
-          />
-
+        <table className="w-full border-collapse">
           <thead className="bg-slate-50/60">
             <tr className="border-b border-slate-200">
               {!hideSelection ? (
@@ -385,7 +356,11 @@ export default function BillingTable({
               ) : null}
 
               {showPenaltyCol ? (
-                <th className={cn(thRight, twoLineHeader)}>Tagihan<br />Denda</th>
+                <th className={cn(thRight, twoLineHeader, "w-[160px]")}>
+                  Tagihan
+                  <br />
+                  Denda
+                </th>
               ) : null}
             </tr>
           </thead>
@@ -407,13 +382,7 @@ export default function BillingTable({
                     <td colSpan={colCount} className="p-0">
                       <div className="bg-white px-2 py-3 sm:px-3 sm:py-3">
                         <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
-                          <table className="w-full table-fixed border-collapse">
-                            <TableColGroup
-                              hideSelection={hideSelection}
-                              hideInterestCols={hideInterestCols}
-                              showPenaltyCol={showPenaltyCol}
-                            />
-
+                          <table className="w-full border-collapse">
                             <tbody className="bg-white">
                               <GracePeriodInfoRow colSpan={colCount} noBorder />
 
@@ -505,7 +474,9 @@ export default function BillingTable({
                         <td className={checkboxCell}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
-                            checked={isPelunasan ? true : (selected[rowIndex] ?? false)}
+                            checked={
+                              isPelunasan ? true : (selected[rowIndex] ?? false)
+                            }
                             disabled={isPelunasan}
                             onChange={(next) =>
                               setSelected((prev) => {
