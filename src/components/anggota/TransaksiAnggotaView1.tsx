@@ -418,8 +418,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   highlightGraceBlock={true}
                   hideSelection={false}
                   showPenaltyColumn={true}
+                  // kunci: hilangkan border tebal (ring) pada row
                   disableRowActiveRing={true}
-                  hideRowDividers
                   className="mt-0"
                 />
               ) : (
