@@ -18,6 +18,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { ChevronLeft, Info, Plus, Trash2 } from "lucide-react";
 import { BillingScheme } from "@/lib/loanProductsStore";
+import PenaltyRateField, {
+  type PenaltyRateMode,
+} from "@/components/loans/PenaltyRateField";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -347,8 +350,8 @@ export default function LoanProductEdit() {
         ? "Masukkan Jumlah Bulan"
         : "Masukkan Durasi";
 
-  // --- New: Tarif Denda + Dasar Perhitungan + Hari Keterlambatan (prototype state) ---
-  const [tarifDendaMode, setTarifDendaMode] = React.useState<AmountMode>("rp");
+  // Tarif Denda + Dasar Perhitungan + Hari Keterlambatan (prototype state)
+  const [tarifDendaMode, setTarifDendaMode] = React.useState<PenaltyRateMode>("rp");
   const [tarifDendaValue, setTarifDendaValue] = React.useState("0,00");
 
   const [dasarPerhitungan, setDasarPerhitungan] =
@@ -924,19 +927,12 @@ export default function LoanProductEdit() {
                     </RadioGroup>
                   </div>
 
-                  {/* New fields: tepat di bawah Skema Tagihan */}
                   <FieldRow label="Tarif Denda">
-                    <AmountModeInput
+                    <PenaltyRateField
                       mode={tarifDendaMode}
                       onModeChange={setTarifDendaMode}
                       value={tarifDendaValue}
                       onValueChange={setTarifDendaValue}
-                      placeholder="0,00"
-                      hint={
-                        tarifDendaMode === "rp"
-                          ? "Masukkan tarif denda nominal (Rp)."
-                          : "Masukkan tarif denda persentase (%)."
-                      }
                     />
                   </FieldRow>
 
