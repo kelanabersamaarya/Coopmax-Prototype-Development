@@ -52,6 +52,9 @@ type CollectorFeeRow = {
   feePercent: string;
 };
 
+type GraceScheme = "Hanya Bayar Bunga";
+type GraceUnit = "Pilih Satuan Grace Period" | "Hari" | "Bulan";
+
 function FieldRow({
   label,
   hint,
@@ -310,6 +313,19 @@ export default function LoanProductEdit() {
   const [installmentMode, setInstallmentMode] =
     React.useState<InstallmentMode>("Jadwal Tetap (Diterbitkan Penuh di Awal)");
   const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(false);
+
+  const [graceScheme, setGraceScheme] =
+    React.useState<GraceScheme>("Hanya Bayar Bunga");
+  const [graceUnit, setGraceUnit] =
+    React.useState<GraceUnit>("Pilih Satuan Grace Period");
+  const [graceDuration, setGraceDuration] = React.useState("");
+
+  React.useEffect(() => {
+    if (!gracePeriodEnabled) return;
+    // set default values when first enabled
+    setGraceScheme("Hanya Bayar Bunga");
+    if (!graceUnit) setGraceUnit("Pilih Satuan Grace Period");
+  }, [gracePeriodEnabled, graceUnit]);
 
   function addCollectorFee() {
     setCollectorFees((prev) => [
@@ -887,11 +903,76 @@ export default function LoanProductEdit() {
                   </div>
 
                   <FieldRow label="Grace Period">
-                    <div className="flex items-center gap-3">
-                      <Switch
-                        checked={gracePeriodEnabled}
-                        onCheckedChange={setGracePeriodEnabled}
-                      />
+                    <div className="grid gap-3">
+                      <div className="flex items-center gap-3">
+                        <Switch
+                          checked={gracePeriodEnabled}
+                          onCheckedChange={setGracePeriodEnabled}
+                        />
+                      </div>
+
+                      {gracePeriodEnabled ? (
+                        <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+                          <div className="grid gap-3 md:grid-cols-[240px_1fr] md:items-center">
+                            <div className="text-sm font-normal text-slate-900">
+                              Skema Grace Period
+                            </div>
+
+                            <RadioGroup
+                              value={graceScheme}
+                              onValueChange={(v) => setGraceScheme(v as GraceScheme)}
+                              className="flex items-center gap-6"
+                            >
+                              <label className="inline-flex items-center gap-2 text-sm text-slate-800">
+                                <RadioGroupItem
+                                  value="Hanya Bayar Bunga"
+                                  id="grace-hanya-bayar-bunga"
+                                />
+                                Hanya Bayar Bunga
+                                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-[11px] font-semibold text-blue-700 ring-1 ring-blue-200">
+                                  i
+                                </span>
+                              </label>
+                            </RadioGroup>
+                          </div>
+
+                          <div className="mt-4 grid gap-3">
+                            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                              <div className="text-sm font-normal text-slate-900">
+                                Satuan Grace Period
+                              </div>
+                              <Select
+                                value={graceUnit}
+                                onValueChange={(v) => setGraceUnit(v as GraceUnit)}
+                              >
+                                <SelectTrigger className="h-11 rounded-xl border-slate-200 bg-white">
+                                  <SelectValue placeholder="Pilih Satuan Grace Period" />
+                                </SelectTrigger>
+                                <SelectContent className="rounded-xl border-slate-200">
+                                  <SelectItem value="Pilih Satuan Grace Period">
+                                    Pilih Satuan Grace Period
+                                  </SelectItem>
+                                  <SelectItem value="Hari">Hari</SelectItem>
+                                  <SelectItem value="Bulan">Bulan</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+
+                            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                              <div className="text-sm font-normal text-slate-900">
+                                Durasi Grace Period (Hari/Bulan)
+                              </div>
+                              <Input
+                                value={graceDuration}
+                                onChange={(e) => setGraceDuration(e.target.value)}
+                                className="h-11 rounded-xl border-slate-200 bg-white"
+                                placeholder="Masukkan Jumlah Bulan"
+                                inputMode="numeric"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
                     </div>
                   </FieldRow>
                 </>
