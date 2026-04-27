@@ -89,6 +89,7 @@
     /* Global Radio (force blue) */
     --radio-blue: #2563eb; /* blue-600 */
     --radio-blue-ring: rgba(37, 99, 235, 0.25);
+    --radio-blue-soft: rgba(37, 99, 235, 0.12);
   }
 
   .dark {
@@ -141,6 +142,7 @@
 
     --radio-blue: #3b82f6; /* blue-500 in dark */
     --radio-blue-ring: rgba(59, 130, 246, 0.3);
+    --radio-blue-soft: rgba(59, 130, 246, 0.16);
   }
 }
 
@@ -237,33 +239,38 @@
   display: none !important;
 }
 
-/* --- Global Radio (Radix/shadcn) FORCE BLUE --- */
-/* Shadcn radio item is a <button role="radio" data-state="checked"> ... */
-button[role="radio"][data-state="checked"] {
+/* --- Global Radio (Radix/shadcn): make BOTH unchecked & checked blue --- */
+/* unchecked border (shadcn often sets border-primary => your primary is ungu) */
+button[role="radio"][data-state="unchecked"],
+[data-radix-radio-group-item][data-state="unchecked"] {
   border-color: var(--radio-blue) !important;
   color: var(--radio-blue) !important;
 }
 
-/* The indicator inside usually uses currentColor */
-button[role="radio"][data-state="checked"] svg,
-button[role="radio"][data-state="checked"] [data-radix-radio-group-indicator] {
-  color: var(--radio-blue) !important;
-  fill: var(--radio-blue) !important;
-}
-
-/* Focus ring */
-button[role="radio"]:focus-visible {
-  outline: none !important;
-  box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
-}
-
-/* Also cover any Radix attribute variant (older/other builds) */
+/* checked border + dot */
+button[role="radio"][data-state="checked"],
 [data-radix-radio-group-item][data-state="checked"] {
   border-color: var(--radio-blue) !important;
   color: var(--radio-blue) !important;
 }
+
+button[role="radio"][data-state="checked"] svg,
+button[role="radio"][data-state="checked"] [data-radix-radio-group-indicator],
 [data-radix-radio-group-item][data-state="checked"] svg,
 [data-radix-radio-group-item][data-state="checked"] [data-radix-radio-group-indicator] {
   color: var(--radio-blue) !important;
   fill: var(--radio-blue) !important;
+}
+
+/* hover gives soft blue bg (optional, matches modern UI feel) */
+button[role="radio"]:hover,
+[data-radix-radio-group-item]:hover {
+  background-color: var(--radio-blue-soft) !important;
+}
+
+/* focus ring */
+button[role="radio"]:focus-visible,
+[data-radix-radio-group-item]:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
 }
