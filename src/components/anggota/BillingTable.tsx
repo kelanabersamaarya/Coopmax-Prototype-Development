@@ -130,9 +130,10 @@ function PenaltyInfoButton({
         onClick();
       }}
       className={cn(
-        "inline-flex h-7 w-7 items-center justify-center rounded-full",
+        "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
         "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
         "transition hover:bg-[#1d4ed8]",
+        "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
         className,
       )}
       aria-label="Rincian denda"
@@ -241,7 +242,7 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  // === Compact layout (seperti screenshot) ===
+  // === Compact layout ===
   const thBase =
     "px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
   const thRight =
@@ -257,8 +258,6 @@ export default function BillingTable({
     "num-sans-tabular tabular-nums",
     "pr-5",
   );
-
-  const zebra = (idx: number) => (idx % 2 === 0 ? "bg-white" : "bg-white");
 
   const checkboxColW = "w-[40px]";
   const checkboxTh = cn(thBase, "px-2");
@@ -283,8 +282,18 @@ export default function BillingTable({
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
 
-  const penaltyTd = cn(tdNum, "pr-2");
-  const penaltyTdEmpty = cn(tdNum, "pr-2");
+  // Samakan alignment semua angka di dalam/luar grace period
+  const numCell = cn(tdNum, "pr-5");
+  const sisaPokokCell = cn(tdNum, "pr-5");
+  const sisaBungaCell = cn(tdNum, "pr-5");
+
+  // Denda: harus reguler (bukan bold) + align sama dengan angka lain
+  const penaltyValueClass = cn(
+    "tabular-nums whitespace-nowrap font-normal text-slate-900",
+  );
+
+  const penaltyTd = cn(tdNum, "pr-3");
+  const penaltyTdEmpty = cn(tdNum, "pr-3");
 
   return (
     <div className={cn("mt-3", className)}>
@@ -387,7 +396,8 @@ export default function BillingTable({
                 {graceEnabled && graceRows.length > 0 ? (
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="bg-white p-2">
+                      {/* Kurangi whitespace: p-2 -> p-1 */}
+                      <div className="bg-white p-1">
                         <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
@@ -397,10 +407,10 @@ export default function BillingTable({
                                 const rowIndex = idx;
                                 return (
                                   <tr
-                                    key={`${bill.jatuhTempo}-grace-${idx}`}
+                                    key={`grace-${bill.jatuhTempo}-${idx}`}
                                     className={cn(
                                       idx === 0 ? "" : "border-t border-slate-200",
-                                      zebra(idx),
+                                      idx % 2 === 0 ? "bg-white" : "bg-white",
                                     )}
                                   >
                                     {!hideSelection ? (
@@ -429,25 +439,25 @@ export default function BillingTable({
                                     </td>
 
                                     {!hideInterestCols ? (
-                                      <td className={tdNum}>{bill.totalBelumDibayar}</td>
+                                      <td className={numCell}>{bill.totalBelumDibayar}</td>
                                     ) : null}
 
-                                    <td className={tdNum}>{bill.tagihanPokok}</td>
+                                    <td className={numCell}>{bill.tagihanPokok}</td>
 
                                     {!hideInterestCols ? (
-                                      <td className={tdNum}>{bill.tagihanBunga}</td>
+                                      <td className={numCell}>{bill.tagihanBunga}</td>
                                     ) : null}
 
-                                    <td className={tdNum}>{bill.sisaPokok}</td>
+                                    <td className={sisaPokokCell}>{bill.sisaPokok}</td>
 
                                     {!hideInterestCols ? (
-                                      <td className={tdNum}>{bill.sisaBunga}</td>
+                                      <td className={sisaBungaCell}>{bill.sisaBunga}</td>
                                     ) : null}
 
                                     {showPenaltyCol ? (
                                       <td className={penaltyTd}>
                                         <div className="flex items-center justify-end gap-3">
-                                          <span className="font-medium text-slate-900">
+                                          <span className={penaltyValueClass}>
                                             {penalties[rowIndex]?.total ?? "25.000"}
                                           </span>
                                           <PenaltyInfoButton
@@ -477,7 +487,7 @@ export default function BillingTable({
                   return (
                     <tr
                       key={`${bill.jatuhTempo}-${rowIndex}`}
-                      className={cn("border-t border-slate-200", zebra(rowIndex))}
+                      className={cn("border-t border-slate-200", "bg-white")}
                     >
                       {!hideSelection ? (
                         <td className={checkboxTd}>
@@ -499,25 +509,25 @@ export default function BillingTable({
                       <td className={cn(tdDate, "pl-3")}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>{bill.totalBelumDibayar}</td>
+                        <td className={numCell}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
-                      <td className={tdNum}>{bill.tagihanPokok}</td>
+                      <td className={numCell}>{bill.tagihanPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>{bill.tagihanBunga}</td>
+                        <td className={numCell}>{bill.tagihanBunga}</td>
                       ) : null}
 
-                      <td className={tdNum}>{bill.sisaPokok}</td>
+                      <td className={sisaPokokCell}>{bill.sisaPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>{bill.sisaBunga}</td>
+                        <td className={sisaBungaCell}>{bill.sisaBunga}</td>
                       ) : null}
 
                       {showPenaltyCol ? (
                         <td className={penaltyTd}>
                           <div className="flex items-center justify-end gap-3">
-                            <span className="font-medium text-slate-900">
+                            <span className={penaltyValueClass}>
                               {penalties[rowIndex]?.total ?? "25.000"}
                             </span>
                             <PenaltyInfoButton
@@ -535,7 +545,7 @@ export default function BillingTable({
                   return (
                     <tr
                       key={`outside-${bill.jatuhTempo}-${globalIndex}`}
-                      className={cn("border-t border-slate-200", zebra(globalIndex))}
+                      className={cn("border-t border-slate-200", "bg-white")}
                     >
                       {!hideSelection ? (
                         <td className={checkboxTd}>
@@ -559,19 +569,19 @@ export default function BillingTable({
                       <td className={cn(tdDate, "pl-3")}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>{bill.totalBelumDibayar}</td>
+                        <td className={numCell}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
-                      <td className={tdNum}>{bill.tagihanPokok}</td>
+                      <td className={numCell}>{bill.tagihanPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>{bill.tagihanBunga}</td>
+                        <td className={numCell}>{bill.tagihanBunga}</td>
                       ) : null}
 
-                      <td className={tdNum}>{bill.sisaPokok}</td>
+                      <td className={sisaPokokCell}>{bill.sisaPokok}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>{bill.sisaBunga}</td>
+                        <td className={sisaBungaCell}>{bill.sisaBunga}</td>
                       ) : null}
 
                       {showPenaltyCol ? (
