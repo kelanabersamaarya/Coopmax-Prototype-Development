@@ -274,6 +274,7 @@ export default function BillingTable({
     return (hideSelection ? 6 : 7) + penalty;
   })();
 
+  // Grace highlight: TANPA nested table agar kolom 100% sejajar
   const graceEnabled = showGraceHighlight && showAllCols;
   const graceCount = graceEnabled ? Math.min(2, displayRows.length) : 0;
 
@@ -284,11 +285,13 @@ export default function BillingTable({
   const sisaPokokCell = cn(tdNum, "pr-5");
   const sisaBungaCell = cn(tdNum, "pr-5");
 
-  // samakan kolom denda agar align dengan angka lain (gunakan pr-5 juga)
   const penaltyTd = cn(tdNum, "pr-5");
   const penaltyTdEmpty = cn(tdNum, "pr-5");
-
   const penaltyValueClass = cn("tabular-nums whitespace-nowrap font-normal");
+
+  const graceRowRing =
+    "bg-white relative before:absolute before:inset-x-0 before:inset-y-0 before:ring-2 before:ring-blue-600/70 before:pointer-events-none";
+  const graceRowStripe = "bg-blue-50/35";
 
   return (
     <div className={cn("mt-3", className)}>
@@ -389,91 +392,72 @@ export default function BillingTable({
             ) : (
               <>
                 {graceEnabled && graceRows.length > 0 ? (
-                  <tr className="border-t border-slate-200">
-                    <td colSpan={colCount} className="p-0">
-                      <div className="bg-white p-0">
-                        <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
-                          <table className="w-full border-collapse">
-                            <tbody className="bg-white">
-                              <GracePeriodInfoRow colSpan={colCount} noBorder />
-
-                              {graceRows.map((bill, idx) => {
-                                const rowIndex = idx;
-                                return (
-                                  <tr
-                                    key={`grace-${bill.jatuhTempo}-${idx}`}
-                                    className={cn(
-                                      idx === 0 ? "" : "border-t border-slate-200",
-                                      idx % 2 === 0 ? "bg-white" : "bg-white",
-                                    )}
-                                  >
-                                    {!hideSelection ? (
-                                      <td className={checkboxTd}>
-                                        <TableCheckbox
-                                          ariaLabel="Pilih tagihan"
-                                          checked={
-                                            isPelunasan
-                                              ? true
-                                              : (selected[rowIndex] ?? false)
-                                          }
-                                          disabled={isPelunasan}
-                                          onChange={(next) =>
-                                            setSelected((prev) => {
-                                              const copy = [...prev];
-                                              copy[rowIndex] = next;
-                                              return copy;
-                                            })
-                                          }
-                                        />
-                                      </td>
-                                    ) : null}
-
-                                    <td className={cn(tdDate, "pl-3")}>
-                                      {bill.jatuhTempo}
-                                    </td>
-
-                                    {!hideInterestCols ? (
-                                      <td className={numCell}>{bill.totalBelumDibayar}</td>
-                                    ) : null}
-
-                                    <td className={numCell}>{bill.tagihanPokok}</td>
-
-                                    {!hideInterestCols ? (
-                                      <td className={numCell}>{bill.tagihanBunga}</td>
-                                    ) : null}
-
-                                    <td className={sisaPokokCell}>{bill.sisaPokok}</td>
-
-                                    {!hideInterestCols ? (
-                                      <td className={sisaBungaCell}>{bill.sisaBunga}</td>
-                                    ) : null}
-
-                                    {showPenaltyCol ? (
-                                      <td className={penaltyTd}>
-                                        <div className="flex items-center justify-end gap-3">
-                                          <span className={penaltyValueClass}>
-                                            {penalties[rowIndex]?.total ?? "25.000"}
-                                          </span>
-                                          <PenaltyInfoButton
-                                            onClick={() =>
-                                              openPenaltyDetailForRow(rowIndex)
-                                            }
-                                          />
-                                        </div>
-                                      </td>
-                                    ) : null}
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                  <GracePeriodInfoRow colSpan={colCount} noBorder />
                 ) : showGraceHighlight ? (
                   <GracePeriodInfoRow colSpan={colCount} />
                 ) : null}
+
+                {graceRows.map((bill, idx) => {
+                  const rowIndex = idx;
+                  return (
+                    <tr
+                      key={`grace-${bill.jatuhTempo}-${idx}`}
+                      className={cn(
+                        "border-t border-slate-200",
+                        graceRowStripe,
+                        graceRowRing,
+                      )}
+                    >
+                      {!hideSelection ? (
+                        <td className={checkboxTd}>
+                          <TableCheckbox
+                            ariaLabel="Pilih tagihan"
+                            checked={isPelunasan ? true : (selected[rowIndex] ?? false)}
+                            disabled={isPelunasan}
+                            onChange={(next) =>
+                              setSelected((prev) => {
+                                const copy = [...prev];
+                                copy[rowIndex] = next;
+                                return copy;
+                              })
+                            }
+                          />
+                        </td>
+                      ) : null}
+
+                      <td className={cn(tdDate, "pl-3")}>{bill.jatuhTempo}</td>
+
+                      {!hideInterestCols ? (
+                        <td className={numCell}>{bill.totalBelumDibayar}</td>
+                      ) : null}
+
+                      <td className={numCell}>{bill.tagihanPokok}</td>
+
+                      {!hideInterestCols ? (
+                        <td className={numCell}>{bill.tagihanBunga}</td>
+                      ) : null}
+
+                      <td className={sisaPokokCell}>{bill.sisaPokok}</td>
+
+                      {!hideInterestCols ? (
+                        <td className={sisaBungaCell}>{bill.sisaBunga}</td>
+                      ) : null}
+
+                      {showPenaltyCol ? (
+                        <td className={penaltyTd}>
+                          <div className="flex items-center justify-end gap-3">
+                            <span className={penaltyValueClass}>
+                              {penalties[rowIndex]?.total ?? "25.000"}
+                            </span>
+                            <PenaltyInfoButton
+                              onClick={() => openPenaltyDetailForRow(rowIndex)}
+                            />
+                          </div>
+                        </td>
+                      ) : null}
+                    </tr>
+                  );
+                })}
 
                 {nonGraceRows.map((bill, idx) => {
                   const rowIndex = graceEnabled ? graceCount + idx : idx;
@@ -545,9 +529,7 @@ export default function BillingTable({
                         <td className={checkboxTd}>
                           <TableCheckbox
                             ariaLabel="Pilih tagihan"
-                            checked={
-                              isPelunasan ? true : (selected[globalIndex] ?? false)
-                            }
+                            checked={isPelunasan ? true : (selected[globalIndex] ?? false)}
                             disabled={isPelunasan}
                             onChange={(next) =>
                               setSelected((prev) => {
