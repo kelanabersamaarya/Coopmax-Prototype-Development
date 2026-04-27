@@ -250,19 +250,16 @@ export default function LoanApplicationCreate() {
     getTodayDmy(),
   );
 
-  // --- Jadwal denda: tombol "Tambah" langsung munculkan form ---
+  // --- Denda: sesuai menu Produk Pinjaman ---
   const [penaltyVisible, setPenaltyVisible] = React.useState(false);
   const [penaltyDraft, setPenaltyDraft] = React.useState<PenaltyScheduleDraft>({
-    amountMode: "percent",
-    amountValue: "0",
+    rateMode: "percent",
+    rateValue: "0",
     base: "Pokok",
-    frequency: "Harian",
-    periode: "",
-    tanggalTagihanKe1: getTodayDmy(),
+    lateDays: "0",
   });
 
   React.useEffect(() => {
-    // kalau user ganti produk dari Billing -> non-billing, reset tampilan form denda
     if (!showJadwalTab) setPenaltyVisible(false);
   }, [showJadwalTab]);
 
@@ -661,7 +658,6 @@ export default function LoanApplicationCreate() {
                   </div>
                 </div>
 
-                {/* Jadwal denda: tanpa accordion/section */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between gap-4">
                     <div className="text-2xl font-semibold tracking-tight text-slate-900">
@@ -672,8 +668,8 @@ export default function LoanApplicationCreate() {
                       className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
                       onClick={() => {
                         setPenaltyVisible(true);
-                        toast("Tambah Jadwal Denda (prototype)", {
-                          description: "Form jadwal denda ditampilkan.",
+                        toast("Tambah Denda (prototype)", {
+                          description: "Form denda ditampilkan.",
                         });
                       }}
                     >
@@ -688,8 +684,8 @@ export default function LoanApplicationCreate() {
                       onChange={setPenaltyDraft}
                       onDelete={() => {
                         setPenaltyVisible(false);
-                        toast("Jadwal denda dihapus (prototype)", {
-                          description: "Form jadwal denda ditutup.",
+                        toast("Denda dihapus (prototype)", {
+                          description: "Form denda ditutup.",
                         });
                       }}
                     />
