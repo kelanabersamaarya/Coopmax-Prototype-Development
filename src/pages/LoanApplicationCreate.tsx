@@ -57,8 +57,8 @@ function FieldRow({
 }) {
   return (
     <div className="grid gap-2">
-      <div>
-        <Label className="text-sm font-semibold text-slate-900">
+      <div className="text-left">
+        <Label className="text-sm font-normal text-slate-900">
           {label}
           {required ? <span className="text-rose-600"> *</span> : null}
         </Label>
