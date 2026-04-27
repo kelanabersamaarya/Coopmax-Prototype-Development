@@ -22,17 +22,21 @@ function RowShell({
   children,
   active,
   disableActiveRing = false,
+  disableRowRings = false,
 }: {
   children: React.ReactNode;
   active: boolean;
   disableActiveRing?: boolean;
+  disableRowRings?: boolean;
 }) {
   return (
     <div className="bg-white px-3 py-3">
       <div
         className={cn(
           "rounded-2xl bg-white",
-          active && !disableActiveRing ? "ring-2 ring-slate-900/5" : "",
+          !disableRowRings && active && !disableActiveRing
+            ? "ring-2 ring-slate-900/5"
+            : "",
         )}
       >
         {children}
@@ -156,6 +160,7 @@ export default function BillingTableView2({
   showPenaltyColumn = false,
   tone = "default",
   disableRowActiveRing = false,
+  disableRowRings = false,
   hideRowDividers = false,
   className,
 }: {
@@ -170,6 +175,7 @@ export default function BillingTableView2({
   showPenaltyColumn?: boolean;
   tone?: "default" | "khusus";
   disableRowActiveRing?: boolean;
+  disableRowRings?: boolean;
   hideRowDividers?: boolean;
   className?: string;
 }) {
@@ -258,8 +264,6 @@ export default function BillingTableView2({
     );
   }
 
-  const disableActiveRingInGrace = disableRowActiveRing && graceRows.length > 0;
-
   const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
 
   return (
@@ -330,14 +334,13 @@ export default function BillingTableView2({
                               return (
                                 <tr
                                   key={`${r.jatuhTempo}-grace-${idx}`}
-                                  className={cn(
-                                    idx === 0 ? "" : rowDividerClass,
-                                  )}
+                                  className={cn(idx === 0 ? "" : rowDividerClass)}
                                 >
                                   <td colSpan={colCount} className="p-0">
                                     <RowShell
                                       active={active}
-                                      disableActiveRing={disableActiveRingInGrace}
+                                      disableActiveRing={disableRowActiveRing}
+                                      disableRowRings={disableRowRings}
                                     >
                                       <div
                                         className={cn(
@@ -432,7 +435,11 @@ export default function BillingTableView2({
                       className={cn(rowDividerClass)}
                     >
                       <td colSpan={colCount} className="p-0">
-                        <RowShell active={active}>
+                        <RowShell
+                          active={active}
+                          disableActiveRing={disableRowActiveRing}
+                          disableRowRings={disableRowRings}
+                        >
                           <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
                               <div className="flex items-center justify-center px-4 py-4">
@@ -517,7 +524,11 @@ export default function BillingTableView2({
                         className={cn(rowDividerClass)}
                       >
                         <td colSpan={colCount} className="p-0">
-                          <RowShell active={active}>
+                          <RowShell
+                            active={active}
+                            disableActiveRing={disableRowActiveRing}
+                            disableRowRings={disableRowRings}
+                          >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (
                                 <div className="flex items-center justify-center px-4 py-4">

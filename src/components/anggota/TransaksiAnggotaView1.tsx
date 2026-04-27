@@ -203,7 +203,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       return;
     }
 
-    // Reguler & Khusus (View2 style) default: checked (seperti screenshot)
     if (isReguler || isKhusus) {
       setSelected(pagedRows.map(() => true));
       return;
@@ -418,8 +417,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   highlightGraceBlock={true}
                   hideSelection={false}
                   showPenaltyColumn={true}
-                  // kunci: hilangkan border tebal (ring) pada row
-                  disableRowActiveRing={true}
+                  // hilangkan ring/border tebal baris SEPENUHNYA
+                  disableRowRings
                   className="mt-0"
                 />
               ) : (
