@@ -57,7 +57,7 @@ type Props = {
 };
 
 const currentBill: BillingRow = {
-  jatuhTempo: "25-03-2026",
+  jatuhTempo: "25-01-2026",
   totalBelumDibayar: "916.667",
   tagihanPokok: "833.333",
   tagihanBunga: "83.333",
@@ -138,7 +138,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // FIX: View2/3 reguler hanya tampilkan 1 tagihan
+  // Reguler View2/3: hanya 1 tagihan, tetapi tampilannya pakai BillingTableView2 (sesuai contoh).
   const rowsToShow: BillingRow[] = isReguler
     ? [currentBill]
     : isPelunasan
@@ -210,6 +210,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   }, [penurunanBakiDebetPokokTotal]);
 
   const showGraceInfo = true;
+
+  // Reguler sesuai contoh: tampilkan block grace period (highlight) walaupun row cuma 1.
   const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
 
   const pelunasanTotals = React.useMemo(() => {
@@ -239,7 +241,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
 
   const useTableLikeScreenshotForPenurunanBakiDebet = isPenurunanBakiDebet;
-  const useTableLikeScreenshotForReguler = isReguler;
 
   return (
     <div className="w-full px-0">
@@ -341,7 +342,19 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {isPelunasan ? (
+              {isReguler ? (
+                <BillingTableView2
+                  rows={rowsToShow}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={true}
+                  showNextBillInfo={true}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
+                  showPenaltyColumn={false}
+                />
+              ) : isPelunasan ? (
                 <BillingTable
                   rows={rowsToShowV1}
                   selected={selected}
@@ -360,16 +373,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showGraceHighlight={true}
                   hideInterestCols={false}
                   hideSelection={true}
-                  className="mt-0"
-                />
-              ) : useTableLikeScreenshotForReguler ? (
-                <BillingTable
-                  rows={rowsToShowV1}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isPelunasan={false}
-                  showGraceHighlight={true}
-                  hideInterestCols={false}
                   className="mt-0"
                 />
               ) : isKhusus ? (
