@@ -397,21 +397,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 />
               )}
 
-              <div className="mt-3">
-                {isReguler ? (
-                  <BillingTable
-                    rows={rowsToShowV1}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isPelunasan={false}
-                    showGraceHighlight={true}
-                    hideInterestCols={false}
-                    showPenaltyColumn={true}
-                    className="mt-0"
-                  />
-                ) : null}
-              </div>
-
               <div className="sr-only">
                 <Info />
               </div>
