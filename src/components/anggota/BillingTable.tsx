@@ -291,6 +291,7 @@ export default function BillingTable({
     (showGraceHighlight || forceGraceInfo) && showAllCols;
 
   function NumCell({ value }: { value: string }) {
+    // Align by separator (last ".") so digits line up vertically across rows.
     return (
       <NumericCell align="separator" className="w-full">
         {value}
