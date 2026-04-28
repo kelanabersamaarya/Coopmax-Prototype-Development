@@ -197,7 +197,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Pelunasan: auto-select semua (karena konsepnya locked/tercentang).
+    // Pelunasan: auto-select semua (locked/tercentang).
     if (isPelunasan) {
       setSelected(pagedRows.map(() => true));
       return;
@@ -311,6 +311,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
 
+  const useView2Style = isReguler || isKhusus || isPelunasan;
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -338,7 +340,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     type="button"
                     className="inline-flex h-9 items-center rounded-full bg-white px-3 text-sm font-semibold text-slate-900 ring-1 ring-white/60 hover:bg-white/90"
                   >
-                    Aksi <ChevronDown className="ml-2 h-4 w-4 text-slate-600" />
+                    Aksi <ChevronDown className="ml-1 h-4 w-4 text-slate-600" />
                   </button>
                 </DropdownMenuTrigger>
 
@@ -408,12 +410,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {isReguler || isKhusus ? (
+              {useView2Style ? (
                 <BillingTableView2
                   rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={false}
+                  isLocked={isPelunasan}
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
