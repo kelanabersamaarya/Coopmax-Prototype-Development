@@ -67,6 +67,34 @@ const currentBill: BillingRow = {
   sisaBunga: "26.389",
 };
 
+// Sama persis seperti View 1 (TransaksiAnggotaView1.tsx)
+const pelunasanRowsLikeView1: BillingRow[] = [
+  {
+    jatuhTempo: "25-01-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
+  {
+    jatuhTempo: "25-01-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
+  ...Array.from({ length: 8 }).map((_, i) => ({
+    jatuhTempo: `25-0${(i % 7) + 2}-2026`,
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "916.667",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  })),
+];
+
 const upcomingRows: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
@@ -189,7 +217,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // === Pagination khusus mode Penurunan Baki Debet (disamakan dengan View 1) ===
+  // === Pagination: aktif untuk Penurunan Baki Debet DAN Pelunasan (disamakan dengan View 1) ===
   const pageSize = 6;
   const [page, setPage] = React.useState<number>(1);
 
@@ -202,14 +230,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     : isKhusus
       ? [currentBill]
       : isPelunasan
-        ? upcomingRows
+        ? pelunasanRowsLikeView1
         : showAllRows
           ? upcomingRows
           : isPenurunanBakiDebet
             ? upcomingRows
             : [currentBill];
 
-  const usePaging = isPenurunanBakiDebet;
+  const usePaging = isPenurunanBakiDebet || isPelunasan;
 
   const pageCount = React.useMemo(() => {
     if (!usePaging) return 1;
@@ -242,12 +270,18 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       return;
     }
 
-    if (isPelunasan || showAllRows) {
+    // Pelunasan: locked & tercentang
+    if (isPelunasan) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
 
-    // Penurunan Baki Debet: di View 1 (penurunan) default tidak dipaksa checked; biarkan false.
+    if (showAllRows) {
+      setSelected(rowsToShow.map(() => true));
+      return;
+    }
+
+    // Penurunan Baki Debet: default tidak dipaksa checked
     if (isPenurunanBakiDebet) {
       setSelected((prev) => rowsToShow.map((_, i) => prev[i] ?? false));
       return;
@@ -517,11 +551,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   rows={rowsToShow}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={isPelunasan}
+                  isLocked={false}
                   showNextBillInfo={true}
                   showGraceInfo={showGraceInfo}
                   highlightGraceBlock={highlightGraceBlock}
-                  hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
+                  hideSelection={isPenurunanPlafon}
                   showPenaltyColumn={false}
                 />
               )}
