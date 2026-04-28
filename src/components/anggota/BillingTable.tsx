@@ -137,7 +137,7 @@ function PenaltyInfoButton({
         onClick();
       }}
       className={cn(
-        "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
+        "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
         "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
         "transition hover:bg-[#1d4ed8]",
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
@@ -146,7 +146,7 @@ function PenaltyInfoButton({
       aria-label="Rincian denda"
       title="Rincian denda"
     >
-      <Info className="h-4 w-4" />
+      <Info className="h-3.5 w-3.5" />
     </button>
   );
 }
