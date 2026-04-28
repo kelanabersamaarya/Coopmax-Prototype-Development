@@ -277,9 +277,6 @@ export default function BillingTable({
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
 
-  // Perkecil "padding kanan" visual di cell denda:
-  // - kurangi px dari px-3 (tdBase) dengan menimpa jadi pr-2 di cell penalty
-  // - kurangi gap antara angka dan icon
   const penaltyTd = cn(tdNum, "pr-2");
   const penaltyTdEmpty = cn(tdNum, "pr-2");
 
@@ -298,7 +295,6 @@ export default function BillingTable({
   }
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
-    // Grace period: 2 baris pertama saat highlight grace aktif
     if (graceCount > 0 && rowIndex < graceCount) return "0";
     return raw;
   }
@@ -331,9 +327,10 @@ export default function BillingTable({
             ) : (
               <>
                 {graceEnabled && graceRows.length > 0 ? (
+                  // === Grace block wrapper (match contoh): border biru + banner inside ===
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
-                      <div className="bg-white p-0">
+                      <div className="bg-white p-2">
                         <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
@@ -348,7 +345,7 @@ export default function BillingTable({
                                     key={`grace-${bill.jatuhTempo}-${idx}`}
                                     className={cn(
                                       idx === 0 ? "" : "border-t border-slate-200",
-                                      idx % 2 === 0 ? "bg-white" : "bg-white",
+                                      "bg-white",
                                     )}
                                   >
                                     {!hideSelection ? (
