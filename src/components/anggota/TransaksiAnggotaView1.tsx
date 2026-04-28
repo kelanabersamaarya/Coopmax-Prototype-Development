@@ -178,7 +178,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // Pagination: aktif untuk semua metode pembayaran
   const pageSize = 6;
   const [page, setPage] = React.useState<number>(1);
 
@@ -198,19 +197,16 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Pelunasan: auto-select semua (locked/tercentang).
     if (isPelunasan) {
       setSelected(pagedRows.map(() => true));
       return;
     }
 
-    // Reguler/Khusus: default awal tercentang, tapi user bebas uncheck setelah itu.
     if (isReguler || isKhusus) {
       setSelected((prev) => pagedRows.map((_, i) => prev[i] ?? true));
       return;
     }
 
-    // Mode lain: default tidak terpilih.
     setSelected(pagedRows.map(() => false));
   }, [isPelunasan, isReguler, isKhusus, pagedRows]);
 
@@ -321,14 +317,11 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const useView2Style = isReguler || isKhusus || isPelunasan;
 
-  // Only show penalty for first 3 bill rows (View1)
   const PENALTY_ROWS_PER_PAGE = 3;
   const showPenaltyColumnInTable = !isPenurunanBakiDebet;
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
 
-  // IMPORTANT: jangan pakai compact override untuk Penurunan Baki Debet,
-  // karena itu menimpa padding baris dan membuat tidak terlihat berubah.
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
   const alignNumbersForPenurunan =
@@ -465,7 +458,22 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   alignNumbersForPenurunan,
                 )}
               >
-                {useView2Style ? (
+                {isPenurunanBakiDebet ? (
+                  <div className="billing-table-compact">
+                    <BillingTable
+                      rows={pagedRows}
+                      selected={selected}
+                      setSelected={setSelected}
+                      isPelunasan={false}
+                      showGraceHighlight={true}
+                      hideInterestCols={false}
+                      hideSelection={true}
+                      showPenaltyColumn={false}
+                      rowDensity="roomy"
+                      className="mt-0"
+                    />
+                  </div>
+                ) : useView2Style ? (
                   <BillingTableView2
                     rows={pagedRowsForView2}
                     selected={selected}
@@ -477,7 +485,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
                     disableRowRings
-                    rowDensity={isPenurunanBakiDebet ? "roomy" : "default"}
+                    rowDensity="default"
                     className="mt-0"
                   />
                 ) : (
@@ -492,9 +500,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       interestOnlyCols={interestOnlyCols}
                       penaltyOnlyCols={penaltyOnlyCols}
                       feeOnlyCols={feeOnlyCols}
-                      hideSelection={isPenurunanBakiDebet}
+                      hideSelection={false}
                       showPenaltyColumn={showPenaltyColumnInTable}
-                      rowDensity={isPenurunanBakiDebet ? "roomy" : "default"}
+                      rowDensity="default"
                     />
                   </div>
                 )}
@@ -541,8 +549,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                             total: penurunanTotals?.sisaText ?? "0",
                           }
                         : {
-                            pokok: computedTotals.pokok,
-                            bunga: computedTotals.bunga,
+                            pokok: computedBaseTotals.pokok.toLocaleString("id-ID"),
+                            bunga: computedBaseTotals.bunga.toLocaleString("id-ID"),
                             denda: computedTotals.denda,
                             total: computedTotals.total,
                           }

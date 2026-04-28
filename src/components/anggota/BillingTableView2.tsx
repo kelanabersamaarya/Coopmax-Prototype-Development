@@ -234,7 +234,8 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  const cellY = rowDensity === "roomy" ? "py-5" : "py-4";
+  // NOTE: dibuat ekstrem untuk debug (biar pasti kelihatan kalau komponen ini yang ter-render)
+  const cellY = rowDensity === "roomy" ? "py-8" : "py-4";
 
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
