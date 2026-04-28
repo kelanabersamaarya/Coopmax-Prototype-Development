@@ -54,6 +54,14 @@ const loanOptions = [
   "Pinjaman Billing",
 ] as const;
 
+const branchOptions = [
+  "Pilih cabang",
+  "Cabang Pusat",
+  "Cabang Denpasar",
+  "Cabang Badung",
+  "Cabang Gianyar",
+] as const;
+
 function ActionPill({
   icon: Icon,
   label,
@@ -234,6 +242,7 @@ const seedRows: KolektibilitasRow[] = [
 export default function LaporanKolektibilitas() {
   const [jenisPinjaman, setJenisPinjaman] =
     React.useState<string>("Pilih pinjaman");
+  const [cabang, setCabang] = React.useState<string>("Pilih cabang");
   const [namaKode, setNamaKode] = React.useState("");
   const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
   const [tahun, setTahun] = React.useState("2026");
@@ -252,7 +261,7 @@ export default function LaporanKolektibilitas() {
 
     setSubmitted(true);
     toast.success("Laporan ditampilkan (prototype)", {
-      description: `Jenis: ${jenisPinjaman} • ${bulan} ${tahun}`,
+      description: `Jenis: ${jenisPinjaman} • Cabang: ${cabang} • ${bulan} ${tahun}`,
     });
   }
 
@@ -294,8 +303,6 @@ export default function LaporanKolektibilitas() {
           </div>
         </div>
 
-        {/* Divider dihapus */}
-
         {/* FORM: tanpa border & divider */}
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[920px]">
@@ -320,6 +327,14 @@ export default function LaporanKolektibilitas() {
                   </select>
                   <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
                 </div>
+              </FieldRow>
+
+              <FieldRow label="Cabang">
+                <SelectLike
+                  value={cabang}
+                  onChange={setCabang}
+                  options={[...branchOptions]}
+                />
               </FieldRow>
 
               <FieldRow label="Nama/Kode Pinjaman">
