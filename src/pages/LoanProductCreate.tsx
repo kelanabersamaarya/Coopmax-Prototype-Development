@@ -265,8 +265,8 @@ export default function LoanProductCreate() {
 
         <div className="mt-6 grid gap-4">
           <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="text-[20px] font-semibold text-slate-900">
-              Konfigurasi Produk Pinjaman
+            <div className="text-[16px] font-semibold text-slate-900">
+              Konfigurasi Dasar Produk Pinjaman
             </div>
 
             <div className="mt-5 grid gap-5">
@@ -679,7 +679,9 @@ export default function LoanProductCreate() {
                         onChange={(e) => {
                           const val = e.target.value;
                           setCollectorFees((prev) =>
-                            prev.map((x) => (x.id === f.id ? { ...x, name: val } : x)),
+                            prev.map((x) =>
+                              x.id === f.id ? { ...x, name: val } : x,
+                            ),
                           );
                         }}
                         className="h-11 rounded-xl border-slate-200 bg-white"
@@ -801,53 +803,67 @@ export default function LoanProductCreate() {
                     </RadioGroup>
                   </div>
 
-                  <FieldRow label="Metode Denda">
-                    <PenaltyRateField
-                      mode={tarifDendaMode}
-                      onModeChange={setTarifDendaMode}
-                      value={tarifDendaValue}
-                      onValueChange={setTarifDendaValue}
-                      size="compact"
-                      className="rounded-[5px]"
-                    />
-                  </FieldRow>
+                  <div className="text-base font-semibold text-slate-900">
+                    <span className="inline-flex items-center">
+                      Konfigurasi Denda
+                      <FieldTooltip content="Atur metode, dasar perhitungan, dan parameter keterlambatan untuk denda pinjaman." />
+                    </span>
+                  </div>
 
-                  <FieldRow label="Dasar Perhitungan">
-                    <Select
-                      value={dasarPerhitungan}
-                      onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
-                    >
-                      <SelectTrigger className={compactSelectTrigger}>
-                        <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                      </SelectTrigger>
-                      <SelectContent className={compactSelectContent}>
-                        <SelectItem value="Pilih Dasar Perhitungan">
-                          Pilih Dasar Perhitungan
-                        </SelectItem>
-                        <SelectItem value="Pokok">Pokok</SelectItem>
-                        <SelectItem value="Bunga">Bunga</SelectItem>
-                        <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                        <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FieldRow>
+                  <div className="grid gap-5">
+                    <FieldRow label="Metode Denda">
+                      <PenaltyRateField
+                        mode={tarifDendaMode}
+                        onModeChange={setTarifDendaMode}
+                        value={tarifDendaValue}
+                        onValueChange={setTarifDendaValue}
+                        size="compact"
+                        className="rounded-[5px]"
+                      />
+                    </FieldRow>
 
-                  <FieldRow label="Jumlah Hari Keterlambatan">
-                    <Input
-                      value={hariKeterlambatan}
-                      onChange={(e) => setHariKeterlambatan(e.target.value)}
-                      className={compactField}
-                      placeholder="Masukkan Jumlah Hari"
-                      inputMode="numeric"
-                    />
-                  </FieldRow>
+                    <FieldRow label="Dasar Perhitungan">
+                      <Select
+                        value={dasarPerhitungan}
+                        onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
+                      >
+                        <SelectTrigger className={compactSelectTrigger}>
+                          <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                        </SelectTrigger>
+                        <SelectContent className={compactSelectContent}>
+                          <SelectItem value="Pilih Dasar Perhitungan">
+                            Pilih Dasar Perhitungan
+                          </SelectItem>
+                          <SelectItem value="Pokok">Pokok</SelectItem>
+                          <SelectItem value="Bunga">Bunga</SelectItem>
+                          <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                          <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FieldRow>
+
+                    <FieldRow label="Jumlah Hari Keterlambatan">
+                      <Input
+                        value={hariKeterlambatan}
+                        onChange={(e) => setHariKeterlambatan(e.target.value)}
+                        className={compactField}
+                        placeholder="Masukkan Jumlah Hari"
+                        inputMode="numeric"
+                      />
+                    </FieldRow>
+                  </div>
+
+                  <div className="text-base font-semibold text-slate-900">
+                    <span className="inline-flex items-center">
+                      Konfigurasi Grace Period
+                      <FieldTooltip content={TT.gracePeriod} />
+                    </span>
+                  </div>
 
                   <div className="grid gap-5">
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                       <div className="pt-1 text-sm font-normal text-slate-900">
-                        <span className="inline-flex items-center">
-                          Grace Period <FieldTooltip content={TT.gracePeriod} />
-                        </span>
+                        Grace Period
                       </div>
                       <div className="flex items-center gap-3">
                         <Switch
@@ -921,9 +937,9 @@ export default function LoanProductCreate() {
               ) : null}
             </div>
 
-            <Separator className="my-6 bg-slate-200/70" />
+            {/* Divider terbawah dihapus */}
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <Button
                 variant="outline"
                 className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
