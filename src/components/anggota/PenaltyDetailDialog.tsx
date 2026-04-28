@@ -83,7 +83,7 @@ export default function PenaltyDetailDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(80vh - 64px - 84px)" }}
           >
-            <div className="overflow-hidden rounded-3xl ring-1 ring-slate-200">
+            <div className="overflow-hidden rounded-3xl border border-slate-200">
               <div className="safe-x-scroll bg-white">
                 <table className="w-full min-w-[520px] table-fixed border-collapse">
                   <thead className="bg-white">
