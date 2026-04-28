@@ -52,18 +52,20 @@ export default function PenaltyRateField({
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
-        <Select
-          value={mode}
-          onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
-        >
-          <SelectTrigger className="h-11 w-[72px] rounded-2xl border-slate-200 bg-white px-2">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="rounded-2xl border-slate-200">
-            <SelectItem value="rp">Rp.</SelectItem>
-            <SelectItem value="percent">%</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="w-[72px] shrink-0">
+          <Select
+            value={mode}
+            onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
+          >
+            <SelectTrigger className="h-11 w-full rounded-2xl border-slate-200 bg-white px-2">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="rounded-2xl border-slate-200">
+              <SelectItem value="rp">Rp.</SelectItem>
+              <SelectItem value="percent">%</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
         <Input
           value={value}
