@@ -238,12 +238,13 @@ export default function BillingTableView2({
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
 
-  const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
-  const sisaBungaNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
-
   function openPenaltyDetailForRow(dueDateDmy: string) {
     setPenaltyRows(buildPenaltyDetailRows(dueDateDmy));
     setPenaltyOpen(true);
+  }
+
+  function RightNum({ value }: { value: string }) {
+    return <NumericCell align="right">{value}</NumericCell>;
   }
 
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
@@ -322,7 +323,6 @@ export default function BillingTableView2({
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white p-0">
                       <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
-                        {/* penting: TIDAK pakai nested table untuk baris data, supaya layout sama */}
                         <div className="p-1">
                           <table className="w-full border-collapse text-[13px]">
                             <tbody className="bg-white">
@@ -331,7 +331,6 @@ export default function BillingTableView2({
                           </table>
                         </div>
 
-                        {/* render baris grace memakai RowShell yang sama seperti baris normal */}
                         {graceRows.map((r, idx) => {
                           const rowIndex = idx;
                           const active = hideSelection ? false : selected[rowIndex] === true;
@@ -372,27 +371,23 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("px-4 py-4", numberTextClass)}>
-                                    {r.totalBelumDibayar}
+                                    <RightNum value={r.totalBelumDibayar} />
                                   </div>
 
                                   <div className={cn("px-4 py-4", numberTextClass)}>
-                                    {r.tagihanPokok}
+                                    <RightNum value={r.tagihanPokok} />
                                   </div>
 
                                   <div className={cn("px-4 py-4", numberTextClass)}>
-                                    {r.tagihanBunga}
+                                    <RightNum value={r.tagihanBunga} />
                                   </div>
 
-                                  <div className={sisaPokokNumberCell}>
-                                    <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                      {r.sisaPokok}
-                                    </span>
+                                  <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                                    <RightNum value={r.sisaPokok} />
                                   </div>
 
-                                  <div className={sisaBungaNumberCell}>
-                                    <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                      {r.sisaBunga}
-                                    </span>
+                                  <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                                    <RightNum value={r.sisaBunga} />
                                   </div>
 
                                   {showPenaltyColumn ? (
@@ -451,27 +446,23 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.totalBelumDibayar}
+                              <RightNum value={r.totalBelumDibayar} />
                             </div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.tagihanPokok}
+                              <RightNum value={r.tagihanPokok} />
                             </div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.tagihanBunga}
+                              <RightNum value={r.tagihanBunga} />
                             </div>
 
-                            <div className={sisaPokokNumberCell}>
-                              <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                {r.sisaPokok}
-                              </span>
+                            <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                              <RightNum value={r.sisaPokok} />
                             </div>
 
-                            <div className={sisaBungaNumberCell}>
-                              <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                {r.sisaBunga}
-                              </span>
+                            <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                              <RightNum value={r.sisaBunga} />
                             </div>
 
                             {showPenaltyColumn ? (
@@ -538,27 +529,23 @@ export default function BillingTableView2({
                               </div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.totalBelumDibayar}
+                                <RightNum value={r.totalBelumDibayar} />
                               </div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.tagihanPokok}
+                                <RightNum value={r.tagihanPokok} />
                               </div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.tagihanBunga}
+                                <RightNum value={r.tagihanBunga} />
                               </div>
 
-                              <div className={sisaPokokNumberCell}>
-                                <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                  {r.sisaPokok}
-                                </span>
+                              <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                                <RightNum value={r.sisaPokok} />
                               </div>
 
-                              <div className={sisaBungaNumberCell}>
-                                <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                  {r.sisaBunga}
-                                </span>
+                              <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                                <RightNum value={r.sisaBunga} />
                               </div>
 
                               {showPenaltyColumn ? (
