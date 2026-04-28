@@ -234,6 +234,8 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
+  const cellY = rowDensity === "roomy" ? "py-5" : "py-4";
+
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
 
@@ -256,11 +258,11 @@ export default function BillingTableView2({
     const shouldShow = idx < PENALTY_ROWS;
 
     if (!shouldShow) {
-      return <div className={cn("px-4 py-4", numberTextClass)} />;
+      return <div className={cn("px-4", cellY, numberTextClass)} />;
     }
 
     return (
-      <div className={cn("px-4 py-4", numberTextClass)}>
+      <div className={cn("px-4", cellY, numberTextClass)}>
         <div className="flex items-center justify-end gap-3">
           <span className="tabular-nums whitespace-nowrap num-sans-tabular">
             {formatIdrLike(PENALTY_AMOUNT)}
@@ -327,7 +329,7 @@ export default function BillingTableView2({
                               >
                                 <div className={cn("grid items-center gap-0", gridTemplate)}>
                                   {!hideSelection ? (
-                                    <div className="flex items-center justify-center px-4 py-4">
+                                    <div className={cn("flex items-center justify-center px-4", cellY)}>
                                       <input
                                         type="checkbox"
                                         aria-label="Pilih tagihan"
@@ -346,27 +348,27 @@ export default function BillingTableView2({
                                     </div>
                                   ) : null}
 
-                                  <div className={cn("px-4 py-4", dateTextClass)}>
+                                  <div className={cn("px-4", cellY, dateTextClass)}>
                                     {r.jatuhTempo}
                                   </div>
 
-                                  <div className={cn("px-4 py-4", numberTextClass)}>
+                                  <div className={cn("px-4", cellY, numberTextClass)}>
                                     <RightNum value={r.totalBelumDibayar} />
                                   </div>
 
-                                  <div className={cn("px-4 py-4", numberTextClass)}>
+                                  <div className={cn("px-4", cellY, numberTextClass)}>
                                     <RightNum value={r.tagihanPokok} />
                                   </div>
 
-                                  <div className={cn("px-4 py-4", numberTextClass)}>
+                                  <div className={cn("px-4", cellY, numberTextClass)}>
                                     <RightNum value={r.tagihanBunga} />
                                   </div>
 
-                                  <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                     <RightNum value={r.sisaPokok} />
                                   </div>
 
-                                  <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                     <RightNum value={r.sisaBunga} />
                                   </div>
 
@@ -401,7 +403,7 @@ export default function BillingTableView2({
                         >
                           <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
-                              <div className="flex items-center justify-center px-4 py-4">
+                              <div className={cn("flex items-center justify-center px-4", cellY)}>
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
@@ -422,27 +424,27 @@ export default function BillingTableView2({
                               </div>
                             ) : null}
 
-                            <div className={cn("px-4 py-4", dateTextClass)}>
+                            <div className={cn("px-4", cellY, dateTextClass)}>
                               {r.jatuhTempo}
                             </div>
 
-                            <div className={cn("px-4 py-4", numberTextClass)}>
+                            <div className={cn("px-4", cellY, numberTextClass)}>
                               <RightNum value={r.totalBelumDibayar} />
                             </div>
 
-                            <div className={cn("px-4 py-4", numberTextClass)}>
+                            <div className={cn("px-4", cellY, numberTextClass)}>
                               <RightNum value={r.tagihanPokok} />
                             </div>
 
-                            <div className={cn("px-4 py-4", numberTextClass)}>
+                            <div className={cn("px-4", cellY, numberTextClass)}>
                               <RightNum value={r.tagihanBunga} />
                             </div>
 
-                            <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                            <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                               <RightNum value={r.sisaPokok} />
                             </div>
 
-                            <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                            <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                               <RightNum value={r.sisaBunga} />
                             </div>
 
@@ -487,7 +489,7 @@ export default function BillingTableView2({
                           >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (
-                                <div className="flex items-center justify-center px-4 py-4">
+                                <div className={cn("flex items-center justify-center px-4", cellY)}>
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
@@ -506,27 +508,27 @@ export default function BillingTableView2({
                                 </div>
                               ) : null}
 
-                              <div className={cn("px-4 py-4", dateTextClass)}>
+                              <div className={cn("px-4", cellY, dateTextClass)}>
                                 {r.jatuhTempo}
                               </div>
 
-                              <div className={cn("px-4 py-4", numberTextClass)}>
+                              <div className={cn("px-4", cellY, numberTextClass)}>
                                 <RightNum value={r.totalBelumDibayar} />
                               </div>
 
-                              <div className={cn("px-4 py-4", numberTextClass)}>
+                              <div className={cn("px-4", cellY, numberTextClass)}>
                                 <RightNum value={r.tagihanPokok} />
                               </div>
 
-                              <div className={cn("px-4 py-4", numberTextClass)}>
+                              <div className={cn("px-4", cellY, numberTextClass)}>
                                 <RightNum value={r.tagihanBunga} />
                               </div>
 
-                              <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                              <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                 <RightNum value={r.sisaPokok} />
                               </div>
 
-                              <div className={cn("px-4 py-4", numberTextClass, "pr-6")}>
+                              <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                 <RightNum value={r.sisaBunga} />
                               </div>
 
