@@ -278,7 +278,18 @@ export default function RekeningPinjaman() {
 
   React.useEffect(() => {
     setPage(1);
-  }, [pageSize, qNoRek, qTanggal, qProduk, qIdNasabah, qNamaNasabah, qNominal, qSisa, qBunga, qStatus]);
+  }, [
+    pageSize,
+    qNoRek,
+    qTanggal,
+    qProduk,
+    qIdNasabah,
+    qNamaNasabah,
+    qNominal,
+    qSisa,
+    qBunga,
+    qStatus,
+  ]);
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
@@ -367,50 +378,67 @@ export default function RekeningPinjaman() {
                 <div className="safe-x-scroll">
                   <table className="w-full min-w-[1200px] border-collapse">
                     <thead className="bg-white">
+                      {/* HEADER: hanya 2 baris (header + filter) */}
                       <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                         <th className={cn("w-[70px] whitespace-nowrap", th)}>
                           <ThLabel sortable={false}>No.</ThLabel>
                         </th>
+
                         <th className={cn("w-[170px]", th)}>
-                          <ThLabel>No. Rekening</ThLabel>
+                          <ThLabel>
+                            <span className="block">No.</span>
+                            <span className="block">Rekening</span>
+                          </ThLabel>
                         </th>
+
                         <th className={cn("w-[160px]", th)}>
                           <ThLabel>
                             <span className="block">Tanggal</span>
                             <span className="block">Daftar</span>
                           </ThLabel>
                         </th>
+
                         <th className={cn("w-[190px]", th)}>
                           <ThLabel>
                             <span className="block">Produk</span>
                             <span className="block">Pinjaman</span>
                           </ThLabel>
                         </th>
+
                         <th className={cn("w-[150px]", th)}>
                           <ThLabel>
-                            <span className="block">ID. Nasabah</span>
+                            <span className="block">ID.</span>
+                            <span className="block">Nasabah</span>
                           </ThLabel>
                         </th>
+
                         <th className={cn("w-[190px]", th)}>
-                          <ThLabel>Nama Nasabah</ThLabel>
+                          <ThLabel>
+                            <span className="block">Nama</span>
+                            <span className="block">Nasabah</span>
+                          </ThLabel>
                         </th>
-                        <th className={cn("w-[190px] text-right", th)}>
-                          <div className="flex items-center justify-end gap-2">
-                            <ThLabel className="justify-end">Nominal</ThLabel>
-                          </div>
+
+                        <th className={cn("w-[190px]", th)}>
+                          <ThLabel>Nominal</ThLabel>
                         </th>
-                        <th className={cn("w-[190px] text-right", th)}>
-                          <div className="flex items-center justify-end gap-2">
-                            <ThLabel className="justify-end">Sisa Pinjaman</ThLabel>
-                          </div>
+
+                        <th className={cn("w-[190px]", th)}>
+                          <ThLabel>
+                            <span className="block">Sisa</span>
+                            <span className="block">Pinjaman</span>
+                          </ThLabel>
                         </th>
+
                         <th className={cn("w-[160px]", th)}>
                           <ThLabel>
-                            <span className="block">Bunga per</span>
-                            <span className="block">Tahun (%)</span>
+                            <span className="block">Bunga</span>
+                            <span className="block">/Thn (%)</span>
                           </ThLabel>
                         </th>
-                        <th className={cn("w-[220px]", th)}>
+
+                        {/* Lebar status diperkecil */}
+                        <th className={cn("w-[150px]", th)}>
                           <ThLabel>Status</ThLabel>
                         </th>
                       </tr>
@@ -467,7 +495,7 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qNominal}
                             onChange={(e) => setQNominal(e.target.value)}
-                            className={cn(filterInputCls, "text-right tabular-nums")}
+                            className={filterInputCls}
                             placeholder="0,00"
                             inputMode="decimal"
                           />
@@ -476,7 +504,7 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qSisa}
                             onChange={(e) => setQSisa(e.target.value)}
-                            className={cn(filterInputCls, "text-right tabular-nums")}
+                            className={filterInputCls}
                             placeholder="0,00"
                             inputMode="decimal"
                           />
@@ -511,6 +539,7 @@ export default function RekeningPinjaman() {
                       </tr>
                     </thead>
 
+                    {/* ISI TABEL: rata kiri */}
                     <tbody className="bg-white">
                       {paged.length === 0 ? (
                         <tr>
@@ -571,30 +600,15 @@ export default function RekeningPinjaman() {
                               {r.namaNasabah}
                             </td>
 
-                            <td
-                              className={cn(
-                                td,
-                                "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
-                              )}
-                            >
+                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
                               {r.nominal}
                             </td>
 
-                            <td
-                              className={cn(
-                                td,
-                                "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
-                              )}
-                            >
+                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
                               {r.sisaPinjaman}
                             </td>
 
-                            <td
-                              className={cn(
-                                td,
-                                "text-slate-900 tabular-nums whitespace-nowrap",
-                              )}
-                            >
+                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
                               {r.bungaPerTahun}
                             </td>
 
