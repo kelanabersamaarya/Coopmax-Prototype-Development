@@ -41,7 +41,7 @@ function RowShell({
     <div className={cn("bg-white px-3", density === "roomy" ? "py-4" : "py-3")}>
       <div
         className={cn(
-          "rounded-2xl bg-white",
+          "rounded-[5px] bg-white",
           !disableRowRings && active && !disableActiveRing
             ? "ring-2 ring-slate-900/5"
             : "",
@@ -55,7 +55,7 @@ function RowShell({
 
 function NextBillInfoBanner() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
+    <div className="rounded-[5px] border border-slate-200 bg-white px-4 py-4">
       <div className="flex items-center gap-4">
         <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
           <Info className="h-5 w-5" />
@@ -234,7 +234,6 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // NOTE: dibuat ekstrem untuk debug (biar pasti kelihatan kalau komponen ini yang ter-render)
   const cellY = rowDensity === "roomy" ? "py-8" : "py-4";
 
   const dateTextClass =
@@ -289,7 +288,7 @@ export default function BillingTableView2({
       <div
         className={cn(
           showNextBillInfo ? "mt-3" : "",
-          "overflow-hidden rounded-2xl border border-slate-200 bg-white",
+          "overflow-hidden rounded-[5px] border border-slate-200 bg-white",
         )}
       >
         <table className="w-full border-collapse text-[13px]">
@@ -304,7 +303,7 @@ export default function BillingTableView2({
                 <tr className={cn(rowDividerClass)}>
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white p-0">
-                      <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
+                      <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
                         <div className="p-1">
                           <table className="w-full border-collapse text-[13px]">
                             <tbody className="bg-white">

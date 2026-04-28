@@ -111,7 +111,7 @@ function TableCheckbox({
       disabled={disabled}
       onChange={(e) => onChange?.(e.target.checked)}
       className={cn(
-        "h-4 w-4 rounded-[4px] border border-slate-300 bg-white",
+        "h-4 w-4 rounded-[5px] border border-slate-300 bg-white",
         "accent-[#2563eb]",
         "focus:outline-none focus:ring-2 focus:ring-[#2563eb]/25",
         disabled ? "opacity-60" : "",
@@ -302,7 +302,7 @@ export default function BillingTable({
         rows={penaltyRows}
       />
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+      <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
         <table className="w-full border-collapse">
           <BillingTableHeader
             hideSelection={hideSelection}
@@ -325,7 +325,7 @@ export default function BillingTable({
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
                       <div className="bg-white p-0">
-                        <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
+                        <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
                               <GracePeriodInfoRow colSpan={colCount} noBorder />

@@ -166,7 +166,7 @@ export default function BillSummaryCard({
   return (
     <Card
       className={cn(
-        "relative rounded-2xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur",
+        "relative rounded-[5px] border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur",
         className,
       )}
     >
@@ -179,7 +179,7 @@ export default function BillSummaryCard({
               type="button"
               className={cn(
                 "inline-flex h-10 w-full items-center justify-between gap-2",
-                "rounded-[6px]",
+                "rounded-[5px]",
                 "bg-white px-4 text-sm font-medium text-slate-900",
                 "ring-1 ring-slate-200 transition hover:bg-slate-50",
               )}
@@ -201,11 +201,11 @@ export default function BillSummaryCard({
 
           <DropdownMenuContent
             align="start"
-            className="w-[--radix-dropdown-menu-trigger-width] rounded-2xl border-slate-200 p-1"
+            className="w-[--radix-dropdown-menu-trigger-width] rounded-[5px] border-slate-200 p-1"
           >
             <DropdownMenuItem
               className={cn(
-                "rounded-xl",
+                "rounded-[5px]",
                 transactionType === "Pembayaran Reguler" ? "bg-slate-100" : "",
               )}
               onClick={() => handleChange("Pembayaran Reguler")}
@@ -215,7 +215,7 @@ export default function BillSummaryCard({
 
             <DropdownMenuItem
               className={cn(
-                "rounded-xl",
+                "rounded-[5px]",
                 transactionType === "Pembayaran Penurunan Baki Debet"
                   ? "bg-slate-100"
                   : "",
@@ -227,7 +227,7 @@ export default function BillSummaryCard({
 
             <DropdownMenuItem
               className={cn(
-                "rounded-xl",
+                "rounded-[5px]",
                 transactionType === "Pembayaran Khusus" ? "bg-slate-100" : "",
               )}
               onClick={() => handleChange("Pembayaran Khusus")}
@@ -237,7 +237,7 @@ export default function BillSummaryCard({
 
             <DropdownMenuItem
               className={cn(
-                "rounded-xl",
+                "rounded-[5px]",
                 transactionType === "Pelunasan" ? "bg-slate-100" : "",
               )}
               onClick={() => handleChange("Pelunasan")}
