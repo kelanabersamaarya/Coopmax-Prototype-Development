@@ -6,7 +6,6 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
   ReceiptText,
-  Info,
   ChevronDown,
   History,
   Calculator,
@@ -313,7 +312,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const useView2Style = isReguler || isKhusus || isPelunasan;
 
-  // only 3 penalty rows per page (UI requirement for View 1)
+  // Only show penalty for first 3 bill rows (View1)
   const PENALTY_ROWS_PER_PAGE = 3;
 
   return (
@@ -416,24 +415,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <div
                 className={cn(
                   "billing-v1-compact-rows",
-                  // compact vertical padding (View1 only)
+                  // --- compact vertical padding (View1 only)
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
-                  "[&_.billing-table-compact_td]:!pt-2.5 [&_.billing-table-compact_td]:!pb-2.5",
-                  "[&_.billing-table-compact_th]:!pt-2.5 [&_.billing-table-compact_th]:!pb-2.5",
                   // BillingTableView2 cells: px-4 py-4 -> smaller
                   "[&_.billing-v1-compact-rows_.py-4]:!py-3",
                   "[&_.billing-v1-compact-rows_.px-3.py-3]:!py-2.5",
                   "[&_.billing-v1-compact-rows_.px-4.py-4]:!py-3",
                   // RowShell outer padding (bg-white px-3 py-3)
                   "[&_.billing-v1-compact-rows_.bg-white.px-3.py-3]:!py-2",
-                  // === Penalty column rules (View1) ===
-                  // For BillingTableView2: hide the info button after row 3, and hide the penalty amount text too.
-                  // Heuristic: the penalty cell has `gap-3` and contains the round blue button.
-                  `[&_.billing-v1-compact-rows_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 2})_button.bg-\\[\\#2563eb\\]]:hidden`,
-                  `[&_.billing-v1-compact-rows_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 2})_button.bg-\\[\\#2563eb\\]~span]:hidden`,
-                  // For BillingTable (v1): remove '-' placeholder (make empty).
+
+                  // --- Penalty: show only first 3 bill rows, rest empty (NO '-' / NO icon)
+                  // BillingTableView2: penalty is rendered as the LAST column. We blank that column for rows >= 4.
+                  // (tbody rows are data rows; header is in thead)
+                  `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child]:text-transparent`,
+                  `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`,
+
+                  // BillingTable (v1): it uses "-" placeholder span with text-slate-400; hide it so cell becomes empty
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
+                  // and also ensure any content in penalty td after row 3 is hidden (if any)
+                  `[&_.billing-table-compact_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`,
                 )}
               >
                 {useView2Style ? (
