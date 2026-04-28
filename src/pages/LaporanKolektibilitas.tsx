@@ -68,8 +68,9 @@ const UI = {
   text: "text-[12.5px]",
   gapY: "gap-[15px]",
   select:
-    "h-[30px] w-full appearance-none rounded-[5px] border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900 shadow-sm outline-none transition focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-  input: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] shadow-sm",
+    "h-[30px] w-full appearance-none rounded-[5px] border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-400/25",
+  input:
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] shadow-sm",
   btn: "h-[30px] rounded-[5px] px-5 text-[13px] font-semibold text-white",
 } as const;
 
