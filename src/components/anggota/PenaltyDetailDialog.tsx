@@ -91,11 +91,11 @@ export default function PenaltyDetailDialog({
                       <th className="w-[140px] px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
                         HARI
                       </th>
-                      <th className="px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <th className="px-5 py-4 text-center text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
                         TANGGAL
                       </th>
                       <th className="w-[180px] px-5 py-4 text-right text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-                        DENDA
+                        DENDA HARIAN
                       </th>
                     </tr>
                   </thead>
@@ -119,13 +119,13 @@ export default function PenaltyDetailDialog({
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                           )}
                         >
-                          <td className="px-5 py-4 text-[14px] font-semibold text-slate-900 whitespace-nowrap">
+                          <td className="px-5 py-4 text-[14px] font-normal text-slate-900 whitespace-nowrap">
                             Hari ke-{idx + 1}
                           </td>
-                          <td className="px-5 py-4 text-[14px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
+                          <td className="px-5 py-4 text-center text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                             {r.tanggalKeterlambatan}
                           </td>
-                          <td className="px-5 py-4 text-right text-[14px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
+                          <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                             {r.nominalDenda}
                           </td>
                         </tr>
