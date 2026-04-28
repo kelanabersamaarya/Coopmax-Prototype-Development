@@ -84,6 +84,30 @@ function InfoBadge() {
   );
 }
 
+function SectionDivider({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="pt-2">
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <div className="text-sm font-extrabold tracking-tight text-slate-900">
+            {title}
+          </div>
+          {description ? (
+            <div className="mt-1 text-xs text-slate-600">{description}</div>
+          ) : null}
+        </div>
+      </div>
+      <Separator className="mt-3 bg-slate-200/70" />
+    </div>
+  );
+}
+
 const TT = {
   konfigurasiTagihanAngsuran:
     "Atur bagaimana tagihan angsuran diterbitkan termasuk skema tagihans serta atur grace period (satuan & durasi)",
@@ -267,11 +291,12 @@ export default function LoanProductCreate() {
               Konfigurasi Dasar Produk Pinjaman
             </div>
 
-            <div className="mt-5 grid gap-5">
-              <div className="text-sm font-extrabold tracking-tight text-slate-900">
-                Konfigurasi Dasar
-              </div>
+            <SectionDivider
+              title="Konfigurasi Dasar"
+              description="Identitas produk, tenor, bunga, pembulatan, dan ketentuan."
+            />
 
+            <div className="mt-4 grid gap-5">
               <FieldRow label="Kode">
                 <Input
                   value={code}
@@ -421,7 +446,12 @@ export default function LoanProductCreate() {
               </FieldRow>
             </div>
 
-            <div className="mt-6 grid gap-5">
+            <SectionDivider
+              title="Pengaturan Lanjutan"
+              description="Batas pinjaman, biaya, dan opsi akumulasi."
+            />
+
+            <div className="mt-4 grid gap-5">
               <FieldRow label="Akumulasi Bunga Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accInterest} onCheckedChange={setAccInterest} />
@@ -533,7 +563,12 @@ export default function LoanProductCreate() {
               </FieldRow>
             </div>
 
-            <div className="mt-6 grid gap-5">
+            <SectionDivider
+              title="Pengaturan COA"
+              description="Akun pembukuan untuk pinjaman, bunga, denda, pembulatan, dan admin."
+            />
+
+            <div className="mt-4 grid gap-5">
               <FieldRow label="KP Pinjaman">
                 <Select
                   value={coaLoan}
@@ -645,96 +680,99 @@ export default function LoanProductCreate() {
               </FieldRow>
             </div>
 
-            <Separator className="my-6 bg-slate-200/70" />
+            <SectionDivider
+              title="Konfigurasi Fee Kolektor"
+              description="Daftar fee untuk kolektor (prototype)."
+            />
 
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div className="text-base font-semibold text-slate-900">
-                Konfigurasi Fee Kolektor
-              </div>
-              <Button
-                onClick={addCollectorFee}
-                className="rounded-full bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Tambah Fee Kolektor
-              </Button>
-            </div>
-
-            <div className="mt-4 grid gap-3">
-              {collectorFees.length === 0 ? (
-                <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
-                  Belum ada fee kolektor.
+            <div className="mt-4">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="text-sm font-semibold text-slate-900">
+                  Daftar Fee Kolektor
                 </div>
-              ) : (
-                collectorFees.map((f, idx) => (
-                  <div
-                    key={f.id}
-                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_56px] md:items-end"
-                  >
-                    <div className="grid gap-2">
-                      <div className="text-xs font-semibold text-slate-700">
-                        Nama
-                      </div>
-                      <Input
-                        value={f.name}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCollectorFees((prev) =>
-                            prev.map((x) =>
-                              x.id === f.id ? { ...x, name: val } : x,
-                            ),
-                          );
-                        }}
-                        className="h-11 rounded-xl border-slate-200 bg-white"
-                      />
-                    </div>
+                <Button
+                  onClick={addCollectorFee}
+                  className="rounded-full bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Tambah Fee Kolektor
+                </Button>
+              </div>
 
-                    <div className="grid gap-2">
-                      <div className="text-xs font-semibold text-slate-700">
-                        Nominal
-                      </div>
-                      <Input
-                        value={f.amount}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCollectorFees((prev) =>
-                            prev.map((x) =>
-                              x.id === f.id ? { ...x, amount: val } : x,
-                            ),
-                          );
-                        }}
-                        className="h-11 rounded-xl border-slate-200 bg-white"
-                        inputMode="decimal"
-                      />
-                    </div>
-
-                    <button
-                      type="button"
-                      className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
-                      onClick={() => {
-                        setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
-                        toast("Fee dihapus", {
-                          description: `Item #${idx + 1} dihapus.`,
-                        });
-                      }}
-                      aria-label="Hapus fee"
-                      title="Hapus"
-                    >
-                      <X className="h-5 w-5" />
-                    </button>
+              <div className="mt-4 grid gap-3">
+                {collectorFees.length === 0 ? (
+                  <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
+                    Belum ada fee kolektor.
                   </div>
-                ))
-              )}
+                ) : (
+                  collectorFees.map((f, idx) => (
+                    <div
+                      key={f.id}
+                      className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_56px] md:items-end"
+                    >
+                      <div className="grid gap-2">
+                        <div className="text-xs font-semibold text-slate-700">
+                          Nama
+                        </div>
+                        <Input
+                          value={f.name}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCollectorFees((prev) =>
+                              prev.map((x) =>
+                                x.id === f.id ? { ...x, name: val } : x,
+                              ),
+                            );
+                          }}
+                          className="h-11 rounded-xl border-slate-200 bg-white"
+                        />
+                      </div>
+
+                      <div className="grid gap-2">
+                        <div className="text-xs font-semibold text-slate-700">
+                          Nominal
+                        </div>
+                        <Input
+                          value={f.amount}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCollectorFees((prev) =>
+                              prev.map((x) =>
+                                x.id === f.id ? { ...x, amount: val } : x,
+                              ),
+                            );
+                          }}
+                          className="h-11 rounded-xl border-slate-200 bg-white"
+                          inputMode="decimal"
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
+                        onClick={() => {
+                          setCollectorFees((prev) =>
+                            prev.filter((x) => x.id !== f.id),
+                          );
+                          toast("Fee dihapus", {
+                            description: `Item #${idx + 1} dihapus.`,
+                          });
+                        }}
+                        aria-label="Hapus fee"
+                        title="Hapus"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
 
-            <Separator className="my-6 bg-slate-200/70" />
-
-            <div className="text-base font-semibold text-slate-900">
-              <span className="inline-flex items-center">
-                Konfigurasi Tagihan Angsuran
-                <FieldTooltip content={TT.konfigurasiTagihanAngsuran} />
-              </span>
-            </div>
+            <SectionDivider
+              title="Konfigurasi Tagihan Angsuran"
+              description="Pengaturan tabel angsuran, skema tagihan, denda, dan grace period."
+            />
 
             <div className="mt-4 grid gap-5">
               <FieldRow
@@ -804,11 +842,8 @@ export default function LoanProductCreate() {
                     </RadioGroup>
                   </div>
 
-                  <div className="text-base font-semibold text-slate-900">
-                    <span className="inline-flex items-center">
-                      Konfigurasi Denda
-                      <FieldTooltip content="Atur metode, dasar perhitungan, dan parameter keterlambatan untuk denda pinjaman." />
-                    </span>
+                  <div className="text-sm font-semibold text-slate-900">
+                    Konfigurasi Denda
                   </div>
 
                   <div className="grid gap-5">
@@ -854,11 +889,8 @@ export default function LoanProductCreate() {
                     </FieldRow>
                   </div>
 
-                  <div className="text-base font-semibold text-slate-900">
-                    <span className="inline-flex items-center">
-                      Konfigurasi Grace Period
-                      <FieldTooltip content={TT.gracePeriod} />
-                    </span>
+                  <div className="text-sm font-semibold text-slate-900">
+                    Konfigurasi Grace Period
                   </div>
 
                   <div className="grid gap-5">
@@ -937,6 +969,8 @@ export default function LoanProductCreate() {
                 </>
               ) : null}
             </div>
+
+            <Separator className="my-6 bg-slate-200/70" />
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <Button
