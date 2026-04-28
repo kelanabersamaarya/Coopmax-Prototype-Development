@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, XCircle } from "lucide-react";
+import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type LoanApplicationStatus =
@@ -217,28 +217,8 @@ export default function LoanApplications() {
         <Separator className="my-6 bg-slate-200/70" />
 
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          <div className="flex items-center justify-between gap-3">
-            <div className="text-sm font-semibold text-slate-900">
-              Daftar Pengajuan
-            </div>
-
-            <Button
-              variant="outline"
-              className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-              onClick={() => {
-                setQNoRek("");
-                setQTanggal("");
-                setQProduk("Semua");
-                setQIdNasabah("");
-                setQNamaNasabah("");
-                setQNominal("0,00");
-                setQBunga("");
-                setQStatus("Semua");
-              }}
-            >
-              <XCircle className="mr-2 h-4 w-4" />
-              Reset
-            </Button>
+          <div className="sr-only">
+            <div className="text-sm font-semibold text-slate-900">Daftar Pengajuan</div>
           </div>
 
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
