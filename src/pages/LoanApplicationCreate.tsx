@@ -54,6 +54,12 @@ const UI = {
   sectionTitle: "text-[16px] font-semibold tracking-tight text-slate-900",
 } as const;
 
+const ACTION_BTN =
+  "h-10 rounded-xl px-5 text-sm font-semibold text-white transition";
+
+const ACTION_BTN_SM =
+  "h-9 rounded-xl px-4 text-[13px] font-semibold text-white transition";
+
 function FieldRowInline({
   label,
   required,
@@ -402,8 +408,8 @@ export default function LoanApplicationCreate() {
                         <Button
                           onClick={verifyKtp}
                           className={cn(
-                            "shrink-0 bg-violet-600 px-4 text-white hover:bg-violet-700",
                             UI.btn,
+                            "shrink-0 bg-violet-600 px-3 text-white hover:bg-violet-700",
                           )}
                         >
                           <ShieldCheck className="mr-2 h-4 w-4" />
@@ -572,31 +578,22 @@ export default function LoanApplicationCreate() {
                   </FieldRowInline>
                 </div>
 
+                {/* Samakan style tombol dengan tab Pengaturan Jadwal + dibuat sedikit lebih kecil */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
-                    variant="outline"
-                    className={cn(
-                      UI.btn,
-                      "border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50",
-                    )}
+                    className={cn(ACTION_BTN_SM, "bg-slate-600 hover:bg-slate-700")}
                     onClick={() => navigate("/loans/applications")}
                   >
-                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-[5px] bg-slate-200 text-slate-700">
-                      ×
-                    </span>
                     Batalkan
                   </Button>
 
                   <Button
                     className={cn(
-                      UI.btn,
-                      "bg-emerald-600 px-4 text-white hover:bg-emerald-700",
+                      ACTION_BTN_SM,
+                      "bg-emerald-600 hover:bg-emerald-700",
                     )}
                     onClick={save}
                   >
-                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-[5px] bg-white/15">
-                      ✓
-                    </span>
                     Simpan
                   </Button>
                 </div>
@@ -725,11 +722,10 @@ export default function LoanApplicationCreate() {
                   ) : null}
                 </div>
 
+                {/* Tab Pengaturan Jadwal: juga dibuat sedikit lebih kecil agar match tab general */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
-                    className={cn(
-                      "h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700",
-                    )}
+                    className={cn(ACTION_BTN_SM, "bg-blue-600 hover:bg-blue-700")}
                     onClick={() =>
                       toast("Simulasi (prototype)", {
                         description:
@@ -742,9 +738,7 @@ export default function LoanApplicationCreate() {
                   </Button>
 
                   <Button
-                    className={cn(
-                      "h-11 rounded-xl bg-slate-600 px-5 text-white hover:bg-slate-700",
-                    )}
+                    className={cn(ACTION_BTN_SM, "bg-slate-600 hover:bg-slate-700")}
                     onClick={() => navigate("/loans/applications")}
                   >
                     Batalkan
@@ -752,7 +746,8 @@ export default function LoanApplicationCreate() {
 
                   <Button
                     className={cn(
-                      "h-11 rounded-xl bg-emerald-600 px-6 text-white hover:bg-emerald-700",
+                      ACTION_BTN_SM,
+                      "bg-emerald-600 hover:bg-emerald-700",
                     )}
                     onClick={() =>
                       toast.success("Jadwal tersimpan (prototype)", {
