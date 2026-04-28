@@ -534,7 +534,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     selected={selected}
                     setSelected={setSelected}
                     isLocked={true}
-                    showNextBillInfo={true}
+                    showNextBillInfo={false}
                     showGraceInfo={true}
                     highlightGraceBlock={true}
                     hideSelection={false}
