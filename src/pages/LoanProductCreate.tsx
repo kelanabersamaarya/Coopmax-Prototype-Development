@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -28,7 +27,6 @@ type RoundingType =
   | "Pembulatan Keatas"
   | "Pembulatan Kebawah"
   | "Tanpa Pembulatan";
-type PenaltyMethod = "Hutang Bunga" | "Hutang Pokok" | "Total Tagihan";
 type CoaOption =
   | "PINJAMAN YANG DIBERIKAN"
   | "PEND. BUNGA PINJAMAN"
@@ -136,10 +134,6 @@ export default function LoanProductCreate() {
   const [terms, setTerms] = React.useState("");
 
   // --- Advanced ---
-  const [accPenalty, setAccPenalty] = React.useState(true);
-  const [penaltyMethod, setPenaltyMethod] =
-    React.useState<PenaltyMethod>("Hutang Bunga");
-
   const [accInterest, setAccInterest] = React.useState(false);
   const [ignorePrincipalDebt, setIgnorePrincipalDebt] = React.useState(false);
   const [ignoreInterestDebt, setIgnoreInterestDebt] = React.useState(false);
@@ -423,28 +417,6 @@ export default function LoanProductCreate() {
             </div>
 
             <div className="mt-6 grid gap-5">
-              <FieldRow label="Akumulasi Denda Pinjaman">
-                <div className="flex items-center gap-3">
-                  <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
-                </div>
-              </FieldRow>
-
-              <FieldRow label="Metode Perhitungan Denda">
-                <Select
-                  value={penaltyMethod}
-                  onValueChange={(v) => setPenaltyMethod(v as PenaltyMethod)}
-                >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
-                    <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                    <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                    <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldRow>
-
               <FieldRow label="Akumulasi Bunga Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accInterest} onCheckedChange={setAccInterest} />
@@ -692,9 +664,9 @@ export default function LoanProductCreate() {
                     className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_56px] md:items-end"
                   >
                     <div className="grid gap-2">
-                      <Label className="text-xs font-semibold text-slate-700">
+                      <div className="text-xs font-semibold text-slate-700">
                         Nama
-                      </Label>
+                      </div>
                       <Input
                         value={f.name}
                         onChange={(e) => {
@@ -708,9 +680,9 @@ export default function LoanProductCreate() {
                     </div>
 
                     <div className="grid gap-2">
-                      <Label className="text-xs font-semibold text-slate-700">
+                      <div className="text-xs font-semibold text-slate-700">
                         Nominal
-                      </Label>
+                      </div>
                       <Input
                         value={f.amount}
                         onChange={(e) => {
