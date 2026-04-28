@@ -234,7 +234,10 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  const cellY = rowDensity === "roomy" ? "py-8" : "py-4";
+  // Khusus mode Penurunan Baki Debet (di app ini): hideSelection + locked + grace block + tanpa kolom denda
+  const isBakiDebetMode = hideSelection && isLocked && highlightGraceBlock && !showPenaltyColumn;
+
+  const cellY = isBakiDebetMode ? "py-2.5" : rowDensity === "roomy" ? "py-8" : "py-4";
 
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
@@ -257,8 +260,6 @@ export default function BillingTableView2({
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
     const shouldShow = idx < PENALTY_ROWS;
 
-    // Perkecil "padding kanan" visual:
-    // - wrapper cell sudah px-4, jadi cukup kecilkan gap dan tambah pr-1
     if (!shouldShow) {
       return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
     }
@@ -278,7 +279,6 @@ export default function BillingTableView2({
   const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
-    // Grace period: 2 baris pertama saat highlightGraceBlock aktif
     if (graceCount > 0 && rowIndex < graceCount) return "0";
     return raw;
   }
