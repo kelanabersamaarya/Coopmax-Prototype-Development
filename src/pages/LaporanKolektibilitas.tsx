@@ -374,12 +374,14 @@ export default function LaporanKolektibilitas() {
                   onValueChange={(v) => setBulan(v as (typeof months)[number])}
                   options={[...months]}
                   contentClassName={cn(
-                    "max-h-[240px] overflow-y-auto",
+                    // IMPORTANT: Scroll harus diterapkan ke viewport Radix (bukan container luarnya)
+                    "[&_[data-radix-select-viewport]]:max-h-[240px]",
+                    "[&_[data-radix-select-viewport]]:overflow-y-auto",
                     // scrollbar mirip contoh (abu)
-                    "[&::-webkit-scrollbar]:w-2",
-                    "[&::-webkit-scrollbar-track]:bg-slate-100",
-                    "[&::-webkit-scrollbar-thumb]:bg-slate-400",
-                    "[&::-webkit-scrollbar-thumb]:rounded-full",
+                    "[&_[data-radix-select-viewport]::-webkit-scrollbar]:w-2",
+                    "[&_[data-radix-select-viewport]::-webkit-scrollbar-track]:bg-slate-100",
+                    "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:bg-slate-400",
+                    "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:rounded-full",
                   )}
                 />
               </FieldRow>
