@@ -67,7 +67,6 @@ const currentBill: BillingRow = {
   sisaBunga: "26.389",
 };
 
-// Sama persis seperti View 1 (TransaksiAnggotaView1.tsx)
 const pelunasanRowsLikeView1: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
@@ -219,7 +218,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // === Pagination: aktif untuk Penurunan Baki Debet DAN Pelunasan (disamakan dengan View 1) ===
   const pageSize = 6;
   const [page, setPage] = React.useState<number>(1);
 
@@ -266,13 +264,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Reguler & Khusus: tampil seperti screenshot => checkbox "locked" dan tercentang
     if (isReguler || isKhusus) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
 
-    // Pelunasan: locked & tercentang
     if (isPelunasan) {
       setSelected(rowsToShow.map(() => true));
       return;
@@ -283,7 +279,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       return;
     }
 
-    // Penurunan Baki Debet: default tidak dipaksa checked
     if (isPenurunanBakiDebet) {
       setSelected((prev) => rowsToShow.map((_, i) => prev[i] ?? false));
       return;
@@ -372,7 +367,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
 
-  // === View 2: Penurunan Baki Debet disamakan dengan View 1 ===
   const useV1ForPenurunanBakiDebet = isPenurunanBakiDebet;
 
   const alignNumbersForPenurunan =
@@ -483,7 +477,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
           <SectionHighlightWide title="Tagihan dan Pembayaran Angsuran" />
 
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
-            <Card className="min-w-0 rounded-2xl border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
+            <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
               <div className="text-sm font-semibold text-slate-900">
                 INFORMASI TAGIHAN DAN DENDA
               </div>
@@ -512,6 +506,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
+                    showNextBillInfo={true}
                   />
                 ) : isKhusus ? (
                   <BillingTableView2
