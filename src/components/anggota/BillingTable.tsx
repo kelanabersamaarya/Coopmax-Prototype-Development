@@ -277,6 +277,9 @@ export default function BillingTable({
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
 
+  // Perkecil "padding kanan" visual di cell denda:
+  // - kurangi px dari px-3 (tdBase) dengan menimpa jadi pr-2 di cell penalty
+  // - kurangi gap antara angka dan icon
   const penaltyTd = cn(tdNum, "pr-2");
   const penaltyTdEmpty = cn(tdNum, "pr-2");
 
@@ -295,6 +298,7 @@ export default function BillingTable({
   }
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
+    // Grace period: 2 baris pertama saat highlight grace aktif
     if (graceCount > 0 && rowIndex < graceCount) return "0";
     return raw;
   }
@@ -331,18 +335,10 @@ export default function BillingTable({
                     <td colSpan={colCount} className="p-0">
                       <div className="bg-white p-0">
                         <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
-                          <div className="bg-white p-2">
-                            <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
-                              <table className="w-full border-collapse">
-                                <tbody className="bg-white">
-                                  <GracePeriodInfoRow colSpan={colCount} noBorder />
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
+                              <GracePeriodInfoRow colSpan={colCount} noBorder />
+
                               {graceRows.map((bill, idx) => {
                                 const rowIndex = idx;
                                 const showPenaltyValue = rowIndex < PENALTY_ROWS;
