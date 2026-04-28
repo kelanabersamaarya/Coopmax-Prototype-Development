@@ -457,7 +457,7 @@ export default function LoanApplicationCreate() {
                       <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
+                      <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Kolektor">
                           Pilih Kolektor
                         </SelectItem>
@@ -501,7 +501,7 @@ export default function LoanApplicationCreate() {
                       <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
+                      <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Sektor Pinjaman">
                           Pilih Sektor Pinjaman
                         </SelectItem>
@@ -520,7 +520,7 @@ export default function LoanApplicationCreate() {
                       <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
+                      <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Tujuan Peminjaman">
                           Pilih Tujuan Peminjaman
                         </SelectItem>
@@ -544,7 +544,7 @@ export default function LoanApplicationCreate() {
                       <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
+                      <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Metode Bunga Pinjaman">
                           Pilih Metode Bunga Pinjaman
                         </SelectItem>
