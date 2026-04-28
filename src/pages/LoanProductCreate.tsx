@@ -101,6 +101,9 @@ const TT = {
     "Tagihan diterbitkan rutin setiap periode (misalnya bulanan), namun jenis tagihan bisa disesuaikan (misalnya hanya melakukan penagihan bunga atau hanya pokok pinjaman).",
   tagihanDihitungDariSisaSaldoPokok:
     "Tagihan yang diterbitkan mencakup seluruh pokok, bunga dan denda yang masih harus dibayarkan.",
+
+  gracePeriodBunga:
+    "Grace period bunga adalah periode awal pinjaman dimana nasabah hanya membayar bunga tanpa membayar pokok pinjaman",
 } as const;
 
 export default function LoanProductCreate() {
@@ -889,7 +892,10 @@ export default function LoanProductCreate() {
                                 value="Hanya Bayar Bunga"
                                 id="grace-hanya-bayar-bunga"
                               />
-                              Hanya Bayar Bunga
+                              <span className="inline-flex items-center">
+                                Hanya Bayar Bunga
+                                <FieldTooltip content={TT.gracePeriodBunga} />
+                              </span>
                             </label>
                           </RadioGroup>
                         </div>
