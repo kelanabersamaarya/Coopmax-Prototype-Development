@@ -587,30 +587,15 @@ export default function RekeningPinjaman() {
                               {r.namaNasabah}
                             </td>
 
-                            <td
-                              className={cn(
-                                td,
-                                "text-slate-900 tabular-nums whitespace-nowrap",
-                              )}
-                            >
+                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
                               {r.nominal}
                             </td>
 
-                            <td
-                              className={cn(
-                                td,
-                                "text-slate-900 tabular-nums whitespace-nowrap",
-                              )}
-                            >
+                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
                               {r.sisaPinjaman}
                             </td>
 
-                            <td
-                              className={cn(
-                                td,
-                                "text-slate-900 tabular-nums whitespace-nowrap",
-                              )}
-                            >
+                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
                               {r.bungaPerTahun}
                             </td>
 
