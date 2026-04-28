@@ -149,6 +149,8 @@ function formatMoneyIdNoDecimals(n: number) {
   return formatIdrLike(Math.round(Number.isFinite(n) ? n : 0));
 }
 
+const PELUNASAN_DENDA_FLAT = 215000;
+
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -256,7 +258,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const computedTotals = React.useMemo(() => {
     const denda =
-      penaltyOnlyCols ? penaltyTotalExplicit : isReguler ? selectedPenaltyTotal : 0;
+      penaltyOnlyCols
+        ? penaltyTotalExplicit
+        : isPelunasan
+          ? PELUNASAN_DENDA_FLAT
+          : isReguler
+            ? selectedPenaltyTotal
+            : 0;
 
     const total = computedBaseTotals.total + denda;
 
@@ -270,6 +278,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     computedBaseTotals.bunga,
     computedBaseTotals.pokok,
     computedBaseTotals.total,
+    isPelunasan,
     isReguler,
     penaltyOnlyCols,
     penaltyTotalExplicit,
@@ -321,19 +330,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const alignNumbersForPenurunan =
     isPenurunanBakiDebet
       ? [
-          // ensure digits are tabular and use same numeric font for ALL number cells
-          // (in BillingTable v1, numeric cells typically contain these classes)
           "[&_.num-sans-tabular]:font-variant-numeric:tabular-nums",
           "[&_.tabular-nums]:font-variant-numeric:tabular-nums",
-          // enforce numeric font + tabular feature in all tds except the date column
-          // table structure: [date] then several numeric columns; we target td:not(:first-child)
           "[&_.billing-table-compact_tbody_td:not(:first-child)]:num-sans-tabular",
           "[&_.billing-table-compact_tbody_td:not(:first-child)]:tabular-nums",
-          // consistent right padding so separators align visually
           "[&_.billing-table-compact_tbody_td:not(:first-child)]:pr-6",
-          // keep left column date aligned left
           "[&_.billing-table-compact_tbody_td:first-child]:text-left",
-          // make sure numbers are strictly right-aligned
           "[&_.billing-table-compact_tbody_td:not(:first-child)]:text-right",
         ].join(" ")
       : "";
@@ -438,35 +440,24 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <div
                 className={cn(
                   "billing-v1-compact-rows",
-                  // === Compact paddings for BillingTableView2 (Reguler/Khusus/Pelunasan) ===
                   compactRowsForView2
                     ? [
-                        // RowShell wrapper in BillingTableView2 is: "bg-white px-3 py-3"
                         "[&_.bg-white.px-3.py-3]:!py-1.5",
-                        // Cells are: "px-4 py-4"
                         "[&_.px-4.py-4]:!py-2",
                       ].join(" ")
                     : "",
-
-                  // --- compact vertical padding (BillingTable v1 wrapper)
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
-
-                  // --- Penalty: show only first 3 bill rows, rest empty (NO '-' / NO icon)
                   showPenaltyColumnInTable
                     ? [
                         `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child]:text-transparent`,
                         `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`,
                       ].join(" ")
                     : "",
-
-                  // BillingTable (v1): hide "-" placeholder so it becomes truly empty
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
                   showPenaltyColumnInTable
                     ? `[&_.billing-table-compact_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`
                     : "",
-
-                  // Penurunan baki debet: rapikan alignment angka
                   alignNumbersForPenurunan,
                 )}
               >

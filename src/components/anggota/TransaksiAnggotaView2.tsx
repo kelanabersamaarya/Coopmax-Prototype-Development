@@ -187,6 +187,8 @@ function PaginationLikeView1({
   );
 }
 
+const PELUNASAN_DENDA_FLAT = 215000;
+
 export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -373,7 +375,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   // === View 2: Penurunan Baki Debet disamakan dengan View 1 ===
   const useV1ForPenurunanBakiDebet = isPenurunanBakiDebet;
 
-  // CSS override lokal untuk lurusin angka pada BillingTable (v1)
   const alignNumbersForPenurunan =
     isPenurunanBakiDebet
       ? [
@@ -387,7 +388,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         ].join(" ")
       : "";
 
-  // Samakan tinggi baris BillingTableView2 seperti View 1 (compact)
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
 
   return (
@@ -494,9 +494,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 className={cn(
                   compactRowsForView2
                     ? [
-                        // RowShell wrapper in BillingTableView2 is: "bg-white px-3 py-3"
                         "[&_.bg-white.px-3.py-3]:!py-1.5",
-                        // Cells are: "px-4 py-4"
                         "[&_.px-4.py-4]:!py-2",
                       ].join(" ")
                     : "",
@@ -610,11 +608,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       ? {
                           pokok: pelunasanTotals?.pokok ?? "0",
                           bunga: pelunasanTotals?.bunga ?? "0",
-                          denda: selectedPenaltyText,
+                          denda: formatIdrLike(PELUNASAN_DENDA_FLAT),
                           total: formatIdrLike(
-                            parseNumLikeId(
-                              pelunasanTotals?.totalBelumDibayar ?? "0",
-                            ) + selectedPenaltyTotal,
+                            parseNumLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
+                              PELUNASAN_DENDA_FLAT,
                           ),
                         }
                       : {
