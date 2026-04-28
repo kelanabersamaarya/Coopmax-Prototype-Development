@@ -657,70 +657,58 @@ export default function LoanProductCreate() {
             </div>
 
             <div className="mt-4 grid gap-3">
-              {collectorFees.length === 0 ? (
-                <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
-                  Belum ada fee kolektor.
-                </div>
-              ) : (
-                collectorFees.map((f, idx) => (
-                  <div
-                    key={f.id}
-                    className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_56px] md:items-end"
-                  >
-                    <div className="grid gap-2">
-                      <div className="text-xs font-semibold text-slate-700">
-                        Nama
-                      </div>
-                      <Input
-                        value={f.name}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCollectorFees((prev) =>
-                            prev.map((x) =>
-                              x.id === f.id ? { ...x, name: val } : x,
-                            ),
-                          );
-                        }}
-                        className="h-11 rounded-xl border-slate-200 bg-white"
-                      />
-                    </div>
-
-                    <div className="grid gap-2">
-                      <div className="text-xs font-semibold text-slate-700">
-                        Nominal
-                      </div>
-                      <Input
-                        value={f.amount}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setCollectorFees((prev) =>
-                            prev.map((x) =>
-                              x.id === f.id ? { ...x, amount: val } : x,
-                            ),
-                          );
-                        }}
-                        className="h-11 rounded-xl border-slate-200 bg-white"
-                        inputMode="decimal"
-                      />
-                    </div>
-
-                    <button
-                      type="button"
-                      className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
-                      onClick={() => {
-                        setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
-                        toast("Fee dihapus", {
-                          description: `Item #${idx + 1} dihapus.`,
-                        });
+              {collectorFees.map((f, idx) => (
+                <div
+                  key={f.id}
+                  className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_56px] md:items-end"
+                >
+                  <div className="grid gap-2">
+                    <div className="text-xs font-semibold text-slate-700">Nama</div>
+                    <Input
+                      value={f.name}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCollectorFees((prev) =>
+                          prev.map((x) => (x.id === f.id ? { ...x, name: val } : x)),
+                        );
                       }}
-                      aria-label="Hapus fee"
-                      title="Hapus"
-                    >
-                      <X className="h-5 w-5" />
-                    </button>
+                      className="h-11 rounded-xl border-slate-200 bg-white"
+                    />
                   </div>
-                ))
-              )}
+
+                  <div className="grid gap-2">
+                    <div className="text-xs font-semibold text-slate-700">
+                      Nominal
+                    </div>
+                    <Input
+                      value={f.amount}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setCollectorFees((prev) =>
+                          prev.map((x) =>
+                            x.id === f.id ? { ...x, amount: val } : x,
+                          ),
+                        );
+                      }}
+                      className="h-11 rounded-xl border-slate-200 bg-white"
+                      inputMode="decimal"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
+                    onClick={() => {
+                      setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
+                      toast("Fee dihapus", { description: `Item #${idx + 1} dihapus.` });
+                    }}
+                    aria-label="Hapus fee"
+                    title="Hapus"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+              ))}
             </div>
 
             <Separator className="my-6 bg-slate-200/70" />
