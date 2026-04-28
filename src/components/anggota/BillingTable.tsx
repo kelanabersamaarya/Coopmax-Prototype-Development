@@ -217,7 +217,6 @@ export default function BillingTable({
   }, [rows.length, extraOutsideRows.length, isPelunasan]);
 
   const displayRows = React.useMemo(() => rows, [rows]);
-  const totalSelectableRows = displayRows.length + extraOutsideRows.length;
 
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate =
@@ -267,9 +266,8 @@ export default function BillingTable({
     (showGraceHighlight || forceGraceInfo) && showAllCols;
 
   function NumCell({ value }: { value: string }) {
-    if (!hideSelection) return <>{value}</>;
     return (
-      <NumericCell align="right" className="w-full">
+      <NumericCell align="separator" className="w-full">
         {value}
       </NumericCell>
     );
@@ -543,6 +541,10 @@ export default function BillingTable({
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="sr-only">
+        <NumericCell align="separator">0</NumericCell>
       </div>
     </div>
   );
