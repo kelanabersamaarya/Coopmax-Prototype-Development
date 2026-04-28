@@ -202,6 +202,12 @@ export default function LoanProductCreate() {
         ? "Masukkan Jumlah Bulan"
         : "Masukkan Durasi";
 
+  // === Style match dengan halaman Ubah (lebih kecil & kotak) ===
+  const compactField = "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]";
+  const compactSelectTrigger =
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]";
+  const compactSelectContent = "rounded-[10px] border-slate-200";
+
   function addCollectorFee() {
     setCollectorFees((prev) => [
       ...prev,
@@ -800,6 +806,7 @@ export default function LoanProductCreate() {
                       onModeChange={setTarifDendaMode}
                       value={tarifDendaValue}
                       onValueChange={setTarifDendaValue}
+                      className="rounded-[5px]"
                     />
                   </FieldRow>
 
@@ -808,10 +815,10 @@ export default function LoanProductCreate() {
                       value={dasarPerhitungan}
                       onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
                     >
-                      <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
+                      <SelectTrigger className={compactSelectTrigger}>
                         <SelectValue placeholder="Pilih Dasar Perhitungan" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-2xl border-slate-200">
+                      <SelectContent className={compactSelectContent}>
                         <SelectItem value="Pilih Dasar Perhitungan">
                           Pilih Dasar Perhitungan
                         </SelectItem>
@@ -827,7 +834,7 @@ export default function LoanProductCreate() {
                     <Input
                       value={hariKeterlambatan}
                       onChange={(e) => setHariKeterlambatan(e.target.value)}
-                      className="h-12 rounded-2xl border-slate-200 bg-white"
+                      className={compactField}
                       placeholder="Masukkan Jumlah Hari"
                       inputMode="numeric"
                     />
@@ -880,10 +887,10 @@ export default function LoanProductCreate() {
                             value={graceUnit}
                             onValueChange={(v) => setGraceUnit(v as GraceUnit)}
                           >
-                            <SelectTrigger className="h-12 rounded-2xl border-slate-200 bg-white">
+                            <SelectTrigger className={compactSelectTrigger}>
                               <SelectValue placeholder="Pilih Satuan Grace Period" />
                             </SelectTrigger>
-                            <SelectContent className="rounded-2xl border-slate-200">
+                            <SelectContent className={compactSelectContent}>
                               <SelectItem value="Pilih Satuan Grace Period">
                                 Pilih Satuan Grace Period
                               </SelectItem>
@@ -900,7 +907,7 @@ export default function LoanProductCreate() {
                           <Input
                             value={graceDuration}
                             onChange={(e) => setGraceDuration(e.target.value)}
-                            className="h-12 rounded-2xl border-slate-200 bg-white"
+                            className={compactField}
                             placeholder={graceDurationPlaceholder}
                             inputMode="numeric"
                           />
