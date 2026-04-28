@@ -8,6 +8,7 @@ import NumericCell from "@/components/anggota/NumericCell";
 import PenaltyDetailDialog, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialog";
+import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -285,36 +286,10 @@ export default function BillingTableView2({
         )}
       >
         <table className="w-full border-collapse text-[13px]">
-          <thead className="bg-white">
-            <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700">
-              {!hideSelection ? (
-                <th className="w-[44px] px-4 py-3">
-                  <input
-                    ref={headerCheckboxRef}
-                    type="checkbox"
-                    aria-label="Pilih semua"
-                    checked={isLocked ? true : allChecked}
-                    disabled={isLocked}
-                    onChange={(e) => {
-                      const next = e.target.checked;
-                      setSelected(rows.map(() => next));
-                    }}
-                    className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-                  />
-                </th>
-              ) : null}
-
-              <th className="px-4 py-3">Jatuh Tempo</th>
-              <th className="px-4 py-3 text-right">Total Tagihan Belum Dibayar</th>
-              <th className="px-4 py-3 text-right">Tagihan Pokok</th>
-              <th className="px-4 py-3 text-right">Tagihan Bunga</th>
-              <th className="px-4 py-3 text-right">Sisa Tagihan Pokok</th>
-              <th className="px-4 py-3 text-right">Sisa Tagihan Bunga</th>
-              {showPenaltyColumn ? (
-                <th className="px-4 py-3 text-right">Tagihan Denda</th>
-              ) : null}
-            </tr>
-          </thead>
+          <BillingTableHeader
+            hideSelection={hideSelection}
+            showPenaltyColumn={showPenaltyColumn}
+          />
 
           <tbody className="bg-white">
             {showGraceInfo && highlightGraceBlock && graceRows.length > 0 ? (

@@ -8,6 +8,7 @@ import PenaltyDetailDialog, {
 } from "@/components/anggota/PenaltyDetailDialog";
 import { Info } from "lucide-react";
 import NumericCell from "@/components/anggota/NumericCell";
+import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -242,11 +243,6 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  const thBase =
-    "px-3 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
-  const thRight =
-    "px-3 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
-
   const tdBase = "px-3 py-3 text-[13px] text-slate-900";
   const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
 
@@ -257,7 +253,6 @@ export default function BillingTable({
   );
 
   const checkboxColW = "w-[40px]";
-  const checkboxTh = cn(thBase, "px-2");
   const checkboxTd = cn(tdBase, "px-2 text-center");
 
   const showPenaltyCol = showPenaltyColumn;
@@ -288,10 +283,9 @@ export default function BillingTable({
     (showGraceHighlight || forceGraceInfo) && showAllCols;
 
   function NumCell({ value }: { value: string }) {
-    // Untuk mode Penurunan Baki Debet (hideSelection) kita align ke separator agar semua angka "lurus".
     if (!hideSelection) return <>{value}</>;
     return (
-      <NumericCell align="separator" className="w-full">
+      <NumericCell align="right" className="w-full">
         {value}
       </NumericCell>
     );
@@ -307,81 +301,10 @@ export default function BillingTable({
 
       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         <table className="w-full border-collapse">
-          <thead className="bg-white">
-            <tr className="border-b border-slate-200">
-              {!hideSelection ? (
-                <th className={cn(checkboxColW, checkboxTh)}>
-                  <div className="flex justify-center">
-                    <TableCheckbox
-                      ariaLabel="Pilih semua"
-                      checked={isPelunasan ? true : allChecked}
-                      disabled={isPelunasan}
-                      indeterminate={!isPelunasan && anyChecked && !allChecked}
-                      onChange={(next) =>
-                        setSelected(
-                          Array.from({ length: totalSelectableRows }).map(() => next),
-                        )
-                      }
-                    />
-                  </div>
-                </th>
-              ) : null}
-
-              <th className={cn(thBase, "pl-3")}>
-                JATUH
-                <br />
-                TEMPO
-              </th>
-
-              {!hideInterestCols ? (
-                <th className={cn(thBase, "text-left")}>
-                  TOTAL TAGIHAN
-                  <br />
-                  BELUM DIBAYAR
-                </th>
-              ) : null}
-
-              <th className={thBase}>
-                TAGIHAN
-                <br />
-                POKOK
-              </th>
-
-              {!hideInterestCols ? (
-                <th className={thBase}>
-                  TAGIHAN
-                  <br />
-                  BUNGA
-                </th>
-              ) : null}
-
-              <th className={thBase}>
-                SISA
-                <br />
-                TAGIHAN
-                <br />
-                POKOK
-              </th>
-
-              {!hideInterestCols ? (
-                <th className={thBase}>
-                  SISA
-                  <br />
-                  TAGIHAN
-                  <br />
-                  BUNGA
-                </th>
-              ) : null}
-
-              {showPenaltyCol ? (
-                <th className={cn(thRight, "w-[160px]")}>
-                  TAGIHAN
-                  <br />
-                  DENDA
-                </th>
-              ) : null}
-            </tr>
-          </thead>
+          <BillingTableHeader
+            hideSelection={hideSelection}
+            showPenaltyColumn={showPenaltyCol}
+          />
 
           <tbody className="bg-white">
             {displayRows.length === 0 ? (
