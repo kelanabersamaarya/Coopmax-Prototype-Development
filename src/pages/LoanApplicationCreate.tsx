@@ -92,7 +92,7 @@ function TabPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-10 rounded-[5px] px-5 text-sm font-semibold transition",
+        "h-10 rounded-full px-5 text-sm font-semibold transition",
         active
           ? "bg-violet-600 text-white shadow-sm"
           : "bg-transparent text-slate-600 hover:bg-white/60",
@@ -567,6 +567,8 @@ export default function LoanApplicationCreate() {
                     />
                   </FieldRowInline>
                 </div>
+
+                {/* Divider DIHAPUS sesuai permintaan */}
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
