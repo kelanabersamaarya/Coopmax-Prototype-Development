@@ -21,6 +21,7 @@ import { BillingScheme } from "@/lib/loanProductsStore";
 import PenaltyRateField, {
   type PenaltyRateMode,
 } from "@/components/loans/PenaltyRateField";
+import FieldTooltip from "@/components/loans/FieldTooltip";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -98,6 +99,17 @@ function InfoBadge() {
     </span>
   );
 }
+
+const TT = {
+  konfigurasiTagihanAngsuran:
+    "Atur bagaimana tagihan angsuran diterbitkan termasuk skema tagihans serta atur grace period (satuan & durasi)",
+  tagihanMengikutiTabelAngsuran:
+    "Tagihan angsuran dibuat otomatis setiap bulan mengikuti tabel angsuran, meliputi angsuran pokok dan bunga.",
+  skemaTagihan:
+    "Skema tagihan menentukan bagaimana nominal dan komponen tagihan dihitung setiap periode (misalnya pokok, bunga, biaya, dan tunggakan).",
+  gracePeriod:
+    "Grace period adalah periode awal pinjaman yang memberi keringanan pembayaran untuk sementara waktu sesuai skema yang dipilih.",
+} as const;
 
 function AmountModeInput({
   mode,
@@ -833,7 +845,8 @@ export default function LoanProductEdit() {
 
             <div className="text-base font-semibold text-slate-900">
               <span className="inline-flex items-center">
-                Konfigurasi Tagihan Angsuran <InfoBadge />
+                Konfigurasi Tagihan Angsuran
+                <FieldTooltip content={TT.konfigurasiTagihanAngsuran} />
               </span>
             </div>
 
@@ -841,7 +854,8 @@ export default function LoanProductEdit() {
               <FieldRow
                 label={
                   <span className="inline-flex items-center">
-                    Tagihan Angsuran Menggunakan Tabel Angsuran <InfoBadge />
+                    Tagihan Angsuran Menggunakan Tabel Angsuran
+                    <FieldTooltip content={TT.tagihanMengikutiTabelAngsuran} />
                   </span> as any
                 }
               >
@@ -858,7 +872,7 @@ export default function LoanProductEdit() {
                   <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                     <div className="pt-1 text-sm font-normal text-slate-900">
                       <span className="inline-flex items-center">
-                        Skema Tagihan <InfoBadge />
+                        Skema Tagihan <FieldTooltip content={TT.skemaTagihan} />
                       </span>
                     </div>
 
@@ -886,7 +900,6 @@ export default function LoanProductEdit() {
                                 ? "Tagihan Berkala Berdasarkan Periode"
                                 : "Tagihan Berdasarkan Sisa Angsuran"}
                           </span>
-                          <InfoBadge />
                         </label>
                       ))}
                     </RadioGroup>
@@ -935,7 +948,7 @@ export default function LoanProductEdit() {
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                       <div className="pt-1 text-sm font-normal text-slate-900">
                         <span className="inline-flex items-center">
-                          Grace Period <InfoBadge />
+                          Grace Period <FieldTooltip content={TT.gracePeriod} />
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
