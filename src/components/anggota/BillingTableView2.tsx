@@ -218,8 +218,29 @@ export default function BillingTableView2({
   }, [allChecked, anyChecked, isLocked]);
 
   React.useEffect(() => {
+    // Only resize selection when needed; avoid redundant updates (prevents update loops).
     if (selected.length === rows.length) return;
-    setSelected((prev) => rows.map((_, idx) => prev[idx] ?? false));
+
+    setSelected((prev) => {
+      if (prev.length === rows.length) return prev;
+
+      const next = rows.map((_, idx) => prev[idx] ?? false);
+
+      // If next is identical to prev by content (same length already handled),
+      // do not update.
+      if (next.length === prev.length) {
+        let same = true;
+        for (let i = 0; i < next.length; i++) {
+          if (next[i] !== prev[i]) {
+            same = false;
+            break;
+          }
+        }
+        if (same) return prev;
+      }
+
+      return next;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows.length]);
 
