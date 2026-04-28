@@ -91,7 +91,13 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const selectedPenaltyTotal = React.useMemo(() => {
     if (!(billing.isReguler || billing.isKhusus || billing.isPelunasan)) return 0;
     return calcSelectedPenaltyTotal(selected, billing.rowsToShow.length);
-  }, [billing.isKhusus, billing.isPelunasan, billing.isReguler, billing.rowsToShow.length, selected]);
+  }, [
+    billing.isKhusus,
+    billing.isPelunasan,
+    billing.isReguler,
+    billing.rowsToShow.length,
+    selected,
+  ]);
 
   const selectedPenaltyText = React.useMemo(
     () => formatIdrLike(selectedPenaltyTotal),
@@ -118,7 +124,10 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return formatIdrLike(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
 
-  const highlightGraceBlock = billing.isReguler || billing.isKhusus || (jenisTransaksi as any) === "Pembayaran Penurunan Plafon";
+  const highlightGraceBlock =
+    billing.isReguler ||
+    billing.isKhusus ||
+    (jenisTransaksi as any) === "Pembayaran Penurunan Plafon";
 
   const pelunasanTotals = React.useMemo(() => {
     if (!billing.isPelunasan) return null;
@@ -147,7 +156,23 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const useV1ForPenurunanBakiDebet = false;
   const rowsToShowV1 = billing.rowsToShow as unknown as BillingRowV1[];
 
-  const compactRowsForView2 = billing.isReguler || billing.isKhusus || billing.isPelunasan;
+  const compactRowsForView2 =
+    billing.isReguler || billing.isKhusus || billing.isPelunasan;
+
+  // Force smaller vertical padding ONLY for penurunan baki debet
+  const penurunanCompactOverride = billing.isPenurunanBakiDebet
+    ? [
+        // Cell wrappers in BillingTableView2 use "py-4/py-8/py-1.5" patterns.
+        // We force any common vertical padding to be tighter.
+        "[&_.py-4]:!py-1.5",
+        "[&_.py-3]:!py-1.5",
+        "[&_.py-2]:!py-1.5",
+        // RowShell outer container default is "bg-white px-3 py-*"
+        "[&_.bg-white.px-3.py-4]:!py-1.5",
+        "[&_.bg-white.px-3.py-3]:!py-1.5",
+        "[&_.bg-white.px-3.py-2]:!py-1.5",
+      ].join(" ")
+    : "";
 
   return (
     <div className="w-full px-0">
@@ -195,6 +220,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                         "[&_.px-4.py-4]:!py-2",
                       ].join(" ")
                     : "",
+                  penurunanCompactOverride,
                 )}
               >
                 {billing.isReguler ? (
@@ -251,7 +277,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     disableRowRings
                     disableRowActiveRing
                     rowDensity="default"
-                    tightRows
+                    tightRows={true}
                   />
                 ) : useV1ForPenurunanBakiDebet ? (
                   <div className={cn("billing-table-compact", "[&_.text-slate-400]:hidden")}>
@@ -277,7 +303,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     showNextBillInfo={true}
                     showGraceInfo={true}
                     highlightGraceBlock={highlightGraceBlock}
-                    hideSelection={(jenisTransaksi as any) === "Pembayaran Penurunan Plafon"}
+                    hideSelection={
+                      (jenisTransaksi as any) === "Pembayaran Penurunan Plafon"
+                    }
                     showPenaltyColumn={false}
                   />
                 )}
@@ -296,10 +324,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   />
                 </div>
               ) : null}
-
-              <div className="sr-only">
-                <Info />
-              </div>
             </Card>
 
             <div className="space-y-4 px-1">
