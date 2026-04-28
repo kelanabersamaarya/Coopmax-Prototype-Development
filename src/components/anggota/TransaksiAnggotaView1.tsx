@@ -327,20 +327,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
 
-  const useView2Style = isReguler || isKhusus || isPelunasan || isPenurunanBakiDebet;
-
-  const PELUNASAN_DENDA_FLAT = 215000;
-
-  const PELUNASAN_DENDA_FLAT_LOCAL = PELUNASAN_DENDA_FLAT;
+  const useView2Style = isReguler || isKhusus || isPelunasan;
 
   const PENALTY_ROWS_PER_PAGE = 3;
-  const showPenaltyColumnInTable =
-    !isPenurunanBakiDebet && !isPenurunanBakiDebet;
+  const showPenaltyColumnInTable = !isPenurunanBakiDebet;
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
-  const alignNumbersForPenurunan = "";
+  const alignNumbersForPenurunan =
+    isPenurunanBakiDebet
+      ? [
+          "[&_.num-sans-tabular]:font-variant-numeric:tabular-nums",
+          "[&_.tabular-nums]:font-variant-numeric:tabular-nums",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:num-sans-tabular",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:tabular-nums",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:pr-6",
+          "[&_.billing-table-compact_tbody_td:first-child]:text-left",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:text-right",
+        ].join(" ")
+      : "";
 
   return (
     <div className="w-full px-0">
@@ -465,7 +471,22 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   alignNumbersForPenurunan,
                 )}
               >
-                {useView2Style ? (
+                {isPenurunanBakiDebet ? (
+                  <div className="billing-table-compact">
+                    <BillingTable
+                      rows={pagedRows}
+                      selected={selected}
+                      setSelected={setSelected}
+                      isPelunasan={false}
+                      showGraceHighlight={true}
+                      hideInterestCols={false}
+                      hideSelection={true}
+                      showPenaltyColumn={false}
+                      rowDensity="roomy"
+                      className="mt-0"
+                    />
+                  </div>
+                ) : useView2Style ? (
                   <BillingTableView2
                     rows={pagedRowsForView2}
                     selected={selected}
@@ -473,9 +494,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     isLocked={isPelunasan}
                     showNextBillInfo={false}
                     showGraceInfo={true}
-                    highlightGraceBlock={showGraceHighlight}
-                    hideSelection={isPenurunanBakiDebet}
-                    showPenaltyColumn={!isPenurunanBakiDebet && showPenaltyColumnInTable}
+                    highlightGraceBlock={true}
+                    hideSelection={false}
+                    showPenaltyColumn={showPenaltyColumnInTable}
                     disableRowRings
                     rowDensity="default"
                     className="mt-0"
