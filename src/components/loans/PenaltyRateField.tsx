@@ -55,10 +55,13 @@ export default function PenaltyRateField({
   const radius = size === "compact" ? "rounded-[5px]" : "rounded-2xl";
   const text = size === "compact" ? "text-[12.5px]" : "";
 
+  // Lebarkan agar "Rp." tidak terpotong (sebelumnya terlalu sempit)
+  const selectW = size === "compact" ? "w-[72px]" : "w-[84px]";
+
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
-        <div className="flex w-[64px] shrink-0 items-center gap-2">
+        <div className={cn("flex shrink-0 items-center gap-2", selectW)}>
           <Select
             value={mode}
             onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
