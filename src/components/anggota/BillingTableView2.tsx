@@ -257,13 +257,15 @@ export default function BillingTableView2({
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
     const shouldShow = idx < PENALTY_ROWS;
 
+    // Perkecil "padding kanan" visual:
+    // - wrapper cell sudah px-4, jadi cukup kecilkan gap dan tambah pr-1
     if (!shouldShow) {
-      return <div className={cn("px-4", cellY, numberTextClass)} />;
+      return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
     }
 
     return (
-      <div className={cn("px-4", cellY, numberTextClass)}>
-        <div className="flex items-center justify-end gap-3">
+      <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
+        <div className="flex items-center justify-end gap-2">
           <span className="tabular-nums whitespace-nowrap num-sans-tabular">
             {formatIdrLike(PENALTY_AMOUNT)}
           </span>

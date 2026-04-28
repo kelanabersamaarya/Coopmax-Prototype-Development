@@ -277,8 +277,11 @@ export default function BillingTable({
   const graceRows = graceEnabled ? displayRows.slice(0, graceCount) : [];
   const nonGraceRows = graceEnabled ? displayRows.slice(graceCount) : displayRows;
 
-  const penaltyTd = cn(tdNum);
-  const penaltyTdEmpty = cn(tdNum);
+  // Perkecil "padding kanan" visual di cell denda:
+  // - kurangi px dari px-3 (tdBase) dengan menimpa jadi pr-2 di cell penalty
+  // - kurangi gap antara angka dan icon
+  const penaltyTd = cn(tdNum, "pr-2");
+  const penaltyTdEmpty = cn(tdNum, "pr-2");
 
   const penaltyValueClass = cn("tabular-nums whitespace-nowrap font-normal");
 
@@ -407,7 +410,7 @@ export default function BillingTable({
                                     {showPenaltyCol ? (
                                       <td className={penaltyTd}>
                                         {showPenaltyValue ? (
-                                          <div className="flex items-center justify-end gap-3">
+                                          <div className="flex items-center justify-end gap-2">
                                             <span className={penaltyValueClass}>
                                               {formatIdrLike(PENALTY_AMOUNT)}
                                             </span>
@@ -490,7 +493,7 @@ export default function BillingTable({
                       {showPenaltyCol ? (
                         <td className={penaltyTd}>
                           {showPenaltyValue ? (
-                            <div className="flex items-center justify-end gap-3">
+                            <div className="flex items-center justify-end gap-2">
                               <span className={penaltyValueClass}>
                                 {formatIdrLike(PENALTY_AMOUNT)}
                               </span>
