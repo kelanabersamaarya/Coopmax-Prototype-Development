@@ -373,16 +373,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
 
-  // IMPORTANT: force RowShell padding to be tighter on Penurunan Baki Debet
-  const penurunanBakiDebetRowTighten = isPenurunanBakiDebet
-    ? [
-        // RowShell wrapper uses: bg-white px-3 py-4 (roomy) or py-3 (default)
-        // Force it to same as other modes
-        "[&_.bg-white.px-3.py-4]:!py-3",
-        "[&_.bg-white.px-3.py-3]:!py-3",
-      ].join(" ")
-    : "";
-
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -491,7 +481,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                         "[&_.px-4.py-4]:!py-2",
                       ].join(" ")
                     : "",
-                  penurunanBakiDebetRowTighten,
                 )}
               >
                 {isReguler ? (
@@ -547,7 +536,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     showPenaltyColumn={false}
                     disableRowRings
                     disableRowActiveRing
-                    rowDensity="default"
                   />
                 ) : useV1ForPenurunanBakiDebet ? (
                   <div
