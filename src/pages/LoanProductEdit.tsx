@@ -942,123 +942,33 @@ export default function LoanProductEdit() {
               ) : null}
             </div>
 
-            <Separator className="my-6 bg-slate-200/70" />
+            {useInstallmentTable ? (
+              <>
+                <Separator className="my-6 bg-slate-200/70" />
 
-            <div className="text-base font-semibold text-slate-900">
-              <span className="inline-flex items-center">
-                Konfigurasi Denda
-                <FieldTooltip content="Atur metode, dasar perhitungan, dan parameter keterlambatan untuk denda pinjaman." />
-              </span>
-            </div>
-
-            <div className={"mt-4 grid " + UI.gapY}>
-              <FieldRow label="Metode Denda">
-                <PenaltyRateField
-                  mode={tarifDendaMode}
-                  onModeChange={setTarifDendaMode}
-                  value={tarifDendaValue}
-                  onValueChange={setTarifDendaValue}
-                  size="compact"
-                  className={UI.radius}
-                />
-              </FieldRow>
-
-              <FieldRow label="Dasar Perhitungan">
-                <Select
-                  value={dasarPerhitungan}
-                  onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
-                >
-                  <SelectTrigger
-                    className={
-                      "h-[30px] " +
-                      UI.radius +
-                      " border-slate-200 bg-white " +
-                      UI.fieldText
-                    }
-                  >
-                    <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-[10px] border-slate-200">
-                    <SelectItem value="Pilih Dasar Perhitungan">
-                      Pilih Dasar Perhitungan
-                    </SelectItem>
-                    <SelectItem value="Pokok">Pokok</SelectItem>
-                    <SelectItem value="Bunga">Bunga</SelectItem>
-                    <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                    <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldRow>
-
-              <FieldRow label="Jumlah Hari Keterlambatan">
-                <Input
-                  value={hariKeterlambatan}
-                  onChange={(e) => setHariKeterlambatan(e.target.value)}
-                  className={
-                    "h-[30px] " +
-                    UI.radius +
-                    " border-slate-200 bg-white " +
-                    UI.fieldText
-                  }
-                  placeholder="Masukkan Jumlah Hari"
-                  inputMode="numeric"
-                />
-              </FieldRow>
-            </div>
-
-            <Separator className="my-6 bg-slate-200/70" />
-
-            <div className="text-base font-semibold text-slate-900">
-              <span className="inline-flex items-center">
-                Konfigurasi Grace Period
-                <FieldTooltip content={TT.gracePeriod} />
-              </span>
-            </div>
-
-            <div className={"mt-4 grid " + UI.gapY}>
-              <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                <div className="pt-1 text-sm font-normal text-slate-900">
-                  Grace Period
+                <div className="text-base font-semibold text-slate-900">
+                  <span className="inline-flex items-center">
+                    Konfigurasi Denda
+                    <FieldTooltip content="Atur metode, dasar perhitungan, dan parameter keterlambatan untuk denda pinjaman." />
+                  </span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={gracePeriodEnabled}
-                    onCheckedChange={setGracePeriodEnabled}
-                  />
-                </div>
-              </div>
 
-              {gracePeriodEnabled ? (
-                <>
-                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                    <div className="pt-1 text-sm font-normal text-slate-900">
-                      Skema Grace Period
-                    </div>
-                    <RadioGroup
-                      value={graceScheme}
-                      onValueChange={(v) => setGraceScheme(v as GraceScheme)}
-                      className="flex items-center gap-6"
-                    >
-                      <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
-                        <RadioGroupItem
-                          value="Hanya Bayar Bunga"
-                          id="grace-hanya-bayar-bunga"
-                        />
-                        <span className="inline-flex items-center">
-                          Hanya Bayar Bunga
-                          <FieldTooltip content={TT.gracePeriodBunga} />
-                        </span>
-                      </label>
-                    </RadioGroup>
-                  </div>
+                <div className={"mt-4 grid " + UI.gapY}>
+                  <FieldRow label="Metode Denda">
+                    <PenaltyRateField
+                      mode={tarifDendaMode}
+                      onModeChange={setTarifDendaMode}
+                      value={tarifDendaValue}
+                      onValueChange={setTarifDendaValue}
+                      size="compact"
+                      className={UI.radius}
+                    />
+                  </FieldRow>
 
-                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                    <div className="pt-1 text-sm font-normal text-slate-900">
-                      Satuan Grace Period
-                    </div>
+                  <FieldRow label="Dasar Perhitungan">
                     <Select
-                      value={graceUnit}
-                      onValueChange={(v) => setGraceUnit(v as GraceUnit)}
+                      value={dasarPerhitungan}
+                      onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
                     >
                       <SelectTrigger
                         className={
@@ -1068,38 +978,132 @@ export default function LoanProductEdit() {
                           UI.fieldText
                         }
                       >
-                        <SelectValue placeholder="Pilih Satuan Grace Period" />
+                        <SelectValue placeholder="Pilih Dasar Perhitungan" />
                       </SelectTrigger>
                       <SelectContent className="rounded-[10px] border-slate-200">
-                        <SelectItem value="Pilih Satuan Grace Period">
-                          Pilih Satuan Grace Period
+                        <SelectItem value="Pilih Dasar Perhitungan">
+                          Pilih Dasar Perhitungan
                         </SelectItem>
-                        <SelectItem value="Hari">Hari</SelectItem>
-                        <SelectItem value="Bulan">Bulan</SelectItem>
+                        <SelectItem value="Pokok">Pokok</SelectItem>
+                        <SelectItem value="Bunga">Bunga</SelectItem>
+                        <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                        <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
+                  </FieldRow>
 
-                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                    <div className="pt-1 text-sm font-normal text-slate-900">
-                      {graceDurationLabel}
-                    </div>
+                  <FieldRow label="Jumlah Hari Keterlambatan">
                     <Input
-                      value={graceDuration}
-                      onChange={(e) => setGraceDuration(e.target.value)}
+                      value={hariKeterlambatan}
+                      onChange={(e) => setHariKeterlambatan(e.target.value)}
                       className={
                         "h-[30px] " +
                         UI.radius +
                         " border-slate-200 bg-white " +
                         UI.fieldText
                       }
-                      placeholder={graceDurationPlaceholder}
+                      placeholder="Masukkan Jumlah Hari"
                       inputMode="numeric"
                     />
+                  </FieldRow>
+                </div>
+
+                <Separator className="my-6 bg-slate-200/70" />
+
+                <div className="text-base font-semibold text-slate-900">
+                  <span className="inline-flex items-center">
+                    Konfigurasi Grace Period
+                    <FieldTooltip content={TT.gracePeriod} />
+                  </span>
+                </div>
+
+                <div className={"mt-4 grid " + UI.gapY}>
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                    <div className="pt-1 text-sm font-normal text-slate-900">
+                      Grace Period
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Switch
+                        checked={gracePeriodEnabled}
+                        onCheckedChange={setGracePeriodEnabled}
+                      />
+                    </div>
                   </div>
-                </>
-              ) : null}
-            </div>
+
+                  {gracePeriodEnabled ? (
+                    <>
+                      <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                        <div className="pt-1 text-sm font-normal text-slate-900">
+                          Skema Grace Period
+                        </div>
+                        <RadioGroup
+                          value={graceScheme}
+                          onValueChange={(v) => setGraceScheme(v as GraceScheme)}
+                          className="flex items-center gap-6"
+                        >
+                          <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
+                            <RadioGroupItem
+                              value="Hanya Bayar Bunga"
+                              id="grace-hanya-bayar-bunga"
+                            />
+                            <span className="inline-flex items-center">
+                              Hanya Bayar Bunga
+                              <FieldTooltip content={TT.gracePeriodBunga} />
+                            </span>
+                          </label>
+                        </RadioGroup>
+                      </div>
+
+                      <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                        <div className="pt-1 text-sm font-normal text-slate-900">
+                          Satuan Grace Period
+                        </div>
+                        <Select
+                          value={graceUnit}
+                          onValueChange={(v) => setGraceUnit(v as GraceUnit)}
+                        >
+                          <SelectTrigger
+                            className={
+                              "h-[30px] " +
+                              UI.radius +
+                              " border-slate-200 bg-white " +
+                              UI.fieldText
+                            }
+                          >
+                            <SelectValue placeholder="Pilih Satuan Grace Period" />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-[10px] border-slate-200">
+                            <SelectItem value="Pilih Satuan Grace Period">
+                              Pilih Satuan Grace Period
+                            </SelectItem>
+                            <SelectItem value="Hari">Hari</SelectItem>
+                            <SelectItem value="Bulan">Bulan</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                        <div className="pt-1 text-sm font-normal text-slate-900">
+                          {graceDurationLabel}
+                        </div>
+                        <Input
+                          value={graceDuration}
+                          onChange={(e) => setGraceDuration(e.target.value)}
+                          className={
+                            "h-[30px] " +
+                            UI.radius +
+                            " border-slate-200 bg-white " +
+                            UI.fieldText
+                          }
+                          placeholder={graceDurationPlaceholder}
+                          inputMode="numeric"
+                        />
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              </>
+            ) : null}
 
             <Separator className="my-6 bg-slate-200/70" />
 
