@@ -427,7 +427,7 @@ export default function LoanProductEdit() {
 
         <div className="mt-6 grid gap-4">
           <Card className="rounded-[5px] border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="text-[20px] font-semibold text-slate-900">
+            <div className="text-[16px] font-semibold text-slate-900">
               Konfigurasi Dasar Produk Pinjaman
             </div>
 
