@@ -316,6 +316,8 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const PENALTY_ROWS_PER_PAGE = 3;
   const showPenaltyColumnInTable = !isPenurunanBakiDebet;
 
+  const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -416,19 +418,22 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <div
                 className={cn(
                   "billing-v1-compact-rows",
-                  // --- compact vertical padding (View1 only)
+                  // === Compact paddings for BillingTableView2 (Reguler/Khusus/Pelunasan) ===
+                  compactRowsForView2
+                    ? [
+                        // RowShell wrapper in BillingTableView2 is: "bg-white px-3 py-3"
+                        "[&_.bg-white.px-3.py-3]:!py-1.5",
+                        // Cells are: "px-4 py-4"
+                        "[&_.px-4.py-4]:!py-2",
+                      ].join(" ")
+                    : "",
+
+                  // --- compact vertical padding (BillingTable v1 wrapper)
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
-                  // BillingTableView2 cells: px-4 py-4 -> smaller
-                  "[&_.billing-v1-compact-rows_.py-4]:!py-3",
-                  "[&_.billing-v1-compact-rows_.px-3.py-3]:!py-2.5",
-                  "[&_.billing-v1-compact-rows_.px-4.py-4]:!py-3",
-                  // RowShell outer padding (bg-white px-3 py-3)
-                  "[&_.billing-v1-compact-rows_.bg-white.px-3.py-3]:!py-2",
 
                   // --- Penalty: show only first 3 bill rows, rest empty (NO '-' / NO icon)
                   // BillingTableView2: penalty is the LAST column. Blank it for rows >= 4.
-                  // Note: we target tbody rows, so it is stable.
                   showPenaltyColumnInTable
                     ? [
                         `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child]:text-transparent`,
@@ -438,7 +443,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
                   // BillingTable (v1): hide "-" placeholder so it becomes truly empty
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
-                  // also ensure any content in penalty td after row 3 is hidden
                   showPenaltyColumnInTable
                     ? `[&_.billing-table-compact_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`
                     : "",
