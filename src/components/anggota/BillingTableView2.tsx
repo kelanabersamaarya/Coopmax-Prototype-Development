@@ -275,6 +275,12 @@ export default function BillingTableView2({
 
   const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
 
+  function displayTagihanPokok(rowIndex: number, raw: string) {
+    // Grace period: 2 baris pertama saat highlightGraceBlock aktif
+    if (graceCount > 0 && rowIndex < graceCount) return "0";
+    return raw;
+  }
+
   return (
     <div className={cn("mt-3", className)}>
       <PenaltyDetailDialog
@@ -357,7 +363,9 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
-                                    <RightNum value={r.tagihanPokok} />
+                                    <RightNum
+                                      value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
+                                    />
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
@@ -433,7 +441,9 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={cn("px-4", cellY, numberTextClass)}>
-                              <RightNum value={r.tagihanPokok} />
+                              <RightNum
+                                value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
+                              />
                             </div>
 
                             <div className={cn("px-4", cellY, numberTextClass)}>
@@ -517,7 +527,7 @@ export default function BillingTableView2({
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum value={r.tagihanPokok} />
+                                <RightNum value={displayTagihanPokok(idx, r.tagihanPokok)} />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>

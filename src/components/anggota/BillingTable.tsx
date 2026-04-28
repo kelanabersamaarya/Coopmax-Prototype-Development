@@ -294,6 +294,12 @@ export default function BillingTable({
     );
   }
 
+  function displayTagihanPokok(rowIndex: number, raw: string) {
+    // Grace period: 2 baris pertama saat highlight grace aktif
+    if (graceCount > 0 && rowIndex < graceCount) return "0";
+    return raw;
+  }
+
   return (
     <div className={cn("mt-3", className)}>
       <PenaltyDetailDialog
@@ -374,7 +380,12 @@ export default function BillingTable({
                                     ) : null}
 
                                     <td className={tdNum}>
-                                      <NumCell value={bill.tagihanPokok} />
+                                      <NumCell
+                                        value={displayTagihanPokok(
+                                          rowIndex,
+                                          bill.tagihanPokok,
+                                        )}
+                                      />
                                     </td>
 
                                     {!hideInterestCols ? (
@@ -457,7 +468,7 @@ export default function BillingTable({
                       ) : null}
 
                       <td className={tdNum}>
-                        <NumCell value={bill.tagihanPokok} />
+                        <NumCell value={displayTagihanPokok(rowIndex, bill.tagihanPokok)} />
                       </td>
 
                       {!hideInterestCols ? (
