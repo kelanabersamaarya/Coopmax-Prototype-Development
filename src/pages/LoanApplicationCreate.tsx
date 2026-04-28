@@ -54,9 +54,6 @@ const UI = {
   sectionTitle: "text-[16px] font-semibold tracking-tight text-slate-900",
 } as const;
 
-const ACTION_BTN =
-  "h-10 rounded-xl px-5 text-sm font-semibold text-white transition";
-
 const ACTION_BTN_SM =
   "h-9 rounded-xl px-4 text-[13px] font-semibold text-white transition";
 
@@ -578,8 +575,20 @@ export default function LoanApplicationCreate() {
                   </FieldRowInline>
                 </div>
 
-                {/* Samakan style tombol dengan tab Pengaturan Jadwal + dibuat sedikit lebih kecil */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                  <Button
+                    className={cn(ACTION_BTN_SM, "bg-blue-600 hover:bg-blue-700")}
+                    onClick={() =>
+                      toast("Simulasi (prototype)", {
+                        description:
+                          "Simulasi untuk General Information belum diimplementasikan.",
+                      })
+                    }
+                  >
+                    <CalendarDays className="mr-2 h-4 w-4" />
+                    Simulasi
+                  </Button>
+
                   <Button
                     className={cn(ACTION_BTN_SM, "bg-slate-600 hover:bg-slate-700")}
                     onClick={() => navigate("/loans/applications")}
@@ -722,7 +731,6 @@ export default function LoanApplicationCreate() {
                   ) : null}
                 </div>
 
-                {/* Tab Pengaturan Jadwal: juga dibuat sedikit lebih kecil agar match tab general */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
                     className={cn(ACTION_BTN_SM, "bg-blue-600 hover:bg-blue-700")}
