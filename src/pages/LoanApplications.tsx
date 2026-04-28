@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import { Plus, ChevronUp, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type LoanApplicationStatus =
@@ -110,29 +110,62 @@ function StatusBadge({ status }: { status: LoanApplicationRow["status"] }) {
     { className: string; label: string }
   > = {
     Draft: {
-      className: "bg-slate-200 text-slate-800 hover:bg-slate-200",
+      className: "bg-slate-200 text-slate-900",
       label: "Draft",
     },
     Diajukan: {
-      className: "bg-blue-600 text-white hover:bg-blue-600",
+      className: "bg-blue-600 text-white",
       label: "Diajukan",
     },
     Ditolak: {
-      className: "bg-rose-600 text-white hover:bg-rose-600",
+      className: "bg-rose-600 text-white",
       label: "Ditolak",
     },
     "Nonaktif / Ditolak": {
-      className: "bg-rose-600 text-white hover:bg-rose-600",
+      className: "bg-rose-600 text-white",
       label: "Nonaktif / Ditolak",
     },
     Disetujui: {
-      className: "bg-emerald-600 text-white hover:bg-emerald-600",
+      className: "bg-emerald-600 text-white",
       label: "Disetujui",
     },
   };
 
   const v = map[status];
-  return <Badge className={cn("rounded-md px-3", v.className)}>{v.label}</Badge>;
+
+  return (
+    <Badge
+      className={cn(
+        "rounded-md px-2.5 py-1 text-[11px] font-bold leading-none",
+        "hover:bg-inherit",
+        v.className,
+      )}
+    >
+      {v.label}
+    </Badge>
+  );
+}
+
+function ThLabel({
+  children,
+  sortable = true,
+  className,
+}: {
+  children: React.ReactNode;
+  sortable?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex items-center justify-between gap-2", className)}>
+      <div className="leading-[1.05]">{children}</div>
+      {sortable ? (
+        <span className="inline-flex flex-col leading-none text-slate-900/80">
+          <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
+          <ChevronDown className="h-3.5 w-3.5" />
+        </span>
+      ) : null}
+    </div>
+  );
 }
 
 export default function LoanApplications() {
@@ -189,14 +222,20 @@ export default function LoanApplications() {
     return ["Semua", ...Array.from(set)];
   }, [rows]);
 
+  // padding lebih rapat seperti contoh
   const th = "px-3 py-3";
   const filterCell = "px-3 py-2";
-  const td = "px-3 py-3";
+  const td = "px-3 py-2.5";
 
-  // kolom Produk dipersempit + pakai ellipsis agar teks tidak memaksa lebar
+  // kolom Produk dipersempit + truncate
   const produkColW = "w-[170px] max-w-[170px]";
   // kolom Nama Nasabah dipersempit + truncate
   const namaColW = "w-[180px] max-w-[180px]";
+
+  const filterInputCls =
+    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+  const filterSelectTriggerCls =
+    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -226,29 +265,60 @@ export default function LoanApplications() {
         <Separator className="my-6 bg-slate-200/70" />
 
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+          <div className="mt-4 overflow-hidden rounded-xl border border-slate-300/70 bg-white">
             <div className="safe-x-scroll">
               <table className="w-full min-w-[1120px] border-collapse">
-                <thead className="bg-slate-50">
-                  <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                    <th className={cn("w-[70px]", th)}>No.</th>
-                    <th className={cn("w-[170px]", th)}>No. Rekening</th>
-                    <th className={cn("w-[160px]", th)}>Tanggal Daftar</th>
-                    <th className={cn(produkColW, th)}>Produk Pinjaman</th>
-                    <th className={cn("w-[150px]", th)}>ID. Nasabah</th>
-                    <th className={cn(namaColW, th)}>Nama Nasabah</th>
-                    <th className={cn("w-[190px] text-right", th)}>Nominal</th>
-                    <th className={cn("w-[160px]", th)}>Bunga per Tahun (%)</th>
-                    <th className={cn("w-[190px]", th)}>Status</th>
+                <thead className="bg-white">
+                  <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                    <th className={cn("w-[70px] whitespace-nowrap", th)}>
+                      <ThLabel sortable={false}>No.</ThLabel>
+                    </th>
+                    <th className={cn("w-[170px]", th)}>
+                      <ThLabel>No. Rekening</ThLabel>
+                    </th>
+                    <th className={cn("w-[160px]", th)}>
+                      <ThLabel>
+                        <span className="block">Tanggal</span>
+                        <span className="block">Daftar</span>
+                      </ThLabel>
+                    </th>
+                    <th className={cn(produkColW, th)}>
+                      <ThLabel>
+                        <span className="block">Produk</span>
+                        <span className="block">Pinjaman</span>
+                      </ThLabel>
+                    </th>
+                    <th className={cn("w-[150px]", th)}>
+                      <ThLabel>
+                        <span className="block">ID. Nasabah</span>
+                      </ThLabel>
+                    </th>
+                    <th className={cn(namaColW, th)}>
+                      <ThLabel>Nama Nasabah</ThLabel>
+                    </th>
+                    <th className={cn("w-[190px] text-right", th)}>
+                      <div className="flex items-center justify-end gap-2">
+                        <ThLabel className="justify-end">Nominal</ThLabel>
+                      </div>
+                    </th>
+                    <th className={cn("w-[160px]", th)}>
+                      <ThLabel>
+                        <span className="block">Bunga per</span>
+                        <span className="block">Tahun (%)</span>
+                      </ThLabel>
+                    </th>
+                    <th className={cn("w-[190px]", th)}>
+                      <ThLabel>Status</ThLabel>
+                    </th>
                   </tr>
 
-                  <tr className="border-t border-slate-200 bg-white">
+                  <tr className="border-b border-slate-200 bg-white">
                     <th className={filterCell} />
                     <th className={filterCell}>
                       <Input
                         value={qNoRek}
                         onChange={(e) => setQNoRek(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className={filterInputCls}
                         placeholder=""
                       />
                     </th>
@@ -256,19 +326,19 @@ export default function LoanApplications() {
                       <Input
                         value={qTanggal}
                         onChange={(e) => setQTanggal(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className={filterInputCls}
                         placeholder=""
                       />
                     </th>
                     <th className={cn(filterCell, produkColW)}>
                       <Select value={qProduk} onValueChange={setQProduk}>
-                        <SelectTrigger className="h-9 w-full rounded-xl border-slate-200 bg-white text-sm">
+                        <SelectTrigger className={cn(filterSelectTriggerCls, "w-full")}>
                           <SelectValue placeholder="-- Semua" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           {productOptions.map((p) => (
                             <SelectItem key={p} value={p}>
-                              {p === "Semua" ? "-- Semua" : p}
+                              {p === "Semua" ? "-- Semua --" : p}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -278,7 +348,7 @@ export default function LoanApplications() {
                       <Input
                         value={qIdNasabah}
                         onChange={(e) => setQIdNasabah(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className={filterInputCls}
                         placeholder=""
                       />
                     </th>
@@ -286,7 +356,7 @@ export default function LoanApplications() {
                       <Input
                         value={qNamaNasabah}
                         onChange={(e) => setQNamaNasabah(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className={filterInputCls}
                         placeholder=""
                       />
                     </th>
@@ -294,7 +364,7 @@ export default function LoanApplications() {
                       <Input
                         value={qNominal}
                         onChange={(e) => setQNominal(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right"
+                        className={cn(filterInputCls, "text-right tabular-nums")}
                         placeholder="0,00"
                         inputMode="decimal"
                       />
@@ -303,7 +373,7 @@ export default function LoanApplications() {
                       <Input
                         value={qBunga}
                         onChange={(e) => setQBunga(e.target.value)}
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className={filterInputCls}
                         placeholder=""
                         inputMode="decimal"
                       />
@@ -313,11 +383,11 @@ export default function LoanApplications() {
                         value={qStatus}
                         onValueChange={(v) => setQStatus(v as LoanApplicationStatus)}
                       >
-                        <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
-                          <SelectValue placeholder="-- Semua" />
+                        <SelectTrigger className={filterSelectTriggerCls}>
+                          <SelectValue placeholder="-- Semua --" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Semua">-- Semua</SelectItem>
+                          <SelectItem value="Semua">-- Semua --</SelectItem>
                           <SelectItem value="Draft">Draft</SelectItem>
                           <SelectItem value="Diajukan">Diajukan</SelectItem>
                           <SelectItem value="Disetujui">Disetujui</SelectItem>
@@ -343,8 +413,16 @@ export default function LoanApplications() {
                     </tr>
                   ) : (
                     filtered.map((r, idx) => (
-                      <tr key={r.id} className="border-t border-slate-100 text-sm">
-                        <td className={cn(td, "text-slate-700")}>{idx + 1}</td>
+                      <tr
+                        key={r.id}
+                        className={cn(
+                          "border-b border-slate-200 text-[13px]",
+                          idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                        )}
+                      >
+                        <td className={cn(td, "text-slate-900 tabular-nums")}>
+                          {idx + 1}
+                        </td>
 
                         <td className={td}>
                           <a
@@ -356,7 +434,7 @@ export default function LoanApplications() {
                           </a>
                         </td>
 
-                        <td className={cn(td, "text-slate-800")}>
+                        <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
                           {r.tanggalDaftar}
                         </td>
 
@@ -366,7 +444,9 @@ export default function LoanApplications() {
                           </div>
                         </td>
 
-                        <td className={cn(td, "text-slate-800")}>{r.idNasabah}</td>
+                        <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                          {r.idNasabah}
+                        </td>
 
                         <td className={cn(td, namaColW)}>
                           <div className="truncate leading-tight text-slate-900">
@@ -374,11 +454,13 @@ export default function LoanApplications() {
                           </div>
                         </td>
 
-                        <td className={cn(td, "text-right font-semibold text-slate-900")}>
+                        <td className={cn(td, "text-right font-medium text-slate-900 tabular-nums")}>
                           {r.nominal}
                         </td>
 
-                        <td className={cn(td, "text-slate-800")}>{r.bungaPerTahun}</td>
+                        <td className={cn(td, "text-slate-900 tabular-nums")}>
+                          {r.bungaPerTahun}
+                        </td>
 
                         <td className={td}>
                           <StatusBadge status={r.status} />
