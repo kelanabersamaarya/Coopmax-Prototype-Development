@@ -15,25 +15,45 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { getLoanProducts, LoanProduct } from "@/lib/loanProductsStore";
 import { cn } from "@/lib/utils";
-import { Eye, Pencil, Plus, Trash2, XCircle } from "lucide-react";
+import { Eye, Pencil, Plus, Trash2, XCircle, ChevronUp, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 
 type StatusFilter = "Semua" | "Aktif" | "Nonaktif";
 
 function deriveCode(p: LoanProduct) {
   if (p.id.startsWith("seed-")) return p.id === "seed-1" ? "100" : "99";
-  // Ambil 4 karakter pertama id sebagai pseudo-kode, dibuat uppercase agar mirip kode
   return p.id.slice(0, 4).toUpperCase();
 }
 
 function billingLabel(scheme: LoanProduct["billingScheme"]) {
-  // Menyesuaikan istilah di referensi (kurang-lebih)
   if (scheme === "Anuitas") return "Bunga Efektif";
   if (scheme === "Menurun") return "Menurun";
   return "Bunga Flat";
 }
 
-function Pagination({
+function ThLabel({
+  children,
+  sortable = true,
+  className,
+}: {
+  children: React.ReactNode;
+  sortable?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex items-center justify-between gap-2", className)}>
+      <div className="leading-[1.05]">{children}</div>
+      {sortable ? (
+        <span className="inline-flex flex-col leading-none text-slate-900/80">
+          <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
+          <ChevronDown className="h-3.5 w-3.5" />
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+function PaginationBar({
   page,
   pageCount,
   onPage,
@@ -42,76 +62,64 @@ function Pagination({
   pageCount: number;
   onPage: (p: number) => void;
 }) {
-  if (pageCount <= 1) return null;
+  if (pageCount <= 1) {
+    return (
+      <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Sebelumnya
+        </button>
+        <div className="h-10 w-10 bg-violet-600 text-[14px] font-semibold text-white grid place-items-center">
+          1
+        </div>
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Selanjutnya
+        </button>
+      </div>
+    );
+  }
 
-  const items: Array<number | "ellipsis"> = [];
-  const push = (v: number | "ellipsis") => items.push(v);
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= pageCount;
 
-  const showAround = 2;
-  const first = 1;
-  const last = pageCount;
-
-  push(first);
-
-  const left = Math.max(first + 1, page - showAround);
-  const right = Math.min(last - 1, page + showAround);
-
-  if (left > first + 1) push("ellipsis");
-  for (let i = left; i <= right; i++) push(i);
-  if (right < last - 1) push("ellipsis");
-
-  if (last !== first) push(last);
+  const btnBase =
+    "h-10 px-4 text-[14px] font-medium transition disabled:text-slate-400";
 
   return (
-    <div className="flex items-center justify-end gap-2">
-      <Button
-        variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-        disabled={page === 1}
+    <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={prevDisabled}
         onClick={() => onPage(Math.max(1, page - 1))}
       >
         Sebelumnya
-      </Button>
+      </button>
 
-      <div className="flex items-center gap-1">
-        {items.map((it, idx) => {
-          if (it === "ellipsis") {
-            return (
-              <div
-                key={`e-${idx}`}
-                className="px-2 text-sm font-semibold text-slate-400"
-              >
-                …
-              </div>
-            );
-          }
-          const active = it === page;
-          return (
-            <button
-              key={it}
-              type="button"
-              onClick={() => onPage(it)}
-              className={cn(
-                "h-9 w-9 rounded-xl text-sm font-semibold ring-1 transition",
-                active
-                  ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
-                  : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50",
-              )}
-            >
-              {it}
-            </button>
-          );
-        })}
-      </div>
+      <button
+        type="button"
+        className="h-10 w-10 bg-violet-600 text-[14px] font-semibold text-white"
+        onClick={() => onPage(page)}
+        aria-current="page"
+      >
+        {page}
+      </button>
 
-      <Button
-        variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-        disabled={page === pageCount}
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={nextDisabled}
         onClick={() => onPage(Math.min(pageCount, page + 1))}
       >
         Selanjutnya
-      </Button>
+      </button>
     </div>
   );
 }
@@ -148,7 +156,6 @@ export default function LoanProducts() {
           ? true
           : p.interestRateYearly <= maxRate;
 
-      // Prototype: semua dianggap Aktif (karena store belum punya field status)
       const rowStatus: StatusFilter = "Aktif";
       const okStatus = status === "Semua" ? true : rowStatus === status;
 
@@ -162,6 +169,10 @@ export default function LoanProducts() {
     setPage(1);
   }, [pageSize, qCode, qName, method, rateMax, status]);
 
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
   const paged = React.useMemo(() => {
     const start = (page - 1) * pageSize;
     return filtered.slice(start, start + pageSize);
@@ -170,9 +181,20 @@ export default function LoanProducts() {
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
+  const filterInputCls =
+    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+  const filterSelectTriggerCls =
+    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+
+  const pageSizeTriggerCls =
+    "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
+
+  const th = "px-3 py-3";
+  const filterCell = "px-3 py-2";
+  const td = "px-3 py-2.5";
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      {/* Full-width agar konsisten dengan halaman lain (lebih mepet sidebar & melebar ke kanan) */}
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
@@ -198,111 +220,128 @@ export default function LoanProducts() {
         <Separator className="my-6 bg-slate-200/70" />
 
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-2">
-              <Label className="text-xs text-slate-600">Tampilkan</Label>
-              <Select
-                value={String(pageSize)}
-                onValueChange={(v) => setPageSize(Number(v))}
-              >
-                <SelectTrigger className="h-9 w-[90px] rounded-xl border-slate-200 bg-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl border-slate-200">
-                  {[10, 20, 50, 100].map((n) => (
-                    <SelectItem key={n} value={String(n)}>
-                      {n}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="text-xs text-slate-600">Entri</div>
-            </div>
-
-            <div className="sr-only">
-              <Button
-                variant="outline"
-                className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
-                onClick={() => {
-                  setQCode("");
-                  setQName("");
-                  setMethod("Semua");
-                  setRateMax("");
-                  setStatus("Semua");
-                  toast("Filter direset", {
-                    description: "Semua filter kembali ke default.",
-                  });
-                }}
-              >
-                <XCircle className="mr-2 h-4 w-4" />
-                Reset
-              </Button>
-            </div>
+          {/* TOP CONTROL (seperti Daftar Pengajuan Pinjaman) */}
+          <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
+            <span>Tampilkan</span>
+            <Select
+              value={String(pageSize)}
+              onValueChange={(v) => setPageSize(Number(v))}
+            >
+              <SelectTrigger className={pageSizeTriggerCls}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-slate-200">
+                {[10, 20, 50, 100].map((n) => (
+                  <SelectItem key={n} value={String(n)}>
+                    {n}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span>entri</span>
           </div>
 
-          <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+          <div className="sr-only">
+            <Button
+              variant="outline"
+              className="h-9 rounded-xl border-slate-200 bg-white px-3 text-slate-700 hover:bg-slate-50"
+              onClick={() => {
+                setQCode("");
+                setQName("");
+                setMethod("Semua");
+                setRateMax("");
+                setStatus("Semua");
+                toast("Filter direset", {
+                  description: "Semua filter kembali ke default.",
+                });
+              }}
+            >
+              <XCircle className="mr-2 h-4 w-4" />
+              Reset
+            </Button>
+          </div>
+
+          {/* TABLE (tanpa border luar) */}
+          <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
               <table className="w-full min-w-[980px] border-collapse">
-                <thead className="bg-slate-50">
-                  <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                    <th className="w-[70px] px-4 py-3">No.</th>
-                    <th className="w-[120px] px-4 py-3">Kode</th>
-                    <th className="min-w-[260px] px-4 py-3">Pinjaman</th>
-                    <th className="w-[210px] px-4 py-3">Metode Perhitungan</th>
-                    <th className="w-[170px] px-4 py-3">Bunga per Tahun (%)</th>
-                    <th className="w-[120px] px-4 py-3">Status</th>
-                    <th className="w-[170px] px-4 py-3">Aksi</th>
+                <thead className="bg-white">
+                  <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                    <th className={cn("w-[70px] whitespace-nowrap", th)}>
+                      <ThLabel sortable={false}>No.</ThLabel>
+                    </th>
+                    <th className={cn("w-[120px]", th)}>
+                      <ThLabel>Kode</ThLabel>
+                    </th>
+                    <th className={cn("min-w-[260px]", th)}>
+                      <ThLabel>Pinjaman</ThLabel>
+                    </th>
+                    <th className={cn("w-[210px]", th)}>
+                      <ThLabel>
+                        <span className="block">Metode</span>
+                        <span className="block">Perhitungan</span>
+                      </ThLabel>
+                    </th>
+                    <th className={cn("w-[170px]", th)}>
+                      <ThLabel>
+                        <span className="block">Bunga per</span>
+                        <span className="block">Tahun (%)</span>
+                      </ThLabel>
+                    </th>
+                    <th className={cn("w-[120px]", th)}>
+                      <ThLabel>Status</ThLabel>
+                    </th>
+                    <th className={cn("w-[170px]", th)}>
+                      <ThLabel sortable={false}>Aksi</ThLabel>
+                    </th>
                   </tr>
-                  <tr className="border-t border-slate-200 bg-white">
-                    <th className="px-4 py-2" />
-                    <th className="px-4 py-2">
+
+                  <tr className="border-b border-slate-200 bg-white">
+                    <th className={filterCell} />
+                    <th className={filterCell}>
                       <Input
                         value={qCode}
                         onChange={(e) => setQCode(e.target.value)}
                         placeholder=""
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className={filterInputCls}
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Input
                         value={qName}
                         onChange={(e) => setQName(e.target.value)}
                         placeholder=""
-                        className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                        className={filterInputCls}
                       />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Select value={method} onValueChange={setMethod}>
-                        <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
+                        <SelectTrigger className={filterSelectTriggerCls}>
                           <SelectValue placeholder="Semua" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="Semua">Semua</SelectItem>
-                          <SelectItem value="Bunga Efektif">
-                            Bunga Efektif
-                          </SelectItem>
+                          <SelectItem value="Bunga Efektif">Bunga Efektif</SelectItem>
                           <SelectItem value="Bunga Flat">Bunga Flat</SelectItem>
                           <SelectItem value="Menurun">Menurun</SelectItem>
                         </SelectContent>
                       </Select>
                     </th>
-                    <th className="px-4 py-2">
-                      <div className="flex items-center gap-2">
-                        <Input
-                          value={rateMax}
-                          onChange={(e) => setRateMax(e.target.value)}
-                          inputMode="decimal"
-                          placeholder="0%"
-                          className="h-9 rounded-xl border-slate-200 bg-white text-sm"
-                        />
-                      </div>
+                    <th className={filterCell}>
+                      <Input
+                        value={rateMax}
+                        onChange={(e) => setRateMax(e.target.value)}
+                        inputMode="decimal"
+                        placeholder="0%"
+                        className={filterInputCls}
+                      />
                     </th>
-                    <th className="px-4 py-2">
+                    <th className={filterCell}>
                       <Select
                         value={status}
                         onValueChange={(v) => setStatus(v as StatusFilter)}
                       >
-                        <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
+                        <SelectTrigger className={filterSelectTriggerCls}>
                           <SelectValue placeholder="Semua" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -312,7 +351,7 @@ export default function LoanProducts() {
                         </SelectContent>
                       </Select>
                     </th>
-                    <th className="px-4 py-2" />
+                    <th className={filterCell} />
                   </tr>
                 </thead>
 
@@ -331,32 +370,38 @@ export default function LoanProducts() {
                       const no = (page - 1) * pageSize + idx + 1;
                       const code = deriveCode(p);
                       const methodLabel = billingLabel(p.billingScheme);
+
                       return (
                         <tr
                           key={p.id}
-                          className="border-t border-slate-100 text-sm text-slate-800"
+                          className={cn(
+                            "border-b border-slate-200 text-[13px]",
+                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                          )}
                         >
-                          <td className="px-4 py-3 text-slate-700">{no}</td>
-                          <td className="px-4 py-3 font-medium text-slate-900">
+                          <td className={cn(td, "text-slate-900 tabular-nums")}>{no}</td>
+
+                          <td className={cn(td, "font-medium text-slate-900")}>
                             {code}
                           </td>
-                          <td className="px-4 py-3">
-                            <div className="font-medium text-slate-900">
-                              {p.name}
-                            </div>
+
+                          <td className={td}>
+                            <div className="font-medium text-slate-900">{p.name}</div>
                           </td>
-                          <td className="px-4 py-3 text-slate-700">
-                            {methodLabel}
-                          </td>
-                          <td className="px-4 py-3 text-slate-700">
+
+                          <td className={cn(td, "text-slate-900")}>{methodLabel}</td>
+
+                          <td className={cn(td, "text-slate-900 tabular-nums")}>
                             {p.interestRateYearly.toFixed(2)}%
                           </td>
-                          <td className="px-4 py-3">
-                            <Badge className="rounded-full bg-emerald-500 px-3 text-white hover:bg-emerald-500">
+
+                          <td className={td}>
+                            <Badge className="rounded-md bg-emerald-600 px-2.5 py-1 text-[11px] font-bold leading-none text-white hover:bg-emerald-600">
                               Aktif
                             </Badge>
                           </td>
-                          <td className="px-4 py-3">
+
+                          <td className={td}>
                             <div className="flex items-center gap-2">
                               <button
                                 type="button"
@@ -419,12 +464,15 @@ export default function LoanProducts() {
           </div>
 
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="text-xs text-slate-600">
-              Menampilkan {showingStart} sampai {showingEnd} dari{" "}
-              {filtered.length} entri
+            <div className="text-[14px] text-slate-900">
+              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length}{" "}
+              entri{" "}
+              <span className="text-slate-600">
+                (disaring dari {products.length} entri keseluruhan)
+              </span>
             </div>
 
-            <Pagination page={page} pageCount={pageCount} onPage={setPage} />
+            <PaginationBar page={page} pageCount={pageCount} onPage={setPage} />
           </div>
         </Card>
       </div>

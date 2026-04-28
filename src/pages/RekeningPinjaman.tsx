@@ -14,6 +14,7 @@ import {
 import { toast } from "sonner";
 import LoanAccountDetailHeader from "@/components/loans/LoanAccountDetailHeader";
 import LoanAccountDetailSections from "@/components/loans/LoanAccountDetailSections";
+import { ChevronUp, ChevronDown } from "lucide-react";
 
 type StatusFilter = "Semua" | "Aktif / Sudah Dicairkan" | "Lunas" | "Macet";
 
@@ -97,7 +98,8 @@ function StatusBadge({ status }: { status: Row["status"] }) {
   return (
     <Badge
       className={cn(
-        "whitespace-nowrap rounded-md px-2.5 py-1 text-[12px]",
+        "whitespace-nowrap rounded-md px-2.5 py-1 text-[11px] font-bold leading-none",
+        "hover:bg-inherit",
         v.className,
       )}
     >
@@ -106,10 +108,104 @@ function StatusBadge({ status }: { status: Row["status"] }) {
   );
 }
 
+function ThLabel({
+  children,
+  sortable = true,
+  className,
+}: {
+  children: React.ReactNode;
+  sortable?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex items-center justify-between gap-2", className)}>
+      <div className="leading-[1.05]">{children}</div>
+      {sortable ? (
+        <span className="inline-flex flex-col leading-none text-slate-900/80">
+          <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
+          <ChevronDown className="h-3.5 w-3.5" />
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+function PaginationBar({
+  page,
+  pageCount,
+  onPage,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (p: number) => void;
+}) {
+  if (pageCount <= 1) {
+    return (
+      <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Sebelumnya
+        </button>
+        <div className="grid h-10 w-10 place-items-center bg-violet-600 text-[14px] font-semibold text-white">
+          1
+        </div>
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Selanjutnya
+        </button>
+      </div>
+    );
+  }
+
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= pageCount;
+
+  const btnBase =
+    "h-10 px-4 text-[14px] font-medium transition disabled:text-slate-400";
+
+  return (
+    <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={prevDisabled}
+        onClick={() => onPage(Math.max(1, page - 1))}
+      >
+        Sebelumnya
+      </button>
+
+      <button
+        type="button"
+        className="h-10 w-10 bg-violet-600 text-[14px] font-semibold text-white"
+        onClick={() => onPage(page)}
+        aria-current="page"
+      >
+        {page}
+      </button>
+
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={nextDisabled}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+      >
+        Selanjutnya
+      </button>
+    </div>
+  );
+}
+
 export default function RekeningPinjaman() {
   const rows = React.useMemo(() => seed, []);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
+  const [page, setPage] = React.useState<number>(1);
 
   const [qNoRek, setQNoRek] = React.useState("");
   const [qTanggal, setQTanggal] = React.useState("");
@@ -178,16 +274,37 @@ export default function RekeningPinjaman() {
     rows,
   ]);
 
-  const paged = React.useMemo(
-    () => filtered.slice(0, pageSize),
-    [filtered, pageSize],
-  );
+  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
 
-  const th = "px-2 py-2.5";
-  const td = "px-2 py-3";
-  const filterCell = "px-2 py-2";
+  React.useEffect(() => {
+    setPage(1);
+  }, [pageSize, qNoRek, qTanggal, qProduk, qIdNasabah, qNamaNasabah, qNominal, qSisa, qBunga, qStatus]);
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  const paged = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, page, pageSize]);
+
+  const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(filtered.length, page * pageSize);
 
   const isDetail = !!selectedAccountNo;
+
+  const filterInputCls =
+    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+  const filterSelectTriggerCls =
+    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+
+  const pageSizeTriggerCls =
+    "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
+
+  const th = "px-3 py-3";
+  const filterCell = "px-3 py-2";
+  const td = "px-3 py-2.5";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -224,58 +341,87 @@ export default function RekeningPinjaman() {
             <Separator className="my-6 bg-slate-200/70" />
 
             <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="text-sm text-slate-700">Tampilkan</div>
-                  <Select
-                    value={String(pageSize)}
-                    onValueChange={(v) => setPageSize(Number(v))}
-                  >
-                    <SelectTrigger className="h-9 w-[92px] rounded-xl border-slate-200 bg-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      {[10, 20, 50, 100].map((n) => (
-                        <SelectItem key={n} value={String(n)}>
-                          {n}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <div className="text-sm text-slate-700">entri</div>
-                </div>
+              {/* TOP CONTROL (seperti Daftar Pengajuan Pinjaman) */}
+              <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
+                <span>Tampilkan</span>
+                <Select
+                  value={String(pageSize)}
+                  onValueChange={(v) => setPageSize(Number(v))}
+                >
+                  <SelectTrigger className={pageSizeTriggerCls}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-slate-200">
+                    {[10, 20, 50, 100].map((n) => (
+                      <SelectItem key={n} value={String(n)}>
+                        {n}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <span>entri</span>
               </div>
 
-              <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+              {/* TABLE (tanpa border luar) */}
+              <div className="overflow-hidden bg-white">
                 <div className="safe-x-scroll">
-                  <table className="w-full min-w-[1080px] border-collapse">
-                    <thead className="bg-slate-50">
-                      <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                        <th className={cn("w-[64px] whitespace-nowrap", th)}>
-                          No.
+                  <table className="w-full min-w-[1200px] border-collapse">
+                    <thead className="bg-white">
+                      <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className={cn("w-[70px] whitespace-nowrap", th)}>
+                          <ThLabel sortable={false}>No.</ThLabel>
                         </th>
-                        <th className={cn("w-[140px]", th)}>No. Rekening</th>
-                        <th className={cn("w-[140px]", th)}>Tanggal Daftar</th>
-                        <th className={cn("w-[180px]", th)}>Produk Pinjaman</th>
-                        <th className={cn("w-[140px]", th)}>ID. Nasabah</th>
-                        <th className={cn("w-[170px]", th)}>Nama Nasabah</th>
-                        <th className={cn("w-[170px] text-right", th)}>
-                          Nominal
+                        <th className={cn("w-[170px]", th)}>
+                          <ThLabel>No. Rekening</ThLabel>
                         </th>
-                        <th className={cn("w-[170px] text-right", th)}>
-                          Sisa Pinjaman
+                        <th className={cn("w-[160px]", th)}>
+                          <ThLabel>
+                            <span className="block">Tanggal</span>
+                            <span className="block">Daftar</span>
+                          </ThLabel>
                         </th>
-                        <th className={cn("w-[150px]", th)}>Bunga / Tahun</th>
-                        <th className={cn("w-[190px]", th)}>Status</th>
+                        <th className={cn("w-[190px]", th)}>
+                          <ThLabel>
+                            <span className="block">Produk</span>
+                            <span className="block">Pinjaman</span>
+                          </ThLabel>
+                        </th>
+                        <th className={cn("w-[150px]", th)}>
+                          <ThLabel>
+                            <span className="block">ID. Nasabah</span>
+                          </ThLabel>
+                        </th>
+                        <th className={cn("w-[190px]", th)}>
+                          <ThLabel>Nama Nasabah</ThLabel>
+                        </th>
+                        <th className={cn("w-[190px] text-right", th)}>
+                          <div className="flex items-center justify-end gap-2">
+                            <ThLabel className="justify-end">Nominal</ThLabel>
+                          </div>
+                        </th>
+                        <th className={cn("w-[190px] text-right", th)}>
+                          <div className="flex items-center justify-end gap-2">
+                            <ThLabel className="justify-end">Sisa Pinjaman</ThLabel>
+                          </div>
+                        </th>
+                        <th className={cn("w-[160px]", th)}>
+                          <ThLabel>
+                            <span className="block">Bunga per</span>
+                            <span className="block">Tahun (%)</span>
+                          </ThLabel>
+                        </th>
+                        <th className={cn("w-[220px]", th)}>
+                          <ThLabel>Status</ThLabel>
+                        </th>
                       </tr>
 
-                      <tr className="border-t border-slate-200 bg-white">
+                      <tr className="border-b border-slate-200 bg-white">
                         <th className={filterCell} />
                         <th className={filterCell}>
                           <Input
                             value={qNoRek}
                             onChange={(e) => setQNoRek(e.target.value)}
-                            className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                            className={filterInputCls}
                             placeholder=""
                           />
                         </th>
@@ -283,13 +429,13 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qTanggal}
                             onChange={(e) => setQTanggal(e.target.value)}
-                            className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                            className={filterInputCls}
                             placeholder=""
                           />
                         </th>
                         <th className={filterCell}>
                           <Select value={qProduk} onValueChange={setQProduk}>
-                            <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
+                            <SelectTrigger className={filterSelectTriggerCls}>
                               <SelectValue placeholder="-- Semua --" />
                             </SelectTrigger>
                             <SelectContent className="rounded-xl border-slate-200">
@@ -305,7 +451,7 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qIdNasabah}
                             onChange={(e) => setQIdNasabah(e.target.value)}
-                            className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                            className={filterInputCls}
                             placeholder=""
                           />
                         </th>
@@ -313,7 +459,7 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qNamaNasabah}
                             onChange={(e) => setQNamaNasabah(e.target.value)}
-                            className="h-9 rounded-xl border-slate-200 bg-white text-sm"
+                            className={filterInputCls}
                             placeholder=""
                           />
                         </th>
@@ -321,7 +467,7 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qNominal}
                             onChange={(e) => setQNominal(e.target.value)}
-                            className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right tabular-nums"
+                            className={cn(filterInputCls, "text-right tabular-nums")}
                             placeholder="0,00"
                             inputMode="decimal"
                           />
@@ -330,7 +476,7 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qSisa}
                             onChange={(e) => setQSisa(e.target.value)}
-                            className="h-9 rounded-xl border-slate-200 bg-white text-sm text-right tabular-nums"
+                            className={cn(filterInputCls, "text-right tabular-nums")}
                             placeholder="0,00"
                             inputMode="decimal"
                           />
@@ -339,7 +485,7 @@ export default function RekeningPinjaman() {
                           <Input
                             value={qBunga}
                             onChange={(e) => setQBunga(e.target.value)}
-                            className="h-9 rounded-xl border-slate-200 bg-white text-sm tabular-nums"
+                            className={filterInputCls}
                             placeholder=""
                             inputMode="decimal"
                           />
@@ -349,7 +495,7 @@ export default function RekeningPinjaman() {
                             value={qStatus}
                             onValueChange={(v) => setQStatus(v as StatusFilter)}
                           >
-                            <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
+                            <SelectTrigger className={filterSelectTriggerCls}>
                               <SelectValue placeholder="-- Semua --" />
                             </SelectTrigger>
                             <SelectContent className="rounded-xl border-slate-200">
@@ -379,13 +525,16 @@ export default function RekeningPinjaman() {
                         paged.map((r, idx) => (
                           <tr
                             key={r.id}
-                            className="border-t border-slate-100 text-sm align-top"
+                            className={cn(
+                              "border-b border-slate-200 text-[13px]",
+                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                            )}
                           >
-                            <td className={cn(td, "text-slate-700 tabular-nums")}>
-                              {idx + 1}
+                            <td className={cn(td, "text-slate-900 tabular-nums")}>
+                              {(page - 1) * pageSize + idx + 1}
                             </td>
 
-                            <td className={cn(td, "whitespace-nowrap")}>
+                            <td className={td}>
                               <button
                                 type="button"
                                 onClick={() => setSelectedAccountNo(r.noRekening)}
@@ -399,7 +548,7 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "whitespace-nowrap text-slate-800 tabular-nums",
+                                "text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.tanggalDaftar}
@@ -412,7 +561,7 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "whitespace-nowrap text-slate-800 tabular-nums",
+                                "text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.idNasabah}
@@ -425,7 +574,7 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums",
+                                "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.nominal}
@@ -434,7 +583,7 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "whitespace-nowrap text-right font-semibold text-slate-900 tabular-nums",
+                                "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.sisaPinjaman}
@@ -443,13 +592,13 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "whitespace-nowrap text-slate-800 tabular-nums",
+                                "text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.bungaPerTahun}
                             </td>
 
-                            <td className={cn(td, "whitespace-nowrap")}>
+                            <td className={td}>
                               <StatusBadge status={r.status} />
                             </td>
                           </tr>
@@ -460,8 +609,16 @@ export default function RekeningPinjaman() {
                 </div>
               </div>
 
-              <div className="mt-4 text-xs text-slate-600">
-                Menampilkan 1 sampai {paged.length} dari {filtered.length} entri
+              <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="text-[14px] text-slate-900">
+                  Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length}{" "}
+                  entri{" "}
+                  <span className="text-slate-600">
+                    (disaring dari {rows.length} entri keseluruhan)
+                  </span>
+                </div>
+
+                <PaginationBar page={page} pageCount={pageCount} onPage={setPage} />
               </div>
             </Card>
           </div>
