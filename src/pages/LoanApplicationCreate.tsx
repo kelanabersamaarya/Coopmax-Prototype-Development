@@ -694,6 +694,9 @@ export default function LoanApplicationCreate() {
                   </div>
                 </div>
 
+                {/* Divider pemisah section */}
+                <Separator className="bg-slate-200/70" />
+
                 <div className="space-y-4">
                   <div className="flex items-center justify-between gap-4">
                     <div className={UI.sectionTitle}>Jadwal Denda</div>
