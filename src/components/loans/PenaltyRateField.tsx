@@ -52,13 +52,15 @@ export default function PenaltyRateField({
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
-        <div className="flex w-[72px] shrink-0 items-center gap-2">
+        <div className="flex w-[64px] shrink-0 items-center gap-2">
           <Select
             value={mode}
             onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
           >
-            <SelectTrigger className="h-11 w-full rounded-2xl border-slate-200 bg-white px-2">
-              <SelectValue />
+            <SelectTrigger className="h-11 w-full min-w-0 rounded-2xl border-slate-200 bg-white px-2 pr-7">
+              <span className="block min-w-0 truncate">
+                <SelectValue />
+              </span>
             </SelectTrigger>
             <SelectContent className="rounded-2xl border-slate-200">
               <SelectItem value="rp">Rp.</SelectItem>
