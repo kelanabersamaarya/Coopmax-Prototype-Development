@@ -318,6 +318,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
 
+  const alignNumbersForPenurunan =
+    isPenurunanBakiDebet
+      ? [
+          // ensure digits are tabular and use same numeric font for ALL number cells
+          // (in BillingTable v1, numeric cells typically contain these classes)
+          "[&_.num-sans-tabular]:font-variant-numeric:tabular-nums",
+          "[&_.tabular-nums]:font-variant-numeric:tabular-nums",
+          // enforce numeric font + tabular feature in all tds except the date column
+          // table structure: [date] then several numeric columns; we target td:not(:first-child)
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:num-sans-tabular",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:tabular-nums",
+          // consistent right padding so separators align visually
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:pr-6",
+          // keep left column date aligned left
+          "[&_.billing-table-compact_tbody_td:first-child]:text-left",
+          // make sure numbers are strictly right-aligned
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:text-right",
+        ].join(" ")
+      : "";
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -433,7 +453,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
 
                   // --- Penalty: show only first 3 bill rows, rest empty (NO '-' / NO icon)
-                  // BillingTableView2: penalty is the LAST column. Blank it for rows >= 4.
                   showPenaltyColumnInTable
                     ? [
                         `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child]:text-transparent`,
@@ -446,6 +465,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   showPenaltyColumnInTable
                     ? `[&_.billing-table-compact_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`
                     : "",
+
+                  // Penurunan baki debet: rapikan alignment angka
+                  alignNumbersForPenurunan,
                 )}
               >
                 {useView2Style ? (
