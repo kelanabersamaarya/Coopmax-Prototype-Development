@@ -868,6 +868,72 @@ export default function LoanProductEdit() {
 
             <div className="text-base font-semibold text-slate-900">
               <span className="inline-flex items-center">
+                Konfigurasi Denda
+                <FieldTooltip content="Atur metode, dasar perhitungan, dan parameter keterlambatan untuk denda pinjaman." />
+              </span>
+            </div>
+
+            <div className={"mt-4 grid " + UI.gapY}>
+              <FieldRow label="Metode Denda">
+                <PenaltyRateField
+                  mode={tarifDendaMode}
+                  onModeChange={setTarifDendaMode}
+                  value={tarifDendaValue}
+                  onValueChange={setTarifDendaValue}
+                  size="compact"
+                  className={UI.radius}
+                />
+              </FieldRow>
+
+              <FieldRow label="Dasar Perhitungan">
+                <Select
+                  value={dasarPerhitungan}
+                  onValueChange={(v) =>
+                    setDasarPerhitungan(v as PenaltyBase)
+                  }
+                >
+                  <SelectTrigger
+                    className={
+                      "h-[30px] " +
+                      UI.radius +
+                      " border-slate-200 bg-white " +
+                      UI.fieldText
+                    }
+                  >
+                    <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-[10px] border-slate-200">
+                    <SelectItem value="Pilih Dasar Perhitungan">
+                      Pilih Dasar Perhitungan
+                    </SelectItem>
+                    <SelectItem value="Pokok">Pokok</SelectItem>
+                    <SelectItem value="Bunga">Bunga</SelectItem>
+                    <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                    <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="Jumlah Hari Keterlambatan">
+                <Input
+                  value={hariKeterlambatan}
+                  onChange={(e) => setHariKeterlambatan(e.target.value)}
+                  className={
+                    "h-[30px] " +
+                    UI.radius +
+                    " border-slate-200 bg-white " +
+                    UI.fieldText
+                  }
+                  placeholder="Masukkan Jumlah Hari"
+                  inputMode="numeric"
+                />
+              </FieldRow>
+            </div>
+
+            <Separator className="my-6 bg-slate-200/70" />
+
+            <div className="text-base font-semibold text-slate-900">
+              <span className="inline-flex items-center">
                 Konfigurasi Tagihan Angsuran
                 <FieldTooltip content={TT.konfigurasiTagihanAngsuran} />
               </span>
@@ -942,60 +1008,6 @@ export default function LoanProductEdit() {
                       })}
                     </RadioGroup>
                   </div>
-
-                  <FieldRow label="Metode Denda">
-                    <PenaltyRateField
-                      mode={tarifDendaMode}
-                      onModeChange={setTarifDendaMode}
-                      value={tarifDendaValue}
-                      onValueChange={setTarifDendaValue}
-                      className={UI.radius}
-                    />
-                  </FieldRow>
-
-                  <FieldRow label="Dasar Perhitungan">
-                    <Select
-                      value={dasarPerhitungan}
-                      onValueChange={(v) =>
-                        setDasarPerhitungan(v as PenaltyBase)
-                      }
-                    >
-                      <SelectTrigger
-                        className={
-                          "h-[30px] " +
-                          UI.radius +
-                          " border-slate-200 bg-white " +
-                          UI.fieldText
-                        }
-                      >
-                        <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-[10px] border-slate-200">
-                        <SelectItem value="Pilih Dasar Perhitungan">
-                          Pilih Dasar Perhitungan
-                        </SelectItem>
-                        <SelectItem value="Pokok">Pokok</SelectItem>
-                        <SelectItem value="Bunga">Bunga</SelectItem>
-                        <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                        <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FieldRow>
-
-                  <FieldRow label="Jumlah Hari Keterlambatan">
-                    <Input
-                      value={hariKeterlambatan}
-                      onChange={(e) => setHariKeterlambatan(e.target.value)}
-                      className={
-                        "h-[30px] " +
-                        UI.radius +
-                        " border-slate-200 bg-white " +
-                        UI.fieldText
-                      }
-                      placeholder="Masukkan Jumlah Hari"
-                      inputMode="numeric"
-                    />
-                  </FieldRow>
 
                   <div className={"grid " + UI.gapY}>
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
