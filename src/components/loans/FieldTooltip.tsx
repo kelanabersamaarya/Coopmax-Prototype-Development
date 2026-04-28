@@ -43,7 +43,7 @@ export default function FieldTooltip({
         align="start"
         className={cn(
           "max-w-[360px] rounded-2xl border-slate-200 bg-white px-4 py-3",
-          "text-[13px] leading-relaxed text-slate-800 shadow-xl",
+          "text-[13px] font-normal leading-relaxed text-slate-800 shadow-xl",
         )}
       >
         {content}
