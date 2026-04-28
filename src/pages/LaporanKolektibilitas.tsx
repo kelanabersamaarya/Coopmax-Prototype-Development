@@ -87,7 +87,7 @@ function ActionPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 items-center gap-2 rounded-full bg-white px-4 text-[12.5px] font-semibold text-slate-700",
+        "inline-flex h-9 items-center gap-2 rounded-[5px] bg-white px-4 text-[12.5px] font-semibold text-slate-700",
         "ring-1 ring-slate-200 shadow-sm transition hover:bg-slate-50",
       )}
     >
