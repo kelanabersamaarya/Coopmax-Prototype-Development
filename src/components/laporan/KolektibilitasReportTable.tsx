@@ -82,7 +82,7 @@ function Td({
       title={title}
       className={cn(
         "border border-slate-200/70 px-3 py-2.5 align-top",
-        "text-[14px] font-normal text-slate-900",
+        "text-[12px] font-normal text-slate-900",
         align === "center"
           ? "text-center"
           : align === "right"
@@ -112,7 +112,7 @@ function PaginationLikeExample({
 
   const navBtn = (disabled: boolean) =>
     cn(
-      "h-10 px-4 text-sm font-semibold",
+      "h-10 px-4 text-[12px] font-semibold",
       "bg-slate-100 text-slate-400",
       disabled ? "opacity-70" : "text-slate-600 hover:bg-slate-200",
     );
@@ -128,7 +128,7 @@ function PaginationLikeExample({
         Sebelumnya
       </button>
 
-      <div className="inline-flex h-10 min-w-10 items-center justify-center bg-violet-600 px-4 text-sm font-extrabold text-white">
+      <div className="inline-flex h-10 min-w-10 items-center justify-center bg-violet-600 px-4 text-[12px] font-extrabold text-white">
         {page}
       </div>
 
@@ -247,9 +247,9 @@ export default function KolektibilitasReportTable({
   }, [paged]);
 
   const totalRowText =
-    "border border-slate-200/70 px-3 py-3 text-[14px] font-extrabold text-slate-900";
+    "border border-slate-200/70 px-3 py-3 text-[12px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border border-slate-200/70 px-3 py-3 text-right text-[14px] font-extrabold tabular-nums text-slate-900";
+    "border border-slate-200/70 px-3 py-3 text-right text-[12px] font-extrabold tabular-nums text-slate-900";
 
   function TotalRow({ label }: { label: string }) {
     return (
@@ -424,7 +424,7 @@ export default function KolektibilitasReportTable({
                 <tr>
                   <td
                     colSpan={TOTAL_COLS}
-                    className="px-4 py-10 text-center text-sm text-slate-600"
+                    className="px-4 py-10 text-center text-[12px] text-slate-600"
                   >
                     Tidak ada data laporan.
                   </td>
@@ -582,7 +582,7 @@ export default function KolektibilitasReportTable({
         </div>
 
         <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="text-sm text-slate-700">
+          <div className="text-[12px] text-slate-700">
             Menampilkan {showingStart} sampai {showingEnd} dari{" "}
             {totalEntriesResolved} entri
           </div>
