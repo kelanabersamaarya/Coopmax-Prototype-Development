@@ -51,6 +51,7 @@ const UI = {
   input: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
   selectTrigger: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
   btn: "h-[30px] rounded-[5px] text-[12.5px]",
+  sectionTitle: "text-[16px] font-semibold tracking-tight text-slate-900",
 } as const;
 
 function FieldRowInline({
@@ -568,8 +569,6 @@ export default function LoanApplicationCreate() {
                   </FieldRowInline>
                 </div>
 
-                {/* Divider DIHAPUS sesuai permintaan */}
-
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
                     variant="outline"
@@ -602,17 +601,15 @@ export default function LoanApplicationCreate() {
             ) : tab === "jadwal" ? (
               <div className="grid gap-10">
                 <div className="space-y-5">
-                  <div className="text-2xl font-semibold tracking-tight text-slate-900">
-                    Jadwal Perhitungan Bunga
-                  </div>
+                  <div className={UI.sectionTitle}>Jadwal Perhitungan Bunga</div>
 
-                  <div className="grid w-full max-w-none gap-4">
+                  <div className={cn("grid w-full max-w-none", UI.gapY)}>
                     <FieldRowInline label="Jenis Perhitungan Bunga" required>
                       <Select
                         value={jenisPerhitunganBunga}
                         onValueChange={setJenisPerhitunganBunga}
                       >
-                        <SelectTrigger className="h-11 w-full rounded-xl border-slate-200 bg-white">
+                        <SelectTrigger className={cn("w-full px-3", UI.selectTrigger)}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -632,7 +629,12 @@ export default function LoanApplicationCreate() {
                         value={metodePerhitunganBunga}
                         onValueChange={setMetodePerhitunganBunga}
                       >
-                        <SelectTrigger className="h-11 w-full rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
+                        <SelectTrigger
+                          className={cn(
+                            "w-full px-3 bg-slate-200/70 text-slate-800",
+                            UI.selectTrigger,
+                          )}
+                        >
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -644,11 +646,13 @@ export default function LoanApplicationCreate() {
                     </FieldRowInline>
 
                     <FieldRowInline label="Frekuensi Bunga" required>
-                      <Select
-                        value={frekuensiBunga}
-                        onValueChange={setFrekuensiBunga}
-                      >
-                        <SelectTrigger className="h-11 w-full rounded-xl border-slate-200 bg-slate-200/70 text-slate-800">
+                      <Select value={frekuensiBunga} onValueChange={setFrekuensiBunga}>
+                        <SelectTrigger
+                          className={cn(
+                            "w-full px-3 bg-slate-200/70 text-slate-800",
+                            UI.selectTrigger,
+                          )}
+                        >
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -663,7 +667,7 @@ export default function LoanApplicationCreate() {
                       <Input
                         value={periode}
                         onChange={(e) => setPeriode(e.target.value)}
-                        className="h-11 w-full rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                        className={cn(UI.input, "bg-slate-200/70 text-slate-800")}
                         placeholder=""
                       />
                     </FieldRowInline>
@@ -673,7 +677,7 @@ export default function LoanApplicationCreate() {
                         <Input
                           value={tanggalTagihanKe1}
                           onChange={(e) => setTanggalTagihanKe1(e.target.value)}
-                          className="h-11 w-full rounded-xl border-slate-200 bg-white pr-11"
+                          className={cn(UI.input, "pr-11")}
                         />
                         <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       </div>
@@ -683,12 +687,13 @@ export default function LoanApplicationCreate() {
 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between gap-4">
-                    <div className="text-2xl font-semibold tracking-tight text-slate-900">
-                      Jadwal Denda
-                    </div>
+                    <div className={UI.sectionTitle}>Jadwal Denda</div>
 
                     <Button
-                      className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
+                      className={cn(
+                        UI.btn,
+                        "bg-blue-600 px-4 text-white hover:bg-blue-700",
+                      )}
                       onClick={() => {
                         setPenaltyVisible(true);
                         toast("Tambah Denda (prototype)", {
@@ -702,22 +707,26 @@ export default function LoanApplicationCreate() {
                   </div>
 
                   {penaltyVisible ? (
-                    <PenaltyScheduleForm
-                      value={penaltyDraft}
-                      onChange={setPenaltyDraft}
-                      onDelete={() => {
-                        setPenaltyVisible(false);
-                        toast("Denda dihapus (prototype)", {
-                          description: "Form denda ditutup.",
-                        });
-                      }}
-                    />
+                    <div className="[&_.rounded-xl]:rounded-[5px] [&_.rounded-2xl]:rounded-[5px] [&_.rounded-3xl]:rounded-[5px] [&_.h-11]:h-[30px] [&_.h-10]:h-[30px] [&_.h-9]:h-[30px] [&_.mt-4]:mt-[15px]">
+                      <PenaltyScheduleForm
+                        value={penaltyDraft}
+                        onChange={setPenaltyDraft}
+                        onDelete={() => {
+                          setPenaltyVisible(false);
+                          toast("Denda dihapus (prototype)", {
+                            description: "Form denda ditutup.",
+                          });
+                        }}
+                      />
+                    </div>
                   ) : null}
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
-                    className="h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700"
+                    className={cn(
+                      "h-11 rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700",
+                    )}
                     onClick={() =>
                       toast("Simulasi (prototype)", {
                         description:
@@ -730,14 +739,18 @@ export default function LoanApplicationCreate() {
                   </Button>
 
                   <Button
-                    className="h-11 rounded-xl bg-slate-600 px-5 text-white hover:bg-slate-700"
+                    className={cn(
+                      "h-11 rounded-xl bg-slate-600 px-5 text-white hover:bg-slate-700",
+                    )}
                     onClick={() => navigate("/loans/applications")}
                   >
                     Batalkan
                   </Button>
 
                   <Button
-                    className="h-11 rounded-xl bg-emerald-600 px-6 text-white hover:bg-emerald-700"
+                    className={cn(
+                      "h-11 rounded-xl bg-emerald-600 px-6 text-white hover:bg-emerald-700",
+                    )}
                     onClick={() =>
                       toast.success("Jadwal tersimpan (prototype)", {
                         description: "Pengaturan jadwal belum disimpan permanen.",
@@ -746,6 +759,10 @@ export default function LoanApplicationCreate() {
                   >
                     Simpan
                   </Button>
+                </div>
+
+                <div className="sr-only">
+                  <Separator />
                 </div>
               </div>
             ) : (
