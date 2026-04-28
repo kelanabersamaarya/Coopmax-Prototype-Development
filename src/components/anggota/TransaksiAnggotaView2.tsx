@@ -255,7 +255,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
     setSelected(rowsToShow.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReguler, isKhusus, isPelunasan, showAllRows, isPenurunanBakiDebet, rowsToShow.length]);
+  }, [
+    isReguler,
+    isKhusus,
+    isPelunasan,
+    showAllRows,
+    isPenurunanBakiDebet,
+    rowsToShow.length,
+  ]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -473,23 +480,23 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   disableRowActiveRing={true}
                 />
               ) : isPelunasan ? (
-                <BillingTable
-                  rows={rowsToShowV1}
+                <BillingTableView2
+                  rows={rowsToShow}
                   selected={selected}
                   setSelected={setSelected}
-                  isPelunasan={true}
-                  showGraceHighlight={true}
-                  hideInterestCols={false}
+                  isLocked={true}
+                  showNextBillInfo={true}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
                   showPenaltyColumn={true}
-                  className="mt-0"
+                  disableRowActiveRing={true}
                 />
               ) : useV1ForPenurunanBakiDebet ? (
                 <div
                   className={cn(
                     "billing-table-compact",
-                    // pastikan placeholder "-" tidak tampil (lebih bersih di mode ini)
                     "[&_.text-slate-400]:hidden",
-                    // rapikan alignment angka
                     alignNumbersForPenurunan,
                   )}
                 >
@@ -525,7 +532,11 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     Menampilkan {showingStart} sampai {showingEnd} dari{" "}
                     {allRowsForMode.length} entri
                   </div>
-                  <PaginationLikeView1 page={page} pageCount={pageCount} onPage={setPage} />
+                  <PaginationLikeView1
+                    page={page}
+                    pageCount={pageCount}
+                    onPage={setPage}
+                  />
                 </div>
               ) : null}
 
@@ -551,8 +562,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                           bunga: pelunasanTotals?.bunga ?? "0",
                           denda: selectedPenaltyText,
                           total: formatIdrLike(
-                            parseNumLikeId(pelunasanTotals?.totalBelumDibayar ?? "0") +
-                              selectedPenaltyTotal,
+                            parseNumLikeId(
+                              pelunasanTotals?.totalBelumDibayar ?? "0",
+                            ) + selectedPenaltyTotal,
                           ),
                         }
                       : {
