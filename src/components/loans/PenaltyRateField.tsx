@@ -52,7 +52,7 @@ export default function PenaltyRateField({
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
-        <div className="w-[72px] shrink-0">
+        <div className="flex w-[72px] shrink-0 items-center gap-2">
           <Select
             value={mode}
             onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
@@ -65,6 +65,9 @@ export default function PenaltyRateField({
               <SelectItem value="percent">%</SelectItem>
             </SelectContent>
           </Select>
+
+          {/* debug marker */}
+          <span className="text-[10px] font-bold text-fuchsia-700">PRF</span>
         </div>
 
         <Input
