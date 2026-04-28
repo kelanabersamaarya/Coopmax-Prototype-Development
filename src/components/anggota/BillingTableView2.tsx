@@ -29,14 +29,16 @@ function RowShell({
   active,
   disableActiveRing = false,
   disableRowRings = false,
+  density = "default",
 }: {
   children: React.ReactNode;
   active: boolean;
   disableActiveRing?: boolean;
   disableRowRings?: boolean;
+  density?: "default" | "roomy";
 }) {
   return (
-    <div className="bg-white px-3 py-3">
+    <div className={cn("bg-white px-3", density === "roomy" ? "py-4" : "py-3")}>
       <div
         className={cn(
           "rounded-2xl bg-white",
@@ -162,6 +164,7 @@ export default function BillingTableView2({
   disableRowActiveRing = false,
   disableRowRings = false,
   hideRowDividers = false,
+  rowDensity = "default",
   className,
 }: {
   rows: BillingRow[];
@@ -177,6 +180,7 @@ export default function BillingTableView2({
   disableRowActiveRing?: boolean;
   disableRowRings?: boolean;
   hideRowDividers?: boolean;
+  rowDensity?: "default" | "roomy";
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -319,6 +323,7 @@ export default function BillingTableView2({
                                 active={active}
                                 disableActiveRing={disableRowActiveRing}
                                 disableRowRings={disableRowRings}
+                                density={rowDensity}
                               >
                                 <div className={cn("grid items-center gap-0", gridTemplate)}>
                                   {!hideSelection ? (
@@ -392,6 +397,7 @@ export default function BillingTableView2({
                           active={active}
                           disableActiveRing={disableRowActiveRing}
                           disableRowRings={disableRowRings}
+                          density={rowDensity}
                         >
                           <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
@@ -477,6 +483,7 @@ export default function BillingTableView2({
                             active={active}
                             disableActiveRing={disableRowActiveRing}
                             disableRowRings={disableRowRings}
+                            density={rowDensity}
                           >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (

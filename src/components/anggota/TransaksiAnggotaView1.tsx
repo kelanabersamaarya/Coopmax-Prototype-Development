@@ -473,6 +473,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
                     disableRowRings
+                    rowDensity={isPenurunanBakiDebet ? "roomy" : "default"}
                     className="mt-0"
                   />
                 ) : (
