@@ -95,9 +95,9 @@ export default function PenaltyScheduleForm({
 
   return (
     <div className={cn("w-full", className)}>
-      {/* Tarif Denda */}
+      {/* Metode Denda */}
       <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-center">
-        <FieldLabel>Tarif Denda</FieldLabel>
+        <FieldLabel>Metode Denda</FieldLabel>
 
         <div className="grid min-w-0 grid-cols-[92px_minmax(0,1fr)] gap-2">
           <Select
@@ -130,7 +130,7 @@ export default function PenaltyScheduleForm({
             className="h-11 w-full rounded-xl border-slate-200 bg-white"
             placeholder={isPercent ? "0%" : "Rp. 0"}
             inputMode="text"
-            aria-label="Tarif denda"
+            aria-label="Metode denda"
           />
         </div>
 
