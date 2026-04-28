@@ -1,4 +1,3 @@
-py-2) agar baris tagihan lebih rapat, cocok untuk mode Penurunan Baki Debet.">
 "use client";
 
 import * as React from "react";
@@ -40,8 +39,7 @@ function RowShell({
   density?: "default" | "roomy";
   tight?: boolean;
 }) {
-  // Tight forces the outer wrapper to be compact too.
-  const py = tight ? "py-2" : density === "roomy" ? "py-4" : "py-3";
+  const py = tight ? "py-3" : density === "roomy" ? "py-4" : "py-3";
 
   return (
     <div className={cn("bg-white px-3", py)}>
@@ -242,8 +240,7 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // IMPORTANT: tightRows must reduce the padding inside each cell too.
-  const cellY = tightRows ? "py-2" : rowDensity === "roomy" ? "py-8" : "py-4";
+  const cellY = rowDensity === "roomy" ? "py-8" : "py-4";
   const rowShellDensity: "default" | "roomy" = rowDensity;
 
   const dateTextClass =
