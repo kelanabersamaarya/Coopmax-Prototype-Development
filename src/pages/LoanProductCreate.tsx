@@ -268,10 +268,6 @@ export default function LoanProductCreate() {
             </div>
 
             <div className="mt-5 grid gap-5">
-              <div className="text-sm font-extrabold tracking-tight text-slate-900">
-                Konfigurasi Dasar
-              </div>
-
               <FieldRow label="Kode">
                 <Input
                   value={code}
