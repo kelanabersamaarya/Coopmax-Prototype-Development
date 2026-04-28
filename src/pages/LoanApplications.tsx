@@ -168,6 +168,77 @@ function ThLabel({
   );
 }
 
+function PaginationBar({
+  page,
+  pageCount,
+  onPage,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (p: number) => void;
+}) {
+  if (pageCount <= 1) {
+    return (
+      <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Sebelumnya
+        </button>
+        <div className="h-10 w-10 bg-violet-600 text-[14px] font-semibold text-white grid place-items-center">
+          1
+        </div>
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Selanjutnya
+        </button>
+      </div>
+    );
+  }
+
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= pageCount;
+
+  const btnBase =
+    "h-10 px-4 text-[14px] font-medium transition disabled:text-slate-400";
+
+  return (
+    <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={prevDisabled}
+        onClick={() => onPage(Math.max(1, page - 1))}
+      >
+        Sebelumnya
+      </button>
+
+      <button
+        type="button"
+        className="h-10 w-10 bg-violet-600 text-[14px] font-semibold text-white"
+        onClick={() => onPage(page)}
+        aria-current="page"
+      >
+        {page}
+      </button>
+
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={nextDisabled}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+      >
+        Selanjutnya
+      </button>
+    </div>
+  );
+}
+
 export default function LoanApplications() {
   const rows = React.useMemo(() => seed, []);
 
@@ -181,6 +252,7 @@ export default function LoanApplications() {
   const [qStatus, setQStatus] = React.useState<LoanApplicationStatus>("Semua");
 
   const [pageSize, setPageSize] = React.useState<number>(20);
+  const [page, setPage] = React.useState<number>(1);
 
   const filtered = React.useMemo(() => {
     const noRekQ = qNoRek.trim().toLowerCase();
@@ -223,6 +295,24 @@ export default function LoanApplications() {
     const set = new Set<string>(rows.map((r) => r.produkPinjaman));
     return ["Semua", ...Array.from(set)];
   }, [rows]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [pageSize, qNoRek, qTanggal, qProduk, qIdNasabah, qNamaNasabah, qNominal, qBunga, qStatus]);
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  const paged = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, page, pageSize]);
+
+  const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(filtered.length, page * pageSize);
 
   const th = "px-3 py-3";
   const filterCell = "px-3 py-2";
@@ -426,7 +516,7 @@ export default function LoanApplications() {
                 </thead>
 
                 <tbody className="bg-white">
-                  {filtered.length === 0 ? (
+                  {paged.length === 0 ? (
                     <tr>
                       <td
                         colSpan={9}
@@ -436,7 +526,7 @@ export default function LoanApplications() {
                       </td>
                     </tr>
                   ) : (
-                    filtered.map((r, idx) => (
+                    paged.map((r, idx) => (
                       <tr
                         key={r.id}
                         className={cn(
@@ -445,7 +535,7 @@ export default function LoanApplications() {
                         )}
                       >
                         <td className={cn(td, "text-slate-900 tabular-nums")}>
-                          {idx + 1}
+                          {(page - 1) * pageSize + idx + 1}
                         </td>
 
                         <td className={td}>
@@ -497,11 +587,17 @@ export default function LoanApplications() {
             </div>
           </div>
 
-          <div className="mt-4 text-xs text-slate-600">
-            Menampilkan 1 sampai {filtered.length} dari {filtered.length} entri
-          </div>
+          <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="text-[14px] text-slate-900">
+              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length}{" "}
+              entri{" "}
+              <span className="text-slate-600">
+                (disaring dari {rows.length} entri keseluruhan)
+              </span>
+            </div>
 
-          <div className="sr-only">{pageSize}</div>
+            <PaginationBar page={page} pageCount={pageCount} onPage={setPage} />
+          </div>
         </Card>
       </div>
     </div>
