@@ -40,7 +40,7 @@ function RowShell({
   tight?: boolean;
 }) {
   // Tight: make the outer wrapper compact too.
-  const py = tight ? "py-1" : density === "roomy" ? "py-4" : "py-3";
+  const py = tight ? "py-1.5" : density === "roomy" ? "py-4" : "py-3";
 
   return (
     <div className={cn("bg-white px-3", py)}>
@@ -242,7 +242,7 @@ export default function BillingTableView2({
   })();
 
   // tighter vertical padding for "Penurunan Baki Debet"
-  const cellY = tightRows ? "py-1" : rowDensity === "roomy" ? "py-8" : "py-4";
+  const cellY = tightRows ? "py-1.5" : rowDensity === "roomy" ? "py-8" : "py-4";
   const rowShellDensity: "default" | "roomy" = rowDensity;
 
   const dateTextClass =
