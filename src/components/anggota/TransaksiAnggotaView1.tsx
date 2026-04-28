@@ -489,6 +489,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       feeOnlyCols={feeOnlyCols}
                       hideSelection={isPenurunanBakiDebet}
                       showPenaltyColumn={showPenaltyColumnInTable}
+                      rowDensity={isPenurunanBakiDebet ? "roomy" : "default"}
                     />
                   </div>
                 )}

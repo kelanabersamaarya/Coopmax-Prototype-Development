@@ -556,6 +556,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                       hideInterestCols={false}
                       hideSelection={true}
                       showPenaltyColumn={false}
+                      rowDensity="roomy"
                       className="mt-0"
                     />
                   </div>

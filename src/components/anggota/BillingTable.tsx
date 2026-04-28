@@ -164,6 +164,7 @@ export default function BillingTable({
   hideSelection = false,
   showPenaltyColumn = false,
   forceGraceInfo = false,
+  rowDensity = "default",
   className,
 }: {
   rows: BillingRow[];
@@ -178,6 +179,7 @@ export default function BillingTable({
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
   forceGraceInfo?: boolean;
+  rowDensity?: "default" | "roomy";
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -243,7 +245,8 @@ export default function BillingTable({
     setPenaltyOpen(true);
   }
 
-  const tdBase = "px-3 py-3 text-[13px] text-slate-900";
+  const tdY = rowDensity === "roomy" ? "py-4" : "py-3";
+  const tdBase = `px-3 ${tdY} text-[13px] text-slate-900`;
   const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
 
   const tdNum = cn(
@@ -554,6 +557,8 @@ export default function BillingTable({
           </tbody>
         </table>
       </div>
+
+      <div className="sr-only">{checkboxColW}</div>
     </div>
   );
 }
