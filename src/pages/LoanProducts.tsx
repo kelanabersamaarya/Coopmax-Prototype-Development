@@ -15,7 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { getLoanProducts, LoanProduct } from "@/lib/loanProductsStore";
 import { cn } from "@/lib/utils";
-import { Eye, Pencil, Plus, Trash2, History } from "lucide-react";
+import { Eye, Pencil, Plus, Trash2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 
 type StatusFilter = "Semua" | "Aktif" | "Nonaktif";
@@ -234,6 +234,7 @@ export default function LoanProducts() {
                   });
                 }}
               >
+                <XCircle className="mr-2 h-4 w-4" />
                 Reset
               </Button>
             </div>
@@ -374,15 +375,14 @@ export default function LoanProducts() {
                                 type="button"
                                 className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-amber-700 ring-1 ring-amber-200 hover:bg-white"
                                 onClick={() =>
-                                  toast("Riwayat Perubahan (prototype)", {
+                                  toast("Nonaktifkan (prototype)", {
                                     description:
-                                      "Riwayat perubahan produk belum diimplementasikan.",
+                                      "Status belum disimpan (store belum punya field status).",
                                   })
                                 }
-                                aria-label="Riwayat perubahan"
-                                title="Riwayat perubahan"
+                                aria-label="Nonaktifkan"
                               >
-                                <History className="h-4 w-4" />
+                                <XCircle className="h-4 w-4" />
                               </button>
 
                               <Link

@@ -30,7 +30,7 @@ function RowShell({
   disableRowRings?: boolean;
 }) {
   return (
-    <div className="bg-white px-3 py-2">
+    <div className="bg-white px-3 py-3">
       <div
         className={cn(
           "rounded-2xl bg-white",
@@ -158,7 +158,6 @@ export default function BillingTableView2({
   highlightGraceBlock = false,
   hideSelection = false,
   showPenaltyColumn = false,
-  penaltyDisplayLimit,
   tone = "default",
   disableRowActiveRing = false,
   disableRowRings = false,
@@ -174,7 +173,6 @@ export default function BillingTableView2({
   highlightGraceBlock?: boolean;
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
-  penaltyDisplayLimit?: number;
   tone?: "default" | "khusus";
   disableRowActiveRing?: boolean;
   disableRowRings?: boolean;
@@ -241,8 +239,8 @@ export default function BillingTableView2({
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
 
-  const sisaPokokNumberCell = cn("px-4 py-3", numberTextClass, "pr-6");
-  const sisaBungaNumberCell = cn("px-4 py-3", numberTextClass, "pr-6");
+  const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
+  const sisaBungaNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
 
   function openPenaltyDetailForRow(idx: number, dueDateDmy: string) {
     setPenaltyRows(buildPenaltyDetailRows(dueDateDmy, idx));
@@ -250,22 +248,10 @@ export default function BillingTableView2({
   }
 
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
-    const limit =
-      typeof penaltyDisplayLimit === "number" && penaltyDisplayLimit >= 0
-        ? penaltyDisplayLimit
-        : null;
-
-    const shouldShow = limit === null ? true : idx < limit;
-
-    if (!shouldShow) {
-      // penting: benar-benar kosong, tanpa "-" atau placeholder apa pun
-      return <div className={cn("px-4 py-3", numberTextClass)} />;
-    }
-
     const nominal = formatIdrLike(penaltyForIndex(idx));
 
     return (
-      <div className={cn("px-4 py-3", numberTextClass)}>
+      <div className={cn("px-4 py-4", numberTextClass)}>
         <div className="flex items-center justify-end gap-3">
           <span className="tabular-nums whitespace-nowrap num-sans-tabular">
             {nominal}
@@ -333,7 +319,7 @@ export default function BillingTableView2({
               <>
                 <tr className={cn(rowDividerClass)}>
                   <td colSpan={colCount} className="p-0">
-                    <div className="bg-white px-3 py-2">
+                    <div className="bg-white px-3 py-3">
                       <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
                         <table className="w-full border-collapse text-[13px]">
                           <tbody className="bg-white">
@@ -363,7 +349,7 @@ export default function BillingTableView2({
                                         )}
                                       >
                                         {!hideSelection ? (
-                                          <div className="flex items-center justify-center px-4 py-3">
+                                          <div className="flex items-center justify-center px-4 py-4">
                                             <input
                                               type="checkbox"
                                               aria-label="Pilih tagihan"
@@ -386,24 +372,24 @@ export default function BillingTableView2({
                                           </div>
                                         ) : null}
 
-                                        <div className={cn("px-4 py-3", dateTextClass)}>
+                                        <div className={cn("px-4 py-4", dateTextClass)}>
                                           {r.jatuhTempo}
                                         </div>
 
                                         <div
-                                          className={cn("px-4 py-3", numberTextClass)}
+                                          className={cn("px-4 py-4", numberTextClass)}
                                         >
                                           {r.totalBelumDibayar}
                                         </div>
 
                                         <div
-                                          className={cn("px-4 py-3", numberTextClass)}
+                                          className={cn("px-4 py-4", numberTextClass)}
                                         >
                                           {r.tagihanPokok}
                                         </div>
 
                                         <div
-                                          className={cn("px-4 py-3", numberTextClass)}
+                                          className={cn("px-4 py-4", numberTextClass)}
                                         >
                                           {r.tagihanBunga}
                                         </div>
@@ -456,7 +442,7 @@ export default function BillingTableView2({
                         >
                           <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
-                              <div className="flex items-center justify-center px-4 py-3">
+                              <div className="flex items-center justify-center px-4 py-4">
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
@@ -477,19 +463,19 @@ export default function BillingTableView2({
                               </div>
                             ) : null}
 
-                            <div className={cn("px-4 py-3", dateTextClass)}>
+                            <div className={cn("px-4 py-4", dateTextClass)}>
                               {r.jatuhTempo}
                             </div>
 
-                            <div className={cn("px-4 py-3", numberTextClass)}>
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.totalBelumDibayar}
                             </div>
 
-                            <div className={cn("px-4 py-3", numberTextClass)}>
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.tagihanPokok}
                             </div>
 
-                            <div className={cn("px-4 py-3", numberTextClass)}>
+                            <div className={cn("px-4 py-4", numberTextClass)}>
                               {r.tagihanBunga}
                             </div>
 
@@ -545,7 +531,7 @@ export default function BillingTableView2({
                           >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (
-                                <div className="flex items-center justify-center px-4 py-3">
+                                <div className="flex items-center justify-center px-4 py-4">
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
@@ -564,19 +550,19 @@ export default function BillingTableView2({
                                 </div>
                               ) : null}
 
-                              <div className={cn("px-4 py-3", dateTextClass)}>
+                              <div className={cn("px-4 py-4", dateTextClass)}>
                                 {r.jatuhTempo}
                               </div>
 
-                              <div className={cn("px-4 py-3", numberTextClass)}>
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.totalBelumDibayar}
                               </div>
 
-                              <div className={cn("px-4 py-3", numberTextClass)}>
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.tagihanPokok}
                               </div>
 
-                              <div className={cn("px-4 py-3", numberTextClass)}>
+                              <div className={cn("px-4 py-4", numberTextClass)}>
                                 {r.tagihanBunga}
                               </div>
 

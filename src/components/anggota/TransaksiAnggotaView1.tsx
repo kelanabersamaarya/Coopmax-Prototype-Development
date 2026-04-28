@@ -193,102 +193,34 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return rows.slice(start, start + pageSize);
   }, [page, pageSize]);
 
-  // === Persist selection per page (Reguler) ===
-  const [selectedByPage, setSelectedByPage] = React.useState<
-    Record<number, boolean[]>
-  >({});
-
-  // === Persist selection per page (Khusus) ===
-  const [selectedByPageKhusus, setSelectedByPageKhusus] = React.useState<
-    Record<number, boolean[]>
-  >({});
-
-  const [selected, _setSelected] = React.useState<boolean[]>(() =>
+  const [selected, setSelected] = React.useState<boolean[]>(() =>
     pagedRows.map(() => false),
   );
 
-  const setSelected: React.Dispatch<React.SetStateAction<boolean[]>> =
-    React.useCallback(
-      (next) => {
-        _setSelected((prev) => {
-          const resolved = typeof next === "function" ? next(prev) : next;
-
-          if (isReguler) {
-            setSelectedByPage((map) => ({
-              ...map,
-              [page]: resolved,
-            }));
-          }
-
-          if (isKhusus) {
-            setSelectedByPageKhusus((map) => ({
-              ...map,
-              [page]: resolved,
-            }));
-          }
-
-          return resolved;
-        });
-      },
-      [isKhusus, isReguler, page],
-    );
-
   React.useEffect(() => {
-    // Pelunasan: selalu semua ter-checklist (per halaman)
     if (isPelunasan) {
-      _setSelected(pagedRows.map(() => true));
+      setSelected(pagedRows.map(() => true));
       return;
     }
 
-    if (isKhusus) {
-      const fromStore = selectedByPageKhusus[page];
-      if (fromStore && fromStore.length === pagedRows.length) {
-        _setSelected(fromStore);
-      } else {
-        _setSelected(pagedRows.map(() => false));
-      }
+    if (isReguler || isKhusus) {
+      setSelected(pagedRows.map(() => true));
       return;
     }
 
-    if (isReguler) {
-      const fromStore = selectedByPage[page];
-      if (fromStore && fromStore.length === pagedRows.length) {
-        _setSelected(fromStore);
-      } else {
-        _setSelected(pagedRows.map(() => false));
-      }
-      return;
-    }
-
-    _setSelected(pagedRows.map(() => false));
-  }, [
-    isPelunasan,
-    isKhusus,
-    isReguler,
-    pagedRows,
-    page,
-    selectedByPage,
-    selectedByPageKhusus,
-  ]);
-
-  const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
+    setSelected(pagedRows.map(() => false));
+  }, [isPelunasan, isReguler, isKhusus, pagedRows]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
-
-    if (!hasAnySelected) {
-      setNominalPokok("0");
-      setNominalBunga("0");
-      setNominalDenda("0");
-      return;
-    }
-
     const t = calcKhususSelectedTotals(pagedRows, selected);
     setNominalPokok(formatIdr0(t.pokok));
     setNominalBunga(formatIdr0(t.bunga));
     setNominalDenda(formatIdr0(t.denda));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKhusus, hasAnySelected, pagedRows, selected]);
+  }, [isKhusus, pagedRows, selected]);
+
+  const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
@@ -296,11 +228,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     if (!(isReguler || isKhusus || isPelunasan)) return 0;
     return calcSelectedPenaltyTotal(selected, pagedRows.length);
   }, [isKhusus, isPelunasan, isReguler, pagedRows.length, selected]);
-
-  const pelunasanPenaltyTotal = React.useMemo(() => {
-    if (!isPelunasan) return 0;
-    return calcSelectedPenaltyTotal(selected, pagedRows.length);
-  }, [isPelunasan, pagedRows.length, selected]);
 
   const penaltyTotalExplicit = React.useMemo(() => {
     if (!penaltyOnlyCols) return 0;
@@ -348,30 +275,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     selectedPenaltyTotal,
   ]);
 
-  const pelunasanTotals = React.useMemo(() => {
-    if (!isPelunasan) return null;
-
-    const sum = pagedRows.reduce(
-      (acc, r, idx) => {
-        if (!(selected[idx] ?? true)) return acc;
-        acc.pokok += parseMoneyLikeId(r.tagihanPokok);
-        acc.bunga += parseMoneyLikeId(r.tagihanBunga);
-        return acc;
-      },
-      { pokok: 0, bunga: 0 },
-    );
-
-    const denda = pelunasanPenaltyTotal;
-    const total = sum.pokok + sum.bunga + denda;
-
-    return {
-      pokok: formatMoneyIdNoDecimals(sum.pokok),
-      bunga: formatMoneyIdNoDecimals(sum.bunga),
-      denda: formatMoneyIdNoDecimals(denda),
-      total: formatMoneyIdNoDecimals(total),
-    };
-  }, [isPelunasan, pagedRows, pelunasanPenaltyTotal, selected]);
-
   const khususTotals = React.useMemo(() => {
     if (!isKhusus) return null;
     return calcKhususTotalsFromRows(pagedRows);
@@ -405,9 +308,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const showingEnd = Math.min(rows.length, page * pageSize);
 
   const pagedRowsForView2 = pagedRows as unknown as BillingRowView2[];
-
-  const useBillingView2Layout =
-    isReguler || isKhusus || isPelunasan || isPenurunanBakiDebet;
 
   return (
     <div className="w-full px-0">
@@ -506,18 +406,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {useBillingView2Layout ? (
+              {isReguler || isKhusus ? (
                 <BillingTableView2
                   rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={isPelunasan}
+                  isLocked={true}
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
-                  hideSelection={isPenurunanBakiDebet}
-                  showPenaltyColumn={isPenurunanBakiDebet ? false : true}
-                  penaltyDisplayLimit={3}
+                  hideSelection={false}
+                  showPenaltyColumn={true}
+                  // hilangkan ring/border tebal baris SEPENUHNYA
                   disableRowRings
                   className="mt-0"
                 />
@@ -545,11 +445,17 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   {isReguler ? totalEntriesLocal : rows.length} entri
                 </div>
 
-                <PaginationLikeExample
-                  page={page}
-                  pageCount={pageCount}
-                  onPage={setPage}
-                />
+                {isReguler ? (
+                  <PaginationLikeExample
+                    page={page}
+                    pageCount={pageCount}
+                    onPage={setPage}
+                  />
+                ) : (
+                  <div className="flex justify-end">
+                    <div className="sr-only" />
+                  </div>
+                )}
               </div>
             </Card>
 
@@ -558,55 +464,37 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 mode={isPelunasan ? "pelunasan" : "regular"}
                 hasAnySelected={hasAnySelected}
                 totals={
-                  isPelunasan
+                  isKhusus
                     ? {
-                        pokok: pelunasanTotals?.pokok ?? "0",
-                        bunga: pelunasanTotals?.bunga ?? "0",
-                        denda: pelunasanTotals?.denda ?? "0",
-                        total: pelunasanTotals?.total ?? "0",
+                        pokok: formatMoneyIdNoDecimals(khususTotals?.pokok ?? 0),
+                        bunga: formatMoneyIdNoDecimals(khususTotals?.bunga ?? 0),
+                        denda: formatMoneyIdNoDecimals(khususTotals?.denda ?? 0),
+                        total: formatMoneyIdNoDecimals(khususTotals?.total ?? 0),
                       }
-                    : isKhusus
+                    : penaltyOnlyCols
                       ? {
-                          pokok: formatMoneyIdNoDecimals(khususTotals?.pokok ?? 0),
-                          bunga: formatMoneyIdNoDecimals(khususTotals?.bunga ?? 0),
-                          denda: formatMoneyIdNoDecimals(khususTotals?.denda ?? 0),
-                          total: formatMoneyIdNoDecimals(khususTotals?.total ?? 0),
+                          pokok: "0",
+                          bunga: "0",
+                          denda: formatMoneyIdNoDecimals(penaltyTotalExplicit),
+                          total: formatMoneyIdNoDecimals(penaltyTotalExplicit),
                         }
-                      : penaltyOnlyCols
+                      : isPenurunanBakiDebet
                         ? {
-                            pokok: "0",
+                            pokok: penurunanTotals?.totalPokokText ?? "0",
                             bunga: "0",
-                            denda: formatMoneyIdNoDecimals(penaltyTotalExplicit),
-                            total: formatMoneyIdNoDecimals(penaltyTotalExplicit),
+                            denda: "0",
+                            total: penurunanTotals?.sisaText ?? "0",
                           }
-                        : isPenurunanBakiDebet
-                          ? {
-                              pokok: penurunanTotals?.totalPokokText ?? "0",
-                              bunga: "0",
-                              denda: "0",
-                              total: penurunanTotals?.sisaText ?? "0",
-                            }
-                          : {
-                              pokok: computedTotals.pokok,
-                              bunga: computedTotals.bunga,
-                              denda: computedTotals.denda,
-                              total: computedTotals.total,
-                            }
+                        : {
+                            pokok: computedTotals.pokok,
+                            bunga: computedTotals.bunga,
+                            denda: computedTotals.denda,
+                            total: computedTotals.total,
+                          }
                 }
                 installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
                 transactionType={jenisTransaksi as any}
-                onTransactionTypeChange={(v: any) => {
-                  if (jenisTransaksi === "Pembayaran Reguler" && v !== "Pembayaran Reguler") {
-                    setSelectedByPage({});
-                  }
-                  if (jenisTransaksi === "Pembayaran Khusus" && v !== "Pembayaran Khusus") {
-                    setSelectedByPageKhusus({});
-                    setNominalPokok("0");
-                    setNominalBunga("0");
-                    setNominalDenda("0");
-                  }
-                  setJenisTransaksi(v);
-                }}
+                onTransactionTypeChange={(v: any) => setJenisTransaksi(v)}
               />
 
               <TransactionFormCardView2

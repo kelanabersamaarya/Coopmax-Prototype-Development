@@ -33,7 +33,9 @@ import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
-import NextBillInfoBanner from "@/components/anggota/NextBillInfoBanner";
+import BillingTable, {
+  type BillingRow as BillingRowV1,
+} from "@/components/anggota/BillingTable";
 import {
   calcPenaltyTotal,
   formatIdrLike,
@@ -134,37 +136,27 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  // Baki debet tampil semua tagihan; Reguler & Khusus hanya 1 tagihan
-  const rowsToShow: BillingRow[] = isPenurunanBakiDebet
-    ? upcomingRows
-    : isReguler
+  const rowsToShow: BillingRow[] = isReguler
+    ? [currentBill]
+    : isKhusus
       ? [currentBill]
-      : isKhusus
-        ? [currentBill]
-        : isPelunasan
+      : isPelunasan
+        ? upcomingRows
+        : showAllRows
           ? upcomingRows
-          : showAllRows
-            ? upcomingRows
-            : [currentBill];
+          : [currentBill];
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rowsToShow.map(() => false),
   );
 
   React.useEffect(() => {
-    // Baki debet: selection disembunyikan
-    if (isPenurunanBakiDebet) {
-      setSelected(rowsToShow.map(() => true));
-      return;
-    }
-
-    // Reguler & Khusus: locked + tercentang
+    // Reguler & Khusus: tampil seperti screenshot => checkbox "locked" dan tercentang
     if (isReguler || isKhusus) {
       setSelected(rowsToShow.map(() => true));
       return;
     }
 
-    // Pelunasan & mode tabel penuh
     if (isPelunasan || showAllRows) {
       setSelected(rowsToShow.map(() => true));
       return;
@@ -172,14 +164,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
     setSelected(rowsToShow.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isPenurunanBakiDebet,
-    isReguler,
-    isKhusus,
-    isPelunasan,
-    showAllRows,
-    rowsToShow.length,
-  ]);
+  }, [isReguler, isKhusus, isPelunasan, showAllRows, rowsToShow.length]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -224,6 +209,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return formatIdrLike(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
 
+  const showGraceInfo = true;
+  const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
+
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
 
@@ -248,11 +236,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     };
   }, [isPelunasan, rowsToShow]);
 
-  const showNextBillBanner = isReguler || isKhusus;
+  const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
 
-  // Layout rules: bakidebet tanpa kolom denda
-  const usePenaltyColumn = isPenurunanBakiDebet ? false : true;
-  const penaltyLimit = 3;
+  const useTableLikeScreenshotForPenurunanBakiDebet = isPenurunanBakiDebet;
 
   return (
     <div className="w-full px-0">
@@ -354,24 +340,67 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {showNextBillBanner ? (
-                <NextBillInfoBanner className="mb-3" />
-              ) : null}
-
-              <BillingTableView2
-                rows={rowsToShow}
-                selected={selected}
-                setSelected={setSelected}
-                isLocked={isReguler || isKhusus || isPelunasan || isPenurunanBakiDebet}
-                showNextBillInfo={false}
-                showGraceInfo={true}
-                highlightGraceBlock={true}
-                hideSelection={isPenurunanBakiDebet}
-                showPenaltyColumn={usePenaltyColumn}
-                penaltyDisplayLimit={usePenaltyColumn ? penaltyLimit : undefined}
-                disableRowRings
-                className="mt-0"
-              />
+              {isReguler ? (
+                <BillingTableView2
+                  rows={rowsToShow}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={true}
+                  showNextBillInfo={true}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
+                  showPenaltyColumn={true}
+                  disableRowActiveRing={true}
+                />
+              ) : isKhusus ? (
+                <BillingTableView2
+                  rows={rowsToShow}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={true}
+                  showNextBillInfo={true}
+                  showGraceInfo={true}
+                  highlightGraceBlock={true}
+                  hideSelection={false}
+                  showPenaltyColumn={true}
+                  disableRowActiveRing={true}
+                />
+              ) : isPelunasan ? (
+                <BillingTable
+                  rows={rowsToShowV1}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isPelunasan={true}
+                  showGraceHighlight={true}
+                  hideInterestCols={false}
+                  showPenaltyColumn={true}
+                  className="mt-0"
+                />
+              ) : useTableLikeScreenshotForPenurunanBakiDebet ? (
+                <BillingTable
+                  rows={rowsToShowV1}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isPelunasan={false}
+                  showGraceHighlight={true}
+                  hideInterestCols={false}
+                  hideSelection={true}
+                  className="mt-0"
+                />
+              ) : (
+                <BillingTableView2
+                  rows={rowsToShow}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={isPelunasan}
+                  showNextBillInfo={true}
+                  showGraceInfo={showGraceInfo}
+                  highlightGraceBlock={highlightGraceBlock}
+                  hideSelection={isPenurunanPlafon || isPenurunanBakiDebet}
+                  showPenaltyColumn={false}
+                />
+              )}
 
               <div className="sr-only">
                 <Info />
