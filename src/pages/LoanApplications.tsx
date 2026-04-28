@@ -195,6 +195,8 @@ export default function LoanApplications() {
 
   // kolom Produk dipersempit + pakai ellipsis agar teks tidak memaksa lebar
   const produkColW = "w-[170px] max-w-[170px]";
+  // kolom Nama Nasabah dipersempit + truncate
+  const namaColW = "w-[180px] max-w-[180px]";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -234,7 +236,7 @@ export default function LoanApplications() {
                     <th className={cn("w-[160px]", th)}>Tanggal Daftar</th>
                     <th className={cn(produkColW, th)}>Produk Pinjaman</th>
                     <th className={cn("w-[150px]", th)}>ID. Nasabah</th>
-                    <th className={cn("min-w-[220px]", th)}>Nama Nasabah</th>
+                    <th className={cn(namaColW, th)}>Nama Nasabah</th>
                     <th className={cn("w-[190px] text-right", th)}>Nominal</th>
                     <th className={cn("w-[160px]", th)}>Bunga per Tahun (%)</th>
                     <th className={cn("w-[190px]", th)}>Status</th>
@@ -280,7 +282,7 @@ export default function LoanApplications() {
                         placeholder=""
                       />
                     </th>
-                    <th className={filterCell}>
+                    <th className={cn(filterCell, namaColW)}>
                       <Input
                         value={qNamaNasabah}
                         onChange={(e) => setQNamaNasabah(e.target.value)}
@@ -365,7 +367,12 @@ export default function LoanApplications() {
                         </td>
 
                         <td className={cn(td, "text-slate-800")}>{r.idNasabah}</td>
-                        <td className={cn(td, "text-slate-900")}>{r.namaNasabah}</td>
+
+                        <td className={cn(td, namaColW)}>
+                          <div className="truncate leading-tight text-slate-900">
+                            {r.namaNasabah}
+                          </div>
+                        </td>
 
                         <td className={cn(td, "text-right font-semibold text-slate-900")}>
                           {r.nominal}
