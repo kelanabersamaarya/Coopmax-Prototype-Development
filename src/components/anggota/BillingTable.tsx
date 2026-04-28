@@ -252,7 +252,6 @@ export default function BillingTable({
   const tdBase = "px-3 py-3 text-[13px] text-slate-900";
   const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
 
-  // penting: jangan pakai pr-5 di wrapper number, biar padding sama dan alignment separator stabil
   const tdNum = cn(
     tdBase,
     "text-right whitespace-nowrap",
@@ -290,8 +289,8 @@ export default function BillingTable({
   const shouldShowGraceInfoRow =
     (showGraceHighlight || forceGraceInfo) && showAllCols;
 
-  function NumCell({ value }: { value: string }) {
-    // Align by separator (last ".") so digits line up vertically across rows.
+  function SisaBungaCell({ value }: { value: string }) {
+    // Fokus rapikan "Sisa Tagihan Bunga": sejajarkan berdasarkan titik terakhir.
     return (
       <NumericCell align="separator" className="w-full">
         {value}
@@ -444,28 +443,20 @@ export default function BillingTable({
                                     </td>
 
                                     {!hideInterestCols ? (
-                                      <td className={tdNum}>
-                                        <NumCell value={bill.totalBelumDibayar} />
-                                      </td>
+                                      <td className={tdNum}>{bill.totalBelumDibayar}</td>
                                     ) : null}
 
-                                    <td className={tdNum}>
-                                      <NumCell value={bill.tagihanPokok} />
-                                    </td>
+                                    <td className={tdNum}>{bill.tagihanPokok}</td>
+
+                                    {!hideInterestCols ? (
+                                      <td className={tdNum}>{bill.tagihanBunga}</td>
+                                    ) : null}
+
+                                    <td className={tdNum}>{bill.sisaPokok}</td>
 
                                     {!hideInterestCols ? (
                                       <td className={tdNum}>
-                                        <NumCell value={bill.tagihanBunga} />
-                                      </td>
-                                    ) : null}
-
-                                    <td className={tdNum}>
-                                      <NumCell value={bill.sisaPokok} />
-                                    </td>
-
-                                    {!hideInterestCols ? (
-                                      <td className={tdNum}>
-                                        <NumCell value={bill.sisaBunga} />
+                                        <SisaBungaCell value={bill.sisaBunga} />
                                       </td>
                                     ) : null}
 
@@ -527,28 +518,20 @@ export default function BillingTable({
                       <td className={cn(tdDate, "pl-3")}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>
-                          <NumCell value={bill.totalBelumDibayar} />
-                        </td>
+                        <td className={tdNum}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
-                      <td className={tdNum}>
-                        <NumCell value={bill.tagihanPokok} />
-                      </td>
+                      <td className={tdNum}>{bill.tagihanPokok}</td>
+
+                      {!hideInterestCols ? (
+                        <td className={tdNum}>{bill.tagihanBunga}</td>
+                      ) : null}
+
+                      <td className={tdNum}>{bill.sisaPokok}</td>
 
                       {!hideInterestCols ? (
                         <td className={tdNum}>
-                          <NumCell value={bill.tagihanBunga} />
-                        </td>
-                      ) : null}
-
-                      <td className={tdNum}>
-                        <NumCell value={bill.sisaPokok} />
-                      </td>
-
-                      {!hideInterestCols ? (
-                        <td className={tdNum}>
-                          <NumCell value={bill.sisaBunga} />
+                          <SisaBungaCell value={bill.sisaBunga} />
                         </td>
                       ) : null}
 
@@ -599,28 +582,20 @@ export default function BillingTable({
                       <td className={cn(tdDate, "pl-3")}>{bill.jatuhTempo}</td>
 
                       {!hideInterestCols ? (
-                        <td className={tdNum}>
-                          <NumCell value={bill.totalBelumDibayar} />
-                        </td>
+                        <td className={tdNum}>{bill.totalBelumDibayar}</td>
                       ) : null}
 
-                      <td className={tdNum}>
-                        <NumCell value={bill.tagihanPokok} />
-                      </td>
+                      <td className={tdNum}>{bill.tagihanPokok}</td>
+
+                      {!hideInterestCols ? (
+                        <td className={tdNum}>{bill.tagihanBunga}</td>
+                      ) : null}
+
+                      <td className={tdNum}>{bill.sisaPokok}</td>
 
                       {!hideInterestCols ? (
                         <td className={tdNum}>
-                          <NumCell value={bill.tagihanBunga} />
-                        </td>
-                      ) : null}
-
-                      <td className={tdNum}>
-                        <NumCell value={bill.sisaPokok} />
-                      </td>
-
-                      {!hideInterestCols ? (
-                        <td className={tdNum}>
-                          <NumCell value={bill.sisaBunga} />
+                          <SisaBungaCell value={bill.sisaBunga} />
                         </td>
                       ) : null}
 
