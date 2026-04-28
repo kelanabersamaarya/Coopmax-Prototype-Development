@@ -49,8 +49,8 @@ export default function PenaltyDetailDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)] sm:w-[560px]",
-          "max-w-[560px]",
+          "w-[calc(100vw-1.25rem)] sm:w-[640px]",
+          "max-w-[640px]",
           "max-h-[80vh]",
           "overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
@@ -85,14 +85,17 @@ export default function PenaltyDetailDialog({
           >
             <div className="overflow-hidden rounded-3xl ring-1 ring-slate-200">
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[420px] table-fixed border-collapse">
+                <table className="w-full min-w-[520px] table-fixed border-collapse">
                   <thead className="bg-white">
                     <tr className="border-b border-slate-200 text-left">
-                      <th className="px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-                        TANGGAL KETERLAMBATAN
+                      <th className="w-[140px] px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+                        HARI
                       </th>
-                      <th className="px-5 py-4 text-right text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-                        NOMINAL DENDA
+                      <th className="px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+                        TANGGAL
+                      </th>
+                      <th className="w-[180px] px-5 py-4 text-right text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+                        DENDA
                       </th>
                     </tr>
                   </thead>
@@ -101,7 +104,7 @@ export default function PenaltyDetailDialog({
                     {rows.length === 0 ? (
                       <tr>
                         <td
-                          colSpan={2}
+                          colSpan={3}
                           className="px-5 py-10 text-center text-sm text-slate-600"
                         >
                           Tidak ada rincian denda.
@@ -116,6 +119,9 @@ export default function PenaltyDetailDialog({
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                           )}
                         >
+                          <td className="px-5 py-4 text-[14px] font-semibold text-slate-900 whitespace-nowrap">
+                            Hari ke-{idx + 1}
+                          </td>
                           <td className="px-5 py-4 text-[14px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
                             {r.tanggalKeterlambatan}
                           </td>
@@ -127,7 +133,10 @@ export default function PenaltyDetailDialog({
                     )}
 
                     <tr className="border-t border-slate-200 bg-white">
-                      <td className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <td
+                        colSpan={2}
+                        className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900"
+                      >
                         TOTAL NOMINAL DENDA
                       </td>
                       <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
