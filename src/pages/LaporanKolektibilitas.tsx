@@ -8,13 +8,19 @@ import {
   FileText,
   Printer,
   Search,
-  ChevronDown,
 } from "lucide-react";
 import { toast } from "sonner";
 import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog";
 import KolektibilitasReportTable, {
   type KolektibilitasRow,
 } from "@/components/laporan/KolektibilitasReportTable";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type KolektibilitasType =
   | "-- Semua --"
@@ -67,8 +73,6 @@ const UI = {
   h: "h-[30px]",
   text: "text-[12.5px]",
   gapY: "gap-[15px]",
-  select:
-    "h-[30px] w-full appearance-none rounded-[5px] border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900 shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-400/25",
   input:
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] shadow-sm",
   btn: "h-[30px] rounded-[5px] px-5 text-[13px] font-semibold text-white",
@@ -113,34 +117,52 @@ function FieldRow({
   );
 }
 
-function SelectLike({
+function StyledSelect({
   value,
-  onChange,
+  onValueChange,
   options,
   placeholder,
 }: {
   value: string;
-  onChange: (v: string) => void;
+  onValueChange: (v: string) => void;
   options: string[];
   placeholder?: string;
 }) {
   return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={UI.select}
+    <Select value={value} onValueChange={onValueChange}>
+      <SelectTrigger
+        className={cn(
+          "h-[30px] w-full rounded-[5px] border-slate-200 bg-white px-3 text-[12.5px] font-medium text-slate-900 shadow-sm",
+          "focus:ring-2 focus:ring-slate-400/25",
+        )}
       >
-        {placeholder ? <option value={placeholder}>{placeholder}</option> : null}
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
 
-      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
-    </div>
+      <SelectContent
+        className={cn(
+          "rounded-[12px] border-slate-200 p-1 shadow-xl",
+          // item terpilih jadi background lembut seperti contoh
+          "[&_[data-state=checked]]:bg-slate-100/80",
+          "[&_[data-state=checked]]:text-slate-900",
+          // item hover
+          "[&_[data-radix-collection-item]]:rounded-[10px]",
+        )}
+      >
+        {options.map((o) => (
+          <SelectItem
+            key={o}
+            value={o}
+            className={cn(
+              "rounded-[10px] py-2 text-[15px] font-medium text-slate-800",
+              "focus:bg-slate-100/80 focus:text-slate-900",
+            )}
+          >
+            {o}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -316,27 +338,17 @@ export default function LaporanKolektibilitas() {
           <div className="w-full max-w-[920px]">
             <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Jenis Pinjaman">
-                <div className="relative">
-                  <select
-                    value={jenisPinjaman}
-                    onChange={(e) => setJenisPinjaman(e.target.value)}
-                    className={UI.select}
-                  >
-                    <option value="Pilih pinjaman">Pilih pinjaman</option>
-                    {loanOptions.map((o) => (
-                      <option key={o} value={o}>
-                        {o}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 opacity-80" />
-                </div>
+                <StyledSelect
+                  value={jenisPinjaman}
+                  onValueChange={setJenisPinjaman}
+                  options={["Pilih pinjaman", ...loanOptions]}
+                />
               </FieldRow>
 
               <FieldRow label="Cabang">
-                <SelectLike
+                <StyledSelect
                   value={cabang}
-                  onChange={setCabang}
+                  onValueChange={setCabang}
                   options={[...branchOptions]}
                 />
               </FieldRow>
@@ -351,9 +363,9 @@ export default function LaporanKolektibilitas() {
               </FieldRow>
 
               <FieldRow label="Bulan">
-                <SelectLike
+                <StyledSelect
                   value={bulan}
-                  onChange={(v) => setBulan(v as (typeof months)[number])}
+                  onValueChange={(v) => setBulan(v as (typeof months)[number])}
                   options={[...months]}
                 />
               </FieldRow>
@@ -368,9 +380,9 @@ export default function LaporanKolektibilitas() {
               </FieldRow>
 
               <FieldRow label="Tipe Kolektibilitas">
-                <SelectLike
+                <StyledSelect
                   value={tipe}
-                  onChange={(v) => setTipe(v as KolektibilitasType)}
+                  onValueChange={(v) => setTipe(v as KolektibilitasType)}
                   options={[
                     "-- Semua --",
                     "Lancar",
@@ -383,9 +395,9 @@ export default function LaporanKolektibilitas() {
               </FieldRow>
 
               <FieldRow label="Status Anggota">
-                <SelectLike
+                <StyledSelect
                   value={statusAnggota}
-                  onChange={(v) => setStatusAnggota(v as StatusAnggota)}
+                  onValueChange={(v) => setStatusAnggota(v as StatusAnggota)}
                   options={["Pilih Jenis Anggota", "Anggota", "Calon"]}
                 />
               </FieldRow>
