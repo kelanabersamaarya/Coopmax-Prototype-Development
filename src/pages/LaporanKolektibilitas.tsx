@@ -122,11 +122,13 @@ function StyledSelect({
   onValueChange,
   options,
   placeholder,
+  contentClassName,
 }: {
   value: string;
   onValueChange: (v: string) => void;
   options: string[];
   placeholder?: string;
+  contentClassName?: string;
 }) {
   return (
     <Select value={value} onValueChange={onValueChange}>
@@ -142,11 +144,12 @@ function StyledSelect({
       <SelectContent
         className={cn(
           "rounded-[12px] border-slate-200 p-1 shadow-xl",
-          // item terpilih jadi background lembut seperti contoh
+          // item terpilih
           "[&_[data-state=checked]]:bg-slate-100/80",
           "[&_[data-state=checked]]:text-slate-900",
-          // item hover
+          // item radius
           "[&_[data-radix-collection-item]]:rounded-[10px]",
+          contentClassName,
         )}
       >
         {options.map((o) => (
@@ -155,7 +158,10 @@ function StyledSelect({
             value={o}
             className={cn(
               "rounded-[10px] py-2 text-[15px] font-medium text-slate-800",
-              "focus:bg-slate-100/80 focus:text-slate-900",
+              // hover/focus: ungu seperti contoh kedua
+              "focus:bg-violet-600 focus:text-white",
+              "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
+              "data-[state=checked]:focus:bg-slate-100/80 data-[state=checked]:focus:text-slate-900",
             )}
           >
             {o}
@@ -367,6 +373,14 @@ export default function LaporanKolektibilitas() {
                   value={bulan}
                   onValueChange={(v) => setBulan(v as (typeof months)[number])}
                   options={[...months]}
+                  contentClassName={cn(
+                    "max-h-[240px] overflow-y-auto",
+                    // scrollbar mirip contoh (abu)
+                    "[&::-webkit-scrollbar]:w-2",
+                    "[&::-webkit-scrollbar-track]:bg-slate-100",
+                    "[&::-webkit-scrollbar-thumb]:bg-slate-400",
+                    "[&::-webkit-scrollbar-thumb]:rounded-full",
+                  )}
                 />
               </FieldRow>
 
