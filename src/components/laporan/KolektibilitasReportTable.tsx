@@ -24,58 +24,34 @@ export type KolektibilitasRow = {
   tunggakan90p: number;
 };
 
-function formatIdr2(n: number) {
-  const v = Number.isFinite(n) ? n : 0;
-  return v.toLocaleString("id-ID", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
 function formatIdr0(n: number) {
   const rounded = Math.round(Number.isFinite(n) ? n : 0);
   return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-function ChevronSortIcon() {
-  return (
-    <span className="ml-2 inline-flex flex-col leading-none text-slate-500">
-      <svg width="10" height="10" viewBox="0 0 24 24" className="-mb-0.5">
-        <path
-          d="M7 14l5 5 5-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <svg width="10" height="10" viewBox="0 0 24 24">
-        <path
-          d="M7 10l5-5 5 5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
-  );
+function formatFloat2(n: number) {
+  return (Number.isFinite(n) ? n : 0).toFixed(2);
 }
 
-function HeadCell({
+function Th({
   children,
-  sortable = true,
-  align = "left",
   className,
+  colSpan,
+  rowSpan,
+  align = "left",
 }: {
   children: React.ReactNode;
-  sortable?: boolean;
-  align?: "left" | "center" | "right";
   className?: string;
+  colSpan?: number;
+  rowSpan?: number;
+  align?: "left" | "center" | "right";
 }) {
   return (
     <th
+      colSpan={colSpan}
+      rowSpan={rowSpan}
       className={cn(
-        "border-b border-slate-300 bg-white px-3 py-3 align-middle",
+        "border border-slate-300/70 bg-white px-3 py-3 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         align === "center"
           ? "text-center"
@@ -85,40 +61,28 @@ function HeadCell({
         className,
       )}
     >
-      <div
-        className={cn(
-          "flex items-center gap-1",
-          align === "center"
-            ? "justify-center"
-            : align === "right"
-              ? "justify-end"
-              : "justify-start",
-        )}
-      >
-        <span className="leading-tight">{children}</span>
-        {sortable ? <ChevronSortIcon /> : null}
-      </div>
+      {children}
     </th>
   );
 }
 
-function BodyCell({
+function Td({
   children,
-  align = "left",
   className,
+  align = "left",
   title,
 }: {
   children: React.ReactNode;
-  align?: "left" | "center" | "right";
   className?: string;
+  align?: "left" | "center" | "right";
   title?: string;
 }) {
   return (
     <td
       title={title}
       className={cn(
-        "border-b border-slate-200 px-3 py-3 align-top",
-        "text-[13px] font-medium text-slate-900",
+        "border border-slate-200/70 px-3 py-2.5 align-top",
+        "text-[12px] font-normal text-slate-900",
         align === "center"
           ? "text-center"
           : align === "right"
@@ -146,27 +110,31 @@ function PaginationLikeExample({
   const disabledPrev = page <= 1;
   const disabledNext = page >= pageCount;
 
-  const btnBase =
-    "h-10 px-4 text-[13px] font-semibold transition disabled:text-slate-400";
+  const navBtn = (disabled: boolean) =>
+    cn(
+      "h-10 px-4 text-[12px] font-semibold",
+      "bg-slate-100 text-slate-400",
+      disabled ? "opacity-70" : "text-slate-600 hover:bg-slate-200",
+    );
 
   return (
-    <div className={cn("inline-flex items-center overflow-hidden border border-slate-300", className)}>
+    <div className={cn("inline-flex items-center gap-2", className)}>
       <button
         type="button"
-        className={cn(btnBase, "bg-slate-100 text-slate-700 hover:bg-slate-200")}
+        className={cn("rounded-none", navBtn(disabledPrev))}
         disabled={disabledPrev}
         onClick={() => onPage(Math.max(1, page - 1))}
       >
         Sebelumnya
       </button>
 
-      <div className="grid h-10 min-w-10 place-items-center bg-violet-600 px-4 text-[13px] font-extrabold text-white">
+      <div className="inline-flex h-10 min-w-10 items-center justify-center bg-violet-600 px-4 text-[12px] font-extrabold text-white">
         {page}
       </div>
 
       <button
         type="button"
-        className={cn(btnBase, "bg-slate-100 text-slate-700 hover:bg-slate-200")}
+        className={cn("rounded-none", navBtn(disabledNext))}
         disabled={disabledNext}
         onClick={() => onPage(Math.min(pageCount, page + 1))}
       >
@@ -175,6 +143,36 @@ function PaginationLikeExample({
     </div>
   );
 }
+
+const colW = {
+  no: "w-[60px]",
+  noNsb: "w-[140px]",
+  nama: "w-[220px]",
+  status: "w-[140px]",
+  alamat: "w-[170px]",
+  tanggalPinjaman: "w-[150px]",
+  tanggalJatuhTempo: "w-[170px]",
+  jenisPinjaman: "w-[170px]",
+  plafon: "w-[160px]",
+  aoId: "w-[90px]",
+  jwBln: "w-[70px]",
+  jwDari: "w-[130px]",
+  jwSampai: "w-[130px]",
+  pinPokok: "w-[130px]",
+  pinBng: "w-[90px]",
+  angPerBln: "w-[130px]",
+  angSdhHr: "w-[90px]",
+  tBln: "w-[90px]",
+  tNilai: "w-[160px]",
+  t1_30: "w-[140px]",
+  t31_60: "w-[140px]",
+  t61_90: "w-[140px]",
+  t90p: "w-[140px]",
+  sisaPinjaman: "w-[160px]",
+  hutangPokok: "w-[150px]",
+  hutangBunga: "w-[150px]",
+  kolektibilitas: "w-[150px]",
+};
 
 type KolektibilitasLabel = "Macet" | "Lancar" | "Diragukan" | "Kurang Lancar";
 
@@ -211,7 +209,6 @@ export default function KolektibilitasReportTable({
     setPage(1);
   }, [pageSize, rows.length, totalEntriesResolved]);
 
-  // Prototype: pakai rows langsung (seperti sebelumnya)
   const paged = React.useMemo(() => rows, [rows]);
 
   const showingStart =
@@ -221,114 +218,204 @@ export default function KolektibilitasReportTable({
   const totals = React.useMemo(() => {
     return paged.reduce(
       (acc, r) => {
-        const plafon = r.pinjamanSldPokok + 1500000;
-        const sisaPinjaman = Math.max(0, r.pinjamanSldPokok - r.tunggakanNilai);
+        acc.pokok += r.pinjamanSldPokok;
 
-        acc.plafon += plafon;
-        acc.sisa += sisaPinjaman;
+        acc.nilai += r.tunggakanNilai;
+        acc.t1_30 += r.tunggakan1_30;
+        acc.t31_60 += r.tunggakan31_60;
+        acc.t61_90 += r.tunggakan61_90;
+        acc.t90p += r.tunggakan90p;
 
-        // contoh: hutang dihitung dari tunggakan (seperti sebelumnya)
+        acc.sisa += Math.max(0, r.pinjamanSldPokok - r.tunggakanNilai);
         acc.hutangPokok += Math.max(0, Math.round(r.tunggakanNilai * 0.35));
         acc.hutangBunga += Math.max(0, Math.round(r.tunggakanNilai * 0.15));
+
         return acc;
       },
-      { plafon: 0, sisa: 0, hutangPokok: 0, hutangBunga: 0 },
+      {
+        pokok: 0,
+        nilai: 0,
+        t1_30: 0,
+        t31_60: 0,
+        t61_90: 0,
+        t90p: 0,
+        sisa: 0,
+        hutangPokok: 0,
+        hutangBunga: 0,
+      },
     );
   }, [paged]);
 
-  const totalRowCell =
-    "border-t border-slate-900 px-3 py-3 text-[13px] font-bold text-slate-900 bg-white";
+  const totalRowText =
+    "border border-slate-200/70 px-3 py-3 text-[12px] font-extrabold text-slate-900";
+  const totalRowNumber =
+    "border border-slate-200/70 px-3 py-3 text-right text-[12px] font-extrabold tabular-nums text-slate-900";
+
+  function TotalRow({ label }: { label: string }) {
+    return (
+      <tr className="border-t border-black bg-white">
+        {/* No + No.Rekening + Nama */}
+        <td className={cn(totalRowText, "whitespace-nowrap")} colSpan={3}>
+          {label}
+        </td>
+
+        {/* Status, Alamat, Tgl Pinjaman, Tgl Jatuh Tempo, Jenis Pinjaman, Plafon, AO ID */}
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+
+        {/* Jangka Waktu (3) */}
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+
+        {/* Pinjaman: Sld Pokok */}
+        <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
+        {/* Pinjaman: Bng */}
+        <td className={totalRowText} />
+
+        {/* Angsuran (2) */}
+        <td className={totalRowText} />
+        <td className={totalRowText} />
+
+        {/* Tunggakan (6) */}
+        <td className={totalRowText} />
+        <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
+        <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
+        <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
+        <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
+        <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
+
+        {/* Sisa + Hutang + Kolektibilitas */}
+        <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
+        <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
+        <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
+        <td className={totalRowText} />
+      </tr>
+    );
+  }
+
+  const TOTAL_COLS = 27;
 
   return (
     <div className={cn("mt-6", className)}>
-      <div className="overflow-hidden rounded-[2px] border border-slate-300 bg-white">
-        <div className="safe-x-scroll">
-          <table className="w-full min-w-[1180px] border-collapse bg-white">
-            <thead>
+      <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
+        <div
+          className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}
+        >
+          <table className="min-w-[2710px] w-full border-collapse bg-white">
+            <thead className="bg-white">
               <tr>
-                <HeadCell sortable={false} className="w-[70px]">
-                  NO.
-                </HeadCell>
+                <Th rowSpan={2} className={colW.no}>
+                  No.
+                </Th>
+                <Th rowSpan={2} className={colW.noNsb}>
+                  NO.REKENING
+                </Th>
+                <Th rowSpan={2} className={colW.nama}>
+                  Nama
+                </Th>
+                <Th rowSpan={2} className={colW.status} align="center">
+                  Status
+                </Th>
+                <Th rowSpan={2} className={colW.alamat}>
+                  Alamat
+                </Th>
+                <Th rowSpan={2} className={colW.tanggalPinjaman} align="left">
+                  Tanggal Pinjaman
+                </Th>
+                <Th rowSpan={2} className={colW.tanggalJatuhTempo} align="left">
+                  Tanggal Jatuh Tempo
+                </Th>
+                <Th rowSpan={2} className={colW.jenisPinjaman} align="left">
+                  Jenis Pinjaman
+                </Th>
+                <Th rowSpan={2} className={colW.plafon} align="left">
+                  Plafon
+                </Th>
+                <Th rowSpan={2} className={colW.aoId} align="left">
+                  AO ID
+                </Th>
 
-                <HeadCell className="w-[180px]">
-                  <span className="block leading-tight">
-                    NAMA
-                    <br />
-                    NASABAH
-                  </span>
-                </HeadCell>
+                <Th colSpan={3} align="center">
+                  Jangka Waktu
+                </Th>
+                <Th colSpan={2} align="center">
+                  Pinjaman
+                </Th>
+                <Th colSpan={2} align="center">
+                  Angsuran
+                </Th>
+                <Th colSpan={6} align="center">
+                  Tunggakan
+                </Th>
 
-                <HeadCell className="w-[140px]">STATUS</HeadCell>
+                <Th rowSpan={2} className={colW.sisaPinjaman} align="left">
+                  Sisa Pinjaman
+                </Th>
+                <Th rowSpan={2} className={colW.hutangPokok} align="left">
+                  Hutang Pokok
+                </Th>
+                <Th rowSpan={2} className={colW.hutangBunga} align="left">
+                  Hutang Bunga
+                </Th>
 
-                <HeadCell className="w-[160px]">
-                  <span className="block leading-tight">
-                    KODE
-                    <br />
-                    PINJAMAN
-                  </span>
-                </HeadCell>
+                <Th
+                  rowSpan={2}
+                  className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                  align="left"
+                >
+                  Kolektiblilitas
+                </Th>
+              </tr>
 
-                <HeadCell className="w-[160px]">
-                  <span className="block leading-tight">
-                    TANGGAL
-                    <br />
-                    PINJAMAN
-                  </span>
-                </HeadCell>
+              <tr>
+                <Th className={colW.jwBln} align="center">
+                  Bln
+                </Th>
+                <Th className={cn(colW.jwDari, "whitespace-nowrap")} align="center">
+                  Dari tgl.
+                </Th>
+                <Th className={cn(colW.jwSampai, "whitespace-nowrap")} align="center">
+                  s/d tgl.
+                </Th>
 
-                <HeadCell className="w-[170px]">
-                  <span className="block leading-tight">
-                    TANGGAL
-                    <br />
-                    JATUH
-                    <br />
-                    TEMPO
-                  </span>
-                </HeadCell>
+                <Th className={cn(colW.pinPokok, "whitespace-nowrap")} align="right">
+                  Sld. Pokok
+                </Th>
+                <Th className={colW.pinBng} align="right">
+                  Bng
+                </Th>
 
-                <HeadCell className="w-[170px]">
-                  <span className="block leading-tight">
-                    JENIS
-                    <br />
-                    PINJAMAN
-                  </span>
-                </HeadCell>
+                <Th className={colW.angPerBln} align="right">
+                  Per bln
+                </Th>
+                <Th className={cn(colW.angSdhHr, "whitespace-nowrap")} align="right">
+                  SDH/HR
+                </Th>
 
-                <HeadCell align="right" className="w-[170px]">
-                  PLAFON
-                </HeadCell>
-
-                <HeadCell align="right" className="w-[170px]">
-                  <span className="block leading-tight">
-                    SISA
-                    <br />
-                    PINJAMAN
-                  </span>
-                </HeadCell>
-
-                <HeadCell align="right" className="w-[130px]">
-                  <span className="block leading-tight">
-                    HUTANG
-                    <br />
-                    POKOK
-                  </span>
-                </HeadCell>
-
-                <HeadCell align="right" className="w-[130px]">
-                  <span className="block leading-tight">
-                    HUTANG
-                    <br />
-                    BUNGA
-                  </span>
-                </HeadCell>
-
-                <HeadCell className="w-[170px]">
-                  <span className="block leading-tight">
-                    TIPE
-                    <br />
-                    KOLEKTIBILITAS
-                  </span>
-                </HeadCell>
+                <Th className={colW.tBln} align="center">
+                  Bln
+                </Th>
+                <Th className={colW.tNilai} align="right">
+                  Nilai
+                </Th>
+                <Th className={colW.t1_30} align="right">
+                  1-30 Hr
+                </Th>
+                <Th className={colW.t31_60} align="right">
+                  31-60 Hr
+                </Th>
+                <Th className={colW.t61_90} align="right">
+                  61-90 Hr
+                </Th>
+                <Th className={colW.t90p} align="right">
+                  {"\u003E"} 90 Hr
+                </Th>
               </tr>
             </thead>
 
@@ -336,8 +423,8 @@ export default function KolektibilitasReportTable({
               {paged.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={12}
-                    className="px-4 py-10 text-center text-[13px] font-medium text-slate-600"
+                    colSpan={TOTAL_COLS}
+                    className="px-4 py-10 text-center text-[12px] text-slate-600"
                   >
                     Tidak ada data laporan.
                   </td>
@@ -346,19 +433,17 @@ export default function KolektibilitasReportTable({
                 paged.map((r, idx) => {
                   const kolek = deriveKolektibilitas(r);
 
-                  // mapping sederhana agar mirip contoh
-                  const status = idx % 5 === 0 ? "Non Anggota" : "Anggota";
-                  const kodePinjaman = r.noNsb.replace(/^N/, "SMG");
+                  const status = idx % 5 === 0 ? "Calon" : "Anggota";
                   const tanggalPinjaman = r.dari;
                   const tanggalJatuhTempo = r.sampai;
-                  const jenisPinjaman = "Pinjaman Bulanan 9";
-
+                  const jenisPinjaman =
+                    idx % 2 === 0 ? "Pinjaman Bulanan" : "Pinjaman Harian";
                   const plafon = r.pinjamanSldPokok + 1500000;
+
                   const sisaPinjaman = Math.max(
                     0,
                     r.pinjamanSldPokok - r.tunggakanNilai,
                   );
-
                   const hutangPokok = Math.max(
                     0,
                     Math.round(r.tunggakanNilai * 0.35),
@@ -371,41 +456,116 @@ export default function KolektibilitasReportTable({
                   return (
                     <tr
                       key={`${r.noNsb}-${idx}`}
-                      className={cn(idx % 2 === 0 ? "bg-slate-50/60" : "bg-white")}
+                      className={cn(idx % 2 === 0 ? "bg-slate-50/40" : "bg-white")}
                     >
-                      <BodyCell className="w-[70px]">{idx + 1}</BodyCell>
-                      <BodyCell className="w-[180px]">
-                        <div className="leading-snug">{r.nama}</div>
-                      </BodyCell>
-                      <BodyCell className="w-[140px]">{status}</BodyCell>
-                      <BodyCell className="w-[160px]">{kodePinjaman}</BodyCell>
-                      <BodyCell className="w-[160px]">{tanggalPinjaman}</BodyCell>
-                      <BodyCell className="w-[170px]">{tanggalJatuhTempo}</BodyCell>
-                      <BodyCell className="w-[170px]">
-                        <div className="leading-snug">
-                          Pinjaman
-                          <br />
-                          Bulanan 9
-                        </div>
-                      </BodyCell>
+                      <Td className={colW.no} align="center">
+                        {r.no}
+                      </Td>
 
-                      <BodyCell align="right" className="w-[170px]">
-                        {formatIdr2(plafon)}
-                      </BodyCell>
+                      <Td className={cn(colW.noNsb, "whitespace-nowrap")}>
+                        {r.noNsb}
+                      </Td>
 
-                      <BodyCell align="right" className="w-[170px]">
-                        {formatIdr2(sisaPinjaman)}
-                      </BodyCell>
+                      <Td className={cn(colW.nama, "whitespace-nowrap")}>
+                        {r.nama}
+                      </Td>
 
-                      <BodyCell align="right" className="w-[130px]">
-                        {formatIdr2(hutangPokok)}
-                      </BodyCell>
+                      <Td className={colW.status} align="center">
+                        {status}
+                      </Td>
 
-                      <BodyCell align="right" className="w-[130px]">
-                        {formatIdr2(hutangBunga)}
-                      </BodyCell>
+                      <Td className={cn(colW.alamat, "truncate")} title={r.alamat}>
+                        {r.alamat}
+                      </Td>
 
-                      <BodyCell className="w-[170px]">{kolek === "Lancar" ? "-" : kolek}</BodyCell>
+                      <Td
+                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
+                        {tanggalPinjaman}
+                      </Td>
+
+                      <Td
+                        className={cn(colW.tanggalJatuhTempo, "whitespace-nowrap")}
+                        align="left"
+                      >
+                        {tanggalJatuhTempo}
+                      </Td>
+
+                      <Td
+                        className={cn(colW.jenisPinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
+                        {jenisPinjaman}
+                      </Td>
+
+                      <Td className={cn(colW.plafon, "whitespace-nowrap")} align="left">
+                        {formatIdr0(plafon)}
+                      </Td>
+
+                      <Td className={cn(colW.aoId, "whitespace-nowrap")} align="left">
+                        {r.aoId}
+                      </Td>
+
+                      <Td className={colW.jwBln} align="center">
+                        {r.jangkaWaktuBln}
+                      </Td>
+                      <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="center">
+                        {r.dari}
+                      </Td>
+                      <Td className={cn(colW.jwSampai, "whitespace-nowrap")} align="center">
+                        {r.sampai}
+                      </Td>
+
+                      <Td className={colW.pinPokok} align="right">
+                        {formatIdr0(r.pinjamanSldPokok)}
+                      </Td>
+                      <Td className={colW.pinBng} align="right">
+                        {formatFloat2(r.pinjamanBng)}
+                      </Td>
+
+                      <Td className={colW.angPerBln} align="right">
+                        {formatIdr0(r.angsuranPerBln)}
+                      </Td>
+                      <Td className={colW.angSdhHr} align="right">
+                        {formatFloat2(r.angsuranSdhHr)}
+                      </Td>
+
+                      <Td className={colW.tBln} align="center">
+                        {r.tunggakanBln}
+                      </Td>
+                      <Td className={colW.tNilai} align="right">
+                        {formatIdr0(r.tunggakanNilai)}
+                      </Td>
+                      <Td className={colW.t1_30} align="right">
+                        {formatIdr0(r.tunggakan1_30)}
+                      </Td>
+                      <Td className={colW.t31_60} align="right">
+                        {formatIdr0(r.tunggakan31_60)}
+                      </Td>
+                      <Td className={colW.t61_90} align="right">
+                        {formatIdr0(r.tunggakan61_90)}
+                      </Td>
+                      <Td className={colW.t90p} align="right">
+                        {formatIdr0(r.tunggakan90p)}
+                      </Td>
+
+                      <Td className={colW.sisaPinjaman} align="right">
+                        {formatIdr0(sisaPinjaman)}
+                      </Td>
+                      <Td className={colW.hutangPokok} align="right">
+                        {formatIdr0(hutangPokok)}
+                      </Td>
+                      <Td className={colW.hutangBunga} align="right">
+                        {formatIdr0(hutangBunga)}
+                      </Td>
+
+                      <Td
+                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                        align="left"
+                      >
+                        {kolek}
+                      </Td>
                     </tr>
                   );
                 })
@@ -413,60 +573,18 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <>
-                  <tr>
-                    <td className={totalRowCell} colSpan={7}>
-                      Total per Halaman
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.plafon)}
-                      {",00"}
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.sisa)}
-                      {",00"}
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.hutangPokok)}
-                      {",00"}
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.hutangBunga)}
-                      {",00"}
-                    </td>
-                    <td className={totalRowCell} />
-                  </tr>
-
-                  <tr>
-                    <td className={cn(totalRowCell, "border-t border-slate-900")} colSpan={7}>
-                      Total
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.plafon)}
-                      {",00"}
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.sisa)}
-                      {",00"}
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.hutangPokok)}
-                      {",00"}
-                    </td>
-                    <td className={cn(totalRowCell, "text-right tabular-nums")}>
-                      {formatIdr0(totals.hutangBunga)}
-                      {",00"}
-                    </td>
-                    <td className={totalRowCell} />
-                  </tr>
+                  <TotalRow label="Total per Halaman" />
+                  <TotalRow label="Total" />
                 </>
               ) : null}
             </tbody>
           </table>
         </div>
 
-        <div className="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 md:flex-row md:items-center md:justify-between">
-          <div className="text-[13px] font-medium text-slate-700">
-            Menampilkan {showingStart} sampai {showingEnd} dari {totalEntriesResolved} entri
+        <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="text-[12px] text-slate-700">
+            Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+            {totalEntriesResolved} entri
           </div>
 
           <PaginationLikeExample page={page} pageCount={pageCount} onPage={setPage} />
