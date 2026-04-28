@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
@@ -569,7 +568,7 @@ export default function LoanApplicationCreate() {
                   </FieldRowInline>
                 </div>
 
-                <Separator className="bg-slate-200/70" />
+                {/* Divider DIHAPUS sesuai permintaan */}
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
