@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Info } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -25,14 +25,15 @@ export default function FieldTooltip({
           type="button"
           className={cn(
             "ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full",
-            "bg-[hsl(var(--app-accent))]/10 text-[hsl(var(--app-accent-2))]",
-            "ring-1 ring-[hsl(var(--app-accent))]/20 transition hover:bg-[hsl(var(--app-accent))]/15",
-            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[hsl(var(--app-accent))]/25",
+            "bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25",
+            "transition hover:bg-[#1d4ed8]",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
             className,
           )}
           aria-label="Info"
+          title="Info"
         >
-          <Info className={cn("h-4 w-4", iconClassName)} />
+          <HelpCircle className={cn("h-4 w-4", iconClassName)} />
         </button>
       </TooltipTrigger>
 
