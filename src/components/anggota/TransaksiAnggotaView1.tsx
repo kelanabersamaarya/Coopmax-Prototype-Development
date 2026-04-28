@@ -314,6 +314,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   // Only show penalty for first 3 bill rows (View1)
   const PENALTY_ROWS_PER_PAGE = 3;
+  const showPenaltyColumnInTable = !isPenurunanBakiDebet;
 
   return (
     <div className="w-full px-0">
@@ -426,15 +427,21 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   "[&_.billing-v1-compact-rows_.bg-white.px-3.py-3]:!py-2",
 
                   // --- Penalty: show only first 3 bill rows, rest empty (NO '-' / NO icon)
-                  // BillingTableView2: penalty is rendered as the LAST column. We blank that column for rows >= 4.
-                  // (tbody rows are data rows; header is in thead)
-                  `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child]:text-transparent`,
-                  `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`,
+                  // BillingTableView2: penalty is the LAST column. Blank it for rows >= 4.
+                  // Note: we target tbody rows, so it is stable.
+                  showPenaltyColumnInTable
+                    ? [
+                        `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child]:text-transparent`,
+                        `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`,
+                      ].join(" ")
+                    : "",
 
-                  // BillingTable (v1): it uses "-" placeholder span with text-slate-400; hide it so cell becomes empty
+                  // BillingTable (v1): hide "-" placeholder so it becomes truly empty
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
-                  // and also ensure any content in penalty td after row 3 is hidden (if any)
-                  `[&_.billing-table-compact_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`,
+                  // also ensure any content in penalty td after row 3 is hidden
+                  showPenaltyColumnInTable
+                    ? `[&_.billing-table-compact_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`
+                    : "",
                 )}
               >
                 {useView2Style ? (
@@ -447,7 +454,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     showGraceInfo={true}
                     highlightGraceBlock={true}
                     hideSelection={false}
-                    showPenaltyColumn={true}
+                    showPenaltyColumn={showPenaltyColumnInTable}
                     disableRowRings
                     className="mt-0"
                   />
@@ -464,7 +471,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       penaltyOnlyCols={penaltyOnlyCols}
                       feeOnlyCols={feeOnlyCols}
                       hideSelection={isPenurunanBakiDebet}
-                      showPenaltyColumn={true}
+                      showPenaltyColumn={showPenaltyColumnInTable}
                     />
                   </div>
                 )}
