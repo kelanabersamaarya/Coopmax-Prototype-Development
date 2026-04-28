@@ -30,19 +30,15 @@ function RowShell({
   disableActiveRing = false,
   disableRowRings = false,
   density = "default",
-  tight = false,
 }: {
   children: React.ReactNode;
   active: boolean;
   disableActiveRing?: boolean;
   disableRowRings?: boolean;
   density?: "default" | "roomy";
-  tight?: boolean;
 }) {
-  const py = tight ? "py-3" : density === "roomy" ? "py-4" : "py-3";
-
   return (
-    <div className={cn("bg-white px-3", py)}>
+    <div className={cn("bg-white px-3", density === "roomy" ? "py-4" : "py-3")}>
       <div
         className={cn(
           "rounded-[5px] bg-white",
@@ -169,7 +165,6 @@ export default function BillingTableView2({
   disableRowRings = false,
   hideRowDividers = false,
   rowDensity = "default",
-  tightRows = false,
   className,
 }: {
   rows: BillingRow[];
@@ -186,7 +181,6 @@ export default function BillingTableView2({
   disableRowRings?: boolean;
   hideRowDividers?: boolean;
   rowDensity?: "default" | "roomy";
-  tightRows?: boolean;
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -340,7 +334,6 @@ export default function BillingTableView2({
                                 disableActiveRing={disableRowActiveRing}
                                 disableRowRings={disableRowRings}
                                 density={rowShellDensity}
-                                tight={tightRows}
                               >
                                 <div
                                   className={cn("grid items-center gap-0", gridTemplate)}
@@ -436,7 +429,6 @@ export default function BillingTableView2({
                           disableActiveRing={disableRowActiveRing}
                           disableRowRings={disableRowRings}
                           density={rowShellDensity}
-                          tight={tightRows}
                         >
                           <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
@@ -530,7 +522,6 @@ export default function BillingTableView2({
                             disableActiveRing={disableRowActiveRing}
                             disableRowRings={disableRowRings}
                             density={rowShellDensity}
-                            tight={tightRows}
                           >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (

@@ -548,7 +548,6 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     disableRowRings
                     disableRowActiveRing
                     rowDensity="default"
-                    tightRows
                   />
                 ) : useV1ForPenurunanBakiDebet ? (
                   <div
