@@ -334,16 +334,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
-  // Khusus penurunan baki debet: kecilkan padding RowShell agar match metode lain
-  const compactPenurunanBakiDebetOverrides = isPenurunanBakiDebet
-    ? [
-        // RowShell uses: <div className="bg-white px-3 py-4"> (roomy) or py-3 (default)
-        // We force it to match the tighter look (same as other modes)
-        "[&_.bg-white.px-3.py-4]:!py-3",
-        "[&_.bg-white.px-3.py-3]:!py-3",
-      ].join(" ")
-    : "";
-
   const alignNumbersForPenurunan = "";
 
   return (
@@ -457,7 +447,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
-                  compactPenurunanBakiDebetOverrides,
                   alignNumbersForPenurunan,
                 )}
               >
