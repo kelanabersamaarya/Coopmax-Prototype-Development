@@ -30,6 +30,8 @@ function formatIdrLike(n: number) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+const R = "rounded-[5px]";
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -53,7 +55,8 @@ export default function PenaltyDetailDialog({
           "max-w-[640px]",
           "max-h-[80vh]",
           "overflow-hidden",
-          "rounded-3xl border-slate-200 p-0 shadow-2xl",
+          R,
+          "border-slate-200 p-0 shadow-2xl",
           // hide default shadcn close button (biar hanya X custom)
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
@@ -61,7 +64,7 @@ export default function PenaltyDetailDialog({
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <div className="bg-white">
+        <div className={cn("bg-white", R)}>
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
               Rincian Denda
@@ -69,7 +72,11 @@ export default function PenaltyDetailDialog({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+              className={cn(
+                "inline-flex h-9 w-9 items-center justify-center",
+                R,
+                "text-slate-700 transition hover:bg-slate-100",
+              )}
               aria-label="Tutup"
               title="Tutup"
             >
@@ -83,11 +90,25 @@ export default function PenaltyDetailDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(80vh - 64px - 84px)" }}
           >
-            <div className="overflow-hidden rounded-3xl border border-slate-200">
+            <div
+              className={cn(
+                "overflow-hidden",
+                R,
+                "bg-white",
+                // lebih tegas & pastikan border kiri tidak "hilang"
+                "ring-1 ring-slate-300",
+              )}
+            >
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[520px] table-fixed border-collapse">
+                <table
+                  className={cn(
+                    "w-full min-w-[520px] table-fixed border-collapse",
+                    // border kiri eksplisit agar selalu terlihat
+                    "border-l border-slate-300",
+                  )}
+                >
                   <thead className="bg-white">
-                    <tr className="border-b border-slate-200 text-left">
+                    <tr className="border-b border-slate-300 text-left">
                       <th className="w-[140px] px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
                         HARI
                       </th>
@@ -115,7 +136,7 @@ export default function PenaltyDetailDialog({
                         <tr
                           key={`${r.tanggalKeterlambatan}-${idx}`}
                           className={cn(
-                            "border-t border-slate-100",
+                            "border-t border-slate-300/70",
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                           )}
                         >
@@ -132,7 +153,7 @@ export default function PenaltyDetailDialog({
                       ))
                     )}
 
-                    <tr className="border-t border-slate-200 bg-white">
+                    <tr className="border-t border-slate-300 bg-white">
                       <td
                         colSpan={2}
                         className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900"
@@ -156,7 +177,11 @@ export default function PenaltyDetailDialog({
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
-                className="inline-flex h-11 items-center justify-center rounded-2xl bg-slate-600 px-6 text-sm font-semibold text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700"
+                className={cn(
+                  "inline-flex h-11 items-center justify-center px-6 text-sm font-semibold",
+                  R,
+                  "bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700",
+                )}
               >
                 Tutup
               </button>
