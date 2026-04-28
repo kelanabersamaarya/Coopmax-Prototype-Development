@@ -39,8 +39,8 @@ function RowShell({
   density?: "default" | "roomy";
   tight?: boolean;
 }) {
-  // Tight: make the outer wrapper compact too.
-  const py = tight ? "py-1.5" : density === "roomy" ? "py-4" : "py-3";
+  // Tight forces the outer wrapper to be compact too.
+  const py = tight ? "py-2" : density === "roomy" ? "py-4" : "py-3";
 
   return (
     <div className={cn("bg-white px-3", py)}>
@@ -241,8 +241,8 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // tighter vertical padding for "Penurunan Baki Debet"
-  const cellY = tightRows ? "py-1.5" : rowDensity === "roomy" ? "py-8" : "py-4";
+  // Tight rows should reduce cell padding too
+  const cellY = tightRows ? "py-2" : rowDensity === "roomy" ? "py-8" : "py-4";
   const rowShellDensity: "default" | "roomy" = rowDensity;
 
   const dateTextClass =
