@@ -321,7 +321,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const showPenaltyColumnInTable = !isPenurunanBakiDebet;
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
-
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
   const alignNumbersForPenurunan =
@@ -340,7 +339,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
-        <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
+        <div className="flex items-center justify-between gap-3">
+          <AnggotaAccountTabs active="pinjaman" onChange={() => {}} />
+
+          <div className="inline-flex items-center rounded-full bg-violet-600 px-3 py-1 text-xs font-extrabold tracking-wide text-white ring-1 ring-violet-600/25">
+            VIEW 1
+          </div>
+        </div>
 
         <div className="space-y-4">
           <SectionHighlight title="Informasi Rekening" />
