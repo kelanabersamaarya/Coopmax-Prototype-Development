@@ -80,9 +80,6 @@ export default function PenaltyRateField({
               <SelectItem value="percent">%</SelectItem>
             </SelectContent>
           </Select>
-
-          {/* debug marker */}
-          <span className="text-[10px] font-bold text-fuchsia-700">PRF</span>
         </div>
 
         <Input
