@@ -30,7 +30,8 @@ export default function NumericCell({
     <span className="ml-2 text-[10px] font-semibold text-rose-500">•nc</span>
   ) : null;
 
-  if (align === "right" || !text || !text.includes(".")) {
+  // If not string, fallback to right-aligned
+  if (align === "right" || !text) {
     return (
       <span className={cn("block w-full whitespace-nowrap", className)}>
         <span className="flex w-full items-baseline justify-end">
@@ -41,15 +42,20 @@ export default function NumericCell({
     );
   }
 
+  // Always use the 3-column grid so numbers align even when there is no dot.
   const { head, tail } = splitByLastDot(text);
+  const hasDot = text.includes(".") && tail !== "";
 
   return (
     <span className={cn("block w-full whitespace-nowrap", className)}>
       <span className="flex w-full items-baseline justify-end">
-        <span className="grid items-baseline [grid-template-columns:1fr_auto_auto] w-full num-sans-tabular">
+        <span className="grid w-full items-baseline [grid-template-columns:1fr_auto_auto] num-sans-tabular">
           <span className="min-w-0 text-right">{head}</span>
-          <span className="px-0.5 text-right">.</span>
-          <span className="w-[3ch] text-left">{tail}</span>
+          <span className={cn("px-0.5 text-right", hasDot ? "" : "opacity-0")}>
+            .
+          </span>
+          {/* Fixed tail width keeps columns aligned across rows */}
+          <span className="w-[3ch] text-left">{hasDot ? tail : ""}</span>
         </span>
         {Marker}
       </span>
