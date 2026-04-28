@@ -950,9 +950,7 @@ export default function LoanProductEdit() {
                       <>
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            <span className="inline-flex items-center">
-                              Skema Grace Period <InfoBadge />
-                            </span>
+                            Skema Grace Period
                           </div>
                           <RadioGroup
                             value={graceScheme}
@@ -965,16 +963,13 @@ export default function LoanProductEdit() {
                                 id="grace-hanya-bayar-bunga"
                               />
                               Hanya Bayar Bunga
-                              <InfoBadge />
                             </label>
                           </RadioGroup>
                         </div>
 
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            <span className="inline-flex items-center">
-                              Satuan Grace Period <InfoBadge />
-                            </span>
+                            Satuan Grace Period
                           </div>
                           <Select
                             value={graceUnit}
@@ -995,9 +990,7 @@ export default function LoanProductEdit() {
 
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            <span className="inline-flex items-center">
-                              {graceDurationLabel} <InfoBadge />
-                            </span>
+                            {graceDurationLabel}
                           </div>
                           <Input
                             value={graceDuration}
