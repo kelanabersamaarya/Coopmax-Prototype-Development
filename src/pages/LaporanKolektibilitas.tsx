@@ -62,6 +62,17 @@ const branchOptions = [
   "Cabang Gianyar",
 ] as const;
 
+const UI = {
+  radius: "rounded-[5px]",
+  h: "h-[30px]",
+  text: "text-[12.5px]",
+  gapY: "gap-[15px]",
+  select:
+    "h-[30px] w-full appearance-none rounded-[5px] border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900 shadow-sm outline-none transition focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
+  input: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] shadow-sm",
+  btn: "h-[30px] rounded-[5px] px-5 text-[13px] font-semibold text-white",
+} as const;
+
 function ActionPill({
   icon: Icon,
   label,
@@ -117,11 +128,7 @@ function SelectLike({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={cn(
-          "h-9 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900",
-          "shadow-sm outline-none transition",
-          "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-        )}
+        className={UI.select}
       >
         {placeholder ? <option value={placeholder}>{placeholder}</option> : null}
         {options.map((o) => (
@@ -303,20 +310,16 @@ export default function LaporanKolektibilitas() {
           </div>
         </div>
 
-        {/* FORM: tanpa border & divider */}
+        {/* FORM: compact styling */}
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[920px]">
-            <div className="grid gap-3">
+            <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Jenis Pinjaman">
                 <div className="relative">
                   <select
                     value={jenisPinjaman}
                     onChange={(e) => setJenisPinjaman(e.target.value)}
-                    className={cn(
-                      "h-9 w-full appearance-none rounded-md border border-slate-200 bg-white px-3 pr-9 text-[12.5px] font-medium text-slate-900",
-                      "shadow-sm outline-none transition",
-                      "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-                    )}
+                    className={UI.select}
                   >
                     <option value="Pilih pinjaman">Pilih pinjaman</option>
                     {loanOptions.map((o) => (
@@ -342,7 +345,7 @@ export default function LaporanKolektibilitas() {
                   value={namaKode}
                   onChange={(e) => setNamaKode(e.target.value)}
                   placeholder="Masukkan nama/kode pinjaman.."
-                  className="h-9 rounded-md border-slate-200 bg-white text-[12.5px] shadow-sm"
+                  className={UI.input}
                 />
               </FieldRow>
 
@@ -358,7 +361,7 @@ export default function LaporanKolektibilitas() {
                 <Input
                   value={tahun}
                   onChange={(e) => setTahun(e.target.value)}
-                  className="h-9 rounded-md border-slate-200 bg-white text-[12.5px] shadow-sm"
+                  className={UI.input}
                   inputMode="numeric"
                 />
               </FieldRow>
@@ -386,12 +389,13 @@ export default function LaporanKolektibilitas() {
                 />
               </FieldRow>
 
-              <div className="flex justify-end pt-1">
+              <div className="flex justify-end pt-0">
                 <button
                   type="button"
                   onClick={doSearch}
                   className={cn(
-                    "inline-flex h-9 items-center gap-2 rounded-full px-5 text-[13px] font-semibold text-white",
+                    UI.btn,
+                    "inline-flex items-center gap-2",
                     "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
                   )}
                 >
