@@ -313,6 +313,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const useView2Style = isReguler || isKhusus || isPelunasan;
 
+  // only 3 penalty rows per page (UI requirement for View 1)
+  const PENALTY_ROWS_PER_PAGE = 3;
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -413,18 +416,24 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <div
                 className={cn(
                   "billing-v1-compact-rows",
-                  // BillingTableView2 uses RowShell padding; BillingTable uses td padding.
-                  // We scope the overrides only inside View 1.
+                  // compact vertical padding (View1 only)
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
                   "[&_.billing-table-compact_td]:!pt-2.5 [&_.billing-table-compact_td]:!pb-2.5",
                   "[&_.billing-table-compact_th]:!pt-2.5 [&_.billing-table-compact_th]:!pb-2.5",
-                  // BillingTableView2: the per-cell wrapper uses px-4 py-4 -> make it smaller
+                  // BillingTableView2 cells: px-4 py-4 -> smaller
                   "[&_.billing-v1-compact-rows_.py-4]:!py-3",
                   "[&_.billing-v1-compact-rows_.px-3.py-3]:!py-2.5",
                   "[&_.billing-v1-compact-rows_.px-4.py-4]:!py-3",
                   // RowShell outer padding (bg-white px-3 py-3)
                   "[&_.billing-v1-compact-rows_.bg-white.px-3.py-3]:!py-2",
+                  // === Penalty column rules (View1) ===
+                  // For BillingTableView2: hide the info button after row 3, and hide the penalty amount text too.
+                  // Heuristic: the penalty cell has `gap-3` and contains the round blue button.
+                  `[&_.billing-v1-compact-rows_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 2})_button.bg-\\[\\#2563eb\\]]:hidden`,
+                  `[&_.billing-v1-compact-rows_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 2})_button.bg-\\[\\#2563eb\\]~span]:hidden`,
+                  // For BillingTable (v1): remove '-' placeholder (make empty).
+                  "[&_.billing-table-compact_span.text-slate-400]:hidden",
                 )}
               >
                 {useView2Style ? (
@@ -454,7 +463,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       penaltyOnlyCols={penaltyOnlyCols}
                       feeOnlyCols={feeOnlyCols}
                       hideSelection={isPenurunanBakiDebet}
-                      showPenaltyColumn={isPelunasan}
+                      showPenaltyColumn={true}
                     />
                   </div>
                 )}
