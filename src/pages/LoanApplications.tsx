@@ -193,6 +193,9 @@ export default function LoanApplications() {
   const filterCell = "px-3 py-2";
   const td = "px-3 py-3";
 
+  // kolom Produk dipersempit + pakai ellipsis agar teks tidak memaksa lebar
+  const produkColW = "w-[170px] max-w-[170px]";
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -223,13 +226,13 @@ export default function LoanApplications() {
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
           <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1180px] border-collapse">
+              <table className="w-full min-w-[1120px] border-collapse">
                 <thead className="bg-slate-50">
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-600">
                     <th className={cn("w-[70px]", th)}>No.</th>
                     <th className={cn("w-[170px]", th)}>No. Rekening</th>
                     <th className={cn("w-[160px]", th)}>Tanggal Daftar</th>
-                    <th className={cn("min-w-[220px]", th)}>Produk Pinjaman</th>
+                    <th className={cn(produkColW, th)}>Produk Pinjaman</th>
                     <th className={cn("w-[150px]", th)}>ID. Nasabah</th>
                     <th className={cn("min-w-[220px]", th)}>Nama Nasabah</th>
                     <th className={cn("w-[190px] text-right", th)}>Nominal</th>
@@ -255,9 +258,9 @@ export default function LoanApplications() {
                         placeholder=""
                       />
                     </th>
-                    <th className={filterCell}>
+                    <th className={cn(filterCell, produkColW)}>
                       <Select value={qProduk} onValueChange={setQProduk}>
-                        <SelectTrigger className="h-9 rounded-xl border-slate-200 bg-white text-sm">
+                        <SelectTrigger className="h-9 w-full rounded-xl border-slate-200 bg-white text-sm">
                           <SelectValue placeholder="-- Semua" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -355,8 +358,8 @@ export default function LoanApplications() {
                           {r.tanggalDaftar}
                         </td>
 
-                        <td className={td}>
-                          <div className="leading-tight text-slate-900">
+                        <td className={cn(td, produkColW)}>
+                          <div className="truncate leading-tight text-slate-900">
                             {r.produkPinjaman}
                           </div>
                         </td>
