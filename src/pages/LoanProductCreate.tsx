@@ -202,8 +202,9 @@ export default function LoanProductCreate() {
         ? "Masukkan Jumlah Bulan"
         : "Masukkan Durasi";
 
-  // === Style match dengan halaman Ubah (lebih kecil & kotak) ===
-  const compactField = "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]";
+  // === compact style (match halaman Ubah) ===
+  const compactField =
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]";
   const compactSelectTrigger =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]";
   const compactSelectContent = "rounded-[10px] border-slate-200";
@@ -806,6 +807,7 @@ export default function LoanProductCreate() {
                       onModeChange={setTarifDendaMode}
                       value={tarifDendaValue}
                       onValueChange={setTarifDendaValue}
+                      size="compact"
                       className="rounded-[5px]"
                     />
                   </FieldRow>

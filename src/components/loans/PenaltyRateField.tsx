@@ -22,12 +22,14 @@ export default function PenaltyRateField({
   onModeChange,
   value,
   onValueChange,
+  size = "default",
   className,
 }: {
   mode: PenaltyRateMode;
   onModeChange: (v: PenaltyRateMode) => void;
   value: string;
   onValueChange: (v: string) => void;
+  size?: "default" | "compact";
   className?: string;
 }) {
   const isPercent = mode === "percent";
@@ -49,6 +51,10 @@ export default function PenaltyRateField({
     }
   }
 
+  const h = size === "compact" ? "h-[30px]" : "h-11";
+  const radius = size === "compact" ? "rounded-[5px]" : "rounded-2xl";
+  const text = size === "compact" ? "text-[12.5px]" : "";
+
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
@@ -57,7 +63,14 @@ export default function PenaltyRateField({
             value={mode}
             onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
           >
-            <SelectTrigger className="h-11 w-full min-w-0 rounded-2xl border-slate-200 bg-white px-2 pr-7">
+            <SelectTrigger
+              className={cn(
+                h,
+                "w-full min-w-0 border-slate-200 bg-white px-2 pr-7",
+                radius,
+                text,
+              )}
+            >
               <span className="block min-w-0 truncate">
                 <SelectValue />
               </span>
@@ -75,7 +88,7 @@ export default function PenaltyRateField({
         <Input
           value={value}
           onChange={(e) => onValueChange(e.target.value)}
-          className="h-11 w-full rounded-2xl border-slate-200 bg-white"
+          className={cn(h, "w-full border-slate-200 bg-white", radius, text)}
           placeholder={isPercent ? "0%" : "0,00"}
           inputMode="decimal"
         />
