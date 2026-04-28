@@ -5,15 +5,6 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-
-function VisuallyHidden({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="sr-only">
-      {children}
-    </span>
-  );
-}
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -24,6 +15,9 @@ function parseIdrLike(input: string) {
   const s = (input ?? "").trim();
   if (!s) return 0;
 
+  // Format ID umum: 25.000 atau 25.000,50
+  // - hapus pemisah ribuan "."
+  // - ubah desimal "," jadi "."
   const normalized = s.replace(/\./g, "").replace(",", ".");
   const cleaned = normalized.replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
@@ -56,7 +50,6 @@ export default function PenaltyDetailDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        aria-describedby="penalty-detail-desc"
         className={cn(
           "w-[calc(100vw-1.25rem)] sm:w-[640px]",
           "max-w-[640px]",
@@ -64,19 +57,13 @@ export default function PenaltyDetailDialog({
           "overflow-hidden",
           R,
           "border-slate-200 p-0 shadow-2xl",
+          // hide default shadcn close button (biar hanya X custom)
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <VisuallyHidden>
-          <DialogTitle>Rincian Denda</DialogTitle>
-          <DialogDescription id="penalty-detail-desc">
-            Rincian per hari keterlambatan dan total nominal denda.
-          </DialogDescription>
-        </VisuallyHidden>
-
         <div className={cn("bg-white", R)}>
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
@@ -108,6 +95,7 @@ export default function PenaltyDetailDialog({
                 "overflow-hidden",
                 R,
                 "bg-white",
+                // lebih tegas & pastikan border kiri tidak "hilang"
                 "ring-1 ring-slate-300",
               )}
             >
@@ -115,6 +103,7 @@ export default function PenaltyDetailDialog({
                 <table
                   className={cn(
                     "w-full min-w-[520px] table-fixed border-collapse",
+                    // border kiri eksplisit agar selalu terlihat
                     "border-l border-slate-300",
                   )}
                 >
