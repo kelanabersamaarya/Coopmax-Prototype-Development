@@ -941,24 +941,24 @@ export default function LoanProductCreate() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <Button
                 variant="outline"
-                className="rounded-full border-slate-200 bg-white/60 hover:bg-white"
+                className="h-10 rounded-xl border-slate-200 bg-white px-6 text-slate-800 hover:bg-slate-50"
                 onClick={() => navigate("/loan-products")}
               >
-                <X className="mr-2 h-4 w-4" />
                 Batalkan
               </Button>
 
               <Button
                 onClick={save}
-                className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
+                className="h-10 rounded-xl bg-emerald-600 px-8 text-white hover:bg-emerald-700"
               >
-                <Save className="mr-2 h-4 w-4" />
                 Simpan
               </Button>
             </div>
 
             <div className="sr-only">
               <Info />
+              <Save />
+              <X />
             </div>
           </Card>
         </div>
