@@ -377,10 +377,10 @@ export default function KolektibilitasReportTable({
                 <Th className={colW.jwBln} align="center">
                   Bln
                 </Th>
-                <Th className={colW.jwDari} align="center">
+                <Th className={cn(colW.jwDari, "whitespace-nowrap")} align="center">
                   Dari tgl.
                 </Th>
-                <Th className={colW.jwSampai} align="center">
+                <Th className={cn(colW.jwSampai, "whitespace-nowrap")} align="center">
                   s/d tgl.
                 </Th>
 
@@ -510,10 +510,10 @@ export default function KolektibilitasReportTable({
                       <Td className={colW.jwBln} align="center">
                         {r.jangkaWaktuBln}
                       </Td>
-                      <Td className={colW.jwDari} align="center">
+                      <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="center">
                         {r.dari}
                       </Td>
-                      <Td className={colW.jwSampai} align="center">
+                      <Td className={cn(colW.jwSampai, "whitespace-nowrap")} align="center">
                         {r.sampai}
                       </Td>
 
