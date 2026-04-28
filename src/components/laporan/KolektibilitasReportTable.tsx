@@ -150,7 +150,6 @@ const colW = {
   nama: "w-[220px]",
   status: "w-[140px]",
   alamat: "w-[170px]",
-  kodePinjaman: "w-[150px]",
   tanggalPinjaman: "w-[150px]",
   tanggalJatuhTempo: "w-[170px]",
   jenisPinjaman: "w-[170px]",
@@ -255,10 +254,12 @@ export default function KolektibilitasReportTable({
   function TotalRow({ label }: { label: string }) {
     return (
       <tr className="border-t border-black bg-white">
+        {/* No + No.Rekening + Nama */}
         <td className={cn(totalRowText, "whitespace-nowrap")} colSpan={3}>
           {label}
         </td>
 
+        {/* Status, Alamat, Tgl Pinjaman, Tgl Jatuh Tempo, Jenis Pinjaman, Plafon, AO ID */}
         <td className={totalRowText} />
         <td className={totalRowText} />
         <td className={totalRowText} />
@@ -267,18 +268,21 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
         <td className={totalRowText} />
 
+        {/* Jangka Waktu (3) */}
+        <td className={totalRowText} />
+        <td className={totalRowText} />
         <td className={totalRowText} />
 
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-
+        {/* Pinjaman: Sld Pokok */}
         <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
+        {/* Pinjaman: Bng */}
         <td className={totalRowText} />
 
+        {/* Angsuran (2) */}
         <td className={totalRowText} />
         <td className={totalRowText} />
 
+        {/* Tunggakan (6) */}
         <td className={totalRowText} />
         <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
         <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
@@ -286,16 +290,16 @@ export default function KolektibilitasReportTable({
         <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
         <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
 
+        {/* Sisa + Hutang + Kolektibilitas */}
         <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
         <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
         <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
-
         <td className={totalRowText} />
       </tr>
     );
   }
 
-  const TOTAL_COLS = 28;
+  const TOTAL_COLS = 27;
 
   return (
     <div className={cn("mt-6", className)}>
@@ -303,7 +307,7 @@ export default function KolektibilitasReportTable({
         <div
           className={cn("safe-x-scroll", "rounded-none border border-slate-300/70")}
         >
-          <table className="min-w-[2860px] w-full border-collapse bg-white">
+          <table className="min-w-[2710px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className={colW.no}>
@@ -320,9 +324,6 @@ export default function KolektibilitasReportTable({
                 </Th>
                 <Th rowSpan={2} className={colW.alamat}>
                   Alamat
-                </Th>
-                <Th rowSpan={2} className={colW.kodePinjaman} align="left">
-                  Kode Pinjaman
                 </Th>
                 <Th rowSpan={2} className={colW.tanggalPinjaman} align="left">
                   Tanggal Pinjaman
@@ -433,7 +434,6 @@ export default function KolektibilitasReportTable({
                   const kolek = deriveKolektibilitas(r);
 
                   const status = idx % 5 === 0 ? "Calon" : "Anggota";
-                  const kodePinjaman = `KP-${String(r.no).padStart(3, "0")}`;
                   const tanggalPinjaman = r.dari;
                   const tanggalJatuhTempo = r.sampai;
                   const jenisPinjaman =
@@ -476,13 +476,6 @@ export default function KolektibilitasReportTable({
 
                       <Td className={cn(colW.alamat, "truncate")} title={r.alamat}>
                         {r.alamat}
-                      </Td>
-
-                      <Td
-                        className={cn(colW.kodePinjaman, "whitespace-nowrap")}
-                        align="left"
-                      >
-                        {kodePinjaman}
                       </Td>
 
                       <Td
