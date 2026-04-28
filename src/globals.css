@@ -243,28 +243,6 @@
   }
 }
 
-/* --- Dialog close button rules --- */
-[data-radix-dialog-content] > button[aria-label="Close"],
-[data-radix-dialog-content] button[aria-label="Close"],
-[data-radix-dialog-content] button[data-radix-dialog-close],
-[data-radix-dialog-content] > button[data-radix-dialog-close] {
-  display: none !important;
-}
-[data-radix-dialog-content] > button.absolute.right-4.top-4,
-[data-radix-dialog-content] button.absolute.right-4.top-4 {
-  display: none !important;
-}
-[data-slot="dialog-content"] > [data-slot="dialog-close"],
-[data-slot="dialog-content"] [data-slot="dialog-close"] {
-  display: none !important;
-}
-[data-slot="dialog-content"] > button.absolute.right-4.top-4,
-[data-slot="dialog-content"] button.absolute.right-4.top-4,
-[data-slot="dialog-content"] > button[class*="right-4"][class*="top-4"],
-[data-slot="dialog-content"] button[class*="right-4"][class*="top-4"] {
-  display: none !important;
-}
-
 /* --- Global Radio (Radix/shadcn): make BOTH unchecked & checked blue --- */
 button[role="radio"][data-state="unchecked"],
 [data-radix-radio-group-item][data-state="unchecked"] {
