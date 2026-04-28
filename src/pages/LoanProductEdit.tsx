@@ -428,14 +428,10 @@ export default function LoanProductEdit() {
         <div className="mt-6 grid gap-4">
           <Card className="rounded-[5px] border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
             <div className="text-[20px] font-semibold text-slate-900">
-              Konfigurasi Produk Pinjaman
+              Konfigurasi Dasar Produk Pinjaman
             </div>
 
             <div className={"mt-5 grid " + UI.gapY}>
-              <div className="text-sm font-extrabold tracking-tight text-slate-900">
-                Konfigurasi Dasar
-              </div>
-
               <FieldRow label="Kode">
                 <Input
                   value={code}
@@ -838,7 +834,10 @@ export default function LoanProductEdit() {
               </div>
               <Button
                 onClick={addCollectorFee}
-                className={UI.button + " bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"}
+                className={
+                  UI.button +
+                  " bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
+                }
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Tambah Fee Kolektor
@@ -961,7 +960,14 @@ export default function LoanProductEdit() {
                         setDasarPerhitungan(v as PenaltyBase)
                       }
                     >
-                      <SelectTrigger className={"h-[30px] " + UI.radius + " border-slate-200 bg-white " + UI.fieldText}>
+                      <SelectTrigger
+                        className={
+                          "h-[30px] " +
+                          UI.radius +
+                          " border-slate-200 bg-white " +
+                          UI.fieldText
+                        }
+                      >
                         <SelectValue placeholder="Pilih Dasar Perhitungan" />
                       </SelectTrigger>
                       <SelectContent className="rounded-[10px] border-slate-200">
@@ -980,7 +986,12 @@ export default function LoanProductEdit() {
                     <Input
                       value={hariKeterlambatan}
                       onChange={(e) => setHariKeterlambatan(e.target.value)}
-                      className={"h-[30px] " + UI.radius + " border-slate-200 bg-white " + UI.fieldText}
+                      className={
+                        "h-[30px] " +
+                        UI.radius +
+                        " border-slate-200 bg-white " +
+                        UI.fieldText
+                      }
                       placeholder="Masukkan Jumlah Hari"
                       inputMode="numeric"
                     />
@@ -1035,7 +1046,14 @@ export default function LoanProductEdit() {
                             value={graceUnit}
                             onValueChange={(v) => setGraceUnit(v as GraceUnit)}
                           >
-                            <SelectTrigger className={"h-[30px] " + UI.radius + " border-slate-200 bg-white " + UI.fieldText}>
+                            <SelectTrigger
+                              className={
+                                "h-[30px] " +
+                                UI.radius +
+                                " border-slate-200 bg-white " +
+                                UI.fieldText
+                              }
+                            >
                               <SelectValue placeholder="Pilih Satuan Grace Period" />
                             </SelectTrigger>
                             <SelectContent className="rounded-[10px] border-slate-200">
@@ -1055,7 +1073,12 @@ export default function LoanProductEdit() {
                           <Input
                             value={graceDuration}
                             onChange={(e) => setGraceDuration(e.target.value)}
-                            className={"h-[30px] " + UI.radius + " border-slate-200 bg-white " + UI.fieldText}
+                            className={
+                              "h-[30px] " +
+                              UI.radius +
+                              " border-slate-200 bg-white " +
+                              UI.fieldText
+                            }
                             placeholder={graceDurationPlaceholder}
                             inputMode="numeric"
                           />
