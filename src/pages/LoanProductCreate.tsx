@@ -800,6 +800,8 @@ export default function LoanProductCreate() {
                     </RadioGroup>
                   </div>
 
+                  <Separator className="my-6 bg-slate-200/70" />
+
                   <div className="text-base font-semibold text-slate-900">
                     <span className="inline-flex items-center">
                       Konfigurasi Denda
@@ -849,6 +851,8 @@ export default function LoanProductCreate() {
                       />
                     </FieldRow>
                   </div>
+
+                  <Separator className="my-6 bg-slate-200/70" />
 
                   <div className="text-base font-semibold text-slate-900">
                     <span className="inline-flex items-center">
