@@ -99,7 +99,7 @@ export default function PenaltyScheduleForm({
       <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-center">
         <FieldLabel>Metode Denda</FieldLabel>
 
-        <div className="grid min-w-0 grid-cols-[92px_minmax(0,1fr)] gap-2">
+        <div className="grid min-w-0 grid-cols-[72px_minmax(0,1fr)] gap-2">
           <Select
             value={value.rateMode}
             onValueChange={(v) => {
@@ -111,7 +111,7 @@ export default function PenaltyScheduleForm({
               });
             }}
           >
-            <SelectTrigger className="h-11 w-[92px] rounded-xl border-slate-200 bg-white">
+            <SelectTrigger className="h-11 w-[72px] rounded-xl border-slate-200 bg-white px-2">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="rounded-xl border-slate-200">
