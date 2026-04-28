@@ -222,14 +222,11 @@ export default function LoanApplications() {
     return ["Semua", ...Array.from(set)];
   }, [rows]);
 
-  // padding lebih rapat seperti contoh
   const th = "px-3 py-3";
   const filterCell = "px-3 py-2";
   const td = "px-3 py-2.5";
 
-  // kolom Produk dipersempit + truncate
   const produkColW = "w-[170px] max-w-[170px]";
-  // kolom Nama Nasabah dipersempit + truncate
   const namaColW = "w-[180px] max-w-[180px]";
 
   const filterInputCls =
@@ -265,7 +262,7 @@ export default function LoanApplications() {
         <Separator className="my-6 bg-slate-200/70" />
 
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          <div className="mt-4 overflow-hidden rounded-xl border border-slate-300/70 bg-white">
+          <div className="mt-4 overflow-hidden bg-white">
             <div className="safe-x-scroll">
               <table className="w-full min-w-[1120px] border-collapse">
                 <thead className="bg-white">
