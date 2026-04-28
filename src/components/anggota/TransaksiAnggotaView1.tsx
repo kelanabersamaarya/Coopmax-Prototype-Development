@@ -198,16 +198,20 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
+    // Pelunasan: tetap auto-select semua (karena konsepnya locked/tercentang).
     if (isPelunasan) {
       setSelected(pagedRows.map(() => true));
       return;
     }
 
+    // Untuk Reguler/Khusus: biarkan user yang memilih (default awal: semua tercentang),
+    // tapi jangan dipaksa terus-menerus agar bisa uncheck.
     if (isReguler || isKhusus) {
-      setSelected(pagedRows.map(() => true));
+      setSelected((prev) => pagedRows.map((_, i) => prev[i] ?? true));
       return;
     }
 
+    // Mode lain: default tidak terpilih.
     setSelected(pagedRows.map(() => false));
   }, [isPelunasan, isReguler, isKhusus, pagedRows]);
 
@@ -411,7 +415,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   rows={pagedRowsForView2}
                   selected={selected}
                   setSelected={setSelected}
-                  isLocked={true}
+                  isLocked={false}
                   showNextBillInfo={false}
                   showGraceInfo={true}
                   highlightGraceBlock={true}
