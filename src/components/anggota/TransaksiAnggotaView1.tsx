@@ -149,6 +149,10 @@ function formatMoneyIdNoDecimals(n: number) {
   return formatIdrLike(Math.round(Number.isFinite(n) ? n : 0));
 }
 
+function normalizeMode(v: string | null | undefined) {
+  return (v ?? "").trim().toLowerCase();
+}
+
 const PELUNASAN_DENDA_FLAT = 215000;
 
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
@@ -166,17 +170,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
   const [keterangan, setKeterangan] = React.useState("");
 
-  const isPelunasan = jenisTransaksi === "Pelunasan";
-  const isReguler = jenisTransaksi === "Pembayaran Reguler";
-  const isKhusus = jenisTransaksi === "Pembayaran Khusus";
+  const isPelunasan = normalizeMode(jenisTransaksi) === normalizeMode("Pelunasan");
+  const isReguler =
+    normalizeMode(jenisTransaksi) === normalizeMode("Pembayaran Reguler");
+  const isKhusus =
+    normalizeMode(jenisTransaksi) === normalizeMode("Pembayaran Khusus");
 
-  const hideInterestCols = jenisTransaksi === "Pembayaran Pokok";
-  const interestOnlyCols = jenisTransaksi === "Pembayaran Bunga";
-  const penaltyOnlyCols = jenisTransaksi === "Pembayaran Denda";
-  const feeOnlyCols = jenisTransaksi === "Pembayaran Biaya Lainnya";
+  const hideInterestCols =
+    normalizeMode(jenisTransaksi) === normalizeMode("Pembayaran Pokok");
+  const interestOnlyCols =
+    normalizeMode(jenisTransaksi) === normalizeMode("Pembayaran Bunga");
+  const penaltyOnlyCols =
+    normalizeMode(jenisTransaksi) === normalizeMode("Pembayaran Denda");
+  const feeOnlyCols =
+    normalizeMode(jenisTransaksi) === normalizeMode("Pembayaran Biaya Lainnya");
 
+  // FIX: deteksi longgar untuk memastikan branch terpanggil walau ada variasi string
   const isPenurunanBakiDebet =
-    jenisTransaksi === "Pembayaran Penurunan Baki Debet";
+    normalizeMode(jenisTransaksi).includes("penurunan") &&
+    normalizeMode(jenisTransaksi).includes("baki") &&
+    normalizeMode(jenisTransaksi).includes("debet");
 
   const pageSize = 6;
   const [page, setPage] = React.useState<number>(1);
