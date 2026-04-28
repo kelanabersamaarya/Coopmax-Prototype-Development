@@ -219,21 +219,6 @@ export default function BillingTable({
   const displayRows = React.useMemo(() => rows, [rows]);
   const totalSelectableRows = displayRows.length + extraOutsideRows.length;
 
-  const allChecked = React.useMemo(() => {
-    if (hideSelection) return false;
-    if (totalSelectableRows === 0) return false;
-    return Array.from({ length: totalSelectableRows }).every(
-      (_, idx) => selected[idx] === true,
-    );
-  }, [hideSelection, selected, totalSelectableRows]);
-
-  const anyChecked = React.useMemo(() => {
-    if (hideSelection) return false;
-    return Array.from({ length: totalSelectableRows }).some(
-      (_, idx) => selected[idx] === true,
-    );
-  }, [hideSelection, selected, totalSelectableRows]);
-
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate =
       rowIndex < displayRows.length
@@ -252,7 +237,6 @@ export default function BillingTable({
     "num-sans-tabular tabular-nums",
   );
 
-  const checkboxColW = "w-[40px]";
   const checkboxTd = cn(tdBase, "px-2 text-center");
 
   const showPenaltyCol = showPenaltyColumn;
@@ -319,10 +303,10 @@ export default function BillingTable({
             ) : (
               <>
                 {graceEnabled && graceRows.length > 0 ? (
-                  <tr className="border-t border-slate-200">
+                  <tr className="border-t border-slate-100">
                     <td colSpan={colCount} className="p-0">
-                      <div className="bg-white p-0">
-                        <div className="overflow-hidden rounded-xl border-2 border-blue-600/70 bg-white">
+                      <div className="bg-white p-3">
+                        <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
                           <table className="w-full border-collapse">
                             <tbody className="bg-white">
                               <GracePeriodInfoRow colSpan={colCount} noBorder />
@@ -335,8 +319,8 @@ export default function BillingTable({
                                   <tr
                                     key={`grace-${bill.jatuhTempo}-${idx}`}
                                     className={cn(
-                                      idx === 0 ? "" : "border-t border-slate-200",
-                                      idx % 2 === 0 ? "bg-white" : "bg-white",
+                                      idx === 0 ? "" : "border-t border-slate-100",
+                                      idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                                     )}
                                   >
                                     {!hideSelection ? (
@@ -426,7 +410,10 @@ export default function BillingTable({
                   return (
                     <tr
                       key={`${bill.jatuhTempo}-${rowIndex}`}
-                      className={cn("border-t border-slate-200", "bg-white")}
+                      className={cn(
+                        "border-t border-slate-100 text-sm",
+                        rowIndex % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                      )}
                     >
                       {!hideSelection ? (
                         <td className={checkboxTd}>
@@ -496,7 +483,10 @@ export default function BillingTable({
                   return (
                     <tr
                       key={`outside-${bill.jatuhTempo}-${globalIndex}`}
-                      className={cn("border-t border-slate-200", "bg-white")}
+                      className={cn(
+                        "border-t border-slate-100 text-sm",
+                        globalIndex % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                      )}
                     >
                       {!hideSelection ? (
                         <td className={checkboxTd}>
