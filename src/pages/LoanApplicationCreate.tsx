@@ -170,9 +170,12 @@ function LoanProductCombobox({
 
       <PopoverContent
         align="start"
-        className="w-[--radix-popover-trigger-width] rounded-2xl border-slate-200 p-0"
+        className={cn(
+          "w-[--radix-popover-trigger-width] border-slate-200 p-0",
+          UI.radius,
+        )}
       >
-        <Command className="rounded-2xl">
+        <Command className={cn(UI.radius)}>
           <CommandInput placeholder="Cari..." />
           <CommandList>
             <CommandEmpty>Tidak ada hasil.</CommandEmpty>
@@ -185,7 +188,7 @@ function LoanProductCombobox({
                     onChange(opt);
                     setOpen(false);
                   }}
-                  className="rounded-xl"
+                  className={cn(UI.radius)}
                 >
                   <span className="min-w-0 flex-1 truncate">{opt}</span>
                   {value === opt ? (
@@ -335,7 +338,7 @@ export default function LoanApplicationCreate() {
           <Card className="mt-6 w-full rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
             {tab === "general" ? (
               <div className={cn("grid", UI.gapY)}>
-                <div className="grid gap-4">
+                <div className={cn("grid", UI.gapY)}>
                   <FieldRowInline label="No Rekening" required>
                     <div className="flex items-center">
                       <Input
