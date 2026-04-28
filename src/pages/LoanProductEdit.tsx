@@ -109,6 +109,13 @@ const TT = {
     "Skema tagihan menentukan bagaimana nominal dan komponen tagihan dihitung setiap periode (misalnya pokok, bunga, biaya, dan tunggakan).",
   gracePeriod:
     "Grace period adalah periode awal pinjaman yang memberi keringanan pembayaran untuk sementara waktu sesuai skema yang dipilih.",
+
+  tagihanSesuaiJadwalAngsuran:
+    "Tagihan diterbitkan mengikuti jadwal angsuran yang ditentukan sebelumnya. Setiap periode, angsuran akan ditagihkan sesuai jadwal jatuh tempo (misalnya pokok + bunga + biaya).",
+  jadwalFleksibelTagihanBerkala:
+    "Tagihan diterbitkan rutin setiap periode (misalnya bulanan), namun jenis tagihan bisa disesuaikan (misalnya hanya melakukan penagihan bunga atau hanya pokok pinjaman).",
+  tagihanDihitungDariSisaSaldoPokok:
+    "Tagihan yang diterbitkan mencakup seluruh pokok, bunga dan denda yang masih harus dibayarkan.",
 } as const;
 
 function AmountModeInput({
@@ -887,21 +894,34 @@ export default function LoanProductEdit() {
                           "Jadwal Fleksibel & Tagihan Berkala",
                           "Dihitung dari Sisa Saldo Pokok",
                         ] as InstallmentMode[]
-                      ).map((m) => (
-                        <label
-                          key={m}
-                          className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
-                        >
-                          <RadioGroupItem value={m} id={`mode-${m}`} />
-                          <span className="whitespace-nowrap">
-                            {m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
-                              ? "Tagihan Sesuai Jadwal Angsuran"
-                              : m === "Jadwal Fleksibel & Tagihan Berkala"
-                                ? "Tagihan Berkala Berdasarkan Periode"
-                                : "Tagihan Berdasarkan Sisa Angsuran"}
-                          </span>
-                        </label>
-                      ))}
+                      ).map((m) => {
+                        const labelText =
+                          m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                            ? "Tagihan Sesuai Jadwal Angsuran"
+                            : m === "Jadwal Fleksibel & Tagihan Berkala"
+                              ? "Tagihan Berkala Berdasarkan Periode"
+                              : "Tagihan Berdasarkan Sisa Angsuran";
+
+                        const tooltipText =
+                          m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                            ? TT.tagihanSesuaiJadwalAngsuran
+                            : m === "Jadwal Fleksibel & Tagihan Berkala"
+                              ? TT.jadwalFleksibelTagihanBerkala
+                              : TT.tagihanDihitungDariSisaSaldoPokok;
+
+                        return (
+                          <label
+                            key={m}
+                            className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
+                          >
+                            <RadioGroupItem value={m} id={`mode-${m}`} />
+                            <span className="inline-flex items-center">
+                              <span className="whitespace-nowrap">{labelText}</span>
+                              <FieldTooltip content={tooltipText} />
+                            </span>
+                          </label>
+                        );
+                      })}
                     </RadioGroup>
                   </div>
 
