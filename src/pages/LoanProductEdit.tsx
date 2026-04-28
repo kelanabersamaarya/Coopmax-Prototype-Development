@@ -356,8 +356,8 @@ export default function LoanProductEdit() {
   const [useInstallmentTable, setUseInstallmentTable] = React.useState(true);
   const [installmentMode, setInstallmentMode] =
     React.useState<InstallmentMode>("Jadwal Tetap (Diterbitkan Penuh di Awal)");
-  const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(false);
 
+  const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(false);
   const [graceScheme, setGraceScheme] =
     React.useState<GraceScheme>("Hanya Bayar Bunga");
   const [graceUnit, setGraceUnit] =
@@ -891,148 +891,54 @@ export default function LoanProductEdit() {
               </FieldRow>
 
               {useInstallmentTable ? (
-                <>
-                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                    <div className="pt-1 text-sm font-normal text-slate-900">
-                      <span className="inline-flex items-center">
-                        Skema Tagihan <FieldTooltip content={TT.skemaTagihan} />
-                      </span>
-                    </div>
-
-                    <RadioGroup
-                      value={installmentMode}
-                      onValueChange={(v) =>
-                        setInstallmentMode(v as InstallmentMode)
-                      }
-                      className="flex flex-wrap items-center gap-x-6 gap-y-2"
-                    >
-                      {(
-                        [
-                          "Jadwal Tetap (Diterbitkan Penuh di Awal)",
-                          "Jadwal Fleksibel & Tagihan Berkala",
-                          "Dihitung dari Sisa Saldo Pokok",
-                        ] as InstallmentMode[]
-                      ).map((m) => {
-                        const labelText =
-                          m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
-                            ? "Tagihan Sesuai Jadwal Angsuran"
-                            : m === "Jadwal Fleksibel & Tagihan Berkala"
-                              ? "Tagihan Berkala Berdasarkan Periode"
-                              : "Tagihan Berdasarkan Sisa Angsuran";
-
-                        const tooltipText =
-                          m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
-                            ? TT.tagihanSesuaiJadwalAngsuran
-                            : m === "Jadwal Fleksibel & Tagihan Berkala"
-                              ? TT.jadwalFleksibelTagihanBerkala
-                              : TT.tagihanDihitungDariSisaSaldoPokok;
-
-                        return (
-                          <label
-                            key={m}
-                            className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
-                          >
-                            <RadioGroupItem value={m} id={`mode-${m}`} />
-                            <span className="inline-flex items-center">
-                              <span className="whitespace-nowrap">{labelText}</span>
-                              <FieldTooltip content={tooltipText} />
-                            </span>
-                          </label>
-                        );
-                      })}
-                    </RadioGroup>
+                <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                  <div className="pt-1 text-sm font-normal text-slate-900">
+                    <span className="inline-flex items-center">
+                      Skema Tagihan <FieldTooltip content={TT.skemaTagihan} />
+                    </span>
                   </div>
 
-                  <div className={"grid " + UI.gapY}>
-                    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                      <div className="pt-1 text-sm font-normal text-slate-900">
-                        <span className="inline-flex items-center">
-                          Grace Period <FieldTooltip content={TT.gracePeriod} />
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Switch
-                          checked={gracePeriodEnabled}
-                          onCheckedChange={setGracePeriodEnabled}
-                        />
-                      </div>
-                    </div>
+                  <RadioGroup
+                    value={installmentMode}
+                    onValueChange={(v) => setInstallmentMode(v as InstallmentMode)}
+                    className="flex flex-wrap items-center gap-x-6 gap-y-2"
+                  >
+                    {(
+                      [
+                        "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+                        "Jadwal Fleksibel & Tagihan Berkala",
+                        "Dihitung dari Sisa Saldo Pokok",
+                      ] as InstallmentMode[]
+                    ).map((m) => {
+                      const labelText =
+                        m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                          ? "Tagihan Sesuai Jadwal Angsuran"
+                          : m === "Jadwal Fleksibel & Tagihan Berkala"
+                            ? "Tagihan Berkala Berdasarkan Periode"
+                            : "Tagihan Berdasarkan Sisa Angsuran";
 
-                    {gracePeriodEnabled ? (
-                      <>
-                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                          <div className="pt-1 text-sm font-normal text-slate-900">
-                            Skema Grace Period
-                          </div>
-                          <RadioGroup
-                            value={graceScheme}
-                            onValueChange={(v) =>
-                              setGraceScheme(v as GraceScheme)
-                            }
-                            className="flex items-center gap-6"
-                          >
-                            <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
-                              <RadioGroupItem
-                                value="Hanya Bayar Bunga"
-                                id="grace-hanya-bayar-bunga"
-                              />
-                              <span className="inline-flex items-center">
-                                Hanya Bayar Bunga
-                                <FieldTooltip content={TT.gracePeriodBunga} />
-                              </span>
-                            </label>
-                          </RadioGroup>
-                        </div>
+                      const tooltipText =
+                        m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                          ? TT.tagihanSesuaiJadwalAngsuran
+                          : m === "Jadwal Fleksibel & Tagihan Berkala"
+                            ? TT.jadwalFleksibelTagihanBerkala
+                            : TT.tagihanDihitungDariSisaSaldoPokok;
 
-                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                          <div className="pt-1 text-sm font-normal text-slate-900">
-                            Satuan Grace Period
-                          </div>
-                          <Select
-                            value={graceUnit}
-                            onValueChange={(v) => setGraceUnit(v as GraceUnit)}
-                          >
-                            <SelectTrigger
-                              className={
-                                "h-[30px] " +
-                                UI.radius +
-                                " border-slate-200 bg-white " +
-                                UI.fieldText
-                              }
-                            >
-                              <SelectValue placeholder="Pilih Satuan Grace Period" />
-                            </SelectTrigger>
-                            <SelectContent className="rounded-[10px] border-slate-200">
-                              <SelectItem value="Pilih Satuan Grace Period">
-                                Pilih Satuan Grace Period
-                              </SelectItem>
-                              <SelectItem value="Hari">Hari</SelectItem>
-                              <SelectItem value="Bulan">Bulan</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-
-                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                          <div className="pt-1 text-sm font-normal text-slate-900">
-                            {graceDurationLabel}
-                          </div>
-                          <Input
-                            value={graceDuration}
-                            onChange={(e) => setGraceDuration(e.target.value)}
-                            className={
-                              "h-[30px] " +
-                              UI.radius +
-                              " border-slate-200 bg-white " +
-                              UI.fieldText
-                            }
-                            placeholder={graceDurationPlaceholder}
-                            inputMode="numeric"
-                          />
-                        </div>
-                      </>
-                    ) : null}
-                  </div>
-                </>
+                      return (
+                        <label
+                          key={m}
+                          className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900"
+                        >
+                          <RadioGroupItem value={m} id={`mode-${m}`} />
+                          <span className="inline-flex items-center">
+                            <span className="whitespace-nowrap">{labelText}</span>
+                            <FieldTooltip content={tooltipText} />
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </RadioGroup>
+                </div>
               ) : null}
             </div>
 
@@ -1098,6 +1004,101 @@ export default function LoanProductEdit() {
                   inputMode="numeric"
                 />
               </FieldRow>
+            </div>
+
+            <Separator className="my-6 bg-slate-200/70" />
+
+            <div className="text-base font-semibold text-slate-900">
+              <span className="inline-flex items-center">
+                Konfigurasi Grace Period
+                <FieldTooltip content={TT.gracePeriod} />
+              </span>
+            </div>
+
+            <div className={"mt-4 grid " + UI.gapY}>
+              <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                <div className="pt-1 text-sm font-normal text-slate-900">
+                  Grace Period
+                </div>
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={gracePeriodEnabled}
+                    onCheckedChange={setGracePeriodEnabled}
+                  />
+                </div>
+              </div>
+
+              {gracePeriodEnabled ? (
+                <>
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                    <div className="pt-1 text-sm font-normal text-slate-900">
+                      Skema Grace Period
+                    </div>
+                    <RadioGroup
+                      value={graceScheme}
+                      onValueChange={(v) => setGraceScheme(v as GraceScheme)}
+                      className="flex items-center gap-6"
+                    >
+                      <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
+                        <RadioGroupItem
+                          value="Hanya Bayar Bunga"
+                          id="grace-hanya-bayar-bunga"
+                        />
+                        <span className="inline-flex items-center">
+                          Hanya Bayar Bunga
+                          <FieldTooltip content={TT.gracePeriodBunga} />
+                        </span>
+                      </label>
+                    </RadioGroup>
+                  </div>
+
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                    <div className="pt-1 text-sm font-normal text-slate-900">
+                      Satuan Grace Period
+                    </div>
+                    <Select
+                      value={graceUnit}
+                      onValueChange={(v) => setGraceUnit(v as GraceUnit)}
+                    >
+                      <SelectTrigger
+                        className={
+                          "h-[30px] " +
+                          UI.radius +
+                          " border-slate-200 bg-white " +
+                          UI.fieldText
+                        }
+                      >
+                        <SelectValue placeholder="Pilih Satuan Grace Period" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-[10px] border-slate-200">
+                        <SelectItem value="Pilih Satuan Grace Period">
+                          Pilih Satuan Grace Period
+                        </SelectItem>
+                        <SelectItem value="Hari">Hari</SelectItem>
+                        <SelectItem value="Bulan">Bulan</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                    <div className="pt-1 text-sm font-normal text-slate-900">
+                      {graceDurationLabel}
+                    </div>
+                    <Input
+                      value={graceDuration}
+                      onChange={(e) => setGraceDuration(e.target.value)}
+                      className={
+                        "h-[30px] " +
+                        UI.radius +
+                        " border-slate-200 bg-white " +
+                        UI.fieldText
+                      }
+                      placeholder={graceDurationPlaceholder}
+                      inputMode="numeric"
+                    />
+                  </div>
+                </>
+              ) : null}
             </div>
 
             <Separator className="my-6 bg-slate-200/70" />
