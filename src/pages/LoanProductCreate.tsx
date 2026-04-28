@@ -254,24 +254,11 @@ export default function LoanProductCreate() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
-        {/* WATERMARK VERIFIKASI (harus terlihat kalau file ini yang dirender) */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-extrabold text-white ring-1 ring-emerald-600/25">
-            LOAN PRODUCT CREATE • UPDATED
-            <span className="rounded-full bg-white/15 px-2 py-0.5 font-mono text-[11px]">
-              v2
-            </span>
-          </div>
-          <div className="text-xs font-semibold text-slate-600">
-            Jika label ini tidak muncul, berarti route tidak merender file ini.
-          </div>
-        </div>
-
         <div className="mt-2 flex items-baseline gap-3">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
             Produk Pinjaman
           </h1>
-          <div className="text-sm font-semibold text-slate-500">Tambah (v2)</div>
+          <div className="text-sm font-semibold text-slate-500">Tambah</div>
         </div>
 
         <div className="mt-6 grid gap-4">
