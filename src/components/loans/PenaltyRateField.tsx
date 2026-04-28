@@ -56,7 +56,7 @@ export default function PenaltyRateField({
           value={mode}
           onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
         >
-          <SelectTrigger className="h-11 w-[92px] rounded-2xl border-slate-200 bg-white">
+          <SelectTrigger className="h-11 w-[72px] rounded-2xl border-slate-200 bg-white px-2">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="rounded-2xl border-slate-200">
