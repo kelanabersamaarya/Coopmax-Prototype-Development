@@ -21,6 +21,7 @@ import PenaltyRateField, {
   type PenaltyRateMode,
 } from "@/components/loans/PenaltyRateField";
 import FieldTooltip from "@/components/loans/FieldTooltip";
+import { cn } from "@/lib/utils";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -253,14 +254,24 @@ export default function LoanProductCreate() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
-        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-          <div>
-            <div className="mt-2 flex items-baseline gap-3">
-              <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
-                Produk Pinjaman
-              </h1>
-            </div>
+        {/* WATERMARK VERIFIKASI (harus terlihat kalau file ini yang dirender) */}
+        <div className="mb-4 flex items-center justify-between">
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-extrabold text-white ring-1 ring-emerald-600/25">
+            LOAN PRODUCT CREATE • UPDATED
+            <span className="rounded-full bg-white/15 px-2 py-0.5 font-mono text-[11px]">
+              v2
+            </span>
           </div>
+          <div className="text-xs font-semibold text-slate-600">
+            Jika label ini tidak muncul, berarti route tidak merender file ini.
+          </div>
+        </div>
+
+        <div className="mt-2 flex items-baseline gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
+            Produk Pinjaman
+          </h1>
+          <div className="text-sm font-semibold text-slate-500">Tambah (v2)</div>
         </div>
 
         <div className="mt-6 grid gap-4">
@@ -278,7 +289,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="rounded-2xl bg-slate-100"
+                  className={cn(compactField, "bg-slate-100")}
                 />
               </FieldRow>
 
@@ -286,7 +297,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -301,10 +312,10 @@ export default function LoanProductCreate() {
                   value={periodUnit}
                   onValueChange={(v) => setPeriodUnit(v as PeriodUnit)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="Bulan">Bulan</SelectItem>
                     <SelectItem value="Hari">Hari</SelectItem>
                   </SelectContent>
@@ -316,7 +327,7 @@ export default function LoanProductCreate() {
                   value={minPeriod}
                   onChange={(e) => setMinPeriod(e.target.value)}
                   inputMode="numeric"
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -325,7 +336,7 @@ export default function LoanProductCreate() {
                   value={maxPeriod}
                   onChange={(e) => setMaxPeriod(e.target.value)}
                   inputMode="numeric"
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -334,10 +345,10 @@ export default function LoanProductCreate() {
                   value={billingScheme}
                   onValueChange={(v) => setBillingScheme(v as BillingScheme)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="Anuitas">
                       Bunga Efektif (Anuitas)
                     </SelectItem>
@@ -361,7 +372,7 @@ export default function LoanProductCreate() {
                   value={interestYearly}
                   onChange={(e) => setInterestYearly(e.target.value)}
                   inputMode="decimal"
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -370,10 +381,10 @@ export default function LoanProductCreate() {
                   value={roundingType}
                   onValueChange={(v) => setRoundingType(v as RoundingType)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="Pembulatan Keatas">
                       Pembulatan Keatas
                     </SelectItem>
@@ -392,7 +403,7 @@ export default function LoanProductCreate() {
                   value={roundingMultiple}
                   onChange={(e) => setRoundingMultiple(e.target.value)}
                   inputMode="numeric"
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -401,7 +412,7 @@ export default function LoanProductCreate() {
                   value={penalty}
                   onChange={(e) => setPenalty(e.target.value)}
                   inputMode="numeric"
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -410,7 +421,7 @@ export default function LoanProductCreate() {
                   value={nominalStep}
                   onChange={(e) => setNominalStep(e.target.value)}
                   inputMode="numeric"
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -418,7 +429,7 @@ export default function LoanProductCreate() {
                 <Textarea
                   value={terms}
                   onChange={(e) => setTerms(e.target.value)}
-                  className="min-h-[96px] rounded-2xl"
+                  className="min-h-[96px] rounded-[5px] border-slate-200 bg-white text-[12.5px]"
                 />
               </FieldRow>
             </div>
@@ -452,7 +463,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={minLoan}
                   onChange={(e) => setMinLoan(e.target.value)}
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -460,7 +471,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={maxLoan}
                   onChange={(e) => setMaxLoan(e.target.value)}
-                  className="rounded-2xl"
+                  className={compactField}
                 />
               </FieldRow>
 
@@ -477,7 +488,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={propisi}
                   onChange={(e) => setPropisi(e.target.value)}
-                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  className={compactField}
                   inputMode="decimal"
                 />
               </FieldRow>
@@ -486,7 +497,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={admin}
                   onChange={(e) => setAdmin(e.target.value)}
-                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  className={compactField}
                   inputMode="decimal"
                 />
               </FieldRow>
@@ -495,7 +506,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={insurance}
                   onChange={(e) => setInsurance(e.target.value)}
-                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  className={compactField}
                   inputMode="decimal"
                 />
               </FieldRow>
@@ -504,7 +515,7 @@ export default function LoanProductCreate() {
                 <Input
                   value={mbankingActivation}
                   onChange={(e) => setMbankingActivation(e.target.value)}
-                  className="h-11 rounded-2xl border-slate-200 bg-white"
+                  className={compactField}
                   inputMode="decimal"
                 />
               </FieldRow>
@@ -537,11 +548,14 @@ export default function LoanProductCreate() {
 
             <div className="mt-6 grid gap-5">
               <FieldRow label="KP Pinjaman">
-                <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                <Select
+                  value={coaLoan}
+                  onValueChange={(v) => setCoaLoan(v as CoaOption)}
+                >
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue placeholder="Pilih CoA Pinjaman" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="PINJAMAN YANG DIBERIKAN">
                       PINJAMAN YANG DIBERIKAN
                     </SelectItem>
@@ -555,10 +569,10 @@ export default function LoanProductCreate() {
                   value={coaInterestRevenue}
                   onValueChange={(v) => setCoaInterestRevenue(v as CoaOption)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue placeholder="Pilih CoA Pendapatan Bunga" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="PEND. BUNGA PINJAMAN">
                       PEND. BUNGA PINJAMAN
                     </SelectItem>
@@ -579,10 +593,10 @@ export default function LoanProductCreate() {
                   value={coaSplitInterestRevenue}
                   onValueChange={(v) => setCoaSplitInterestRevenue(v as CoaOption)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue placeholder="Pilih COA Pendapatan Bunga" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
                     <SelectItem value="PEND. BUNGA PINJAMAN">
                       PEND. BUNGA PINJAMAN
@@ -599,10 +613,10 @@ export default function LoanProductCreate() {
                   value={coaPenaltyRevenue}
                   onValueChange={(v) => setCoaPenaltyRevenue(v as CoaOption)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue placeholder="Pilih CoA Biaya Denda" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="PEND. DENDA">PEND. DENDA</SelectItem>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
                   </SelectContent>
@@ -614,10 +628,10 @@ export default function LoanProductCreate() {
                   value={coaRoundingRevenue}
                   onValueChange={(v) => setCoaRoundingRevenue(v as CoaOption)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue placeholder="Pilih CoA Pembulatan" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="PENDAPATAN LAIN - LAIN">
                       PENDAPATAN LAIN - LAIN
                     </SelectItem>
@@ -631,10 +645,10 @@ export default function LoanProductCreate() {
                   value={coaAdminRevenue}
                   onValueChange={(v) => setCoaAdminRevenue(v as CoaOption)}
                 >
-                  <SelectTrigger className="rounded-2xl border-slate-200 bg-white">
+                  <SelectTrigger className={compactSelectTrigger}>
                     <SelectValue placeholder="Pilih CoA Biaya Admin" />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
+                  <SelectContent className={compactSelectContent}>
                     <SelectItem value="PEN. ADMINISTRASI">
                       PEN. ADMINISTRASI
                     </SelectItem>
@@ -936,8 +950,6 @@ export default function LoanProductCreate() {
                 </>
               ) : null}
             </div>
-
-            {/* Divider terbawah dihapus */}
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <Button
