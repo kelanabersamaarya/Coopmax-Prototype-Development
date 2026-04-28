@@ -320,113 +320,89 @@ export default function BillingTableView2({
               <>
                 <tr className={cn(rowDividerClass)}>
                   <td colSpan={colCount} className="p-0">
-                    {/* DIUBAH: hilangkan padding luar supaya border biru sejajar dengan tabel utama */}
                     <div className="bg-white p-0">
                       <div className="overflow-hidden rounded-2xl border-2 border-blue-600/70 bg-white">
-                        {/* DIUBAH: padding tipis di dalam border (lebih hemat & tetap rapi) */}
+                        {/* penting: TIDAK pakai nested table untuk baris data, supaya layout sama */}
                         <div className="p-1">
                           <table className="w-full border-collapse text-[13px]">
                             <tbody className="bg-white">
                               <GracePeriodInfoRow colSpan={colCount} noBorder />
-
-                              {graceRows.map((r, idx) => {
-                                const rowIndex = idx;
-                                const active = hideSelection
-                                  ? false
-                                  : selected[rowIndex] === true;
-
-                                return (
-                                  <tr
-                                    key={`${r.jatuhTempo}-grace-${idx}`}
-                                    className={cn(idx === 0 ? "" : rowDividerClass)}
-                                  >
-                                    <td colSpan={colCount} className="p-0">
-                                      <RowShell
-                                        active={active}
-                                        disableActiveRing={disableRowActiveRing}
-                                        disableRowRings={disableRowRings}
-                                      >
-                                        <div
-                                          className={cn(
-                                            "grid items-center gap-0",
-                                            gridTemplate,
-                                          )}
-                                        >
-                                          {!hideSelection ? (
-                                            <div className="flex items-center justify-center px-4 py-4">
-                                              <input
-                                                type="checkbox"
-                                                aria-label="Pilih tagihan"
-                                                checked={
-                                                  isLocked
-                                                    ? true
-                                                    : (selected[rowIndex] ?? false)
-                                                }
-                                                disabled={isLocked}
-                                                onChange={(e) => {
-                                                  const next = e.target.checked;
-                                                  setSelected((prev) => {
-                                                    const copy = [...prev];
-                                                    copy[rowIndex] = next;
-                                                    return copy;
-                                                  });
-                                                }}
-                                                className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
-                                              />
-                                            </div>
-                                          ) : null}
-
-                                          <div
-                                            className={cn("px-4 py-4", dateTextClass)}
-                                          >
-                                            {r.jatuhTempo}
-                                          </div>
-
-                                          <div
-                                            className={cn("px-4 py-4", numberTextClass)}
-                                          >
-                                            {r.totalBelumDibayar}
-                                          </div>
-
-                                          <div
-                                            className={cn("px-4 py-4", numberTextClass)}
-                                          >
-                                            {r.tagihanPokok}
-                                          </div>
-
-                                          <div
-                                            className={cn("px-4 py-4", numberTextClass)}
-                                          >
-                                            {r.tagihanBunga}
-                                          </div>
-
-                                          <div className={sisaPokokNumberCell}>
-                                            <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                              {r.sisaPokok}
-                                            </span>
-                                          </div>
-
-                                          <div className={sisaBungaNumberCell}>
-                                            <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                              {r.sisaBunga}
-                                            </span>
-                                          </div>
-
-                                          {showPenaltyColumn ? (
-                                            <PenaltyCell
-                                              idx={rowIndex}
-                                              dueDateDmy={r.jatuhTempo}
-                                            />
-                                          ) : null}
-                                        </div>
-                                      </RowShell>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
                             </tbody>
                           </table>
                         </div>
+
+                        {/* render baris grace memakai RowShell yang sama seperti baris normal */}
+                        {graceRows.map((r, idx) => {
+                          const rowIndex = idx;
+                          const active = hideSelection ? false : selected[rowIndex] === true;
+
+                          return (
+                            <div
+                              key={`${r.jatuhTempo}-grace-flat-${idx}`}
+                              className={cn(idx === 0 ? "" : "border-t border-slate-200")}
+                            >
+                              <RowShell
+                                active={active}
+                                disableActiveRing={disableRowActiveRing}
+                                disableRowRings={disableRowRings}
+                              >
+                                <div className={cn("grid items-center gap-0", gridTemplate)}>
+                                  {!hideSelection ? (
+                                    <div className="flex items-center justify-center px-4 py-4">
+                                      <input
+                                        type="checkbox"
+                                        aria-label="Pilih tagihan"
+                                        checked={isLocked ? true : (selected[rowIndex] ?? false)}
+                                        disabled={isLocked}
+                                        onChange={(e) => {
+                                          const next = e.target.checked;
+                                          setSelected((prev) => {
+                                            const copy = [...prev];
+                                            copy[rowIndex] = next;
+                                            return copy;
+                                          });
+                                        }}
+                                        className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                      />
+                                    </div>
+                                  ) : null}
+
+                                  <div className={cn("px-4 py-4", dateTextClass)}>
+                                    {r.jatuhTempo}
+                                  </div>
+
+                                  <div className={cn("px-4 py-4", numberTextClass)}>
+                                    {r.totalBelumDibayar}
+                                  </div>
+
+                                  <div className={cn("px-4 py-4", numberTextClass)}>
+                                    {r.tagihanPokok}
+                                  </div>
+
+                                  <div className={cn("px-4 py-4", numberTextClass)}>
+                                    {r.tagihanBunga}
+                                  </div>
+
+                                  <div className={sisaPokokNumberCell}>
+                                    <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                      {r.sisaPokok}
+                                    </span>
+                                  </div>
+
+                                  <div className={sisaBungaNumberCell}>
+                                    <span className="whitespace-nowrap num-sans-tabular tabular-nums">
+                                      {r.sisaBunga}
+                                    </span>
+                                  </div>
+
+                                  {showPenaltyColumn ? (
+                                    <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
+                                  ) : null}
+                                </div>
+                              </RowShell>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </td>
