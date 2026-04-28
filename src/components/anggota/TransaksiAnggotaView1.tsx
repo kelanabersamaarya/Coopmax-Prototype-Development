@@ -410,37 +410,55 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <Separator className="my-3 w-full bg-slate-200/70" />
 
-              {useView2Style ? (
-                <BillingTableView2
-                  rows={pagedRowsForView2}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={isPelunasan}
-                  showNextBillInfo={false}
-                  showGraceInfo={true}
-                  highlightGraceBlock={true}
-                  hideSelection={false}
-                  showPenaltyColumn={true}
-                  disableRowRings
-                  className="mt-0"
-                />
-              ) : (
-                <div className="billing-table-compact">
-                  <BillingTable
-                    rows={pagedRows}
+              <div
+                className={cn(
+                  "billing-v1-compact-rows",
+                  // BillingTableView2 uses RowShell padding; BillingTable uses td padding.
+                  // We scope the overrides only inside View 1.
+                  "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
+                  "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
+                  "[&_.billing-table-compact_td]:!pt-2.5 [&_.billing-table-compact_td]:!pb-2.5",
+                  "[&_.billing-table-compact_th]:!pt-2.5 [&_.billing-table-compact_th]:!pb-2.5",
+                  // BillingTableView2: the per-cell wrapper uses px-4 py-4 -> make it smaller
+                  "[&_.billing-v1-compact-rows_.py-4]:!py-3",
+                  "[&_.billing-v1-compact-rows_.px-3.py-3]:!py-2.5",
+                  "[&_.billing-v1-compact-rows_.px-4.py-4]:!py-3",
+                  // RowShell outer padding (bg-white px-3 py-3)
+                  "[&_.billing-v1-compact-rows_.bg-white.px-3.py-3]:!py-2",
+                )}
+              >
+                {useView2Style ? (
+                  <BillingTableView2
+                    rows={pagedRowsForView2}
                     selected={selected}
                     setSelected={setSelected}
-                    isPelunasan={isPelunasan}
-                    showGraceHighlight={showGraceHighlight}
-                    hideInterestCols={hideInterestCols}
-                    interestOnlyCols={interestOnlyCols}
-                    penaltyOnlyCols={penaltyOnlyCols}
-                    feeOnlyCols={feeOnlyCols}
-                    hideSelection={isPenurunanBakiDebet}
-                    showPenaltyColumn={isPelunasan}
+                    isLocked={isPelunasan}
+                    showNextBillInfo={false}
+                    showGraceInfo={true}
+                    highlightGraceBlock={true}
+                    hideSelection={false}
+                    showPenaltyColumn={true}
+                    disableRowRings
+                    className="mt-0"
                   />
-                </div>
-              )}
+                ) : (
+                  <div className="billing-table-compact">
+                    <BillingTable
+                      rows={pagedRows}
+                      selected={selected}
+                      setSelected={setSelected}
+                      isPelunasan={isPelunasan}
+                      showGraceHighlight={showGraceHighlight}
+                      hideInterestCols={hideInterestCols}
+                      interestOnlyCols={interestOnlyCols}
+                      penaltyOnlyCols={penaltyOnlyCols}
+                      feeOnlyCols={feeOnlyCols}
+                      hideSelection={isPenurunanBakiDebet}
+                      showPenaltyColumn={isPelunasan}
+                    />
+                  </div>
+                )}
+              </div>
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
