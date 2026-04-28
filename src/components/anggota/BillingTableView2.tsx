@@ -244,9 +244,8 @@ export default function BillingTableView2({
     setPenaltyOpen(true);
   }
 
-  // NOTE: use separator alignment for dot-separated numbers ("916.667") so columns line up nicely.
   function RightNum({ value }: { value: string }) {
-    return <NumericCell align="separator">{value}</NumericCell>;
+    return <NumericCell align="right">{value}</NumericCell>;
   }
 
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
