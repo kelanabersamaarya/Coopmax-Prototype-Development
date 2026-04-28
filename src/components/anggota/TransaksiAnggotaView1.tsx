@@ -177,16 +177,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  const totalEntriesLocal = 495;
-
-  const pageSize = isReguler ? 20 : 6;
+  // Pagination: aktif untuk semua metode pembayaran
+  const pageSize = 6;
   const [page, setPage] = React.useState<number>(1);
 
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
   React.useEffect(() => {
     setPage(1);
-  }, [jenisTransaksi, pageSize]);
+  }, [jenisTransaksi]);
 
   const pagedRows = React.useMemo(() => {
     const start = (page - 1) * pageSize;
@@ -198,14 +197,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   );
 
   React.useEffect(() => {
-    // Pelunasan: tetap auto-select semua (karena konsepnya locked/tercentang).
+    // Pelunasan: auto-select semua (karena konsepnya locked/tercentang).
     if (isPelunasan) {
       setSelected(pagedRows.map(() => true));
       return;
     }
 
-    // Untuk Reguler/Khusus: biarkan user yang memilih (default awal: semua tercentang),
-    // tapi jangan dipaksa terus-menerus agar bisa uncheck.
+    // Reguler/Khusus: default awal tercentang, tapi user bebas uncheck setelah itu.
     if (isReguler || isKhusus) {
       setSelected((prev) => pagedRows.map((_, i) => prev[i] ?? true));
       return;
@@ -421,7 +419,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   highlightGraceBlock={true}
                   hideSelection={false}
                   showPenaltyColumn={true}
-                  // hilangkan ring/border tebal baris SEPENUHNYA
                   disableRowRings
                   className="mt-0"
                 />
@@ -445,21 +442,15 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
               <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-xs text-slate-700">
-                  Menampilkan {showingStart} sampai {showingEnd} dari{" "}
-                  {isReguler ? totalEntriesLocal : rows.length} entri
+                  Menampilkan {showingStart} sampai {showingEnd} dari {rows.length}{" "}
+                  entri
                 </div>
 
-                {isReguler ? (
-                  <PaginationLikeExample
-                    page={page}
-                    pageCount={pageCount}
-                    onPage={setPage}
-                  />
-                ) : (
-                  <div className="flex justify-end">
-                    <div className="sr-only" />
-                  </div>
-                )}
+                <PaginationLikeExample
+                  page={page}
+                  pageCount={pageCount}
+                  onPage={setPage}
+                />
               </div>
             </Card>
 
