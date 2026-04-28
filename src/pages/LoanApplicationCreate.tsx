@@ -44,6 +44,16 @@ import PenaltyScheduleForm, {
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
+const UI = {
+  radius: "rounded-[5px]",
+  h: "h-[30px]",
+  text: "text-[12.5px]",
+  gapY: "gap-[15px]",
+  input: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
+  selectTrigger: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
+  btn: "h-[30px] rounded-[5px] text-[12.5px]",
+} as const;
+
 function FieldRowInline({
   label,
   required,
@@ -109,7 +119,10 @@ function ActionIconButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="inline-flex h-10 w-11 items-center justify-center rounded-r-xl bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700"
+      className={cn(
+        "inline-flex w-11 items-center justify-center rounded-r-[5px] bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700",
+        UI.h,
+      )}
     >
       {icon}
     </button>
@@ -142,7 +155,10 @@ function LoanProductCombobox({
         <button
           type="button"
           className={cn(
-            "flex h-10 w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 text-left text-sm font-medium text-slate-900 shadow-sm transition hover:bg-slate-50",
+            "flex w-full items-center justify-between border border-slate-200 bg-white px-3 text-left font-medium text-slate-900 shadow-sm transition hover:bg-slate-50",
+            UI.h,
+            UI.radius,
+            UI.text,
           )}
         >
           <span className={cn(value === "Pilih Pinjaman" ? "text-slate-500" : "")}>
@@ -318,14 +334,17 @@ export default function LoanApplicationCreate() {
 
           <Card className="mt-6 w-full rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
             {tab === "general" ? (
-              <div className="grid gap-5">
+              <div className={cn("grid", UI.gapY)}>
                 <div className="grid gap-4">
                   <FieldRowInline label="No Rekening" required>
                     <div className="flex items-center">
                       <Input
                         value={noRekening}
                         onChange={(e) => setNoRekening(e.target.value)}
-                        className="h-10 rounded-l-xl rounded-r-none border-slate-200 bg-slate-200/70 text-slate-800"
+                        className={cn(
+                          UI.input,
+                          "rounded-l-[5px] rounded-r-none bg-slate-200/70 text-slate-800",
+                        )}
                       />
                       <ActionIconButton
                         label="Generate ulang"
@@ -351,7 +370,7 @@ export default function LoanApplicationCreate() {
                       <Input
                         value={idNasabah}
                         onChange={(e) => setIdNasabah(e.target.value)}
-                        className="h-10 rounded-l-xl rounded-r-none border-slate-200 bg-white"
+                        className={cn(UI.input, "rounded-l-[5px] rounded-r-none")}
                       />
                       <ActionIconButton
                         label="Cari nasabah"
@@ -375,11 +394,14 @@ export default function LoanApplicationCreate() {
                             setNik(e.target.value);
                             setKtpVerified(false);
                           }}
-                          className="h-10 rounded-xl border-slate-200 bg-white"
+                          className={cn(UI.input, "w-full")}
                         />
                         <Button
                           onClick={verifyKtp}
-                          className="h-10 shrink-0 rounded-xl bg-violet-600 px-4 text-white hover:bg-violet-700"
+                          className={cn(
+                            "shrink-0 bg-violet-600 px-4 text-white hover:bg-violet-700",
+                            UI.btn,
+                          )}
                         >
                           <ShieldCheck className="mr-2 h-4 w-4" />
                           Verifikasi KTP
@@ -407,7 +429,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={nama}
                       onChange={(e) => setNama(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                      className={cn(UI.input, "bg-slate-200/70 text-slate-800")}
                     />
                   </FieldRowInline>
 
@@ -415,7 +437,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={alamat}
                       onChange={(e) => setAlamat(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                      className={cn(UI.input, "bg-slate-200/70 text-slate-800")}
                     />
                   </FieldRowInline>
 
@@ -423,13 +445,13 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={unitAnggota}
                       onChange={(e) => setUnitAnggota(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-700"
+                      className={cn(UI.input, "bg-slate-200/70 text-slate-700")}
                     />
                   </FieldRowInline>
 
                   <FieldRowInline label="Kolektor" required>
                     <Select value={kolektor} onValueChange={setKolektor}>
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                      <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
@@ -446,7 +468,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={tanggal}
                       onChange={(e) => setTanggal(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-white"
+                      className={UI.input}
                       placeholder={getTodayDmy()}
                     />
                   </FieldRowInline>
@@ -473,7 +495,7 @@ export default function LoanApplicationCreate() {
                       value={sektorPinjaman}
                       onValueChange={setSektorPinjaman}
                     >
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                      <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
@@ -492,7 +514,7 @@ export default function LoanApplicationCreate() {
                       value={tujuanPeminjaman}
                       onValueChange={setTujuanPeminjaman}
                     >
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                      <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
@@ -509,14 +531,14 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={bungaPerTahun}
                       onChange={(e) => setBungaPerTahun(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-white"
+                      className={UI.input}
                       placeholder="0,00"
                     />
                   </FieldRowInline>
 
                   <FieldRowInline label="Metode Bunga Pinjaman" required>
                     <Select value={metodeBunga} onValueChange={setMetodeBunga}>
-                      <SelectTrigger className="h-10 rounded-xl border-slate-200 bg-white">
+                      <SelectTrigger className={UI.selectTrigger}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
@@ -534,7 +556,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={besarPinjaman}
                       onChange={(e) => setBesarPinjaman(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-white"
+                      className={UI.input}
                     />
                   </FieldRowInline>
 
@@ -542,7 +564,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={jangkaWaktu}
                       onChange={(e) => setJangkaWaktu(e.target.value)}
-                      className="h-10 rounded-xl border-slate-200 bg-white"
+                      className={UI.input}
                     />
                   </FieldRowInline>
                 </div>
@@ -552,20 +574,26 @@ export default function LoanApplicationCreate() {
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <Button
                     variant="outline"
-                    className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
+                    className={cn(
+                      UI.btn,
+                      "border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50",
+                    )}
                     onClick={() => navigate("/loans/applications")}
                   >
-                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-slate-200 text-slate-700">
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-[5px] bg-slate-200 text-slate-700">
                       ×
                     </span>
                     Batalkan
                   </Button>
 
                   <Button
-                    className="h-10 rounded-xl bg-emerald-600 px-4 text-white hover:bg-emerald-700"
+                    className={cn(
+                      UI.btn,
+                      "bg-emerald-600 px-4 text-white hover:bg-emerald-700",
+                    )}
                     onClick={save}
                   >
-                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/15">
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-[5px] bg-white/15">
                       ✓
                     </span>
                     Simpan
