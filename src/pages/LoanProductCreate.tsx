@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -15,7 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Info, Plus, Save, X, HelpCircle } from "lucide-react";
+import { Info, Plus, Save, X, HelpCircle, Trash2 } from "lucide-react";
 import { createLoanProduct, BillingScheme } from "@/lib/loanProductsStore";
 import PenaltyRateField, {
   type PenaltyRateMode,
@@ -51,6 +52,18 @@ type PenaltyBase =
   | "Hutang Bunga"
   | "Pilih Dasar Perhitungan";
 
+type CollectorKind = "Kolektor 1" | "Kolektor 2" | "Kolektor 3";
+type FeeMethod = "Plafon Pinjaman" | "Angsuran" | "Tenor";
+
+type CollectorFeeRow = {
+  id: string;
+  collectorKind: CollectorKind;
+  feeMethod: FeeMethod;
+  minLoan: string;
+  maxLoan: string;
+  feePercent: string;
+};
+
 function FieldRow({
   label,
   hint,
@@ -81,6 +94,117 @@ function InfoBadge() {
     >
       <HelpCircle className="h-4 w-4" />
     </span>
+  );
+}
+
+function FeeRow({
+  row,
+  onChange,
+  onRemove,
+}: {
+  row: CollectorFeeRow;
+  onChange: (next: CollectorFeeRow) => void;
+  onRemove: () => void;
+}) {
+  const selectCls =
+    "h-11 rounded-xl border-slate-200 bg-white text-[12.5px] [&>span.absolute.right-2]:hidden";
+
+  return (
+    <div className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1.05fr_1.05fr_1.25fr_1.25fr_0.75fr_56px] md:items-end">
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Jenis Kolektor
+        </Label>
+        <Select
+          value={row.collectorKind}
+          onValueChange={(v) =>
+            onChange({ ...row, collectorKind: v as CollectorKind })
+          }
+        >
+          <SelectTrigger className={selectCls}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-2xl border-slate-200">
+            <SelectItem value="Kolektor 1">Kolektor 1</SelectItem>
+            <SelectItem value="Kolektor 2">Kolektor 2</SelectItem>
+            <SelectItem value="Kolektor 3">Kolektor 3</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Metode Perhitungan Fee
+        </Label>
+        <Select
+          value={row.feeMethod}
+          onValueChange={(v) => onChange({ ...row, feeMethod: v as FeeMethod })}
+        >
+          <SelectTrigger className={selectCls}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-2xl border-slate-200">
+            <SelectItem value="Plafon Pinjaman">Plafon Pinjaman</SelectItem>
+            <SelectItem value="Angsuran">Angsuran</SelectItem>
+            <SelectItem value="Tenor">Tenor</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Minimal Jumlah Pinjaman
+        </Label>
+        <Input
+          value={row.minLoan}
+          onChange={(e) => onChange({ ...row, minLoan: e.target.value })}
+          className="h-11 rounded-xl border-slate-200 bg-white text-[12.5px]"
+          placeholder="1.000.000,00"
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Maksimal Jumlah Pinjaman
+        </Label>
+        <Input
+          value={row.maxLoan}
+          onChange={(e) => onChange({ ...row, maxLoan: e.target.value })}
+          className="h-11 rounded-xl border-slate-200 bg-white text-[12.5px]"
+          placeholder="50.000.000,00"
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-xs font-semibold text-slate-700">
+          Jumlah Fee (%)
+        </Label>
+        <div className="relative">
+          <Input
+            value={row.feePercent}
+            onChange={(e) => onChange({ ...row, feePercent: e.target.value })}
+            className="h-11 rounded-xl border-slate-200 bg-white pr-10 text-[12.5px]"
+            placeholder="12"
+            inputMode="decimal"
+          />
+          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">
+            %
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={onRemove}
+        className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
+        aria-label="Hapus fee kolektor"
+        title="Hapus"
+      >
+        <Trash2 className="h-5 w-5" />
+      </button>
+    </div>
   );
 }
 
@@ -167,10 +291,10 @@ export default function LoanProductCreate() {
   const [coaAdminRevenue, setCoaAdminRevenue] =
     React.useState<CoaOption>("PEN. ADMINISTRASI");
 
-  // --- Fee Kolektor (simple list like before) ---
-  const [collectorFees, setCollectorFees] = React.useState<
-    Array<{ id: string; name: string; amount: string }>
-  >([]);
+  // --- Fee Kolektor (layout sesuai contoh) ---
+  const [collectorFees, setCollectorFees] = React.useState<CollectorFeeRow[]>(
+    [],
+  );
 
   // --- Installment ---
   const [useInstallmentTable, setUseInstallmentTable] = React.useState(true);
@@ -213,10 +337,17 @@ export default function LoanProductCreate() {
   function addCollectorFee() {
     setCollectorFees((prev) => [
       ...prev,
-      { id: String(Date.now()), name: `Fee ${prev.length + 1}`, amount: "0" },
+      {
+        id: String(Date.now()),
+        collectorKind: "Kolektor 1",
+        feeMethod: "Plafon Pinjaman",
+        minLoan: "1.000.000,00",
+        maxLoan: "50.000.000,00",
+        feePercent: "12",
+      },
     ]);
     toast("Fee kolektor ditambahkan", {
-      description: "Silakan sesuaikan nama dan nominalnya.",
+      description: "Silakan sesuaikan jenis, metode, dan nominalnya.",
     });
   }
 
@@ -657,57 +788,20 @@ export default function LoanProductCreate() {
             </div>
 
             <div className="mt-4 grid gap-3">
-              {collectorFees.map((f, idx) => (
-                <div
+              {collectorFees.map((f) => (
+                <FeeRow
                   key={f.id}
-                  className="grid gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200 md:grid-cols-[1fr_220px_56px] md:items-end"
-                >
-                  <div className="grid gap-2">
-                    <div className="text-xs font-semibold text-slate-700">Nama</div>
-                    <Input
-                      value={f.name}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setCollectorFees((prev) =>
-                          prev.map((x) => (x.id === f.id ? { ...x, name: val } : x)),
-                        );
-                      }}
-                      className="h-11 rounded-xl border-slate-200 bg-white"
-                    />
-                  </div>
-
-                  <div className="grid gap-2">
-                    <div className="text-xs font-semibold text-slate-700">
-                      Nominal
-                    </div>
-                    <Input
-                      value={f.amount}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setCollectorFees((prev) =>
-                          prev.map((x) =>
-                            x.id === f.id ? { ...x, amount: val } : x,
-                          ),
-                        );
-                      }}
-                      className="h-11 rounded-xl border-slate-200 bg-white"
-                      inputMode="decimal"
-                    />
-                  </div>
-
-                  <button
-                    type="button"
-                    className="inline-flex h-11 w-14 items-center justify-center rounded-xl bg-rose-600 text-white ring-1 ring-rose-600/20 transition hover:bg-rose-700"
-                    onClick={() => {
-                      setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
-                      toast("Fee dihapus", { description: `Item #${idx + 1} dihapus.` });
-                    }}
-                    aria-label="Hapus fee"
-                    title="Hapus"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
+                  row={f}
+                  onChange={(next) =>
+                    setCollectorFees((prev) =>
+                      prev.map((x) => (x.id === f.id ? next : x)),
+                    )
+                  }
+                  onRemove={() => {
+                    setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
+                    toast("Fee dihapus", { description: "Item fee kolektor dihapus." });
+                  }}
+                />
               ))}
             </div>
 
