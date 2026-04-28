@@ -387,6 +387,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         ].join(" ")
       : "";
 
+  // Samakan tinggi baris BillingTableView2 seperti View 1 (compact)
+  const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -487,78 +490,91 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              {isReguler ? (
-                <BillingTableView2
-                  rows={rowsToShow}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={true}
-                  showNextBillInfo={true}
-                  showGraceInfo={true}
-                  highlightGraceBlock={true}
-                  hideSelection={false}
-                  showPenaltyColumn={true}
-                  disableRowActiveRing={true}
-                />
-              ) : isKhusus ? (
-                <BillingTableView2
-                  rows={rowsToShow}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={true}
-                  showNextBillInfo={true}
-                  showGraceInfo={true}
-                  highlightGraceBlock={true}
-                  hideSelection={false}
-                  showPenaltyColumn={true}
-                  disableRowActiveRing={true}
-                />
-              ) : isPelunasan ? (
-                <BillingTableView2
-                  rows={rowsToShow}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={true}
-                  showNextBillInfo={true}
-                  showGraceInfo={true}
-                  highlightGraceBlock={true}
-                  hideSelection={false}
-                  showPenaltyColumn={true}
-                  disableRowActiveRing={true}
-                />
-              ) : useV1ForPenurunanBakiDebet ? (
-                <div
-                  className={cn(
-                    "billing-table-compact",
-                    "[&_.text-slate-400]:hidden",
-                    alignNumbersForPenurunan,
-                  )}
-                >
-                  <BillingTable
-                    rows={rowsToShowV1}
+              <div
+                className={cn(
+                  compactRowsForView2
+                    ? [
+                        // RowShell wrapper in BillingTableView2 is: "bg-white px-3 py-3"
+                        "[&_.bg-white.px-3.py-3]:!py-1.5",
+                        // Cells are: "px-4 py-4"
+                        "[&_.px-4.py-4]:!py-2",
+                      ].join(" ")
+                    : "",
+                )}
+              >
+                {isReguler ? (
+                  <BillingTableView2
+                    rows={rowsToShow}
                     selected={selected}
                     setSelected={setSelected}
-                    isPelunasan={false}
-                    showGraceHighlight={true}
-                    hideInterestCols={false}
-                    hideSelection={true}
-                    showPenaltyColumn={false}
-                    className="mt-0"
+                    isLocked={true}
+                    showNextBillInfo={true}
+                    showGraceInfo={true}
+                    highlightGraceBlock={true}
+                    hideSelection={false}
+                    showPenaltyColumn={true}
+                    disableRowActiveRing={true}
                   />
-                </div>
-              ) : (
-                <BillingTableView2
-                  rows={rowsToShow}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isLocked={false}
-                  showNextBillInfo={true}
-                  showGraceInfo={showGraceInfo}
-                  highlightGraceBlock={highlightGraceBlock}
-                  hideSelection={isPenurunanPlafon}
-                  showPenaltyColumn={false}
-                />
-              )}
+                ) : isKhusus ? (
+                  <BillingTableView2
+                    rows={rowsToShow}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isLocked={true}
+                    showNextBillInfo={true}
+                    showGraceInfo={true}
+                    highlightGraceBlock={true}
+                    hideSelection={false}
+                    showPenaltyColumn={true}
+                    disableRowActiveRing={true}
+                  />
+                ) : isPelunasan ? (
+                  <BillingTableView2
+                    rows={rowsToShow}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isLocked={true}
+                    showNextBillInfo={true}
+                    showGraceInfo={true}
+                    highlightGraceBlock={true}
+                    hideSelection={false}
+                    showPenaltyColumn={true}
+                    disableRowActiveRing={true}
+                  />
+                ) : useV1ForPenurunanBakiDebet ? (
+                  <div
+                    className={cn(
+                      "billing-table-compact",
+                      "[&_.text-slate-400]:hidden",
+                      alignNumbersForPenurunan,
+                    )}
+                  >
+                    <BillingTable
+                      rows={rowsToShowV1}
+                      selected={selected}
+                      setSelected={setSelected}
+                      isPelunasan={false}
+                      showGraceHighlight={true}
+                      hideInterestCols={false}
+                      hideSelection={true}
+                      showPenaltyColumn={false}
+                      className="mt-0"
+                    />
+                  </div>
+                ) : (
+                  <BillingTableView2
+                    rows={rowsToShow}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isLocked={false}
+                    showNextBillInfo={true}
+                    showGraceInfo={showGraceInfo}
+                    highlightGraceBlock={highlightGraceBlock}
+                    hideSelection={isPenurunanPlafon}
+                    showPenaltyColumn={false}
+                  />
+                )}
+              </div>
 
               {usePaging ? (
                 <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
