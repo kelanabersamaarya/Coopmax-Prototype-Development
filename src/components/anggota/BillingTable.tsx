@@ -17,6 +17,11 @@ export type BillingRow = {
   sisaBunga: string;
 };
 
+const PENALTY_ROWS = 3;
+const PENALTY_AMOUNT = 75000;
+const PENALTY_DETAIL_DAYS = 3;
+const PENALTY_PER_DAY = 25000;
+
 function formatDmy(d: Date) {
   const dd = String(d.getDate()).padStart(2, "0");
   const mm = String(d.getMonth() + 1).padStart(2, "0");
@@ -62,13 +67,13 @@ function formatIdrLike(n: number) {
 
 function buildPenaltyDetailRows(dueDateDmy: string) {
   const due = parseDmyToDate(dueDateDmy) ?? new Date();
-  const days = 3;
-  const perDay = 25000;
 
-  const rows: PenaltyDetailRow[] = Array.from({ length: days }).map((_, i) => ({
-    tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
-    nominalDenda: formatIdrLike(perDay),
-  }));
+  const rows: PenaltyDetailRow[] = Array.from({ length: PENALTY_DETAIL_DAYS }).map(
+    (_v, i) => ({
+      tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
+      nominalDenda: formatIdrLike(PENALTY_PER_DAY),
+    }),
+  );
 
   return rows;
 }
@@ -229,14 +234,6 @@ export default function BillingTable({
     );
   }, [hideSelection, selected, totalSelectableRows]);
 
-  const penalties = React.useMemo(() => {
-    const perRow = 25000;
-    return Array.from({ length: totalSelectableRows }).map(() => ({
-      total: formatIdrLike(perRow),
-      remaining: formatIdrLike(perRow),
-    }));
-  }, [totalSelectableRows]);
-
   function openPenaltyDetailForRow(rowIndex: number) {
     const dueDate =
       rowIndex < displayRows.length
@@ -293,7 +290,8 @@ export default function BillingTable({
 
   const penaltyValueClass = cn("tabular-nums whitespace-nowrap font-normal");
 
-  const shouldShowGraceInfoRow = (showGraceHighlight || forceGraceInfo) && showAllCols;
+  const shouldShowGraceInfoRow =
+    (showGraceHighlight || forceGraceInfo) && showAllCols;
 
   return (
     <div className={cn("mt-3", className)}>
@@ -404,6 +402,8 @@ export default function BillingTable({
 
                               {graceRows.map((bill, idx) => {
                                 const rowIndex = idx;
+                                const showPenaltyValue = rowIndex < PENALTY_ROWS;
+
                                 return (
                                   <tr
                                     key={`grace-${bill.jatuhTempo}-${idx}`}
@@ -455,16 +455,18 @@ export default function BillingTable({
 
                                     {showPenaltyCol ? (
                                       <td className={penaltyTd}>
-                                        <div className="flex items-center justify-end gap-3">
-                                          <span className={penaltyValueClass}>
-                                            {penalties[rowIndex]?.total ?? "25.000"}
-                                          </span>
-                                          <PenaltyInfoButton
-                                            onClick={() =>
-                                              openPenaltyDetailForRow(rowIndex)
-                                            }
-                                          />
-                                        </div>
+                                        {showPenaltyValue ? (
+                                          <div className="flex items-center justify-end gap-3">
+                                            <span className={penaltyValueClass}>
+                                              {formatIdrLike(PENALTY_AMOUNT)}
+                                            </span>
+                                            <PenaltyInfoButton
+                                              onClick={() =>
+                                                openPenaltyDetailForRow(rowIndex)
+                                              }
+                                            />
+                                          </div>
+                                        ) : null}
                                       </td>
                                     ) : null}
                                   </tr>
@@ -482,6 +484,7 @@ export default function BillingTable({
 
                 {nonGraceRows.map((bill, idx) => {
                   const rowIndex = graceEnabled ? graceCount + idx : idx;
+                  const showPenaltyValue = rowIndex < PENALTY_ROWS;
 
                   return (
                     <tr
@@ -525,14 +528,16 @@ export default function BillingTable({
 
                       {showPenaltyCol ? (
                         <td className={penaltyTd}>
-                          <div className="flex items-center justify-end gap-3">
-                            <span className={penaltyValueClass}>
-                              {penalties[rowIndex]?.total ?? "25.000"}
-                            </span>
-                            <PenaltyInfoButton
-                              onClick={() => openPenaltyDetailForRow(rowIndex)}
-                            />
-                          </div>
+                          {showPenaltyValue ? (
+                            <div className="flex items-center justify-end gap-3">
+                              <span className={penaltyValueClass}>
+                                {formatIdrLike(PENALTY_AMOUNT)}
+                              </span>
+                              <PenaltyInfoButton
+                                onClick={() => openPenaltyDetailForRow(rowIndex)}
+                              />
+                            </div>
+                          ) : null}
                         </td>
                       ) : null}
                     </tr>
@@ -584,9 +589,7 @@ export default function BillingTable({
                       ) : null}
 
                       {showPenaltyCol ? (
-                        <td className={penaltyTdEmpty}>
-                          <span className="text-slate-400">-</span>
-                        </td>
+                        <td className={penaltyTdEmpty} />
                       ) : null}
                     </tr>
                   );

@@ -2,14 +2,15 @@
 
 import type { BillingRow } from "@/components/anggota/BillingTable";
 
-export function calcPenaltyTotal(rows: BillingRow[], selected: boolean[]) {
-  const base = 25000;
+const PENALTY_ROWS = 3;
+const PENALTY_AMOUNT = 75000;
 
+export function calcPenaltyTotal(rows: BillingRow[], selected: boolean[]) {
   return rows.reduce((sum, _row, idx) => {
     const checked = selected[idx] ?? true;
     if (!checked) return sum;
-    const total = base + idx * 5000;
-    return sum + total;
+    if (idx >= PENALTY_ROWS) return sum;
+    return sum + PENALTY_AMOUNT;
   }, 0);
 }
 

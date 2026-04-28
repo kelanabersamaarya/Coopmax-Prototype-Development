@@ -18,6 +18,11 @@ export type BillingRow = {
   sisaBunga: string;
 };
 
+const PENALTY_ROWS = 3;
+const PENALTY_AMOUNT = 75000;
+const PENALTY_DETAIL_DAYS = 3; // 3 baris detail
+const PENALTY_PER_DAY = 25000; // 75.000 / 3
+
 function RowShell({
   children,
   active,
@@ -99,21 +104,15 @@ function formatIdrLike(n: number) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-function penaltyForIndex(idx: number) {
-  const base = 25000;
-  return base + idx * 5000;
-}
-
-function buildPenaltyDetailRows(dueDateDmy: string, idx: number) {
+function buildPenaltyDetailRows(dueDateDmy: string) {
   const due = parseDmyToDate(dueDateDmy) ?? new Date();
-  const days = 3;
 
-  const perDay = Math.round(penaltyForIndex(idx) / days);
-
-  const rows: PenaltyDetailRow[] = Array.from({ length: days }).map((_, i) => ({
-    tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
-    nominalDenda: formatIdrLike(perDay),
-  }));
+  const rows: PenaltyDetailRow[] = Array.from({ length: PENALTY_DETAIL_DAYS }).map(
+    (_v, i) => ({
+      tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
+      nominalDenda: formatIdrLike(PENALTY_PER_DAY),
+    }),
+  );
 
   return rows;
 }
@@ -242,23 +241,25 @@ export default function BillingTableView2({
   const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
   const sisaBungaNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
 
-  function openPenaltyDetailForRow(idx: number, dueDateDmy: string) {
-    setPenaltyRows(buildPenaltyDetailRows(dueDateDmy, idx));
+  function openPenaltyDetailForRow(dueDateDmy: string) {
+    setPenaltyRows(buildPenaltyDetailRows(dueDateDmy));
     setPenaltyOpen(true);
   }
 
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
-    const nominal = formatIdrLike(penaltyForIndex(idx));
+    const shouldShow = idx < PENALTY_ROWS;
+
+    if (!shouldShow) {
+      return <div className={cn("px-4 py-4", numberTextClass)} />;
+    }
 
     return (
       <div className={cn("px-4 py-4", numberTextClass)}>
         <div className="flex items-center justify-end gap-3">
           <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-            {nominal}
+            {formatIdrLike(PENALTY_AMOUNT)}
           </span>
-          <PenaltyInfoButton
-            onClick={() => openPenaltyDetailForRow(idx, dueDateDmy)}
-          />
+          <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(dueDateDmy)} />
         </div>
       </div>
     );
