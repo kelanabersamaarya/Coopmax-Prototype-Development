@@ -546,16 +546,20 @@ export default function RekeningPinjaman() {
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                             )}
                           >
-                            <td className={cn(td, "text-slate-900 tabular-nums")}>
+                            <td className={cn(td, "text-left text-slate-900 tabular-nums")}>
                               {(page - 1) * pageSize + idx + 1}
                             </td>
 
-                            <td className={td}>
+                            <td className={cn(td, "text-left")}>
                               <button
                                 type="button"
                                 onClick={() => setSelectedAccountNo(r.noRekening)}
-                                className="font-semibold text-blue-600 hover:underline"
                                 title={r.noRekening}
+                                className={cn(
+                                  "block w-full text-left",
+                                  "font-semibold text-blue-600 hover:underline",
+                                  "break-all leading-snug",
+                                )}
                               >
                                 {r.noRekening}
                               </button>
@@ -564,43 +568,60 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "text-slate-900 tabular-nums whitespace-nowrap",
+                                "text-left text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.tanggalDaftar}
                             </td>
 
-                            <td className={cn(td, "text-slate-900")}>
+                            <td className={cn(td, "text-left text-slate-900")}>
                               {r.produkPinjaman}
                             </td>
 
                             <td
                               className={cn(
                                 td,
-                                "text-slate-900 tabular-nums whitespace-nowrap",
+                                "text-left text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.idNasabah}
                             </td>
 
-                            <td className={cn(td, "text-slate-900")}>
+                            <td className={cn(td, "text-left text-slate-900")}>
                               {r.namaNasabah}
                             </td>
 
-                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                            <td
+                              className={cn(
+                                td,
+                                "text-left text-slate-900 tabular-nums whitespace-nowrap",
+                              )}
+                            >
                               {r.nominal}
                             </td>
 
-                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                            <td
+                              className={cn(
+                                td,
+                                "text-left text-slate-900 tabular-nums whitespace-nowrap",
+                              )}
+                            >
                               {r.sisaPinjaman}
                             </td>
 
-                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                            <td
+                              className={cn(
+                                td,
+                                "text-left text-slate-900 tabular-nums whitespace-nowrap",
+                              )}
+                            >
                               {r.bungaPerTahun}
                             </td>
 
-                            <td className={td}>
-                              <StatusBadge status={r.status} />
+                            <td className={cn(td, "text-left")}>
+                              <div className="text-left">
+                                <StatusBadge status={r.status} />
+                              </div>
                             </td>
                           </tr>
                         ))
