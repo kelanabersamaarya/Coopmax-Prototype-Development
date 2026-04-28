@@ -180,6 +180,8 @@ export default function LoanApplications() {
   const [qBunga, setQBunga] = React.useState("");
   const [qStatus, setQStatus] = React.useState<LoanApplicationStatus>("Semua");
 
+  const [pageSize, setPageSize] = React.useState<number>(20);
+
   const filtered = React.useMemo(() => {
     const noRekQ = qNoRek.trim().toLowerCase();
     const tanggalQ = qTanggal.trim().toLowerCase();
@@ -234,6 +236,9 @@ export default function LoanApplications() {
   const filterSelectTriggerCls =
     "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
+  const pageSizeTriggerCls =
+    "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -262,7 +267,29 @@ export default function LoanApplications() {
         <Separator className="my-6 bg-slate-200/70" />
 
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          <div className="mt-4 overflow-hidden bg-white">
+          {/* TOP CONTROL (seperti contoh) */}
+          <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
+            <span>Tampilkan</span>
+            <Select
+              value={String(pageSize)}
+              onValueChange={(v) => setPageSize(Number(v))}
+            >
+              <SelectTrigger className={pageSizeTriggerCls}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-slate-200">
+                {[10, 20, 50, 100].map((n) => (
+                  <SelectItem key={n} value={String(n)}>
+                    {n}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span>entri</span>
+          </div>
+
+          {/* TABLE (tanpa border luar) */}
+          <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
               <table className="w-full min-w-[1120px] border-collapse">
                 <thead className="bg-white">
@@ -473,6 +500,8 @@ export default function LoanApplications() {
           <div className="mt-4 text-xs text-slate-600">
             Menampilkan 1 sampai {filtered.length} dari {filtered.length} entri
           </div>
+
+          <div className="sr-only">{pageSize}</div>
         </Card>
       </div>
     </div>
