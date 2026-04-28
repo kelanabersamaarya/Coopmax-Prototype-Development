@@ -13,6 +13,8 @@ import {
   ReceiptText,
   ScrollText,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import AnggotaAccountTabs from "@/components/anggota/AnggotaAccountTabs";
 import SectionHighlight from "@/components/anggota/SectionHighlight";
@@ -106,6 +108,57 @@ function parseNumLikeId(input: string) {
   return Number.isFinite(n) ? n : 0;
 }
 
+function PaginationLikeView1({
+  page,
+  pageCount,
+  onPage,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (p: number) => void;
+}) {
+  if (pageCount <= 1) return null;
+
+  const disabledPrev = page <= 1;
+  const disabledNext = page >= pageCount;
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        className={cn(
+          "inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold",
+          "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
+          disabledPrev ? "opacity-60 pointer-events-none" : "",
+        )}
+        onClick={() => onPage(Math.max(1, page - 1))}
+        disabled={disabledPrev}
+      >
+        <ChevronLeft className="mr-1 h-4 w-4" />
+        Sebelumnya
+      </button>
+
+      <div className="inline-flex h-10 min-w-10 items-center justify-center rounded-xl bg-violet-600 px-4 text-sm font-extrabold text-white">
+        {page}
+      </div>
+
+      <button
+        type="button"
+        className={cn(
+          "inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold",
+          "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
+          disabledNext ? "opacity-60 pointer-events-none" : "",
+        )}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+        disabled={disabledNext}
+      >
+        Selanjutnya
+        <ChevronRight className="ml-1 h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
 export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -136,7 +189,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
   const isPenurunanBakiDebet =
     jenisTransaksi === "Pembayaran Penurunan Baki Debet";
 
-  const rowsToShow: BillingRow[] = isReguler
+  // === Pagination khusus mode Penurunan Baki Debet (disamakan dengan View 1) ===
+  const pageSize = 6;
+  const [page, setPage] = React.useState<number>(1);
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [jenisTransaksi]);
+
+  const allRowsForMode: BillingRow[] = isReguler
     ? [currentBill]
     : isKhusus
       ? [currentBill]
@@ -144,7 +205,31 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
         ? upcomingRows
         : showAllRows
           ? upcomingRows
-          : [currentBill];
+          : isPenurunanBakiDebet
+            ? upcomingRows
+            : [currentBill];
+
+  const usePaging = isPenurunanBakiDebet;
+
+  const pageCount = React.useMemo(() => {
+    if (!usePaging) return 1;
+    return Math.max(1, Math.ceil(allRowsForMode.length / pageSize));
+  }, [allRowsForMode.length, pageSize, usePaging]);
+
+  const rowsToShow: BillingRow[] = React.useMemo(() => {
+    if (!usePaging) return allRowsForMode;
+    const start = (page - 1) * pageSize;
+    return allRowsForMode.slice(start, start + pageSize);
+  }, [allRowsForMode, page, pageSize, usePaging]);
+
+  const showingStart = usePaging
+    ? allRowsForMode.length === 0
+      ? 0
+      : (page - 1) * pageSize + 1
+    : 0;
+  const showingEnd = usePaging
+    ? Math.min(allRowsForMode.length, page * pageSize)
+    : 0;
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rowsToShow.map(() => false),
@@ -162,9 +247,15 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
       return;
     }
 
+    // Penurunan Baki Debet: di View 1 (penurunan) default tidak dipaksa checked; biarkan false.
+    if (isPenurunanBakiDebet) {
+      setSelected((prev) => rowsToShow.map((_, i) => prev[i] ?? false));
+      return;
+    }
+
     setSelected(rowsToShow.map(() => true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReguler, isKhusus, isPelunasan, showAllRows, rowsToShow.length]);
+  }, [isReguler, isKhusus, isPelunasan, showAllRows, isPenurunanBakiDebet, rowsToShow.length]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -198,7 +289,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     if (!isPenurunanBakiDebet) return null;
 
     return rowsToShow.reduce((sum, r, idx) => {
-      const checked = selected[idx] ?? true;
+      const checked = selected[idx] ?? false;
       if (!checked) return sum;
       return sum + parseNumLikeId(r.tagihanPokok);
     }, 0);
@@ -238,7 +329,22 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
 
-  const useTableLikeScreenshotForPenurunanBakiDebet = isPenurunanBakiDebet;
+  // === View 2: Penurunan Baki Debet disamakan dengan View 1 ===
+  const useV1ForPenurunanBakiDebet = isPenurunanBakiDebet;
+
+  // CSS override lokal untuk lurusin angka pada BillingTable (v1)
+  const alignNumbersForPenurunan =
+    isPenurunanBakiDebet
+      ? [
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:num-sans-tabular",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:tabular-nums",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:text-right",
+          "[&_.billing-table-compact_tbody_td:not(:first-child)]:pr-6",
+          "[&_.billing-table-compact_tbody_td:first-child]:text-left",
+          "[&_.num-sans-tabular]:font-variant-numeric:tabular-nums",
+          "[&_.tabular-nums]:font-variant-numeric:tabular-nums",
+        ].join(" ")
+      : "";
 
   return (
     <div className="w-full px-0">
@@ -377,17 +483,28 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showPenaltyColumn={true}
                   className="mt-0"
                 />
-              ) : useTableLikeScreenshotForPenurunanBakiDebet ? (
-                <BillingTable
-                  rows={rowsToShowV1}
-                  selected={selected}
-                  setSelected={setSelected}
-                  isPelunasan={false}
-                  showGraceHighlight={true}
-                  hideInterestCols={false}
-                  hideSelection={true}
-                  className="mt-0"
-                />
+              ) : useV1ForPenurunanBakiDebet ? (
+                <div
+                  className={cn(
+                    "billing-table-compact",
+                    // pastikan placeholder "-" tidak tampil (lebih bersih di mode ini)
+                    "[&_.text-slate-400]:hidden",
+                    // rapikan alignment angka
+                    alignNumbersForPenurunan,
+                  )}
+                >
+                  <BillingTable
+                    rows={rowsToShowV1}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isPelunasan={false}
+                    showGraceHighlight={true}
+                    hideInterestCols={false}
+                    hideSelection={true}
+                    showPenaltyColumn={false}
+                    className="mt-0"
+                  />
+                </div>
               ) : (
                 <BillingTableView2
                   rows={rowsToShow}
@@ -401,6 +518,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                   showPenaltyColumn={false}
                 />
               )}
+
+              {usePaging ? (
+                <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div className="text-xs text-slate-700">
+                    Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+                    {allRowsForMode.length} entri
+                  </div>
+                  <PaginationLikeView1 page={page} pageCount={pageCount} onPage={setPage} />
+                </div>
+              ) : null}
 
               <div className="sr-only">
                 <Info />
