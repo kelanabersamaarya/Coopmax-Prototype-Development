@@ -367,20 +367,9 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
 
   const rowsToShowV1 = rowsToShow as unknown as BillingRowV1[];
 
-  const useV1ForPenurunanBakiDebet = isPenurunanBakiDebet;
+  const useV1ForPenurunanBakiDebet = false;
 
-  const alignNumbersForPenurunan =
-    isPenurunanBakiDebet
-      ? [
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:num-sans-tabular",
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:tabular-nums",
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:text-right",
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:pr-6",
-          "[&_.billing-table-compact_tbody_td:first-child]:text-left",
-          "[&_.num-sans-tabular]:font-variant-numeric:tabular-nums",
-          "[&_.tabular-nums]:font-variant-numeric:tabular-nums",
-        ].join(" ")
-      : "";
+  const alignNumbersForPenurunan = "";
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
 
@@ -533,6 +522,20 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
+                  />
+                ) : isPenurunanBakiDebet ? (
+                  <BillingTableView2
+                    rows={rowsToShow}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isLocked={true}
+                    showNextBillInfo={false}
+                    showGraceInfo={true}
+                    highlightGraceBlock={true}
+                    hideSelection={true}
+                    showPenaltyColumn={false}
+                    disableRowRings
+                    disableRowActiveRing
                   />
                 ) : useV1ForPenurunanBakiDebet ? (
                   <div

@@ -329,24 +329,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const useView2Style = isReguler || isKhusus || isPelunasan;
 
-  const PENALTY_ROWS_PER_PAGE = 3;
   const showPenaltyColumnInTable = !isPenurunanBakiDebet;
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
-  const alignNumbersForPenurunan =
-    isPenurunanBakiDebet
-      ? [
-          "[&_.num-sans-tabular]:font-variant-numeric:tabular-nums",
-          "[&_.tabular-nums]:font-variant-numeric:tabular-nums",
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:num-sans-tabular",
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:tabular-nums",
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:pr-6",
-          "[&_.billing-table-compact_tbody_td:first-child]:text-left",
-          "[&_.billing-table-compact_tbody_td:not(:first-child)]:text-right",
-        ].join(" ")
-      : "";
+  const alignNumbersForPenurunan = "";
 
   return (
     <div className="w-full px-0">
@@ -458,34 +446,26 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     : "",
                   "[&_.billing-table-compact_td]:py-2.5 [&_.billing-table-compact_th]:py-2.5",
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
-                  showPenaltyColumnInTable
-                    ? [
-                        `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child]:text-transparent`,
-                        `[&_.billing-v1-compact-rows_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`,
-                      ].join(" ")
-                    : "",
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
-                  showPenaltyColumnInTable
-                    ? `[&_.billing-table-compact_tbody_tr:nth-child(n+${PENALTY_ROWS_PER_PAGE + 1})_td:last-child_*]:invisible`
-                    : "",
                   alignNumbersForPenurunan,
                 )}
               >
                 {isPenurunanBakiDebet ? (
-                  <div className="billing-table-compact">
-                    <BillingTable
-                      rows={pagedRows}
-                      selected={selected}
-                      setSelected={setSelected}
-                      isPelunasan={false}
-                      showGraceHighlight={true}
-                      hideInterestCols={false}
-                      hideSelection={true}
-                      showPenaltyColumn={false}
-                      rowDensity="roomy"
-                      className="mt-0"
-                    />
-                  </div>
+                  <BillingTableView2
+                    rows={pagedRowsForView2}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isLocked={true}
+                    showNextBillInfo={false}
+                    showGraceInfo={true}
+                    highlightGraceBlock={true}
+                    hideSelection={true}
+                    showPenaltyColumn={false}
+                    disableRowRings
+                    disableRowActiveRing
+                    rowDensity="default"
+                    className="mt-0"
+                  />
                 ) : useView2Style ? (
                   <BillingTableView2
                     rows={pagedRowsForView2}
