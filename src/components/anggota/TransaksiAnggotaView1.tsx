@@ -327,6 +327,10 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
 
+  // IMPORTANT: jangan pakai compact override untuk Penurunan Baki Debet,
+  // karena itu menimpa padding baris dan membuat tidak terlihat berubah.
+  const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
+
   const alignNumbersForPenurunan =
     isPenurunanBakiDebet
       ? [
@@ -440,7 +444,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
               <div
                 className={cn(
                   "billing-v1-compact-rows",
-                  compactRowsForView2
+                  applyCompactOverrides
                     ? [
                         "[&_.bg-white.px-3.py-3]:!py-1.5",
                         "[&_.px-4.py-4]:!py-2",
