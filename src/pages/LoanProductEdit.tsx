@@ -150,7 +150,7 @@ function AmountModeInput({
     <div className="grid gap-2">
       <div className="flex w-full items-center gap-2">
         <Select value={mode} onValueChange={(v) => onModeChange(v as AmountMode)}>
-          <SelectTrigger className={UI.selectTrigger}>
+          <SelectTrigger className={UI.selectTrigger + " w-[84px] px-2.5"}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="rounded-[10px] border-slate-200">
