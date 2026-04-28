@@ -24,9 +24,9 @@ export default function FieldTooltip({
         <button
           type="button"
           className={cn(
-            "ml-2 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
+            "ml-2 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full",
             "bg-[#2563eb] text-white",
-            "ring-2 ring-white shadow-sm",
+            "ring-1 ring-white shadow-sm",
             "outline-none transition hover:bg-[#1d4ed8]",
             "focus-visible:ring-4 focus-visible:ring-[#2563eb]/25",
             className,
@@ -34,7 +34,7 @@ export default function FieldTooltip({
           aria-label="Info"
           title="Info"
         >
-          <HelpCircle className={cn("h-4.5 w-4.5", iconClassName)} />
+          <HelpCircle className={cn("h-3 w-3", iconClassName)} />
         </button>
       </TooltipTrigger>
 
