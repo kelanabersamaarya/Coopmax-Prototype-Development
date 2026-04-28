@@ -1,3 +1,4 @@
+py-2) agar baris tagihan lebih rapat, cocok untuk mode Penurunan Baki Debet.">
 "use client";
 
 import * as React from "react";
@@ -241,7 +242,7 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // Tight rows should reduce cell padding too
+  // IMPORTANT: tightRows must reduce the padding inside each cell too.
   const cellY = tightRows ? "py-2" : rowDensity === "roomy" ? "py-8" : "py-4";
   const rowShellDensity: "default" | "roomy" = rowDensity;
 
