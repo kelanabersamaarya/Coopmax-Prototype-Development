@@ -81,7 +81,10 @@
     /* Fluid layout tokens (helps with zoom up to ~125%) */
     --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
     --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
-    --sidebar-w: clamp(12.25rem, 18vw, 15.5rem); /* ~196px..248px */
+
+    /* WAS: clamp(12.25rem, 18vw, 15.5rem) */
+    /* Shrink sidebar slightly so content area (forms) gets more width */
+    --sidebar-w: clamp(10.75rem, 16vw, 14.25rem); /* ~172px..228px */
 
     /* Numeric font token (use a sans font with tabular digits) */
     --font-numeric: "Inter";
@@ -136,7 +139,9 @@
 
     --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
     --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
-    --sidebar-w: clamp(12.25rem, 18vw, 15.5rem);
+
+    /* WAS: clamp(12.25rem, 18vw, 15.5rem) */
+    --sidebar-w: clamp(10.75rem, 16vw, 14.25rem);
 
     --font-numeric: "Inter";
 
