@@ -238,6 +238,14 @@ export default function BillingTableView2({
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
 
+  function NumCell({ value }: { value: string }) {
+    return (
+      <NumericCell align="separator" className="w-full">
+        {value}
+      </NumericCell>
+    );
+  }
+
   const sisaPokokNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
   const sisaBungaNumberCell = cn("px-4 py-4", numberTextClass, "pr-6");
 
@@ -246,9 +254,20 @@ export default function BillingTableView2({
     setPenaltyOpen(true);
   }
 
-  function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
-    const shouldShow = idx < PENALTY_ROWS;
+  function PenaltyCell({
+    idx,
+    dueDateDmy,
+    empty,
+  }: {
+    idx: number;
+    dueDateDmy: string;
+    empty?: boolean;
+  }) {
+    if (empty) {
+      return <div className={cn("px-4 py-4", numberTextClass)} />;
+    }
 
+    const shouldShow = idx < PENALTY_ROWS;
     if (!shouldShow) {
       return <div className={cn("px-4 py-4", numberTextClass)} />;
     }
@@ -256,9 +275,7 @@ export default function BillingTableView2({
     return (
       <div className={cn("px-4 py-4", numberTextClass)}>
         <div className="flex items-center justify-end gap-3">
-          <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-            {formatIdrLike(PENALTY_AMOUNT)}
-          </span>
+          <NumCell value={formatIdrLike(PENALTY_AMOUNT)} />
           <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(dueDateDmy)} />
         </div>
       </div>
@@ -377,34 +394,24 @@ export default function BillingTableView2({
                                           {r.jatuhTempo}
                                         </div>
 
-                                        <div
-                                          className={cn("px-4 py-4", numberTextClass)}
-                                        >
-                                          {r.totalBelumDibayar}
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                          <NumCell value={r.totalBelumDibayar} />
                                         </div>
 
-                                        <div
-                                          className={cn("px-4 py-4", numberTextClass)}
-                                        >
-                                          {r.tagihanPokok}
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                          <NumCell value={r.tagihanPokok} />
                                         </div>
 
-                                        <div
-                                          className={cn("px-4 py-4", numberTextClass)}
-                                        >
-                                          {r.tagihanBunga}
+                                        <div className={cn("px-4 py-4", numberTextClass)}>
+                                          <NumCell value={r.tagihanBunga} />
                                         </div>
 
                                         <div className={sisaPokokNumberCell}>
-                                          <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                            {r.sisaPokok}
-                                          </span>
+                                          <NumCell value={r.sisaPokok} />
                                         </div>
 
                                         <div className={sisaBungaNumberCell}>
-                                          <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                            {r.sisaBunga}
-                                          </span>
+                                          <NumCell value={r.sisaBunga} />
                                         </div>
 
                                         {showPenaltyColumn ? (
@@ -469,27 +476,23 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.totalBelumDibayar}
+                              <NumCell value={r.totalBelumDibayar} />
                             </div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.tagihanPokok}
+                              <NumCell value={r.tagihanPokok} />
                             </div>
 
                             <div className={cn("px-4 py-4", numberTextClass)}>
-                              {r.tagihanBunga}
+                              <NumCell value={r.tagihanBunga} />
                             </div>
 
                             <div className={sisaPokokNumberCell}>
-                              <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                {r.sisaPokok}
-                              </span>
+                              <NumCell value={r.sisaPokok} />
                             </div>
 
                             <div className={sisaBungaNumberCell}>
-                              <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                {r.sisaBunga}
-                              </span>
+                              <NumCell value={r.sisaBunga} />
                             </div>
 
                             {showPenaltyColumn ? (
@@ -556,27 +559,23 @@ export default function BillingTableView2({
                               </div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.totalBelumDibayar}
+                                <NumCell value={r.totalBelumDibayar} />
                               </div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.tagihanPokok}
+                                <NumCell value={r.tagihanPokok} />
                               </div>
 
                               <div className={cn("px-4 py-4", numberTextClass)}>
-                                {r.tagihanBunga}
+                                <NumCell value={r.tagihanBunga} />
                               </div>
 
                               <div className={sisaPokokNumberCell}>
-                                <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                  {r.sisaPokok}
-                                </span>
+                                <NumCell value={r.sisaPokok} />
                               </div>
 
                               <div className={sisaBungaNumberCell}>
-                                <span className="whitespace-nowrap num-sans-tabular tabular-nums">
-                                  {r.sisaBunga}
-                                </span>
+                                <NumCell value={r.sisaBunga} />
                               </div>
 
                               {showPenaltyColumn ? (
