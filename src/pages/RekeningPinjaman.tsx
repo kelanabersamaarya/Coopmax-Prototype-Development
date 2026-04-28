@@ -70,14 +70,6 @@ const seed: Row[] = [
   },
 ];
 
-function shortenAccountNo(v: string) {
-  const s = v.trim();
-  if (s.length <= 10) return s;
-  const head = s.slice(0, 6);
-  const tail = s.slice(-4);
-  return `${head}…${tail}`;
-}
-
 function StatusBadge({ status }: { status: Row["status"] }) {
   const map: Record<Row["status"], { className: string; label: string }> = {
     "Aktif / Sudah Dicairkan": {
@@ -352,7 +344,6 @@ export default function RekeningPinjaman() {
             <Separator className="my-6 bg-slate-200/70" />
 
             <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-              {/* TOP CONTROL (seperti Daftar Pengajuan Pinjaman) */}
               <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
                 <span>Tampilkan</span>
                 <Select
@@ -373,18 +364,16 @@ export default function RekeningPinjaman() {
                 <span>entri</span>
               </div>
 
-              {/* TABLE (tanpa border luar) */}
               <div className="overflow-hidden bg-white">
                 <div className="safe-x-scroll">
                   <table className="w-full min-w-[1200px] border-collapse">
                     <thead className="bg-white">
-                      {/* HEADER: hanya 2 baris (header + filter) */}
                       <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                         <th className={cn("w-[70px] whitespace-nowrap", th)}>
                           <ThLabel sortable={false}>No.</ThLabel>
                         </th>
 
-                        <th className={cn("w-[170px]", th)}>
+                        <th className={cn("w-[190px]", th)}>
                           <ThLabel>
                             <span className="block">No.</span>
                             <span className="block">Rekening</span>
@@ -437,7 +426,6 @@ export default function RekeningPinjaman() {
                           </ThLabel>
                         </th>
 
-                        {/* Lebar status diperkecil */}
                         <th className={cn("w-[150px]", th)}>
                           <ThLabel>Status</ThLabel>
                         </th>
@@ -539,7 +527,6 @@ export default function RekeningPinjaman() {
                       </tr>
                     </thead>
 
-                    {/* ISI TABEL: rata kiri */}
                     <tbody className="bg-white">
                       {paged.length === 0 ? (
                         <tr>
@@ -570,7 +557,7 @@ export default function RekeningPinjaman() {
                                 className="font-semibold text-blue-600 hover:underline"
                                 title={r.noRekening}
                               >
-                                {shortenAccountNo(r.noRekening)}
+                                {r.noRekening}
                               </button>
                             </td>
 
@@ -600,15 +587,30 @@ export default function RekeningPinjaman() {
                               {r.namaNasabah}
                             </td>
 
-                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                            <td
+                              className={cn(
+                                td,
+                                "text-slate-900 tabular-nums whitespace-nowrap",
+                              )}
+                            >
                               {r.nominal}
                             </td>
 
-                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                            <td
+                              className={cn(
+                                td,
+                                "text-slate-900 tabular-nums whitespace-nowrap",
+                              )}
+                            >
                               {r.sisaPinjaman}
                             </td>
 
-                            <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                            <td
+                              className={cn(
+                                td,
+                                "text-slate-900 tabular-nums whitespace-nowrap",
+                              )}
+                            >
                               {r.bungaPerTahun}
                             </td>
 
