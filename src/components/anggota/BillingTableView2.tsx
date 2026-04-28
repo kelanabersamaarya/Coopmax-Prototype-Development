@@ -234,12 +234,15 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // Khusus mode Penurunan Baki Debet (di app ini): hideSelection + locked + grace block + tanpa kolom denda
+  // Mode Penurunan Baki Debet (hideSelection + locked + grace block + tanpa kolom denda)
   const isBakiDebetMode =
     hideSelection && isLocked && highlightGraceBlock && !showPenaltyColumn;
 
-  // dipadatkan lagi
-  const cellY = isBakiDebetMode ? "py-2" : rowDensity === "roomy" ? "py-8" : "py-4";
+  // Samakan dengan metode lain:
+  // - cell padding kembali "default"
+  // - row wrapper padding dipadatkan sedikit agar tidak terlihat lebih tinggi
+  const cellY = rowDensity === "roomy" ? "py-8" : "py-4";
+  const rowShellDensity: "default" | "roomy" = isBakiDebetMode ? "roomy" : rowDensity;
 
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
@@ -324,40 +327,26 @@ export default function BillingTableView2({
 
                         {graceRows.map((r, idx) => {
                           const rowIndex = idx;
-                          const active =
-                            hideSelection ? false : selected[rowIndex] === true;
+                          const active = hideSelection ? false : selected[rowIndex] === true;
 
                           return (
                             <div
                               key={`${r.jatuhTempo}-grace-flat-${idx}`}
-                              className={cn(
-                                idx === 0 ? "" : "border-t border-slate-200",
-                              )}
+                              className={cn(idx === 0 ? "" : "border-t border-slate-200")}
                             >
                               <RowShell
                                 active={active}
                                 disableActiveRing={disableRowActiveRing}
                                 disableRowRings={disableRowRings}
-                                density={rowDensity}
+                                density={rowShellDensity}
                               >
-                                <div
-                                  className={cn("grid items-center gap-0", gridTemplate)}
-                                >
+                                <div className={cn("grid items-center gap-0", gridTemplate)}>
                                   {!hideSelection ? (
-                                    <div
-                                      className={cn(
-                                        "flex items-center justify-center px-4",
-                                        cellY,
-                                      )}
-                                    >
+                                    <div className={cn("flex items-center justify-center px-4", cellY)}>
                                       <input
                                         type="checkbox"
                                         aria-label="Pilih tagihan"
-                                        checked={
-                                          isLocked
-                                            ? true
-                                            : (selected[rowIndex] ?? false)
-                                        }
+                                        checked={isLocked ? true : (selected[rowIndex] ?? false)}
                                         disabled={isLocked}
                                         onChange={(e) => {
                                           const next = e.target.checked;
@@ -381,43 +370,23 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
-                                    <RightNum
-                                      value={displayTagihanPokok(
-                                        rowIndex,
-                                        r.tagihanPokok,
-                                      )}
-                                    />
+                                    <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
                                     <RightNum value={r.tagihanBunga} />
                                   </div>
 
-                                  <div
-                                    className={cn(
-                                      "px-4 pr-6",
-                                      cellY,
-                                      numberTextClass,
-                                    )}
-                                  >
+                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                     <RightNum value={r.sisaPokok} />
                                   </div>
 
-                                  <div
-                                    className={cn(
-                                      "px-4 pr-6",
-                                      cellY,
-                                      numberTextClass,
-                                    )}
-                                  >
+                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                     <RightNum value={r.sisaBunga} />
                                   </div>
 
                                   {showPenaltyColumn ? (
-                                    <PenaltyCell
-                                      idx={rowIndex}
-                                      dueDateDmy={r.jatuhTempo}
-                                    />
+                                    <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
                                   ) : null}
                                 </div>
                               </RowShell>
@@ -431,8 +400,7 @@ export default function BillingTableView2({
 
                 {afterGraceRows.map((r, idx) => {
                   const rowIndex = graceCount + idx;
-                  const active =
-                    hideSelection ? false : selected[rowIndex] === true;
+                  const active = hideSelection ? false : selected[rowIndex] === true;
 
                   return (
                     <tr key={`${r.jatuhTempo}-${rowIndex}`} className={cn(rowDividerClass)}>
@@ -441,22 +409,15 @@ export default function BillingTableView2({
                           active={active}
                           disableActiveRing={disableRowActiveRing}
                           disableRowRings={disableRowRings}
-                          density={rowDensity}
+                          density={rowShellDensity}
                         >
                           <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
-                              <div
-                                className={cn(
-                                  "flex items-center justify-center px-4",
-                                  cellY,
-                                )}
-                              >
+                              <div className={cn("flex items-center justify-center px-4", cellY)}>
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={
-                                    isLocked ? true : (selected[rowIndex] ?? false)
-                                  }
+                                  checked={isLocked ? true : (selected[rowIndex] ?? false)}
                                   disabled={isLocked}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -471,18 +432,14 @@ export default function BillingTableView2({
                               </div>
                             ) : null}
 
-                            <div className={cn("px-4", cellY, dateTextClass)}>
-                              {r.jatuhTempo}
-                            </div>
+                            <div className={cn("px-4", cellY, dateTextClass)}>{r.jatuhTempo}</div>
 
                             <div className={cn("px-4", cellY, numberTextClass)}>
                               <RightNum value={r.totalBelumDibayar} />
                             </div>
 
                             <div className={cn("px-4", cellY, numberTextClass)}>
-                              <RightNum
-                                value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
-                              />
+                              <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
                             </div>
 
                             <div className={cn("px-4", cellY, numberTextClass)}>
@@ -531,16 +488,11 @@ export default function BillingTableView2({
                             active={active}
                             disableActiveRing={disableRowActiveRing}
                             disableRowRings={disableRowRings}
-                            density={rowDensity}
+                            density={rowShellDensity}
                           >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (
-                                <div
-                                  className={cn(
-                                    "flex items-center justify-center px-4",
-                                    cellY,
-                                  )}
-                                >
+                                <div className={cn("flex items-center justify-center px-4", cellY)}>
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
@@ -559,18 +511,14 @@ export default function BillingTableView2({
                                 </div>
                               ) : null}
 
-                              <div className={cn("px-4", cellY, dateTextClass)}>
-                                {r.jatuhTempo}
-                              </div>
+                              <div className={cn("px-4", cellY, dateTextClass)}>{r.jatuhTempo}</div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
                                 <RightNum value={r.totalBelumDibayar} />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum
-                                  value={displayTagihanPokok(idx, r.tagihanPokok)}
-                                />
+                                <RightNum value={displayTagihanPokok(idx, r.tagihanPokok)} />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
