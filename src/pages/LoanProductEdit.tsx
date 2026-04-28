@@ -1105,7 +1105,7 @@ export default function LoanProductEdit() {
               </>
             ) : null}
 
-            <Separator className="my-6 bg-slate-200/70" />
+            {/* Divider terbawah dihapus */}
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <Button
