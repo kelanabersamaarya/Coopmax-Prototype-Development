@@ -330,17 +330,34 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const useView2Style = isReguler || isKhusus || isPelunasan;
 
-  // ====== PERMINTAAN BARU ======
-  // View1 page 2+: kolom denda tetap ada, tapi nominalnya dikosongkan.
-  // Implementasi: tetap render kolom denda, namun tidak ditampilkan di page 2+ (tanpa mengubah struktur kolom).
+  // Kolom denda tetap ada, tapi page 2+ isi kolom denda dikosongkan.
   const showPenaltyColumnInTable = !isPenurunanBakiDebet;
   const penaltyContentEnabled = page === 1;
-  const showPenaltyColumnResolved = showPenaltyColumnInTable;
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
   const alignNumbersForPenurunan = "";
+
+  const penaltyHideCss = !penaltyContentEnabled
+    ? [
+        // === BillingTableView2 ===
+        // hide the blue info button
+        "[&_[aria-label='Rincian denda']]:hidden",
+        // hide the numeric span next to it (75.000)
+        "[&_[aria-label='Rincian denda']~span.tabular-nums]:hidden",
+        // also hide any plain text node wrapped in a span/div in that cell (failsafe)
+        "[&_[aria-label='Rincian denda']]:[&_.tabular-nums]:hidden",
+
+        // === BillingTable (v1) ===
+        // In v1, the info button also has aria-label=Rincian denda,
+        // and the number is a <span> before it.
+        "[&_[aria-label='Rincian denda']]:hidden",
+        "[&_[aria-label='Rincian denda']]:[&_*]:hidden",
+        // hide the number span in the same container as the button (usually tabular-nums)
+        "[&_[aria-label='Rincian denda']]:[&_.tabular-nums]:hidden",
+      ].join(" ")
+    : "";
 
   return (
     <div className="w-full px-0">
@@ -454,18 +471,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
                   alignNumbersForPenurunan,
-                  // page 2+: kosongkan nilai kolom denda (tetap ada kolomnya)
-                  !penaltyContentEnabled
-                    ? [
-                        // BillingTableView2
-                        "[&_[aria-label='Rincian denda']]:hidden",
-                        "[&_[aria-label='Rincian denda']+span]:hidden",
-                        // BillingTable v1: nilai ada di <span> di dalam sel (tanpa class khusus),
-                        // jadi paling aman: sembunyikan semua teks di sel kolom terakhir (kolom denda)
-                        // dengan selector berbasis grid (kolom terakhir) sulit, jadi kita target tombol info denda dan angka tabular di dalam container.
-                        "[&_.num-sans-tabular]:not(:first-child):hidden",
-                      ].join(" ")
-                    : "",
+                  penaltyHideCss,
                 )}
               >
                 {isPenurunanBakiDebet ? (
@@ -496,7 +502,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     highlightGraceBlock={page === 1}
                     keepGraceShellWithoutInfo={false}
                     hideSelection={false}
-                    showPenaltyColumn={showPenaltyColumnResolved}
+                    showPenaltyColumn={showPenaltyColumnInTable}
                     disableRowRings
                     rowDensity="default"
                     className="mt-0"
@@ -514,7 +520,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       penaltyOnlyCols={penaltyOnlyCols}
                       feeOnlyCols={feeOnlyCols}
                       hideSelection={false}
-                      showPenaltyColumn={showPenaltyColumnResolved}
+                      showPenaltyColumn={showPenaltyColumnInTable}
                       rowDensity="default"
                     />
                   </div>
