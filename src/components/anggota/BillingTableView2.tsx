@@ -1,4 +1,3 @@
-1, tapi baris info grace (teks) bisa disembunyikan.">
 "use client";
 
 import * as React from "react";
@@ -249,7 +248,11 @@ export default function BillingTableView2({
     ? "default"
     : rowDensity;
 
-  const cellY = isCompact ? "py-2" : effectiveDensity === "roomy" ? "py-8" : "py-4";
+  const cellY = isCompact
+    ? "py-2"
+    : effectiveDensity === "roomy"
+      ? "py-8"
+      : "py-4";
   const rowShellDensity: "default" | "roomy" = hideSelection ? "default" : effectiveDensity;
 
   const dateTextClass =
@@ -392,7 +395,9 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
-                                    <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
+                                    <RightNum
+                                      value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
+                                    />
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
@@ -558,7 +563,9 @@ export default function BillingTableView2({
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum value={displayTagihanPokok(idx, r.tagihanPokok)} />
+                                <RightNum
+                                  value={displayTagihanPokok(idx, r.tagihanPokok)}
+                                />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
