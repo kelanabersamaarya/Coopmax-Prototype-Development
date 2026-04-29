@@ -27,7 +27,6 @@ function SummaryRow({
     <div
       className={cn(
         "grid items-center gap-x-3 py-3",
-        // sedikit diperkecil agar muat di panel kanan yang lebih kecil
         "[grid-template-columns:minmax(190px,1fr)_14px_minmax(0,1fr)]",
       )}
     >
