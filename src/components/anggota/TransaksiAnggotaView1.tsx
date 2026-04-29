@@ -233,6 +233,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
+  // VIEW1: page 2+ hilangkan grace info + kotak biru (wrapper)
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
   const selectedPenaltyTotal = React.useMemo(() => {
@@ -457,8 +458,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     setSelected={setSelected}
                     isLocked={true}
                     showNextBillInfo={false}
-                    showGraceInfo={true}
-                    highlightGraceBlock={true}
+                    showGraceInfo={page === 1}
+                    highlightGraceBlock={page === 1}
+                    keepGraceShellWithoutInfo={false}
                     hideSelection={true}
                     showPenaltyColumn={false}
                     disableRowRings
@@ -473,8 +475,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     setSelected={setSelected}
                     isLocked={isPelunasan}
                     showNextBillInfo={false}
-                    showGraceInfo={true}
-                    highlightGraceBlock={true}
+                    showGraceInfo={page === 1}
+                    highlightGraceBlock={page === 1}
+                    keepGraceShellWithoutInfo={false}
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
                     disableRowRings
