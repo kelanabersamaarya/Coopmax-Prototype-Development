@@ -46,14 +46,14 @@ export default function AnggotaTransaksi() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="No Nasabah/No Rekening"
-              className="h-11 rounded-xl border-slate-300 bg-white"
+              className="h-11 rounded-[5px] border-slate-300 bg-white"
             />
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button
               onClick={() => setOpen(true)}
-              className="h-11 rounded-xl bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]"
+              className="h-11 rounded-[5px] bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]"
             >
               <Search className="mr-2 h-4 w-4" />
               Cari
@@ -65,7 +65,7 @@ export default function AnggotaTransaksi() {
                   description: "Halaman riwayat belum dibuat.",
                 });
               }}
-              className="h-11 rounded-xl bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]"
+              className="h-11 rounded-[5px] bg-[hsl(var(--app-accent))] px-5 text-white hover:bg-[hsl(var(--app-accent-2))]"
             >
               <History className="mr-2 h-4 w-4" />
               Riwayat Transaksi
@@ -92,21 +92,23 @@ export default function AnggotaTransaksi() {
 
         {/* Area transaksi: scroll horizontal terjadi DI DALAM section putih ini */}
         <div className="-mx-4 md:-mx-6">
-          {/* UBAH: kecilkan padding wrapper agar konten di dalam lebih melebar */}
+          {/* Wrapper tabel: rounded dibuat 5px */}
           <div className="overflow-x-auto px-2 pb-2 md:px-3">
-            <div className="min-w-0">
-              {showView1 && selected ? (
-                <TransaksiAnggotaView1 nasabah={selected} />
-              ) : showView3 && selected ? (
-                <TransaksiAnggotaView3 nasabah={selected} />
-              ) : showView2 && selected ? (
-                <TransaksiAnggotaView2 nasabah={selected} />
-              ) : selected ? (
-                <div className="rounded-2xl bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
-                  Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
-                  pertama & kedua yang memiliki tampilan khusus.)
-                </div>
-              ) : null}
+            <div className="min-w-0 overflow-hidden rounded-[5px] bg-white/80 ring-1 ring-slate-200">
+              <div className="min-w-0 p-2 sm:p-3">
+                {showView1 && selected ? (
+                  <TransaksiAnggotaView1 nasabah={selected} />
+                ) : showView3 && selected ? (
+                  <TransaksiAnggotaView3 nasabah={selected} />
+                ) : showView2 && selected ? (
+                  <TransaksiAnggotaView2 nasabah={selected} />
+                ) : selected ? (
+                  <div className="rounded-[5px] bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
+                    Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
+                    pertama & kedua yang memiliki tampilan khusus.)
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
