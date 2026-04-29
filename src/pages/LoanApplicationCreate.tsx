@@ -506,9 +506,7 @@ export default function LoanApplicationCreate() {
                       <SelectTrigger
                         className={cn(
                           UI.selectTrigger,
-                          kolektorIsPlaceholder
-                            ? "text-[#64748B]"
-                            : "text-slate-900",
+                          kolektorIsPlaceholder ? "text-[#64748B]" : "text-slate-900",
                         )}
                       >
                         <SelectValue placeholder="Pilih Kolektor" />
@@ -679,9 +677,7 @@ export default function LoanApplicationCreate() {
                         value={jenisPerhitunganBunga}
                         onValueChange={setJenisPerhitunganBunga}
                       >
-                        <SelectTrigger
-                          className={cn("w-full px-3", UI.selectTrigger)}
-                        >
+                        <SelectTrigger className={cn("w-full px-3", UI.selectTrigger)}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -850,8 +846,8 @@ export default function LoanApplicationCreate() {
                               </span>
                             </div>
 
-                            {/* hanya rapikan posisi toggle: offset kiri agar sejajar kolom input */}
-                            <div className="pt-[2px] md:ml-[216px]">
+                            {/* offset dikurangi agar switch tidak terlalu ke tengah */}
+                            <div className="pt-[2px] md:ml-[112px]">
                               <Switch
                                 checked={penaltyRecurring}
                                 onCheckedChange={setPenaltyRecurring}
