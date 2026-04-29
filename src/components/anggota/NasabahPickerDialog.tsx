@@ -72,19 +72,24 @@ function Pagination({
 
   const R = "rounded-[5px]";
 
+  const prevNextCls = cn(
+    "h-10 px-5 text-[14px] font-semibold",
+    "bg-slate-100 text-slate-500 ring-1 ring-slate-200",
+    "transition hover:bg-slate-200",
+    "disabled:opacity-60 disabled:pointer-events-none",
+    R,
+  );
+
   return (
     <div className="flex items-center justify-end gap-2">
-      <Button
-        variant="outline"
-        className={cn(
-          "h-9 border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50",
-          R,
-        )}
+      <button
+        type="button"
+        className={prevNextCls}
         disabled={page === 1}
         onClick={() => onPage(Math.max(1, page - 1))}
       >
         Sebelumnya
-      </Button>
+      </button>
 
       <div className="flex items-center gap-1">
         {items.map((it, idx) => {
@@ -105,11 +110,11 @@ function Pagination({
               type="button"
               onClick={() => onPage(it)}
               className={cn(
-                "h-9 w-9 text-sm font-semibold ring-1 transition",
+                "h-10 w-10 text-[14px] font-semibold ring-1 transition",
                 R,
                 active
-                  ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
-                  : "bg-slate-100 text-slate-800 ring-slate-200 hover:bg-slate-50",
+                  ? "bg-violet-600 text-white ring-violet-600"
+                  : "bg-slate-100 text-slate-800 ring-slate-200 hover:bg-slate-200",
               )}
             >
               {it}
@@ -118,17 +123,14 @@ function Pagination({
         })}
       </div>
 
-      <Button
-        variant="outline"
-        className={cn(
-          "h-9 border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50",
-          R,
-        )}
+      <button
+        type="button"
+        className={prevNextCls}
         disabled={page === pageCount}
         onClick={() => onPage(Math.min(pageCount, page + 1))}
       >
         Selanjutnya
-      </Button>
+      </button>
     </div>
   );
 }
@@ -228,9 +230,7 @@ export default function NasabahPickerDialog({
                   Tambah <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className={cn("border-slate-200 p-1", R)}
-              >
+              <DropdownMenuContent className={cn("border-slate-200 p-1", R)}>
                 <DropdownMenuItem
                   className={cn(R)}
                   onClick={() => toast("Tambah Nasabah (prototype)")}
@@ -436,19 +436,29 @@ export default function NasabahPickerDialog({
           </div>
 
           <div className="mt-4 flex items-center justify-end">
-            <Button
-              variant="secondary"
-              className={cn(
-                "h-9 bg-indigo-200/60 px-5 text-slate-900 hover:bg-indigo-200",
-                R,
-              )}
+            {/* Style seperti contoh "Tutup" (abu gelap), tetap mempertahankan icon & copywriting */}
+            <button
+              type="button"
               onClick={() => onOpenChange(false)}
+              className={cn(
+                "inline-flex h-11 items-center justify-center gap-3 px-6",
+                R,
+                "bg-slate-600 text-sm font-semibold text-white",
+                "ring-1 ring-slate-600/25 transition hover:bg-slate-700",
+                "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-600/25",
+              )}
             >
-              <span className={cn("mr-3 inline-flex h-6 w-6 items-center justify-center bg-indigo-400 text-white", R)}>
+              <span
+                className={cn(
+                  "inline-flex h-8 w-8 items-center justify-center",
+                  R,
+                  "bg-white/15 text-white",
+                )}
+              >
                 ×
               </span>
               Batalkan
-            </Button>
+            </button>
           </div>
 
           {onPick ? (
