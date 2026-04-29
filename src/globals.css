@@ -82,11 +82,8 @@
     --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
     --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
 
-    /* WAS: clamp(12.25rem, 18vw, 15.5rem) */
-    /* Shrink sidebar slightly so content area (forms) gets more width */
     --sidebar-w: clamp(10.75rem, 16vw, 14.25rem); /* ~172px..228px */
 
-    /* Numeric font token (use a sans font with tabular digits) */
     --font-numeric: "Inter";
 
     /* Global Radio (force blue) */
@@ -95,7 +92,6 @@
     --radio-blue-soft: rgba(37, 99, 235, 0.12);
 
     /* Global "focus ring" override for fields (avoid purple outline) */
-    --field-focus: rgba(100, 116, 139, 0.28); /* slate-500 w/ alpha */
     --field-focus-border: #cbd5e1; /* slate-300 */
   }
 
@@ -144,7 +140,6 @@
     --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
     --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
 
-    /* WAS: clamp(12.25rem, 18vw, 15.5rem) */
     --sidebar-w: clamp(10.75rem, 16vw, 14.25rem);
 
     --font-numeric: "Inter";
@@ -153,7 +148,6 @@
     --radio-blue-ring: rgba(59, 130, 246, 0.3);
     --radio-blue-soft: rgba(59, 130, 246, 0.16);
 
-    --field-focus: rgba(148, 163, 184, 0.22); /* slate-400 w/ alpha */
     --field-focus-border: #475569; /* slate-600 */
   }
 }
@@ -241,7 +235,6 @@
     padding-right: 0.75rem;
   }
 
-  /* keep numbers tight & readable */
   .billing-table-compact td.num-sans-tabular,
   .billing-table-compact td .num-sans-tabular,
   .billing-table-compact td.num-tabular,
@@ -304,52 +297,30 @@ button[role="radio"]:focus-visible,
   box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
 }
 
-/* === GLOBAL: remove purple focus ring on all form fields (inputs/selects/textarea) ===
-   This targets:
-   - native inputs/select/textarea
-   - shadcn Input / Textarea (ring utilities)
-   - Radix SelectTrigger, PopoverTrigger buttons used as fields
-*/
+/* === GLOBAL: remove purple focus ring on form fields WITHOUT killing ring-1 borders === */
 input:focus,
 textarea:focus,
-select:focus,
-button:focus {
+select:focus {
   outline: none;
 }
 
 input:focus-visible,
 textarea:focus-visible,
-select:focus-visible,
-button:focus-visible {
+select:focus-visible {
   outline: none;
 }
 
-/* Tailwind ring-based focus (common in shadcn) */
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-button:focus-visible,
-[data-slot="select-trigger"]:focus-visible,
-[data-slot="popover-trigger"]:focus-visible,
-[data-slot="combobox-trigger"]:focus-visible,
-[role="combobox"]:focus-visible,
-[role="listbox"]:focus-visible {
-  box-shadow: 0 0 0 0 transparent !important;
-}
-
-/* Ensure border does NOT turn purple after selecting/opening */
-input:focus,
-textarea:focus,
-select:focus,
-button:focus,
+/* Keep border neutral on focus/open state for Radix SelectTrigger (field-like) */
 [data-slot="select-trigger"]:focus,
+[data-slot="select-trigger"]:focus-visible,
 [data-slot="select-trigger"][data-state="open"] {
+  outline: none !important;
   border-color: var(--field-focus-border) !important;
 }
 
-/* Some Radix/shadcn components use ring via CSS vars; force ring off */
-:where(input, textarea, select, button, [data-slot="select-trigger"]) {
+/* Turn off Tailwind focus ring only for field-like elements (not all buttons) */
+:where(input, textarea, select, [data-slot="select-trigger"]) {
+  --tw-ring-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
-  --tw-ring-color: transparent !important;
 }
