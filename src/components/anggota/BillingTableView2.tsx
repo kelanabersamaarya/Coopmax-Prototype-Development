@@ -30,15 +30,22 @@ function RowShell({
   disableActiveRing = false,
   disableRowRings = false,
   density = "default",
+  compact = false,
 }: {
   children: React.ReactNode;
   active: boolean;
   disableActiveRing?: boolean;
   disableRowRings?: boolean;
   density?: "default" | "roomy";
+  compact?: boolean;
 }) {
   return (
-    <div className={cn("bg-white px-3", density === "roomy" ? "py-4" : "py-3")}>
+    <div
+      className={cn(
+        "bg-white px-3",
+        compact ? "py-1.5" : density === "roomy" ? "py-4" : "py-3",
+      )}
+    >
       <div
         className={cn(
           "rounded-[5px] bg-white",
@@ -234,13 +241,14 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // Penurunan Baki Debet (hideSelection) terlihat terlalu tinggi dibanding mode lain,
-  // jadi kita pakai padding lebih compact untuk menyamakan tinggi baris.
+  // Mode Penurunan Baki Debet: lebih padat agar tinggi baris sama dengan mode lain.
+  const isCompact = hideSelection;
+
   const effectiveDensity: "default" | "roomy" = hideSelection
     ? "default"
     : rowDensity;
 
-  const cellY = hideSelection ? "py-3" : effectiveDensity === "roomy" ? "py-8" : "py-4";
+  const cellY = isCompact ? "py-2" : effectiveDensity === "roomy" ? "py-8" : "py-4";
   const rowShellDensity: "default" | "roomy" = hideSelection ? "default" : effectiveDensity;
 
   const dateTextClass =
@@ -340,6 +348,7 @@ export default function BillingTableView2({
                                 disableActiveRing={disableRowActiveRing}
                                 disableRowRings={disableRowRings}
                                 density={rowShellDensity}
+                                compact={isCompact}
                               >
                                 <div
                                   className={cn("grid items-center gap-0", gridTemplate)}
@@ -435,6 +444,7 @@ export default function BillingTableView2({
                           disableActiveRing={disableRowActiveRing}
                           disableRowRings={disableRowRings}
                           density={rowShellDensity}
+                          compact={isCompact}
                         >
                           <div className={cn("grid items-center gap-0", gridTemplate)}>
                             {!hideSelection ? (
@@ -528,6 +538,7 @@ export default function BillingTableView2({
                             disableActiveRing={disableRowActiveRing}
                             disableRowRings={disableRowRings}
                             density={rowShellDensity}
+                            compact={isCompact}
                           >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (
