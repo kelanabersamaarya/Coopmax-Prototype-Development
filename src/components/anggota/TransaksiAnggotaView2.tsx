@@ -338,16 +338,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return formatIdrLike(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
 
-  // INI YANG KAMU MAU:
-  // - Page 2+: teks grace period hilang
-  // - Kotak biru tetap ada
+  // PERMINTAAN BARU:
+  // page 2+: hilangkan teks grace period + hilangkan kotak biru
   const showGraceInfo = !usePaging || page === 1;
-  const keepGraceShellWithoutInfo = usePaging && page > 1;
+  const keepGraceShellWithoutInfo = false;
 
-  // Kotak biru tetap (untuk mode-mode yang memang ada grace block)
   const highlightGraceBlock =
     (isReguler || isKhusus || isPenurunanPlafon || isPelunasan || isPenurunanBakiDebet) &&
-    (showGraceInfo || keepGraceShellWithoutInfo);
+    (!usePaging || page === 1);
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
