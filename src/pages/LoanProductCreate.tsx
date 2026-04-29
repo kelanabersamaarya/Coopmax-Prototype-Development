@@ -780,7 +780,7 @@ export default function LoanProductCreate() {
               </div>
               <Button
                 onClick={addCollectorFee}
-                className="rounded-full bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
+                className="h-10 rounded-xl bg-[#2563EB] px-8 text-white hover:bg-[#1D4ED8]"
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Tambah Fee Kolektor
