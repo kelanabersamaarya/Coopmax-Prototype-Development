@@ -752,7 +752,6 @@ export default function LoanApplicationCreate() {
                         }}
                       />
 
-                      {/* Tambahan field sesuai permintaan (hanya tampil saat ada form denda) */}
                       <div className="mt-[15px] grid gap-[15px]">
                         {!penaltyIsRp ? (
                           <FieldRowInline label="Dasar Perhitungan Denda" required>
