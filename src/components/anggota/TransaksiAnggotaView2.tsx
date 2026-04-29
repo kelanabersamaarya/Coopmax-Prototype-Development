@@ -374,6 +374,25 @@ export default function TransaksiAnggotaView2({
   const alignNumbersForPenurunan = "";
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
 
+  const regulerTotals = React.useMemo(() => {
+    if (!isReguler) return null;
+
+    const sum = rowsToShow.reduce(
+      (acc, r, idx) => {
+        if (!(selected[idx] ?? false)) return acc;
+        acc.pokok += parseNumLikeId(r.tagihanPokok);
+        acc.bunga += parseNumLikeId(r.tagihanBunga);
+        return acc;
+      },
+      { pokok: 0, bunga: 0 },
+    );
+
+    return {
+      pokok: formatIdrLike(sum.pokok),
+      bunga: formatIdrLike(sum.bunga),
+    };
+  }, [isReguler, rowsToShow, selected]);
+
   const totalsForSummary = React.useMemo(() => {
     if (isPenurunanBakiDebet) {
       const v = penurunanBakiDebetSisaText ?? "0";
@@ -401,19 +420,25 @@ export default function TransaksiAnggotaView2({
       };
     }
 
+    if (isReguler) {
+      const pokokN = parseNumLikeId(regulerTotals?.pokok ?? "0");
+      const bungaN = parseNumLikeId(regulerTotals?.bunga ?? "0");
+      const dendaN = selectedPenaltyTotal;
+
+      return {
+        pokok: regulerTotals?.pokok ?? "0",
+        bunga: regulerTotals?.bunga ?? "0",
+        denda: formatIdrLike(dendaN),
+        total: formatIdrLike(pokokN + bungaN + dendaN),
+      };
+    }
+
     const denda = penaltyOnlyCols
       ? formatIdrLike(penaltyTotalExplicit ?? 0)
-      : isReguler
-        ? selectedPenaltyText
-        : "0";
+      : "0";
 
     const total = formatIdrLike(
-      2455555 +
-        (penaltyOnlyCols
-          ? penaltyTotalExplicit ?? 0
-          : isReguler
-            ? selectedPenaltyTotal
-            : 0),
+      2455555 + (penaltyOnlyCols ? penaltyTotalExplicit ?? 0 : 0),
     );
 
     return { pokok: "0", bunga: "0", denda, total };
@@ -432,7 +457,8 @@ export default function TransaksiAnggotaView2({
     penaltyOnlyCols,
     penaltyTotalExplicit,
     penurunanBakiDebetSisaText,
-    selectedPenaltyText,
+    regulerTotals?.bunga,
+    regulerTotals?.pokok,
     selectedPenaltyTotal,
   ]);
 
