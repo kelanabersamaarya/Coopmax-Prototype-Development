@@ -337,6 +337,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const alignNumbersForPenurunan = "";
 
+  // PERMINTAAN BARU:
+  // View1 page 2+: kosongkan tagihan denda (di semua metode)
+  // Implementasi: hanya di page 1 kolom denda ditampilkan; page 2+ kolom denda disembunyikan.
+  const showPenaltyOnThisPage = page === 1;
+  const showPenaltyColumnResolved = showPenaltyColumnInTable && showPenaltyOnThisPage;
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -479,7 +485,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     highlightGraceBlock={page === 1}
                     keepGraceShellWithoutInfo={false}
                     hideSelection={false}
-                    showPenaltyColumn={showPenaltyColumnInTable}
+                    showPenaltyColumn={showPenaltyColumnResolved}
                     disableRowRings
                     rowDensity="default"
                     className="mt-0"
@@ -497,7 +503,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                       penaltyOnlyCols={penaltyOnlyCols}
                       feeOnlyCols={feeOnlyCols}
                       hideSelection={false}
-                      showPenaltyColumn={showPenaltyColumnInTable}
+                      showPenaltyColumn={showPenaltyColumnResolved}
                       rowDensity="default"
                     />
                   </div>
