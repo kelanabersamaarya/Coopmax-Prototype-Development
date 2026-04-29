@@ -189,7 +189,6 @@ export default function NasabahPickerDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // Header + separator height kira-kira 56px (py-3) + 1px line
   const dialogMaxH = "70vh";
   const contentMaxH = "calc(70vh - 56px - 1px)";
 
@@ -212,57 +211,62 @@ export default function NasabahPickerDialog({
           "[&>button[data-state]]:hidden [&>button[data-state]]:!hidden",
         )}
       >
-        {/* HEADER: center vertikal di area header (antara tepi atas & divider) */}
-        <div className="flex h-[56px] items-center justify-between gap-3 px-5 sm:px-6">
-          <div className="text-lg font-semibold tracking-tight text-slate-900 sm:text-xl">
-            Nasabah
+        {/* HEADER: area fix 56px + baseline dinormalkan */}
+        <div className="relative">
+          <div className="flex h-[56px] items-center justify-between gap-3 px-5 sm:px-6">
+            <div className="text-lg font-semibold leading-none tracking-tight text-slate-900 sm:text-xl">
+              Nasabah
+            </div>
+
+            <div className="flex items-center gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    className={cn(
+                      "h-8 px-4 text-sm leading-none",
+                      "bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]",
+                      R,
+                    )}
+                  >
+                    Tambah <ChevronDown className="ml-2 h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className={cn("border-slate-200 p-1", R)}>
+                  <DropdownMenuItem
+                    className={cn(R)}
+                    onClick={() => toast("Tambah Nasabah (prototype)")}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Tambah Nasabah
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className={cn(R)}
+                    onClick={() => toast("Import (prototype)")}
+                  >
+                    Import Data
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "inline-flex h-8 w-8 items-center justify-center",
+                  "text-slate-700 transition hover:bg-slate-100",
+                  "leading-none",
+                  R,
+                )}
+                aria-label="Tutup dialog"
+                title="Tutup"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  className={cn(
-                    "h-8 bg-[hsl(var(--app-accent))] px-4 text-sm text-white hover:bg-[hsl(var(--app-accent-2))]",
-                    R,
-                  )}
-                >
-                  Tambah <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className={cn("border-slate-200 p-1", R)}>
-                <DropdownMenuItem
-                  className={cn(R)}
-                  onClick={() => toast("Tambah Nasabah (prototype)")}
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Tambah Nasabah
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className={cn(R)}
-                  onClick={() => toast("Import (prototype)")}
-                >
-                  Import Data
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className={cn(
-                "inline-flex h-8 w-8 items-center justify-center text-slate-700 transition hover:bg-slate-100",
-                R,
-              )}
-              aria-label="Tutup dialog"
-              title="Tutup"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+          <Separator className="bg-slate-200" />
         </div>
-
-        <Separator className="bg-slate-200" />
 
         {/* KONTEN: tanpa scroll vertikal, dipaksa muat */}
         <div
