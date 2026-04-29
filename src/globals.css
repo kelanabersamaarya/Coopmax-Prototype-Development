@@ -61,8 +61,8 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    /* IMPORTANT: shadcn uses this for `ring-ring` (focus outline). Make it neutral (no purple). */
-    --ring: 215 16% 72%; /* ~slate-300 */
+    /* Restore default ring token (can stay colorful); we will disable ring via CSS instead */
+    --ring: 252 83% 58%;
 
     --radius: 1.1rem;
 
@@ -93,7 +93,7 @@
     --radio-blue-ring: rgba(37, 99, 235, 0.25);
     --radio-blue-soft: rgba(37, 99, 235, 0.12);
 
-    /* Neutral focus (no purple) */
+    /* Neutral focus border */
     --field-focus-border: #cbd5e1; /* slate-300 */
   }
 
@@ -125,8 +125,8 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
 
-    /* Neutral ring for dark mode too (no purple) */
-    --ring: 215 18% 38%; /* ~slate-500 */
+    /* Restore default-ish ring token for dark too */
+    --ring: 252 83% 68%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -296,7 +296,7 @@ button[role="radio"]:focus-visible,
   box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
 }
 
-/* === GLOBAL: no purple ring for field-like controls === */
+/* === GLOBAL: remove OUTER focus ring for field-like controls (keep border) === */
 input:focus,
 textarea:focus,
 select:focus {
@@ -309,7 +309,7 @@ select:focus-visible {
   outline: none;
 }
 
-/* Field-like triggers used in shadcn/Radix */
+/* Targets: shadcn/Radix triggers */
 [data-slot="select-trigger"],
 [role="combobox"],
 [data-slot="popover-trigger"],
@@ -317,7 +317,7 @@ select:focus-visible {
   outline: none;
 }
 
-/* Kill ONLY the focus ring shadow for field-like elements */
+/* Remove ring + ring-offset on focus-visible */
 :where(
     input,
     textarea,
@@ -330,9 +330,22 @@ select:focus-visible {
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
 }
 
-/* Keep border neutral (no purple) when focused/open */
+/* Remove ring + ring-offset when Radix marks open (Select/DropdownMenu/etc.) */
+:where(
+    [data-slot="select-trigger"],
+    [role="combobox"],
+    [data-slot="dropdown-menu-trigger"]
+  )[data-state="open"] {
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
+}
+
+/* Keep border neutral on focus/open */
 :where(
     input,
     textarea,
