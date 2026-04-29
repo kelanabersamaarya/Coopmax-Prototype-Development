@@ -61,8 +61,8 @@ export default function PenaltyRateField({
 
   const selectW = size === "compact" ? "w-[74px]" : "w-[86px]";
 
-  // IMPORTANT: shadcn SelectTrigger biasanya punya caret absolute di kanan-3.
-  // Kita pastikan ada ruang kanan (pr-9) dan paksa icon di ujung kanan.
+  // Keep shadcn chevron default (visible), just ensure it's at the far right
+  // by giving enough right padding. Also remove purple ring outside.
   const selectTriggerCls = cn(
     h,
     radius,
@@ -72,12 +72,8 @@ export default function PenaltyRateField({
     "pl-3 pr-9",
     "font-medium text-slate-900",
     "shadow-sm",
-    "focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-    // pastikan isi tidak dorong caret
-    "[&>span]:block [&>span]:truncate [&>span]:pr-1",
-    // paksa chevron selalu nempel kanan
-    "[&>svg]:absolute [&>svg]:right-2.5 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2",
-    "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-slate-500",
+    "focus:outline-none focus:ring-0 focus-visible:ring-0",
+    "focus-visible:border-slate-300",
   );
 
   const selectContentCls = cn(
@@ -115,7 +111,8 @@ export default function PenaltyRateField({
             "w-full border-slate-200 bg-white",
             "placeholder:text-slate-400",
             "shadow-sm",
-            "focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20",
+            "focus-visible:ring-0 focus-visible:ring-offset-0",
+            "focus-visible:border-slate-300",
           )}
           placeholder={isPercent ? "0%" : "0,00"}
           inputMode="decimal"
