@@ -834,10 +834,7 @@ export default function LoanProductEdit() {
               </div>
               <Button
                 onClick={addCollectorFee}
-                className={
-                  UI.button +
-                  " bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]"
-                }
+                className={UI.button + " bg-[#2563EB] text-white hover:bg-[#1D4ED8]"}
               >
                 <Plus className="mr-2 h-4 w-4" />
                 Tambah Fee Kolektor
