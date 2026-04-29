@@ -17,7 +17,6 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     <TransaksiAnggotaView2
       nasabah={nasabah}
       skemaTagihanLabel="Tagihan Dihitung Dari Sisa Saldo Pokok"
-      hideNextBillInfo
     />
   );
 }
