@@ -320,7 +320,7 @@ export default function KolektibilitasReportTable({
                   Nama
                 </Th>
                 <Th rowSpan={2} className={colW.status} align="center">
-                  Status
+                  STATUS
                 </Th>
                 <Th rowSpan={2} className={colW.alamat}>
                   Alamat
@@ -470,7 +470,8 @@ export default function KolektibilitasReportTable({
                         {r.nama}
                       </Td>
 
-                      <Td className={colW.status} align="center">
+                      {/* UBAH: isi kolom STATUS dibuat rata kiri */}
+                      <Td className={cn(colW.status, "whitespace-nowrap")} align="left">
                         {status}
                       </Td>
 
