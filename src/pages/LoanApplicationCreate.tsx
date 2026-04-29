@@ -756,7 +756,10 @@ export default function LoanApplicationCreate() {
                     <div className={UI.sectionTitle}>Jadwal Denda</div>
 
                     <Button
-                      className={cn(UI.btn, "bg-blue-600 px-4 text-white hover:bg-blue-700")}
+                      className={cn(
+                        UI.btn,
+                        "bg-blue-600 px-4 text-white hover:bg-blue-700",
+                      )}
                       onClick={() => {
                         setPenaltyVisible(true);
                         toast("Tambah Denda (prototype)", {
@@ -792,7 +795,9 @@ export default function LoanApplicationCreate() {
                             <div className="min-w-0">
                               <Select
                                 value={penaltyBase}
-                                onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
+                                onValueChange={(v) =>
+                                  setPenaltyBase(v as PenaltyBase)
+                                }
                               >
                                 <SelectTrigger className={cn(UI.selectTrigger, "w-full")}>
                                   <SelectValue />
@@ -800,8 +805,12 @@ export default function LoanApplicationCreate() {
                                 <SelectContent className="rounded-[10px] border-slate-200">
                                   <SelectItem value="Pokok">Pokok</SelectItem>
                                   <SelectItem value="Bunga">Bunga</SelectItem>
-                                  <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                                  <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                                  <SelectItem value="Hutang Pokok">
+                                    Hutang Pokok
+                                  </SelectItem>
+                                  <SelectItem value="Hutang Bunga">
+                                    Hutang Bunga
+                                  </SelectItem>
                                   <SelectItem value="Berdasarkan Total tagihan">
                                     Berdasarkan Total tagihan
                                   </SelectItem>
@@ -813,16 +822,16 @@ export default function LoanApplicationCreate() {
                           </div>
                         ) : null}
 
-                        {/* Versi awal (switch dekat label): pakai flex, bukan grid 2 kolom */}
                         {penaltyIsPercent ? (
-                          <div className="flex min-h-[30px] flex-wrap items-center gap-x-4 gap-y-2">
-                            <div className="flex min-w-0 items-center gap-2">
-                              <div className="min-w-0 text-[14px] font-medium text-slate-900">
-                                Proses Denda Berulang (Recurring)
+                          <div className="flex min-h-[30px] flex-wrap items-start gap-x-4 gap-y-2">
+                            <div className="flex min-w-0 items-start gap-2 pt-[2px]">
+                              <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
+                                <div>Proses Denda Berulang</div>
+                                <div className="text-slate-700">(Recurring)</div>
                               </div>
 
                               <span
-                                className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+                                className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
                                 aria-hidden="true"
                                 title={RECURRING_TT}
                               >
@@ -830,10 +839,12 @@ export default function LoanApplicationCreate() {
                               </span>
                             </div>
 
-                            <Switch
-                              checked={penaltyRecurring}
-                              onCheckedChange={setPenaltyRecurring}
-                            />
+                            <div className="pt-[2px]">
+                              <Switch
+                                checked={penaltyRecurring}
+                                onCheckedChange={setPenaltyRecurring}
+                              />
+                            </div>
                           </div>
                         ) : null}
                       </div>
