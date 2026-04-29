@@ -333,7 +333,7 @@ export default function TransaksiAnggotaView2({
   const penurunanBakiDebetSisaPokokTotal = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
 
-    // Karena tabel penurunan baki debet di view ini terkunci, ringkasan mengikuti total sisaPokok seluruh baris yang tampil.
+    // Samakan dengan View 1: total sisaPokok dari baris yang tampil (selection terkunci -> semuanya true)
     return rowsToShow.reduce((sum, r) => sum + parseNumLikeId(r.sisaPokok), 0);
   }, [isPenurunanBakiDebet, rowsToShow]);
 
