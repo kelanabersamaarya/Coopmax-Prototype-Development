@@ -47,7 +47,7 @@ function SummaryRow({
           "min-w-0 tabular-nums tracking-tight text-slate-900 whitespace-nowrap",
           valueAlign === "left" ? "text-left" : "text-right",
           strong ? "text-[14px] font-extrabold" : "text-[14px] font-bold",
-          "pr-4", // 16px
+          "pr-6", // 24px (lebih lega dari 16px)
         )}
       >
         {value}
@@ -77,7 +77,7 @@ function SummaryRowInline({
         <span className="block truncate">{label}</span>
       </span>
       <span className="text-center font-semibold text-slate-400">:</span>
-      <span className="min-w-0 text-right font-extrabold tabular-nums tracking-tight text-slate-900 whitespace-nowrap pr-4">
+      <span className="min-w-0 text-right font-extrabold tabular-nums tracking-tight text-slate-900 whitespace-nowrap pr-6">
         {value}
       </span>
     </div>
@@ -181,7 +181,9 @@ export default function BillSummaryCard({
                   transactionType ? "" : "text-slate-500",
                 )}
               >
-                {transactionType ? transactionLabel(transactionType) : "Pilih Transaksi"}
+                {transactionType
+                  ? transactionLabel(transactionType)
+                  : "Pilih Transaksi"}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
