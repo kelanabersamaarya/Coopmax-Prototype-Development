@@ -1,3 +1,4 @@
+1) dengan mengontrol showGraceInfo & highlightGraceBlock berbasis page.">
 "use client";
 
 import * as React from "react";
@@ -338,8 +339,12 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return formatIdrLike(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
 
-  const showGraceInfo = true;
-  const highlightGraceBlock = isReguler || isKhusus || isPenurunanPlafon;
+  // Grace indicator HARUS hanya muncul di page 1 ketika mode pagination.
+  const graceVisible = !usePaging || page === 1;
+
+  const showGraceInfo = graceVisible;
+  const highlightGraceBlock =
+    (isReguler || isKhusus || isPenurunanPlafon) && graceVisible;
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
@@ -490,8 +495,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     setSelected={setSelected}
                     isLocked={true}
                     showNextBillInfo={true}
-                    showGraceInfo={true}
-                    highlightGraceBlock={true}
+                    showGraceInfo={showGraceInfo}
+                    highlightGraceBlock={highlightGraceBlock}
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
@@ -504,8 +509,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     setSelected={setSelected}
                     isLocked={true}
                     showNextBillInfo={true}
-                    showGraceInfo={true}
-                    highlightGraceBlock={true}
+                    showGraceInfo={showGraceInfo}
+                    highlightGraceBlock={highlightGraceBlock}
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
@@ -517,8 +522,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     setSelected={setSelected}
                     isLocked={true}
                     showNextBillInfo={false}
-                    showGraceInfo={true}
-                    highlightGraceBlock={true}
+                    showGraceInfo={showGraceInfo}
+                    highlightGraceBlock={highlightGraceBlock}
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
@@ -530,8 +535,8 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     setSelected={setSelected}
                     isLocked={true}
                     showNextBillInfo={false}
-                    showGraceInfo={true}
-                    highlightGraceBlock={true}
+                    showGraceInfo={showGraceInfo}
+                    highlightGraceBlock={highlightGraceBlock}
                     hideSelection={true}
                     showPenaltyColumn={false}
                     disableRowRings
