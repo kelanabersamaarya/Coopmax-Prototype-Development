@@ -168,6 +168,7 @@ export default function BillingTableView2({
   keepGraceShellWithoutInfo = false,
   hideSelection = false,
   showPenaltyColumn = false,
+  penaltyContentEnabled = true,
   tone = "default",
   disableRowActiveRing = false,
   disableRowRings = false,
@@ -185,6 +186,7 @@ export default function BillingTableView2({
   keepGraceShellWithoutInfo?: boolean;
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
+  penaltyContentEnabled?: boolean;
   tone?: "default" | "khusus";
   disableRowActiveRing?: boolean;
   disableRowRings?: boolean;
@@ -274,6 +276,11 @@ export default function BillingTableView2({
   }
 
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
+    // kolom tetap ada (supaya layout tidak berubah), tapi isi bisa dikosongkan.
+    if (!penaltyContentEnabled) {
+      return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
+    }
+
     const shouldShow = idx < PENALTY_ROWS;
 
     if (!shouldShow) {

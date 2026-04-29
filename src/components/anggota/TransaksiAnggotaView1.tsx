@@ -330,34 +330,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const useView2Style = isReguler || isKhusus || isPelunasan;
 
-  // Kolom denda tetap ada, tapi page 2+ isi kolom denda dikosongkan.
   const showPenaltyColumnInTable = !isPenurunanBakiDebet;
-  const penaltyContentEnabled = page === 1;
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
   const alignNumbersForPenurunan = "";
-
-  const penaltyHideCss = !penaltyContentEnabled
-    ? [
-        // === BillingTableView2 ===
-        // hide the blue info button
-        "[&_[aria-label='Rincian denda']]:hidden",
-        // hide the numeric span next to it (75.000)
-        "[&_[aria-label='Rincian denda']~span.tabular-nums]:hidden",
-        // also hide any plain text node wrapped in a span/div in that cell (failsafe)
-        "[&_[aria-label='Rincian denda']]:[&_.tabular-nums]:hidden",
-
-        // === BillingTable (v1) ===
-        // In v1, the info button also has aria-label=Rincian denda,
-        // and the number is a <span> before it.
-        "[&_[aria-label='Rincian denda']]:hidden",
-        "[&_[aria-label='Rincian denda']]:[&_*]:hidden",
-        // hide the number span in the same container as the button (usually tabular-nums)
-        "[&_[aria-label='Rincian denda']]:[&_.tabular-nums]:hidden",
-      ].join(" ")
-    : "";
 
   return (
     <div className="w-full px-0">
@@ -471,7 +449,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
                   alignNumbersForPenurunan,
-                  penaltyHideCss,
                 )}
               >
                 {isPenurunanBakiDebet ? (
@@ -503,6 +480,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     keepGraceShellWithoutInfo={false}
                     hideSelection={false}
                     showPenaltyColumn={showPenaltyColumnInTable}
+                    penaltyContentEnabled={page === 1}
                     disableRowRings
                     rowDensity="default"
                     className="mt-0"
