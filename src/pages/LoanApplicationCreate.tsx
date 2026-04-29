@@ -36,6 +36,7 @@ import {
   XCircle,
   CalendarDays,
   Plus,
+  HelpCircle,
 } from "lucide-react";
 import PenaltyScheduleForm, {
   type PenaltyScheduleDraft,
@@ -832,22 +833,31 @@ export default function LoanApplicationCreate() {
                         ) : null}
 
                         {penaltyIsPercent ? (
-                          <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                            <div className="text-left">
-                              <div className="text-sm font-normal text-slate-900">
-                                <span className="inline-flex items-center gap-1.5">
-                                  Proses Denda Berulang (Recurring)
-                                  <FieldTooltip content={RECURRING_TT} className="ml-0" />
-                                </span>
-                              </div>
+                          <div className="flex items-center justify-between gap-3 rounded-[5px] bg-white py-1">
+                            <div className="flex min-w-0 items-center gap-2 text-sm font-normal text-slate-900">
+                              <span className="truncate">
+                                Proses Denda Berulang (Recurring)
+                              </span>
+
+                              <FieldTooltip
+                                content={RECURRING_TT}
+                                className="ml-0"
+                                iconClassName="hidden"
+                              />
+
+                              <span
+                                className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+                                aria-hidden="true"
+                                title="Info"
+                              >
+                                <HelpCircle className="h-4 w-4" />
+                              </span>
                             </div>
 
-                            <div className="flex items-center">
-                              <Switch
-                                checked={penaltyRecurring}
-                                onCheckedChange={setPenaltyRecurring}
-                              />
-                            </div>
+                            <Switch
+                              checked={penaltyRecurring}
+                              onCheckedChange={setPenaltyRecurring}
+                            />
                           </div>
                         ) : null}
                       </div>
