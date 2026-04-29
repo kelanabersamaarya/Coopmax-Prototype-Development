@@ -275,20 +275,24 @@ export default function BillingTableView2({
     return <NumericCell align="right">{value}</NumericCell>;
   }
 
+  // NOTE: samakan padding kanan kolom angka => 16px
+  const numPx = "px-4";
+  const numPr = "pr-4";
+
   function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
     // kolom tetap ada (supaya layout tidak berubah), tapi isi bisa dikosongkan.
     if (!penaltyContentEnabled) {
-      return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
+      return <div className={cn(numPx, numPr, cellY, numberTextClass)} />;
     }
 
     const shouldShow = idx < PENALTY_ROWS;
 
     if (!shouldShow) {
-      return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
+      return <div className={cn(numPx, numPr, cellY, numberTextClass)} />;
     }
 
     return (
-      <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
+      <div className={cn(numPx, numPr, cellY, numberTextClass)}>
         <div className="flex items-center justify-end gap-2">
           <span className="tabular-nums whitespace-nowrap num-sans-tabular">
             {formatIdrLike(PENALTY_AMOUNT)}
@@ -397,25 +401,25 @@ export default function BillingTableView2({
                                     {r.jatuhTempo}
                                   </div>
 
-                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                  <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                     <RightNum value={r.totalBelumDibayar} />
                                   </div>
 
-                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                  <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                     <RightNum
                                       value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
                                     />
                                   </div>
 
-                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                  <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                     <RightNum value={r.tagihanBunga} />
                                   </div>
 
-                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
+                                  <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                     <RightNum value={r.sisaPokok} />
                                   </div>
 
-                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
+                                  <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                     <RightNum value={r.sisaBunga} />
                                   </div>
 
@@ -476,25 +480,25 @@ export default function BillingTableView2({
                               {r.jatuhTempo}
                             </div>
 
-                            <div className={cn("px-4", cellY, numberTextClass)}>
+                            <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                               <RightNum value={r.totalBelumDibayar} />
                             </div>
 
-                            <div className={cn("px-4", cellY, numberTextClass)}>
+                            <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                               <RightNum
                                 value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
                               />
                             </div>
 
-                            <div className={cn("px-4", cellY, numberTextClass)}>
+                            <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                               <RightNum value={r.tagihanBunga} />
                             </div>
 
-                            <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
+                            <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                               <RightNum value={r.sisaPokok} />
                             </div>
 
-                            <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
+                            <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                               <RightNum value={r.sisaBunga} />
                             </div>
 
@@ -565,25 +569,23 @@ export default function BillingTableView2({
                                 {r.jatuhTempo}
                               </div>
 
-                              <div className={cn("px-4", cellY, numberTextClass)}>
+                              <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                 <RightNum value={r.totalBelumDibayar} />
                               </div>
 
-                              <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum
-                                  value={displayTagihanPokok(idx, r.tagihanPokok)}
-                                />
+                              <div className={cn(numPx, numPr, cellY, numberTextClass)}>
+                                <RightNum value={displayTagihanPokok(idx, r.tagihanPokok)} />
                               </div>
 
-                              <div className={cn("px-4", cellY, numberTextClass)}>
+                              <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                 <RightNum value={r.tagihanBunga} />
                               </div>
 
-                              <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
+                              <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                 <RightNum value={r.sisaPokok} />
                               </div>
 
-                              <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
+                              <div className={cn(numPx, numPr, cellY, numberTextClass)}>
                                 <RightNum value={r.sisaBunga} />
                               </div>
 
