@@ -960,13 +960,13 @@ export default function LoanProductCreate() {
                         </FieldRow>
 
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                          <div className="flex items-center justify-between gap-3 pt-1 text-sm font-normal text-slate-900 md:block md:pt-1">
-                            <span className="inline-flex items-center gap-2">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            <span className="inline-flex items-center gap-1.5">
                               Proses Denda Berulang (Recurring)
-                              <FieldTooltip content={TT.recurringPenalty} />
+                              <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
                             </span>
                           </div>
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center justify-end">
                             <Switch
                               checked={dendaBerulang}
                               onCheckedChange={setDendaBerulang}
