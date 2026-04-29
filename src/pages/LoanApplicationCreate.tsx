@@ -52,7 +52,9 @@ const UI = {
   h: "h-[30px]",
   text: "text-[12.5px]",
   gapY: "gap-[15px]",
-  input: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
+  // tambahkan warna placeholder input
+  input:
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] placeholder:text-[#64748B]",
   selectTrigger:
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] [&_[data-placeholder]]:text-slate-500",
   btn: "h-[30px] rounded-[5px] text-[12.5px]",
@@ -627,6 +629,7 @@ export default function LoanApplicationCreate() {
                       value={besarPinjaman}
                       onChange={(e) => setBesarPinjaman(e.target.value)}
                       className={UI.input}
+                      placeholder="0,00"
                     />
                   </FieldRowInline>
 
@@ -635,6 +638,7 @@ export default function LoanApplicationCreate() {
                       value={jangkaWaktu}
                       onChange={(e) => setJangkaWaktu(e.target.value)}
                       className={UI.input}
+                      placeholder="0,00"
                     />
                   </FieldRowInline>
                 </div>
