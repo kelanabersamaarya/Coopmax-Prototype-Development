@@ -235,7 +235,7 @@ type PenaltyBase =
   | "Bunga"
   | "Hutang Pokok"
   | "Hutang Bunga"
-  | "Total Tagihan";
+  | "Berdasarkan Total tagihan";
 
 const RECURRING_TT =
   "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi";
@@ -814,31 +814,6 @@ export default function LoanApplicationCreate() {
                                 onCheckedChange={setPenaltyRecurring}
                               />
                             </div>
-                          </div>
-                        ) : null}
-
-                        {penaltyIsPercent ? (
-                          <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                            <div className="text-[14px] font-medium leading-tight text-slate-900">
-                              Dasar Perhitungan
-                            </div>
-
-                            <Select
-                              value={penaltyBase}
-                              onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
-                            >
-                              <SelectTrigger className={cn(UI.selectTrigger)}>
-                                <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                              </SelectTrigger>
-
-                              <SelectContent className="rounded-xl border-slate-200">
-                                <SelectItem value="Pokok">Pokok</SelectItem>
-                                <SelectItem value="Bunga">Bunga</SelectItem>
-                                <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                                <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                                <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
-                              </SelectContent>
-                            </Select>
                           </div>
                         ) : null}
                       </div>
