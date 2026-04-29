@@ -70,11 +70,16 @@ function Pagination({
 
   if (last !== first) push(last);
 
+  const R = "rounded-[5px]";
+
   return (
     <div className="flex items-center justify-end gap-2">
       <Button
         variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50"
+        className={cn(
+          "h-9 border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50",
+          R,
+        )}
         disabled={page === 1}
         onClick={() => onPage(Math.max(1, page - 1))}
       >
@@ -100,7 +105,8 @@ function Pagination({
               type="button"
               onClick={() => onPage(it)}
               className={cn(
-                "h-9 w-9 rounded-xl text-sm font-semibold ring-1 transition",
+                "h-9 w-9 text-sm font-semibold ring-1 transition",
+                R,
                 active
                   ? "bg-[hsl(var(--app-accent))] text-white ring-[hsl(var(--app-accent))]"
                   : "bg-slate-100 text-slate-800 ring-slate-200 hover:bg-slate-50",
@@ -114,7 +120,10 @@ function Pagination({
 
       <Button
         variant="outline"
-        className="h-9 rounded-xl border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50"
+        className={cn(
+          "h-9 border-slate-200 bg-white px-4 text-slate-700 hover:bg-slate-50",
+          R,
+        )}
         disabled={page === pageCount}
         onClick={() => onPage(Math.min(pageCount, page + 1))}
       >
@@ -182,6 +191,8 @@ export default function NasabahPickerDialog({
   const dialogMaxH = "70vh";
   const contentMaxH = "calc(70vh - 56px - 1px)";
 
+  const R = "rounded-[5px]";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -190,7 +201,8 @@ export default function NasabahPickerDialog({
           "max-w-[920px]",
           `max-h-[${dialogMaxH}]`,
           "overflow-hidden",
-          "rounded-3xl border-slate-200 p-0 shadow-xl",
+          R,
+          "border-slate-200 p-0 shadow-xl",
           // scoped: hide default shadcn close button (X kecil pojok kanan)
           "[&>button[aria-label=Close]]:hidden [&>button[aria-label=Close]]:!hidden",
           "[&_[data-slot=dialog-close]]:hidden [&_[data-slot=dialog-close]]:!hidden",
@@ -207,20 +219,27 @@ export default function NasabahPickerDialog({
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-8 rounded-[18px] bg-[hsl(var(--app-accent))] px-4 text-sm text-white hover:bg-[hsl(var(--app-accent-2))]">
+                <Button
+                  className={cn(
+                    "h-8 bg-[hsl(var(--app-accent))] px-4 text-sm text-white hover:bg-[hsl(var(--app-accent-2))]",
+                    R,
+                  )}
+                >
                   Tambah <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="rounded-2xl border-slate-200 p-1">
+              <DropdownMenuContent
+                className={cn("border-slate-200 p-1", R)}
+              >
                 <DropdownMenuItem
-                  className="rounded-xl"
+                  className={cn(R)}
                   onClick={() => toast("Tambah Nasabah (prototype)")}
                 >
                   <Plus className="mr-2 h-4 w-4" />
                   Tambah Nasabah
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="rounded-xl"
+                  className={cn(R)}
                   onClick={() => toast("Import (prototype)")}
                 >
                   Import Data
@@ -231,7 +250,10 @@ export default function NasabahPickerDialog({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+              className={cn(
+                "inline-flex h-8 w-8 items-center justify-center text-slate-700 transition hover:bg-slate-100",
+                R,
+              )}
               aria-label="Tutup dialog"
               title="Tutup"
             >
@@ -255,10 +277,12 @@ export default function NasabahPickerDialog({
               value={String(pageSize)}
               onValueChange={(v) => setPageSize(Number(v))}
             >
-              <SelectTrigger className="h-8 w-[92px] rounded-xl border-slate-200 bg-white">
+              <SelectTrigger
+                className={cn("h-8 w-[92px] border-slate-200 bg-white", R)}
+              >
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="rounded-xl border-slate-200">
+              <SelectContent className={cn("border-slate-200", R)}>
                 {[5, 10, 20, 50].map((n) => (
                   <SelectItem key={n} value={String(n)}>
                     {n}
@@ -269,7 +293,7 @@ export default function NasabahPickerDialog({
             <div className="text-sm text-slate-700">Entri</div>
           </div>
 
-          <div className="mt-3 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+          <div className={cn("mt-3 overflow-hidden ring-1 ring-slate-200", R)}>
             <div className="min-w-0 max-w-full overflow-x-hidden">
               <table className="w-full max-w-full table-fixed border-collapse">
                 <thead className="bg-white">
@@ -289,7 +313,7 @@ export default function NasabahPickerDialog({
                         value={qId}
                         onChange={(e) => setQId(e.target.value)}
                         placeholder="ID"
-                        className="h-8 w-full rounded-xl border-slate-200 bg-white"
+                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
                       />
                     </th>
                     <th className="px-3 py-2.5">
@@ -297,7 +321,7 @@ export default function NasabahPickerDialog({
                         value={qNama}
                         onChange={(e) => setQNama(e.target.value)}
                         placeholder="Nama"
-                        className="h-8 w-full rounded-xl border-slate-200 bg-white"
+                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
                       />
                     </th>
                     <th className="px-3 py-2.5">
@@ -305,7 +329,7 @@ export default function NasabahPickerDialog({
                         value={qNo}
                         onChange={(e) => setQNo(e.target.value)}
                         placeholder="No Identitas"
-                        className="h-8 w-full rounded-xl border-slate-200 bg-white"
+                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
                       />
                     </th>
                     <th className="px-3 py-2.5">
@@ -313,7 +337,7 @@ export default function NasabahPickerDialog({
                         value={qAlamat}
                         onChange={(e) => setQAlamat(e.target.value)}
                         placeholder="Alamat"
-                        className="h-8 w-full rounded-xl border-slate-200 bg-white"
+                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
                       />
                     </th>
                     <th className="px-3 py-2.5">
@@ -321,10 +345,12 @@ export default function NasabahPickerDialog({
                         value={status}
                         onValueChange={(v) => setStatus(v as StatusKeanggotaan)}
                       >
-                        <SelectTrigger className="h-8 w-full rounded-xl border-slate-200 bg-white">
+                        <SelectTrigger
+                          className={cn("h-8 w-full border-slate-200 bg-white", R)}
+                        >
                           <SelectValue placeholder="-- Semua" />
                         </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
+                        <SelectContent className={cn("border-slate-200", R)}>
                           <SelectItem value="Semua">-- Semua</SelectItem>
                           <SelectItem value="Anggota">Anggota</SelectItem>
                           <SelectItem value="Calon">Calon</SelectItem>
@@ -412,10 +438,13 @@ export default function NasabahPickerDialog({
           <div className="mt-4 flex items-center justify-end">
             <Button
               variant="secondary"
-              className="h-9 rounded-xl bg-indigo-200/60 px-5 text-slate-900 hover:bg-indigo-200"
+              className={cn(
+                "h-9 bg-indigo-200/60 px-5 text-slate-900 hover:bg-indigo-200",
+                R,
+              )}
               onClick={() => onOpenChange(false)}
             >
-              <span className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-400 text-white">
+              <span className={cn("mr-3 inline-flex h-6 w-6 items-center justify-center bg-indigo-400 text-white", R)}>
                 ×
               </span>
               Batalkan
