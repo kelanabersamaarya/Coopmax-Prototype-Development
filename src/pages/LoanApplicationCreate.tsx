@@ -754,7 +754,7 @@ export default function LoanApplicationCreate() {
 
                       <div className="mt-[15px] grid gap-[15px]">
                         {!penaltyIsRp ? (
-                          <FieldRowInline label="Dasar Perhitungan Denda" required>
+                          <FieldRowInline label="Dasar Perhitungan Denda">
                             <Select
                               value={penaltyBase}
                               onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
