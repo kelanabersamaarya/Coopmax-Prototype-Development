@@ -47,6 +47,7 @@ function SummaryRow({
           "min-w-0 tabular-nums tracking-tight text-slate-900 whitespace-nowrap",
           valueAlign === "left" ? "text-left" : "text-right",
           strong ? "text-[14px] font-extrabold" : "text-[14px] font-bold",
+          "pr-2", // <-- tambah ruang kanan supaya angka tidak mepet
         )}
       >
         {value}
@@ -76,7 +77,7 @@ function SummaryRowInline({
         <span className="block truncate">{label}</span>
       </span>
       <span className="text-center font-semibold text-slate-400">:</span>
-      <span className="min-w-0 text-right font-extrabold tabular-nums tracking-tight text-slate-900 whitespace-nowrap">
+      <span className="min-w-0 text-right font-extrabold tabular-nums tracking-tight text-slate-900 whitespace-nowrap pr-2">
         {value}
       </span>
     </div>
@@ -180,7 +181,9 @@ export default function BillSummaryCard({
                   transactionType ? "" : "text-slate-500",
                 )}
               >
-                {transactionType ? transactionLabel(transactionType) : "Pilih Transaksi"}
+                {transactionType
+                  ? transactionLabel(transactionType)
+                  : "Pilih Transaksi"}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
@@ -241,11 +244,23 @@ export default function BillSummaryCard({
             <SummaryRowInline label="Sisa Pinjaman" value={displayTotals.total} />
           </div>
         ) : isPembayaranBunga ? (
-          <SummaryRow label="Total Tagihan Bunga" value={displayTotals.bunga} strong />
+          <SummaryRow
+            label="Total Tagihan Bunga"
+            value={displayTotals.bunga}
+            strong
+          />
         ) : isPembayaranPokok ? (
-          <SummaryRow label="Total Tagihan Pokok" value={displayTotals.pokok} strong />
+          <SummaryRow
+            label="Total Tagihan Pokok"
+            value={displayTotals.pokok}
+            strong
+          />
         ) : isPembayaranDenda ? (
-          <SummaryRow label="Total Tagihan Denda" value={displayTotals.denda} strong />
+          <SummaryRow
+            label="Total Tagihan Denda"
+            value={displayTotals.denda}
+            strong
+          />
         ) : isPembayaranBiayaLainnya ? (
           <SummaryRow
             label="Total Tagihan Biaya Lainnya"
