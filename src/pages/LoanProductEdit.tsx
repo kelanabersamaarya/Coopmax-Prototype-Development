@@ -1019,7 +1019,7 @@ export default function LoanProductEdit() {
                             <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
                           </span>
                         </div>
-                        <div className="flex items-center justify-end">
+                        <div className="flex items-center">
                           <Switch
                             checked={dendaBerulang}
                             onCheckedChange={setDendaBerulang}

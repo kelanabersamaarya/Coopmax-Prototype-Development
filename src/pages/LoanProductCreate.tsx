@@ -884,9 +884,9 @@ export default function LoanProductCreate() {
                         const labelText =
                           m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
                             ? "Tagihan Sesuai Jadwal Angsuran"
-                            : m === "Jadwal Fleksibel & Tagihan Berkala"
-                              ? "Jadwal Fleksibel & Tagihan Berkala"
-                              : "Tagihan Dihitung Dari Sisa Saldo Pokok";
+                          : m === "Jadwal Fleksibel & Tagihan Berkala"
+                            ? "Jadwal Fleksibel & Tagihan Berkala"
+                            : "Tagihan Dihitung Dari Sisa Saldo Pokok";
 
                         const tooltipText =
                           m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
@@ -966,7 +966,7 @@ export default function LoanProductCreate() {
                               <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
                             </span>
                           </div>
-                          <div className="flex items-center justify-end">
+                          <div className="flex items-center">
                             <Switch
                               checked={dendaBerulang}
                               onCheckedChange={setDendaBerulang}
