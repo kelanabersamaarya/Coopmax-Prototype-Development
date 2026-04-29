@@ -16,7 +16,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
   return (
     <TransaksiAnggotaView2
       nasabah={nasabah}
-      skemaTagihanLabel="Tagihan Berdasarkan Sisa Angsuran"
+      skemaTagihanLabel="Tagihan Dihitung Dari Sisa Saldo Pokok"
       hideNextBillInfo
     />
   );
