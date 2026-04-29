@@ -436,7 +436,7 @@ export default function NasabahPickerDialog({
           </div>
 
           <div className="mt-4 flex items-center justify-end">
-            {/* Style seperti contoh "Tutup" (abu gelap), tetap mempertahankan icon & copywriting */}
+            {/* Hapus background di belakang icon X (tetap pertahankan icon & copywriting) */}
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -448,13 +448,7 @@ export default function NasabahPickerDialog({
                 "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-600/25",
               )}
             >
-              <span
-                className={cn(
-                  "inline-flex h-8 w-8 items-center justify-center",
-                  R,
-                  "bg-white/15 text-white",
-                )}
-              >
+              <span className="inline-flex h-8 w-8 items-center justify-center text-white">
                 ×
               </span>
               Batalkan
