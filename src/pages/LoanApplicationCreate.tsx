@@ -40,6 +40,7 @@ import {
 import PenaltyScheduleForm, {
   type PenaltyScheduleDraft,
 } from "@/components/loans/PenaltyScheduleForm";
+import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
@@ -589,22 +590,13 @@ export default function LoanApplicationCreate() {
                     Simulasi
                   </Button>
 
-                  <Button
-                    className={cn(ACTION_BTN_SM, "bg-slate-600 hover:bg-slate-700")}
-                    onClick={() => navigate("/loans/applications")}
-                  >
-                    Batalkan
-                  </Button>
-
-                  <Button
-                    className={cn(
-                      ACTION_BTN_SM,
-                      "bg-emerald-600 hover:bg-emerald-700",
-                    )}
-                    onClick={save}
-                  >
-                    Simpan
-                  </Button>
+                  <LoanFormActionButtons
+                    onCancel={() => navigate("/loans/applications")}
+                    onSave={save}
+                    cancelLabel="Batalkan"
+                    saveLabel="Simpan"
+                    className="mt-0"
+                  />
                 </div>
               </div>
             ) : tab === "jadwal" ? (
@@ -694,7 +686,6 @@ export default function LoanApplicationCreate() {
                   </div>
                 </div>
 
-                {/* Divider pemisah section */}
                 <Separator className="bg-slate-200/70" />
 
                 <div className="space-y-4">
@@ -748,26 +739,17 @@ export default function LoanApplicationCreate() {
                     Simulasi
                   </Button>
 
-                  <Button
-                    className={cn(ACTION_BTN_SM, "bg-slate-600 hover:bg-slate-700")}
-                    onClick={() => navigate("/loans/applications")}
-                  >
-                    Batalkan
-                  </Button>
-
-                  <Button
-                    className={cn(
-                      ACTION_BTN_SM,
-                      "bg-emerald-600 hover:bg-emerald-700",
-                    )}
-                    onClick={() =>
+                  <LoanFormActionButtons
+                    onCancel={() => navigate("/loans/applications")}
+                    onSave={() =>
                       toast.success("Jadwal tersimpan (prototype)", {
                         description: "Pengaturan jadwal belum disimpan permanen.",
                       })
                     }
-                  >
-                    Simpan
-                  </Button>
+                    cancelLabel="Batalkan"
+                    saveLabel="Simpan"
+                    className="mt-0"
+                  />
                 </div>
 
                 <div className="sr-only">
