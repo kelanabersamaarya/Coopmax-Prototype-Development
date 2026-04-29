@@ -329,20 +329,20 @@ export default function TransaksiAnggotaView2({
     return calcKhususTotalsFromRows(rowsToShow);
   }, [isKhusus, rowsToShow]);
 
-  const penurunanBakiDebetPokokTotal = React.useMemo(() => {
+  const penurunanBakiDebetSisaPokokTotal = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
 
     return rowsToShow.reduce((sum, r, idx) => {
       const checked = selected[idx] ?? false;
       if (!checked) return sum;
-      return sum + parseNumLikeId(r.tagihanPokok);
+      return sum + parseNumLikeId(r.sisaPokok);
     }, 0);
   }, [isPenurunanBakiDebet, rowsToShow, selected]);
 
-  const penurunanBakiDebetPokokText = React.useMemo(() => {
-    if (penurunanBakiDebetPokokTotal === null) return null;
-    return formatIdrLike(penurunanBakiDebetPokokTotal);
-  }, [penurunanBakiDebetPokokTotal]);
+  const penurunanBakiDebetSisaText = React.useMemo(() => {
+    if (penurunanBakiDebetSisaPokokTotal === null) return null;
+    return formatIdrLike(penurunanBakiDebetSisaPokokTotal);
+  }, [penurunanBakiDebetSisaPokokTotal]);
 
   // page 2+: hilangkan teks grace period + hilangkan kotak biru
   const showGraceInfo = !usePaging || page === 1;
@@ -634,9 +634,7 @@ export default function TransaksiAnggotaView2({
                           ),
                         }
                       : {
-                          pokok: isPenurunanBakiDebet
-                            ? penurunanBakiDebetPokokText ?? "0"
-                            : "2.455.555",
+                          pokok: "0",
                           bunga: "0",
                           denda: penaltyOnlyCols
                             ? formatIdrLike(penaltyTotalExplicit ?? 0)
@@ -644,7 +642,7 @@ export default function TransaksiAnggotaView2({
                               ? selectedPenaltyText
                               : "0",
                           total: isPenurunanBakiDebet
-                            ? penurunanBakiDebetPokokText ?? "0"
+                            ? penurunanBakiDebetSisaText ?? "0"
                             : formatIdrLike(
                                 2455555 +
                                   (penaltyOnlyCols

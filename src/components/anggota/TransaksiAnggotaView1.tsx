@@ -304,24 +304,34 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.tagihanPokok), 0);
   }, [isPenurunanBakiDebet, pagedRows]);
 
-  const [penurunanSisaPinjaman, setPenurunanSisaPinjaman] =
-    React.useState<number>(0);
+  const penurunanSisaPokokTotal = React.useMemo(() => {
+    if (!isPenurunanBakiDebet) return 0;
+
+    return pagedRows.reduce((sum, r, idx) => {
+      const checked = selected[idx] ?? false;
+      if (!checked) return sum;
+      return sum + parseMoneyLikeId(r.sisaPokok);
+    }, 0);
+  }, [isPenurunanBakiDebet, pagedRows, selected]);
 
   React.useEffect(() => {
-    setPenurunanSisaPinjaman(0);
-  }, [jenisTransaksi]);
+    // Untuk penurunan baki debet: sisa pinjaman default mengikuti total sisa pokok terpilih.
+    // (Tidak dinolkan saat ganti transaksi/page.)
+    if (!isPenurunanBakiDebet) return;
+    setNominal("0");
+  }, [isPenurunanBakiDebet]);
 
   const penurunanTotals = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
 
     const totalPokokText = formatMoneyIdNoDecimals(penurunanTotalPokok);
-    const sisaText = formatMoneyIdNoDecimals(penurunanSisaPinjaman);
+    const sisaText = formatMoneyIdNoDecimals(penurunanSisaPokokTotal);
 
     return {
       totalPokokText,
       sisaText,
     };
-  }, [isPenurunanBakiDebet, penurunanSisaPinjaman, penurunanTotalPokok]);
+  }, [isPenurunanBakiDebet, penurunanSisaPokokTotal, penurunanTotalPokok]);
 
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
@@ -540,7 +550,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                         }
                       : isPenurunanBakiDebet
                         ? {
-                            pokok: penurunanTotals?.totalPokokText ?? "0",
+                            pokok: "0",
                             bunga: "0",
                             denda: "0",
                             total: penurunanTotals?.sisaText ?? "0",
@@ -576,10 +586,9 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 setTabungan={setTabungan}
                 keterangan={keterangan}
                 setKeterangan={setKeterangan}
-                onPayPenurunanBakiDebet={(nominalPokokInput) => {
-                  const input = parseMoneyLikeId(nominalPokokInput || "0");
-                  const sisa = Math.max(0, penurunanTotalPokok - input);
-                  setPenurunanSisaPinjaman(sisa);
+                onPayPenurunanBakiDebet={() => {
+                  // Tidak lagi menghitung sisa dari input nominal.
+                  // Sisa pinjaman mengikuti total sisa tagihan pokok (sisaPokok) dari baris terpilih.
                 }}
               />
             </div>
