@@ -51,6 +51,7 @@ type PenaltyBase =
   | "Bunga"
   | "Hutang Pokok"
   | "Hutang Bunga"
+  | "Berdasarkan Total tagihan"
   | "Pilih Dasar Perhitungan";
 
 type CollectorKind = "Kolektor 1" | "Kolektor 2" | "Kolektor 3";
@@ -327,6 +328,13 @@ export default function LoanProductCreate() {
       : graceUnit === "Bulan"
         ? "Masukkan Jumlah Bulan"
         : "Masukkan Durasi";
+
+  const hideDasarPerhitungan = tarifDendaMode === "rp";
+
+  React.useEffect(() => {
+    if (!hideDasarPerhitungan) return;
+    setDasarPerhitungan("Pilih Dasar Perhitungan");
+  }, [hideDasarPerhitungan]);
 
   // === compact style (match halaman Ubah) ===
   const compactField =
@@ -919,25 +927,32 @@ export default function LoanProductCreate() {
                       />
                     </FieldRow>
 
-                    <FieldRow label="Dasar Perhitungan">
-                      <Select
-                        value={dasarPerhitungan}
-                        onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
-                      >
-                        <SelectTrigger className={compactSelectTrigger}>
-                          <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                        </SelectTrigger>
-                        <SelectContent className={compactSelectContent}>
-                          <SelectItem value="Pilih Dasar Perhitungan">
-                            Pilih Dasar Perhitungan
-                          </SelectItem>
-                          <SelectItem value="Pokok">Pokok</SelectItem>
-                          <SelectItem value="Bunga">Bunga</SelectItem>
-                          <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                          <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FieldRow>
+                    {!hideDasarPerhitungan ? (
+                      <FieldRow label="Dasar Perhitungan">
+                        <Select
+                          value={dasarPerhitungan}
+                          onValueChange={(v) =>
+                            setDasarPerhitungan(v as PenaltyBase)
+                          }
+                        >
+                          <SelectTrigger className={compactSelectTrigger}>
+                            <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                          </SelectTrigger>
+                          <SelectContent className={compactSelectContent}>
+                            <SelectItem value="Pilih Dasar Perhitungan">
+                              Pilih Dasar Perhitungan
+                            </SelectItem>
+                            <SelectItem value="Pokok">Pokok</SelectItem>
+                            <SelectItem value="Bunga">Bunga</SelectItem>
+                            <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                            <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                            <SelectItem value="Berdasarkan Total tagihan">
+                              Berdasarkan Total tagihan
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FieldRow>
+                    ) : null}
 
                     <FieldRow label="Jumlah Hari Keterlambatan">
                       <Input

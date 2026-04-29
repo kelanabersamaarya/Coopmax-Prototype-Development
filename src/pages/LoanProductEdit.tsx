@@ -65,6 +65,7 @@ type PenaltyBase =
   | "Bunga"
   | "Hutang Pokok"
   | "Hutang Bunga"
+  | "Berdasarkan Total tagihan"
   | "Pilih Dasar Perhitungan";
 
 const UI = {
@@ -385,6 +386,14 @@ export default function LoanProductEdit() {
     React.useState<PenaltyBase>("Pilih Dasar Perhitungan");
 
   const [hariKeterlambatan, setHariKeterlambatan] = React.useState<string>("0");
+
+  const hideDasarPerhitungan = tarifDendaMode === "rp";
+
+  React.useEffect(() => {
+    if (!hideDasarPerhitungan) return;
+    // Saat mode Rp, dasar perhitungan tidak relevan
+    setDasarPerhitungan("Pilih Dasar Perhitungan");
+  }, [hideDasarPerhitungan]);
 
   function addCollectorFee() {
     setCollectorFees((prev) => [
@@ -963,32 +972,37 @@ export default function LoanProductEdit() {
                     />
                   </FieldRow>
 
-                  <FieldRow label="Dasar Perhitungan">
-                    <Select
-                      value={dasarPerhitungan}
-                      onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
-                    >
-                      <SelectTrigger
-                        className={
-                          "h-[30px] " +
-                          UI.radius +
-                          " border-slate-200 bg-white " +
-                          UI.fieldText
-                        }
+                  {!hideDasarPerhitungan ? (
+                    <FieldRow label="Dasar Perhitungan">
+                      <Select
+                        value={dasarPerhitungan}
+                        onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}
                       >
-                        <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-[10px] border-slate-200">
-                        <SelectItem value="Pilih Dasar Perhitungan">
-                          Pilih Dasar Perhitungan
-                        </SelectItem>
-                        <SelectItem value="Pokok">Pokok</SelectItem>
-                        <SelectItem value="Bunga">Bunga</SelectItem>
-                        <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                        <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FieldRow>
+                        <SelectTrigger
+                          className={
+                            "h-[30px] " +
+                            UI.radius +
+                            " border-slate-200 bg-white " +
+                            UI.fieldText
+                          }
+                        >
+                          <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-[10px] border-slate-200">
+                          <SelectItem value="Pilih Dasar Perhitungan">
+                            Pilih Dasar Perhitungan
+                          </SelectItem>
+                          <SelectItem value="Pokok">Pokok</SelectItem>
+                          <SelectItem value="Bunga">Bunga</SelectItem>
+                          <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                          <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                          <SelectItem value="Berdasarkan Total tagihan">
+                            Berdasarkan Total tagihan
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FieldRow>
+                  ) : null}
 
                   <FieldRow label="Jumlah Hari Keterlambatan">
                     <Input
