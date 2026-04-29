@@ -52,7 +52,8 @@ const UI = {
   text: "text-[12.5px]",
   gapY: "gap-[15px]",
   input: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
-  selectTrigger: "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
+  selectTrigger:
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] [&_[data-placeholder]]:text-slate-500",
   btn: "h-[30px] rounded-[5px] text-[12.5px]",
   sectionTitle: "text-[16px] font-semibold tracking-tight text-slate-900",
 } as const;
@@ -486,7 +487,7 @@ export default function LoanApplicationCreate() {
                   <FieldRowInline label="Kolektor" required>
                     <Select value={kolektor} onValueChange={setKolektor}>
                       <SelectTrigger className={UI.selectTrigger}>
-                        <SelectValue />
+                        <SelectValue placeholder="Pilih Kolektor" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Kolektor">
@@ -530,7 +531,7 @@ export default function LoanApplicationCreate() {
                       onValueChange={setSektorPinjaman}
                     >
                       <SelectTrigger className={UI.selectTrigger}>
-                        <SelectValue />
+                        <SelectValue placeholder="Pilih Sektor Pinjaman" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Sektor Pinjaman">
@@ -549,7 +550,7 @@ export default function LoanApplicationCreate() {
                       onValueChange={setTujuanPeminjaman}
                     >
                       <SelectTrigger className={UI.selectTrigger}>
-                        <SelectValue />
+                        <SelectValue placeholder="Pilih Tujuan Peminjaman" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Tujuan Peminjaman">
@@ -573,7 +574,7 @@ export default function LoanApplicationCreate() {
                   <FieldRowInline label="Metode Bunga Pinjaman" required>
                     <Select value={metodeBunga} onValueChange={setMetodeBunga}>
                       <SelectTrigger className={UI.selectTrigger}>
-                        <SelectValue />
+                        <SelectValue placeholder="Pilih Metode Bunga Pinjaman" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
                         <SelectItem value="Pilih Metode Bunga Pinjaman">
