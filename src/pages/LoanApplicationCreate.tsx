@@ -808,8 +808,7 @@ export default function LoanApplicationCreate() {
                               </span>
                             </div>
 
-                            {/* Sejajarkan dengan kolom input & geser toggle ke kiri */}
-                            <div className="flex items-center justify-start md:pl-2">
+                            <div className="flex items-center justify-start">
                               <Switch
                                 checked={penaltyRecurring}
                                 onCheckedChange={setPenaltyRecurring}
