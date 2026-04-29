@@ -212,8 +212,8 @@ export default function NasabahPickerDialog({
           "[&>button[data-state]]:hidden [&>button[data-state]]:!hidden",
         )}
       >
-        {/* HEADER DIPERKECIL */}
-        <div className="flex items-center justify-between gap-3 px-5 py-3 sm:px-6 sm:py-3">
+        {/* HEADER: center vertikal di area header (antara tepi atas & divider) */}
+        <div className="flex h-[56px] items-center justify-between gap-3 px-5 sm:px-6">
           <div className="text-lg font-semibold tracking-tight text-slate-900 sm:text-xl">
             Nasabah
           </div>
