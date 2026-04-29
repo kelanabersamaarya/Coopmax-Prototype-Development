@@ -305,7 +305,7 @@ select:focus-visible {
   outline: none;
 }
 
-/* Field-like triggers used in shadcn/Radix (Select / Combobox / Popover triggers) */
+/* Field-like triggers used in shadcn/Radix */
 [data-slot="select-trigger"],
 [role="combobox"],
 [data-slot="popover-trigger"],
@@ -313,19 +313,27 @@ select:focus-visible {
   outline: none;
 }
 
-/* Kill ONLY the focus ring shadow, keep existing ring-1/border */
+/* Kill ONLY the focus ring shadow for field-like elements (keep ring-1 if any) */
 :where(
     input,
     textarea,
     select,
     [data-slot="select-trigger"],
     [role="combobox"],
-    [data-slot="popover-trigger"]
+    [data-slot="popover-trigger"],
+    [data-slot="dropdown-menu-trigger"]
   ):focus-visible {
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
-  box-shadow: var(--tw-shadow, 0 0 #0000) !important;
+}
+
+/* Also kill when Radix marks it open (DropdownMenu/Select) */
+:where([data-slot="select-trigger"], [role="combobox"], [data-slot="dropdown-menu-trigger"])[data-state="open"] {
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  border-color: var(--field-focus-border) !important;
 }
 
 /* Keep border neutral (no purple) when focused/open */
@@ -335,9 +343,8 @@ select:focus-visible {
     select,
     [data-slot="select-trigger"],
     [role="combobox"],
-    [data-slot="popover-trigger"]
-  ):focus,
-:where([data-slot="select-trigger"])[data-state="open"],
-:where([role="combobox"])[data-state="open"] {
+    [data-slot="popover-trigger"],
+    [data-slot="dropdown-menu-trigger"]
+  ):focus {
   border-color: var(--field-focus-border) !important;
 }
