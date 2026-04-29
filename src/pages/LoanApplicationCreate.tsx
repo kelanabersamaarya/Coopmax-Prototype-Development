@@ -11,11 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -516,9 +512,7 @@ export default function LoanApplicationCreate() {
                         <SelectValue placeholder="Pilih Kolektor" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
-                        <SelectItem value="Pilih Kolektor">
-                          Pilih Kolektor
-                        </SelectItem>
+                        <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
                         <SelectItem value="Kolektor A">Kolektor A</SelectItem>
                         <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                       </SelectContent>
@@ -541,8 +535,7 @@ export default function LoanApplicationCreate() {
                         setProdukPinjaman(v);
                         if (v === "Pinjaman Billing") {
                           toast.success("Pinjaman Billing dipilih", {
-                            description:
-                              "Tab Pengaturan Jadwal sekarang tersedia.",
+                            description: "Tab Pengaturan Jadwal sekarang tersedia.",
                           });
                         } else {
                           toast("Produk dipilih", { description: v });
@@ -682,9 +675,7 @@ export default function LoanApplicationCreate() {
                         value={jenisPerhitunganBunga}
                         onValueChange={setJenisPerhitunganBunga}
                       >
-                        <SelectTrigger
-                          className={cn("w-full px-3", UI.selectTrigger)}
-                        >
+                        <SelectTrigger className={cn("w-full px-3", UI.selectTrigger)}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -721,10 +712,7 @@ export default function LoanApplicationCreate() {
                     </FieldRowInline>
 
                     <FieldRowInline label="Frekuensi Bunga" required>
-                      <Select
-                        value={frekuensiBunga}
-                        onValueChange={setFrekuensiBunga}
-                      >
+                      <Select value={frekuensiBunga} onValueChange={setFrekuensiBunga}>
                         <SelectTrigger
                           className={cn(
                             "w-full px-3 bg-slate-200/70 text-slate-800",
@@ -768,10 +756,7 @@ export default function LoanApplicationCreate() {
                     <div className={UI.sectionTitle}>Jadwal Denda</div>
 
                     <Button
-                      className={cn(
-                        UI.btn,
-                        "bg-blue-600 px-4 text-white hover:bg-blue-700",
-                      )}
+                      className={cn(UI.btn, "bg-blue-600 px-4 text-white hover:bg-blue-700")}
                       onClick={() => {
                         setPenaltyVisible(true);
                         toast("Tambah Denda (prototype)", {
@@ -807,24 +792,16 @@ export default function LoanApplicationCreate() {
                             <div className="min-w-0">
                               <Select
                                 value={penaltyBase}
-                                onValueChange={(v) =>
-                                  setPenaltyBase(v as PenaltyBase)
-                                }
+                                onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
                               >
-                                <SelectTrigger
-                                  className={cn(UI.selectTrigger, "w-full")}
-                                >
+                                <SelectTrigger className={cn(UI.selectTrigger, "w-full")}>
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-[10px] border-slate-200">
                                   <SelectItem value="Pokok">Pokok</SelectItem>
                                   <SelectItem value="Bunga">Bunga</SelectItem>
-                                  <SelectItem value="Hutang Pokok">
-                                    Hutang Pokok
-                                  </SelectItem>
-                                  <SelectItem value="Hutang Bunga">
-                                    Hutang Bunga
-                                  </SelectItem>
+                                  <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                                  <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
                                   <SelectItem value="Berdasarkan Total tagihan">
                                     Berdasarkan Total tagihan
                                   </SelectItem>
@@ -836,14 +813,12 @@ export default function LoanApplicationCreate() {
                           </div>
                         ) : null}
 
-                        {/* KEMBALIKAN KE VERSI AWAL */}
+                        {/* Versi awal (switch dekat label): pakai flex, bukan grid 2 kolom */}
                         {penaltyIsPercent ? (
-                          <div className="grid min-h-[30px] items-center gap-4 [grid-template-columns:minmax(0,1fr)_auto]">
+                          <div className="flex min-h-[30px] flex-wrap items-center gap-x-4 gap-y-2">
                             <div className="flex min-w-0 items-center gap-2">
                               <div className="min-w-0 text-[14px] font-medium text-slate-900">
-                                <span className="truncate">
-                                  Proses Denda Berulang (Recurring)
-                                </span>
+                                Proses Denda Berulang (Recurring)
                               </div>
 
                               <span
@@ -855,12 +830,10 @@ export default function LoanApplicationCreate() {
                               </span>
                             </div>
 
-                            <div className="shrink-0">
-                              <Switch
-                                checked={penaltyRecurring}
-                                onCheckedChange={setPenaltyRecurring}
-                              />
-                            </div>
+                            <Switch
+                              checked={penaltyRecurring}
+                              onCheckedChange={setPenaltyRecurring}
+                            />
                           </div>
                         ) : null}
                       </div>
