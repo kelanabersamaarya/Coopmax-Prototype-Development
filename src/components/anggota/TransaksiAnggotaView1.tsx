@@ -219,8 +219,14 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       return;
     }
 
+    if (isPenurunanBakiDebet) {
+      // checkbox-nya terkunci (isLocked=true), jadi selected harus true supaya ringkasan tidak 0
+      setSelected(pagedRows.map(() => true));
+      return;
+    }
+
     setSelected(pagedRows.map(() => false));
-  }, [isPelunasan, isReguler, isKhusus, pagedRows]);
+  }, [isPelunasan, isReguler, isKhusus, isPenurunanBakiDebet, pagedRows]);
 
   React.useEffect(() => {
     if (!isKhusus) return;
@@ -307,16 +313,12 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
   const penurunanSisaPokokTotal = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return 0;
 
-    return pagedRows.reduce((sum, r, idx) => {
-      const checked = selected[idx] ?? false;
-      if (!checked) return sum;
-      return sum + parseMoneyLikeId(r.sisaPokok);
-    }, 0);
-  }, [isPenurunanBakiDebet, pagedRows, selected]);
+    // Karena view ini mengunci selection di tabel penurunan baki debet,
+    // kita selalu pakai total sisaPokok seluruh baris yang ditampilkan.
+    return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.sisaPokok), 0);
+  }, [isPenurunanBakiDebet, pagedRows]);
 
   React.useEffect(() => {
-    // Untuk penurunan baki debet: sisa pinjaman default mengikuti total sisa pokok terpilih.
-    // (Tidak dinolkan saat ganti transaksi/page.)
     if (!isPenurunanBakiDebet) return;
     setNominal("0");
   }, [isPenurunanBakiDebet]);
@@ -588,7 +590,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 setKeterangan={setKeterangan}
                 onPayPenurunanBakiDebet={() => {
                   // Tidak lagi menghitung sisa dari input nominal.
-                  // Sisa pinjaman mengikuti total sisa tagihan pokok (sisaPokok) dari baris terpilih.
+                  // Sisa pinjaman mengikuti total sisa tagihan pokok (sisaPokok) dari baris yang ditampilkan.
                 }}
               />
             </div>

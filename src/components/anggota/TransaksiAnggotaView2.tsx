@@ -286,7 +286,8 @@ export default function TransaksiAnggotaView2({
     }
 
     if (isPenurunanBakiDebet) {
-      setSelected((prev) => rowsToShow.map((_, i) => prev[i] ?? false));
+      // tabel mode ini isLocked=true (checkbox terkunci), jadi harus true agar ringkasan tidak 0
+      setSelected(rowsToShow.map(() => true));
       return;
     }
 
@@ -332,12 +333,9 @@ export default function TransaksiAnggotaView2({
   const penurunanBakiDebetSisaPokokTotal = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
 
-    return rowsToShow.reduce((sum, r, idx) => {
-      const checked = selected[idx] ?? false;
-      if (!checked) return sum;
-      return sum + parseNumLikeId(r.sisaPokok);
-    }, 0);
-  }, [isPenurunanBakiDebet, rowsToShow, selected]);
+    // Karena tabel penurunan baki debet di view ini terkunci, ringkasan mengikuti total sisaPokok seluruh baris yang tampil.
+    return rowsToShow.reduce((sum, r) => sum + parseNumLikeId(r.sisaPokok), 0);
+  }, [isPenurunanBakiDebet, rowsToShow]);
 
   const penurunanBakiDebetSisaText = React.useMemo(() => {
     if (penurunanBakiDebetSisaPokokTotal === null) return null;
