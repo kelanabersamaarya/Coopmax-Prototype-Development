@@ -60,7 +60,9 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 252 83% 58%;
+
+    /* IMPORTANT: shadcn uses this for `ring-ring` (focus outline). Make it neutral (no purple). */
+    --ring: 215 16% 72%; /* ~slate-300 */
 
     --radius: 1.1rem;
 
@@ -122,7 +124,9 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 252 83% 68%;
+
+    /* Neutral ring for dark mode too (no purple) */
+    --ring: 215 18% 38%; /* ~slate-500 */
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -313,7 +317,7 @@ select:focus-visible {
   outline: none;
 }
 
-/* Kill ONLY the focus ring shadow for field-like elements (keep ring-1 if any) */
+/* Kill ONLY the focus ring shadow for field-like elements */
 :where(
     input,
     textarea,
@@ -328,14 +332,6 @@ select:focus-visible {
   --tw-ring-offset-shadow: 0 0 #0000 !important;
 }
 
-/* Also kill when Radix marks it open (DropdownMenu/Select) */
-:where([data-slot="select-trigger"], [role="combobox"], [data-slot="dropdown-menu-trigger"])[data-state="open"] {
-  --tw-ring-color: transparent !important;
-  --tw-ring-shadow: 0 0 #0000 !important;
-  --tw-ring-offset-shadow: 0 0 #0000 !important;
-  border-color: var(--field-focus-border) !important;
-}
-
 /* Keep border neutral (no purple) when focused/open */
 :where(
     input,
@@ -346,5 +342,8 @@ select:focus-visible {
     [data-slot="popover-trigger"],
     [data-slot="dropdown-menu-trigger"]
   ):focus {
+  border-color: var(--field-focus-border) !important;
+}
+:where([data-slot="select-trigger"], [role="combobox"], [data-slot="dropdown-menu-trigger"])[data-state="open"] {
   border-color: var(--field-focus-border) !important;
 }
