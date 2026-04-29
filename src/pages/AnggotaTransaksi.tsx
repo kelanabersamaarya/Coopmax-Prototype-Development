@@ -90,11 +90,12 @@ export default function AnggotaTransaksi() {
           </div>
         ) : null}
 
-        {/* Area transaksi hanya muncul setelah nasabah dipilih (menghilangkan bar putih panjang saat awal). */}
+        {/* Area transaksi hanya muncul setelah nasabah dipilih */}
         {selected ? (
           <div className="-mx-4 md:-mx-6">
             <div className="overflow-x-auto px-2 pb-2 md:px-3">
-              <div className="min-w-0 overflow-hidden rounded-[5px] bg-white/80 ring-1 ring-slate-200">
+              {/* HAPUS border/ring paling luar (biar tidak ada border ekstra seperti screenshot) */}
+              <div className="min-w-0 overflow-hidden rounded-[5px] bg-transparent">
                 <div className="min-w-0 p-2 sm:p-3">
                   {showView1 ? (
                     <TransaksiAnggotaView1 nasabah={selected} />
