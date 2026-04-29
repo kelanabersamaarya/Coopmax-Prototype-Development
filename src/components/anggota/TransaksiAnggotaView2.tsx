@@ -57,6 +57,7 @@ type Props = {
     alamat: string;
   };
   skemaTagihanLabel?: string;
+  hideNextBillInfo?: boolean;
 };
 
 const currentBill: BillingRow = {
@@ -192,6 +193,7 @@ const PELUNASAN_DENDA_FLAT = 215000;
 export default function TransaksiAnggotaView2({
   nasabah,
   skemaTagihanLabel,
+  hideNextBillInfo = false,
 }: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -502,14 +504,14 @@ export default function TransaksiAnggotaView2({
                     selected={selected}
                     setSelected={setSelected}
                     isLocked={true}
-                    showNextBillInfo={true}
+                    showNextBillInfo={!hideNextBillInfo}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
                     keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
-                    showNextBillInfo={true}
+                    showNextBillInfo={!hideNextBillInfo}
                   />
                 ) : isKhusus ? (
                   <BillingTableView2
@@ -517,7 +519,7 @@ export default function TransaksiAnggotaView2({
                     selected={selected}
                     setSelected={setSelected}
                     isLocked={true}
-                    showNextBillInfo={true}
+                    showNextBillInfo={!hideNextBillInfo}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
                     keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
@@ -531,7 +533,7 @@ export default function TransaksiAnggotaView2({
                     selected={selected}
                     setSelected={setSelected}
                     isLocked={true}
-                    showNextBillInfo={false}
+                    showNextBillInfo={!hideNextBillInfo}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
                     keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
@@ -545,7 +547,7 @@ export default function TransaksiAnggotaView2({
                     selected={selected}
                     setSelected={setSelected}
                     isLocked={true}
-                    showNextBillInfo={false}
+                    showNextBillInfo={!hideNextBillInfo}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
                     keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
@@ -581,7 +583,7 @@ export default function TransaksiAnggotaView2({
                     selected={selected}
                     setSelected={setSelected}
                     isLocked={false}
-                    showNextBillInfo={true}
+                    showNextBillInfo={!hideNextBillInfo}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
                     keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
