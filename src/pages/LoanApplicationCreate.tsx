@@ -52,9 +52,9 @@ const UI = {
   h: "h-[30px]",
   text: "text-[12.5px]",
   gapY: "gap-[15px]",
-  // tambahkan warna placeholder input
+  // IMPORTANT: paksa placeholder (karena default shadcn bisa override)
   input:
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] placeholder:text-[#64748B]",
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] !placeholder:text-[#64748B]",
   selectTrigger:
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] [&_[data-placeholder]]:text-slate-500",
   btn: "h-[30px] rounded-[5px] text-[12.5px]",
