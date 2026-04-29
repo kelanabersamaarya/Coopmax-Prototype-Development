@@ -309,6 +309,8 @@ export default function RekeningPinjaman() {
   const filterCell = "px-3 py-2";
   const td = "px-3 py-2.5";
 
+  const noColW = "w-[44px] min-w-[44px] max-w-[44px]";
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -369,7 +371,7 @@ export default function RekeningPinjaman() {
                   <table className="w-full min-w-[1200px] border-collapse">
                     <thead className="bg-white">
                       <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                        <th className={cn("w-[70px] whitespace-nowrap", th)}>
+                        <th className={cn(noColW, "whitespace-nowrap", th)}>
                           <ThLabel sortable={false}>No.</ThLabel>
                         </th>
 
@@ -432,7 +434,7 @@ export default function RekeningPinjaman() {
                       </tr>
 
                       <tr className="border-b border-slate-200 bg-white">
-                        <th className={filterCell} />
+                        <th className={cn(noColW, filterCell)} />
                         <th className={filterCell}>
                           <Input
                             value={qNoRek}
@@ -546,7 +548,13 @@ export default function RekeningPinjaman() {
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                             )}
                           >
-                            <td className={cn(td, "text-left text-slate-900 tabular-nums")}>
+                            <td
+                              className={cn(
+                                td,
+                                noColW,
+                                "text-left text-slate-900 tabular-nums",
+                              )}
+                            >
                               {(page - 1) * pageSize + idx + 1}
                             </td>
 
