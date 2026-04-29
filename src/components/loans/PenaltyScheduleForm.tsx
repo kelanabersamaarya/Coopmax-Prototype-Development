@@ -13,7 +13,12 @@ import {
 } from "@/components/ui/select";
 
 export type PenaltyRateMode = "rp" | "percent";
-export type PenaltyBase = "Pokok" | "Bunga" | "Hutang Pokok" | "Hutang Bunga";
+export type PenaltyBase =
+  | "Pokok"
+  | "Bunga"
+  | "Hutang Pokok"
+  | "Hutang Bunga"
+  | "Total Tagihan";
 
 export type PenaltyScheduleDraft = {
   rateMode: PenaltyRateMode;
@@ -96,9 +101,7 @@ export default function PenaltyScheduleForm({
   const deleteW = "w-[64px]";
 
   const rateInputPlaceholder = isPercent ? "0%" : "0,00";
-  const rateInputValue = isRp
-    ? (value.rateValue || "")
-    : (value.rateValue || "");
+  const rateInputValue = isRp ? (value.rateValue || "") : value.rateValue || "";
 
   return (
     <div className={cn("w-full", className)}>
@@ -171,7 +174,7 @@ export default function PenaltyScheduleForm({
           <SelectLike
             value={value.base}
             onValueChange={(v) => onChange({ ...value, base: v as PenaltyBase })}
-            options={["Pokok", "Bunga", "Hutang Pokok", "Hutang Bunga"]}
+            options={["Pokok", "Bunga", "Hutang Pokok", "Hutang Bunga", "Total Tagihan"]}
           />
         </div>
 
