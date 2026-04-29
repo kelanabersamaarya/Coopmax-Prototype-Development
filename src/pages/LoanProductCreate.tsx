@@ -23,6 +23,7 @@ import PenaltyRateField, {
 } from "@/components/loans/PenaltyRateField";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import { cn } from "@/lib/utils";
+import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -779,7 +780,22 @@ export default function LoanProductCreate() {
                 Konfigurasi Fee Kolektor
               </div>
               <Button
-                onClick={addCollectorFee}
+                onClick={() => {
+                  setCollectorFees((prev) => [
+                    ...prev,
+                    {
+                      id: String(Date.now()),
+                      collectorKind: "Kolektor 1",
+                      feeMethod: "Plafon Pinjaman",
+                      minLoan: "1.000.000,00",
+                      maxLoan: "50.000.000,00",
+                      feePercent: "12",
+                    },
+                  ]);
+                  toast("Fee kolektor ditambahkan", {
+                    description: "Silakan sesuaikan jenis, metode, dan nominalnya.",
+                  });
+                }}
                 className="h-10 rounded-xl bg-[#2563EB] px-8 text-white hover:bg-[#1D4ED8]"
               >
                 <Plus className="mr-2 h-4 w-4" />
@@ -1020,22 +1036,10 @@ export default function LoanProductCreate() {
               ) : null}
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-              <Button
-                variant="outline"
-                className="h-10 rounded-xl border-slate-200 bg-white px-6 text-slate-800 hover:bg-slate-50"
-                onClick={() => navigate("/loan-products")}
-              >
-                Batalkan
-              </Button>
-
-              <Button
-                onClick={save}
-                className="h-10 rounded-xl bg-emerald-600 px-8 text-white hover:bg-emerald-700"
-              >
-                Simpan
-              </Button>
-            </div>
+            <LoanFormActionButtons
+              onCancel={() => navigate("/loan-products")}
+              onSave={save}
+            />
 
             <div className="sr-only">
               <Info />

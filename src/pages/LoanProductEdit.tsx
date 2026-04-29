@@ -22,6 +22,7 @@ import PenaltyRateField, {
   type PenaltyRateMode,
 } from "@/components/loans/PenaltyRateField";
 import FieldTooltip from "@/components/loans/FieldTooltip";
+import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -1102,21 +1103,10 @@ export default function LoanProductEdit() {
               </>
             ) : null}
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-              <Button
-                variant="outline"
-                className={UI.button + " border-slate-200 bg-white/60 hover:bg-white"}
-                onClick={() => navigate("/loan-products")}
-              >
-                Batalkan
-              </Button>
-              <Button
-                onClick={save}
-                className={UI.button + " bg-emerald-600 text-white hover:bg-emerald-700"}
-              >
-                Simpan
-              </Button>
-            </div>
+            <LoanFormActionButtons
+              onCancel={() => navigate("/loan-products")}
+              onSave={save}
+            />
           </Card>
         </div>
       </div>
