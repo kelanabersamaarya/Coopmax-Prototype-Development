@@ -78,20 +78,20 @@
     --app-accent: 252 83% 58%;
     --app-accent-2: 266 85% 55%;
 
-    /* Fluid layout tokens (helps with zoom up to ~125%) */
+    /* Fluid layout tokens */
     --shell-gutter: clamp(0.75rem, 1.5vw, 1.5rem);
     --shell-gap: clamp(0.75rem, 1.25vw, 1.25rem);
 
-    --sidebar-w: clamp(10.75rem, 16vw, 14.25rem); /* ~172px..228px */
+    --sidebar-w: clamp(10.75rem, 16vw, 14.25rem);
 
     --font-numeric: "Inter";
 
-    /* Global Radio (force blue) */
-    --radio-blue: #2563eb; /* blue-600 */
+    /* Global Radio */
+    --radio-blue: #2563eb;
     --radio-blue-ring: rgba(37, 99, 235, 0.25);
     --radio-blue-soft: rgba(37, 99, 235, 0.12);
 
-    /* Global "focus ring" override for fields (avoid purple outline) */
+    /* Neutral focus (no purple) */
     --field-focus-border: #cbd5e1; /* slate-300 */
   }
 
@@ -144,7 +144,7 @@
 
     --font-numeric: "Inter";
 
-    --radio-blue: #3b82f6; /* blue-500 in dark */
+    --radio-blue: #3b82f6;
     --radio-blue-ring: rgba(59, 130, 246, 0.3);
     --radio-blue-soft: rgba(59, 130, 246, 0.16);
 
@@ -194,7 +194,7 @@
   }
 }
 
-/* Utility class for "safe table scrolling" (only horizontal inside table area) */
+/* Utility class for "safe table scrolling" */
 @layer utilities {
   .safe-x-scroll {
     overflow-x: auto;
@@ -217,13 +217,12 @@
     letter-spacing: 0;
   }
 
-  /* === BillingTable: compact mode (NO scroll, NO structure change) === */
   .billing-table-compact table {
     table-layout: fixed;
   }
 
   .billing-table-compact th {
-    padding-left: 0.75rem; /* px-3 */
+    padding-left: 0.75rem;
     padding-right: 0.75rem;
     font-size: 10px;
     line-height: 1.1;
@@ -231,7 +230,7 @@
   }
 
   .billing-table-compact td {
-    padding-left: 0.75rem; /* px-3 */
+    padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
 
@@ -265,19 +264,17 @@
   display: none !important;
 }
 
-/* --- Global Radio (Radix/shadcn): make BOTH unchecked & checked blue --- */
+/* --- Global Radio --- */
 button[role="radio"][data-state="unchecked"],
 [data-radix-radio-group-item][data-state="unchecked"] {
   border-color: var(--radio-blue) !important;
   color: var(--radio-blue) !important;
 }
-
 button[role="radio"][data-state="checked"],
 [data-radix-radio-group-item][data-state="checked"] {
   border-color: var(--radio-blue) !important;
   color: var(--radio-blue) !important;
 }
-
 button[role="radio"][data-state="checked"] svg,
 button[role="radio"][data-state="checked"] [data-radix-radio-group-indicator],
 [data-radix-radio-group-item][data-state="checked"] svg,
@@ -285,19 +282,17 @@ button[role="radio"][data-state="checked"] [data-radix-radio-group-indicator],
   color: var(--radio-blue) !important;
   fill: var(--radio-blue) !important;
 }
-
 button[role="radio"]:hover,
 [data-radix-radio-group-item]:hover {
   background-color: var(--radio-blue-soft) !important;
 }
-
 button[role="radio"]:focus-visible,
 [data-radix-radio-group-item]:focus-visible {
   outline: none !important;
   box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
 }
 
-/* === GLOBAL: remove purple focus ring on form fields WITHOUT killing ring-1 borders === */
+/* === GLOBAL: no purple ring for field-like controls === */
 input:focus,
 textarea:focus,
 select:focus {
@@ -310,17 +305,39 @@ select:focus-visible {
   outline: none;
 }
 
-/* Keep border neutral on focus/open state for Radix SelectTrigger (field-like) */
-[data-slot="select-trigger"]:focus,
-[data-slot="select-trigger"]:focus-visible,
-[data-slot="select-trigger"][data-state="open"] {
-  outline: none !important;
-  border-color: var(--field-focus-border) !important;
+/* Field-like triggers used in shadcn/Radix (Select / Combobox / Popover triggers) */
+[data-slot="select-trigger"],
+[role="combobox"],
+[data-slot="popover-trigger"],
+[data-slot="dropdown-menu-trigger"] {
+  outline: none;
 }
 
-/* Turn off Tailwind focus ring only for field-like elements (not all buttons) */
-:where(input, textarea, select, [data-slot="select-trigger"]) {
+/* Kill ONLY the focus ring shadow, keep existing ring-1/border */
+:where(
+    input,
+    textarea,
+    select,
+    [data-slot="select-trigger"],
+    [role="combobox"],
+    [data-slot="popover-trigger"]
+  ):focus-visible {
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
+  box-shadow: var(--tw-shadow, 0 0 #0000) !important;
+}
+
+/* Keep border neutral (no purple) when focused/open */
+:where(
+    input,
+    textarea,
+    select,
+    [data-slot="select-trigger"],
+    [role="combobox"],
+    [data-slot="popover-trigger"]
+  ):focus,
+:where([data-slot="select-trigger"])[data-state="open"],
+:where([role="combobox"])[data-state="open"] {
+  border-color: var(--field-focus-border) !important;
 }
