@@ -808,7 +808,7 @@ export default function LoanApplicationCreate() {
                               </span>
                             </div>
 
-                            <div className="flex items-center justify-start">
+                            <div className="flex items-center justify-start md:-ml-1">
                               <Switch
                                 checked={penaltyRecurring}
                                 onCheckedChange={setPenaltyRecurring}
