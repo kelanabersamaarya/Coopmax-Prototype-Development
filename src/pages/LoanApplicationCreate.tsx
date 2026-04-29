@@ -506,7 +506,9 @@ export default function LoanApplicationCreate() {
                       <SelectTrigger
                         className={cn(
                           UI.selectTrigger,
-                          kolektorIsPlaceholder ? "text-[#64748B]" : "text-slate-900",
+                          kolektorIsPlaceholder
+                            ? "text-[#64748B]"
+                            : "text-slate-900",
                         )}
                       >
                         <SelectValue placeholder="Pilih Kolektor" />
@@ -791,8 +793,6 @@ export default function LoanApplicationCreate() {
                       />
 
                       <div className="mt-[15px] grid gap-[15px]">
-                        {/* Field "Dasar Perhitungan Denda" di bawah "Jumlah Hari Keterlambatan" dihapus (duplikat). */}
-
                         {penaltyIsPercent ? (
                           <div className="flex min-h-[30px] flex-wrap items-start gap-x-4 gap-y-2">
                             <div className="flex min-w-0 items-start gap-2 pt-[2px]">
@@ -810,7 +810,8 @@ export default function LoanApplicationCreate() {
                               </span>
                             </div>
 
-                            <div className="pt-[2px] md:ml-[112px]">
+                            {/* geser lebih ke kiri lagi */}
+                            <div className="pt-[2px] md:ml-[72px]">
                               <Switch
                                 checked={penaltyRecurring}
                                 onCheckedChange={setPenaltyRecurring}
