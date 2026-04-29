@@ -289,7 +289,10 @@ export default function BillSummaryCard({
 
             <SummaryRow label="Angsuran Ke" value={displayInstallment.ke} />
             <SummaryRow label="Angsuran Lunas" value={displayInstallment.lunas} />
-            <SummaryRow label="Angsuran Seharusnya" value={displayInstallment.seharusnya} />
+            <SummaryRow
+              label="Angsuran Seharusnya"
+              value={displayInstallment.seharusnya}
+            />
           </>
         ) : null}
       </div>
