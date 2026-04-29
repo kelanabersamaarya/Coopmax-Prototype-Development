@@ -48,10 +48,9 @@ function SummaryRow({
           strong ? "text-[14px] font-extrabold" : "text-[14px] font-bold",
         )}
       >
-        {/* FIX: wrapper ini yang menjamin jarak kanan */}
         <div
           className={cn(
-            "flex w-full items-center pr-4",
+            "flex w-full items-center",
             valueAlign === "left" ? "justify-start" : "justify-end",
           )}
         >
@@ -85,8 +84,7 @@ function SummaryRowInline({
       <span className="text-center font-semibold text-slate-400">:</span>
 
       <span className="min-w-0 tabular-nums tracking-tight text-slate-900 whitespace-nowrap font-extrabold">
-        {/* FIX: wrapper ini yang menjamin jarak kanan */}
-        <span className="flex w-full items-center justify-end pr-4">{value}</span>
+        <span className="flex w-full items-center justify-end">{value}</span>
       </span>
     </div>
   );
