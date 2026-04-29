@@ -41,6 +41,8 @@ import PenaltyScheduleForm, {
   type PenaltyScheduleDraft,
 } from "@/components/loans/PenaltyScheduleForm";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
+import { Switch } from "@/components/ui/switch";
+import FieldTooltip from "@/components/loans/FieldTooltip";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
@@ -216,6 +218,16 @@ function getTodayDmy() {
   return `${dd}-${mm}-${yyyy}`;
 }
 
+type PenaltyBase =
+  | "Pokok"
+  | "Bunga"
+  | "Hutang Pokok"
+  | "Hutang Bunga"
+  | "Berdasarkan Total tagihan";
+
+const RECURRING_TT =
+  "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi";
+
 export default function LoanApplicationCreate() {
   const navigate = useNavigate();
   const [tab, setTab] = React.useState<TabId>("general");
@@ -273,7 +285,7 @@ export default function LoanApplicationCreate() {
     getTodayDmy(),
   );
 
-  // --- Denda: sesuai menu Produk Pinjaman ---
+  // --- Denda (Jadwal Denda) ---
   const [penaltyVisible, setPenaltyVisible] = React.useState(false);
   const [penaltyDraft, setPenaltyDraft] = React.useState<PenaltyScheduleDraft>({
     rateMode: "percent",
@@ -282,9 +294,24 @@ export default function LoanApplicationCreate() {
     lateDays: "0",
   });
 
+  // tambahan konfigurasi sesuai permintaan
+  const [penaltyBase, setPenaltyBase] = React.useState<PenaltyBase>("Pokok");
+  const [penaltyRecurring, setPenaltyRecurring] = React.useState(false);
+
+  const penaltyIsRp = penaltyDraft.rateMode === "rp";
+  const penaltyIsPercent = penaltyDraft.rateMode === "percent";
+
   React.useEffect(() => {
     if (!showJadwalTab) setPenaltyVisible(false);
   }, [showJadwalTab]);
+
+  React.useEffect(() => {
+    // Saat mode Rp: dasar perhitungan tidak relevan & recurring disembunyikan
+    if (penaltyIsRp) {
+      setPenaltyBase("Pokok");
+      setPenaltyRecurring(false);
+    }
+  }, [penaltyIsRp]);
 
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
@@ -714,7 +741,9 @@ export default function LoanApplicationCreate() {
                     <div className="[&_.rounded-xl]:rounded-[5px] [&_.rounded-2xl]:rounded-[5px] [&_.rounded-3xl]:rounded-[5px] [&_.h-11]:h-[30px] [&_.h-10]:h-[30px] [&_.h-9]:h-[30px] [&_.mt-4]:mt-[15px]">
                       <PenaltyScheduleForm
                         value={penaltyDraft}
-                        onChange={setPenaltyDraft}
+                        onChange={(next) => {
+                          setPenaltyDraft(next);
+                        }}
                         onDelete={() => {
                           setPenaltyVisible(false);
                           toast("Denda dihapus (prototype)", {
@@ -722,6 +751,51 @@ export default function LoanApplicationCreate() {
                           });
                         }}
                       />
+
+                      {/* Tambahan field sesuai permintaan (hanya tampil saat ada form denda) */}
+                      <div className="mt-[15px] grid gap-[15px]">
+                        {!penaltyIsRp ? (
+                          <FieldRowInline label="Dasar Perhitungan Denda" required>
+                            <Select
+                              value={penaltyBase}
+                              onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
+                            >
+                              <SelectTrigger className={UI.selectTrigger}>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="rounded-[10px] border-slate-200">
+                                <SelectItem value="Pokok">Pokok</SelectItem>
+                                <SelectItem value="Bunga">Bunga</SelectItem>
+                                <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                                <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                                <SelectItem value="Berdasarkan Total tagihan">
+                                  Berdasarkan Total tagihan
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FieldRowInline>
+                        ) : null}
+
+                        {penaltyIsPercent ? (
+                          <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                            <div className="text-left">
+                              <div className="text-sm font-normal text-slate-900">
+                                <span className="inline-flex items-center gap-1.5">
+                                  Proses Denda Berulang (Recurring)
+                                  <FieldTooltip content={RECURRING_TT} className="ml-0" />
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center">
+                              <Switch
+                                checked={penaltyRecurring}
+                                onCheckedChange={setPenaltyRecurring}
+                              />
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
                     </div>
                   ) : null}
                 </div>
