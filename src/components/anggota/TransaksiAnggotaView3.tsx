@@ -13,5 +13,12 @@ type Props = {
 };
 
 export default function TransaksiAnggotaView3({ nasabah }: Props) {
-  return <TransaksiAnggotaView2 nasabah={nasabah} />;
+  // NOTE: View3 saat ini me-reuse View2. Agar label skema tagihan bisa berbeda,
+  // kita override value "Skema Tagihan" lewat prop tambahan.
+  return (
+    <TransaksiAnggotaView2
+      nasabah={nasabah}
+      skemaTagihanLabel="Tagihan Berdasarkan Sisa Angsuran"
+    />
+  );
 }

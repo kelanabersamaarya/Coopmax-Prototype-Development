@@ -56,6 +56,7 @@ type Props = {
     noIdentitas: string;
     alamat: string;
   };
+  skemaTagihanLabel?: string;
 };
 
 const currentBill: BillingRow = {
@@ -188,7 +189,10 @@ function PaginationLikeView1({
 
 const PELUNASAN_DENDA_FLAT = 215000;
 
-export default function TransaksiAnggotaView2({ nasabah }: Props) {
+export default function TransaksiAnggotaView2({
+  nasabah,
+  skemaTagihanLabel,
+}: Props) {
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
     "Pembayaran Reguler",
@@ -338,13 +342,16 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return formatIdrLike(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
 
-  // PERMINTAAN BARU:
   // page 2+: hilangkan teks grace period + hilangkan kotak biru
   const showGraceInfo = !usePaging || page === 1;
   const keepGraceShellWithoutInfo = false;
 
   const highlightGraceBlock =
-    (isReguler || isKhusus || isPenurunanPlafon || isPelunasan || isPenurunanBakiDebet) &&
+    (isReguler ||
+      isKhusus ||
+      isPenurunanPlafon ||
+      isPelunasan ||
+      isPenurunanBakiDebet) &&
     (!usePaging || page === 1);
 
   const pelunasanTotals = React.useMemo(() => {
@@ -394,7 +401,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                 { label: "No. Rekening Pinjaman", value: "SMG260004" },
                 {
                   label: "Skema Tagihan",
-                  value: "Jadwal Fleksibel & Tagihan Berkala",
+                  value: skemaTagihanLabel ?? "Jadwal Fleksibel & Tagihan Berkala",
                 },
                 { label: "Satuan Grace Period", value: "Bulan" },
                 { label: "Durasi Grace Period", value: "3" },
