@@ -43,6 +43,7 @@ import PenaltyScheduleForm, {
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
+import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
@@ -173,7 +174,11 @@ function LoanProductCombobox({
             UI.text,
           )}
         >
-          <span className={cn(value === "Pilih Pinjaman" ? "text-[#64748B]" : "text-slate-900")}>
+          <span
+            className={cn(
+              value === "Pilih Pinjaman" ? "text-[#64748B]" : "text-slate-900",
+            )}
+          >
             {value}
           </span>
           <ChevronDown className="h-4 w-4 text-slate-400" />
@@ -515,11 +520,11 @@ export default function LoanApplicationCreate() {
                   </FieldRowInline>
 
                   <FieldRowInline label="Tanggal Daftar" required>
-                    <Input
+                    <DatePickerDmyField
                       value={tanggal}
-                      onChange={(e) => setTanggal(e.target.value)}
-                      className={UI.input}
-                      placeholder={getTodayDmy()}
+                      onChange={setTanggal}
+                      inputClassName={UI.input}
+                      popoverAlign="end"
                     />
                   </FieldRowInline>
 
@@ -733,14 +738,12 @@ export default function LoanApplicationCreate() {
                     </FieldRowInline>
 
                     <FieldRowInline label="Tanggal Tagihan Ke-1" required>
-                      <div className="relative w-full">
-                        <Input
-                          value={tanggalTagihanKe1}
-                          onChange={(e) => setTanggalTagihanKe1(e.target.value)}
-                          className={cn(UI.input, "pr-11")}
-                        />
-                        <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                      </div>
+                      <DatePickerDmyField
+                        value={tanggalTagihanKe1}
+                        onChange={setTanggalTagihanKe1}
+                        inputClassName={UI.input}
+                        popoverAlign="end"
+                      />
                     </FieldRowInline>
                   </div>
                 </div>
