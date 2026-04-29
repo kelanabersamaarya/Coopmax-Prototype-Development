@@ -832,7 +832,7 @@ export default function LoanApplicationCreate() {
                         ) : null}
 
                         {penaltyIsPercent ? (
-                          <div className="flex min-h-[30px] items-center justify-between gap-4 rounded-[5px] bg-white py-1">
+                          <div className="grid min-h-[30px] items-center gap-4 [grid-template-columns:minmax(0,1fr)_auto]">
                             <div className="flex min-w-0 items-center gap-2">
                               <div className="min-w-0 text-[14px] font-medium text-slate-900">
                                 <span className="truncate">
