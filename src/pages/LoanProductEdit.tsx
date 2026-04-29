@@ -1013,7 +1013,7 @@ export default function LoanProductEdit() {
                       </FieldRow>
 
                       <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                        <div className="pt-1 text-sm font-normal text-slate-900">
+                        <div className="flex items-center justify-between gap-3 pt-1 text-sm font-normal text-slate-900 md:block md:pt-1">
                           <span className="inline-flex items-center gap-2">
                             Proses Denda Berulang (Recurring)
                             <FieldTooltip content={TT.recurringPenalty} />
