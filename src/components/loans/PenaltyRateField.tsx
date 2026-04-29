@@ -68,15 +68,23 @@ export default function PenaltyRateField({
     radius,
     text,
     "w-full",
-    "border-slate-200 bg-white",
+    "border border-slate-200 bg-white",
     "pl-3 pr-9",
     "font-medium text-slate-900",
     "shadow-sm",
-    "focus:outline-none focus:ring-0 focus-visible:ring-0",
-    "focus-visible:border-slate-300",
+    // hilangkan ring ungu (focus)
+    "outline-none",
+    "focus:outline-none focus:ring-0 focus:ring-offset-0",
+    "focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    // jaga border tetap abu saat focus (bukan ungu)
+    "focus:border-slate-300 focus-visible:border-slate-300",
+    // juga matikan semua ring yang mungkin diset via data-state
+    "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
+    // value jangan kepotong
     "[&_[data-slot=select-value]]:whitespace-nowrap",
     "[&_[data-slot=select-value]]:pr-4",
     "[&_[data-slot=select-value]]:truncate-0",
+    // hide chevron bawaan shadcn
     "[&>svg]:hidden",
   );
 
