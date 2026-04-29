@@ -93,6 +93,10 @@
     --radio-blue: #2563eb; /* blue-600 */
     --radio-blue-ring: rgba(37, 99, 235, 0.25);
     --radio-blue-soft: rgba(37, 99, 235, 0.12);
+
+    /* Global "focus ring" override for fields (avoid purple outline) */
+    --field-focus: rgba(100, 116, 139, 0.28); /* slate-500 w/ alpha */
+    --field-focus-border: #cbd5e1; /* slate-300 */
   }
 
   .dark {
@@ -148,6 +152,9 @@
     --radio-blue: #3b82f6; /* blue-500 in dark */
     --radio-blue-ring: rgba(59, 130, 246, 0.3);
     --radio-blue-soft: rgba(59, 130, 246, 0.16);
+
+    --field-focus: rgba(148, 163, 184, 0.22); /* slate-400 w/ alpha */
+    --field-focus-border: #475569; /* slate-600 */
   }
 }
 
@@ -295,4 +302,54 @@ button[role="radio"]:focus-visible,
 [data-radix-radio-group-item]:focus-visible {
   outline: none !important;
   box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
+}
+
+/* === GLOBAL: remove purple focus ring on all form fields (inputs/selects/textarea) ===
+   This targets:
+   - native inputs/select/textarea
+   - shadcn Input / Textarea (ring utilities)
+   - Radix SelectTrigger, PopoverTrigger buttons used as fields
+*/
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: none;
+}
+
+/* Tailwind ring-based focus (common in shadcn) */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible,
+[data-slot="select-trigger"]:focus-visible,
+[data-slot="popover-trigger"]:focus-visible,
+[data-slot="combobox-trigger"]:focus-visible,
+[role="combobox"]:focus-visible,
+[role="listbox"]:focus-visible {
+  box-shadow: 0 0 0 0 transparent !important;
+}
+
+/* Ensure border does NOT turn purple after selecting/opening */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus,
+[data-slot="select-trigger"]:focus,
+[data-slot="select-trigger"][data-state="open"] {
+  border-color: var(--field-focus-border) !important;
+}
+
+/* Some Radix/shadcn components use ring via CSS vars; force ring off */
+:where(input, textarea, select, button, [data-slot="select-trigger"]) {
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-color: transparent !important;
 }
