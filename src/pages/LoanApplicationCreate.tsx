@@ -842,21 +842,6 @@ export default function LoanApplicationCreate() {
                             </div>
                           </div>
                         ) : null}
-
-                        <FieldRowInline label="Jumlah Hari Keterlambatan">
-                          <Input
-                            value={penaltyDraft.lateDays}
-                            onChange={(e) =>
-                              setPenaltyDraft((p) => ({
-                                ...p,
-                                lateDays: e.target.value,
-                              }))
-                            }
-                            className={cn(UI.input, "w-full")}
-                            placeholder="0"
-                            inputMode="numeric"
-                          />
-                        </FieldRowInline>
                       </div>
                     </div>
                   ) : null}
