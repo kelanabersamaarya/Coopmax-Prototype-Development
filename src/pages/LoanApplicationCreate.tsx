@@ -682,7 +682,9 @@ export default function LoanApplicationCreate() {
                         value={jenisPerhitunganBunga}
                         onValueChange={setJenisPerhitunganBunga}
                       >
-                        <SelectTrigger className={cn("w-full px-3", UI.selectTrigger)}>
+                        <SelectTrigger
+                          className={cn("w-full px-3", UI.selectTrigger)}
+                        >
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
@@ -801,14 +803,18 @@ export default function LoanApplicationCreate() {
                               value={penaltyBase}
                               onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
                             >
-                              <SelectTrigger className={cn(UI.selectTrigger, "text-slate-900")}>
+                              <SelectTrigger className={cn(UI.selectTrigger, "w-full")}>
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent className="rounded-[10px] border-slate-200">
                                 <SelectItem value="Pokok">Pokok</SelectItem>
                                 <SelectItem value="Bunga">Bunga</SelectItem>
-                                <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                                <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                                <SelectItem value="Hutang Pokok">
+                                  Hutang Pokok
+                                </SelectItem>
+                                <SelectItem value="Hutang Bunga">
+                                  Hutang Bunga
+                                </SelectItem>
                                 <SelectItem value="Berdasarkan Total tagihan">
                                   Berdasarkan Total tagihan
                                 </SelectItem>
@@ -836,6 +842,21 @@ export default function LoanApplicationCreate() {
                             </div>
                           </div>
                         ) : null}
+
+                        <FieldRowInline label="Jumlah Hari Keterlambatan">
+                          <Input
+                            value={penaltyDraft.lateDays}
+                            onChange={(e) =>
+                              setPenaltyDraft((p) => ({
+                                ...p,
+                                lateDays: e.target.value,
+                              }))
+                            }
+                            className={cn(UI.input, "w-full")}
+                            placeholder="0"
+                            inputMode="numeric"
+                          />
+                        </FieldRowInline>
                       </div>
                     </div>
                   ) : null}
