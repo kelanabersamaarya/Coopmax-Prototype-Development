@@ -55,8 +55,8 @@ const UI = {
   sectionTitle: "text-[16px] font-semibold tracking-tight text-slate-900",
 } as const;
 
-const ACTION_BTN_SM =
-  "h-9 rounded-xl px-4 text-[13px] font-semibold text-white transition";
+const SIM_BUTTON =
+  "inline-flex items-center justify-center gap-1.5 rounded-[6px] px-2 text-[11px] font-bold tracking-tight text-white focus:outline-none focus-visible:ring-4 w-full h-10 sm:w-[90px] sm:h-[28px] bg-blue-600 ring-1 ring-blue-600/25 transition hover:bg-blue-700 focus-visible:ring-blue-600/25";
 
 function FieldRowInline({
   label,
@@ -577,8 +577,9 @@ export default function LoanApplicationCreate() {
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                  <Button
-                    className={cn(ACTION_BTN_SM, "bg-blue-600 hover:bg-blue-700")}
+                  <button
+                    type="button"
+                    className={SIM_BUTTON}
                     onClick={() =>
                       toast("Simulasi (prototype)", {
                         description:
@@ -586,9 +587,9 @@ export default function LoanApplicationCreate() {
                       })
                     }
                   >
-                    <CalendarDays className="mr-2 h-4 w-4" />
+                    <CalendarDays className="h-4 w-4" />
                     Simulasi
-                  </Button>
+                  </button>
 
                   <LoanFormActionButtons
                     onCancel={() => navigate("/loans/applications")}
@@ -726,8 +727,9 @@ export default function LoanApplicationCreate() {
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                  <Button
-                    className={cn(ACTION_BTN_SM, "bg-blue-600 hover:bg-blue-700")}
+                  <button
+                    type="button"
+                    className={SIM_BUTTON}
                     onClick={() =>
                       toast("Simulasi (prototype)", {
                         description:
@@ -735,9 +737,9 @@ export default function LoanApplicationCreate() {
                       })
                     }
                   >
-                    <CalendarDays className="mr-2 h-4 w-4" />
+                    <CalendarDays className="h-4 w-4" />
                     Simulasi
-                  </Button>
+                  </button>
 
                   <LoanFormActionButtons
                     onCancel={() => navigate("/loans/applications")}
