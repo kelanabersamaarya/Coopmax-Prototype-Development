@@ -53,7 +53,6 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        // style seperti referensi: header abu muda + border tipis
         "border border-slate-300 bg-slate-50 px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
@@ -85,7 +84,6 @@ function Td({
     <td
       title={title}
       className={cn(
-        // body lebih flat + rapat
         "border border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
@@ -555,8 +553,9 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
+                      {/* UBAH: jangan ubah Lancar menjadi "-" */}
                       <Td className={cn(colW.kolektibilitas, "whitespace-nowrap")} align="left">
-                        {kolek === "Lancar" ? "-" : kolek}
+                        {kolek}
                       </Td>
                     </tr>
                   );
