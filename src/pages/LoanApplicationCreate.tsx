@@ -52,7 +52,6 @@ const UI = {
   h: "h-[30px]",
   text: "text-[12.5px]",
   gapY: "gap-[15px]",
-  // IMPORTANT: paksa placeholder (karena default shadcn bisa override)
   input:
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] !placeholder:text-[#64748B]",
   selectTrigger:
@@ -67,6 +66,10 @@ const SIM_BUTTON =
 function isPlaceholderValue(v: string) {
   const s = (v ?? "").trim().toLowerCase();
   return s.startsWith("pilih ") || s === "semua";
+}
+
+function isDefaultMoney(v: string) {
+  return (v ?? "").trim() === "0,00" || (v ?? "").trim() === "0";
 }
 
 function FieldRowInline({
@@ -307,7 +310,6 @@ export default function LoanApplicationCreate() {
     lateDays: "0",
   });
 
-  // tambahan konfigurasi sesuai permintaan
   const [penaltyBase, setPenaltyBase] = React.useState<PenaltyBase>("Pokok");
   const [penaltyRecurring, setPenaltyRecurring] = React.useState(false);
 
@@ -319,7 +321,6 @@ export default function LoanApplicationCreate() {
   }, [showJadwalTab]);
 
   React.useEffect(() => {
-    // Saat mode Rp: dasar perhitungan tidak relevan & recurring disembunyikan
     if (penaltyIsRp) {
       setPenaltyBase("Pokok");
       setPenaltyRecurring(false);
@@ -361,6 +362,9 @@ export default function LoanApplicationCreate() {
   const sektorIsPlaceholder = isPlaceholderValue(sektorPinjaman);
   const tujuanIsPlaceholder = isPlaceholderValue(tujuanPeminjaman);
   const metodeBungaIsPlaceholder = isPlaceholderValue(metodeBunga);
+
+  const moneyLikeText = (v: string) =>
+    isDefaultMoney(v) ? "text-[#64748B]" : "text-slate-900";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -628,7 +632,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={besarPinjaman}
                       onChange={(e) => setBesarPinjaman(e.target.value)}
-                      className={UI.input}
+                      className={cn(UI.input, moneyLikeText(besarPinjaman))}
                       placeholder="0,00"
                     />
                   </FieldRowInline>
@@ -637,7 +641,7 @@ export default function LoanApplicationCreate() {
                     <Input
                       value={jangkaWaktu}
                       onChange={(e) => setJangkaWaktu(e.target.value)}
-                      className={UI.input}
+                      className={cn(UI.input, moneyLikeText(jangkaWaktu))}
                       placeholder="0,00"
                     />
                   </FieldRowInline>
