@@ -61,6 +61,11 @@ const UI = {
 const SIM_BUTTON =
   "inline-flex items-center justify-center gap-1.5 rounded-[6px] px-2 text-[11px] font-bold tracking-tight text-white focus:outline-none focus-visible:ring-4 w-full h-10 sm:w-[90px] sm:h-[28px] bg-blue-600 ring-1 ring-blue-600/25 transition hover:bg-blue-700 focus-visible:ring-blue-600/25";
 
+function isPlaceholderValue(v: string) {
+  const s = (v ?? "").trim().toLowerCase();
+  return s.startsWith("pilih ") || s === "semua";
+}
+
 function FieldRowInline({
   label,
   required,
@@ -162,13 +167,13 @@ function LoanProductCombobox({
         <button
           type="button"
           className={cn(
-            "flex w-full items-center justify-between border border-slate-200 bg-white px-3 text-left font-medium text-slate-900 shadow-sm transition hover:bg-slate-50",
+            "flex w-full items-center justify-between border border-slate-200 bg-white px-3 text-left font-medium shadow-sm transition hover:bg-slate-50",
             UI.h,
             UI.radius,
             UI.text,
           )}
         >
-          <span className={cn(value === "Pilih Pinjaman" ? "text-slate-500" : "")}>
+          <span className={cn(value === "Pilih Pinjaman" ? "text-[#64748B]" : "text-slate-900")}>
             {value}
           </span>
           <ChevronDown className="h-4 w-4 text-slate-400" />
@@ -345,6 +350,11 @@ export default function LoanApplicationCreate() {
       : []),
   ];
 
+  const kolektorIsPlaceholder = isPlaceholderValue(kolektor);
+  const sektorIsPlaceholder = isPlaceholderValue(sektorPinjaman);
+  const tujuanIsPlaceholder = isPlaceholderValue(tujuanPeminjaman);
+  const metodeBungaIsPlaceholder = isPlaceholderValue(metodeBunga);
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -486,7 +496,12 @@ export default function LoanApplicationCreate() {
 
                   <FieldRowInline label="Kolektor" required>
                     <Select value={kolektor} onValueChange={setKolektor}>
-                      <SelectTrigger className={UI.selectTrigger}>
+                      <SelectTrigger
+                        className={cn(
+                          UI.selectTrigger,
+                          kolektorIsPlaceholder ? "text-[#64748B]" : "text-slate-900",
+                        )}
+                      >
                         <SelectValue placeholder="Pilih Kolektor" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
@@ -530,7 +545,12 @@ export default function LoanApplicationCreate() {
                       value={sektorPinjaman}
                       onValueChange={setSektorPinjaman}
                     >
-                      <SelectTrigger className={UI.selectTrigger}>
+                      <SelectTrigger
+                        className={cn(
+                          UI.selectTrigger,
+                          sektorIsPlaceholder ? "text-[#64748B]" : "text-slate-900",
+                        )}
+                      >
                         <SelectValue placeholder="Pilih Sektor Pinjaman" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
@@ -549,7 +569,12 @@ export default function LoanApplicationCreate() {
                       value={tujuanPeminjaman}
                       onValueChange={setTujuanPeminjaman}
                     >
-                      <SelectTrigger className={UI.selectTrigger}>
+                      <SelectTrigger
+                        className={cn(
+                          UI.selectTrigger,
+                          tujuanIsPlaceholder ? "text-[#64748B]" : "text-slate-900",
+                        )}
+                      >
                         <SelectValue placeholder="Pilih Tujuan Peminjaman" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
@@ -573,7 +598,12 @@ export default function LoanApplicationCreate() {
 
                   <FieldRowInline label="Metode Bunga Pinjaman" required>
                     <Select value={metodeBunga} onValueChange={setMetodeBunga}>
-                      <SelectTrigger className={UI.selectTrigger}>
+                      <SelectTrigger
+                        className={cn(
+                          UI.selectTrigger,
+                          metodeBungaIsPlaceholder ? "text-[#64748B]" : "text-slate-900",
+                        )}
+                      >
                         <SelectValue placeholder="Pilih Metode Bunga Pinjaman" />
                       </SelectTrigger>
                       <SelectContent className={cn(UI.radius, "border-slate-200")}>
@@ -760,7 +790,7 @@ export default function LoanApplicationCreate() {
                               value={penaltyBase}
                               onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
                             >
-                              <SelectTrigger className={UI.selectTrigger}>
+                              <SelectTrigger className={cn(UI.selectTrigger, "text-slate-900")}>
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent className="rounded-[10px] border-slate-200">
