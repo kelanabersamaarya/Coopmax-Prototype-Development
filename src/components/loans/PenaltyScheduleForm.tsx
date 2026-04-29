@@ -17,7 +17,7 @@ export type PenaltyBase = "Pokok" | "Bunga" | "Hutang Pokok" | "Hutang Bunga";
 
 export type PenaltyScheduleDraft = {
   rateMode: PenaltyRateMode;
-  rateValue: string; // contoh: "0%" atau "Rp. 0"
+  rateValue: string; // contoh: "0%" atau "0,00"
   base: PenaltyBase;
   lateDays: string; // numeric string
 };
@@ -70,11 +70,12 @@ function normalizeRateValueForMode(mode: PenaltyRateMode, value: string) {
     return v;
   }
 
-  // mode === "rp"
-  if (v === "" || v === "0" || v === "0,00" || v === "0%" || v === "Rp. 0")
-    return "Rp. 0";
-  if (v.toLowerCase().startsWith("rp")) return v;
-  return `Rp. ${v}`;
+  // mode === "rp" (gunakan format numeric-like: 0,00)
+  if (v === "" || v === "0" || v === "0%" || v === "Rp. 0") return "0,00";
+
+  // Jika sebelumnya ada "Rp." (sisa dari versi lama), bersihkan.
+  const cleaned = v.replace(/^rp\.?\s*/i, "");
+  return cleaned;
 }
 
 export default function PenaltyScheduleForm({
@@ -89,9 +90,15 @@ export default function PenaltyScheduleForm({
   className?: string;
 }) {
   const isPercent = value.rateMode === "percent";
+  const isRp = value.rateMode === "rp";
 
   // lebar tombol delete agar semua baris sejajar
   const deleteW = "w-[64px]";
+
+  const rateInputPlaceholder = isPercent ? "0%" : "0,00";
+  const rateInputValue = isRp
+    ? (value.rateValue || "")
+    : (value.rateValue || "");
 
   return (
     <div className={cn("w-full", className)}>
@@ -125,11 +132,15 @@ export default function PenaltyScheduleForm({
           </Select>
 
           <Input
-            value={value.rateValue}
+            value={rateInputValue}
             onChange={(e) => onChange({ ...value, rateValue: e.target.value })}
-            className="h-11 w-full rounded-xl border-slate-200 bg-white"
-            placeholder={isPercent ? "0%" : "Rp. 0"}
-            inputMode="text"
+            className={cn(
+              "h-11 w-full rounded-xl border-slate-200 bg-white",
+              // placeholder seperti contoh: abu-abu dan jelas
+              "placeholder:text-slate-400",
+            )}
+            placeholder={rateInputPlaceholder}
+            inputMode={isPercent ? "decimal" : "decimal"}
             aria-label="Metode denda"
           />
         </div>
@@ -174,7 +185,10 @@ export default function PenaltyScheduleForm({
         <Input
           value={value.lateDays}
           onChange={(e) => onChange({ ...value, lateDays: e.target.value })}
-          className="h-11 w-full rounded-xl border-slate-200 bg-white"
+          className={cn(
+            "h-11 w-full rounded-xl border-slate-200 bg-white",
+            "placeholder:text-slate-400",
+          )}
           placeholder="0"
           inputMode="numeric"
         />
