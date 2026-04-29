@@ -59,21 +59,24 @@ export default function PenaltyRateField({
   const radius = size === "compact" ? "rounded-[6px]" : "rounded-2xl";
   const text = size === "compact" ? "text-[12.5px]" : "";
 
-  // Selector box: mirip contoh (kotak kecil, lebar pas, caret di kanan)
-  const selectW = size === "compact" ? "w-[72px]" : "w-[84px]";
+  const selectW = size === "compact" ? "w-[74px]" : "w-[86px]";
+
+  // IMPORTANT: shadcn SelectTrigger biasanya punya caret absolute di kanan-3.
+  // Kita pastikan ada ruang kanan (pr-9) dan paksa icon di ujung kanan.
   const selectTriggerCls = cn(
     h,
     radius,
     text,
     "w-full",
     "border-slate-200 bg-white",
-    "px-3 pr-8",
+    "pl-3 pr-9",
     "font-medium text-slate-900",
     "shadow-sm",
     "focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-    "data-[placeholder]:text-slate-900",
-    "[&>span]:truncate",
-    // rapikan icon caret
+    // pastikan isi tidak dorong caret
+    "[&>span]:block [&>span]:truncate [&>span]:pr-1",
+    // paksa chevron selalu nempel kanan
+    "[&>svg]:absolute [&>svg]:right-2.5 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2",
     "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-slate-500",
   );
 
@@ -87,11 +90,12 @@ export default function PenaltyRateField({
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
         <div className={cn("flex shrink-0 items-center", selectW)}>
-          <Select value={mode} onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}>
+          <Select
+            value={mode}
+            onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
+          >
             <SelectTrigger className={selectTriggerCls}>
-              <SelectValue aria-label="Mode denda">
-                {labelForMode(mode)}
-              </SelectValue>
+              <SelectValue aria-label="Mode denda">{labelForMode(mode)}</SelectValue>
             </SelectTrigger>
 
             <SelectContent className={selectContentCls}>
