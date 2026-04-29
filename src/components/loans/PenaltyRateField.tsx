@@ -17,6 +17,10 @@ function isBlankish(v: string) {
   return (v ?? "").trim() === "";
 }
 
+function labelForMode(mode: PenaltyRateMode) {
+  return mode === "rp" ? "Rp" : "%";
+}
+
 export default function PenaltyRateField({
   mode,
   onModeChange,
@@ -52,34 +56,46 @@ export default function PenaltyRateField({
   }
 
   const h = size === "compact" ? "h-[30px]" : "h-11";
-  const radius = size === "compact" ? "rounded-[5px]" : "rounded-2xl";
+  const radius = size === "compact" ? "rounded-[6px]" : "rounded-2xl";
   const text = size === "compact" ? "text-[12.5px]" : "";
 
-  // Lebarkan agar "Rp." tidak terpotong (sebelumnya terlalu sempit)
+  // Selector box: mirip contoh (kotak kecil, lebar pas, caret di kanan)
   const selectW = size === "compact" ? "w-[72px]" : "w-[84px]";
+  const selectTriggerCls = cn(
+    h,
+    radius,
+    text,
+    "w-full",
+    "border-slate-200 bg-white",
+    "px-3 pr-8",
+    "font-medium text-slate-900",
+    "shadow-sm",
+    "focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
+    "data-[placeholder]:text-slate-900",
+    "[&>span]:truncate",
+    // rapikan icon caret
+    "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-slate-500",
+  );
+
+  const selectContentCls = cn(
+    "rounded-[10px] border-slate-200 p-1 shadow-xl",
+    "[&_[data-radix-collection-item]]:rounded-[8px]",
+    "[&_[data-state=checked]]:bg-slate-100",
+  );
 
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
-        <div className={cn("flex shrink-0 items-center gap-2", selectW)}>
-          <Select
-            value={mode}
-            onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
-          >
-            <SelectTrigger
-              className={cn(
-                h,
-                "w-full min-w-0 border-slate-200 bg-white px-2 pr-7",
-                radius,
-                text,
-              )}
-            >
-              <span className="block min-w-0 truncate">
-                <SelectValue />
-              </span>
+        <div className={cn("flex shrink-0 items-center", selectW)}>
+          <Select value={mode} onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}>
+            <SelectTrigger className={selectTriggerCls}>
+              <SelectValue aria-label="Mode denda">
+                {labelForMode(mode)}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent className="rounded-2xl border-slate-200">
-              <SelectItem value="rp">Rp.</SelectItem>
+
+            <SelectContent className={selectContentCls}>
+              <SelectItem value="rp">Rp</SelectItem>
               <SelectItem value="percent">%</SelectItem>
             </SelectContent>
           </Select>
@@ -88,7 +104,15 @@ export default function PenaltyRateField({
         <Input
           value={value}
           onChange={(e) => onValueChange(e.target.value)}
-          className={cn(h, "w-full border-slate-200 bg-white", radius, text)}
+          className={cn(
+            h,
+            radius,
+            text,
+            "w-full border-slate-200 bg-white",
+            "placeholder:text-slate-400",
+            "shadow-sm",
+            "focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20",
+          )}
           placeholder={isPercent ? "0%" : "0,00"}
           inputMode="decimal"
         />
