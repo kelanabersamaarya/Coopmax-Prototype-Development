@@ -90,28 +90,29 @@ export default function AnggotaTransaksi() {
           </div>
         ) : null}
 
-        {/* Area transaksi: scroll horizontal terjadi DI DALAM section putih ini */}
-        <div className="-mx-4 md:-mx-6">
-          {/* Wrapper tabel: rounded dibuat 5px */}
-          <div className="overflow-x-auto px-2 pb-2 md:px-3">
-            <div className="min-w-0 overflow-hidden rounded-[5px] bg-white/80 ring-1 ring-slate-200">
-              <div className="min-w-0 p-2 sm:p-3">
-                {showView1 && selected ? (
-                  <TransaksiAnggotaView1 nasabah={selected} />
-                ) : showView3 && selected ? (
-                  <TransaksiAnggotaView3 nasabah={selected} />
-                ) : showView2 && selected ? (
-                  <TransaksiAnggotaView2 nasabah={selected} />
-                ) : selected ? (
-                  <div className="rounded-[5px] bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
-                    Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
-                    pertama & kedua yang memiliki tampilan khusus.)
-                  </div>
-                ) : null}
+        {/* Area transaksi hanya muncul setelah nasabah dipilih (menghilangkan bar putih panjang saat awal). */}
+        {selected ? (
+          <div className="-mx-4 md:-mx-6">
+            <div className="overflow-x-auto px-2 pb-2 md:px-3">
+              <div className="min-w-0 overflow-hidden rounded-[5px] bg-white/80 ring-1 ring-slate-200">
+                <div className="min-w-0 p-2 sm:p-3">
+                  {showView1 ? (
+                    <TransaksiAnggotaView1 nasabah={selected} />
+                  ) : showView3 ? (
+                    <TransaksiAnggotaView3 nasabah={selected} />
+                  ) : showView2 ? (
+                    <TransaksiAnggotaView2 nasabah={selected} />
+                  ) : (
+                    <div className="rounded-[5px] bg-white/80 p-4 text-sm text-slate-700 ring-1 ring-slate-200">
+                      Tampilan untuk nasabah ini belum dibuat. (Saat ini baru anggota
+                      pertama & kedua yang memiliki tampilan khusus.)
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );
