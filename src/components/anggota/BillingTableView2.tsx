@@ -234,8 +234,14 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  const cellY = rowDensity === "roomy" ? "py-8" : "py-4";
-  const rowShellDensity: "default" | "roomy" = rowDensity;
+  // Penurunan Baki Debet (hideSelection) terlihat terlalu tinggi dibanding mode lain,
+  // jadi kita pakai padding lebih compact untuk menyamakan tinggi baris.
+  const effectiveDensity: "default" | "roomy" = hideSelection
+    ? "default"
+    : rowDensity;
+
+  const cellY = hideSelection ? "py-3" : effectiveDensity === "roomy" ? "py-8" : "py-4";
+  const rowShellDensity: "default" | "roomy" = hideSelection ? "default" : effectiveDensity;
 
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
