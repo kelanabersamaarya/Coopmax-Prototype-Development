@@ -235,7 +235,7 @@ type PenaltyBase =
   | "Bunga"
   | "Hutang Pokok"
   | "Hutang Bunga"
-  | "Berdasarkan Total tagihan";
+  | "Total Tagihan";
 
 const RECURRING_TT =
   "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi";
@@ -816,6 +816,15 @@ export default function LoanApplicationCreate() {
                             </div>
                           </div>
                         ) : null}
+                      </div>
+
+                      <div className="sr-only">
+                        <button
+                          type="button"
+                          onClick={() => setPenaltyBase(penaltyBase)}
+                        >
+                          sync
+                        </button>
                       </div>
                     </div>
                   ) : null}
