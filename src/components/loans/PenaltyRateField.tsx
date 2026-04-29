@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
 
 export type PenaltyRateMode = "rp" | "percent";
 
@@ -61,28 +62,29 @@ export default function PenaltyRateField({
 
   const selectW = size === "compact" ? "w-[74px]" : "w-[86px]";
 
-  // Kunci:
-  // - Chevron harus di ujung kanan -> absolute right-2.5
-  // - Label "Rp" / "%" jangan kepotong -> jangan kasih padding kanan berlebihan di value
-  // - Tetap ada ruang untuk chevron -> pr-8 pada trigger + pr-4 pada value
+  // Kita pakai chevron custom (bukan bawaan shadcn) supaya selalu muncul.
+  // Maka:
+  // - sembunyikan svg default (kalau ada)
+  // - buat ruang kanan untuk chevron custom (pr-9)
+  // - pastikan label Rp/% tidak ketutup (SelectValue: pr-4, no truncate)
   const selectTriggerCls = cn(
+    "relative",
     h,
     radius,
     text,
     "w-full",
     "border-slate-200 bg-white",
-    "pl-3 pr-8",
+    "pl-3 pr-9",
     "font-semibold text-slate-900",
     "shadow-sm",
     "focus:outline-none focus:ring-0 focus-visible:ring-0",
     "focus-visible:border-slate-300",
-    // pastikan value tidak ditrim jadi "R..."
+    // pastikan value tetap utuh (Rp/%)
     "[&_[data-slot=select-value]]:whitespace-nowrap",
-    "[&_[data-slot=select-value]]:truncate",
-    // beri ruang secukupnya untuk chevron (tanpa bikin 'Rp' kepotong)
     "[&_[data-slot=select-value]]:pr-4",
-    // paksa chevron di kanan
-    "[&>svg]:absolute [&>svg]:right-2.5 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2",
+    "[&_[data-slot=select-value]]:truncate-0",
+    // hide chevron bawaan shadcn kalau muncul
+    "[&>svg]:hidden",
   );
 
   const selectContentCls = cn(
@@ -100,7 +102,13 @@ export default function PenaltyRateField({
             onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
           >
             <SelectTrigger className={selectTriggerCls}>
-              <SelectValue aria-label="Mode denda">{labelForMode(mode)}</SelectValue>
+              <SelectValue aria-label="Mode denda">
+                {labelForMode(mode)}
+              </SelectValue>
+
+              <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
+                <ChevronDown className="h-4 w-4" />
+              </span>
             </SelectTrigger>
 
             <SelectContent className={selectContentCls}>
