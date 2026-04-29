@@ -229,6 +229,9 @@ const TT = {
 
   gracePeriodBunga:
     "Grace period bunga adalah periode awal pinjaman dimana nasabah hanya membayar bunga tanpa membayar pokok pinjaman",
+
+  recurringPenalty:
+    "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi",
 } as const;
 
 export default function LoanProductCreate() {
@@ -958,7 +961,10 @@ export default function LoanProductCreate() {
 
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
-                            Denda Berulang
+                            <span className="inline-flex items-center gap-2">
+                              Proses Denda Berulang (Recurring)
+                              <FieldTooltip content={TT.recurringPenalty} />
+                            </span>
                           </div>
                           <div className="flex items-center gap-3">
                             <Switch
