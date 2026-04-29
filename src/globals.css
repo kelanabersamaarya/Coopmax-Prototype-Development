@@ -61,7 +61,6 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    /* Restore default ring token (can stay colorful); we will disable ring via CSS instead */
     --ring: 252 83% 58%;
 
     --radius: 1.1rem;
@@ -125,7 +124,6 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
 
-    /* Restore default-ish ring token for dark too */
     --ring: 252 83% 68%;
 
     --sidebar-background: 240 5.9% 10%;
@@ -296,67 +294,32 @@ button[role="radio"]:focus-visible,
   box-shadow: 0 0 0 4px var(--radio-blue-ring) !important;
 }
 
-/* === GLOBAL: remove OUTER focus ring for field-like controls (keep border) === */
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-}
-
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: none;
-}
-
-/* Targets: shadcn/Radix triggers */
-[data-slot="select-trigger"],
-[role="combobox"],
-[data-slot="popover-trigger"],
-[data-slot="dropdown-menu-trigger"] {
-  outline: none;
-}
-
-/* Remove ring + ring-offset on focus-visible */
-:where(
-    input,
-    textarea,
-    select,
-    [data-slot="select-trigger"],
-    [role="combobox"],
-    [data-slot="popover-trigger"],
-    [data-slot="dropdown-menu-trigger"]
-  ):focus-visible {
+/* === GLOBAL: kill Tailwind ring (focus ring) everywhere === */
+:where(*):focus-visible {
+  outline: none !important;
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
   --tw-ring-offset-width: 0px !important;
 }
 
-/* Remove ring + ring-offset when Radix marks open (Select/DropdownMenu/etc.) */
-:where(
-    [data-slot="select-trigger"],
-    [role="combobox"],
-    [data-slot="dropdown-menu-trigger"]
-  )[data-state="open"] {
+/* Also when Radix keeps elements "open" */
+:where(*[data-state="open"]) {
   --tw-ring-color: transparent !important;
   --tw-ring-shadow: 0 0 #0000 !important;
   --tw-ring-offset-shadow: 0 0 #0000 !important;
   --tw-ring-offset-width: 0px !important;
 }
 
-/* Keep border neutral on focus/open */
+/* Keep border neutral on focus/open for field-like controls */
+:where(input, textarea, select):focus {
+  border-color: var(--field-focus-border) !important;
+}
 :where(
-    input,
-    textarea,
-    select,
     [data-slot="select-trigger"],
     [role="combobox"],
     [data-slot="popover-trigger"],
     [data-slot="dropdown-menu-trigger"]
   ):focus {
-  border-color: var(--field-focus-border) !important;
-}
-:where([data-slot="select-trigger"], [role="combobox"], [data-slot="dropdown-menu-trigger"])[data-state="open"] {
   border-color: var(--field-focus-border) !important;
 }
