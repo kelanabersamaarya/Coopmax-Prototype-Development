@@ -791,43 +791,7 @@ export default function LoanApplicationCreate() {
                       />
 
                       <div className="mt-[15px] grid gap-[15px]">
-                        {!penaltyIsRp ? (
-                          <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-center">
-                            <div className="text-sm font-normal text-slate-800">
-                              Dasar Perhitungan Denda
-                            </div>
-
-                            <div className="min-w-0">
-                              <Select
-                                value={penaltyBase}
-                                onValueChange={(v) =>
-                                  setPenaltyBase(v as PenaltyBase)
-                                }
-                              >
-                                <SelectTrigger
-                                  className={cn(UI.selectTrigger, "w-full")}
-                                >
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent className="rounded-[10px] border-slate-200">
-                                  <SelectItem value="Pokok">Pokok</SelectItem>
-                                  <SelectItem value="Bunga">Bunga</SelectItem>
-                                  <SelectItem value="Hutang Pokok">
-                                    Hutang Pokok
-                                  </SelectItem>
-                                  <SelectItem value="Hutang Bunga">
-                                    Hutang Bunga
-                                  </SelectItem>
-                                  <SelectItem value="Berdasarkan Total tagihan">
-                                    Berdasarkan Total tagihan
-                                  </SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-
-                            <div className="hidden md:block" />
-                          </div>
-                        ) : null}
+                        {/* Field "Dasar Perhitungan Denda" di bawah "Jumlah Hari Keterlambatan" dihapus (duplikat). */}
 
                         {penaltyIsPercent ? (
                           <div className="flex min-h-[30px] flex-wrap items-start gap-x-4 gap-y-2">
@@ -846,7 +810,6 @@ export default function LoanApplicationCreate() {
                               </span>
                             </div>
 
-                            {/* offset dikurangi agar switch tidak terlalu ke tengah */}
                             <div className="pt-[2px] md:ml-[112px]">
                               <Switch
                                 checked={penaltyRecurring}
