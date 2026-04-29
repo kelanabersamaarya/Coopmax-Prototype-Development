@@ -61,25 +61,27 @@ export default function PenaltyRateField({
 
   const selectW = size === "compact" ? "w-[74px]" : "w-[86px]";
 
-  // Tujuan:
-  // 1) Chevron benar-benar di ujung kanan trigger
-  // 2) Value tidak boleh ketutup chevron (beri padding kanan pada value)
-  // 3) Hilangkan ring ungu luar
+  // Kunci:
+  // - Chevron harus di ujung kanan -> absolute right-2.5
+  // - Label "Rp" / "%" jangan kepotong -> jangan kasih padding kanan berlebihan di value
+  // - Tetap ada ruang untuk chevron -> pr-8 pada trigger + pr-4 pada value
   const selectTriggerCls = cn(
     h,
     radius,
     text,
     "w-full",
     "border-slate-200 bg-white",
-    "pl-3 pr-9",
-    "font-medium text-slate-900",
+    "pl-3 pr-8",
+    "font-semibold text-slate-900",
     "shadow-sm",
     "focus:outline-none focus:ring-0 focus-visible:ring-0",
     "focus-visible:border-slate-300",
-    // value: tambah ruang kanan supaya '%' tidak ketutup
-    "[&_[data-slot=select-value]]:pr-6",
-    "[&>span]:pr-6",
-    // chevron: paksa nempel kanan (kalau ada svg icon di trigger)
+    // pastikan value tidak ditrim jadi "R..."
+    "[&_[data-slot=select-value]]:whitespace-nowrap",
+    "[&_[data-slot=select-value]]:truncate",
+    // beri ruang secukupnya untuk chevron (tanpa bikin 'Rp' kepotong)
+    "[&_[data-slot=select-value]]:pr-4",
+    // paksa chevron di kanan
     "[&>svg]:absolute [&>svg]:right-2.5 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2",
   );
 
@@ -98,9 +100,7 @@ export default function PenaltyRateField({
             onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
           >
             <SelectTrigger className={selectTriggerCls}>
-              <SelectValue aria-label="Mode denda">
-                {labelForMode(mode)}
-              </SelectValue>
+              <SelectValue aria-label="Mode denda">{labelForMode(mode)}</SelectValue>
             </SelectTrigger>
 
             <SelectContent className={selectContentCls}>
