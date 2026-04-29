@@ -1,4 +1,3 @@
-1) dengan mengontrol showGraceInfo & highlightGraceBlock berbasis page.">
 "use client";
 
 import * as React from "react";
