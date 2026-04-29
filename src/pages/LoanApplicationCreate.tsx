@@ -721,7 +721,10 @@ export default function LoanApplicationCreate() {
                     </FieldRowInline>
 
                     <FieldRowInline label="Frekuensi Bunga" required>
-                      <Select value={frekuensiBunga} onValueChange={setFrekuensiBunga}>
+                      <Select
+                        value={frekuensiBunga}
+                        onValueChange={setFrekuensiBunga}
+                      >
                         <SelectTrigger
                           className={cn(
                             "w-full px-3 bg-slate-200/70 text-slate-800",
@@ -785,9 +788,7 @@ export default function LoanApplicationCreate() {
                     <div className="[&_.rounded-xl]:rounded-[5px] [&_.rounded-2xl]:rounded-[5px] [&_.rounded-3xl]:rounded-[5px] [&_.h-11]:h-[30px] [&_.h-10]:h-[30px] [&_.h-9]:h-[30px] [&_.mt-4]:mt-[15px]">
                       <PenaltyScheduleForm
                         value={penaltyDraft}
-                        onChange={(next) => {
-                          setPenaltyDraft(next);
-                        }}
+                        onChange={(next) => setPenaltyDraft(next)}
                         onDelete={() => {
                           setPenaltyVisible(false);
                           toast("Denda dihapus (prototype)", {
@@ -806,9 +807,13 @@ export default function LoanApplicationCreate() {
                             <div className="min-w-0">
                               <Select
                                 value={penaltyBase}
-                                onValueChange={(v) => setPenaltyBase(v as PenaltyBase)}
+                                onValueChange={(v) =>
+                                  setPenaltyBase(v as PenaltyBase)
+                                }
                               >
-                                <SelectTrigger className={cn(UI.selectTrigger, "w-full")}>
+                                <SelectTrigger
+                                  className={cn(UI.selectTrigger, "w-full")}
+                                >
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-[10px] border-slate-200">
@@ -831,6 +836,7 @@ export default function LoanApplicationCreate() {
                           </div>
                         ) : null}
 
+                        {/* KEMBALIKAN KE VERSI AWAL */}
                         {penaltyIsPercent ? (
                           <div className="grid min-h-[30px] items-center gap-4 [grid-template-columns:minmax(0,1fr)_auto]">
                             <div className="flex min-w-0 items-center gap-2">
