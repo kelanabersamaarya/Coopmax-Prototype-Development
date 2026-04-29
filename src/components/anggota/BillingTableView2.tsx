@@ -1,3 +1,4 @@
+1, tapi baris info grace (teks) bisa disembunyikan.">
 "use client";
 
 import * as React from "react";
@@ -165,6 +166,7 @@ export default function BillingTableView2({
   showNextBillInfo = true,
   showGraceInfo = true,
   highlightGraceBlock = false,
+  keepGraceShellWithoutInfo = false,
   hideSelection = false,
   showPenaltyColumn = false,
   tone = "default",
@@ -181,6 +183,7 @@ export default function BillingTableView2({
   showNextBillInfo?: boolean;
   showGraceInfo?: boolean;
   highlightGraceBlock?: boolean;
+  keepGraceShellWithoutInfo?: boolean;
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
   tone?: "default" | "khusus";
@@ -224,8 +227,7 @@ export default function BillingTableView2({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows.length]);
 
-  const graceCount =
-    showGraceInfo && highlightGraceBlock ? Math.min(2, rows.length) : 0;
+  const graceCount = highlightGraceBlock ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
@@ -241,7 +243,6 @@ export default function BillingTableView2({
       : "[grid-template-columns:44px_minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)]";
   })();
 
-  // Mode Penurunan Baki Debet: lebih padat agar tinggi baris sama dengan mode lain.
   const isCompact = hideSelection;
 
   const effectiveDensity: "default" | "roomy" = hideSelection
@@ -295,6 +296,10 @@ export default function BillingTableView2({
     return raw;
   }
 
+  const renderGraceShell = highlightGraceBlock && graceRows.length > 0;
+  const shouldShowGraceInfoRow =
+    renderGraceShell && (showGraceInfo || keepGraceShellWithoutInfo);
+
   return (
     <div className={cn("mt-3", className)}>
       <PenaltyDetailDialog
@@ -318,25 +323,27 @@ export default function BillingTableView2({
           />
 
           <tbody className="bg-white">
-            {showGraceInfo && highlightGraceBlock && graceRows.length > 0 ? (
+            {renderGraceShell ? (
               <>
                 <tr className={cn(rowDividerClass)}>
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white p-0">
                       <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
-                        <div className="p-1">
-                          <table className="w-full border-collapse text-[13px]">
-                            <tbody className="bg-white">
-                              <GracePeriodInfoRow colSpan={colCount} noBorder />
-                            </tbody>
-                          </table>
-                        </div>
+                        {shouldShowGraceInfoRow ? (
+                          <div className="p-1">
+                            <table className="w-full border-collapse text-[13px]">
+                              <tbody className="bg-white">
+                                {showGraceInfo ? (
+                                  <GracePeriodInfoRow colSpan={colCount} noBorder />
+                                ) : null}
+                              </tbody>
+                            </table>
+                          </div>
+                        ) : null}
 
                         {graceRows.map((r, idx) => {
                           const rowIndex = idx;
-                          const active = hideSelection
-                            ? false
-                            : selected[rowIndex] === true;
+                          const active = hideSelection ? false : selected[rowIndex] === true;
 
                           return (
                             <div
@@ -350,9 +357,7 @@ export default function BillingTableView2({
                                 density={rowShellDensity}
                                 compact={isCompact}
                               >
-                                <div
-                                  className={cn("grid items-center gap-0", gridTemplate)}
-                                >
+                                <div className={cn("grid items-center gap-0", gridTemplate)}>
                                   {!hideSelection ? (
                                     <div
                                       className={cn(
@@ -363,9 +368,7 @@ export default function BillingTableView2({
                                       <input
                                         type="checkbox"
                                         aria-label="Pilih tagihan"
-                                        checked={
-                                          isLocked ? true : (selected[rowIndex] ?? false)
-                                        }
+                                        checked={isLocked ? true : (selected[rowIndex] ?? false)}
                                         disabled={isLocked}
                                         onChange={(e) => {
                                           const next = e.target.checked;
@@ -389,35 +392,23 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
-                                    <RightNum
-                                      value={displayTagihanPokok(
-                                        rowIndex,
-                                        r.tagihanPokok,
-                                      )}
-                                    />
+                                    <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
                                   </div>
 
                                   <div className={cn("px-4", cellY, numberTextClass)}>
                                     <RightNum value={r.tagihanBunga} />
                                   </div>
 
-                                  <div
-                                    className={cn("px-4 pr-6", cellY, numberTextClass)}
-                                  >
+                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                     <RightNum value={r.sisaPokok} />
                                   </div>
 
-                                  <div
-                                    className={cn("px-4 pr-6", cellY, numberTextClass)}
-                                  >
+                                  <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
                                     <RightNum value={r.sisaBunga} />
                                   </div>
 
                                   {showPenaltyColumn ? (
-                                    <PenaltyCell
-                                      idx={rowIndex}
-                                      dueDateDmy={r.jatuhTempo}
-                                    />
+                                    <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
                                   ) : null}
                                 </div>
                               </RowShell>
@@ -434,10 +425,7 @@ export default function BillingTableView2({
                   const active = hideSelection ? false : selected[rowIndex] === true;
 
                   return (
-                    <tr
-                      key={`${r.jatuhTempo}-${rowIndex}`}
-                      className={cn(rowDividerClass)}
-                    >
+                    <tr key={`${r.jatuhTempo}-${rowIndex}`} className={cn(rowDividerClass)}>
                       <td colSpan={colCount} className="p-0">
                         <RowShell
                           active={active}
@@ -457,9 +445,7 @@ export default function BillingTableView2({
                                 <input
                                   type="checkbox"
                                   aria-label="Pilih tagihan"
-                                  checked={
-                                    isLocked ? true : (selected[rowIndex] ?? false)
-                                  }
+                                  checked={isLocked ? true : (selected[rowIndex] ?? false)}
                                   disabled={isLocked}
                                   onChange={(e) => {
                                     const next = e.target.checked;
@@ -528,10 +514,7 @@ export default function BillingTableView2({
                     const active = hideSelection ? false : selected[idx] === true;
 
                     return (
-                      <tr
-                        key={`${r.jatuhTempo}-${idx}`}
-                        className={cn(rowDividerClass)}
-                      >
+                      <tr key={`${r.jatuhTempo}-${idx}`} className={cn(rowDividerClass)}>
                         <td colSpan={colCount} className="p-0">
                           <RowShell
                             active={active}
@@ -551,9 +534,7 @@ export default function BillingTableView2({
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
-                                    checked={
-                                      isLocked ? true : (selected[idx] ?? false)
-                                    }
+                                    checked={isLocked ? true : (selected[idx] ?? false)}
                                     disabled={isLocked}
                                     onChange={(e) => {
                                       const next = e.target.checked;
@@ -577,9 +558,7 @@ export default function BillingTableView2({
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum
-                                  value={displayTagihanPokok(idx, r.tagihanPokok)}
-                                />
+                                <RightNum value={displayTagihanPokok(idx, r.tagihanPokok)} />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>

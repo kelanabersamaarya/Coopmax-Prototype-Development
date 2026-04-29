@@ -338,12 +338,14 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
     return formatIdrLike(penurunanBakiDebetPokokTotal);
   }, [penurunanBakiDebetPokokTotal]);
 
-  // Grace indicator HARUS hanya muncul di page 1 ketika mode pagination.
-  const graceVisible = !usePaging || page === 1;
+  const graceInfoVisible = !usePaging || page === 1;
+  const keepGraceShellWithoutInfo = usePaging && page > 1;
 
-  const showGraceInfo = graceVisible;
+  const showGraceInfo = graceInfoVisible;
+
   const highlightGraceBlock =
-    (isReguler || isKhusus || isPenurunanPlafon) && graceVisible;
+    (isReguler || isKhusus || isPenurunanPlafon || isPelunasan || isPenurunanBakiDebet) &&
+    (graceInfoVisible || keepGraceShellWithoutInfo);
 
   const pelunasanTotals = React.useMemo(() => {
     if (!isPelunasan) return null;
@@ -496,6 +498,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     showNextBillInfo={true}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
+                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
@@ -510,6 +513,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     showNextBillInfo={true}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
+                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
@@ -523,6 +527,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     showNextBillInfo={false}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
+                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
@@ -536,6 +541,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     showNextBillInfo={false}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
+                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                     hideSelection={true}
                     showPenaltyColumn={false}
                     disableRowRings
@@ -571,6 +577,7 @@ export default function TransaksiAnggotaView2({ nasabah }: Props) {
                     showNextBillInfo={true}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}
+                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                     hideSelection={isPenurunanPlafon}
                     showPenaltyColumn={false}
                   />
