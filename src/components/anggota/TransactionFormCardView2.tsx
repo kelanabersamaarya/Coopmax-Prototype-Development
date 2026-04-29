@@ -23,11 +23,12 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import RequiredMark from "@/components/anggota/RequiredMark";
+import { TX, type TransactionType } from "@/components/anggota/transaction-types";
 
 const transactionTypes = [
-  "Pembayaran Reguler",
-  "Pembayaran Khusus",
-  "Pelunasan",
+  TX.REGULER,
+  TX.KHUSUS,
+  TX.PELUNASAN,
   "Bayar Pokok",
   "Bayar Bunga",
   "Bayar Denda",
@@ -35,26 +36,17 @@ const transactionTypes = [
   "Bayar Biaya Lainnya",
 ] as const;
 
-export type TransactionType =
-  | (typeof transactionTypes)[number]
-  | "Pembayaran Penurunan Baki Debet"
-  | "Pembayaran Pokok"
-  | "Pembayaran Bunga"
-  | "Pembayaran Denda"
-  | "Pembayaran Biaya Lainnya";
-
 function titleForTransaction(t: TransactionType | null) {
   if (!t) return "PILIH TRANSAKSI";
-  if (t === "Pembayaran Reguler") return "PEMBAYARAN REGULER";
-  if (t === "Pembayaran Penurunan Baki Debet")
-    return "PEMBAYARAN PENURUNAN BAKI DEBET";
-  if (t === "Pembayaran Khusus") return "PEMBAYARAN KHUSUS";
-  if (t === "Pelunasan") return "PELUNASAN";
-  if (t === "Bayar Pokok" || t === "Pembayaran Pokok") return "BAYAR POKOK";
-  if (t === "Bayar Bunga" || t === "Pembayaran Bunga") return "BAYAR BUNGA";
-  if (t === "Bayar Denda" || t === "Pembayaran Denda") return "BAYAR DENDA";
+  if (t === TX.REGULER) return "PEMBAYARAN REGULER";
+  if (t === TX.PENURUNAN_BAKI_DEBET) return "PEMBAYARAN PENURUNAN BAKI DEBET";
+  if (t === TX.KHUSUS) return "PEMBAYARAN KHUSUS";
+  if (t === TX.PELUNASAN) return "PELUNASAN";
+  if (t === "Bayar Pokok" || t === TX.POKOK) return "BAYAR POKOK";
+  if (t === "Bayar Bunga" || t === TX.BUNGA) return "BAYAR BUNGA";
+  if (t === "Bayar Denda" || t === TX.DENDA) return "BAYAR DENDA";
   if (t === "Bayar Biaya Tambahan") return "BAYAR BIAYA TAMBAHAN";
-  if (t === "Bayar Biaya Lainnya" || t === "Pembayaran Biaya Lainnya")
+  if (t === "Bayar Biaya Lainnya" || t === TX.BIAYA_LAINNYA)
     return "BAYAR BIAYA LAINNYA";
   return "PEMBAYARAN";
 }
@@ -293,10 +285,10 @@ export default function TransactionFormCardView2({
 
   onPayPenurunanBakiDebet?: (nominalPokokInput: string) => void;
 }) {
-  const isPelunasan = jenisTransaksi === "Pelunasan";
-  const isKhusus = jenisTransaksi === "Pembayaran Khusus";
-  const isPenurunanBakiDebet =
-    jenisTransaksi === "Pembayaran Penurunan Baki Debet";
+  const isPelunasan = jenisTransaksi === TX.PELUNASAN;
+  const isKhusus = jenisTransaksi === TX.KHUSUS;
+  const isPenurunanBakiDebet = jenisTransaksi === TX.PENURUNAN_BAKI_DEBET;
+
   const nominalPelunasan = "5.500.002";
 
   const isUnset = !jenisTransaksi;

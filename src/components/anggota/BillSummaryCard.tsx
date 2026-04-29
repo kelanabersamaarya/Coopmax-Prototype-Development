@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import { TX, type TransactionType } from "@/components/anggota/transaction-types";
 
 function SummaryRow({
   label,
@@ -82,16 +83,6 @@ function SummaryRowInline({
   );
 }
 
-type TransactionType =
-  | "Pembayaran Reguler"
-  | "Pembayaran Penurunan Baki Debet"
-  | "Pembayaran Khusus"
-  | "Pelunasan"
-  | "Pembayaran Pokok"
-  | "Pembayaran Bunga"
-  | "Pembayaran Denda"
-  | "Pembayaran Biaya Lainnya";
-
 function titleCaseEachWord(input: string) {
   return input
     .split(" ")
@@ -123,15 +114,14 @@ export default function BillSummaryCard({
 }) {
   const isUnset = !transactionType;
 
-  const isPembayaranPokok = transactionType === "Pembayaran Pokok";
-  const isPembayaranBunga = transactionType === "Pembayaran Bunga";
-  const isPembayaranDenda = transactionType === "Pembayaran Denda";
-  const isPembayaranBiayaLainnya = transactionType === "Pembayaran Biaya Lainnya";
+  const isPembayaranPokok = transactionType === TX.POKOK;
+  const isPembayaranBunga = transactionType === TX.BUNGA;
+  const isPembayaranDenda = transactionType === TX.DENDA;
+  const isPembayaranBiayaLainnya = transactionType === TX.BIAYA_LAINNYA;
 
-  const isRegular = transactionType === "Pembayaran Reguler";
-  const isKhusus = transactionType === "Pembayaran Khusus";
-  const isPenurunanBakiDebet =
-    transactionType === "Pembayaran Penurunan Baki Debet";
+  const isRegular = transactionType === TX.REGULER;
+  const isKhusus = transactionType === TX.KHUSUS;
+  const isPenurunanBakiDebet = transactionType === TX.PENURUNAN_BAKI_DEBET;
 
   const displayTotalsBase = isUnset
     ? { pokok: "0", bunga: "0", denda: "0", total: "0" }
@@ -190,9 +180,7 @@ export default function BillSummaryCard({
                   transactionType ? "" : "text-slate-500",
                 )}
               >
-                {transactionType
-                  ? transactionLabel(transactionType)
-                  : "Pilih Transaksi"}
+                {transactionType ? transactionLabel(transactionType) : "Pilih Transaksi"}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-400" />
             </button>
@@ -205,43 +193,41 @@ export default function BillSummaryCard({
             <DropdownMenuItem
               className={cn(
                 "rounded-[5px]",
-                transactionType === "Pembayaran Reguler" ? "bg-slate-100" : "",
+                transactionType === TX.REGULER ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Pembayaran Reguler")}
+              onClick={() => handleChange(TX.REGULER)}
             >
-              {transactionLabel("Pembayaran Reguler")}
+              {transactionLabel(TX.REGULER)}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className={cn(
                 "rounded-[5px]",
-                transactionType === "Pembayaran Penurunan Baki Debet"
-                  ? "bg-slate-100"
-                  : "",
+                transactionType === TX.PENURUNAN_BAKI_DEBET ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Pembayaran Penurunan Baki Debet")}
+              onClick={() => handleChange(TX.PENURUNAN_BAKI_DEBET)}
             >
-              {transactionLabel("Pembayaran Penurunan Baki Debet")}
+              {transactionLabel(TX.PENURUNAN_BAKI_DEBET)}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className={cn(
                 "rounded-[5px]",
-                transactionType === "Pembayaran Khusus" ? "bg-slate-100" : "",
+                transactionType === TX.KHUSUS ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Pembayaran Khusus")}
+              onClick={() => handleChange(TX.KHUSUS)}
             >
-              {transactionLabel("Pembayaran Khusus")}
+              {transactionLabel(TX.KHUSUS)}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className={cn(
                 "rounded-[5px]",
-                transactionType === "Pelunasan" ? "bg-slate-100" : "",
+                transactionType === TX.PELUNASAN ? "bg-slate-100" : "",
               )}
-              onClick={() => handleChange("Pelunasan")}
+              onClick={() => handleChange(TX.PELUNASAN)}
             >
-              {transactionLabel("Pelunasan")}
+              {transactionLabel(TX.PELUNASAN)}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -255,23 +241,11 @@ export default function BillSummaryCard({
             <SummaryRowInline label="Sisa Pinjaman" value={displayTotals.total} />
           </div>
         ) : isPembayaranBunga ? (
-          <SummaryRow
-            label="Total Tagihan Bunga"
-            value={displayTotals.bunga}
-            strong
-          />
+          <SummaryRow label="Total Tagihan Bunga" value={displayTotals.bunga} strong />
         ) : isPembayaranPokok ? (
-          <SummaryRow
-            label="Total Tagihan Pokok"
-            value={displayTotals.pokok}
-            strong
-          />
+          <SummaryRow label="Total Tagihan Pokok" value={displayTotals.pokok} strong />
         ) : isPembayaranDenda ? (
-          <SummaryRow
-            label="Total Tagihan Denda"
-            value={displayTotals.denda}
-            strong
-          />
+          <SummaryRow label="Total Tagihan Denda" value={displayTotals.denda} strong />
         ) : isPembayaranBiayaLainnya ? (
           <SummaryRow
             label="Total Tagihan Biaya Lainnya"
@@ -315,10 +289,7 @@ export default function BillSummaryCard({
 
             <SummaryRow label="Angsuran Ke" value={displayInstallment.ke} />
             <SummaryRow label="Angsuran Lunas" value={displayInstallment.lunas} />
-            <SummaryRow
-              label="Angsuran Seharusnya"
-              value={displayInstallment.seharusnya}
-            />
+            <SummaryRow label="Angsuran Seharusnya" value={displayInstallment.seharusnya} />
           </>
         ) : null}
       </div>
