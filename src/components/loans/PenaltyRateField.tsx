@@ -62,11 +62,6 @@ export default function PenaltyRateField({
 
   const selectW = size === "compact" ? "w-[74px]" : "w-[86px]";
 
-  // Kita pakai chevron custom (bukan bawaan shadcn) supaya selalu muncul.
-  // Maka:
-  // - sembunyikan svg default (kalau ada)
-  // - buat ruang kanan untuk chevron custom (pr-9)
-  // - pastikan label Rp/% tidak ketutup (SelectValue: pr-4, no truncate)
   const selectTriggerCls = cn(
     "relative",
     h,
@@ -75,15 +70,13 @@ export default function PenaltyRateField({
     "w-full",
     "border-slate-200 bg-white",
     "pl-3 pr-9",
-    "font-semibold text-slate-900",
+    "font-medium text-slate-900",
     "shadow-sm",
     "focus:outline-none focus:ring-0 focus-visible:ring-0",
     "focus-visible:border-slate-300",
-    // pastikan value tetap utuh (Rp/%)
     "[&_[data-slot=select-value]]:whitespace-nowrap",
     "[&_[data-slot=select-value]]:pr-4",
     "[&_[data-slot=select-value]]:truncate-0",
-    // hide chevron bawaan shadcn kalau muncul
     "[&>svg]:hidden",
   );
 
