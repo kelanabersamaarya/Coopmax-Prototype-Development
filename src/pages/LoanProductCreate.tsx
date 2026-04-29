@@ -51,7 +51,7 @@ type PenaltyBase =
   | "Bunga"
   | "Hutang Pokok"
   | "Hutang Bunga"
-  | "Berdasarkan Total tagihan"
+  | "Total Tagihan"
   | "Pilih Dasar Perhitungan";
 
 type CollectorKind = "Kolektor 1" | "Kolektor 2" | "Kolektor 3";
@@ -952,9 +952,7 @@ export default function LoanProductCreate() {
                               <SelectItem value="Bunga">Bunga</SelectItem>
                               <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
                               <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                              <SelectItem value="Berdasarkan Total tagihan">
-                                Berdasarkan Total tagihan
-                              </SelectItem>
+                              <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
                             </SelectContent>
                           </Select>
                         </FieldRow>
