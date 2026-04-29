@@ -132,8 +132,13 @@ const upcomingRows: BillingRow[] = [
   })),
 ];
 
+// FIX: parsing IDR "783.333" harus jadi 783333 (hapus pemisah ribuan '.')
 function parseNumLikeId(input: string) {
-  const cleaned = input.replace(/[^\d.-]/g, "");
+  const s = (input ?? "").trim();
+  if (!s) return 0;
+
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
   return Number.isFinite(n) ? n : 0;
 }
