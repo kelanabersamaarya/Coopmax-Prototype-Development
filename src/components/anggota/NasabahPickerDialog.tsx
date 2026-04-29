@@ -435,23 +435,21 @@ export default function NasabahPickerDialog({
             <Pagination page={page} pageCount={pageCount} onPage={setPage} />
           </div>
 
-          {/* Divider di atas button */}
           <Separator className="mt-4 bg-slate-200" />
 
           <div className="mt-3 flex items-center justify-end">
-            {/* Perkecil size button, tetap pertahankan icon & copywriting */}
             <button
               type="button"
               onClick={() => onOpenChange(false)}
               className={cn(
-                "inline-flex h-10 items-center justify-center gap-3 px-5",
+                "inline-flex h-[28px] w-[90px] items-center justify-center gap-2",
                 R,
-                "bg-slate-600 text-[13px] font-semibold text-white",
+                "bg-slate-600 text-[12px] font-semibold text-white",
                 "ring-1 ring-slate-600/25 transition hover:bg-slate-700",
                 "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-600/25",
               )}
             >
-              <span className="inline-flex h-7 w-7 items-center justify-center text-white">
+              <span className="inline-flex items-center justify-center text-white">
                 ×
               </span>
               Batalkan
