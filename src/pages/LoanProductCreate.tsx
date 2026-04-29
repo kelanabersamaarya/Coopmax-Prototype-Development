@@ -882,8 +882,8 @@ export default function LoanProductCreate() {
                           m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
                             ? "Tagihan Sesuai Jadwal Angsuran"
                             : m === "Jadwal Fleksibel & Tagihan Berkala"
-                              ? "Tagihan Berkala Berdasarkan Periode"
-                              : "Tagihan Berdasarkan Sisa Angsuran";
+                              ? "Jadwal Fleksibel & Tagihan Berkala"
+                              : "Tagihan Dihitung Dari Sisa Saldo Pokok";
 
                         const tooltipText =
                           m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
