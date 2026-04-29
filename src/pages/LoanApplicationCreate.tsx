@@ -823,28 +823,35 @@ export default function LoanApplicationCreate() {
                         ) : null}
 
                         {penaltyIsPercent ? (
-                          <div className="flex min-h-[30px] flex-wrap items-start gap-x-4 gap-y-2">
-                            <div className="flex min-w-0 items-start gap-2 pt-[2px]">
-                              <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
-                                <div>Proses Denda Berulang</div>
-                                <div className="text-slate-700">(Recurring)</div>
+                          <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_64px] md:items-start">
+                            {/* kolom label kiri kosong agar switch sejajar dg kolom input */}
+                            <div className="hidden md:block" />
+
+                            <div className="flex min-w-0 items-start justify-between gap-4">
+                              <div className="flex min-w-0 items-start gap-2 pt-[2px]">
+                                <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
+                                  <div>Proses Denda Berulang</div>
+                                  <div className="text-slate-700">(Recurring)</div>
+                                </div>
+
+                                <span
+                                  className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+                                  aria-hidden="true"
+                                  title={RECURRING_TT}
+                                >
+                                  <HelpCircle className="h-4 w-4" />
+                                </span>
                               </div>
 
-                              <span
-                                className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
-                                aria-hidden="true"
-                                title={RECURRING_TT}
-                              >
-                                <HelpCircle className="h-4 w-4" />
-                              </span>
+                              <div className="pt-[2px]">
+                                <Switch
+                                  checked={penaltyRecurring}
+                                  onCheckedChange={setPenaltyRecurring}
+                                />
+                              </div>
                             </div>
 
-                            <div className="pt-[2px]">
-                              <Switch
-                                checked={penaltyRecurring}
-                                onCheckedChange={setPenaltyRecurring}
-                              />
-                            </div>
+                            <div className="hidden md:block" />
                           </div>
                         ) : null}
                       </div>
