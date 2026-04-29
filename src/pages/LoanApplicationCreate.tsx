@@ -43,7 +43,6 @@ import PenaltyScheduleForm, {
 } from "@/components/loans/PenaltyScheduleForm";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import { Switch } from "@/components/ui/switch";
-import FieldTooltip from "@/components/loans/FieldTooltip";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
@@ -833,31 +832,29 @@ export default function LoanApplicationCreate() {
                         ) : null}
 
                         {penaltyIsPercent ? (
-                          <div className="flex items-center justify-between gap-3 rounded-[5px] bg-white py-1">
-                            <div className="flex min-w-0 items-center gap-2 text-sm font-normal text-slate-900">
-                              <span className="truncate">
-                                Proses Denda Berulang (Recurring)
-                              </span>
-
-                              <FieldTooltip
-                                content={RECURRING_TT}
-                                className="ml-0"
-                                iconClassName="hidden"
-                              />
+                          <div className="flex min-h-[30px] items-center justify-between gap-4 rounded-[5px] bg-white py-1">
+                            <div className="flex min-w-0 items-center gap-2">
+                              <div className="min-w-0 text-[14px] font-medium text-slate-900">
+                                <span className="truncate">
+                                  Proses Denda Berulang (Recurring)
+                                </span>
+                              </div>
 
                               <span
-                                className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+                                className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
                                 aria-hidden="true"
-                                title="Info"
+                                title={RECURRING_TT}
                               >
                                 <HelpCircle className="h-4 w-4" />
                               </span>
                             </div>
 
-                            <Switch
-                              checked={penaltyRecurring}
-                              onCheckedChange={setPenaltyRecurring}
-                            />
+                            <div className="shrink-0">
+                              <Switch
+                                checked={penaltyRecurring}
+                                onCheckedChange={setPenaltyRecurring}
+                              />
+                            </div>
                           </div>
                         ) : null}
                       </div>
