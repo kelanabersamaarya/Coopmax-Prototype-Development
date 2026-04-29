@@ -61,8 +61,8 @@ export default function PenaltyRateField({
 
   const selectW = size === "compact" ? "w-[74px]" : "w-[86px]";
 
-  // Keep shadcn chevron default (visible), just ensure it's at the far right
-  // by giving enough right padding. Also remove purple ring outside.
+  // Keep chevron visible + reserve space so it never overlaps the value.
+  // The actual SelectValue element is the span; give it pr to avoid overlap.
   const selectTriggerCls = cn(
     h,
     radius,
@@ -74,6 +74,9 @@ export default function PenaltyRateField({
     "shadow-sm",
     "focus:outline-none focus:ring-0 focus-visible:ring-0",
     "focus-visible:border-slate-300",
+    // Reserve space for caret so '%' isn't covered.
+    "[&_[data-slot=select-value]]:pr-3",
+    "[&>span]:pr-3",
   );
 
   const selectContentCls = cn(
@@ -86,10 +89,7 @@ export default function PenaltyRateField({
     <div className={cn("grid gap-2", className)}>
       <div className="flex w-full items-center gap-2">
         <div className={cn("flex shrink-0 items-center", selectW)}>
-          <Select
-            value={mode}
-            onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}
-          >
+          <Select value={mode} onValueChange={(v) => handleModeChange(v as PenaltyRateMode)}>
             <SelectTrigger className={selectTriggerCls}>
               <SelectValue aria-label="Mode denda">{labelForMode(mode)}</SelectValue>
             </SelectTrigger>
