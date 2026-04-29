@@ -309,6 +309,7 @@ export default function LoanProductCreate() {
   const [dasarPerhitungan, setDasarPerhitungan] =
     React.useState<PenaltyBase>("Pilih Dasar Perhitungan");
   const [hariKeterlambatan, setHariKeterlambatan] = React.useState<string>("0");
+  const [dendaBerulang, setDendaBerulang] = React.useState(false);
 
   const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(false);
   const [graceScheme, setGraceScheme] =
@@ -334,6 +335,7 @@ export default function LoanProductCreate() {
   React.useEffect(() => {
     if (!hideDasarPerhitungan) return;
     setDasarPerhitungan("Pilih Dasar Perhitungan");
+    setDendaBerulang(false);
   }, [hideDasarPerhitungan]);
 
   // === compact style (match halaman Ubah) ===
@@ -928,30 +930,44 @@ export default function LoanProductCreate() {
                     </FieldRow>
 
                     {!hideDasarPerhitungan ? (
-                      <FieldRow label="Dasar Perhitungan">
-                        <Select
-                          value={dasarPerhitungan}
-                          onValueChange={(v) =>
-                            setDasarPerhitungan(v as PenaltyBase)
-                          }
-                        >
-                          <SelectTrigger className={compactSelectTrigger}>
-                            <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                          </SelectTrigger>
-                          <SelectContent className={compactSelectContent}>
-                            <SelectItem value="Pilih Dasar Perhitungan">
-                              Pilih Dasar Perhitungan
-                            </SelectItem>
-                            <SelectItem value="Pokok">Pokok</SelectItem>
-                            <SelectItem value="Bunga">Bunga</SelectItem>
-                            <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                            <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                            <SelectItem value="Berdasarkan Total tagihan">
-                              Berdasarkan Total tagihan
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FieldRow>
+                      <>
+                        <FieldRow label="Dasar Perhitungan">
+                          <Select
+                            value={dasarPerhitungan}
+                            onValueChange={(v) =>
+                              setDasarPerhitungan(v as PenaltyBase)
+                            }
+                          >
+                            <SelectTrigger className={compactSelectTrigger}>
+                              <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                            </SelectTrigger>
+                            <SelectContent className={compactSelectContent}>
+                              <SelectItem value="Pilih Dasar Perhitungan">
+                                Pilih Dasar Perhitungan
+                              </SelectItem>
+                              <SelectItem value="Pokok">Pokok</SelectItem>
+                              <SelectItem value="Bunga">Bunga</SelectItem>
+                              <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                              <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                              <SelectItem value="Berdasarkan Total tagihan">
+                                Berdasarkan Total tagihan
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FieldRow>
+
+                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                          <div className="pt-1 text-sm font-normal text-slate-900">
+                            Denda Berulang
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Switch
+                              checked={dendaBerulang}
+                              onCheckedChange={setDendaBerulang}
+                            />
+                          </div>
+                        </div>
+                      </>
                     ) : null}
 
                     <FieldRow label="Jumlah Hari Keterlambatan">
