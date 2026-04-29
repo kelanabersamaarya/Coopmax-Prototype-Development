@@ -330,18 +330,17 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const useView2Style = isReguler || isKhusus || isPelunasan;
 
+  // ====== PERMINTAAN BARU ======
+  // View1 page 2+: kolom denda tetap ada, tapi nominalnya dikosongkan.
+  // Implementasi: tetap render kolom denda, namun tidak ditampilkan di page 2+ (tanpa mengubah struktur kolom).
   const showPenaltyColumnInTable = !isPenurunanBakiDebet;
+  const penaltyContentEnabled = page === 1;
+  const showPenaltyColumnResolved = showPenaltyColumnInTable;
 
   const compactRowsForView2 = isReguler || isKhusus || isPelunasan;
   const applyCompactOverrides = compactRowsForView2 && !isPenurunanBakiDebet;
 
   const alignNumbersForPenurunan = "";
-
-  // PERMINTAAN BARU:
-  // View1 page 2+: kosongkan tagihan denda (di semua metode)
-  // Implementasi: hanya di page 1 kolom denda ditampilkan; page 2+ kolom denda disembunyikan.
-  const showPenaltyOnThisPage = page === 1;
-  const showPenaltyColumnResolved = showPenaltyColumnInTable && showPenaltyOnThisPage;
 
   return (
     <div className="w-full px-0">
@@ -455,6 +454,18 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                   "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
                   "[&_.billing-table-compact_span.text-slate-400]:hidden",
                   alignNumbersForPenurunan,
+                  // page 2+: kosongkan nilai kolom denda (tetap ada kolomnya)
+                  !penaltyContentEnabled
+                    ? [
+                        // BillingTableView2
+                        "[&_[aria-label='Rincian denda']]:hidden",
+                        "[&_[aria-label='Rincian denda']+span]:hidden",
+                        // BillingTable v1: nilai ada di <span> di dalam sel (tanpa class khusus),
+                        // jadi paling aman: sembunyikan semua teks di sel kolom terakhir (kolom denda)
+                        // dengan selector berbasis grid (kolom terakhir) sulit, jadi kita target tombol info denda dan angka tabular di dalam container.
+                        "[&_.num-sans-tabular]:not(:first-child):hidden",
+                      ].join(" ")
+                    : "",
                 )}
               >
                 {isPenurunanBakiDebet ? (
