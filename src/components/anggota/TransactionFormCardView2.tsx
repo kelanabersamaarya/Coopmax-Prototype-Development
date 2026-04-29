@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import RequiredMark from "@/components/anggota/RequiredMark";
 
 const transactionTypes = [
   "Pembayaran Reguler",
@@ -178,10 +179,12 @@ function parseDmyToDate(value: string): Date | undefined {
 
 function EffectiveDateField({
   label,
+  required = false,
   value,
   onChange,
 }: {
   label: string;
+  required?: boolean;
   value: string;
   onChange: (v: string) => void;
 }) {
@@ -191,7 +194,10 @@ function EffectiveDateField({
 
   return (
     <div className="grid gap-1.5">
-      <Label className="text-xs text-slate-600">{label}</Label>
+      <Label className="text-xs text-slate-600">
+        {label}
+        {required ? <RequiredMark className="ml-0.5" /> : null}
+      </Label>
 
       <div className="relative">
         <Input
@@ -328,10 +334,10 @@ export default function TransactionFormCardView2({
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
   const nominalLabel = isPenurunanBakiDebet
-    ? "Nominal Pokok*"
+    ? "Nominal Pokok"
     : isPelunasan
-      ? "Nominal Pelunasan*"
-      : "Nominal Pembayaran*";
+      ? "Nominal Pelunasan"
+      : "Nominal Pembayaran";
 
   function handlePayClick() {
     if (isPenurunanBakiDebet) {
@@ -384,9 +390,10 @@ export default function TransactionFormCardView2({
               <EffectiveDateField
                 label={
                   isPelunasan
-                    ? "Tanggal Efektif Pelunasan*"
-                    : "Tanggal Efektif Bayar*"
+                    ? "Tanggal Efektif Pelunasan"
+                    : "Tanggal Efektif Bayar"
                 }
+                required
                 value={tanggalEfektif}
                 onChange={setTanggalEfektif}
               />
@@ -401,7 +408,9 @@ export default function TransactionFormCardView2({
               </div>
 
               <div className="grid gap-1.5">
-                <Label className="text-xs text-slate-600">Kolektor*</Label>
+                <Label className="text-xs text-slate-600">
+                  Kolektor <RequiredMark />
+                </Label>
                 <KolektorSelect
                   value={(kolektor as KolektorValue) || KOLEKTOR_PLACEHOLDER}
                   onValueChange={(v) => setKolektor(v)}
@@ -412,7 +421,9 @@ export default function TransactionFormCardView2({
               {isKhusus ? (
                 <>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Nominal Pokok</Label>
+                    <Label className="text-xs text-slate-600">
+                      Nominal Pokok <RequiredMark />
+                    </Label>
                     <Input
                       value={nominalPokok}
                       onChange={(e) => setNominalPokok(e.target.value)}
@@ -423,7 +434,9 @@ export default function TransactionFormCardView2({
                   </div>
 
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Nominal Bunga</Label>
+                    <Label className="text-xs text-slate-600">
+                      Nominal Bunga <RequiredMark />
+                    </Label>
                     <Input
                       value={nominalBunga}
                       onChange={(e) => setNominalBunga(e.target.value)}
@@ -434,7 +447,9 @@ export default function TransactionFormCardView2({
                   </div>
 
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">Nominal Denda</Label>
+                    <Label className="text-xs text-slate-600">
+                      Nominal Denda <RequiredMark />
+                    </Label>
                     <Input
                       value={nominalDenda}
                       onChange={(e) => setNominalDenda(e.target.value)}
@@ -473,7 +488,9 @@ export default function TransactionFormCardView2({
               ) : (
                 <>
                   <div className="grid gap-1.5">
-                    <Label className="text-xs text-slate-600">{nominalLabel}</Label>
+                    <Label className="text-xs text-slate-600">
+                      {nominalLabel} <RequiredMark />
+                    </Label>
 
                     {isPelunasan ? (
                       <div className="flex h-10 items-center justify-end rounded-[5px] bg-slate-200 px-4 text-right text-lg font-semibold text-slate-700 ring-1 ring-slate-200">
