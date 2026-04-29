@@ -1105,9 +1105,7 @@ export default function LoanProductEdit() {
               </>
             ) : null}
 
-            {/* Divider terbawah dihapus */}
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <Button
                 variant="outline"
                 className={UI.button + " border-slate-200 bg-white/60 hover:bg-white"}
