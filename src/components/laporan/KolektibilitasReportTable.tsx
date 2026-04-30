@@ -293,7 +293,6 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
         <td className={totalRowText} />
 
-        {/* Cabang (KD & Ket.) */}
         <td className={totalRowText} />
         <td className={totalRowText} />
 
@@ -409,16 +408,10 @@ export default function KolektibilitasReportTable({
                 <Th className={colW.jwBln} align="center">
                   BLN
                 </Th>
-                <Th
-                  className={cn(colW.jwDari, "whitespace-nowrap")}
-                  align="center"
-                >
+                <Th className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
                   DARI TGL.
                 </Th>
-                <Th
-                  className={cn(colW.jwSampai, "whitespace-nowrap")}
-                  align="center"
-                >
+                <Th className={cn(colW.jwSampai, "whitespace-nowrap")} align="left">
                   S/D TGL.
                 </Th>
 
@@ -561,7 +554,6 @@ export default function KolektibilitasReportTable({
                         </Wrap2Lines>
                       </Td>
 
-                      {/* Cabang (KD & Ket.) - body TIDAK bold */}
                       <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="center">
                         <span className="tabular-nums">{cabangKd}</span>
                       </Td>
@@ -580,13 +572,10 @@ export default function KolektibilitasReportTable({
                       <Td className={colW.jwBln} align="center">
                         {r.jangkaWaktuBln}
                       </Td>
-                      <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="center">
+                      <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
                         {r.dari}
                       </Td>
-                      <Td
-                        className={cn(colW.jwSampai, "whitespace-nowrap")}
-                        align="center"
-                      >
+                      <Td className={cn(colW.jwSampai, "whitespace-nowrap")} align="left">
                         {r.sampai}
                       </Td>
 
