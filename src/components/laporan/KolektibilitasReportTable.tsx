@@ -56,7 +56,8 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "border border-slate-300 bg-white px-3 py-2.5 align-middle",
+        // no vertical borders: only horizontal
+        "border-y border-slate-300 bg-white px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -87,7 +88,8 @@ function Td({
     <td
       title={title}
       className={cn(
-        "border border-slate-200 px-3 py-2 align-top",
+        // no vertical borders: only horizontal
+        "border-y border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
           ? "text-left"
@@ -228,9 +230,9 @@ function TotalRowMergedToJangkaWaktu({
   totals: Totals;
 }) {
   const totalRowText =
-    "border border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
+    "border-y border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    "border-y border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_TO_JW_END = 15;
 
@@ -522,7 +524,6 @@ export default function KolektibilitasReportTable({
                         <span className="tabular-nums">{cabangKd}</span>
                       </Td>
 
-                      {/* KET. -> dibuat 1 baris saja */}
                       <Td
                         className={cn(colW.cabangKet, "whitespace-nowrap")}
                         align="left"
@@ -559,7 +560,7 @@ export default function KolektibilitasReportTable({
                       <Td className={colW.angPerBln} align="right">
                         {formatIdr0(r.angsuranPerBln)}
                       </Td>
-                      <Td className={colW.angsuranSdhHr} align="right">
+                      <Td className={colW.angSdhHr} align="right">
                         {formatFloat2(r.angsuranSdhHr)}
                       </Td>
 
@@ -606,7 +607,10 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <>
-                  <TotalRowMergedToJangkaWaktu label="Total per Halaman" totals={totals} />
+                  <TotalRowMergedToJangkaWaktu
+                    label="Total per Halaman"
+                    totals={totals}
+                  />
                   <TotalRowMergedToJangkaWaktu label="Total" totals={totals} />
                 </>
               ) : null}
