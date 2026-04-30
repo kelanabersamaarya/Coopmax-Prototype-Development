@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import PenaltyScheduleForm, {
   type PenaltyScheduleDraft,
+  type PenaltyBase as PenaltyBaseFromForm,
 } from "@/components/loans/PenaltyScheduleForm";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import { Switch } from "@/components/ui/switch";
@@ -231,20 +232,11 @@ function getTodayDmy() {
   return `${dd}-${mm}-${yyyy}`;
 }
 
-type PenaltyBase =
-  | "Pokok"
-  | "Bunga"
-  | "Hutang Pokok"
-  | "Hutang Bunga"
-  | "Total Tagihan";
+type PenaltyBase = PenaltyBaseFromForm;
 
 const RECURRING_TT =
   "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi";
 
-/**
- * Prototype seed: meniru data rekening dari RekeningPinjaman.tsx agar bisa prefill.
- * Nanti bisa diganti ke store/DB.
- */
 type PrefillSeed = {
   noRekening: string;
   tanggalDaftar: string;
@@ -300,11 +292,11 @@ const seedByAccountNo: Record<string, PrefillSeed> = {
     penaltyVisible: true,
     penaltyDraft: {
       rateMode: "percent",
-      rateValue: "0%",
+      rateValue: "1%",
       base: "Pokok",
-      lateDays: "0",
+      lateDays: "3",
     },
-    penaltyRecurring: false,
+    penaltyRecurring: true,
   },
   "klpk04.07260001": {
     noRekening: "klpk04.07260001",
@@ -330,10 +322,10 @@ const seedByAccountNo: Record<string, PrefillSeed> = {
 
     penaltyVisible: true,
     penaltyDraft: {
-      rateMode: "percent",
-      rateValue: "0%",
+      rateMode: "rp",
+      rateValue: "25.000",
       base: "Pokok",
-      lateDays: "0",
+      lateDays: "5",
     },
     penaltyRecurring: false,
   },
@@ -408,27 +400,17 @@ export default function LoanAccountEdit() {
     },
   );
 
-  const [penaltyBase, setPenaltyBase] = React.useState<PenaltyBase>("Pokok");
   const [penaltyRecurring, setPenaltyRecurring] = React.useState<boolean>(
     prefill?.penaltyRecurring ?? false,
   );
 
-  const penaltyIsRp = penaltyDraft.rateMode === "rp";
   const penaltyIsPercent = penaltyDraft.rateMode === "percent";
 
   React.useEffect(() => {
     if (!showJadwalTab) setPenaltyVisible(false);
   }, [showJadwalTab]);
 
-  React.useEffect(() => {
-    if (penaltyIsRp) {
-      setPenaltyBase("Pokok");
-      setPenaltyRecurring(false);
-    }
-  }, [penaltyIsRp]);
-
   function goBackToDetail() {
-    // Kembali ke detail rekening pinjaman
     navigate("/loans/accounts", { state: { selectedAccountNo: accountNo } });
   }
 
@@ -443,7 +425,6 @@ export default function LoanAccountEdit() {
     toast.success("Perubahan tersimpan (prototype)", {
       description: `Rekening: ${noRekening}`,
     });
-    // setelah simpan, kembali ke detail
     goBackToDetail();
   }
 
@@ -896,7 +877,11 @@ export default function LoanAccountEdit() {
                     <div className="[&_.rounded-xl]:rounded-[5px] [&_.rounded-2xl]:rounded-[5px] [&_.rounded-3xl]:rounded-[5px] [&_.h-11]:h-[30px] [&_.h-10]:h-[30px] [&_.h-9]:h-[30px] [&_.mt-4]:mt-[15px]">
                       <PenaltyScheduleForm
                         value={penaltyDraft}
-                        onChange={(next) => setPenaltyDraft(next)}
+                        onChange={(next) => {
+                          setPenaltyDraft(next);
+                          // Pastikan recurring tidak aktif jika mode bukan percent
+                          if (next.rateMode !== "percent") setPenaltyRecurring(false);
+                        }}
                         onDelete={() => {
                           setPenaltyVisible(false);
                           toast("Denda dihapus (prototype)", {
@@ -934,12 +919,8 @@ export default function LoanAccountEdit() {
                       </div>
 
                       <div className="sr-only">
-                        <button
-                          type="button"
-                          onClick={() => setPenaltyBase(penaltyBase)}
-                        >
-                          sync
-                        </button>
+                        {penaltyDraft.base}
+                        {penaltyDraft.lateDays}
                       </div>
                     </div>
                   ) : null}
