@@ -56,7 +56,6 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        // sebelum: bg-slate-50 (beda warna)
         "border border-slate-300 bg-white px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
@@ -198,14 +197,12 @@ function Wrap2Lines({ children }: { children: React.ReactNode }) {
   return <div className="whitespace-normal leading-[1.05]">{children}</div>;
 }
 
-function BranchCell({ kd, ket }: { kd: string; ket: string }) {
+function BranchKetOneLine({ kd, ket }: { kd: string; ket: string }) {
   return (
     <div className="min-w-0">
-      <div className="text-[11px] font-medium text-slate-900 tabular-nums">
-        {kd}
-      </div>
-      <div className="mt-0.5 truncate text-[12px] font-medium text-slate-800">
-        {ket}
+      <div className="truncate text-[12px] font-medium text-slate-900">
+        <span className="tabular-nums">{kd}</span>{" "}
+        <span className="text-slate-800">{ket}</span>
       </div>
     </div>
   );
@@ -524,8 +521,14 @@ export default function KolektibilitasReportTable({
                       <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="left">
                         <span className="tabular-nums">{cabangKd}</span>
                       </Td>
-                      <Td className={cn(colW.cabangKet)} align="left">
-                        <BranchCell kd={cabangKd} ket={cabangKet} />
+
+                      {/* KET. -> dibuat 1 baris saja */}
+                      <Td
+                        className={cn(colW.cabangKet, "whitespace-nowrap")}
+                        align="left"
+                        title={`${cabangKd} ${cabangKet}`}
+                      >
+                        <BranchKetOneLine kd={cabangKd} ket={cabangKet} />
                       </Td>
 
                       <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
