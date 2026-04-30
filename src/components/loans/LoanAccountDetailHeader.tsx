@@ -15,7 +15,7 @@ import {
   Sparkles,
   TimerReset,
   Wrench,
-  NotebookText,
+  Pencil,
   List,
   BadgePercent,
   ArrowLeft,
@@ -138,16 +138,8 @@ export default function LoanAccountDetailHeader({
             onClick={() => onAction("Riwayat Transaksi Autodebet")}
           />
 
-          <ActionPill
-            icon={NotebookText}
-            label="Ubah"
-            onClick={() => navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`)}
-          />
-          <ActionPill
-            icon={ScrollText}
-            label="Ubah Hutang"
-            onClick={() => onAction("Ubah Hutang")}
-          />
+          <ActionPill icon={Pencil} label="Ubah" onClick={() => navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`)} />
+          <ActionPill icon={Pencil} label="Ubah Hutang" onClick={() => onAction("Ubah Hutang")} />
           <ActionPill
             icon={Calendar}
             label="Ubah Jatuh Tempo"
