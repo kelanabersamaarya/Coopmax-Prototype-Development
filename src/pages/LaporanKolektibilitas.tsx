@@ -125,21 +125,24 @@ function StyledSelect({
   options,
   placeholder,
   contentClassName,
+  muted = false,
 }: {
   value: string;
   onValueChange: (v: string) => void;
   options: string[];
   placeholder?: string;
   contentClassName?: string;
+  muted?: boolean;
 }) {
   const triggerCls = cn(
-    "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium text-slate-900 shadow-sm",
+    "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium shadow-sm",
+    muted ? "text-slate-500" : "text-slate-900",
     "ring-0 ring-transparent",
     "outline-none",
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
     "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
     "focus:border-slate-300 focus-visible:border-slate-300",
-    // placeholder: samakan seperti "Jenis Pinjaman"
+    // tetap pastikan kalau placeholder dipakai: warnanya sama
     "[&_[data-slot=select-value][data-placeholder]]:text-slate-500",
     "[&_[data-slot=select-value][data-placeholder]]:opacity-100",
   );
@@ -286,10 +289,12 @@ export default function LaporanKolektibilitas() {
   const [cabang, setCabang] = React.useState<string[]>([]);
   const [namaKode, setNamaKode] = React.useState("");
 
-  const [bulan, setBulan] = React.useState<string>("");
-  const [tahun, setTahun] = React.useState("");
-  const [tipe, setTipe] = React.useState<string>("");
-  const [statusAnggota, setStatusAnggota] = React.useState<string>("");
+  // kembalikan default seperti awal (yang tampil memang value default)
+  const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
+  const [tahun, setTahun] = React.useState("2026");
+  const [tipe, setTipe] = React.useState<KolektibilitasType>("-- Semua --");
+  const [statusAnggota, setStatusAnggota] =
+    React.useState<StatusAnggota>("Semua");
 
   const [warnOpen, setWarnOpen] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
@@ -308,6 +313,11 @@ export default function LaporanKolektibilitas() {
 
     setSubmitted(true);
   }
+
+  const isDefaultBulan = bulan === "April";
+  const isDefaultTahun = tahun === "2026";
+  const isDefaultTipe = tipe === "-- Semua --";
+  const isDefaultStatus = statusAnggota === "Semua";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -381,9 +391,10 @@ export default function LaporanKolektibilitas() {
               <FieldRow label="Bulan">
                 <StyledSelect
                   value={bulan}
-                  onValueChange={setBulan}
+                  onValueChange={(v) => setBulan(v as (typeof months)[number])}
                   options={[...months]}
                   placeholder="Pilih Bulan"
+                  muted={isDefaultBulan}
                   contentClassName={cn(
                     "[&_[data-radix-select-viewport]]:max-h-[240px]",
                     "[&_[data-radix-select-viewport]]:overflow-y-auto",
@@ -400,7 +411,11 @@ export default function LaporanKolektibilitas() {
                 <Input
                   value={tahun}
                   onChange={(e) => setTahun(e.target.value)}
-                  className={cn(UI.input, "placeholder:text-slate-500")}
+                  className={cn(
+                    UI.input,
+                    "placeholder:text-slate-500",
+                    isDefaultTahun ? "text-slate-500" : "text-slate-900",
+                  )}
                   placeholder="Pilih Tahun"
                   inputMode="numeric"
                 />
@@ -409,7 +424,7 @@ export default function LaporanKolektibilitas() {
               <FieldRow label="Tipe Kolektibilitas">
                 <StyledSelect
                   value={tipe}
-                  onValueChange={setTipe}
+                  onValueChange={(v) => setTipe(v as KolektibilitasType)}
                   options={[
                     "-- Semua --",
                     "Lancar",
@@ -419,15 +434,17 @@ export default function LaporanKolektibilitas() {
                     "Macet",
                   ]}
                   placeholder="Pilih Tipe Kolektibilitas"
+                  muted={isDefaultTipe}
                 />
               </FieldRow>
 
               <FieldRow label="Status Anggota">
                 <StyledSelect
                   value={statusAnggota}
-                  onValueChange={setStatusAnggota}
+                  onValueChange={(v) => setStatusAnggota(v as StatusAnggota)}
                   options={["Semua", "Anggota", "Calon"]}
                   placeholder="Pilih Jenis Anggota"
+                  muted={isDefaultStatus}
                 />
               </FieldRow>
 
