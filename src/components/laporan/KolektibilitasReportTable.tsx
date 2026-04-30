@@ -306,8 +306,8 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
         <td className={totalRowText} />
 
-        {/* TUNGGAKAN: BLN (di baris total selalu 12) */}
-        <td className={cn(totalRowText, "tabular-nums")}>12</td>
+        {/* TUNGGAKAN: BLN (kosongkan 2 baris terbawah) */}
+        <td className={totalRowText} />
 
         <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
         <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
@@ -505,7 +505,7 @@ export default function KolektibilitasReportTable({
                     Math.round(r.tunggakanNilai * 0.15),
                   );
 
-                  // BLN (tunggakan): jika 0 atau kosong, tampilkan 12 (sesuai request)
+                  // BLN (tunggakan): jika 0 atau kosong, tampilkan 12
                   const tunggakanBlnDisplay =
                     r.tunggakanBln === 0 ? "12" : String(r.tunggakanBln);
 
@@ -599,7 +599,6 @@ export default function KolektibilitasReportTable({
                         {formatFloat2(r.angsuranSdhHr)}
                       </Td>
 
-                      {/* tunggakan BLN: jika kosong/0 -> 12 */}
                       <Td className={colW.tBln} align="left">
                         {tunggakanBlnDisplay}
                       </Td>
