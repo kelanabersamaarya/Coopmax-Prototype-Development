@@ -427,6 +427,11 @@ export default function LoanAccountEdit() {
     }
   }, [penaltyIsRp]);
 
+  function goBackToDetail() {
+    // Kembali ke detail rekening pinjaman
+    navigate("/loans/accounts", { state: { selectedAccountNo: accountNo } });
+  }
+
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
     if (!idNasabah.trim()) return toast("ID Nasabah wajib diisi");
@@ -438,7 +443,8 @@ export default function LoanAccountEdit() {
     toast.success("Perubahan tersimpan (prototype)", {
       description: `Rekening: ${noRekening}`,
     });
-    navigate("/loans/accounts");
+    // setelah simpan, kembali ke detail
+    goBackToDetail();
   }
 
   function verifyKtp() {
@@ -478,13 +484,11 @@ export default function LoanAccountEdit() {
 
             <Button
               variant="outline"
-              asChild
+              onClick={goBackToDetail}
               className="h-10 rounded-[5px] border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
             >
-              <Link to="/loans/accounts">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Kembali
-              </Link>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Kembali
             </Button>
           </div>
 
@@ -772,7 +776,7 @@ export default function LoanAccountEdit() {
                   </button>
 
                   <LoanFormActionButtons
-                    onCancel={() => navigate("/loans/accounts")}
+                    onCancel={goBackToDetail}
                     onSave={save}
                     cancelLabel="Batalkan"
                     saveLabel="Simpan"
@@ -957,7 +961,7 @@ export default function LoanAccountEdit() {
                   </button>
 
                   <LoanFormActionButtons
-                    onCancel={() => navigate("/loans/accounts")}
+                    onCancel={goBackToDetail}
                     onSave={() =>
                       toast.success("Jadwal tersimpan (prototype)", {
                         description: "Pengaturan jadwal belum disimpan permanen.",

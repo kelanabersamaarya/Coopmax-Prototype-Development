@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -193,6 +194,7 @@ function PaginationBar({
 }
 
 export default function RekeningPinjaman() {
+  const location = useLocation();
   const rows = React.useMemo(() => seed, []);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
@@ -211,6 +213,13 @@ export default function RekeningPinjaman() {
   const [selectedAccountNo, setSelectedAccountNo] = React.useState<string | null>(
     null,
   );
+
+  React.useEffect(() => {
+    const state = location.state as { selectedAccountNo?: string } | null;
+    if (state?.selectedAccountNo) {
+      setSelectedAccountNo(state.selectedAccountNo);
+    }
+  }, [location.state]);
 
   const productOptions = React.useMemo(() => {
     const set = new Set<string>(rows.map((r) => r.produkPinjaman));
