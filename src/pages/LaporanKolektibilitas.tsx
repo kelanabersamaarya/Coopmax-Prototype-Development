@@ -463,19 +463,22 @@ export default function LaporanKolektibilitas() {
                 </div>
               </FieldRow>
 
+              {/* Tombol sejajar dengan ujung kanan field */}
               <div className="flex justify-end pt-0">
-                <button
-                  type="button"
-                  onClick={doSearch}
-                  className={cn(
-                    UI.btn,
-                    "inline-flex items-center gap-2",
-                    "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
-                  )}
-                >
-                  <Search className="h-4 w-4" />
-                  Cari
-                </button>
+                <div className={cn(fieldW, "flex justify-end")}>
+                  <button
+                    type="button"
+                    onClick={doSearch}
+                    className={cn(
+                      UI.btn,
+                      "inline-flex items-center gap-2",
+                      "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
+                    )}
+                  >
+                    <Search className="h-4 w-4" />
+                    Cari
+                  </button>
+                </div>
               </div>
             </div>
           </div>
