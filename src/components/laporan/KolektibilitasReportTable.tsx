@@ -23,7 +23,6 @@ export type KolektibilitasRow = {
   tunggakan61_90: number;
   tunggakan90p: number;
 
-  // cabang (KD & Ket.)
   cabangKd?: string;
   cabangKet?: string;
 };
@@ -211,6 +210,117 @@ function BranchCell({ kd, ket }: { kd: string; ket: string }) {
   );
 }
 
+type Totals = {
+  pokok: number;
+  nilai: number;
+  t1_30: number;
+  t31_60: number;
+  t61_90: number;
+  t90p: number;
+  sisa: number;
+  hutangPokok: number;
+  hutangBunga: number;
+};
+
+function TotalRow({
+  label,
+  totals,
+}: {
+  label: string;
+  totals: Totals;
+}) {
+  const totalRowText =
+    "border border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
+  const totalRowNumber =
+    "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+
+  // Mapping sesuai urutan kolom data (TOTAL_COLS = 29).
+  // Catatan penting: kolom TUNGGAKAN BLN harus kosong.
+  const cols: Array<React.ReactNode> = [
+    /*  1 */ <td key="label" className={cn(totalRowText, "whitespace-nowrap")} colSpan={3}>{label}</td>,
+
+    /*  4 */ <td key="status" className={totalRowText} />,
+    /*  5 */ <td key="alamat" className={totalRowText} />,
+    /*  6 */ <td key="tglPinjaman" className={totalRowText} />,
+    /*  7 */ <td key="tglJatuhTempo" className={totalRowText} />,
+    /*  8 */ <td key="jenis" className={totalRowText} />,
+
+    /*  9 */ <td key="cabangKd" className={totalRowText} />,
+    /* 10 */ <td key="cabangKet" className={totalRowText} />,
+
+    /* 11 PLAFON */ <td key="plafon" className={totalRowText} />,
+    /* 12 AO ID */ <td key="ao" className={totalRowText} />,
+
+    /* 13 JW BLN */ <td key="jwBln" className={totalRowText} />,
+    /* 14 JW DARI */ <td key="jwDari" className={totalRowText} />,
+    /* 15 JW SD */ <td key="jwSd" className={totalRowText} />,
+
+    /* 16 PINJAMAN SLD. POKOK */ (
+      <td key="pokok" className={totalRowNumber}>
+        {formatIdr0(totals.pokok)}
+      </td>
+    ),
+    /* 17 PINJAMAN BNG */ <td key="bng" className={totalRowText} />,
+
+    /* 18 ANGSURAN PER BLN */ <td key="angPerBln" className={totalRowText} />,
+    /* 19 ANGSURAN SDH/HR */ <td key="angSdhHr" className={totalRowText} />,
+
+    /* 20 TUNGGAKAN BLN (harus kosong) */ <td key="tunggakanBln" className={totalRowText} />,
+
+    /* 21 NILAI */ (
+      <td key="nilai" className={totalRowNumber}>
+        {formatIdr0(totals.nilai)}
+      </td>
+    ),
+    /* 22 1-30 */ (
+      <td key="t1_30" className={totalRowNumber}>
+        {formatIdr0(totals.t1_30)}
+      </td>
+    ),
+    /* 23 31-60 */ (
+      <td key="t31_60" className={totalRowNumber}>
+        {formatIdr0(totals.t31_60)}
+      </td>
+    ),
+    /* 24 61-90 */ (
+      <td key="t61_90" className={totalRowNumber}>
+        {formatIdr0(totals.t61_90)}
+      </td>
+    ),
+    /* 25 >90 */ (
+      <td key="t90p" className={totalRowNumber}>
+        {formatIdr0(totals.t90p)}
+      </td>
+    ),
+
+    /* 26 SISA */ (
+      <td key="sisa" className={totalRowNumber}>
+        {formatIdr0(totals.sisa)}
+      </td>
+    ),
+    /* 27 HUTANG POKOK */ (
+      <td key="hutangPokok" className={totalRowNumber}>
+        {formatIdr0(totals.hutangPokok)}
+      </td>
+    ),
+    /* 28 HUTANG BUNGA */ (
+      <td key="hutangBunga" className={totalRowNumber}>
+        {formatIdr0(totals.hutangBunga)}
+      </td>
+    ),
+
+    /* 29 KOLEKTIBILITAS */ <td key="kolek" className={totalRowText} />,
+  ];
+
+  return (
+    <tr className="border-t border-black bg-white">
+      {cols}
+    </tr>
+  );
+}
+
+const TOTAL_COLS = 29;
+
 export default function KolektibilitasReportTable({
   rows,
   pageSize = 20,
@@ -243,7 +353,7 @@ export default function KolektibilitasReportTable({
     totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(totalEntriesResolved, page * pageSize);
 
-  const totals = React.useMemo(() => {
+  const totals = React.useMemo<Totals>(() => {
     return paged.reduce(
       (acc, r) => {
         acc.pokok += r.pinjamanSldPokok;
@@ -273,59 +383,6 @@ export default function KolektibilitasReportTable({
       },
     );
   }, [paged]);
-
-  const totalRowText =
-    "border border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
-  const totalRowNumber =
-    "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
-
-  // Catatan: kolom BLN berada di posisi: setelah "ANGSURAN SDH/HR" dan sebelum "NILAI"
-  // Kita biarkan sel BLN pada total kosong (bukan angka / bukan hasil hitung).
-  function TotalRow({ label }: { label: string }) {
-    return (
-      <tr className="border-t border-black bg-white">
-        <td className={cn(totalRowText, "whitespace-nowrap")} colSpan={3}>
-          {label}
-        </td>
-
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-
-        <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
-        <td className={totalRowText} />
-
-        <td className={totalRowText} />
-        <td className={totalRowText} />
-
-        {/* TUNGGAKAN: BLN -> kosongkan (ini yang terlihat 2 baris angka paling bawah di screenshot) */}
-        <td className={totalRowText} />
-
-        <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
-        <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
-        <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
-        <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
-        <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
-
-        <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
-        <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
-        <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
-        <td className={totalRowText} />
-      </tr>
-    );
-  }
-
-  const TOTAL_COLS = 29;
 
   return (
     <div className={cn("mt-6", className)}>
@@ -507,7 +564,6 @@ export default function KolektibilitasReportTable({
                     Math.round(r.tunggakanNilai * 0.15),
                   );
 
-                  // BLN (tunggakan): baris data tetap tampil normal
                   const tunggakanBlnDisplay = String(r.tunggakanBln);
 
                   return (
@@ -643,8 +699,8 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <>
-                  <TotalRow label="Total per Halaman" />
-                  <TotalRow label="Total" />
+                  <TotalRow label="Total per Halaman" totals={totals} />
+                  <TotalRow label="Total" totals={totals} />
                 </>
               ) : null}
             </tbody>
