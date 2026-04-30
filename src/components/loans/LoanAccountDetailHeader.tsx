@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
+import { useNavigate } from "react-router-dom";
 
 type ActionPillProps = {
   icon: React.ComponentType<{ className?: string }>;
@@ -64,6 +65,7 @@ export default function LoanAccountDetailHeader({
   onBack: () => void;
   onAction: (label: string) => void;
 }) {
+  const navigate = useNavigate();
   const [pemutihanOpen, setPemutihanOpen] = React.useState(false);
   const [txHistoryOpen, setTxHistoryOpen] = React.useState(false);
 
@@ -136,7 +138,11 @@ export default function LoanAccountDetailHeader({
             onClick={() => onAction("Riwayat Transaksi Autodebet")}
           />
 
-          <ActionPill icon={NotebookText} label="Ubah" onClick={() => onAction("Ubah")} />
+          <ActionPill
+            icon={NotebookText}
+            label="Ubah"
+            onClick={() => navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`)}
+          />
           <ActionPill
             icon={ScrollText}
             label="Ubah Hutang"
