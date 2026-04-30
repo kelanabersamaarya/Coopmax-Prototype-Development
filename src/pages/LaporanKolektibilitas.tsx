@@ -2,13 +2,7 @@ import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import {
-  RefreshCw,
-  FileSpreadsheet,
-  FileText,
-  Printer,
-  Search,
-} from "lucide-react";
+import { RefreshCw, FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog";
 import KolektibilitasReportTable, {
@@ -132,12 +126,10 @@ function StyledSelect({
 }) {
   const triggerCls = cn(
     "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium text-slate-900 shadow-sm",
-    // Hilangkan ring abu-abu (focus/open/selected)
     "ring-0 ring-transparent",
     "outline-none",
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
     "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
-    // Border tetap netral
     "focus:border-slate-300 focus-visible:border-slate-300",
   );
 
@@ -299,9 +291,7 @@ export default function LaporanKolektibilitas() {
     }
 
     setSubmitted(true);
-    toast.success("Laporan ditampilkan (prototype)", {
-      description: `Jenis: ${jenisPinjaman} • Cabang: ${cabang} • ${bulan} ${tahun}`,
-    });
+    // NOTE: toast sukses saat laporan tampil sengaja dihilangkan sesuai request.
   }
 
   return (
