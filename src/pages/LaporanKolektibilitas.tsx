@@ -1,4 +1,4 @@
-90 HR menjadi 0 pada seed data laporan kolektibilitas.">
+90 menjadi 0.">
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
