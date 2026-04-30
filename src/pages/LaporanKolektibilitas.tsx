@@ -319,7 +319,6 @@ export default function LaporanKolektibilitas() {
   const isDefaultTipe = tipe === "-- Semua --";
   const isDefaultStatus = statusAnggota === "Semua";
 
-  // Lebar field yang lebih kecil (mobile tetap full)
   const fieldW = "w-full md:max-w-[520px] lg:max-w-[440px]";
 
   return (
@@ -352,16 +351,11 @@ export default function LaporanKolektibilitas() {
               label="Export PDF"
               onClick={() => toast("Export PDF (prototype)")}
             />
-            <ActionPill
-              icon={Printer}
-              label="Cetak"
-              onClick={() => toast("Cetak (prototype)")}
-            />
+            <ActionPill icon={Printer} label="Cetak" onClick={() => toast("Cetak (prototype)")} />
           </div>
         </div>
 
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
-          {/* sebelum: max-w-[920px] -> sekarang lebih kecil supaya field tidak terlalu panjang */}
           <div className="w-full max-w-[760px]">
             <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Jenis Pinjaman">
@@ -463,8 +457,9 @@ export default function LaporanKolektibilitas() {
                 </div>
               </FieldRow>
 
-              {/* Tombol sejajar dengan ujung kanan field */}
-              <div className="flex justify-end pt-0">
+              {/* Tombol Cari masuk ke kolom field (sejajar ujung kanan field) */}
+              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                <div />
                 <div className={cn(fieldW, "flex justify-end")}>
                   <button
                     type="button"
