@@ -272,8 +272,13 @@ export default function TransaksiAnggotaView2({
   );
 
   React.useEffect(() => {
-    if (isReguler || isKhusus) {
+    if (isReguler) {
       setSelected(rowsToShow.map(() => true));
+      return;
+    }
+
+    if (isKhusus) {
+      setSelected(rowsToShow.map(() => false));
       return;
     }
 
@@ -592,7 +597,7 @@ export default function TransaksiAnggotaView2({
                     rows={rowsToShow}
                     selected={selected}
                     setSelected={setSelected}
-                    isLocked={true}
+                    isLocked={false}
                     showNextBillInfo={!hideNextBillInfo}
                     showGraceInfo={showGraceInfo}
                     highlightGraceBlock={highlightGraceBlock}

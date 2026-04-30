@@ -214,8 +214,13 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
       return;
     }
 
-    if (isReguler || isKhusus) {
+    if (isReguler) {
       setSelected((prev) => pagedRows.map((_, i) => prev[i] ?? true));
+      return;
+    }
+
+    if (isKhusus) {
+      setSelected(pagedRows.map(() => false));
       return;
     }
 
