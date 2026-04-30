@@ -222,7 +222,7 @@ type Totals = {
   hutangBunga: number;
 };
 
-function TotalRow({
+function TotalRowMergedToJangkaWaktu({
   label,
   totals,
 }: {
@@ -234,87 +234,57 @@ function TotalRow({
   const totalRowNumber =
     "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
-  // Mapping sesuai urutan kolom data (TOTAL_COLS = 29).
-  // Catatan penting: kolom TUNGGAKAN BLN harus kosong.
-  const cols: Array<React.ReactNode> = [
-    /*  1 */ <td key="label" className={cn(totalRowText, "whitespace-nowrap")} colSpan={3}>{label}</td>,
+  // Merge sampai akhir grup JANGKA WAKTU (kolom 1..15):
+  // NO, NO.REKENING, NAMA, STATUS, ALAMAT, TGL PINJAMAN, TGL JATUH TEMPO, JENIS PINJAMAN,
+  // CABANG KD, CABANG KET, PLAFON, AO ID, JW BLN, JW DARI, JW S/D
+  const MERGE_COLS_TO_JW_END = 15;
 
-    /*  4 */ <td key="status" className={totalRowText} />,
-    /*  5 */ <td key="alamat" className={totalRowText} />,
-    /*  6 */ <td key="tglPinjaman" className={totalRowText} />,
-    /*  7 */ <td key="tglJatuhTempo" className={totalRowText} />,
-    /*  8 */ <td key="jenis" className={totalRowText} />,
-
-    /*  9 */ <td key="cabangKd" className={totalRowText} />,
-    /* 10 */ <td key="cabangKet" className={totalRowText} />,
-
-    /* 11 PLAFON */ <td key="plafon" className={totalRowText} />,
-    /* 12 AO ID */ <td key="ao" className={totalRowText} />,
-
-    /* 13 JW BLN */ <td key="jwBln" className={totalRowText} />,
-    /* 14 JW DARI */ <td key="jwDari" className={totalRowText} />,
-    /* 15 JW SD */ <td key="jwSd" className={totalRowText} />,
-
-    /* 16 PINJAMAN SLD. POKOK */ (
-      <td key="pokok" className={totalRowNumber}>
-        {formatIdr0(totals.pokok)}
-      </td>
-    ),
-    /* 17 PINJAMAN BNG */ <td key="bng" className={totalRowText} />,
-
-    /* 18 ANGSURAN PER BLN */ <td key="angPerBln" className={totalRowText} />,
-    /* 19 ANGSURAN SDH/HR */ <td key="angSdhHr" className={totalRowText} />,
-
-    /* 20 TUNGGAKAN BLN (harus kosong) */ <td key="tunggakanBln" className={totalRowText} />,
-
-    /* 21 NILAI */ (
-      <td key="nilai" className={totalRowNumber}>
-        {formatIdr0(totals.nilai)}
-      </td>
-    ),
-    /* 22 1-30 */ (
-      <td key="t1_30" className={totalRowNumber}>
-        {formatIdr0(totals.t1_30)}
-      </td>
-    ),
-    /* 23 31-60 */ (
-      <td key="t31_60" className={totalRowNumber}>
-        {formatIdr0(totals.t31_60)}
-      </td>
-    ),
-    /* 24 61-90 */ (
-      <td key="t61_90" className={totalRowNumber}>
-        {formatIdr0(totals.t61_90)}
-      </td>
-    ),
-    /* 25 >90 */ (
-      <td key="t90p" className={totalRowNumber}>
-        {formatIdr0(totals.t90p)}
-      </td>
-    ),
-
-    /* 26 SISA */ (
-      <td key="sisa" className={totalRowNumber}>
-        {formatIdr0(totals.sisa)}
-      </td>
-    ),
-    /* 27 HUTANG POKOK */ (
-      <td key="hutangPokok" className={totalRowNumber}>
-        {formatIdr0(totals.hutangPokok)}
-      </td>
-    ),
-    /* 28 HUTANG BUNGA */ (
-      <td key="hutangBunga" className={totalRowNumber}>
-        {formatIdr0(totals.hutangBunga)}
-      </td>
-    ),
-
-    /* 29 KOLEKTIBILITAS */ <td key="kolek" className={totalRowText} />,
-  ];
-
+  // Setelah merge, sisanya tetap jumlah kolom total = 29
+  // Kolom 16..29:
+  // 16 PINJAMAN SLD POKOK, 17 PINJAMAN BNG,
+  // 18 ANGS PER BLN, 19 ANGS SDH/HR,
+  // 20 TUNGGAKAN BLN (kosong),
+  // 21 NILAI, 22 1-30, 23 31-60, 24 61-90, 25 >90,
+  // 26 SISA, 27 HUTANG POKOK, 28 HUTANG BUNGA, 29 KOLEKTIBILITAS
   return (
     <tr className="border-t border-black bg-white">
-      {cols}
+      <td
+        className={cn(totalRowText, "whitespace-nowrap")}
+        colSpan={MERGE_COLS_TO_JW_END}
+      >
+        {label}
+      </td>
+
+      {/* 16 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
+      {/* 17 */}
+      <td className={totalRowText} />
+      {/* 18 */}
+      <td className={totalRowText} />
+      {/* 19 */}
+      <td className={totalRowText} />
+      {/* 20 TUNGGAKAN BLN harus kosong */}
+      <td className={totalRowText} />
+
+      {/* 21 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
+      {/* 22 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
+      {/* 23 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
+      {/* 24 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
+      {/* 25 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
+
+      {/* 26 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
+      {/* 27 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
+      {/* 28 */}
+      <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
+      {/* 29 */}
+      <td className={totalRowText} />
     </tr>
   );
 }
@@ -699,8 +669,8 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <>
-                  <TotalRow label="Total per Halaman" totals={totals} />
-                  <TotalRow label="Total" totals={totals} />
+                  <TotalRowMergedToJangkaWaktu label="Total per Halaman" totals={totals} />
+                  <TotalRowMergedToJangkaWaktu label="Total" totals={totals} />
                 </>
               ) : null}
             </tbody>
