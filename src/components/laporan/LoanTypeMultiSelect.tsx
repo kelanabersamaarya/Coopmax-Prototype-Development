@@ -1,14 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronDown, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 export default function LoanTypeMultiSelect({
   options,
@@ -43,7 +44,7 @@ export default function LoanTypeMultiSelect({
             "transition hover:bg-slate-50",
             className,
           )}
-          aria-label="Pilih jenis pinjaman"
+          aria-label="Pilih pinjaman"
         >
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
             {value.length === 0 ? (
@@ -107,21 +108,21 @@ export default function LoanTypeMultiSelect({
       >
         <Command className="rounded-[12px]">
           <CommandList>
-            <CommandGroup heading="Jenis Pinjaman">
+            {/* No heading text */}
+            <CommandGroup>
               {options.map((opt) => {
                 const checked = value.includes(opt);
+
                 return (
                   <CommandItem
                     key={opt}
                     value={opt}
                     onSelect={() => toggle(opt)}
-                    className="rounded-[10px]"
+                    className={cn(
+                      "rounded-[10px]",
+                      checked ? "bg-violet-50 text-violet-800" : "",
+                    )}
                   >
-                    <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-[6px] border border-slate-200 bg-white">
-                      {checked ? (
-                        <Check className="h-4 w-4 text-violet-700" />
-                      ) : null}
-                    </span>
                     <span className="min-w-0 flex-1 truncate">{opt}</span>
                   </CommandItem>
                 );
