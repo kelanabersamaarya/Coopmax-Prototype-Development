@@ -47,7 +47,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
   const isReal = implementedRoutes.has(resolvedTo);
 
   const common =
-    "group flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left transition";
+    "group flex w-full items-center gap-2.5 rounded-[5px] px-2.5 py-2.5 text-left transition";
 
   if (!isReal) {
     return (
@@ -58,7 +58,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
           window.location.href = "/";
         }}
       >
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] bg-slate-100 text-slate-700">
           <Icon className="h-4.5 w-4.5" />
         </span>
         <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
@@ -81,7 +81,7 @@ function SidebarNavItem({ item }: { item: NavItem }) {
         )
       }
     >
-      <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+      <span className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] bg-slate-100 text-slate-700">
         <Icon className="h-4.5 w-4.5" />
       </span>
       <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
@@ -115,7 +115,7 @@ export default function Index() {
         >
           {!isDashboard ? (
             <aside className="min-w-0 space-y-4 px-0">
-              <Card className="min-w-0 rounded-3xl border-slate-200/70 bg-white p-2 shadow-sm">
+              <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 {/* no scroll on sidebar */}
                 <div className="px-0 py-1">
                   <div className="space-y-1">
