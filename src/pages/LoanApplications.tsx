@@ -110,23 +110,23 @@ function StatusBadge({ status }: { status: LoanApplicationRow["status"] }) {
     { className: string; label: string }
   > = {
     Draft: {
-      className: "bg-slate-200 text-slate-900",
+      className: "bg-slate-200 text-slate-900 hover:bg-slate-200",
       label: "Draft",
     },
     Diajukan: {
-      className: "bg-blue-600 text-white",
+      className: "bg-blue-600 text-white hover:bg-blue-600",
       label: "Diajukan",
     },
     Ditolak: {
-      className: "bg-rose-600 text-white",
+      className: "bg-rose-600 text-white hover:bg-rose-600",
       label: "Ditolak",
     },
     "Nonaktif / Ditolak": {
-      className: "bg-rose-600 text-white",
+      className: "bg-rose-600 text-white hover:bg-rose-600",
       label: "Nonaktif / Ditolak",
     },
     Disetujui: {
-      className: "bg-emerald-600 text-white",
+      className: "bg-emerald-600 text-white hover:bg-emerald-600",
       label: "Disetujui",
     },
   };
@@ -137,7 +137,6 @@ function StatusBadge({ status }: { status: LoanApplicationRow["status"] }) {
     <Badge
       className={cn(
         "rounded-md px-2.5 py-1 text-[11px] font-bold leading-none",
-        "hover:bg-inherit",
         v.className,
       )}
     >
