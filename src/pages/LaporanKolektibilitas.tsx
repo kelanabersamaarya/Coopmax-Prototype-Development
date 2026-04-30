@@ -26,7 +26,7 @@ type KolektibilitasType =
   | "Diragukan"
   | "Macet";
 
-type StatusAnggota = "Pilih Jenis Anggota" | "Anggota" | "Calon";
+type StatusAnggota = "Semua" | "Anggota" | "Calon";
 
 const months = [
   "Januari",
@@ -282,7 +282,7 @@ export default function LaporanKolektibilitas() {
   const [tahun, setTahun] = React.useState("2026");
   const [tipe, setTipe] = React.useState<KolektibilitasType>("-- Semua --");
   const [statusAnggota, setStatusAnggota] =
-    React.useState<StatusAnggota>("Pilih Jenis Anggota");
+    React.useState<StatusAnggota>("Semua");
 
   const [warnOpen, setWarnOpen] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
@@ -409,7 +409,8 @@ export default function LaporanKolektibilitas() {
                 <StyledSelect
                   value={statusAnggota}
                   onValueChange={(v) => setStatusAnggota(v as StatusAnggota)}
-                  options={["Pilih Jenis Anggota", "Anggota", "Calon"]}
+                  options={["Semua", "Anggota", "Calon"]}
+                  placeholder="Pilih Jenis Anggota"
                 />
               </FieldRow>
 
