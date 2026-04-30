@@ -43,7 +43,7 @@ function Th({
   className,
   colSpan,
   rowSpan,
-  align = "left",
+  align = "center",
 }: {
   children: React.ReactNode;
   className?: string;
@@ -171,7 +171,7 @@ const colW = {
   pinPokok: "w-[130px]",
   pinBng: "w-[90px]",
   angPerBln: "w-[130px]",
-  angSdhHr: "w-[90px]",
+  angsuranSdhHr: "w-[90px]",
   tBln: "w-[90px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
@@ -234,18 +234,8 @@ function TotalRowMergedToJangkaWaktu({
   const totalRowNumber =
     "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
-  // Merge sampai akhir grup JANGKA WAKTU (kolom 1..15):
-  // NO, NO.REKENING, NAMA, STATUS, ALAMAT, TGL PINJAMAN, TGL JATUH TEMPO, JENIS PINJAMAN,
-  // CABANG KD, CABANG KET, PLAFON, AO ID, JW BLN, JW DARI, JW S/D
   const MERGE_COLS_TO_JW_END = 15;
 
-  // Setelah merge, sisanya tetap jumlah kolom total = 29
-  // Kolom 16..29:
-  // 16 PINJAMAN SLD POKOK, 17 PINJAMAN BNG,
-  // 18 ANGS PER BLN, 19 ANGS SDH/HR,
-  // 20 TUNGGAKAN BLN (kosong),
-  // 21 NILAI, 22 1-30, 23 31-60, 24 61-90, 25 >90,
-  // 26 SISA, 27 HUTANG POKOK, 28 HUTANG BUNGA, 29 KOLEKTIBILITAS
   return (
     <tr className="border-t border-black bg-white">
       <td
@@ -255,35 +245,19 @@ function TotalRowMergedToJangkaWaktu({
         {label}
       </td>
 
-      {/* 16 */}
       <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
-      {/* 17 */}
       <td className={totalRowText} />
-      {/* 18 */}
       <td className={totalRowText} />
-      {/* 19 */}
       <td className={totalRowText} />
-      {/* 20 TUNGGAKAN BLN harus kosong */}
       <td className={totalRowText} />
-
-      {/* 21 */}
       <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
-      {/* 22 */}
       <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
-      {/* 23 */}
       <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
-      {/* 24 */}
       <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
-      {/* 25 */}
       <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
-
-      {/* 26 */}
       <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
-      {/* 27 */}
       <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
-      {/* 28 */}
       <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
-      {/* 29 */}
       <td className={totalRowText} />
     </tr>
   );
@@ -386,96 +360,55 @@ export default function KolektibilitasReportTable({
                   JENIS PINJAMAN
                 </Th>
 
-                <Th colSpan={2} align="center">
-                  CABANG
-                </Th>
+                <Th colSpan={2}>CABANG</Th>
 
-                <Th rowSpan={2} className={colW.plafon} align="right">
+                <Th rowSpan={2} className={colW.plafon} align="center">
                   PLAFON
                 </Th>
                 <Th rowSpan={2} className={colW.aoId}>
                   AO ID
                 </Th>
 
-                <Th colSpan={3} align="center">
-                  JANGKA WAKTU
-                </Th>
-                <Th colSpan={2} align="center">
-                  PINJAMAN
-                </Th>
-                <Th colSpan={2} align="center">
-                  ANGSURAN
-                </Th>
-                <Th colSpan={6} align="center">
-                  TUNGGAKAN
-                </Th>
+                <Th colSpan={3}>JANGKA WAKTU</Th>
+                <Th colSpan={2}>PINJAMAN</Th>
+                <Th colSpan={2}>ANGSURAN</Th>
+                <Th colSpan={6}>TUNGGAKAN</Th>
 
-                <Th rowSpan={2} className={colW.sisaPinjaman} align="right">
+                <Th rowSpan={2} className={colW.sisaPinjaman} align="center">
                   SISA PINJAMAN
                 </Th>
-                <Th rowSpan={2} className={colW.hutangPokok} align="right">
+                <Th rowSpan={2} className={colW.hutangPokok} align="center">
                   HUTANG POKOK
                 </Th>
-                <Th rowSpan={2} className={colW.hutangBunga} align="right">
+                <Th rowSpan={2} className={colW.hutangBunga} align="center">
                   HUTANG BUNGA
                 </Th>
 
-                <Th
-                  rowSpan={2}
-                  className={cn(colW.kolektibilitas, "whitespace-nowrap")}
-                >
+                <Th rowSpan={2} className={cn(colW.kolektibilitas, "whitespace-nowrap")}>
                   KOLEKTIBLILITAS
                 </Th>
               </tr>
 
               <tr>
-                <Th className={colW.cabangKd} align="center">
-                  KD
-                </Th>
-                <Th className={colW.cabangKet} align="center">
-                  KET.
-                </Th>
+                <Th className={colW.cabangKd}>KD</Th>
+                <Th className={colW.cabangKet}>KET.</Th>
 
-                <Th className={colW.jwBln} align="center">
-                  BLN
-                </Th>
-                <Th className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
-                  DARI TGL.
-                </Th>
-                <Th className={cn(colW.jwSampai, "whitespace-nowrap")} align="left">
-                  S/D TGL.
-                </Th>
+                <Th className={colW.jwBln}>BLN</Th>
+                <Th className={cn(colW.jwDari, "whitespace-nowrap")}>DARI TGL.</Th>
+                <Th className={cn(colW.jwSampai, "whitespace-nowrap")}>S/D TGL.</Th>
 
-                <Th className={cn(colW.pinPokok, "whitespace-nowrap")} align="right">
-                  SLD. POKOK
-                </Th>
-                <Th className={colW.pinBng} align="right">
-                  BNG
-                </Th>
+                <Th className={cn(colW.pinPokok, "whitespace-nowrap")}>SLD. POKOK</Th>
+                <Th className={colW.pinBng}>BNG</Th>
 
-                <Th className={colW.angPerBln} align="right">
-                  PER BLN
-                </Th>
-                <Th className={cn(colW.angSdhHr, "whitespace-nowrap")} align="right">
-                  SDH/HR
-                </Th>
+                <Th className={colW.angPerBln}>PER BLN</Th>
+                <Th className={cn(colW.angSdhHr, "whitespace-nowrap")}>SDH/HR</Th>
 
-                <Th className={colW.tBln} align="center">
-                  BLN
-                </Th>
-                <Th className={colW.tNilai} align="right">
-                  NILAI
-                </Th>
-                <Th className={colW.t1_30} align="right">
-                  1-30 HR
-                </Th>
-                <Th className={colW.t31_60} align="right">
-                  31-60 HR
-                </Th>
-                <Th className={colW.t61_90} align="right">
-                  61-90 HR
-                </Th>
-                <Th className={colW.t90p} align="right">
+                <Th className={colW.tBln}>BLN</Th>
+                <Th className={colW.tNilai}>NILAI</Th>
+                <Th className={colW.t1_30}>1-30 HR</Th>
+                <Th className={colW.t31_60}>31-60 HR</Th>
+                <Th className={colW.t61_90}>61-90 HR</Th>
+                <Th className={colW.t90p}>
                   {"\u003E"} 90 HR
                 </Th>
               </tr>
@@ -622,7 +555,7 @@ export default function KolektibilitasReportTable({
                       <Td className={colW.angPerBln} align="right">
                         {formatIdr0(r.angsuranPerBln)}
                       </Td>
-                      <Td className={colW.angSdhHr} align="right">
+                      <Td className={colW.angsuranSdhHr} align="right">
                         {formatFloat2(r.angsuranSdhHr)}
                       </Td>
 
