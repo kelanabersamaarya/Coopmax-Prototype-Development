@@ -362,20 +362,6 @@ export default function LoanApplicationCreate() {
   const moneyLikeText = (v: string) =>
     isDefaultMoney(v) ? "text-[#64748B]" : "text-slate-900";
 
-  // Khusus Jadwal Denda: matikan ring ungu saat focus/open
-  const noPurpleRingTrigger = cn(
-    UI.selectTrigger,
-    "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-    "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
-    "focus:border-slate-300 focus-visible:border-slate-300",
-  );
-
-  const noPurpleRingInput = cn(
-    UI.input,
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
-    "focus:border-slate-300 focus-visible:border-slate-300",
-  );
-
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -681,7 +667,7 @@ export default function LoanApplicationCreate() {
                 </div>
               </div>
             ) : tab === "jadwal" ? (
-              <div className="grid gap-10">
+              <div className="no-purple-select grid gap-10">
                 <div className="space-y-5">
                   <div className={UI.sectionTitle}>Jadwal Perhitungan Bunga</div>
 
@@ -802,18 +788,6 @@ export default function LoanApplicationCreate() {
                             description: "Form denda ditutup.",
                           });
                         }}
-                        className={cn(
-                          // Target hanya komponen Jadwal Denda agar tidak mempengaruhi area lain
-                          "[&_[data-slot=select-trigger]]:focus-visible:ring-0",
-                          "[&_[data-slot=select-trigger]]:focus-visible:ring-offset-0",
-                          "[&_[data-slot=select-trigger]]:data-[state=open]:ring-0",
-                          "[&_[data-slot=select-trigger]]:data-[state=open]:ring-offset-0",
-                          "[&_[data-slot=select-trigger]]:focus-visible:border-slate-300",
-                          "[&_[data-slot=select-trigger]]:data-[state=open]:border-slate-300",
-                          "[&_[data-slot=input]]:focus-visible:ring-0",
-                          "[&_[data-slot=input]]:focus-visible:ring-offset-0",
-                          "[&_[data-slot=input]]:focus-visible:border-slate-300",
-                        )}
                       />
 
                       <div className="mt-[15px] grid gap-[15px]">
@@ -851,19 +825,6 @@ export default function LoanApplicationCreate() {
                         >
                           sync
                         </button>
-                      </div>
-
-                      {/* tetap pakai helper (opsional) untuk input/select di blok ini */}
-                      <div className="sr-only">
-                        <Select>
-                          <SelectTrigger className={noPurpleRingTrigger}>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="x">x</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Input className={noPurpleRingInput} />
                       </div>
                     </div>
                   ) : null}

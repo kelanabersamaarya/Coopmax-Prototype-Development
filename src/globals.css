@@ -323,3 +323,38 @@ button[role="radio"]:focus-visible,
   ):focus {
   border-color: var(--field-focus-border) !important;
 }
+
+/* ===========================
+   Scoped: LoanApplicationCreate -> Pengaturan Jadwal
+   Hilangkan ring ungu pada Select (trigger + item highlight)
+   =========================== */
+.no-purple-select :where([data-slot="select-trigger"], [role="combobox"]) {
+  outline: none !important;
+  box-shadow: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-offset-width: 0px !important;
+}
+
+.no-purple-select :where([data-slot="select-trigger"], [role="combobox"]):focus,
+.no-purple-select
+  :where([data-slot="select-trigger"], [role="combobox"]):focus-visible,
+.no-purple-select
+  :where([data-slot="select-trigger"], [role="combobox"])[data-state="open"] {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: var(--field-focus-border) !important;
+}
+
+.no-purple-select :where([data-radix-select-item][data-highlighted]) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.no-purple-select :where(input, textarea):focus,
+.no-purple-select :where(input, textarea):focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: var(--field-focus-border) !important;
+}
