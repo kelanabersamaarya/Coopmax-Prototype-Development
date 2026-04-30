@@ -157,6 +157,12 @@ function PenaltyInfoButton({
   );
 }
 
+function toIdr00(v: string) {
+  const s = (v ?? "").trim();
+  if (s === "" || s === "0" || s === "0,00" || s === "0.00") return "0,00";
+  return s;
+}
+
 export default function BillingTableView2({
   rows,
   selected,
@@ -302,8 +308,13 @@ export default function BillingTableView2({
   const rowDividerClass = hideRowDividers ? "" : "border-t border-slate-200";
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
-    if (graceCount > 0 && rowIndex < graceCount) return "0";
-    return raw;
+    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
+    return toIdr00(raw);
+  }
+
+  function displaySisaPokok(rowIndex: number, raw: string) {
+    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
+    return toIdr00(raw);
   }
 
   const renderGraceShell = highlightGraceBlock && graceRows.length > 0;
@@ -412,7 +423,7 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
-                                    <RightNum value={r.sisaPokok} />
+                                    <RightNum value={displaySisaPokok(rowIndex, r.sisaPokok)} />
                                   </div>
 
                                   <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
@@ -491,7 +502,7 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
-                              <RightNum value={r.sisaPokok} />
+                              <RightNum value={displaySisaPokok(rowIndex, r.sisaPokok)} />
                             </div>
 
                             <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
@@ -570,21 +581,19 @@ export default function BillingTableView2({
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum
-                                  value={displayTagihanPokok(idx, r.tagihanPokok)}
-                                />
+                                <RightNum value={toIdr00(r.tagihanPokok)} />
                               </div>
 
                               <div className={cn("px-4", cellY, numberTextClass)}>
-                                <RightNum value={r.tagihanBunga} />
+                                <RightNum value={toIdr00(r.tagihanBunga)} />
                               </div>
 
                               <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
-                                <RightNum value={r.sisaPokok} />
+                                <RightNum value={toIdr00(r.sisaPokok)} />
                               </div>
 
                               <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
-                                <RightNum value={r.sisaBunga} />
+                                <RightNum value={toIdr00(r.sisaBunga)} />
                               </div>
 
                               {showPenaltyColumn ? (

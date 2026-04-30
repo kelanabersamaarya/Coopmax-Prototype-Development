@@ -295,7 +295,12 @@ export default function BillingTable({
   }
 
   function displayTagihanPokok(rowIndex: number, raw: string) {
-    if (graceCount > 0 && rowIndex < graceCount) return "0";
+    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
+    return raw;
+  }
+
+  function displaySisaPokok(rowIndex: number, raw: string) {
+    if (graceCount > 0 && rowIndex < graceCount) return "0,00";
     return raw;
   }
 
@@ -395,7 +400,9 @@ export default function BillingTable({
                                     ) : null}
 
                                     <td className={tdNum}>
-                                      <NumCell value={bill.sisaPokok} />
+                                      <NumCell
+                                        value={displaySisaPokok(rowIndex, bill.sisaPokok)}
+                                      />
                                     </td>
 
                                     {!hideInterestCols ? (
@@ -478,7 +485,7 @@ export default function BillingTable({
                       ) : null}
 
                       <td className={tdNum}>
-                        <NumCell value={bill.sisaPokok} />
+                        <NumCell value={displaySisaPokok(rowIndex, bill.sisaPokok)} />
                       </td>
 
                       {!hideInterestCols ? (
