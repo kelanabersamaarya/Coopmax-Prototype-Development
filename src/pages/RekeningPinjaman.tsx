@@ -297,20 +297,20 @@ export default function RekeningPinjaman() {
 
   const isDetail = !!selectedAccountNo;
 
+  // lebih rapat lagi
+  const th = "px-1.5 py-2";
+  const filterCell = "px-1.5 py-1";
+  const td = "px-1.5 py-1.5";
+
   const filterInputCls =
-    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-7 rounded-[6px] border-slate-300 bg-white text-[12.5px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
-    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+    "h-7 rounded-[6px] border-slate-300 bg-white text-[12.5px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   const pageSizeTriggerCls =
     "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
 
-  // lebih rapat (sama seperti LoanApplications)
-  const th = "px-2 py-2.5";
-  const filterCell = "px-2 py-1.5";
-  const td = "px-2 py-2";
-
-  const noColW = "w-[44px] min-w-[44px] max-w-[44px]";
+  const noColW = "w-[40px] min-w-[40px] max-w-[40px]";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -371,7 +371,7 @@ export default function RekeningPinjaman() {
                 <div className="safe-x-scroll">
                   <table className="w-full min-w-[1200px] border-collapse">
                     <thead className="bg-white">
-                      <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <tr className="border-b border-slate-300/70 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                         <th className={cn(noColW, "whitespace-nowrap", th)}>
                           <ThLabel sortable={false}>No.</ThLabel>
                         </th>
