@@ -54,8 +54,8 @@ export default function LoanTypeMultiSelect({
                 <span
                   key={v}
                   className={cn(
-                    "inline-flex items-center gap-1.5",
-                    "rounded-[5px] bg-violet-600 px-2 py-1",
+                    "inline-flex items-center gap-2",
+                    "rounded-[5px] bg-violet-600 px-2.5 py-1",
                     "text-[12.5px] font-semibold text-white",
                   )}
                 >
@@ -66,11 +66,11 @@ export default function LoanTypeMultiSelect({
                       e.stopPropagation();
                       onChange(value.filter((x) => x !== v));
                     }}
-                    className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] bg-white/15 hover:bg-white/20"
+                    className="inline-flex h-4 w-4 items-center justify-center text-white/90 transition hover:text-white"
                     aria-label={`Hapus ${v}`}
                     title="Hapus"
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-4 w-4" />
                   </button>
                   <span className="max-w-[220px] truncate sm:max-w-[360px]">
                     {v}
@@ -108,7 +108,6 @@ export default function LoanTypeMultiSelect({
       >
         <Command className="rounded-[12px]">
           <CommandList>
-            {/* No heading text */}
             <CommandGroup>
               {options.map((opt) => {
                 const checked = value.includes(opt);
