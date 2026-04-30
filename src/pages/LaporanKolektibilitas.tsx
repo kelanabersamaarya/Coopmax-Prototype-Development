@@ -1,4 +1,3 @@
-90 menjadi 0.">
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -133,12 +132,12 @@ function StyledSelect({
 }) {
   const triggerCls = cn(
     "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium text-slate-900 shadow-sm",
-    // HILANGKAN ring abu-abu (focus/open/selected)
+    // Hilangkan ring abu-abu (focus/open/selected)
     "ring-0 ring-transparent",
     "outline-none",
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
     "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
-    // tetap jaga border netral
+    // Border tetap netral
     "focus:border-slate-300 focus-visible:border-slate-300",
   );
 
@@ -151,10 +150,8 @@ function StyledSelect({
       <SelectContent
         className={cn(
           "rounded-[12px] border-slate-200 p-1 shadow-xl",
-          // item terpilih
           "[&_[data-state=checked]]:bg-slate-100/80",
           "[&_[data-state=checked]]:text-slate-900",
-          // item radius
           "[&_[data-radix-collection-item]]:rounded-[10px]",
           contentClassName,
         )}
@@ -165,7 +162,6 @@ function StyledSelect({
             value={o}
             className={cn(
               "rounded-[10px] py-2 text-[15px] font-medium text-slate-800",
-              // hover/focus: ungu seperti contoh kedua
               "focus:bg-violet-600 focus:text-white",
               "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
               "data-[state=checked]:focus:bg-slate-100/80 data-[state=checked]:focus:text-slate-900",
@@ -346,7 +342,6 @@ export default function LaporanKolektibilitas() {
           </div>
         </div>
 
-        {/* FORM: compact styling */}
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[920px]">
             <div className={cn("grid", UI.gapY)}>
@@ -381,10 +376,8 @@ export default function LaporanKolektibilitas() {
                   onValueChange={(v) => setBulan(v as (typeof months)[number])}
                   options={[...months]}
                   contentClassName={cn(
-                    // IMPORTANT: Scroll harus diterapkan ke viewport Radix (bukan container luarnya)
                     "[&_[data-radix-select-viewport]]:max-h-[240px]",
                     "[&_[data-radix-select-viewport]]:overflow-y-auto",
-                    // scrollbar mirip contoh (abu)
                     "[&_[data-radix-select-viewport]::-webkit-scrollbar]:w-2",
                     "[&_[data-radix-select-viewport]::-webkit-scrollbar-track]:bg-slate-100",
                     "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:bg-slate-400",
