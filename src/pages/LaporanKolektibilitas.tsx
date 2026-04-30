@@ -2,7 +2,13 @@ import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { RefreshCw, FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
+import {
+  RefreshCw,
+  FileSpreadsheet,
+  FileText,
+  Printer,
+  Search,
+} from "lucide-react";
 import { toast } from "sonner";
 import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog";
 import KolektibilitasReportTable, {
@@ -133,6 +139,8 @@ function StyledSelect({
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
     "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
     "focus:border-slate-300 focus-visible:border-slate-300",
+    // samakan warna placeholder dengan field "Jenis Pinjaman"
+    "[&_[data-placeholder]]:text-slate-500",
   );
 
   return (
@@ -370,6 +378,7 @@ export default function LaporanKolektibilitas() {
                   value={bulan}
                   onValueChange={(v) => setBulan(v as (typeof months)[number])}
                   options={[...months]}
+                  placeholder="Pilih Bulan"
                   contentClassName={cn(
                     "[&_[data-radix-select-viewport]]:max-h-[240px]",
                     "[&_[data-radix-select-viewport]]:overflow-y-auto",
@@ -385,7 +394,8 @@ export default function LaporanKolektibilitas() {
                 <Input
                   value={tahun}
                   onChange={(e) => setTahun(e.target.value)}
-                  className={UI.input}
+                  className={cn(UI.input, "placeholder:text-slate-500")}
+                  placeholder="Pilih Tahun"
                   inputMode="numeric"
                 />
               </FieldRow>
@@ -402,6 +412,7 @@ export default function LaporanKolektibilitas() {
                     "Diragukan",
                     "Macet",
                   ]}
+                  placeholder="Pilih Tipe Kolektibilitas"
                 />
               </FieldRow>
 
