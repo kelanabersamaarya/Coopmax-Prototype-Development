@@ -278,7 +278,8 @@ export default function TransaksiAnggotaView2({
     }
 
     if (isKhusus) {
-      setSelected(rowsToShow.map(() => false));
+      // VIEW2/3: Pembayaran Khusus default tercentang
+      setSelected(rowsToShow.map(() => true));
       return;
     }
 
