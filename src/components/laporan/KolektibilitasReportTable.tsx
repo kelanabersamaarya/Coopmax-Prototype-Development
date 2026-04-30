@@ -306,7 +306,7 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
         <td className={totalRowText} />
 
-        {/* TUNGGAKAN: BLN (kosongkan 2 baris terbawah) */}
+        {/* TUNGGAKAN: BLN (kosongkan 2 baris terbawah saja) */}
         <td className={totalRowText} />
 
         <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
@@ -505,8 +505,8 @@ export default function KolektibilitasReportTable({
                     Math.round(r.tunggakanNilai * 0.15),
                   );
 
-                  // BLN (tunggakan): sesuai request terakhir, hilangkan angkanya (kosong)
-                  const tunggakanBlnDisplay = "";
+                  // BLN (tunggakan): tampilkan angka sesuai data (bukan dikosongkan)
+                  const tunggakanBlnDisplay = String(r.tunggakanBln);
 
                   return (
                     <tr
