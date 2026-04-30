@@ -171,7 +171,7 @@ const colW = {
   pinPokok: "w-[130px]",
   pinBng: "w-[90px]",
   angPerBln: "w-[130px]",
-  angsuranSdhHr: "w-[90px]",
+  angSdhHr: "w-[90px]",
   tBln: "w-[90px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
@@ -384,7 +384,10 @@ export default function KolektibilitasReportTable({
                   HUTANG BUNGA
                 </Th>
 
-                <Th rowSpan={2} className={cn(colW.kolektibilitas, "whitespace-nowrap")}>
+                <Th
+                  rowSpan={2}
+                  className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                >
                   KOLEKTIBLILITAS
                 </Th>
               </tr>
@@ -470,10 +473,7 @@ export default function KolektibilitasReportTable({
                   const tunggakanBlnDisplay = String(r.tunggakanBln);
 
                   return (
-                    <tr
-                      key={`${r.noNsb}-${idx}`}
-                      className={cn(idx % 2 === 0 ? "bg-white" : "bg-slate-100/60")}
-                    >
+                    <tr key={`${r.noNsb}-${idx}`} className="bg-white">
                       <Td className={colW.no} align="left">
                         {r.no}
                       </Td>
