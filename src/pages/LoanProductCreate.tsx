@@ -957,6 +957,16 @@ export default function LoanProductCreate() {
                           </Select>
                         </FieldRow>
 
+                        <FieldRow label="Jumlah Hari Keterlambatan">
+                          <Input
+                            value={hariKeterlambatan}
+                            onChange={(e) => setHariKeterlambatan(e.target.value)}
+                            className={compactField}
+                            placeholder="Masukkan Jumlah Hari"
+                            inputMode="numeric"
+                          />
+                        </FieldRow>
+
                         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                           <div className="pt-1 text-sm font-normal text-slate-900">
                             <span className="inline-flex items-center gap-1.5">
@@ -974,15 +984,17 @@ export default function LoanProductCreate() {
                       </>
                     ) : null}
 
-                    <FieldRow label="Jumlah Hari Keterlambatan">
-                      <Input
-                        value={hariKeterlambatan}
-                        onChange={(e) => setHariKeterlambatan(e.target.value)}
-                        className={compactField}
-                        placeholder="Masukkan Jumlah Hari"
-                        inputMode="numeric"
-                      />
-                    </FieldRow>
+                    {hideDasarPerhitungan ? (
+                      <FieldRow label="Jumlah Hari Keterlambatan">
+                        <Input
+                          value={hariKeterlambatan}
+                          onChange={(e) => setHariKeterlambatan(e.target.value)}
+                          className={compactField}
+                          placeholder="Masukkan Jumlah Hari"
+                          inputMode="numeric"
+                        />
+                      </FieldRow>
+                    ) : null}
                   </div>
 
                   <Separator className="my-6 bg-slate-200/70" />
