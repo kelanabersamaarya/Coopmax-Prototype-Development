@@ -56,7 +56,8 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "border border-slate-300 bg-slate-50 px-3 py-2.5 align-middle",
+        // sebelum: bg-slate-50 (beda warna)
+        "border border-slate-300 bg-white px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -333,8 +334,8 @@ export default function KolektibilitasReportTable({
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border border-slate-300 bg-white")}>
           <table className="min-w-[2930px] w-full border-collapse bg-white">
-            <thead>
-              <tr>
+            <thead className="bg-white">
+              <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no}>
                   NO.
                 </Th>
@@ -392,7 +393,7 @@ export default function KolektibilitasReportTable({
                 </Th>
               </tr>
 
-              <tr>
+              <tr className="bg-white">
                 <Th className={colW.cabangKd}>KD</Th>
                 <Th className={colW.cabangKet}>KET.</Th>
 
