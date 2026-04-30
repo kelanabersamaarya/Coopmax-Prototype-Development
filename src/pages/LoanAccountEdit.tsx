@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -33,7 +32,6 @@ import {
   CalendarDays,
   Plus,
   HelpCircle,
-  ArrowLeft,
 } from "lucide-react";
 import PenaltyScheduleForm, {
   type PenaltyScheduleDraft,
@@ -462,15 +460,6 @@ export default function LoanAccountEdit() {
               </h1>
               <div className="text-base font-semibold text-slate-500">Ubah</div>
             </div>
-
-            <Button
-              variant="outline"
-              onClick={goBackToDetail}
-              className="h-10 rounded-[5px] border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Kembali
-            </Button>
           </div>
 
           {!prefill ? (
@@ -554,19 +543,21 @@ export default function LoanAccountEdit() {
                           }}
                           className={cn(UI.input, "w-full")}
                         />
-                        <Button
+                        <button
+                          type="button"
                           onClick={verifyKtp}
                           className={cn(
                             UI.btn,
-                            "shrink-0 bg-violet-600 px-3 text-white hover:bg-violet-700",
+                            "inline-flex items-center justify-center gap-2 px-3",
+                            "bg-violet-600 text-white hover:bg-violet-700",
                           )}
                         >
-                          <ShieldCheck className="mr-2 h-4 w-4" />
+                          <ShieldCheck className="h-4 w-4" />
                           Verifikasi KTP
-                          <span className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[12px]">
+                          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 text-[12px]">
                             ✦
                           </span>
-                        </Button>
+                        </button>
                       </div>
 
                       {!ktpVerified ? (
@@ -856,10 +847,12 @@ export default function LoanAccountEdit() {
                   <div className="flex items-center justify-between gap-4">
                     <div className={UI.sectionTitle}>Jadwal Denda</div>
 
-                    <Button
+                    <button
+                      type="button"
                       className={cn(
                         UI.btn,
-                        "bg-blue-600 px-4 text-white hover:bg-blue-700",
+                        "inline-flex items-center justify-center px-4",
+                        "bg-blue-600 text-white hover:bg-blue-700",
                       )}
                       onClick={() => {
                         setPenaltyVisible(true);
@@ -870,7 +863,7 @@ export default function LoanAccountEdit() {
                     >
                       <Plus className="mr-2 h-4 w-4" />
                       Tambah
-                    </Button>
+                    </button>
                   </div>
 
                   {penaltyVisible ? (
@@ -879,7 +872,6 @@ export default function LoanAccountEdit() {
                         value={penaltyDraft}
                         onChange={(next) => {
                           setPenaltyDraft(next);
-                          // Pastikan recurring tidak aktif jika mode bukan percent
                           if (next.rateMode !== "percent") setPenaltyRecurring(false);
                         }}
                         onDelete={() => {
