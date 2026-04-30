@@ -273,7 +273,6 @@ export default function LoanApplications() {
       const okNama = namaQ ? r.namaNasabah.toLowerCase().includes(namaQ) : true;
       const okBunga = bungaQ ? r.bungaPerTahun.toLowerCase().includes(bungaQ) : true;
 
-      // qNominal default "0,00" tidak dipakai untuk filter (sesuai pola referensi).
       const okNominal = true;
 
       const okStatus = statusQ === "Semua" ? true : r.status === statusQ;
@@ -318,7 +317,7 @@ export default function LoanApplications() {
   const filterCell = "px-3 py-2";
   const td = "px-3 py-2.5";
 
-  const produkColW = "w-[170px] max-w-[170px]";
+  const produkColW = "w-[160px] max-w-[160px]";
   const namaColW = "w-[180px] max-w-[180px]";
 
   const filterInputCls =
@@ -357,13 +356,9 @@ export default function LoanApplications() {
         <Separator className="my-6 bg-slate-200/70" />
 
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          {/* TOP CONTROL (seperti contoh) */}
           <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
             <span>Tampilkan</span>
-            <Select
-              value={String(pageSize)}
-              onValueChange={(v) => setPageSize(Number(v))}
-            >
+            <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
               <SelectTrigger className={pageSizeTriggerCls}>
                 <SelectValue />
               </SelectTrigger>
@@ -378,219 +373,237 @@ export default function LoanApplications() {
             <span>entri</span>
           </div>
 
-          {/* TABLE (tanpa border luar) */}
+          {/* TABLE tanpa horizontal scroll */}
           <div className="overflow-hidden bg-white">
-            <div className="safe-x-scroll">
-              <table className="w-full min-w-[1120px] border-collapse">
-                <thead className="bg-white">
-                  <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                    <th className={cn("w-[70px] whitespace-nowrap", th)}>
-                      <ThLabel sortable={false}>No.</ThLabel>
-                    </th>
-                    <th className={cn("w-[170px]", th)}>
-                      <ThLabel>No. Rekening</ThLabel>
-                    </th>
-                    <th className={cn("w-[160px]", th)}>
-                      <ThLabel>
-                        <span className="block">Tanggal</span>
-                        <span className="block">Daftar</span>
-                      </ThLabel>
-                    </th>
-                    <th className={cn(produkColW, th)}>
-                      <ThLabel>
-                        <span className="block">Produk</span>
-                        <span className="block">Pinjaman</span>
-                      </ThLabel>
-                    </th>
-                    <th className={cn("w-[150px]", th)}>
-                      <ThLabel>
-                        <span className="block">ID. Nasabah</span>
-                      </ThLabel>
-                    </th>
-                    <th className={cn(namaColW, th)}>
-                      <ThLabel>Nama Nasabah</ThLabel>
-                    </th>
-                    <th className={cn("w-[190px] text-right", th)}>
-                      <div className="flex items-center justify-end gap-2">
-                        <ThLabel className="justify-end">Nominal</ThLabel>
-                      </div>
-                    </th>
-                    <th className={cn("w-[160px]", th)}>
-                      <ThLabel>
-                        <span className="block">Bunga per</span>
-                        <span className="block">Tahun (%)</span>
-                      </ThLabel>
-                    </th>
-                    <th className={cn("w-[190px]", th)}>
-                      <ThLabel>Status</ThLabel>
-                    </th>
-                  </tr>
+            <table className="w-full table-fixed border-collapse">
+              <thead className="bg-white">
+                <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                  <th className={cn("w-[52px] whitespace-nowrap", th)}>
+                    <ThLabel sortable={false}>No.</ThLabel>
+                  </th>
 
-                  <tr className="border-b border-slate-200 bg-white">
-                    <th className={filterCell} />
-                    <th className={filterCell}>
-                      <Input
-                        value={qNoRek}
-                        onChange={(e) => setQNoRek(e.target.value)}
-                        className={filterInputCls}
-                        placeholder=""
-                      />
-                    </th>
-                    <th className={filterCell}>
-                      <Input
-                        value={qTanggal}
-                        onChange={(e) => setQTanggal(e.target.value)}
-                        className={filterInputCls}
-                        placeholder=""
-                      />
-                    </th>
-                    <th className={cn(filterCell, produkColW)}>
-                      <Select value={qProduk} onValueChange={setQProduk}>
-                        <SelectTrigger className={cn(filterSelectTriggerCls, "w-full")}>
-                          <SelectValue placeholder="-- Semua" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          {productOptions.map((p) => (
-                            <SelectItem key={p} value={p}>
-                              {p === "Semua" ? "-- Semua --" : p}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </th>
-                    <th className={filterCell}>
-                      <Input
-                        value={qIdNasabah}
-                        onChange={(e) => setQIdNasabah(e.target.value)}
-                        className={filterInputCls}
-                        placeholder=""
-                      />
-                    </th>
-                    <th className={cn(filterCell, namaColW)}>
-                      <Input
-                        value={qNamaNasabah}
-                        onChange={(e) => setQNamaNasabah(e.target.value)}
-                        className={filterInputCls}
-                        placeholder=""
-                      />
-                    </th>
-                    <th className={filterCell}>
-                      <Input
-                        value={qNominal}
-                        onChange={(e) => setQNominal(e.target.value)}
-                        className={cn(filterInputCls, "text-right tabular-nums")}
-                        placeholder="0,00"
-                        inputMode="decimal"
-                      />
-                    </th>
-                    <th className={filterCell}>
-                      <Input
-                        value={qBunga}
-                        onChange={(e) => setQBunga(e.target.value)}
-                        className={filterInputCls}
-                        placeholder=""
-                        inputMode="decimal"
-                      />
-                    </th>
-                    <th className={filterCell}>
-                      <Select
-                        value={qStatus}
-                        onValueChange={(v) => setQStatus(v as LoanApplicationStatus)}
-                      >
-                        <SelectTrigger className={filterSelectTriggerCls}>
-                          <SelectValue placeholder="-- Semua --" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="Semua">-- Semua --</SelectItem>
-                          <SelectItem value="Draft">Draft</SelectItem>
-                          <SelectItem value="Diajukan">Diajukan</SelectItem>
-                          <SelectItem value="Disetujui">Disetujui</SelectItem>
-                          <SelectItem value="Ditolak">Ditolak</SelectItem>
-                          <SelectItem value="Nonaktif / Ditolak">
-                            Nonaktif / Ditolak
+                  <th className={cn("w-[140px]", th)}>
+                    <ThLabel>
+                      <span className="block">No.</span>
+                      <span className="block">Rekening</span>
+                    </ThLabel>
+                  </th>
+
+                  <th className={cn("w-[130px]", th)}>
+                    <ThLabel>
+                      <span className="block">Tanggal</span>
+                      <span className="block">Daftar</span>
+                    </ThLabel>
+                  </th>
+
+                  <th className={cn("w-[160px]", th)}>
+                    <ThLabel>
+                      <span className="block">Produk</span>
+                      <span className="block">Pinjaman</span>
+                    </ThLabel>
+                  </th>
+
+                  {/* sembunyikan di layar kecil agar tidak perlu scroll */}
+                  <th className={cn("hidden lg:table-cell w-[130px]", th)}>
+                    <ThLabel>
+                      <span className="block">ID.</span>
+                      <span className="block">Nasabah</span>
+                    </ThLabel>
+                  </th>
+
+                  <th className={cn("w-[170px]", th)}>
+                    <ThLabel>Nama Nasabah</ThLabel>
+                  </th>
+
+                  <th className={cn("w-[150px] text-right", th)}>
+                    <div className="flex items-center justify-end gap-2">
+                      <ThLabel className="justify-end">Nominal</ThLabel>
+                    </div>
+                  </th>
+
+                  <th className={cn("hidden xl:table-cell w-[120px]", th)}>
+                    <ThLabel>
+                      <span className="block">Bunga</span>
+                      <span className="block">/Thn (%)</span>
+                    </ThLabel>
+                  </th>
+
+                  <th className={cn("w-[160px]", th)}>
+                    <ThLabel>Status</ThLabel>
+                  </th>
+                </tr>
+
+                <tr className="border-b border-slate-200 bg-white">
+                  <th className={filterCell} />
+                  <th className={filterCell}>
+                    <Input
+                      value={qNoRek}
+                      onChange={(e) => setQNoRek(e.target.value)}
+                      className={filterInputCls}
+                      placeholder=""
+                    />
+                  </th>
+                  <th className={filterCell}>
+                    <Input
+                      value={qTanggal}
+                      onChange={(e) => setQTanggal(e.target.value)}
+                      className={filterInputCls}
+                      placeholder=""
+                    />
+                  </th>
+                  <th className={cn(filterCell, produkColW)}>
+                    <Select value={qProduk} onValueChange={setQProduk}>
+                      <SelectTrigger className={cn(filterSelectTriggerCls, "w-full")}>
+                        <SelectValue placeholder="-- Semua" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        {productOptions.map((p) => (
+                          <SelectItem key={p} value={p}>
+                            {p === "Semua" ? "-- Semua --" : p}
                           </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </th>
-                  </tr>
-                </thead>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </th>
 
-                <tbody className="bg-white">
-                  {paged.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan={9}
-                        className="px-4 py-10 text-center text-sm text-slate-600"
-                      >
-                        Tidak ada data yang cocok dengan filter.
+                  <th className={cn("hidden lg:table-cell", filterCell)}>
+                    <Input
+                      value={qIdNasabah}
+                      onChange={(e) => setQIdNasabah(e.target.value)}
+                      className={filterInputCls}
+                      placeholder=""
+                    />
+                  </th>
+
+                  <th className={cn(filterCell, namaColW)}>
+                    <Input
+                      value={qNamaNasabah}
+                      onChange={(e) => setQNamaNasabah(e.target.value)}
+                      className={filterInputCls}
+                      placeholder=""
+                    />
+                  </th>
+
+                  <th className={filterCell}>
+                    <Input
+                      value={qNominal}
+                      onChange={(e) => setQNominal(e.target.value)}
+                      className={cn(filterInputCls, "text-right tabular-nums")}
+                      placeholder="0,00"
+                      inputMode="decimal"
+                    />
+                  </th>
+
+                  <th className={cn("hidden xl:table-cell", filterCell)}>
+                    <Input
+                      value={qBunga}
+                      onChange={(e) => setQBunga(e.target.value)}
+                      className={filterInputCls}
+                      placeholder=""
+                      inputMode="decimal"
+                    />
+                  </th>
+
+                  <th className={filterCell}>
+                    <Select
+                      value={qStatus}
+                      onValueChange={(v) => setQStatus(v as LoanApplicationStatus)}
+                    >
+                      <SelectTrigger className={filterSelectTriggerCls}>
+                        <SelectValue placeholder="-- Semua --" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        <SelectItem value="Semua">-- Semua --</SelectItem>
+                        <SelectItem value="Draft">Draft</SelectItem>
+                        <SelectItem value="Diajukan">Diajukan</SelectItem>
+                        <SelectItem value="Disetujui">Disetujui</SelectItem>
+                        <SelectItem value="Ditolak">Ditolak</SelectItem>
+                        <SelectItem value="Nonaktif / Ditolak">
+                          Nonaktif / Ditolak
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody className="bg-white">
+                {paged.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={9}
+                      className="px-4 py-10 text-center text-sm text-slate-600"
+                    >
+                      Tidak ada data yang cocok dengan filter.
+                    </td>
+                  </tr>
+                ) : (
+                  paged.map((r, idx) => (
+                    <tr
+                      key={r.id}
+                      className={cn(
+                        "border-b border-slate-200 text-[13px]",
+                        idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                      )}
+                    >
+                      <td className={cn(td, "text-slate-900 tabular-nums")}>
+                        {(page - 1) * pageSize + idx + 1}
                       </td>
-                    </tr>
-                  ) : (
-                    paged.map((r, idx) => (
-                      <tr
-                        key={r.id}
+
+                      <td className={td}>
+                        <a
+                          href="#"
+                          onClick={(e) => e.preventDefault()}
+                          className="block truncate font-semibold text-blue-600 hover:underline"
+                          title={r.noRekening}
+                        >
+                          {r.noRekening}
+                        </a>
+                      </td>
+
+                      <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
+                        {r.tanggalDaftar}
+                      </td>
+
+                      <td className={cn(td, "truncate text-slate-900")} title={r.produkPinjaman}>
+                        {r.produkPinjaman}
+                      </td>
+
+                      <td
                         className={cn(
-                          "border-b border-slate-200 text-[13px]",
-                          idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                          "hidden lg:table-cell",
+                          td,
+                          "text-slate-900 tabular-nums whitespace-nowrap",
                         )}
                       >
-                        <td className={cn(td, "text-slate-900 tabular-nums")}>
-                          {(page - 1) * pageSize + idx + 1}
-                        </td>
+                        {r.idNasabah}
+                      </td>
 
-                        <td className={td}>
-                          <a
-                            href="#"
-                            onClick={(e) => e.preventDefault()}
-                            className="font-semibold text-blue-600 hover:underline"
-                          >
-                            {r.noRekening}
-                          </a>
-                        </td>
+                      <td className={cn(td, "truncate text-slate-900")} title={r.namaNasabah}>
+                        {r.namaNasabah}
+                      </td>
 
-                        <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
-                          {r.tanggalDaftar}
-                        </td>
+                      <td className={cn(td, "text-right font-medium text-slate-900 tabular-nums")}>
+                        {r.nominal}
+                      </td>
 
-                        <td className={cn(td, produkColW)}>
-                          <div className="truncate leading-tight text-slate-900">
-                            {r.produkPinjaman}
-                          </div>
-                        </td>
+                      <td className={cn("hidden xl:table-cell", td, "text-slate-900 tabular-nums")}>
+                        {r.bungaPerTahun}
+                      </td>
 
-                        <td className={cn(td, "text-slate-900 tabular-nums whitespace-nowrap")}>
-                          {r.idNasabah}
-                        </td>
-
-                        <td className={cn(td, namaColW)}>
-                          <div className="truncate leading-tight text-slate-900">
-                            {r.namaNasabah}
-                          </div>
-                        </td>
-
-                        <td className={cn(td, "text-right font-medium text-slate-900 tabular-nums")}>
-                          {r.nominal}
-                        </td>
-
-                        <td className={cn(td, "text-slate-900 tabular-nums")}>
-                          {r.bungaPerTahun}
-                        </td>
-
-                        <td className={td}>
-                          <StatusBadge status={r.status} />
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
+                      <td className={td}>
+                        <StatusBadge status={r.status} />
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
 
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="text-[14px] text-slate-900">
-              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length}{" "}
-              entri{" "}
+              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri{" "}
               <span className="text-slate-600">
                 (disaring dari {rows.length} entri keseluruhan)
               </span>
