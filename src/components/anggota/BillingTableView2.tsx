@@ -175,6 +175,7 @@ export default function BillingTableView2({
   hideSelection = false,
   showPenaltyColumn = false,
   penaltyContentEnabled = true,
+  penaltyIndexOffset = 0,
   tone = "default",
   disableRowActiveRing = false,
   disableRowRings = false,
@@ -193,6 +194,8 @@ export default function BillingTableView2({
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
   penaltyContentEnabled?: boolean;
+  /** Offset untuk index global (mis. (page-1)*pageSize) agar denda tidak reset tiap halaman */
+  penaltyIndexOffset?: number;
   tone?: "default" | "khusus";
   disableRowActiveRing?: boolean;
   disableRowRings?: boolean;
@@ -281,13 +284,19 @@ export default function BillingTableView2({
     return <NumericCell align="right">{value}</NumericCell>;
   }
 
-  function PenaltyCell({ idx, dueDateDmy }: { idx: number; dueDateDmy: string }) {
+  function PenaltyCell({
+    globalIdx,
+    dueDateDmy,
+  }: {
+    globalIdx: number;
+    dueDateDmy: string;
+  }) {
     // kolom tetap ada (supaya layout tidak berubah), tapi isi bisa dikosongkan.
     if (!penaltyContentEnabled) {
       return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
     }
 
-    const shouldShow = idx < PENALTY_ROWS;
+    const shouldShow = globalIdx < PENALTY_ROWS;
 
     if (!shouldShow) {
       return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
@@ -364,6 +373,7 @@ export default function BillingTableView2({
 
                         {graceRows.map((r, idx) => {
                           const rowIndex = idx;
+                          const globalIdx = penaltyIndexOffset + rowIndex;
                           const active = hideSelection ? false : selected[rowIndex] === true;
 
                           return (
@@ -431,7 +441,7 @@ export default function BillingTableView2({
                                   </div>
 
                                   {showPenaltyColumn ? (
-                                    <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
+                                    <PenaltyCell globalIdx={globalIdx} dueDateDmy={r.jatuhTempo} />
                                   ) : null}
                                 </div>
                               </RowShell>
@@ -445,6 +455,7 @@ export default function BillingTableView2({
 
                 {afterGraceRows.map((r, idx) => {
                   const rowIndex = graceCount + idx;
+                  const globalIdx = penaltyIndexOffset + rowIndex;
                   const active = hideSelection ? false : selected[rowIndex] === true;
 
                   return (
@@ -510,7 +521,7 @@ export default function BillingTableView2({
                             </div>
 
                             {showPenaltyColumn ? (
-                              <PenaltyCell idx={rowIndex} dueDateDmy={r.jatuhTempo} />
+                              <PenaltyCell globalIdx={globalIdx} dueDateDmy={r.jatuhTempo} />
                             ) : null}
                           </div>
                         </RowShell>
@@ -534,6 +545,7 @@ export default function BillingTableView2({
                   </tr>
                 ) : (
                   rows.map((r, idx) => {
+                    const globalIdx = penaltyIndexOffset + idx;
                     const active = hideSelection ? false : selected[idx] === true;
 
                     return (
@@ -597,7 +609,7 @@ export default function BillingTableView2({
                               </div>
 
                               {showPenaltyColumn ? (
-                                <PenaltyCell idx={idx} dueDateDmy={r.jatuhTempo} />
+                                <PenaltyCell globalIdx={globalIdx} dueDateDmy={r.jatuhTempo} />
                               ) : null}
                             </div>
                           </RowShell>

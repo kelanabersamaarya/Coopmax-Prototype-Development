@@ -267,6 +267,8 @@ export default function TransaksiAnggotaView2({
     ? Math.min(allRowsForMode.length, page * pageSize)
     : 0;
 
+  const penaltyIndexOffset = usePaging ? (page - 1) * pageSize : 0;
+
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rowsToShow.map(() => false),
   );
@@ -591,6 +593,7 @@ export default function TransaksiAnggotaView2({
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
+                    penaltyIndexOffset={penaltyIndexOffset}
                     showNextBillInfo={!hideNextBillInfo}
                   />
                 ) : isKhusus ? (
@@ -606,6 +609,7 @@ export default function TransaksiAnggotaView2({
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
+                    penaltyIndexOffset={penaltyIndexOffset}
                   />
                 ) : isPelunasan ? (
                   <BillingTableView2
@@ -620,6 +624,7 @@ export default function TransaksiAnggotaView2({
                     hideSelection={false}
                     showPenaltyColumn={true}
                     disableRowActiveRing={true}
+                    penaltyIndexOffset={penaltyIndexOffset}
                   />
                 ) : isPenurunanBakiDebet ? (
                   <BillingTableView2
@@ -635,6 +640,7 @@ export default function TransaksiAnggotaView2({
                     showPenaltyColumn={false}
                     disableRowRings
                     disableRowActiveRing
+                    penaltyIndexOffset={penaltyIndexOffset}
                   />
                 ) : useV1ForPenurunanBakiDebet ? (
                   <div
@@ -669,6 +675,7 @@ export default function TransaksiAnggotaView2({
                     keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
                     hideSelection={isPenurunanPlafon}
                     showPenaltyColumn={false}
+                    penaltyIndexOffset={penaltyIndexOffset}
                   />
                 )}
               </div>
@@ -689,6 +696,7 @@ export default function TransaksiAnggotaView2({
 
               <div className="sr-only">
                 <Info />
+                {selectedPenaltyText}
               </div>
             </Card>
 
