@@ -156,7 +156,7 @@ function ThLabel({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center justify-between gap-2", className)}>
+    <div className={cn("flex items-center justify-between gap-1.5", className)}>
       <div className="leading-[1.05]">{children}</div>
       {sortable ? (
         <span className="inline-flex flex-col leading-none text-slate-900/80">
@@ -313,17 +313,18 @@ export default function LoanApplications() {
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  const th = "px-3 py-3";
-  const filterCell = "px-3 py-2";
-  const td = "px-3 py-2.5";
+  // lebih rapat
+  const th = "px-2 py-2.5";
+  const filterCell = "px-2 py-1.5";
+  const td = "px-2 py-2";
 
-  const produkColW = "w-[160px] max-w-[160px]";
-  const namaColW = "w-[180px] max-w-[180px]";
+  const produkColW = "w-[150px] max-w-[150px]";
+  const namaColW = "w-[170px] max-w-[170px]";
 
   const filterInputCls =
-    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
-    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   const pageSizeTriggerCls =
     "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
@@ -378,25 +379,25 @@ export default function LoanApplications() {
             <table className="w-full table-fixed border-collapse">
               <thead className="bg-white">
                 <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                  <th className={cn("w-[52px] whitespace-nowrap", th)}>
+                  <th className={cn("w-[44px] whitespace-nowrap", th)}>
                     <ThLabel sortable={false}>No.</ThLabel>
                   </th>
 
-                  <th className={cn("w-[140px]", th)}>
+                  <th className={cn("w-[130px]", th)}>
                     <ThLabel>
                       <span className="block">No.</span>
                       <span className="block">Rekening</span>
                     </ThLabel>
                   </th>
 
-                  <th className={cn("w-[130px]", th)}>
+                  <th className={cn("w-[120px]", th)}>
                     <ThLabel>
                       <span className="block">Tanggal</span>
                       <span className="block">Daftar</span>
                     </ThLabel>
                   </th>
 
-                  <th className={cn("w-[160px]", th)}>
+                  <th className={cn("w-[150px]", th)}>
                     <ThLabel>
                       <span className="block">Produk</span>
                       <span className="block">Pinjaman</span>
@@ -404,31 +405,31 @@ export default function LoanApplications() {
                   </th>
 
                   {/* sembunyikan di layar kecil agar tidak perlu scroll */}
-                  <th className={cn("hidden lg:table-cell w-[130px]", th)}>
+                  <th className={cn("hidden lg:table-cell w-[120px]", th)}>
                     <ThLabel>
                       <span className="block">ID.</span>
                       <span className="block">Nasabah</span>
                     </ThLabel>
                   </th>
 
-                  <th className={cn("w-[170px]", th)}>
+                  <th className={cn("w-[160px]", th)}>
                     <ThLabel>Nama Nasabah</ThLabel>
                   </th>
 
-                  <th className={cn("w-[150px] text-right", th)}>
-                    <div className="flex items-center justify-end gap-2">
+                  <th className={cn("w-[140px] text-right", th)}>
+                    <div className="flex items-center justify-end gap-1.5">
                       <ThLabel className="justify-end">Nominal</ThLabel>
                     </div>
                   </th>
 
-                  <th className={cn("hidden xl:table-cell w-[120px]", th)}>
+                  <th className={cn("hidden xl:table-cell w-[110px]", th)}>
                     <ThLabel>
                       <span className="block">Bunga</span>
                       <span className="block">/Thn (%)</span>
                     </ThLabel>
                   </th>
 
-                  <th className={cn("w-[160px]", th)}>
+                  <th className={cn("w-[150px]", th)}>
                     <ThLabel>Status</ThLabel>
                   </th>
                 </tr>
