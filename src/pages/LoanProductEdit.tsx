@@ -29,7 +29,6 @@ type RoundingType =
   | "Pembulatan Keatas"
   | "Pembulatan Kebawah"
   | "Tanpa Pembulatan";
-type PenaltyMethod = "Hutang Bunga" | "Hutang Pokok" | "Total Tagihan";
 type CoaOption =
   | "PINJAMAN YANG DIBERIKAN"
   | "PEND. BUNGA PINJAMAN"
@@ -311,14 +310,9 @@ export default function LoanProductEdit() {
     React.useState<RoundingType>("Pembulatan Keatas");
   const [roundingMultiple, setRoundingMultiple] = React.useState("100");
 
-  const [penalty, setPenalty] = React.useState("100");
   const [nominalStep, setNominalStep] = React.useState("100");
 
   const [terms, setTerms] = React.useState("");
-
-  const [accPenalty, setAccPenalty] = React.useState(true);
-  const [penaltyMethod, setPenaltyMethod] =
-    React.useState<PenaltyMethod>("Hutang Bunga");
 
   const [accInterest, setAccInterest] = React.useState(false);
   const [ignorePrincipalDebt, setIgnorePrincipalDebt] = React.useState(false);
@@ -570,15 +564,6 @@ export default function LoanProductEdit() {
                 />
               </FieldRow>
 
-              <FieldRow label="Denda Pinjaman">
-                <Input
-                  value={penalty}
-                  onChange={(e) => setPenalty(e.target.value)}
-                  inputMode="numeric"
-                  className={UI.input}
-                />
-              </FieldRow>
-
               <FieldRow label="Nominal Kelipatan">
                 <Input
                   value={nominalStep}
@@ -598,28 +583,6 @@ export default function LoanProductEdit() {
             </div>
 
             <div className={"mt-6 grid " + UI.gapY}>
-              <FieldRow label="Akumulasi Denda Pinjaman">
-                <div className="flex items-center gap-3">
-                  <Switch checked={accPenalty} onCheckedChange={setAccPenalty} />
-                </div>
-              </FieldRow>
-
-              <FieldRow label="Metode Perhitungan Denda">
-                <Select
-                  value={penaltyMethod}
-                  onValueChange={(v) => setPenaltyMethod(v as PenaltyMethod)}
-                >
-                  <SelectTrigger className={UI.selectTrigger}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-[10px] border-slate-200">
-                    <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                    <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                    <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldRow>
-
               <FieldRow label="Akumulasi Bunga Pinjaman">
                 <div className="flex items-center gap-3">
                   <Switch checked={accInterest} onCheckedChange={setAccInterest} />
@@ -934,7 +897,7 @@ export default function LoanProductEdit() {
                         m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
                           ? TT.tagihanSesuaiJadwalAngsuran
                           : m === "Jadwal Fleksibel & Tagihan Berkala"
-                            ? TT.tagihanBerkalaTagihanBerkala
+                            ? TT.jadwalFleksibelTagihanBerkala
                             : TT.tagihanDihitungDariSisaSaldoPokok;
 
                       return (

@@ -258,7 +258,6 @@ export default function LoanProductCreate() {
     React.useState<RoundingType>("Pembulatan Keatas");
   const [roundingMultiple, setRoundingMultiple] = React.useState("100");
 
-  const [penalty, setPenalty] = React.useState("100");
   const [nominalStep, setNominalStep] = React.useState("100");
 
   const [terms, setTerms] = React.useState("");
@@ -530,15 +529,6 @@ export default function LoanProductCreate() {
                 <Input
                   value={roundingMultiple}
                   onChange={(e) => setRoundingMultiple(e.target.value)}
-                  inputMode="numeric"
-                  className={compactField}
-                />
-              </FieldRow>
-
-              <FieldRow label="Denda Pinjaman">
-                <Input
-                  value={penalty}
-                  onChange={(e) => setPenalty(e.target.value)}
                   inputMode="numeric"
                   className={compactField}
                 />
