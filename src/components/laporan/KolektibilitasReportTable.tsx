@@ -56,8 +56,8 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        // no vertical borders: only horizontal
-        "border-y border-slate-300 bg-white px-3 py-2.5 align-middle",
+        // HEADER: no borders at all (no vertical, no horizontal)
+        "border-0 bg-white px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -88,7 +88,7 @@ function Td({
     <td
       title={title}
       className={cn(
-        // no vertical borders: only horizontal
+        // body: only horizontal borders
         "border-y border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
