@@ -298,16 +298,17 @@ export default function RekeningPinjaman() {
   const isDetail = !!selectedAccountNo;
 
   const filterInputCls =
-    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
-    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   const pageSizeTriggerCls =
     "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
 
-  const th = "px-3 py-3";
-  const filterCell = "px-3 py-2";
-  const td = "px-3 py-2.5";
+  // lebih rapat (sama seperti LoanApplications)
+  const th = "px-2 py-2.5";
+  const filterCell = "px-2 py-1.5";
+  const td = "px-2 py-2";
 
   const noColW = "w-[44px] min-w-[44px] max-w-[44px]";
 
