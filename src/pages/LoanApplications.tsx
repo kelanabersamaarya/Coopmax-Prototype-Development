@@ -136,7 +136,7 @@ function StatusBadge({ status }: { status: LoanApplicationRow["status"] }) {
   return (
     <Badge
       className={cn(
-        "rounded-md px-2.5 py-1 text-[11px] font-bold leading-none",
+        "rounded-[5px] px-2.5 py-1 text-[11px] font-normal leading-none",
         v.className,
       )}
     >
