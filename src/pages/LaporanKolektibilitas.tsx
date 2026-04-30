@@ -130,14 +130,20 @@ function StyledSelect({
   placeholder?: string;
   contentClassName?: string;
 }) {
+  const triggerCls = cn(
+    "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium text-slate-900 shadow-sm",
+    // HILANGKAN ring abu-abu (focus/open/selected)
+    "ring-0 ring-transparent",
+    "outline-none",
+    "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+    "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
+    // tetap jaga border netral
+    "focus:border-slate-300 focus-visible:border-slate-300",
+  );
+
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger
-        className={cn(
-          "h-[30px] w-full rounded-[5px] border-slate-200 bg-white px-3 text-[12.5px] font-medium text-slate-900 shadow-sm",
-          "focus:ring-2 focus:ring-slate-400/25",
-        )}
-      >
+      <SelectTrigger className={triggerCls}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
 
