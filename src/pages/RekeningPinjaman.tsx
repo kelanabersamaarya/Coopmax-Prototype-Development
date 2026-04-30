@@ -90,8 +90,7 @@ function StatusBadge({ status }: { status: Row["status"] }) {
   return (
     <Badge
       className={cn(
-        "whitespace-nowrap rounded-md px-2.5 py-1 text-[11px] font-bold leading-none",
-        "hover:bg-inherit",
+        "whitespace-nowrap rounded-[5px] px-2.5 py-1 text-[11px] font-normal leading-none",
         v.className,
       )}
     >
