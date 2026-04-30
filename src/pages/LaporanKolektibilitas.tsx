@@ -139,8 +139,10 @@ function StyledSelect({
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
     "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
     "focus:border-slate-300 focus-visible:border-slate-300",
-    // samakan warna placeholder dengan field "Jenis Pinjaman"
-    "[&_[data-placeholder]]:text-slate-500",
+    // IMPORTANT: shadcn set placeholder color at SelectValue level (text-muted-foreground)
+    // Override it only when placeholder is shown.
+    "[&_[data-slot=select-value][data-placeholder]]:text-slate-500",
+    "[&_[data-slot=select-value][data-placeholder]]:opacity-100",
   );
 
   return (
