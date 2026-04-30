@@ -1,3 +1,4 @@
+90 HR menjadi 0 pada seed data laporan kolektibilitas.">
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -275,9 +276,9 @@ const seedRows: KolektibilitasRow[] = [
     tunggakanBln: 4,
     tunggakanNilai: 800000,
     tunggakan1_30: 200000,
-    tunggakan31_60: 200000,
-    tunggakan61_90: 200000,
-    tunggakan90p: 200000,
+    tunggakan31_60: 0,
+    tunggakan61_90: 0,
+    tunggakan90p: 0,
   },
 ];
 
