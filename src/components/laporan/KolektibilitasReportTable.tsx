@@ -91,7 +91,7 @@ function Td({
         "border border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
-          ? "text-left" // user request: semua teks (non-nominal) rata kiri
+          ? "text-left"
           : align === "right"
             ? "text-right tabular-nums"
             : "text-left",
@@ -306,7 +306,9 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
         <td className={totalRowText} />
 
+        {/* TUNGGAKAN: BLN (kosongkan di baris total) */}
         <td className={totalRowText} />
+
         <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
         <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
         <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
@@ -405,7 +407,6 @@ export default function KolektibilitasReportTable({
                   KET.
                 </Th>
 
-                {/* Header "BLN" tetap header, tapi untuk isi nanti kita rata kiri */}
                 <Th className={colW.jwBln} align="center">
                   BLN
                 </Th>
@@ -504,12 +505,14 @@ export default function KolektibilitasReportTable({
                     Math.round(r.tunggakanNilai * 0.15),
                   );
 
+                  const tunggakanBlnDisplay =
+                    r.tunggakanBln === 0 ? "" : String(r.tunggakanBln);
+
                   return (
                     <tr
                       key={`${r.noNsb}-${idx}`}
                       className={cn(idx % 2 === 0 ? "bg-white" : "bg-slate-100/60")}
                     >
-                      {/* teks biasa -> rata kiri */}
                       <Td className={colW.no} align="left">
                         {r.no}
                       </Td>
@@ -556,7 +559,6 @@ export default function KolektibilitasReportTable({
                         </Wrap2Lines>
                       </Td>
 
-                      {/* Cabang isi -> rata kiri */}
                       <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="left">
                         <span className="tabular-nums">{cabangKd}</span>
                       </Td>
@@ -564,7 +566,6 @@ export default function KolektibilitasReportTable({
                         <BranchCell kd={cabangKd} ket={cabangKet} />
                       </Td>
 
-                      {/* nominal/angka -> tetap kanan */}
                       <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
                         {formatIdr0(plafon)},00
                       </Td>
@@ -573,7 +574,6 @@ export default function KolektibilitasReportTable({
                         {r.aoId}
                       </Td>
 
-                      {/* kolom yang tadinya center -> sekarang rata kiri (sesuai request) */}
                       <Td className={colW.jwBln} align="left">
                         {r.jangkaWaktuBln}
                       </Td>
@@ -598,12 +598,11 @@ export default function KolektibilitasReportTable({
                         {formatFloat2(r.angsuranSdhHr)}
                       </Td>
 
-                      {/* tunggakan BLN -> rata kiri (bukan nominal) */}
+                      {/* tunggakan BLN: kosongkan jika 0 */}
                       <Td className={colW.tBln} align="left">
-                        {r.tunggakanBln}
+                        {tunggakanBlnDisplay}
                       </Td>
 
-                      {/* tunggakan nominal -> kanan */}
                       <Td className={colW.tNilai} align="right">
                         {formatIdr0(r.tunggakanNilai)}
                       </Td>
