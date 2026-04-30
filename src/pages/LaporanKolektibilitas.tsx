@@ -9,6 +9,7 @@ import KolektibilitasReportTable, {
   type KolektibilitasRow,
 } from "@/components/laporan/KolektibilitasReportTable";
 import LoanTypeMultiSelect from "@/components/laporan/LoanTypeMultiSelect";
+import MultiSelectChips from "@/components/laporan/MultiSelectChips";
 import {
   Select,
   SelectContent,
@@ -273,7 +274,9 @@ const seedRows: KolektibilitasRow[] = [
 
 export default function LaporanKolektibilitas() {
   const [jenisPinjaman, setJenisPinjaman] = React.useState<string[]>([]);
-  const [cabang, setCabang] = React.useState<string>("Pilih cabang");
+
+  const [cabang, setCabang] = React.useState<string[]>([]);
+
   const [namaKode, setNamaKode] = React.useState("");
   const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
   const [tahun, setTahun] = React.useState("2026");
@@ -344,10 +347,12 @@ export default function LaporanKolektibilitas() {
               </FieldRow>
 
               <FieldRow label="Cabang">
-                <StyledSelect
+                <MultiSelectChips
+                  options={branchOptions.filter((b) => b !== "Pilih cabang")}
                   value={cabang}
-                  onValueChange={setCabang}
-                  options={[...branchOptions]}
+                  onChange={setCabang}
+                  placeholder="Pilih cabang"
+                  disabledOptions={[]}
                 />
               </FieldRow>
 
