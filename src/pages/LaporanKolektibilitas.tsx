@@ -8,6 +8,7 @@ import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog"
 import KolektibilitasReportTable, {
   type KolektibilitasRow,
 } from "@/components/laporan/KolektibilitasReportTable";
+import LoanTypeMultiSelect from "@/components/laporan/LoanTypeMultiSelect";
 import {
   Select,
   SelectContent,
@@ -271,8 +272,7 @@ const seedRows: KolektibilitasRow[] = [
 ];
 
 export default function LaporanKolektibilitas() {
-  const [jenisPinjaman, setJenisPinjaman] =
-    React.useState<string>("Pilih pinjaman");
+  const [jenisPinjaman, setJenisPinjaman] = React.useState<string[]>([]);
   const [cabang, setCabang] = React.useState<string>("Pilih cabang");
   const [namaKode, setNamaKode] = React.useState("");
   const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
@@ -285,13 +285,12 @@ export default function LaporanKolektibilitas() {
   const [submitted, setSubmitted] = React.useState(false);
 
   function doSearch() {
-    if (jenisPinjaman === "Pilih pinjaman") {
+    if (jenisPinjaman.length === 0) {
       setWarnOpen(true);
       return;
     }
 
     setSubmitted(true);
-    // NOTE: toast sukses saat laporan tampil sengaja dihilangkan sesuai request.
   }
 
   return (
@@ -336,10 +335,11 @@ export default function LaporanKolektibilitas() {
           <div className="w-full max-w-[920px]">
             <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Jenis Pinjaman">
-                <StyledSelect
+                <LoanTypeMultiSelect
+                  options={[...loanOptions]}
                   value={jenisPinjaman}
-                  onValueChange={setJenisPinjaman}
-                  options={["Pilih pinjaman", ...loanOptions]}
+                  onChange={setJenisPinjaman}
+                  placeholder="Pilih pinjaman"
                 />
               </FieldRow>
 
