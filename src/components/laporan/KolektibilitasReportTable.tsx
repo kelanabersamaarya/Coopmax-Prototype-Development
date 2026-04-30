@@ -22,6 +22,10 @@ export type KolektibilitasRow = {
   tunggakan31_60: number;
   tunggakan61_90: number;
   tunggakan90p: number;
+
+  // NEW: cabang (seperti contoh: KD & Ket.)
+  cabangKd?: string;
+  cabangKet?: string;
 };
 
 function formatIdr0(n: number) {
@@ -156,6 +160,11 @@ const colW = {
   tanggalPinjaman: "w-[150px]",
   tanggalJatuhTempo: "w-[170px]",
   jenisPinjaman: "w-[170px]",
+
+  // NEW: cabang
+  cabangKd: "w-[80px]",
+  cabangKet: "w-[160px]",
+
   plafon: "w-[160px]",
   aoId: "w-[90px]",
   jwBln: "w-[70px]",
@@ -188,6 +197,25 @@ function deriveKolektibilitas(r: KolektibilitasRow): KolektibilitasLabel {
 
 function Wrap2Lines({ children }: { children: React.ReactNode }) {
   return <div className="whitespace-normal leading-[1.05]">{children}</div>;
+}
+
+function BranchCell({
+  kd,
+  ket,
+}: {
+  kd: string;
+  ket: string;
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[11px] font-extrabold text-slate-900 tabular-nums">
+        {kd}
+      </div>
+      <div className="mt-0.5 truncate text-[12px] font-medium text-slate-800">
+        {ket}
+      </div>
+    </div>
+  );
 }
 
 export default function KolektibilitasReportTable({
@@ -271,6 +299,9 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
         <td className={totalRowText} />
         <td className={totalRowText} />
+
+        {/* Cabang (KD & Ket.) */}
+        <td className={totalRowText} />
         <td className={totalRowText} />
 
         <td className={totalRowText} />
@@ -298,13 +329,14 @@ export default function KolektibilitasReportTable({
     );
   }
 
-  const TOTAL_COLS = 27;
+  // Updated because we added 2 columns (Cabang KD + Ket.)
+  const TOTAL_COLS = 29;
 
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border border-slate-300 bg-white")}>
-          <table className="min-w-[2710px] w-full border-collapse bg-white">
+          <table className="min-w-[2930px] w-full border-collapse bg-white">
             <thead>
               <tr>
                 <Th rowSpan={2} className={colW.no}>
@@ -331,6 +363,12 @@ export default function KolektibilitasReportTable({
                 <Th rowSpan={2} className={colW.jenisPinjaman}>
                   JENIS PINJAMAN
                 </Th>
+
+                {/* NEW: group header "Cabang" */}
+                <Th colSpan={2} align="center">
+                  CABANG
+                </Th>
+
                 <Th rowSpan={2} className={colW.plafon}>
                   PLAFON
                 </Th>
@@ -361,19 +399,36 @@ export default function KolektibilitasReportTable({
                   HUTANG BUNGA
                 </Th>
 
-                <Th rowSpan={2} className={cn(colW.kolektibilitas, "whitespace-nowrap")}>
+                <Th
+                  rowSpan={2}
+                  className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                >
                   KOLEKTIBLILITAS
                 </Th>
               </tr>
 
               <tr>
+                {/* Cabang subheader */}
+                <Th className={colW.cabangKd} align="center">
+                  KD
+                </Th>
+                <Th className={colW.cabangKet} align="center">
+                  KET.
+                </Th>
+
                 <Th className={colW.jwBln} align="center">
                   BLN
                 </Th>
-                <Th className={cn(colW.jwDari, "whitespace-nowrap")} align="center">
+                <Th
+                  className={cn(colW.jwDari, "whitespace-nowrap")}
+                  align="center"
+                >
                   DARI TGL.
                 </Th>
-                <Th className={cn(colW.jwSampai, "whitespace-nowrap")} align="center">
+                <Th
+                  className={cn(colW.jwSampai, "whitespace-nowrap")}
+                  align="center"
+                >
                   S/D TGL.
                 </Th>
 
@@ -433,6 +488,17 @@ export default function KolektibilitasReportTable({
                     idx % 2 === 0 ? "Pinjaman Bulanan 9" : "Pinjaman Harian";
                   const plafon = r.pinjamanSldPokok + 1500000;
 
+                  const cabangKd = r.cabangKd ?? (idx % 4 === 0 ? "KTR" : idx % 4 === 1 ? "AND" : idx % 4 === 2 ? "ADK" : "YSP");
+                  const cabangKet =
+                    r.cabangKet ??
+                    (cabangKd === "KTR"
+                      ? "KANTOR"
+                      : cabangKd === "AND"
+                        ? "ANDRE"
+                        : cabangKd === "ADK"
+                          ? "DODY"
+                          : "FEPRI");
+
                   const sisaPinjaman = Math.max(
                     0,
                     r.pinjamanSldPokok - r.tunggakanNilai,
@@ -449,9 +515,7 @@ export default function KolektibilitasReportTable({
                   return (
                     <tr
                       key={`${r.noNsb}-${idx}`}
-                      className={cn(
-                        idx % 2 === 0 ? "bg-white" : "bg-slate-100/60",
-                      )}
+                      className={cn(idx % 2 === 0 ? "bg-white" : "bg-slate-100/60")}
                     >
                       <Td className={colW.no} align="left">
                         {r.no}
@@ -490,6 +554,14 @@ export default function KolektibilitasReportTable({
                           <br />
                           {jenisPinjaman}
                         </Wrap2Lines>
+                      </Td>
+
+                      {/* NEW: Cabang (KD & Ket.) */}
+                      <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="center">
+                        <span className="font-extrabold tabular-nums">{cabangKd}</span>
+                      </Td>
+                      <Td className={cn(colW.cabangKet)} align="left">
+                        <BranchCell kd={cabangKd} ket={cabangKet} />
                       </Td>
 
                       <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
@@ -553,8 +625,10 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      {/* UBAH: jangan ubah Lancar menjadi "-" */}
-                      <Td className={cn(colW.kolektibilitas, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {kolek}
                       </Td>
                     </tr>
