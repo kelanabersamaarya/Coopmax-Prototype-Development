@@ -39,14 +39,14 @@ function DevMenuCard({
       onClick={onClick}
       className={cn(
         "group w-full text-left",
-        "rounded-3xl bg-white/90 p-3.5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur",
+        "rounded-[5px] bg-white/90 p-3.5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur",
         "transition hover:bg-white",
       )}
     >
       <div className="flex items-start gap-3">
         <div
           className={cn(
-            "inline-flex h-9 w-9 items-center justify-center rounded-2xl ring-1",
+            "inline-flex h-9 w-9 items-center justify-center rounded-[5px] ring-1",
             a.bg,
             a.ring,
           )}
@@ -75,10 +75,10 @@ export default function Dashboard() {
   const logoSrc = "/publiccoopmax-logo.png.png";
 
   return (
-    <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-3xl bg-white/70 p-3 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-3.5">
-      <div className="mb-3 rounded-3xl bg-white/90 p-3.5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:mb-3.5">
+    <div className="min-h-[calc(100vh-2rem)] overflow-hidden rounded-[5px] bg-white/70 p-3 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:p-3.5">
+      <div className="mb-3 rounded-[5px] bg-white/90 p-3.5 shadow-sm ring-1 ring-slate-200/70 backdrop-blur md:mb-3.5">
         <div className="flex items-center gap-3">
-          <div className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-white ring-1 ring-slate-200">
+          <div className="inline-flex h-9 w-9 items-center justify-center rounded-[5px] bg-white ring-1 ring-slate-200">
             {logoOk ? (
               <img
                 src={logoSrc}
@@ -104,7 +104,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="rounded-3xl bg-slate-50/70 p-3 ring-1 ring-slate-200 md:p-3.5">
+      <div className="rounded-[5px] bg-slate-50/70 p-3 ring-1 ring-slate-200 md:p-3.5">
         <div className="grid gap-2.5 md:grid-cols-2">
           <DevMenuCard
             title="Pinjaman Billing"
