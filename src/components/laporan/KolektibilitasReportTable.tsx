@@ -505,9 +505,8 @@ export default function KolektibilitasReportTable({
                     Math.round(r.tunggakanNilai * 0.15),
                   );
 
-                  // BLN (tunggakan): jika 0 atau kosong, tampilkan 12
-                  const tunggakanBlnDisplay =
-                    r.tunggakanBln === 0 ? "12" : String(r.tunggakanBln);
+                  // BLN (tunggakan): sesuai request terakhir, hilangkan angkanya (kosong)
+                  const tunggakanBlnDisplay = "";
 
                   return (
                     <tr
