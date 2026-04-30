@@ -126,6 +126,7 @@ function StyledSelect({
   placeholder,
   contentClassName,
   muted = false,
+  className,
 }: {
   value: string;
   onValueChange: (v: string) => void;
@@ -133,6 +134,7 @@ function StyledSelect({
   placeholder?: string;
   contentClassName?: string;
   muted?: boolean;
+  className?: string;
 }) {
   const triggerCls = cn(
     "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium shadow-sm",
@@ -142,9 +144,9 @@ function StyledSelect({
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
     "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
     "focus:border-slate-300 focus-visible:border-slate-300",
-    // tetap pastikan kalau placeholder dipakai: warnanya sama
     "[&_[data-slot=select-value][data-placeholder]]:text-slate-500",
     "[&_[data-slot=select-value][data-placeholder]]:opacity-100",
+    className,
   );
 
   return (
@@ -289,7 +291,6 @@ export default function LaporanKolektibilitas() {
   const [cabang, setCabang] = React.useState<string[]>([]);
   const [namaKode, setNamaKode] = React.useState("");
 
-  // kembalikan default seperti awal (yang tampil memang value default)
   const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
   const [tahun, setTahun] = React.useState("2026");
   const [tipe, setTipe] = React.useState<KolektibilitasType>("-- Semua --");
@@ -305,7 +306,6 @@ export default function LaporanKolektibilitas() {
       return;
     }
 
-    // fallback agar state tetap valid untuk prototype
     if (!bulan) setBulan("April");
     if (!tahun) setTahun("2026");
     if (!tipe) setTipe("-- Semua --");
@@ -318,6 +318,9 @@ export default function LaporanKolektibilitas() {
   const isDefaultTahun = tahun === "2026";
   const isDefaultTipe = tipe === "-- Semua --";
   const isDefaultStatus = statusAnggota === "Semua";
+
+  // Lebar field yang lebih kecil (mobile tetap full)
+  const fieldW = "w-full md:max-w-[520px] lg:max-w-[440px]";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -358,25 +361,30 @@ export default function LaporanKolektibilitas() {
         </div>
 
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
-          <div className="w-full max-w-[920px]">
+          {/* sebelum: max-w-[920px] -> sekarang lebih kecil supaya field tidak terlalu panjang */}
+          <div className="w-full max-w-[760px]">
             <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Jenis Pinjaman">
-                <LoanTypeMultiSelect
-                  options={[...loanOptions]}
-                  value={jenisPinjaman}
-                  onChange={setJenisPinjaman}
-                  placeholder="Pilih pinjaman"
-                />
+                <div className={fieldW}>
+                  <LoanTypeMultiSelect
+                    options={[...loanOptions]}
+                    value={jenisPinjaman}
+                    onChange={setJenisPinjaman}
+                    placeholder="Pilih pinjaman"
+                  />
+                </div>
               </FieldRow>
 
               <FieldRow label="Cabang">
-                <MultiSelectChips
-                  options={branchOptions.filter((b) => b !== "Pilih cabang")}
-                  value={cabang}
-                  onChange={setCabang}
-                  placeholder="Pilih cabang"
-                  disabledOptions={[]}
-                />
+                <div className={fieldW}>
+                  <MultiSelectChips
+                    options={branchOptions.filter((b) => b !== "Pilih cabang")}
+                    value={cabang}
+                    onChange={setCabang}
+                    placeholder="Pilih cabang"
+                    disabledOptions={[]}
+                  />
+                </div>
               </FieldRow>
 
               <FieldRow label="Nama/Kode Pinjaman">
@@ -384,27 +392,29 @@ export default function LaporanKolektibilitas() {
                   value={namaKode}
                   onChange={(e) => setNamaKode(e.target.value)}
                   placeholder="Masukkan nama/kode pinjaman.."
-                  className={UI.input}
+                  className={cn(UI.input, fieldW)}
                 />
               </FieldRow>
 
               <FieldRow label="Bulan">
-                <StyledSelect
-                  value={bulan}
-                  onValueChange={(v) => setBulan(v as (typeof months)[number])}
-                  options={[...months]}
-                  placeholder="Pilih Bulan"
-                  muted={isDefaultBulan}
-                  contentClassName={cn(
-                    "[&_[data-radix-select-viewport]]:max-h-[240px]",
-                    "[&_[data-radix-select-viewport]]:overflow-y-auto",
-                    "[&_[data-radix-select-viewport]::-webkit-scrollbar]:w-2",
-                    "[&_[data-radix-select-viewport]::-webkit-scrollbar-track]:bg-slate-100",
-                    "[&_[data-radix-select-viewport]]:overscroll-contain",
-                    "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:bg-slate-400",
-                    "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:rounded-full",
-                  )}
-                />
+                <div className={fieldW}>
+                  <StyledSelect
+                    value={bulan}
+                    onValueChange={(v) => setBulan(v as (typeof months)[number])}
+                    options={[...months]}
+                    placeholder="Pilih Bulan"
+                    muted={isDefaultBulan}
+                    contentClassName={cn(
+                      "[&_[data-radix-select-viewport]]:max-h-[240px]",
+                      "[&_[data-radix-select-viewport]]:overflow-y-auto",
+                      "[&_[data-radix-select-viewport]::-webkit-scrollbar]:w-2",
+                      "[&_[data-radix-select-viewport]::-webkit-scrollbar-track]:bg-slate-100",
+                      "[&_[data-radix-select-viewport]]:overscroll-contain",
+                      "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:bg-slate-400",
+                      "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:rounded-full",
+                    )}
+                  />
+                </div>
               </FieldRow>
 
               <FieldRow label="Tahun">
@@ -415,6 +425,7 @@ export default function LaporanKolektibilitas() {
                     UI.input,
                     "placeholder:text-slate-500",
                     isDefaultTahun ? "text-slate-500" : "text-slate-900",
+                    fieldW,
                   )}
                   placeholder="Pilih Tahun"
                   inputMode="numeric"
@@ -422,30 +433,34 @@ export default function LaporanKolektibilitas() {
               </FieldRow>
 
               <FieldRow label="Tipe Kolektibilitas">
-                <StyledSelect
-                  value={tipe}
-                  onValueChange={(v) => setTipe(v as KolektibilitasType)}
-                  options={[
-                    "-- Semua --",
-                    "Lancar",
-                    "Dalam Perhatian Khusus",
-                    "Kurang Lancar",
-                    "Diragukan",
-                    "Macet",
-                  ]}
-                  placeholder="Pilih Tipe Kolektibilitas"
-                  muted={isDefaultTipe}
-                />
+                <div className={fieldW}>
+                  <StyledSelect
+                    value={tipe}
+                    onValueChange={(v) => setTipe(v as KolektibilitasType)}
+                    options={[
+                      "-- Semua --",
+                      "Lancar",
+                      "Dalam Perhatian Khusus",
+                      "Kurang Lancar",
+                      "Diragukan",
+                      "Macet",
+                    ]}
+                    placeholder="Pilih Tipe Kolektibilitas"
+                    muted={isDefaultTipe}
+                  />
+                </div>
               </FieldRow>
 
               <FieldRow label="Status Anggota">
-                <StyledSelect
-                  value={statusAnggota}
-                  onValueChange={(v) => setStatusAnggota(v as StatusAnggota)}
-                  options={["Semua", "Anggota", "Calon"]}
-                  placeholder="Pilih Jenis Anggota"
-                  muted={isDefaultStatus}
-                />
+                <div className={fieldW}>
+                  <StyledSelect
+                    value={statusAnggota}
+                    onValueChange={(v) => setStatusAnggota(v as StatusAnggota)}
+                    options={["Semua", "Anggota", "Calon"]}
+                    placeholder="Pilih Jenis Anggota"
+                    muted={isDefaultStatus}
+                  />
+                </div>
               </FieldRow>
 
               <div className="flex justify-end pt-0">
