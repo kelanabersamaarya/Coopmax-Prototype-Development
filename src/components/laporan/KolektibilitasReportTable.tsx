@@ -279,6 +279,8 @@ export default function KolektibilitasReportTable({
   const totalRowNumber =
     "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
+  // Catatan: kolom BLN berada di posisi: setelah "ANGSURAN SDH/HR" dan sebelum "NILAI"
+  // Kita biarkan sel BLN pada total kosong (bukan angka / bukan hasil hitung).
   function TotalRow({ label }: { label: string }) {
     return (
       <tr className="border-t border-black bg-white">
@@ -306,7 +308,7 @@ export default function KolektibilitasReportTable({
         <td className={totalRowText} />
         <td className={totalRowText} />
 
-        {/* TUNGGAKAN: BLN (kosongkan 2 baris terbawah saja) */}
+        {/* TUNGGAKAN: BLN -> kosongkan (ini yang terlihat 2 baris angka paling bawah di screenshot) */}
         <td className={totalRowText} />
 
         <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
@@ -505,7 +507,7 @@ export default function KolektibilitasReportTable({
                     Math.round(r.tunggakanNilai * 0.15),
                   );
 
-                  // BLN (tunggakan): tampilkan angka sesuai data (bukan dikosongkan)
+                  // BLN (tunggakan): baris data tetap tampil normal
                   const tunggakanBlnDisplay = String(r.tunggakanBln);
 
                   return (
