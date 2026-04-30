@@ -91,7 +91,7 @@ function Td({
         "border border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
-          ? "text-center"
+          ? "text-left" // user request: semua teks (non-nominal) rata kiri
           : align === "right"
             ? "text-right tabular-nums"
             : "text-left",
@@ -359,7 +359,7 @@ export default function KolektibilitasReportTable({
                   CABANG
                 </Th>
 
-                <Th rowSpan={2} className={colW.plafon}>
+                <Th rowSpan={2} className={colW.plafon} align="right">
                   PLAFON
                 </Th>
                 <Th rowSpan={2} className={colW.aoId}>
@@ -379,13 +379,13 @@ export default function KolektibilitasReportTable({
                   TUNGGAKAN
                 </Th>
 
-                <Th rowSpan={2} className={colW.sisaPinjaman}>
+                <Th rowSpan={2} className={colW.sisaPinjaman} align="right">
                   SISA PINJAMAN
                 </Th>
-                <Th rowSpan={2} className={colW.hutangPokok}>
+                <Th rowSpan={2} className={colW.hutangPokok} align="right">
                   HUTANG POKOK
                 </Th>
-                <Th rowSpan={2} className={colW.hutangBunga}>
+                <Th rowSpan={2} className={colW.hutangBunga} align="right">
                   HUTANG BUNGA
                 </Th>
 
@@ -405,6 +405,7 @@ export default function KolektibilitasReportTable({
                   KET.
                 </Th>
 
+                {/* Header "BLN" tetap header, tapi untuk isi nanti kita rata kiri */}
                 <Th className={colW.jwBln} align="center">
                   BLN
                 </Th>
@@ -508,6 +509,7 @@ export default function KolektibilitasReportTable({
                       key={`${r.noNsb}-${idx}`}
                       className={cn(idx % 2 === 0 ? "bg-white" : "bg-slate-100/60")}
                     >
+                      {/* teks biasa -> rata kiri */}
                       <Td className={colW.no} align="left">
                         {r.no}
                       </Td>
@@ -554,13 +556,15 @@ export default function KolektibilitasReportTable({
                         </Wrap2Lines>
                       </Td>
 
-                      <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="center">
+                      {/* Cabang isi -> rata kiri */}
+                      <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="left">
                         <span className="tabular-nums">{cabangKd}</span>
                       </Td>
                       <Td className={cn(colW.cabangKet)} align="left">
                         <BranchCell kd={cabangKd} ket={cabangKet} />
                       </Td>
 
+                      {/* nominal/angka -> tetap kanan */}
                       <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
                         {formatIdr0(plafon)},00
                       </Td>
@@ -569,7 +573,8 @@ export default function KolektibilitasReportTable({
                         {r.aoId}
                       </Td>
 
-                      <Td className={colW.jwBln} align="center">
+                      {/* kolom yang tadinya center -> sekarang rata kiri (sesuai request) */}
+                      <Td className={colW.jwBln} align="left">
                         {r.jangkaWaktuBln}
                       </Td>
                       <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
@@ -593,9 +598,12 @@ export default function KolektibilitasReportTable({
                         {formatFloat2(r.angsuranSdhHr)}
                       </Td>
 
-                      <Td className={colW.tBln} align="center">
+                      {/* tunggakan BLN -> rata kiri (bukan nominal) */}
+                      <Td className={colW.tBln} align="left">
                         {r.tunggakanBln}
                       </Td>
+
+                      {/* tunggakan nominal -> kanan */}
                       <Td className={colW.tNilai} align="right">
                         {formatIdr0(r.tunggakanNilai)}
                       </Td>
