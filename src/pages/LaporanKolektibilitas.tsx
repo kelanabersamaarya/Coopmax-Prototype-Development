@@ -139,8 +139,7 @@ function StyledSelect({
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
     "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
     "focus:border-slate-300 focus-visible:border-slate-300",
-    // IMPORTANT: shadcn set placeholder color at SelectValue level (text-muted-foreground)
-    // Override it only when placeholder is shown.
+    // placeholder: samakan seperti "Jenis Pinjaman"
     "[&_[data-slot=select-value][data-placeholder]]:text-slate-500",
     "[&_[data-slot=select-value][data-placeholder]]:opacity-100",
   );
@@ -284,15 +283,13 @@ const seedRows: KolektibilitasRow[] = [
 
 export default function LaporanKolektibilitas() {
   const [jenisPinjaman, setJenisPinjaman] = React.useState<string[]>([]);
-
   const [cabang, setCabang] = React.useState<string[]>([]);
-
   const [namaKode, setNamaKode] = React.useState("");
-  const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
-  const [tahun, setTahun] = React.useState("2026");
-  const [tipe, setTipe] = React.useState<KolektibilitasType>("-- Semua --");
-  const [statusAnggota, setStatusAnggota] =
-    React.useState<StatusAnggota>("Semua");
+
+  const [bulan, setBulan] = React.useState<string>("");
+  const [tahun, setTahun] = React.useState("");
+  const [tipe, setTipe] = React.useState<string>("");
+  const [statusAnggota, setStatusAnggota] = React.useState<string>("");
 
   const [warnOpen, setWarnOpen] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
@@ -302,6 +299,12 @@ export default function LaporanKolektibilitas() {
       setWarnOpen(true);
       return;
     }
+
+    // fallback agar state tetap valid untuk prototype
+    if (!bulan) setBulan("April");
+    if (!tahun) setTahun("2026");
+    if (!tipe) setTipe("-- Semua --");
+    if (!statusAnggota) setStatusAnggota("Semua");
 
     setSubmitted(true);
   }
@@ -378,7 +381,7 @@ export default function LaporanKolektibilitas() {
               <FieldRow label="Bulan">
                 <StyledSelect
                   value={bulan}
-                  onValueChange={(v) => setBulan(v as (typeof months)[number])}
+                  onValueChange={setBulan}
                   options={[...months]}
                   placeholder="Pilih Bulan"
                   contentClassName={cn(
@@ -386,6 +389,7 @@ export default function LaporanKolektibilitas() {
                     "[&_[data-radix-select-viewport]]:overflow-y-auto",
                     "[&_[data-radix-select-viewport]::-webkit-scrollbar]:w-2",
                     "[&_[data-radix-select-viewport]::-webkit-scrollbar-track]:bg-slate-100",
+                    "[&_[data-radix-select-viewport]]:overscroll-contain",
                     "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:bg-slate-400",
                     "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:rounded-full",
                   )}
@@ -405,7 +409,7 @@ export default function LaporanKolektibilitas() {
               <FieldRow label="Tipe Kolektibilitas">
                 <StyledSelect
                   value={tipe}
-                  onValueChange={(v) => setTipe(v as KolektibilitasType)}
+                  onValueChange={setTipe}
                   options={[
                     "-- Semua --",
                     "Lancar",
@@ -421,7 +425,7 @@ export default function LaporanKolektibilitas() {
               <FieldRow label="Status Anggota">
                 <StyledSelect
                   value={statusAnggota}
-                  onValueChange={(v) => setStatusAnggota(v as StatusAnggota)}
+                  onValueChange={setStatusAnggota}
                   options={["Semua", "Anggota", "Calon"]}
                   placeholder="Pilih Jenis Anggota"
                 />
