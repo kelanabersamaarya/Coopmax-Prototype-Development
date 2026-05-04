@@ -11,7 +11,6 @@ import {
   Percent,
   Printer,
   RotateCcw,
-  ScrollText,
   Sparkles,
   TimerReset,
   Wrench,
@@ -44,8 +43,8 @@ function ActionPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-slate-700",
-        "ring-1 ring-slate-200 transition hover:bg-slate-50",
+        "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold",
+        "bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50",
         className,
       )}
     >
@@ -83,7 +82,7 @@ export default function LoanAccountDetailHeader({
         accountNo={accountNo}
       />
 
-      <div className="rounded-3xl border border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
+      <div className="rounded-3xl border border-slate-200/70 bg-transparent p-4 shadow-none md:p-5">
         <div className="min-w-0">
           <div className="flex items-baseline gap-2">
             <div className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
@@ -138,8 +137,18 @@ export default function LoanAccountDetailHeader({
             onClick={() => onAction("Riwayat Transaksi Autodebet")}
           />
 
-          <ActionPill icon={Pencil} label="Ubah" onClick={() => navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`)} />
-          <ActionPill icon={Pencil} label="Ubah Hutang" onClick={() => onAction("Ubah Hutang")} />
+          <ActionPill
+            icon={Pencil}
+            label="Ubah"
+            onClick={() =>
+              navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`)
+            }
+          />
+          <ActionPill
+            icon={Pencil}
+            label="Ubah Hutang"
+            onClick={() => onAction("Ubah Hutang")}
+          />
           <ActionPill
             icon={Calendar}
             label="Ubah Jatuh Tempo"
