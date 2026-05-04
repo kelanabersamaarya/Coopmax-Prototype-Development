@@ -422,12 +422,12 @@ export default function RekeningPinjaman() {
                           </ThLabel>
                         </th>
 
-                        <th className={cn("w-[190px]", th)}>
-                          <ThLabel>Nominal</ThLabel>
+                        <th className={cn("w-[190px] text-right", th)}>
+                          <ThLabel className="justify-end">Nominal</ThLabel>
                         </th>
 
-                        <th className={cn("w-[190px]", th)}>
-                          <ThLabel>
+                        <th className={cn("w-[190px] text-right", th)}>
+                          <ThLabel className="justify-end">
                             <span className="block">Sisa</span>
                             <span className="block">Pinjaman</span>
                           </ThLabel>
@@ -493,20 +493,20 @@ export default function RekeningPinjaman() {
                             placeholder=""
                           />
                         </th>
-                        <th className={filterCell}>
+                        <th className={cn(filterCell, "text-right")}>
                           <Input
                             value={qNominal}
                             onChange={(e) => setQNominal(e.target.value)}
-                            className={filterInputCls}
+                            className={cn(filterInputCls, "text-right tabular-nums")}
                             placeholder="0,00"
                             inputMode="decimal"
                           />
                         </th>
-                        <th className={filterCell}>
+                        <th className={cn(filterCell, "text-right")}>
                           <Input
                             value={qSisa}
                             onChange={(e) => setQSisa(e.target.value)}
-                            className={filterInputCls}
+                            className={cn(filterInputCls, "text-right tabular-nums")}
                             placeholder="0,00"
                             inputMode="decimal"
                           />
@@ -616,7 +616,7 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "text-left text-slate-900 tabular-nums whitespace-nowrap",
+                                "text-right text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.nominal}
@@ -625,7 +625,7 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
-                                "text-left text-slate-900 tabular-nums whitespace-nowrap",
+                                "text-right text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.sisaPinjaman}
