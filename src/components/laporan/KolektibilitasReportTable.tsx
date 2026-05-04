@@ -56,7 +56,6 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        // HEADER: show vertical + horizontal borders (grid)
         "border border-slate-300 bg-white px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
@@ -88,7 +87,6 @@ function Td({
     <td
       title={title}
       className={cn(
-        // BODY: show vertical + horizontal borders (grid)
         "border border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
@@ -360,7 +358,7 @@ export default function KolektibilitasReportTable({
                   JENIS PINJAMAN
                 </Th>
 
-                <Th colSpan={2} align="left">
+                <Th colSpan={2} align="center">
                   CABANG
                 </Th>
 
@@ -371,16 +369,16 @@ export default function KolektibilitasReportTable({
                   AO ID
                 </Th>
 
-                <Th colSpan={3} align="left">
+                <Th colSpan={3} align="center">
                   JANGKA WAKTU
                 </Th>
-                <Th colSpan={2} align="left">
+                <Th colSpan={2} align="center">
                   PINJAMAN
                 </Th>
-                <Th colSpan={2} align="left">
+                <Th colSpan={2} align="center">
                   ANGSURAN
                 </Th>
-                <Th colSpan={6} align="left">
+                <Th colSpan={6} align="center">
                   TUNGGAKAN
                 </Th>
 
