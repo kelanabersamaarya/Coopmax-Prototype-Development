@@ -1,4 +1,3 @@
-body), sambil tetap menutup garis pada cell group (colSpan).">
 "use client";
 
 import * as React from "react";
@@ -54,13 +53,10 @@ function Th({
 }) {
   const isGroup = typeof colSpan === "number";
 
-  // Garis pemisah header->body harus ADA untuk semua kolom.
-  // - Untuk header row 2: border-b normal
-  // - Untuk header rowSpan=2 (kolom yang span dua baris): tetap perlu border-b (ini yang hilang di sisi kanan)
+  // Garis pemisah header->body harus ADA untuk semua kolom (termasuk yang rowSpan=2).
   const bottomDivider = "border-b border-slate-300";
 
-  // Untuk cell group (colSpan), garis border-b yang memisah row1->row2 tidak boleh "membelah" area group.
-  // Jadi kita tutup garis itu hanya di area group dengan overlay putih.
+  // Untuk cell group (colSpan), tutup garis pemisah row1->row2 di area group supaya tidak membelah grup.
   const groupOverlay = isGroup
     ? cn(
         "relative",
@@ -534,23 +530,39 @@ export default function KolektibilitasReportTable({
                         {r.no}
                       </Td>
 
-                      <Td className={cn(colW.noNsb, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.noNsb, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {r.noNsb}
                       </Td>
 
-                      <Td className={cn(colW.nama, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.nama, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {r.nama}
                       </Td>
 
-                      <Td className={cn(colW.status, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.status, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {status}
                       </Td>
 
-                      <Td className={cn(colW.alamat, "truncate")} title={r.alamat} align="left">
+                      <Td
+                        className={cn(colW.alamat, "truncate")}
+                        title={r.alamat}
+                        align="left"
+                      >
                         {r.alamat}
                       </Td>
 
-                      <Td className={cn(colW.tanggalPinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {tanggalPinjaman}
                       </Td>
 
@@ -569,7 +581,10 @@ export default function KolektibilitasReportTable({
                         </Wrap2Lines>
                       </Td>
 
-                      <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.cabangKd, "whitespace-nowrap")}
+                        align="left"
+                      >
                         <span className="tabular-nums">{cabangKd}</span>
                       </Td>
 
@@ -581,7 +596,10 @@ export default function KolektibilitasReportTable({
                         <BranchKetOneLine kd={cabangKd} ket={cabangKet} />
                       </Td>
 
-                      <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
+                      <Td
+                        className={cn(colW.plafon, "whitespace-nowrap")}
+                        align="right"
+                      >
                         {formatIdr0(plafon)},00
                       </Td>
 
@@ -592,14 +610,23 @@ export default function KolektibilitasReportTable({
                       <Td className={colW.jwBln} align="left">
                         {r.jangkaWaktuBln}
                       </Td>
-                      <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.jwDari, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {r.dari}
                       </Td>
-                      <Td className={cn(colW.jwSampai, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.jwSampai, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {r.sampai}
                       </Td>
 
-                      <Td className={cn(colW.pinPokok, "whitespace-nowrap")} align="right">
+                      <Td
+                        className={cn(colW.pinPokok, "whitespace-nowrap")}
+                        align="right"
+                      >
                         {formatIdr0(r.pinjamanSldPokok)}
                       </Td>
                       <Td className={colW.pinBng} align="right">
@@ -643,7 +670,10 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      <Td className={cn(colW.kolektibilitas, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {kolek}
                       </Td>
                     </tr>
@@ -653,7 +683,10 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <>
-                  <TotalRowMergedToJangkaWaktu label="Total per Halaman" totals={totals} />
+                  <TotalRowMergedToJangkaWaktu
+                    label="Total per Halaman"
+                    totals={totals}
+                  />
                   <TotalRowMergedToJangkaWaktu label="Total" totals={totals} />
                 </>
               ) : null}
@@ -663,7 +696,8 @@ export default function KolektibilitasReportTable({
 
         <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-[12px] text-slate-700">
-            Menampilkan {showingStart} sampai {showingEnd} dari {totalEntriesResolved} entri
+            Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+            {totalEntriesResolved} entri
           </div>
 
           <PaginationLikeExample page={page} pageCount={pageCount} onPage={setPage} />
