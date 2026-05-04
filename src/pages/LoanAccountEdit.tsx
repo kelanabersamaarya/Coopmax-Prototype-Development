@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useParams,
+  useBlocker,
+} from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -335,6 +341,13 @@ export default function LoanAccountEdit() {
   const params = useParams<{ accountNo: string }>();
   const accountNo = params.accountNo ?? "";
 
+  const st = (location.state ?? null) as
+    | { fromLoanAccountDetail?: boolean; selectedAccountNo?: string }
+    | null;
+
+  const fromDetail = !!st?.fromLoanAccountDetail;
+  const selectedFromState = st?.selectedAccountNo;
+
   const prefill = seedByAccountNo[accountNo] ?? null;
 
   const [tab, setTab] = React.useState<TabId>("general");
@@ -410,17 +423,25 @@ export default function LoanAccountEdit() {
   }, [showJadwalTab]);
 
   function goBackToDetail() {
-    const st = (location.state ?? null) as
-      | { fromLoanAccountDetail?: boolean; selectedAccountNo?: string }
-      | null;
-
-    const selected = st?.selectedAccountNo ?? accountNo;
+    const selected = selectedFromState ?? accountNo;
 
     navigate("/loans/accounts", {
       replace: true,
       state: { selectedAccountNo: selected },
     });
   }
+
+  // Block Back/Forward browser: selalu arahkan ke "detail rekening"
+  const blocker = useBlocker(
+    ({ historyAction }) => fromDetail && historyAction === "POP",
+  );
+
+  React.useEffect(() => {
+    if (blocker.state !== "blocked") return;
+    blocker.reset();
+    goBackToDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blocker.state]);
 
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
@@ -936,8 +957,8 @@ export default function LoanAccountEdit() {
                       toast("Simulasi (prototype)", {
                         description:
                           "Simulasi jadwal belum diimplementasikan di prototype ini.",
-                      })
-                    }
+                        })
+                      }
                   >
                     <CalendarDays className="h-4 w-4" />
                     Simulasi
