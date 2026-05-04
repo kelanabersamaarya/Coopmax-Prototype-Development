@@ -1,4 +1,3 @@
-90 HR) menjadi rata kiri.">
 "use client";
 
 import * as React from "react";
