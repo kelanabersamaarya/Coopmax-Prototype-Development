@@ -268,7 +268,6 @@ export default function LoanAccountDetailSections({
       {/* SUBSECTION: INFORMASI NASABAH */}
       <SubSectionHeader title="INFORMASI NASABAH" />
 
-      {/* NOTE: border/ring di section ini dihapus */}
       <div className="mt-4 rounded-3xl bg-transparent p-0 ring-0 md:p-0">
         <div className="grid gap-6 lg:grid-cols-2">
           <div>
@@ -322,7 +321,6 @@ export default function LoanAccountDetailSections({
       {/* SUBSECTION: INFORMASI KREDIT */}
       <SubSectionHeader title="INFORMASI KREDIT" />
 
-      {/* NOTE: border/ring & garis-garis per baris dihapus */}
       <div className="mt-4 rounded-3xl bg-transparent p-0 ring-0 md:p-0">
         <div className="grid gap-6 lg:grid-cols-2">
           <div>
@@ -349,11 +347,10 @@ export default function LoanAccountDetailSections({
       {/* Divider antar subsection */}
       <Separator className="my-6 bg-slate-200/70" />
 
-      {/* SUBSECTION: DATA ANGGOTA KELUARGA */}
+      {/* SECTION 1: DATA ANGGOTA KELUARGA */}
       <SubSectionHeader title="DATA ANGGOTA KELUARGA" />
 
-      <div className="mt-4 space-y-6 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
-        {/* Warning banner */}
+      <div className="mt-4">
         <div className="flex flex-col gap-3 rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
             <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-800 ring-1 ring-amber-200">
@@ -388,78 +385,81 @@ export default function LoanAccountDetailSections({
             Proses Verifikasi Data
           </button>
         </div>
+      </div>
 
-        {/* Informasi file */}
-        <div>
-          <SectionTitle>INFORMASI FILE</SectionTitle>
-          <Separator className="my-3 bg-slate-200/70" />
-          <div className="text-sm text-slate-700">Tidak ada file yang diupload</div>
-        </div>
+      {/* Divider antar section */}
+      <Separator className="my-6 bg-slate-200/70" />
 
-        {/* Riwayat perubahan status */}
-        <div>
-          <SectionTitle>RIWAYAT PERUBAHAN STATUS</SectionTitle>
-          <Separator className="my-3 bg-slate-200/70" />
+      {/* SECTION 2: INFORMASI FILE */}
+      <SubSectionHeader title="INFORMASI FILE" />
 
-          <div className="overflow-hidden rounded-2xl ring-1 ring-slate-200">
-            <div className="safe-x-scroll">
-              <table className="w-full min-w-[980px] border-collapse bg-white">
-                <thead className="bg-slate-50">
-                  <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
-                    <th className="w-[70px] px-4 py-3">No.</th>
-                    <th className="w-[280px] px-4 py-3">Status</th>
-                    <th className="w-[160px] px-4 py-3">Tanggal</th>
-                    <th className="w-[160px] px-4 py-3">Diubah Oleh</th>
-                    <th className="min-w-[360px] px-4 py-3">Deskripsi</th>
-                    <th className="w-[100px] px-4 py-3 text-center">Aksi</th>
+      <div className="mt-4">
+        <div className="text-sm text-slate-700">Tidak ada file yang diupload</div>
+      </div>
+
+      {/* Divider antar section */}
+      <Separator className="my-6 bg-slate-200/70" />
+
+      {/* SECTION 3: RIWAYAT PERUBAHAN STATUS */}
+      <SubSectionHeader title="RIWAYAT PERUBAHAN STATUS" />
+
+      <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+        <div className="safe-x-scroll">
+          <table className="w-full min-w-[980px] border-collapse bg-white">
+            <thead className="bg-slate-50">
+              <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
+                <th className="w-[70px] px-4 py-3">No.</th>
+                <th className="w-[280px] px-4 py-3">Status</th>
+                <th className="w-[160px] px-4 py-3">Tanggal</th>
+                <th className="w-[160px] px-4 py-3">Diubah Oleh</th>
+                <th className="min-w-[360px] px-4 py-3">Deskripsi</th>
+                <th className="w-[100px] px-4 py-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {history.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-4 py-10 text-center text-sm text-slate-600"
+                  >
+                    Belum ada riwayat.
+                  </td>
+                </tr>
+              ) : (
+                history.map((r) => (
+                  <tr key={r.no} className="border-t border-slate-100 text-sm">
+                    <td className="px-4 py-3 text-slate-700">{r.no}</td>
+                    <td className="px-4 py-3 font-semibold text-slate-900">
+                      {r.status}
+                    </td>
+                    <td className="px-4 py-3 text-slate-800">{r.tanggal}</td>
+                    <td className="px-4 py-3 text-slate-800">{r.diubahOleh}</td>
+                    <td className="px-4 py-3 text-slate-800">{r.deskripsi}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex justify-center">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setHistory((prev) => prev.filter((x) => x.no !== r.no));
+                            toast("Hapus (prototype)", {
+                              description: `Riwayat #${r.no} dihapus.`,
+                            });
+                          }}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white"
+                          aria-label="Hapus"
+                          title="Hapus"
+                        >
+                          <XCircle className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-
-                <tbody>
-                  {history.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan={6}
-                        className="px-4 py-10 text-center text-sm text-slate-600"
-                      >
-                        Belum ada riwayat.
-                      </td>
-                    </tr>
-                  ) : (
-                    history.map((r) => (
-                      <tr key={r.no} className="border-t border-slate-100 text-sm">
-                        <td className="px-4 py-3 text-slate-700">{r.no}</td>
-                        <td className="px-4 py-3 font-semibold text-slate-900">
-                          {r.status}
-                        </td>
-                        <td className="px-4 py-3 text-slate-800">{r.tanggal}</td>
-                        <td className="px-4 py-3 text-slate-800">{r.diubahOleh}</td>
-                        <td className="px-4 py-3 text-slate-800">{r.deskripsi}</td>
-                        <td className="px-4 py-3">
-                          <div className="flex justify-center">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setHistory((prev) => prev.filter((x) => x.no !== r.no));
-                                toast("Hapus (prototype)", {
-                                  description: `Riwayat #${r.no} dihapus.`,
-                                });
-                              }}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white"
-                              aria-label="Hapus"
-                              title="Hapus"
-                            >
-                              <XCircle className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </Card>
