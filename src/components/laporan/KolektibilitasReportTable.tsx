@@ -175,7 +175,8 @@ const colW = {
   // diperkecil dari 160px -> 120px
   cabangKet: "w-[120px]",
 
-  plafon: "w-[160px]",
+  // diperkecil dari 160px -> 130px
+  plafon: "w-[130px]",
   aoId: "w-[90px]",
   jwBln: "w-[70px]",
   // diperkecil lagi: 112px -> 96px
@@ -531,7 +532,10 @@ export default function KolektibilitasReportTable({
                         {r.no}
                       </Td>
 
-                      <Td className={cn(colW.noNsb, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.noNsb, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {r.noNsb}
                       </Td>
 
@@ -539,19 +543,32 @@ export default function KolektibilitasReportTable({
                         {r.nama}
                       </Td>
 
-                      <Td className={cn(colW.status, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.status, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {status}
                       </Td>
 
-                      <Td className={cn(colW.alamat, "truncate")} title={r.alamat} align="left">
+                      <Td
+                        className={cn(colW.alamat, "truncate")}
+                        title={r.alamat}
+                        align="left"
+                      >
                         {r.alamat}
                       </Td>
 
-                      <Td className={cn(colW.tanggalPinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {tanggalPinjaman}
                       </Td>
 
-                      <Td className={cn(colW.tanggalJatuhTempo, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.tanggalJatuhTempo, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {tanggalJatuhTempo}
                       </Td>
 
@@ -563,7 +580,10 @@ export default function KolektibilitasReportTable({
                         </Wrap2Lines>
                       </Td>
 
-                      <Td className={cn(colW.cabangKd, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.cabangKd, "whitespace-nowrap")}
+                        align="left"
+                      >
                         <span className="tabular-nums">{cabangKd}</span>
                       </Td>
 
@@ -589,7 +609,10 @@ export default function KolektibilitasReportTable({
                       <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
                         {r.dari}
                       </Td>
-                      <Td className={cn(colW.jwSampai, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.jwSampai, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {r.sampai}
                       </Td>
 
@@ -637,7 +660,10 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      <Td className={cn(colW.kolektibilitas, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {kolek}
                       </Td>
                     </tr>
