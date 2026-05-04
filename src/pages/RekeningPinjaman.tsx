@@ -321,7 +321,7 @@ export default function RekeningPinjaman() {
   const noColW = "w-[40px] min-w-[40px] max-w-[40px]";
   const tanggalDaftarColW = "w-[100px] min-w-[100px] max-w-[100px]";
   const idNasabahColW = "w-[120px] min-w-[120px] max-w-[120px]";
-  const bungaColW = "w-[120px] min-w-[120px] max-w-[120px]";
+  const bungaColW = "w-[100px] min-w-[100px] max-w-[100px]";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -380,7 +380,7 @@ export default function RekeningPinjaman() {
 
               <div className="overflow-hidden bg-white">
                 <div className="safe-x-scroll">
-                  <table className="w-full min-w-[1200px] border-collapse">
+                  <table className="w-full min-w-[1020px] border-collapse">
                     <thead className="bg-white">
                       <tr className="border-b border-slate-300/70 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                         <th className={cn(noColW, "whitespace-nowrap", th)}>
