@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -331,6 +331,7 @@ const seedByAccountNo: Record<string, PrefillSeed> = {
 
 export default function LoanAccountEdit() {
   const navigate = useNavigate();
+  const location = useLocation();
   const params = useParams<{ accountNo: string }>();
   const accountNo = params.accountNo ?? "";
 
@@ -409,32 +410,17 @@ export default function LoanAccountEdit() {
   }, [showJadwalTab]);
 
   function goBackToDetail() {
-    navigate("/loans/accounts", { state: { selectedAccountNo: accountNo } });
-  }
-
-  // Back browser -> kembali ke detail (bukan daftar), jika edit dibuka dari detail.
-  React.useEffect(() => {
-    const st = (history.state?.usr ?? null) as
+    const st = (location.state ?? null) as
       | { fromLoanAccountDetail?: boolean; selectedAccountNo?: string }
       | null;
 
-    const fromDetail = !!st?.fromLoanAccountDetail;
     const selected = st?.selectedAccountNo ?? accountNo;
 
-    if (!fromDetail) return;
-
-    const onPop = () => {
-      // Saat user menekan Back browser dari halaman edit,
-      // kita paksa arahkan ke detail rekening (dengan state).
-      navigate("/loans/accounts", {
-        replace: true,
-        state: { selectedAccountNo: selected },
-      });
-    };
-
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, [accountNo, navigate]);
+    navigate("/loans/accounts", {
+      replace: true,
+      state: { selectedAccountNo: selected },
+    });
+  }
 
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
