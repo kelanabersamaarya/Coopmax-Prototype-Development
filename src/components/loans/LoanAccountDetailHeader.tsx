@@ -147,7 +147,9 @@ export default function LoanAccountDetailHeader({
             icon={Pencil}
             label="Ubah"
             onClick={() =>
-              navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`)
+              navigate(`/loans/accounts/${encodeURIComponent(accountNo)}/edit`, {
+                state: { fromLoanAccountDetail: true, selectedAccountNo: accountNo },
+              })
             }
           />
           <ActionPill

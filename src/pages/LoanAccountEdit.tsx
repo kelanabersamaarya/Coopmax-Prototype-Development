@@ -412,6 +412,30 @@ export default function LoanAccountEdit() {
     navigate("/loans/accounts", { state: { selectedAccountNo: accountNo } });
   }
 
+  // Back browser -> kembali ke detail (bukan daftar), jika edit dibuka dari detail.
+  React.useEffect(() => {
+    const st = (history.state?.usr ?? null) as
+      | { fromLoanAccountDetail?: boolean; selectedAccountNo?: string }
+      | null;
+
+    const fromDetail = !!st?.fromLoanAccountDetail;
+    const selected = st?.selectedAccountNo ?? accountNo;
+
+    if (!fromDetail) return;
+
+    const onPop = () => {
+      // Saat user menekan Back browser dari halaman edit,
+      // kita paksa arahkan ke detail rekening (dengan state).
+      navigate("/loans/accounts", {
+        replace: true,
+        state: { selectedAccountNo: selected },
+      });
+    };
+
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [accountNo, navigate]);
+
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
     if (!idNasabah.trim()) return toast("ID Nasabah wajib diisi");
