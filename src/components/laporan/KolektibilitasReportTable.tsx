@@ -178,8 +178,9 @@ const colW = {
   plafon: "w-[160px]",
   aoId: "w-[90px]",
   jwBln: "w-[70px]",
-  jwDari: "w-[130px]",
-  jwSampai: "w-[130px]",
+  // diperkecil lagi (tanggal DD-MM-YYYY masih muat)
+  jwDari: "w-[112px]",
+  jwSampai: "w-[112px]",
   pinPokok: "w-[130px]",
   pinBng: "w-[90px]",
   angPerBln: "w-[130px]",
