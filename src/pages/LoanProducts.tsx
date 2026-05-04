@@ -188,15 +188,15 @@ export default function LoanProducts() {
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
   const filterInputCls =
-    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
-    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   const pageSizeTriggerCls =
     "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
 
   const th = "px-3 py-3";
-  const filterCell = "px-3 py-2";
+  const filterCell = "px-3 py-1.5";
   const td = "px-3 py-2.5";
 
   return (
@@ -224,7 +224,6 @@ export default function LoanProducts() {
         </div>
 
         <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
-          {/* TOP CONTROL (seperti Daftar Pengajuan Pinjaman) */}
           <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
             <span>Tampilkan</span>
             <Select
@@ -265,7 +264,6 @@ export default function LoanProducts() {
             </Button>
           </div>
 
-          {/* TABLE (tanpa border luar) */}
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
               <table className="w-full min-w-[980px] border-collapse">
@@ -325,9 +323,7 @@ export default function LoanProducts() {
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="Semua">Semua</SelectItem>
-                          <SelectItem value="Bunga Efektif">
-                            Bunga Efektif
-                          </SelectItem>
+                          <SelectItem value="Bunga Efektif">Bunga Efektif</SelectItem>
                           <SelectItem value="Bunga Flat">Bunga Flat</SelectItem>
                           <SelectItem value="Menurun">Menurun</SelectItem>
                         </SelectContent>
@@ -394,14 +390,10 @@ export default function LoanProducts() {
                           </td>
 
                           <td className={td}>
-                            <div className="font-medium text-slate-900">
-                              {p.name}
-                            </div>
+                            <div className="font-medium text-slate-900">{p.name}</div>
                           </td>
 
-                          <td className={cn(td, "text-slate-900")}>
-                            {methodLabel}
-                          </td>
+                          <td className={cn(td, "text-slate-900")}>{methodLabel}</td>
 
                           <td className={cn(td, "text-slate-900 tabular-nums")}>
                             {p.interestRateYearly.toFixed(2)}%
@@ -477,8 +469,7 @@ export default function LoanProducts() {
 
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="text-[14px] text-slate-900">
-              Menampilkan {showingStart} sampai {showingEnd} dari{" "}
-              {filtered.length} entri{" "}
+              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri{" "}
               <span className="text-slate-600">
                 (disaring dari {products.length} entri keseluruhan)
               </span>
