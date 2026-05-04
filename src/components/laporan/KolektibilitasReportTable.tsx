@@ -1,3 +1,4 @@
+body, sambil menghilangkan garis yang membelah header grup/rowspan di baris pertama.">
 "use client";
 
 import * as React from "react";
@@ -51,9 +52,10 @@ function Th({
   rowSpan?: number;
   align?: Align;
 }) {
-  // Header group (colSpan) & header tall (rowSpan=2) -> jangan kasih border bawah,
-  // biar tidak muncul garis horizontal "di dalam" grup seperti screenshot.
-  const isGroupOrRowSpan = !!colSpan || rowSpan === 2;
+  // Kita ingin:
+  // - Baris pertama (group/rowspan): TANPA border bawah (biar tidak ada garis "membelah" header)
+  // - Baris kedua (sub-header): PAKAI border bawah (jadi pemisah header -> body tetap ada)
+  const isTopHeaderCell = rowSpan === 2 || typeof colSpan === "number";
 
   return (
     <th
@@ -61,7 +63,7 @@ function Th({
       rowSpan={rowSpan}
       className={cn(
         "bg-white px-3 py-2.5 align-middle",
-        isGroupOrRowSpan ? "" : "border-b border-slate-300",
+        isTopHeaderCell ? "" : "border-b border-slate-300",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -532,11 +534,18 @@ export default function KolektibilitasReportTable({
                         {status}
                       </Td>
 
-                      <Td className={cn(colW.alamat, "truncate")} title={r.alamat} align="left">
+                      <Td
+                        className={cn(colW.alamat, "truncate")}
+                        title={r.alamat}
+                        align="left"
+                      >
                         {r.alamat}
                       </Td>
 
-                      <Td className={cn(colW.tanggalPinjaman, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {tanggalPinjaman}
                       </Td>
 
@@ -629,7 +638,10 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      <Td className={cn(colW.kolektibilitas, "whitespace-nowrap")} align="left">
+                      <Td
+                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                        align="left"
+                      >
                         {kolek}
                       </Td>
                     </tr>
