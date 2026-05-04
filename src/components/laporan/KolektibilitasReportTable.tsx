@@ -1,3 +1,4 @@
+body), sambil tetap menutup garis pada cell group (colSpan).">
 "use client";
 
 import * as React from "react";
@@ -52,45 +53,17 @@ function Th({
   align?: Align;
 }) {
   const isGroup = typeof colSpan === "number";
-  const isRowSpan2 = rowSpan === 2;
 
-  // Target:
-  // - Garis pemisah antar baris header (antara header row 1 dan row 2) tetap ada.
-  // - Tapi garis itu jangan "membelah" area header grup (yang colSpan), jadi kita tutup garis
-  //   hanya di lebar cell grup dengan overlay putih.
-  // - Cell rowSpan=2 tidak butuh border tengah.
-  const base = cn(
-    "bg-white px-3 py-2.5 align-middle",
-    "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-    "leading-[1.05]",
-    align === "center"
-      ? "text-center"
-      : align === "right"
-        ? "text-right"
-        : "text-left",
-  );
+  // Garis pemisah header->body harus ADA untuk semua kolom.
+  // - Untuk header row 2: border-b normal
+  // - Untuk header rowSpan=2 (kolom yang span dua baris): tetap perlu border-b (ini yang hilang di sisi kanan)
+  const bottomDivider = "border-b border-slate-300";
 
-  // Ini garis pemisah antar header row (row 1 -> row 2)
-  // Dipakai untuk semua cell di row 1 yang bukan rowSpan=2,
-  // termasuk cell grup (colSpan).
-  const midHeaderDivider = !isRowSpan2 ? "border-b border-slate-300" : "";
-
-  // Untuk sub-header (row ke-2), kita tetap butuh border bawah untuk pemisah header -> body.
-  // Tapi kita tidak bisa "tahu" kita ada di row ke-2 atau tidak dari props,
-  // jadi kita gunakan aturan sederhana:
-  // - Jika cell bukan group dan bukan rowSpan2, biarkan class border-b dipakai oleh caller (row2)
-  //   via midHeaderDivider di atas.
-  // - Untuk row2, memang tidak ada colSpan/rowSpan2, sehingga tetap dapat border-b.
-  //
-  // Namun: row2 juga butuh border-b (header->body) dan itu sudah terpenuhi karena row2 cell
-  // juga bukan rowSpan2 => midHeaderDivider aktif.
-  //
-  // Intinya: border-b ini dipakai untuk pemisah row1->row2 dan juga row2->body.
-  // Ini OK karena pada row1 sel group akan "ditutup" overlay.
+  // Untuk cell group (colSpan), garis border-b yang memisah row1->row2 tidak boleh "membelah" area group.
+  // Jadi kita tutup garis itu hanya di area group dengan overlay putih.
   const groupOverlay = isGroup
     ? cn(
         "relative",
-        // tutup garis border-b di bawah cell grup saja (biar tidak ada garis membelah grup)
         "after:absolute after:left-0 after:right-0 after:bottom-0 after:h-px after:bg-white",
       )
     : "";
@@ -99,7 +72,19 @@ function Th({
     <th
       colSpan={colSpan}
       rowSpan={rowSpan}
-      className={cn(base, midHeaderDivider, groupOverlay, className)}
+      className={cn(
+        "bg-white px-3 py-2.5 align-middle",
+        bottomDivider,
+        groupOverlay,
+        "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        "leading-[1.05]",
+        align === "center"
+          ? "text-center"
+          : align === "right"
+            ? "text-right"
+            : "text-left",
+        className,
+      )}
     >
       {children}
     </th>
