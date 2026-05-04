@@ -4,7 +4,15 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { QrCode, Printer, Eye, ExternalLink, AlertTriangle, ShieldCheck, XCircle } from "lucide-react";
+import {
+  QrCode,
+  Printer,
+  Eye,
+  ExternalLink,
+  AlertTriangle,
+  ShieldCheck,
+  XCircle,
+} from "lucide-react";
 import { toast } from "sonner";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -184,7 +192,9 @@ export default function LoanAccountDetailSections({
             <button
               type="button"
               onClick={() =>
-                toast("Cetak (prototype)", { description: `Rekening: ${accountNo}` })
+                toast("Cetak (prototype)", {
+                  description: `Rekening: ${accountNo}`,
+                })
               }
               className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-semibold text-white ring-1 ring-blue-600/20 transition hover:bg-blue-700"
             >
@@ -257,9 +267,8 @@ export default function LoanAccountDetailSections({
 
       {/* SUBSECTION: INFORMASI NASABAH */}
       <SubSectionHeader title="INFORMASI NASABAH" />
-      <Separator className="my-4 bg-slate-200/70" />
 
-      <div className="rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
+      <div className="mt-4 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="divide-y divide-slate-100">
             <KeyValueRow
@@ -292,10 +301,7 @@ export default function LoanAccountDetailSections({
               label="Status Verifikasi KTP"
               value={<StatusPill tone="bad">BELUM TERVERIFIKASI</StatusPill>}
             />
-            <KeyValueRow
-              label="Status"
-              value={<StatusPill tone="ok">Aktif</StatusPill>}
-            />
+            <KeyValueRow label="Status" value={<StatusPill tone="ok">Aktif</StatusPill>} />
           </div>
 
           <div className="divide-y divide-slate-100">
@@ -314,16 +320,12 @@ export default function LoanAccountDetailSections({
 
       {/* SUBSECTION: INFORMASI KREDIT */}
       <SubSectionHeader title="INFORMASI KREDIT" />
-      <Separator className="my-4 bg-slate-200/70" />
 
-      <div className="rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
+      <div className="mt-4 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="divide-y divide-slate-100">
             <KeyValueRow label="Tanggal Realisasi" value="07-04-2026" />
-            <KeyValueRow
-              label="Besar Pinjaman / Plafond"
-              value="12.000.000,00"
-            />
+            <KeyValueRow label="Besar Pinjaman / Plafond" value="12.000.000,00" />
             <KeyValueRow label="Propisi" value="0,00" />
             <KeyValueRow label="Administrasi" value="120.000,00" />
             <KeyValueRow label="Biaya Asuransi" value="0,00" />
@@ -331,21 +333,13 @@ export default function LoanAccountDetailSections({
 
           <div className="divide-y divide-slate-100">
             <KeyValueRow label="Jumlah Potongan" value="0" right />
-            <KeyValueRow
-              label="Penerimaan Bersih"
-              value="11.880.000,00"
-              right
-            />
+            <KeyValueRow label="Penerimaan Bersih" value="11.880.000,00" right />
             <KeyValueRow
               label="Terbilang"
               value="Sebelas Juta Delapan Ratus Delapan Puluh Ribu"
               right
             />
-            <KeyValueRow
-              label="Dicairkan ke Rekening Tabungan"
-              value="-"
-              right
-            />
+            <KeyValueRow label="Dicairkan ke Rekening Tabungan" value="-" right />
           </div>
         </div>
       </div>
@@ -355,9 +349,8 @@ export default function LoanAccountDetailSections({
 
       {/* SUBSECTION: DATA ANGGOTA KELUARGA */}
       <SubSectionHeader title="DATA ANGGOTA KELUARGA" />
-      <Separator className="my-4 bg-slate-200/70" />
 
-      <div className="space-y-6 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
+      <div className="mt-4 space-y-6 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
         {/* Warning banner */}
         <div className="flex flex-col gap-3 rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
@@ -370,8 +363,8 @@ export default function LoanAccountDetailSections({
               </div>
               <div className="mt-1 text-sm leading-relaxed text-amber-900">
                 Silakan lakukan verifikasi nasabah untuk mendapatkan data anggota
-                keluarga. Anda dapat melakukan verifikasi nasabah melalui form
-                edit pinjaman dengan mengklik tombol di samping.
+                keluarga. Anda dapat melakukan verifikasi nasabah melalui form edit
+                pinjaman dengan mengklik tombol di samping.
               </div>
             </div>
           </div>
