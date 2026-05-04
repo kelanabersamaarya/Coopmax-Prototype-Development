@@ -2,7 +2,6 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -368,9 +367,7 @@ export default function LoanApplications() {
           </Button>
         </div>
 
-        <Separator className="my-6 bg-slate-200/70" />
-
-        <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
+        <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
           <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
             <span>Tampilkan</span>
             <Select
@@ -421,7 +418,6 @@ export default function LoanApplications() {
                     </ThLabel>
                   </th>
 
-                  {/* sembunyikan di layar kecil agar tidak perlu scroll */}
                   <th className={cn("hidden lg:table-cell w-[120px]", th)}>
                     <ThLabel>
                       <span className="block">ID.</span>
