@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useParams,
-  useBlocker,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -335,6 +329,8 @@ const seedByAccountNo: Record<string, PrefillSeed> = {
   },
 };
 
+const DETAIL_RETURN_KEY = "dyad.loanAccountEdit.returnToDetailUrl";
+
 export default function LoanAccountEdit() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -384,6 +380,37 @@ export default function LoanAccountEdit() {
     if (!showJadwalTab && tab === "jadwal") setTab("general");
   }, [showJadwalTab, tab]);
 
+  // Simpan URL tujuan "detail" saat edit dibuka dari detail
+  React.useEffect(() => {
+    if (!fromDetail) return;
+    const selected = selectedFromState ?? accountNo;
+    const returnUrl = `/loans/accounts?detail=${encodeURIComponent(selected)}`;
+    sessionStorage.setItem(DETAIL_RETURN_KEY, returnUrl);
+  }, [accountNo, fromDetail, selectedFromState]);
+
+  function navigateToDetail() {
+    const selected = selectedFromState ?? accountNo;
+
+    // Cara yang sudah dipakai di RekeningPinjaman: state.selectedAccountNo
+    navigate("/loans/accounts", {
+      replace: true,
+      state: { selectedAccountNo: selected },
+    });
+  }
+
+  // Back browser (POP) -> selalu arahkan ke detail
+  React.useEffect(() => {
+    if (!fromDetail) return;
+
+    const onPop = () => {
+      navigateToDetail();
+    };
+
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fromDetail, accountNo, selectedFromState]);
+
   // --- Jadwal tab state (prefilled) ---
   const [jenisPerhitunganBunga, setJenisPerhitunganBunga] = React.useState<string>(
     prefill?.jenisPerhitunganBunga ?? "Jadwal Tetap",
@@ -422,27 +449,6 @@ export default function LoanAccountEdit() {
     if (!showJadwalTab) setPenaltyVisible(false);
   }, [showJadwalTab]);
 
-  function goBackToDetail() {
-    const selected = selectedFromState ?? accountNo;
-
-    navigate("/loans/accounts", {
-      replace: true,
-      state: { selectedAccountNo: selected },
-    });
-  }
-
-  // Block Back/Forward browser: selalu arahkan ke "detail rekening"
-  const blocker = useBlocker(
-    ({ historyAction }) => fromDetail && historyAction === "POP",
-  );
-
-  React.useEffect(() => {
-    if (blocker.state !== "blocked") return;
-    blocker.reset();
-    goBackToDetail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blocker.state]);
-
   function save() {
     if (!noRekening.trim()) return toast("No. Rekening wajib diisi");
     if (!idNasabah.trim()) return toast("ID Nasabah wajib diisi");
@@ -454,7 +460,7 @@ export default function LoanAccountEdit() {
     toast.success("Perubahan tersimpan (prototype)", {
       description: `Rekening: ${noRekening}`,
     });
-    goBackToDetail();
+    navigateToDetail();
   }
 
   function verifyKtp() {
@@ -779,7 +785,7 @@ export default function LoanAccountEdit() {
                   </button>
 
                   <LoanFormActionButtons
-                    onCancel={goBackToDetail}
+                    onCancel={navigateToDetail}
                     onSave={save}
                     cancelLabel="Batalkan"
                     saveLabel="Simpan"
@@ -957,15 +963,15 @@ export default function LoanAccountEdit() {
                       toast("Simulasi (prototype)", {
                         description:
                           "Simulasi jadwal belum diimplementasikan di prototype ini.",
-                        })
-                      }
+                      })
+                    }
                   >
                     <CalendarDays className="h-4 w-4" />
                     Simulasi
                   </button>
 
                   <LoanFormActionButtons
-                    onCancel={goBackToDetail}
+                    onCancel={navigateToDetail}
                     onSave={() =>
                       toast.success("Jadwal tersimpan (prototype)", {
                         description: "Pengaturan jadwal belum disimpan permanen.",
