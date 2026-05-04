@@ -321,6 +321,7 @@ export default function RekeningPinjaman() {
   const noColW = "w-[40px] min-w-[40px] max-w-[40px]";
   const tanggalDaftarColW = "w-[100px] min-w-[100px] max-w-[100px]";
   const idNasabahColW = "w-[120px] min-w-[120px] max-w-[120px]";
+  const bungaColW = "w-[120px] min-w-[120px] max-w-[120px]";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -432,7 +433,7 @@ export default function RekeningPinjaman() {
                           </ThLabel>
                         </th>
 
-                        <th className={cn("w-[160px]", th)}>
+                        <th className={cn(bungaColW, th)}>
                           <ThLabel>
                             <span className="block">Bunga</span>
                             <span className="block">/Thn (%)</span>
@@ -510,7 +511,7 @@ export default function RekeningPinjaman() {
                             inputMode="decimal"
                           />
                         </th>
-                        <th className={filterCell}>
+                        <th className={cn(bungaColW, filterCell)}>
                           <Input
                             value={qBunga}
                             onChange={(e) => setQBunga(e.target.value)}
@@ -633,6 +634,7 @@ export default function RekeningPinjaman() {
                             <td
                               className={cn(
                                 td,
+                                bungaColW,
                                 "text-left text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
