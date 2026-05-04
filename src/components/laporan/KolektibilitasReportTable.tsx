@@ -165,11 +165,12 @@ const colW = {
   no: "w-[60px]",
   noNsb: "w-[140px]",
   nama: "w-[220px]",
-  // diperkecil dari 140px -> 110px
   status: "w-[110px]",
   alamat: "w-[170px]",
-  tanggalPinjaman: "w-[150px]",
-  tanggalJatuhTempo: "w-[170px]",
+  // diperkecil: 150px -> 130px
+  tanggalPinjaman: "w-[130px]",
+  // diperkecil: 170px -> 140px
+  tanggalJatuhTempo: "w-[140px]",
   jenisPinjaman: "w-[170px]",
 
   cabangKd: "w-[80px]",
