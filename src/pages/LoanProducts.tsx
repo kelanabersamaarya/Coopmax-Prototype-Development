@@ -130,6 +130,48 @@ function PaginationBar({
   );
 }
 
+function IconOnlyAction({
+  label,
+  tone = "slate",
+  onClick,
+  children,
+}: {
+  label: string;
+  tone?: "slate" | "amber" | "sky" | "rose";
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
+  const toneCls: Record<string, string> = {
+    slate: "text-slate-600 hover:text-slate-900",
+    amber: "text-amber-600 hover:text-amber-700",
+    sky: "text-sky-600 hover:text-sky-700",
+    rose: "text-rose-600 hover:text-rose-700",
+  };
+
+  const cls = cn(
+    "inline-flex h-8 w-8 items-center justify-center",
+    "rounded-full bg-transparent ring-0 shadow-none",
+    "transition-colors",
+    "hover:bg-slate-900/5",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+    toneCls[tone],
+  );
+
+  if (!onClick) {
+    return (
+      <span className={cls} aria-label={label} title={label}>
+        {children}
+      </span>
+    );
+  }
+
+  return (
+    <button type="button" className={cls} onClick={onClick} aria-label={label} title={label}>
+      {children}
+    </button>
+  );
+}
+
 export default function LoanProducts() {
   const products = React.useMemo(() => getLoanProducts(), []);
 
@@ -406,56 +448,59 @@ export default function LoanProducts() {
                           </td>
 
                           <td className={td}>
-                            <div className="flex items-center gap-2">
-                              <button
-                                type="button"
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-slate-700 ring-1 ring-slate-200 hover:bg-white"
+                            <div className="flex items-center gap-1.5">
+                              <IconOnlyAction
+                                label="Lihat"
+                                tone="slate"
                                 onClick={() =>
                                   toast("Lihat (prototype)", {
                                     description: `Produk: ${p.name}`,
                                   })
                                 }
-                                aria-label="Lihat"
                               >
-                                <Eye className="h-4 w-4" />
-                              </button>
+                                <Eye className="h-5 w-5" />
+                              </IconOnlyAction>
 
-                              <button
-                                type="button"
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-amber-700 ring-1 ring-amber-200 hover:bg-white"
+                              <IconOnlyAction
+                                label="Nonaktifkan"
+                                tone="amber"
                                 onClick={() =>
                                   toast("Nonaktifkan (prototype)", {
                                     description:
                                       "Status belum disimpan (store belum punya field status).",
                                   })
                                 }
-                                aria-label="Nonaktifkan"
                               >
-                                <XCircle className="h-4 w-4" />
-                              </button>
+                                <XCircle className="h-5 w-5" />
+                              </IconOnlyAction>
 
                               <Link
                                 to={`/loan-products/${p.id}/edit`}
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-sky-50 text-sky-700 ring-1 ring-sky-200 hover:bg-white"
+                                className={cn(
+                                  "inline-flex h-8 w-8 items-center justify-center rounded-full",
+                                  "bg-transparent ring-0 shadow-none",
+                                  "transition-colors hover:bg-slate-900/5",
+                                  "text-sky-600 hover:text-sky-700",
+                                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                                )}
                                 aria-label="Edit"
                                 title="Ubah"
                               >
-                                <Pencil className="h-4 w-4" />
+                                <Pencil className="h-5 w-5" />
                               </Link>
 
-                              <button
-                                type="button"
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-700 ring-1 ring-rose-200 hover:bg-white"
+                              <IconOnlyAction
+                                label="Hapus"
+                                tone="rose"
                                 onClick={() =>
                                   toast("Hapus (prototype)", {
                                     description:
                                       "Hapus belum diimplementasikan di scope ini.",
                                   })
                                 }
-                                aria-label="Hapus"
                               >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
+                                <Trash2 className="h-5 w-5" />
+                              </IconOnlyAction>
                             </div>
                           </td>
                         </tr>
