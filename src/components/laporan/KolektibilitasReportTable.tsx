@@ -335,28 +335,28 @@ export default function KolektibilitasReportTable({
           <table className="min-w-[2930px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr className="bg-white">
-                <Th rowSpan={2} className={colW.no}>
+                <Th rowSpan={2} className={colW.no} align="left">
                   NO.
                 </Th>
-                <Th rowSpan={2} className={colW.noNsb}>
+                <Th rowSpan={2} className={colW.noNsb} align="left">
                   NO.REKENING
                 </Th>
-                <Th rowSpan={2} className={colW.nama}>
+                <Th rowSpan={2} className={colW.nama} align="left">
                   NAMA
                 </Th>
-                <Th rowSpan={2} className={colW.status}>
+                <Th rowSpan={2} className={colW.status} align="left">
                   STATUS
                 </Th>
-                <Th rowSpan={2} className={colW.alamat}>
+                <Th rowSpan={2} className={colW.alamat} align="left">
                   ALAMAT
                 </Th>
-                <Th rowSpan={2} className={colW.tanggalPinjaman}>
+                <Th rowSpan={2} className={colW.tanggalPinjaman} align="left">
                   TANGGAL PINJAMAN
                 </Th>
-                <Th rowSpan={2} className={colW.tanggalJatuhTempo}>
+                <Th rowSpan={2} className={colW.tanggalJatuhTempo} align="left">
                   TANGGAL JATUH TEMPO
                 </Th>
-                <Th rowSpan={2} className={colW.jenisPinjaman}>
+                <Th rowSpan={2} className={colW.jenisPinjaman} align="left">
                   JENIS PINJAMAN
                 </Th>
 
