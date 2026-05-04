@@ -172,7 +172,8 @@ const colW = {
   jenisPinjaman: "w-[170px]",
 
   cabangKd: "w-[80px]",
-  cabangKet: "w-[160px]",
+  // diperkecil dari 160px -> 120px
+  cabangKet: "w-[120px]",
 
   plafon: "w-[160px]",
   aoId: "w-[90px]",
