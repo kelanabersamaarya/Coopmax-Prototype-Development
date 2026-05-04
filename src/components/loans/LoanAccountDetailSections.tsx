@@ -322,9 +322,10 @@ export default function LoanAccountDetailSections({
       {/* SUBSECTION: INFORMASI KREDIT */}
       <SubSectionHeader title="INFORMASI KREDIT" />
 
-      <div className="mt-4 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
+      {/* NOTE: border/ring & garis-garis per baris dihapus */}
+      <div className="mt-4 rounded-3xl bg-transparent p-0 ring-0 md:p-0">
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="divide-y divide-slate-100">
+          <div>
             <KeyValueRow label="Tanggal Realisasi" value="07-04-2026" />
             <KeyValueRow label="Besar Pinjaman / Plafond" value="12.000.000,00" />
             <KeyValueRow label="Propisi" value="0,00" />
@@ -332,7 +333,7 @@ export default function LoanAccountDetailSections({
             <KeyValueRow label="Biaya Asuransi" value="0,00" />
           </div>
 
-          <div className="divide-y divide-slate-100">
+          <div>
             <KeyValueRow label="Jumlah Potongan" value="0" right />
             <KeyValueRow label="Penerimaan Bersih" value="11.880.000,00" right />
             <KeyValueRow
