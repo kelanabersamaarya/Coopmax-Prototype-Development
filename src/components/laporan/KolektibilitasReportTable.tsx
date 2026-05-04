@@ -164,7 +164,8 @@ function PaginationLikeExample({
 const colW = {
   no: "w-[60px]",
   noNsb: "w-[140px]",
-  nama: "w-[220px]",
+  // diperkecil: 220px -> 180px
+  nama: "w-[180px]",
   status: "w-[110px]",
   alamat: "w-[170px]",
   tanggalPinjaman: "w-[130px]",
@@ -183,7 +184,6 @@ const colW = {
   pinBng: "w-[90px]",
   angPerBln: "w-[130px]",
   angsuranSdhHr: "w-[90px]",
-  // diperkecil: 90px -> 60px
   tBln: "w-[60px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
