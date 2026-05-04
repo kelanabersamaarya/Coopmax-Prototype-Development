@@ -422,12 +422,12 @@ export default function RekeningPinjaman() {
                           </ThLabel>
                         </th>
 
-                        <th className={cn("w-[190px] text-right", th)}>
-                          <ThLabel className="justify-end">Nominal</ThLabel>
+                        <th className={cn("w-[190px]", th)}>
+                          <ThLabel>Nominal</ThLabel>
                         </th>
 
-                        <th className={cn("w-[190px] text-right", th)}>
-                          <ThLabel className="justify-end">
+                        <th className={cn("w-[190px]", th)}>
+                          <ThLabel>
                             <span className="block">Sisa</span>
                             <span className="block">Pinjaman</span>
                           </ThLabel>
