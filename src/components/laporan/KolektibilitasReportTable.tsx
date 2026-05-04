@@ -167,9 +167,7 @@ const colW = {
   nama: "w-[220px]",
   status: "w-[110px]",
   alamat: "w-[170px]",
-  // diperkecil: 150px -> 130px
   tanggalPinjaman: "w-[130px]",
-  // diperkecil: 170px -> 140px
   tanggalJatuhTempo: "w-[140px]",
   jenisPinjaman: "w-[170px]",
 
@@ -185,7 +183,8 @@ const colW = {
   pinBng: "w-[90px]",
   angPerBln: "w-[130px]",
   angsuranSdhHr: "w-[90px]",
-  tBln: "w-[90px]",
+  // diperkecil: 90px -> 60px
+  tBln: "w-[60px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
   t31_60: "w-[140px]",
