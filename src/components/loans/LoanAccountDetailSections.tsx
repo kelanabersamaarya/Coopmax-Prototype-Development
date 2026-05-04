@@ -270,7 +270,7 @@ export default function LoanAccountDetailSections({
 
       <div className="mt-4 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="divide-y divide-slate-100">
+          <div>
             <KeyValueRow
               label="ID"
               value={
@@ -301,10 +301,13 @@ export default function LoanAccountDetailSections({
               label="Status Verifikasi KTP"
               value={<StatusPill tone="bad">BELUM TERVERIFIKASI</StatusPill>}
             />
-            <KeyValueRow label="Status" value={<StatusPill tone="ok">Aktif</StatusPill>} />
+            <KeyValueRow
+              label="Status"
+              value={<StatusPill tone="ok">Aktif</StatusPill>}
+            />
           </div>
 
-          <div className="divide-y divide-slate-100">
+          <div>
             <KeyValueRow label="Agama" value="Hindu" right />
             <KeyValueRow label="Profesi" value="Tidak Bekerja" right />
             <KeyValueRow label="Jenis Identitas" value="KTP" right />
