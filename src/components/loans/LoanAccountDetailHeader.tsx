@@ -44,7 +44,9 @@ function ActionPill({
       onClick={onClick}
       className={cn(
         "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold",
-        "bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50",
+        "bg-white text-slate-700 transition hover:bg-slate-50",
+        "border-0 ring-0 shadow-none",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
         className,
       )}
     >
@@ -82,7 +84,7 @@ export default function LoanAccountDetailHeader({
         accountNo={accountNo}
       />
 
-      <div className="rounded-3xl border border-slate-200/70 bg-transparent p-4 shadow-none md:p-5">
+      <div className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
         <div className="min-w-0">
           <div className="flex items-baseline gap-2">
             <div className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
@@ -98,7 +100,11 @@ export default function LoanAccountDetailHeader({
           <Button
             variant="outline"
             onClick={onBack}
-            className="h-10 rounded-full border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
+            className={cn(
+              "h-10 rounded-full bg-white px-4 text-slate-800 hover:bg-slate-50",
+              "border-0 ring-0 shadow-none",
+              "focus-visible:ring-0 focus-visible:ring-offset-0",
+            )}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Kembali ke Daftar
@@ -171,6 +177,8 @@ export default function LoanAccountDetailHeader({
             className={cn(
               "h-10 rounded-full px-4",
               "bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]",
+              "border-0 ring-0 shadow-none",
+              "focus-visible:ring-0 focus-visible:ring-offset-0",
             )}
           >
             <Sparkles className="mr-2 h-4 w-4" />
