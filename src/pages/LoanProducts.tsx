@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -12,10 +11,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { getLoanProducts, LoanProduct } from "@/lib/loanProductsStore";
 import { cn } from "@/lib/utils";
-import { Eye, Pencil, Plus, Trash2, XCircle, ChevronUp, ChevronDown } from "lucide-react";
+import {
+  Eye,
+  Pencil,
+  Plus,
+  Trash2,
+  XCircle,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 import { toast } from "sonner";
 
 type StatusFilter = "Semua" | "Aktif" | "Nonaktif";
@@ -217,9 +223,7 @@ export default function LoanProducts() {
           </Button>
         </div>
 
-        <Separator className="my-6 bg-slate-200/70" />
-
-        <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
+        <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
           {/* TOP CONTROL (seperti Daftar Pengajuan Pinjaman) */}
           <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
             <span>Tampilkan</span>
@@ -321,7 +325,9 @@ export default function LoanProducts() {
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="Semua">Semua</SelectItem>
-                          <SelectItem value="Bunga Efektif">Bunga Efektif</SelectItem>
+                          <SelectItem value="Bunga Efektif">
+                            Bunga Efektif
+                          </SelectItem>
                           <SelectItem value="Bunga Flat">Bunga Flat</SelectItem>
                           <SelectItem value="Menurun">Menurun</SelectItem>
                         </SelectContent>
@@ -379,17 +385,23 @@ export default function LoanProducts() {
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                           )}
                         >
-                          <td className={cn(td, "text-slate-900 tabular-nums")}>{no}</td>
+                          <td className={cn(td, "text-slate-900 tabular-nums")}>
+                            {no}
+                          </td>
 
                           <td className={cn(td, "font-medium text-slate-900")}>
                             {code}
                           </td>
 
                           <td className={td}>
-                            <div className="font-medium text-slate-900">{p.name}</div>
+                            <div className="font-medium text-slate-900">
+                              {p.name}
+                            </div>
                           </td>
 
-                          <td className={cn(td, "text-slate-900")}>{methodLabel}</td>
+                          <td className={cn(td, "text-slate-900")}>
+                            {methodLabel}
+                          </td>
 
                           <td className={cn(td, "text-slate-900 tabular-nums")}>
                             {p.interestRateYearly.toFixed(2)}%
@@ -465,8 +477,8 @@ export default function LoanProducts() {
 
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="text-[14px] text-slate-900">
-              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length}{" "}
-              entri{" "}
+              Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+              {filtered.length} entri{" "}
               <span className="text-slate-600">
                 (disaring dari {products.length} entri keseluruhan)
               </span>
