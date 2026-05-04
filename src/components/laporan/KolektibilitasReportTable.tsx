@@ -374,19 +374,20 @@ export default function KolektibilitasReportTable({
                 <Th colSpan={2}>ANGSURAN</Th>
                 <Th colSpan={6}>TUNGGAKAN</Th>
 
-                <Th rowSpan={2} className={colW.sisaPinjaman} align="center">
+                <Th rowSpan={2} className={colW.sisaPinjaman} align="left">
                   SISA PINJAMAN
                 </Th>
-                <Th rowSpan={2} className={colW.hutangPokok} align="center">
+                <Th rowSpan={2} className={colW.hutangPokok} align="left">
                   HUTANG POKOK
                 </Th>
-                <Th rowSpan={2} className={colW.hutangBunga} align="center">
+                <Th rowSpan={2} className={colW.hutangBunga} align="left">
                   HUTANG BUNGA
                 </Th>
 
                 <Th
                   rowSpan={2}
                   className={cn(colW.kolektibilitas, "whitespace-nowrap")}
+                  align="left"
                 >
                   KOLEKTIBLILITAS
                 </Th>
