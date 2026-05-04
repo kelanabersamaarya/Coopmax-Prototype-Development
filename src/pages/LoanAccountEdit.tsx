@@ -581,6 +581,7 @@ export default function LoanAccountEdit() {
                           onClick={verifyKtp}
                           className={cn(
                             UI.btn,
+                            "shrink-0 min-w-fit whitespace-nowrap",
                             "inline-flex items-center justify-center gap-2 px-3",
                             "bg-violet-600 text-white hover:bg-violet-700",
                           )}
