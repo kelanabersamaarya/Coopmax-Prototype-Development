@@ -1,3 +1,4 @@
+90 HR) menjadi rata kiri.">
 "use client";
 
 import * as React from "react";
@@ -360,19 +361,29 @@ export default function KolektibilitasReportTable({
                   JENIS PINJAMAN
                 </Th>
 
-                <Th colSpan={2}>CABANG</Th>
+                <Th colSpan={2} align="left">
+                  CABANG
+                </Th>
 
-                <Th rowSpan={2} className={colW.plafon} align="center">
+                <Th rowSpan={2} className={colW.plafon} align="left">
                   PLAFON
                 </Th>
-                <Th rowSpan={2} className={colW.aoId}>
+                <Th rowSpan={2} className={colW.aoId} align="left">
                   AO ID
                 </Th>
 
-                <Th colSpan={3}>JANGKA WAKTU</Th>
-                <Th colSpan={2}>PINJAMAN</Th>
-                <Th colSpan={2}>ANGSURAN</Th>
-                <Th colSpan={6}>TUNGGAKAN</Th>
+                <Th colSpan={3} align="left">
+                  JANGKA WAKTU
+                </Th>
+                <Th colSpan={2} align="left">
+                  PINJAMAN
+                </Th>
+                <Th colSpan={2} align="left">
+                  ANGSURAN
+                </Th>
+                <Th colSpan={6} align="left">
+                  TUNGGAKAN
+                </Th>
 
                 <Th rowSpan={2} className={colW.sisaPinjaman} align="left">
                   SISA PINJAMAN
@@ -394,25 +405,56 @@ export default function KolektibilitasReportTable({
               </tr>
 
               <tr className="bg-white">
-                <Th className={colW.cabangKd}>KD</Th>
-                <Th className={colW.cabangKet}>KET.</Th>
+                <Th className={colW.cabangKd} align="left">
+                  KD
+                </Th>
+                <Th className={colW.cabangKet} align="left">
+                  KET.
+                </Th>
 
-                <Th className={colW.jwBln}>BLN</Th>
-                <Th className={cn(colW.jwDari, "whitespace-nowrap")}>DARI TGL.</Th>
-                <Th className={cn(colW.jwSampai, "whitespace-nowrap")}>S/D TGL.</Th>
+                <Th className={colW.jwBln} align="left">
+                  BLN
+                </Th>
+                <Th className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
+                  DARI TGL.
+                </Th>
+                <Th className={cn(colW.jwSampai, "whitespace-nowrap")} align="left">
+                  S/D TGL.
+                </Th>
 
-                <Th className={cn(colW.pinPokok, "whitespace-nowrap")}>SLD. POKOK</Th>
-                <Th className={colW.pinBng}>BNG</Th>
+                <Th
+                  className={cn(colW.pinPokok, "whitespace-nowrap")}
+                  align="left"
+                >
+                  SLD. POKOK
+                </Th>
+                <Th className={colW.pinBng} align="left">
+                  BNG
+                </Th>
 
-                <Th className={colW.angPerBln}>PER BLN</Th>
-                <Th className={cn(colW.angSdhHr, "whitespace-nowrap")}>SDH/HR</Th>
+                <Th className={colW.angPerBln} align="left">
+                  PER BLN
+                </Th>
+                <Th className={cn(colW.angSdhHr, "whitespace-nowrap")} align="left">
+                  SDH/HR
+                </Th>
 
-                <Th className={colW.tBln}>BLN</Th>
-                <Th className={colW.tNilai}>NILAI</Th>
-                <Th className={colW.t1_30}>1-30 HR</Th>
-                <Th className={colW.t31_60}>31-60 HR</Th>
-                <Th className={colW.t61_90}>61-90 HR</Th>
-                <Th className={colW.t90p}>
+                <Th className={colW.tBln} align="left">
+                  BLN
+                </Th>
+                <Th className={colW.tNilai} align="left">
+                  NILAI
+                </Th>
+                <Th className={colW.t1_30} align="left">
+                  1-30 HR
+                </Th>
+                <Th className={colW.t31_60} align="left">
+                  31-60 HR
+                </Th>
+                <Th className={colW.t61_90} align="left">
+                  61-90 HR
+                </Th>
+                <Th className={colW.t90p} align="left">
                   {"\u003E"} 90 HR
                 </Th>
               </tr>
