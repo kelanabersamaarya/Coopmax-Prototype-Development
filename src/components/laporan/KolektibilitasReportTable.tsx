@@ -64,8 +64,7 @@ function Th({
       className={cn(
         "bg-white px-3 py-2.5 align-middle",
         bottomDivider,
-        "border-r border-slate-300",
-        "last:border-r-0",
+        // no vertical borders
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -97,8 +96,7 @@ function Td({
       title={title}
       className={cn(
         "border-b border-slate-200 px-3 py-2 align-top",
-        "border-r border-slate-200",
-        "last:border-r-0",
+        // no vertical borders
         "text-[13px] font-medium text-slate-900",
         align === "center"
           ? "text-left"
@@ -164,7 +162,6 @@ function PaginationLikeExample({
 const colW = {
   no: "w-[60px]",
   noNsb: "w-[140px]",
-  // diperkecil: 220px -> 180px
   nama: "w-[180px]",
   status: "w-[110px]",
   alamat: "w-[170px]",
@@ -240,9 +237,9 @@ function TotalRowMergedToJangkaWaktu({
   totals: Totals;
 }) {
   const totalRowText =
-    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
+    "border-b border-slate-200 last:border-r-0 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    "border-b border-slate-200 last:border-r-0 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_TO_JW_END = 15;
 
