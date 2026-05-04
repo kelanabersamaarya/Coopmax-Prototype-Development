@@ -311,7 +311,7 @@ export default function RekeningPinjaman() {
   const td = "px-1.5 py-1.5";
 
   const filterInputCls =
-    "h-7 rounded-[6px] border-slate-300 bg-white text-[12.5px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-7 rounded-[6px] border-slate-300 bg-white text-[12.5px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
     "h-7 rounded-[6px] border-slate-300 bg-white text-[12.5px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
@@ -465,7 +465,9 @@ export default function RekeningPinjaman() {
                         </th>
                         <th className={filterCell}>
                           <Select value={qProduk} onValueChange={setQProduk}>
-                            <SelectTrigger className={filterSelectTriggerCls}>
+                            <SelectTrigger
+                              className={cn(filterSelectTriggerCls, "font-normal")}
+                            >
                               <SelectValue placeholder="-- Semua --" />
                             </SelectTrigger>
                             <SelectContent className="rounded-xl border-slate-200">
@@ -525,7 +527,9 @@ export default function RekeningPinjaman() {
                             value={qStatus}
                             onValueChange={(v) => setQStatus(v as StatusFilter)}
                           >
-                            <SelectTrigger className={filterSelectTriggerCls}>
+                            <SelectTrigger
+                              className={cn(filterSelectTriggerCls, "font-normal")}
+                            >
                               <SelectValue placeholder="-- Semua --" />
                             </SelectTrigger>
                             <SelectContent className="rounded-xl border-slate-200">
