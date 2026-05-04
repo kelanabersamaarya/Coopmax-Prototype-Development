@@ -62,7 +62,8 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "bg-white px-3 py-2.5 align-middle",
+        // dipersempit: px-3 -> px-2
+        "bg-white px-2 py-2.5 align-middle",
         bottomDivider,
         // no vertical borders
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
@@ -95,7 +96,8 @@ function Td({
     <td
       title={title}
       className={cn(
-        "border-b border-slate-200 px-3 py-2 align-top",
+        // dipersempit: px-3 -> px-2
+        "border-b border-slate-200 px-2 py-2 align-top",
         // no vertical borders
         "text-[13px] font-medium text-slate-900",
         align === "center"
@@ -237,9 +239,11 @@ function TotalRowMergedToJangkaWaktu({
   totals: Totals;
 }) {
   const totalRowText =
-    "border-b border-slate-200 last:border-r-0 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
+    // dipersempit: px-3 -> px-2
+    "border-b border-slate-200 last:border-r-0 px-2 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border-b border-slate-200 last:border-r-0 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    // dipersempit: px-3 -> px-2
+    "border-b border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_TO_JW_END = 15;
 
