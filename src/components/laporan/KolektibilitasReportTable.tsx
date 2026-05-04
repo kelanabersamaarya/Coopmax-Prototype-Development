@@ -56,7 +56,8 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "border border-slate-300 bg-white px-3 py-2.5 align-middle",
+        // HEADER: horizontal border only (no vertical lines)
+        "border-b border-slate-300 bg-white px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -87,7 +88,8 @@ function Td({
     <td
       title={title}
       className={cn(
-        "border border-slate-200 px-3 py-2 align-top",
+        // BODY: horizontal border only (no vertical lines)
+        "border-b border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
           ? "text-left"
@@ -228,18 +230,15 @@ function TotalRowMergedToJangkaWaktu({
   totals: Totals;
 }) {
   const totalRowText =
-    "border border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
+    "border-b border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    "border-b border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_TO_JW_END = 15;
 
   return (
     <tr className="border-t border-black bg-white">
-      <td
-        className={cn(totalRowText, "whitespace-nowrap")}
-        colSpan={MERGE_COLS_TO_JW_END}
-      >
+      <td className={cn(totalRowText, "whitespace-nowrap")} colSpan={MERGE_COLS_TO_JW_END}>
         {label}
       </td>
 
@@ -291,8 +290,7 @@ export default function KolektibilitasReportTable({
 
   const paged = React.useMemo(() => rows, [rows]);
 
-  const showingStart =
-    totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingStart = totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(totalEntriesResolved, page * pageSize);
 
   const totals = React.useMemo<Totals>(() => {
@@ -329,7 +327,7 @@ export default function KolektibilitasReportTable({
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
-        <div className={cn("safe-x-scroll", "border border-slate-300 bg-white")}>
+        <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
           <table className="min-w-[2930px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr className="bg-white">
@@ -419,10 +417,7 @@ export default function KolektibilitasReportTable({
                   S/D TGL.
                 </Th>
 
-                <Th
-                  className={cn(colW.pinPokok, "whitespace-nowrap")}
-                  align="left"
-                >
+                <Th className={cn(colW.pinPokok, "whitespace-nowrap")} align="left">
                   SLD. POKOK
                 </Th>
                 <Th className={colW.pinBng} align="left">
@@ -530,18 +525,11 @@ export default function KolektibilitasReportTable({
                         {status}
                       </Td>
 
-                      <Td
-                        className={cn(colW.alamat, "truncate")}
-                        title={r.alamat}
-                        align="left"
-                      >
+                      <Td className={cn(colW.alamat, "truncate")} title={r.alamat} align="left">
                         {r.alamat}
                       </Td>
 
-                      <Td
-                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.tanggalPinjaman, "whitespace-nowrap")} align="left">
                         {tanggalPinjaman}
                       </Td>
 
@@ -634,10 +622,7 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      <Td
-                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.kolektibilitas, "whitespace-nowrap")} align="left">
                         {kolek}
                       </Td>
                     </tr>
@@ -647,10 +632,7 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <>
-                  <TotalRowMergedToJangkaWaktu
-                    label="Total per Halaman"
-                    totals={totals}
-                  />
+                  <TotalRowMergedToJangkaWaktu label="Total per Halaman" totals={totals} />
                   <TotalRowMergedToJangkaWaktu label="Total" totals={totals} />
                 </>
               ) : null}
