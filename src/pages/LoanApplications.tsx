@@ -298,7 +298,17 @@ export default function LoanApplications() {
 
   React.useEffect(() => {
     setPage(1);
-  }, [pageSize, qNoRek, qTanggal, qProduk, qIdNasabah, qNamaNasabah, qNominal, qBunga, qStatus]);
+  }, [
+    pageSize,
+    qNoRek,
+    qTanggal,
+    qProduk,
+    qIdNasabah,
+    qNamaNasabah,
+    qNominal,
+    qBunga,
+    qStatus,
+  ]);
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
@@ -316,6 +326,11 @@ export default function LoanApplications() {
   const th = "px-2 py-2.5";
   const filterCell = "px-2 py-1.5";
   const td = "px-2 py-2";
+
+  // Perkecil lebar kolom yang diminta
+  const noRekeningColW = "w-[110px]";
+  const tanggalDaftarColW = "w-[104px]";
+  const bungaColW = "w-[86px]";
 
   const produkColW = "w-[150px] max-w-[150px]";
   const namaColW = "w-[170px] max-w-[170px]";
@@ -358,7 +373,10 @@ export default function LoanApplications() {
         <Card className="rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
           <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
             <span>Tampilkan</span>
-            <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+            <Select
+              value={String(pageSize)}
+              onValueChange={(v) => setPageSize(Number(v))}
+            >
               <SelectTrigger className={pageSizeTriggerCls}>
                 <SelectValue />
               </SelectTrigger>
@@ -382,14 +400,14 @@ export default function LoanApplications() {
                     <ThLabel sortable={false}>No.</ThLabel>
                   </th>
 
-                  <th className={cn("w-[130px]", th)}>
+                  <th className={cn(noRekeningColW, th)}>
                     <ThLabel>
                       <span className="block">No.</span>
                       <span className="block">Rekening</span>
                     </ThLabel>
                   </th>
 
-                  <th className={cn("w-[120px]", th)}>
+                  <th className={cn(tanggalDaftarColW, th)}>
                     <ThLabel>
                       <span className="block">Tanggal</span>
                       <span className="block">Daftar</span>
@@ -421,7 +439,7 @@ export default function LoanApplications() {
                     </div>
                   </th>
 
-                  <th className={cn("hidden xl:table-cell w-[110px]", th)}>
+                  <th className={cn("hidden xl:table-cell", bungaColW, th)}>
                     <ThLabel>
                       <span className="block">Bunga</span>
                       <span className="block">/Thn (%)</span>
@@ -435,7 +453,7 @@ export default function LoanApplications() {
 
                 <tr className="border-b border-slate-200 bg-white">
                   <th className={filterCell} />
-                  <th className={filterCell}>
+                  <th className={cn(filterCell, noRekeningColW)}>
                     <Input
                       value={qNoRek}
                       onChange={(e) => setQNoRek(e.target.value)}
@@ -443,7 +461,7 @@ export default function LoanApplications() {
                       placeholder=""
                     />
                   </th>
-                  <th className={filterCell}>
+                  <th className={cn(filterCell, tanggalDaftarColW)}>
                     <Input
                       value={qTanggal}
                       onChange={(e) => setQTanggal(e.target.value)}
@@ -494,7 +512,7 @@ export default function LoanApplications() {
                     />
                   </th>
 
-                  <th className={cn("hidden xl:table-cell", filterCell)}>
+                  <th className={cn("hidden xl:table-cell", bungaColW, filterCell)}>
                     <Input
                       value={qBunga}
                       onChange={(e) => setQBunga(e.target.value)}
@@ -550,7 +568,7 @@ export default function LoanApplications() {
                         {(page - 1) * pageSize + idx + 1}
                       </td>
 
-                      <td className={td}>
+                      <td className={cn(td, "whitespace-nowrap")}>
                         <a
                           href="#"
                           onClick={(e) => e.preventDefault()}
