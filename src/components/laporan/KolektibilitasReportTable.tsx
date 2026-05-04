@@ -56,8 +56,8 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        // HEADER: no borders at all (no vertical, no horizontal)
-        "border-0 bg-white px-3 py-2.5 align-middle",
+        // HEADER: show vertical + horizontal borders (grid)
+        "border border-slate-300 bg-white px-3 py-2.5 align-middle",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -88,8 +88,8 @@ function Td({
     <td
       title={title}
       className={cn(
-        // body: only horizontal borders
-        "border-y border-slate-200 px-3 py-2 align-top",
+        // BODY: show vertical + horizontal borders (grid)
+        "border border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
           ? "text-left"
@@ -230,9 +230,9 @@ function TotalRowMergedToJangkaWaktu({
   totals: Totals;
 }) {
   const totalRowText =
-    "border-y border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
+    "border border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border-y border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    "border border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_TO_JW_END = 15;
 
