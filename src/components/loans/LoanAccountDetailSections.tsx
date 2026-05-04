@@ -268,7 +268,8 @@ export default function LoanAccountDetailSections({
       {/* SUBSECTION: INFORMASI NASABAH */}
       <SubSectionHeader title="INFORMASI NASABAH" />
 
-      <div className="mt-4 rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
+      {/* NOTE: border/ring di section ini dihapus */}
+      <div className="mt-4 rounded-3xl bg-transparent p-0 ring-0 md:p-0">
         <div className="grid gap-6 lg:grid-cols-2">
           <div>
             <KeyValueRow
@@ -301,10 +302,7 @@ export default function LoanAccountDetailSections({
               label="Status Verifikasi KTP"
               value={<StatusPill tone="bad">BELUM TERVERIFIKASI</StatusPill>}
             />
-            <KeyValueRow
-              label="Status"
-              value={<StatusPill tone="ok">Aktif</StatusPill>}
-            />
+            <KeyValueRow label="Status" value={<StatusPill tone="ok">Aktif</StatusPill>} />
           </div>
 
           <div>
