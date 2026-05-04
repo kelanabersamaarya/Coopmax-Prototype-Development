@@ -51,13 +51,17 @@ function Th({
   rowSpan?: number;
   align?: Align;
 }) {
+  // Header group (colSpan) & header tall (rowSpan=2) -> jangan kasih border bawah,
+  // biar tidak muncul garis horizontal "di dalam" grup seperti screenshot.
+  const isGroupOrRowSpan = !!colSpan || rowSpan === 2;
+
   return (
     <th
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        // HEADER: horizontal border only (no vertical lines)
-        "border-b border-slate-300 bg-white px-3 py-2.5 align-middle",
+        "bg-white px-3 py-2.5 align-middle",
+        isGroupOrRowSpan ? "" : "border-b border-slate-300",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -88,7 +92,6 @@ function Td({
     <td
       title={title}
       className={cn(
-        // BODY: horizontal border only (no vertical lines)
         "border-b border-slate-200 px-3 py-2 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "center"
@@ -238,7 +241,10 @@ function TotalRowMergedToJangkaWaktu({
 
   return (
     <tr className="border-t border-black bg-white">
-      <td className={cn(totalRowText, "whitespace-nowrap")} colSpan={MERGE_COLS_TO_JW_END}>
+      <td
+        className={cn(totalRowText, "whitespace-nowrap")}
+        colSpan={MERGE_COLS_TO_JW_END}
+      >
         {label}
       </td>
 
@@ -290,7 +296,8 @@ export default function KolektibilitasReportTable({
 
   const paged = React.useMemo(() => rows, [rows]);
 
-  const showingStart = totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingStart =
+    totalEntriesResolved === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(totalEntriesResolved, page * pageSize);
 
   const totals = React.useMemo<Totals>(() => {
