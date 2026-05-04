@@ -64,6 +64,8 @@ function Th({
       className={cn(
         "bg-white px-3 py-2.5 align-middle",
         bottomDivider,
+        "border-r border-slate-300",
+        "last:border-r-0",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -95,6 +97,8 @@ function Td({
       title={title}
       className={cn(
         "border-b border-slate-200 px-3 py-2 align-top",
+        "border-r border-slate-200",
+        "last:border-r-0",
         "text-[13px] font-medium text-slate-900",
         align === "center"
           ? "text-left"
@@ -235,9 +239,9 @@ function TotalRowMergedToJangkaWaktu({
   totals: Totals;
 }) {
   const totalRowText =
-    "border-b border-slate-200 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
+    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-3 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border-b border-slate-200 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-3 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_TO_JW_END = 15;
 
@@ -436,7 +440,10 @@ export default function KolektibilitasReportTable({
                 <Th className={colW.angPerBln} align="left">
                   PER BLN
                 </Th>
-                <Th className={cn(colW.angsuranSdhHr, "whitespace-nowrap")} align="left">
+                <Th
+                  className={cn(colW.angsuranSdhHr, "whitespace-nowrap")}
+                  align="left"
+                >
                   SDH/HR
                 </Th>
 
