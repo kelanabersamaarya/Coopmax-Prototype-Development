@@ -1,4 +1,3 @@
-body, sambil menghilangkan garis yang membelah header grup/rowspan di baris pertama.">
 "use client";
 
 import * as React from "react";
@@ -534,18 +533,11 @@ export default function KolektibilitasReportTable({
                         {status}
                       </Td>
 
-                      <Td
-                        className={cn(colW.alamat, "truncate")}
-                        title={r.alamat}
-                        align="left"
-                      >
+                      <Td className={cn(colW.alamat, "truncate")} title={r.alamat} align="left">
                         {r.alamat}
                       </Td>
 
-                      <Td
-                        className={cn(colW.tanggalPinjaman, "whitespace-nowrap")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.tanggalPinjaman, "whitespace-nowrap")} align="left">
                         {tanggalPinjaman}
                       </Td>
 
@@ -638,10 +630,7 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(hutangBunga)}
                       </Td>
 
-                      <Td
-                        className={cn(colW.kolektibilitas, "whitespace-nowrap")}
-                        align="left"
-                      >
+                      <Td className={cn(colW.kolektibilitas, "whitespace-nowrap")} align="left">
                         {kolek}
                       </Td>
                     </tr>
