@@ -165,21 +165,19 @@ const colW = {
   no: "w-[60px]",
   noNsb: "w-[140px]",
   nama: "w-[220px]",
-  status: "w-[140px]",
+  // diperkecil dari 140px -> 110px
+  status: "w-[110px]",
   alamat: "w-[170px]",
   tanggalPinjaman: "w-[150px]",
   tanggalJatuhTempo: "w-[170px]",
   jenisPinjaman: "w-[170px]",
 
   cabangKd: "w-[80px]",
-  // diperkecil dari 160px -> 120px
   cabangKet: "w-[120px]",
 
-  // diperkecil dari 160px -> 130px
   plafon: "w-[130px]",
   aoId: "w-[90px]",
   jwBln: "w-[70px]",
-  // diperkecil lagi: 112px -> 96px
   jwDari: "w-[96px]",
   jwSampai: "w-[96px]",
   pinPokok: "w-[130px]",
