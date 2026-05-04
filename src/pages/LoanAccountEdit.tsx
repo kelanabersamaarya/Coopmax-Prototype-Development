@@ -29,7 +29,6 @@ import {
   Check,
   ShieldCheck,
   XCircle,
-  CalendarDays,
   Plus,
   HelpCircle,
 } from "lucide-react";
@@ -55,9 +54,6 @@ const UI = {
   btn: "h-[30px] rounded-[5px] text-[12.5px]",
   sectionTitle: "text-[16px] font-semibold tracking-tight text-slate-900",
 } as const;
-
-const SIM_BUTTON =
-  "inline-flex items-center justify-center gap-1.5 rounded-[6px] px-2 text-[11px] font-bold tracking-tight text-white focus:outline-none focus-visible:ring-4 w-full h-10 sm:w-[90px] sm:h-[28px] bg-blue-600 ring-1 ring-blue-600/25 transition hover:bg-blue-700 focus-visible:ring-blue-600/25";
 
 function isPlaceholderValue(v: string) {
   const s = (v ?? "").trim().toLowerCase();
@@ -770,20 +766,6 @@ export default function LoanAccountEdit() {
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                  <button
-                    type="button"
-                    className={SIM_BUTTON}
-                    onClick={() =>
-                      toast("Simulasi (prototype)", {
-                        description:
-                          "Simulasi untuk General Information belum diimplementasikan.",
-                      })
-                    }
-                  >
-                    <CalendarDays className="h-4 w-4" />
-                    Simulasi
-                  </button>
-
                   <LoanFormActionButtons
                     onCancel={navigateToDetail}
                     onSave={save}
@@ -956,20 +938,6 @@ export default function LoanAccountEdit() {
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                  <button
-                    type="button"
-                    className={SIM_BUTTON}
-                    onClick={() =>
-                      toast("Simulasi (prototype)", {
-                        description:
-                          "Simulasi jadwal belum diimplementasikan di prototype ini.",
-                      })
-                    }
-                  >
-                    <CalendarDays className="h-4 w-4" />
-                    Simulasi
-                  </button>
-
                   <LoanFormActionButtons
                     onCancel={navigateToDetail}
                     onSave={() =>
