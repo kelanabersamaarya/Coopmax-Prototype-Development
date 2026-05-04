@@ -319,7 +319,7 @@ export default function RekeningPinjaman() {
     "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
 
   const noColW = "w-[40px] min-w-[40px] max-w-[40px]";
-  const tanggalDaftarColW = "w-[120px] min-w-[120px] max-w-[120px]";
+  const tanggalDaftarColW = "w-[100px] min-w-[100px] max-w-[100px]";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
