@@ -321,9 +321,9 @@ export default function LoanApplications() {
   const namaColW = "w-[170px] max-w-[170px]";
 
   const filterInputCls =
-    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
-    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   const pageSizeTriggerCls =
     "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
