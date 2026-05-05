@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 type Row = {
   noTransaksi: string;
@@ -41,6 +42,58 @@ const seed: Row[] = [
   },
 ];
 
+type HeaderKind = "sort" | "menu" | "none";
+
+function HeaderCell({
+  lines,
+  kind = "sort",
+  align = "left",
+  className,
+}: {
+  lines: string[];
+  kind?: HeaderKind;
+  align?: "left" | "right" | "center";
+  className?: string;
+}) {
+  const icon =
+    kind === "sort" ? (
+      <span className="ml-2 inline-flex flex-col leading-none text-slate-900/90">
+        <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
+        <ChevronDown className="h-3.5 w-3.5" />
+      </span>
+    ) : kind === "menu" ? (
+      <span className="ml-2 inline-flex leading-none text-slate-900/90">
+        <ChevronDown className="h-4 w-4" />
+      </span>
+    ) : null;
+
+  return (
+    <div
+      className={cn(
+        "flex items-start justify-between gap-2",
+        align === "right"
+          ? "justify-end"
+          : align === "center"
+            ? "justify-center"
+            : "justify-between",
+        className,
+      )}
+    >
+      <div className="leading-[1.0]">
+        {lines.length === 1 ? (
+          <span className="block">{lines[0]}</span>
+        ) : (
+          <>
+            <span className="block">{lines[0]}</span>
+            <span className="block">{lines[1]}</span>
+          </>
+        )}
+      </div>
+      {icon}
+    </div>
+  );
+}
+
 function Th({
   children,
   className,
@@ -51,9 +104,10 @@ function Th({
   return (
     <th
       className={cn(
-        // lebih rapat lagi kiri-kanan
-        "px-1.5 py-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-        "leading-[1.05] whitespace-nowrap",
+        // match contoh: uppercase, rapat, 2 baris, icon di kanan
+        "px-2 py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        "border-b border-slate-300/70",
+        "align-middle whitespace-nowrap",
         className,
       )}
     >
@@ -285,8 +339,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // diperkecil lagi untuk row filter
-  const headerCellPad = "px-1.5 py-3";
+  const headerCellPad = "px-2 py-2.5";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -298,19 +351,55 @@ export default function LoanTransactionsTable({ className }: { className?: strin
         <div className="safe-x-scroll">
           <table className="w-full min-w-[1320px] border-collapse bg-white">
             <thead className="bg-white">
-              <tr>
-                <Th className="w-[60px]">No.</Th>
-                <Th className="w-[180px]">No. Transaksi</Th>
-                <Th className="w-[140px]">Rek. Pinjaman</Th>
-                <Th className="w-[140px]">Rek. Tabungan</Th>
-                <Th className="w-[140px]">ID Nasabah</Th>
-                <Th className="w-[180px]">Nama Nasabah</Th>
-                <Th className="w-[180px]">Nama Kolektor</Th>
-                <Th className="w-[170px]">Produk Pinjaman</Th>
-                <Th className="w-[140px]">Tanggal</Th>
-                <Th className="w-[170px]">Jenis Transaksi</Th>
-                <Th className="w-[150px] text-right">Nominal</Th>
-                <Th className="w-[110px] text-right">Denda</Th>
+              <tr className="bg-white">
+                <Th className="w-[60px]">
+                  <HeaderCell lines={["NO."]} kind="none" />
+                </Th>
+
+                <Th className="w-[180px]">
+                  <HeaderCell lines={["NO.", "TRANSAKSI"]} kind="sort" />
+                </Th>
+
+                <Th className="w-[140px]">
+                  <HeaderCell lines={["REK.", "PINJAMAN"]} kind="sort" />
+                </Th>
+
+                <Th className="w-[140px]">
+                  <HeaderCell lines={["REK.", "TABUNGAN"]} kind="sort" />
+                </Th>
+
+                <Th className="w-[140px]">
+                  <HeaderCell lines={["ID", "NASABAH"]} kind="sort" />
+                </Th>
+
+                <Th className="w-[180px]">
+                  <HeaderCell lines={["NAMA", "NASABAH"]} kind="sort" />
+                </Th>
+
+                <Th className="w-[180px]">
+                  <HeaderCell lines={["NAMA", "KOLEKTOR"]} kind="sort" />
+                </Th>
+
+                <Th className="w-[170px]">
+                  <HeaderCell lines={["PRODUK", "PINJAMAN"]} kind="sort" />
+                </Th>
+
+                {/* contoh menunjukkan dropdown caret untuk TANGGAL */}
+                <Th className="w-[140px] bg-slate-100/70">
+                  <HeaderCell lines={["TANGGAL"]} kind="menu" />
+                </Th>
+
+                <Th className="w-[170px]">
+                  <HeaderCell lines={["JENIS", "TRANSAKSI"]} kind="sort" />
+                </Th>
+
+                <Th className="w-[150px] text-right">
+                  <HeaderCell lines={["NOMINAL"]} kind="sort" align="right" />
+                </Th>
+
+                <Th className="w-[110px] text-right">
+                  <HeaderCell lines={["DENDA"]} kind="sort" align="right" />
+                </Th>
               </tr>
 
               <tr className="bg-white">
