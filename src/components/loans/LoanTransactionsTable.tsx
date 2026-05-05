@@ -339,19 +339,20 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
+  // Diperkecil agar lebih rapat
   const colW = {
-    no: "w-[52px]",
-    noTransaksi: "w-[130px]",
-    rekPinjaman: "w-[110px]",
-    rekTabungan: "w-[110px]",
-    idNasabah: "w-[110px]",
-    namaNasabah: "w-[140px]",
-    namaKolektor: "w-[140px]",
-    produkPinjaman: "w-[140px]",
-    tanggal: "w-[110px]",
-    jenisTransaksi: "w-[140px]",
-    nominal: "w-[120px]",
-    denda: "w-[90px]",
+    no: "w-[44px]",
+    noTransaksi: "w-[120px]",
+    rekPinjaman: "w-[96px]",
+    rekTabungan: "w-[96px]",
+    idNasabah: "w-[96px]",
+    namaNasabah: "w-[120px]",
+    namaKolektor: "w-[120px]",
+    produkPinjaman: "w-[120px]",
+    tanggal: "w-[96px]",
+    jenisTransaksi: "w-[120px]",
+    nominal: "w-[110px]",
+    denda: "w-[84px]",
   } as const;
 
   const filterRowCellPad = "px-2 py-2.5 border-b-0";
@@ -365,7 +366,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
 
         <div className="px-4 sm:px-5">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1240px] border-collapse bg-white">
+            <table className="w-full min-w-[1120px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className={colW.no}>
