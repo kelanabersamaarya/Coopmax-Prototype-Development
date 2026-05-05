@@ -591,7 +591,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between">
+        {/* Samakan padding footer/pagination dengan wrapper tabel (px-4 sm:px-5) */}
+        <div className="flex flex-col gap-3 px-4 py-4 sm:px-5 md:flex-row md:items-center md:justify-between">
           <div className="text-[13px] font-medium text-slate-900">
             Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
           </div>
