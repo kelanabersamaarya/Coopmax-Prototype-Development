@@ -341,14 +341,14 @@ export default function LoanTransactionsTable({ className }: { className?: strin
 
   const colW = {
     no: "w-[44px]",
-    // diperkecil (tapi tetap aman untuk icon sort)
     noTransaksi: "w-[104px] min-w-[104px]",
     rekPinjaman: "w-[96px] min-w-[96px]",
     rekTabungan: "w-[96px] min-w-[96px]",
     idNasabah: "w-[96px] min-w-[96px]",
-    namaNasabah: "w-[120px] min-w-[120px]",
-    namaKolektor: "w-[120px] min-w-[120px]",
-    produkPinjaman: "w-[120px] min-w-[120px]",
+    // diperkecil sesuai request (tetap ada min-w supaya icon tidak hilang)
+    namaNasabah: "w-[104px] min-w-[104px]",
+    namaKolektor: "w-[104px] min-w-[104px]",
+    produkPinjaman: "w-[108px] min-w-[108px]",
     tanggal: "w-[96px] min-w-[96px]",
     jenisTransaksi: "w-[120px] min-w-[120px]",
     nominal: "w-[110px] min-w-[110px]",
