@@ -310,7 +310,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </Select>
                 </th>
 
-                {/* FIX: tombol X menyatu di kanan input */}
+                {/* Tombol X diperkecil: lebih sempit + ikon lebih kecil */}
                 <th className="px-3 py-3">
                   <div className="relative">
                     <Input
@@ -318,7 +318,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                       onChange={(e) => setQTanggal(e.target.value)}
                       className={cn(
                         filterInputCls,
-                        qTanggal ? "pr-14 rounded-r-none" : "",
+                        qTanggal ? "pr-12 rounded-r-none" : "",
                       )}
                     />
 
@@ -328,11 +328,12 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                         onClick={() => setQTanggal("")}
                         className={cn(
                           "absolute right-0 top-0",
-                          "h-9 w-14",
+                          "h-9 w-12",
                           "rounded-r-[8px] rounded-l-none",
                           "bg-slate-600 text-white",
                           "ring-1 ring-slate-600/20",
                           "transition hover:bg-slate-700",
+                          "text-[18px] leading-none font-semibold",
                         )}
                         aria-label="Clear tanggal"
                         title="Clear"
