@@ -57,12 +57,12 @@ function HeaderCell({
 }) {
   const icon =
     kind === "sort" ? (
-      <span className="ml-1.5 inline-flex flex-col leading-none text-slate-900/90">
+      <span className="ml-1 inline-flex shrink-0 flex-col leading-none text-slate-900/90">
         <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
         <ChevronDown className="h-3.5 w-3.5" />
       </span>
     ) : kind === "menu" ? (
-      <span className="ml-1.5 inline-flex leading-none text-slate-900/90">
+      <span className="ml-1 inline-flex shrink-0 leading-none text-slate-900/90">
         <ChevronDown className="h-4 w-4" />
       </span>
     ) : null;
@@ -70,7 +70,7 @@ function HeaderCell({
   return (
     <div
       className={cn(
-        "flex items-start justify-between gap-1.5",
+        "flex items-start gap-1",
         align === "right"
           ? "justify-end"
           : align === "center"
@@ -79,7 +79,7 @@ function HeaderCell({
         className,
       )}
     >
-      <div className="leading-[1.0]">
+      <div className="min-w-0 leading-[1.0]">
         {lines.length === 1 ? (
           <span className="block">{lines[0]}</span>
         ) : (
@@ -339,20 +339,20 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // Diperkecil agar lebih rapat
+  // dipersempit, tapi kolom dengan icon + header 2 baris diberi min-width supaya icon tidak kepotong
   const colW = {
     no: "w-[44px]",
-    noTransaksi: "w-[120px]",
-    rekPinjaman: "w-[96px]",
-    rekTabungan: "w-[96px]",
-    idNasabah: "w-[96px]",
-    namaNasabah: "w-[120px]",
-    namaKolektor: "w-[120px]",
-    produkPinjaman: "w-[120px]",
-    tanggal: "w-[96px]",
-    jenisTransaksi: "w-[120px]",
-    nominal: "w-[110px]",
-    denda: "w-[84px]",
+    noTransaksi: "w-[120px] min-w-[120px]",
+    rekPinjaman: "w-[96px] min-w-[96px]",
+    rekTabungan: "w-[96px] min-w-[96px]",
+    idNasabah: "w-[96px] min-w-[96px]",
+    namaNasabah: "w-[120px] min-w-[120px]",
+    namaKolektor: "w-[120px] min-w-[120px]",
+    produkPinjaman: "w-[120px] min-w-[120px]",
+    tanggal: "w-[96px] min-w-[96px]",
+    jenisTransaksi: "w-[120px] min-w-[120px]",
+    nominal: "w-[110px] min-w-[110px]",
+    denda: "w-[84px] min-w-[84px]",
   } as const;
 
   const filterRowCellPad = "px-2 py-2.5 border-b-0";
