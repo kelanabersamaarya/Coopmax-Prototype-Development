@@ -14,7 +14,7 @@ type SubItem = {
 const items: SubItem[] = [
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
-  { label: "Transaksi Pinjaman", to: "/anggota/transaksi" },
+  { label: "Transaksi Pinjaman", to: "/loans/transactions" },
   { label: "Produk Pinjaman", to: "/loan-products" },
 ];
 
