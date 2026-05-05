@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
 type Row = {
@@ -258,65 +257,94 @@ function DateFilterFieldLikeBefore({
   const [open, setOpen] = React.useState(false);
   const selected = React.useMemo(() => parseDmyToDate(value), [value]);
 
+  // close when clicking outside (without changing the input UI)
+  const wrapRef = React.useRef<HTMLDivElement | null>(null);
+  React.useEffect(() => {
+    if (!open) return;
+
+    const onDown = (e: MouseEvent | TouchEvent) => {
+      const el = wrapRef.current;
+      if (!el) return;
+      if (el.contains(e.target as Node)) return;
+      setOpen(false);
+    };
+
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("touchstart", onDown, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("touchstart", onDown);
+    };
+  }, [open]);
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        {/* UI TETAP sama: Input + tombol clear. */}
-        <div className="relative">
-          <Input
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className={cn(filterInputCls, value ? "pr-10 rounded-r-none" : "")}
-            placeholder=""
-            inputMode="numeric"
-          />
-
-          {value ? (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onChange("");
-              }}
-              className={cn(
-                "absolute right-0 top-0",
-                "h-9 w-9",
-                "rounded-r-[8px] rounded-l-none",
-                "bg-slate-600 text-white",
-                "ring-1 ring-slate-600/20",
-                "transition hover:bg-slate-700",
-                "text-[14px] leading-none font-semibold",
-              )}
-              aria-label="Clear tanggal"
-              title="Clear"
-            >
-              ×
-            </button>
-          ) : null}
-        </div>
-      </PopoverTrigger>
-
-      {/* NON-PORTAL supaya nempel di bawah field dan ikut scroll */}
-      <PopoverContent
-        portalled={false}
-        side="bottom"
-        align="start"
-        sideOffset={6}
-        className="w-auto rounded-[12px] border-slate-200 bg-white p-2 shadow-xl"
+    // relative container so the calendar is anchored to the field and will NOT move on scroll
+    <div ref={wrapRef} className="relative">
+      {/* UI TETAP sama: Input + tombol clear. */}
+      <div
+        className="relative"
+        onClick={() => setOpen(true)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") setOpen(true);
+          if (e.key === "Escape") setOpen(false);
+        }}
+        aria-label="Pilih tanggal"
       >
-        <Calendar
-          mode="single"
-          selected={selected}
-          onSelect={(d) => {
-            if (!d) return;
-            onChange(formatDmy(d));
-            setOpen(false);
-          }}
-          initialFocus
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={cn(filterInputCls, value ? "pr-10 rounded-r-none" : "")}
+          placeholder=""
+          inputMode="numeric"
         />
-      </PopoverContent>
-    </Popover>
+
+        {value ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onChange("");
+            }}
+            className={cn(
+              "absolute right-0 top-0",
+              "h-9 w-9",
+              "rounded-r-[8px] rounded-l-none",
+              "bg-slate-600 text-white",
+              "ring-1 ring-slate-600/20",
+              "transition hover:bg-slate-700",
+              "text-[14px] leading-none font-semibold",
+            )}
+            aria-label="Clear tanggal"
+            title="Clear"
+          >
+            ×
+          </button>
+        ) : null}
+      </div>
+
+      {open ? (
+        <div
+          className={cn(
+            "absolute left-0 top-full z-50 mt-1.5",
+            "rounded-[12px] border border-slate-200 bg-white p-2 shadow-xl",
+          )}
+        >
+          <Calendar
+            mode="single"
+            selected={selected}
+            onSelect={(d) => {
+              if (!d) return;
+              onChange(formatDmy(d));
+              setOpen(false);
+            }}
+            initialFocus
+          />
+        </div>
+      ) : null}
+    </div>
   );
 }
 
