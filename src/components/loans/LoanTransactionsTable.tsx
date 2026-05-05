@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { createPortal } from "react-dom";
 
 type Row = {
   noTransaksi: string;
@@ -247,6 +248,38 @@ function parseDmyToDate(value: string): Date | undefined {
   return d;
 }
 
+function useAnchorRect(open: boolean, anchor: HTMLElement | null) {
+  const [rect, setRect] = React.useState<DOMRect | null>(null);
+
+  React.useEffect(() => {
+    if (!open || !anchor) return;
+
+    let raf = 0;
+
+    const update = () => {
+      if (!anchor) return;
+      setRect(anchor.getBoundingClientRect());
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, true);
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll, true);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [open, anchor]);
+
+  return rect;
+}
+
 function DateFilterFieldLikeBefore({
   value,
   onChange,
@@ -257,31 +290,47 @@ function DateFilterFieldLikeBefore({
   const [open, setOpen] = React.useState(false);
   const selected = React.useMemo(() => parseDmyToDate(value), [value]);
 
-  // close when clicking outside (without changing the input UI)
-  const wrapRef = React.useRef<HTMLDivElement | null>(null);
+  const anchorRef = React.useRef<HTMLDivElement | null>(null);
+  const popoverRef = React.useRef<HTMLDivElement | null>(null);
+  const rect = useAnchorRect(open, anchorRef.current);
+
   React.useEffect(() => {
     if (!open) return;
 
     const onDown = (e: MouseEvent | TouchEvent) => {
-      const el = wrapRef.current;
-      if (!el) return;
-      if (el.contains(e.target as Node)) return;
+      const a = anchorRef.current;
+      const p = popoverRef.current;
+      const t = e.target as Node | null;
+      if (!t) return;
+
+      if (a?.contains(t)) return;
+      if (p?.contains(t)) return;
+
       setOpen(false);
+    };
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
     };
 
     document.addEventListener("mousedown", onDown);
     document.addEventListener("touchstart", onDown, { passive: true });
+    document.addEventListener("keydown", onKey);
+
     return () => {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("touchstart", onDown);
+      document.removeEventListener("keydown", onKey);
     };
   }, [open]);
 
+  const portalNode = typeof document !== "undefined" ? document.body : null;
+
   return (
-    // relative container so the calendar is anchored to the field and will NOT move on scroll
-    <div ref={wrapRef} className="relative">
-      {/* UI TETAP sama: Input + tombol clear. */}
+    <>
+      {/* Anchor: UI field TETAP sama */}
       <div
+        ref={anchorRef}
         className="relative"
         onClick={() => setOpen(true)}
         role="button"
@@ -325,26 +374,34 @@ function DateFilterFieldLikeBefore({
         ) : null}
       </div>
 
-      {open ? (
-        <div
-          className={cn(
-            "absolute left-0 top-full z-50 mt-1.5",
-            "rounded-[12px] border border-slate-200 bg-white p-2 shadow-xl",
-          )}
-        >
-          <Calendar
-            mode="single"
-            selected={selected}
-            onSelect={(d) => {
-              if (!d) return;
-              onChange(formatDmy(d));
-              setOpen(false);
-            }}
-            initialFocus
-          />
-        </div>
-      ) : null}
-    </div>
+      {/* Calendar overlay: fixed + manual position, jadi tidak ter-clipping & tidak loncat */}
+      {open && rect && portalNode
+        ? createPortal(
+            <div
+              ref={popoverRef}
+              style={{
+                position: "fixed",
+                left: Math.max(8, Math.round(rect.left)),
+                top: Math.round(rect.bottom + 6),
+                zIndex: 80,
+              }}
+              className="rounded-[12px] border border-slate-200 bg-white p-2 shadow-xl"
+            >
+              <Calendar
+                mode="single"
+                selected={selected}
+                onSelect={(d) => {
+                  if (!d) return;
+                  onChange(formatDmy(d));
+                  setOpen(false);
+                }}
+                initialFocus
+              />
+            </div>,
+            portalNode,
+          )
+        : null}
+    </>
   );
 }
 
