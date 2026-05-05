@@ -193,19 +193,15 @@ function PaginationMinimal({
   const disabledPrev = page <= 1;
   const disabledNext = page >= pageCount;
 
-  const wrapCls = cn(
-    "inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100",
-    className,
-  );
-
   const btnBase = cn(
     "h-10 px-5 text-[14px] font-medium transition",
-    "text-slate-500 hover:bg-slate-200",
-    "disabled:text-slate-300 disabled:hover:bg-transparent disabled:pointer-events-none",
+    "rounded-[2px] bg-slate-100 text-slate-500",
+    "hover:bg-slate-200",
+    "disabled:text-slate-300 disabled:hover:bg-slate-100 disabled:pointer-events-none",
   );
 
   return (
-    <div className={wrapCls}>
+    <div className={cn("inline-flex items-center gap-2", className)}>
       <button
         type="button"
         onClick={() => onPage(Math.max(1, page - 1))}
