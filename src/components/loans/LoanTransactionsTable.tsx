@@ -51,8 +51,8 @@ function Th({
   return (
     <th
       className={cn(
-        // lebih rapat kiri-kanan
-        "px-2 py-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        // lebih rapat lagi kiri-kanan
+        "px-1.5 py-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05] whitespace-nowrap",
         className,
       )}
@@ -285,9 +285,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // padding khusus untuk cell header/filter (lebih rapat kiri/kanan)
-  const headerCellPad = "px-2 py-3";
-  const filterCellPad = "px-2 py-3";
+  // diperkecil lagi untuk row filter
+  const headerCellPad = "px-1.5 py-3";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -420,6 +419,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                     </SelectContent>
                   </Select>
                 </th>
+
                 <th className={cn(headerCellPad, "text-right")}>
                   <Input
                     value={qNominal}
@@ -483,7 +483,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           </table>
         </div>
 
-        <div className={cn("flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between", filterCellPad)}>
+        <div className="flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between">
           <div className="text-[13px] font-medium text-slate-900">
             Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
           </div>
