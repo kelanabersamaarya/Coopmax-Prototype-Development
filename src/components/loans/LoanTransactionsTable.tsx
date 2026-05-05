@@ -339,10 +339,10 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // dipersempit, tapi kolom dengan icon + header 2 baris diberi min-width supaya icon tidak kepotong
   const colW = {
     no: "w-[44px]",
-    noTransaksi: "w-[120px] min-w-[120px]",
+    // diperkecil (tapi tetap aman untuk icon sort)
+    noTransaksi: "w-[104px] min-w-[104px]",
     rekPinjaman: "w-[96px] min-w-[96px]",
     rekTabungan: "w-[96px] min-w-[96px]",
     idNasabah: "w-[96px] min-w-[96px]",
