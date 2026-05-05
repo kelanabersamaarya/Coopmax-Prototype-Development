@@ -261,8 +261,7 @@ function DateFilterFieldLikeBefore({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        {/* IMPORTANT: keep UI exactly like the previous field (Input + clear button).
-            We only wrap it with PopoverTrigger so clicking the field opens the calendar. */}
+        {/* UI TETAP sama: Input + tombol clear. */}
         <div className="relative">
           <Input
             value={value}
@@ -298,8 +297,12 @@ function DateFilterFieldLikeBefore({
         </div>
       </PopoverTrigger>
 
+      {/* NON-PORTAL supaya nempel di bawah field dan ikut scroll */}
       <PopoverContent
+        portalled={false}
+        side="bottom"
         align="start"
+        sideOffset={6}
         className="w-auto rounded-[12px] border-slate-200 bg-white p-2 shadow-xl"
       >
         <Calendar
@@ -585,7 +588,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                     </Select>
                   </th>
 
-                  {/* Tanggal: UI sama seperti sebelumnya, tapi klik akan buka kalender */}
                   <th className={filterRowCellPad}>
                     <DateFilterFieldLikeBefore value={qTanggal} onChange={setQTanggal} />
                   </th>
