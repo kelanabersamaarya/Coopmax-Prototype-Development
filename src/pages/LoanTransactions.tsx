@@ -10,6 +10,7 @@ import {
   ArrowUp,
   Banknote,
 } from "lucide-react";
+import LoanTransactionsTable from "@/components/loans/LoanTransactionsTable";
 
 type Action = {
   label: string;
@@ -40,7 +41,6 @@ function ActionPill({
         className,
       )}
     >
-      {/* icon tanpa background */}
       <span className="inline-flex h-8 w-8 items-center justify-center text-slate-600">
         <Icon className="h-5 w-5" />
       </span>
@@ -131,6 +131,9 @@ export default function LoanTransactions() {
               />
             ))}
           </div>
+
+          {/* Tabel di bawah tombol */}
+          <LoanTransactionsTable />
         </div>
       </div>
     </div>
