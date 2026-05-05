@@ -483,7 +483,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                         onChange={(e) => setQTanggal(e.target.value)}
                         className={cn(
                           filterInputCls,
-                          qTanggal ? "pr-12 rounded-r-none" : "",
+                          qTanggal ? "pr-10 rounded-r-none" : "",
                         )}
                       />
 
@@ -493,12 +493,11 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                           onClick={() => setQTanggal("")}
                           className={cn(
                             "absolute right-0 top-0",
-                            "h-9 w-12",
+                            "h-9 w-9",
                             "rounded-r-[8px] rounded-l-none",
                             "bg-slate-600 text-white",
                             "ring-1 ring-slate-600/20",
                             "transition hover:bg-slate-700",
-                            // Perkecil ukuran X, tapi tetap full height & mentok kanan
                             "text-[14px] leading-none font-semibold",
                           )}
                           aria-label="Clear tanggal"
