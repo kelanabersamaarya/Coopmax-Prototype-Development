@@ -93,6 +93,80 @@ const filterInputCls =
 const filterSelectTriggerCls =
   "h-9 rounded-[8px] border-slate-300 bg-white text-[13px] font-medium shadow-none";
 
+function EntriesPicker({
+  pageSize,
+  onPageSizeChange,
+  className,
+}: {
+  pageSize: number;
+  onPageSizeChange: (n: number) => void;
+  className?: string;
+}) {
+  const triggerCls =
+    "h-[34px] w-[76px] rounded-[10px] border-slate-200 bg-white px-2.5 text-[13px] font-semibold text-slate-900 shadow-sm";
+  return (
+    <div className={cn("flex items-center gap-3 text-[16px] text-slate-900", className)}>
+      <span className="font-medium">Tampilkan</span>
+      <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>
+        <SelectTrigger className={triggerCls}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="rounded-xl border-slate-200">
+          {[10, 20, 50, 100].map((n) => (
+            <SelectItem key={n} value={String(n)}>
+              {n}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <span className="font-medium">entri</span>
+    </div>
+  );
+}
+
+function PaginationMinimal({
+  page,
+  pageCount,
+  onPage,
+  className,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (p: number) => void;
+  className?: string;
+}) {
+  const disabledPrev = page <= 1;
+  const disabledNext = page >= pageCount;
+
+  const btnBase = cn(
+    "text-[16px] font-medium",
+    "transition",
+    "disabled:opacity-45 disabled:pointer-events-none",
+  );
+
+  return (
+    <div className={cn("flex items-center gap-10", className)}>
+      <button
+        type="button"
+        onClick={() => onPage(Math.max(1, page - 1))}
+        disabled={disabledPrev}
+        className={cn(btnBase, "text-slate-400 hover:text-slate-600")}
+      >
+        Sebelumnya
+      </button>
+
+      <button
+        type="button"
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+        disabled={disabledNext}
+        className={cn(btnBase, "text-slate-400 hover:text-slate-600")}
+      >
+        Selanjutnya
+      </button>
+    </div>
+  );
+}
+
 export default function LoanTransactionsTable({ className }: { className?: string }) {
   const rows = React.useMemo(() => seed, []);
 
@@ -212,27 +286,12 @@ export default function LoanTransactionsTable({ className }: { className?: strin
 
   return (
     <div className={cn("mt-6", className)}>
-      <div className="flex items-center gap-2 text-[14px] font-medium text-slate-900">
-        <span>Tampilkan</span>
-        <Select
-          value={String(pageSize)}
-          onValueChange={(v) => setPageSize(Number(v))}
-        >
-          <SelectTrigger className="h-8 w-[72px] rounded-[8px] border-slate-300 bg-white px-2 text-[13px] font-semibold text-slate-900 shadow-none">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="rounded-xl border-slate-200">
-            {[10, 20, 50, 100].map((n) => (
-              <SelectItem key={n} value={String(n)}>
-                {n}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <span>entri</span>
-      </div>
+      {/* Masuk ke area tabel (sesuai permintaan): picker entri ditaruh di dalam card/table block */}
+      <div className="overflow-hidden rounded-2xl bg-white">
+        <div className="px-3 pt-3">
+          <EntriesPicker pageSize={pageSize} onPageSizeChange={setPageSize} />
+        </div>
 
-      <div className="mt-4 overflow-hidden rounded-2xl bg-white">
         <div className="safe-x-scroll">
           <table className="w-full min-w-[1320px] border-collapse bg-white">
             <thead className="bg-white">
@@ -310,7 +369,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </Select>
                 </th>
 
-                {/* Tombol X diperkecil: lebih sempit + ikon lebih kecil */}
                 <th className="px-3 py-3">
                   <div className="relative">
                     <Input
@@ -420,37 +478,14 @@ export default function LoanTransactionsTable({ className }: { className?: strin
             </tbody>
           </table>
         </div>
-      </div>
 
-      <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="text-[14px] text-slate-900">
-          Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
-        </div>
+        {/* Footer dalam table block: info + pagination sesuai contoh */}
+        <div className="flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between">
+          <div className="text-[18px] font-medium text-slate-900">
+            Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
+          </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            disabled={page === 1}
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className={cn(
-              "h-10 rounded-none bg-slate-100 px-4 text-[14px] font-medium text-slate-500",
-              page === 1 ? "opacity-50" : "hover:bg-slate-200",
-            )}
-          >
-            Sebelumnya
-          </button>
-
-          <button
-            type="button"
-            disabled={page === pageCount}
-            onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
-            className={cn(
-              "h-10 rounded-none bg-slate-100 px-4 text-[14px] font-medium text-slate-500",
-              page === pageCount ? "opacity-50" : "hover:bg-slate-200",
-            )}
-          >
-            Selanjutnya
-          </button>
+          <PaginationMinimal page={page} pageCount={pageCount} onPage={setPage} />
         </div>
       </div>
     </div>
