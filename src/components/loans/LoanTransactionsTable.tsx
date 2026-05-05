@@ -10,7 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, CalendarDays } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 type Row = {
   noTransaksi: string;
@@ -222,6 +224,107 @@ function PaginationMinimal({
   );
 }
 
+function formatDmy(date: Date) {
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(date.getFullYear());
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function parseDmyToDate(value: string): Date | undefined {
+  const m = /^(\d{2})-(\d{2})-(\d{4})$/.exec((value ?? "").trim());
+  if (!m) return undefined;
+  const dd = Number(m[1]);
+  const mm = Number(m[2]);
+  const yyyy = Number(m[3]);
+  const d = new Date(yyyy, mm - 1, dd);
+  if (
+    d.getFullYear() !== yyyy ||
+    d.getMonth() !== mm - 1 ||
+    d.getDate() !== dd
+  ) {
+    return undefined;
+  }
+  return d;
+}
+
+function DateFilterField({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = React.useState(false);
+  const selected = React.useMemo(() => parseDmyToDate(value), [value]);
+
+  return (
+    <div className="relative">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button type="button" className="block w-full text-left" aria-label="Pilih tanggal">
+            <div className="relative">
+              <Input
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className={cn(filterInputCls, "pr-20")}
+                placeholder="DD-MM-YYYY"
+                inputMode="numeric"
+              />
+
+              {/* icon kalender */}
+              <span className="pointer-events-none absolute right-11 top-1/2 -translate-y-1/2 text-slate-400">
+                <CalendarDays className="h-4 w-4" />
+              </span>
+
+              {/* tombol clear seperti contoh */}
+              {value ? (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onChange("");
+                  }}
+                  className={cn(
+                    "absolute right-0 top-0",
+                    "h-9 w-9",
+                    "rounded-r-[8px] rounded-l-none",
+                    "bg-slate-600 text-white",
+                    "ring-1 ring-slate-600/20",
+                    "transition hover:bg-slate-700",
+                    "text-[14px] leading-none font-semibold",
+                  )}
+                  aria-label="Clear tanggal"
+                  title="Clear"
+                >
+                  ×
+                </button>
+              ) : null}
+            </div>
+          </button>
+        </PopoverTrigger>
+
+        <PopoverContent
+          align="start"
+          className="w-auto rounded-[12px] border-slate-200 bg-white p-2 shadow-xl"
+        >
+          <Calendar
+            mode="single"
+            selected={selected}
+            onSelect={(d) => {
+              if (!d) return;
+              onChange(formatDmy(d));
+              setOpen(false);
+            }}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+
 export default function LoanTransactionsTable({ className }: { className?: string }) {
   const rows = React.useMemo(() => seed, []);
 
@@ -347,7 +450,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     idNasabah: "w-[96px] min-w-[96px]",
     namaNasabah: "w-[92px] min-w-[92px]",
     namaKolektor: "w-[96px] min-w-[96px]",
-    // seperti contoh: sangat sempit
     produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
     jenisTransaksi: "w-[104px] min-w-[104px]",
@@ -476,7 +578,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                     />
                   </th>
 
-                  {/* Produk Pinjaman: filter select super sempit seperti contoh */}
                   <th className={cn(filterRowCellPad, "align-top")}>
                     <Select value={qProduk} onValueChange={setQProduk}>
                       <SelectTrigger className={productSelectTriggerCls}>
@@ -493,36 +594,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </th>
 
                   <th className={filterRowCellPad}>
-                    <div className="relative">
-                      <Input
-                        value={qTanggal}
-                        onChange={(e) => setQTanggal(e.target.value)}
-                        className={cn(
-                          filterInputCls,
-                          qTanggal ? "pr-10 rounded-r-none" : "",
-                        )}
-                      />
-
-                      {qTanggal ? (
-                        <button
-                          type="button"
-                          onClick={() => setQTanggal("")}
-                          className={cn(
-                            "absolute right-0 top-0",
-                            "h-9 w-9",
-                            "rounded-r-[8px] rounded-l-none",
-                            "bg-slate-600 text-white",
-                            "ring-1 ring-slate-600/20",
-                            "transition hover:bg-slate-700",
-                            "text-[14px] leading-none font-semibold",
-                          )}
-                          aria-label="Clear tanggal"
-                          title="Clear"
-                        >
-                          ×
-                        </button>
-                      ) : null}
-                    </div>
+                    <DateFilterField value={qTanggal} onChange={setQTanggal} />
                   </th>
 
                   <th className={filterRowCellPad}>
@@ -600,7 +672,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                         </div>
                       </Td>
 
-                      {/* Produk Pinjaman: WRAP seperti contoh */}
                       <Td className={cn("whitespace-normal break-words leading-[1.05]")}>
                         {r.produkPinjaman}
                       </Td>
