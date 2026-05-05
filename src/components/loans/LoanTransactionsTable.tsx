@@ -236,7 +236,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
         <div className="safe-x-scroll">
           <table className="w-full min-w-[1320px] border-collapse bg-white">
             <thead className="bg-white">
-              {/* hilangkan border bawah header */}
               <tr>
                 <Th className="w-[60px]">No.</Th>
                 <Th className="w-[180px]">No. Transaksi</Th>
@@ -252,7 +251,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                 <Th className="w-[110px] text-right">Denda</Th>
               </tr>
 
-              {/* hilangkan border bawah filter row */}
               <tr className="bg-white">
                 <th className="px-3 py-3" />
                 <th className="px-3 py-3">
@@ -311,24 +309,40 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                     </SelectContent>
                   </Select>
                 </th>
+
+                {/* FIX: tombol X menyatu di kanan input */}
                 <th className="px-3 py-3">
-                  <Input
-                    value={qTanggal}
-                    onChange={(e) => setQTanggal(e.target.value)}
-                    className={cn(filterInputCls, "pr-12")}
-                  />
-                  {qTanggal ? (
-                    <button
-                      type="button"
-                      onClick={() => setQTanggal("")}
-                      className="relative -ml-10 inline-flex h-9 w-9 items-center justify-center rounded-[8px] bg-slate-600 text-white hover:bg-slate-700"
-                      aria-label="Clear tanggal"
-                      title="Clear"
-                    >
-                      ×
-                    </button>
-                  ) : null}
+                  <div className="relative">
+                    <Input
+                      value={qTanggal}
+                      onChange={(e) => setQTanggal(e.target.value)}
+                      className={cn(
+                        filterInputCls,
+                        qTanggal ? "pr-14 rounded-r-none" : "",
+                      )}
+                    />
+
+                    {qTanggal ? (
+                      <button
+                        type="button"
+                        onClick={() => setQTanggal("")}
+                        className={cn(
+                          "absolute right-0 top-0",
+                          "h-9 w-14",
+                          "rounded-r-[8px] rounded-l-none",
+                          "bg-slate-600 text-white",
+                          "ring-1 ring-slate-600/20",
+                          "transition hover:bg-slate-700",
+                        )}
+                        aria-label="Clear tanggal"
+                        title="Clear"
+                      >
+                        ×
+                      </button>
+                    ) : null}
+                  </div>
                 </th>
+
                 <th className="px-3 py-3">
                   <Select value={qJenis} onValueChange={setQJenis}>
                     <SelectTrigger className={filterSelectTriggerCls}>
