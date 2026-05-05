@@ -147,7 +147,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
 
       const okTanggal = h ? r.tanggal.toLowerCase().includes(h) : true;
 
-      // nominal/denda input only (prototype: substring match)
       const okNominal = i ? r.nominal.toLowerCase().includes(i) : true;
       const okDenda = j ? r.denda.toLowerCase().includes(j) : true;
 
@@ -233,12 +232,12 @@ export default function LoanTransactionsTable({ className }: { className?: strin
         <span>entri</span>
       </div>
 
-      {/* Wrapper tabel tanpa border terluar */}
       <div className="mt-4 overflow-hidden rounded-2xl bg-white">
         <div className="safe-x-scroll">
           <table className="w-full min-w-[1320px] border-collapse bg-white">
             <thead className="bg-white">
-              <tr className="border-b border-slate-200">
+              {/* hilangkan border bawah header */}
+              <tr>
                 <Th className="w-[60px]">No.</Th>
                 <Th className="w-[180px]">No. Transaksi</Th>
                 <Th className="w-[140px]">Rek. Pinjaman</Th>
@@ -253,7 +252,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                 <Th className="w-[110px] text-right">Denda</Th>
               </tr>
 
-              <tr className="border-b border-slate-200 bg-white">
+              {/* hilangkan border bawah filter row */}
+              <tr className="bg-white">
                 <th className="px-3 py-3" />
                 <th className="px-3 py-3">
                   <Input
