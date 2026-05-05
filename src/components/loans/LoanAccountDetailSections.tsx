@@ -363,8 +363,18 @@ export default function LoanAccountDetailSections({
           <div>
             <KeyValueRow label="Satuan Grace Period" value="Bulan" right />
             <KeyValueRow label="Durasi Grace Period" value="6" right />
-            <KeyValueRow label="Status Grace Period" value={<ActiveBadge>Aktif</ActiveBadge>} right />
-            <KeyValueRow label="Skema Tagihan" value={<span className="font-semibold">Tagihan Sesuai Jadwal Angsuran</span>} right />
+            <KeyValueRow
+              label="Status Grace Period"
+              value={<ActiveBadge>Aktif</ActiveBadge>}
+              right
+            />
+            <KeyValueRow
+              label="Skema Tagihan"
+              value={
+                <span className="font-semibold">Tagihan Sesuai Jadwal Angsuran</span>
+              }
+              right
+            />
             <KeyValueRow
               label="Tagihan Angsuran Menggunakan Tabel Angsuran"
               value={<ActiveBadge>Aktif</ActiveBadge>}
@@ -424,6 +434,15 @@ export default function LoanAccountDetailSections({
             Proses Verifikasi Data
           </button>
         </div>
+      </div>
+
+      {/* Divider antar section */}
+      <Separator className="my-6 bg-slate-200/70" />
+
+      {/* SECTION: INFORMASI AGUNAN */}
+      <SubSectionHeader title="INFORMASI AGUNAN" />
+      <div className="mt-4">
+        <div className="text-sm text-slate-700">Tidak ada agunan</div>
       </div>
 
       {/* Divider antar section */}
