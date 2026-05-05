@@ -345,12 +345,12 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     rekPinjaman: "w-[96px] min-w-[96px]",
     rekTabungan: "w-[96px] min-w-[96px]",
     idNasabah: "w-[96px] min-w-[96px]",
-    // diperkecil sesuai request (tetap ada min-w supaya icon tidak hilang)
     namaNasabah: "w-[104px] min-w-[104px]",
-    namaKolektor: "w-[104px] min-w-[104px]",
-    produkPinjaman: "w-[108px] min-w-[108px]",
-    tanggal: "w-[96px] min-w-[96px]",
-    jenisTransaksi: "w-[120px] min-w-[120px]",
+    // diperkecil lagi
+    namaKolektor: "w-[96px] min-w-[96px]",
+    produkPinjaman: "w-[96px] min-w-[96px]",
+    tanggal: "w-[84px] min-w-[84px]",
+    jenisTransaksi: "w-[104px] min-w-[104px]",
     nominal: "w-[110px] min-w-[110px]",
     denda: "w-[84px] min-w-[84px]",
   } as const;
