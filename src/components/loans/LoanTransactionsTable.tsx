@@ -104,7 +104,8 @@ function Th({
   return (
     <th
       className={cn(
-        "px-2 py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        // lebih rapat: px-2 -> px-1.5
+        "px-1.5 py-2 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "border-b-0",
         "align-middle whitespace-nowrap",
         className,
@@ -127,7 +128,8 @@ function Td({
   return (
     <td
       className={cn(
-        "px-3 py-3 text-[13px] font-medium text-slate-900",
+        // lebih rapat: px-3 -> px-1.5
+        "px-1.5 py-2.5 text-[13px] font-medium text-slate-900",
         "border-t border-slate-200",
         align === "right"
           ? "text-right tabular-nums"
@@ -346,7 +348,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     rekTabungan: "w-[96px] min-w-[96px]",
     idNasabah: "w-[96px] min-w-[96px]",
     namaNasabah: "w-[104px] min-w-[104px]",
-    // diperkecil lagi
     namaKolektor: "w-[96px] min-w-[96px]",
     produkPinjaman: "w-[96px] min-w-[96px]",
     tanggal: "w-[84px] min-w-[84px]",
@@ -355,7 +356,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     denda: "w-[84px] min-w-[84px]",
   } as const;
 
-  const filterRowCellPad = "px-2 py-2.5 border-b-0";
+  // lebih rapat: px-2 -> px-1.5
+  const filterRowCellPad = "px-1.5 py-2 border-b-0";
 
   return (
     <div className={cn("mt-6", className)}>
