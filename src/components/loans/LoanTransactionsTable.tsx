@@ -104,7 +104,6 @@ function Th({
   return (
     <th
       className={cn(
-        // match contoh: uppercase, rapat, 2 baris, icon di kanan
         "px-2 py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "border-b border-slate-300/70",
         "align-middle whitespace-nowrap",
@@ -162,7 +161,10 @@ function EntriesPicker({
   return (
     <div className={cn("flex items-center gap-3 text-[13px] text-slate-900", className)}>
       <span className="font-medium">Tampilkan</span>
-      <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>
+      <Select
+        value={String(pageSize)}
+        onValueChange={(v) => onPageSizeChange(Number(v))}
+      >
         <SelectTrigger className={triggerCls}>
           <SelectValue />
         </SelectTrigger>
@@ -348,56 +350,58 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           <EntriesPicker pageSize={pageSize} onPageSizeChange={setPageSize} />
         </div>
 
-        <div className="safe-x-scroll">
-          <table className="w-full min-w-[1320px] border-collapse bg-white">
+        {/* Hilangkan wrapper safe-x-scroll agar tidak scroll horizontal */}
+        <div className="overflow-hidden">
+          <table className="w-full table-fixed border-collapse bg-white">
             <thead className="bg-white">
               <tr className="bg-white">
-                <Th className="w-[60px]">
+                <Th className="w-[52px]">
                   <HeaderCell lines={["NO."]} kind="none" />
                 </Th>
 
-                <Th className="w-[180px]">
+                <Th className="w-[150px]">
                   <HeaderCell lines={["NO.", "TRANSAKSI"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[140px]">
+                {/* Diperkecil sesuai screenshot user */}
+                <Th className="w-[112px]">
                   <HeaderCell lines={["REK.", "PINJAMAN"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[140px]">
+                <Th className="w-[112px]">
                   <HeaderCell lines={["REK.", "TABUNGAN"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[140px]">
+                <Th className="w-[112px]">
                   <HeaderCell lines={["ID", "NASABAH"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[180px]">
+                {/* Diperkecil sesuai screenshot user */}
+                <Th className="w-[140px]">
                   <HeaderCell lines={["NAMA", "NASABAH"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[180px]">
+                <Th className="w-[140px]">
                   <HeaderCell lines={["NAMA", "KOLEKTOR"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[170px]">
+                <Th className="w-[136px]">
                   <HeaderCell lines={["PRODUK", "PINJAMAN"]} kind="sort" />
                 </Th>
 
-                {/* contoh menunjukkan dropdown caret untuk TANGGAL */}
-                <Th className="w-[140px] bg-slate-100/70">
+                <Th className="w-[118px] bg-slate-100/70">
                   <HeaderCell lines={["TANGGAL"]} kind="menu" />
                 </Th>
 
-                <Th className="w-[170px]">
+                <Th className="w-[140px]">
                   <HeaderCell lines={["JENIS", "TRANSAKSI"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[150px] text-right">
+                <Th className="w-[120px] text-right">
                   <HeaderCell lines={["NOMINAL"]} kind="sort" align="right" />
                 </Th>
 
-                <Th className="w-[110px] text-right">
+                <Th className="w-[90px] text-right">
                   <HeaderCell lines={["DENDA"]} kind="sort" align="right" />
                 </Th>
               </tr>
@@ -542,23 +546,37 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                     <Td className="text-slate-900 tabular-nums">
                       {(page - 1) * pageSize + idx + 1}
                     </Td>
-                    <Td>
+                    <Td className="truncate" title={r.noTransaksi}>
                       <a
                         href="#"
                         onClick={(e) => e.preventDefault()}
-                        className="font-semibold text-blue-600 hover:underline"
+                        className="block truncate font-semibold text-blue-600 hover:underline"
                       >
                         {r.noTransaksi}
                       </a>
                     </Td>
-                    <Td className="tabular-nums">{r.rekPinjaman}</Td>
-                    <Td className="tabular-nums">{r.rekTabungan}</Td>
-                    <Td className="tabular-nums">{r.idNasabah}</Td>
-                    <Td>{r.namaNasabah}</Td>
-                    <Td>{r.namaKolektor}</Td>
-                    <Td>{r.produkPinjaman}</Td>
+                    <Td className="tabular-nums truncate" title={r.rekPinjaman}>
+                      {r.rekPinjaman}
+                    </Td>
+                    <Td className="tabular-nums truncate" title={r.rekTabungan}>
+                      {r.rekTabungan}
+                    </Td>
+                    <Td className="tabular-nums truncate" title={r.idNasabah}>
+                      {r.idNasabah}
+                    </Td>
+                    <Td className="truncate" title={r.namaNasabah}>
+                      {r.namaNasabah}
+                    </Td>
+                    <Td className="truncate" title={r.namaKolektor}>
+                      {r.namaKolektor}
+                    </Td>
+                    <Td className="truncate" title={r.produkPinjaman}>
+                      {r.produkPinjaman}
+                    </Td>
                     <Td className="tabular-nums whitespace-nowrap">{r.tanggal}</Td>
-                    <Td>{r.jenisTransaksi}</Td>
+                    <Td className="truncate" title={r.jenisTransaksi}>
+                      {r.jenisTransaksi}
+                    </Td>
                     <Td align="right" className="font-semibold text-emerald-700">
                       {r.nominal}
                     </Td>
