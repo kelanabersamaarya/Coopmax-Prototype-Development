@@ -496,13 +496,13 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                           type="button"
                           onClick={() => setQTanggal("")}
                           className={cn(
-                            "absolute right-0 top-0",
-                            "h-9 w-12",
-                            "rounded-r-[8px] rounded-l-none",
+                            "absolute right-2 top-1/2 -translate-y-1/2",
+                            "h-7 w-7",
+                            "rounded-[8px]",
                             "bg-slate-600 text-white",
                             "ring-1 ring-slate-600/20",
                             "transition hover:bg-slate-700",
-                            "text-[18px] leading-none font-semibold",
+                            "text-[16px] leading-none font-semibold",
                           )}
                           aria-label="Clear tanggal"
                           title="Clear"
