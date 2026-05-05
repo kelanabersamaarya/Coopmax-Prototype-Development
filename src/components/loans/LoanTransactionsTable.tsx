@@ -365,227 +365,230 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           <EntriesPicker pageSize={pageSize} onPageSizeChange={setPageSize} />
         </div>
 
-        <div className="safe-x-scroll">
-          <table className="w-full min-w-[1240px] border-collapse bg-white">
-            <thead className="bg-white">
-              <tr className="bg-white">
-                <Th className={colW.no}>
-                  <HeaderCell lines={["NO."]} kind="none" />
-                </Th>
+        {/* Tambah padding kiri/kanan agar tabel tidak mepet */}
+        <div className="px-4 sm:px-5">
+          <div className="safe-x-scroll">
+            <table className="w-full min-w-[1240px] border-collapse bg-white">
+              <thead className="bg-white">
+                <tr className="bg-white">
+                  <Th className={colW.no}>
+                    <HeaderCell lines={["NO."]} kind="none" />
+                  </Th>
 
-                <Th className={colW.noTransaksi}>
-                  <HeaderCell lines={["NO.", "TRANSAKSI"]} kind="sort" />
-                </Th>
+                  <Th className={colW.noTransaksi}>
+                    <HeaderCell lines={["NO.", "TRANSAKSI"]} kind="sort" />
+                  </Th>
 
-                <Th className={colW.rekPinjaman}>
-                  <HeaderCell lines={["REK.", "PINJAMAN"]} kind="sort" />
-                </Th>
+                  <Th className={colW.rekPinjaman}>
+                    <HeaderCell lines={["REK.", "PINJAMAN"]} kind="sort" />
+                  </Th>
 
-                <Th className={colW.rekTabungan}>
-                  <HeaderCell lines={["REK.", "TABUNGAN"]} kind="sort" />
-                </Th>
+                  <Th className={colW.rekTabungan}>
+                    <HeaderCell lines={["REK.", "TABUNGAN"]} kind="sort" />
+                  </Th>
 
-                <Th className={colW.idNasabah}>
-                  <HeaderCell lines={["ID", "NASABAH"]} kind="sort" />
-                </Th>
+                  <Th className={colW.idNasabah}>
+                    <HeaderCell lines={["ID", "NASABAH"]} kind="sort" />
+                  </Th>
 
-                <Th className={colW.namaNasabah}>
-                  <HeaderCell lines={["NAMA", "NASABAH"]} kind="sort" />
-                </Th>
+                  <Th className={colW.namaNasabah}>
+                    <HeaderCell lines={["NAMA", "NASABAH"]} kind="sort" />
+                  </Th>
 
-                <Th className={colW.namaKolektor}>
-                  <HeaderCell lines={["NAMA", "KOLEKTOR"]} kind="sort" />
-                </Th>
+                  <Th className={colW.namaKolektor}>
+                    <HeaderCell lines={["NAMA", "KOLEKTOR"]} kind="sort" />
+                  </Th>
 
-                <Th className={colW.produkPinjaman}>
-                  <HeaderCell lines={["PRODUK", "PINJAMAN"]} kind="sort" />
-                </Th>
+                  <Th className={colW.produkPinjaman}>
+                    <HeaderCell lines={["PRODUK", "PINJAMAN"]} kind="sort" />
+                  </Th>
 
-                <Th className={cn(colW.tanggal, "bg-slate-100/70")}>
-                  <HeaderCell lines={["TANGGAL"]} kind="menu" />
-                </Th>
+                  <Th className={cn(colW.tanggal, "bg-slate-100/70")}>
+                    <HeaderCell lines={["TANGGAL"]} kind="menu" />
+                  </Th>
 
-                <Th className={colW.jenisTransaksi}>
-                  <HeaderCell lines={["JENIS", "TRANSAKSI"]} kind="sort" />
-                </Th>
+                  <Th className={colW.jenisTransaksi}>
+                    <HeaderCell lines={["JENIS", "TRANSAKSI"]} kind="sort" />
+                  </Th>
 
-                <Th className={cn(colW.nominal, "text-right")}>
-                  <HeaderCell lines={["NOMINAL"]} kind="sort" align="right" />
-                </Th>
+                  <Th className={cn(colW.nominal, "text-right")}>
+                    <HeaderCell lines={["NOMINAL"]} kind="sort" align="right" />
+                  </Th>
 
-                <Th className={cn(colW.denda, "text-right")}>
-                  <HeaderCell lines={["DENDA"]} kind="sort" align="right" />
-                </Th>
-              </tr>
-
-              <tr className="bg-white">
-                <th className={filterRowCellPad} />
-                <th className={filterRowCellPad}>
-                  <Input
-                    value={qNoTransaksi}
-                    onChange={(e) => setQNoTransaksi(e.target.value)}
-                    className={filterInputCls}
-                  />
-                </th>
-                <th className={filterRowCellPad}>
-                  <Input
-                    value={qRekPinjaman}
-                    onChange={(e) => setQRekPinjaman(e.target.value)}
-                    className={filterInputCls}
-                  />
-                </th>
-                <th className={filterRowCellPad}>
-                  <Input
-                    value={qRekTabungan}
-                    onChange={(e) => setQRekTabungan(e.target.value)}
-                    className={filterInputCls}
-                  />
-                </th>
-                <th className={filterRowCellPad}>
-                  <Input
-                    value={qIdNasabah}
-                    onChange={(e) => setQIdNasabah(e.target.value)}
-                    className={filterInputCls}
-                  />
-                </th>
-                <th className={filterRowCellPad}>
-                  <Input
-                    value={qNamaNasabah}
-                    onChange={(e) => setQNamaNasabah(e.target.value)}
-                    className={filterInputCls}
-                  />
-                </th>
-                <th className={filterRowCellPad}>
-                  <Input
-                    value={qNamaKolektor}
-                    onChange={(e) => setQNamaKolektor(e.target.value)}
-                    className={filterInputCls}
-                  />
-                </th>
-                <th className={filterRowCellPad}>
-                  <Select value={qProduk} onValueChange={setQProduk}>
-                    <SelectTrigger className={filterSelectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      {produkOptions.map((o) => (
-                        <SelectItem key={o} value={o}>
-                          {o === "Semua" ? "-- Semua --" : o}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </th>
-
-                <th className={filterRowCellPad}>
-                  <div className="relative">
-                    <Input
-                      value={qTanggal}
-                      onChange={(e) => setQTanggal(e.target.value)}
-                      className={cn(
-                        filterInputCls,
-                        qTanggal ? "pr-12 rounded-r-none" : "",
-                      )}
-                    />
-
-                    {qTanggal ? (
-                      <button
-                        type="button"
-                        onClick={() => setQTanggal("")}
-                        className={cn(
-                          "absolute right-0 top-0",
-                          "h-9 w-12",
-                          "rounded-r-[8px] rounded-l-none",
-                          "bg-slate-600 text-white",
-                          "ring-1 ring-slate-600/20",
-                          "transition hover:bg-slate-700",
-                          "text-[18px] leading-none font-semibold",
-                        )}
-                        aria-label="Clear tanggal"
-                        title="Clear"
-                      >
-                        ×
-                      </button>
-                    ) : null}
-                  </div>
-                </th>
-
-                <th className={filterRowCellPad}>
-                  <Select value={qJenis} onValueChange={setQJenis}>
-                    <SelectTrigger className={filterSelectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      {jenisOptions.map((o) => (
-                        <SelectItem key={o} value={o}>
-                          {o === "Semua" ? "-- Semua --" : o}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </th>
-
-                <th className={cn(filterRowCellPad, "text-right")}>
-                  <Input
-                    value={qNominal}
-                    onChange={(e) => setQNominal(e.target.value)}
-                    className={cn(filterInputCls, "text-right")}
-                  />
-                </th>
-                <th className={cn(filterRowCellPad, "text-right")}>
-                  <Input
-                    value={qDenda}
-                    onChange={(e) => setQDenda(e.target.value)}
-                    className={cn(filterInputCls, "text-right")}
-                  />
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {paged.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={12}
-                    className="px-4 py-10 text-center text-sm text-slate-600"
-                  >
-                    Tidak ada data yang cocok dengan filter.
-                  </td>
+                  <Th className={cn(colW.denda, "text-right")}>
+                    <HeaderCell lines={["DENDA"]} kind="sort" align="right" />
+                  </Th>
                 </tr>
-              ) : (
-                paged.map((r, idx) => (
-                  <tr key={`${r.noTransaksi}-${idx}`} className="bg-white">
-                    <Td className="text-slate-900 tabular-nums">
-                      {(page - 1) * pageSize + idx + 1}
-                    </Td>
-                    <Td>
-                      <a
-                        href="#"
-                        onClick={(e) => e.preventDefault()}
-                        className="font-semibold text-blue-600 hover:underline"
-                      >
-                        {r.noTransaksi}
-                      </a>
-                    </Td>
-                    <Td className="tabular-nums">{r.rekPinjaman}</Td>
-                    <Td className="tabular-nums">{r.rekTabungan}</Td>
-                    <Td className="tabular-nums">{r.idNasabah}</Td>
-                    <Td>{r.namaNasabah}</Td>
-                    <Td>{r.namaKolektor}</Td>
-                    <Td>{r.produkPinjaman}</Td>
-                    <Td className="tabular-nums whitespace-nowrap">{r.tanggal}</Td>
-                    <Td>{r.jenisTransaksi}</Td>
-                    <Td align="right" className="font-semibold text-emerald-700">
-                      {r.nominal}
-                    </Td>
-                    <Td align="right" className="text-rose-600">
-                      {r.denda}
-                    </Td>
+
+                <tr className="bg-white">
+                  <th className={filterRowCellPad} />
+                  <th className={filterRowCellPad}>
+                    <Input
+                      value={qNoTransaksi}
+                      onChange={(e) => setQNoTransaksi(e.target.value)}
+                      className={filterInputCls}
+                    />
+                  </th>
+                  <th className={filterRowCellPad}>
+                    <Input
+                      value={qRekPinjaman}
+                      onChange={(e) => setQRekPinjaman(e.target.value)}
+                      className={filterInputCls}
+                    />
+                  </th>
+                  <th className={filterRowCellPad}>
+                    <Input
+                      value={qRekTabungan}
+                      onChange={(e) => setQRekTabungan(e.target.value)}
+                      className={filterInputCls}
+                    />
+                  </th>
+                  <th className={filterRowCellPad}>
+                    <Input
+                      value={qIdNasabah}
+                      onChange={(e) => setQIdNasabah(e.target.value)}
+                      className={filterInputCls}
+                    />
+                  </th>
+                  <th className={filterRowCellPad}>
+                    <Input
+                      value={qNamaNasabah}
+                      onChange={(e) => setQNamaNasabah(e.target.value)}
+                      className={filterInputCls}
+                    />
+                  </th>
+                  <th className={filterRowCellPad}>
+                    <Input
+                      value={qNamaKolektor}
+                      onChange={(e) => setQNamaKolektor(e.target.value)}
+                      className={filterInputCls}
+                    />
+                  </th>
+                  <th className={filterRowCellPad}>
+                    <Select value={qProduk} onValueChange={setQProduk}>
+                      <SelectTrigger className={filterSelectTriggerCls}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        {produkOptions.map((o) => (
+                          <SelectItem key={o} value={o}>
+                            {o === "Semua" ? "-- Semua --" : o}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </th>
+
+                  <th className={filterRowCellPad}>
+                    <div className="relative">
+                      <Input
+                        value={qTanggal}
+                        onChange={(e) => setQTanggal(e.target.value)}
+                        className={cn(
+                          filterInputCls,
+                          qTanggal ? "pr-12 rounded-r-none" : "",
+                        )}
+                      />
+
+                      {qTanggal ? (
+                        <button
+                          type="button"
+                          onClick={() => setQTanggal("")}
+                          className={cn(
+                            "absolute right-0 top-0",
+                            "h-9 w-12",
+                            "rounded-r-[8px] rounded-l-none",
+                            "bg-slate-600 text-white",
+                            "ring-1 ring-slate-600/20",
+                            "transition hover:bg-slate-700",
+                            "text-[18px] leading-none font-semibold",
+                          )}
+                          aria-label="Clear tanggal"
+                          title="Clear"
+                        >
+                          ×
+                        </button>
+                      ) : null}
+                    </div>
+                  </th>
+
+                  <th className={filterRowCellPad}>
+                    <Select value={qJenis} onValueChange={setQJenis}>
+                      <SelectTrigger className={filterSelectTriggerCls}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        {jenisOptions.map((o) => (
+                          <SelectItem key={o} value={o}>
+                            {o === "Semua" ? "-- Semua --" : o}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </th>
+
+                  <th className={cn(filterRowCellPad, "text-right")}>
+                    <Input
+                      value={qNominal}
+                      onChange={(e) => setQNominal(e.target.value)}
+                      className={cn(filterInputCls, "text-right")}
+                    />
+                  </th>
+                  <th className={cn(filterRowCellPad, "text-right")}>
+                    <Input
+                      value={qDenda}
+                      onChange={(e) => setQDenda(e.target.value)}
+                      className={cn(filterInputCls, "text-right")}
+                    />
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {paged.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={12}
+                      className="px-4 py-10 text-center text-sm text-slate-600"
+                    >
+                      Tidak ada data yang cocok dengan filter.
+                    </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  paged.map((r, idx) => (
+                    <tr key={`${r.noTransaksi}-${idx}`} className="bg-white">
+                      <Td className="text-slate-900 tabular-nums">
+                        {(page - 1) * pageSize + idx + 1}
+                      </Td>
+                      <Td>
+                        <a
+                          href="#"
+                          onClick={(e) => e.preventDefault()}
+                          className="font-semibold text-blue-600 hover:underline"
+                        >
+                          {r.noTransaksi}
+                        </a>
+                      </Td>
+                      <Td className="tabular-nums">{r.rekPinjaman}</Td>
+                      <Td className="tabular-nums">{r.rekTabungan}</Td>
+                      <Td className="tabular-nums">{r.idNasabah}</Td>
+                      <Td>{r.namaNasabah}</Td>
+                      <Td>{r.namaKolektor}</Td>
+                      <Td>{r.produkPinjaman}</Td>
+                      <Td className="tabular-nums whitespace-nowrap">{r.tanggal}</Td>
+                      <Td>{r.jenisTransaksi}</Td>
+                      <Td align="right" className="font-semibold text-emerald-700">
+                        {r.nominal}
+                      </Td>
+                      <Td align="right" className="text-rose-600">
+                        {r.denda}
+                      </Td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between">
