@@ -105,7 +105,8 @@ function Th({
     <th
       className={cn(
         "px-2 py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-        "border-b border-slate-300/70",
+        // HILANGKAN border bawah header
+        "border-b-0",
         "align-middle whitespace-nowrap",
         className,
       )}
@@ -338,8 +339,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  const headerCellPad = "px-2 py-2.5";
-
   // Lebar kolom diperkecil supaya lebih rapat seperti contoh
   const colW = {
     no: "w-[52px]",
@@ -355,6 +354,9 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     nominal: "w-[120px]",
     denda: "w-[90px]",
   } as const;
+
+  // Baris filter: hilangkan garis bawah juga
+  const filterRowCellPad = "px-2 py-2.5 border-b-0";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -417,50 +419,50 @@ export default function LoanTransactionsTable({ className }: { className?: strin
               </tr>
 
               <tr className="bg-white">
-                <th className={headerCellPad} />
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad} />
+                <th className={filterRowCellPad}>
                   <Input
                     value={qNoTransaksi}
                     onChange={(e) => setQNoTransaksi(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <Input
                     value={qRekPinjaman}
                     onChange={(e) => setQRekPinjaman(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <Input
                     value={qRekTabungan}
                     onChange={(e) => setQRekTabungan(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <Input
                     value={qIdNasabah}
                     onChange={(e) => setQIdNasabah(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <Input
                     value={qNamaNasabah}
                     onChange={(e) => setQNamaNasabah(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <Input
                     value={qNamaKolektor}
                     onChange={(e) => setQNamaKolektor(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <Select value={qProduk} onValueChange={setQProduk}>
                     <SelectTrigger className={filterSelectTriggerCls}>
                       <SelectValue />
@@ -475,7 +477,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </Select>
                 </th>
 
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <div className="relative">
                     <Input
                       value={qTanggal}
@@ -508,7 +510,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </div>
                 </th>
 
-                <th className={headerCellPad}>
+                <th className={filterRowCellPad}>
                   <Select value={qJenis} onValueChange={setQJenis}>
                     <SelectTrigger className={filterSelectTriggerCls}>
                       <SelectValue />
@@ -523,14 +525,14 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </Select>
                 </th>
 
-                <th className={cn(headerCellPad, "text-right")}>
+                <th className={cn(filterRowCellPad, "text-right")}>
                   <Input
                     value={qNominal}
                     onChange={(e) => setQNominal(e.target.value)}
                     className={cn(filterInputCls, "text-right")}
                   />
                 </th>
-                <th className={cn(headerCellPad, "text-right")}>
+                <th className={cn(filterRowCellPad, "text-right")}>
                   <Input
                     value={qDenda}
                     onChange={(e) => setQDenda(e.target.value)}
