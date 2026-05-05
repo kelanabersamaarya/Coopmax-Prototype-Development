@@ -33,10 +33,10 @@ function ActionPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-11 items-center gap-2 rounded-full bg-white/80 px-4",
+        "inline-flex h-11 items-center gap-2 rounded-full bg-white px-4",
         "text-[14px] font-medium text-slate-700",
-        "ring-1 ring-slate-200/70 shadow-sm backdrop-blur",
-        "transition hover:bg-white",
+        "ring-1 ring-slate-200 shadow-sm",
+        "transition hover:bg-slate-50",
         className,
       )}
     >
@@ -121,7 +121,8 @@ export default function LoanTransactions() {
           <div className="text-base font-semibold text-slate-600">Daftar</div>
         </div>
 
-        <div className="mt-6 rounded-3xl bg-white/40 p-4 ring-1 ring-slate-200/60 backdrop-blur md:p-5">
+        {/* Tanpa background/border container */}
+        <div className="mt-6">
           <div className="flex flex-wrap items-center gap-3">
             {actionsRow1.map((a) => (
               <ActionPill
