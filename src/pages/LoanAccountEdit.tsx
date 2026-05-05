@@ -325,8 +325,6 @@ const seedByAccountNo: Record<string, PrefillSeed> = {
   },
 };
 
-const DETAIL_RETURN_KEY = "dyad.loanAccountEdit.returnToDetailUrl";
-
 export default function LoanAccountEdit() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -352,23 +350,41 @@ export default function LoanAccountEdit() {
 
   const [nama, setNama] = React.useState(prefill?.nama ?? "");
   const [alamat, setAlamat] = React.useState(prefill?.alamat ?? "");
-  const [unitAnggota, setUnitAnggota] = React.useState(prefill?.unitAnggota ?? "-");
+  const [unitAnggota, setUnitAnggota] = React.useState(
+    prefill?.unitAnggota ?? "-",
+  );
 
-  const [kolektor, setKolektor] = React.useState(prefill?.kolektor ?? "Pilih Kolektor");
-  const [tanggal, setTanggal] = React.useState(prefill?.tanggalDaftar ?? getTodayDmy());
+  const [kolektor, setKolektor] = React.useState(
+    prefill?.kolektor ?? "Pilih Kolektor",
+  );
+  const [tanggal, setTanggal] = React.useState(
+    prefill?.tanggalDaftar ?? getTodayDmy(),
+  );
 
   const [produkPinjaman, setProdukPinjaman] = React.useState<
     LoanProductOption | "Pilih Pinjaman"
   >(prefill?.produkPinjaman ?? "Pinjaman Billing");
 
-  const [sektorPinjaman, setSektorPinjaman] = React.useState("Pilih Sektor Pinjaman");
-  const [tujuanPeminjaman, setTujuanPeminjaman] = React.useState("Pilih Tujuan Peminjaman");
+  const [sektorPinjaman, setSektorPinjaman] = React.useState(
+    "Pilih Sektor Pinjaman",
+  );
+  const [tujuanPeminjaman, setTujuanPeminjaman] = React.useState(
+    "Pilih Tujuan Peminjaman",
+  );
 
-  const [bungaPerTahun, setBungaPerTahun] = React.useState(prefill?.bungaPerTahun ?? "");
-  const [metodeBunga, setMetodeBunga] = React.useState(prefill?.metodeBunga ?? "Flat");
+  const [bungaPerTahun, setBungaPerTahun] = React.useState(
+    prefill?.bungaPerTahun ?? "",
+  );
+  const [metodeBunga, setMetodeBunga] = React.useState(
+    prefill?.metodeBunga ?? "Flat",
+  );
 
-  const [besarPinjaman, setBesarPinjaman] = React.useState(prefill?.besarPinjaman ?? "0,00");
-  const [jangkaWaktu, setJangkaWaktu] = React.useState(prefill?.jangkaWaktu ?? "0,00");
+  const [besarPinjaman, setBesarPinjaman] = React.useState(
+    prefill?.besarPinjaman ?? "0,00",
+  );
+  const [jangkaWaktu, setJangkaWaktu] = React.useState(
+    prefill?.jangkaWaktu ?? "0,00",
+  );
 
   const showJadwalTab = produkPinjaman === "Pinjaman Billing";
 
@@ -376,36 +392,36 @@ export default function LoanAccountEdit() {
     if (!showJadwalTab && tab === "jadwal") setTab("general");
   }, [showJadwalTab, tab]);
 
-  // Simpan URL tujuan "detail" saat edit dibuka dari detail
-  React.useEffect(() => {
-    if (!fromDetail) return;
+  function navigateToDetail(replace = true) {
     const selected = selectedFromState ?? accountNo;
-    const returnUrl = `/loans/accounts?detail=${encodeURIComponent(selected)}`;
-    sessionStorage.setItem(DETAIL_RETURN_KEY, returnUrl);
-  }, [accountNo, fromDetail, selectedFromState]);
-
-  function navigateToDetail() {
-    const selected = selectedFromState ?? accountNo;
-
-    // Cara yang sudah dipakai di RekeningPinjaman: state.selectedAccountNo
     navigate("/loans/accounts", {
-      replace: true,
+      replace,
       state: { selectedAccountNo: selected },
     });
   }
 
-  // Back browser (POP) -> selalu arahkan ke detail
+  // Saat edit dibuka dari detail:
+  // - kita "push" sebuah history entry (tanpa mengganti URL) agar tombol Back tidak jatuh ke daftar
+  // - lalu intercept popstate, arahkan ke detail yang sama
   React.useEffect(() => {
     if (!fromDetail) return;
 
+    // Tambahkan marker di current history entry (tetap di route ini)
+    // supaya ada 1 langkah back yang bisa kita intercept dengan popstate.
+    navigate(".", {
+      replace: false,
+      state: { ...(location.state ?? {}), __lockBackToDetail: true },
+    });
+
     const onPop = () => {
-      navigateToDetail();
+      // Jika user menekan Back dari halaman edit, arahkan ke detail.
+      navigateToDetail(true);
     };
 
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fromDetail, accountNo, selectedFromState]);
+  }, [fromDetail]);
 
   // --- Jadwal tab state (prefilled) ---
   const [jenisPerhitunganBunga, setJenisPerhitunganBunga] = React.useState<string>(
@@ -456,7 +472,7 @@ export default function LoanAccountEdit() {
     toast.success("Perubahan tersimpan (prototype)", {
       description: `Rekening: ${noRekening}`,
     });
-    navigateToDetail();
+    navigateToDetail(true);
   }
 
   function verifyKtp() {
@@ -471,7 +487,9 @@ export default function LoanAccountEdit() {
     { id: "agunan" as const, label: "Agunan" },
     { id: "penanggung" as const, label: "Penanggung Jawab" },
     { id: "upload" as const, label: "Upload File" },
-    ...(showJadwalTab ? [{ id: "jadwal" as const, label: "Pengaturan Jadwal" }] : []),
+    ...(showJadwalTab
+      ? [{ id: "jadwal" as const, label: "Pengaturan Jadwal" }]
+      : []),
   ];
 
   const kolektorIsPlaceholder = isPlaceholderValue(kolektor);
@@ -541,7 +559,10 @@ export default function LoanAccountEdit() {
                     label="ID Nasabah"
                     required
                     hint={
-                      <Link to="/anggota/transaksi" className="text-blue-600 hover:underline">
+                      <Link
+                        to="/anggota/transaksi"
+                        className="text-blue-600 hover:underline"
+                      >
                         Lihat Rekening Nasabah
                       </Link>
                     }
@@ -768,7 +789,7 @@ export default function LoanAccountEdit() {
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <LoanFormActionButtons
-                    onCancel={navigateToDetail}
+                    onCancel={() => navigateToDetail(false)}
                     onSave={save}
                     cancelLabel="Batalkan"
                     saveLabel="Simpan"
@@ -940,7 +961,7 @@ export default function LoanAccountEdit() {
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                   <LoanFormActionButtons
-                    onCancel={navigateToDetail}
+                    onCancel={() => navigateToDetail(false)}
                     onSave={() =>
                       toast.success("Jadwal tersimpan (prototype)", {
                         description: "Pengaturan jadwal belum disimpan permanen.",
