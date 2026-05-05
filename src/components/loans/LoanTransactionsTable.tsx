@@ -212,10 +212,13 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
   return (
-    <div className={cn("mt-6 rounded-3xl bg-white/80 p-4 ring-1 ring-slate-200/70", className)}>
+    <div className={cn("mt-6", className)}>
       <div className="flex items-center gap-2 text-[14px] font-medium text-slate-900">
         <span>Tampilkan</span>
-        <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+        <Select
+          value={String(pageSize)}
+          onValueChange={(v) => setPageSize(Number(v))}
+        >
           <SelectTrigger className="h-8 w-[72px] rounded-[8px] border-slate-300 bg-white px-2 text-[13px] font-semibold text-slate-900 shadow-none">
             <SelectValue />
           </SelectTrigger>
@@ -230,7 +233,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
         <span>entri</span>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
+      {/* Wrapper tabel tanpa border terluar */}
+      <div className="mt-4 overflow-hidden rounded-2xl bg-white">
         <div className="safe-x-scroll">
           <table className="w-full min-w-[1320px] border-collapse bg-white">
             <thead className="bg-white">
@@ -313,7 +317,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                     onChange={(e) => setQTanggal(e.target.value)}
                     className={cn(filterInputCls, "pr-12")}
                   />
-                  {/* tombol X kecil (prototype) */}
                   {qTanggal ? (
                     <button
                       type="button"
