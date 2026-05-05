@@ -57,12 +57,12 @@ function HeaderCell({
 }) {
   const icon =
     kind === "sort" ? (
-      <span className="ml-2 inline-flex flex-col leading-none text-slate-900/90">
+      <span className="ml-1.5 inline-flex flex-col leading-none text-slate-900/90">
         <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
         <ChevronDown className="h-3.5 w-3.5" />
       </span>
     ) : kind === "menu" ? (
-      <span className="ml-2 inline-flex leading-none text-slate-900/90">
+      <span className="ml-1.5 inline-flex leading-none text-slate-900/90">
         <ChevronDown className="h-4 w-4" />
       </span>
     ) : null;
@@ -70,7 +70,7 @@ function HeaderCell({
   return (
     <div
       className={cn(
-        "flex items-start justify-between gap-2",
+        "flex items-start justify-between gap-1.5",
         align === "right"
           ? "justify-end"
           : align === "center"
@@ -104,7 +104,6 @@ function Th({
   return (
     <th
       className={cn(
-        // match contoh: uppercase, rapat, 2 baris, icon di kanan
         "px-2 py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "border-b border-slate-300/70",
         "align-middle whitespace-nowrap",
@@ -341,6 +340,22 @@ export default function LoanTransactionsTable({ className }: { className?: strin
 
   const headerCellPad = "px-2 py-2.5";
 
+  // Lebar kolom diperkecil supaya lebih rapat seperti contoh
+  const colW = {
+    no: "w-[52px]",
+    noTransaksi: "w-[130px]",
+    rekPinjaman: "w-[110px]",
+    rekTabungan: "w-[110px]",
+    idNasabah: "w-[110px]",
+    namaNasabah: "w-[140px]",
+    namaKolektor: "w-[140px]",
+    produkPinjaman: "w-[140px]",
+    tanggal: "w-[110px]",
+    jenisTransaksi: "w-[140px]",
+    nominal: "w-[120px]",
+    denda: "w-[90px]",
+  } as const;
+
   return (
     <div className={cn("mt-6", className)}>
       <div className="overflow-hidden rounded-2xl bg-white">
@@ -349,55 +364,54 @@ export default function LoanTransactionsTable({ className }: { className?: strin
         </div>
 
         <div className="safe-x-scroll">
-          <table className="w-full min-w-[1320px] border-collapse bg-white">
+          <table className="w-full min-w-[1240px] border-collapse bg-white">
             <thead className="bg-white">
               <tr className="bg-white">
-                <Th className="w-[60px]">
+                <Th className={colW.no}>
                   <HeaderCell lines={["NO."]} kind="none" />
                 </Th>
 
-                <Th className="w-[180px]">
+                <Th className={colW.noTransaksi}>
                   <HeaderCell lines={["NO.", "TRANSAKSI"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[140px]">
+                <Th className={colW.rekPinjaman}>
                   <HeaderCell lines={["REK.", "PINJAMAN"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[140px]">
+                <Th className={colW.rekTabungan}>
                   <HeaderCell lines={["REK.", "TABUNGAN"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[140px]">
+                <Th className={colW.idNasabah}>
                   <HeaderCell lines={["ID", "NASABAH"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[180px]">
+                <Th className={colW.namaNasabah}>
                   <HeaderCell lines={["NAMA", "NASABAH"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[180px]">
+                <Th className={colW.namaKolektor}>
                   <HeaderCell lines={["NAMA", "KOLEKTOR"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[170px]">
+                <Th className={colW.produkPinjaman}>
                   <HeaderCell lines={["PRODUK", "PINJAMAN"]} kind="sort" />
                 </Th>
 
-                {/* contoh menunjukkan dropdown caret untuk TANGGAL */}
-                <Th className="w-[140px] bg-slate-100/70">
+                <Th className={cn(colW.tanggal, "bg-slate-100/70")}>
                   <HeaderCell lines={["TANGGAL"]} kind="menu" />
                 </Th>
 
-                <Th className="w-[170px]">
+                <Th className={colW.jenisTransaksi}>
                   <HeaderCell lines={["JENIS", "TRANSAKSI"]} kind="sort" />
                 </Th>
 
-                <Th className="w-[150px] text-right">
+                <Th className={cn(colW.nominal, "text-right")}>
                   <HeaderCell lines={["NOMINAL"]} kind="sort" align="right" />
                 </Th>
 
-                <Th className="w-[110px] text-right">
+                <Th className={cn(colW.denda, "text-right")}>
                   <HeaderCell lines={["DENDA"]} kind="sort" align="right" />
                 </Th>
               </tr>
