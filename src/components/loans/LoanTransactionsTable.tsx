@@ -51,7 +51,8 @@ function Th({
   return (
     <th
       className={cn(
-        "px-3 py-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        // lebih rapat kiri-kanan
+        "px-2 py-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05] whitespace-nowrap",
         className,
       )}
@@ -284,6 +285,10 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
+  // padding khusus untuk cell header/filter (lebih rapat kiri/kanan)
+  const headerCellPad = "px-2 py-3";
+  const filterCellPad = "px-2 py-3";
+
   return (
     <div className={cn("mt-6", className)}>
       <div className="overflow-hidden rounded-2xl bg-white">
@@ -310,50 +315,50 @@ export default function LoanTransactionsTable({ className }: { className?: strin
               </tr>
 
               <tr className="bg-white">
-                <th className="px-3 py-3" />
-                <th className="px-3 py-3">
+                <th className={headerCellPad} />
+                <th className={headerCellPad}>
                   <Input
                     value={qNoTransaksi}
                     onChange={(e) => setQNoTransaksi(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <Input
                     value={qRekPinjaman}
                     onChange={(e) => setQRekPinjaman(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <Input
                     value={qRekTabungan}
                     onChange={(e) => setQRekTabungan(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <Input
                     value={qIdNasabah}
                     onChange={(e) => setQIdNasabah(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <Input
                     value={qNamaNasabah}
                     onChange={(e) => setQNamaNasabah(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <Input
                     value={qNamaKolektor}
                     onChange={(e) => setQNamaKolektor(e.target.value)}
                     className={filterInputCls}
                   />
                 </th>
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <Select value={qProduk} onValueChange={setQProduk}>
                     <SelectTrigger className={filterSelectTriggerCls}>
                       <SelectValue />
@@ -368,7 +373,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </Select>
                 </th>
 
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <div className="relative">
                     <Input
                       value={qTanggal}
@@ -401,7 +406,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </div>
                 </th>
 
-                <th className="px-3 py-3">
+                <th className={headerCellPad}>
                   <Select value={qJenis} onValueChange={setQJenis}>
                     <SelectTrigger className={filterSelectTriggerCls}>
                       <SelectValue />
@@ -415,14 +420,14 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                     </SelectContent>
                   </Select>
                 </th>
-                <th className="px-3 py-3">
+                <th className={cn(headerCellPad, "text-right")}>
                   <Input
                     value={qNominal}
                     onChange={(e) => setQNominal(e.target.value)}
                     className={cn(filterInputCls, "text-right")}
                   />
                 </th>
-                <th className="px-3 py-3">
+                <th className={cn(headerCellPad, "text-right")}>
                   <Input
                     value={qDenda}
                     onChange={(e) => setQDenda(e.target.value)}
@@ -478,7 +483,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           </table>
         </div>
 
-        <div className="flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between">
+        <div className={cn("flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between", filterCellPad)}>
           <div className="text-[13px] font-medium text-slate-900">
             Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
           </div>
