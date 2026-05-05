@@ -347,8 +347,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     idNasabah: "w-[96px] min-w-[96px]",
     namaNasabah: "w-[92px] min-w-[92px]",
     namaKolektor: "w-[96px] min-w-[96px]",
-    // diperkecil lagi
-    produkPinjaman: "w-[84px] min-w-[84px]",
+    produkPinjaman: "w-[72px] min-w-[72px]",
     tanggal: "w-[84px] min-w-[84px]",
     jenisTransaksi: "w-[104px] min-w-[104px]",
     nominal: "w-[110px] min-w-[110px]",
@@ -366,7 +365,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
 
         <div className="px-4 sm:px-5">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1120px] border-collapse bg-white">
+            <table className="w-full min-w-[980px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className={colW.no}>
