@@ -347,7 +347,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     idNasabah: "w-[96px] min-w-[96px]",
     namaNasabah: "w-[92px] min-w-[92px]",
     namaKolektor: "w-[96px] min-w-[96px]",
-    produkPinjaman: "w-[72px] min-w-[72px]",
+    // dipersempit lagi
+    produkPinjaman: "w-[56px] min-w-[56px]",
     tanggal: "w-[84px] min-w-[84px]",
     jenisTransaksi: "w-[104px] min-w-[104px]",
     nominal: "w-[110px] min-w-[110px]",
