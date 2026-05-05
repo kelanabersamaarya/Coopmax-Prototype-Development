@@ -193,19 +193,24 @@ function PaginationMinimal({
   const disabledPrev = page <= 1;
   const disabledNext = page >= pageCount;
 
+  const wrapCls = cn(
+    "inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100",
+    className,
+  );
+
   const btnBase = cn(
-    "text-[13px] font-medium",
-    "transition",
-    "disabled:opacity-45 disabled:pointer-events-none",
+    "h-10 px-5 text-[14px] font-medium transition",
+    "text-slate-500 hover:bg-slate-200",
+    "disabled:text-slate-300 disabled:hover:bg-transparent disabled:pointer-events-none",
   );
 
   return (
-    <div className={cn("flex items-center gap-10", className)}>
+    <div className={wrapCls}>
       <button
         type="button"
         onClick={() => onPage(Math.max(1, page - 1))}
         disabled={disabledPrev}
-        className={cn(btnBase, "text-slate-400 hover:text-slate-600")}
+        className={btnBase}
       >
         Sebelumnya
       </button>
@@ -214,7 +219,7 @@ function PaginationMinimal({
         type="button"
         onClick={() => onPage(Math.min(pageCount, page + 1))}
         disabled={disabledNext}
-        className={cn(btnBase, "text-slate-400 hover:text-slate-600")}
+        className={btnBase}
       >
         Selanjutnya
       </button>
