@@ -40,16 +40,18 @@ function ActionPill({
         className,
       )}
     >
-      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 text-slate-600 ring-1 ring-slate-200">
-        <Icon className="h-4.5 w-4.5" />
+      {/* icon tanpa background */}
+      <span className="inline-flex h-8 w-8 items-center justify-center text-slate-600">
+        <Icon className="h-5 w-5" />
       </span>
+
       <span className="whitespace-nowrap">{label}</span>
     </button>
   );
 }
 
 export default function LoanTransactions() {
-  const actionsRow1: Action[] = [
+  const actions: Action[] = [
     {
       label: "Import Pembayaran Angsuran",
       icon: ArrowDownToLine,
@@ -98,9 +100,6 @@ export default function LoanTransactions() {
           description: "Fitur ini belum dihubungkan.",
         }),
     },
-  ];
-
-  const actionsRow2: Action[] = [
     {
       label: "Pembayaran Angsuran",
       icon: Banknote,
@@ -121,21 +120,9 @@ export default function LoanTransactions() {
           <div className="text-base font-semibold text-slate-600">Daftar</div>
         </div>
 
-        {/* Tanpa background/border container */}
         <div className="mt-6">
           <div className="flex flex-wrap items-center gap-3">
-            {actionsRow1.map((a) => (
-              <ActionPill
-                key={a.label}
-                label={a.label}
-                icon={a.icon}
-                onClick={a.onClick}
-              />
-            ))}
-          </div>
-
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            {actionsRow2.map((a) => (
+            {actions.map((a) => (
               <ActionPill
                 key={a.label}
                 label={a.label}
