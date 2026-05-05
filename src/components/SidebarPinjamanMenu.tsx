@@ -14,6 +14,7 @@ type SubItem = {
 const items: SubItem[] = [
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
+  { label: "Transaksi Pinjaman", to: "/anggota/transaksi" },
   { label: "Produk Pinjaman", to: "/loan-products" },
 ];
 
@@ -22,7 +23,8 @@ export default function SidebarPinjamanMenu() {
 
   const isActive =
     location.pathname.startsWith("/loan-products") ||
-    location.pathname.startsWith("/loans");
+    location.pathname.startsWith("/loans") ||
+    location.pathname.startsWith("/anggota/transaksi");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {
