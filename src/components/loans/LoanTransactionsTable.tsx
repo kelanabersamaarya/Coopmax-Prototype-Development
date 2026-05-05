@@ -104,7 +104,6 @@ function Th({
   return (
     <th
       className={cn(
-        // lebih rapat: px-2 -> px-1.5
         "px-1.5 py-2 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "border-b-0",
         "align-middle whitespace-nowrap",
@@ -128,7 +127,6 @@ function Td({
   return (
     <td
       className={cn(
-        // lebih rapat: px-3 -> px-1.5
         "px-1.5 py-2.5 text-[13px] font-medium text-slate-900",
         "border-t border-slate-200",
         align === "right"
@@ -347,7 +345,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     rekPinjaman: "w-[96px] min-w-[96px]",
     rekTabungan: "w-[96px] min-w-[96px]",
     idNasabah: "w-[96px] min-w-[96px]",
-    namaNasabah: "w-[104px] min-w-[104px]",
+    // diperkecil lagi
+    namaNasabah: "w-[92px] min-w-[92px]",
     namaKolektor: "w-[96px] min-w-[96px]",
     produkPinjaman: "w-[96px] min-w-[96px]",
     tanggal: "w-[84px] min-w-[84px]",
@@ -356,7 +355,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     denda: "w-[84px] min-w-[84px]",
   } as const;
 
-  // lebih rapat: px-2 -> px-1.5
   const filterRowCellPad = "px-1.5 py-2 border-b-0";
 
   return (
@@ -560,6 +558,7 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                       <Td className="text-slate-900 tabular-nums">
                         {(page - 1) * pageSize + idx + 1}
                       </Td>
+
                       <Td>
                         <a
                           href="#"
@@ -569,17 +568,40 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                           {r.noTransaksi}
                         </a>
                       </Td>
+
                       <Td className="tabular-nums">{r.rekPinjaman}</Td>
                       <Td className="tabular-nums">{r.rekTabungan}</Td>
                       <Td className="tabular-nums">{r.idNasabah}</Td>
-                      <Td>{r.namaNasabah}</Td>
-                      <Td>{r.namaKolektor}</Td>
-                      <Td>{r.produkPinjaman}</Td>
+
+                      <Td>
+                        <div className="truncate" title={r.namaNasabah}>
+                          {r.namaNasabah}
+                        </div>
+                      </Td>
+
+                      <Td>
+                        <div className="truncate" title={r.namaKolektor}>
+                          {r.namaKolektor}
+                        </div>
+                      </Td>
+
+                      <Td>
+                        <div className="truncate" title={r.produkPinjaman}>
+                          {r.produkPinjaman}
+                        </div>
+                      </Td>
+
                       <Td className="tabular-nums whitespace-nowrap">{r.tanggal}</Td>
-                      <Td>{r.jenisTransaksi}</Td>
+                      <Td>
+                        <div className="truncate" title={r.jenisTransaksi}>
+                          {r.jenisTransaksi}
+                        </div>
+                      </Td>
+
                       <Td align="right" className="font-semibold text-emerald-700">
                         {r.nominal}
                       </Td>
+
                       <Td align="right" className="text-rose-600">
                         {r.denda}
                       </Td>
