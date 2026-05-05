@@ -63,7 +63,8 @@
 
     --ring: 252 83% 58%;
 
-    --radius: 1.1rem;
+    /* Global radius token (shadcn/tailwind) */
+    --radius: 5px;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
