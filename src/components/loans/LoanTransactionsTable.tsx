@@ -347,8 +347,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     idNasabah: "w-[96px] min-w-[96px]",
     namaNasabah: "w-[92px] min-w-[92px]",
     namaKolektor: "w-[96px] min-w-[96px]",
-    // dipersempit lagi
-    produkPinjaman: "w-[56px] min-w-[56px]",
+    // seperti contoh: sangat sempit
+    produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
     jenisTransaksi: "w-[104px] min-w-[104px]",
     nominal: "w-[110px] min-w-[110px]",
@@ -356,6 +356,14 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   } as const;
 
   const filterRowCellPad = "px-1.5 py-2 border-b-0";
+
+  const productSelectTriggerCls = cn(
+    filterSelectTriggerCls,
+    "w-[64px] px-2",
+    "[&_[data-slot=select-value]]:truncate",
+    "[&_[data-slot=select-value]]:text-slate-900",
+    "[&_[data-slot=select-icon]]:ml-1",
+  );
 
   return (
     <div className={cn("mt-6", className)}>
@@ -398,7 +406,12 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                   </Th>
 
                   <Th className={colW.produkPinjaman}>
-                    <HeaderCell lines={["PRODUK", "PINJAMAN"]} kind="sort" />
+                    <HeaderCell
+                      lines={["PRODUK", "PINJAMAN"]}
+                      kind="sort"
+                      align="left"
+                      className="justify-start"
+                    />
                   </Th>
 
                   <Th className={cn(colW.tanggal, "bg-slate-100/70")}>
@@ -462,15 +475,17 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                       className={filterInputCls}
                     />
                   </th>
-                  <th className={filterRowCellPad}>
+
+                  {/* Produk Pinjaman: filter select super sempit seperti contoh */}
+                  <th className={cn(filterRowCellPad, "align-top")}>
                     <Select value={qProduk} onValueChange={setQProduk}>
-                      <SelectTrigger className={filterSelectTriggerCls}>
+                      <SelectTrigger className={productSelectTriggerCls}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border-slate-200">
                         {produkOptions.map((o) => (
                           <SelectItem key={o} value={o}>
-                            {o === "Semua" ? "-- Semua --" : o}
+                            {o === "Semua" ? "-- Semua" : o}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -585,10 +600,9 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                         </div>
                       </Td>
 
-                      <Td>
-                        <div className="truncate" title={r.produkPinjaman}>
-                          {r.produkPinjaman}
-                        </div>
+                      {/* Produk Pinjaman: WRAP seperti contoh */}
+                      <Td className={cn("whitespace-normal break-words leading-[1.05]")}>
+                        {r.produkPinjaman}
                       </Td>
 
                       <Td className="tabular-nums whitespace-nowrap">{r.tanggal}</Td>
