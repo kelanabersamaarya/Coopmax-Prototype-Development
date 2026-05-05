@@ -104,6 +104,22 @@ function StatusPill({
   );
 }
 
+function ActiveBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-extrabold text-white">
+      {children}
+    </span>
+  );
+}
+
+function SuccessBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-extrabold text-white">
+      {children}
+    </span>
+  );
+}
+
 type StatusHistoryRow = {
   no: number;
   status: string;
@@ -322,28 +338,52 @@ export default function LoanAccountDetailSections({
 
       <div className="mt-4 rounded-3xl bg-transparent p-0 ring-0 md:p-0">
         <div className="grid gap-6 lg:grid-cols-2">
+          {/* Kiri (sesuai contoh) */}
           <div>
-            <KeyValueRow label="Tanggal Realisasi" value="07-04-2026" />
-            <KeyValueRow label="Besar Pinjaman / Plafond" value="12.000.000,00" />
-            <KeyValueRow label="Propisi" value="0,00" />
-            <KeyValueRow label="Administrasi" value="120.000,00" />
-            <KeyValueRow label="Biaya Asuransi" value="0,00" />
-          </div>
-
-          <div>
-            <KeyValueRow label="Jumlah Potongan" value="0" right />
-            <KeyValueRow label="Penerimaan Bersih" value="11.880.000,00" right />
+            <KeyValueRow label="Tanggal Realisasi" value="16-03-2026" />
+            <KeyValueRow label="Besar Pinjaman / Plafon" value="10.000.000" />
+            <KeyValueRow label="Biaya Administrasi" value="100.000" />
+            <KeyValueRow label="Biaya Materai" value="200.000" />
+            <KeyValueRow label="Jumlah Potongan" value="322.000" />
+            <KeyValueRow label="Penerimaan Bersih" value="9.678.000" />
             <KeyValueRow
               label="Terbilang"
-              value="Sebelas Juta Delapan Ratus Delapan Puluh Ribu"
+              value={
+                <span className="block leading-snug">
+                  Sembilan Juta Enam Ratus
+                  <br />
+                  Tujuh Puluh Delapan Ribu
+                </span>
+              }
+            />
+            <KeyValueRow label="Dicairkan ke Rekening Tabungan" value="8503046" />
+          </div>
+
+          {/* Kanan (grace period + tabel angsuran) */}
+          <div>
+            <KeyValueRow label="Satuan Grace Period" value="Bulan" right />
+            <KeyValueRow label="Durasi Grace Period" value="6" right />
+            <KeyValueRow label="Status Grace Period" value={<ActiveBadge>Aktif</ActiveBadge>} right />
+            <KeyValueRow label="Skema Tagihan" value={<span className="font-semibold">Tagihan Sesuai Jadwal Angsuran</span>} right />
+            <KeyValueRow
+              label="Tagihan Angsuran Menggunakan Tabel Angsuran"
+              value={<ActiveBadge>Aktif</ActiveBadge>}
               right
             />
-            <KeyValueRow label="Dicairkan ke Rekening Tabungan" value="-" right />
+            <KeyValueRow
+              label="Status Tabel Angsuran"
+              value={
+                <SuccessBadge>
+                  <span className="mr-1">✓</span> Berhasil Tersinkron
+                </SuccessBadge>
+              }
+              right
+            />
           </div>
         </div>
       </div>
 
-      {/* Divider antar subsection */}
+      {/* Divider antar section */}
       <Separator className="my-6 bg-slate-200/70" />
 
       {/* SECTION 1: DATA ANGGOTA KELUARGA */}
