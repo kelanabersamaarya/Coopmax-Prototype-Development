@@ -105,7 +105,6 @@ function Th({
     <th
       className={cn(
         "px-2 py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-        // HILANGKAN border bawah header
         "border-b-0",
         "align-middle whitespace-nowrap",
         className,
@@ -340,7 +339,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // Lebar kolom diperkecil supaya lebih rapat seperti contoh
   const colW = {
     no: "w-[52px]",
     noTransaksi: "w-[130px]",
@@ -356,7 +354,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
     denda: "w-[90px]",
   } as const;
 
-  // Baris filter: hilangkan garis bawah juga
   const filterRowCellPad = "px-2 py-2.5 border-b-0";
 
   return (
@@ -366,7 +363,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           <EntriesPicker pageSize={pageSize} onPageSizeChange={setPageSize} />
         </div>
 
-        {/* Tambah padding kiri/kanan agar tabel tidak mepet */}
         <div className="px-4 sm:px-5">
           <div className="safe-x-scroll">
             <table className="w-full min-w-[1240px] border-collapse bg-white">
@@ -496,13 +492,14 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                           type="button"
                           onClick={() => setQTanggal("")}
                           className={cn(
-                            "absolute right-2 top-1/2 -translate-y-1/2",
-                            "h-7 w-7",
-                            "rounded-[8px]",
+                            "absolute right-0 top-0",
+                            "h-9 w-12",
+                            "rounded-r-[8px] rounded-l-none",
                             "bg-slate-600 text-white",
                             "ring-1 ring-slate-600/20",
                             "transition hover:bg-slate-700",
-                            "text-[16px] leading-none font-semibold",
+                            // Perkecil ukuran X, tapi tetap full height & mentok kanan
+                            "text-[14px] leading-none font-semibold",
                           )}
                           aria-label="Clear tanggal"
                           title="Clear"
@@ -592,7 +589,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           </div>
         </div>
 
-        {/* Samakan padding footer/pagination dengan wrapper tabel (px-4 sm:px-5) */}
         <div className="flex flex-col gap-3 px-4 py-4 sm:px-5 md:flex-row md:items-center md:justify-between">
           <div className="text-[13px] font-medium text-slate-900">
             Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
