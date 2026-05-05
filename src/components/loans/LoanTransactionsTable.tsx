@@ -105,7 +105,7 @@ function EntriesPicker({
   const triggerCls =
     "h-[34px] w-[76px] rounded-[10px] border-slate-200 bg-white px-2.5 text-[13px] font-semibold text-slate-900 shadow-sm";
   return (
-    <div className={cn("flex items-center gap-3 text-[16px] text-slate-900", className)}>
+    <div className={cn("flex items-center gap-3 text-[13px] text-slate-900", className)}>
       <span className="font-medium">Tampilkan</span>
       <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>
         <SelectTrigger className={triggerCls}>
@@ -139,7 +139,7 @@ function PaginationMinimal({
   const disabledNext = page >= pageCount;
 
   const btnBase = cn(
-    "text-[16px] font-medium",
+    "text-[13px] font-medium",
     "transition",
     "disabled:opacity-45 disabled:pointer-events-none",
   );
@@ -286,7 +286,6 @@ export default function LoanTransactionsTable({ className }: { className?: strin
 
   return (
     <div className={cn("mt-6", className)}>
-      {/* Masuk ke area tabel (sesuai permintaan): picker entri ditaruh di dalam card/table block */}
       <div className="overflow-hidden rounded-2xl bg-white">
         <div className="px-3 pt-3">
           <EntriesPicker pageSize={pageSize} onPageSizeChange={setPageSize} />
@@ -479,9 +478,8 @@ export default function LoanTransactionsTable({ className }: { className?: strin
           </table>
         </div>
 
-        {/* Footer dalam table block: info + pagination sesuai contoh */}
         <div className="flex flex-col gap-3 px-3 py-4 md:flex-row md:items-center md:justify-between">
-          <div className="text-[18px] font-medium text-slate-900">
+          <div className="text-[13px] font-medium text-slate-900">
             Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
           </div>
 
