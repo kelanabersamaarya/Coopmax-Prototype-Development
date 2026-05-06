@@ -17,7 +17,7 @@ function InfoCol({
 }) {
   return (
     <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
-      <div className={cn("grid", big ? "grid-rows-[18px_30px]" : "grid-rows-[18px_30px]")}>
+      <div className="grid gap-1">
         <div className="self-start text-[12px] font-semibold leading-none text-white/90">
           {label}
         </div>
@@ -89,7 +89,9 @@ export default function LoanAccountInfoPreview({
             <span className="whitespace-nowrap">
               {open ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
             </span>
-            <ChevronDown className={cn("h-4 w-4 opacity-90 transition", open ? "rotate-180" : "")} />
+            <ChevronDown
+              className={cn("h-4 w-4 opacity-90 transition", open ? "rotate-180" : "")}
+            />
           </button>
         </div>
 
