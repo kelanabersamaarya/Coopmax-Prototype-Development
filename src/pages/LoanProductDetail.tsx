@@ -75,9 +75,9 @@ function TopActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 items-center gap-2 rounded-full bg-white px-4",
-        "text-[13px] font-semibold text-slate-700",
-        "ring-1 ring-slate-200 shadow-sm",
+        "inline-flex h-9 items-center gap-2 rounded-full px-4",
+        "bg-transparent text-[13px] font-semibold text-slate-700",
+        "ring-1 ring-slate-200 shadow-none",
         "transition hover:bg-slate-50",
       )}
     >
