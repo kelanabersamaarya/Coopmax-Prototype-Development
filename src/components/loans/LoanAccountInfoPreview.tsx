@@ -206,7 +206,7 @@ export default function LoanAccountInfoPreview({
                 </div>
               </div>
 
-              {/* === NEW: DETAIL PINJAMAN === */}
+              {/* === DETAIL PINJAMAN === */}
               <div className="mt-5">
                 <DividerLine tone="dark" />
 
@@ -234,11 +234,9 @@ export default function LoanAccountInfoPreview({
                       />
                     </div>
 
-                    <div className="mt-5">
-                      <DividerLine tone="dark" />
-                    </div>
+                    {/* Divider tengah DIHILANGKAN sesuai screenshot */}
 
-                    <div className="mt-4">
+                    <div className="mt-5">
                       <DetailLoanGridRow
                         items={[
                           { label: "Plafond", value: "10.000.000,00" },
