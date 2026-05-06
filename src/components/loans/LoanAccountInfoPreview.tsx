@@ -65,7 +65,7 @@ export default function LoanAccountInfoPreview({
         className,
       )}
     >
-      {/* Header (sebelumnya biru) -> sekarang netral */}
+      {/* Header */}
       <div className="bg-white px-5 py-5 text-slate-900">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
@@ -124,7 +124,7 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        {/* INFORMASI NASABAH (HIDDEN DEFAULT, MUNCUL SAAT OPEN) */}
+        {/* INFORMASI NASABAH */}
         <div
           className={cn(
             "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
@@ -157,8 +157,8 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* Area bawah (tabel) */}
-      <div className="bg-[hsl(var(--app-bg))] px-2 py-4 sm:px-3">
+      {/* Area bawah (tabel) - ganti dari --app-bg ke putih agar #f3f5fc hilang */}
+      <div className="bg-white px-2 py-4 sm:px-3">
         <LoanBillingAndSummarySection className="mt-0" />
       </div>
     </div>
