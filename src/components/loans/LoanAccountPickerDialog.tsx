@@ -78,6 +78,36 @@ const seed5: LoanAccountRow[] = [
   },
 ];
 
+// Tambah seed supaya bisa pilih banyak rekening (prototype)
+const seed: LoanAccountRow[] = [
+  ...seed5,
+  ...Array.from({ length: 20 }).map((_, i) => {
+    const n = i + 1;
+    const noRekening = `1226${String(10 + n).padStart(4, "0")}`;
+    const namaNasabah =
+      n % 5 === 0
+        ? "Komang Dewa"
+        : n % 5 === 1
+          ? "Nyoman Ariana"
+          : n % 5 === 2
+            ? "Gaby"
+            : n % 5 === 3
+              ? "Rika Wastuti"
+              : "Pangeran Sirait";
+
+    return {
+      noRekening,
+      tanggalDaftar: "30-04-2026",
+      produkPinjaman: n % 3 === 0 ? "Pinjaman Billing" : "Pinjaman Bulanan",
+      idNasabah: `N26${String(1000 + n).padStart(4, "0")}`,
+      namaNasabah,
+      nominal: `${(2_000_000 + n * 150_000).toLocaleString("id-ID")},00`,
+      sisaPinjaman: `${(1_500_000 + n * 120_000).toLocaleString("id-ID")},00`,
+      bungaPerTahun: n % 2 === 0 ? "24.00" : "18.00",
+    };
+  }),
+];
+
 function ThLabel({
   children,
   sortable = true,
@@ -128,8 +158,8 @@ export default function LoanAccountPickerDialog({
 
   const filtered = React.useMemo(() => {
     const s = (q ?? "").trim().toLowerCase();
-    if (!s) return seed5;
-    return seed5.filter((r) => {
+    if (!s) return seed;
+    return seed.filter((r) => {
       return (
         r.noRekening.toLowerCase().includes(s) ||
         r.namaNasabah.toLowerCase().includes(s) ||
@@ -151,8 +181,8 @@ export default function LoanAccountPickerDialog({
   }, [page, pageCount]);
 
   const rows = React.useMemo(() => {
-    // Scope: hanya tampilkan max 5 rekening (sesuai permintaan sebelumnya)
-    return filtered.slice(0, 5);
+    // Tampilkan semua hasil (prototype): tidak dibatasi 5 lagi.
+    return filtered;
   }, [filtered]);
 
   const showingStart = totalEntries === 0 ? 0 : (page - 1) * pageSize + 1;
