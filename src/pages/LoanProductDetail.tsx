@@ -234,8 +234,8 @@ export default function LoanProductDetail() {
                   <SectionTitle>Konfigurasi Denda</SectionTitle>
 
                   <div className={sectionFieldGridCls}>
-                    <Field label="Metode dan Nilai Denda" value="Rp. 10.000,00" />
-                    <Field label="Dasar Perhitungan" value="Pokok" />
+                    <Field label="Metode Denda" value="Rp." />
+                    <Field label="Nilai Denda" value="Rp. 10.000,00" />
                     <Field label="Jumlah Hari Keterlambatan" value="5" />
                     <Field
                       label="Proses Denda Berulang"
