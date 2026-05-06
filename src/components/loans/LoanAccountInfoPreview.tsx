@@ -89,12 +89,14 @@ export default function LoanAccountInfoPreview({
             <span className="whitespace-nowrap">
               {open ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
             </span>
-            <ChevronDown className={cn("h-4 w-4 opacity-90 transition", open ? "rotate-180" : "")} />
+            <ChevronDown
+              className={cn("h-4 w-4 opacity-90 transition", open ? "rotate-180" : "")}
+            />
           </button>
         </div>
 
         {/* INFORMASI REKENING (SELALU TAMPIL) */}
-        <div className="mt-4">
+        <div className="mt-7">
           {/* Desktop: 4 kolom per baris. Susun agar "Sisa Pokok Pinjaman" tepat di bawah "Produk Pinjaman". */}
           <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
             {/* Row 1 */}
