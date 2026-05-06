@@ -16,14 +16,25 @@ function InfoBlock({
 }) {
   return (
     <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
-      <div className="text-[12px] font-semibold text-white/85">{label}</div>
+      {/* Pakai grid 2 baris dengan tinggi tetap agar semua label/value sejajar */}
       <div
         className={cn(
-          "mt-1 font-bold leading-snug",
-          big ? "text-[18px] font-extrabold tracking-tight" : "text-[14px]",
+          "grid",
+          big ? "grid-rows-[18px_28px]" : "grid-rows-[18px_24px]",
         )}
       >
-        {value}
+        <div className="self-end text-[12px] font-semibold leading-none text-white/85">
+          {label}
+        </div>
+
+        <div
+          className={cn(
+            "self-end font-bold leading-none",
+            big ? "text-[18px] font-extrabold tracking-tight" : "text-[14px]",
+          )}
+        >
+          {value}
+        </div>
       </div>
     </div>
   );
@@ -51,15 +62,12 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        {/* Selalu 4 kolom per baris (pada md+). */}
         <div className="mt-4 grid gap-x-8 gap-y-7 md:grid-cols-4">
-          {/* Row 1 (4 item) */}
           <InfoBlock label="No. Rekening Pinjaman" value={accountNo} big />
           <InfoBlock label="Produk Pinjaman" value="Pinjaman Billing" />
           <InfoBlock label="Skema Tagihan" value="Tagihan Sesuai Jadwal Angsuran" />
           <InfoBlock label="Satuan Grace Period" value="Bulan" />
 
-          {/* Row 2 (4 item) */}
           <InfoBlock label="Durasi Grace Period" value="3" />
           <div className="hidden md:block" />
           <div className="hidden md:block" />
