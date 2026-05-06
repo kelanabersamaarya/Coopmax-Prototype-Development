@@ -47,6 +47,8 @@ export default function PenaltyDetailDialog({
 
   const totalText = React.useMemo(() => formatIdrLike(total), [total]);
 
+  const lateDaysPattern = [3, 4, 2] as const;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -133,28 +135,33 @@ export default function PenaltyDetailDialog({
                         </td>
                       </tr>
                     ) : (
-                      rows.map((r, idx) => (
-                        <tr
-                          key={`${r.tanggalKeterlambatan}-${idx}`}
-                          className={cn(
-                            "border-t border-slate-300/70",
-                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
-                          )}
-                        >
-                          <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                            {idx + 1}
-                          </td>
-                          <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                            {idx + 1}
-                          </td>
-                          <td className="px-5 py-4 text-center text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.tanggalKeterlambatan}
-                          </td>
-                          <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                            {r.nominalDenda}
-                          </td>
-                        </tr>
-                      ))
+                      rows.map((r, idx) => {
+                        const lateDays =
+                          lateDaysPattern[idx % lateDaysPattern.length];
+
+                        return (
+                          <tr
+                            key={`${r.tanggalKeterlambatan}-${idx}`}
+                            className={cn(
+                              "border-t border-slate-300/70",
+                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                            )}
+                          >
+                            <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              {idx + 1}
+                            </td>
+                            <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              {lateDays}
+                            </td>
+                            <td className="px-5 py-4 text-center text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.tanggalKeterlambatan}
+                            </td>
+                            <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.nominalDenda}
+                            </td>
+                          </tr>
+                        );
+                      })
                     )}
 
                     <tr className="border-t border-slate-300 bg-white">
