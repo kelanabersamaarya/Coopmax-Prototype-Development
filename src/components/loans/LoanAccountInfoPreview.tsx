@@ -214,6 +214,7 @@ export default function LoanAccountInfoPreview({
                   <SectionTitleDark>DETAIL PINJAMAN</SectionTitleDark>
 
                   <div className="mt-4">
+                    {/* Baris 1: 4 informasi */}
                     <DetailLoanGridRow
                       items={[
                         { label: "Jangka Waktu", value: "12 Bulan" },
@@ -223,6 +224,7 @@ export default function LoanAccountInfoPreview({
                       ]}
                     />
 
+                    {/* Baris 2: 4 informasi */}
                     <div className="mt-4">
                       <DetailLoanGridRow
                         items={[
@@ -234,9 +236,8 @@ export default function LoanAccountInfoPreview({
                       />
                     </div>
 
-                    {/* Divider tengah DIHILANGKAN sesuai screenshot */}
-
                     <div className="mt-5">
+                      {/* Baris 3: 4 informasi */}
                       <DetailLoanGridRow
                         items={[
                           { label: "Plafond", value: "10.000.000,00" },
@@ -246,15 +247,12 @@ export default function LoanAccountInfoPreview({
                         ]}
                       />
 
-                      <div className="mt-4">
-                        <DetailLoanGridRow
-                          items={[
-                            { label: "Bunga", value: "0" },
-                            { label: "Denda", value: "0" },
-                            { label: "Angsuran", value: "0" },
-                            { label: "Selisih Tanggal Transaksi", value: "0" },
-                          ]}
-                        />
+                      {/* Baris 4: HANYA 3 informasi */}
+                      <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
+                        <InfoCol label="Bunga" value="0" tone="dark" />
+                        <InfoCol label="Denda" value="0" tone="dark" />
+                        <InfoCol label="Angsuran" value="0" tone="dark" />
+                        <div className="hidden md:block" />
                       </div>
                     </div>
                   </div>
