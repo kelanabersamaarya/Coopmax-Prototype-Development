@@ -35,6 +35,25 @@ function InfoCol({
   );
 }
 
+function DividerLine() {
+  return <div className="h-px w-full bg-white/20" />;
+}
+
+function NasabahRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 sm:grid-cols-[160px_minmax(0,1fr)] sm:items-start">
+      <div className="text-[12px] font-semibold text-white/85">{label}</div>
+      <div className="text-[13px] font-bold text-white">{value}</div>
+    </div>
+  );
+}
+
 export default function LoanAccountInfoPreview({
   accountNo,
   className,
@@ -42,7 +61,18 @@ export default function LoanAccountInfoPreview({
   accountNo: string;
   className?: string;
 }) {
-  const [open, setOpen] = React.useState(true);
+  // Informasi rekening selalu tampil, informasi nasabah hidden by default
+  const [open, setOpen] = React.useState(false);
+
+  // Prototype data (silakan nanti dihubungkan ke data dinamis)
+  const nasabah = React.useMemo(
+    () => ({
+      id: "N2600006",
+      nama: "Bapak Bagus",
+      alamat: "Sidakarya",
+    }),
+    [],
+  );
 
   return (
     <div className={cn("overflow-hidden rounded-[8px]", className)}>
@@ -76,35 +106,53 @@ export default function LoanAccountInfoPreview({
           </button>
         </div>
 
+        {/* INFORMASI REKENING (SELALU TAMPIL) */}
+        <div className="mt-4">
+          {/* Desktop: 4 kolom per baris. Susun agar "Sisa Pokok Pinjaman" tepat di bawah "Produk Pinjaman". */}
+          <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
+            {/* Row 1 */}
+            <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
+            <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
+            <InfoCol
+              label="Skema Tagihan"
+              value={
+                <span className="block">
+                  Tagihan Sesuai Jadwal
+                  <br />
+                  Angsuran
+                </span>
+              }
+            />
+            <InfoCol label="Satuan Grace Period" value="Bulan" />
+
+            {/* Row 2 */}
+            <InfoCol label="Durasi Grace Period" value="3" />
+            <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" />
+            <div className="hidden md:block" />
+            <div className="hidden md:block" />
+          </div>
+        </div>
+
+        {/* INFORMASI NASABAH (HIDDEN DEFAULT, MUNCUL SAAT OPEN) */}
         <div
           className={cn(
             "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
-            open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+            open ? "mt-4 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0",
           )}
         >
           <div className="min-h-0">
-            {/* Desktop: 4 kolom per baris. Susun agar "Sisa Pokok Pinjaman" tepat di bawah "Produk Pinjaman". */}
-            <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
-              {/* Row 1 */}
-              <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
-              <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
-              <InfoCol
-                label="Skema Tagihan"
-                value={
-                  <span className="block">
-                    Tagihan Sesuai Jadwal
-                    <br />
-                    Angsuran
-                  </span>
-                }
-              />
-              <InfoCol label="Satuan Grace Period" value="Bulan" />
+            <DividerLine />
 
-              {/* Row 2 */}
-              <InfoCol label="Durasi Grace Period" value="3" />
-              <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" />
-              <div className="hidden md:block" />
-              <div className="hidden md:block" />
+            <div className="mt-4">
+              <div className="text-[13px] font-extrabold tracking-tight text-white">
+                INFORMASI NASABAH
+              </div>
+
+              <div className="mt-3 grid gap-3">
+                <NasabahRow label="ID Nasabah" value={nasabah.id} />
+                <NasabahRow label="Nama" value={nasabah.nama} />
+                <NasabahRow label="Alamat" value={nasabah.alamat} />
+              </div>
             </div>
           </div>
         </div>
