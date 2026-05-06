@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckSquare, Search, X, Plus } from "lucide-react";
+import { CheckSquare, Search, X, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 
@@ -71,6 +71,8 @@ export default function LoanInstallmentPayment() {
   );
 
   const actionIconCls = "h-4 w-4";
+
+  const hasNasabah = qNasabah.trim().length > 0;
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -158,7 +160,7 @@ export default function LoanInstallmentPayment() {
 
               <div className="h-px w-full bg-slate-200" />
 
-              {/* Cari nasabah: height 30px + radius 5px */}
+              {/* Cari nasabah: height 30px + radius 5px + tombol hapus + tombol cari */}
               <div className="w-full">
                 <div className="flex w-full items-stretch">
                   <Input
@@ -175,6 +177,33 @@ export default function LoanInstallmentPayment() {
                     )}
                   />
 
+                  {/* Tombol hapus (contoh: merah dengan icon tempat sampah) */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!hasNasabah) return;
+                      setQNasabah("");
+                      toast("Field dibersihkan", {
+                        description: "Input cari nasabah dihapus.",
+                      });
+                    }}
+                    disabled={!hasNasabah}
+                    className={cn(
+                      "inline-flex w-11 items-center justify-center",
+                      H,
+                      "rounded-none",
+                      "bg-rose-600 text-white ring-1 ring-rose-600/20",
+                      "transition hover:bg-rose-700",
+                      "disabled:opacity-60 disabled:pointer-events-none",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-700/20",
+                    )}
+                    aria-label="Hapus"
+                    title="Hapus"
+                  >
+                    <Trash2 className="h-4.5 w-4.5" />
+                  </button>
+
+                  {/* Tombol cari */}
                   <button
                     type="button"
                     onClick={() => setPickerOpen(true)}
