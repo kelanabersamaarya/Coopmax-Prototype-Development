@@ -76,6 +76,12 @@ function formatIdr0(n: number) {
   return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+// Denda khusus (prototype) — mengikuti pola yang ada di app: 25.000 + idx*5.000
+function khususPenaltyForIndex(idx: number) {
+  const base = 25000;
+  return base + idx * 5000;
+}
+
 export default function LoanBillingAndSummarySection({
   className,
 }: {
@@ -91,6 +97,7 @@ export default function LoanBillingAndSummarySection({
   );
 
   const isPenurunanBakiDebet = jenisTransaksi === TX.PENURUNAN_BAKI_DEBET;
+  const isKhusus = jenisTransaksi === TX.KHUSUS;
 
   // --- Form state ---
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
@@ -108,12 +115,21 @@ export default function LoanBillingAndSummarySection({
     setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
   }, [rows]);
 
-  // Untuk penurunan baki debet: selection tidak tampil, tapi state tetap dibuat true
-  // agar perhitungan ringkasan konsisten.
+  // RULES:
+  // - Penurunan baki debet: tidak ada checklist, tapi state dibuat true agar ringkasan konsisten.
+  // - Khusus: saat masuk mode khusus, default tidak ada yang dicentang.
   React.useEffect(() => {
-    if (!isPenurunanBakiDebet) return;
-    setSelected(rows.map(() => true));
-  }, [isPenurunanBakiDebet, rows]);
+    if (isPenurunanBakiDebet) {
+      setSelected(rows.map(() => true));
+      return;
+    }
+    if (isKhusus) {
+      setSelected(rows.map(() => false));
+      return;
+    }
+    // selain itu: biarkan default existing (true) agar seperti sebelumnya
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPenurunanBakiDebet, isKhusus, rows.length]);
 
   const sisaPinjamanText = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
@@ -121,15 +137,64 @@ export default function LoanBillingAndSummarySection({
     return formatIdr0(total);
   }, [isPenurunanBakiDebet, rows]);
 
+  // Totals berdasarkan selection (dipakai untuk Ringkasan & autofill di Khusus)
+  const selectedTotals = React.useMemo(() => {
+    let pokok = 0;
+    let bunga = 0;
+    let denda = 0;
+
+    for (let i = 0; i < rows.length; i++) {
+      if (!(selected[i] ?? false)) continue;
+      pokok += parseNumLikeId(rows[i]?.tagihanPokok ?? "0");
+      bunga += parseNumLikeId(rows[i]?.tagihanBunga ?? "0");
+
+      // khusus: denda dihitung per baris (prototype)
+      if (isKhusus) denda += khususPenaltyForIndex(i);
+    }
+
+    const total = pokok + bunga + denda;
+    return { pokok, bunga, denda, total };
+  }, [isKhusus, rows, selected]);
+
+  // Autofill field pembayaran untuk Khusus: ikut selection
+  React.useEffect(() => {
+    if (!isKhusus) return;
+    setNominalPokok(formatIdr0(selectedTotals.pokok));
+    setNominalBunga(formatIdr0(selectedTotals.bunga));
+    setNominalDenda(formatIdr0(selectedTotals.denda));
+    // nominal (single) tidak dipakai untuk khusus, tapi biar bersih:
+    setNominal("0");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isKhusus, selectedTotals.pokok, selectedTotals.bunga, selectedTotals.denda]);
+
   const totalsForSummary = React.useMemo(() => {
     if (isPenurunanBakiDebet) {
       const v = sisaPinjamanText ?? "0";
       return { pokok: v, bunga: "0", denda: "0", total: v };
     }
-    return { pokok: "0", bunga: "0", denda: "0", total: "0" };
-  }, [isPenurunanBakiDebet, sisaPinjamanText]);
 
-  // Kunci: matikan ring/outline per-row (yang bikin terlihat seperti border kotak) untuk mode reguler.
+    if (isKhusus) {
+      return {
+        pokok: formatIdr0(selectedTotals.pokok),
+        bunga: formatIdr0(selectedTotals.bunga),
+        denda: formatIdr0(selectedTotals.denda),
+        total: formatIdr0(selectedTotals.total),
+      };
+    }
+
+    // Mode lain: tetap sederhana (bisa kita kembangkan kalau diperlukan)
+    return { pokok: "0", bunga: "0", denda: "0", total: "0" };
+  }, [
+    isKhusus,
+    isPenurunanBakiDebet,
+    selectedTotals.bunga,
+    selectedTotals.denda,
+    selectedTotals.pokok,
+    selectedTotals.total,
+    sisaPinjamanText,
+  ]);
+
+  // Matikan ring/outline per-row untuk mode reguler, seperti yang sudah disamakan sebelumnya.
   const disableRowChrome = !isPenurunanBakiDebet;
 
   return (
