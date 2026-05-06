@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function InfoCol({
@@ -41,6 +42,8 @@ export default function LoanAccountInfoPreview({
   accountNo: string;
   className?: string;
 }) {
+  const [open, setOpen] = React.useState(false);
+
   return (
     <div className={cn("overflow-hidden rounded-[8px]", className)}>
       <div className="bg-[#1aa0b5] px-5 py-5 text-white ring-1 ring-white/10">
@@ -54,30 +57,62 @@ export default function LoanAccountInfoPreview({
               Belum Terproses
             </span>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className={cn(
+              "inline-flex shrink-0 items-center gap-2",
+              "rounded-full bg-white/10 px-3 py-1.5 text-[12px] font-semibold text-white",
+              "ring-1 ring-white/15 transition hover:bg-white/15",
+              "focus:outline-none focus-visible:ring-4 focus-visible:ring-white/20",
+            )}
+            aria-expanded={open}
+            aria-label={open ? "Sembunyikan detail" : "Tampilkan lebih banyak"}
+            title={open ? "Sembunyikan detail" : "Tampilkan Lebih Banyak"}
+          >
+            <span className="whitespace-nowrap">
+              {open ? "Sembunyikan" : "Tampilkan Lebih Banyak"}
+            </span>
+            {open ? (
+              <ChevronUp className="h-4 w-4 opacity-90" />
+            ) : (
+              <ChevronDown className="h-4 w-4 opacity-90" />
+            )}
+          </button>
         </div>
 
-        {/* Desktop: 4 kolom per baris. Susun agar "Sisa Pokok Pinjaman" tepat di bawah "Produk Pinjaman". */}
-        <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
-          {/* Row 1 */}
-          <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
-          <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
-          <InfoCol
-            label="Skema Tagihan"
-            value={
-              <span className="block">
-                Tagihan Sesuai Jadwal
-                <br />
-                Angsuran
-              </span>
-            }
-          />
-          <InfoCol label="Satuan Grace Period" value="Bulan" />
+        <div
+          className={cn(
+            "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
+            open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+          )}
+        >
+          <div className="min-h-0">
+            {/* Desktop: 4 kolom per baris. Susun agar "Sisa Pokok Pinjaman" tepat di bawah "Produk Pinjaman". */}
+            <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
+              {/* Row 1 */}
+              <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
+              <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
+              <InfoCol
+                label="Skema Tagihan"
+                value={
+                  <span className="block">
+                    Tagihan Sesuai Jadwal
+                    <br />
+                    Angsuran
+                  </span>
+                }
+              />
+              <InfoCol label="Satuan Grace Period" value="Bulan" />
 
-          {/* Row 2 */}
-          <InfoCol label="Durasi Grace Period" value="3" />
-          <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" />
-          <div className="hidden md:block" />
-          <div className="hidden md:block" />
+              {/* Row 2 */}
+              <InfoCol label="Durasi Grace Period" value="3" />
+              <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" />
+              <div className="hidden md:block" />
+              <div className="hidden md:block" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
