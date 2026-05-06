@@ -86,7 +86,7 @@ export default function LoanInstallmentPayment() {
 
   const actionIconCls = "h-4 w-4";
 
-  const showDetail = selectedAccounts.length > 0;
+  const hasAccounts = selectedAccounts.length > 0;
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -187,123 +187,126 @@ export default function LoanInstallmentPayment() {
 
               <div className="h-px w-full bg-slate-200" />
 
-              {showDetail ? (
-                <>
-                  <div className="w-full">
-                    <div className="flex w-full items-stretch gap-2">
-                      <div className="flex min-w-0 flex-1 items-stretch">
-                        <Input
-                          value={qNasabah}
-                          onChange={(e) => setQNasabah(e.target.value)}
-                          placeholder="Cari nasabah"
-                          className={cn(
-                            H,
-                            "rounded-l-[5px] rounded-r-none",
-                            "border-slate-200 bg-white text-[13px]",
-                            "placeholder:text-slate-400",
-                            "shadow-sm",
-                            "focus-visible:ring-0 focus-visible:ring-offset-0",
-                          )}
-                        />
+              {/* Search + delete */}
+              <div className="w-full">
+                <div className="flex w-full items-stretch gap-2">
+                  <div className="flex min-w-0 flex-1 items-stretch">
+                    <Input
+                      value={qNasabah}
+                      onChange={(e) => setQNasabah(e.target.value)}
+                      placeholder="Cari nasabah"
+                      className={cn(
+                        H,
+                        "rounded-l-[5px] rounded-r-none",
+                        "border-slate-200 bg-white text-[13px]",
+                        "placeholder:text-slate-400",
+                        "shadow-sm",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                    />
 
-                        <button
-                          type="button"
-                          onClick={() => setPickerOpen(true)}
-                          className={cn(
-                            "inline-flex w-11 items-center justify-center",
-                            H,
-                            "rounded-r-[5px] rounded-l-none",
-                            "bg-slate-600 text-white ring-1 ring-slate-600/20",
-                            "transition hover:bg-slate-700",
-                            "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-                          )}
-                          aria-label="Cari nasabah"
-                          title="Cari"
-                        >
-                          <Search className="h-4.5 w-4.5" />
-                        </button>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedAccounts((prev) => {
-                            if (prev.length === 0) return prev;
-                            const removed = prev[prev.length - 1]!;
-                            const nama = deriveNasabahNameByAccountNo(removed);
-                            toast("Rekening dihapus", {
-                              description: `${nama} • ${removed}`,
-                            });
-                            return prev.slice(0, -1);
-                          });
-
-                          setQNasabah("");
-                        }}
-                        style={{
-                          backgroundColor: "#DC3545",
-                          borderColor: "#DC3545",
-                        }}
-                        className={cn(
-                          "inline-flex w-11 items-center justify-center",
-                          H,
-                          R,
-                          "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
-                          "transition",
-                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
-                        )}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                            "#c72f3d";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                            "#DC3545";
-                        }}
-                        aria-label="Hapus rekening terakhir"
-                        title="Hapus rekening terakhir"
-                      >
-                        <Trash2 className="h-4.5 w-4.5" />
-                      </button>
-                    </div>
-
-                    {/* Divider seperti referensi */}
-                    <div className="mt-5">
-                      <SectionDividerLabel label="Informasi Rekening & Nasabah" />
-                    </div>
-
-                    <div className="mt-4 space-y-0">
-                      {selectedAccounts.map((acc, idx) => {
-                        const isLast = idx === selectedAccounts.length - 1;
-
-                        return (
-                          <React.Fragment key={`${acc}-${idx}`}>
-                            <LoanAccountInfoPreview
-                              key={`preview-${acc}-${idx}`}
-                              accountNo={acc}
-                              className="mt-0"
-                            />
-
-                            {/* Divider antar billing (tidak menempel) */}
-                            {!isLast ? (
-                              <div className="px-2 sm:px-3">
-                                <div className="py-6">
-                                  <div className="h-[2px] w-full rounded-full bg-slate-200/80" />
-                                </div>
-                              </div>
-                            ) : null}
-                          </React.Fragment>
-                        );
-                      })}
-                    </div>
-
-                    <div className="sr-only">
-                      <Separator />
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setPickerOpen(true)}
+                      className={cn(
+                        "inline-flex w-11 items-center justify-center",
+                        H,
+                        "rounded-r-[5px] rounded-l-none",
+                        "bg-slate-600 text-white ring-1 ring-slate-600/20",
+                        "transition hover:bg-slate-700",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                      )}
+                      aria-label="Cari nasabah"
+                      title="Cari"
+                    >
+                      <Search className="h-4.5 w-4.5" />
+                    </button>
                   </div>
 
-                  <div className="h-px w-full bg-slate-200" />
-                </>
-              ) : null}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedAccounts((prev) => {
+                        if (prev.length === 0) return prev;
+                        const removed = prev[prev.length - 1]!;
+                        const nama = deriveNasabahNameByAccountNo(removed);
+                        toast("Rekening dihapus", {
+                          description: `${nama} • ${removed}`,
+                        });
+                        return prev.slice(0, -1);
+                      });
+
+                      setQNasabah("");
+                    }}
+                    style={{
+                      backgroundColor: "#DC3545",
+                      borderColor: "#DC3545",
+                    }}
+                    className={cn(
+                      "inline-flex w-11 items-center justify-center",
+                      H,
+                      R,
+                      "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
+                      "transition",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
+                    )}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                        "#c72f3d";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                        "#DC3545";
+                    }}
+                    aria-label="Hapus rekening terakhir"
+                    title="Hapus rekening terakhir"
+                  >
+                    <Trash2 className="h-4.5 w-4.5" />
+                  </button>
+                </div>
+
+                {/* Divider label selalu tampil */}
+                <div className="mt-5">
+                  <SectionDividerLabel label="Informasi Rekening & Nasabah" />
+                </div>
+
+                {/* Preview hanya jika ada rekening */}
+                {hasAccounts ? (
+                  <div className="mt-4 space-y-0">
+                    {selectedAccounts.map((acc, idx) => {
+                      const isLast = idx === selectedAccounts.length - 1;
+
+                      return (
+                        <React.Fragment key={`${acc}-${idx}`}>
+                          <LoanAccountInfoPreview
+                            key={`preview-${acc}-${idx}`}
+                            accountNo={acc}
+                            className="mt-0"
+                          />
+
+                          {!isLast ? (
+                            <div className="px-2 sm:px-3">
+                              <div className="py-6">
+                                <div className="h-[2px] w-full rounded-full bg-slate-200/80" />
+                              </div>
+                            </div>
+                          ) : null}
+                        </React.Fragment>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="mt-4 rounded-[5px] bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
+                    Belum ada rekening dipilih. Klik <span className="font-semibold">Tambah Transaksi</span> untuk memilih rekening.
+                  </div>
+                )}
+
+                <div className="sr-only">
+                  <Separator />
+                </div>
+              </div>
+
+              <div className="h-px w-full bg-slate-200" />
 
               <button
                 type="button"
