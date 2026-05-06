@@ -62,6 +62,7 @@ export default function LoanAccountInfoPreview({
 
   return (
     <div className={cn("overflow-hidden rounded-[8px]", className)}>
+      {/* SECTION: INFORMASI REKENING (panel teal) */}
       <div className="bg-[#1aa0b5] px-5 py-5 text-white ring-1 ring-white/10">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
@@ -96,11 +97,9 @@ export default function LoanAccountInfoPreview({
           </button>
         </div>
 
-        {/* INFORMASI REKENING (SELALU TAMPIL) */}
+        {/* DETAIL REKENING (SELALU TAMPIL) */}
         <div className="mt-7">
-          {/* Desktop: 4 kolom per baris. Susun agar "Sisa Pokok Pinjaman" tepat di bawah "Produk Pinjaman". */}
           <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
-            {/* Row 1 */}
             <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
             <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
             <InfoCol
@@ -115,15 +114,11 @@ export default function LoanAccountInfoPreview({
             />
             <InfoCol label="Satuan Grace Period" value="Bulan" />
 
-            {/* Row 2 */}
             <InfoCol label="Durasi Grace Period" value="3" />
             <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" />
             <div className="hidden md:block" />
             <div className="hidden md:block" />
           </div>
-
-          {/* TABEL TAGIHAN BILLING (SAMA PERSIS SEPERTI TRANSAKSI ANGGOTA) */}
-          <LoanBillingTablePreview className="mt-4" />
         </div>
 
         {/* INFORMASI NASABAH (HIDDEN DEFAULT, MUNCUL SAAT OPEN) */}
@@ -141,15 +136,12 @@ export default function LoanAccountInfoPreview({
                 INFORMASI NASABAH
               </div>
 
-              {/* Samakan layout dengan Informasi Rekening */}
               <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
-                {/* Row 1 */}
                 <InfoCol label="ID Nasabah" value={nasabah.id} big />
                 <InfoCol label="Nama" value={nasabah.nama} />
                 <InfoCol label="Alamat" value={nasabah.alamat} />
                 <div className="hidden md:block" />
 
-                {/* Row 2 (kosong agar ritme grid sama seperti section atas) */}
                 <div className="hidden md:block" />
                 <div className="hidden md:block" />
                 <div className="hidden md:block" />
@@ -158,6 +150,11 @@ export default function LoanAccountInfoPreview({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* TABEL TAGIHAN BILLING — DITAMPILKAN DI LUAR SECTION INFORMASI REKENING */}
+      <div className="bg-[hsl(var(--app-bg))] px-0 py-4">
+        <LoanBillingTablePreview className="mt-0" />
       </div>
     </div>
   );
