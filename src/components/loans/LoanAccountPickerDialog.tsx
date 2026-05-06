@@ -6,6 +6,13 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { X, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type LoanAccountRow = {
   noRekening: string;
@@ -103,10 +110,12 @@ export default function LoanAccountPickerDialog({
   onPick: (accountNo: string) => void;
 }) {
   const [q, setQ] = React.useState(query);
+  const [pageSize, setPageSize] = React.useState<number>(20);
 
   React.useEffect(() => {
     if (!open) return;
     setQ(query);
+    setPageSize(20);
   }, [open, query]);
 
   const filtered = React.useMemo(() => {
@@ -130,6 +139,15 @@ export default function LoanAccountPickerDialog({
 
   const filterInputCls =
     "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+
+  const pageSizeTriggerCls = cn(
+    "h-8 w-[64px] rounded-[6px] border border-slate-300 bg-white px-2",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    // rapikan chevron bawaan radix
+    "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-slate-700",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -171,8 +189,25 @@ export default function LoanAccountPickerDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(85vh - 64px)" }}
           >
-            <div className="text-[13px] font-medium text-slate-700">
-              Menampilkan <span className="font-semibold">{rows.length}</span> rekening (maks 5)
+            {/* Entries picker (sesuai referensi) */}
+            <div className="flex items-center gap-2 text-[18px] font-normal text-slate-900">
+              <div>Tampilkan</div>
+              <Select
+                value={String(pageSize)}
+                onValueChange={(v) => setPageSize(Number(v))}
+              >
+                <SelectTrigger className={pageSizeTriggerCls}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl border-slate-200">
+                  {[10, 20, 50, 100].map((n) => (
+                    <SelectItem key={n} value={String(n)}>
+                      {n}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div>entri</div>
             </div>
 
             <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
