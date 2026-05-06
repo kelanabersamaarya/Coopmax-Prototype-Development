@@ -54,7 +54,7 @@ export default function LoanInstallmentPayment() {
     "[&>svg]:text-slate-400",
   );
 
-  const labelCls = "text-[14px] font-semibold text-slate-900";
+  const labelCls = "text-[14px] font-normal text-slate-900";
   const requiredStar = <span className="text-rose-600">*</span>;
 
   return (
