@@ -35,6 +35,16 @@ function toDmyFromIso(iso: string) {
   return `${m[3]}-${m[2]}-${m[1]}`;
 }
 
+function deriveNasabahNameByAccountNo(accountNo: string) {
+  // Selaras dengan seed di LoanAccountPickerDialog (seed5)
+  if (accountNo === "12260006") return "Pangeran Sirait";
+  if (accountNo === "12260002") return "gaby";
+  if (accountNo === "12260001") return "Rika Wastuti";
+  if (accountNo === "210260001") return "Jenan Aditama";
+  if (accountNo === "072260001") return "Rika Wastuti";
+  return "Nasabah";
+}
+
 export default function LoanInstallmentPayment() {
   const navigate = useNavigate();
 
@@ -92,11 +102,14 @@ export default function LoanInstallmentPayment() {
         onOpenChange={setPickerOpen}
         query={qNasabah}
         onPick={(accountNo) => {
+          const nama = deriveNasabahNameByAccountNo(accountNo);
+
           setSelectedAccountNo(accountNo);
           setQNasabah(accountNo);
           setPickerOpen(false);
+
           toast.success("Berhasil Menampilkan Tagihan Nasabah", {
-            description: `Rek. Pinjaman:\n${accountNo}`,
+            description: `${nama} • ${accountNo}`,
           });
         }}
       />
