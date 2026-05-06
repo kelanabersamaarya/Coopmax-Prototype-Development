@@ -76,7 +76,6 @@ function formatIdr0(n: number) {
   return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-// Denda khusus (prototype) — mengikuti pola yang ada di app: 25.000 + idx*5.000
 function khususPenaltyForIndex(idx: number) {
   const base = 25000;
   return base + idx * 5000;
@@ -115,9 +114,6 @@ export default function LoanBillingAndSummarySection({
     setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
   }, [rows]);
 
-  // RULES:
-  // - Penurunan baki debet: tidak ada checklist, tapi state dibuat true agar ringkasan konsisten.
-  // - Khusus: saat masuk mode khusus, default tidak ada yang dicentang.
   React.useEffect(() => {
     if (isPenurunanBakiDebet) {
       setSelected(rows.map(() => true));
@@ -127,7 +123,6 @@ export default function LoanBillingAndSummarySection({
       setSelected(rows.map(() => false));
       return;
     }
-    // selain itu: biarkan default existing (true) agar seperti sebelumnya
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPenurunanBakiDebet, isKhusus, rows.length]);
 
@@ -137,8 +132,9 @@ export default function LoanBillingAndSummarySection({
     return formatIdr0(total);
   }, [isPenurunanBakiDebet, rows]);
 
-  // Totals berdasarkan selection (dipakai untuk Ringkasan & autofill di Khusus)
-  const selectedTotals = React.useMemo(() => {
+  const khususSelectedTotals = React.useMemo(() => {
+    if (!isKhusus) return null;
+
     let pokok = 0;
     let bunga = 0;
     let denda = 0;
@@ -147,25 +143,24 @@ export default function LoanBillingAndSummarySection({
       if (!(selected[i] ?? false)) continue;
       pokok += parseNumLikeId(rows[i]?.tagihanPokok ?? "0");
       bunga += parseNumLikeId(rows[i]?.tagihanBunga ?? "0");
-
-      // khusus: denda dihitung per baris (prototype)
-      if (isKhusus) denda += khususPenaltyForIndex(i);
+      denda += khususPenaltyForIndex(i);
     }
 
-    const total = pokok + bunga + denda;
-    return { pokok, bunga, denda, total };
+    return { pokok, bunga, denda, total: pokok + bunga + denda };
   }, [isKhusus, rows, selected]);
 
   // Autofill field pembayaran untuk Khusus: ikut selection
   React.useEffect(() => {
     if (!isKhusus) return;
-    setNominalPokok(formatIdr0(selectedTotals.pokok));
-    setNominalBunga(formatIdr0(selectedTotals.bunga));
-    setNominalDenda(formatIdr0(selectedTotals.denda));
-    // nominal (single) tidak dipakai untuk khusus, tapi biar bersih:
+
+    const t = khususSelectedTotals ?? { pokok: 0, bunga: 0, denda: 0, total: 0 };
+
+    setNominalPokok(formatIdr0(t.pokok));
+    setNominalBunga(formatIdr0(t.bunga));
+    setNominalDenda(formatIdr0(t.denda));
     setNominal("0");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKhusus, selectedTotals.pokok, selectedTotals.bunga, selectedTotals.denda]);
+  }, [isKhusus, khususSelectedTotals?.pokok, khususSelectedTotals?.bunga, khususSelectedTotals?.denda]);
 
   const totalsForSummary = React.useMemo(() => {
     if (isPenurunanBakiDebet) {
@@ -174,25 +169,17 @@ export default function LoanBillingAndSummarySection({
     }
 
     if (isKhusus) {
+      const t = khususSelectedTotals ?? { pokok: 0, bunga: 0, denda: 0, total: 0 };
       return {
-        pokok: formatIdr0(selectedTotals.pokok),
-        bunga: formatIdr0(selectedTotals.bunga),
-        denda: formatIdr0(selectedTotals.denda),
-        total: formatIdr0(selectedTotals.total),
+        pokok: formatIdr0(t.pokok),
+        bunga: formatIdr0(t.bunga),
+        denda: formatIdr0(t.denda),
+        total: formatIdr0(t.total),
       };
     }
 
-    // Mode lain: tetap sederhana (bisa kita kembangkan kalau diperlukan)
     return { pokok: "0", bunga: "0", denda: "0", total: "0" };
-  }, [
-    isKhusus,
-    isPenurunanBakiDebet,
-    selectedTotals.bunga,
-    selectedTotals.denda,
-    selectedTotals.pokok,
-    selectedTotals.total,
-    sisaPinjamanText,
-  ]);
+  }, [isKhusus, isPenurunanBakiDebet, khususSelectedTotals, sisaPinjamanText]);
 
   // Matikan ring/outline per-row untuk mode reguler, seperti yang sudah disamakan sebelumnya.
   const disableRowChrome = !isPenurunanBakiDebet;
