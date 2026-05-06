@@ -141,10 +141,9 @@ export default function LoanInstallmentPayment() {
                 </Select>
               </div>
 
-              {/* Divider: mulai dari kiri content (sejajar dengan title/form), sampai ujung kanan kolom input */}
               <div className="h-px w-full bg-slate-200" />
 
-              {/* Cari nasabah: lebar mengikuti area divider */}
+              {/* Cari nasabah: height 30px + radius 5px */}
               <div className="w-full">
                 <div className="flex w-full items-stretch">
                   <Input
@@ -152,13 +151,15 @@ export default function LoanInstallmentPayment() {
                     onChange={(e) => setQNasabah(e.target.value)}
                     placeholder="Cari nasabah"
                     className={cn(
-                      "h-11 rounded-l-[10px] rounded-r-none",
-                      "border-slate-200 bg-white text-[18px]",
+                      H,
+                      "rounded-l-[5px] rounded-r-none",
+                      "border-slate-200 bg-white text-[13px]",
                       "placeholder:text-slate-400",
                       "shadow-sm",
                       "focus-visible:ring-0 focus-visible:ring-offset-0",
                     )}
                   />
+
                   <button
                     type="button"
                     onClick={() =>
@@ -169,8 +170,9 @@ export default function LoanInstallmentPayment() {
                       })
                     }
                     className={cn(
-                      "inline-flex h-11 w-16 items-center justify-center",
-                      "rounded-r-[10px] rounded-l-none",
+                      "inline-flex w-11 items-center justify-center",
+                      H,
+                      "rounded-r-[5px] rounded-l-none",
                       "bg-slate-600 text-white ring-1 ring-slate-600/20",
                       "transition hover:bg-slate-700",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
@@ -178,9 +180,15 @@ export default function LoanInstallmentPayment() {
                     aria-label="Cari nasabah"
                     title="Cari"
                   >
-                    <Search className="h-6 w-6" />
+                    <Search className="h-4.5 w-4.5" />
                   </button>
                 </div>
+              </div>
+
+              <div className="sr-only">
+                <button type="button" onClick={() => setQNasabah(qNasabah)}>
+                  sync
+                </button>
               </div>
             </div>
           </div>
