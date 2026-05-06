@@ -42,7 +42,7 @@ export default function LoanAccountInfoPreview({
   accountNo: string;
   className?: string;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   return (
     <div className={cn("overflow-hidden rounded-[8px]", className)}>
