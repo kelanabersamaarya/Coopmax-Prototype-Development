@@ -20,7 +20,7 @@ export default function LoanAccountInfoPreview({
             </span>
 
             <div className="min-w-0 text-base font-extrabold tracking-tight">
-              INFORMASI REKENING
+              Informasi Rekening & Nasabah
             </div>
           </div>
         </div>
