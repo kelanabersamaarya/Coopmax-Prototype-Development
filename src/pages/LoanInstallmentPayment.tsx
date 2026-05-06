@@ -68,17 +68,6 @@ export default function LoanInstallmentPayment() {
         </div>
 
         <Card className="mt-6 overflow-hidden rounded-3xl border-slate-200/70 bg-white/90 p-0 shadow-sm backdrop-blur">
-          <div className="px-6 py-5 sm:px-8">
-            <div className="text-sm font-semibold text-slate-900">
-              Lengkapi informasi berikut
-            </div>
-            <div className="mt-1 text-sm text-slate-600">
-              Prototype: aksi simpan hanya menampilkan toast.
-            </div>
-          </div>
-
-          <Separator className="bg-slate-200" />
-
           <div className="px-6 py-6 sm:px-8">
             <div className="grid gap-6">
               <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
