@@ -62,6 +62,20 @@ const seedRows: BillingRow[] = [
   },
 ];
 
+function parseNumLikeId(input: string) {
+  const s = (input ?? "").trim();
+  if (!s) return 0;
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdr0(n: number) {
+  const rounded = Math.round(Number.isFinite(n) ? n : 0);
+  return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export default function LoanBillingAndSummarySection({
   className,
 }: {
@@ -72,12 +86,13 @@ export default function LoanBillingAndSummarySection({
     rows.map(() => true),
   );
 
-  // default seperti screenshot: Pembayaran Reguler
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
     TX.REGULER,
   );
 
-  // --- Form state (mengikuti pattern Transaksi Anggota) ---
+  const isPenurunanBakiDebet = jenisTransaksi === TX.PENURUNAN_BAKI_DEBET;
+
+  // --- Form state ---
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [kolektor, setKolektor] = React.useState<string>("Pilih Kolektor");
 
@@ -93,6 +108,27 @@ export default function LoanBillingAndSummarySection({
     setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
   }, [rows]);
 
+  // Untuk penurunan baki debet: selection tidak tampil, tapi state tetap dibuat true
+  // agar perhitungan ringkasan konsisten.
+  React.useEffect(() => {
+    if (!isPenurunanBakiDebet) return;
+    setSelected(rows.map(() => true));
+  }, [isPenurunanBakiDebet, rows]);
+
+  const sisaPinjamanText = React.useMemo(() => {
+    if (!isPenurunanBakiDebet) return null;
+    const total = rows.reduce((sum, r) => sum + parseNumLikeId(r.sisaPokok), 0);
+    return formatIdr0(total);
+  }, [isPenurunanBakiDebet, rows]);
+
+  const totalsForSummary = React.useMemo(() => {
+    if (isPenurunanBakiDebet) {
+      const v = sisaPinjamanText ?? "0";
+      return { pokok: v, bunga: "0", denda: "0", total: v };
+    }
+    return { pokok: "0", bunga: "0", denda: "0", total: "0" };
+  }, [isPenurunanBakiDebet, sisaPinjamanText]);
+
   return (
     <div className={cn(className)}>
       <div className="text-center text-[14px] font-semibold tracking-tight text-slate-900">
@@ -100,9 +136,6 @@ export default function LoanBillingAndSummarySection({
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
-      {/* Samakan grid kolom dengan Transaksi Anggota:
-          lg: [minmax(0,1fr)_340px] xl: [minmax(0,1fr)_320px]
-      */}
       <div className="mt-4 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
         <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
           <div className="text-sm font-semibold text-slate-900">
@@ -115,14 +148,15 @@ export default function LoanBillingAndSummarySection({
             rows={rows}
             selected={selected}
             setSelected={setSelected}
-            isLocked={false}
+            isLocked={isPenurunanBakiDebet ? true : false}
             showNextBillInfo={false}
             showGraceInfo={true}
             highlightGraceBlock={true}
             keepGraceShellWithoutInfo={false}
-            hideSelection={false}
-            showPenaltyColumn={true}
-            disableRowActiveRing={true}
+            hideSelection={isPenurunanBakiDebet}
+            showPenaltyColumn={isPenurunanBakiDebet ? false : true}
+            disableRowRings={isPenurunanBakiDebet}
+            disableRowActiveRing={isPenurunanBakiDebet}
             penaltyIndexOffset={0}
             rowDensity="default"
           />
@@ -131,7 +165,7 @@ export default function LoanBillingAndSummarySection({
         <div className="space-y-4 px-1">
           <BillSummaryCard
             mode="regular"
-            totals={{ pokok: "0", bunga: "0", denda: "0", total: "0" }}
+            totals={totalsForSummary}
             installment={{ ke: "1", lunas: "0", seharusnya: "0" }}
             transactionType={jenisTransaksi}
             onTransactionTypeChange={(v) => setJenisTransaksi(v)}
