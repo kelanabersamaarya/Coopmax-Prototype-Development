@@ -188,6 +188,10 @@ export default function LoanAccountPickerDialog({
       disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-200",
     );
 
+  function pick(accountNo: string) {
+    onPick(accountNo);
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -406,23 +410,27 @@ export default function LoanAccountPickerDialog({
                             "border-b border-slate-200",
                             bodyTextCls,
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                            "cursor-pointer",
+                            "hover:bg-slate-50",
+                            "focus-within:bg-slate-50",
                           )}
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => pick(r.noRekening)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              pick(r.noRekening);
+                            }
+                          }}
+                          aria-label={`Pilih rekening ${r.noRekening}`}
                         >
                           <td className={cn(td, "tabular-nums")}>{idx + 1}</td>
 
                           <td className={cn(td, "text-left tabular-nums whitespace-nowrap")}>
-                            <button
-                              type="button"
-                              onClick={() => onPick(r.noRekening)}
-                              className={cn(
-                                "block w-full text-left",
-                                "text-black hover:underline",
-                                "tabular-nums whitespace-nowrap",
-                              )}
-                              title="Pilih rekening"
-                            >
+                            <span className="text-blue-600 font-semibold">
                               {r.noRekening}
-                            </button>
+                            </span>
                           </td>
 
                           <td className={cn(td, "tabular-nums whitespace-nowrap")}>
@@ -439,15 +447,11 @@ export default function LoanAccountPickerDialog({
 
                           <td className={cn(td)}>{r.namaNasabah}</td>
 
-                          <td
-                            className={cn(td, "text-right tabular-nums whitespace-nowrap")}
-                          >
+                          <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
                             {r.nominal}
                           </td>
 
-                          <td
-                            className={cn(td, "text-right tabular-nums whitespace-nowrap")}
-                          >
+                          <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
                             {r.sisaPinjaman}
                           </td>
 
