@@ -91,7 +91,7 @@ function ThLabel({
     <div className={cn("flex items-start justify-between gap-2", className)}>
       <div className="leading-[1.05]">{children}</div>
       {sortable ? (
-        <span className="mt-[1px] inline-flex flex-col leading-none text-slate-900/80">
+        <span className="mt-[1px] inline-flex flex-col leading-none text-black">
           <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
           <ChevronDown className="h-3.5 w-3.5" />
         </span>
@@ -160,23 +160,28 @@ export default function LoanAccountPickerDialog({
   const td = "px-3 py-2.5";
   const filterCell = "px-3 py-2";
 
+  // TABEL: semua jadi 12px + hitam
+  const headerTextCls =
+    "text-[12px] font-extrabold uppercase tracking-wide text-black";
+  const bodyTextCls = "text-[12px] font-medium text-black";
+
   const filterInputCls =
-    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[12px] font-normal text-black shadow-none placeholder:text-black/60 focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
   const filterSelectTriggerCls =
-    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[12px] font-normal text-black shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20 [&_[data-placeholder]]:text-black/60";
 
   const pageSizeTriggerCls = cn(
     "h-8 w-[64px] rounded-[6px] border border-slate-300 bg-white px-2",
-    "text-[14px] font-medium text-slate-900",
+    "text-[14px] font-medium text-black",
     "shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-slate-700",
+    "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-black",
   );
 
   const navBtnCls = (disabled: boolean) =>
     cn(
       "h-10 px-5 text-[14px] font-medium",
-      "rounded-[2px] bg-slate-100 text-slate-700",
+      "rounded-[2px] bg-slate-100 text-black",
       "transition",
       disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-200",
     );
@@ -197,14 +202,14 @@ export default function LoanAccountPickerDialog({
       >
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="text-[18px] font-semibold tracking-tight text-slate-900">
+            <div className="text-[18px] font-semibold tracking-tight text-black">
               Rekening Pinjaman
             </div>
 
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-black transition hover:bg-slate-100"
               aria-label="Tutup"
               title="Tutup"
             >
@@ -218,7 +223,7 @@ export default function LoanAccountPickerDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(85vh - 64px - 66px - 72px)" }}
           >
-            <div className="flex items-center gap-2 text-[18px] font-normal text-slate-900">
+            <div className="flex items-center gap-2 text-[18px] font-normal text-black">
               <div>Tampilkan</div>
               <Select
                 value={String(pageSize)}
@@ -242,7 +247,7 @@ export default function LoanAccountPickerDialog({
               <div className="safe-x-scroll bg-white">
                 <table className="w-full min-w-[1050px] border-collapse">
                   <thead className="bg-white">
-                    <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                    <tr className={cn("border-b border-slate-300/70 text-left", headerTextCls)}>
                       <th className={cn("w-[70px] whitespace-nowrap", th)}>
                         <ThLabel sortable={false}>No.</ThLabel>
                       </th>
@@ -300,7 +305,7 @@ export default function LoanAccountPickerDialog({
                       </th>
                     </tr>
 
-                    <tr className="border-b border-slate-200 bg-white">
+                    <tr className={cn("border-b border-slate-200 bg-white", bodyTextCls)}>
                       <th className={filterCell} />
 
                       <th className={filterCell}>
@@ -381,7 +386,7 @@ export default function LoanAccountPickerDialog({
                       <tr>
                         <td
                           colSpan={9}
-                          className="px-4 py-10 text-center text-sm text-slate-600"
+                          className="px-4 py-10 text-center text-sm text-black"
                         >
                           Tidak ada rekening yang cocok.
                         </td>
@@ -391,21 +396,20 @@ export default function LoanAccountPickerDialog({
                         <tr
                           key={r.noRekening}
                           className={cn(
-                            "border-b border-slate-200 text-[13px]",
+                            "border-b border-slate-200",
+                            bodyTextCls,
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                           )}
                         >
-                          <td className={cn(td, "text-slate-900 tabular-nums")}>
-                            {idx + 1}
-                          </td>
+                          <td className={cn(td, "tabular-nums")}>{idx + 1}</td>
 
                           <td className={cn(td, "text-left")}>
                             <button
                               type="button"
                               onClick={() => onPick(r.noRekening)}
                               className={cn(
-                                "block w-full text-left",
-                                "font-semibold text-blue-600 hover:underline",
+                                "block w-full text-left font-semibold",
+                                "text-blue-600 hover:underline",
                                 "tabular-nums whitespace-nowrap",
                               )}
                               title="Pilih rekening"
@@ -426,12 +430,12 @@ export default function LoanAccountPickerDialog({
                             {r.idNasabah}
                           </td>
 
-                          <td className={cn(td, "text-slate-900")}>{r.namaNasabah}</td>
+                          <td className={cn(td)}>{r.namaNasabah}</td>
 
                           <td
                             className={cn(
                               td,
-                              "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
+                              "text-right tabular-nums whitespace-nowrap",
                             )}
                           >
                             {r.nominal}
@@ -440,7 +444,7 @@ export default function LoanAccountPickerDialog({
                           <td
                             className={cn(
                               td,
-                              "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
+                              "text-right tabular-nums whitespace-nowrap",
                             )}
                           >
                             {r.sisaPinjaman}
@@ -462,7 +466,7 @@ export default function LoanAccountPickerDialog({
 
           <div className="px-6 py-4">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div className="text-[14px] text-slate-900">
+              <div className="text-[14px] text-black">
                 Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries} entri
               </div>
 
