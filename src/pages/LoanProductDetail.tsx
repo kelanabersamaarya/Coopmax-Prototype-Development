@@ -8,18 +8,10 @@ import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center">
-      <span
-        className={cn(
-          "inline-flex items-center",
-          "rounded-[6px] px-3 py-2",
-          "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-          "ring-1 ring-slate-200/60",
-          "bg-[#F9FAFF]",
-        )}
-      >
+    <div className="-mx-5 -mt-5 rounded-t-[5px] bg-[#F9FAFF] px-5 py-3 ring-1 ring-slate-200/70 md:-mx-6 md:-mt-6 md:px-6">
+      <div className="text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
         {children}
-      </span>
+      </div>
     </div>
   );
 }
