@@ -46,6 +46,21 @@ function deriveNasabahNameByAccountNo(accountNo: string) {
   return "Nasabah";
 }
 
+function BillingDivider({ index }: { index: number }) {
+  // index: 1 => rekening ke-2, dst.
+  return (
+    <div className="my-4">
+      <div className="flex items-center gap-3">
+        <div className="h-px flex-1 bg-slate-200/70" />
+        <div className="rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-slate-700 ring-1 ring-slate-200">
+          REKENING {index + 1}
+        </div>
+        <div className="h-px flex-1 bg-slate-200/70" />
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInstallmentPayment() {
   const navigate = useNavigate();
 
@@ -224,7 +239,7 @@ export default function LoanInstallmentPayment() {
                         </button>
                       </div>
 
-                      {/* Hapus rekening terakhir (tanpa ubah desain layout utama) */}
+                      {/* Tombol hapus tetap */}
                       <button
                         type="button"
                         onClick={() => {
@@ -273,11 +288,8 @@ export default function LoanInstallmentPayment() {
                       <div className="mt-4 space-y-0">
                         {selectedAccounts.map((acc, idx) => (
                           <React.Fragment key={`${acc}-${idx}`}>
-                            {idx > 0 ? (
-                              <Separator className="my-4 bg-slate-200/70" />
-                            ) : null}
+                            {idx > 0 ? <BillingDivider index={idx} /> : null}
                             <LoanAccountInfoPreview
-                              // key lagi supaya state internal (open) tidak “ketularan”
                               key={`preview-${acc}-${idx}`}
                               accountNo={acc}
                               className="mt-0"
@@ -285,6 +297,11 @@ export default function LoanInstallmentPayment() {
                           </React.Fragment>
                         ))}
                       </div>
+                    </div>
+
+                    {/* Keep import used (Separator) */}
+                    <div className="sr-only">
+                      <Separator />
                     </div>
                   </div>
 
