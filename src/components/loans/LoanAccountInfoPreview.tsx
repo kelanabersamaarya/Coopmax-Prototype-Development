@@ -62,6 +62,28 @@ function DividerLine({ tone = "light" }: { tone?: "light" | "dark" }) {
   );
 }
 
+function SectionTitleDark({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="text-[14px] font-extrabold tracking-tight text-white">
+      {children}
+    </div>
+  );
+}
+
+function DetailLoanGridRow({
+  items,
+}: {
+  items: Array<{ label: string; value: React.ReactNode }>;
+}) {
+  return (
+    <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
+      {items.map((it) => (
+        <InfoCol key={it.label} label={it.label} value={it.value} tone="dark" />
+      ))}
+    </div>
+  );
+}
+
 export default function LoanAccountInfoPreview({
   accountNo,
   className,
@@ -84,12 +106,7 @@ export default function LoanAccountInfoPreview({
   const tealBg = "bg-[#1aa0b5]";
 
   return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-[8px] bg-white",
-        className,
-      )}
-    >
+    <div className={cn("overflow-hidden rounded-[8px] bg-white", className)}>
       {/* Section Informasi Rekening - teal seperti gambar */}
       <div className={cn(tealBg, "px-5 py-5 text-white")}>
         <div className="flex items-center justify-between gap-4">
@@ -174,9 +191,7 @@ export default function LoanAccountInfoPreview({
               <DividerLine tone="dark" />
 
               <div className="mt-4">
-                <div className="text-[14px] font-extrabold tracking-tight text-white">
-                  INFORMASI NASABAH
-                </div>
+                <SectionTitleDark>INFORMASI NASABAH</SectionTitleDark>
 
                 <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
                   <InfoCol label="ID Nasabah" value={nasabah.id} big tone="dark" />
@@ -190,6 +205,64 @@ export default function LoanAccountInfoPreview({
                   <div className="hidden md:block" />
                 </div>
               </div>
+
+              {/* === NEW: DETAIL PINJAMAN === */}
+              <div className="mt-5">
+                <DividerLine tone="dark" />
+
+                <div className="mt-4">
+                  <SectionTitleDark>DETAIL PINJAMAN</SectionTitleDark>
+
+                  <div className="mt-4">
+                    <DetailLoanGridRow
+                      items={[
+                        { label: "Jangka Waktu", value: "12 Bulan" },
+                        { label: "Angsuran Ke", value: "2" },
+                        { label: "Tanggal Realisasi", value: "01-03-2026" },
+                        { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
+                      ]}
+                    />
+
+                    <div className="mt-4">
+                      <DetailLoanGridRow
+                        items={[
+                          { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
+                          { label: "Bunga Pertahun", value: "10,00%" },
+                          { label: "Metode Bunga", value: "Bunga Efektif" },
+                          { label: "", value: "" },
+                        ]}
+                      />
+                    </div>
+
+                    <div className="mt-5">
+                      <DividerLine tone="dark" />
+                    </div>
+
+                    <div className="mt-4">
+                      <DetailLoanGridRow
+                        items={[
+                          { label: "Plafond", value: "10.000.000,00" },
+                          { label: "Sisa Total Pinjaman", value: "9.625.000" },
+                          { label: "Sisa Pokok Pinjaman", value: "9.116.000" },
+                          { label: "Pokok", value: "0" },
+                        ]}
+                      />
+
+                      <div className="mt-4">
+                        <DetailLoanGridRow
+                          items={[
+                            { label: "Bunga", value: "0" },
+                            { label: "Denda", value: "0" },
+                            { label: "Angsuran", value: "0" },
+                            { label: "Selisih Tanggal Transaksi", value: "0" },
+                          ]}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* === END DETAIL PINJAMAN === */}
             </div>
           </div>
         </div>
