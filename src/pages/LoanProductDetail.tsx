@@ -163,7 +163,7 @@ export default function LoanProductDetail() {
             </Card>
           ) : (
             <Card className="rounded-3xl border-slate-200/70 bg-white/70 p-4 shadow-sm backdrop-blur md:p-5">
-              <div className="grid gap-4">
+              <div className="grid gap-[35px]">
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Dasar Produk Pinjaman</SectionTitle>
 
