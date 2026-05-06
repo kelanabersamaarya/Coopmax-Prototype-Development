@@ -129,6 +129,9 @@ export default function LoanBillingAndSummarySection({
     return { pokok: "0", bunga: "0", denda: "0", total: "0" };
   }, [isPenurunanBakiDebet, sisaPinjamanText]);
 
+  // Kunci: matikan ring/outline per-row (yang bikin terlihat seperti border kotak) untuk mode reguler.
+  const disableRowChrome = !isPenurunanBakiDebet;
+
   return (
     <div className={cn(className)}>
       <div className="text-center text-[14px] font-semibold tracking-tight text-slate-900">
@@ -155,8 +158,8 @@ export default function LoanBillingAndSummarySection({
             keepGraceShellWithoutInfo={false}
             hideSelection={isPenurunanBakiDebet}
             showPenaltyColumn={isPenurunanBakiDebet ? false : true}
-            disableRowRings={isPenurunanBakiDebet}
-            disableRowActiveRing={isPenurunanBakiDebet}
+            disableRowRings={disableRowChrome}
+            disableRowActiveRing={disableRowChrome}
             penaltyIndexOffset={0}
             rowDensity="default"
           />
