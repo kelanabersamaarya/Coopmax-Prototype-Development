@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/select";
 
 const R = "rounded-[5px]";
+const H = "h-[30px]";
+const GAP = "gap-[15px]";
 
 const TX_TYPES = ["Bayar Angsuran"] as const;
 const COLLECTORS = [
@@ -45,8 +47,9 @@ export default function LoanInstallmentPayment() {
   );
 
   const selectTriggerCls = cn(
-    "h-11 w-full border border-slate-200 bg-white px-3 text-[14px] font-medium text-slate-900 shadow-sm",
+    H,
     R,
+    "w-full border border-slate-200 bg-white px-3 text-[14px] font-medium text-slate-900 shadow-sm",
     "justify-between",
     "[&>svg]:text-slate-400",
   );
@@ -57,7 +60,6 @@ export default function LoanInstallmentPayment() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        {/* Header sesuai contoh: "Transaksi Pinjaman Pembayaran" */}
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-semibold tracking-tight text-black">
             Transaksi Pinjaman
@@ -69,7 +71,7 @@ export default function LoanInstallmentPayment() {
 
         <Card className="mt-6 overflow-hidden rounded-3xl border-slate-200/70 bg-white/90 p-0 shadow-sm backdrop-blur">
           <div className="px-6 py-6 sm:px-8">
-            <div className="grid gap-6">
+            <div className={cn("grid", GAP)}>
               <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <div className={labelCls}>
                   Tanggal{requiredStar}
@@ -78,9 +80,9 @@ export default function LoanInstallmentPayment() {
                   value={tanggal}
                   onChange={setTanggal}
                   inputClassName={cn(
-                    "h-11",
+                    H,
                     R,
-                    "border-slate-200 bg-white text-[14px]",
+                    "border-slate-200 bg-white text-[14px] pr-11",
                   )}
                   popoverAlign="end"
                   placeholder="DD-MM-YYYY"
