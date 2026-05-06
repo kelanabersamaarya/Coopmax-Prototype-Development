@@ -392,7 +392,6 @@ export default function LoanProductEdit() {
     if (!hideDasarPerhitungan) return;
     // Saat mode Rp, dasar perhitungan tidak relevan
     setDasarPerhitungan("Pilih Dasar Perhitungan");
-    setDendaBerulang(false);
   }, [hideDasarPerhitungan]);
 
   function addCollectorFee() {
@@ -942,85 +941,64 @@ export default function LoanProductEdit() {
                   </FieldRow>
 
                   {!hideDasarPerhitungan ? (
-                    <>
-                      <FieldRow label="Dasar Perhitungan">
-                        <Select
-                          value={dasarPerhitungan}
-                          onValueChange={(v) =>
-                            setDasarPerhitungan(v as PenaltyBase)
-                          }
-                        >
-                          <SelectTrigger
-                            className={
-                              "h-[30px] " +
-                              UI.radius +
-                              " border-slate-200 bg-white " +
-                              UI.fieldText
-                            }
-                          >
-                            <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                          </SelectTrigger>
-                          <SelectContent className="rounded-[10px] border-slate-200">
-                            <SelectItem value="Pilih Dasar Perhitungan">
-                              Pilih Dasar Perhitungan
-                            </SelectItem>
-                            <SelectItem value="Pokok">Pokok</SelectItem>
-                            <SelectItem value="Bunga">Bunga</SelectItem>
-                            <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                            <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                            <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FieldRow>
-
-                      <FieldRow label="Jumlah Hari Keterlambatan">
-                        <Input
-                          value={hariKeterlambatan}
-                          onChange={(e) => setHariKeterlambatan(e.target.value)}
+                    <FieldRow label="Dasar Perhitungan">
+                      <Select
+                        value={dasarPerhitungan}
+                        onValueChange={(v) =>
+                          setDasarPerhitungan(v as PenaltyBase)
+                        }
+                      >
+                        <SelectTrigger
                           className={
                             "h-[30px] " +
                             UI.radius +
                             " border-slate-200 bg-white " +
                             UI.fieldText
                           }
-                          placeholder="Masukkan Jumlah Hari"
-                          inputMode="numeric"
-                        />
-                      </FieldRow>
-
-                      <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                        <div className="pt-1 text-sm font-normal text-slate-900">
-                          <span className="inline-flex items-center gap-1.5">
-                            Proses Denda Berulang (Recurring)
-                            <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
-                          </span>
-                        </div>
-                        <div className="flex items-center">
-                          <Switch
-                            checked={dendaBerulang}
-                            onCheckedChange={setDendaBerulang}
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ) : null}
-
-                  {hideDasarPerhitungan ? (
-                    <FieldRow label="Jumlah Hari Keterlambatan">
-                      <Input
-                        value={hariKeterlambatan}
-                        onChange={(e) => setHariKeterlambatan(e.target.value)}
-                        className={
-                          "h-[30px] " +
-                          UI.radius +
-                          " border-slate-200 bg-white " +
-                          UI.fieldText
-                        }
-                        placeholder="Masukkan Jumlah Hari"
-                        inputMode="numeric"
-                      />
+                        >
+                          <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-[10px] border-slate-200">
+                          <SelectItem value="Pilih Dasar Perhitungan">
+                            Pilih Dasar Perhitungan
+                          </SelectItem>
+                          <SelectItem value="Pokok">Pokok</SelectItem>
+                          <SelectItem value="Bunga">Bunga</SelectItem>
+                          <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                          <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                          <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FieldRow>
                   ) : null}
+
+                  <FieldRow label="Jumlah Hari Keterlambatan">
+                    <Input
+                      value={hariKeterlambatan}
+                      onChange={(e) => setHariKeterlambatan(e.target.value)}
+                      className={
+                        "h-[30px] " +
+                        UI.radius +
+                        " border-slate-200 bg-white " +
+                        UI.fieldText
+                      }
+                      placeholder="Masukkan Jumlah Hari"
+                      inputMode="numeric"
+                    />
+                  </FieldRow>
+
+                  {/* ✅ SEKARANG MUNCUL UNTUK % MAUPUN RP */}
+                  <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                    <div className="pt-1 text-sm font-normal text-slate-900">
+                      <span className="inline-flex items-center gap-1.5">
+                        Proses Denda Berulang (Recurring)
+                        <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <Switch checked={dendaBerulang} onCheckedChange={setDendaBerulang} />
+                    </div>
+                  </div>
                 </div>
 
                 <Separator className="my-6 bg-slate-200/70" />

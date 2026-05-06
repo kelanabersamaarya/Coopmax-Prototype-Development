@@ -337,8 +337,10 @@ export default function LoanProductCreate() {
   React.useEffect(() => {
     if (!hideDasarPerhitungan) return;
     setDasarPerhitungan("Pilih Dasar Perhitungan");
-    setDendaBerulang(false);
   }, [hideDasarPerhitungan]);
+
+  // Saat mode berubah, recurring tetap boleh untuk % maupun Rp (sesuai permintaan).
+  // Jadi tidak ada reset dendaBerulang ketika mode Rp.
 
   // === compact style (match halaman Ubah) ===
   const compactField =
@@ -874,9 +876,9 @@ export default function LoanProductCreate() {
                         const labelText =
                           m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
                             ? "Tagihan Sesuai Jadwal Angsuran"
-                          : m === "Jadwal Fleksibel & Tagihan Berkala"
-                            ? "Jadwal Fleksibel & Tagihan Berkala"
-                            : "Tagihan Dihitung Dari Sisa Saldo Pokok";
+                            : m === "Jadwal Fleksibel & Tagihan Berkala"
+                              ? "Jadwal Fleksibel & Tagihan Berkala"
+                              : "Tagihan Dihitung Dari Sisa Saldo Pokok";
 
                         const tooltipText =
                           m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
@@ -923,68 +925,55 @@ export default function LoanProductCreate() {
                     </FieldRow>
 
                     {!hideDasarPerhitungan ? (
-                      <>
-                        <FieldRow label="Dasar Perhitungan">
-                          <Select
-                            value={dasarPerhitungan}
-                            onValueChange={(v) =>
-                              setDasarPerhitungan(v as PenaltyBase)
-                            }
-                          >
-                            <SelectTrigger className={compactSelectTrigger}>
-                              <SelectValue placeholder="Pilih Dasar Perhitungan" />
-                            </SelectTrigger>
-                            <SelectContent className={compactSelectContent}>
-                              <SelectItem value="Pilih Dasar Perhitungan">
-                                Pilih Dasar Perhitungan
-                              </SelectItem>
-                              <SelectItem value="Pokok">Pokok</SelectItem>
-                              <SelectItem value="Bunga">Bunga</SelectItem>
-                              <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
-                              <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
-                              <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </FieldRow>
-
-                        <FieldRow label="Jumlah Hari Keterlambatan">
-                          <Input
-                            value={hariKeterlambatan}
-                            onChange={(e) => setHariKeterlambatan(e.target.value)}
-                            className={compactField}
-                            placeholder="Masukkan Jumlah Hari"
-                            inputMode="numeric"
-                          />
-                        </FieldRow>
-
-                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                          <div className="pt-1 text-sm font-normal text-slate-900">
-                            <span className="inline-flex items-center gap-1.5">
-                              Proses Denda Berulang (Recurring)
-                              <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
-                            </span>
-                          </div>
-                          <div className="flex items-center">
-                            <Switch
-                              checked={dendaBerulang}
-                              onCheckedChange={setDendaBerulang}
-                            />
-                          </div>
-                        </div>
-                      </>
-                    ) : null}
-
-                    {hideDasarPerhitungan ? (
-                      <FieldRow label="Jumlah Hari Keterlambatan">
-                        <Input
-                          value={hariKeterlambatan}
-                          onChange={(e) => setHariKeterlambatan(e.target.value)}
-                          className={compactField}
-                          placeholder="Masukkan Jumlah Hari"
-                          inputMode="numeric"
-                        />
+                      <FieldRow label="Dasar Perhitungan">
+                        <Select
+                          value={dasarPerhitungan}
+                          onValueChange={(v) =>
+                            setDasarPerhitungan(v as PenaltyBase)
+                          }
+                        >
+                          <SelectTrigger className={compactSelectTrigger}>
+                            <SelectValue placeholder="Pilih Dasar Perhitungan" />
+                          </SelectTrigger>
+                          <SelectContent className={compactSelectContent}>
+                            <SelectItem value="Pilih Dasar Perhitungan">
+                              Pilih Dasar Perhitungan
+                            </SelectItem>
+                            <SelectItem value="Pokok">Pokok</SelectItem>
+                            <SelectItem value="Bunga">Bunga</SelectItem>
+                            <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
+                            <SelectItem value="Hutang Bunga">Hutang Bunga</SelectItem>
+                            <SelectItem value="Total Tagihan">Total Tagihan</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FieldRow>
                     ) : null}
+
+                    <FieldRow label="Jumlah Hari Keterlambatan">
+                      <Input
+                        value={hariKeterlambatan}
+                        onChange={(e) => setHariKeterlambatan(e.target.value)}
+                        className={compactField}
+                        placeholder="Masukkan Jumlah Hari"
+                        inputMode="numeric"
+                      />
+                    </FieldRow>
+
+                    {/* ✅ SEKARANG MUNCUL UNTUK % MAUPUN RP */}
+                    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+                      <div className="pt-1 text-sm font-normal text-slate-900">
+                        <span className="inline-flex items-center gap-1.5">
+                          Proses Denda Berulang (Recurring)
+                          <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
+                        </span>
+                      </div>
+                      <div className="flex items-center">
+                        <Switch
+                          checked={dendaBerulang}
+                          onCheckedChange={setDendaBerulang}
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   <Separator className="my-6 bg-slate-200/70" />
