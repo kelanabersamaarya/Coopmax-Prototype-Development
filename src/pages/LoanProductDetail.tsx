@@ -103,8 +103,6 @@ export default function LoanProductDetail() {
     return all.find((p) => p.id === id) ?? null;
   }, [id]);
 
-  const title = product?.name ?? "Produk Pinjaman";
-
   const sectionCardCls =
     "rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6";
 
@@ -120,10 +118,6 @@ export default function LoanProductDetail() {
               <span className="text-[18px] font-normal tracking-tight text-[#0b2a6f] md:text-[20px]">
                 Detail
               </span>
-            </div>
-
-            <div className="mt-1 truncate text-sm font-semibold text-slate-600">
-              {title}
             </div>
           </div>
 
