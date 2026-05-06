@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function InfoCol({
@@ -68,17 +68,11 @@ export default function LoanAccountInfoPreview({
               "focus:outline-none focus-visible:ring-4 focus-visible:ring-white/20",
             )}
             aria-expanded={open}
-            aria-label={open ? "Sembunyikan detail" : "Tampilkan lebih banyak"}
-            title={open ? "Sembunyikan detail" : "Tampilkan Lebih Banyak"}
+            aria-label="Tampilkan lebih banyak"
+            title="Tampilkan lebih banyak"
           >
-            <span className="whitespace-nowrap">
-              {open ? "Sembunyikan" : "Tampilkan Lebih Banyak"}
-            </span>
-            {open ? (
-              <ChevronUp className="h-4 w-4 opacity-90" />
-            ) : (
-              <ChevronDown className="h-4 w-4 opacity-90" />
-            )}
+            <span className="whitespace-nowrap">Tampilkan Lebih Banyak</span>
+            <ChevronDown className="h-4 w-4 opacity-90" />
           </button>
         </div>
 
