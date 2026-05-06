@@ -39,21 +39,6 @@ function DividerLine() {
   return <div className="h-px w-full bg-white/20" />;
 }
 
-function NasabahRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="grid gap-2 sm:grid-cols-[160px_minmax(0,1fr)] sm:items-start">
-      <div className="text-[12px] font-semibold text-white/85">{label}</div>
-      <div className="text-[13px] font-bold text-white">{value}</div>
-    </div>
-  );
-}
-
 export default function LoanAccountInfoPreview({
   accountNo,
   className,
@@ -148,10 +133,19 @@ export default function LoanAccountInfoPreview({
                 INFORMASI NASABAH
               </div>
 
-              <div className="mt-3 grid gap-3">
-                <NasabahRow label="ID Nasabah" value={nasabah.id} />
-                <NasabahRow label="Nama" value={nasabah.nama} />
-                <NasabahRow label="Alamat" value={nasabah.alamat} />
+              {/* Samakan layout dengan Informasi Rekening */}
+              <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
+                {/* Row 1 */}
+                <InfoCol label="ID Nasabah" value={nasabah.id} big />
+                <InfoCol label="Nama" value={nasabah.nama} />
+                <InfoCol label="Alamat" value={nasabah.alamat} />
+                <div className="hidden md:block" />
+
+                {/* Row 2 (kosong agar ritme grid sama seperti section atas) */}
+                <div className="hidden md:block" />
+                <div className="hidden md:block" />
+                <div className="hidden md:block" />
+                <div className="hidden md:block" />
               </div>
             </div>
           </div>
