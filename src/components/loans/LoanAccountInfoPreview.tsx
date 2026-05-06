@@ -83,11 +83,13 @@ export default function LoanAccountInfoPreview({
               "focus:outline-none focus-visible:ring-4 focus-visible:ring-white/20",
             )}
             aria-expanded={open}
-            aria-label="Tampilkan lebih banyak"
-            title="Tampilkan lebih banyak"
+            aria-label={open ? "Tampilkan lebih sedikit" : "Tampilkan lebih banyak"}
+            title={open ? "Tampilkan lebih sedikit" : "Tampilkan lebih banyak"}
           >
-            <span className="whitespace-nowrap">Tampilkan Lebih Banyak</span>
-            <ChevronDown className="h-4 w-4 opacity-90" />
+            <span className="whitespace-nowrap">
+              {open ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
+            </span>
+            <ChevronDown className={cn("h-4 w-4 opacity-90 transition", open ? "rotate-180" : "")} />
           </button>
         </div>
 
