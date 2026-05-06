@@ -163,7 +163,10 @@ function EntriesPicker({
   return (
     <div className={cn("flex items-center gap-3 text-[13px] text-slate-900", className)}>
       <span className="font-medium">Tampilkan</span>
-      <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>
+      <Select
+        value={String(pageSize)}
+        onValueChange={(v) => onPageSizeChange(Number(v))}
+      >
         <SelectTrigger className={triggerCls}>
           <SelectValue />
         </SelectTrigger>
@@ -622,7 +625,7 @@ export default function LoanTransactionsTable({
                     <Input
                       value={qNoTransaksi}
                       onChange={(e) => setQNoTransaksi(e.target.value)}
-                      className={filterInputCls}
+                      className={cn(filterInputCls, "text-left")}
                     />
                   </th>
                   <th className={filterRowCellPad}>
@@ -729,11 +732,11 @@ export default function LoanTransactionsTable({
                         {(page - 1) * pageSize + idx + 1}
                       </Td>
 
-                      <Td>
+                      <Td align="left">
                         <button
                           type="button"
                           onClick={() => onPickTransaction?.(r.noTransaksi)}
-                          className="font-semibold text-blue-600 hover:underline"
+                          className="block w-full text-left font-semibold text-blue-600 hover:underline"
                           title="Lihat detail transaksi"
                         >
                           {r.noTransaksi}
