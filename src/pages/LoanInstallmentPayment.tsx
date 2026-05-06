@@ -160,24 +160,44 @@ export default function LoanInstallmentPayment() {
 
               <div className="h-px w-full bg-slate-200" />
 
-              {/* Cari nasabah: height 30px + radius 5px + tombol hapus + tombol cari */}
+              {/* Cari nasabah: tombol hapus berada DI LUAR field search (terpisah di kanan) */}
               <div className="w-full">
-                <div className="flex w-full items-stretch">
-                  <Input
-                    value={qNasabah}
-                    onChange={(e) => setQNasabah(e.target.value)}
-                    placeholder="Cari nasabah"
-                    className={cn(
-                      H,
-                      "rounded-l-[5px] rounded-r-none",
-                      "border-slate-200 bg-white text-[13px]",
-                      "placeholder:text-slate-400",
-                      "shadow-sm",
-                      "focus-visible:ring-0 focus-visible:ring-offset-0",
-                    )}
-                  />
+                <div className="flex w-full items-stretch gap-2">
+                  <div className="flex min-w-0 flex-1 items-stretch">
+                    <Input
+                      value={qNasabah}
+                      onChange={(e) => setQNasabah(e.target.value)}
+                      placeholder="Cari nasabah"
+                      className={cn(
+                        H,
+                        "rounded-l-[5px] rounded-r-none",
+                        "border-slate-200 bg-white text-[13px]",
+                        "placeholder:text-slate-400",
+                        "shadow-sm",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                    />
 
-                  {/* Tombol hapus (contoh: merah dengan icon tempat sampah) */}
+                    {/* Tombol cari (tetap menempel dengan input seperti sebelumnya) */}
+                    <button
+                      type="button"
+                      onClick={() => setPickerOpen(true)}
+                      className={cn(
+                        "inline-flex w-11 items-center justify-center",
+                        H,
+                        "rounded-r-[5px] rounded-l-none",
+                        "bg-slate-600 text-white ring-1 ring-slate-600/20",
+                        "transition hover:bg-slate-700",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                      )}
+                      aria-label="Cari nasabah"
+                      title="Cari"
+                    >
+                      <Search className="h-4.5 w-4.5" />
+                    </button>
+                  </div>
+
+                  {/* Tombol hapus (di luar field) */}
                   <button
                     type="button"
                     onClick={() => {
@@ -191,7 +211,7 @@ export default function LoanInstallmentPayment() {
                     className={cn(
                       "inline-flex w-11 items-center justify-center",
                       H,
-                      "rounded-none",
+                      R,
                       "bg-rose-600 text-white ring-1 ring-rose-600/20",
                       "transition hover:bg-rose-700",
                       "disabled:opacity-60 disabled:pointer-events-none",
@@ -201,24 +221,6 @@ export default function LoanInstallmentPayment() {
                     title="Hapus"
                   >
                     <Trash2 className="h-4.5 w-4.5" />
-                  </button>
-
-                  {/* Tombol cari */}
-                  <button
-                    type="button"
-                    onClick={() => setPickerOpen(true)}
-                    className={cn(
-                      "inline-flex w-11 items-center justify-center",
-                      H,
-                      "rounded-r-[5px] rounded-l-none",
-                      "bg-slate-600 text-white ring-1 ring-slate-600/20",
-                      "transition hover:bg-slate-700",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-                    )}
-                    aria-label="Cari nasabah"
-                    title="Cari"
-                  >
-                    <Search className="h-4.5 w-4.5" />
                   </button>
                 </div>
               </div>
