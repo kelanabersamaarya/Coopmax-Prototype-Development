@@ -191,6 +191,24 @@ export default function LoanBillingAndSummarySection({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isKhusus, khususSelectedTotals?.pokok, khususSelectedTotals?.bunga, khususSelectedTotals?.denda]);
 
+  // === REGULER: RINGKASAN DARI CHECKLIST ===
+  const regulerSelectedTotals = React.useMemo(() => {
+    if (!isReguler) return null;
+
+    let pokok = 0;
+    let bunga = 0;
+    let denda = 0;
+
+    for (let i = 0; i < rows.length; i++) {
+      if (!(selected[i] ?? false)) continue;
+      pokok += parseNumLikeId(rows[i]?.tagihanPokok ?? "0");
+      bunga += parseNumLikeId(rows[i]?.tagihanBunga ?? "0");
+      denda += khususPenaltyForIndex(i);
+    }
+
+    return { pokok, bunga, denda, total: pokok + bunga + denda };
+  }, [isReguler, rows, selected]);
+
   const totalsForSummary = React.useMemo(() => {
     if (isPenurunanBakiDebet) {
       const v = sisaPinjamanText ?? "0";
@@ -207,9 +225,26 @@ export default function LoanBillingAndSummarySection({
       };
     }
 
+    if (isReguler) {
+      const t = regulerSelectedTotals ?? { pokok: 0, bunga: 0, denda: 0, total: 0 };
+      return {
+        pokok: formatIdr0(t.pokok),
+        bunga: formatIdr0(t.bunga),
+        denda: formatIdr0(t.denda),
+        total: formatIdr0(t.total),
+      };
+    }
+
     // Mode lain: tetap sederhana (sesuai scope perubahan)
     return { pokok: "0", bunga: "0", denda: "0", total: "0" };
-  }, [isKhusus, isPenurunanBakiDebet, khususAllTotals, sisaPinjamanText]);
+  }, [
+    isKhusus,
+    isPenurunanBakiDebet,
+    isReguler,
+    khususAllTotals,
+    regulerSelectedTotals,
+    sisaPinjamanText,
+  ]);
 
   const disableRowChrome = !isPenurunanBakiDebet;
 
