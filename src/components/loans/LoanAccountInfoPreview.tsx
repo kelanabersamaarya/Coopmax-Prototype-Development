@@ -24,7 +24,7 @@ function InfoCol({
         <div
           className={cn(
             "self-start leading-snug text-white",
-            big ? "text-[18px] font-extrabold tracking-tight" : "text-[14px] font-bold",
+            big ? "text-[14px] font-extrabold tracking-tight" : "text-[14px] font-bold",
           )}
         >
           {value}
