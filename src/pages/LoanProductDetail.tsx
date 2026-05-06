@@ -44,7 +44,7 @@ function StatusPill({
 }) {
   const cls =
     tone === "green"
-      ? "bg-lime-500 text-white ring-1 ring-lime-500/25"
+      ? "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25"
       : tone === "red"
         ? "bg-rose-500 text-white ring-1 ring-rose-500/25"
         : "bg-slate-200 text-slate-800 ring-1 ring-slate-200";
@@ -106,7 +106,6 @@ export default function LoanProductDetail() {
   const sectionCardCls =
     "rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6";
 
-  // Spasi antar baris field (atas-bawah) dibuat 40px sesuai request
   const sectionFieldGridCls = "mt-10 grid gap-y-10 gap-x-4 md:grid-cols-4";
   const sectionFieldGrid2ColsCls = "mt-10 grid gap-y-10 gap-x-4 md:grid-cols-2";
 
