@@ -212,10 +212,10 @@ export default function LoanInstallmentPayment() {
                       "inline-flex w-11 items-center justify-center",
                       H,
                       R,
-                      "bg-rose-600 text-white ring-1 ring-rose-600/20",
-                      "transition hover:bg-rose-700",
+                      "bg-[#DC3545] text-white ring-1 ring-[#DC3545]/25",
+                      "transition hover:bg-[#c72f3d]",
                       "disabled:opacity-60 disabled:pointer-events-none",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-700/20",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DC3545]/25",
                     )}
                     aria-label="Hapus"
                     title="Hapus"
