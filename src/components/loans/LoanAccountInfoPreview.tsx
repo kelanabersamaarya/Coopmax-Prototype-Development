@@ -129,7 +129,7 @@ export default function LoanAccountInfoPreview({
             <DividerLine />
 
             <div className="mt-4">
-              <div className="text-[13px] font-extrabold tracking-tight text-white">
+              <div className="text-[16px] font-extrabold tracking-tight text-white">
                 INFORMASI NASABAH
               </div>
 
