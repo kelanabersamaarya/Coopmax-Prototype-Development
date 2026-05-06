@@ -328,7 +328,6 @@ function DateFilterFieldLikeBefore({
 
   return (
     <>
-      {/* Anchor: UI field TETAP sama */}
       <div
         ref={anchorRef}
         className="relative"
@@ -374,7 +373,6 @@ function DateFilterFieldLikeBefore({
         ) : null}
       </div>
 
-      {/* Calendar overlay: fixed + manual position, jadi tidak ter-clipping & tidak loncat */}
       {open && rect && portalNode
         ? createPortal(
             <div
@@ -405,13 +403,18 @@ function DateFilterFieldLikeBefore({
   );
 }
 
-export default function LoanTransactionsTable({ className }: { className?: string }) {
+export default function LoanTransactionsTable({
+  className,
+  onPickAccount,
+}: {
+  className?: string;
+  onPickAccount?: (accountNo: string) => void;
+}) {
   const rows = React.useMemo(() => seed, []);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
 
-  // filter state (prototype)
   const [qNoTransaksi, setQNoTransaksi] = React.useState("");
   const [qRekPinjaman, setQRekPinjaman] = React.useState("");
   const [qRekTabungan, setQRekTabungan] = React.useState("");
@@ -736,7 +739,20 @@ export default function LoanTransactionsTable({ className }: { className?: strin
                         </a>
                       </Td>
 
-                      <Td className="tabular-nums">{r.rekPinjaman}</Td>
+                      <Td className="tabular-nums">
+                        <button
+                          type="button"
+                          onClick={() => onPickAccount?.(r.rekPinjaman)}
+                          className={cn(
+                            "font-semibold text-blue-600 hover:underline",
+                            "whitespace-nowrap",
+                          )}
+                          title="Lihat detail transaksi pinjaman"
+                        >
+                          {r.rekPinjaman}
+                        </button>
+                      </Td>
+
                       <Td className="tabular-nums">{r.rekTabungan}</Td>
                       <Td className="tabular-nums">{r.idNasabah}</Td>
 

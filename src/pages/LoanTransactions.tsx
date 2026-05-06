@@ -11,6 +11,7 @@ import {
   Banknote,
 } from "lucide-react";
 import LoanTransactionsTable from "@/components/loans/LoanTransactionsTable";
+import LoanTransactionsDetailHeader from "@/components/loans/LoanTransactionsDetailHeader";
 
 type Action = {
   label: string;
@@ -51,6 +52,8 @@ function ActionPill({
 }
 
 export default function LoanTransactions() {
+  const [detailAccountNo, setDetailAccountNo] = React.useState<string | null>(null);
+
   const actions: Action[] = [
     {
       label: "Import Pembayaran Angsuran",
@@ -110,6 +113,29 @@ export default function LoanTransactions() {
     },
   ];
 
+  if (detailAccountNo) {
+    return (
+      <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+        <div className="w-full px-2 py-6 md:px-3 md:py-8">
+          <LoanTransactionsDetailHeader
+            accountNo={detailAccountNo}
+            onBack={() => setDetailAccountNo(null)}
+          />
+
+          <div className="mt-4 rounded-3xl bg-white/70 p-5 ring-1 ring-slate-200/70 backdrop-blur">
+            <div className="text-sm font-semibold text-slate-900">
+              Detail konten (prototype)
+            </div>
+            <div className="mt-2 text-sm text-slate-700">
+              Bagian isi detail akan kita susun setelah kamu konfirmasi komponen/section apa saja
+              yang perlu tampil di bawah header.
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -132,8 +158,7 @@ export default function LoanTransactions() {
             ))}
           </div>
 
-          {/* Tabel di bawah tombol */}
-          <LoanTransactionsTable />
+          <LoanTransactionsTable onPickAccount={(acc) => setDetailAccountNo(acc)} />
         </div>
       </div>
     </div>
