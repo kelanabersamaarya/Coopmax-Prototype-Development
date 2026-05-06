@@ -80,12 +80,10 @@ export default function LoanAccountInfoPreview({
     [],
   );
 
-  // Teal seperti referensi (dipakai langsung agar match)
   const tealBg = "bg-[#1aa0b5]";
 
   return (
     <div className={cn("overflow-hidden rounded-[8px]", className)}>
-      {/* Section Informasi Rekening - teal seperti gambar */}
       <div className={cn(tealBg, "px-5 py-5 text-white")}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
@@ -190,10 +188,10 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* Area bawah: buat padding berada di INNER container agar divider/garis juga sejajar */}
+      {/* Area bawah: dibuat full-width dan layout stack agar lebarnya terasa sama seperti header */}
       <div className="bg-white py-4">
         <div className="px-5">
-          <LoanBillingAndSummarySection className="mt-0" />
+          <LoanBillingAndSummarySection layout="stack" className="mt-0" />
         </div>
       </div>
     </div>
