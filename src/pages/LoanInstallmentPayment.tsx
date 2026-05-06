@@ -15,6 +15,7 @@ import { CheckSquare, Search, X, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import LoanAccountInfoPreview from "@/components/loans/LoanAccountInfoPreview";
+import SectionDividerLabel from "@/components/loans/SectionDividerLabel";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -236,7 +237,10 @@ export default function LoanInstallmentPayment() {
                 </div>
 
                 {hasNasabah ? (
-                  <LoanAccountInfoPreview accountNo={qNasabah} className="mt-4" />
+                  <div className="mt-4">
+                    <SectionDividerLabel label="Informasi Rekening & Nasabah" />
+                    <LoanAccountInfoPreview accountNo={qNasabah} className="mt-4" />
+                  </div>
                 ) : null}
               </div>
 
