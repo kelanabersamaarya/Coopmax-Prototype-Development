@@ -50,6 +50,14 @@ export default function LoanInstallmentPayment() {
     "Pilih Kolektor",
   );
 
+  // Flow baru:
+  // - awalnya belum ada rekening dipilih => hanya tampil form header + tombol Tambah Transaksi
+  // - setelah pilih rekening => baru tampil detail seperti sebelumnya
+  const [selectedAccountNo, setSelectedAccountNo] = React.useState<string | null>(
+    null,
+  );
+
+  // Tetap simpan value input agar UI lama tetap jalan setelah pilih rekening
   const [qNasabah, setQNasabah] = React.useState("");
   const [pickerOpen, setPickerOpen] = React.useState(false);
 
@@ -75,6 +83,7 @@ export default function LoanInstallmentPayment() {
   const actionIconCls = "h-4 w-4";
 
   const hasNasabah = qNasabah.trim().length > 0;
+  const showDetail = !!selectedAccountNo;
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -83,6 +92,7 @@ export default function LoanInstallmentPayment() {
         onOpenChange={setPickerOpen}
         query={qNasabah}
         onPick={(accountNo) => {
+          setSelectedAccountNo(accountNo);
           setQNasabah(accountNo);
           setPickerOpen(false);
           toast.success("Rekening dipilih", {
@@ -162,97 +172,108 @@ export default function LoanInstallmentPayment() {
 
               <div className="h-px w-full bg-slate-200" />
 
-              {/* Cari nasabah */}
-              <div className="w-full">
-                <div className="flex w-full items-stretch gap-2">
-                  <div className="flex min-w-0 flex-1 items-stretch">
-                    <Input
-                      value={qNasabah}
-                      onChange={(e) => setQNasabah(e.target.value)}
-                      placeholder="Cari nasabah"
-                      className={cn(
-                        H,
-                        "rounded-l-[5px] rounded-r-none",
-                        "border-slate-200 bg-white text-[13px]",
-                        "placeholder:text-slate-400",
-                        "shadow-sm",
-                        "focus-visible:ring-0 focus-visible:ring-offset-0",
-                      )}
-                    />
+              {/* DETAIL (muncul setelah pilih rekening) */}
+              {showDetail ? (
+                <>
+                  <div className="w-full">
+                    <div className="flex w-full items-stretch gap-2">
+                      <div className="flex min-w-0 flex-1 items-stretch">
+                        <Input
+                          value={qNasabah}
+                          onChange={(e) => setQNasabah(e.target.value)}
+                          placeholder="Cari nasabah"
+                          className={cn(
+                            H,
+                            "rounded-l-[5px] rounded-r-none",
+                            "border-slate-200 bg-white text-[13px]",
+                            "placeholder:text-slate-400",
+                            "shadow-sm",
+                            "focus-visible:ring-0 focus-visible:ring-offset-0",
+                          )}
+                        />
 
-                    <button
-                      type="button"
-                      onClick={() => setPickerOpen(true)}
-                      className={cn(
-                        "inline-flex w-11 items-center justify-center",
-                        H,
-                        "rounded-r-[5px] rounded-l-none",
-                        "bg-slate-600 text-white ring-1 ring-slate-600/20",
-                        "transition hover:bg-slate-700",
-                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-                      )}
-                      aria-label="Cari nasabah"
-                      title="Cari"
-                    >
-                      <Search className="h-4.5 w-4.5" />
-                    </button>
+                        <button
+                          type="button"
+                          onClick={() => setPickerOpen(true)}
+                          className={cn(
+                            "inline-flex w-11 items-center justify-center",
+                            H,
+                            "rounded-r-[5px] rounded-l-none",
+                            "bg-slate-600 text-white ring-1 ring-slate-600/20",
+                            "transition hover:bg-slate-700",
+                            "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                          )}
+                          aria-label="Cari nasabah"
+                          title="Cari"
+                        >
+                          <Search className="h-4.5 w-4.5" />
+                        </button>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedAccountNo(null);
+                          setQNasabah("");
+                          toast("Transaksi direset", {
+                            description: "Silakan pilih rekening pinjaman lagi.",
+                          });
+                        }}
+                        style={{
+                          backgroundColor: "#DC3545",
+                          borderColor: "#DC3545",
+                        }}
+                        className={cn(
+                          "inline-flex w-11 items-center justify-center",
+                          H,
+                          R,
+                          "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
+                          "transition",
+                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
+                        )}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                            "#c72f3d";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                            "#DC3545";
+                        }}
+                        aria-label="Hapus"
+                        title="Hapus"
+                      >
+                        <Trash2 className="h-4.5 w-4.5" />
+                      </button>
+                    </div>
+
+                    <div className="mt-4">
+                      <SectionDividerLabel label="Informasi Rekening & Nasabah" />
+                      <LoanAccountInfoPreview
+                        accountNo={selectedAccountNo}
+                        className="mt-4"
+                      />
+                    </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (!hasNasabah) return;
-                      setQNasabah("");
-                      toast("Field dibersihkan", {
-                        description: "Input cari nasabah dihapus.",
-                      });
-                    }}
-                    disabled={!hasNasabah}
-                    style={{
-                      backgroundColor: "#DC3545",
-                      borderColor: "#DC3545",
-                    }}
-                    className={cn(
-                      "inline-flex w-11 items-center justify-center",
-                      H,
-                      R,
-                      "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
-                      "transition",
-                      "disabled:opacity-60 disabled:pointer-events-none",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
-                    )}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                        "#c72f3d";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                        "#DC3545";
-                    }}
-                    aria-label="Hapus"
-                    title="Hapus"
-                  >
-                    <Trash2 className="h-4.5 w-4.5" />
-                  </button>
-                </div>
+                  <div className="h-px w-full bg-slate-200" />
+                </>
+              ) : null}
 
-                {hasNasabah ? (
-                  <div className="mt-4">
-                    <SectionDividerLabel label="Informasi Rekening dan Nasabah" />
-                    <LoanAccountInfoPreview accountNo={qNasabah} className="mt-4" />
-                  </div>
-                ) : null}
-              </div>
-
-              <div className="h-px w-full bg-slate-200" />
-
+              {/* CTA: Tambah Transaksi
+                  - sebelum pilih rekening: buka dialog pilih rekening
+                  - setelah pilih rekening: tetap (prototype) */}
               <button
                 type="button"
-                onClick={() =>
+                onClick={() => {
+                  if (!showDetail) {
+                    setPickerOpen(true);
+                    return;
+                  }
+
                   toast("Tambah Transaksi (prototype)", {
                     description: "Aksi tambah transaksi belum dihubungkan.",
-                  })
-                }
+                  });
+                }}
                 className={cn(
                   "w-full",
                   "inline-flex items-center justify-center gap-2",
@@ -305,9 +326,16 @@ export default function LoanInstallmentPayment() {
                     });
                     return;
                   }
+                  if (!selectedAccountNo) {
+                    toast("Rekening pinjaman wajib dipilih", {
+                      description:
+                        "Klik Tambah Transaksi untuk memilih rekening pinjaman.",
+                    });
+                    return;
+                  }
 
                   toast.success("Pembayaran Angsuran tersimpan (prototype)", {
-                    description: `${tanggal} • ${jenis} • ${kolektor}`,
+                    description: `${tanggal} • ${jenis} • ${kolektor} • ${selectedAccountNo}`,
                   });
                   navigate(-1);
                 }}
