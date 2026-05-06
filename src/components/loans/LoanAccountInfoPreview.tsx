@@ -56,8 +56,8 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        {/* Rapi & sejajar: 2 baris, masing-masing 3 kolom (total 6 informasi) */}
-        <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-3">
+        {/* Desktop: 4 info per baris. Baris 2 tetap rapih, "Sisa Pokok" dipaksa ke kolom kanan. */}
+        <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
           <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
           <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
           <InfoCol
@@ -70,9 +70,11 @@ export default function LoanAccountInfoPreview({
               </span>
             }
           />
-
           <InfoCol label="Satuan Grace Period" value="Bulan" />
+
           <InfoCol label="Durasi Grace Period" value="3" />
+          <div className="hidden md:block" />
+          <div className="hidden md:block" />
           <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" align="right" />
         </div>
       </div>
