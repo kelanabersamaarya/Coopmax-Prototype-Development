@@ -428,7 +428,7 @@ export default function LoanAccountPickerDialog({
                           <td className={cn(td, "tabular-nums")}>{idx + 1}</td>
 
                           <td className={cn(td, "text-left tabular-nums whitespace-nowrap")}>
-                            <span className="text-blue-600 font-semibold">
+                            <span className="font-semibold text-black">
                               {r.noRekening}
                             </span>
                           </td>
