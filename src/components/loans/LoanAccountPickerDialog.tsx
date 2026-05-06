@@ -115,11 +115,13 @@ export default function LoanAccountPickerDialog({
 }) {
   const [q, setQ] = React.useState(query);
   const [pageSize, setPageSize] = React.useState<number>(20);
+  const [page, setPage] = React.useState<number>(1);
 
   React.useEffect(() => {
     if (!open) return;
     setQ(query);
     setPageSize(20);
+    setPage(1);
   }, [open, query]);
 
   const filtered = React.useMemo(() => {
@@ -135,7 +137,24 @@ export default function LoanAccountPickerDialog({
     });
   }, [q]);
 
-  const rows = filtered.slice(0, 5);
+  const totalEntries = 47; // sesuai contoh tampilan (prototype)
+  const pageCount = Math.max(1, Math.ceil(totalEntries / pageSize));
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [pageSize, q]);
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  const rows = React.useMemo(() => {
+    // Scope: hanya tampilkan max 5 rekening (sesuai permintaan sebelumnya)
+    return filtered.slice(0, 5);
+  }, [filtered]);
+
+  const showingStart = totalEntries === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(totalEntries, page * pageSize);
 
   const th = "px-3 py-3";
   const td = "px-3 py-2.5";
@@ -153,6 +172,14 @@ export default function LoanAccountPickerDialog({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-slate-700",
   );
+
+  const navBtnCls = (disabled: boolean) =>
+    cn(
+      "h-10 px-5 text-[14px] font-medium",
+      "rounded-[2px] bg-slate-100 text-slate-700",
+      "transition",
+      disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-200",
+    );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -189,7 +216,7 @@ export default function LoanAccountPickerDialog({
 
           <div
             className="overflow-auto px-6 py-5"
-            style={{ maxHeight: "calc(85vh - 64px)" }}
+            style={{ maxHeight: "calc(85vh - 64px - 66px - 72px)" }}
           >
             <div className="flex items-center gap-2 text-[18px] font-normal text-slate-900">
               <div>Tampilkan</div>
@@ -428,6 +455,51 @@ export default function LoanAccountPickerDialog({
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+
+          {/* Footer (sesuai screenshot) */}
+          <Separator className="bg-slate-200" />
+
+          <div className="px-6 py-4">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="text-[14px] text-slate-900">
+                Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries} entri
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className={navBtnCls(page <= 1)}
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                >
+                  Sebelumnya
+                </button>
+                <button
+                  type="button"
+                  className={navBtnCls(page >= pageCount)}
+                  disabled={page >= pageCount}
+                  onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                >
+                  Selanjutnya
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 flex justify-end">
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "inline-flex h-10 items-center gap-2 px-4",
+                  "rounded-[5px] bg-slate-600 text-white",
+                  "ring-1 ring-slate-600/20 transition hover:bg-slate-700",
+                )}
+              >
+                <span className="text-[18px] leading-none">×</span>
+                Tutup
+              </button>
             </div>
 
             <div className="sr-only">{R}</div>
