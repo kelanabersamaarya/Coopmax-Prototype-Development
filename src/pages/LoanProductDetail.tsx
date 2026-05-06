@@ -112,10 +112,10 @@ export default function LoanProductDetail() {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
             <div className="flex items-baseline gap-2">
-              <h1 className="text-[28px] font-extrabold tracking-tight text-[#0b2a6f] md:text-[32px]">
+              <h1 className="text-[28px] font-extrabold tracking-tight text-black md:text-[32px]">
                 Produk Pinjaman
               </h1>
-              <span className="text-[18px] font-normal tracking-tight text-[#0b2a6f] md:text-[20px]">
+              <span className="text-[18px] font-normal tracking-tight text-black md:text-[20px]">
                 Detail
               </span>
             </div>
