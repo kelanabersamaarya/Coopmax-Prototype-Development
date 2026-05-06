@@ -103,6 +103,9 @@ export default function LoanProductDetail() {
 
   const title = product?.name ?? "Produk Pinjaman";
 
+  const sectionCardCls =
+    "rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6";
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -161,7 +164,7 @@ export default function LoanProductDetail() {
             <Card className="rounded-3xl border-slate-200/70 bg-white/70 p-4 shadow-sm backdrop-blur md:p-5">
               <div className="grid gap-4">
                 {/* KONFIGURASI DASAR */}
-                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Dasar Produk Pinjaman</SectionTitle>
 
                   <div className="mt-4 grid gap-4 md:grid-cols-4">
@@ -197,13 +200,19 @@ export default function LoanProductDetail() {
                       value={<StatusPill tone="red">Tidak Aktif</StatusPill>}
                     />
                     <Field label="Denda Pinjaman" value="0,00%" />
-                    <Field label="Agunan" value={<StatusPill tone="green">Aktif</StatusPill>} />
-                    <Field label="Status" value={<StatusPill tone="green">Aktif</StatusPill>} />
+                    <Field
+                      label="Agunan"
+                      value={<StatusPill tone="green">Aktif</StatusPill>}
+                    />
+                    <Field
+                      label="Status"
+                      value={<StatusPill tone="green">Aktif</StatusPill>}
+                    />
                   </div>
                 </Card>
 
                 {/* KONFIGURASI TAGIHAN ANGSURAN */}
-                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
 
                   <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -219,7 +228,7 @@ export default function LoanProductDetail() {
                 </Card>
 
                 {/* KONFIGURASI DENDA */}
-                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Denda</SectionTitle>
 
                   <div className="mt-4 grid gap-4 md:grid-cols-4">
@@ -234,7 +243,7 @@ export default function LoanProductDetail() {
                 </Card>
 
                 {/* KONFIGURASI GRACE PERIOD */}
-                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Grace Period</SectionTitle>
 
                   <div className="mt-4 grid gap-4 md:grid-cols-4">
