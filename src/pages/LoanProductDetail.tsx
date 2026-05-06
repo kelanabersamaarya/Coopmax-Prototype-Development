@@ -113,13 +113,18 @@ export default function LoanProductDetail() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
-            <div className="text-[14px] font-semibold text-slate-600">
-              Produk Pinjaman{" "}
-              <span className="font-extrabold text-slate-900">Detail</span>
+            <div className="flex items-baseline gap-2">
+              <h1 className="text-[28px] font-extrabold tracking-tight text-[#0b2a6f] md:text-[32px]">
+                Produk Pinjaman
+              </h1>
+              <span className="text-[18px] font-normal tracking-tight text-[#0b2a6f] md:text-[20px]">
+                Detail
+              </span>
             </div>
-            <h1 className="mt-1 truncate text-2xl font-extrabold tracking-tight text-slate-900">
+
+            <div className="mt-1 truncate text-sm font-semibold text-slate-600">
               {title}
-            </h1>
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
