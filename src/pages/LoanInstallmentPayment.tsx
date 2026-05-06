@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { CheckSquare, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -48,6 +49,7 @@ export default function LoanInstallmentPayment() {
   );
 
   const [qNasabah, setQNasabah] = React.useState("");
+  const [pickerOpen, setPickerOpen] = React.useState(false);
 
   const selectTriggerCls = cn(
     H,
@@ -72,6 +74,17 @@ export default function LoanInstallmentPayment() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <LoanAccountPickerDialog
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        query={qNasabah}
+        onPick={(accountNo) => {
+          setQNasabah(accountNo);
+          setPickerOpen(false);
+          toast.success("Rekening dipilih", { description: `Rek. Pinjaman: ${accountNo}` });
+        }}
+      />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-semibold tracking-tight text-black">
@@ -162,13 +175,7 @@ export default function LoanInstallmentPayment() {
 
                   <button
                     type="button"
-                    onClick={() =>
-                      toast("Cari nasabah (prototype)", {
-                        description: qNasabah
-                          ? `Query: ${qNasabah}`
-                          : "Masukkan nama/ID nasabah.",
-                      })
-                    }
+                    onClick={() => setPickerOpen(true)}
                     className={cn(
                       "inline-flex w-11 items-center justify-center",
                       H,

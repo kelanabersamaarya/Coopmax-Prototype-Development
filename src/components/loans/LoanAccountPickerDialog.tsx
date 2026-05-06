@@ -1,0 +1,342 @@
+"use client";
+
+import * as React from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
+
+export type LoanAccountRow = {
+  noRekening: string;
+  tanggalDaftar: string; // dd-mm-yyyy
+  produkPinjaman: string;
+  idNasabah: string;
+  namaNasabah: string;
+  nominal: string;
+  sisaPinjaman: string;
+  bungaPerTahun: string;
+};
+
+const seed5: LoanAccountRow[] = [
+  {
+    noRekening: "12260006",
+    tanggalDaftar: "30-04-2026",
+    produkPinjaman: "Pinjaman Bulanan",
+    idNasabah: "N2400029",
+    namaNasabah: "Pangeran Sirait",
+    nominal: "2.000.000,00",
+    sisaPinjaman: "1.040.000,00",
+    bungaPerTahun: "24.00",
+  },
+  {
+    noRekening: "12260002",
+    tanggalDaftar: "26-04-2026",
+    produkPinjaman: "Pinjaman Bulanan",
+    idNasabah: "N2500010",
+    namaNasabah: "gaby",
+    nominal: "2.000.000,00",
+    sisaPinjaman: "1.833.300,00",
+    bungaPerTahun: "30.00",
+  },
+  {
+    noRekening: "12260001",
+    tanggalDaftar: "23-04-2026",
+    produkPinjaman: "Pinjaman Bulanan",
+    idNasabah: "A100001",
+    namaNasabah: "Rika Wastuti",
+    nominal: "18.000.000,00",
+    sisaPinjaman: "17.360.000,00",
+    bungaPerTahun: "24.00",
+  },
+  {
+    noRekening: "210260001",
+    tanggalDaftar: "23-04-2026",
+    produkPinjaman: "Pinjaman RC",
+    idNasabah: "A2600005",
+    namaNasabah: "Jenan Aditama",
+    nominal: "700.000.000,00",
+    sisaPinjaman: "1.000.000.000,00",
+    bungaPerTahun: "18.00",
+  },
+  {
+    noRekening: "072260001",
+    tanggalDaftar: "31-03-2026",
+    produkPinjaman: "Pinjaman Harian",
+    idNasabah: "A100001",
+    namaNasabah: "Rika Wastuti",
+    nominal: "22.000.000,00",
+    sisaPinjaman: "22.000.000,00",
+    bungaPerTahun: "20.00",
+  },
+];
+
+function ThLabel({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex items-center justify-between gap-2", className)}>
+      <div className="leading-[1.05]">{children}</div>
+      <span className="inline-flex flex-col leading-none text-slate-900/80">
+        <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
+        <ChevronDown className="h-3.5 w-3.5" />
+      </span>
+    </div>
+  );
+}
+
+const R = "rounded-[5px]";
+
+export default function LoanAccountPickerDialog({
+  open,
+  onOpenChange,
+  query,
+  onPick,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  query: string;
+  onPick: (accountNo: string) => void;
+}) {
+  const [q, setQ] = React.useState(query);
+
+  React.useEffect(() => {
+    if (!open) return;
+    setQ(query);
+  }, [open, query]);
+
+  const filtered = React.useMemo(() => {
+    const s = (q ?? "").trim().toLowerCase();
+    if (!s) return seed5;
+    return seed5.filter((r) => {
+      return (
+        r.noRekening.toLowerCase().includes(s) ||
+        r.namaNasabah.toLowerCase().includes(s) ||
+        r.idNasabah.toLowerCase().includes(s) ||
+        r.produkPinjaman.toLowerCase().includes(s)
+      );
+    });
+  }, [q]);
+
+  const rows = filtered.slice(0, 5);
+
+  const th = "px-3 py-3";
+  const td = "px-3 py-2.5";
+  const filterCell = "px-3 py-2";
+
+  const filterInputCls =
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className={cn(
+          "w-[calc(100vw-1rem)] sm:w-[calc(100vw-2.5rem)]",
+          "max-w-[1200px]",
+          "max-h-[85vh] overflow-hidden",
+          "rounded-3xl border-slate-200 p-0 shadow-2xl",
+          // hide default close button (pakai X custom)
+          "[&>button[aria-label=Close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+          "[&_[data-radix-dialog-close]]:hidden",
+        )}
+      >
+        <div className="bg-white">
+          {/* Header */}
+          <div className="flex items-center justify-between gap-3 px-6 py-4">
+            <div className="text-xl font-semibold tracking-tight text-slate-900">
+              Rekening Pinjaman
+            </div>
+
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+              aria-label="Tutup"
+              title="Tutup"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <Separator className="bg-slate-200" />
+
+          {/* Body */}
+          <div
+            className="overflow-auto px-6 py-5"
+            style={{ maxHeight: "calc(85vh - 64px)" }}
+          >
+            <div className="text-[13px] font-medium text-slate-700">
+              Menampilkan <span className="font-semibold">{rows.length}</span> rekening (maks 5)
+            </div>
+
+            <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+              <div className="safe-x-scroll bg-white">
+                <table className="w-full min-w-[1050px] border-collapse">
+                  <thead className="bg-white">
+                    <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <th className={cn("w-[70px] whitespace-nowrap", th)}>
+                        <ThLabel className="justify-start">No.</ThLabel>
+                      </th>
+                      <th className={cn("w-[160px]", th)}>
+                        <ThLabel>
+                          <span className="block">No.</span>
+                          <span className="block">Rekening</span>
+                        </ThLabel>
+                      </th>
+                      <th className={cn("w-[140px]", th)}>
+                        <ThLabel>
+                          <span className="block">Tanggal</span>
+                          <span className="block">Daftar</span>
+                        </ThLabel>
+                      </th>
+                      <th className={cn("w-[170px]", th)}>
+                        <ThLabel>
+                          <span className="block">Produk</span>
+                          <span className="block">Pinjaman</span>
+                        </ThLabel>
+                      </th>
+                      <th className={cn("w-[140px]", th)}>
+                        <ThLabel>
+                          <span className="block">ID.</span>
+                          <span className="block">Nasabah</span>
+                        </ThLabel>
+                      </th>
+                      <th className={cn("min-w-[220px]", th)}>
+                        <ThLabel>Nama Nasabah</ThLabel>
+                      </th>
+                      <th className={cn("w-[160px] text-right", th)}>
+                        <div className="flex items-center justify-end">
+                          <ThLabel className="justify-end">Nominal</ThLabel>
+                        </div>
+                      </th>
+                      <th className={cn("w-[160px] text-right", th)}>
+                        <div className="flex items-center justify-end">
+                          <ThLabel className="justify-end">
+                            <span className="block">Sisa</span>
+                            <span className="block">Pinjaman</span>
+                          </ThLabel>
+                        </div>
+                      </th>
+                      <th className={cn("w-[110px]", th)}>
+                        <ThLabel>
+                          <span className="block">Bunga</span>
+                          <span className="block">/Thn (%)</span>
+                        </ThLabel>
+                      </th>
+                    </tr>
+
+                    {/* Filter row (ringkas) */}
+                    <tr className="border-b border-slate-200 bg-white">
+                      <th className={filterCell} />
+                      <th className={filterCell}>
+                        <Input
+                          value={q}
+                          onChange={(e) => setQ(e.target.value)}
+                          className={filterInputCls}
+                          placeholder=""
+                        />
+                      </th>
+                      <th className={filterCell} />
+                      <th className={filterCell} />
+                      <th className={filterCell} />
+                      <th className={filterCell} />
+                      <th className={filterCell} />
+                      <th className={filterCell} />
+                      <th className={filterCell} />
+                    </tr>
+                  </thead>
+
+                  <tbody className="bg-white">
+                    {rows.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={9}
+                          className="px-4 py-10 text-center text-sm text-slate-600"
+                        >
+                          Tidak ada rekening yang cocok.
+                        </td>
+                      </tr>
+                    ) : (
+                      rows.map((r, idx) => (
+                        <tr
+                          key={r.noRekening}
+                          className={cn(
+                            "border-b border-slate-200 text-[13px]",
+                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                          )}
+                        >
+                          <td className={cn(td, "text-slate-900 tabular-nums")}>
+                            {idx + 1}
+                          </td>
+
+                          <td className={cn(td, "text-left")}>
+                            <button
+                              type="button"
+                              onClick={() => onPick(r.noRekening)}
+                              className={cn(
+                                "block w-full text-left",
+                                "font-semibold text-blue-600 hover:underline",
+                                "tabular-nums whitespace-nowrap",
+                              )}
+                              title="Pilih rekening"
+                            >
+                              {r.noRekening}
+                            </button>
+                          </td>
+
+                          <td className={cn(td, "tabular-nums whitespace-nowrap")}>
+                            {r.tanggalDaftar}
+                          </td>
+
+                          <td className={cn(td, "whitespace-normal leading-snug")}>
+                            {r.produkPinjaman}
+                          </td>
+
+                          <td className={cn(td, "tabular-nums whitespace-nowrap")}>
+                            {r.idNasabah}
+                          </td>
+
+                          <td className={cn(td, "text-slate-900")}>{r.namaNasabah}</td>
+
+                          <td
+                            className={cn(
+                              td,
+                              "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
+                            )}
+                          >
+                            {r.nominal}
+                          </td>
+
+                          <td
+                            className={cn(
+                              td,
+                              "text-right font-medium text-slate-900 tabular-nums whitespace-nowrap",
+                            )}
+                          >
+                            {r.sisaPinjaman}
+                          </td>
+
+                          <td className={cn(td, "tabular-nums whitespace-nowrap")}>
+                            {r.bungaPerTahun}
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="sr-only">{R}</div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
