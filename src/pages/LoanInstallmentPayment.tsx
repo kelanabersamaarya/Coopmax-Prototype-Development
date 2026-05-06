@@ -266,32 +266,34 @@ export default function LoanInstallmentPayment() {
                       </button>
                     </div>
 
-                    <div className="mt-4">
+                    {/* Divider seperti referensi */}
+                    <div className="mt-5">
                       <SectionDividerLabel label="Informasi Rekening & Nasabah" />
+                    </div>
 
-                      <div className="mt-4 space-y-0">
-                        {selectedAccounts.map((acc, idx) => {
-                          const isLast = idx === selectedAccounts.length - 1;
+                    <div className="mt-4 space-y-0">
+                      {selectedAccounts.map((acc, idx) => {
+                        const isLast = idx === selectedAccounts.length - 1;
 
-                          return (
-                            <React.Fragment key={`${acc}-${idx}`}>
-                              <LoanAccountInfoPreview
-                                key={`preview-${acc}-${idx}`}
-                                accountNo={acc}
-                                className="mt-0"
-                              />
+                        return (
+                          <React.Fragment key={`${acc}-${idx}`}>
+                            <LoanAccountInfoPreview
+                              key={`preview-${acc}-${idx}`}
+                              accountNo={acc}
+                              className="mt-0"
+                            />
 
-                              {!isLast ? (
-                                <div className="px-2 sm:px-3">
-                                  <div className="py-5">
-                                    <div className="h-[2px] w-full rounded-full bg-slate-200/80" />
-                                  </div>
+                            {/* Divider antar billing (tidak menempel) */}
+                            {!isLast ? (
+                              <div className="px-2 sm:px-3">
+                                <div className="py-6">
+                                  <div className="h-[2px] w-full rounded-full bg-slate-200/80" />
                                 </div>
-                              ) : null}
-                            </React.Fragment>
-                          );
-                        })}
-                      </div>
+                              </div>
+                            ) : null}
+                          </React.Fragment>
+                        );
+                      })}
                     </div>
 
                     <div className="sr-only">
