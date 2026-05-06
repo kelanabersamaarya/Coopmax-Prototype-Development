@@ -224,14 +224,14 @@ export default function LoanAccountInfoPreview({
                       ]}
                     />
 
-                    {/* Baris 2: 4 informasi */}
+                    {/* Baris 2: 4 informasi (kolom ke-4 dipakai untuk Selisih Tanggal Transaksi) */}
                     <div className="mt-4">
                       <DetailLoanGridRow
                         items={[
                           { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
                           { label: "Bunga Pertahun", value: "10,00%" },
                           { label: "Metode Bunga", value: "Bunga Efektif" },
-                          { label: "", value: "" },
+                          { label: "Selisih Tanggal Transaksi", value: "0" },
                         ]}
                       />
                     </div>
