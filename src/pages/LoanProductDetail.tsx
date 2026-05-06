@@ -77,8 +77,9 @@ function TopActionButton({
       className={cn(
         "inline-flex h-9 items-center gap-2 rounded-full px-4",
         "bg-transparent text-[13px] font-semibold text-slate-700",
-        "ring-1 ring-slate-200 shadow-none",
+        "border-0 ring-0 shadow-none",
         "transition hover:bg-slate-50",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
     >
       <Icon className="h-4.5 w-4.5 text-slate-600" />
