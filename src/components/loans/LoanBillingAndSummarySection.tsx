@@ -4,7 +4,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import BillingTableView2, { type BillingRow } from "@/components/anggota/BillingTableView2";
+import BillingTableView2, {
+  type BillingRow,
+} from "@/components/anggota/BillingTableView2";
 import BillSummaryCard from "@/components/anggota/BillSummaryCard";
 import TransactionFormCardView2 from "@/components/anggota/TransactionFormCardView2";
 import { TX, type TransactionType } from "@/components/anggota/transaction-types";
@@ -81,11 +83,8 @@ function khususPenaltyForIndex(idx: number) {
 
 export default function LoanBillingAndSummarySection({
   className,
-  layout = "split",
 }: {
   className?: string;
-  /** split = tabel kiri + ringkasan/form kanan (default), stack = semua full-width 1 kolom */
-  layout?: "split" | "stack";
 }) {
   const rows = React.useMemo(() => seedRows, []);
 
@@ -94,7 +93,9 @@ export default function LoanBillingAndSummarySection({
     rows.map(() => false),
   );
 
-  const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(TX.REGULER);
+  const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
+    TX.REGULER,
+  );
 
   const isPenurunanBakiDebet = jenisTransaksi === TX.PENURUNAN_BAKI_DEBET;
   const isKhusus = jenisTransaksi === TX.KHUSUS;
@@ -112,10 +113,12 @@ export default function LoanBillingAndSummarySection({
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
   const [keterangan, setKeterangan] = React.useState("");
 
+  // Sync panjang selection jika jumlah rows berubah
   React.useEffect(() => {
     setSelected((prev) => rows.map((_, idx) => prev[idx] ?? false));
   }, [rows]);
 
+  // Default selection per mode
   React.useEffect(() => {
     if (isPenurunanBakiDebet) {
       setSelected(rows.map(() => true));
@@ -131,6 +134,7 @@ export default function LoanBillingAndSummarySection({
       setSelected(rows.map(() => false));
       return;
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPenurunanBakiDebet, isKhusus, isReguler, rows.length]);
 
@@ -140,6 +144,7 @@ export default function LoanBillingAndSummarySection({
     return formatIdr0(total);
   }, [isPenurunanBakiDebet, rows]);
 
+  // === KHUSUS: RINGKASAN SELALU DARI SELURUH TAGIHAN ===
   const khususAllTotals = React.useMemo(() => {
     if (!isKhusus) return null;
 
@@ -156,6 +161,7 @@ export default function LoanBillingAndSummarySection({
     return { pokok, bunga, denda, total: pokok + bunga + denda };
   }, [isKhusus, rows]);
 
+  // === KHUSUS: FIELD PEMBAYARAN IKUT CHECKLIST ===
   const khususSelectedTotals = React.useMemo(() => {
     if (!isKhusus) return null;
 
@@ -183,13 +189,9 @@ export default function LoanBillingAndSummarySection({
     setNominalDenda(formatIdr0(t.denda));
     setNominal("0");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isKhusus,
-    khususSelectedTotals?.pokok,
-    khususSelectedTotals?.bunga,
-    khususSelectedTotals?.denda,
-  ]);
+  }, [isKhusus, khususSelectedTotals?.pokok, khususSelectedTotals?.bunga, khususSelectedTotals?.denda]);
 
+  // === REGULER: RINGKASAN DARI CHECKLIST ===
   const regulerSelectedTotals = React.useMemo(() => {
     if (!isReguler) return null;
 
@@ -233,6 +235,7 @@ export default function LoanBillingAndSummarySection({
       };
     }
 
+    // Mode lain: tetap sederhana (sesuai scope perubahan)
     return { pokok: "0", bunga: "0", denda: "0", total: "0" };
   }, [
     isKhusus,
@@ -245,13 +248,15 @@ export default function LoanBillingAndSummarySection({
 
   const disableRowChrome = !isPenurunanBakiDebet;
 
+  // Samakan density dengan Transaksi via Anggota (lebih rapat)
   const compactTableWrap = cn(
+    // RowShell padding di BillingTableView2: "bg-white px-3 py-3"
     "[&_.bg-white.px-3.py-3]:!py-1.5",
+    // Cell padding di BillingTableView2: "px-4 py-4"
     "[&_.px-4.py-4]:!py-2",
+    // keep header/table compact class hooks if any
     "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
   );
-
-  const stack = layout === "stack";
 
   return (
     <div className={cn(className)}>
@@ -260,14 +265,7 @@ export default function LoanBillingAndSummarySection({
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
-      <div
-        className={cn(
-          "mt-4 grid items-start gap-4",
-          stack
-            ? "grid-cols-1"
-            : "lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]",
-        )}
-      >
+      <div className="mt-4 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
         <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
           <div className="text-sm font-semibold text-slate-900">
             INFORMASI TAGIHAN DAN DENDA
@@ -296,7 +294,7 @@ export default function LoanBillingAndSummarySection({
           </div>
         </Card>
 
-        <div className={cn("space-y-4 px-1", stack ? "max-w-none" : "")}>
+        <div className="space-y-4 px-1">
           <BillSummaryCard
             mode="regular"
             totals={totalsForSummary}
