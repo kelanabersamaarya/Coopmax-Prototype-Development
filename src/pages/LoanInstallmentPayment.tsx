@@ -11,11 +11,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckSquare, Search, X, Plus } from "lucide-react";
+import { CheckSquare, Search, X, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import SectionDividerLabel from "@/components/loans/SectionDividerLabel";
-import LoanAccountBillingBlock from "@/components/loans/LoanAccountBillingBlock";
+import LoanAccountInfoPreview from "@/components/loans/LoanAccountInfoPreview";
+import { Separator } from "@/components/ui/separator";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -222,28 +223,66 @@ export default function LoanInstallmentPayment() {
                           <Search className="h-4.5 w-4.5" />
                         </button>
                       </div>
+
+                      {/* Hapus rekening terakhir (tanpa ubah desain layout utama) */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedAccounts((prev) => {
+                            if (prev.length === 0) return prev;
+                            const removed = prev[prev.length - 1]!;
+                            const nama = deriveNasabahNameByAccountNo(removed);
+                            toast("Rekening dihapus", {
+                              description: `${nama} • ${removed}`,
+                            });
+                            return prev.slice(0, -1);
+                          });
+
+                          setQNasabah("");
+                        }}
+                        style={{
+                          backgroundColor: "#DC3545",
+                          borderColor: "#DC3545",
+                        }}
+                        className={cn(
+                          "inline-flex w-11 items-center justify-center",
+                          H,
+                          R,
+                          "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
+                          "transition",
+                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
+                        )}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                            "#c72f3d";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                            "#DC3545";
+                        }}
+                        aria-label="Hapus rekening terakhir"
+                        title="Hapus rekening terakhir"
+                      >
+                        <Trash2 className="h-4.5 w-4.5" />
+                      </button>
                     </div>
 
                     <div className="mt-4">
                       <SectionDividerLabel label="Informasi Rekening & Nasabah" />
 
-                      <div className="mt-4 space-y-4">
+                      <div className="mt-4 space-y-0">
                         {selectedAccounts.map((acc, idx) => (
-                          <LoanAccountBillingBlock
-                            key={`${acc}-${idx}`}
-                            index={idx}
-                            accountNo={acc}
-                            onRemove={() => {
-                              setSelectedAccounts((prev) => {
-                                const next = prev.filter((x, i) => !(x === acc && i === idx));
-                                const nama = deriveNasabahNameByAccountNo(acc);
-                                toast("Rekening dihapus", {
-                                  description: `${nama} • ${acc}`,
-                                });
-                                return next;
-                              });
-                            }}
-                          />
+                          <React.Fragment key={`${acc}-${idx}`}>
+                            {idx > 0 ? (
+                              <Separator className="my-4 bg-slate-200/70" />
+                            ) : null}
+                            <LoanAccountInfoPreview
+                              // key lagi supaya state internal (open) tidak “ketularan”
+                              key={`preview-${acc}-${idx}`}
+                              accountNo={acc}
+                              className="mt-0"
+                            />
+                          </React.Fragment>
                         ))}
                       </div>
                     </div>
