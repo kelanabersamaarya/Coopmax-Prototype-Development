@@ -23,8 +23,18 @@ function InfoCol({
 
   return (
     <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
-      <div className={cn("grid", big ? "grid-rows-[18px_30px]" : "grid-rows-[18px_30px]")}>
-        <div className={cn("self-start text-[12px] font-semibold leading-none", labelCls)}>
+      <div
+        className={cn(
+          "grid",
+          big ? "grid-rows-[18px_30px]" : "grid-rows-[18px_30px]",
+        )}
+      >
+        <div
+          className={cn(
+            "self-start text-[12px] font-semibold leading-none",
+            labelCls,
+          )}
+        >
           {label}
         </div>
 
@@ -32,7 +42,9 @@ function InfoCol({
           className={cn(
             "self-start leading-snug",
             valueCls,
-            big ? "text-[14px] font-extrabold tracking-tight" : "text-[14px] font-bold",
+            big
+              ? "text-[14px] font-extrabold tracking-tight"
+              : "text-[14px] font-bold",
           )}
         >
           {value}
@@ -44,7 +56,9 @@ function InfoCol({
 
 function DividerLine({ tone = "light" }: { tone?: "light" | "dark" }) {
   return (
-    <div className={cn("h-px w-full", tone === "dark" ? "bg-white/20" : "bg-slate-200")} />
+    <div
+      className={cn("h-px w-full", tone === "dark" ? "bg-white/20" : "bg-slate-200")}
+    />
   );
 }
 
@@ -101,14 +115,22 @@ export default function LoanAccountInfoPreview({
               {open ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
             </span>
             <ChevronDown
-              className={cn("h-4 w-4 text-slate-600 transition", open ? "rotate-180" : "")}
+              className={cn(
+                "h-4 w-4 text-slate-600 transition",
+                open ? "rotate-180" : "",
+              )}
             />
           </button>
         </div>
 
         <div className="mt-5">
           <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
-            <InfoCol label="No. Rekening Pinjaman" value={accountNo} big tone="dark" />
+            <InfoCol
+              label="No. Rekening Pinjaman"
+              value={accountNo}
+              big
+              tone="dark"
+            />
             <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" tone="dark" />
             <InfoCol
               label="Skema Tagihan"
@@ -124,7 +146,11 @@ export default function LoanAccountInfoPreview({
             <InfoCol label="Satuan Grace Period" value="Bulan" tone="dark" />
 
             <InfoCol label="Durasi Grace Period" value="3" tone="dark" />
-            <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" tone="dark" />
+            <InfoCol
+              label="Sisa Pokok Pinjaman"
+              value="10.000.000,00"
+              tone="dark"
+            />
             <div className="hidden md:block" />
             <div className="hidden md:block" />
           </div>
@@ -133,7 +159,9 @@ export default function LoanAccountInfoPreview({
         <div
           className={cn(
             "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
-            open ? "mt-4 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0",
+            open
+              ? "mt-4 grid-rows-[1fr] opacity-100"
+              : "mt-0 grid-rows-[0fr] opacity-0",
           )}
         >
           <div className="min-h-0">
@@ -162,9 +190,11 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* Area bawah (Tagihan dan Pembayaran Angsuran) - samakan lebar/padding dengan header */}
-      <div className="bg-white px-4 py-4 sm:px-5">
-        <LoanBillingAndSummarySection className="mt-0" />
+      {/* Area bawah: buat padding berada di INNER container agar divider/garis juga sejajar */}
+      <div className="bg-white py-4">
+        <div className="px-5">
+          <LoanBillingAndSummarySection className="mt-0" />
+        </div>
       </div>
     </div>
   );
