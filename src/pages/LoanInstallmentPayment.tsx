@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CheckSquare, X } from "lucide-react";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -56,6 +57,14 @@ export default function LoanInstallmentPayment() {
 
   const labelCls = "text-[14px] font-normal text-slate-900";
   const requiredStar = <span className="text-rose-600">*</span>;
+
+  const actionBtnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    R,
+    "h-11 w-full px-6 text-[14px] font-semibold text-white",
+    "ring-1 transition",
+    "sm:w-auto sm:min-w-[170px]",
+  );
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -138,11 +147,11 @@ export default function LoanInstallmentPayment() {
                 type="button"
                 onClick={() => navigate(-1)}
                 className={cn(
-                  "h-11 w-full px-6 text-sm font-semibold text-slate-700 sm:w-auto",
-                  "bg-white ring-1 ring-slate-200 transition hover:bg-slate-50",
-                  "rounded-full",
+                  actionBtnBase,
+                  "bg-[#77839A] ring-[#77839A]/25 hover:bg-[#6b768c]",
                 )}
               >
+                <X className="h-5 w-5" strokeWidth={3} />
                 Batalkan
               </button>
 
@@ -168,11 +177,11 @@ export default function LoanInstallmentPayment() {
                   navigate(-1);
                 }}
                 className={cn(
-                  "h-11 w-full px-6 text-sm font-semibold text-slate-700 sm:w-auto",
-                  "bg-white ring-1 ring-slate-200 transition hover:bg-slate-50",
-                  "rounded-full",
+                  actionBtnBase,
+                  "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
                 )}
               >
+                <CheckSquare className="h-5 w-5" strokeWidth={3} />
                 Simpan
               </button>
             </div>
