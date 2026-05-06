@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function LoanAccountInfoPreview({
@@ -18,21 +17,6 @@ export default function LoanAccountInfoPreview({
           <div className="text-base font-extrabold tracking-tight">
             PINJAMAN BILLING
           </div>
-
-          <button
-            type="button"
-            className={cn(
-              "inline-flex h-10 items-center gap-2",
-              "rounded-[8px] bg-white px-4",
-              "text-[13px] font-semibold text-slate-900",
-              "ring-1 ring-black/5 shadow-sm transition hover:bg-slate-50",
-            )}
-            aria-label="Aksi"
-            title="Aksi"
-            onClick={() => {}}
-          >
-            Aksi <ChevronDown className="h-4 w-4 text-slate-600" />
-          </button>
         </div>
 
         <div className="mt-4 grid gap-4 md:grid-cols-5">
