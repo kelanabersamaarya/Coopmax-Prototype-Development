@@ -247,7 +247,12 @@ export default function LoanAccountPickerDialog({
               <div className="safe-x-scroll bg-white">
                 <table className="w-full min-w-[1050px] border-collapse">
                   <thead className="bg-white">
-                    <tr className={cn("border-b border-slate-300/70 text-left", headerTextCls)}>
+                    <tr
+                      className={cn(
+                        "border-b border-slate-300/70 text-left",
+                        headerTextCls,
+                      )}
+                    >
                       <th className={cn("w-[70px] whitespace-nowrap", th)}>
                         <ThLabel sortable={false}>No.</ThLabel>
                       </th>
@@ -409,7 +414,7 @@ export default function LoanAccountPickerDialog({
                               onClick={() => onPick(r.noRekening)}
                               className={cn(
                                 "block w-full text-left font-semibold",
-                                "text-blue-600 hover:underline",
+                                "text-black hover:underline",
                                 "tabular-nums whitespace-nowrap",
                               )}
                               title="Pilih rekening"
@@ -432,21 +437,11 @@ export default function LoanAccountPickerDialog({
 
                           <td className={cn(td)}>{r.namaNasabah}</td>
 
-                          <td
-                            className={cn(
-                              td,
-                              "text-right tabular-nums whitespace-nowrap",
-                            )}
-                          >
+                          <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
                             {r.nominal}
                           </td>
 
-                          <td
-                            className={cn(
-                              td,
-                              "text-right tabular-nums whitespace-nowrap",
-                            )}
-                          >
+                          <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
                             {r.sisaPinjaman}
                           </td>
 
