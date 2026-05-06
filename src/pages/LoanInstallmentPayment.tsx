@@ -270,21 +270,25 @@ export default function LoanInstallmentPayment() {
                       <SectionDividerLabel label="Informasi Rekening & Nasabah" />
 
                       <div className="mt-4 space-y-0">
-                        {selectedAccounts.map((acc, idx) => (
-                          <React.Fragment key={`${acc}-${idx}`}>
-                            {idx > 0 ? (
-                              <div className="my-4">
-                                <div className="h-px w-full bg-slate-200/70" />
-                              </div>
-                            ) : null}
+                        {selectedAccounts.map((acc, idx) => {
+                          const isLast = idx === selectedAccounts.length - 1;
 
-                            <LoanAccountInfoPreview
-                              key={`preview-${acc}-${idx}`}
-                              accountNo={acc}
-                              className="mt-0"
-                            />
-                          </React.Fragment>
-                        ))}
+                          return (
+                            <React.Fragment key={`${acc}-${idx}`}>
+                              <LoanAccountInfoPreview
+                                key={`preview-${acc}-${idx}`}
+                                accountNo={acc}
+                                className="mt-0"
+                              />
+
+                              {!isLast ? (
+                                <div className="my-5">
+                                  <div className="h-[2px] w-full bg-slate-200/80" />
+                                </div>
+                              ) : null}
+                            </React.Fragment>
+                          );
+                        })}
                       </div>
                     </div>
 
