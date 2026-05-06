@@ -162,8 +162,8 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* Area bawah (tabel) */}
-      <div className="bg-white px-2 py-4 sm:px-3">
+      {/* Area bawah (Tagihan dan Pembayaran Angsuran) - samakan lebar/padding dengan header */}
+      <div className="bg-white px-4 py-4 sm:px-5">
         <LoanBillingAndSummarySection className="mt-0" />
       </div>
     </div>
