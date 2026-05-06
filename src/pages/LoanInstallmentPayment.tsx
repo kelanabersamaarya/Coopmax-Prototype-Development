@@ -207,84 +207,87 @@ export default function LoanInstallmentPayment() {
 
                         return (
                           <React.Fragment key={`${acc}-${idx}`}>
-                            {/* Field cari + hapus (muncul di setiap billing) */}
-                            <div className={idx === 0 ? "mt-4" : "mt-4"}>
-                              <div className="flex w-full items-stretch gap-2">
-                                <div className="flex min-w-0 flex-1 items-stretch">
-                                  <Input
-                                    value={acc}
-                                    readOnly
-                                    placeholder="Cari nasabah"
-                                    className={cn(
-                                      H,
-                                      "rounded-l-[5px] rounded-r-none",
-                                      "border-slate-200 bg-white text-[13px]",
-                                      "placeholder:text-slate-400",
-                                      "shadow-sm",
-                                      "focus-visible:ring-0 focus-visible:ring-offset-0",
-                                    )}
-                                  />
+                            {/* Padding atas/bawah untuk area header billing */}
+                            <div className={cn(idx === 0 ? "mt-4" : "mt-4")}>
+                              <div className="py-3">
+                                {/* Field cari + hapus (muncul di setiap billing) */}
+                                <div className="flex w-full items-stretch gap-2">
+                                  <div className="flex min-w-0 flex-1 items-stretch">
+                                    <Input
+                                      value={acc}
+                                      readOnly
+                                      placeholder="Cari nasabah"
+                                      className={cn(
+                                        H,
+                                        "rounded-l-[5px] rounded-r-none",
+                                        "border-slate-200 bg-white text-[13px]",
+                                        "placeholder:text-slate-400",
+                                        "shadow-sm",
+                                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                                      )}
+                                    />
+
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setQNasabah(acc);
+                                        setPickerOpen(true);
+                                      }}
+                                      className={cn(
+                                        "inline-flex w-11 items-center justify-center",
+                                        H,
+                                        "rounded-r-[5px] rounded-l-none",
+                                        "bg-slate-600 text-white ring-1 ring-slate-600/20",
+                                        "transition hover:bg-slate-700",
+                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                                      )}
+                                      aria-label="Cari nasabah"
+                                      title="Cari"
+                                    >
+                                      <Search className="h-4.5 w-4.5" />
+                                    </button>
+                                  </div>
 
                                   <button
                                     type="button"
-                                    onClick={() => {
-                                      setQNasabah(acc);
-                                      setPickerOpen(true);
+                                    onClick={() => removeAccount(acc)}
+                                    style={{
+                                      backgroundColor: "#DC3545",
+                                      borderColor: "#DC3545",
                                     }}
                                     className={cn(
                                       "inline-flex w-11 items-center justify-center",
                                       H,
-                                      "rounded-r-[5px] rounded-l-none",
-                                      "bg-slate-600 text-white ring-1 ring-slate-600/20",
-                                      "transition hover:bg-slate-700",
-                                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                                      R,
+                                      "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
+                                      "transition",
+                                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
                                     )}
-                                    aria-label="Cari nasabah"
-                                    title="Cari"
+                                    onMouseEnter={(e) => {
+                                      (
+                                        e.currentTarget as HTMLButtonElement
+                                      ).style.backgroundColor = "#c72f3d";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      (
+                                        e.currentTarget as HTMLButtonElement
+                                      ).style.backgroundColor = "#DC3545";
+                                    }}
+                                    aria-label={`Hapus rekening ${acc}`}
+                                    title={`Hapus rekening ${acc}`}
                                   >
-                                    <Search className="h-4.5 w-4.5" />
+                                    <Trash2 className="h-4.5 w-4.5" />
                                   </button>
                                 </div>
 
-                                <button
-                                  type="button"
-                                  onClick={() => removeAccount(acc)}
-                                  style={{
-                                    backgroundColor: "#DC3545",
-                                    borderColor: "#DC3545",
-                                  }}
-                                  className={cn(
-                                    "inline-flex w-11 items-center justify-center",
-                                    H,
-                                    R,
-                                    "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
-                                    "transition",
-                                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
-                                  )}
-                                  onMouseEnter={(e) => {
-                                    (
-                                      e.currentTarget as HTMLButtonElement
-                                    ).style.backgroundColor = "#c72f3d";
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    (
-                                      e.currentTarget as HTMLButtonElement
-                                    ).style.backgroundColor = "#DC3545";
-                                  }}
-                                  aria-label={`Hapus rekening ${acc}`}
-                                  title={`Hapus rekening ${acc}`}
-                                >
-                                  <Trash2 className="h-4.5 w-4.5" />
-                                </button>
+                                {/* Divider label untuk setiap billing */}
+                                <div className="mt-4">
+                                  <SectionDividerLabel label="Informasi Rekening & Nasabah" />
+                                </div>
                               </div>
                             </div>
 
-                            {/* Divider label untuk setiap billing */}
-                            <div className="mt-5">
-                              <SectionDividerLabel label="Informasi Rekening & Nasabah" />
-                            </div>
-
-                            <div className="mt-4">
+                            <div className="mt-2">
                               <LoanAccountInfoPreview
                                 key={`preview-${acc}-${idx}`}
                                 accountNo={acc}
