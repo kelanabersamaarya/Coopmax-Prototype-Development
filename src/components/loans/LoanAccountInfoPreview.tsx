@@ -61,12 +61,12 @@ export default function LoanAccountInfoPreview({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[8px] bg-white ring-1 ring-slate-200/70",
+        "overflow-hidden rounded-[8px] ring-1 ring-slate-200/70",
         className,
       )}
     >
-      {/* Header */}
-      <div className="bg-white px-5 py-5 text-slate-900">
+      {/* Header/Info section: pakai warna awal (#f3f5fc via --app-bg) */}
+      <div className="bg-[hsl(var(--app-bg))] px-5 py-5 text-slate-900">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
             <div className="min-w-0 text-base font-extrabold tracking-tight text-slate-900">
@@ -83,8 +83,8 @@ export default function LoanAccountInfoPreview({
             onClick={() => setOpen((v) => !v)}
             className={cn(
               "inline-flex shrink-0 items-center gap-2",
-              "rounded-full bg-slate-50 px-3 py-1.5 text-[12px] font-semibold text-slate-700",
-              "ring-1 ring-slate-200 transition hover:bg-slate-100",
+              "rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-slate-700",
+              "ring-1 ring-slate-200 transition hover:bg-slate-50",
               "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-900/10",
             )}
             aria-expanded={open}
@@ -100,7 +100,6 @@ export default function LoanAccountInfoPreview({
           </button>
         </div>
 
-        {/* DETAIL REKENING (SELALU TAMPIL) */}
         <div className="mt-5">
           <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
             <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
@@ -124,7 +123,6 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        {/* INFORMASI NASABAH */}
         <div
           className={cn(
             "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
@@ -157,7 +155,7 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* Area bawah (tabel) - ganti dari --app-bg ke putih agar #f3f5fc hilang */}
+      {/* Area bawah (tabel) tetap putih seperti terakhir */}
       <div className="bg-white px-2 py-4 sm:px-3">
         <LoanBillingAndSummarySection className="mt-0" />
       </div>
