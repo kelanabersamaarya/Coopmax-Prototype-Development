@@ -8,6 +8,7 @@ import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
 import BillSummaryCard from "@/components/anggota/BillSummaryCard";
+import TransactionFormCardView2 from "@/components/anggota/TransactionFormCardView2";
 import { TX, type TransactionType } from "@/components/anggota/transaction-types";
 
 const seedRows: BillingRow[] = [
@@ -71,9 +72,22 @@ export default function LoanBillingAndSummarySection({
     rows.map(() => true),
   );
 
+  // default seperti screenshot: Pembayaran Reguler
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
     TX.REGULER,
   );
+
+  // --- Form state (mengikuti pattern Transaksi Anggota) ---
+  const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
+  const [kolektor, setKolektor] = React.useState<string>("Pilih Kolektor");
+
+  const [nominal, setNominal] = React.useState("0");
+  const [nominalPokok, setNominalPokok] = React.useState("0");
+  const [nominalBunga, setNominalBunga] = React.useState("0");
+  const [nominalDenda, setNominalDenda] = React.useState("0");
+
+  const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
+  const [keterangan, setKeterangan] = React.useState("");
 
   React.useEffect(() => {
     setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
@@ -122,6 +136,27 @@ export default function LoanBillingAndSummarySection({
             transactionType={jenisTransaksi}
             onTransactionTypeChange={(v) => setJenisTransaksi(v)}
             hasAnySelected={selected.some(Boolean)}
+          />
+
+          <TransactionFormCardView2
+            tanggalEfektif={tanggalEfektif}
+            setTanggalEfektif={setTanggalEfektif}
+            jenisTransaksi={jenisTransaksi}
+            setJenisTransaksi={setJenisTransaksi}
+            kolektor={kolektor}
+            setKolektor={setKolektor}
+            nominal={nominal}
+            setNominal={setNominal}
+            nominalPokok={nominalPokok}
+            setNominalPokok={setNominalPokok}
+            nominalBunga={nominalBunga}
+            setNominalBunga={setNominalBunga}
+            nominalDenda={nominalDenda}
+            setNominalDenda={setNominalDenda}
+            tabungan={tabungan}
+            setTabungan={setTabungan}
+            keterangan={keterangan}
+            setKeterangan={setKeterangan}
           />
         </div>
       </div>
