@@ -52,7 +52,9 @@ function ActionPill({
 }
 
 export default function LoanTransactions() {
-  const [detailAccountNo, setDetailAccountNo] = React.useState<string | null>(null);
+  const [detailTransactionNo, setDetailTransactionNo] = React.useState<string | null>(
+    null,
+  );
 
   const actions: Action[] = [
     {
@@ -113,13 +115,13 @@ export default function LoanTransactions() {
     },
   ];
 
-  if (detailAccountNo) {
+  if (detailTransactionNo) {
     return (
       <div className="min-h-screen bg-[hsl(var(--app-bg))]">
         <div className="w-full px-2 py-6 md:px-3 md:py-8">
           <LoanTransactionsDetailHeader
-            accountNo={detailAccountNo}
-            onBack={() => setDetailAccountNo(null)}
+            accountNo={detailTransactionNo}
+            onBack={() => setDetailTransactionNo(null)}
           />
 
           <div className="mt-4 rounded-3xl bg-white/70 p-5 ring-1 ring-slate-200/70 backdrop-blur">
@@ -158,7 +160,9 @@ export default function LoanTransactions() {
             ))}
           </div>
 
-          <LoanTransactionsTable onPickAccount={(acc) => setDetailAccountNo(acc)} />
+          <LoanTransactionsTable
+            onPickTransaction={(trxNo) => setDetailTransactionNo(trxNo)}
+          />
         </div>
       </div>
     </div>

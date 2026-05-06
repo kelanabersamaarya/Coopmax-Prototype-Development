@@ -405,10 +405,10 @@ function DateFilterFieldLikeBefore({
 
 export default function LoanTransactionsTable({
   className,
-  onPickAccount,
+  onPickTransaction,
 }: {
   className?: string;
-  onPickAccount?: (accountNo: string) => void;
+  onPickTransaction?: (transactionNo: string) => void;
 }) {
   const rows = React.useMemo(() => seed, []);
 
@@ -730,28 +730,17 @@ export default function LoanTransactionsTable({
                       </Td>
 
                       <Td>
-                        <a
-                          href="#"
-                          onClick={(e) => e.preventDefault()}
-                          className="font-semibold text-blue-600 hover:underline"
-                        >
-                          {r.noTransaksi}
-                        </a>
-                      </Td>
-
-                      <Td className="tabular-nums">
                         <button
                           type="button"
-                          onClick={() => onPickAccount?.(r.rekPinjaman)}
-                          className={cn(
-                            "font-semibold text-blue-600 hover:underline",
-                            "whitespace-nowrap",
-                          )}
-                          title="Lihat detail transaksi pinjaman"
+                          onClick={() => onPickTransaction?.(r.noTransaksi)}
+                          className="font-semibold text-blue-600 hover:underline"
+                          title="Lihat detail transaksi"
                         >
-                          {r.rekPinjaman}
+                          {r.noTransaksi}
                         </button>
                       </Td>
+
+                      <Td className="tabular-nums whitespace-nowrap">{r.rekPinjaman}</Td>
 
                       <Td className="tabular-nums">{r.rekTabungan}</Td>
                       <Td className="tabular-nums">{r.idNasabah}</Td>
