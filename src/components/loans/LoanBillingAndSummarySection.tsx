@@ -87,8 +87,10 @@ export default function LoanBillingAndSummarySection({
   className?: string;
 }) {
   const rows = React.useMemo(() => seedRows, []);
+
+  // Default: tidak ada yang tercentang (agar reguler juga default none)
   const [selected, setSelected] = React.useState<boolean[]>(() =>
-    rows.map(() => true),
+    rows.map(() => false),
   );
 
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
@@ -97,6 +99,7 @@ export default function LoanBillingAndSummarySection({
 
   const isPenurunanBakiDebet = jenisTransaksi === TX.PENURUNAN_BAKI_DEBET;
   const isKhusus = jenisTransaksi === TX.KHUSUS;
+  const isReguler = jenisTransaksi === TX.REGULER;
 
   // --- Form state ---
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
@@ -110,21 +113,30 @@ export default function LoanBillingAndSummarySection({
   const [tabungan, setTabungan] = React.useState("Tanpa Tabungan");
   const [keterangan, setKeterangan] = React.useState("");
 
+  // Sync panjang selection jika jumlah rows berubah
   React.useEffect(() => {
-    setSelected((prev) => rows.map((_, idx) => prev[idx] ?? true));
+    setSelected((prev) => rows.map((_, idx) => prev[idx] ?? false));
   }, [rows]);
 
+  // Default selection per mode
   React.useEffect(() => {
     if (isPenurunanBakiDebet) {
       setSelected(rows.map(() => true));
       return;
     }
+
     if (isKhusus) {
       setSelected(rows.map(() => false));
       return;
     }
+
+    if (isReguler) {
+      setSelected(rows.map(() => false));
+      return;
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPenurunanBakiDebet, isKhusus, rows.length]);
+  }, [isPenurunanBakiDebet, isKhusus, isReguler, rows.length]);
 
   const sisaPinjamanText = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return null;
@@ -132,7 +144,7 @@ export default function LoanBillingAndSummarySection({
     return formatIdr0(total);
   }, [isPenurunanBakiDebet, rows]);
 
-  // === KHUSUS: RINGKASAN SELALU DARI SELURUH TAGIHAN (tanpa tergantung checklist) ===
+  // === KHUSUS: RINGKASAN SELALU DARI SELURUH TAGIHAN ===
   const khususAllTotals = React.useMemo(() => {
     if (!isKhusus) return null;
 
@@ -195,6 +207,7 @@ export default function LoanBillingAndSummarySection({
       };
     }
 
+    // Mode lain: tetap sederhana (sesuai scope perubahan)
     return { pokok: "0", bunga: "0", denda: "0", total: "0" };
   }, [isKhusus, isPenurunanBakiDebet, khususAllTotals, sisaPinjamanText]);
 
