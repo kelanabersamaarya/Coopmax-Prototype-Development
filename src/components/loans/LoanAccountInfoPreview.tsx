@@ -3,6 +3,32 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+function InfoBlock({
+  label,
+  value,
+  align = "left",
+  big = false,
+}: {
+  label: string;
+  value: React.ReactNode;
+  align?: "left" | "right";
+  big?: boolean;
+}) {
+  return (
+    <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
+      <div className="text-[12px] font-semibold text-white/85">{label}</div>
+      <div
+        className={cn(
+          "mt-1 font-bold leading-snug",
+          big ? "text-[18px] font-extrabold tracking-tight" : "text-[14px]",
+        )}
+      >
+        {value}
+      </div>
+    </div>
+  );
+}
+
 export default function LoanAccountInfoPreview({
   accountNo,
   className,
@@ -25,55 +51,23 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        {/* Pertahankan maksimal 4 info per baris */}
-        <div className="mt-4 grid gap-4 md:grid-cols-4">
-          <div className="min-w-0">
-            <div className="text-[12px] font-semibold text-white/85">
-              No. Rekening Pinjaman
-            </div>
-            <div className="mt-1 text-[18px] font-extrabold tracking-tight">
-              {accountNo}
-            </div>
-          </div>
+        {/* Selalu 4 kolom per baris (pada md+). */}
+        <div className="mt-4 grid gap-x-8 gap-y-7 md:grid-cols-4">
+          {/* Row 1 (4 item) */}
+          <InfoBlock label="No. Rekening Pinjaman" value={accountNo} big />
+          <InfoBlock label="Produk Pinjaman" value="Pinjaman Billing" />
+          <InfoBlock label="Skema Tagihan" value="Tagihan Sesuai Jadwal Angsuran" />
+          <InfoBlock label="Satuan Grace Period" value="Bulan" />
 
-          <div className="min-w-0">
-            <div className="text-[12px] font-semibold text-white/85">
-              Produk Pinjaman
-            </div>
-            <div className="mt-1 text-[14px] font-bold leading-snug">
-              Pinjaman Billing
-            </div>
-          </div>
-
-          <div className="min-w-0">
-            <div className="text-[12px] font-semibold text-white/85">
-              Skema Tagihan
-            </div>
-            <div className="mt-1 text-[14px] font-bold leading-snug">
-              Tagihan Sesuai Jadwal Angsuran
-            </div>
-          </div>
-
-          <div className="min-w-0">
-            <div className="text-[12px] font-semibold text-white/85">
-              Satuan Grace Period
-            </div>
-            <div className="mt-1 text-[14px] font-bold">Bulan</div>
-          </div>
-
-          <div className="min-w-0">
-            <div className="text-[12px] font-semibold text-white/85">
-              Durasi Grace Period
-            </div>
-            <div className="mt-1 text-[14px] font-bold">3</div>
-          </div>
-
-          <div className="min-w-0 md:col-span-3 md:text-right">
-            <div className="text-[12px] font-semibold text-white/85">
-              Sisa Pokok Pinjaman
-            </div>
-            <div className="mt-1 text-[14px] font-extrabold">10.000.000,00</div>
-          </div>
+          {/* Row 2 (4 item) */}
+          <InfoBlock label="Durasi Grace Period" value="3" />
+          <div className="hidden md:block" />
+          <div className="hidden md:block" />
+          <InfoBlock
+            label="Sisa Pokok Pinjaman"
+            value="10.000.000,00"
+            align="right"
+          />
         </div>
       </div>
     </div>
