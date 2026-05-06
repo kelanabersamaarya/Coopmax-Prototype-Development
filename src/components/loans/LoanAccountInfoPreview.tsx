@@ -15,13 +15,13 @@ export default function LoanAccountInfoPreview({
       <div className="bg-[#1aa0b5] px-5 py-5 text-white ring-1 ring-white/10">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
+            <div className="min-w-0 text-base font-extrabold tracking-tight">
+              INFORMASI REKENING
+            </div>
+
             <span className="inline-flex shrink-0 items-center rounded-full bg-rose-600 px-3 py-1 text-[12px] font-semibold text-white ring-1 ring-rose-600/20">
               Belum Terproses
             </span>
-
-            <div className="min-w-0 text-base font-extrabold tracking-tight">
-              Informasi Rekening & Nasabah
-            </div>
           </div>
         </div>
 
