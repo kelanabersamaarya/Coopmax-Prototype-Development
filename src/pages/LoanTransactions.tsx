@@ -13,6 +13,7 @@ import {
 import LoanTransactionsTable from "@/components/loans/LoanTransactionsTable";
 import LoanTransactionsDetailHeader from "@/components/loans/LoanTransactionsDetailHeader";
 import LoanTransactionDetailCard from "@/components/loans/LoanTransactionDetailCard";
+import LoanInstallmentPaymentDialog from "@/components/loans/LoanInstallmentPaymentDialog";
 
 type Action = {
   label: string;
@@ -56,6 +57,8 @@ export default function LoanTransactions() {
   const [detailTransactionNo, setDetailTransactionNo] = React.useState<string | null>(
     null,
   );
+
+  const [payOpen, setPayOpen] = React.useState(false);
 
   const actions: Action[] = [
     {
@@ -109,10 +112,7 @@ export default function LoanTransactions() {
     {
       label: "Pembayaran Angsuran",
       icon: Banknote,
-      onClick: () =>
-        toast("Pembayaran Angsuran (prototype)", {
-          description: "Akan diarahkan ke form pembayaran bila sudah dibuat.",
-        }),
+      onClick: () => setPayOpen(true),
     },
   ];
 
@@ -136,6 +136,8 @@ export default function LoanTransactions() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <LoanInstallmentPaymentDialog open={payOpen} onOpenChange={setPayOpen} />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
