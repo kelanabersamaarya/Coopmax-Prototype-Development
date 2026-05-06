@@ -104,6 +104,28 @@ export default function LoanProductDetail() {
     return all.find((p) => p.id === id) ?? null;
   }, [id]);
 
+  const isKonsumtifFlex = product?.name === "Pinjaman Konsumtif Flex";
+
+  const penaltyConfig = React.useMemo(() => {
+    if (isKonsumtifFlex) {
+      return {
+        method: "%",
+        value: "5%",
+        base: "Pokok",
+        lateDays: "5",
+        recurringActive: true,
+      };
+    }
+
+    return {
+      method: "Rp.",
+      value: "Rp. 10.000,00",
+      base: null as string | null,
+      lateDays: "5",
+      recurringActive: true,
+    };
+  }, [isKonsumtifFlex]);
+
   const sectionCardCls =
     "rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6";
 
@@ -234,14 +256,34 @@ export default function LoanProductDetail() {
                   <SectionTitle>Konfigurasi Denda</SectionTitle>
 
                   <div className={sectionFieldGridCls}>
-                    <Field label="Metode Denda" value="Rp." />
-                    <Field label="Nilai Denda" value="Rp. 10.000,00" />
-                    <Field label="Jumlah Hari Keterlambatan" value="5" />
+                    <Field label="Metode Denda" value={penaltyConfig.method} />
+                    <Field label="Nilai Denda" value={penaltyConfig.value} />
+                    <Field
+                      label="Jumlah Hari Keterlambatan"
+                      value={penaltyConfig.lateDays}
+                    />
                     <Field
                       label="Proses Denda Berulang"
-                      value={<StatusPill tone="green">Aktif</StatusPill>}
+                      value={
+                        <StatusPill
+                          tone={penaltyConfig.recurringActive ? "green" : "red"}
+                        >
+                          {penaltyConfig.recurringActive ? "Aktif" : "Tidak Aktif"}
+                        </StatusPill>
+                      }
                     />
                   </div>
+
+                  {penaltyConfig.base ? (
+                    <div className="mt-10">
+                      <div className="grid gap-y-10 gap-x-4 md:grid-cols-4">
+                        <Field label="Dasar Perhitungan" value={penaltyConfig.base} />
+                        <div className="hidden md:block" />
+                        <div className="hidden md:block" />
+                        <div className="hidden md:block" />
+                      </div>
+                    </div>
+                  ) : null}
                 </Card>
 
                 <Card className={sectionCardCls}>
