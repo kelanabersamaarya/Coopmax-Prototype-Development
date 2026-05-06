@@ -62,7 +62,7 @@ export default function LoanInstallmentPayment() {
           <h1 className="text-2xl font-semibold tracking-tight text-[hsl(var(--app-accent))]">
             Transaksi Pinjaman
           </h1>
-          <div className="text-base font-semibold tracking-tight text-slate-900">
+          <div className="text-base font-normal tracking-tight text-slate-900">
             Pembayaran
           </div>
         </div>
