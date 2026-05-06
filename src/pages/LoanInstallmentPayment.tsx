@@ -60,13 +60,8 @@ export default function LoanInstallmentPayment() {
     "Pilih Kolektor",
   );
 
-  // Flow:
-  // - awalnya belum ada rekening dipilih => hanya tampil form header + tombol Tambah Transaksi
-  // - setelah pilih rekening => tampil detail (preview rekening + billing)
-  // - tombol Tambah Transaksi SELALU membuka modal rekening pinjaman
-  const [selectedAccountNo, setSelectedAccountNo] = React.useState<string | null>(
-    null,
-  );
+  // MULTI: bisa lebih dari 1 rekening dalam 1 transaksi
+  const [selectedAccounts, setSelectedAccounts] = React.useState<string[]>([]);
 
   // Tetap simpan value input agar UI lama tetap jalan setelah pilih rekening
   const [qNasabah, setQNasabah] = React.useState("");
@@ -93,7 +88,7 @@ export default function LoanInstallmentPayment() {
 
   const actionIconCls = "h-4 w-4";
 
-  const showDetail = !!selectedAccountNo;
+  const showDetail = selectedAccounts.length > 0;
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -104,7 +99,16 @@ export default function LoanInstallmentPayment() {
         onPick={(accountNo) => {
           const nama = deriveNasabahNameByAccountNo(accountNo);
 
-          setSelectedAccountNo(accountNo);
+          setSelectedAccounts((prev) => {
+            if (prev.includes(accountNo)) {
+              toast("Rekening sudah dipilih", {
+                description: `${nama} • ${accountNo}`,
+              });
+              return prev;
+            }
+            return [...prev, accountNo];
+          });
+
           setQNasabah(accountNo);
           setPickerOpen(false);
 
@@ -223,14 +227,21 @@ export default function LoanInstallmentPayment() {
                         </button>
                       </div>
 
+                      {/* Hapus rekening terakhir (quick undo) */}
                       <button
                         type="button"
                         onClick={() => {
-                          setSelectedAccountNo(null);
-                          setQNasabah("");
-                          toast("Transaksi direset", {
-                            description: "Silakan pilih rekening pinjaman lagi.",
+                          setSelectedAccounts((prev) => {
+                            if (prev.length === 0) return prev;
+                            const removed = prev[prev.length - 1]!;
+                            const nama = deriveNasabahNameByAccountNo(removed);
+                            toast("Rekening dihapus", {
+                              description: `${nama} • ${removed}`,
+                            });
+                            return prev.slice(0, -1);
                           });
+
+                          setQNasabah("");
                         }}
                         style={{
                           backgroundColor: "#DC3545",
@@ -252,8 +263,8 @@ export default function LoanInstallmentPayment() {
                           (e.currentTarget as HTMLButtonElement).style.backgroundColor =
                             "#DC3545";
                         }}
-                        aria-label="Hapus"
-                        title="Hapus"
+                        aria-label="Hapus rekening terakhir"
+                        title="Hapus rekening terakhir"
                       >
                         <Trash2 className="h-4.5 w-4.5" />
                       </button>
@@ -261,10 +272,16 @@ export default function LoanInstallmentPayment() {
 
                     <div className="mt-4">
                       <SectionDividerLabel label="Informasi Rekening & Nasabah" />
-                      <LoanAccountInfoPreview
-                        accountNo={selectedAccountNo}
-                        className="mt-4"
-                      />
+
+                      <div className="mt-4 space-y-4">
+                        {selectedAccounts.map((acc) => (
+                          <LoanAccountInfoPreview
+                            key={acc}
+                            accountNo={acc}
+                            className="mt-0"
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
 
@@ -328,7 +345,7 @@ export default function LoanInstallmentPayment() {
                     });
                     return;
                   }
-                  if (!selectedAccountNo) {
+                  if (selectedAccounts.length === 0) {
                     toast("Rekening pinjaman wajib dipilih", {
                       description:
                         "Klik Tambah Transaksi untuk memilih rekening pinjaman.",
@@ -337,7 +354,7 @@ export default function LoanInstallmentPayment() {
                   }
 
                   toast.success("Pembayaran Angsuran tersimpan (prototype)", {
-                    description: `${tanggal} • ${jenis} • ${kolektor} • ${selectedAccountNo}`,
+                    description: `${tanggal} • ${jenis} • ${kolektor} • ${selectedAccounts.length} rekening`,
                   });
                   navigate(-1);
                 }}
