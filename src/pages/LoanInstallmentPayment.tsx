@@ -50,9 +50,10 @@ export default function LoanInstallmentPayment() {
     "Pilih Kolektor",
   );
 
-  // Flow baru:
+  // Flow:
   // - awalnya belum ada rekening dipilih => hanya tampil form header + tombol Tambah Transaksi
-  // - setelah pilih rekening => baru tampil detail seperti sebelumnya
+  // - setelah pilih rekening => tampil detail (preview rekening + billing)
+  // - tombol Tambah Transaksi SELALU membuka modal rekening pinjaman
   const [selectedAccountNo, setSelectedAccountNo] = React.useState<string | null>(
     null,
   );
@@ -82,7 +83,6 @@ export default function LoanInstallmentPayment() {
 
   const actionIconCls = "h-4 w-4";
 
-  const hasNasabah = qNasabah.trim().length > 0;
   const showDetail = !!selectedAccountNo;
 
   return (
@@ -259,21 +259,10 @@ export default function LoanInstallmentPayment() {
                 </>
               ) : null}
 
-              {/* CTA: Tambah Transaksi
-                  - sebelum pilih rekening: buka dialog pilih rekening
-                  - setelah pilih rekening: tetap (prototype) */}
+              {/* CTA: Tambah Transaksi — selalu buka modal rekening pinjaman */}
               <button
                 type="button"
-                onClick={() => {
-                  if (!showDetail) {
-                    setPickerOpen(true);
-                    return;
-                  }
-
-                  toast("Tambah Transaksi (prototype)", {
-                    description: "Aksi tambah transaksi belum dihubungkan.",
-                  });
-                }}
+                onClick={() => setPickerOpen(true)}
                 className={cn(
                   "w-full",
                   "inline-flex items-center justify-center gap-2",
