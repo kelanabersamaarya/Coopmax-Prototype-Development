@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import LoanBillingTablePreview from "@/components/loans/LoanBillingTablePreview";
+import LoanBillingAndSummarySection from "@/components/loans/LoanBillingAndSummarySection";
 
 function InfoCol({
   label,
@@ -47,10 +47,8 @@ export default function LoanAccountInfoPreview({
   accountNo: string;
   className?: string;
 }) {
-  // Informasi rekening selalu tampil, informasi nasabah hidden by default
   const [open, setOpen] = React.useState(false);
 
-  // Prototype data (silakan nanti dihubungkan ke data dinamis)
   const nasabah = React.useMemo(
     () => ({
       id: "N2600006",
@@ -152,9 +150,9 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* TABEL TAGIHAN BILLING — DITAMPILKAN DI LUAR SECTION INFORMASI REKENING */}
-      <div className="bg-[hsl(var(--app-bg))] px-0 py-4">
-        <LoanBillingTablePreview className="mt-0" />
+      {/* AREA DI LUAR SECTION INFORMASI REKENING (sesuai screenshot) */}
+      <div className="bg-[hsl(var(--app-bg))] px-2 py-5 md:px-3">
+        <LoanBillingAndSummarySection />
       </div>
     </div>
   );
