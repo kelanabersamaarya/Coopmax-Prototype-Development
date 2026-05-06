@@ -80,18 +80,22 @@ const seed5: LoanAccountRow[] = [
 
 function ThLabel({
   children,
+  sortable = true,
   className,
 }: {
   children: React.ReactNode;
+  sortable?: boolean;
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center justify-between gap-2", className)}>
+    <div className={cn("flex items-start justify-between gap-2", className)}>
       <div className="leading-[1.05]">{children}</div>
-      <span className="inline-flex flex-col leading-none text-slate-900/80">
-        <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
-        <ChevronDown className="h-3.5 w-3.5" />
-      </span>
+      {sortable ? (
+        <span className="mt-[1px] inline-flex flex-col leading-none text-slate-900/80">
+          <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
+          <ChevronDown className="h-3.5 w-3.5" />
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -139,13 +143,14 @@ export default function LoanAccountPickerDialog({
 
   const filterInputCls =
     "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+  const filterSelectTriggerCls =
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
 
   const pageSizeTriggerCls = cn(
     "h-8 w-[64px] rounded-[6px] border border-slate-300 bg-white px-2",
     "text-[14px] font-medium text-slate-900",
     "shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
-    // rapikan chevron bawaan radix
     "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-slate-700",
   );
 
@@ -157,7 +162,6 @@ export default function LoanAccountPickerDialog({
           "max-w-[1200px]",
           "max-h-[85vh] overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
-          // hide default close button (pakai X custom)
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -165,7 +169,6 @@ export default function LoanAccountPickerDialog({
         )}
       >
         <div className="bg-white">
-          {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="text-xl font-semibold tracking-tight text-slate-900">
               Rekening Pinjaman
@@ -184,12 +187,10 @@ export default function LoanAccountPickerDialog({
 
           <Separator className="bg-slate-200" />
 
-          {/* Body */}
           <div
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(85vh - 64px)" }}
           >
-            {/* Entries picker (sesuai referensi) */}
             <div className="flex items-center gap-2 text-[18px] font-normal text-slate-900">
               <div>Tampilkan</div>
               <Select
@@ -216,59 +217,65 @@ export default function LoanAccountPickerDialog({
                   <thead className="bg-white">
                     <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                       <th className={cn("w-[70px] whitespace-nowrap", th)}>
-                        <ThLabel className="justify-start">No.</ThLabel>
+                        <ThLabel sortable={false}>No.</ThLabel>
                       </th>
+
                       <th className={cn("w-[160px]", th)}>
                         <ThLabel>
                           <span className="block">No.</span>
                           <span className="block">Rekening</span>
                         </ThLabel>
                       </th>
+
                       <th className={cn("w-[140px]", th)}>
                         <ThLabel>
                           <span className="block">Tanggal</span>
                           <span className="block">Daftar</span>
                         </ThLabel>
                       </th>
+
                       <th className={cn("w-[170px]", th)}>
                         <ThLabel>
                           <span className="block">Produk</span>
                           <span className="block">Pinjaman</span>
                         </ThLabel>
                       </th>
+
                       <th className={cn("w-[140px]", th)}>
                         <ThLabel>
                           <span className="block">ID.</span>
                           <span className="block">Nasabah</span>
                         </ThLabel>
                       </th>
+
                       <th className={cn("min-w-[220px]", th)}>
                         <ThLabel>Nama Nasabah</ThLabel>
                       </th>
-                      <th className={cn("w-[160px] text-right", th)}>
-                        <div className="flex items-center justify-end">
-                          <ThLabel className="justify-end">Nominal</ThLabel>
-                        </div>
+
+                      <th className={cn("w-[160px]", th)}>
+                        <ThLabel>
+                          <span className="block">Nominal</span>
+                        </ThLabel>
                       </th>
-                      <th className={cn("w-[160px] text-right", th)}>
-                        <div className="flex items-center justify-end">
-                          <ThLabel className="justify-end">
-                            <span className="block">Sisa</span>
-                            <span className="block">Pinjaman</span>
-                          </ThLabel>
-                        </div>
+
+                      <th className={cn("w-[160px]", th)}>
+                        <ThLabel>
+                          <span className="block">Sisa Pinjaman</span>
+                        </ThLabel>
                       </th>
+
                       <th className={cn("w-[110px]", th)}>
                         <ThLabel>
                           <span className="block">Bunga</span>
-                          <span className="block">/Thn (%)</span>
+                          <span className="block">Per Tahun</span>
+                          <span className="block">(%)</span>
                         </ThLabel>
                       </th>
                     </tr>
 
-                    {/* Filter row (ringkas) */}
                     <tr className="border-b border-slate-200 bg-white">
                       <th className={filterCell} />
+
                       <th className={filterCell}>
                         <Input
                           value={q}
@@ -277,13 +284,68 @@ export default function LoanAccountPickerDialog({
                           placeholder=""
                         />
                       </th>
-                      <th className={filterCell} />
-                      <th className={filterCell} />
-                      <th className={filterCell} />
-                      <th className={filterCell} />
-                      <th className={filterCell} />
-                      <th className={filterCell} />
-                      <th className={filterCell} />
+
+                      <th className={filterCell}>
+                        <div className="relative">
+                          <Input
+                            value=""
+                            onChange={() => {}}
+                            className={cn(filterInputCls, "pr-10")}
+                            placeholder=""
+                            readOnly
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setQ("");
+                            }}
+                            className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex h-7 w-7 items-center justify-center rounded-[6px] bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700"
+                            aria-label="Clear tanggal"
+                            title="Clear"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      </th>
+
+                      <th className={filterCell}>
+                        <Select value="-- Semua --" onValueChange={() => {}}>
+                          <SelectTrigger className={filterSelectTriggerCls}>
+                            <SelectValue placeholder="-- Semua --" />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-xl border-slate-200">
+                            <SelectItem value="-- Semua --">-- Semua --</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </th>
+
+                      <th className={filterCell}>
+                        <Input className={filterInputCls} placeholder="" />
+                      </th>
+
+                      <th className={filterCell}>
+                        <Input className={filterInputCls} placeholder="" />
+                      </th>
+
+                      <th className={cn(filterCell, "text-right")}>
+                        <Input
+                          className={cn(filterInputCls, "text-right tabular-nums")}
+                          placeholder="0,00"
+                          inputMode="decimal"
+                        />
+                      </th>
+
+                      <th className={cn(filterCell, "text-right")}>
+                        <Input
+                          className={cn(filterInputCls, "text-right tabular-nums")}
+                          placeholder="0,00"
+                          inputMode="decimal"
+                        />
+                      </th>
+
+                      <th className={filterCell}>
+                        <Input className={filterInputCls} placeholder="" />
+                      </th>
                     </tr>
                   </thead>
 
