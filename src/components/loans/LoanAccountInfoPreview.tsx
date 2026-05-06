@@ -64,7 +64,7 @@ function DividerLine({ tone = "light" }: { tone?: "light" | "dark" }) {
 
 function SectionTitleDark({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[14px] font-extrabold tracking-tight text-white">
+    <div className="text-[16px] font-extrabold tracking-tight text-white">
       {children}
     </div>
   );
