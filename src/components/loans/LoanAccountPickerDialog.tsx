@@ -310,7 +310,9 @@ export default function LoanAccountPickerDialog({
                       </th>
                     </tr>
 
-                    <tr className={cn("border-b border-slate-200 bg-white", bodyTextCls)}>
+                    <tr
+                      className={cn("border-b border-slate-200 bg-white", bodyTextCls)}
+                    >
                       <th className={filterCell} />
 
                       <th className={filterCell}>
@@ -437,11 +439,15 @@ export default function LoanAccountPickerDialog({
 
                           <td className={cn(td)}>{r.namaNasabah}</td>
 
-                          <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
+                          <td
+                            className={cn(td, "text-right tabular-nums whitespace-nowrap")}
+                          >
                             {r.nominal}
                           </td>
 
-                          <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
+                          <td
+                            className={cn(td, "text-right tabular-nums whitespace-nowrap")}
+                          >
                             {r.sisaPinjaman}
                           </td>
 
@@ -455,12 +461,9 @@ export default function LoanAccountPickerDialog({
                 </table>
               </div>
             </div>
-          </div>
 
-          <Separator className="bg-slate-200" />
-
-          <div className="px-6 py-4">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            {/* Pagination moved here: above divider button tutup */}
+            <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-[14px] text-black">
                 Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries} entri
               </div>
@@ -484,8 +487,12 @@ export default function LoanAccountPickerDialog({
                 </button>
               </div>
             </div>
+          </div>
 
-            <div className="mt-4 flex justify-end">
+          <Separator className="bg-slate-200" />
+
+          <div className="px-6 py-4">
+            <div className="flex justify-end">
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
