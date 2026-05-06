@@ -61,10 +61,12 @@ export default function LoanInstallmentPayment() {
   const actionBtnBase = cn(
     "inline-flex items-center justify-center gap-2",
     R,
-    "h-11 w-full px-6 text-[14px] font-semibold text-white",
+    "h-[28px] w-[90px] px-2 text-[11px] font-bold tracking-tight text-white",
     "ring-1 transition",
-    "sm:w-auto sm:min-w-[170px]",
+    "leading-none",
   );
+
+  const actionIconCls = "h-4 w-4";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -151,7 +153,7 @@ export default function LoanInstallmentPayment() {
                   "bg-[#77839A] ring-[#77839A]/25 hover:bg-[#6b768c]",
                 )}
               >
-                <X className="h-5 w-5" strokeWidth={3} />
+                <X className={actionIconCls} strokeWidth={3} />
                 Batalkan
               </button>
 
@@ -181,7 +183,7 @@ export default function LoanInstallmentPayment() {
                   "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
                 )}
               >
-                <CheckSquare className="h-5 w-5" strokeWidth={3} />
+                <CheckSquare className={actionIconCls} strokeWidth={3} />
                 Simpan
               </button>
             </div>
