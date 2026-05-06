@@ -132,6 +132,24 @@ export default function LoanBillingAndSummarySection({
     return formatIdr0(total);
   }, [isPenurunanBakiDebet, rows]);
 
+  // === KHUSUS: RINGKASAN SELALU DARI SELURUH TAGIHAN (tanpa tergantung checklist) ===
+  const khususAllTotals = React.useMemo(() => {
+    if (!isKhusus) return null;
+
+    let pokok = 0;
+    let bunga = 0;
+    let denda = 0;
+
+    for (let i = 0; i < rows.length; i++) {
+      pokok += parseNumLikeId(rows[i]?.tagihanPokok ?? "0");
+      bunga += parseNumLikeId(rows[i]?.tagihanBunga ?? "0");
+      denda += khususPenaltyForIndex(i);
+    }
+
+    return { pokok, bunga, denda, total: pokok + bunga + denda };
+  }, [isKhusus, rows]);
+
+  // === KHUSUS: FIELD PEMBAYARAN IKUT CHECKLIST ===
   const khususSelectedTotals = React.useMemo(() => {
     if (!isKhusus) return null;
 
@@ -149,7 +167,6 @@ export default function LoanBillingAndSummarySection({
     return { pokok, bunga, denda, total: pokok + bunga + denda };
   }, [isKhusus, rows, selected]);
 
-  // Autofill field pembayaran untuk Khusus: ikut selection
   React.useEffect(() => {
     if (!isKhusus) return;
 
@@ -169,7 +186,7 @@ export default function LoanBillingAndSummarySection({
     }
 
     if (isKhusus) {
-      const t = khususSelectedTotals ?? { pokok: 0, bunga: 0, denda: 0, total: 0 };
+      const t = khususAllTotals ?? { pokok: 0, bunga: 0, denda: 0, total: 0 };
       return {
         pokok: formatIdr0(t.pokok),
         bunga: formatIdr0(t.bunga),
@@ -179,9 +196,8 @@ export default function LoanBillingAndSummarySection({
     }
 
     return { pokok: "0", bunga: "0", denda: "0", total: "0" };
-  }, [isKhusus, isPenurunanBakiDebet, khususSelectedTotals, sisaPinjamanText]);
+  }, [isKhusus, isPenurunanBakiDebet, khususAllTotals, sisaPinjamanText]);
 
-  // Matikan ring/outline per-row untuk mode reguler, seperti yang sudah disamakan sebelumnya.
   const disableRowChrome = !isPenurunanBakiDebet;
 
   return (
