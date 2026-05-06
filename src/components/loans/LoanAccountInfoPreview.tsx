@@ -19,13 +19,13 @@ function InfoCol({
   return (
     <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
       <div className={cn("grid", big ? "grid-rows-[18px_30px]" : "grid-rows-[18px_30px]")}>
-        <div className="self-start text-[12px] font-semibold leading-none text-white/90">
+        <div className="self-start text-[12px] font-semibold leading-none text-slate-600">
           {label}
         </div>
 
         <div
           className={cn(
-            "self-start leading-snug text-white",
+            "self-start leading-snug text-slate-900",
             big ? "text-[14px] font-extrabold tracking-tight" : "text-[14px] font-bold",
           )}
         >
@@ -37,7 +37,7 @@ function InfoCol({
 }
 
 function DividerLine() {
-  return <div className="h-px w-full bg-white/20" />;
+  return <div className="h-px w-full bg-slate-200" />;
 }
 
 export default function LoanAccountInfoPreview({
@@ -61,15 +61,15 @@ export default function LoanAccountInfoPreview({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[8px] ring-1 ring-slate-200/70",
+        "overflow-hidden rounded-[8px] bg-white ring-1 ring-slate-200/70",
         className,
       )}
     >
-      {/* Panel atas (biru) - tidak perlu rounded karena wrapper sudah rounded */}
-      <div className="bg-[#1aa0b5] px-5 py-5 text-white">
+      {/* Header (sebelumnya biru) -> sekarang netral */}
+      <div className="bg-white px-5 py-5 text-slate-900">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="min-w-0 text-base font-extrabold tracking-tight">
+            <div className="min-w-0 text-base font-extrabold tracking-tight text-slate-900">
               INFORMASI REKENING
             </div>
 
@@ -83,9 +83,9 @@ export default function LoanAccountInfoPreview({
             onClick={() => setOpen((v) => !v)}
             className={cn(
               "inline-flex shrink-0 items-center gap-2",
-              "rounded-full bg-white/10 px-3 py-1.5 text-[12px] font-semibold text-white",
-              "ring-1 ring-white/15 transition hover:bg-white/15",
-              "focus:outline-none focus-visible:ring-4 focus-visible:ring-white/20",
+              "rounded-full bg-slate-50 px-3 py-1.5 text-[12px] font-semibold text-slate-700",
+              "ring-1 ring-slate-200 transition hover:bg-slate-100",
+              "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-900/10",
             )}
             aria-expanded={open}
             aria-label={open ? "Tampilkan lebih sedikit" : "Tampilkan lebih banyak"}
@@ -95,13 +95,13 @@ export default function LoanAccountInfoPreview({
               {open ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
             </span>
             <ChevronDown
-              className={cn("h-4 w-4 opacity-90 transition", open ? "rotate-180" : "")}
+              className={cn("h-4 w-4 text-slate-500 transition", open ? "rotate-180" : "")}
             />
           </button>
         </div>
 
         {/* DETAIL REKENING (SELALU TAMPIL) */}
-        <div className="mt-7">
+        <div className="mt-5">
           <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
             <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
             <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
@@ -132,30 +132,32 @@ export default function LoanAccountInfoPreview({
           )}
         >
           <div className="min-h-0">
-            <DividerLine />
-
             <div className="mt-4">
-              <div className="text-[16px] font-extrabold tracking-tight text-white">
-                INFORMASI NASABAH
-              </div>
+              <DividerLine />
 
-              <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
-                <InfoCol label="ID Nasabah" value={nasabah.id} big />
-                <InfoCol label="Nama" value={nasabah.nama} />
-                <InfoCol label="Alamat" value={nasabah.alamat} />
-                <div className="hidden md:block" />
+              <div className="mt-4">
+                <div className="text-[14px] font-extrabold tracking-tight text-slate-900">
+                  INFORMASI NASABAH
+                </div>
 
-                <div className="hidden md:block" />
-                <div className="hidden md:block" />
-                <div className="hidden md:block" />
-                <div className="hidden md:block" />
+                <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
+                  <InfoCol label="ID Nasabah" value={nasabah.id} big />
+                  <InfoCol label="Nama" value={nasabah.nama} />
+                  <InfoCol label="Alamat" value={nasabah.alamat} />
+                  <div className="hidden md:block" />
+
+                  <div className="hidden md:block" />
+                  <div className="hidden md:block" />
+                  <div className="hidden md:block" />
+                  <div className="hidden md:block" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Area bawah (tabel) - tetap warna app, tetap di dalam wrapper yang sama */}
+      {/* Area bawah (tabel) */}
       <div className="bg-[hsl(var(--app-bg))] px-2 py-4 sm:px-3">
         <LoanBillingAndSummarySection className="mt-0" />
       </div>
