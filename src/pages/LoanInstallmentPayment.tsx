@@ -138,11 +138,8 @@ export default function LoanInstallmentPayment() {
                 </Select>
               </div>
 
-              {/* Divider yang panjangnya mengikuti area form (kolom input) */}
-              <div className="grid sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <div />
-                <div className="h-px bg-slate-200" />
-              </div>
+              {/* Divider: mulai dari kiri content (sejajar dengan title/form), sampai ujung kolom input */}
+              <div className="h-px w-full bg-slate-200" />
             </div>
           </div>
 
