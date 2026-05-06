@@ -266,22 +266,24 @@ export default function LoanInstallmentPayment() {
                       </button>
                     </div>
 
-                    {/* Divider seperti referensi */}
-                    <div className="mt-5">
-                      <SectionDividerLabel label="Informasi Rekening & Nasabah" />
-                    </div>
-
                     <div className="mt-4 space-y-0">
                       {selectedAccounts.map((acc, idx) => {
                         const isLast = idx === selectedAccounts.length - 1;
 
                         return (
                           <React.Fragment key={`${acc}-${idx}`}>
-                            <LoanAccountInfoPreview
-                              key={`preview-${acc}-${idx}`}
-                              accountNo={acc}
-                              className="mt-0"
-                            />
+                            {/* Header/field ini sekarang muncul untuk setiap rekening */}
+                            <div className={idx === 0 ? "mt-5" : "mt-2"}>
+                              <SectionDividerLabel label="Informasi Rekening & Nasabah" />
+                            </div>
+
+                            <div className="mt-4">
+                              <LoanAccountInfoPreview
+                                key={`preview-${acc}-${idx}`}
+                                accountNo={acc}
+                                className="mt-0"
+                              />
+                            </div>
 
                             {/* Divider antar billing (tidak menempel) */}
                             {!isLast ? (
