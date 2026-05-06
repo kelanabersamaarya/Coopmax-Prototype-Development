@@ -126,7 +126,9 @@ export default function LoanProductDetail() {
             <TopActionButton
               icon={Pencil}
               label="Ubah"
-              onClick={() => navigate(`/loan-products/${encodeURIComponent(id)}/edit`)}
+              onClick={() =>
+                navigate(`/loan-products/${encodeURIComponent(id)}/edit`)
+              }
             />
             <TopActionButton
               icon={Trash2}
@@ -140,7 +142,7 @@ export default function LoanProductDetail() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4">
+        <div className="mt-6">
           {!product ? (
             <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur">
               <div className="text-sm font-semibold text-slate-900">
@@ -156,77 +158,97 @@ export default function LoanProductDetail() {
               </div>
             </Card>
           ) : (
-            <>
-              {/* KONFIGURASI DASAR */}
-              <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
-                <SectionTitle>Konfigurasi Dasar Produk Pinjaman</SectionTitle>
+            <Card className="rounded-3xl border-slate-200/70 bg-white/70 p-4 shadow-sm backdrop-blur md:p-5">
+              <div className="grid gap-4">
+                {/* KONFIGURASI DASAR */}
+                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                  <SectionTitle>Konfigurasi Dasar Produk Pinjaman</SectionTitle>
 
-                <div className="mt-4 grid gap-4 md:grid-cols-4">
-                  <Field label="Nama" value={product.name} />
-                  <Field label="RC" value={<StatusPill tone="red">Tidak Aktif</StatusPill>} />
-                  <Field label="Periode Pinjaman" value="Bulan" />
-                  <Field label="Minimal Periode Pinjaman" value="1 Bulan" />
+                  <div className="mt-4 grid gap-4 md:grid-cols-4">
+                    <Field label="Nama" value={product.name} />
+                    <Field
+                      label="RC"
+                      value={<StatusPill tone="red">Tidak Aktif</StatusPill>}
+                    />
+                    <Field label="Periode Pinjaman" value="Bulan" />
+                    <Field label="Minimal Periode Pinjaman" value="1 Bulan" />
 
-                  <Field label="Maksimal Periode Pinjaman" value={`${product.tenorMonths} Bulan`} />
-                  <Field label="Metode Bunga Pinjaman" value={methodLabel(product.billingScheme)} />
-                  <Field label="Bunga Per Tahun (%)" value={`${product.interestRateYearly.toFixed(2)} %`} />
-                  <Field label="Minimal Pinjaman" value="Rp. 1.000,00" />
+                    <Field
+                      label="Maksimal Periode Pinjaman"
+                      value={`${product.tenorMonths} Bulan`}
+                    />
+                    <Field
+                      label="Metode Bunga Pinjaman"
+                      value={methodLabel(product.billingScheme)}
+                    />
+                    <Field
+                      label="Bunga Per Tahun (%)"
+                      value={`${product.interestRateYearly.toFixed(2)} %`}
+                    />
+                    <Field label="Minimal Pinjaman" value="Rp. 1.000,00" />
 
-                  <Field label="Maksimal Pinjaman" value="Rp. 100.000.000,00" />
-                  <Field label="Administrasi" value="Rp. 0,00" />
-                  <Field label="Propisi" value="Rp. 0,00" />
-                  <Field label="Materai" value="Rp. 0,00" />
+                    <Field label="Maksimal Pinjaman" value="Rp. 100.000.000,00" />
+                    <Field label="Administrasi" value="Rp. 0,00" />
+                    <Field label="Propisi" value="Rp. 0,00" />
+                    <Field label="Materai" value="Rp. 0,00" />
 
-                  <Field label="Akumulasi Denda Pinjaman" value={<StatusPill tone="red">Tidak Aktif</StatusPill>} />
-                  <Field label="Denda Pinjaman" value="0,00%" />
-                  <Field label="Agunan" value={<StatusPill tone="green">Aktif</StatusPill>} />
-                  <Field label="Status" value={<StatusPill tone="green">Aktif</StatusPill>} />
-                </div>
-              </Card>
+                    <Field
+                      label="Akumulasi Denda Pinjaman"
+                      value={<StatusPill tone="red">Tidak Aktif</StatusPill>}
+                    />
+                    <Field label="Denda Pinjaman" value="0,00%" />
+                    <Field label="Agunan" value={<StatusPill tone="green">Aktif</StatusPill>} />
+                    <Field label="Status" value={<StatusPill tone="green">Aktif</StatusPill>} />
+                  </div>
+                </Card>
 
-              {/* KONFIGURASI TAGIHAN ANGSURAN */}
-              <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
-                <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
+                {/* KONFIGURASI TAGIHAN ANGSURAN */}
+                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                  <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
 
-                <div className="mt-4 grid gap-4 md:grid-cols-2">
-                  <Field
-                    label="Tagihan Angsuran Menggunakan Tabel Angsuran"
-                    value={<StatusPill tone="green">Aktif</StatusPill>}
-                  />
-                  <Field
-                    label="Skema Tagihan"
-                    value="Tagihan Diterbitkan Penuh di Awal (Jadwal Tetap)"
-                  />
-                </div>
-              </Card>
+                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <Field
+                      label="Tagihan Angsuran Menggunakan Tabel Angsuran"
+                      value={<StatusPill tone="green">Aktif</StatusPill>}
+                    />
+                    <Field
+                      label="Skema Tagihan"
+                      value="Tagihan Diterbitkan Penuh di Awal (Jadwal Tetap)"
+                    />
+                  </div>
+                </Card>
 
-              {/* KONFIGURASI DENDA (bagian merah di screenshot) */}
-              <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
-                <SectionTitle>Konfigurasi Denda</SectionTitle>
+                {/* KONFIGURASI DENDA */}
+                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                  <SectionTitle>Konfigurasi Denda</SectionTitle>
 
-                <div className="mt-4 grid gap-4 md:grid-cols-4">
-                  <Field label="Metode dan Nilai Denda" value="Rp. 10.000,00" />
-                  <Field label="Dasar Perhitungan" value="Pokok" />
-                  <Field label="Jumlah Hari Keterlambatan" value="5" />
-                  <Field
-                    label="Proses Denda Berulang"
-                    value={<StatusPill tone="green">Aktif</StatusPill>}
-                  />
-                </div>
-              </Card>
+                  <div className="mt-4 grid gap-4 md:grid-cols-4">
+                    <Field label="Metode dan Nilai Denda" value="Rp. 10.000,00" />
+                    <Field label="Dasar Perhitungan" value="Pokok" />
+                    <Field label="Jumlah Hari Keterlambatan" value="5" />
+                    <Field
+                      label="Proses Denda Berulang"
+                      value={<StatusPill tone="green">Aktif</StatusPill>}
+                    />
+                  </div>
+                </Card>
 
-              {/* KONFIGURASI GRACE PERIOD */}
-              <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
-                <SectionTitle>Konfigurasi Grace Period</SectionTitle>
+                {/* KONFIGURASI GRACE PERIOD */}
+                <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+                  <SectionTitle>Konfigurasi Grace Period</SectionTitle>
 
-                <div className="mt-4 grid gap-4 md:grid-cols-4">
-                  <Field label="Grace Period" value={<StatusPill tone="green">Aktif</StatusPill>} />
-                  <Field label="Skema Grace Period" value="Hanya Bayar Bunga" />
-                  <Field label="Satuan Grace Period" value="Bulan" />
-                  <Field label="Durasi Grace Period" value="3" />
-                </div>
-              </Card>
-            </>
+                  <div className="mt-4 grid gap-4 md:grid-cols-4">
+                    <Field
+                      label="Grace Period"
+                      value={<StatusPill tone="green">Aktif</StatusPill>}
+                    />
+                    <Field label="Skema Grace Period" value="Hanya Bayar Bunga" />
+                    <Field label="Satuan Grace Period" value="Bulan" />
+                    <Field label="Durasi Grace Period" value="3" />
+                  </div>
+                </Card>
+              </div>
+            </Card>
           )}
         </div>
       </div>
