@@ -16,7 +16,6 @@ function InfoCol({
 }) {
   return (
     <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
-      {/* 2 baris dengan baseline sejajar */}
       <div className={cn("grid", big ? "grid-rows-[18px_30px]" : "grid-rows-[18px_30px]")}>
         <div className="self-start text-[12px] font-semibold leading-none text-white/90">
           {label}
@@ -57,10 +56,10 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        {/* Layout 1 baris seperti contoh (5 kolom). */}
-        <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-5">
+        {/* Rapi & sejajar: 2 baris, masing-masing 3 kolom (total 6 informasi) */}
+        <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-3">
           <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
-
+          <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
           <InfoCol
             label="Skema Tagihan"
             value={
