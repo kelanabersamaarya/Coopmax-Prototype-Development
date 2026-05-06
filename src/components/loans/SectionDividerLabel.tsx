@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export default function SectionDividerLabel({
-  label = "INFORMASI REKENING",
+  label = "Informasi Rekening & Nasabah",
   status = "Belum Terproses",
   className,
 }: {
