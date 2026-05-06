@@ -189,7 +189,12 @@ export default function LoanBillingAndSummarySection({
     setNominalDenda(formatIdr0(t.denda));
     setNominal("0");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKhusus, khususSelectedTotals?.pokok, khususSelectedTotals?.bunga, khususSelectedTotals?.denda]);
+  }, [
+    isKhusus,
+    khususSelectedTotals?.pokok,
+    khususSelectedTotals?.bunga,
+    khususSelectedTotals?.denda,
+  ]);
 
   // === REGULER: RINGKASAN DARI CHECKLIST ===
   const regulerSelectedTotals = React.useMemo(() => {
@@ -226,7 +231,12 @@ export default function LoanBillingAndSummarySection({
     }
 
     if (isReguler) {
-      const t = regulerSelectedTotals ?? { pokok: 0, bunga: 0, denda: 0, total: 0 };
+      const t = regulerSelectedTotals ?? {
+        pokok: 0,
+        bunga: 0,
+        denda: 0,
+        total: 0,
+      };
       return {
         pokok: formatIdr0(t.pokok),
         bunga: formatIdr0(t.bunga),
@@ -261,7 +271,7 @@ export default function LoanBillingAndSummarySection({
   return (
     <div className={cn(className)}>
       <div className="text-center text-[14px] font-semibold tracking-tight text-slate-900">
-        Tagihan dan Pembayaran Angsuran
+        Tagihan & Pembayaran Angsuran
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
