@@ -57,11 +57,14 @@ export default function LoanInstallmentPayment() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
+        {/* Header sesuai contoh: "Transaksi Pinjaman Pembayaran" */}
         <div className="flex items-baseline gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-            Pembayaran Angsuran
+          <h1 className="text-2xl font-semibold tracking-tight text-[hsl(var(--app-accent))]">
+            Transaksi Pinjaman
           </h1>
-          <div className="text-base font-semibold text-slate-600">Tambah</div>
+          <div className="text-base font-semibold tracking-tight text-slate-900">
+            Pembayaran
+          </div>
         </div>
 
         <Card className="mt-6 overflow-hidden rounded-3xl border-slate-200/70 bg-white/90 p-0 shadow-sm backdrop-blur">
