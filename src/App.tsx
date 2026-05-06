@@ -9,6 +9,7 @@ import LoanProducts from "./pages/LoanProducts";
 import NewLoan from "./pages/NewLoan";
 import LoanProductCreate from "./pages/LoanProductCreate";
 import LoanProductEdit from "./pages/LoanProductEdit";
+import LoanProductDetail from "./pages/LoanProductDetail";
 import AnggotaTransaksi from "./pages/AnggotaTransaksi";
 import LoanApplications from "./pages/LoanApplications";
 import LoanApplicationCreate from "./pages/LoanApplicationCreate";
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="loan-products" element={<LoanProducts />} />
             <Route path="loan-products/new" element={<LoanProductCreate />} />
+            <Route path="loan-products/:id" element={<LoanProductDetail />} />
             <Route path="loan-products/:id/edit" element={<LoanProductEdit />} />
             <Route path="loans/new" element={<NewLoan />} />
             <Route path="loans/applications" element={<LoanApplications />} />

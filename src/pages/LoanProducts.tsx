@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -166,13 +166,20 @@ function IconOnlyAction({
   }
 
   return (
-    <button type="button" className={cls} onClick={onClick} aria-label={label} title={label}>
+    <button
+      type="button"
+      className={cls}
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+    >
       {children}
     </button>
   );
 }
 
 export default function LoanProducts() {
+  const navigate = useNavigate();
   const products = React.useMemo(() => getLoanProducts(), []);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
@@ -452,11 +459,7 @@ export default function LoanProducts() {
                               <IconOnlyAction
                                 label="Lihat"
                                 tone="slate"
-                                onClick={() =>
-                                  toast("Lihat (prototype)", {
-                                    description: `Produk: ${p.name}`,
-                                  })
-                                }
+                                onClick={() => navigate(`/loan-products/${p.id}`)}
                               >
                                 <Eye className="h-5 w-5" />
                               </IconOnlyAction>
