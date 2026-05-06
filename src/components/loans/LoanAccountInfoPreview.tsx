@@ -59,7 +59,7 @@ export default function LoanAccountInfoPreview({
   );
 
   return (
-    <div className={cn("overflow-hidden rounded-[8px]", className)}>
+    <div className={cn("overflow-hidden rounded-[8px] bg-transparent", className)}>
       {/* SECTION: INFORMASI REKENING (panel teal) */}
       <div className="bg-[#1aa0b5] px-5 py-5 text-white ring-1 ring-white/10">
         <div className="flex items-center justify-between gap-4">
@@ -150,9 +150,9 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* AREA DI LUAR SECTION INFORMASI REKENING: TANPA BACKGROUND BIRU */}
-      <div className="bg-transparent px-0 py-0">
-        <LoanBillingAndSummarySection className="mt-4" />
+      {/* AREA BAWAH: tetap di dalam container rounded agar radius bawah terlihat */}
+      <div className="bg-[hsl(var(--app-bg))] px-2 py-4 sm:px-3">
+        <LoanBillingAndSummarySection className="mt-0" />
       </div>
     </div>
   );
