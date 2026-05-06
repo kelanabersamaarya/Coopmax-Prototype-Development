@@ -95,8 +95,8 @@ export default function LoanInstallmentPayment() {
           setSelectedAccountNo(accountNo);
           setQNasabah(accountNo);
           setPickerOpen(false);
-          toast.success("Rekening dipilih", {
-            description: `Rek. Pinjaman: ${accountNo}`,
+          toast.success("Berhasil Menampilkan Tagihan Nasabah", {
+            description: `Rek. Pinjaman:\n${accountNo}`,
           });
         }}
       />
