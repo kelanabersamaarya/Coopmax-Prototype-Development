@@ -150,9 +150,9 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* AREA DI LUAR SECTION INFORMASI REKENING (sesuai screenshot) */}
-      <div className="bg-[hsl(var(--app-bg))] px-2 py-5 md:px-3">
-        <LoanBillingAndSummarySection />
+      {/* AREA DI LUAR SECTION INFORMASI REKENING: TANPA BACKGROUND BIRU */}
+      <div className="bg-transparent px-0 py-0">
+        <LoanBillingAndSummarySection className="mt-4" />
       </div>
     </div>
   );

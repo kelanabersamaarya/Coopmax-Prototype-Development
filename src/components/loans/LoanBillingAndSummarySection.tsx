@@ -71,7 +71,6 @@ export default function LoanBillingAndSummarySection({
     rows.map(() => true),
   );
 
-  // Default: Pembayaran Reguler (seperti screenshot)
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
     TX.REGULER,
   );
@@ -87,7 +86,10 @@ export default function LoanBillingAndSummarySection({
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
 
-      <div className="mt-4 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+      {/* Samakan grid kolom dengan Transaksi Anggota:
+          lg: [minmax(0,1fr)_340px] xl: [minmax(0,1fr)_320px]
+      */}
+      <div className="mt-4 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_320px]">
         <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white/85 p-3 shadow-sm backdrop-blur sm:p-4">
           <div className="text-sm font-semibold text-slate-900">
             INFORMASI TAGIHAN DAN DENDA
@@ -95,31 +97,24 @@ export default function LoanBillingAndSummarySection({
 
           <Separator className="my-3 bg-slate-200/70" />
 
-          <div
-            className={cn(
-              // rapikan tinggi row agar lebih mirip screenshot
-              "[&_.bg-white.px-3.py-3]:!py-1.5",
-              "[&_.px-4.py-4]:!py-2",
-            )}
-          >
-            <BillingTableView2
-              rows={rows}
-              selected={selected}
-              setSelected={setSelected}
-              isLocked={false}
-              showNextBillInfo={false}
-              showGraceInfo={true}
-              highlightGraceBlock={true}
-              keepGraceShellWithoutInfo={false}
-              hideSelection={false}
-              showPenaltyColumn={true}
-              disableRowActiveRing={true}
-              penaltyIndexOffset={0}
-            />
-          </div>
+          <BillingTableView2
+            rows={rows}
+            selected={selected}
+            setSelected={setSelected}
+            isLocked={false}
+            showNextBillInfo={false}
+            showGraceInfo={true}
+            highlightGraceBlock={true}
+            keepGraceShellWithoutInfo={false}
+            hideSelection={false}
+            showPenaltyColumn={true}
+            disableRowActiveRing={true}
+            penaltyIndexOffset={0}
+            rowDensity="default"
+          />
         </Card>
 
-        <div className="space-y-4">
+        <div className="space-y-4 px-1">
           <BillSummaryCard
             mode="regular"
             totals={{ pokok: "0", bunga: "0", denda: "0", total: "0" }}
