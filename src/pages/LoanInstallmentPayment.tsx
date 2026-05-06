@@ -81,7 +81,9 @@ export default function LoanInstallmentPayment() {
         onPick={(accountNo) => {
           setQNasabah(accountNo);
           setPickerOpen(false);
-          toast.success("Rekening dipilih", { description: `Rek. Pinjaman: ${accountNo}` });
+          toast.success("Rekening dipilih", {
+            description: `Rek. Pinjaman: ${accountNo}`,
+          });
         }}
       />
 
@@ -191,6 +193,9 @@ export default function LoanInstallmentPayment() {
                   </button>
                 </div>
               </div>
+
+              {/* Divider tambahan (di bawah field cari nasabah) */}
+              <div className="h-px w-full bg-slate-200" />
 
               <div className="sr-only">
                 <button type="button" onClick={() => setQNasabah(qNasabah)}>
