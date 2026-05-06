@@ -88,32 +88,43 @@ export default function LoanInstallmentPayment() {
 
   const showDetail = selectedAccounts.length > 0;
 
+  function pickAccount(accountNo: string) {
+    const nama = deriveNasabahNameByAccountNo(accountNo);
+
+    setSelectedAccounts((prev) => {
+      if (prev.includes(accountNo)) {
+        toast("Rekening sudah dipilih", {
+          description: `${nama} • ${accountNo}`,
+        });
+        return prev;
+      }
+      return [...prev, accountNo];
+    });
+
+    setQNasabah(accountNo);
+    setPickerOpen(false);
+
+    toast.success("Berhasil Menampilkan Tagihan Nasabah", {
+      description: `${nama} • ${accountNo}`,
+    });
+  }
+
+  function removeAccount(accountNo: string) {
+    const nama = deriveNasabahNameByAccountNo(accountNo);
+    setSelectedAccounts((prev) => prev.filter((x) => x !== accountNo));
+    toast("Rekening dihapus", { description: `${nama} • ${accountNo}` });
+
+    // Jika input sedang menampilkan rekening yg dihapus, kosongkan
+    setQNasabah((prev) => (prev === accountNo ? "" : prev));
+  }
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <LoanAccountPickerDialog
         open={pickerOpen}
         onOpenChange={setPickerOpen}
         query={qNasabah}
-        onPick={(accountNo) => {
-          const nama = deriveNasabahNameByAccountNo(accountNo);
-
-          setSelectedAccounts((prev) => {
-            if (prev.includes(accountNo)) {
-              toast("Rekening sudah dipilih", {
-                description: `${nama} • ${accountNo}`,
-              });
-              return prev;
-            }
-            return [...prev, accountNo];
-          });
-
-          setQNasabah(accountNo);
-          setPickerOpen(false);
-
-          toast.success("Berhasil Menampilkan Tagihan Nasabah", {
-            description: `${nama} • ${accountNo}`,
-          });
-        }}
+        onPick={pickAccount}
       />
 
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -190,90 +201,86 @@ export default function LoanInstallmentPayment() {
               {showDetail ? (
                 <>
                   <div className="w-full">
-                    <div className="flex w-full items-stretch gap-2">
-                      <div className="flex min-w-0 flex-1 items-stretch">
-                        <Input
-                          value={qNasabah}
-                          onChange={(e) => setQNasabah(e.target.value)}
-                          placeholder="Cari nasabah"
-                          className={cn(
-                            H,
-                            "rounded-l-[5px] rounded-r-none",
-                            "border-slate-200 bg-white text-[13px]",
-                            "placeholder:text-slate-400",
-                            "shadow-sm",
-                            "focus-visible:ring-0 focus-visible:ring-offset-0",
-                          )}
-                        />
-
-                        <button
-                          type="button"
-                          onClick={() => setPickerOpen(true)}
-                          className={cn(
-                            "inline-flex w-11 items-center justify-center",
-                            H,
-                            "rounded-r-[5px] rounded-l-none",
-                            "bg-slate-600 text-white ring-1 ring-slate-600/20",
-                            "transition hover:bg-slate-700",
-                            "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-                          )}
-                          aria-label="Cari nasabah"
-                          title="Cari"
-                        >
-                          <Search className="h-4.5 w-4.5" />
-                        </button>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedAccounts((prev) => {
-                            if (prev.length === 0) return prev;
-                            const removed = prev[prev.length - 1]!;
-                            const nama = deriveNasabahNameByAccountNo(removed);
-                            toast("Rekening dihapus", {
-                              description: `${nama} • ${removed}`,
-                            });
-                            return prev.slice(0, -1);
-                          });
-
-                          setQNasabah("");
-                        }}
-                        style={{
-                          backgroundColor: "#DC3545",
-                          borderColor: "#DC3545",
-                        }}
-                        className={cn(
-                          "inline-flex w-11 items-center justify-center",
-                          H,
-                          R,
-                          "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
-                          "transition",
-                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
-                        )}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                            "#c72f3d";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                            "#DC3545";
-                        }}
-                        aria-label="Hapus rekening terakhir"
-                        title="Hapus rekening terakhir"
-                      >
-                        <Trash2 className="h-4.5 w-4.5" />
-                      </button>
-                    </div>
-
                     <div className="mt-4 space-y-0">
                       {selectedAccounts.map((acc, idx) => {
                         const isLast = idx === selectedAccounts.length - 1;
 
                         return (
                           <React.Fragment key={`${acc}-${idx}`}>
-                            {/* Header/field ini sekarang muncul untuk setiap rekening */}
-                            <div className={idx === 0 ? "mt-5" : "mt-2"}>
+                            {/* Field cari + hapus (muncul di setiap billing) */}
+                            <div className={idx === 0 ? "mt-4" : "mt-4"}>
+                              <div className="flex w-full items-stretch gap-2">
+                                <div className="flex min-w-0 flex-1 items-stretch">
+                                  <Input
+                                    value={acc}
+                                    readOnly
+                                    placeholder="Cari nasabah"
+                                    className={cn(
+                                      H,
+                                      "rounded-l-[5px] rounded-r-none",
+                                      "border-slate-200 bg-white text-[13px]",
+                                      "placeholder:text-slate-400",
+                                      "shadow-sm",
+                                      "focus-visible:ring-0 focus-visible:ring-offset-0",
+                                    )}
+                                  />
+
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setQNasabah(acc);
+                                      setPickerOpen(true);
+                                    }}
+                                    className={cn(
+                                      "inline-flex w-11 items-center justify-center",
+                                      H,
+                                      "rounded-r-[5px] rounded-l-none",
+                                      "bg-slate-600 text-white ring-1 ring-slate-600/20",
+                                      "transition hover:bg-slate-700",
+                                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                                    )}
+                                    aria-label="Cari nasabah"
+                                    title="Cari"
+                                  >
+                                    <Search className="h-4.5 w-4.5" />
+                                  </button>
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={() => removeAccount(acc)}
+                                  style={{
+                                    backgroundColor: "#DC3545",
+                                    borderColor: "#DC3545",
+                                  }}
+                                  className={cn(
+                                    "inline-flex w-11 items-center justify-center",
+                                    H,
+                                    R,
+                                    "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
+                                    "transition",
+                                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
+                                  )}
+                                  onMouseEnter={(e) => {
+                                    (
+                                      e.currentTarget as HTMLButtonElement
+                                    ).style.backgroundColor = "#c72f3d";
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    (
+                                      e.currentTarget as HTMLButtonElement
+                                    ).style.backgroundColor = "#DC3545";
+                                  }}
+                                  aria-label={`Hapus rekening ${acc}`}
+                                  title={`Hapus rekening ${acc}`}
+                                >
+                                  <Trash2 className="h-4.5 w-4.5" />
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Divider label untuk setiap billing */}
+                            <div className="mt-5">
                               <SectionDividerLabel label="Informasi Rekening & Nasabah" />
                             </div>
 
@@ -285,7 +292,6 @@ export default function LoanInstallmentPayment() {
                               />
                             </div>
 
-                            {/* Divider antar billing (tidak menempel) */}
                             {!isLast ? (
                               <div className="px-2 sm:px-3">
                                 <div className="py-6">
