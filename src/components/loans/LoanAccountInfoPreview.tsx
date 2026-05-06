@@ -25,13 +25,23 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        <div className="mt-4 grid gap-4 md:grid-cols-5">
+        {/* Pertahankan maksimal 4 info per baris */}
+        <div className="mt-4 grid gap-4 md:grid-cols-4">
           <div className="min-w-0">
             <div className="text-[12px] font-semibold text-white/85">
               No. Rekening Pinjaman
             </div>
             <div className="mt-1 text-[18px] font-extrabold tracking-tight">
               {accountNo}
+            </div>
+          </div>
+
+          <div className="min-w-0">
+            <div className="text-[12px] font-semibold text-white/85">
+              Produk Pinjaman
+            </div>
+            <div className="mt-1 text-[14px] font-bold leading-snug">
+              Pinjaman Billing
             </div>
           </div>
 
@@ -58,13 +68,11 @@ export default function LoanAccountInfoPreview({
             <div className="mt-1 text-[14px] font-bold">3</div>
           </div>
 
-          <div className="min-w-0 md:text-right">
+          <div className="min-w-0 md:col-span-3 md:text-right">
             <div className="text-[12px] font-semibold text-white/85">
               Sisa Pokok Pinjaman
             </div>
-            <div className="mt-1 text-[14px] font-extrabold">
-              10.000.000,00
-            </div>
+            <div className="mt-1 text-[14px] font-extrabold">10.000.000,00</div>
           </div>
         </div>
       </div>
