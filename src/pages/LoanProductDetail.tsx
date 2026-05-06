@@ -46,7 +46,7 @@ function StatusPill({
     tone === "green"
       ? "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25"
       : tone === "red"
-        ? "bg-rose-500 text-white ring-1 ring-rose-500/25"
+        ? "bg-[#DC3545] text-white ring-1 ring-[#DC3545]/25"
         : "bg-slate-200 text-slate-800 ring-1 ring-slate-200";
 
   return (
