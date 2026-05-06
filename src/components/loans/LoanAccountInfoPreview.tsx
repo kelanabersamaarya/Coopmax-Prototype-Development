@@ -70,7 +70,7 @@ export default function LoanAccountInfoPreview({
   const tealBg = "bg-[#1aa0b5]";
 
   return (
-    <div className={cn("overflow-hidden rounded-[8px] ring-1 ring-slate-200/70", className)}>
+    <div className={cn("overflow-hidden rounded-[8px]", className)}>
       {/* Section Informasi Rekening - teal seperti gambar */}
       <div className={cn(tealBg, "px-5 py-5 text-white")}>
         <div className="flex items-center justify-between gap-4">
