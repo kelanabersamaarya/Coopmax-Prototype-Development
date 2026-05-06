@@ -189,7 +189,6 @@ export default function LoanInstallmentPayment() {
 
               {showDetail ? (
                 <>
-                  {/* SEARCH + DELETE (tetap) */}
                   <div className="w-full">
                     <div className="flex w-full items-stretch gap-2">
                       <div className="flex min-w-0 flex-1 items-stretch">
@@ -274,7 +273,9 @@ export default function LoanInstallmentPayment() {
                         {selectedAccounts.map((acc, idx) => (
                           <React.Fragment key={`${acc}-${idx}`}>
                             {idx > 0 ? (
-                              <Separator className="my-4 bg-slate-200/70" />
+                              <div className="my-4">
+                                <div className="h-px w-full bg-slate-200/70" />
+                              </div>
                             ) : null}
 
                             <LoanAccountInfoPreview
