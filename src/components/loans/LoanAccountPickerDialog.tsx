@@ -172,7 +172,7 @@ export default function LoanAccountPickerDialog({
 
   const pageSizeTriggerCls = cn(
     "h-8 w-[64px] rounded-[6px] border border-slate-300 bg-white px-2",
-    "text-[14px] font-medium text-black",
+    "text-[13px] font-medium text-black",
     "shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-black",
@@ -223,7 +223,7 @@ export default function LoanAccountPickerDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(85vh - 64px - 66px - 72px)" }}
           >
-            <div className="flex items-center gap-2 text-[18px] font-normal text-black">
+            <div className="flex items-center gap-2 text-[13px] font-normal text-black">
               <div>Tampilkan</div>
               <Select
                 value={String(pageSize)}
@@ -462,7 +462,7 @@ export default function LoanAccountPickerDialog({
               </div>
             </div>
 
-            {/* Pagination moved here: above divider button tutup */}
+            {/* Pagination: above divider button tutup */}
             <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-[14px] text-black">
                 Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries} entri
