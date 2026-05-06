@@ -208,15 +208,27 @@ export default function LoanInstallmentPayment() {
                       });
                     }}
                     disabled={!hasNasabah}
+                    style={{
+                      backgroundColor: "#DC3545",
+                      borderColor: "#DC3545",
+                    }}
                     className={cn(
                       "inline-flex w-11 items-center justify-center",
                       H,
                       R,
-                      "bg-[#DC3545] text-white ring-1 ring-[#DC3545]/25",
-                      "transition hover:bg-[#c72f3d]",
+                      "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
+                      "transition",
                       "disabled:opacity-60 disabled:pointer-events-none",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DC3545]/25",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
                     )}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                        "#c72f3d";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                        "#DC3545";
+                    }}
                     aria-label="Hapus"
                     title="Hapus"
                   >
