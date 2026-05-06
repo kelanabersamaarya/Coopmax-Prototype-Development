@@ -8,8 +8,18 @@ import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-      {children}
+    <div className="flex items-center">
+      <span
+        className={cn(
+          "inline-flex items-center",
+          "rounded-[6px] px-3 py-2",
+          "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+          "ring-1 ring-slate-200/60",
+          "bg-[#F9FAFF]",
+        )}
+      >
+        {children}
+      </span>
     </div>
   );
 }
@@ -163,7 +173,6 @@ export default function LoanProductDetail() {
           ) : (
             <Card className="rounded-3xl border-slate-200/70 bg-white/70 p-4 shadow-sm backdrop-blur md:p-5">
               <div className="grid gap-4">
-                {/* KONFIGURASI DASAR */}
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Dasar Produk Pinjaman</SectionTitle>
 
@@ -211,7 +220,6 @@ export default function LoanProductDetail() {
                   </div>
                 </Card>
 
-                {/* KONFIGURASI TAGIHAN ANGSURAN */}
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
 
@@ -227,7 +235,6 @@ export default function LoanProductDetail() {
                   </div>
                 </Card>
 
-                {/* KONFIGURASI DENDA */}
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Denda</SectionTitle>
 
@@ -242,7 +249,6 @@ export default function LoanProductDetail() {
                   </div>
                 </Card>
 
-                {/* KONFIGURASI GRACE PERIOD */}
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Grace Period</SectionTitle>
 
