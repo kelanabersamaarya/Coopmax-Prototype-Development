@@ -10,22 +10,28 @@ function InfoCol({
   value,
   align = "left",
   big = false,
+  tone = "light",
 }: {
   label: string;
   value: React.ReactNode;
   align?: "left" | "right";
   big?: boolean;
+  tone?: "light" | "dark";
 }) {
+  const labelCls = tone === "dark" ? "text-white/85" : "text-slate-600";
+  const valueCls = tone === "dark" ? "text-white" : "text-slate-900";
+
   return (
     <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
       <div className={cn("grid", big ? "grid-rows-[18px_30px]" : "grid-rows-[18px_30px]")}>
-        <div className="self-start text-[12px] font-semibold leading-none text-slate-600">
+        <div className={cn("self-start text-[12px] font-semibold leading-none", labelCls)}>
           {label}
         </div>
 
         <div
           className={cn(
-            "self-start leading-snug text-slate-900",
+            "self-start leading-snug",
+            valueCls,
             big ? "text-[14px] font-extrabold tracking-tight" : "text-[14px] font-bold",
           )}
         >
@@ -36,8 +42,10 @@ function InfoCol({
   );
 }
 
-function DividerLine() {
-  return <div className="h-px w-full bg-slate-200" />;
+function DividerLine({ tone = "light" }: { tone?: "light" | "dark" }) {
+  return (
+    <div className={cn("h-px w-full", tone === "dark" ? "bg-white/20" : "bg-slate-200")} />
+  );
 }
 
 export default function LoanAccountInfoPreview({
@@ -58,18 +66,16 @@ export default function LoanAccountInfoPreview({
     [],
   );
 
+  // Teal seperti referensi (dipakai langsung agar match)
+  const tealBg = "bg-[#1aa0b5]";
+
   return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-[8px] ring-1 ring-slate-200/70",
-        className,
-      )}
-    >
-      {/* Header/Info section: pakai warna awal (#f3f5fc via --app-bg) */}
-      <div className="bg-[hsl(var(--app-bg))] px-5 py-5 text-slate-900">
+    <div className={cn("overflow-hidden rounded-[8px] ring-1 ring-slate-200/70", className)}>
+      {/* Section Informasi Rekening - teal seperti gambar */}
+      <div className={cn(tealBg, "px-5 py-5 text-white")}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="min-w-0 text-base font-extrabold tracking-tight text-slate-900">
+            <div className="min-w-0 text-base font-extrabold tracking-tight text-white">
               INFORMASI REKENING
             </div>
 
@@ -83,9 +89,9 @@ export default function LoanAccountInfoPreview({
             onClick={() => setOpen((v) => !v)}
             className={cn(
               "inline-flex shrink-0 items-center gap-2",
-              "rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-slate-700",
-              "ring-1 ring-slate-200 transition hover:bg-slate-50",
-              "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-900/10",
+              "rounded-full bg-white px-3 py-1.5 text-[12px] font-semibold text-slate-800",
+              "ring-1 ring-white/60 transition hover:bg-white/90",
+              "focus:outline-none focus-visible:ring-4 focus-visible:ring-white/25",
             )}
             aria-expanded={open}
             aria-label={open ? "Tampilkan lebih sedikit" : "Tampilkan lebih banyak"}
@@ -95,15 +101,15 @@ export default function LoanAccountInfoPreview({
               {open ? "Tampilkan Lebih Sedikit" : "Tampilkan Lebih Banyak"}
             </span>
             <ChevronDown
-              className={cn("h-4 w-4 text-slate-500 transition", open ? "rotate-180" : "")}
+              className={cn("h-4 w-4 text-slate-600 transition", open ? "rotate-180" : "")}
             />
           </button>
         </div>
 
         <div className="mt-5">
           <div className="grid gap-x-10 gap-y-4 md:grid-cols-4">
-            <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
-            <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" />
+            <InfoCol label="No. Rekening Pinjaman" value={accountNo} big tone="dark" />
+            <InfoCol label="Produk Pinjaman" value="Pinjaman Billing" tone="dark" />
             <InfoCol
               label="Skema Tagihan"
               value={
@@ -113,11 +119,12 @@ export default function LoanAccountInfoPreview({
                   Angsuran
                 </span>
               }
+              tone="dark"
             />
-            <InfoCol label="Satuan Grace Period" value="Bulan" />
+            <InfoCol label="Satuan Grace Period" value="Bulan" tone="dark" />
 
-            <InfoCol label="Durasi Grace Period" value="3" />
-            <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" />
+            <InfoCol label="Durasi Grace Period" value="3" tone="dark" />
+            <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" tone="dark" />
             <div className="hidden md:block" />
             <div className="hidden md:block" />
           </div>
@@ -131,17 +138,17 @@ export default function LoanAccountInfoPreview({
         >
           <div className="min-h-0">
             <div className="mt-4">
-              <DividerLine />
+              <DividerLine tone="dark" />
 
               <div className="mt-4">
-                <div className="text-[14px] font-extrabold tracking-tight text-slate-900">
+                <div className="text-[14px] font-extrabold tracking-tight text-white">
                   INFORMASI NASABAH
                 </div>
 
                 <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-4">
-                  <InfoCol label="ID Nasabah" value={nasabah.id} big />
-                  <InfoCol label="Nama" value={nasabah.nama} />
-                  <InfoCol label="Alamat" value={nasabah.alamat} />
+                  <InfoCol label="ID Nasabah" value={nasabah.id} big tone="dark" />
+                  <InfoCol label="Nama" value={nasabah.nama} tone="dark" />
+                  <InfoCol label="Alamat" value={nasabah.alamat} tone="dark" />
                   <div className="hidden md:block" />
 
                   <div className="hidden md:block" />
@@ -155,7 +162,7 @@ export default function LoanAccountInfoPreview({
         </div>
       </div>
 
-      {/* Area bawah (tabel) tetap putih seperti terakhir */}
+      {/* Area bawah (tabel) */}
       <div className="bg-white px-2 py-4 sm:px-3">
         <LoanBillingAndSummarySection className="mt-0" />
       </div>
