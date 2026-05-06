@@ -282,8 +282,10 @@ export default function LoanInstallmentPayment() {
                               />
 
                               {!isLast ? (
-                                <div className="my-5">
-                                  <div className="h-[2px] w-full bg-slate-200/80" />
+                                <div className="px-2 sm:px-3">
+                                  <div className="py-5">
+                                    <div className="h-[2px] w-full rounded-full bg-slate-200/80" />
+                                  </div>
                                 </div>
                               ) : null}
                             </React.Fragment>
