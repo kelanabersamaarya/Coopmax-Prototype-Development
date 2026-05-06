@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckSquare, Search, X } from "lucide-react";
+import { CheckSquare, Search, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 
@@ -196,6 +196,29 @@ export default function LoanInstallmentPayment() {
 
               {/* Divider tambahan (di bawah field cari nasabah) */}
               <div className="h-px w-full bg-slate-200" />
+
+              {/* Button full width: Tambah Transaksi */}
+              <button
+                type="button"
+                onClick={() =>
+                  toast("Tambah Transaksi (prototype)", {
+                    description: "Aksi tambah transaksi belum dihubungkan.",
+                  })
+                }
+                className={cn(
+                  "w-full",
+                  "inline-flex items-center justify-center gap-2",
+                  "h-10",
+                  "rounded-[5px]",
+                  "bg-blue-600 text-white",
+                  "ring-1 ring-blue-600/25",
+                  "transition hover:bg-blue-700",
+                  "text-[13px] font-semibold",
+                )}
+              >
+                <Plus className="h-4.5 w-4.5" />
+                Tambah Transaksi
+              </button>
 
               <div className="sr-only">
                 <button type="button" onClick={() => setQNasabah(qNasabah)}>
