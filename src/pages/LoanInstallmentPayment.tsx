@@ -11,7 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckSquare, X } from "lucide-react";
+import { CheckSquare, Search, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -45,6 +46,8 @@ export default function LoanInstallmentPayment() {
   const [kolektor, setKolektor] = React.useState<(typeof COLLECTORS)[number]>(
     "Pilih Kolektor",
   );
+
+  const [qNasabah, setQNasabah] = React.useState("");
 
   const selectTriggerCls = cn(
     H,
@@ -138,8 +141,47 @@ export default function LoanInstallmentPayment() {
                 </Select>
               </div>
 
-              {/* Divider: mulai dari kiri content (sejajar dengan title/form), sampai ujung kolom input */}
+              {/* Divider: mulai dari kiri content (sejajar dengan title/form), sampai ujung kanan kolom input */}
               <div className="h-px w-full bg-slate-200" />
+
+              {/* Cari nasabah: lebar mengikuti area divider */}
+              <div className="w-full">
+                <div className="flex w-full items-stretch">
+                  <Input
+                    value={qNasabah}
+                    onChange={(e) => setQNasabah(e.target.value)}
+                    placeholder="Cari nasabah"
+                    className={cn(
+                      "h-11 rounded-l-[10px] rounded-r-none",
+                      "border-slate-200 bg-white text-[18px]",
+                      "placeholder:text-slate-400",
+                      "shadow-sm",
+                      "focus-visible:ring-0 focus-visible:ring-offset-0",
+                    )}
+                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      toast("Cari nasabah (prototype)", {
+                        description: qNasabah
+                          ? `Query: ${qNasabah}`
+                          : "Masukkan nama/ID nasabah.",
+                      })
+                    }
+                    className={cn(
+                      "inline-flex h-11 w-16 items-center justify-center",
+                      "rounded-r-[10px] rounded-l-none",
+                      "bg-slate-600 text-white ring-1 ring-slate-600/20",
+                      "transition hover:bg-slate-700",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+                    )}
+                    aria-label="Cari nasabah"
+                    title="Cari"
+                  >
+                    <Search className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
