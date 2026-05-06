@@ -119,10 +119,12 @@ export default function LoanAccountPickerDialog({
 
   React.useEffect(() => {
     if (!open) return;
-    setQ(query);
+    // IMPORTANT: selalu reset filter saat modal dibuka,
+    // supaya popup kedua dan seterusnya tetap menampilkan jumlah data yang sama.
+    setQ("");
     setPageSize(20);
     setPage(1);
-  }, [open, query]);
+  }, [open]);
 
   const filtered = React.useMemo(() => {
     const s = (q ?? "").trim().toLowerCase();
