@@ -51,8 +51,8 @@ export default function PenaltyDetailDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)] sm:w-[640px]",
-          "max-w-[640px]",
+          "w-[calc(100vw-1.25rem)] sm:w-[740px]",
+          "max-w-[740px]",
           "max-h-[80vh]",
           "overflow-hidden",
           R,
@@ -95,28 +95,29 @@ export default function PenaltyDetailDialog({
                 "overflow-hidden",
                 R,
                 "bg-white",
-                // lebih tegas & pastikan border kiri tidak "hilang"
                 "ring-1 ring-slate-300",
               )}
             >
               <div className="safe-x-scroll bg-white">
                 <table
                   className={cn(
-                    "w-full min-w-[520px] table-fixed border-collapse",
-                    // border kiri eksplisit agar selalu terlihat
+                    "w-full min-w-[640px] table-fixed border-collapse",
                     "border-l border-slate-300",
                   )}
                 >
                   <thead className="bg-white">
                     <tr className="border-b border-slate-300 text-left">
-                      <th className="w-[140px] px-5 py-4 text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-                        HARI
+                      <th className="w-[70px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        NO.
                       </th>
-                      <th className="px-5 py-4 text-center text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <th className="w-[200px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        KETERLAMBATAN (HARI)
+                      </th>
+                      <th className="px-5 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                         TANGGAL
                       </th>
-                      <th className="w-[180px] px-5 py-4 text-right text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-                        DENDA HARIAN
+                      <th className="w-[170px] px-5 py-4 text-right text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        DENDA
                       </th>
                     </tr>
                   </thead>
@@ -125,7 +126,7 @@ export default function PenaltyDetailDialog({
                     {rows.length === 0 ? (
                       <tr>
                         <td
-                          colSpan={3}
+                          colSpan={4}
                           className="px-5 py-10 text-center text-sm text-slate-600"
                         >
                           Tidak ada rincian denda.
@@ -140,8 +141,11 @@ export default function PenaltyDetailDialog({
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                           )}
                         >
-                          <td className="px-5 py-4 text-[14px] font-normal text-slate-900 whitespace-nowrap">
-                            Hari ke-{idx + 1}
+                          <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                            {idx + 1}
+                          </td>
+                          <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                            {idx + 1}
                           </td>
                           <td className="px-5 py-4 text-center text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                             {r.tanggalKeterlambatan}
@@ -155,10 +159,10 @@ export default function PenaltyDetailDialog({
 
                     <tr className="border-t border-slate-300 bg-white">
                       <td
-                        colSpan={2}
+                        colSpan={3}
                         className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900"
                       >
-                        TOTAL NOMINAL DENDA
+                        TOTAL DENDA
                       </td>
                       <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                         {totalText}
