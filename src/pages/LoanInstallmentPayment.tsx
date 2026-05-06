@@ -11,11 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckSquare, Search, X, Plus, Trash2 } from "lucide-react";
+import { CheckSquare, Search, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
-import LoanAccountInfoPreview from "@/components/loans/LoanAccountInfoPreview";
 import SectionDividerLabel from "@/components/loans/SectionDividerLabel";
+import LoanAccountBillingBlock from "@/components/loans/LoanAccountBillingBlock";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -60,10 +60,7 @@ export default function LoanInstallmentPayment() {
     "Pilih Kolektor",
   );
 
-  // MULTI: bisa lebih dari 1 rekening dalam 1 transaksi
   const [selectedAccounts, setSelectedAccounts] = React.useState<string[]>([]);
-
-  // Tetap simpan value input agar UI lama tetap jalan setelah pilih rekening
   const [qNasabah, setQNasabah] = React.useState("");
   const [pickerOpen, setPickerOpen] = React.useState(false);
 
@@ -189,7 +186,6 @@ export default function LoanInstallmentPayment() {
 
               <div className="h-px w-full bg-slate-200" />
 
-              {/* DETAIL (muncul setelah pilih rekening) */}
               {showDetail ? (
                 <>
                   <div className="w-full">
@@ -226,59 +222,27 @@ export default function LoanInstallmentPayment() {
                           <Search className="h-4.5 w-4.5" />
                         </button>
                       </div>
-
-                      {/* Hapus rekening terakhir (quick undo) */}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedAccounts((prev) => {
-                            if (prev.length === 0) return prev;
-                            const removed = prev[prev.length - 1]!;
-                            const nama = deriveNasabahNameByAccountNo(removed);
-                            toast("Rekening dihapus", {
-                              description: `${nama} • ${removed}`,
-                            });
-                            return prev.slice(0, -1);
-                          });
-
-                          setQNasabah("");
-                        }}
-                        style={{
-                          backgroundColor: "#DC3545",
-                          borderColor: "#DC3545",
-                        }}
-                        className={cn(
-                          "inline-flex w-11 items-center justify-center",
-                          H,
-                          R,
-                          "text-white ring-1 ring-[rgba(220,53,69,0.25)]",
-                          "transition",
-                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(220,53,69,0.25)]",
-                        )}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                            "#c72f3d";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                            "#DC3545";
-                        }}
-                        aria-label="Hapus rekening terakhir"
-                        title="Hapus rekening terakhir"
-                      >
-                        <Trash2 className="h-4.5 w-4.5" />
-                      </button>
                     </div>
 
                     <div className="mt-4">
                       <SectionDividerLabel label="Informasi Rekening & Nasabah" />
 
                       <div className="mt-4 space-y-4">
-                        {selectedAccounts.map((acc) => (
-                          <LoanAccountInfoPreview
-                            key={acc}
+                        {selectedAccounts.map((acc, idx) => (
+                          <LoanAccountBillingBlock
+                            key={`${acc}-${idx}`}
+                            index={idx}
                             accountNo={acc}
-                            className="mt-0"
+                            onRemove={() => {
+                              setSelectedAccounts((prev) => {
+                                const next = prev.filter((x, i) => !(x === acc && i === idx));
+                                const nama = deriveNasabahNameByAccountNo(acc);
+                                toast("Rekening dihapus", {
+                                  description: `${nama} • ${acc}`,
+                                });
+                                return next;
+                              });
+                            }}
                           />
                         ))}
                       </div>
@@ -289,7 +253,6 @@ export default function LoanInstallmentPayment() {
                 </>
               ) : null}
 
-              {/* CTA: Tambah Transaksi — selalu buka modal rekening pinjaman */}
               <button
                 type="button"
                 onClick={() => setPickerOpen(true)}
