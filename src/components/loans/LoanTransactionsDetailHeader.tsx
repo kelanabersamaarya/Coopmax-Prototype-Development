@@ -53,7 +53,7 @@ export default function LoanTransactionsDetailHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("rounded-3xl bg-white/70 p-4 ring-1 ring-slate-200/70 backdrop-blur md:p-5", className)}>
+    <div className={cn("bg-transparent p-0 ring-0 shadow-none", className)}>
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-[12.5px] font-semibold text-slate-600">
@@ -81,18 +81,27 @@ export default function LoanTransactionsDetailHeader({
             icon={ReceiptText}
             label="Kwitansi"
             onClick={() =>
-              toast("Kwitansi (prototype)", { description: `Rek. Pinjaman: ${accountNo}` })
+              toast("Kwitansi (prototype)", {
+                description: `Rek. Pinjaman: ${accountNo}`,
+              })
             }
           />
           <ActionButton
             icon={FileText}
             label="Kwitansi Kas"
             onClick={() =>
-              toast("Kwitansi Kas (prototype)", { description: `Rek. Pinjaman: ${accountNo}` })
+              toast("Kwitansi Kas (prototype)", {
+                description: `Rek. Pinjaman: ${accountNo}`,
+              })
             }
             tone="ghost"
           />
-          <ActionButton icon={ArrowLeft} label="Kembali ke Daftar" onClick={onBack} tone="ghost" />
+          <ActionButton
+            icon={ArrowLeft}
+            label="Kembali ke Daftar"
+            onClick={onBack}
+            tone="ghost"
+          />
           <ActionButton
             icon={Trash2}
             label="Hapus"
