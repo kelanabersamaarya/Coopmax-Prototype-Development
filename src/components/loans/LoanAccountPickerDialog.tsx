@@ -197,7 +197,7 @@ export default function LoanAccountPickerDialog({
       >
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="text-xl font-semibold tracking-tight text-slate-900">
+            <div className="text-[18px] font-semibold tracking-tight text-slate-900">
               Rekening Pinjaman
             </div>
 
@@ -458,7 +458,6 @@ export default function LoanAccountPickerDialog({
             </div>
           </div>
 
-          {/* Footer (sesuai screenshot) */}
           <Separator className="bg-slate-200" />
 
           <div className="px-6 py-4">
