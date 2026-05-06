@@ -14,6 +14,7 @@ import {
 import { CheckSquare, Search, X, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
+import LoanAccountInfoPreview from "@/components/loans/LoanAccountInfoPreview";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -160,7 +161,7 @@ export default function LoanInstallmentPayment() {
 
               <div className="h-px w-full bg-slate-200" />
 
-              {/* Cari nasabah: tombol hapus berada DI LUAR field search (terpisah di kanan) */}
+              {/* Cari nasabah */}
               <div className="w-full">
                 <div className="flex w-full items-stretch gap-2">
                   <div className="flex min-w-0 flex-1 items-stretch">
@@ -178,7 +179,6 @@ export default function LoanInstallmentPayment() {
                       )}
                     />
 
-                    {/* Tombol cari (tetap menempel dengan input seperti sebelumnya) */}
                     <button
                       type="button"
                       onClick={() => setPickerOpen(true)}
@@ -197,7 +197,6 @@ export default function LoanInstallmentPayment() {
                     </button>
                   </div>
 
-                  {/* Tombol hapus (di luar field) */}
                   <button
                     type="button"
                     onClick={() => {
@@ -235,12 +234,14 @@ export default function LoanInstallmentPayment() {
                     <Trash2 className="h-4.5 w-4.5" />
                   </button>
                 </div>
+
+                {hasNasabah ? (
+                  <LoanAccountInfoPreview accountNo={qNasabah} className="mt-4" />
+                ) : null}
               </div>
 
-              {/* Divider tambahan (di bawah field cari nasabah) */}
               <div className="h-px w-full bg-slate-200" />
 
-              {/* Button full width: Tambah Transaksi */}
               <button
                 type="button"
                 onClick={() =>
