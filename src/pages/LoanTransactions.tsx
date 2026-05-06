@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import LoanTransactionsTable from "@/components/loans/LoanTransactionsTable";
 import LoanTransactionsDetailHeader from "@/components/loans/LoanTransactionsDetailHeader";
+import LoanTransactionDetailCard from "@/components/loans/LoanTransactionDetailCard";
 
 type Action = {
   label: string;
@@ -124,15 +125,10 @@ export default function LoanTransactions() {
             onBack={() => setDetailTransactionNo(null)}
           />
 
-          <div className="mt-4 rounded-3xl bg-white/70 p-5 ring-1 ring-slate-200/70 backdrop-blur">
-            <div className="text-sm font-semibold text-slate-900">
-              Detail konten (prototype)
-            </div>
-            <div className="mt-2 text-sm text-slate-700">
-              Bagian isi detail akan kita susun setelah kamu konfirmasi komponen/section apa saja
-              yang perlu tampil di bawah header.
-            </div>
-          </div>
+          <LoanTransactionDetailCard
+            transactionNo={detailTransactionNo}
+            className="mt-4"
+          />
         </div>
       </div>
     );
