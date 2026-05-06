@@ -238,7 +238,10 @@ export default function LoanInstallmentPayment() {
 
                 {hasNasabah ? (
                   <div className="mt-4">
-                    <SectionDividerLabel label="Informasi Rekening & Nasabah" />
+                    <SectionDividerLabel
+                      label="INFORMASI REKENING"
+                      status="Belum Terproses"
+                    />
                     <LoanAccountInfoPreview accountNo={qNasabah} className="mt-4" />
                   </div>
                 ) : null}
