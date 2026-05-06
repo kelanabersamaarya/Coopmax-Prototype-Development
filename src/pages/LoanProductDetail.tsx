@@ -106,6 +106,10 @@ export default function LoanProductDetail() {
   const sectionCardCls =
     "rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6";
 
+  // Spasi antar baris field (atas-bawah) dibuat 40px sesuai request
+  const sectionFieldGridCls = "mt-10 grid gap-y-10 gap-x-4 md:grid-cols-4";
+  const sectionFieldGrid2ColsCls = "mt-10 grid gap-y-10 gap-x-4 md:grid-cols-2";
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -167,7 +171,7 @@ export default function LoanProductDetail() {
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Dasar Produk Pinjaman</SectionTitle>
 
-                  <div className="mt-4 grid gap-4 md:grid-cols-4">
+                  <div className={sectionFieldGridCls}>
                     <Field label="Nama" value={product.name} />
                     <Field
                       label="RC"
@@ -214,7 +218,7 @@ export default function LoanProductDetail() {
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
 
-                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                  <div className={sectionFieldGrid2ColsCls}>
                     <Field
                       label="Tagihan Angsuran Menggunakan Tabel Angsuran"
                       value={<StatusPill tone="green">Aktif</StatusPill>}
@@ -229,7 +233,7 @@ export default function LoanProductDetail() {
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Denda</SectionTitle>
 
-                  <div className="mt-4 grid gap-4 md:grid-cols-4">
+                  <div className={sectionFieldGridCls}>
                     <Field label="Metode dan Nilai Denda" value="Rp. 10.000,00" />
                     <Field label="Dasar Perhitungan" value="Pokok" />
                     <Field label="Jumlah Hari Keterlambatan" value="5" />
@@ -243,7 +247,7 @@ export default function LoanProductDetail() {
                 <Card className={sectionCardCls}>
                   <SectionTitle>Konfigurasi Grace Period</SectionTitle>
 
-                  <div className="mt-4 grid gap-4 md:grid-cols-4">
+                  <div className={sectionFieldGridCls}>
                     <Field
                       label="Grace Period"
                       value={<StatusPill tone="green">Aktif</StatusPill>}
