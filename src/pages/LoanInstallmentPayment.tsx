@@ -52,7 +52,7 @@ export default function LoanInstallmentPayment() {
   );
 
   const labelCls = "text-[14px] font-semibold text-slate-900";
-  const requiredStar = <span className="text-blue-600">*</span>;
+  const requiredStar = <span className="text-rose-600">*</span>;
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
