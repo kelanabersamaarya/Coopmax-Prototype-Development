@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
@@ -141,9 +140,7 @@ export default function LoanInstallmentPayment() {
             </div>
           </div>
 
-          <Separator className="bg-slate-200" />
-
-          <div className="px-6 py-5 sm:px-8">
+          <div className="px-6 pb-6 sm:px-8 sm:pb-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <button
                 type="button"
