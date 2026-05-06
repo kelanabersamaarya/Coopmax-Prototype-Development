@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-function InfoBlock({
+function InfoCol({
   label,
   value,
   align = "left",
@@ -16,21 +16,16 @@ function InfoBlock({
 }) {
   return (
     <div className={cn("min-w-0", align === "right" ? "text-right" : "text-left")}>
-      {/* Pakai grid 2 baris dengan tinggi tetap agar semua label/value sejajar */}
-      <div
-        className={cn(
-          "grid",
-          big ? "grid-rows-[18px_28px]" : "grid-rows-[18px_24px]",
-        )}
-      >
-        <div className="self-end text-[12px] font-semibold leading-none text-white/85">
+      {/* 2 baris dengan baseline sejajar */}
+      <div className={cn("grid", big ? "grid-rows-[18px_30px]" : "grid-rows-[18px_30px]")}>
+        <div className="self-start text-[12px] font-semibold leading-none text-white/90">
           {label}
         </div>
 
         <div
           className={cn(
-            "self-end font-bold leading-none",
-            big ? "text-[18px] font-extrabold tracking-tight" : "text-[14px]",
+            "self-start leading-snug text-white",
+            big ? "text-[18px] font-extrabold tracking-tight" : "text-[14px] font-bold",
           )}
         >
           {value}
@@ -62,20 +57,24 @@ export default function LoanAccountInfoPreview({
           </div>
         </div>
 
-        <div className="mt-4 grid gap-x-8 gap-y-7 md:grid-cols-4">
-          <InfoBlock label="No. Rekening Pinjaman" value={accountNo} big />
-          <InfoBlock label="Produk Pinjaman" value="Pinjaman Billing" />
-          <InfoBlock label="Skema Tagihan" value="Tagihan Sesuai Jadwal Angsuran" />
-          <InfoBlock label="Satuan Grace Period" value="Bulan" />
+        {/* Layout 1 baris seperti contoh (5 kolom). */}
+        <div className="mt-4 grid gap-x-10 gap-y-4 md:grid-cols-5">
+          <InfoCol label="No. Rekening Pinjaman" value={accountNo} big />
 
-          <InfoBlock label="Durasi Grace Period" value="3" />
-          <div className="hidden md:block" />
-          <div className="hidden md:block" />
-          <InfoBlock
-            label="Sisa Pokok Pinjaman"
-            value="10.000.000,00"
-            align="right"
+          <InfoCol
+            label="Skema Tagihan"
+            value={
+              <span className="block">
+                Tagihan Sesuai Jadwal
+                <br />
+                Angsuran
+              </span>
+            }
           />
+
+          <InfoCol label="Satuan Grace Period" value="Bulan" />
+          <InfoCol label="Durasi Grace Period" value="3" />
+          <InfoCol label="Sisa Pokok Pinjaman" value="10.000.000,00" align="right" />
         </div>
       </div>
     </div>
