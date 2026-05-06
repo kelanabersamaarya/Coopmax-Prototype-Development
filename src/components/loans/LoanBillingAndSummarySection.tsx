@@ -248,6 +248,16 @@ export default function LoanBillingAndSummarySection({
 
   const disableRowChrome = !isPenurunanBakiDebet;
 
+  // Samakan density dengan Transaksi via Anggota (lebih rapat)
+  const compactTableWrap = cn(
+    // RowShell padding di BillingTableView2: "bg-white px-3 py-3"
+    "[&_.bg-white.px-3.py-3]:!py-1.5",
+    // Cell padding di BillingTableView2: "px-4 py-4"
+    "[&_.px-4.py-4]:!py-2",
+    // keep header/table compact class hooks if any
+    "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
+  );
+
   return (
     <div className={cn(className)}>
       <div className="text-center text-[14px] font-semibold tracking-tight text-slate-900">
@@ -263,22 +273,25 @@ export default function LoanBillingAndSummarySection({
 
           <Separator className="my-3 bg-slate-200/70" />
 
-          <BillingTableView2
-            rows={rows}
-            selected={selected}
-            setSelected={setSelected}
-            isLocked={isPenurunanBakiDebet ? true : false}
-            showNextBillInfo={false}
-            showGraceInfo={true}
-            highlightGraceBlock={true}
-            keepGraceShellWithoutInfo={false}
-            hideSelection={isPenurunanBakiDebet}
-            showPenaltyColumn={isPenurunanBakiDebet ? false : true}
-            disableRowRings={disableRowChrome}
-            disableRowActiveRing={disableRowChrome}
-            penaltyIndexOffset={0}
-            rowDensity="default"
-          />
+          <div className={compactTableWrap}>
+            <BillingTableView2
+              rows={rows}
+              selected={selected}
+              setSelected={setSelected}
+              isLocked={isPenurunanBakiDebet ? true : false}
+              showNextBillInfo={false}
+              showGraceInfo={true}
+              highlightGraceBlock={true}
+              keepGraceShellWithoutInfo={false}
+              hideSelection={isPenurunanBakiDebet}
+              showPenaltyColumn={isPenurunanBakiDebet ? false : true}
+              disableRowRings={disableRowChrome}
+              disableRowActiveRing={disableRowChrome}
+              penaltyIndexOffset={0}
+              rowDensity="default"
+              className="mt-0"
+            />
+          </div>
         </Card>
 
         <div className="space-y-4 px-1">
