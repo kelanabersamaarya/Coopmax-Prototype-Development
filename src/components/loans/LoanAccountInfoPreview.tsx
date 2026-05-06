@@ -3,6 +3,7 @@
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import LoanBillingTablePreview from "@/components/loans/LoanBillingTablePreview";
 
 function InfoCol({
   label,
@@ -120,6 +121,9 @@ export default function LoanAccountInfoPreview({
             <div className="hidden md:block" />
             <div className="hidden md:block" />
           </div>
+
+          {/* TABEL TAGIHAN BILLING (SAMA PERSIS SEPERTI TRANSAKSI ANGGOTA) */}
+          <LoanBillingTablePreview className="mt-4" />
         </div>
 
         {/* INFORMASI NASABAH (HIDDEN DEFAULT, MUNCUL SAAT OPEN) */}
