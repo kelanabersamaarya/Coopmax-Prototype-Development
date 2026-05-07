@@ -62,14 +62,58 @@ function Td({
   );
 }
 
+type NasabahInfo = {
+  nama: string;
+  alamat: string;
+  produk: string;
+  noSimpananWajib: string;
+  saldoSimpananWajib: string;
+};
+
+function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
+  const map: Record<string, NasabahInfo> = {
+    "12260006": {
+      nama: "Pangeran Sirait",
+      alamat: "Gg. Basudewo No. 230, Gorontalo 27811, DIY",
+      produk: "Pinjaman Bulanan",
+      noSimpananWajib: "87260001",
+      saldoSimpananWajib: "30.000,00",
+    },
+    "12260002": {
+      nama: "gaby",
+      alamat: "Jl. Galang",
+      produk: "Pinjaman Bulanan",
+      noSimpananWajib: "87260002",
+      saldoSimpananWajib: "30.000,00",
+    },
+    "12260001": {
+      nama: "Rika Wastuti",
+      alamat: "Jl. Kenanga No. 12",
+      produk: "Pinjaman Bulanan",
+      noSimpananWajib: "87260003",
+      saldoSimpananWajib: "30.000,00",
+    },
+    "210260001": {
+      nama: "Jenan Aditama",
+      alamat: "Denpasar",
+      produk: "Pinjaman RC",
+      noSimpananWajib: "87260004",
+      saldoSimpananWajib: "30.000,00",
+    },
+    "072260001": {
+      nama: "Rika Wastuti",
+      alamat: "Jl. Kenanga No. 12",
+      produk: "Pinjaman Harian",
+      noSimpananWajib: "87260005",
+      saldoSimpananWajib: "30.000,00",
+    },
+  };
+
+  return map[accountNo] ?? null;
+}
+
 function deriveNasabahNameByAccountNo(accountNo: string) {
-  // Selaras dengan seed di LoanAccountPickerDialog (seed5)
-  if (accountNo === "12260006") return "Pangeran Sirait";
-  if (accountNo === "12260002") return "gaby";
-  if (accountNo === "12260001") return "Rika Wastuti";
-  if (accountNo === "210260001") return "Jenan Aditama";
-  if (accountNo === "072260001") return "Rika Wastuti";
-  return "Nasabah";
+  return getNasabahInfoByAccountNo(accountNo)?.nama ?? "Nasabah";
 }
 
 function NasabahRow({
@@ -115,21 +159,58 @@ function NasabahRow({
             <Search className="h-4.5 w-4.5" />
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
-          Nama :
-        </div>
-        <div className="min-w-0 text-[13px] text-slate-600 truncate">-</div>
+function InfoLine({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-x-4 gap-y-1 [grid-template-columns:110px_10px_minmax(0,1fr)]">
+      <div className="text-[14px] font-normal text-slate-900">{label}</div>
+      <div className="text-[14px] font-normal text-slate-900">:</div>
+      <div className="min-w-0 text-[14px] font-normal text-slate-900">
+        <div className="break-words leading-snug">{value}</div>
+      </div>
+    </div>
+  );
+}
 
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
-          Alamat :
-        </div>
-        <div className="min-w-0 text-[13px] text-slate-600 truncate">-</div>
+function SelectedNasabahInfo({
+  accountNo,
+}: {
+  accountNo: string;
+}) {
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  if (!info) return null;
 
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
-          Produk :
+  return (
+    <div className="mt-3 overflow-hidden rounded-[6px] bg-white ring-1 ring-slate-200">
+      {/* Header (layout seperti gambar kedua — 1 baris saja) */}
+      <div className="bg-[#1aa0b5] px-4 py-3 text-white">
+        <div className="text-[12px] font-semibold leading-none text-white/90">
+          No. Rekening Pinjaman
         </div>
-        <div className="min-w-0 text-[13px] text-slate-600 truncate">-</div>
+        <div className="mt-1 text-[18px] font-extrabold tracking-tight">
+          {accountNo}
+        </div>
+      </div>
+
+      {/* Detail (seperti gambar pertama) */}
+      <div className="px-4 py-4">
+        <div className="space-y-3">
+          <InfoLine label="Nama" value={info.nama} />
+          <InfoLine label="Alamat" value={info.alamat} />
+          <InfoLine label="Produk" value={info.produk} />
+          <InfoLine label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
+          <InfoLine label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
+        </div>
       </div>
     </div>
   );
@@ -201,6 +282,8 @@ export default function LoanInstallmentPaymentV2Table({
                 onAccountNoChange={setAccountNo}
                 onSearchClick={openPicker}
               />
+
+              {accountNo ? <SelectedNasabahInfo accountNo={accountNo} /> : null}
             </Td>
 
             <Td className="bg-white" />
