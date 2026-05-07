@@ -362,7 +362,7 @@ function SelectedPinjamanInfo({
             key={it.label}
             label={it.label}
             value={
-              it.value ?? <span className="font-semibold text-slate-400">-</span>
+              it.value ?? <span className="text-slate-400 font-semibold">-</span>
             }
           />
         ))}
@@ -377,7 +377,7 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? it.value : <span className="font-semibold text-slate-400">-</span>
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
               }
             />
           ))}
@@ -386,7 +386,7 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? it.value : <span className="font-semibold text-slate-400">-</span>
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
               }
             />
           ))}
@@ -401,7 +401,7 @@ function SelectedPinjamanInfo({
             key={r.label}
             label={r.label}
             value={
-              hasInfo ? r.value : <span className="font-semibold text-slate-400">-</span>
+              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
             }
           />
         ))}
@@ -1034,7 +1034,7 @@ function SummaryBlock({
   onSave: () => void;
 }) {
   return (
-    <div className="pt-[100px]">
+    <div className="pt-[200px]">
       <div className="grid gap-4">
         <SummaryRow label="Total Nominal" value={totalNominal} />
         <SummaryRow label="Total Denda" value={totalDenda} />
