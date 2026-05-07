@@ -291,7 +291,6 @@ export default function BillingTableView2({
     globalIdx: number;
     dueDateDmy: string;
   }) {
-    // kolom tetap ada (supaya layout tidak berubah), tapi isi bisa dikosongkan.
     if (!penaltyContentEnabled) {
       return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
     }
@@ -329,6 +328,12 @@ export default function BillingTableView2({
   const renderGraceShell = highlightGraceBlock && graceRows.length > 0;
   const shouldShowGraceInfoRow =
     renderGraceShell && (showGraceInfo || keepGraceShellWithoutInfo);
+
+  const checkboxCls = cn(
+    "h-5 w-5 rounded-[6px] accent-blue-600",
+    "border-0 bg-transparent shadow-none ring-0",
+    "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
 
   return (
     <div className={cn("mt-3", className)}>
@@ -374,7 +379,9 @@ export default function BillingTableView2({
                         {graceRows.map((r, idx) => {
                           const rowIndex = idx;
                           const globalIdx = penaltyIndexOffset + rowIndex;
-                          const active = hideSelection ? false : selected[rowIndex] === true;
+
+                          // ✅ hilangkan ring/border aktif saat dicentang (untuk reguler/khusus)
+                          const active = false;
 
                           return (
                             <div
@@ -383,8 +390,8 @@ export default function BillingTableView2({
                             >
                               <RowShell
                                 active={active}
-                                disableActiveRing={disableRowActiveRing}
-                                disableRowRings={disableRowRings}
+                                disableActiveRing={true}
+                                disableRowRings={true}
                                 density={rowShellDensity}
                                 compact={isCompact}
                               >
@@ -409,7 +416,7 @@ export default function BillingTableView2({
                                             return copy;
                                           });
                                         }}
-                                        className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                        className={checkboxCls}
                                       />
                                     </div>
                                   ) : null}
@@ -456,15 +463,17 @@ export default function BillingTableView2({
                 {afterGraceRows.map((r, idx) => {
                   const rowIndex = graceCount + idx;
                   const globalIdx = penaltyIndexOffset + rowIndex;
-                  const active = hideSelection ? false : selected[rowIndex] === true;
+
+                  // ✅ hilangkan ring/border aktif saat dicentang (untuk reguler/khusus)
+                  const active = false;
 
                   return (
                     <tr key={`${r.jatuhTempo}-${rowIndex}`} className={cn(rowDividerClass)}>
                       <td colSpan={colCount} className="p-0">
                         <RowShell
                           active={active}
-                          disableActiveRing={disableRowActiveRing}
-                          disableRowRings={disableRowRings}
+                          disableActiveRing={true}
+                          disableRowRings={true}
                           density={rowShellDensity}
                           compact={isCompact}
                         >
@@ -489,7 +498,7 @@ export default function BillingTableView2({
                                       return copy;
                                     });
                                   }}
-                                  className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                  className={checkboxCls}
                                 />
                               </div>
                             ) : null}
@@ -503,9 +512,7 @@ export default function BillingTableView2({
                             </div>
 
                             <div className={cn("px-4", cellY, numberTextClass)}>
-                              <RightNum
-                                value={displayTagihanPokok(rowIndex, r.tagihanPokok)}
-                              />
+                              <RightNum value={displayTagihanPokok(rowIndex, r.tagihanPokok)} />
                             </div>
 
                             <div className={cn("px-4", cellY, numberTextClass)}>
@@ -546,15 +553,17 @@ export default function BillingTableView2({
                 ) : (
                   rows.map((r, idx) => {
                     const globalIdx = penaltyIndexOffset + idx;
-                    const active = hideSelection ? false : selected[idx] === true;
+
+                    // ✅ hilangkan ring/border aktif saat dicentang (untuk reguler/khusus)
+                    const active = false;
 
                     return (
                       <tr key={`${r.jatuhTempo}-${idx}`} className={cn(rowDividerClass)}>
                         <td colSpan={colCount} className="p-0">
                           <RowShell
                             active={active}
-                            disableActiveRing={disableRowActiveRing}
-                            disableRowRings={disableRowRings}
+                            disableActiveRing={true}
+                            disableRowRings={true}
                             density={rowShellDensity}
                             compact={isCompact}
                           >
@@ -579,7 +588,7 @@ export default function BillingTableView2({
                                         return copy;
                                       });
                                     }}
-                                    className="h-4 w-4 rounded-[5px] accent-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/25"
+                                    className={checkboxCls}
                                   />
                                 </div>
                               ) : null}
