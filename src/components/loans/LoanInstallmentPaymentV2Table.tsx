@@ -193,7 +193,12 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
+      <div
+        className={cn(
+          "text-[12px] font-normal text-black",
+          strong ? "font-semibold" : "",
+        )}
+      >
         {label}
       </div>
       <div
@@ -278,6 +283,17 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
     { label: "Metode Bunga", value: "Bunga Efektif" },
   ];
 
+  const financeSummary = [
+    { label: "Plafond", value: "10.000.000" },
+    { label: "Sisa Total Pinjaman", value: "9.625.000" },
+    { label: "Sisa Pokok Pinjaman", value: "9.166.667" },
+    { label: "Pokok", value: "458" },
+    { label: "Bunga", value: "0" },
+    { label: "Denda", value: "0" },
+    { label: "Angsuran", value: "0" },
+    { label: "Sesilih Tanggal Transaksi", value: "0" },
+  ];
+
   return (
     <div className="bg-white">
       <div className="grid gap-4">
@@ -297,7 +313,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         ))}
       </div>
 
-      {/* ✅ Tambahan ringkasan tagihan (sesuai gambar) */}
       <div className="my-4 h-px w-full bg-slate-200" />
 
       <div className="grid gap-4">
@@ -316,6 +331,15 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
       <div className="grid gap-4">
         {extra.map((r) => (
           <InfoStack key={r.label} label={r.label} value={r.value} />
+        ))}
+      </div>
+
+      {/* ✅ blok baru: setelah Metode Bunga Efektif */}
+      <div className="my-4 h-px w-full bg-slate-200" />
+
+      <div className="grid gap-4">
+        {financeSummary.map((it) => (
+          <InfoStack key={it.label} label={it.label} value={it.value} />
         ))}
       </div>
     </div>
