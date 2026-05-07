@@ -63,14 +63,17 @@ function Td({
 function NasabahRow() {
   return (
     <div className="grid gap-1">
-      <div className="grid gap-y-1 gap-x-2 [grid-template-columns:76px_minmax(0,1fr)]">
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900">No Rek :</div>
+      {/* label tetap, kolom value dibuat min-w-0 supaya gak maksa lebar */}
+      <div className="grid min-w-0 gap-y-1 gap-x-2 [grid-template-columns:62px_minmax(0,1fr)]">
+        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
+          No Rek :
+        </div>
 
         <div className="flex min-w-0 items-stretch">
           <Input
             placeholder="Cari nasabah"
             className={cn(
-              "h-8 rounded-l-[6px] rounded-r-none",
+              "h-8 min-w-0 rounded-l-[6px] rounded-r-none",
               "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
               "shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
               "placeholder:text-slate-500",
@@ -79,7 +82,7 @@ function NasabahRow() {
           <button
             type="button"
             className={cn(
-              "inline-flex w-10 items-center justify-center",
+              "inline-flex w-10 shrink-0 items-center justify-center",
               "rounded-r-[6px] rounded-l-none",
               "bg-[#6B7A90] text-white",
               "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
@@ -91,14 +94,20 @@ function NasabahRow() {
           </button>
         </div>
 
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900">Nama :</div>
-        <div />
+        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
+          Nama :
+        </div>
+        <div className="min-w-0 text-[13px] text-slate-600 truncate">-</div>
 
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900">Alamat :</div>
-        <div />
+        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
+          Alamat :
+        </div>
+        <div className="min-w-0 text-[13px] text-slate-600 truncate">-</div>
 
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900">Produk :</div>
-        <div />
+        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
+          Produk :
+        </div>
+        <div className="min-w-0 text-[13px] text-slate-600 truncate">-</div>
       </div>
     </div>
   );
@@ -111,42 +120,46 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
-      <div className="safe-x-scroll">
-        {/* min-width dibesarkan supaya kolom PINJAMAN & TRANSAKSI dapat ruang ekstra */}
-        <table className="w-full min-w-[1180px] border-collapse bg-white">
-          <thead className="bg-white">
-            <tr>
-              <Th className="w-[60px] px-3">
-                <div className="text-left">NO</div>
-              </Th>
+      {/* TANPA horizontal scroll */}
+      <table className="w-full table-fixed border-collapse bg-white">
+        <colgroup>
+          <col className="w-[56px]" />
+          <col className="w-[280px]" />
+          <col />
+          <col />
+        </colgroup>
 
-              {/* NASABAH diperkecil */}
-              <Th className="min-w-[260px] pl-3 pr-4">NASABAH</Th>
+        <thead className="bg-white">
+          <tr>
+            <Th className="px-3">
+              <div className="text-left">NO</div>
+            </Th>
 
-              {/* PINJAMAN & TRANSAKSI dibesarkan */}
-              <Th className="min-w-[360px]">PINJAMAN</Th>
-              <Th className="min-w-[420px] text-center" align="center">
-                TRANSAKSI
-              </Th>
-            </tr>
-          </thead>
+            <Th className="pl-3 pr-4">NASABAH</Th>
 
-          <tbody>
-            <tr>
-              <Td className="w-[60px] px-3">
-                <span className="tabular-nums">1.</span>
-              </Td>
+            <Th>PINJAMAN</Th>
 
-              <Td className="min-w-[260px] pl-3 pr-4">
-                <NasabahRow />
-              </Td>
+            <Th className="text-center" align="center">
+              TRANSAKSI
+            </Th>
+          </tr>
+        </thead>
 
-              <Td className="min-w-[360px]" />
-              <Td className="min-w-[420px]" />
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <tbody>
+          <tr>
+            <Td className="px-3">
+              <span className="tabular-nums">1.</span>
+            </Td>
+
+            <Td className="pl-3 pr-4">
+              <NasabahRow />
+            </Td>
+
+            <Td />
+            <Td />
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
