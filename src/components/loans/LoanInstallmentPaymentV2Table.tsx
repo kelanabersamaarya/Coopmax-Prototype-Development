@@ -389,11 +389,7 @@ function Divider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
 }
 
-function BillTotalsBlock({
-  totals,
-}: {
-  totals: BillTotals;
-}) {
+function BillTotalsBlock({ totals }: { totals: BillTotals }) {
   return (
     <div className="grid gap-4">
       <InfoStack label="Tagihan Pokok" value={totals.pokok} />
@@ -515,6 +511,81 @@ function RegularPaymentFields({
   );
 }
 
+function BakiDebetPaymentFields({
+  nominalPokok,
+  onNominalPokokChange,
+  tabungan,
+  onTabunganChange,
+  keterangan,
+  onKeteranganChange,
+}: {
+  nominalPokok: string;
+  onNominalPokokChange: (v: string) => void;
+  tabungan: "Tanpa Tabungan";
+  onTabunganChange: (v: "Tanpa Tabungan") => void;
+  keterangan: string;
+  onKeteranganChange: (v: string) => void;
+}) {
+  const inputCls = cn(
+    "h-[30px] w-full rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const selectTriggerCls = cn(
+    "h-[30px] w-full justify-between rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:text-slate-400",
+  );
+
+  return (
+    <div className="grid gap-4">
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>
+          Nominal Pokok <RequiredStar />
+        </FieldLabelLikeNasabah>
+        <Input
+          value={nominalPokok}
+          onChange={(e) => onNominalPokokChange(e.target.value)}
+          className={cn(inputCls, "text-right tabular-nums")}
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
+        <Select
+          value={tabungan}
+          onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
+        >
+          <SelectTrigger className={selectTriggerCls}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-[10px] border-slate-200">
+            <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
+              Tanpa Tabungan
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+        <Input
+          value={keterangan}
+          onChange={(e) => onKeteranganChange(e.target.value)}
+          className={inputCls}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -534,8 +605,14 @@ export default function LoanInstallmentPaymentV2Table({
     React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
   const [keteranganReguler, setKeteranganReguler] = React.useState("");
 
+  const [nominalPokokBakiDebet, setNominalPokokBakiDebet] = React.useState("0");
+  const [tabunganBakiDebet, setTabunganBakiDebet] =
+    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
+  const [keteranganBakiDebet, setKeteranganBakiDebet] = React.useState("");
+
   const hasPicked = !!accountNo.trim();
   const isReguler = paymentMethod === "Pembayaran Reguler";
+  const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
 
   // Prototype totals (sesuai contoh)
   const totals: BillTotals = React.useMemo(
@@ -608,7 +685,6 @@ export default function LoanInstallmentPaymentV2Table({
             </Td>
 
             <Td className="bg-white">
-              {/* ✅ Ringkasan tagihan dipindah ke kolom Transaksi (atas metode pembayaran) */}
               <BillTotalsBlock totals={totals} />
 
               <Divider />
@@ -628,6 +704,20 @@ export default function LoanInstallmentPaymentV2Table({
                     onTabunganChange={setTabunganReguler}
                     keterangan={keteranganReguler}
                     onKeteranganChange={setKeteranganReguler}
+                  />
+                </>
+              ) : null}
+
+              {isBakiDebet ? (
+                <>
+                  <Divider />
+                  <BakiDebetPaymentFields
+                    nominalPokok={nominalPokokBakiDebet}
+                    onNominalPokokChange={setNominalPokokBakiDebet}
+                    tabungan={tabunganBakiDebet}
+                    onTabunganChange={setTabunganBakiDebet}
+                    keterangan={keteranganBakiDebet}
+                    onKeteranganChange={setKeteranganBakiDebet}
                   />
                 </>
               ) : null}
