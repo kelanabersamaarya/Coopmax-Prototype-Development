@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, History, Printer, Eye, Plus, Trash2, X, CheckSquare } from "lucide-react";
+import { Search, History, Printer, Eye, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -690,7 +690,11 @@ function PaymentInputBlock({
           <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
         </div>
 
-        <TabunganField value={tabunganPelunasan} onChange={onTabunganPelunasan} disabled={disabled} />
+        <TabunganField
+          value={tabunganPelunasan}
+          onChange={onTabunganPelunasan}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -722,7 +726,11 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField value={tabunganBakiDebet} onChange={onTabunganBakiDebet} disabled={disabled} />
+        <TabunganField
+          value={tabunganBakiDebet}
+          onChange={onTabunganBakiDebet}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -1034,7 +1042,6 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
           {rows.map((row, idx) => {
             const hasPicked = !!row.accountNo.trim();
             const lockRowUi = !hasPicked;
-            const isLastRow = idx === rows.length - 1;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
             const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
@@ -1232,11 +1239,7 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
 
                   <BaseDivider />
 
-                  <div className={cn(isLastRow ? "pb-[136px]" : "")}>
-                    <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
-                  </div>
-
-                  {isLastRow ? <FooterTotalsAndActions allowActions={true} /> : null}
+                  <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
                 </Td>
 
                 <Td align="center" className="px-3">
