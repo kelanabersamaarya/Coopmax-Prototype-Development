@@ -4,6 +4,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
+import { toast } from "sonner";
 
 function Th({
   children,
@@ -60,7 +62,25 @@ function Td({
   );
 }
 
-function NasabahRow() {
+function deriveNasabahNameByAccountNo(accountNo: string) {
+  // Selaras dengan seed di LoanAccountPickerDialog (seed5)
+  if (accountNo === "12260006") return "Pangeran Sirait";
+  if (accountNo === "12260002") return "gaby";
+  if (accountNo === "12260001") return "Rika Wastuti";
+  if (accountNo === "210260001") return "Jenan Aditama";
+  if (accountNo === "072260001") return "Rika Wastuti";
+  return "Nasabah";
+}
+
+function NasabahRow({
+  accountNo,
+  onAccountNoChange,
+  onSearchClick,
+}: {
+  accountNo: string;
+  onAccountNoChange: (v: string) => void;
+  onSearchClick: () => void;
+}) {
   return (
     <div className="grid gap-1">
       <div className="grid min-w-0 gap-y-1 gap-x-2 [grid-template-columns:62px_minmax(0,1fr)]">
@@ -70,6 +90,8 @@ function NasabahRow() {
 
         <div className="flex min-w-0 items-stretch">
           <Input
+            value={accountNo}
+            onChange={(e) => onAccountNoChange(e.target.value)}
             placeholder="Cari nasabah"
             className={cn(
               "h-8 min-w-0 rounded-l-[6px] rounded-r-none",
@@ -80,6 +102,7 @@ function NasabahRow() {
           />
           <button
             type="button"
+            onClick={onSearchClick}
             className={cn(
               "inline-flex w-10 shrink-0 items-center justify-center",
               "rounded-r-[6px] rounded-l-none",
@@ -119,8 +142,31 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const fixedPx = 56 + 280;
 
+  const [pickerOpen, setPickerOpen] = React.useState(false);
+  const [accountNo, setAccountNo] = React.useState("");
+
+  function openPicker() {
+    setPickerOpen(true);
+  }
+
+  function onPick(nextAccountNo: string) {
+    setAccountNo(nextAccountNo);
+    setPickerOpen(false);
+
+    toast.success("Berhasil Menampilkan Tagihan Nasabah", {
+      description: `${deriveNasabahNameByAccountNo(nextAccountNo)} • ${nextAccountNo}`,
+    });
+  }
+
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
+      <LoanAccountPickerDialog
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        query={accountNo}
+        onPick={onPick}
+      />
+
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
           <col style={{ width: 56 }} />
@@ -150,7 +196,11 @@ export default function LoanInstallmentPaymentV2Table({
             </Td>
 
             <Td className="pl-3 pr-4">
-              <NasabahRow />
+              <NasabahRow
+                accountNo={accountNo}
+                onAccountNoChange={setAccountNo}
+                onSearchClick={openPicker}
+              />
             </Td>
 
             <Td className="bg-white" />
