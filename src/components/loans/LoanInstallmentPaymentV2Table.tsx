@@ -484,7 +484,11 @@ function BillTotalsBlock({
   );
 }
 
-function BillTotalsTitlesOnly({ totalLabel = "Total Tagihan" }: { totalLabel?: string }) {
+function BillTotalsTitlesOnly({
+  totalLabel = "Total Tagihan",
+}: {
+  totalLabel?: string;
+}) {
   const dash = <span className="text-slate-400 font-semibold">-</span>;
 
   return (
@@ -508,7 +512,11 @@ function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
 function RemainingLoanTitlesOnly() {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Sisa Pinjaman" value={<span className="text-slate-400 font-semibold">-</span>} strong />
+      <InfoStack
+        label="Sisa Pinjaman"
+        value={<span className="text-slate-400 font-semibold">-</span>}
+        strong
+      />
     </div>
   );
 }
@@ -734,10 +742,11 @@ export default function LoanInstallmentPaymentV2Table({
   function addRow(afterRowId: string) {
     setRows((prev) => {
       const idx = prev.findIndex((r) => r.id === afterRowId);
-      const seed = prev[idx] ?? prev[prev.length - 1];
+
+      // ✅ Baris baru selalu "belum pilih rekening"
       const next = makeRow({
-        accountNo: seed?.accountNo ?? "",
-        paymentMethod: seed?.paymentMethod ?? "Pembayaran Reguler",
+        accountNo: "",
+        paymentMethod: "Pembayaran Reguler",
       });
 
       if (idx < 0) return [...prev, next];
@@ -745,7 +754,7 @@ export default function LoanInstallmentPaymentV2Table({
     });
 
     toast.success("Transaksi ditambahkan", {
-      description: "Baris transaksi baru ditambahkan di bawahnya.",
+      description: "Baris transaksi baru ditambahkan (belum pilih rekening).",
     });
   }
 
@@ -805,7 +814,8 @@ export default function LoanInstallmentPaymentV2Table({
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
 
-            const canOpenDaftarTagihan = (isReguler || isBakiDebet || isKhusus) && hasPicked;
+            const canOpenDaftarTagihan =
+              (isReguler || isBakiDebet || isKhusus) && hasPicked;
 
             const totals: BillTotals = {
               pokok: "0",
