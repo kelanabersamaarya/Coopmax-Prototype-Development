@@ -297,13 +297,9 @@ function LoanActionButton({
 
 function SelectedPinjamanInfo({
   accountNo,
-  canOpenDaftarTagihan,
-  onOpenDaftarTagihan,
   hideInstallmentInfo = false,
 }: {
   accountNo: string;
-  canOpenDaftarTagihan: boolean;
-  onOpenDaftarTagihan: () => void;
   hideInstallmentInfo?: boolean;
 }) {
   const info = React.useMemo(
@@ -379,6 +375,7 @@ function SelectedPinjamanInfo({
 
       <div className="my-4 h-px w-full bg-slate-200" />
 
+      {/* Tombol di kolom pinjaman: hapus tombol Tagihan & Denda sesuai permintaan */}
       <div className="grid gap-2.5">
         <LoanActionButton
           icon={History}
@@ -400,21 +397,6 @@ function SelectedPinjamanInfo({
           }
           className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
         />
-        <LoanActionButton
-          icon={Eye}
-          label="Lihat Tagihan & Denda"
-          onClick={() => {
-            if (!canOpenDaftarTagihan) {
-              toast("Belum tersedia", {
-                description:
-                  "Lihat Tagihan & Denda pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
-              });
-              return;
-            }
-            onOpenDaftarTagihan();
-          }}
-          className="bg-[#0b5bd3] ring-[#0b5bd3]/25 hover:bg-[#0a52bf]"
-        />
       </div>
     </div>
   );
@@ -435,10 +417,6 @@ type BillTotals = {
   denda: string;
   total: string;
 };
-
-function RequiredStar() {
-  return <span className="ml-1 text-rose-600">*</span>;
-}
 
 function FieldLabelLikeNasabah({
   children,
@@ -795,14 +773,6 @@ export default function LoanInstallmentPaymentV2Table({
                   {hasPicked ? (
                     <SelectedPinjamanInfo
                       accountNo={row.accountNo}
-                      canOpenDaftarTagihan={canOpenDaftarTagihan}
-                      onOpenDaftarTagihan={() =>
-                        setRows((prev) =>
-                          prev.map((x) =>
-                            x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
-                          ),
-                        )
-                      }
                       hideInstallmentInfo={isBakiDebet}
                     />
                   ) : null}
