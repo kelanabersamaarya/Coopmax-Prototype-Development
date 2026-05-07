@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Search, History, Printer, List } from "lucide-react";
+import { Search, History, Printer, List, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -481,12 +481,58 @@ function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
   );
 }
 
+function TransactionRowActions({
+  onAdd,
+  onDelete,
+  disableDelete,
+}: {
+  onAdd: () => void;
+  onDelete: () => void;
+  disableDelete: boolean;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <button
+        type="button"
+        onClick={onAdd}
+        className={cn(
+          "inline-flex h-11 w-11 items-center justify-center",
+          "rounded-[8px] bg-[#6B7A90] text-white",
+          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+        )}
+        aria-label="Tambah transaksi"
+        title="Tambah transaksi"
+      >
+        <Plus className="h-6 w-6" />
+      </button>
+
+      <button
+        type="button"
+        onClick={onDelete}
+        disabled={disableDelete}
+        className={cn(
+          "inline-flex h-11 w-11 items-center justify-center",
+          "rounded-[8px] bg-[#DC3545] text-white",
+          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
+          disableDelete ? "opacity-60 pointer-events-none" : "",
+        )}
+        aria-label="Hapus transaksi"
+        title="Hapus transaksi"
+      >
+        <Trash2 className="h-6 w-6" />
+      </button>
+    </div>
+  );
+}
+
 function TransactionPaymentMethodField({
   value,
   onChange,
+  rightActions,
 }: {
   value: PaymentMethod;
   onChange: (v: PaymentMethod) => void;
+  rightActions?: React.ReactNode;
 }) {
   const triggerCls = cn(
     "h-[30px] w-full justify-between rounded-[6px]",
@@ -501,18 +547,24 @@ function TransactionPaymentMethodField({
     <div className="grid gap-1.5">
       <FieldLabelLikeNasabah>Metode Pembayaran</FieldLabelLikeNasabah>
 
-      <Select value={value} onValueChange={(v) => onChange(v as PaymentMethod)}>
-        <SelectTrigger className={triggerCls}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="rounded-[10px] border-slate-200">
-          {PAYMENT_METHODS.map((m) => (
-            <SelectItem key={m} value={m} className="rounded-[8px]">
-              {m}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="flex items-start gap-3">
+        <div className="min-w-0 flex-1">
+          <Select value={value} onValueChange={(v) => onChange(v as PaymentMethod)}>
+            <SelectTrigger className={triggerCls}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="rounded-[10px] border-slate-200">
+              {PAYMENT_METHODS.map((m) => (
+                <SelectItem key={m} value={m} className="rounded-[8px]">
+                  {m}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {rightActions ? <div className="shrink-0">{rightActions}</div> : null}
+      </div>
     </div>
   );
 }
@@ -819,6 +871,60 @@ function PelunasanFields({
   );
 }
 
+type TransactionRowState = {
+  id: string;
+  accountNo: string;
+  paymentMethod: PaymentMethod;
+
+  daftarTagihanOpen: boolean;
+
+  nominalReguler: string;
+  tabunganReguler: "Tanpa Tabungan";
+  keteranganReguler: string;
+
+  nominalPokokBakiDebet: string;
+  tabunganBakiDebet: "Tanpa Tabungan";
+  keteranganBakiDebet: string;
+
+  nominalPokokKhusus: string;
+  nominalBungaKhusus: string;
+  nominalDendaKhusus: string;
+  tabunganKhusus: "Tanpa Tabungan";
+  keteranganKhusus: string;
+
+  tabunganPelunasan: "Tanpa Tabungan";
+  keteranganPelunasan: string;
+};
+
+function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
+  const id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+  return {
+    id,
+    accountNo: seed?.accountNo ?? "",
+    paymentMethod: seed?.paymentMethod ?? "Pembayaran Reguler",
+
+    daftarTagihanOpen: false,
+
+    nominalReguler: seed?.nominalReguler ?? "0",
+    tabunganReguler: "Tanpa Tabungan",
+    keteranganReguler: seed?.keteranganReguler ?? "",
+
+    nominalPokokBakiDebet: seed?.nominalPokokBakiDebet ?? "0",
+    tabunganBakiDebet: "Tanpa Tabungan",
+    keteranganBakiDebet: seed?.keteranganBakiDebet ?? "",
+
+    nominalPokokKhusus: seed?.nominalPokokKhusus ?? "0",
+    nominalBungaKhusus: seed?.nominalBungaKhusus ?? "0",
+    nominalDendaKhusus: seed?.nominalDendaKhusus ?? "0",
+    tabunganKhusus: "Tanpa Tabungan",
+    keteranganKhusus: seed?.keteranganKhusus ?? "",
+
+    tabunganPelunasan: "Tanpa Tabungan",
+    keteranganPelunasan: seed?.keteranganPelunasan ?? "",
+  };
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -827,76 +933,72 @@ export default function LoanInstallmentPaymentV2Table({
   const fixedPx = 56 + 280;
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
-  const [accountNo, setAccountNo] = React.useState("");
-
-  const [paymentMethod, setPaymentMethod] = React.useState<PaymentMethod>(
-    "Pembayaran Reguler",
+  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(
+    null,
   );
 
-  const [daftarTagihanOpen, setDaftarTagihanOpen] = React.useState(false);
+  const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
-  const [nominalReguler, setNominalReguler] = React.useState("0");
-  const [tabunganReguler, setTabunganReguler] =
-    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
-  const [keteranganReguler, setKeteranganReguler] = React.useState("");
-
-  const [nominalPokokBakiDebet, setNominalPokokBakiDebet] = React.useState("0");
-  const [tabunganBakiDebet, setTabunganBakiDebet] =
-    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
-  const [keteranganBakiDebet, setKeteranganBakiDebet] = React.useState("");
-
-  const [nominalPokokKhusus, setNominalPokokKhusus] = React.useState("0");
-  const [nominalBungaKhusus, setNominalBungaKhusus] = React.useState("0");
-  const [nominalDendaKhusus, setNominalDendaKhusus] = React.useState("0");
-  const [tabunganKhusus, setTabunganKhusus] =
-    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
-  const [keteranganKhusus, setKeteranganKhusus] = React.useState("");
-
-  const [tabunganPelunasan, setTabunganPelunasan] =
-    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
-  const [keteranganPelunasan, setKeteranganPelunasan] = React.useState("");
-
-  const hasPicked = !!accountNo.trim();
-  const isReguler = paymentMethod === "Pembayaran Reguler";
-  const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
-  const isKhusus = paymentMethod === "Pembayaran Khusus";
-  const isPelunasan = paymentMethod === "Pelunasan";
-
-  const totals: BillTotals = React.useMemo(
-    () => ({ pokok: "0", bunga: "0", denda: "0", total: "0" }),
-    [],
-  );
-
-  const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
-
-  const sisaPinjamanBakiDebet = "9.116.000,00";
-  const nominalPelunasan = "5.500.002";
-
-  function openPicker() {
+  function openPickerForRow(rowId: string) {
+    setPickerTargetRowId(rowId);
     setPickerOpen(true);
   }
 
   function onPick(nextAccountNo: string) {
-    setAccountNo(nextAccountNo);
-    setPickerOpen(false);
+    if (!pickerTargetRowId) return;
+
+    setRows((prev) =>
+      prev.map((r) =>
+        r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r,
+      ),
+    );
 
     toast.success("Berhasil Menampilkan Tagihan Nasabah", {
       description: `${deriveNasabahNameByAccountNo(nextAccountNo)} • ${nextAccountNo}`,
+    });
+
+    setPickerOpen(false);
+    setPickerTargetRowId(null);
+  }
+
+  function addRow(afterRowId: string) {
+    setRows((prev) => {
+      const idx = prev.findIndex((r) => r.id === afterRowId);
+      const seed = prev[idx] ?? prev[prev.length - 1];
+      const next = makeRow({
+        accountNo: seed?.accountNo ?? "",
+        paymentMethod: seed?.paymentMethod ?? "Pembayaran Reguler",
+      });
+
+      if (idx < 0) return [...prev, next];
+      return [...prev.slice(0, idx + 1), next, ...prev.slice(idx + 1)];
+    });
+
+    toast.success("Transaksi ditambahkan", {
+      description: "Baris transaksi baru ditambahkan di bawahnya.",
+    });
+  }
+
+  function deleteRow(rowId: string) {
+    setRows((prev) => {
+      if (prev.length <= 1) return prev;
+      return prev.filter((r) => r.id !== rowId);
+    });
+
+    toast("Transaksi dihapus", {
+      description: "Baris transaksi dihapus.",
     });
   }
 
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
-      <DaftarTagihanDialog
-        open={daftarTagihanOpen}
-        onOpenChange={setDaftarTagihanOpen}
-        paymentMethod={paymentMethod}
-      />
-
       <LoanAccountPickerDialog
         open={pickerOpen}
-        onOpenChange={setPickerOpen}
-        query={accountNo}
+        onOpenChange={(v) => {
+          setPickerOpen(v);
+          if (!v) setPickerTargetRowId(null);
+        }}
+        query=""
         onPick={onPick}
       />
 
@@ -923,109 +1025,209 @@ export default function LoanInstallmentPaymentV2Table({
         </thead>
 
         <tbody>
-          <tr>
-            <Td className="px-3">
-              <span className="tabular-nums">1.</span>
-            </Td>
+          {rows.map((row, idx) => {
+            const hasPicked = !!row.accountNo.trim();
+            const isReguler = row.paymentMethod === "Pembayaran Reguler";
+            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+            const isKhusus = row.paymentMethod === "Pembayaran Khusus";
+            const isPelunasan = row.paymentMethod === "Pelunasan";
 
-            <Td className="pl-3 pr-4">
-              <NasabahRow
-                accountNo={accountNo}
-                onAccountNoChange={setAccountNo}
-                onSearchClick={openPicker}
-              />
+            const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
+            const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
 
-              {hasPicked ? <SelectedNasabahInfo accountNo={accountNo} /> : null}
-            </Td>
+            const sisaPinjamanBakiDebet = "9.116.000,00";
+            const nominalPelunasan = "5.500.002";
 
-            <Td className="bg-white">
-              {hasPicked ? (
-                <SelectedPinjamanInfo
-                  accountNo={accountNo}
-                  canOpenDaftarTagihan={isReguler || isBakiDebet || isKhusus}
-                  onOpenDaftarTagihan={() => setDaftarTagihanOpen(true)}
-                  hideInstallmentInfo={isBakiDebet}
-                />
-              ) : null}
-            </Td>
+            return (
+              <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
+                <Td className="px-3">
+                  <span className="tabular-nums">{idx + 1}.</span>
+                </Td>
 
-            <Td className="bg-white">
-              <TransactionPaymentMethodField
-                value={paymentMethod}
-                onChange={setPaymentMethod}
-              />
-
-              <Divider />
-
-              {isBakiDebet ? (
-                <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
-              ) : (
-                <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
-              )}
-
-              {isReguler ? (
-                <>
-                  <Divider />
-                  <RegularPaymentFields
-                    nominal={nominalReguler}
-                    onNominalChange={setNominalReguler}
-                    tabungan={tabunganReguler}
-                    onTabunganChange={setTabunganReguler}
-                    keterangan={keteranganReguler}
-                    onKeteranganChange={setKeteranganReguler}
+                <Td className="pl-3 pr-4">
+                  <NasabahRow
+                    accountNo={row.accountNo}
+                    onAccountNoChange={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
+                      )
+                    }
+                    onSearchClick={() => openPickerForRow(row.id)}
                   />
-                </>
-              ) : null}
 
-              {isBakiDebet ? (
-                <>
-                  <Divider />
-                  <BakiDebetPaymentFields
-                    nominalPokok={nominalPokokBakiDebet}
-                    onNominalPokokChange={setNominalPokokBakiDebet}
-                    tabungan={tabunganBakiDebet}
-                    onTabunganChange={setTabunganBakiDebet}
-                    keterangan={keteranganBakiDebet}
-                    onKeteranganChange={setKeteranganBakiDebet}
+                  {hasPicked ? <SelectedNasabahInfo accountNo={row.accountNo} /> : null}
+                </Td>
+
+                <Td className="bg-white">
+                  {hasPicked ? (
+                    <SelectedPinjamanInfo
+                      accountNo={row.accountNo}
+                      canOpenDaftarTagihan={isReguler || isBakiDebet || isKhusus}
+                      onOpenDaftarTagihan={() =>
+                        setRows((prev) =>
+                          prev.map((x) =>
+                            x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
+                          ),
+                        )
+                      }
+                      hideInstallmentInfo={isBakiDebet}
+                    />
+                  ) : null}
+                </Td>
+
+                <Td className="bg-white">
+                  <DaftarTagihanDialog
+                    open={row.daftarTagihanOpen}
+                    onOpenChange={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, daftarTagihanOpen: v } : x,
+                        ),
+                      )
+                    }
+                    paymentMethod={row.paymentMethod}
                   />
-                </>
-              ) : null}
 
-              {isKhusus ? (
-                <>
-                  <Divider />
-                  <SpecialPaymentFields
-                    nominalPokok={nominalPokokKhusus}
-                    onNominalPokokChange={setNominalPokokKhusus}
-                    nominalBunga={nominalBungaKhusus}
-                    onNominalBungaChange={setNominalBungaKhusus}
-                    nominalDenda={nominalDendaKhusus}
-                    onNominalDendaChange={setNominalDendaKhusus}
-                    tabungan={tabunganKhusus}
-                    onTabunganChange={setTabunganKhusus}
-                    keterangan={keteranganKhusus}
-                    onKeteranganChange={setKeteranganKhusus}
+                  <TransactionPaymentMethodField
+                    value={row.paymentMethod}
+                    onChange={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)),
+                      )
+                    }
+                    rightActions={
+                      <TransactionRowActions
+                        onAdd={() => addRow(row.id)}
+                        onDelete={() => deleteRow(row.id)}
+                        disableDelete={rows.length <= 1}
+                      />
+                    }
                   />
-                </>
-              ) : null}
 
-              {isPelunasan ? (
-                <>
                   <Divider />
-                  <PelunasanFields
-                    nominalPelunasan={nominalPelunasan}
-                    tabungan={tabunganPelunasan}
-                    onTabunganChange={setTabunganPelunasan}
-                    keterangan={keteranganPelunasan}
-                    onKeteranganChange={setKeteranganPelunasan}
-                  />
-                </>
-              ) : null}
 
-              {/* Status transaksi (selalu tampil, di bagian paling bawah) */}
-              <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
-            </Td>
-          </tr>
+                  {isBakiDebet ? (
+                    <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
+                  ) : (
+                    <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
+                  )}
+
+                  {isReguler ? (
+                    <>
+                      <Divider />
+                      <RegularPaymentFields
+                        nominal={row.nominalReguler}
+                        onNominalChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) => (x.id === row.id ? { ...x, nominalReguler: v } : x)),
+                          )
+                        }
+                        tabungan={row.tabunganReguler}
+                        onTabunganChange={() => {}}
+                        keterangan={row.keteranganReguler}
+                        onKeteranganChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, keteranganReguler: v } : x,
+                            ),
+                          )
+                        }
+                      />
+                    </>
+                  ) : null}
+
+                  {isBakiDebet ? (
+                    <>
+                      <Divider />
+                      <BakiDebetPaymentFields
+                        nominalPokok={row.nominalPokokBakiDebet}
+                        onNominalPokokChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, nominalPokokBakiDebet: v } : x,
+                            ),
+                          )
+                        }
+                        tabungan={row.tabunganBakiDebet}
+                        onTabunganChange={() => {}}
+                        keterangan={row.keteranganBakiDebet}
+                        onKeteranganChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, keteranganBakiDebet: v } : x,
+                            ),
+                          )
+                        }
+                      />
+                    </>
+                  ) : null}
+
+                  {isKhusus ? (
+                    <>
+                      <Divider />
+                      <SpecialPaymentFields
+                        nominalPokok={row.nominalPokokKhusus}
+                        onNominalPokokChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, nominalPokokKhusus: v } : x,
+                            ),
+                          )
+                        }
+                        nominalBunga={row.nominalBungaKhusus}
+                        onNominalBungaChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, nominalBungaKhusus: v } : x,
+                            ),
+                          )
+                        }
+                        nominalDenda={row.nominalDendaKhusus}
+                        onNominalDendaChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, nominalDendaKhusus: v } : x,
+                            ),
+                          )
+                        }
+                        tabungan={row.tabunganKhusus}
+                        onTabunganChange={() => {}}
+                        keterangan={row.keteranganKhusus}
+                        onKeteranganChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, keteranganKhusus: v } : x,
+                            ),
+                          )
+                        }
+                      />
+                    </>
+                  ) : null}
+
+                  {isPelunasan ? (
+                    <>
+                      <Divider />
+                      <PelunasanFields
+                        nominalPelunasan={nominalPelunasan}
+                        tabungan={row.tabunganPelunasan}
+                        onTabunganChange={() => {}}
+                        keterangan={row.keteranganPelunasan}
+                        onKeteranganChange={(v) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, keteranganPelunasan: v } : x,
+                            ),
+                          )
+                        }
+                      />
+                    </>
+                  ) : null}
+
+                  <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
+                </Td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
