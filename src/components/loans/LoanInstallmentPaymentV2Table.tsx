@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import {
   Search,
   History,
@@ -15,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -329,9 +329,15 @@ function SelectedPinjamanInfo({
           ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
           : [{ label: "Durasi Grace Period" }]),
       ]
-    : [{ label: "Skema Tagihan" }, { label: "Satuan Grace Period" }, { label: "Durasi Grace Period" }];
+    : [
+        { label: "Skema Tagihan" },
+        { label: "Satuan Grace Period" },
+        { label: "Durasi Grace Period" },
+      ];
 
-  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo
+    ? []
+    : [{ label: "Angsuran ke", value: "2" }];
   const installments = hideInstallmentInfo
     ? []
     : [
@@ -722,7 +728,7 @@ function FooterTotalsAndActions({
     <div className="flex items-baseline justify-between gap-4 py-2">
       <div
         className={cn(
-          "text-[16px] text-[#0b2a57]",
+          "text-[14px] text-[#0b2a57]",
           strong ? "font-semibold" : "font-normal",
         )}
       >
@@ -730,7 +736,7 @@ function FooterTotalsAndActions({
       </div>
       <div
         className={cn(
-          "text-[18px] tabular-nums text-[#0b2a57]",
+          "text-[14px] tabular-nums text-[#0b2a57]",
           strong ? "font-semibold" : "font-normal",
         )}
       >
@@ -749,7 +755,7 @@ function FooterTotalsAndActions({
   );
 
   return (
-    <div className="mt-3">
+    <div className="mt-3 text-[14px]">
       <div className="mt-2">
         {totalsRow("Total Nominal", valueText)}
         {totalsRow("Total Denda", valueText)}
@@ -761,7 +767,10 @@ function FooterTotalsAndActions({
         <button
           type="button"
           onClick={() => toast("Batalkan (prototype)")}
-          className={cn(btnBase, "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]")}
+          className={cn(
+            btnBase,
+            "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]",
+          )}
           disabled={lockUi}
         >
           <X className="h-4 w-4" strokeWidth={3} />
@@ -775,7 +784,10 @@ function FooterTotalsAndActions({
               description: "Ringkasan transaksi disimpan (dummy).",
             })
           }
-          className={cn(btnBase, "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]")}
+          className={cn(
+            btnBase,
+            "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
+          )}
           disabled={lockUi}
         >
           <CheckSquare className="h-4 w-4" strokeWidth={3} />
@@ -826,7 +838,6 @@ export default function LoanInstallmentPaymentV2Table({
     setRows((prev) => {
       const idx = prev.findIndex((r) => r.id === afterRowId);
 
-      // Baris baru selalu "belum pilih rekening"
       const next = makeRow({
         accountNo: "",
         paymentMethod: "Pembayaran Reguler",
@@ -1032,8 +1043,13 @@ export default function LoanInstallmentPaymentV2Table({
                     />
                   )}
 
-                  {/* ✅ Footer ringkasan dipindah ke bawah tombol "Riwayat Transaksi" (tetap di kolom Tagihan & Transaksi) */}
-                  {isLastRow ? <FooterTotalsAndActions lockUi={lockUi} /> : null}
+                  {/* diposisikan di bawah tombol Simulasi Tunggakan (yang berada di kolom ini) */}
+                  {isLastRow ? (
+                    <>
+                      <Divider />
+                      <FooterTotalsAndActions lockUi={lockUi} />
+                    </>
+                  ) : null}
 
                   <div className="sr-only">
                     {row.nominalReguler}
