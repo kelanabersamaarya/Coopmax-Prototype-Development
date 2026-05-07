@@ -755,7 +755,7 @@ function FooterTotalsAndActions({
   );
 
   return (
-    <div className="mt-3 text-[14px]">
+    <div className="text-[14px]">
       <div className="mt-2">
         {totalsRow("Total Nominal", valueText)}
         {totalsRow("Total Denda", valueText)}
@@ -907,18 +907,11 @@ export default function LoanInstallmentPaymentV2Table({
             const isBakiDebet =
               row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
-            const isPelunasan = row.paymentMethod === "Pelunasan";
 
-            const canOpenDaftarTagihan =
-              (isReguler || isBakiDebet || isKhusus) && hasPicked;
+            const canOpenDaftarTagihan = (isReguler || isBakiDebet || isKhusus) && hasPicked;
 
-            const totals: BillTotals = {
-              pokok: "0",
-              bunga: "0",
-              denda: "0",
-              total: "0",
-            };
-            const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
+            const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
+            const totalsLabel = row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const nominalPelunasan = "5.500.002";
@@ -937,17 +930,13 @@ export default function LoanInstallmentPaymentV2Table({
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, accountNo: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
                       )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
                   />
 
-                  {hasPicked ? (
-                    <SelectedNasabahInfo accountNo={row.accountNo} />
-                  ) : null}
+                  {hasPicked ? <SelectedNasabahInfo accountNo={row.accountNo} /> : null}
                 </Td>
 
                 <Td className="bg-white">
@@ -994,9 +983,7 @@ export default function LoanInstallmentPaymentV2Table({
                     value={row.paymentMethod}
                     onChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, paymentMethod: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)),
                       )
                     }
                     disabled={lockUi}
@@ -1025,31 +1012,26 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
-                  {lockUi ? (
-                    <div>
-                      <div className="text-[12px] font-normal text-slate-900">
-                        Status Transaksi
+                  {/* ✅ tambahkan padding bawah untuk mendorong footer ke bawah */}
+                  <div className={cn(isLastRow ? "pb-8" : "")}>
+                    {lockUi ? (
+                      <div>
+                        <div className="text-[12px] font-normal text-slate-900">
+                          Status Transaksi
+                        </div>
+                        <div className="mt-2">
+                          <span className="inline-flex items-center rounded-[5px] bg-slate-200 px-3 py-1 text-[13px] font-semibold text-slate-700 ring-1 ring-slate-200">
+                            -
+                          </span>
+                        </div>
                       </div>
-                      <div className="mt-2">
-                        <span className="inline-flex items-center rounded-[5px] bg-slate-200 px-3 py-1 text-[13px] font-semibold text-slate-700 ring-1 ring-slate-200">
-                          -
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <TransactionStatusBadge
-                      title="Status Transaksi"
-                      status="Belum diproses"
-                    />
-                  )}
+                    ) : (
+                      <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
+                    )}
+                  </div>
 
-                  {/* diposisikan di bawah tombol Simulasi Tunggakan (yang berada di kolom ini) */}
-                  {isLastRow ? (
-                    <>
-                      <Divider />
-                      <FooterTotalsAndActions lockUi={lockUi} />
-                    </>
-                  ) : null}
+                  {/* Footer tetap di kolom TAGIHAN & TRANSAKSI, dan terdorong oleh padding di atas */}
+                  {isLastRow ? <FooterTotalsAndActions lockUi={lockUi} /> : null}
 
                   <div className="sr-only">
                     {row.nominalReguler}
