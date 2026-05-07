@@ -1002,8 +1002,8 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
-                  {/* ✅ tambah padding bottom lebih besar agar footer melewati area tombol simulasi tunggakan */}
-                  <div className={cn(isLastRow ? "pb-28" : "")}>
+                  {/* ✅ tambah padding bottom lebih besar lagi agar footer benar-benar melewati tombol simulasi tunggakan */}
+                  <div className={cn(isLastRow ? "pb-44" : "")}>
                     {lockUi ? (
                       <div>
                         <div className="text-[12px] font-normal text-slate-900">
