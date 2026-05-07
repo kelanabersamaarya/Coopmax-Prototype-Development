@@ -362,6 +362,26 @@ const PAYMENT_METHODS = [
 
 type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
+function RequiredStar() {
+  return <span className="ml-1 text-rose-600">*</span>;
+}
+
+function FieldLabelLikeNasabah({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+      {children}
+    </div>
+  );
+}
+
+function Divider() {
+  return <div className="my-4 h-px w-full bg-slate-200" />;
+}
+
 function TransactionPaymentMethodField({
   value,
   onChange,
@@ -380,9 +400,7 @@ function TransactionPaymentMethodField({
 
   return (
     <div className="grid gap-1.5">
-      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-        Metode Pembayaran :
-      </div>
+      <FieldLabelLikeNasabah>Metode Pembayaran :</FieldLabelLikeNasabah>
 
       <Select value={value} onValueChange={(v) => onChange(v as PaymentMethod)}>
         <SelectTrigger className={triggerCls}>
@@ -396,6 +414,81 @@ function TransactionPaymentMethodField({
           ))}
         </SelectContent>
       </Select>
+    </div>
+  );
+}
+
+function RegularPaymentFields({
+  nominal,
+  onNominalChange,
+  tabungan,
+  onTabunganChange,
+  keterangan,
+  onKeteranganChange,
+}: {
+  nominal: string;
+  onNominalChange: (v: string) => void;
+  tabungan: "Tanpa Tabungan";
+  onTabunganChange: (v: "Tanpa Tabungan") => void;
+  keterangan: string;
+  onKeteranganChange: (v: string) => void;
+}) {
+  const inputCls = cn(
+    "h-[30px] w-full rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const selectTriggerCls = cn(
+    "h-[30px] w-full justify-between rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:text-slate-400",
+  );
+
+  return (
+    <div className="grid gap-4">
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>
+          Nominal Pembayaran <RequiredStar />
+        </FieldLabelLikeNasabah>
+        <Input
+          value={nominal}
+          onChange={(e) => onNominalChange(e.target.value)}
+          className={cn(inputCls, "text-right tabular-nums")}
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
+        <Select
+          value={tabungan}
+          onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
+        >
+          <SelectTrigger className={selectTriggerCls}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-[10px] border-slate-200">
+            <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
+              Tanpa Tabungan
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+        <Input
+          value={keterangan}
+          onChange={(e) => onKeteranganChange(e.target.value)}
+          className={inputCls}
+        />
+      </div>
     </div>
   );
 }
@@ -414,7 +507,13 @@ export default function LoanInstallmentPaymentV2Table({
     "Pembayaran Reguler",
   );
 
+  const [nominalReguler, setNominalReguler] = React.useState("0");
+  const [tabunganReguler, setTabunganReguler] =
+    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
+  const [keteranganReguler, setKeteranganReguler] = React.useState("");
+
   const hasPicked = !!accountNo.trim();
+  const isReguler = paymentMethod === "Pembayaran Reguler";
 
   function openPicker() {
     setPickerOpen(true);
@@ -485,6 +584,20 @@ export default function LoanInstallmentPaymentV2Table({
                 value={paymentMethod}
                 onChange={setPaymentMethod}
               />
+
+              {isReguler ? (
+                <>
+                  <Divider />
+                  <RegularPaymentFields
+                    nominal={nominalReguler}
+                    onNominalChange={setNominalReguler}
+                    tabungan={tabunganReguler}
+                    onTabunganChange={setTabunganReguler}
+                    keterangan={keteranganReguler}
+                    onKeteranganChange={setKeteranganReguler}
+                  />
+                </>
+              ) : null}
             </Td>
           </tr>
         </tbody>
