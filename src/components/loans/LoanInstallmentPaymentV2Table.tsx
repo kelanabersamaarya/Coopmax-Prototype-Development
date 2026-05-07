@@ -1,4 +1,3 @@
-0) sesuai screenshot.">
 "use client";
 
 import * as React from "react";
@@ -1119,7 +1118,8 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
             const canOpenDaftarTagihan = (isReguler || isBakiDebet || isKhusus) && hasPicked;
 
             const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
-            const totalsLabel = row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
+            const totalsLabel =
+              row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
 
@@ -1330,7 +1330,6 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
 
             return (
               <React.Fragment key={row.id}>
-                {/* Header mini untuk rekening/transaksi baru (sesuai screenshot) */}
                 <InlineTableHeaderRow />
                 {contentRow}
               </React.Fragment>
