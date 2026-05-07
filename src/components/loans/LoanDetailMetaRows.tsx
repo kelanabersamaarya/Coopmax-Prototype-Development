@@ -10,12 +10,12 @@ type Row = {
 
 function MetaRow({ label, value }: Row) {
   return (
-    <div className="grid items-center gap-3 py-3 [grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+    <div className="grid items-start gap-3 py-3 [grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
       <div className="min-w-0 text-[14px] font-normal text-slate-900">
-        <span className="whitespace-nowrap">{label} :</span>
+        <span className="break-words">{label} :</span>
       </div>
       <div className="min-w-0 text-right text-[14px] font-semibold text-slate-900">
-        <span className="block truncate">{value}</span>
+        <span className="block break-words leading-snug">{value}</span>
       </div>
     </div>
   );
