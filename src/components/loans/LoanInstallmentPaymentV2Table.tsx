@@ -1,7 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { Search, History, Printer, Eye, Plus, Trash2, CheckSquare, X } from "lucide-react";
+import {
+  Search,
+  History,
+  Printer,
+  Eye,
+  Plus,
+  Trash2,
+  CheckSquare,
+  X,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -320,9 +329,15 @@ function SelectedPinjamanInfo({
           ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
           : [{ label: "Durasi Grace Period" }]),
       ]
-    : [{ label: "Skema Tagihan" }, { label: "Satuan Grace Period" }, { label: "Durasi Grace Period" }];
+    : [
+        { label: "Skema Tagihan" },
+        { label: "Satuan Grace Period" },
+        { label: "Durasi Grace Period" },
+      ];
 
-  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo
+    ? []
+    : [{ label: "Angsuran ke", value: "2" }];
   const installments = hideInstallmentInfo
     ? []
     : [
@@ -346,7 +361,9 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
+            value={
+              it.value ?? <span className="font-semibold text-slate-400">-</span>
+            }
           />
         ))}
       </div>
@@ -359,14 +376,18 @@ function SelectedPinjamanInfo({
             <InfoStack
               key={it.label}
               label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
+              value={
+                hasInfo ? it.value : <span className="font-semibold text-slate-400">-</span>
+              }
             />
           ))}
           {installments.map((it) => (
             <InfoStack
               key={it.label}
               label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
+              value={
+                hasInfo ? it.value : <span className="font-semibold text-slate-400">-</span>
+              }
             />
           ))}
         </div>
@@ -379,7 +400,9 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={r.label}
             label={r.label}
-            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
+            value={
+              hasInfo ? r.value : <span className="font-semibold text-slate-400">-</span>
+            }
           />
         ))}
       </div>
@@ -699,10 +722,18 @@ function PaymentInputBlock({
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
             Nominal Pelunasan{required}
           </div>
-          <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
+          <Input
+            value="5.500.002"
+            readOnly
+            className={cn(inputCls, "bg-slate-100")}
+          />
         </div>
 
-        <TabunganField value={tabunganPelunasan} onChange={onTabunganPelunasan} disabled={disabled} />
+        <TabunganField
+          value={tabunganPelunasan}
+          onChange={onTabunganPelunasan}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -736,7 +767,11 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField value={tabunganBakiDebet} onChange={onTabunganBakiDebet} disabled={disabled} />
+        <TabunganField
+          value={tabunganBakiDebet}
+          onChange={onTabunganBakiDebet}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -796,7 +831,11 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField value={tabunganKhusus} onChange={onTabunganKhusus} disabled={disabled} />
+        <TabunganField
+          value={tabunganKhusus}
+          onChange={onTabunganKhusus}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -829,7 +868,11 @@ function PaymentInputBlock({
         />
       </div>
 
-      <TabunganField value={tabunganReguler} onChange={onTabunganReguler} disabled={disabled} />
+      <TabunganField
+        value={tabunganReguler}
+        onChange={onTabunganReguler}
+        disabled={disabled}
+      />
 
       <div className="grid gap-1.5">
         <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -970,7 +1013,9 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="text-[14px] font-normal text-slate-900">{label} :</div>
-      <div className="text-[14px] font-normal text-slate-900 tabular-nums">{value}</div>
+      <div className="text-[14px] font-normal text-slate-900 tabular-nums">
+        {value}
+      </div>
     </div>
   );
 }
@@ -989,7 +1034,7 @@ function SummaryBlock({
   onSave: () => void;
 }) {
   return (
-    <div className="mt-[100px]">
+    <div className="pt-[100px]">
       <div className="grid gap-4">
         <SummaryRow label="Total Nominal" value={totalNominal} />
         <SummaryRow label="Total Denda" value={totalDenda} />
