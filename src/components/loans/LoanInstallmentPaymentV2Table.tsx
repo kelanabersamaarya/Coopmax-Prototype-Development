@@ -247,7 +247,7 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="mt-2 bg-white">
+    <div className="bg-white">
       <div className="grid gap-4">
         {items.map((it) => (
           <InfoStack key={it.label} label={it.label} value={it.value} />
