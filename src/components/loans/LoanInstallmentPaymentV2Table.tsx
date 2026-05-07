@@ -519,50 +519,6 @@ function RemainingLoanTitlesOnly() {
   );
 }
 
-function TransactionRowActions({
-  onAdd,
-  onDelete,
-  disableDelete,
-}: {
-  onAdd: () => void;
-  onDelete: () => void;
-  disableDelete: boolean;
-}) {
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <button
-        type="button"
-        onClick={onAdd}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#6B7A90] text-white",
-          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
-        )}
-        aria-label="Tambah transaksi"
-        title="Tambah transaksi"
-      >
-        <Plus className="h-5.5 w-5.5" />
-      </button>
-
-      <button
-        type="button"
-        onClick={onDelete}
-        disabled={disableDelete}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#DC3545] text-white",
-          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
-          disableDelete ? "opacity-60 pointer-events-none" : "",
-        )}
-        aria-label="Hapus transaksi"
-        title="Hapus transaksi"
-      >
-        <Trash2 className="h-5.5 w-5.5" />
-      </button>
-    </div>
-  );
-}
-
 function DaftarTagihanTopButton({
   disabled,
   onClick,
@@ -596,15 +552,61 @@ function DaftarTagihanTopButton({
   );
 }
 
+function RowActionButtons({
+  onAdd,
+  onDelete,
+  disableDelete,
+}: {
+  onAdd: () => void;
+  onDelete: () => void;
+  disableDelete: boolean;
+}) {
+  return (
+    <div className="grid gap-2">
+      <div className="text-[12px] font-normal text-slate-900">Aksi</div>
+
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={onAdd}
+          className={cn(
+            "inline-flex h-10 w-10 items-center justify-center",
+            "rounded-[5px] bg-[#6B7A90] text-white",
+            "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+          )}
+          aria-label="Tambah transaksi"
+          title="Tambah transaksi"
+        >
+          <Plus className="h-5.5 w-5.5" />
+        </button>
+
+        <button
+          type="button"
+          onClick={onDelete}
+          disabled={disableDelete}
+          className={cn(
+            "inline-flex h-10 w-10 items-center justify-center",
+            "rounded-[5px] bg-[#DC3545] text-white",
+            "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
+            disableDelete ? "opacity-60 pointer-events-none" : "",
+          )}
+          aria-label="Hapus transaksi"
+          title="Hapus transaksi"
+        >
+          <Trash2 className="h-5.5 w-5.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function TransactionPaymentMethodField({
   value,
   onChange,
-  rightActions,
   disabled = false,
 }: {
   value: PaymentMethod;
   onChange: (v: PaymentMethod) => void;
-  rightActions?: React.ReactNode;
   disabled?: boolean;
 }) {
   const triggerCls = cn(
@@ -621,28 +623,22 @@ function TransactionPaymentMethodField({
     <div className="grid gap-1.5">
       <FieldLabelLikeNasabah>Metode Pembayaran</FieldLabelLikeNasabah>
 
-      <div className="flex items-start gap-3">
-        <div className="min-w-0 flex-1">
-          <Select
-            value={value}
-            onValueChange={(v) => onChange(v as PaymentMethod)}
-            disabled={disabled}
-          >
-            <SelectTrigger className={triggerCls}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="rounded-[10px] border-slate-200">
-              {PAYMENT_METHODS.map((m) => (
-                <SelectItem key={m} value={m} className="rounded-[8px]">
-                  {m}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {rightActions ? <div className="shrink-0">{rightActions}</div> : null}
-      </div>
+      <Select
+        value={value}
+        onValueChange={(v) => onChange(v as PaymentMethod)}
+        disabled={disabled}
+      >
+        <SelectTrigger className={triggerCls}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="rounded-[10px] border-slate-200">
+          {PAYMENT_METHODS.map((m) => (
+            <SelectItem key={m} value={m} className="rounded-[8px]">
+              {m}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
@@ -945,22 +941,31 @@ export default function LoanInstallmentPaymentV2Table({
                     paymentMethod={row.paymentMethod}
                   />
 
-                  <DaftarTagihanTopButton
-                    disabled={!canOpenDaftarTagihan}
-                    onClick={() => {
-                      if (!canOpenDaftarTagihan) {
-                        toast("Rekening belum dipilih", {
-                          description: "Silakan pilih rekening terlebih dahulu.",
-                        });
-                        return;
-                      }
-                      setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
-                        ),
-                      );
-                    }}
-                  />
+                  {/* ✅ Baris atas: tombol lihat tagihan + kolom aksi (+ / delete) */}
+                  <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_108px] sm:items-end">
+                    <DaftarTagihanTopButton
+                      disabled={!canOpenDaftarTagihan}
+                      onClick={() => {
+                        if (!canOpenDaftarTagihan) {
+                          toast("Rekening belum dipilih", {
+                            description: "Silakan pilih rekening terlebih dahulu.",
+                          });
+                          return;
+                        }
+                        setRows((prev) =>
+                          prev.map((x) =>
+                            x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
+                          ),
+                        );
+                      }}
+                    />
+
+                    <RowActionButtons
+                      onAdd={() => addRow(row.id)}
+                      onDelete={() => deleteRow(row.id)}
+                      disableDelete={rows.length <= 1}
+                    />
+                  </div>
 
                   <Divider />
 
@@ -974,13 +979,6 @@ export default function LoanInstallmentPaymentV2Table({
                       )
                     }
                     disabled={lockRowUi}
-                    rightActions={
-                      <TransactionRowActions
-                        onAdd={() => addRow(row.id)}
-                        onDelete={() => deleteRow(row.id)}
-                        disableDelete={rows.length <= 1}
-                      />
-                    }
                   />
 
                   <Divider />
@@ -999,7 +997,6 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
-                  {/* ✅ Status transaksi tetap tampil "Belum diproses" walau rekening belum dipilih */}
                   <div className={cn(isLastRow ? "pb-64" : "")}>
                     <TransactionStatusBadge
                       title="Status Transaksi"
@@ -1007,7 +1004,6 @@ export default function LoanInstallmentPaymentV2Table({
                     />
                   </div>
 
-                  {/* ✅ Tombol footer tetap bisa diklik walau ada baris lain yang belum pilih rekening */}
                   {isLastRow ? <FooterTotalsAndActions allowActions={true} /> : null}
 
                   <div className="sr-only">
