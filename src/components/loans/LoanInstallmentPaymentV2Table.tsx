@@ -352,7 +352,14 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
   );
 }
 
-const PAYMENT_METHODS = ["Pembayaran Reguler", "Pembayaran Khusus"] as const;
+const PAYMENT_METHODS = [
+  "Pembayaran Reguler",
+  "Pembayaran Penurunan Baki Debet",
+  "Pembayaran Khusus",
+  "Pelunasan",
+  "Tagihan Denda",
+] as const;
+
 type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 function TransactionPaymentMethodField({
@@ -373,7 +380,6 @@ function TransactionPaymentMethodField({
 
   return (
     <div className="grid gap-1.5">
-      {/* title style sama seperti Nasabah (No Rek :) */}
       <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
         Metode Pembayaran :
       </div>
@@ -404,8 +410,9 @@ export default function LoanInstallmentPaymentV2Table({
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [accountNo, setAccountNo] = React.useState("");
 
-  const [paymentMethod, setPaymentMethod] =
-    React.useState<PaymentMethod>("Pembayaran Reguler");
+  const [paymentMethod, setPaymentMethod] = React.useState<PaymentMethod>(
+    "Pembayaran Reguler",
+  );
 
   const hasPicked = !!accountNo.trim();
 
