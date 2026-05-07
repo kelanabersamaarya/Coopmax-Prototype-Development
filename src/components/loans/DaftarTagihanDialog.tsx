@@ -110,6 +110,7 @@ export default function DaftarTagihanDialog({
 }) {
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isPelunasan = paymentMethod === "Pelunasan";
+  const isKhusus = paymentMethod === "Pembayaran Khusus";
 
   const rowsAll = React.useMemo(() => seedRows, []);
 
@@ -133,11 +134,13 @@ export default function DaftarTagihanDialog({
   }, [open]);
 
   React.useEffect(() => {
-    // - Reguler/Khusus: default kosong
-    // - Baki Debet: locked & dianggap terpilih (tabel tanpa checkbox)
-    // - Pelunasan: tanpa checkbox (read-only), tapi tetap set true supaya konsisten
-    setSelected(rows.map(() => (isBakiDebet || isPelunasan ? true : false)));
-  }, [isBakiDebet, isPelunasan, rows]);
+    // Default selection by mode:
+    // - Reguler: kosong (user pilih manual)
+    // - Khusus: default semua tercentang (sesuai kebutuhan)
+    // - Baki Debet: tidak ada checkbox, dianggap terpilih
+    // - Pelunasan: read-only, dianggap terpilih
+    setSelected(rows.map(() => (isBakiDebet || isPelunasan || isKhusus ? true : false)));
+  }, [isBakiDebet, isPelunasan, isKhusus, rows]);
 
   const showingStart = rowsAll.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rowsAll.length, page * pageSize);
@@ -160,7 +163,10 @@ export default function DaftarTagihanDialog({
     );
 
   const hideSelection = isBakiDebet || isPelunasan;
-  const showPenaltyColumn = !isBakiDebet; // pelunasan tetap tampil kolom denda
+  const showPenaltyColumn = !isBakiDebet;
+
+  // ✅ lock hanya untuk Baki Debet & Pelunasan (Khusus boleh dicentang/uncentang)
+  const isLocked = isBakiDebet || isPelunasan;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -203,7 +209,6 @@ export default function DaftarTagihanDialog({
           >
             <div
               className={cn(
-                // compact spacing (match reference)
                 "[&_.bg-white.px-3.py-3]:!py-1.5",
                 "[&_.px-4.py-4]:!py-2",
               )}
@@ -212,7 +217,7 @@ export default function DaftarTagihanDialog({
                 rows={rows}
                 selected={selected}
                 setSelected={setSelected}
-                isLocked={true}
+                isLocked={isLocked}
                 showNextBillInfo={false}
                 showGraceInfo={page === 1}
                 highlightGraceBlock={page === 1}
