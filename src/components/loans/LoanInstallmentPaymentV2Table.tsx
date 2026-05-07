@@ -532,40 +532,36 @@ function RowActionButtons({
   disableDelete: boolean;
 }) {
   return (
-    <div className="grid gap-2">
-      <div className="text-[12px] font-normal text-slate-900">Aksi</div>
+    <div className="grid place-items-center gap-2">
+      <button
+        type="button"
+        onClick={onAdd}
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#6B7A90] text-white",
+          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+        )}
+        aria-label="Tambah transaksi"
+        title="Tambah transaksi"
+      >
+        <Plus className="h-5.5 w-5.5" />
+      </button>
 
-      <div className="grid place-items-center gap-2">
-        <button
-          type="button"
-          onClick={onAdd}
-          className={cn(
-            "inline-flex h-10 w-10 items-center justify-center",
-            "rounded-[5px] bg-[#6B7A90] text-white",
-            "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
-          )}
-          aria-label="Tambah transaksi"
-          title="Tambah transaksi"
-        >
-          <Plus className="h-5.5 w-5.5" />
-        </button>
-
-        <button
-          type="button"
-          onClick={onDelete}
-          disabled={disableDelete}
-          className={cn(
-            "inline-flex h-10 w-10 items-center justify-center",
-            "rounded-[5px] bg-[#DC3545] text-white",
-            "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
-            disableDelete ? "opacity-60 pointer-events-none" : "",
-          )}
-          aria-label="Hapus transaksi"
-          title="Hapus transaksi"
-        >
-          <Trash2 className="h-5.5 w-5.5" />
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={onDelete}
+        disabled={disableDelete}
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#DC3545] text-white",
+          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
+          disableDelete ? "opacity-60 pointer-events-none" : "",
+        )}
+        aria-label="Hapus transaksi"
+        title="Hapus transaksi"
+      >
+        <Trash2 className="h-5.5 w-5.5" />
+      </button>
     </div>
   );
 }
@@ -841,7 +837,9 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   <NasabahRow
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
-                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)))
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
+                      )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
                   />
@@ -887,7 +885,11 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   <TransactionPaymentMethodField
                     value={row.paymentMethod}
                     onChange={(v) =>
-                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)))
+                      setRows((prev) =>
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, paymentMethod: v } : x,
+                        ),
+                      )
                     }
                     disabled={lockRowUi}
                   />
@@ -929,11 +931,13 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                 </Td>
 
                 <Td align="center" className="px-3">
-                  <RowActionButtons
-                    onAdd={() => addRow(row.id)}
-                    onDelete={() => deleteRow(row.id)}
-                    disableDelete={rows.length <= 1}
-                  />
+                  <div className="pt-[26px]">
+                    <RowActionButtons
+                      onAdd={() => addRow(row.id)}
+                      onDelete={() => deleteRow(row.id)}
+                      disableDelete={rows.length <= 1}
+                    />
+                  </div>
                 </Td>
               </tr>
             );
