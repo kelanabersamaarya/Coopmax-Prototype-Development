@@ -335,44 +335,45 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
       <div className="grid gap-4">
         {extra.map((r) => (
-          <InfoStack key={r.label} label={r.label} value={r.value} />
+          <InfoStack key={r.label} label={it.label} value={r.value} />
         ))}
       </div>
 
-      {/* Tombol aksi: 1 baris, tanpa warna ungu */}
-      <div className="mt-5">
-        <div className="grid grid-cols-3 gap-3">
-          <LoanActionButton
-            icon={History}
-            label="Riwayat Transaksi"
-            onClick={() =>
-              toast("Riwayat Transaksi (prototype)", {
-                description: `Rekening: ${accountNo}`,
-              })
-            }
-            className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
-          />
-          <LoanActionButton
-            icon={Printer}
-            label="Simulasi Tunggakan"
-            onClick={() =>
-              toast("Simulasi Tunggakan (prototype)", {
-                description: `Rekening: ${accountNo}`,
-              })
-            }
-            className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
-          />
-          <LoanActionButton
-            icon={List}
-            label="Daftar Tagihan"
-            onClick={() =>
-              toast("Daftar Tagihan (prototype)", {
-                description: `Rekening: ${accountNo}`,
-              })
-            }
-            className="bg-[#0b5bd3] ring-[#0b5bd3]/25 hover:bg-[#0a52bf]"
-          />
-        </div>
+      {/* Divider pemisah sebelum tombol */}
+      <div className="my-4 h-px w-full bg-slate-200" />
+
+      {/* Tombol aksi: vertikal (jejer ke bawah), tanpa warna ungu */}
+      <div className="grid gap-3">
+        <LoanActionButton
+          icon={History}
+          label="Riwayat Transaksi"
+          onClick={() =>
+            toast("Riwayat Transaksi (prototype)", {
+              description: `Rekening: ${accountNo}`,
+            })
+          }
+          className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
+        />
+        <LoanActionButton
+          icon={Printer}
+          label="Simulasi Tunggakan"
+          onClick={() =>
+            toast("Simulasi Tunggakan (prototype)", {
+              description: `Rekening: ${accountNo}`,
+            })
+          }
+          className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
+        />
+        <LoanActionButton
+          icon={List}
+          label="Daftar Tagihan"
+          onClick={() =>
+            toast("Daftar Tagihan (prototype)", {
+              description: `Rekening: ${accountNo}`,
+            })
+          }
+          className="bg-[#0b5bd3] ring-[#0b5bd3]/25 hover:bg-[#0a52bf]"
+        />
       </div>
     </div>
   );
