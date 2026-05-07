@@ -246,15 +246,17 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   if (topItems.length === 0) return null;
 
-  // ✅ blok baru: tepat di bawah Durasi Grace Period (dipisah divider dan terpisah dari blok jangka waktu)
+  // ✅ Tambah: Angsuran ke di atas Angsuran Lunas/Seharusnya
+  const installmentMeta = [{ label: "Angsuran ke", value: "2" }];
+
   const installments = [
     { label: "Angsuran Lunas", value: "1" },
     { label: "Angsuran Seharusnya", value: "1" },
   ];
 
+  // Tidak perlu "Angsuran ke" lagi di blok jangka waktu, karena sudah dipindahkan
   const extra = [
     { label: "Jangka Waktu", value: "12 Bulan" },
-    { label: "Angsuran ke", value: "2" },
     { label: "Tanggal Realisasi", value: "01-03-2026" },
     { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
     { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
@@ -270,17 +272,17 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         ))}
       </div>
 
-      {/* divider: setelah durasi grace period */}
       <div className="my-4 h-px w-full bg-slate-200" />
 
-      {/* blok angsuran (layout sama seperti nasabah) */}
       <div className="grid gap-4">
+        {installmentMeta.map((it) => (
+          <InfoStack key={it.label} label={it.label} value={it.value} />
+        ))}
         {installments.map((it) => (
           <InfoStack key={it.label} label={it.label} value={it.value} />
         ))}
       </div>
 
-      {/* divider: pisahkan dari informasi jangka waktu */}
       <div className="my-4 h-px w-full bg-slate-200" />
 
       <div className="grid gap-4">
