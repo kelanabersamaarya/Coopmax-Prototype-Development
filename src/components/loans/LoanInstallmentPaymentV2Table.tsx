@@ -989,7 +989,7 @@ function SummaryBlock({
   onSave: () => void;
 }) {
   return (
-    <div className="mt-[70px]">
+    <div className="mt-[100px]">
       <div className="grid gap-4">
         <SummaryRow label="Total Nominal" value={totalNominal} />
         <SummaryRow label="Total Denda" value={totalDenda} />
