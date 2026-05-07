@@ -740,7 +740,7 @@ function FooterTotalsAndActions({
 
   return (
     <div className="mt-3 text-[14px]">
-      <div className="mt-2">
+      <div className="mt-[15px]">
         {totalsRow("Total Nominal", valueText)}
         {totalsRow("Total Denda", valueText)}
         <div className="my-2 h-px w-full bg-slate-200" />
@@ -1002,7 +1002,6 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
-                  {/* ✅ tambah padding bottom lebih besar lagi */}
                   <div className={cn(isLastRow ? "pb-64" : "")}>
                     {lockUi ? (
                       <div>
