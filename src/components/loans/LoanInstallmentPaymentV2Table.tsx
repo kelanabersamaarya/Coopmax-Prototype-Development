@@ -1,16 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Search,
-  History,
-  Printer,
-  Eye,
-  Plus,
-  Trash2,
-  X,
-  CheckSquare,
-} from "lucide-react";
+import { Search, History, Printer, Eye, Plus, Trash2, X, CheckSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -230,10 +221,7 @@ function InfoStack({
   return (
     <div className="grid gap-1">
       <div
-        className={cn(
-          "text-[12px] font-normal text-black",
-          strong ? "font-semibold" : "",
-        )}
+        className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}
       >
         {label}
       </div>
@@ -250,10 +238,7 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(
-    () => getNasabahInfoByAccountNo(accountNo),
-    [accountNo],
-  );
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
   return (
@@ -263,10 +248,7 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
         <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-        <InfoStack
-          label="Saldo Simpanan Wajib Peminjam"
-          value={info.saldoSimpananWajib}
-        />
+        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
       </div>
     </div>
   );
@@ -335,9 +317,7 @@ function SelectedPinjamanInfo({
         { label: "Durasi Grace Period" },
       ];
 
-  const installmentMeta = hideInstallmentInfo
-    ? []
-    : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
   const installments = hideInstallmentInfo
     ? []
     : [
@@ -361,9 +341,7 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={
-              it.value ?? <span className="text-slate-400 font-semibold">-</span>
-            }
+            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
@@ -376,18 +354,14 @@ function SelectedPinjamanInfo({
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
           {installments.map((it) => (
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
         </div>
@@ -400,9 +374,7 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={r.label}
             label={r.label}
-            value={
-              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
-            }
+            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
@@ -565,7 +537,7 @@ function RowActionButtons({
     <div className="grid gap-2">
       <div className="text-[12px] font-normal text-slate-900">Aksi</div>
 
-      <div className="flex items-center gap-2">
+      <div className="grid gap-2">
         <button
           type="button"
           onClick={onAdd}
@@ -746,10 +718,7 @@ function FooterTotalsAndActions({
         <button
           type="button"
           onClick={() => toast("Batalkan (prototype)")}
-          className={cn(
-            btnBase,
-            "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]",
-          )}
+          className={cn(btnBase, "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]")}
         >
           <X className="h-4 w-4" strokeWidth={3} />
           Batalkan
@@ -762,10 +731,7 @@ function FooterTotalsAndActions({
               description: "Ringkasan transaksi disimpan (dummy).",
             })
           }
-          className={cn(
-            btnBase,
-            "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
-          )}
+          className={cn(btnBase, "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]")}
         >
           <CheckSquare className="h-4 w-4" strokeWidth={3} />
           Simpan
@@ -775,17 +741,11 @@ function FooterTotalsAndActions({
   );
 }
 
-export default function LoanInstallmentPaymentV2Table({
-  className,
-}: {
-  className?: string;
-}) {
+export default function LoanInstallmentPaymentV2Table({ className }: { className?: string }) {
   const fixedPx = 56 + 280;
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
-  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(
-    null,
-  );
+  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(null);
 
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
@@ -798,9 +758,7 @@ export default function LoanInstallmentPaymentV2Table({
     if (!pickerTargetRowId) return;
 
     setRows((prev) =>
-      prev.map((r) =>
-        r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r,
-      ),
+      prev.map((r) => (r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r)),
     );
 
     toast.success("Berhasil Menampilkan Tagihan Nasabah", {
@@ -835,9 +793,7 @@ export default function LoanInstallmentPaymentV2Table({
       return prev.filter((r) => r.id !== rowId);
     });
 
-    toast("Transaksi dihapus", {
-      description: "Baris transaksi dihapus.",
-    });
+    toast("Transaksi dihapus", { description: "Baris transaksi dihapus." });
   }
 
   return (
@@ -857,7 +813,8 @@ export default function LoanInstallmentPaymentV2Table({
           <col style={{ width: 56 }} />
           <col style={{ width: 280 }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.35)` }} />
-          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65)` }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65 - 120px)` }} />
+          <col style={{ width: 120 }} />
         </colgroup>
 
         <thead className="bg-white">
@@ -865,12 +822,10 @@ export default function LoanInstallmentPaymentV2Table({
             <Th className="px-3">
               <div className="text-left">NO</div>
             </Th>
-
             <Th className="pl-3 pr-4">NASABAH</Th>
-
             <Th>PINJAMAN</Th>
-
             <Th>TAGIHAN & TRANSAKSI</Th>
+            <Th align="center">AKSI</Th>
           </tr>
         </thead>
 
@@ -881,25 +836,19 @@ export default function LoanInstallmentPaymentV2Table({
             const isLastRow = idx === rows.length - 1;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
-            const isBakiDebet =
-              row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
 
-            const canOpenDaftarTagihan =
-              (isReguler || isBakiDebet || isKhusus) && hasPicked;
+            const canOpenDaftarTagihan = (isReguler || isBakiDebet || isKhusus) && hasPicked;
 
             const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
-            const totalsLabel =
-              row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
+            const totalsLabel = row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const nominalPelunasan = "5.500.002";
 
             return (
-              <tr
-                key={row.id}
-                className={idx === 0 ? "" : "border-t border-slate-200"}
-              >
+              <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
                 <Td className="px-3">
                   <span className="tabular-nums">{idx + 1}.</span>
                 </Td>
@@ -908,15 +857,10 @@ export default function LoanInstallmentPaymentV2Table({
                   <NasabahRow
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
-                      setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, accountNo: v } : x,
-                        ),
-                      )
+                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)))
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
                   />
-
                   {hasPicked ? <SelectedNasabahInfo accountNo={row.accountNo} /> : null}
                 </Td>
 
@@ -933,50 +877,33 @@ export default function LoanInstallmentPaymentV2Table({
                     open={row.daftarTagihanOpen}
                     onOpenChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, daftarTagihanOpen: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: v } : x)),
                       )
                     }
                     paymentMethod={row.paymentMethod}
                   />
 
-                  {/* ✅ Baris atas: tombol lihat tagihan + kolom aksi (+ / delete) */}
-                  <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_108px] sm:items-end">
-                    <DaftarTagihanTopButton
-                      disabled={!canOpenDaftarTagihan}
-                      onClick={() => {
-                        if (!canOpenDaftarTagihan) {
-                          toast("Rekening belum dipilih", {
-                            description: "Silakan pilih rekening terlebih dahulu.",
-                          });
-                          return;
-                        }
-                        setRows((prev) =>
-                          prev.map((x) =>
-                            x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
-                          ),
-                        );
-                      }}
-                    />
-
-                    <RowActionButtons
-                      onAdd={() => addRow(row.id)}
-                      onDelete={() => deleteRow(row.id)}
-                      disableDelete={rows.length <= 1}
-                    />
-                  </div>
+                  <DaftarTagihanTopButton
+                    disabled={!canOpenDaftarTagihan}
+                    onClick={() => {
+                      if (!canOpenDaftarTagihan) {
+                        toast("Rekening belum dipilih", {
+                          description: "Silakan pilih rekening terlebih dahulu.",
+                        });
+                        return;
+                      }
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: true } : x)),
+                      );
+                    }}
+                  />
 
                   <Divider />
 
                   <TransactionPaymentMethodField
                     value={row.paymentMethod}
                     onChange={(v) =>
-                      setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, paymentMethod: v } : x,
-                        ),
-                      )
+                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)))
                     }
                     disabled={lockRowUi}
                   />
@@ -998,10 +925,7 @@ export default function LoanInstallmentPaymentV2Table({
                   <Divider />
 
                   <div className={cn(isLastRow ? "pb-64" : "")}>
-                    <TransactionStatusBadge
-                      title="Status Transaksi"
-                      status="Belum diproses"
-                    />
+                    <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
                   </div>
 
                   {isLastRow ? <FooterTotalsAndActions allowActions={true} /> : null}
@@ -1018,6 +942,14 @@ export default function LoanInstallmentPaymentV2Table({
                     {row.keteranganPelunasan}
                     {nominalPelunasan}
                   </div>
+                </Td>
+
+                <Td align="center">
+                  <RowActionButtons
+                    onAdd={() => addRow(row.id)}
+                    onDelete={() => deleteRow(row.id)}
+                    disableDelete={rows.length <= 1}
+                  />
                 </Td>
               </tr>
             );
