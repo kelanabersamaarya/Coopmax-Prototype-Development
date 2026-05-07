@@ -1,3 +1,4 @@
+Total Pelunasan.">
 "use client";
 
 import * as React from "react";
@@ -435,13 +436,19 @@ function Divider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
 }
 
-function BillTotalsBlock({ totals }: { totals: BillTotals }) {
+function BillTotalsBlock({
+  totals,
+  totalLabel = "Total Tagihan",
+}: {
+  totals: BillTotals;
+  totalLabel?: string;
+}) {
   return (
     <div className="grid gap-4">
       <InfoStack label="Tagihan Pokok" value={totals.pokok} />
       <InfoStack label="Tagihan Bunga" value={totals.bunga} />
       <InfoStack label="Tagihan Denda" value={totals.denda} />
-      <InfoStack label="Total Tagihan" value={totals.total} strong />
+      <InfoStack label={totalLabel} value={totals.total} strong />
     </div>
   );
 }
@@ -840,9 +847,9 @@ export default function LoanInstallmentPaymentV2Table({
     [],
   );
 
-  // Prototype sisa pinjaman (baki debet)
-  const sisaPinjamanBakiDebet = "9.116.000,00";
+  const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
 
+  const sisaPinjamanBakiDebet = "9.116.000,00";
   const nominalPelunasan = "5.500.002";
 
   function openPicker() {
@@ -930,11 +937,10 @@ export default function LoanInstallmentPaymentV2Table({
 
               <Divider />
 
-              {/* ✅ Baki Debet: ringkasan hanya Sisa Pinjaman */}
               {isBakiDebet ? (
                 <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
               ) : (
-                <BillTotalsBlock totals={totals} />
+                <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
               )}
 
               {isReguler ? (
