@@ -164,7 +164,7 @@ function NasabahRow({
   );
 }
 
-function InfoLine({
+function InfoStack({
   label,
   value,
 }: {
@@ -172,11 +172,10 @@ function InfoLine({
   value: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-x-4 gap-y-1 [grid-template-columns:110px_10px_minmax(0,1fr)]">
-      <div className="text-[14px] font-normal text-slate-900">{label}</div>
-      <div className="text-[14px] font-normal text-slate-900">:</div>
-      <div className="min-w-0 text-[14px] font-normal text-slate-900">
-        <div className="break-words leading-snug">{value}</div>
+    <div className="grid gap-1">
+      <div className="text-[12px] font-semibold text-slate-600">{label}</div>
+      <div className="text-[14px] font-semibold text-slate-900 leading-snug break-words">
+        {value}
       </div>
     </div>
   );
@@ -202,14 +201,20 @@ function SelectedNasabahInfo({
         </div>
       </div>
 
-      {/* Detail (seperti gambar pertama) */}
+      {/* Detail: layout atas-bawah (1 kolom) */}
       <div className="px-4 py-4">
-        <div className="space-y-3">
-          <InfoLine label="Nama" value={info.nama} />
-          <InfoLine label="Alamat" value={info.alamat} />
-          <InfoLine label="Produk" value={info.produk} />
-          <InfoLine label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-          <InfoLine label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
+        <div className="grid gap-4">
+          <InfoStack label="Nama" value={info.nama} />
+          <InfoStack label="Alamat" value={info.alamat} />
+          <InfoStack label="Produk" value={info.produk} />
+          <InfoStack
+            label="No Simpanan Wajib Peminjam"
+            value={info.noSimpananWajib}
+          />
+          <InfoStack
+            label="Saldo Simpanan Wajib Peminjam"
+            value={info.saldoSimpananWajib}
+          />
         </div>
       </div>
     </div>
