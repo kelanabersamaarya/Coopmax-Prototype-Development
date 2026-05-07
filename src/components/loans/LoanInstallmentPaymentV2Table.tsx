@@ -1,4 +1,3 @@
-Total Tagihan (Pokok/Bunga/Denda).">
 "use client";
 
 import * as React from "react";
