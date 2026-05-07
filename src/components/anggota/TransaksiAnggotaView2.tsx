@@ -480,7 +480,6 @@ export default function TransaksiAnggotaView2({
 
           <div className="relative">
             <InformasiRekeningHeader
-              hideMeta
               title="PINJAMAN BILLING"
               items={[
                 { label: "No. Rekening Pinjaman", value: "SMG260004" },
