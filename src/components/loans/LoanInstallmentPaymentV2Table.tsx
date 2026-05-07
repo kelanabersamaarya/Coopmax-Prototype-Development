@@ -62,15 +62,16 @@ function Td({
 
 function NasabahRow() {
   return (
-    <div className="grid gap-3">
-      <div className="grid gap-2 [grid-template-columns:96px_minmax(0,1fr)]">
-        <div className="text-[14px] font-normal text-slate-900">No Rek :</div>
+    <div className="grid gap-2">
+      {/* rapatkan jarak antar row + rapatkan jarak label ke input */}
+      <div className="grid gap-y-1.5 gap-x-2 [grid-template-columns:84px_minmax(0,1fr)]">
+        <div className="pt-1 text-[14px] font-normal text-slate-900">No Rek :</div>
 
         <div className="flex min-w-0 items-stretch">
           <Input
             placeholder="Cari nasabah"
             className={cn(
-              "h-9 rounded-l-[6px] rounded-r-none",
+              "h-8 rounded-l-[6px] rounded-r-none",
               "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
               "shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
               "placeholder:text-slate-500",
@@ -79,7 +80,7 @@ function NasabahRow() {
           <button
             type="button"
             className={cn(
-              "inline-flex w-12 items-center justify-center",
+              "inline-flex w-10 items-center justify-center",
               "rounded-r-[6px] rounded-l-none",
               "bg-[#6B7A90] text-white",
               "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
@@ -87,17 +88,17 @@ function NasabahRow() {
             aria-label="Cari"
             title="Cari"
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-4.5 w-4.5" />
           </button>
         </div>
 
-        <div className="text-[14px] font-normal text-slate-900">Nama :</div>
+        <div className="pt-1 text-[14px] font-normal text-slate-900">Nama :</div>
         <div />
 
-        <div className="text-[14px] font-normal text-slate-900">Alamat :</div>
+        <div className="pt-1 text-[14px] font-normal text-slate-900">Alamat :</div>
         <div />
 
-        <div className="text-[14px] font-normal text-slate-900">Produk :</div>
+        <div className="pt-1 text-[14px] font-normal text-slate-900">Produk :</div>
         <div />
       </div>
     </div>
