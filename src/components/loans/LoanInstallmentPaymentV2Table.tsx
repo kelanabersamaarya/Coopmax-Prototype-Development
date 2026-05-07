@@ -1092,7 +1092,7 @@ export default function LoanInstallmentPaymentV2Table({
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
 
-            // ✅ untuk Pelunasan juga boleh buka dialog tabel tagihan (seperti screenshot)
+            // ✅ Pelunasan juga boleh buka dialog tagihan
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
@@ -1131,7 +1131,8 @@ export default function LoanInstallmentPaymentV2Table({
                   <SelectedPinjamanInfo
                     accountNo={row.accountNo}
                     disabled={lockRowUi}
-                    hideInstallmentInfo={isBakiDebet}
+                    // ✅ saat Pelunasan, sembunyikan info angsuran (Angsuran ke/Lunas/Seharusnya)
+                    hideInstallmentInfo={isBakiDebet || isPelunasan}
                   />
                 </Td>
 
