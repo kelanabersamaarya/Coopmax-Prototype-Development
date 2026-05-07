@@ -17,7 +17,7 @@ function Th({
   return (
     <th
       className={cn(
-        "px-4 py-3",
+        "border-b border-slate-300/70 px-4 py-3",
         "text-[12px] font-extrabold uppercase tracking-wide",
         "text-[#64748B]",
         align === "right"
