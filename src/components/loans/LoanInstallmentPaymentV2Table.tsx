@@ -220,20 +220,13 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div
-        className={cn(
-          "text-[12px] font-normal text-black",
-          strong ? "font-semibold" : "",
-        )}
-      >
+      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
         {label}
       </div>
       <div
         className={cn(
           "text-[14px] leading-snug break-words",
-          strong
-            ? "font-extrabold text-slate-900"
-            : "font-semibold text-slate-900",
+          strong ? "font-extrabold text-slate-900" : "font-semibold text-slate-900",
         )}
       >
         {value}
@@ -328,9 +321,7 @@ function SelectedPinjamanInfo({
         { label: "Durasi Grace Period" },
       ];
 
-  const installmentMeta = hideInstallmentInfo
-    ? []
-    : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
   const installments = hideInstallmentInfo
     ? []
     : [
@@ -354,16 +345,12 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={
-              it.value ?? <span className="text-slate-400 font-semibold">-</span>
-            }
+            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
 
-      {!hideInstallmentInfo ? (
-        <div className="my-4 h-px w-full bg-slate-200" />
-      ) : null}
+      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -432,548 +419,6 @@ function SelectedPinjamanInfo({
   );
 }
 
-const PAYMENT_METHODS = [
-  "Pembayaran Reguler",
-  "Pembayaran Penurunan Baki Debet",
-  "Pembayaran Khusus",
-  "Pelunasan",
-] as const;
-
-type PaymentMethod = (typeof PAYMENT_METHODS)[number];
-
-type BillTotals = {
-  pokok: string;
-  bunga: string;
-  denda: string;
-  total: string;
-};
-
-function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-      {children}
-    </div>
-  );
-}
-
-function Divider() {
-  return <div className="my-4 h-px w-full bg-slate-200" />;
-}
-
-function BillTotalsBlock({
-  totals,
-  totalLabel = "Total Tagihan",
-}: {
-  totals: BillTotals;
-  totalLabel?: string;
-}) {
-  return (
-    <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value={totals.pokok} />
-      <InfoStack label="Tagihan Bunga" value={totals.bunga} />
-      <InfoStack label="Tagihan Denda" value={totals.denda} />
-      <InfoStack label={totalLabel} value={totals.total} strong />
-    </div>
-  );
-}
-
-function BillTotalsTitlesOnly({
-  totalLabel = "Total Tagihan",
-}: {
-  totalLabel?: string;
-}) {
-  const dash = <span className="text-slate-400 font-semibold">-</span>;
-
-  return (
-    <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value={dash} />
-      <InfoStack label="Tagihan Bunga" value={dash} />
-      <InfoStack label="Tagihan Denda" value={dash} />
-      <InfoStack label={totalLabel} value={dash} strong />
-    </div>
-  );
-}
-
-function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
-  return (
-    <div className="grid gap-4">
-      <InfoStack label="Sisa Pinjaman" value={sisaPinjaman} strong />
-    </div>
-  );
-}
-
-function RemainingLoanTitlesOnly() {
-  return (
-    <div className="grid gap-4">
-      <InfoStack
-        label="Sisa Pinjaman"
-        value={<span className="text-slate-400 font-semibold">-</span>}
-        strong
-      />
-    </div>
-  );
-}
-
-function DaftarTagihanTopButton({
-  disabled,
-  onClick,
-}: {
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <div className="grid gap-2">
-      <div className="text-[12px] font-normal text-slate-900">
-        Daftar Tagihan dan Denda
-      </div>
-
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={disabled}
-        className={cn(
-          "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
-          "bg-[#0b5bd3] text-[14px] font-semibold text-white",
-          "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
-          disabled ? "opacity-60 pointer-events-none" : "",
-        )}
-        aria-label="Lihat Tagihan & Denda"
-        title="Lihat Tagihan & Denda"
-      >
-        <Eye className="h-5 w-5" />
-        Lihat Tagihan & Denda
-      </button>
-    </div>
-  );
-}
-
-function TransactionPaymentMethodField({
-  value,
-  onChange,
-  disabled = false,
-}: {
-  value: PaymentMethod;
-  onChange: (v: PaymentMethod) => void;
-  disabled?: boolean;
-}) {
-  const triggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[5px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-    disabled ? "opacity-60 pointer-events-none" : "",
-  );
-
-  return (
-    <div className="grid gap-1.5">
-      <FieldLabelLikeNasabah>Metode Pembayaran</FieldLabelLikeNasabah>
-
-      <Select
-        value={value}
-        onValueChange={(v) => onChange(v as PaymentMethod)}
-        disabled={disabled}
-      >
-        <SelectTrigger className={triggerCls}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="rounded-[10px] border-slate-200">
-          {PAYMENT_METHODS.map((m) => (
-            <SelectItem key={m} value={m} className="rounded-[8px]">
-              {m}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
-
-function TabunganField({
-  value,
-  onChange,
-  disabled,
-}: {
-  value: "Tanpa Tabungan";
-  onChange: (v: "Tanpa Tabungan") => void;
-  disabled: boolean;
-}) {
-  const triggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[5px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-    disabled ? "opacity-60 pointer-events-none" : "",
-  );
-
-  return (
-    <div className="grid gap-1.5">
-      <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
-      <Select
-        value={value}
-        onValueChange={(v) => onChange(v as "Tanpa Tabungan")}
-        disabled={disabled}
-      >
-        <SelectTrigger className={triggerCls}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="rounded-[10px] border-slate-200">
-          <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
-            Tanpa Tabungan
-          </SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
-
-function PaymentInputBlock({
-  paymentMethod,
-  disabled,
-  nominalReguler,
-  onNominalReguler,
-  tabunganReguler,
-  onTabunganReguler,
-  keteranganReguler,
-  onKeteranganReguler,
-  nominalPokokBakiDebet,
-  onNominalPokokBakiDebet,
-  tabunganBakiDebet,
-  onTabunganBakiDebet,
-  keteranganBakiDebet,
-  onKeteranganBakiDebet,
-  nominalPokokKhusus,
-  onNominalPokokKhusus,
-  nominalBungaKhusus,
-  onNominalBungaKhusus,
-  nominalDendaKhusus,
-  onNominalDendaKhusus,
-  tabunganKhusus,
-  onTabunganKhusus,
-  keteranganKhusus,
-  onKeteranganKhusus,
-  tabunganPelunasan,
-  onTabunganPelunasan,
-  keteranganPelunasan,
-  onKeteranganPelunasan,
-}: {
-  paymentMethod: PaymentMethod;
-  disabled: boolean;
-
-  nominalReguler: string;
-  onNominalReguler: (v: string) => void;
-  tabunganReguler: "Tanpa Tabungan";
-  onTabunganReguler: (v: "Tanpa Tabungan") => void;
-  keteranganReguler: string;
-  onKeteranganReguler: (v: string) => void;
-
-  nominalPokokBakiDebet: string;
-  onNominalPokokBakiDebet: (v: string) => void;
-  tabunganBakiDebet: "Tanpa Tabungan";
-  onTabunganBakiDebet: (v: "Tanpa Tabungan") => void;
-  keteranganBakiDebet: string;
-  onKeteranganBakiDebet: (v: string) => void;
-
-  nominalPokokKhusus: string;
-  onNominalPokokKhusus: (v: string) => void;
-  nominalBungaKhusus: string;
-  onNominalBungaKhusus: (v: string) => void;
-  nominalDendaKhusus: string;
-  onNominalDendaKhusus: (v: string) => void;
-  tabunganKhusus: "Tanpa Tabungan";
-  onTabunganKhusus: (v: "Tanpa Tabungan") => void;
-  keteranganKhusus: string;
-  onKeteranganKhusus: (v: string) => void;
-
-  tabunganPelunasan: "Tanpa Tabungan";
-  onTabunganPelunasan: (v: "Tanpa Tabungan") => void;
-  keteranganPelunasan: string;
-  onKeteranganPelunasan: (v: string) => void;
-}) {
-  const inputCls = cn(
-    "h-[30px] w-full rounded-[5px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
-    "placeholder:text-slate-500",
-    disabled ? "opacity-60 pointer-events-none" : "",
-  );
-
-  const keteranganCls = cn(inputCls, "text-left");
-
-  const required = <span className="text-rose-600"> *</span>;
-
-  if (paymentMethod === "Pelunasan") {
-    return (
-      <div className="grid gap-4">
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Pelunasan{required}
-          </FieldLabelLikeNasabah>
-          <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
-        </div>
-
-        <TabunganField
-          value={tabunganPelunasan}
-          onChange={onTabunganPelunasan}
-          disabled={disabled}
-        />
-
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-          <Input
-            value={keteranganPelunasan}
-            onChange={(e) => onKeteranganPelunasan(e.target.value)}
-            className={keteranganCls}
-            disabled={disabled}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  if (paymentMethod === "Pembayaran Penurunan Baki Debet") {
-    return (
-      <div className="grid gap-4">
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Pokok{required}
-          </FieldLabelLikeNasabah>
-          <Input
-            value={nominalPokokBakiDebet}
-            onChange={(e) => onNominalPokokBakiDebet(e.target.value)}
-            className={cn(inputCls, "text-right tabular-nums")}
-            placeholder="0"
-            inputMode="decimal"
-            disabled={disabled}
-          />
-        </div>
-
-        <TabunganField
-          value={tabunganBakiDebet}
-          onChange={onTabunganBakiDebet}
-          disabled={disabled}
-        />
-
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-          <Input
-            value={keteranganBakiDebet}
-            onChange={(e) => onKeteranganBakiDebet(e.target.value)}
-            className={keteranganCls}
-            disabled={disabled}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  if (paymentMethod === "Pembayaran Khusus") {
-    return (
-      <div className="grid gap-4">
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Pokok{required}
-          </FieldLabelLikeNasabah>
-          <Input
-            value={nominalPokokKhusus}
-            onChange={(e) => onNominalPokokKhusus(e.target.value)}
-            className={cn(inputCls, "text-right tabular-nums")}
-            placeholder="0"
-            inputMode="decimal"
-            disabled={disabled}
-          />
-        </div>
-
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Bunga{required}
-          </FieldLabelLikeNasabah>
-          <Input
-            value={nominalBungaKhusus}
-            onChange={(e) => onNominalBungaKhusus(e.target.value)}
-            className={cn(inputCls, "text-right tabular-nums")}
-            placeholder="0"
-            inputMode="decimal"
-            disabled={disabled}
-          />
-        </div>
-
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Denda{required}
-          </FieldLabelLikeNasabah>
-          <Input
-            value={nominalDendaKhusus}
-            onChange={(e) => onNominalDendaKhusus(e.target.value)}
-            className={cn(inputCls, "text-right tabular-nums")}
-            placeholder="0"
-            inputMode="decimal"
-            disabled={disabled}
-          />
-        </div>
-
-        <TabunganField
-          value={tabunganKhusus}
-          onChange={onTabunganKhusus}
-          disabled={disabled}
-        />
-
-        <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-          <Input
-            value={keteranganKhusus}
-            onChange={(e) => onKeteranganKhusus(e.target.value)}
-            className={keteranganCls}
-            disabled={disabled}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  // Default: Pembayaran Reguler
-  return (
-    <div className="grid gap-4">
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Pembayaran{required}
-        </FieldLabelLikeNasabah>
-        <Input
-          value={nominalReguler}
-          onChange={(e) => onNominalReguler(e.target.value)}
-          className={cn(inputCls, "text-right tabular-nums")}
-          placeholder="0"
-          inputMode="decimal"
-          disabled={disabled}
-        />
-      </div>
-
-      <TabunganField
-        value={tabunganReguler}
-        onChange={onTabunganReguler}
-        disabled={disabled}
-      />
-
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-        <Input
-          value={keteranganReguler}
-          onChange={(e) => onKeteranganReguler(e.target.value)}
-          className={keteranganCls}
-          disabled={disabled}
-        />
-      </div>
-    </div>
-  );
-}
-
-function RowActionButtons({
-  onAdd,
-  onDelete,
-  disableDelete,
-}: {
-  onAdd: () => void;
-  onDelete: () => void;
-  disableDelete: boolean;
-}) {
-  return (
-    <div className="grid place-items-center gap-2">
-      <button
-        type="button"
-        onClick={onAdd}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#6B7A90] text-white",
-          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
-        )}
-        aria-label="Tambah transaksi"
-        title="Tambah transaksi"
-      >
-        <Plus className="h-5.5 w-5.5" />
-      </button>
-
-      <button
-        type="button"
-        onClick={onDelete}
-        disabled={disableDelete}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#DC3545] text-white",
-          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
-          disableDelete ? "opacity-60 pointer-events-none" : "",
-        )}
-        aria-label="Hapus transaksi"
-        title="Hapus transaksi"
-      >
-        <Trash2 className="h-5.5 w-5.5" />
-      </button>
-    </div>
-  );
-}
-
-function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolean }) {
-  const valueText = allowActions ? "0,00" : "-";
-
-  const totalsRow = (label: string, value: string, strong = false) => (
-    <div className="flex items-baseline justify-between gap-4 py-2">
-      <div className={cn("text-[14px] text-[#0b2a57]", strong ? "font-semibold" : "font-normal")}>
-        {label} :
-      </div>
-      <div className={cn("text-[14px] tabular-nums text-[#0b2a57]", strong ? "font-semibold" : "font-normal")}>
-        {value}
-      </div>
-    </div>
-  );
-
-  const btnBase = cn(
-    "inline-flex items-center justify-center gap-2",
-    "h-[28px] w-[90px] rounded-[5px]",
-    "text-[12px] font-bold tracking-tight text-white",
-    "ring-1 transition",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-  );
-
-  return (
-    <div className="mt-3 text-[14px]">
-      <div className="mt-[120px]">
-        {totalsRow("Total Nominal", valueText)}
-        {totalsRow("Total Denda", valueText)}
-        <div className="my-2 h-px w-full bg-slate-200" />
-        {totalsRow("Grand Total", valueText, true)}
-      </div>
-
-      <div className="mt-4 flex items-center justify-end gap-3">
-        <button
-          type="button"
-          onClick={() => toast("Batalkan (prototype)")}
-          className={cn(btnBase, "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]")}
-        >
-          <X className="h-4 w-4" strokeWidth={3} />
-          Batalkan
-        </button>
-
-        <button
-          type="button"
-          onClick={() =>
-            toast.success("Simpan (prototype)", {
-              description: "Ringkasan transaksi disimpan (dummy).",
-            })
-          }
-          className={cn(btnBase, "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]")}
-        >
-          <CheckSquare className="h-4 w-4" strokeWidth={3} />
-          Simpan
-        </button>
-      </div>
-    </div>
-  );
-}
-
 type TransactionRowState = {
   id: string;
   accountNo: string;
@@ -1028,11 +473,96 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
   };
 }
 
-export default function LoanInstallmentPaymentV2Table({ className }: { className?: string }) {
+function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolean }) {
+  const valueText = allowActions ? "0,00" : "-";
+
+  const totalsRow = (label: string, value: string, strong = false) => (
+    <div className="flex items-baseline justify-between gap-4 py-2">
+      <div
+        className={cn(
+          "text-[14px] text-[#0b2a57]",
+          strong ? "font-semibold" : "font-normal",
+        )}
+      >
+        {label} :
+      </div>
+      <div
+        className={cn(
+          "text-[14px] tabular-nums text-[#0b2a57]",
+          strong ? "font-semibold" : "font-normal",
+        )}
+      >
+        {value}
+      </div>
+    </div>
+  );
+
+  const btnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    "h-[28px] w-[90px] rounded-[5px]",
+    "text-[12px] font-bold tracking-tight text-white",
+    "ring-1 transition",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+  );
+
+  return (
+    <div className="mt-3 text-[14px]">
+      {/* Total Nominal tetap mulai dari mt 120px */}
+      <div className="mt-[120px]">
+        {totalsRow("Total Nominal", valueText)}
+      </div>
+
+      {/* Total Denda naik 50px (padding/jarak atas berkurang 50px) */}
+      <div className="mt-[0px]">
+        {totalsRow("Total Denda", valueText)}
+        <div className="my-2 h-px w-full bg-slate-200" />
+        {totalsRow("Grand Total", valueText, true)}
+      </div>
+
+      <div className="mt-4 flex items-center justify-end gap-3">
+        <button
+          type="button"
+          onClick={() => toast("Batalkan (prototype)")}
+          className={cn(
+            btnBase,
+            "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]",
+          )}
+        >
+          <X className="h-4 w-4" strokeWidth={3} />
+          Batalkan
+        </button>
+
+        <button
+          type="button"
+          onClick={() =>
+            toast.success("Simpan (prototype)", {
+              description: "Ringkasan transaksi disimpan (dummy).",
+            })
+          }
+          className={cn(
+            btnBase,
+            "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
+          )}
+        >
+          <CheckSquare className="h-4 w-4" strokeWidth={3} />
+          Simpan
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function LoanInstallmentPaymentV2Table({
+  className,
+}: {
+  className?: string;
+}) {
   const fixedPx = 56 + 280;
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
-  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(null);
+  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(
+    null,
+  );
 
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
@@ -1045,7 +575,9 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
     if (!pickerTargetRowId) return;
 
     setRows((prev) =>
-      prev.map((r) => (r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r)),
+      prev.map((r) =>
+        r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r,
+      ),
     );
 
     toast.success("Berhasil Menampilkan Tagihan Nasabah", {
@@ -1123,7 +655,8 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
             const isLastRow = idx === rows.length - 1;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
-            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+            const isBakiDebet =
+              row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
 
             const canOpenDaftarTagihan = (isReguler || isBakiDebet || isKhusus) && hasPicked;
@@ -1134,7 +667,10 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
             const sisaPinjamanBakiDebet = "9.116.000,00";
 
             return (
-              <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
+              <tr
+                key={row.id}
+                className={idx === 0 ? "" : "border-t border-slate-200"}
+              >
                 <Td className="px-3">
                   <span className="tabular-nums">{idx + 1}.</span>
                 </Td>
@@ -1214,7 +750,6 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
                   )}
 
-                  {/* ✅ Field pembayaran (yang sebelumnya hilang) */}
                   <Divider />
 
                   <PaymentInputBlock
@@ -1222,15 +757,21 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     disabled={lockRowUi}
                     nominalReguler={row.nominalReguler}
                     onNominalReguler={(v) =>
-                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, nominalReguler: v } : x)))
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalReguler: v } : x)),
+                      )
                     }
                     tabunganReguler={row.tabunganReguler}
                     onTabunganReguler={(v) =>
-                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, tabunganReguler: v } : x)))
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganReguler: v } : x)),
+                      )
                     }
                     keteranganReguler={row.keteranganReguler}
                     onKeteranganReguler={(v) =>
-                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, keteranganReguler: v } : x)))
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganReguler: v } : x)),
+                      )
                     }
                     nominalPokokBakiDebet={row.nominalPokokBakiDebet}
                     onNominalPokokBakiDebet={(v) =>
@@ -1297,7 +838,10 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   <Divider />
 
                   <div className={cn(isLastRow ? "pb-64" : "")}>
-                    <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
+                    <TransactionStatusBadge
+                      title="Status Transaksi"
+                      status="Belum diproses"
+                    />
                   </div>
 
                   {isLastRow ? <FooterTotalsAndActions allowActions={true} /> : null}
