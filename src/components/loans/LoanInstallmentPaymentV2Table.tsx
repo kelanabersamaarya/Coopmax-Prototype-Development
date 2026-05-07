@@ -862,8 +862,8 @@ function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolea
 
   return (
     <div className="mt-3 text-[14px]">
-      {/* ✅ Spacer asli dikurangi 100px (120 -> 20) tanpa overlap */}
-      <div className="mt-[20px]">{totalsRow("Total Nominal", valueText)}</div>
+      {/* ✅ Kurangi lagi ~50px: hilangkan sisa spacer (20 -> 0) */}
+      <div className="mt-0">{totalsRow("Total Nominal", valueText)}</div>
 
       <div className="mt-0">
         {totalsRow("Total Denda", valueText)}
