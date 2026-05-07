@@ -181,27 +181,18 @@ function InfoStack({
   );
 }
 
-function SelectedNasabahInfo({
-  accountNo,
-}: {
-  accountNo: string;
-}) {
+function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
   return (
-    <div className="mt-3 overflow-hidden rounded-[6px] bg-white ring-1 ring-slate-200">
-      {/* Header (layout seperti gambar kedua — 1 baris saja) */}
+    <div className="mt-3 overflow-hidden rounded-[6px] bg-white">
+      {/* Header biru: hanya nomor rekening */}
       <div className="bg-[#1aa0b5] px-4 py-3 text-white">
-        <div className="text-[12px] font-semibold leading-none text-white/90">
-          No. Rekening Pinjaman
-        </div>
-        <div className="mt-1 text-[18px] font-extrabold tracking-tight">
-          {accountNo}
-        </div>
+        <div className="text-[18px] font-extrabold tracking-tight">{accountNo}</div>
       </div>
 
-      {/* Detail: layout atas-bawah (1 kolom) */}
+      {/* Detail: layout atas-bawah */}
       <div className="px-4 py-4">
         <div className="grid gap-4">
           <InfoStack label="Nama" value={info.nama} />
