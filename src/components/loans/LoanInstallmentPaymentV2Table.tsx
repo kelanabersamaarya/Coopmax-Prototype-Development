@@ -173,7 +173,9 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div className="text-[12px] font-semibold text-slate-600">{label}</div>
+      {/* ✅ title label: hitam + regular */}
+      <div className="text-[12px] font-normal text-black">{label}</div>
+
       <div className="text-[14px] font-semibold text-slate-900 leading-snug break-words">
         {value}
       </div>
@@ -185,8 +187,6 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
-  // ✅ Sejajarkan dengan kolom LABEL "No Rek :" (bukan kolom input)
-  // Jadi tidak ada indent khusus.
   return (
     <div className="mt-3 bg-white">
       <div className="grid gap-4">
