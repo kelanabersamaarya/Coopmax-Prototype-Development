@@ -202,33 +202,6 @@ function InfoStack({
   );
 }
 
-function LoanMetaInlineUnderNoRek({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
-  if (!info) return null;
-
-  const rows = [
-    ...(info.skemaTagihan
-      ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
-      : []),
-    ...(info.satuanGracePeriod
-      ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
-      : []),
-    ...(info.durasiGracePeriod
-      ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
-      : []),
-  ];
-
-  if (rows.length === 0) return null;
-
-  return (
-    <div className="mt-2 pl-[62px]">
-      <div className="max-w-[520px] rounded-[6px] bg-white">
-        <LoanDetailMetaRows rows={rows} className="py-0" />
-      </div>
-    </div>
-  );
-}
-
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
@@ -247,6 +220,33 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
           label="Saldo Simpanan Wajib Peminjam"
           value={info.saldoSimpananWajib}
         />
+      </div>
+    </div>
+  );
+}
+
+function LoanMetaBlock({ accountNo }: { accountNo: string }) {
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  if (!info) return null;
+
+  const rows = [
+    ...(info.skemaTagihan
+      ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
+      : []),
+    ...(info.satuanGracePeriod
+      ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
+      : []),
+    ...(info.durasiGracePeriod
+      ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
+      : []),
+  ];
+
+  if (rows.length === 0) return null;
+
+  return (
+    <div className="mt-2 rounded-[5px] bg-white px-0">
+      <div className="max-w-[520px]">
+        <LoanDetailMetaRows rows={rows} className="py-0" />
       </div>
     </div>
   );
@@ -321,13 +321,12 @@ export default function LoanInstallmentPaymentV2Table({
                 onSearchClick={openPicker}
               />
 
-              {hasPicked ? <LoanMetaInlineUnderNoRek accountNo={accountNo} /> : null}
-
               {hasPicked ? <SelectedNasabahInfo accountNo={accountNo} /> : null}
             </Td>
 
-            {/* kolom PINJAMAN dikosongkan (meta dipindah ke bawah No Rek agar sejajar) */}
-            <Td className="bg-white" />
+            <Td className="bg-white">
+              {hasPicked ? <LoanMetaBlock accountNo={accountNo} /> : null}
+            </Td>
 
             <Td className="bg-white" />
           </tr>
