@@ -126,9 +126,9 @@ export default function LoanInstallmentPaymentV2Table({
         <colgroup>
           <col style={{ width: 56 }} />
           <col style={{ width: 280 }} />
-          {/* Buat perbedaan lebih jelas */}
-          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.4)` }} />
-          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.6)` }} />
+          {/* Sengaja dibikin kontras: PINJAMAN 35% vs TRANSAKSI 65% */}
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.35)` }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65)` }} />
         </colgroup>
 
         <thead className="bg-white">
@@ -139,9 +139,12 @@ export default function LoanInstallmentPaymentV2Table({
 
             <Th className="pl-3 pr-4">NASABAH</Th>
 
-            <Th>PINJAMAN</Th>
+            <Th className="bg-sky-50/80 border-l border-slate-200">PINJAMAN</Th>
 
-            <Th className="text-center" align="center">
+            <Th
+              className="bg-emerald-50/80 border-l border-slate-200 text-center"
+              align="center"
+            >
               TRANSAKSI
             </Th>
           </tr>
@@ -157,8 +160,8 @@ export default function LoanInstallmentPaymentV2Table({
               <NasabahRow />
             </Td>
 
-            <Td />
-            <Td />
+            <Td className="bg-sky-50/40 border-l border-slate-200" />
+            <Td className="bg-emerald-50/40 border-l border-slate-200" />
           </tr>
         </tbody>
       </table>
