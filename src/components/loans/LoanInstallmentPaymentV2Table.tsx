@@ -185,14 +185,23 @@ function NasabahRow({
 function InfoStack({
   label,
   value,
+  strong = false,
 }: {
   label: string;
   value: React.ReactNode;
+  strong?: boolean;
 }) {
   return (
     <div className="grid gap-1">
-      <div className="text-[12px] font-normal text-black">{label}</div>
-      <div className="text-[14px] font-semibold text-slate-900 leading-snug break-words">
+      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
+        {label}
+      </div>
+      <div
+        className={cn(
+          "text-[14px] leading-snug break-words",
+          strong ? "font-extrabold text-slate-900" : "font-semibold text-slate-900",
+        )}
+      >
         {value}
       </div>
     </div>
@@ -246,7 +255,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   if (topItems.length === 0) return null;
 
-  // ✅ Tambah: Angsuran ke di atas Angsuran Lunas/Seharusnya
   const installmentMeta = [{ label: "Angsuran ke", value: "2" }];
 
   const installments = [
@@ -254,7 +262,13 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
     { label: "Angsuran Seharusnya", value: "1" },
   ];
 
-  // Tidak perlu "Angsuran ke" lagi di blok jangka waktu, karena sudah dipindahkan
+  const tagihanSummary = [
+    { label: "Tagihan Pokok", value: "0" },
+    { label: "Tagihan Bunga", value: "0" },
+    { label: "Tagihan Denda", value: "0" },
+    { label: "Total Tagihan", value: "0", strong: true },
+  ] as const;
+
   const extra = [
     { label: "Jangka Waktu", value: "12 Bulan" },
     { label: "Tanggal Realisasi", value: "01-03-2026" },
@@ -280,6 +294,20 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         ))}
         {installments.map((it) => (
           <InfoStack key={it.label} label={it.label} value={it.value} />
+        ))}
+      </div>
+
+      {/* ✅ Tambahan ringkasan tagihan (sesuai gambar) */}
+      <div className="my-4 h-px w-full bg-slate-200" />
+
+      <div className="grid gap-4">
+        {tagihanSummary.map((it) => (
+          <InfoStack
+            key={it.label}
+            label={it.label}
+            value={it.value}
+            strong={!!it.strong}
+          />
         ))}
       </div>
 
