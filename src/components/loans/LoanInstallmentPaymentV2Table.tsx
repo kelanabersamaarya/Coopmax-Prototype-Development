@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
+import LoanDetailMetaRows from "@/components/loans/LoanDetailMetaRows";
 
 function Th({
   children,
@@ -68,6 +69,10 @@ type NasabahInfo = {
   produk: string;
   noSimpananWajib: string;
   saldoSimpananWajib: string;
+
+  skemaTagihan?: string;
+  satuanGracePeriod?: string;
+  durasiGracePeriod?: string;
 };
 
 function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
@@ -78,6 +83,9 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       produk: "Pinjaman Bulanan",
       noSimpananWajib: "87260001",
       saldoSimpananWajib: "30.000,00",
+      skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
+      satuanGracePeriod: "Bulan",
+      durasiGracePeriod: "3",
     },
     "12260002": {
       nama: "gaby",
@@ -85,6 +93,9 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       produk: "Pinjaman Bulanan",
       noSimpananWajib: "87260002",
       saldoSimpananWajib: "30.000,00",
+      skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
+      satuanGracePeriod: "Bulan",
+      durasiGracePeriod: "3",
     },
     "12260001": {
       nama: "Rika Wastuti",
@@ -92,6 +103,9 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       produk: "Pinjaman Bulanan",
       noSimpananWajib: "87260003",
       saldoSimpananWajib: "30.000,00",
+      skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
+      satuanGracePeriod: "Bulan",
+      durasiGracePeriod: "3",
     },
     "210260001": {
       nama: "Jenan Aditama",
@@ -99,6 +113,9 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       produk: "Pinjaman RC",
       noSimpananWajib: "87260004",
       saldoSimpananWajib: "30.000,00",
+      skemaTagihan: "Jadwal Fleksibel & Tagihan Berkala",
+      satuanGracePeriod: "Hari",
+      durasiGracePeriod: "7",
     },
     "072260001": {
       nama: "Rika Wastuti",
@@ -106,6 +123,9 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       produk: "Pinjaman Harian",
       noSimpananWajib: "87260005",
       saldoSimpananWajib: "30.000,00",
+      skemaTagihan: "Tagihan Dihitung Dari Sisa Saldo Pokok",
+      satuanGracePeriod: "Hari",
+      durasiGracePeriod: "0",
     },
   };
 
@@ -173,7 +193,6 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      {/* ✅ title label: hitam + regular */}
       <div className="text-[12px] font-normal text-black">{label}</div>
 
       <div className="text-[14px] font-semibold text-slate-900 leading-snug break-words">
@@ -206,6 +225,33 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   );
 }
 
+function LoanMetaBlock({ accountNo }: { accountNo: string }) {
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  if (!info) return null;
+
+  const rows = [
+    ...(info.skemaTagihan
+      ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
+      : []),
+    ...(info.satuanGracePeriod
+      ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
+      : []),
+    ...(info.durasiGracePeriod
+      ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
+      : []),
+  ];
+
+  if (rows.length === 0) return null;
+
+  return (
+    <div className="mt-2 rounded-[5px] bg-white px-0">
+      <div className="max-w-[520px]">
+        <LoanDetailMetaRows rows={rows} className="py-0" />
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -215,6 +261,8 @@ export default function LoanInstallmentPaymentV2Table({
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [accountNo, setAccountNo] = React.useState("");
+
+  const hasPicked = !!accountNo.trim();
 
   function openPicker() {
     setPickerOpen(true);
@@ -273,10 +321,13 @@ export default function LoanInstallmentPaymentV2Table({
                 onSearchClick={openPicker}
               />
 
-              {accountNo ? <SelectedNasabahInfo accountNo={accountNo} /> : null}
+              {hasPicked ? <SelectedNasabahInfo accountNo={accountNo} /> : null}
             </Td>
 
-            <Td className="bg-white" />
+            <Td className="bg-white">
+              {hasPicked ? <LoanMetaBlock accountNo={accountNo} /> : null}
+            </Td>
+
             <Td className="bg-white" />
           </tr>
         </tbody>
