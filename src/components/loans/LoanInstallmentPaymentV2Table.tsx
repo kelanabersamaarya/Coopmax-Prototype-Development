@@ -78,7 +78,7 @@ function TransactionStatusBadge({
   status?: string;
 }) {
   return (
-    <div className="mt-4">
+    <div>
       <div className="text-[12px] font-normal text-slate-900">{title}</div>
       <div className="mt-2">
         <span className="inline-flex items-center rounded-[5px] bg-[#DC3545] px-3 py-1 text-[13px] font-semibold text-white ring-1 ring-[#DC3545]/25">
@@ -220,12 +220,7 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div
-        className={cn(
-          "text-[12px] font-normal text-black",
-          strong ? "font-semibold" : "",
-        )}
-      >
+      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
         {label}
       </div>
       <div
@@ -241,10 +236,7 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(
-    () => getNasabahInfoByAccountNo(accountNo),
-    [accountNo],
-  );
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
   return (
@@ -253,14 +245,8 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack
-          label="No Simpanan Wajib Peminjam"
-          value={info.noSimpananWajib}
-        />
-        <InfoStack
-          label="Saldo Simpanan Wajib Peminjam"
-          value={info.saldoSimpananWajib}
-        />
+        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
+        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
       </div>
     </div>
   );
@@ -302,16 +288,11 @@ function SelectedPinjamanInfo({
   accountNo: string;
   hideInstallmentInfo?: boolean;
 }) {
-  const info = React.useMemo(
-    () => getNasabahInfoByAccountNo(accountNo),
-    [accountNo],
-  );
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
   const topItems: Array<{ label: string; value: React.ReactNode }> = [
-    ...(info.skemaTagihan
-      ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
-      : []),
+    ...(info.skemaTagihan ? [{ label: "Skema Tagihan", value: info.skemaTagihan }] : []),
     ...(info.satuanGracePeriod
       ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
       : []),
@@ -322,9 +303,7 @@ function SelectedPinjamanInfo({
 
   if (topItems.length === 0) return null;
 
-  const installmentMeta = hideInstallmentInfo
-    ? []
-    : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
 
   const installments = hideInstallmentInfo
     ? []
@@ -350,9 +329,7 @@ function SelectedPinjamanInfo({
         ))}
       </div>
 
-      {!hideInstallmentInfo ? (
-        <div className="my-4 h-px w-full bg-slate-200" />
-      ) : null}
+      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -375,7 +352,6 @@ function SelectedPinjamanInfo({
 
       <div className="my-4 h-px w-full bg-slate-200" />
 
-      {/* Tombol di kolom pinjaman: hapus tombol Tagihan & Denda sesuai permintaan */}
       <div className="grid gap-2.5">
         <LoanActionButton
           icon={History}
@@ -418,11 +394,7 @@ type BillTotals = {
   total: string;
 };
 
-function FieldLabelLikeNasabah({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
       {children}
@@ -737,20 +709,29 @@ export default function LoanInstallmentPaymentV2Table({
           {rows.map((row, idx) => {
             const hasPicked = !!row.accountNo.trim();
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
-            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+            const isBakiDebet =
+              row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
 
             const canOpenDaftarTagihan = isReguler || isBakiDebet || isKhusus;
 
-            const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
+            const totals: BillTotals = {
+              pokok: "0",
+              bunga: "0",
+              denda: "0",
+              total: "0",
+            };
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const nominalPelunasan = "5.500.002";
 
             return (
-              <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
+              <tr
+                key={row.id}
+                className={idx === 0 ? "" : "border-t border-slate-200"}
+              >
                 <Td className="px-3">
                   <span className="tabular-nums">{idx + 1}.</span>
                 </Td>
@@ -760,13 +741,17 @@ export default function LoanInstallmentPaymentV2Table({
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, accountNo: v } : x,
+                        ),
                       )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
                   />
 
-                  {hasPicked ? <SelectedNasabahInfo accountNo={row.accountNo} /> : null}
+                  {hasPicked ? (
+                    <SelectedNasabahInfo accountNo={row.accountNo} />
+                  ) : null}
                 </Td>
 
                 <Td className="bg-white">
@@ -811,11 +796,14 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
+                  {/* Metode Pembayaran */}
                   <TransactionPaymentMethodField
                     value={row.paymentMethod}
                     onChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, paymentMethod: v } : x,
+                        ),
                       )
                     }
                     rightActions={
@@ -827,6 +815,7 @@ export default function LoanInstallmentPaymentV2Table({
                     }
                   />
 
+                  {/* ✅ Ringkasan langsung menempel di bawah metode pembayaran */}
                   <Divider />
 
                   {isBakiDebet ? (
@@ -834,6 +823,13 @@ export default function LoanInstallmentPaymentV2Table({
                   ) : (
                     <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
                   )}
+
+                  <Divider />
+
+                  <TransactionStatusBadge
+                    title="Status Transaksi"
+                    status="Belum diproses"
+                  />
 
                   <div className="sr-only">
                     {row.nominalReguler}
@@ -847,8 +843,6 @@ export default function LoanInstallmentPaymentV2Table({
                     {row.keteranganPelunasan}
                     {nominalPelunasan}
                   </div>
-
-                  <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
                 </Td>
               </tr>
             );
