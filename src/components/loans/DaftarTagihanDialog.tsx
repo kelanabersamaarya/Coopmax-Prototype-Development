@@ -110,7 +110,6 @@ export default function DaftarTagihanDialog({
 }) {
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isPelunasan = paymentMethod === "Pelunasan";
-  const isKhusus = paymentMethod === "Pembayaran Khusus";
 
   const rowsAll = React.useMemo(() => seedRows, []);
 
@@ -136,11 +135,11 @@ export default function DaftarTagihanDialog({
   React.useEffect(() => {
     // Default selection by mode:
     // - Reguler: kosong (user pilih manual)
-    // - Khusus: default semua tercentang (sesuai kebutuhan)
-    // - Baki Debet: tidak ada checkbox, dianggap terpilih
-    // - Pelunasan: read-only, dianggap terpilih
-    setSelected(rows.map(() => (isBakiDebet || isPelunasan || isKhusus ? true : false)));
-  }, [isBakiDebet, isPelunasan, isKhusus, rows]);
+    // - Khusus: kosong (user pilih manual)
+    // - Baki Debet: dianggap terpilih (tanpa checkbox)
+    // - Pelunasan: dianggap terpilih (read-only)
+    setSelected(rows.map(() => (isBakiDebet || isPelunasan ? true : false)));
+  }, [isBakiDebet, isPelunasan, rows]);
 
   const showingStart = rowsAll.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rowsAll.length, page * pageSize);
@@ -165,7 +164,7 @@ export default function DaftarTagihanDialog({
   const hideSelection = isBakiDebet || isPelunasan;
   const showPenaltyColumn = !isBakiDebet;
 
-  // ✅ lock hanya untuk Baki Debet & Pelunasan (Khusus boleh dicentang/uncentang)
+  // lock hanya untuk Baki Debet & Pelunasan
   const isLocked = isBakiDebet || isPelunasan;
 
   return (
