@@ -70,6 +70,34 @@ function Td({
   );
 }
 
+function TransactionStatusBadge({
+  title = "Status Transaksi",
+  status = "Belum diproses",
+  disabled = false,
+}: {
+  title?: string;
+  status?: string;
+  disabled?: boolean;
+}) {
+  return (
+    <div className={cn(disabled ? "opacity-60" : "")}>
+      <div className="text-[12px] font-normal text-slate-900">{title}</div>
+      <div className="mt-2">
+        <span
+          className={cn(
+            "inline-flex items-center rounded-[5px] px-3 py-1 text-[13px] font-semibold text-white ring-1",
+            disabled
+              ? "bg-slate-300 text-white ring-slate-300/25"
+              : "bg-[#DC3545] ring-[#DC3545]/25",
+          )}
+        >
+          {status}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 type NasabahInfo = {
   nama: string;
   alamat: string;
@@ -203,14 +231,21 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
+      <div
+        className={cn(
+          "text-[12px] font-normal text-black",
+          strong ? "font-semibold" : "",
+        )}
+      >
         {label}
       </div>
       {showValue ? (
         <div
           className={cn(
             "text-[14px] leading-snug break-words",
-            strong ? "font-extrabold text-slate-900" : "font-semibold text-slate-900",
+            strong
+              ? "font-extrabold text-slate-900"
+              : "font-semibold text-slate-900",
           )}
         >
           {value}
@@ -220,13 +255,11 @@ function InfoStack({
   );
 }
 
-/** Divider rapat: garis tetap ada, tanpa margin vertikal besar */
-function DividerTight() {
-  return <div className="h-px w-full bg-slate-200" />;
-}
-
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getNasabahInfoByAccountNo(accountNo),
+    [accountNo],
+  );
   if (!info) return null;
 
   return (
@@ -235,8 +268,14 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
+        <InfoStack
+          label="No Simpanan Wajib Peminjam"
+          value={info.noSimpananWajib}
+        />
+        <InfoStack
+          label="Saldo Simpanan Wajib Peminjam"
+          value={info.saldoSimpananWajib}
+        />
       </div>
     </div>
   );
@@ -291,7 +330,9 @@ function SelectedPinjamanInfo({
 
   const topItems: Array<{ label: string; value?: React.ReactNode }> = info
     ? [
-        ...(info.skemaTagihan ? [{ label: "Skema Tagihan", value: info.skemaTagihan }] : []),
+        ...(info.skemaTagihan
+          ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
+          : []),
         ...(info.satuanGracePeriod
           ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
           : []),
@@ -342,40 +383,52 @@ function SelectedPinjamanInfo({
     <div className={cn("bg-white", disabled ? "opacity-60" : "")}>
       <div className="grid gap-4">
         {topItems.map((it) => (
-          <InfoStack key={it.label} label={it.label} value={it.value} showValue={!!info} />
+          <InfoStack
+            key={it.label}
+            label={it.label}
+            value={it.value}
+            showValue={!!info}
+          />
         ))}
       </div>
 
-      {!hideInstallmentInfo ? (
-        <>
-          <div className="py-3">
-            <DividerTight />
-          </div>
+      {!hideInstallmentInfo ? <div className="py-3" /> : null}
 
-          <div className="grid gap-4">
-            {installmentMeta.map((it) => (
-              <InfoStack key={it.label} label={it.label} value={it.value} showValue={!!info} />
-            ))}
-            {installments.map((it) => (
-              <InfoStack key={it.label} label={it.label} value={it.value} showValue={!!info} />
-            ))}
-          </div>
-        </>
+      {!hideInstallmentInfo ? (
+        <div className="grid gap-4">
+          {installmentMeta.map((it) => (
+            <InfoStack
+              key={it.label}
+              label={it.label}
+              value={it.value}
+              showValue={!!info}
+            />
+          ))}
+          {installments.map((it) => (
+            <InfoStack
+              key={it.label}
+              label={it.label}
+              value={it.value}
+              showValue={!!info}
+            />
+          ))}
+        </div>
       ) : null}
 
-      <div className="py-3">
-        <DividerTight />
-      </div>
+      <div className="py-3" />
 
       <div className="grid gap-4">
         {extra.map((r) => (
-          <InfoStack key={r.label} label={r.label} value={r.value} showValue={!!info} />
+          <InfoStack
+            key={r.label}
+            label={r.label}
+            value={r.value}
+            showValue={!!info}
+          />
         ))}
       </div>
 
-      <div className="py-3">
-        <DividerTight />
-      </div>
+      <div className="py-3" />
 
       <div className="grid gap-2.5">
         <LoanActionButton
@@ -429,6 +482,10 @@ function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
   );
 }
 
+function DividerTight() {
+  return <div className="h-px w-full bg-slate-200" />;
+}
+
 function BillTotalsBlock({
   totals,
   totalLabel = "Total Tagihan",
@@ -443,7 +500,12 @@ function BillTotalsBlock({
       <InfoStack label="Tagihan Pokok" value={totals.pokok} showValue={!disabled} />
       <InfoStack label="Tagihan Bunga" value={totals.bunga} showValue={!disabled} />
       <InfoStack label="Tagihan Denda" value={totals.denda} showValue={!disabled} />
-      <InfoStack label={totalLabel} value={totals.total} strong showValue={!disabled} />
+      <InfoStack
+        label={totalLabel}
+        value={totals.total}
+        strong
+        showValue={!disabled}
+      />
     </div>
   );
 }
@@ -458,34 +520,6 @@ function RemainingLoanBlock({
   return (
     <div className={cn("grid gap-4", disabled ? "opacity-60" : "")}>
       <InfoStack label="Sisa Pinjaman" value={sisaPinjaman} strong showValue={!disabled} />
-    </div>
-  );
-}
-
-function TransactionStatusBadge({
-  title = "Status Transaksi",
-  status = "Belum diproses",
-  disabled = false,
-}: {
-  title?: string;
-  status?: string;
-  disabled?: boolean;
-}) {
-  return (
-    <div className={cn(disabled ? "opacity-60" : "")}>
-      <div className="text-[12px] font-normal text-slate-900">{title}</div>
-      <div className="mt-2">
-        <span
-          className={cn(
-            "inline-flex items-center rounded-[5px] px-3 py-1 text-[13px] font-semibold text-white ring-1",
-            disabled
-              ? "bg-slate-300 text-white ring-slate-300/25"
-              : "bg-[#DC3545] ring-[#DC3545]/25",
-          )}
-        >
-          {status}
-        </span>
-      </div>
     </div>
   );
 }
@@ -512,7 +546,10 @@ function TransactionRowActions({
         type="button"
         onClick={onAdd}
         disabled={disabled}
-        className={cn(btnBase, "bg-[#6B7A90] ring-[#6B7A90]/20 hover:bg-[#5f6d82]")}
+        className={cn(
+          btnBase,
+          "bg-[#6B7A90] ring-[#6B7A90]/20 hover:bg-[#5f6d82]",
+        )}
         aria-label="Tambah transaksi"
         title="Tambah transaksi"
       >
@@ -546,7 +583,9 @@ function DaftarTagihanTopButton({
 }) {
   return (
     <div className={cn("grid gap-2", disabled ? "opacity-60" : "")}>
-      <div className="text-[12px] font-normal text-slate-900">Daftar Tagihan dan Denda</div>
+      <div className="text-[12px] font-normal text-slate-900">
+        Daftar Tagihan dan Denda
+      </div>
 
       <button
         type="button"
@@ -595,7 +634,11 @@ function TransactionPaymentMethodField({
 
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <Select value={value} onValueChange={(v) => onChange(v as PaymentMethod)} disabled={disabled}>
+          <Select
+            value={value}
+            onValueChange={(v) => onChange(v as PaymentMethod)}
+            disabled={disabled}
+          >
             <SelectTrigger className={triggerCls}>
               <SelectValue />
             </SelectTrigger>
@@ -669,11 +712,17 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
   };
 }
 
-export default function LoanInstallmentPaymentV2Table({ className }: { className?: string }) {
+export default function LoanInstallmentPaymentV2Table({
+  className,
+}: {
+  className?: string;
+}) {
   const fixedPx = 56 + 280;
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
-  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(null);
+  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(
+    null,
+  );
 
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
@@ -686,7 +735,9 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
     if (!pickerTargetRowId) return;
 
     setRows((prev) =>
-      prev.map((r) => (r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r)),
+      prev.map((r) =>
+        r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r,
+      ),
     );
 
     toast.success("Berhasil Menampilkan Tagihan Nasabah", {
@@ -751,8 +802,11 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
             <Th className="px-3">
               <div className="text-left">NO</div>
             </Th>
+
             <Th className="pl-3 pr-4">NASABAH</Th>
+
             <Th>PINJAMAN</Th>
+
             <Th>TAGIHAN & TRANSAKSI</Th>
           </tr>
         </thead>
@@ -760,17 +814,29 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
         <tbody>
           {rows.map((row, idx) => {
             const hasPicked = !!row.accountNo.trim();
-            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+
+            const isBakiDebet =
+              row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isPelunasan = row.paymentMethod === "Pelunasan";
+
             const actionsDisabled = !hasPicked;
 
-            const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
+            const totals: BillTotals = {
+              pokok: "0",
+              bunga: "0",
+              denda: "0",
+              total: "0",
+            };
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
+
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const nominalPelunasan = "5.500.002";
 
             return (
-              <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
+              <tr
+                key={row.id}
+                className={idx === 0 ? "" : "border-t border-slate-200"}
+              >
                 <Td className="px-3">
                   <span className="tabular-nums">{idx + 1}.</span>
                 </Td>
@@ -779,11 +845,18 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   <NasabahRow
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
-                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)))
+                      setRows((prev) =>
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, accountNo: v } : x,
+                        ),
+                      )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
                   />
-                  {hasPicked ? <SelectedNasabahInfo accountNo={row.accountNo} /> : null}
+
+                  {hasPicked ? (
+                    <SelectedNasabahInfo accountNo={row.accountNo} />
+                  ) : null}
                 </Td>
 
                 <Td className="bg-white">
@@ -798,7 +871,11 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   <DaftarTagihanDialog
                     open={row.daftarTagihanOpen}
                     onOpenChange={(v) =>
-                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: v } : x)))
+                      setRows((prev) =>
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, daftarTagihanOpen: v } : x,
+                        ),
+                      )
                     }
                     paymentMethod={row.paymentMethod}
                   />
@@ -808,7 +885,12 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                       disabled={actionsDisabled}
                       onClick={() => {
                         if (actionsDisabled) return;
-                        setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: true } : x)));
+
+                        setRows((prev) =>
+                          prev.map((x) =>
+                            x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
+                          ),
+                        );
                       }}
                     />
                   </div>
@@ -821,7 +903,11 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     <TransactionPaymentMethodField
                       value={row.paymentMethod}
                       onChange={(v) =>
-                        setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)))
+                        setRows((prev) =>
+                          prev.map((x) =>
+                            x.id === row.id ? { ...x, paymentMethod: v } : x,
+                          ),
+                        )
                       }
                       disabled={actionsDisabled}
                       rightActions={
@@ -841,9 +927,16 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
 
                   <div className="pt-3">
                     {isBakiDebet ? (
-                      <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} disabled={!hasPicked} />
+                      <RemainingLoanBlock
+                        sisaPinjaman={sisaPinjamanBakiDebet}
+                        disabled={!hasPicked}
+                      />
                     ) : (
-                      <BillTotalsBlock totals={totals} totalLabel={totalsLabel} disabled={!hasPicked} />
+                      <BillTotalsBlock
+                        totals={totals}
+                        totalLabel={totalsLabel}
+                        disabled={!hasPicked}
+                      />
                     )}
                   </div>
 
@@ -852,7 +945,11 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   </div>
 
                   <div className="pt-3">
-                    <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" disabled={!hasPicked} />
+                    <TransactionStatusBadge
+                      title="Status Transaksi"
+                      status="Belum diproses"
+                      disabled={!hasPicked}
+                    />
                   </div>
 
                   <div className="sr-only">
