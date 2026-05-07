@@ -6,7 +6,6 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
-import LoanDetailMetaRows from "@/components/loans/LoanDetailMetaRows";
 
 function Th({
   children,
@@ -190,8 +189,6 @@ function InfoStack({
   return (
     <div className="grid gap-1">
       <div className="text-[12px] font-normal text-black">{label}</div>
-
-      {/* value (bold) => 14px */}
       <div className="text-[14px] font-semibold text-slate-900 leading-snug break-words">
         {value}
       </div>
@@ -225,14 +222,14 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   );
 }
 
-function LoanMetaBlock({ accountNo }: { accountNo: string }) {
+function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(
     () => getNasabahInfoByAccountNo(accountNo),
     [accountNo],
   );
   if (!info) return null;
 
-  const rows = [
+  const items: Array<{ label: string; value: React.ReactNode }> = [
     ...(info.skemaTagihan
       ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
       : []),
@@ -244,12 +241,14 @@ function LoanMetaBlock({ accountNo }: { accountNo: string }) {
       : []),
   ];
 
-  if (rows.length === 0) return null;
+  if (items.length === 0) return null;
 
   return (
-    <div className="mt-2 rounded-[5px] bg-white px-0">
-      <div className="max-w-[520px]">
-        <LoanDetailMetaRows rows={rows} className="py-0" />
+    <div className="mt-2 bg-white">
+      <div className="grid gap-4">
+        {items.map((it) => (
+          <InfoStack key={it.label} label={it.label} value={it.value} />
+        ))}
       </div>
     </div>
   );
@@ -328,7 +327,7 @@ export default function LoanInstallmentPaymentV2Table({
             </Td>
 
             <Td className="bg-white">
-              {hasPicked ? <LoanMetaBlock accountNo={accountNo} /> : null}
+              {hasPicked ? <SelectedPinjamanInfo accountNo={accountNo} /> : null}
             </Td>
 
             <Td className="bg-white" />
