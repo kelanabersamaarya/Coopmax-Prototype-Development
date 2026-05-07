@@ -376,9 +376,9 @@ function SelectedPinjamanInfo({
           label="Daftar Tagihan"
           onClick={() => {
             if (!canOpenDaftarTagihan) {
-              toast("Hanya untuk Pembayaran Reguler", {
+              toast("Belum tersedia", {
                 description:
-                  "Daftar Tagihan pada prototype ini dibuka saat metode pembayaran: Pembayaran Reguler.",
+                  "Daftar Tagihan pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
               });
               return;
             }
@@ -896,7 +896,7 @@ export default function LoanInstallmentPaymentV2Table({
               {hasPicked ? (
                 <SelectedPinjamanInfo
                   accountNo={accountNo}
-                  canOpenDaftarTagihan={isReguler || isBakiDebet}
+                  canOpenDaftarTagihan={isReguler || isBakiDebet || isKhusus}
                   onOpenDaftarTagihan={() => setDaftarTagihanOpen(true)}
                 />
               ) : null}
