@@ -1,3 +1,4 @@
+r).">
 "use client";
 
 import * as React from "react";
@@ -335,14 +336,12 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
       <div className="grid gap-4">
         {extra.map((r) => (
-          <InfoStack key={r.label} label={it.label} value={r.value} />
+          <InfoStack key={r.label} label={r.label} value={r.value} />
         ))}
       </div>
 
-      {/* Divider pemisah sebelum tombol */}
       <div className="my-4 h-px w-full bg-slate-200" />
 
-      {/* Tombol aksi: vertikal (jejer ke bawah), tanpa warna ungu */}
       <div className="grid gap-3">
         <LoanActionButton
           icon={History}
