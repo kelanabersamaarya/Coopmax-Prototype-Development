@@ -220,13 +220,20 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
+      <div
+        className={cn(
+          "text-[12px] font-normal text-black",
+          strong ? "font-semibold" : "",
+        )}
+      >
         {label}
       </div>
       <div
         className={cn(
           "text-[14px] leading-snug break-words",
-          strong ? "font-extrabold text-slate-900" : "font-semibold text-slate-900",
+          strong
+            ? "font-extrabold text-slate-900"
+            : "font-semibold text-slate-900",
         )}
       >
         {value}
@@ -236,7 +243,10 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getNasabahInfoByAccountNo(accountNo),
+    [accountNo],
+  );
   if (!info) return null;
 
   return (
@@ -294,7 +304,10 @@ function SelectedPinjamanInfo({
   disabled: boolean;
   hideInstallmentInfo?: boolean;
 }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getNasabahInfoByAccountNo(accountNo),
+    [accountNo],
+  );
   const hasInfo = !!info;
 
   const topItems: Array<{ label: string; value?: React.ReactNode }> = hasInfo
@@ -315,7 +328,9 @@ function SelectedPinjamanInfo({
         { label: "Durasi Grace Period" },
       ];
 
-  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo
+    ? []
+    : [{ label: "Angsuran ke", value: "2" }];
   const installments = hideInstallmentInfo
     ? []
     : [
@@ -339,12 +354,16 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
+            value={
+              it.value ?? <span className="text-slate-400 font-semibold">-</span>
+            }
           />
         ))}
       </div>
 
-      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
+      {!hideInstallmentInfo ? (
+        <div className="my-4 h-px w-full bg-slate-200" />
+      ) : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -352,14 +371,18 @@ function SelectedPinjamanInfo({
             <InfoStack
               key={it.label}
               label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
+              value={
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
+              }
             />
           ))}
           {installments.map((it) => (
             <InfoStack
               key={it.label}
               label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
+              value={
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
+              }
             />
           ))}
         </div>
@@ -372,7 +395,9 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={r.label}
             label={r.label}
-            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
+            value={
+              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
+            }
           />
         ))}
       </div>
@@ -522,50 +547,6 @@ function DaftarTagihanTopButton({
   );
 }
 
-function RowActionButtons({
-  onAdd,
-  onDelete,
-  disableDelete,
-}: {
-  onAdd: () => void;
-  onDelete: () => void;
-  disableDelete: boolean;
-}) {
-  return (
-    <div className="grid place-items-center gap-2">
-      <button
-        type="button"
-        onClick={onAdd}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#6B7A90] text-white",
-          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
-        )}
-        aria-label="Tambah transaksi"
-        title="Tambah transaksi"
-      >
-        <Plus className="h-5.5 w-5.5" />
-      </button>
-
-      <button
-        type="button"
-        onClick={onDelete}
-        disabled={disableDelete}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#DC3545] text-white",
-          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
-          disableDelete ? "opacity-60 pointer-events-none" : "",
-        )}
-        aria-label="Hapus transaksi"
-        title="Hapus transaksi"
-      >
-        <Trash2 className="h-5.5 w-5.5" />
-      </button>
-    </div>
-  );
-}
-
 function TransactionPaymentMethodField({
   value,
   onChange,
@@ -609,58 +590,330 @@ function TransactionPaymentMethodField({
   );
 }
 
-type TransactionRowState = {
-  id: string;
-  accountNo: string;
-  paymentMethod: PaymentMethod;
+function TabunganField({
+  value,
+  onChange,
+  disabled,
+}: {
+  value: "Tanpa Tabungan";
+  onChange: (v: "Tanpa Tabungan") => void;
+  disabled: boolean;
+}) {
+  const triggerCls = cn(
+    "h-[30px] w-full justify-between rounded-[5px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:text-slate-400",
+    disabled ? "opacity-60 pointer-events-none" : "",
+  );
 
-  daftarTagihanOpen: boolean;
+  return (
+    <div className="grid gap-1.5">
+      <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
+      <Select
+        value={value}
+        onValueChange={(v) => onChange(v as "Tanpa Tabungan")}
+        disabled={disabled}
+      >
+        <SelectTrigger className={triggerCls}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="rounded-[10px] border-slate-200">
+          <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
+            Tanpa Tabungan
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+function PaymentInputBlock({
+  paymentMethod,
+  disabled,
+  nominalReguler,
+  onNominalReguler,
+  tabunganReguler,
+  onTabunganReguler,
+  keteranganReguler,
+  onKeteranganReguler,
+  nominalPokokBakiDebet,
+  onNominalPokokBakiDebet,
+  tabunganBakiDebet,
+  onTabunganBakiDebet,
+  keteranganBakiDebet,
+  onKeteranganBakiDebet,
+  nominalPokokKhusus,
+  onNominalPokokKhusus,
+  nominalBungaKhusus,
+  onNominalBungaKhusus,
+  nominalDendaKhusus,
+  onNominalDendaKhusus,
+  tabunganKhusus,
+  onTabunganKhusus,
+  keteranganKhusus,
+  onKeteranganKhusus,
+  tabunganPelunasan,
+  onTabunganPelunasan,
+  keteranganPelunasan,
+  onKeteranganPelunasan,
+}: {
+  paymentMethod: PaymentMethod;
+  disabled: boolean;
 
   nominalReguler: string;
+  onNominalReguler: (v: string) => void;
   tabunganReguler: "Tanpa Tabungan";
+  onTabunganReguler: (v: "Tanpa Tabungan") => void;
   keteranganReguler: string;
+  onKeteranganReguler: (v: string) => void;
 
   nominalPokokBakiDebet: string;
+  onNominalPokokBakiDebet: (v: string) => void;
   tabunganBakiDebet: "Tanpa Tabungan";
+  onTabunganBakiDebet: (v: "Tanpa Tabungan") => void;
   keteranganBakiDebet: string;
+  onKeteranganBakiDebet: (v: string) => void;
 
   nominalPokokKhusus: string;
+  onNominalPokokKhusus: (v: string) => void;
   nominalBungaKhusus: string;
+  onNominalBungaKhusus: (v: string) => void;
   nominalDendaKhusus: string;
+  onNominalDendaKhusus: (v: string) => void;
   tabunganKhusus: "Tanpa Tabungan";
+  onTabunganKhusus: (v: "Tanpa Tabungan") => void;
   keteranganKhusus: string;
+  onKeteranganKhusus: (v: string) => void;
 
   tabunganPelunasan: "Tanpa Tabungan";
+  onTabunganPelunasan: (v: "Tanpa Tabungan") => void;
   keteranganPelunasan: string;
-};
+  onKeteranganPelunasan: (v: string) => void;
+}) {
+  const inputCls = cn(
+    "h-[30px] w-full rounded-[5px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    "placeholder:text-slate-500",
+    disabled ? "opacity-60 pointer-events-none" : "",
+  );
 
-function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
-  const id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  const keteranganCls = cn(inputCls, "text-left");
 
-  return {
-    id,
-    accountNo: seed?.accountNo ?? "",
-    paymentMethod: seed?.paymentMethod ?? "Pembayaran Reguler",
+  const required = <span className="text-rose-600"> *</span>;
 
-    daftarTagihanOpen: false,
+  if (paymentMethod === "Pelunasan") {
+    return (
+      <div className="grid gap-4">
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>
+            Nominal Pelunasan{required}
+          </FieldLabelLikeNasabah>
+          <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
+        </div>
 
-    nominalReguler: seed?.nominalReguler ?? "0",
-    tabunganReguler: "Tanpa Tabungan",
-    keteranganReguler: seed?.keteranganReguler ?? "",
+        <TabunganField
+          value={tabunganPelunasan}
+          onChange={onTabunganPelunasan}
+          disabled={disabled}
+        />
 
-    nominalPokokBakiDebet: seed?.nominalPokokBakiDebet ?? "0",
-    tabunganBakiDebet: "Tanpa Tabungan",
-    keteranganBakiDebet: seed?.keteranganBakiDebet ?? "",
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+          <Input
+            value={keteranganPelunasan}
+            onChange={(e) => onKeteranganPelunasan(e.target.value)}
+            className={keteranganCls}
+            disabled={disabled}
+          />
+        </div>
+      </div>
+    );
+  }
 
-    nominalPokokKhusus: seed?.nominalPokokKhusus ?? "0",
-    nominalBungaKhusus: seed?.nominalBungaKhusus ?? "0",
-    nominalDendaKhusus: seed?.nominalDendaKhusus ?? "0",
-    tabunganKhusus: "Tanpa Tabungan",
-    keteranganKhusus: seed?.keteranganKhusus ?? "",
+  if (paymentMethod === "Pembayaran Penurunan Baki Debet") {
+    return (
+      <div className="grid gap-4">
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>
+            Nominal Pokok{required}
+          </FieldLabelLikeNasabah>
+          <Input
+            value={nominalPokokBakiDebet}
+            onChange={(e) => onNominalPokokBakiDebet(e.target.value)}
+            className={cn(inputCls, "text-right tabular-nums")}
+            placeholder="0"
+            inputMode="decimal"
+            disabled={disabled}
+          />
+        </div>
 
-    tabunganPelunasan: "Tanpa Tabungan",
-    keteranganPelunasan: seed?.keteranganPelunasan ?? "",
-  };
+        <TabunganField
+          value={tabunganBakiDebet}
+          onChange={onTabunganBakiDebet}
+          disabled={disabled}
+        />
+
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+          <Input
+            value={keteranganBakiDebet}
+            onChange={(e) => onKeteranganBakiDebet(e.target.value)}
+            className={keteranganCls}
+            disabled={disabled}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (paymentMethod === "Pembayaran Khusus") {
+    return (
+      <div className="grid gap-4">
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>
+            Nominal Pokok{required}
+          </FieldLabelLikeNasabah>
+          <Input
+            value={nominalPokokKhusus}
+            onChange={(e) => onNominalPokokKhusus(e.target.value)}
+            className={cn(inputCls, "text-right tabular-nums")}
+            placeholder="0"
+            inputMode="decimal"
+            disabled={disabled}
+          />
+        </div>
+
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>
+            Nominal Bunga{required}
+          </FieldLabelLikeNasabah>
+          <Input
+            value={nominalBungaKhusus}
+            onChange={(e) => onNominalBungaKhusus(e.target.value)}
+            className={cn(inputCls, "text-right tabular-nums")}
+            placeholder="0"
+            inputMode="decimal"
+            disabled={disabled}
+          />
+        </div>
+
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>
+            Nominal Denda{required}
+          </FieldLabelLikeNasabah>
+          <Input
+            value={nominalDendaKhusus}
+            onChange={(e) => onNominalDendaKhusus(e.target.value)}
+            className={cn(inputCls, "text-right tabular-nums")}
+            placeholder="0"
+            inputMode="decimal"
+            disabled={disabled}
+          />
+        </div>
+
+        <TabunganField
+          value={tabunganKhusus}
+          onChange={onTabunganKhusus}
+          disabled={disabled}
+        />
+
+        <div className="grid gap-1.5">
+          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+          <Input
+            value={keteranganKhusus}
+            onChange={(e) => onKeteranganKhusus(e.target.value)}
+            className={keteranganCls}
+            disabled={disabled}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Default: Pembayaran Reguler
+  return (
+    <div className="grid gap-4">
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>
+          Nominal Pembayaran{required}
+        </FieldLabelLikeNasabah>
+        <Input
+          value={nominalReguler}
+          onChange={(e) => onNominalReguler(e.target.value)}
+          className={cn(inputCls, "text-right tabular-nums")}
+          placeholder="0"
+          inputMode="decimal"
+          disabled={disabled}
+        />
+      </div>
+
+      <TabunganField
+        value={tabunganReguler}
+        onChange={onTabunganReguler}
+        disabled={disabled}
+      />
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+        <Input
+          value={keteranganReguler}
+          onChange={(e) => onKeteranganReguler(e.target.value)}
+          className={keteranganCls}
+          disabled={disabled}
+        />
+      </div>
+    </div>
+  );
+}
+
+function RowActionButtons({
+  onAdd,
+  onDelete,
+  disableDelete,
+}: {
+  onAdd: () => void;
+  onDelete: () => void;
+  disableDelete: boolean;
+}) {
+  return (
+    <div className="grid place-items-center gap-2">
+      <button
+        type="button"
+        onClick={onAdd}
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#6B7A90] text-white",
+          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+        )}
+        aria-label="Tambah transaksi"
+        title="Tambah transaksi"
+      >
+        <Plus className="h-5.5 w-5.5" />
+      </button>
+
+      <button
+        type="button"
+        onClick={onDelete}
+        disabled={disableDelete}
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#DC3545] text-white",
+          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
+          disableDelete ? "opacity-60 pointer-events-none" : "",
+        )}
+        aria-label="Hapus transaksi"
+        title="Hapus transaksi"
+      >
+        <Trash2 className="h-5.5 w-5.5" />
+      </button>
+    </div>
+  );
 }
 
 function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolean }) {
@@ -719,6 +972,60 @@ function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolea
       </div>
     </div>
   );
+}
+
+type TransactionRowState = {
+  id: string;
+  accountNo: string;
+  paymentMethod: PaymentMethod;
+
+  daftarTagihanOpen: boolean;
+
+  nominalReguler: string;
+  tabunganReguler: "Tanpa Tabungan";
+  keteranganReguler: string;
+
+  nominalPokokBakiDebet: string;
+  tabunganBakiDebet: "Tanpa Tabungan";
+  keteranganBakiDebet: string;
+
+  nominalPokokKhusus: string;
+  nominalBungaKhusus: string;
+  nominalDendaKhusus: string;
+  tabunganKhusus: "Tanpa Tabungan";
+  keteranganKhusus: string;
+
+  tabunganPelunasan: "Tanpa Tabungan";
+  keteranganPelunasan: string;
+};
+
+function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
+  const id = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+  return {
+    id,
+    accountNo: seed?.accountNo ?? "",
+    paymentMethod: seed?.paymentMethod ?? "Pembayaran Reguler",
+
+    daftarTagihanOpen: false,
+
+    nominalReguler: seed?.nominalReguler ?? "0",
+    tabunganReguler: "Tanpa Tabungan",
+    keteranganReguler: seed?.keteranganReguler ?? "",
+
+    nominalPokokBakiDebet: seed?.nominalPokokBakiDebet ?? "0",
+    tabunganBakiDebet: "Tanpa Tabungan",
+    keteranganBakiDebet: seed?.keteranganBakiDebet ?? "",
+
+    nominalPokokKhusus: seed?.nominalPokokKhusus ?? "0",
+    nominalBungaKhusus: seed?.nominalBungaKhusus ?? "0",
+    nominalDendaKhusus: seed?.nominalDendaKhusus ?? "0",
+    tabunganKhusus: "Tanpa Tabungan",
+    keteranganKhusus: seed?.keteranganKhusus ?? "",
+
+    tabunganPelunasan: "Tanpa Tabungan",
+    keteranganPelunasan: seed?.keteranganPelunasan ?? "",
+  };
 }
 
 export default function LoanInstallmentPaymentV2Table({ className }: { className?: string }) {
@@ -825,7 +1132,6 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
             const totalsLabel = row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
-            const nominalPelunasan = "5.500.002";
 
             return (
               <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
@@ -908,6 +1214,86 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
                   )}
 
+                  {/* ✅ Field pembayaran (yang sebelumnya hilang) */}
+                  <Divider />
+
+                  <PaymentInputBlock
+                    paymentMethod={row.paymentMethod}
+                    disabled={lockRowUi}
+                    nominalReguler={row.nominalReguler}
+                    onNominalReguler={(v) =>
+                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, nominalReguler: v } : x)))
+                    }
+                    tabunganReguler={row.tabunganReguler}
+                    onTabunganReguler={(v) =>
+                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, tabunganReguler: v } : x)))
+                    }
+                    keteranganReguler={row.keteranganReguler}
+                    onKeteranganReguler={(v) =>
+                      setRows((prev) => prev.map((x) => (x.id === row.id ? { ...x, keteranganReguler: v } : x)))
+                    }
+                    nominalPokokBakiDebet={row.nominalPokokBakiDebet}
+                    onNominalPokokBakiDebet={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalPokokBakiDebet: v } : x)),
+                      )
+                    }
+                    tabunganBakiDebet={row.tabunganBakiDebet}
+                    onTabunganBakiDebet={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganBakiDebet: v } : x)),
+                      )
+                    }
+                    keteranganBakiDebet={row.keteranganBakiDebet}
+                    onKeteranganBakiDebet={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganBakiDebet: v } : x)),
+                      )
+                    }
+                    nominalPokokKhusus={row.nominalPokokKhusus}
+                    onNominalPokokKhusus={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalPokokKhusus: v } : x)),
+                      )
+                    }
+                    nominalBungaKhusus={row.nominalBungaKhusus}
+                    onNominalBungaKhusus={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalBungaKhusus: v } : x)),
+                      )
+                    }
+                    nominalDendaKhusus={row.nominalDendaKhusus}
+                    onNominalDendaKhusus={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalDendaKhusus: v } : x)),
+                      )
+                    }
+                    tabunganKhusus={row.tabunganKhusus}
+                    onTabunganKhusus={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganKhusus: v } : x)),
+                      )
+                    }
+                    keteranganKhusus={row.keteranganKhusus}
+                    onKeteranganKhusus={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganKhusus: v } : x)),
+                      )
+                    }
+                    tabunganPelunasan={row.tabunganPelunasan}
+                    onTabunganPelunasan={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganPelunasan: v } : x)),
+                      )
+                    }
+                    keteranganPelunasan={row.keteranganPelunasan}
+                    onKeteranganPelunasan={(v) =>
+                      setRows((prev) =>
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganPelunasan: v } : x)),
+                      )
+                    }
+                  />
+
                   <Divider />
 
                   <div className={cn(isLastRow ? "pb-64" : "")}>
@@ -915,19 +1301,6 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   </div>
 
                   {isLastRow ? <FooterTotalsAndActions allowActions={true} /> : null}
-
-                  <div className="sr-only">
-                    {row.nominalReguler}
-                    {row.nominalPokokBakiDebet}
-                    {row.nominalPokokKhusus}
-                    {row.nominalBungaKhusus}
-                    {row.nominalDendaKhusus}
-                    {row.keteranganReguler}
-                    {row.keteranganBakiDebet}
-                    {row.keteranganKhusus}
-                    {row.keteranganPelunasan}
-                    {nominalPelunasan}
-                  </div>
                 </Td>
 
                 <Td align="center" className="px-3">
