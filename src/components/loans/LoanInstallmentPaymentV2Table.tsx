@@ -690,11 +690,7 @@ function PaymentInputBlock({
           <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
         </div>
 
-        <TabunganField
-          value={tabunganPelunasan}
-          onChange={onTabunganPelunasan}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganPelunasan} onChange={onTabunganPelunasan} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -726,11 +722,7 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField
-          value={tabunganBakiDebet}
-          onChange={onTabunganBakiDebet}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganBakiDebet} onChange={onTabunganBakiDebet} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -790,11 +782,7 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField
-          value={tabunganKhusus}
-          onChange={onTabunganKhusus}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganKhusus} onChange={onTabunganKhusus} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -840,50 +828,6 @@ function PaymentInputBlock({
   );
 }
 
-function RowActionButtons({
-  onAdd,
-  onDelete,
-  disableDelete,
-}: {
-  onAdd: () => void;
-  onDelete: () => void;
-  disableDelete: boolean;
-}) {
-  return (
-    <div className="grid place-items-center gap-2">
-      <button
-        type="button"
-        onClick={onAdd}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#6B7A90] text-white",
-          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
-        )}
-        aria-label="Tambah transaksi"
-        title="Tambah transaksi"
-      >
-        <Plus className="h-5.5 w-5.5" />
-      </button>
-
-      <button
-        type="button"
-        onClick={onDelete}
-        disabled={disableDelete}
-        className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#DC3545] text-white",
-          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
-          disableDelete ? "opacity-60 pointer-events-none" : "",
-        )}
-        aria-label="Hapus transaksi"
-        title="Hapus transaksi"
-      >
-        <Trash2 className="h-5.5 w-5.5" />
-      </button>
-    </div>
-  );
-}
-
 function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolean }) {
   const valueText = allowActions ? "0,00" : "-";
 
@@ -920,8 +864,8 @@ function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolea
     <div className="mt-3 text-[14px]">
       <div className="mt-[120px]">{totalsRow("Total Nominal", valueText)}</div>
 
-      {/* ✅ Total Denda naik 50px (jarak atas dikurangi 50px) */}
-      <div className="mt-[0px]">
+      {/* ✅ Kurangi lagi 100px: pakai margin-top negatif */}
+      <div className="-mt-[100px]">
         {totalsRow("Total Denda", valueText)}
         <div className="my-2 h-px w-full bg-slate-200" />
         {totalsRow("Grand Total", valueText, true)}
@@ -1012,6 +956,50 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
     tabunganPelunasan: "Tanpa Tabungan",
     keteranganPelunasan: seed?.keteranganPelunasan ?? "",
   };
+}
+
+function RowActionButtons({
+  onAdd,
+  onDelete,
+  disableDelete,
+}: {
+  onAdd: () => void;
+  onDelete: () => void;
+  disableDelete: boolean;
+}) {
+  return (
+    <div className="grid place-items-center gap-2">
+      <button
+        type="button"
+        onClick={onAdd}
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#6B7A90] text-white",
+          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+        )}
+        aria-label="Tambah transaksi"
+        title="Tambah transaksi"
+      >
+        <Plus className="h-5.5 w-5.5" />
+      </button>
+
+      <button
+        type="button"
+        onClick={onDelete}
+        disabled={disableDelete}
+        className={cn(
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#DC3545] text-white",
+          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
+          disableDelete ? "opacity-60 pointer-events-none" : "",
+        )}
+        aria-label="Hapus transaksi"
+        title="Hapus transaksi"
+      >
+        <Trash2 className="h-5.5 w-5.5" />
+      </button>
+    </div>
+  );
 }
 
 function BaseDivider() {
