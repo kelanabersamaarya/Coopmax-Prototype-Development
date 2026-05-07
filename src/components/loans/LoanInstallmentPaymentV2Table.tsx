@@ -621,6 +621,8 @@ function SpecialPaymentFields({
     );
   }, [nominalBunga, nominalDenda, nominalPokok]);
 
+  const totalText = React.useMemo(() => formatIdr2(total), [total]);
+
   return (
     <div className="grid gap-4">
       <div className="grid gap-1.5">
@@ -662,13 +664,17 @@ function SpecialPaymentFields({
       <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
       <KeteranganField value={keterangan} onChange={onKeteranganChange} />
 
-      <div className="pt-1">
-        <div className="text-[12px] font-semibold text-slate-700">
-          Total Pembayaran
-        </div>
-        <div className="mt-1 text-[28px] font-extrabold tracking-tight text-slate-900">
-          {formatIdr2(total)}
-        </div>
+      {/* ✅ Total Pembayaran jadi field readonly agar serasi */}
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Total Pembayaran</FieldLabelLikeNasabah>
+        <Input
+          value={totalText}
+          readOnly
+          className={cn(
+            inputCls,
+            "bg-slate-200/70 text-right text-[18px] font-extrabold text-slate-700 tabular-nums",
+          )}
+        />
       </div>
     </div>
   );
