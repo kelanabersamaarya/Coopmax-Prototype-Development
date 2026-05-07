@@ -137,9 +137,9 @@ export default function LoanInstallmentPaymentV2Table({
 
             <Th className="pl-3 pr-4">NASABAH</Th>
 
-            <Th className="border-l border-slate-200">PINJAMAN</Th>
+            <Th>PINJAMAN</Th>
 
-            <Th className="border-l border-slate-200">TRANSAKSI</Th>
+            <Th>TRANSAKSI</Th>
           </tr>
         </thead>
 
@@ -153,8 +153,8 @@ export default function LoanInstallmentPaymentV2Table({
               <NasabahRow />
             </Td>
 
-            <Td className="border-l border-slate-200 bg-white" />
-            <Td className="border-l border-slate-200 bg-white" />
+            <Td className="bg-white" />
+            <Td className="bg-white" />
           </tr>
         </tbody>
       </table>
