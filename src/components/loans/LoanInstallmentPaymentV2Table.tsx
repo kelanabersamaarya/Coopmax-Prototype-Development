@@ -1289,7 +1289,7 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
 
                   <BaseDivider />
 
-                  <div className={cn(isLastRow ? "pb-[186px]" : "")}>
+                  <div className={cn(isLastRow ? "pb-[136px]" : "")}>
                     <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
                   </div>
 
