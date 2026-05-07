@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Search } from "lucide-react";
+import { Search, History, Printer, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -246,6 +246,35 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   );
 }
 
+function LoanActionButton({
+  icon: Icon,
+  label,
+  onClick,
+  className,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  onClick: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex h-11 w-full items-center justify-center gap-3 rounded-2xl px-4",
+        "text-[14px] font-semibold text-white",
+        "ring-1 transition",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+        className,
+      )}
+    >
+      <Icon className="h-5 w-5" />
+      <span className="truncate">{label}</span>
+    </button>
+  );
+}
+
 function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(
     () => getNasabahInfoByAccountNo(accountNo),
@@ -308,6 +337,42 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         {extra.map((r) => (
           <InfoStack key={r.label} label={r.label} value={r.value} />
         ))}
+      </div>
+
+      {/* Tombol aksi: 1 baris, tanpa warna ungu */}
+      <div className="mt-5">
+        <div className="grid grid-cols-3 gap-3">
+          <LoanActionButton
+            icon={History}
+            label="Riwayat Transaksi"
+            onClick={() =>
+              toast("Riwayat Transaksi (prototype)", {
+                description: `Rekening: ${accountNo}`,
+              })
+            }
+            className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
+          />
+          <LoanActionButton
+            icon={Printer}
+            label="Simulasi Tunggakan"
+            onClick={() =>
+              toast("Simulasi Tunggakan (prototype)", {
+                description: `Rekening: ${accountNo}`,
+              })
+            }
+            className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
+          />
+          <LoanActionButton
+            icon={List}
+            label="Daftar Tagihan"
+            onClick={() =>
+              toast("Daftar Tagihan (prototype)", {
+                description: `Rekening: ${accountNo}`,
+              })
+            }
+            className="bg-[#0b5bd3] ring-[#0b5bd3]/25 hover:bg-[#0a52bf]"
+          />
+        </div>
       </div>
     </div>
   );
