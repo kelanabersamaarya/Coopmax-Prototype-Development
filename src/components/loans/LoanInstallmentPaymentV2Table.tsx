@@ -903,14 +903,15 @@ export default function LoanInstallmentPaymentV2Table({
             </Td>
 
             <Td className="bg-white">
-              <BillTotalsBlock totals={totals} />
-
-              <Divider />
-
+              {/* ✅ Metode Pembayaran dipindah ke atas blok Tagihan */}
               <TransactionPaymentMethodField
                 value={paymentMethod}
                 onChange={setPaymentMethod}
               />
+
+              <Divider />
+
+              <BillTotalsBlock totals={totals} />
 
               {isReguler ? (
                 <>
