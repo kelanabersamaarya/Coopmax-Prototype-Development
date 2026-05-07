@@ -73,15 +73,24 @@ function Td({
 function TransactionStatusBadge({
   title = "Status Transaksi",
   status = "Belum diproses",
+  disabled = false,
 }: {
   title?: string;
   status?: string;
+  disabled?: boolean;
 }) {
   return (
-    <div>
+    <div className={cn(disabled ? "opacity-60" : "")}>
       <div className="text-[12px] font-normal text-slate-900">{title}</div>
       <div className="mt-2">
-        <span className="inline-flex items-center rounded-[5px] bg-[#DC3545] px-3 py-1 text-[13px] font-semibold text-white ring-1 ring-[#DC3545]/25">
+        <span
+          className={cn(
+            "inline-flex items-center rounded-[5px] px-3 py-1 text-[13px] font-semibold text-white ring-1",
+            disabled
+              ? "bg-slate-300 text-white ring-slate-300/25"
+              : "bg-[#DC3545] ring-[#DC3545]/25",
+          )}
+        >
           {status}
         </span>
       </div>
@@ -213,10 +222,12 @@ function InfoStack({
   label,
   value,
   strong = false,
+  showValue = true,
 }: {
   label: string;
-  value: React.ReactNode;
+  value?: React.ReactNode;
   strong?: boolean;
+  showValue?: boolean;
 }) {
   return (
     <div className="grid gap-1">
@@ -228,14 +239,18 @@ function InfoStack({
       >
         {label}
       </div>
-      <div
-        className={cn(
-          "text-[14px] leading-snug break-words",
-          strong ? "font-extrabold text-slate-900" : "font-semibold text-slate-900",
-        )}
-      >
-        {value}
-      </div>
+      {showValue ? (
+        <div
+          className={cn(
+            "text-[14px] leading-snug break-words",
+            strong
+              ? "font-extrabold text-slate-900"
+              : "font-semibold text-slate-900",
+          )}
+        >
+          {value}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -271,21 +286,25 @@ function LoanActionButton({
   label,
   onClick,
   className,
+  disabled = false,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   onClick: () => void;
   className?: string;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       className={cn(
         "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
         "text-[14px] font-semibold text-white",
         "ring-1 transition",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+        disabled ? "opacity-60 pointer-events-none" : "",
         className,
       )}
     >
@@ -298,48 +317,78 @@ function LoanActionButton({
 function SelectedPinjamanInfo({
   accountNo,
   hideInstallmentInfo = false,
+  disabled = false,
 }: {
   accountNo: string;
   hideInstallmentInfo?: boolean;
+  disabled?: boolean;
 }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
-  if (!info) return null;
+  const info = React.useMemo(
+    () => (accountNo ? getNasabahInfoByAccountNo(accountNo) : null),
+    [accountNo],
+  );
 
-  const topItems: Array<{ label: string; value: React.ReactNode }> = [
-    ...(info.skemaTagihan ? [{ label: "Skema Tagihan", value: info.skemaTagihan }] : []),
-    ...(info.satuanGracePeriod
-      ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
-      : []),
-    ...(info.durasiGracePeriod
-      ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
-      : []),
-  ];
+  const topItems: Array<{ label: string; value?: React.ReactNode }> = info
+    ? [
+        ...(info.skemaTagihan
+          ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
+          : []),
+        ...(info.satuanGracePeriod
+          ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
+          : []),
+        ...(info.durasiGracePeriod
+          ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
+          : []),
+      ]
+    : [
+        { label: "Skema Tagihan" },
+        { label: "Satuan Grace Period" },
+        { label: "Durasi Grace Period" },
+      ];
 
-  if (topItems.length === 0) return null;
-
-  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo
+    ? []
+    : info
+      ? [{ label: "Angsuran ke", value: "2" }]
+      : [{ label: "Angsuran ke" }];
 
   const installments = hideInstallmentInfo
     ? []
+    : info
+      ? [
+          { label: "Angsuran Lunas", value: "1" },
+          { label: "Angsuran Seharusnya", value: "1" },
+        ]
+      : [{ label: "Angsuran Lunas" }, { label: "Angsuran Seharusnya" }];
+
+  const extra = info
+    ? [
+        { label: "Jangka Waktu", value: "12 Bulan" },
+        { label: "Tanggal Realisasi", value: "01-03-2026" },
+        { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
+        { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
+        { label: "Bunga Per Tahun", value: "10.00%" },
+        { label: "Metode Bunga", value: "Bunga Efektif" },
+      ]
     : [
-        { label: "Angsuran Lunas", value: "1" },
-        { label: "Angsuran Seharusnya", value: "1" },
+        { label: "Jangka Waktu" },
+        { label: "Tanggal Realisasi" },
+        { label: "Tanggal Jatuh Tempo" },
+        { label: "Tanggal Transaksi Terakhir" },
+        { label: "Bunga Per Tahun" },
+        { label: "Metode Bunga" },
       ];
 
-  const extra = [
-    { label: "Jangka Waktu", value: "12 Bulan" },
-    { label: "Tanggal Realisasi", value: "01-03-2026" },
-    { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
-    { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
-    { label: "Bunga Per Tahun", value: "10.00%" },
-    { label: "Metode Bunga", value: "Bunga Efektif" },
-  ];
-
   return (
-    <div className="bg-white">
+    <div className={cn("bg-white", disabled ? "opacity-60" : "")}>
       <div className="grid gap-4">
         {topItems.map((it) => (
-          <InfoStack key={it.label} label={it.label} value={it.value} />
+          <InfoStack
+            key={it.label}
+            label={it.label}
+            value={it.value}
+            showValue={!!info}
+          />
         ))}
       </div>
 
@@ -348,10 +397,20 @@ function SelectedPinjamanInfo({
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
           {installmentMeta.map((it) => (
-            <InfoStack key={it.label} label={it.label} value={it.value} />
+            <InfoStack
+              key={it.label}
+              label={it.label}
+              value={it.value}
+              showValue={!!info}
+            />
           ))}
           {installments.map((it) => (
-            <InfoStack key={it.label} label={it.label} value={it.value} />
+            <InfoStack
+              key={it.label}
+              label={it.label}
+              value={it.value}
+              showValue={!!info}
+            />
           ))}
         </div>
       ) : null}
@@ -360,7 +419,12 @@ function SelectedPinjamanInfo({
 
       <div className="grid gap-4">
         {extra.map((r) => (
-          <InfoStack key={r.label} label={r.label} value={r.value} />
+          <InfoStack
+            key={r.label}
+            label={r.label}
+            value={r.value}
+            showValue={!!info}
+          />
         ))}
       </div>
 
@@ -376,6 +440,7 @@ function SelectedPinjamanInfo({
             })
           }
           className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
+          disabled={disabled}
         />
         <LoanActionButton
           icon={Printer}
@@ -386,6 +451,7 @@ function SelectedPinjamanInfo({
             })
           }
           className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
+          disabled={disabled}
         />
       </div>
     </div>
@@ -416,7 +482,6 @@ function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Divider rapat: tetap ada garis, tapi tanpa margin vertikal (no whitespace) */
 function DividerTight() {
   return <div className="h-px w-full bg-slate-200" />;
 }
@@ -424,24 +489,37 @@ function DividerTight() {
 function BillTotalsBlock({
   totals,
   totalLabel = "Total Tagihan",
+  disabled = false,
 }: {
   totals: BillTotals;
   totalLabel?: string;
+  disabled?: boolean;
 }) {
   return (
-    <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value={totals.pokok} />
-      <InfoStack label="Tagihan Bunga" value={totals.bunga} />
-      <InfoStack label="Tagihan Denda" value={totals.denda} />
-      <InfoStack label={totalLabel} value={totals.total} strong />
+    <div className={cn("grid gap-4", disabled ? "opacity-60" : "")}>
+      <InfoStack label="Tagihan Pokok" value={totals.pokok} showValue={!disabled} />
+      <InfoStack label="Tagihan Bunga" value={totals.bunga} showValue={!disabled} />
+      <InfoStack label="Tagihan Denda" value={totals.denda} showValue={!disabled} />
+      <InfoStack
+        label={totalLabel}
+        value={totals.total}
+        strong
+        showValue={!disabled}
+      />
     </div>
   );
 }
 
-function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
+function RemainingLoanBlock({
+  sisaPinjaman,
+  disabled = false,
+}: {
+  sisaPinjaman: string;
+  disabled?: boolean;
+}) {
   return (
-    <div className="grid gap-4">
-      <InfoStack label="Sisa Pinjaman" value={sisaPinjaman} strong />
+    <div className={cn("grid gap-4", disabled ? "opacity-60" : "")}>
+      <InfoStack label="Sisa Pinjaman" value={sisaPinjaman} strong showValue={!disabled} />
     </div>
   );
 }
@@ -450,20 +528,27 @@ function TransactionRowActions({
   onAdd,
   onDelete,
   disableDelete,
+  disabled,
 }: {
   onAdd: () => void;
   onDelete: () => void;
   disableDelete: boolean;
+  disabled: boolean;
 }) {
+  const btnBase = cn(
+    "inline-flex h-10 w-10 items-center justify-center rounded-[5px] text-white ring-1 transition",
+    disabled ? "opacity-60 pointer-events-none" : "",
+  );
+
   return (
     <div className="flex flex-col items-center gap-2">
       <button
         type="button"
         onClick={onAdd}
+        disabled={disabled}
         className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#6B7A90] text-white",
-          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+          btnBase,
+          "bg-[#6B7A90] ring-[#6B7A90]/20 hover:bg-[#5f6d82]",
         )}
         aria-label="Tambah transaksi"
         title="Tambah transaksi"
@@ -474,12 +559,11 @@ function TransactionRowActions({
       <button
         type="button"
         onClick={onDelete}
-        disabled={disableDelete}
+        disabled={disabled || disableDelete}
         className={cn(
-          "inline-flex h-10 w-10 items-center justify-center",
-          "rounded-[5px] bg-[#DC3545] text-white",
-          "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
-          disableDelete ? "opacity-60 pointer-events-none" : "",
+          btnBase,
+          "bg-[#DC3545] ring-[#DC3545]/20 hover:bg-[#c72f3d]",
+          disabled || disableDelete ? "opacity-60 pointer-events-none" : "",
         )}
         aria-label="Hapus transaksi"
         title="Hapus transaksi"
@@ -498,7 +582,7 @@ function DaftarTagihanTopButton({
   onClick: () => void;
 }) {
   return (
-    <div className="grid gap-2">
+    <div className={cn("grid gap-2", disabled ? "opacity-60" : "")}>
       <div className="text-[12px] font-normal text-slate-900">
         Daftar Tagihan dan Denda
       </div>
@@ -511,7 +595,7 @@ function DaftarTagihanTopButton({
           "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
           "bg-[#0b5bd3] text-[14px] font-semibold text-white",
           "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
-          disabled ? "opacity-60 pointer-events-none" : "",
+          disabled ? "pointer-events-none" : "",
         )}
         aria-label="Lihat Tagihan & Denda"
         title="Lihat Tagihan & Denda"
@@ -527,10 +611,12 @@ function TransactionPaymentMethodField({
   value,
   onChange,
   rightActions,
+  disabled,
 }: {
   value: PaymentMethod;
   onChange: (v: PaymentMethod) => void;
   rightActions?: React.ReactNode;
+  disabled: boolean;
 }) {
   const triggerCls = cn(
     "h-[30px] w-full justify-between rounded-[5px]",
@@ -539,6 +625,7 @@ function TransactionPaymentMethodField({
     "shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-400",
+    disabled ? "opacity-60 pointer-events-none" : "",
   );
 
   return (
@@ -547,7 +634,11 @@ function TransactionPaymentMethodField({
 
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <Select value={value} onValueChange={(v) => onChange(v as PaymentMethod)}>
+          <Select
+            value={value}
+            onValueChange={(v) => onChange(v as PaymentMethod)}
+            disabled={disabled}
+          >
             <SelectTrigger className={triggerCls}>
               <SelectValue />
             </SelectTrigger>
@@ -723,13 +814,12 @@ export default function LoanInstallmentPaymentV2Table({
         <tbody>
           {rows.map((row, idx) => {
             const hasPicked = !!row.accountNo.trim();
-            const isReguler = row.paymentMethod === "Pembayaran Reguler";
+
             const isBakiDebet =
               row.paymentMethod === "Pembayaran Penurunan Baki Debet";
-            const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
 
-            const canOpenDaftarTagihan = isReguler || isBakiDebet || isKhusus;
+            const actionsDisabled = !hasPicked;
 
             const totals: BillTotals = {
               pokok: "0",
@@ -770,12 +860,11 @@ export default function LoanInstallmentPaymentV2Table({
                 </Td>
 
                 <Td className="bg-white">
-                  {hasPicked ? (
-                    <SelectedPinjamanInfo
-                      accountNo={row.accountNo}
-                      hideInstallmentInfo={isBakiDebet}
-                    />
-                  ) : null}
+                  <SelectedPinjamanInfo
+                    accountNo={row.accountNo}
+                    hideInstallmentInfo={isBakiDebet}
+                    disabled={actionsDisabled}
+                  />
                 </Td>
 
                 <Td className="bg-white">
@@ -793,15 +882,10 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <div className="grid gap-3">
                     <DaftarTagihanTopButton
-                      disabled={!canOpenDaftarTagihan}
+                      disabled={actionsDisabled}
                       onClick={() => {
-                        if (!canOpenDaftarTagihan) {
-                          toast("Belum tersedia", {
-                            description:
-                              "Lihat Tagihan & Denda pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
-                          });
-                          return;
-                        }
+                        if (actionsDisabled) return;
+
                         setRows((prev) =>
                           prev.map((x) =>
                             x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
@@ -825,11 +909,13 @@ export default function LoanInstallmentPaymentV2Table({
                           ),
                         )
                       }
+                      disabled={actionsDisabled}
                       rightActions={
                         <TransactionRowActions
                           onAdd={() => addRow(row.id)}
                           onDelete={() => deleteRow(row.id)}
                           disableDelete={rows.length <= 1}
+                          disabled={actionsDisabled}
                         />
                       }
                     />
@@ -841,9 +927,16 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <div className="pt-3">
                     {isBakiDebet ? (
-                      <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
+                      <RemainingLoanBlock
+                        sisaPinjaman={sisaPinjamanBakiDebet}
+                        disabled={!hasPicked}
+                      />
                     ) : (
-                      <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
+                      <BillTotalsBlock
+                        totals={totals}
+                        totalLabel={totalsLabel}
+                        disabled={!hasPicked}
+                      />
                     )}
                   </div>
 
@@ -855,6 +948,7 @@ export default function LoanInstallmentPaymentV2Table({
                     <TransactionStatusBadge
                       title="Status Transaksi"
                       status="Belum diproses"
+                      disabled={!hasPicked}
                     />
                   </div>
 
