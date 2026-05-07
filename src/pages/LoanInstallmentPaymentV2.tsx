@@ -82,58 +82,62 @@ export default function LoanInstallmentPaymentV2() {
           </div>
         </div>
 
+        {/* Scope: paksa seluruh font di halaman ini menjadi 12px */}
         <Card className="mt-6 overflow-hidden rounded-3xl border-slate-200/70 bg-white/90 p-0 shadow-sm backdrop-blur">
-          <div className="px-6 py-6 sm:px-8">
-            <div className={cn("grid", GAP)}>
-              <FieldRow label="Tanggal" required>
-                <DatePickerDmyField
-                  value={tanggal}
-                  onChange={setTanggal}
-                  inputClassName={cn(
-                    H,
-                    R,
-                    "border-slate-200 bg-white text-[14px] pr-11",
-                  )}
-                  popoverAlign="end"
-                  placeholder="DD-MM-YYYY"
-                />
-              </FieldRow>
+          <div className="text-[12px] [&_*]:text-[12px]">
+            <div className="px-6 py-6 sm:px-8">
+              <div className={cn("grid", GAP)}>
+                <FieldRow label="Tanggal" required>
+                  <DatePickerDmyField
+                    value={tanggal}
+                    onChange={setTanggal}
+                    inputClassName={cn(
+                      H,
+                      R,
+                      "border-slate-200 bg-white pr-11",
+                      "text-[12px] [&_*]:text-[12px]",
+                    )}
+                    popoverAlign="end"
+                    placeholder="DD-MM-YYYY"
+                  />
+                </FieldRow>
 
-              <FieldRow label="Jenis Transaksi" required>
-                <Select value={jenis} onValueChange={(v) => setJenis(v as any)}>
-                  <SelectTrigger className={selectTriggerCls}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    {TX_TYPES.map((t) => (
-                      <SelectItem key={t} value={t} className="rounded-lg">
-                        {t}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FieldRow>
+                <FieldRow label="Jenis Transaksi" required>
+                  <Select value={jenis} onValueChange={(v) => setJenis(v as any)}>
+                    <SelectTrigger className={cn(selectTriggerCls, "text-[12px]")}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      {TX_TYPES.map((t) => (
+                        <SelectItem key={t} value={t} className="rounded-lg">
+                          {t}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FieldRow>
 
-              <FieldRow label="Kolektor" required>
-                <Select
-                  value={kolektor}
-                  onValueChange={(v) => setKolektor(v as any)}
-                >
-                  <SelectTrigger className={selectTriggerCls}>
-                    <SelectValue placeholder="Pilih Kolektor" />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    {COLLECTORS.map((k) => (
-                      <SelectItem key={k} value={k} className="rounded-lg">
-                        {k}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FieldRow>
+                <FieldRow label="Kolektor" required>
+                  <Select
+                    value={kolektor}
+                    onValueChange={(v) => setKolektor(v as any)}
+                  >
+                    <SelectTrigger className={cn(selectTriggerCls, "text-[12px]")}>
+                      <SelectValue placeholder="Pilih Kolektor" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      {COLLECTORS.map((k) => (
+                        <SelectItem key={k} value={k} className="rounded-lg">
+                          {k}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FieldRow>
 
-              {/* Bagian bawah field: header tabel sesuai screenshot */}
-              <LoanInstallmentPaymentV2Table />
+                {/* Bagian bawah field: header tabel sesuai screenshot */}
+                <LoanInstallmentPaymentV2Table />
+              </div>
             </div>
           </div>
         </Card>
