@@ -702,11 +702,11 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
 }
 
 function FooterTotalsAndActions({
-  lockUi,
+  allowActions = true,
 }: {
-  lockUi: boolean;
+  allowActions?: boolean;
 }) {
-  const valueText = lockUi ? "-" : "0,00";
+  const valueText = allowActions ? "0,00" : "-";
 
   const totalsRow = (label: string, value: string, strong = false) => (
     <div className="flex items-baseline justify-between gap-4 py-2">
@@ -735,7 +735,6 @@ function FooterTotalsAndActions({
     "text-[12px] font-bold tracking-tight text-white",
     "ring-1 transition",
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-    lockUi ? "opacity-60 pointer-events-none" : "",
   );
 
   return (
@@ -755,7 +754,6 @@ function FooterTotalsAndActions({
             btnBase,
             "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]",
           )}
-          disabled={lockUi}
         >
           <X className="h-4 w-4" strokeWidth={3} />
           Batalkan
@@ -772,7 +770,6 @@ function FooterTotalsAndActions({
             btnBase,
             "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
           )}
-          disabled={lockUi}
         >
           <CheckSquare className="h-4 w-4" strokeWidth={3} />
           Simpan
@@ -884,7 +881,7 @@ export default function LoanInstallmentPaymentV2Table({
         <tbody>
           {rows.map((row, idx) => {
             const hasPicked = !!row.accountNo.trim();
-            const lockUi = !hasPicked;
+            const lockRowUi = !hasPicked;
             const isLastRow = idx === rows.length - 1;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
@@ -930,7 +927,7 @@ export default function LoanInstallmentPaymentV2Table({
                 <Td className="bg-white">
                   <SelectedPinjamanInfo
                     accountNo={row.accountNo}
-                    disabled={lockUi}
+                    disabled={lockRowUi}
                     hideInstallmentInfo={isBakiDebet}
                   />
                 </Td>
@@ -976,7 +973,7 @@ export default function LoanInstallmentPaymentV2Table({
                         ),
                       )
                     }
-                    disabled={lockUi}
+                    disabled={lockRowUi}
                     rightActions={
                       <TransactionRowActions
                         onAdd={() => addRow(row.id)}
@@ -988,7 +985,7 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
-                  {lockUi ? (
+                  {lockRowUi ? (
                     isBakiDebet ? (
                       <RemainingLoanTitlesOnly />
                     ) : (
@@ -1002,27 +999,16 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
+                  {/* ✅ Status transaksi tetap tampil "Belum diproses" walau rekening belum dipilih */}
                   <div className={cn(isLastRow ? "pb-64" : "")}>
-                    {lockUi ? (
-                      <div>
-                        <div className="text-[12px] font-normal text-slate-900">
-                          Status Transaksi
-                        </div>
-                        <div className="mt-2">
-                          <span className="inline-flex items-center rounded-[5px] bg-slate-200 px-3 py-1 text-[13px] font-semibold text-slate-700 ring-1 ring-slate-200">
-                            -
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <TransactionStatusBadge
-                        title="Status Transaksi"
-                        status="Belum diproses"
-                      />
-                    )}
+                    <TransactionStatusBadge
+                      title="Status Transaksi"
+                      status="Belum diproses"
+                    />
                   </div>
 
-                  {isLastRow ? <FooterTotalsAndActions lockUi={lockUi} /> : null}
+                  {/* ✅ Tombol footer tetap bisa diklik walau ada baris lain yang belum pilih rekening */}
+                  {isLastRow ? <FooterTotalsAndActions allowActions={true} /> : null}
 
                   <div className="sr-only">
                     {row.nominalReguler}
