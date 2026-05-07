@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import LoanInstallmentPaymentV2Table from "@/components/loans/LoanInstallmentPaymentV2Table";
 
 const R = "rounded-[5px]";
 const H = "h-[30px]";
@@ -81,11 +82,7 @@ export default function LoanInstallmentPaymentV2() {
           </div>
         </div>
 
-        <Card
-          className={cn(
-            "mt-6 overflow-hidden rounded-3xl border-slate-200/70 bg-white/90 p-0 shadow-sm backdrop-blur",
-          )}
-        >
+        <Card className="mt-6 overflow-hidden rounded-3xl border-slate-200/70 bg-white/90 p-0 shadow-sm backdrop-blur">
           <div className="px-6 py-6 sm:px-8">
             <div className={cn("grid", GAP)}>
               <FieldRow label="Tanggal" required>
@@ -134,6 +131,9 @@ export default function LoanInstallmentPaymentV2() {
                   </SelectContent>
                 </Select>
               </FieldRow>
+
+              {/* Bagian bawah field: header tabel sesuai screenshot */}
+              <LoanInstallmentPaymentV2Table />
             </div>
           </div>
         </Card>
