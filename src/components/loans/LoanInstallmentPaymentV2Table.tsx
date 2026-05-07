@@ -155,7 +155,7 @@ function NasabahRow({
   return (
     <div className="grid gap-1.5">
       <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-        No Rek :
+        No Rek
       </div>
 
       <div className="flex min-w-0 items-stretch">
@@ -480,7 +480,7 @@ function TransactionPaymentMethodField({
 
   return (
     <div className="grid gap-1.5">
-      <FieldLabelLikeNasabah>Metode Pembayaran :</FieldLabelLikeNasabah>
+      <FieldLabelLikeNasabah>Metode Pembayaran</FieldLabelLikeNasabah>
 
       <Select value={value} onValueChange={(v) => onChange(v as PaymentMethod)}>
         <SelectTrigger className={triggerCls}>
