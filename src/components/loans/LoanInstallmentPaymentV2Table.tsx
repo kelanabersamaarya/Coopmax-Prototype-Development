@@ -199,6 +199,25 @@ function InfoStack({
   );
 }
 
+function KVInlineRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="grid items-start gap-3 [grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="min-w-0 text-[14px] font-medium text-slate-900">
+        <span className="break-words">{label} :</span>
+      </div>
+      <div className="min-w-0 text-right text-[14px] font-semibold text-slate-900">
+        <span className="block break-words leading-snug">{value}</span>
+      </div>
+    </div>
+  );
+}
+
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(
     () => getNasabahInfoByAccountNo(accountNo),
@@ -246,11 +265,32 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   if (items.length === 0) return null;
 
+  // info tambahan (seperti di gambar)
+  const extra = [
+    { label: "Jangka Waktu", value: "12 Bulan" },
+    { label: "Angsuran ke", value: "2" },
+    { label: "Tanggal Realisasi", value: "01-03-2026" },
+    { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
+    { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
+    { label: "Bunga Per Tahun", value: "10.00%" },
+    { label: "Metode Bunga", value: "Bunga Efektif" },
+  ];
+
   return (
     <div className="bg-white">
       <div className="grid gap-4">
         {items.map((it) => (
           <InfoStack key={it.label} label={it.label} value={it.value} />
+        ))}
+      </div>
+
+      {/* Divider pemisah */}
+      <div className="my-4 h-px w-full bg-slate-200" />
+
+      {/* Blok tambahan menggunakan layout kiri-kanan yang barusan dipakai */}
+      <div className="grid gap-4">
+        {extra.map((r) => (
+          <KVInlineRow key={r.label} label={r.label} value={r.value} />
         ))}
       </div>
     </div>
