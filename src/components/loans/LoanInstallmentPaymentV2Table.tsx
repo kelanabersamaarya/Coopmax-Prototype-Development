@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import DaftarTagihanDialog from "@/components/loans/DaftarTagihanDialog";
+import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInfo";
 
 function Th({
   children,
@@ -771,13 +772,12 @@ function PaymentInputBlock({
           <FieldLabelLikeNasabah>
             Nominal Denda{required}
           </FieldLabelLikeNasabah>
-          <Input
+
+          <KhususDendaFieldWithInfo
             value={nominalDendaKhusus}
-            onChange={(e) => onNominalDendaKhusus(e.target.value)}
-            className={cn(inputCls, "text-right tabular-nums")}
-            placeholder="0"
-            inputMode="decimal"
+            onChange={onNominalDendaKhusus}
             disabled={disabled}
+            inputClassName={cn(inputCls, "text-right tabular-nums")}
           />
         </div>
 
@@ -827,78 +827,21 @@ function PaymentInputBlock({
   );
 }
 
-function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolean }) {
-  const valueText = allowActions ? "0,00" : "-";
-
-  const totalsRow = (label: string, value: string, strong = false) => (
-    <div className="flex items-baseline justify-between gap-4 py-2">
-      <div
-        className={cn(
-          "text-[14px] text-[#0b2a57]",
-          strong ? "font-semibold" : "font-normal",
-        )}
-      >
-        {label} :
-      </div>
-      <div
-        className={cn(
-          "text-[14px] tabular-nums text-[#0b2a57]",
-          strong ? "font-semibold" : "font-normal",
-        )}
-      >
-        {value}
-      </div>
-    </div>
-  );
-
-  const btnBase = cn(
-    "inline-flex items-center justify-center gap-2",
-    "h-[28px] w-[90px] rounded-[5px]",
-    "text-[12px] font-bold tracking-tight text-white",
-    "ring-1 transition",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-  );
-
+function InlineTableHeaderRow() {
   return (
-    <div className="mt-3 text-[14px]">
-      <div className="mt-0">{totalsRow("Total Nominal", valueText)}</div>
-
-      <div className="mt-0">
-        {totalsRow("Total Denda", valueText)}
-        <div className="my-2 h-px w-full bg-slate-200" />
-        {totalsRow("Grand Total", valueText, true)}
-      </div>
-
-      <div className="mt-4 flex items-center justify-end gap-3">
-        <button
-          type="button"
-          onClick={() => toast("Batalkan (prototype)")}
-          className={cn(
-            btnBase,
-            "bg-[#6B7A90] ring-[#6B7A90]/25 hover:bg-[#5f6d82]",
-          )}
-        >
-          <X className="h-4 w-4" strokeWidth={3} />
-          Batalkan
-        </button>
-
-        <button
-          type="button"
-          onClick={() =>
-            toast.success("Simpan (prototype)", {
-              description: "Ringkasan transaksi disimpan (dummy).",
-            })
-          }
-          className={cn(
-            btnBase,
-            "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
-          )}
-        >
-          <CheckSquare className="h-4 w-4" strokeWidth={3} />
-          Simpan
-        </button>
-      </div>
-    </div>
+    <tr className="bg-white">
+      <Th className="px-3" compact>
+        <div className="text-left">NO</div>
+      </Th>
+      <Th className="pl-3 pr-4" compact>
+        NASABAH
+      </Th>
+      <Th compact>PINJAMAN</Th>
+      <Th compact>TAGIHAN & TRANSAKSI</Th>
+      <Th align="center" compact>
+        AKSI
+      </Th>
+    </tr>
   );
 }
 
@@ -1002,24 +945,6 @@ function RowActionButtons({
 
 function BaseDivider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
-}
-
-function InlineTableHeaderRow() {
-  return (
-    <tr className="bg-white">
-      <Th className="px-3" compact>
-        <div className="text-left">NO</div>
-      </Th>
-      <Th className="pl-3 pr-4" compact>
-        NASABAH
-      </Th>
-      <Th compact>PINJAMAN</Th>
-      <Th compact>TAGIHAN & TRANSAKSI</Th>
-      <Th align="center" compact>
-        AKSI
-      </Th>
-    </tr>
-  );
 }
 
 export default function LoanInstallmentPaymentV2Table({ className }: { className?: string }) {
