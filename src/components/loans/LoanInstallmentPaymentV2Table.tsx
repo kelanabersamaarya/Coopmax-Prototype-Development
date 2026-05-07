@@ -70,6 +70,25 @@ function Td({
   );
 }
 
+function TransactionStatusBadge({
+  title = "Status Transaksi",
+  status = "Belum diproses",
+}: {
+  title?: string;
+  status?: string;
+}) {
+  return (
+    <div className="mt-4">
+      <div className="text-[12px] font-normal text-slate-900">{title}</div>
+      <div className="mt-2">
+        <span className="inline-flex items-center rounded-[6px] bg-[#DC3545] px-3 py-1.5 text-[13px] font-semibold text-white ring-1 ring-[#DC3545]/25">
+          {status}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 type NasabahInfo = {
   nama: string;
   alamat: string;
@@ -1002,6 +1021,9 @@ export default function LoanInstallmentPaymentV2Table({
                   />
                 </>
               ) : null}
+
+              {/* Status transaksi (selalu tampil, di bagian paling bawah) */}
+              <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
             </Td>
           </tr>
         </tbody>
