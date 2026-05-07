@@ -1331,7 +1331,7 @@ export default function LoanInstallmentPaymentV2Table({
                     }
                   />
 
-                  <BaseDivider />
+                  {/* Divider DIHILANGKAN sesuai request */}
 
                   <TransactionStatusBadge
                     title="Status Transaksi"
