@@ -687,7 +687,7 @@ function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolea
 
   return (
     <div className="mt-3 text-[14px]">
-      <div className="mt-10">
+      <div className="mt-[50px]">
         {totalsRow("Total Nominal", valueText)}
         {totalsRow("Total Denda", valueText)}
         <div className="my-2 h-px w-full bg-slate-200" />
