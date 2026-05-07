@@ -185,28 +185,21 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
+  // Sesuai request: hilangkan header biru (nomor rekening)
   return (
-    <div className="mt-3 overflow-hidden rounded-[6px] bg-white">
-      {/* Header biru: hanya nomor rekening */}
-      <div className="bg-[#1aa0b5] px-4 py-3 text-white">
-        <div className="text-[18px] font-extrabold tracking-tight">{accountNo}</div>
-      </div>
-
-      {/* Detail: layout atas-bawah */}
-      <div className="px-4 py-4">
-        <div className="grid gap-4">
-          <InfoStack label="Nama" value={info.nama} />
-          <InfoStack label="Alamat" value={info.alamat} />
-          <InfoStack label="Produk" value={info.produk} />
-          <InfoStack
-            label="No Simpanan Wajib Peminjam"
-            value={info.noSimpananWajib}
-          />
-          <InfoStack
-            label="Saldo Simpanan Wajib Peminjam"
-            value={info.saldoSimpananWajib}
-          />
-        </div>
+    <div className="mt-3 rounded-[6px] bg-white px-4 py-4">
+      <div className="grid gap-4">
+        <InfoStack label="Nama" value={info.nama} />
+        <InfoStack label="Alamat" value={info.alamat} />
+        <InfoStack label="Produk" value={info.produk} />
+        <InfoStack
+          label="No Simpanan Wajib Peminjam"
+          value={info.noSimpananWajib}
+        />
+        <InfoStack
+          label="Saldo Simpanan Wajib Peminjam"
+          value={info.saldoSimpananWajib}
+        />
       </div>
     </div>
   );
