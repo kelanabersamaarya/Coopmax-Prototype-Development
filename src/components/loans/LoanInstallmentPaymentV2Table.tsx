@@ -256,14 +256,8 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack
-          label="No Simpanan Wajib Peminjam"
-          value={info.noSimpananWajib}
-        />
-        <InfoStack
-          label="Saldo Simpanan Wajib Peminjam"
-          value={info.saldoSimpananWajib}
-        />
+        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
+        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
       </div>
     </div>
   );
@@ -326,11 +320,7 @@ function SelectedPinjamanInfo({
           ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
           : [{ label: "Durasi Grace Period" }]),
       ]
-    : [
-        { label: "Skema Tagihan" },
-        { label: "Satuan Grace Period" },
-        { label: "Durasi Grace Period" },
-      ];
+    : [{ label: "Skema Tagihan" }, { label: "Satuan Grace Period" }, { label: "Durasi Grace Period" }];
 
   const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
   const installments = hideInstallmentInfo
@@ -357,17 +347,13 @@ function SelectedPinjamanInfo({
             key={it.label}
             label={it.label}
             value={
-              it.value ?? (
-                <span className="text-slate-400 font-semibold">-</span>
-              )
+              it.value ?? <span className="text-slate-400 font-semibold">-</span>
             }
           />
         ))}
       </div>
 
-      {!hideInstallmentInfo ? (
-        <div className="my-4 h-px w-full bg-slate-200" />
-      ) : null}
+      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -1011,16 +997,13 @@ function SummaryBlock({
   onSave: () => void;
 }) {
   return (
-    <div>
-      <div className="my-4 h-px w-full bg-slate-200" />
-
+    <div className="mt-6">
       <div className="grid gap-4">
         <SummaryRow label="Total Nominal" value={totalNominal} />
         <SummaryRow label="Total Denda" value={totalDenda} />
         <SummaryRow label="Grand Total" value={grandTotal} />
       </div>
 
-      {/* tombol di sisi kanan */}
       <div className="mt-6 flex items-center justify-end gap-4">
         <button
           type="button"
@@ -1165,21 +1148,14 @@ export default function LoanInstallmentPaymentV2Table({
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
-            const totals: BillTotals = {
-              pokok: "0",
-              bunga: "0",
-              denda: "0",
-              total: "0",
-            };
+            const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
 
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
-
             const pokokLabel = isPelunasan ? "Total Tagihan Pokok" : "Tagihan Pokok";
             const bungaLabel = isPelunasan ? "Total Tagihan Bunga" : "Tagihan Bunga";
             const dendaLabel = isPelunasan ? "Total Tagihan Denda" : "Tagihan Denda";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
-
             const isLast = row.id === lastRowId;
 
             const contentRow = (
