@@ -452,14 +452,6 @@ type BillTotals = {
   total: string;
 };
 
-function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-      {children}
-    </div>
-  );
-}
-
 function BillTotalsBlock({
   totals,
   totalLabel = "Total Tagihan",
@@ -580,7 +572,9 @@ function TransactionPaymentMethodField({
 
   return (
     <div className="grid gap-1.5">
-      <FieldLabelLikeNasabah>Metode Pembayaran</FieldLabelLikeNasabah>
+      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+        Metode Pembayaran
+      </div>
 
       <Select
         value={value}
@@ -623,7 +617,10 @@ function TabunganField({
 
   return (
     <div className="grid gap-1.5">
-      <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
+      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+        Tabungan
+      </div>
+
       <Select
         value={value}
         onValueChange={(v) => onChange(v as "Tanpa Tabungan")}
@@ -721,16 +718,18 @@ function PaymentInputBlock({
     return (
       <div className="grid gap-4">
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
             Nominal Pelunasan{required}
-          </FieldLabelLikeNasabah>
+          </div>
           <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
         </div>
 
         <TabunganField value={tabunganPelunasan} onChange={onTabunganPelunasan} disabled={disabled} />
 
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+            Keterangan
+          </div>
           <Input
             value={keteranganPelunasan}
             onChange={(e) => onKeteranganPelunasan(e.target.value)}
@@ -746,7 +745,9 @@ function PaymentInputBlock({
     return (
       <div className="grid gap-4">
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Nominal Pokok{required}</FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+            Nominal Pokok{required}
+          </div>
           <Input
             value={nominalPokokBakiDebet}
             onChange={(e) => onNominalPokokBakiDebet(e.target.value)}
@@ -760,7 +761,9 @@ function PaymentInputBlock({
         <TabunganField value={tabunganBakiDebet} onChange={onTabunganBakiDebet} disabled={disabled} />
 
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+            Keterangan
+          </div>
           <Input
             value={keteranganBakiDebet}
             onChange={(e) => onKeteranganBakiDebet(e.target.value)}
@@ -776,7 +779,9 @@ function PaymentInputBlock({
     return (
       <div className="grid gap-4">
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Nominal Pokok{required}</FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+            Nominal Pokok{required}
+          </div>
           <Input
             value={nominalPokokKhusus}
             onChange={(e) => onNominalPokokKhusus(e.target.value)}
@@ -788,7 +793,9 @@ function PaymentInputBlock({
         </div>
 
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Nominal Bunga{required}</FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+            Nominal Bunga{required}
+          </div>
           <Input
             value={nominalBungaKhusus}
             onChange={(e) => onNominalBungaKhusus(e.target.value)}
@@ -800,7 +807,9 @@ function PaymentInputBlock({
         </div>
 
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Nominal Denda{required}</FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+            Nominal Denda{required}
+          </div>
           <KhususDendaFieldWithInfo
             value={nominalDendaKhusus}
             onChange={onNominalDendaKhusus}
@@ -812,7 +821,9 @@ function PaymentInputBlock({
         <TabunganField value={tabunganKhusus} onChange={onTabunganKhusus} disabled={disabled} />
 
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+          <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+            Keterangan
+          </div>
           <Input
             value={keteranganKhusus}
             onChange={(e) => onKeteranganKhusus(e.target.value)}
@@ -827,7 +838,9 @@ function PaymentInputBlock({
   return (
     <div className="grid gap-4">
       <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Nominal Pembayaran{required}</FieldLabelLikeNasabah>
+        <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+          Nominal Pembayaran{required}
+        </div>
         <Input
           value={nominalReguler}
           onChange={(e) => onNominalReguler(e.target.value)}
@@ -841,7 +854,9 @@ function PaymentInputBlock({
       <TabunganField value={tabunganReguler} onChange={onTabunganReguler} disabled={disabled} />
 
       <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+        <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+          Keterangan
+        </div>
         <Input
           value={keteranganReguler}
           onChange={(e) => onKeteranganReguler(e.target.value)}
@@ -1005,7 +1020,8 @@ function SummaryBlock({
         <SummaryRow label="Grand Total" value={grandTotal} />
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-4">
+      {/* tombol di sisi kanan */}
+      <div className="mt-6 flex items-center justify-end gap-4">
         <button
           type="button"
           onClick={onCancel}
@@ -1096,7 +1112,6 @@ export default function LoanInstallmentPaymentV2Table({
     toast("Transaksi dihapus", { description: "Baris transaksi dihapus." });
   }
 
-  // Prototype: summary masih 0,00 (sesuai screenshot)
   const totalNominal = "0,00";
   const totalDenda = "0,00";
   const grandTotal = "0,00";
@@ -1378,12 +1393,8 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <div className="mt-4" />
 
-                  <TransactionStatusBadge
-                    title="Status Transaksi"
-                    status="Belum diproses"
-                  />
+                  <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
 
-                  {/* Ringkasan diposisikan di kolom Tagihan & Transaksi (hanya di baris terakhir) */}
                   {isLast ? (
                     <SummaryBlock
                       totalNominal={totalNominal}
