@@ -4,10 +4,11 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
+import { CheckSquare, X } from "lucide-react";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
+import { toast } from "sonner";
 
 const seedRows: BillingRow[] = [
   {
@@ -78,6 +79,18 @@ export default function DaftarTagihanDialog({
     setSelected(rows.map(() => false));
   }, [open, rows]);
 
+  const footerH = 78;
+
+  const actionBtnBase = cn(
+    "inline-flex items-center justify-center gap-1.5",
+    "rounded-[6px] px-3",
+    "text-[12px] font-bold tracking-tight text-white",
+    "focus:outline-none focus-visible:ring-4",
+    "w-full h-10 sm:w-[120px] sm:h-[32px]",
+  );
+
+  const iconCls = "h-4 w-4";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -99,6 +112,7 @@ export default function DaftarTagihanDialog({
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
               Daftar Tagihan
             </div>
+
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -114,7 +128,7 @@ export default function DaftarTagihanDialog({
 
           <div
             className="overflow-auto px-5 py-5 sm:px-6"
-            style={{ maxHeight: "calc(85vh - 64px - 1px)" }}
+            style={{ maxHeight: `calc(85vh - 64px - 1px - ${footerH}px)` }}
           >
             <div className="text-sm font-semibold text-slate-900">
               INFORMASI TAGIHAN DAN DENDA
@@ -144,6 +158,51 @@ export default function DaftarTagihanDialog({
                 penaltyIndexOffset={0}
                 className="mt-0"
               />
+            </div>
+          </div>
+
+          <Separator className="bg-slate-200" />
+
+          <div className="px-6 py-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  actionBtnBase,
+                  "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
+                  "focus-visible:ring-[#77839A]/25",
+                )}
+              >
+                <X className={iconCls} strokeWidth={3} />
+                Batalkan
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const count = selected.filter(Boolean).length;
+                  if (count === 0) {
+                    toast("Pilih minimal 1 tagihan", {
+                      description:
+                        "Centang tagihan yang ingin dibayar sebelum menyimpan.",
+                    });
+                    return;
+                  }
+                  toast.success("Daftar tagihan disimpan (prototype)", {
+                    description: `${count} tagihan dipilih.`,
+                  });
+                  onOpenChange(false);
+                }}
+                className={cn(
+                  actionBtnBase,
+                  "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
+                  "focus-visible:ring-[#2fb300]/25",
+                )}
+              >
+                <CheckSquare className={iconCls} strokeWidth={3} />
+                Simpan
+              </button>
             </div>
           </div>
         </div>
