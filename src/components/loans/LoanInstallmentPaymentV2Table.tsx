@@ -146,7 +146,6 @@ function NasabahRow({
 }) {
   return (
     <div className="grid gap-1.5">
-      {/* Samakan tinggi label dengan InfoStack label supaya sejajar dengan kolom PINJAMAN */}
       <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
         No Rek :
       </div>
@@ -157,7 +156,7 @@ function NasabahRow({
           onChange={(e) => onAccountNoChange(e.target.value)}
           placeholder="Cari nasabah"
           className={cn(
-            "h-8 min-w-0 rounded-l-[6px] rounded-r-none",
+            "h-[30px] min-w-0 rounded-l-[6px] rounded-r-none",
             "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
             "shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
             "placeholder:text-slate-500",
@@ -168,6 +167,7 @@ function NasabahRow({
           onClick={onSearchClick}
           className={cn(
             "inline-flex w-10 shrink-0 items-center justify-center",
+            "h-[30px]",
             "rounded-r-[6px] rounded-l-none",
             "bg-[#6B7A90] text-white",
             "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
