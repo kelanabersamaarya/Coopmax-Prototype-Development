@@ -117,15 +117,17 @@ export default function LoanInstallmentPaymentV2Table({
 }: {
   className?: string;
 }) {
+  // NO (56) + NASABAH (280) = 336px
+  const fixedPx = 56 + 280;
+
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
-          <col className="w-[56px]" />
-          <col className="w-[280px]" />
-          {/* Beri TRANSAKSI sedikit lebih lebar daripada PINJAMAN */}
-          <col className="w-[46%]" />
-          <col className="w-[54%]" />
+          <col style={{ width: 56 }} />
+          <col style={{ width: 280 }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.46)` }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.54)` }} />
         </colgroup>
 
         <thead className="bg-white">
