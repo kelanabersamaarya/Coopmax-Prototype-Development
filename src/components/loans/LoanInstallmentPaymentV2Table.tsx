@@ -1,4 +1,3 @@
-Total Pelunasan.">
 "use client";
 
 import * as React from "react";
@@ -336,7 +335,9 @@ function SelectedPinjamanInfo({
         ))}
       </div>
 
-      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
+      {!hideInstallmentInfo ? (
+        <div className="my-4 h-px w-full bg-slate-200" />
+      ) : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
