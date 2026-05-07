@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import LoanDetailMetaRows from "@/components/loans/LoanDetailMetaRows";
 
 type Item = { label: string; value: React.ReactNode };
 
@@ -14,6 +15,34 @@ export default function InformasiRekeningHeader({
   items: Item[];
   className?: string;
 }) {
+  const asText = (v: React.ReactNode) => {
+    if (typeof v === "string" || typeof v === "number") return String(v);
+    return "";
+  };
+
+  const itemMap = React.useMemo(() => {
+    const map = new Map<string, React.ReactNode>();
+    items.forEach((it) => map.set(it.label, it.value));
+    return map;
+  }, [items]);
+
+  const skemaTagihan = itemMap.get("Skema Tagihan");
+  const satuanGrace = itemMap.get("Satuan Grace Period");
+  const durasiGrace = itemMap.get("Durasi Grace Period");
+
+  const restItems = React.useMemo(
+    () =>
+      items.filter(
+        (it) =>
+          it.label !== "Skema Tagihan" &&
+          it.label !== "Satuan Grace Period" &&
+          it.label !== "Durasi Grace Period",
+      ),
+    [items],
+  );
+
+  const showMeta = !!(skemaTagihan || satuanGrace || durasiGrace);
+
   return (
     <div
       className={cn(
@@ -29,11 +58,10 @@ export default function InformasiRekeningHeader({
         <div
           className={cn(
             "mt-4 grid min-w-0 gap-x-6 gap-y-4 sm:gap-x-10",
-            // Lebih fleksibel agar tidak mendorong overflow saat zoom kecil
             "[grid-template-columns:repeat(auto-fit,minmax(170px,1fr))]",
           )}
         >
-          {items.map((it, idx) => (
+          {restItems.map((it, idx) => (
             <div key={`${it.label}-${idx}`} className="min-w-0 max-w-full">
               <div className="text-xs font-semibold text-white/85">
                 <span className="block break-words">{it.label}</span>
@@ -45,6 +73,39 @@ export default function InformasiRekeningHeader({
             </div>
           ))}
         </div>
+
+        {showMeta ? (
+          <div className="mt-5 rounded-[5px] bg-white/95 px-4 py-2 text-slate-900 ring-1 ring-white/50">
+            <LoanDetailMetaRows
+              rows={[
+                ...(skemaTagihan
+                  ? [
+                      {
+                        label: "Skema Tagihan",
+                        value: asText(skemaTagihan) || skemaTagihan,
+                      },
+                    ]
+                  : []),
+                ...(satuanGrace
+                  ? [
+                      {
+                        label: "Satuan Grace Period",
+                        value: asText(satuanGrace) || satuanGrace,
+                      },
+                    ]
+                  : []),
+                ...(durasiGrace
+                  ? [
+                      {
+                        label: "Durasi Grace Period",
+                        value: asText(durasiGrace) || durasiGrace,
+                      },
+                    ]
+                  : []),
+              ]}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );
