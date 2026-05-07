@@ -357,7 +357,6 @@ const PAYMENT_METHODS = [
   "Pembayaran Penurunan Baki Debet",
   "Pembayaran Khusus",
   "Pelunasan",
-  "Tagihan Denda",
 ] as const;
 
 type PaymentMethod = (typeof PAYMENT_METHODS)[number];
@@ -586,6 +585,148 @@ function BakiDebetPaymentFields({
   );
 }
 
+function parseMoneyInput(v: string) {
+  const s = (v ?? "").trim();
+  if (!s) return 0;
+
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdr2(n: number) {
+  const safe = Number.isFinite(n) ? n : 0;
+  return safe.toLocaleString("id-ID", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function SpecialPaymentFields({
+  nominalPokok,
+  onNominalPokokChange,
+  nominalBunga,
+  onNominalBungaChange,
+  nominalDenda,
+  onNominalDendaChange,
+  tabungan,
+  onTabunganChange,
+  keterangan,
+  onKeteranganChange,
+}: {
+  nominalPokok: string;
+  onNominalPokokChange: (v: string) => void;
+  nominalBunga: string;
+  onNominalBungaChange: (v: string) => void;
+  nominalDenda: string;
+  onNominalDendaChange: (v: string) => void;
+  tabungan: "Tanpa Tabungan";
+  onTabunganChange: (v: "Tanpa Tabungan") => void;
+  keterangan: string;
+  onKeteranganChange: (v: string) => void;
+}) {
+  const inputCls = cn(
+    "h-[30px] w-full rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const selectTriggerCls = cn(
+    "h-[30px] w-full justify-between rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:text-slate-400",
+  );
+
+  const total = React.useMemo(() => {
+    return (
+      parseMoneyInput(nominalPokok) +
+      parseMoneyInput(nominalBunga) +
+      parseMoneyInput(nominalDenda)
+    );
+  }, [nominalBunga, nominalDenda, nominalPokok]);
+
+  return (
+    <div className="grid gap-4">
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>
+          Nominal Pokok <RequiredStar />
+        </FieldLabelLikeNasabah>
+        <Input
+          value={nominalPokok}
+          onChange={(e) => onNominalPokokChange(e.target.value)}
+          className={cn(inputCls, "text-right tabular-nums")}
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>
+          Nominal Bunga <RequiredStar />
+        </FieldLabelLikeNasabah>
+        <Input
+          value={nominalBunga}
+          onChange={(e) => onNominalBungaChange(e.target.value)}
+          className={cn(inputCls, "text-right tabular-nums")}
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>
+          Nominal Denda <RequiredStar />
+        </FieldLabelLikeNasabah>
+        <Input
+          value={nominalDenda}
+          onChange={(e) => onNominalDendaChange(e.target.value)}
+          className={cn(inputCls, "text-right tabular-nums")}
+          inputMode="decimal"
+        />
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
+        <Select
+          value={tabungan}
+          onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
+        >
+          <SelectTrigger className={selectTriggerCls}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="rounded-[10px] border-slate-200">
+            <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
+              Tanpa Tabungan
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+        <Input
+          value={keterangan}
+          onChange={(e) => onKeteranganChange(e.target.value)}
+          className={inputCls}
+        />
+      </div>
+
+      <div className="pt-1">
+        <div className="text-[12px] font-semibold text-slate-700">
+          Total Pembayaran
+        </div>
+        <div className="mt-1 text-[28px] font-extrabold tracking-tight text-slate-900">
+          {formatIdr2(total)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -610,9 +751,17 @@ export default function LoanInstallmentPaymentV2Table({
     React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
   const [keteranganBakiDebet, setKeteranganBakiDebet] = React.useState("");
 
+  const [nominalPokokKhusus, setNominalPokokKhusus] = React.useState("0");
+  const [nominalBungaKhusus, setNominalBungaKhusus] = React.useState("0");
+  const [nominalDendaKhusus, setNominalDendaKhusus] = React.useState("0");
+  const [tabunganKhusus, setTabunganKhusus] =
+    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
+  const [keteranganKhusus, setKeteranganKhusus] = React.useState("");
+
   const hasPicked = !!accountNo.trim();
   const isReguler = paymentMethod === "Pembayaran Reguler";
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
+  const isKhusus = paymentMethod === "Pembayaran Khusus";
 
   // Prototype totals (sesuai contoh)
   const totals: BillTotals = React.useMemo(
@@ -718,6 +867,24 @@ export default function LoanInstallmentPaymentV2Table({
                     onTabunganChange={setTabunganBakiDebet}
                     keterangan={keteranganBakiDebet}
                     onKeteranganChange={setKeteranganBakiDebet}
+                  />
+                </>
+              ) : null}
+
+              {isKhusus ? (
+                <>
+                  <Divider />
+                  <SpecialPaymentFields
+                    nominalPokok={nominalPokokKhusus}
+                    onNominalPokokChange={setNominalPokokKhusus}
+                    nominalBunga={nominalBungaKhusus}
+                    onNominalBungaChange={setNominalBungaKhusus}
+                    nominalDenda={nominalDendaKhusus}
+                    onNominalDendaChange={setNominalDendaKhusus}
+                    tabungan={tabunganKhusus}
+                    onTabunganChange={setTabunganKhusus}
+                    keterangan={keteranganKhusus}
+                    onKeteranganChange={setKeteranganKhusus}
                   />
                 </>
               ) : null}
