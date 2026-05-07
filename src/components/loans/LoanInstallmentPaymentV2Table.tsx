@@ -435,6 +435,65 @@ function TransactionPaymentMethodField({
   );
 }
 
+function SingleTabunganField({
+  tabungan,
+  onTabunganChange,
+}: {
+  tabungan: "Tanpa Tabungan";
+  onTabunganChange: (v: "Tanpa Tabungan") => void;
+}) {
+  const selectTriggerCls = cn(
+    "h-[30px] w-full justify-between rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:text-slate-400",
+  );
+
+  return (
+    <div className="grid gap-1.5">
+      <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
+      <Select
+        value={tabungan}
+        onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
+      >
+        <SelectTrigger className={selectTriggerCls}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="rounded-[10px] border-slate-200">
+          <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
+            Tanpa Tabungan
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+function KeteranganField({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const inputCls = cn(
+    "h-[30px] w-full rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  return (
+    <div className="grid gap-1.5">
+      <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
+      <Input value={value} onChange={(e) => onChange(e.target.value)} className={inputCls} />
+    </div>
+  );
+}
+
 function RegularPaymentFields({
   nominal,
   onNominalChange,
@@ -458,15 +517,6 @@ function RegularPaymentFields({
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const selectTriggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-  );
-
   return (
     <div className="grid gap-4">
       <div className="grid gap-1.5">
@@ -481,31 +531,8 @@ function RegularPaymentFields({
         />
       </div>
 
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
-        <Select
-          value={tabungan}
-          onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
-        >
-          <SelectTrigger className={selectTriggerCls}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="rounded-[10px] border-slate-200">
-            <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
-              Tanpa Tabungan
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-        <Input
-          value={keterangan}
-          onChange={(e) => onKeteranganChange(e.target.value)}
-          className={inputCls}
-        />
-      </div>
+      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
+      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
     </div>
   );
 }
@@ -533,15 +560,6 @@ function BakiDebetPaymentFields({
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const selectTriggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-  );
-
   return (
     <div className="grid gap-4">
       <div className="grid gap-1.5">
@@ -556,31 +574,8 @@ function BakiDebetPaymentFields({
         />
       </div>
 
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
-        <Select
-          value={tabungan}
-          onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
-        >
-          <SelectTrigger className={selectTriggerCls}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="rounded-[10px] border-slate-200">
-            <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
-              Tanpa Tabungan
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-        <Input
-          value={keterangan}
-          onChange={(e) => onKeteranganChange(e.target.value)}
-          className={inputCls}
-        />
-      </div>
+      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
+      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
     </div>
   );
 }
@@ -634,15 +629,6 @@ function SpecialPaymentFields({
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const selectTriggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-  );
-
   const total = React.useMemo(() => {
     return (
       parseMoneyInput(nominalPokok) +
@@ -689,31 +675,8 @@ function SpecialPaymentFields({
         />
       </div>
 
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
-        <Select
-          value={tabungan}
-          onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
-        >
-          <SelectTrigger className={selectTriggerCls}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className="rounded-[10px] border-slate-200">
-            <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
-              Tanpa Tabungan
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-        <Input
-          value={keterangan}
-          onChange={(e) => onKeteranganChange(e.target.value)}
-          className={inputCls}
-        />
-      </div>
+      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
+      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
 
       <div className="pt-1">
         <div className="text-[12px] font-semibold text-slate-700">
@@ -723,6 +686,44 @@ function SpecialPaymentFields({
           {formatIdr2(total)}
         </div>
       </div>
+    </div>
+  );
+}
+
+function PelunasanFields({
+  nominalPelunasan,
+  tabungan,
+  onTabunganChange,
+  keterangan,
+  onKeteranganChange,
+}: {
+  nominalPelunasan: string;
+  tabungan: "Tanpa Tabungan";
+  onTabunganChange: (v: "Tanpa Tabungan") => void;
+  keterangan: string;
+  onKeteranganChange: (v: string) => void;
+}) {
+  return (
+    <div className="grid gap-4">
+      <div className="grid gap-1.5">
+        <FieldLabelLikeNasabah>
+          Nominal Pelunasan <RequiredStar />
+        </FieldLabelLikeNasabah>
+
+        <div
+          className={cn(
+            "h-[30px] w-full rounded-[6px]",
+            "border border-slate-300 bg-slate-200/70 px-3",
+            "text-right text-[18px] font-extrabold text-slate-700 tabular-nums",
+            "flex items-center justify-end",
+          )}
+        >
+          {nominalPelunasan}
+        </div>
+      </div>
+
+      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
+      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
     </div>
   );
 }
@@ -758,16 +759,24 @@ export default function LoanInstallmentPaymentV2Table({
     React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
   const [keteranganKhusus, setKeteranganKhusus] = React.useState("");
 
+  const [tabunganPelunasan, setTabunganPelunasan] =
+    React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
+  const [keteranganPelunasan, setKeteranganPelunasan] = React.useState("");
+
   const hasPicked = !!accountNo.trim();
   const isReguler = paymentMethod === "Pembayaran Reguler";
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isKhusus = paymentMethod === "Pembayaran Khusus";
+  const isPelunasan = paymentMethod === "Pelunasan";
 
   // Prototype totals (sesuai contoh)
   const totals: BillTotals = React.useMemo(
     () => ({ pokok: "0", bunga: "0", denda: "0", total: "0" }),
     [],
   );
+
+  // Prototype value sesuai screenshot
+  const nominalPelunasan = "5.500.002";
 
   function openPicker() {
     setPickerOpen(true);
@@ -885,6 +894,19 @@ export default function LoanInstallmentPaymentV2Table({
                     onTabunganChange={setTabunganKhusus}
                     keterangan={keteranganKhusus}
                     onKeteranganChange={setKeteranganKhusus}
+                  />
+                </>
+              ) : null}
+
+              {isPelunasan ? (
+                <>
+                  <Divider />
+                  <PelunasanFields
+                    nominalPelunasan={nominalPelunasan}
+                    tabungan={tabunganPelunasan}
+                    onTabunganChange={setTabunganPelunasan}
+                    keterangan={keteranganPelunasan}
+                    onKeteranganChange={setKeteranganPelunasan}
                   />
                 </>
               ) : null}
