@@ -346,9 +346,7 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={
-              it.value ?? <span className="text-slate-400 font-semibold">-</span>
-            }
+            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
@@ -361,18 +359,14 @@ function SelectedPinjamanInfo({
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
           {installments.map((it) => (
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
         </div>
@@ -385,9 +379,7 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={r.label}
             label={r.label}
-            value={
-              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
-            }
+            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
@@ -997,7 +989,7 @@ function SummaryBlock({
   onSave: () => void;
 }) {
   return (
-    <div className="mt-6">
+    <div className="mt-[70px]">
       <div className="grid gap-4">
         <SummaryRow label="Total Nominal" value={totalNominal} />
         <SummaryRow label="Total Denda" value={totalDenda} />
