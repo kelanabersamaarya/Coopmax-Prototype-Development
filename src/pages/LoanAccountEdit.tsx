@@ -400,21 +400,15 @@ export default function LoanAccountEdit() {
     });
   }
 
-  // Saat edit dibuka dari detail:
-  // - kita "push" sebuah history entry (tanpa mengganti URL) agar tombol Back tidak jatuh ke daftar
-  // - lalu intercept popstate, arahkan ke detail yang sama
   React.useEffect(() => {
     if (!fromDetail) return;
 
-    // Tambahkan marker di current history entry (tetap di route ini)
-    // supaya ada 1 langkah back yang bisa kita intercept dengan popstate.
     navigate(".", {
       replace: false,
       state: { ...(location.state ?? {}), __lockBackToDetail: true },
     });
 
     const onPop = () => {
-      // Jika user menekan Back dari halaman edit, arahkan ke detail.
       navigateToDetail(true);
     };
 
@@ -911,10 +905,7 @@ export default function LoanAccountEdit() {
                     <div className="[&_.rounded-xl]:rounded-[5px] [&_.rounded-2xl]:rounded-[5px] [&_.rounded-3xl]:rounded-[5px] [&_.h-11]:h-[30px] [&_.h-10]:h-[30px] [&_.h-9]:h-[30px] [&_.mt-4]:mt-[15px]">
                       <PenaltyScheduleForm
                         value={penaltyDraft}
-                        onChange={(next) => {
-                          setPenaltyDraft(next);
-                          if (next.rateMode !== "percent") setPenaltyRecurring(false);
-                        }}
+                        onChange={setPenaltyDraft}
                         onDelete={() => {
                           setPenaltyVisible(false);
                           toast("Denda dihapus (prototype)", {
@@ -924,36 +915,34 @@ export default function LoanAccountEdit() {
                       />
 
                       <div className="mt-[15px] grid gap-[15px]">
-                        {penaltyIsPercent ? (
-                          <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                            <div className="flex min-w-0 items-start gap-2">
-                              <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
-                                <div>Proses Denda Berulang</div>
-                                <div className="text-slate-700">(Recurring)</div>
-                              </div>
-
-                              <span
-                                className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
-                                aria-hidden="true"
-                                title={RECURRING_TT}
-                              >
-                                <HelpCircle className="h-4 w-4" />
-                              </span>
+                        {/* ✅ tampil untuk % maupun Rp */}
+                        <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                          <div className="flex min-w-0 items-start gap-2">
+                            <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
+                              <div>Proses Denda Berulang</div>
+                              <div className="text-slate-700">(Recurring)</div>
                             </div>
 
-                            <div className="flex items-center justify-start md:-ml-1">
-                              <Switch
-                                checked={penaltyRecurring}
-                                onCheckedChange={setPenaltyRecurring}
-                              />
-                            </div>
+                            <span
+                              className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+                              aria-hidden="true"
+                              title={RECURRING_TT}
+                            >
+                              <HelpCircle className="h-4 w-4" />
+                            </span>
                           </div>
-                        ) : null}
+
+                          <div className="flex items-center justify-start md:-ml-1">
+                            <Switch
+                              checked={penaltyRecurring}
+                              onCheckedChange={setPenaltyRecurring}
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       <div className="sr-only">
-                        {penaltyDraft.base}
-                        {penaltyDraft.lateDays}
+                        {penaltyIsPercent ? "percent" : "rp"}
                       </div>
                     </div>
                   ) : null}
