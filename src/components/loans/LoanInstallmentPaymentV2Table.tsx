@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, History, Printer, Eye, Plus, Trash2 } from "lucide-react";
+import { Search, History, Printer, Eye, Plus, Trash2, CheckSquare, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -1004,6 +1004,21 @@ function BaseDivider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
 }
 
+function SummaryRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <div className="text-[16px] font-normal text-slate-900">{label} :</div>
+      <div className="text-[16px] font-normal text-slate-900 tabular-nums">{value}</div>
+    </div>
+  );
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -1061,6 +1076,11 @@ export default function LoanInstallmentPaymentV2Table({
 
     toast("Transaksi dihapus", { description: "Baris transaksi dihapus." });
   }
+
+  // Prototype: summary masih 0,00 (sesuai screenshot)
+  const totalNominal = "0,00";
+  const totalDenda = "0,00";
+  const grandTotal = "0,00";
 
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
@@ -1333,7 +1353,6 @@ export default function LoanInstallmentPaymentV2Table({
                     }
                   />
 
-                  {/* Tambah jarak: samakan dengan jarak antar field (seperti Tabungan -> Keterangan) */}
                   <div className="mt-4" />
 
                   <TransactionStatusBadge
@@ -1365,6 +1384,51 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
+
+      {/* Summary footer (mengikuti screenshot) */}
+      <div className="border-t border-slate-200 bg-white px-6 py-8">
+        <div className="mx-auto w-full max-w-[520px]">
+          <div className="grid gap-6">
+            <SummaryRow label="Total Nominal" value={totalNominal} />
+            <SummaryRow label="Total Denda" value={totalDenda} />
+            <SummaryRow label="Grand Total" value={grandTotal} />
+          </div>
+
+          <div className="mt-10 flex items-center justify-center gap-6">
+            <button
+              type="button"
+              onClick={() =>
+                toast("Batalkan (prototype)", {
+                  description: "Aksi batalkan belum dihubungkan di V2.",
+                })
+              }
+              className={cn(
+                "inline-flex h-12 items-center justify-center gap-2 rounded-xl px-8",
+                "bg-[#6B7A90] text-[16px] font-semibold text-white",
+                "ring-1 ring-[#6B7A90]/25 transition hover:bg-[#5f6d82]",
+              )}
+            >
+              <X className="h-5 w-5" strokeWidth={3} /> Batalkan
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                toast.success("Simpan (prototype)", {
+                  description: "Transaksi disimpan (dummy).",
+                })
+              }
+              className={cn(
+                "inline-flex h-12 items-center justify-center gap-2 rounded-xl px-8",
+                "bg-[#2fb300] text-[16px] font-semibold text-white",
+                "ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
+              )}
+            >
+              <CheckSquare className="h-5 w-5" strokeWidth={3} /> Simpan
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
