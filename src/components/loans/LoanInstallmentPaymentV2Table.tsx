@@ -724,18 +724,10 @@ function PaymentInputBlock({
           <FieldLabelLikeNasabah>
             Nominal Pelunasan{required}
           </FieldLabelLikeNasabah>
-          <Input
-            value="5.500.002"
-            readOnly
-            className={cn(inputCls, "bg-slate-100")}
-          />
+          <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
         </div>
 
-        <TabunganField
-          value={tabunganPelunasan}
-          onChange={onTabunganPelunasan}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganPelunasan} onChange={onTabunganPelunasan} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -754,9 +746,7 @@ function PaymentInputBlock({
     return (
       <div className="grid gap-4">
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Pokok{required}
-          </FieldLabelLikeNasabah>
+          <FieldLabelLikeNasabah>Nominal Pokok{required}</FieldLabelLikeNasabah>
           <Input
             value={nominalPokokBakiDebet}
             onChange={(e) => onNominalPokokBakiDebet(e.target.value)}
@@ -767,11 +757,7 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField
-          value={tabunganBakiDebet}
-          onChange={onTabunganBakiDebet}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganBakiDebet} onChange={onTabunganBakiDebet} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -790,9 +776,7 @@ function PaymentInputBlock({
     return (
       <div className="grid gap-4">
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Pokok{required}
-          </FieldLabelLikeNasabah>
+          <FieldLabelLikeNasabah>Nominal Pokok{required}</FieldLabelLikeNasabah>
           <Input
             value={nominalPokokKhusus}
             onChange={(e) => onNominalPokokKhusus(e.target.value)}
@@ -804,9 +788,7 @@ function PaymentInputBlock({
         </div>
 
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Bunga{required}
-          </FieldLabelLikeNasabah>
+          <FieldLabelLikeNasabah>Nominal Bunga{required}</FieldLabelLikeNasabah>
           <Input
             value={nominalBungaKhusus}
             onChange={(e) => onNominalBungaKhusus(e.target.value)}
@@ -818,10 +800,7 @@ function PaymentInputBlock({
         </div>
 
         <div className="grid gap-1.5">
-          <FieldLabelLikeNasabah>
-            Nominal Denda{required}
-          </FieldLabelLikeNasabah>
-
+          <FieldLabelLikeNasabah>Nominal Denda{required}</FieldLabelLikeNasabah>
           <KhususDendaFieldWithInfo
             value={nominalDendaKhusus}
             onChange={onNominalDendaKhusus}
@@ -830,11 +809,7 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField
-          value={tabunganKhusus}
-          onChange={onTabunganKhusus}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganKhusus} onChange={onTabunganKhusus} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -852,9 +827,7 @@ function PaymentInputBlock({
   return (
     <div className="grid gap-4">
       <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Pembayaran{required}
-        </FieldLabelLikeNasabah>
+        <FieldLabelLikeNasabah>Nominal Pembayaran{required}</FieldLabelLikeNasabah>
         <Input
           value={nominalReguler}
           onChange={(e) => onNominalReguler(e.target.value)}
@@ -865,11 +838,7 @@ function PaymentInputBlock({
         />
       </div>
 
-      <TabunganField
-        value={tabunganReguler}
-        onChange={onTabunganReguler}
-        disabled={disabled}
-      />
+      <TabunganField value={tabunganReguler} onChange={onTabunganReguler} disabled={disabled} />
 
       <div className="grid gap-1.5">
         <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -1004,17 +973,67 @@ function BaseDivider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
 }
 
-function SummaryRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="text-[16px] font-normal text-slate-900">{label} :</div>
-      <div className="text-[16px] font-normal text-slate-900 tabular-nums">{value}</div>
+      <div className="text-[14px] font-normal text-slate-900">{label} :</div>
+      <div className="text-[14px] font-normal text-slate-900 tabular-nums">{value}</div>
+    </div>
+  );
+}
+
+function SummaryBlock({
+  totalNominal,
+  totalDenda,
+  grandTotal,
+  onCancel,
+  onSave,
+}: {
+  totalNominal: string;
+  totalDenda: string;
+  grandTotal: string;
+  onCancel: () => void;
+  onSave: () => void;
+}) {
+  return (
+    <div>
+      <div className="my-4 h-px w-full bg-slate-200" />
+
+      <div className="grid gap-4">
+        <SummaryRow label="Total Nominal" value={totalNominal} />
+        <SummaryRow label="Total Denda" value={totalDenda} />
+        <SummaryRow label="Grand Total" value={grandTotal} />
+      </div>
+
+      <div className="mt-6 flex items-center justify-center gap-4">
+        <button
+          type="button"
+          onClick={onCancel}
+          className={cn(
+            "inline-flex items-center justify-center gap-2",
+            "h-[28px] w-[90px] rounded-[6px]",
+            "bg-[#6B7A90] text-[11px] font-bold tracking-tight text-white",
+            "ring-1 ring-[#6B7A90]/25 transition hover:bg-[#5f6d82]",
+          )}
+        >
+          <X className="h-4 w-4" strokeWidth={3} />
+          Batalkan
+        </button>
+
+        <button
+          type="button"
+          onClick={onSave}
+          className={cn(
+            "inline-flex items-center justify-center gap-2",
+            "h-[28px] w-[90px] rounded-[6px]",
+            "bg-[#2fb300] text-[11px] font-bold tracking-tight text-white",
+            "ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
+          )}
+        >
+          <CheckSquare className="h-4 w-4" strokeWidth={3} />
+          Simpan
+        </button>
+      </div>
     </div>
   );
 }
@@ -1082,6 +1101,8 @@ export default function LoanInstallmentPaymentV2Table({
   const totalDenda = "0,00";
   const grandTotal = "0,00";
 
+  const lastRowId = rows[rows.length - 1]?.id;
+
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
       <LoanAccountPickerDialog
@@ -1143,6 +1164,8 @@ export default function LoanInstallmentPaymentV2Table({
             const dendaLabel = isPelunasan ? "Total Tagihan Denda" : "Tagihan Denda";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
+
+            const isLast = row.id === lastRowId;
 
             const contentRow = (
               <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
@@ -1359,6 +1382,25 @@ export default function LoanInstallmentPaymentV2Table({
                     title="Status Transaksi"
                     status="Belum diproses"
                   />
+
+                  {/* Ringkasan diposisikan di kolom Tagihan & Transaksi (hanya di baris terakhir) */}
+                  {isLast ? (
+                    <SummaryBlock
+                      totalNominal={totalNominal}
+                      totalDenda={totalDenda}
+                      grandTotal={grandTotal}
+                      onCancel={() =>
+                        toast("Batalkan (prototype)", {
+                          description: "Aksi batalkan belum dihubungkan di V2.",
+                        })
+                      }
+                      onSave={() =>
+                        toast.success("Simpan (prototype)", {
+                          description: "Transaksi disimpan (dummy).",
+                        })
+                      }
+                    />
+                  ) : null}
                 </Td>
 
                 <Td align="center" className="px-3">
@@ -1384,51 +1426,6 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
-
-      {/* Summary footer (mengikuti screenshot) */}
-      <div className="border-t border-slate-200 bg-white px-6 py-8">
-        <div className="mx-auto w-full max-w-[520px]">
-          <div className="grid gap-6">
-            <SummaryRow label="Total Nominal" value={totalNominal} />
-            <SummaryRow label="Total Denda" value={totalDenda} />
-            <SummaryRow label="Grand Total" value={grandTotal} />
-          </div>
-
-          <div className="mt-10 flex items-center justify-center gap-6">
-            <button
-              type="button"
-              onClick={() =>
-                toast("Batalkan (prototype)", {
-                  description: "Aksi batalkan belum dihubungkan di V2.",
-                })
-              }
-              className={cn(
-                "inline-flex h-12 items-center justify-center gap-2 rounded-xl px-8",
-                "bg-[#6B7A90] text-[16px] font-semibold text-white",
-                "ring-1 ring-[#6B7A90]/25 transition hover:bg-[#5f6d82]",
-              )}
-            >
-              <X className="h-5 w-5" strokeWidth={3} /> Batalkan
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                toast.success("Simpan (prototype)", {
-                  description: "Transaksi disimpan (dummy).",
-                })
-              }
-              className={cn(
-                "inline-flex h-12 items-center justify-center gap-2 rounded-xl px-8",
-                "bg-[#2fb300] text-[16px] font-semibold text-white",
-                "ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
-              )}
-            >
-              <CheckSquare className="h-5 w-5" strokeWidth={3} /> Simpan
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
