@@ -17,7 +17,7 @@ function Th({
   return (
     <th
       className={cn(
-        "border-b border-slate-300/70 px-4 py-3",
+        "px-4 py-3",
         "text-[12px] font-extrabold uppercase tracking-wide",
         "text-[#64748B]",
         align === "right"
@@ -45,7 +45,7 @@ function Td({
   return (
     <td
       className={cn(
-        "border-b border-slate-200 px-4 py-5 align-top",
+        "px-4 py-5 align-top",
         "text-[13px] font-medium text-slate-900",
         align === "right"
           ? "text-right tabular-nums"
