@@ -224,7 +224,12 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
+      <div
+        className={cn(
+          "text-[12px] font-normal text-black",
+          strong ? "font-semibold" : "",
+        )}
+      >
         {label}
       </div>
       <div
@@ -249,8 +254,14 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
+        <InfoStack
+          label="No Simpanan Wajib Peminjam"
+          value={info.noSimpananWajib}
+        />
+        <InfoStack
+          label="Saldo Simpanan Wajib Peminjam"
+          value={info.saldoSimpananWajib}
+        />
       </div>
     </div>
   );
@@ -343,12 +354,18 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
+            value={
+              it.value ?? (
+                <span className="text-slate-400 font-semibold">-</span>
+              )
+            }
           />
         ))}
       </div>
 
-      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
+      {!hideInstallmentInfo ? (
+        <div className="my-4 h-px w-full bg-slate-200" />
+      ) : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -356,14 +373,18 @@ function SelectedPinjamanInfo({
             <InfoStack
               key={it.label}
               label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
+              value={
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
+              }
             />
           ))}
           {installments.map((it) => (
             <InfoStack
               key={it.label}
               label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
+              value={
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
+              }
             />
           ))}
         </div>
@@ -376,7 +397,9 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={r.label}
             label={r.label}
-            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
+            value={
+              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
+            }
           />
         ))}
       </div>
@@ -687,7 +710,11 @@ function PaymentInputBlock({
           <FieldLabelLikeNasabah>
             Nominal Pelunasan{required}
           </FieldLabelLikeNasabah>
-          <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
+          <Input
+            value="5.500.002"
+            readOnly
+            className={cn(inputCls, "bg-slate-100")}
+          />
         </div>
 
         <TabunganField
@@ -789,7 +816,11 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField value={tabunganKhusus} onChange={onTabunganKhusus} disabled={disabled} />
+        <TabunganField
+          value={tabunganKhusus}
+          onChange={onTabunganKhusus}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -820,7 +851,11 @@ function PaymentInputBlock({
         />
       </div>
 
-      <TabunganField value={tabunganReguler} onChange={onTabunganReguler} disabled={disabled} />
+      <TabunganField
+        value={tabunganReguler}
+        onChange={onTabunganReguler}
+        disabled={disabled}
+      />
 
       <div className="grid gap-1.5">
         <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
@@ -955,11 +990,17 @@ function BaseDivider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
 }
 
-export default function LoanInstallmentPaymentV2Table({ className }: { className?: string }) {
+export default function LoanInstallmentPaymentV2Table({
+  className,
+}: {
+  className?: string;
+}) {
   const fixedPx = 56 + 280;
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
-  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(null);
+  const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(
+    null,
+  );
 
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
@@ -972,7 +1013,9 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
     if (!pickerTargetRowId) return;
 
     setRows((prev) =>
-      prev.map((r) => (r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r)),
+      prev.map((r) =>
+        r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r,
+      ),
     );
 
     toast.success("Berhasil Menampilkan Tagihan Nasabah", {
@@ -1044,14 +1087,22 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
             const lockRowUi = !hasPicked;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
-            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+            const isBakiDebet =
+              row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
+            const isPelunasan = row.paymentMethod === "Pelunasan";
 
-            const canOpenDaftarTagihan = (isReguler || isBakiDebet || isKhusus) && hasPicked;
+            // ✅ untuk Pelunasan juga boleh buka dialog tabel tagihan (seperti screenshot)
+            const canOpenDaftarTagihan =
+              (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
-            const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
-            const totalsLabel =
-              row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
+            const totals: BillTotals = {
+              pokok: "0",
+              bunga: "0",
+              denda: "0",
+              total: "0",
+            };
+            const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
 
@@ -1066,7 +1117,9 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, accountNo: v } : x,
+                        ),
                       )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
@@ -1087,7 +1140,9 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     open={row.daftarTagihanOpen}
                     onOpenChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, daftarTagihanOpen: v } : x,
+                        ),
                       )
                     }
                     paymentMethod={row.paymentMethod}
@@ -1116,7 +1171,9 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     value={row.paymentMethod}
                     onChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, paymentMethod: v } : x,
+                        ),
                       )
                     }
                     disabled={lockRowUi}
@@ -1144,19 +1201,25 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     nominalReguler={row.nominalReguler}
                     onNominalReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, nominalReguler: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, nominalReguler: v } : x,
+                        ),
                       )
                     }
                     tabunganReguler={row.tabunganReguler}
                     onTabunganReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, tabunganReguler: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, tabunganReguler: v } : x,
+                        ),
                       )
                     }
                     keteranganReguler={row.keteranganReguler}
                     onKeteranganReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, keteranganReguler: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, keteranganReguler: v } : x,
+                        ),
                       )
                     }
                     nominalPokokBakiDebet={row.nominalPokokBakiDebet}
@@ -1210,13 +1273,17 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                     tabunganKhusus={row.tabunganKhusus}
                     onTabunganKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, tabunganKhusus: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, tabunganKhusus: v } : x,
+                        ),
                       )
                     }
                     keteranganKhusus={row.keteranganKhusus}
                     onKeteranganKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, keteranganKhusus: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, keteranganKhusus: v } : x,
+                        ),
                       )
                     }
                     tabunganPelunasan={row.tabunganPelunasan}
@@ -1239,7 +1306,10 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
 
                   <BaseDivider />
 
-                  <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
+                  <TransactionStatusBadge
+                    title="Status Transaksi"
+                    status="Belum diproses"
+                  />
                 </Td>
 
                 <Td align="center" className="px-3">
