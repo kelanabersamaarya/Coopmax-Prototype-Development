@@ -862,7 +862,6 @@ function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolea
 
   return (
     <div className="mt-3 text-[14px]">
-      {/* ✅ Kurangi lagi ~50px: hilangkan sisa spacer (20 -> 0) */}
       <div className="mt-0">{totalsRow("Total Nominal", valueText)}</div>
 
       <div className="mt-0">
@@ -1290,7 +1289,7 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
 
                   <BaseDivider />
 
-                  <div className={cn(isLastRow ? "pb-64" : "")}>
+                  <div className={cn(isLastRow ? "pb-[186px]" : "")}>
                     <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
                   </div>
 
