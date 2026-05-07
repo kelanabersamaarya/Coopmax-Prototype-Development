@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { CheckSquare, X } from "lucide-react";
+import { CheckSquare, ChevronLeft, ChevronRight, X } from "lucide-react";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
@@ -59,6 +59,38 @@ const seedRows: BillingRow[] = [
     sisaPokok: "833.333",
     sisaBunga: "33.333",
   },
+  {
+    jatuhTempo: "25-06-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "916.667",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-07-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "916.667",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-08-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "916.667",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-09-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "916.667",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
 ];
 
 export default function DaftarTagihanDialog({
@@ -68,19 +100,36 @@ export default function DaftarTagihanDialog({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
-  const rows = React.useMemo(() => seedRows, []);
+  const rowsAll = React.useMemo(() => seedRows, []);
+
+  const [pageSize] = React.useState<number>(6);
+  const [page, setPage] = React.useState(1);
+
+  const pageCount = Math.max(1, Math.ceil(rowsAll.length / pageSize));
+
+  const rows = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return rowsAll.slice(start, start + pageSize);
+  }, [page, pageSize, rowsAll]);
+
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rows.map(() => false),
   );
 
   React.useEffect(() => {
     if (!open) return;
-    // ✅ saat modal dibuka: default tidak ada yang tercentang
+    setPage(1);
+  }, [open]);
+
+  React.useEffect(() => {
+    // saat page berubah: default tidak ada yang tercentang
     setSelected(rows.map(() => false));
-  }, [open, rows]);
+  }, [rows]);
+
+  const showingStart = rowsAll.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(rowsAll.length, page * pageSize);
 
   const footerH = 78;
-
   const actionBtnBase = cn(
     "inline-flex items-center justify-center gap-1.5",
     "rounded-[6px] px-3",
@@ -88,8 +137,14 @@ export default function DaftarTagihanDialog({
     "focus:outline-none focus-visible:ring-4",
     "w-full h-10 sm:w-[120px] sm:h-[32px]",
   );
-
   const iconCls = "h-4 w-4";
+
+  const pagerBtn = (disabled: boolean) =>
+    cn(
+      "inline-flex h-11 items-center gap-2 rounded-full px-5 text-[14px] font-semibold",
+      "bg-white text-slate-700 ring-1 ring-slate-200 shadow-sm transition",
+      disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-50",
+    );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -130,12 +185,6 @@ export default function DaftarTagihanDialog({
             className="overflow-auto px-5 py-5 sm:px-6"
             style={{ maxHeight: `calc(85vh - 64px - 1px - ${footerH}px)` }}
           >
-            <div className="text-sm font-semibold text-slate-900">
-              INFORMASI TAGIHAN DAN DENDA
-            </div>
-
-            <Separator className="my-3 bg-slate-200/70" />
-
             <div
               className={cn(
                 // bikin lebih rapat seperti contoh
@@ -149,15 +198,48 @@ export default function DaftarTagihanDialog({
                 setSelected={setSelected}
                 isLocked={false}
                 showNextBillInfo={false}
-                showGraceInfo={true}
-                highlightGraceBlock={true}
+                showGraceInfo={page === 1}
+                highlightGraceBlock={page === 1}
                 keepGraceShellWithoutInfo={false}
                 hideSelection={false}
                 showPenaltyColumn={true}
                 disableRowActiveRing={true}
-                penaltyIndexOffset={0}
+                penaltyIndexOffset={(page - 1) * pageSize}
                 className="mt-0"
               />
+            </div>
+
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-[14px] text-slate-900">
+                Menampilkan {showingStart} sampai {showingEnd} dari {rowsAll.length}{" "}
+                entri
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  className={pagerBtn(page <= 1)}
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                >
+                  <ChevronLeft className="h-5 w-5 text-slate-500" />
+                  Sebelumnya
+                </button>
+
+                <div className="inline-flex h-11 min-w-11 items-center justify-center rounded-2xl bg-violet-600 px-5 text-[14px] font-extrabold text-white">
+                  {page}
+                </div>
+
+                <button
+                  type="button"
+                  className={pagerBtn(page >= pageCount)}
+                  disabled={page >= pageCount}
+                  onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                >
+                  Selanjutnya
+                  <ChevronRight className="h-5 w-5 text-slate-500" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -190,7 +272,7 @@ export default function DaftarTagihanDialog({
                     return;
                   }
                   toast.success("Daftar tagihan disimpan (prototype)", {
-                    description: `${count} tagihan dipilih.`,
+                    description: `${count} tagihan dipilih (halaman ${page}).`,
                   });
                   onOpenChange(false);
                 }}
