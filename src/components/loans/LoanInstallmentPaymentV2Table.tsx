@@ -182,20 +182,23 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getNasabahInfoByAccountNo(accountNo),
+    [accountNo],
+  );
   if (!info) return null;
 
-  // Sesuai request: hilangkan header biru (nomor rekening)
+  // Kunci: indent kiri agar lurus dengan awal input (kolom kanan) pada "No Rek :"
+  // grid-template-columns: 62px (label) + gap-x-2 (8px) = 70px
+  const indentLeft = "pl-[70px]";
+
   return (
-    <div className="mt-3 rounded-[6px] bg-white px-4 py-4">
+    <div className={cn("mt-3 bg-white", indentLeft)}>
       <div className="grid gap-4">
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack
-          label="No Simpanan Wajib Peminjam"
-          value={info.noSimpananWajib}
-        />
+        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
         <InfoStack
           label="Saldo Simpanan Wajib Peminjam"
           value={info.saldoSimpananWajib}
