@@ -146,7 +146,10 @@ function NasabahRow({
 }) {
   return (
     <div className="grid gap-1.5">
-      <div className="text-[12px] font-normal text-slate-900">No Rek :</div>
+      {/* Samakan tinggi label dengan InfoStack label supaya sejajar dengan kolom PINJAMAN */}
+      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+        No Rek :
+      </div>
 
       <div className="flex min-w-0 items-stretch">
         <Input
