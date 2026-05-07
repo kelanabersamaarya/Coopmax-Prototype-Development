@@ -117,10 +117,7 @@ export default function LoanTransactions() {
     {
       label: "Pembayaran Angsuran V2",
       icon: Banknote,
-      onClick: () =>
-        toast("Pembayaran Angsuran V2 (prototype)", {
-          description: "Versi V2 belum dihubungkan ke halaman baru.",
-        }),
+      onClick: () => navigate("/loans/transactions/installment-payment-v2"),
     },
   ];
 
