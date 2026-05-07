@@ -1,3 +1,4 @@
+0) sesuai screenshot.">
 "use client";
 
 import * as React from "react";
@@ -19,15 +20,18 @@ function Th({
   children,
   className,
   align = "left",
+  compact = false,
 }: {
   children: React.ReactNode;
   className?: string;
   align?: "left" | "right" | "center";
+  compact?: boolean;
 }) {
   return (
     <th
       className={cn(
-        "border-b border-slate-300/70 px-4 py-3",
+        "border-b border-slate-300/70",
+        compact ? "px-4 py-3" : "px-4 py-3",
         "text-[12px] font-extrabold uppercase tracking-wide",
         "text-[#64748B]",
         align === "right"
@@ -429,10 +433,6 @@ function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
       {children}
     </div>
   );
-}
-
-function Divider() {
-  return <div className="my-4 h-px w-full bg-slate-200" />;
 }
 
 function BillTotalsBlock({
@@ -1005,6 +1005,24 @@ function BaseDivider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
 }
 
+function InlineTableHeaderRow() {
+  return (
+    <tr className="bg-white">
+      <Th className="px-3" compact>
+        <div className="text-left">NO</div>
+      </Th>
+      <Th className="pl-3 pr-4" compact>
+        NASABAH
+      </Th>
+      <Th compact>PINJAMAN</Th>
+      <Th compact>TAGIHAN & TRANSAKSI</Th>
+      <Th align="center" compact>
+        AKSI
+      </Th>
+    </tr>
+  );
+}
+
 export default function LoanInstallmentPaymentV2Table({ className }: { className?: string }) {
   const fixedPx = 56 + 280;
 
@@ -1105,7 +1123,7 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
 
-            return (
+            const contentRow = (
               <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
                 <Td className="px-3">
                   <span className="tabular-nums">{idx + 1}.</span>
@@ -1306,6 +1324,16 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   </div>
                 </Td>
               </tr>
+            );
+
+            if (idx === 0) return contentRow;
+
+            return (
+              <React.Fragment key={row.id}>
+                {/* Header mini untuk rekening/transaksi baru (sesuai screenshot) */}
+                <InlineTableHeaderRow />
+                {contentRow}
+              </React.Fragment>
             );
           })}
         </tbody>
