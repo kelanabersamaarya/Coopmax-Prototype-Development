@@ -146,39 +146,35 @@ function NasabahRow({
   onSearchClick: () => void;
 }) {
   return (
-    <div className="grid gap-1">
-      <div className="grid min-w-0 gap-y-1 gap-x-2 [grid-template-columns:62px_minmax(0,1fr)]">
-        <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
-          No Rek :
-        </div>
+    <div className="grid gap-1.5">
+      <div className="text-[12px] font-normal text-slate-900">No Rek :</div>
 
-        <div className="flex min-w-0 items-stretch">
-          <Input
-            value={accountNo}
-            onChange={(e) => onAccountNoChange(e.target.value)}
-            placeholder="Cari nasabah"
-            className={cn(
-              "h-8 min-w-0 rounded-l-[6px] rounded-r-none",
-              "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
-              "shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
-              "placeholder:text-slate-500",
-            )}
-          />
-          <button
-            type="button"
-            onClick={onSearchClick}
-            className={cn(
-              "inline-flex w-10 shrink-0 items-center justify-center",
-              "rounded-r-[6px] rounded-l-none",
-              "bg-[#6B7A90] text-white",
-              "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
-            )}
-            aria-label="Cari"
-            title="Cari"
-          >
-            <Search className="h-4.5 w-4.5" />
-          </button>
-        </div>
+      <div className="flex min-w-0 items-stretch">
+        <Input
+          value={accountNo}
+          onChange={(e) => onAccountNoChange(e.target.value)}
+          placeholder="Cari nasabah"
+          className={cn(
+            "h-8 min-w-0 rounded-l-[6px] rounded-r-none",
+            "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
+            "shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
+            "placeholder:text-slate-500",
+          )}
+        />
+        <button
+          type="button"
+          onClick={onSearchClick}
+          className={cn(
+            "inline-flex w-10 shrink-0 items-center justify-center",
+            "rounded-r-[6px] rounded-l-none",
+            "bg-[#6B7A90] text-white",
+            "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+          )}
+          aria-label="Cari"
+          title="Cari"
+        >
+          <Search className="h-4.5 w-4.5" />
+        </button>
       </div>
     </div>
   );
@@ -203,7 +199,10 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getNasabahInfoByAccountNo(accountNo),
+    [accountNo],
+  );
   if (!info) return null;
 
   return (
@@ -226,7 +225,10 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
 }
 
 function LoanMetaBlock({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getNasabahInfoByAccountNo(accountNo),
+    [accountNo],
+  );
   if (!info) return null;
 
   const rows = [
