@@ -110,9 +110,17 @@ export default function LoanTransactions() {
         }),
     },
     {
-      label: "Pembayaran Angsuran",
+      label: "Pembayaran Angsuran V1",
       icon: Banknote,
       onClick: () => navigate("/loans/transactions/installment-payment"),
+    },
+    {
+      label: "Pembayaran Angsuran V2",
+      icon: Banknote,
+      onClick: () =>
+        toast("Pembayaran Angsuran V2 (prototype)", {
+          description: "Versi V2 belum dihubungkan ke halaman baru.",
+        }),
     },
   ];
 
