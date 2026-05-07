@@ -81,7 +81,7 @@ function TransactionStatusBadge({
     <div className="mt-4">
       <div className="text-[12px] font-normal text-slate-900">{title}</div>
       <div className="mt-2">
-        <span className="inline-flex items-center rounded-[6px] bg-[#DC3545] px-3 py-1.5 text-[13px] font-semibold text-white ring-1 ring-[#DC3545]/25">
+        <span className="inline-flex items-center rounded-[5px] bg-[#DC3545] px-3 py-1 text-[13px] font-semibold text-white ring-1 ring-[#DC3545]/25">
           {status}
         </span>
       </div>
@@ -183,7 +183,7 @@ function NasabahRow({
           onChange={(e) => onAccountNoChange(e.target.value)}
           placeholder="Cari nasabah"
           className={cn(
-            "h-[30px] min-w-0 rounded-l-[6px] rounded-r-none",
+            "h-[30px] min-w-0 rounded-l-[5px] rounded-r-none",
             "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
             "shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
             "placeholder:text-slate-500",
@@ -195,7 +195,7 @@ function NasabahRow({
           className={cn(
             "inline-flex w-10 shrink-0 items-center justify-center",
             "h-[30px]",
-            "rounded-r-[6px] rounded-l-none",
+            "rounded-r-[5px] rounded-l-none",
             "bg-[#6B7A90] text-white",
             "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
           )}
@@ -282,7 +282,7 @@ function LoanActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-11 w-full items-center justify-center gap-3 rounded-2xl px-4",
+        "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
         "text-[14px] font-semibold text-white",
         "ring-1 transition",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
@@ -379,7 +379,7 @@ function SelectedPinjamanInfo({
 
       <div className="my-4 h-px w-full bg-slate-200" />
 
-      <div className="grid gap-3">
+      <div className="grid gap-2.5">
         <LoanActionButton
           icon={History}
           label="Riwayat Transaksi"
@@ -496,14 +496,14 @@ function TransactionRowActions({
         type="button"
         onClick={onAdd}
         className={cn(
-          "inline-flex h-11 w-11 items-center justify-center",
-          "rounded-[8px] bg-[#6B7A90] text-white",
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#6B7A90] text-white",
           "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
         )}
         aria-label="Tambah transaksi"
         title="Tambah transaksi"
       >
-        <Plus className="h-6 w-6" />
+        <Plus className="h-5.5 w-5.5" />
       </button>
 
       <button
@@ -511,15 +511,15 @@ function TransactionRowActions({
         onClick={onDelete}
         disabled={disableDelete}
         className={cn(
-          "inline-flex h-11 w-11 items-center justify-center",
-          "rounded-[8px] bg-[#DC3545] text-white",
+          "inline-flex h-10 w-10 items-center justify-center",
+          "rounded-[5px] bg-[#DC3545] text-white",
           "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
           disableDelete ? "opacity-60 pointer-events-none" : "",
         )}
         aria-label="Hapus transaksi"
         title="Hapus transaksi"
       >
-        <Trash2 className="h-6 w-6" />
+        <Trash2 className="h-5.5 w-5.5" />
       </button>
     </div>
   );
@@ -543,7 +543,7 @@ function DaftarTagihanTopButton({
         onClick={onClick}
         disabled={disabled}
         className={cn(
-          "inline-flex h-11 w-full items-center justify-center gap-3 rounded-full px-4",
+          "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
           "bg-[#0b5bd3] text-[14px] font-semibold text-white",
           "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
           disabled ? "opacity-60 pointer-events-none" : "",
@@ -568,7 +568,7 @@ function TransactionPaymentMethodField({
   rightActions?: React.ReactNode;
 }) {
   const triggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[6px]",
+    "h-[30px] w-full justify-between rounded-[5px]",
     "border border-slate-300 bg-white px-3",
     "text-[14px] font-medium text-slate-900",
     "shadow-none",
@@ -865,7 +865,6 @@ export default function LoanInstallmentPaymentV2Table({
                     <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
                   )}
 
-                  {/* NOTE: bagian input transaksi tetap seperti sebelumnya (prototype ringkas) */}
                   <div className="sr-only">
                     {row.nominalReguler}
                     {row.nominalPokokBakiDebet}
