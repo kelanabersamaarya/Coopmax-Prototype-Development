@@ -818,7 +818,7 @@ export default function LoanInstallmentPaymentV2Table({
 
             <Th>PINJAMAN</Th>
 
-            <Th>TRANSAKSI</Th>
+            <Th>TAGIHAN & TRANSAKSI</Th>
           </tr>
         </thead>
 
