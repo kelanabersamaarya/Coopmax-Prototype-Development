@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Search, History, Printer, Eye, Plus, Trash2 } from "lucide-react";
+import { Search, History, Printer, Eye, Plus, Trash2, X, CheckSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -241,10 +241,7 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(
-    () => getNasabahInfoByAccountNo(accountNo),
-    [accountNo],
-  );
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
   return (
@@ -253,14 +250,8 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack
-          label="No Simpanan Wajib Peminjam"
-          value={info.noSimpananWajib}
-        />
-        <InfoStack
-          label="Saldo Simpanan Wajib Peminjam"
-          value={info.saldoSimpananWajib}
-        />
+        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
+        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
       </div>
     </div>
   );
@@ -313,9 +304,7 @@ function SelectedPinjamanInfo({
 
   const topItems: Array<{ label: string; value?: React.ReactNode }> = hasInfo
     ? [
-        ...(info.skemaTagihan
-          ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
-          : [{ label: "Skema Tagihan" }]),
+        ...(info.skemaTagihan ? [{ label: "Skema Tagihan", value: info.skemaTagihan }] : [{ label: "Skema Tagihan" }]),
         ...(info.satuanGracePeriod
           ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
           : [{ label: "Satuan Grace Period" }]),
@@ -349,11 +338,7 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={
-              it.value ?? (
-                <span className="text-slate-400 font-semibold">-</span>
-              )
-            }
+            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
@@ -366,26 +351,14 @@ function SelectedPinjamanInfo({
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? (
-                  it.value
-                ) : (
-                  <span className="text-slate-400 font-semibold">-</span>
-                )
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
           {installments.map((it) => (
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? (
-                  it.value
-                ) : (
-                  <span className="text-slate-400 font-semibold">-</span>
-                )
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
         </div>
@@ -398,13 +371,7 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={r.label}
             label={r.label}
-            value={
-              hasInfo ? (
-                r.value
-              ) : (
-                <span className="text-slate-400 font-semibold">-</span>
-              )
-            }
+            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
@@ -703,6 +670,70 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
   };
 }
 
+function FooterTotalsAndActions({
+  lockUi,
+}: {
+  lockUi: boolean;
+}) {
+  const valueText = lockUi ? "-" : "0,00";
+
+  const totalsRow = (label: string, value: string, strong = false) => (
+    <div className="flex items-baseline justify-between gap-4 py-2">
+      <div className={cn("text-[16px] text-[#0b2a57]", strong ? "font-semibold" : "font-normal")}>
+        {label} :
+      </div>
+      <div className={cn("text-[18px] tabular-nums text-[#0b2a57]", strong ? "font-semibold" : "font-normal")}>
+        {value}
+      </div>
+    </div>
+  );
+
+  const actionBtnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    "h-12 rounded-[10px] px-8",
+    "text-[16px] font-semibold text-white",
+    "transition",
+    lockUi ? "opacity-60 pointer-events-none" : "",
+  );
+
+  return (
+    <div>
+      <div className="mt-2">
+        {totalsRow("Total Nominal", valueText)}
+        {totalsRow("Total Denda", valueText)}
+        <div className="my-2 h-px w-full bg-slate-200" />
+        {totalsRow("Grand Total", valueText, true)}
+      </div>
+
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+        <button
+          type="button"
+          onClick={() => toast("Batalkan (prototype)")}
+          className={cn(actionBtnBase, "bg-[#6B7A90] hover:bg-[#5f6d82]")}
+          disabled={lockUi}
+        >
+          <X className="h-5 w-5" />
+          Batalkan
+        </button>
+
+        <button
+          type="button"
+          onClick={() =>
+            toast.success("Simpan (prototype)", {
+              description: "Ringkasan transaksi disimpan (dummy).",
+            })
+          }
+          className={cn(actionBtnBase, "bg-[#2fb300] hover:bg-[#279800]")}
+          disabled={lockUi}
+        >
+          <CheckSquare className="h-5 w-5" />
+          Simpan
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -743,7 +774,7 @@ export default function LoanInstallmentPaymentV2Table({
     setRows((prev) => {
       const idx = prev.findIndex((r) => r.id === afterRowId);
 
-      // ✅ Baris baru selalu "belum pilih rekening"
+      // Baris baru selalu "belum pilih rekening"
       const next = makeRow({
         accountNo: "",
         paymentMethod: "Pembayaran Reguler",
@@ -807,6 +838,7 @@ export default function LoanInstallmentPaymentV2Table({
           {rows.map((row, idx) => {
             const hasPicked = !!row.accountNo.trim();
             const lockUi = !hasPicked;
+            const isLastRow = idx === rows.length - 1;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
             const isBakiDebet =
@@ -850,9 +882,7 @@ export default function LoanInstallmentPaymentV2Table({
                     onSearchClick={() => openPickerForRow(row.id)}
                   />
 
-                  {hasPicked ? (
-                    <SelectedNasabahInfo accountNo={row.accountNo} />
-                  ) : null}
+                  {hasPicked ? <SelectedNasabahInfo accountNo={row.accountNo} /> : null}
                 </Td>
 
                 <Td className="bg-white">
@@ -947,6 +977,14 @@ export default function LoanInstallmentPaymentV2Table({
                       status="Belum diproses"
                     />
                   )}
+
+                  {/* ✅ Footer hanya muncul pada transaksi paling bawah */}
+                  {isLastRow ? (
+                    <>
+                      <Divider />
+                      <FooterTotalsAndActions lockUi={lockUi} />
+                    </>
+                  ) : null}
 
                   <div className="sr-only">
                     {row.nominalReguler}
