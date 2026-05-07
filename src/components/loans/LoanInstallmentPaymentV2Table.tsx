@@ -199,19 +199,27 @@ function InfoStack({
   );
 }
 
-function KVInlineRow({
+function KVTwoColRow({
   label,
   value,
+  className,
 }: {
   label: string;
   value: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="grid items-start gap-3 [grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
-      <div className="min-w-0 text-[14px] font-medium text-slate-900">
-        <span className="break-words">{label} :</span>
+    <div
+      className={cn(
+        "grid items-start gap-x-6 gap-y-1",
+        "[grid-template-columns:220px_minmax(0,1fr)]",
+        className,
+      )}
+    >
+      <div className="min-w-0 text-[16px] font-medium text-slate-900">
+        <span className="block break-words">{label} :</span>
       </div>
-      <div className="min-w-0 text-right text-[14px] font-semibold text-slate-900">
+      <div className="min-w-0 text-right text-[16px] font-bold text-slate-900">
         <span className="block break-words leading-snug">{value}</span>
       </div>
     </div>
@@ -265,7 +273,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   if (topItems.length === 0) return null;
 
-  // info tambahan (seperti di gambar besar sebelumnya)
   const extra = [
     { label: "Jangka Waktu", value: "12 Bulan" },
     { label: "Angsuran ke", value: "2" },
@@ -278,7 +285,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   return (
     <div className="bg-white">
-      {/* ✅ Layout sesuai gambar: label di atas value (vertical stack) */}
       <div className="grid gap-6">
         {topItems.map((it) => (
           <div key={it.label} className="grid gap-1">
@@ -290,13 +296,12 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         ))}
       </div>
 
-      {/* Divider pemisah */}
       <div className="my-5 h-px w-full bg-slate-200" />
 
-      {/* Blok tambahan: tetap pakai layout kiri-kanan yang sudah dibuat */}
-      <div className="grid gap-4">
+      {/* ✅ Layout sesuai screenshot: 2 kolom rapi (label+ ":" satu baris) */}
+      <div className="grid gap-6">
         {extra.map((r) => (
-          <KVInlineRow key={r.label} label={r.label} value={r.value} />
+          <KVTwoColRow key={r.label} label={r.label} value={r.value} />
         ))}
       </div>
     </div>
