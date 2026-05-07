@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import DaftarTagihanDialog from "@/components/loans/DaftarTagihanDialog";
 
 function Th({
   children,
@@ -275,7 +276,15 @@ function LoanActionButton({
   );
 }
 
-function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
+function SelectedPinjamanInfo({
+  accountNo,
+  canOpenDaftarTagihan,
+  onOpenDaftarTagihan,
+}: {
+  accountNo: string;
+  canOpenDaftarTagihan: boolean;
+  onOpenDaftarTagihan: () => void;
+}) {
   const info = React.useMemo(
     () => getNasabahInfoByAccountNo(accountNo),
     [accountNo],
@@ -365,11 +374,16 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         <LoanActionButton
           icon={List}
           label="Daftar Tagihan"
-          onClick={() =>
-            toast("Daftar Tagihan (prototype)", {
-              description: `Rekening: ${accountNo}`,
-            })
-          }
+          onClick={() => {
+            if (!canOpenDaftarTagihan) {
+              toast("Hanya untuk Pembayaran Reguler", {
+                description:
+                  "Daftar Tagihan pada prototype ini dibuka saat metode pembayaran: Pembayaran Reguler.",
+              });
+              return;
+            }
+            onOpenDaftarTagihan();
+          }}
           className="bg-[#0b5bd3] ring-[#0b5bd3]/25 hover:bg-[#0a52bf]"
         />
       </div>
@@ -776,6 +790,8 @@ export default function LoanInstallmentPaymentV2Table({
     "Pembayaran Reguler",
   );
 
+  const [daftarTagihanOpen, setDaftarTagihanOpen] = React.useState(false);
+
   const [nominalReguler, setNominalReguler] = React.useState("0");
   const [tabunganReguler, setTabunganReguler] =
     React.useState<"Tanpa Tabungan">("Tanpa Tabungan");
@@ -825,6 +841,8 @@ export default function LoanInstallmentPaymentV2Table({
 
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
+      <DaftarTagihanDialog open={daftarTagihanOpen} onOpenChange={setDaftarTagihanOpen} />
+
       <LoanAccountPickerDialog
         open={pickerOpen}
         onOpenChange={setPickerOpen}
@@ -871,7 +889,13 @@ export default function LoanInstallmentPaymentV2Table({
             </Td>
 
             <Td className="bg-white">
-              {hasPicked ? <SelectedPinjamanInfo accountNo={accountNo} /> : null}
+              {hasPicked ? (
+                <SelectedPinjamanInfo
+                  accountNo={accountNo}
+                  canOpenDaftarTagihan={isReguler}
+                  onOpenDaftarTagihan={() => setDaftarTagihanOpen(true)}
+                />
+              ) : null}
             </Td>
 
             <Td className="bg-white">
