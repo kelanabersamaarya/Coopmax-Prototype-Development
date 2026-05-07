@@ -841,7 +841,11 @@ export default function LoanInstallmentPaymentV2Table({
 
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
-      <DaftarTagihanDialog open={daftarTagihanOpen} onOpenChange={setDaftarTagihanOpen} />
+      <DaftarTagihanDialog
+        open={daftarTagihanOpen}
+        onOpenChange={setDaftarTagihanOpen}
+        paymentMethod={paymentMethod}
+      />
 
       <LoanAccountPickerDialog
         open={pickerOpen}
@@ -892,7 +896,7 @@ export default function LoanInstallmentPaymentV2Table({
               {hasPicked ? (
                 <SelectedPinjamanInfo
                   accountNo={accountNo}
-                  canOpenDaftarTagihan={isReguler}
+                  canOpenDaftarTagihan={isReguler || isBakiDebet}
                   onOpenDaftarTagihan={() => setDaftarTagihanOpen(true)}
                 />
               ) : null}

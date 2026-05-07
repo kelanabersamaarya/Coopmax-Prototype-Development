@@ -93,13 +93,23 @@ const seedRows: BillingRow[] = [
   },
 ];
 
+type PaymentMethod =
+  | "Pembayaran Reguler"
+  | "Pembayaran Penurunan Baki Debet"
+  | "Pembayaran Khusus"
+  | "Pelunasan";
+
 export default function DaftarTagihanDialog({
   open,
   onOpenChange,
+  paymentMethod = "Pembayaran Reguler",
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
+  paymentMethod?: PaymentMethod;
 }) {
+  const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
+
   const rowsAll = React.useMemo(() => seedRows, []);
 
   const [pageSize] = React.useState<number>(6);
@@ -122,9 +132,11 @@ export default function DaftarTagihanDialog({
   }, [open]);
 
   React.useEffect(() => {
-    // saat page berubah: default tidak ada yang tercentang
-    setSelected(rows.map(() => false));
-  }, [rows]);
+    // Default selection:
+    // - Reguler: kosong
+    // - Baki Debet: locked & dianggap terpilih (tabel tanpa checkbox)
+    setSelected(rows.map(() => (isBakiDebet ? true : false)));
+  }, [isBakiDebet, rows]);
 
   const showingStart = rowsAll.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rowsAll.length, page * pageSize);
@@ -187,7 +199,7 @@ export default function DaftarTagihanDialog({
           >
             <div
               className={cn(
-                // bikin lebih rapat seperti contoh
+                // compact spacing (match reference)
                 "[&_.bg-white.px-3.py-3]:!py-1.5",
                 "[&_.px-4.py-4]:!py-2",
               )}
@@ -196,14 +208,15 @@ export default function DaftarTagihanDialog({
                 rows={rows}
                 selected={selected}
                 setSelected={setSelected}
-                isLocked={false}
+                isLocked={isBakiDebet ? true : false}
                 showNextBillInfo={false}
                 showGraceInfo={page === 1}
                 highlightGraceBlock={page === 1}
                 keepGraceShellWithoutInfo={false}
-                hideSelection={false}
-                showPenaltyColumn={true}
-                disableRowActiveRing={true}
+                hideSelection={isBakiDebet ? true : false}
+                showPenaltyColumn={isBakiDebet ? false : true}
+                disableRowRings={isBakiDebet ? true : false}
+                disableRowActiveRing={isBakiDebet ? true : false}
                 penaltyIndexOffset={(page - 1) * pageSize}
                 className="mt-0"
               />
@@ -263,16 +276,24 @@ export default function DaftarTagihanDialog({
               <button
                 type="button"
                 onClick={() => {
-                  const count = selected.filter(Boolean).length;
-                  if (count === 0) {
-                    toast("Pilih minimal 1 tagihan", {
-                      description:
-                        "Centang tagihan yang ingin dibayar sebelum menyimpan.",
+                  if (!isBakiDebet) {
+                    const count = selected.filter(Boolean).length;
+                    if (count === 0) {
+                      toast("Pilih minimal 1 tagihan", {
+                        description:
+                          "Centang tagihan yang ingin dibayar sebelum menyimpan.",
+                      });
+                      return;
+                    }
+                    toast.success("Daftar tagihan disimpan (prototype)", {
+                      description: `${count} tagihan dipilih (halaman ${page}).`,
                     });
+                    onOpenChange(false);
                     return;
                   }
+
                   toast.success("Daftar tagihan disimpan (prototype)", {
-                    description: `${count} tagihan dipilih (halaman ${page}).`,
+                    description: `Mode: Penurunan Baki Debet • Halaman ${page}`,
                   });
                   onOpenChange(false);
                 }}
