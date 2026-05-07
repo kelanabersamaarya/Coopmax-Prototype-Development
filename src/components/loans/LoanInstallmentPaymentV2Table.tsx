@@ -6,6 +6,13 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function Th({
   children,
@@ -334,7 +341,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         ))}
       </div>
 
-      {/* ✅ blok baru: setelah Metode Bunga Efektif */}
       <div className="my-4 h-px w-full bg-slate-200" />
 
       <div className="grid gap-4">
@@ -342,6 +348,47 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
           <InfoStack key={it.label} label={it.label} value={it.value} />
         ))}
       </div>
+    </div>
+  );
+}
+
+const PAYMENT_METHODS = ["Pembayaran Reguler", "Pembayaran Khusus"] as const;
+type PaymentMethod = (typeof PAYMENT_METHODS)[number];
+
+function TransactionPaymentMethodField({
+  value,
+  onChange,
+}: {
+  value: PaymentMethod;
+  onChange: (v: PaymentMethod) => void;
+}) {
+  const triggerCls = cn(
+    "h-[46px] w-full justify-between rounded-[10px]",
+    "border border-slate-200 bg-white px-4",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-sm",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:text-slate-400",
+  );
+
+  return (
+    <div className="grid gap-1.5">
+      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+        Metode Pembayaran :
+      </div>
+
+      <Select value={value} onValueChange={(v) => onChange(v as PaymentMethod)}>
+        <SelectTrigger className={triggerCls}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="rounded-[12px] border-slate-200">
+          {PAYMENT_METHODS.map((m) => (
+            <SelectItem key={m} value={m} className="rounded-[10px]">
+              {m}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }
@@ -355,6 +402,9 @@ export default function LoanInstallmentPaymentV2Table({
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [accountNo, setAccountNo] = React.useState("");
+
+  const [paymentMethod, setPaymentMethod] =
+    React.useState<PaymentMethod>("Pembayaran Reguler");
 
   const hasPicked = !!accountNo.trim();
 
@@ -422,7 +472,12 @@ export default function LoanInstallmentPaymentV2Table({
               {hasPicked ? <SelectedPinjamanInfo accountNo={accountNo} /> : null}
             </Td>
 
-            <Td className="bg-white" />
+            <Td className="bg-white">
+              <TransactionPaymentMethodField
+                value={paymentMethod}
+                onChange={setPaymentMethod}
+              />
+            </Td>
           </tr>
         </tbody>
       </table>
