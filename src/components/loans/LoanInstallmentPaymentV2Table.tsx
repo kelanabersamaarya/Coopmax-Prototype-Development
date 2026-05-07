@@ -251,7 +251,7 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
   );
   if (!info) return null;
 
-  const items: Array<{ label: string; value: React.ReactNode }> = [
+  const topItems: Array<{ label: string; value: React.ReactNode }> = [
     ...(info.skemaTagihan
       ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
       : []),
@@ -263,9 +263,9 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
       : []),
   ];
 
-  if (items.length === 0) return null;
+  if (topItems.length === 0) return null;
 
-  // info tambahan (seperti di gambar)
+  // info tambahan (seperti di gambar besar sebelumnya)
   const extra = [
     { label: "Jangka Waktu", value: "12 Bulan" },
     { label: "Angsuran ke", value: "2" },
@@ -278,16 +278,22 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   return (
     <div className="bg-white">
-      <div className="grid gap-4">
-        {items.map((it) => (
-          <InfoStack key={it.label} label={it.label} value={it.value} />
+      {/* ✅ Layout sesuai gambar: label di atas value (vertical stack) */}
+      <div className="grid gap-6">
+        {topItems.map((it) => (
+          <div key={it.label} className="grid gap-1">
+            <div className="text-[13px] font-normal text-black">{it.label}</div>
+            <div className="text-[16px] font-extrabold text-slate-900 leading-snug break-words">
+              {it.value}
+            </div>
+          </div>
         ))}
       </div>
 
       {/* Divider pemisah */}
-      <div className="my-4 h-px w-full bg-slate-200" />
+      <div className="my-5 h-px w-full bg-slate-200" />
 
-      {/* Blok tambahan menggunakan layout kiri-kanan yang barusan dipakai */}
+      {/* Blok tambahan: tetap pakai layout kiri-kanan yang sudah dibuat */}
       <div className="grid gap-4">
         {extra.map((r) => (
           <KVInlineRow key={r.label} label={r.label} value={r.value} />
