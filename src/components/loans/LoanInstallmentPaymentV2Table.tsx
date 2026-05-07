@@ -283,17 +283,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
     { label: "Metode Bunga", value: "Bunga Efektif" },
   ];
 
-  const financeSummary = [
-    { label: "Plafond", value: "10.000.000" },
-    { label: "Sisa Total Pinjaman", value: "9.625.000" },
-    { label: "Sisa Pokok Pinjaman", value: "9.166.667" },
-    { label: "Pokok", value: "458" },
-    { label: "Bunga", value: "0" },
-    { label: "Denda", value: "0" },
-    { label: "Angsuran", value: "0" },
-    { label: "Sesilih Tanggal Transaksi", value: "0" },
-  ];
-
   return (
     <div className="bg-white">
       <div className="grid gap-4">
@@ -318,14 +307,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
       <div className="grid gap-4">
         {extra.map((r) => (
           <InfoStack key={r.label} label={r.label} value={r.value} />
-        ))}
-      </div>
-
-      <div className="my-4 h-px w-full bg-slate-200" />
-
-      <div className="grid gap-4">
-        {financeSummary.map((it) => (
-          <InfoStack key={it.label} label={it.label} value={it.value} />
         ))}
       </div>
     </div>
@@ -664,7 +645,6 @@ function SpecialPaymentFields({
       <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
       <KeteranganField value={keterangan} onChange={onKeteranganChange} />
 
-      {/* ✅ Total Pembayaran jadi field readonly agar serasi */}
       <div className="grid gap-1.5">
         <FieldLabelLikeNasabah>Total Pembayaran</FieldLabelLikeNasabah>
         <Input
@@ -759,13 +739,11 @@ export default function LoanInstallmentPaymentV2Table({
   const isKhusus = paymentMethod === "Pembayaran Khusus";
   const isPelunasan = paymentMethod === "Pelunasan";
 
-  // Prototype totals (sesuai contoh)
   const totals: BillTotals = React.useMemo(
     () => ({ pokok: "0", bunga: "0", denda: "0", total: "0" }),
     [],
   );
 
-  // Prototype value sesuai screenshot
   const nominalPelunasan = "5.500.002";
 
   function openPicker() {
