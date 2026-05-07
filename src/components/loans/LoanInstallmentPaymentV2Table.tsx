@@ -112,19 +112,20 @@ export default function LoanInstallmentPaymentV2Table({
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
       <div className="safe-x-scroll">
-        <table className="w-full min-w-[980px] border-collapse bg-white">
+        {/* min-width dibesarkan supaya kolom PINJAMAN & TRANSAKSI dapat ruang ekstra */}
+        <table className="w-full min-w-[1180px] border-collapse bg-white">
           <thead className="bg-white">
             <tr>
-              {/* Lebar NO diperkecil supaya jarak NO -> NASABAH lebih rapat */}
               <Th className="w-[60px] px-3">
                 <div className="text-left">NO</div>
               </Th>
 
-              {/* Kurangi padding kiri NASABAH sedikit agar makin rapat */}
-              <Th className="min-w-[320px] pl-3 pr-4">NASABAH</Th>
+              {/* NASABAH diperkecil */}
+              <Th className="min-w-[260px] pl-3 pr-4">NASABAH</Th>
 
-              <Th className="min-w-[240px]">PINJAMAN</Th>
-              <Th className="min-w-[320px] text-center" align="center">
+              {/* PINJAMAN & TRANSAKSI dibesarkan */}
+              <Th className="min-w-[360px]">PINJAMAN</Th>
+              <Th className="min-w-[420px] text-center" align="center">
                 TRANSAKSI
               </Th>
             </tr>
@@ -132,18 +133,16 @@ export default function LoanInstallmentPaymentV2Table({
 
           <tbody>
             <tr>
-              {/* Padding NO diperkecil agar "1." lebih dekat ke kolom NASABAH */}
               <Td className="w-[60px] px-3">
                 <span className="tabular-nums">1.</span>
               </Td>
 
-              {/* Kurangi padding kiri NASABAH */}
-              <Td className="min-w-[320px] pl-3 pr-4">
+              <Td className="min-w-[260px] pl-3 pr-4">
                 <NasabahRow />
               </Td>
 
-              <Td className="min-w-[240px]" />
-              <Td className="min-w-[320px]" />
+              <Td className="min-w-[360px]" />
+              <Td className="min-w-[420px]" />
             </tr>
           </tbody>
         </table>
