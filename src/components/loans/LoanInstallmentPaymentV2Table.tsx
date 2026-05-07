@@ -199,33 +199,6 @@ function InfoStack({
   );
 }
 
-function KVTwoColRow({
-  label,
-  value,
-  className,
-}: {
-  label: string;
-  value: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        "grid items-start gap-x-6 gap-y-1",
-        "[grid-template-columns:220px_minmax(0,1fr)]",
-        className,
-      )}
-    >
-      <div className="min-w-0 text-[16px] font-medium text-slate-900">
-        <span className="block break-words">{label} :</span>
-      </div>
-      <div className="min-w-0 text-right text-[16px] font-bold text-slate-900">
-        <span className="block break-words leading-snug">{value}</span>
-      </div>
-    </div>
-  );
-}
-
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(
     () => getNasabahInfoByAccountNo(accountNo),
@@ -273,6 +246,7 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   if (topItems.length === 0) return null;
 
+  // ✅ Samakan dengan kolom NASABAH: semua jadi InfoStack
   const extra = [
     { label: "Jangka Waktu", value: "12 Bulan" },
     { label: "Angsuran ke", value: "2" },
@@ -285,23 +259,17 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
 
   return (
     <div className="bg-white">
-      <div className="grid gap-6">
+      <div className="grid gap-4">
         {topItems.map((it) => (
-          <div key={it.label} className="grid gap-1">
-            <div className="text-[13px] font-normal text-black">{it.label}</div>
-            <div className="text-[16px] font-extrabold text-slate-900 leading-snug break-words">
-              {it.value}
-            </div>
-          </div>
+          <InfoStack key={it.label} label={it.label} value={it.value} />
         ))}
       </div>
 
-      <div className="my-5 h-px w-full bg-slate-200" />
+      <div className="my-4 h-px w-full bg-slate-200" />
 
-      {/* ✅ Layout sesuai screenshot: 2 kolom rapi (label+ ":" satu baris) */}
-      <div className="grid gap-6">
+      <div className="grid gap-4">
         {extra.map((r) => (
-          <KVTwoColRow key={r.label} label={r.label} value={r.value} />
+          <InfoStack key={r.label} label={r.label} value={r.value} />
         ))}
       </div>
     </div>
