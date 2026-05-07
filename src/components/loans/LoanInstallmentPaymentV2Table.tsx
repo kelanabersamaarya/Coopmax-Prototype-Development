@@ -63,7 +63,6 @@ function Td({
 function NasabahRow() {
   return (
     <div className="grid gap-1">
-      {/* label tetap, kolom value dibuat min-w-0 supaya gak maksa lebar */}
       <div className="grid min-w-0 gap-y-1 gap-x-2 [grid-template-columns:62px_minmax(0,1fr)]">
         <div className="pt-0.5 text-[14px] font-normal text-slate-900 whitespace-nowrap">
           No Rek :
@@ -120,13 +119,13 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
-      {/* TANPA horizontal scroll */}
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
           <col className="w-[56px]" />
           <col className="w-[280px]" />
-          <col />
-          <col />
+          {/* Sisa lebar dibagi rata: PINJAMAN = 1fr, TRANSAKSI = 1fr */}
+          <col className="w-1/2" />
+          <col className="w-1/2" />
         </colgroup>
 
         <thead className="bg-white">
