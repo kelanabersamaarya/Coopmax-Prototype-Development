@@ -862,10 +862,10 @@ function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolea
 
   return (
     <div className="mt-3 text-[14px]">
-      <div className="mt-[120px]">{totalsRow("Total Nominal", valueText)}</div>
+      {/* ✅ Spacer asli dikurangi 100px (120 -> 20) tanpa overlap */}
+      <div className="mt-[20px]">{totalsRow("Total Nominal", valueText)}</div>
 
-      {/* ✅ Kurangi lagi 100px: pakai margin-top negatif */}
-      <div className="-mt-[100px]">
+      <div className="mt-0">
         {totalsRow("Total Denda", valueText)}
         <div className="my-2 h-px w-full bg-slate-200" />
         {totalsRow("Grand Total", valueText, true)}
