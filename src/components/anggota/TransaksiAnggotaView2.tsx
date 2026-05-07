@@ -480,6 +480,7 @@ export default function TransaksiAnggotaView2({
 
           <div className="relative">
             <InformasiRekeningHeader
+              hideMeta
               title="PINJAMAN BILLING"
               items={[
                 { label: "No. Rekening Pinjaman", value: "SMG260004" },
@@ -642,27 +643,6 @@ export default function TransaksiAnggotaView2({
                     disableRowActiveRing
                     penaltyIndexOffset={penaltyIndexOffset}
                   />
-                ) : useV1ForPenurunanBakiDebet ? (
-                  <div
-                    className={cn(
-                      "billing-table-compact",
-                      "[&_.text-slate-400]:hidden",
-                      alignNumbersForPenurunan,
-                    )}
-                  >
-                    <BillingTable
-                      rows={rowsToShowV1}
-                      selected={selected}
-                      setSelected={setSelected}
-                      isPelunasan={false}
-                      showGraceHighlight={true}
-                      hideInterestCols={false}
-                      hideSelection={true}
-                      showPenaltyColumn={false}
-                      rowDensity="roomy"
-                      className="mt-0"
-                    />
-                  </div>
                 ) : (
                   <BillingTableView2
                     rows={rowsToShow}

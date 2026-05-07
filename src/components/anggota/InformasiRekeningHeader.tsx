@@ -10,10 +10,12 @@ export default function InformasiRekeningHeader({
   title = "PINJAMAN BULANAN 9",
   items,
   className,
+  hideMeta = false,
 }: {
   title?: string;
   items: Item[];
   className?: string;
+  hideMeta?: boolean;
 }) {
   const asText = (v: React.ReactNode) => {
     if (typeof v === "string" || typeof v === "number") return String(v);
@@ -41,7 +43,7 @@ export default function InformasiRekeningHeader({
     [items],
   );
 
-  const showMeta = !!(skemaTagihan || satuanGrace || durasiGrace);
+  const showMeta = !hideMeta && !!(skemaTagihan || satuanGrace || durasiGrace);
 
   return (
     <div

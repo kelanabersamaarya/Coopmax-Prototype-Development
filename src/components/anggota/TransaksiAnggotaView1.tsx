@@ -366,6 +366,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
           <div className="relative">
             <InformasiRekeningHeader
+              hideMeta
               title="PINJAMAN BILLING"
               items={[
                 { label: "No. Rekening Pinjaman", value: "SMG260004" },
