@@ -362,6 +362,13 @@ const PAYMENT_METHODS = [
 
 type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
+type BillTotals = {
+  pokok: string;
+  bunga: string;
+  denda: string;
+  total: string;
+};
+
 function RequiredStar() {
   return <span className="ml-1 text-rose-600">*</span>;
 }
@@ -380,6 +387,21 @@ function FieldLabelLikeNasabah({
 
 function Divider() {
   return <div className="my-4 h-px w-full bg-slate-200" />;
+}
+
+function BillTotalsBlock({
+  totals,
+}: {
+  totals: BillTotals;
+}) {
+  return (
+    <div className="grid gap-4">
+      <InfoStack label="Tagihan Pokok" value={totals.pokok} />
+      <InfoStack label="Tagihan Bunga" value={totals.bunga} />
+      <InfoStack label="Tagihan Denda" value={totals.denda} />
+      <InfoStack label="Total Tagihan" value={totals.total} strong />
+    </div>
+  );
 }
 
 function TransactionPaymentMethodField({
@@ -515,6 +537,12 @@ export default function LoanInstallmentPaymentV2Table({
   const hasPicked = !!accountNo.trim();
   const isReguler = paymentMethod === "Pembayaran Reguler";
 
+  // Prototype totals (sesuai contoh)
+  const totals: BillTotals = React.useMemo(
+    () => ({ pokok: "0", bunga: "0", denda: "0", total: "0" }),
+    [],
+  );
+
   function openPicker() {
     setPickerOpen(true);
   }
@@ -580,6 +608,11 @@ export default function LoanInstallmentPaymentV2Table({
             </Td>
 
             <Td className="bg-white">
+              {/* ✅ Ringkasan tagihan dipindah ke kolom Transaksi (atas metode pembayaran) */}
+              <BillTotalsBlock totals={totals} />
+
+              <Divider />
+
               <TransactionPaymentMethodField
                 value={paymentMethod}
                 onChange={setPaymentMethod}
