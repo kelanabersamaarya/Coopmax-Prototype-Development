@@ -316,10 +316,11 @@ export default function LoanApplicationCreate() {
     if (!showJadwalTab) setPenaltyVisible(false);
   }, [showJadwalTab]);
 
+  // ❌ Jangan force disable recurring ketika mode Rp
+  // (sesuai kebutuhan: toggle harus tetap tersedia untuk Rp)
   React.useEffect(() => {
     if (penaltyIsRp) {
       setPenaltyBase("Pokok");
-      setPenaltyRecurring(false);
     }
   }, [penaltyIsRp]);
 
@@ -791,31 +792,30 @@ export default function LoanApplicationCreate() {
                       />
 
                       <div className="mt-[15px] grid gap-[15px]">
-                        {penaltyIsPercent ? (
-                          <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                            <div className="flex min-w-0 items-start gap-2">
-                              <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
-                                <div>Proses Denda Berulang</div>
-                                <div className="text-slate-700">(Recurring)</div>
-                              </div>
-
-                              <span
-                                className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
-                                aria-hidden="true"
-                                title={RECURRING_TT}
-                              >
-                                <HelpCircle className="h-4 w-4" />
-                              </span>
+                        {/* ✅ tampil untuk % dan Rp */}
+                        <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                          <div className="flex min-w-0 items-start gap-2">
+                            <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
+                              <div>Proses Denda Berulang</div>
+                              <div className="text-slate-700">(Recurring)</div>
                             </div>
 
-                            <div className="flex items-center justify-start md:-ml-1">
-                              <Switch
-                                checked={penaltyRecurring}
-                                onCheckedChange={setPenaltyRecurring}
-                              />
-                            </div>
+                            <span
+                              className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
+                              aria-hidden="true"
+                              title={RECURRING_TT}
+                            >
+                              <HelpCircle className="h-4 w-4" />
+                            </span>
                           </div>
-                        ) : null}
+
+                          <div className="flex items-center justify-start md:-ml-1">
+                            <Switch
+                              checked={penaltyRecurring}
+                              onCheckedChange={setPenaltyRecurring}
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       <div className="sr-only">
