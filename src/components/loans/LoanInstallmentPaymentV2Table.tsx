@@ -220,9 +220,7 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div
-        className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}
-      >
+      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
         {label}
       </div>
       <div
@@ -537,7 +535,7 @@ function RowActionButtons({
     <div className="grid gap-2">
       <div className="text-[12px] font-normal text-slate-900">Aksi</div>
 
-      <div className="grid gap-2">
+      <div className="grid place-items-center gap-2">
         <button
           type="button"
           onClick={onAdd}
@@ -669,29 +667,15 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
   };
 }
 
-function FooterTotalsAndActions({
-  allowActions = true,
-}: {
-  allowActions?: boolean;
-}) {
+function FooterTotalsAndActions({ allowActions = true }: { allowActions?: boolean }) {
   const valueText = allowActions ? "0,00" : "-";
 
   const totalsRow = (label: string, value: string, strong = false) => (
     <div className="flex items-baseline justify-between gap-4 py-2">
-      <div
-        className={cn(
-          "text-[14px] text-[#0b2a57]",
-          strong ? "font-semibold" : "font-normal",
-        )}
-      >
+      <div className={cn("text-[14px] text-[#0b2a57]", strong ? "font-semibold" : "font-normal")}>
         {label} :
       </div>
-      <div
-        className={cn(
-          "text-[14px] tabular-nums text-[#0b2a57]",
-          strong ? "font-semibold" : "font-normal",
-        )}
-      >
+      <div className={cn("text-[14px] tabular-nums text-[#0b2a57]", strong ? "font-semibold" : "font-normal")}>
         {value}
       </div>
     </div>
@@ -813,8 +797,8 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
           <col style={{ width: 56 }} />
           <col style={{ width: 280 }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.35)` }} />
-          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65 - 120px)` }} />
-          <col style={{ width: 120 }} />
+          <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65 - 100px)` }} />
+          <col style={{ width: 100 }} />
         </colgroup>
 
         <thead className="bg-white">
@@ -944,7 +928,7 @@ export default function LoanInstallmentPaymentV2Table({ className }: { className
                   </div>
                 </Td>
 
-                <Td align="center">
+                <Td align="center" className="px-3">
                   <RowActionButtons
                     onAdd={() => addRow(row.id)}
                     onDelete={() => deleteRow(row.id)}
