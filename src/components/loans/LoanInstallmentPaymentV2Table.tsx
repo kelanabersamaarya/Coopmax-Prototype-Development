@@ -1,3 +1,4 @@
+Total Tagihan (Pokok/Bunga/Denda).">
 "use client";
 
 import * as React from "react";
@@ -461,15 +462,21 @@ function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
 function BillTotalsBlock({
   totals,
   totalLabel = "Total Tagihan",
+  pokokLabel = "Tagihan Pokok",
+  bungaLabel = "Tagihan Bunga",
+  dendaLabel = "Tagihan Denda",
 }: {
   totals: BillTotals;
   totalLabel?: string;
+  pokokLabel?: string;
+  bungaLabel?: string;
+  dendaLabel?: string;
 }) {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value={totals.pokok} />
-      <InfoStack label="Tagihan Bunga" value={totals.bunga} />
-      <InfoStack label="Tagihan Denda" value={totals.denda} />
+      <InfoStack label={pokokLabel} value={totals.pokok} />
+      <InfoStack label={bungaLabel} value={totals.bunga} />
+      <InfoStack label={dendaLabel} value={totals.denda} />
       <InfoStack label={totalLabel} value={totals.total} strong />
     </div>
   );
@@ -477,16 +484,22 @@ function BillTotalsBlock({
 
 function BillTotalsTitlesOnly({
   totalLabel = "Total Tagihan",
+  pokokLabel = "Tagihan Pokok",
+  bungaLabel = "Tagihan Bunga",
+  dendaLabel = "Tagihan Denda",
 }: {
   totalLabel?: string;
+  pokokLabel?: string;
+  bungaLabel?: string;
+  dendaLabel?: string;
 }) {
   const dash = <span className="text-slate-400 font-semibold">-</span>;
 
   return (
     <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value={dash} />
-      <InfoStack label="Tagihan Bunga" value={dash} />
-      <InfoStack label="Tagihan Denda" value={dash} />
+      <InfoStack label={pokokLabel} value={dash} />
+      <InfoStack label={bungaLabel} value={dash} />
+      <InfoStack label={dendaLabel} value={dash} />
       <InfoStack label={totalLabel} value={dash} strong />
     </div>
   );
@@ -1092,7 +1105,6 @@ export default function LoanInstallmentPaymentV2Table({
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
 
-            // ✅ Pelunasan juga boleh buka dialog tagihan
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
@@ -1102,7 +1114,12 @@ export default function LoanInstallmentPaymentV2Table({
               denda: "0",
               total: "0",
             };
+
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
+
+            const pokokLabel = isPelunasan ? "Total Tagihan Pokok" : "Tagihan Pokok";
+            const bungaLabel = isPelunasan ? "Total Tagihan Bunga" : "Tagihan Bunga";
+            const dendaLabel = isPelunasan ? "Total Tagihan Denda" : "Tagihan Denda";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
 
@@ -1131,7 +1148,6 @@ export default function LoanInstallmentPaymentV2Table({
                   <SelectedPinjamanInfo
                     accountNo={row.accountNo}
                     disabled={lockRowUi}
-                    // ✅ saat Pelunasan, sembunyikan info angsuran (Angsuran ke/Lunas/Seharusnya)
                     hideInstallmentInfo={isBakiDebet || isPelunasan}
                   />
                 </Td>
@@ -1186,12 +1202,23 @@ export default function LoanInstallmentPaymentV2Table({
                     isBakiDebet ? (
                       <RemainingLoanTitlesOnly />
                     ) : (
-                      <BillTotalsTitlesOnly totalLabel={totalsLabel} />
+                      <BillTotalsTitlesOnly
+                        totalLabel={totalsLabel}
+                        pokokLabel={pokokLabel}
+                        bungaLabel={bungaLabel}
+                        dendaLabel={dendaLabel}
+                      />
                     )
                   ) : isBakiDebet ? (
                     <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
                   ) : (
-                    <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
+                    <BillTotalsBlock
+                      totals={totals}
+                      totalLabel={totalsLabel}
+                      pokokLabel={pokokLabel}
+                      bungaLabel={bungaLabel}
+                      dendaLabel={dendaLabel}
+                    />
                   )}
 
                   <BaseDivider />
