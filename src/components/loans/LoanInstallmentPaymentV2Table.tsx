@@ -123,9 +123,9 @@ export default function LoanInstallmentPaymentV2Table({
         <colgroup>
           <col className="w-[56px]" />
           <col className="w-[280px]" />
-          {/* Sisa lebar dibagi rata: PINJAMAN = 1fr, TRANSAKSI = 1fr */}
-          <col className="w-1/2" />
-          <col className="w-1/2" />
+          {/* Beri TRANSAKSI sedikit lebih lebar daripada PINJAMAN */}
+          <col className="w-[46%]" />
+          <col className="w-[54%]" />
         </colgroup>
 
         <thead className="bg-white">
