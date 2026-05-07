@@ -63,7 +63,6 @@ function Td({
 function NasabahRow() {
   return (
     <div className="grid gap-1">
-      {/* rapatkan lagi jarak label -> field */}
       <div className="grid gap-y-1 gap-x-2 [grid-template-columns:76px_minmax(0,1fr)]">
         <div className="pt-0.5 text-[14px] font-normal text-slate-900">No Rek :</div>
 
@@ -116,8 +115,14 @@ export default function LoanInstallmentPaymentV2Table({
         <table className="w-full min-w-[980px] border-collapse bg-white">
           <thead className="bg-white">
             <tr>
-              <Th className="w-[90px]">NO</Th>
-              <Th className="min-w-[320px]">NASABAH</Th>
+              {/* Lebar NO diperkecil supaya jarak NO -> NASABAH lebih rapat */}
+              <Th className="w-[60px] px-3">
+                <div className="text-left">NO</div>
+              </Th>
+
+              {/* Kurangi padding kiri NASABAH sedikit agar makin rapat */}
+              <Th className="min-w-[320px] pl-3 pr-4">NASABAH</Th>
+
               <Th className="min-w-[240px]">PINJAMAN</Th>
               <Th className="min-w-[320px] text-center" align="center">
                 TRANSAKSI
@@ -127,15 +132,16 @@ export default function LoanInstallmentPaymentV2Table({
 
           <tbody>
             <tr>
-              <Td className="w-[90px]">
+              {/* Padding NO diperkecil agar "1." lebih dekat ke kolom NASABAH */}
+              <Td className="w-[60px] px-3">
                 <span className="tabular-nums">1.</span>
               </Td>
 
-              <Td className="min-w-[320px]">
+              {/* Kurangi padding kiri NASABAH */}
+              <Td className="min-w-[320px] pl-3 pr-4">
                 <NasabahRow />
               </Td>
 
-              {/* Placeholder dulu (sesuai scope: fokus kolom NO & NASABAH) */}
               <Td className="min-w-[240px]" />
               <Td className="min-w-[320px]" />
             </tr>
