@@ -274,13 +274,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
     { label: "Angsuran Seharusnya", value: "1" },
   ];
 
-  const tagihanSummary = [
-    { label: "Tagihan Pokok", value: "0" },
-    { label: "Tagihan Bunga", value: "0" },
-    { label: "Tagihan Denda", value: "0" },
-    { label: "Total Tagihan", value: "0", strong: true },
-  ] as const;
-
   const extra = [
     { label: "Jangka Waktu", value: "12 Bulan" },
     { label: "Tanggal Realisasi", value: "01-03-2026" },
@@ -317,19 +310,6 @@ function SelectedPinjamanInfo({ accountNo }: { accountNo: string }) {
         ))}
         {installments.map((it) => (
           <InfoStack key={it.label} label={it.label} value={it.value} />
-        ))}
-      </div>
-
-      <div className="my-4 h-px w-full bg-slate-200" />
-
-      <div className="grid gap-4">
-        {tagihanSummary.map((it) => (
-          <InfoStack
-            key={it.label}
-            label={it.label}
-            value={it.value}
-            strong={!!it.strong}
-          />
         ))}
       </div>
 
@@ -489,7 +469,11 @@ function KeteranganField({
   return (
     <div className="grid gap-1.5">
       <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-      <Input value={value} onChange={(e) => onChange(e.target.value)} className={inputCls} />
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={inputCls}
+      />
     </div>
   );
 }
