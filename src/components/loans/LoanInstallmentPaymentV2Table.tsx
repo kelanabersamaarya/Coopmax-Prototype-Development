@@ -62,12 +62,10 @@ function Td({
 
 function NasabahRow() {
   return (
-    <div className="grid gap-1">
-      {/* lebih rapat lagi: gap-y diperkecil, dan padding atas label dihilangkan */}
-      <div className="grid gap-y-0.5 gap-x-2 [grid-template-columns:84px_minmax(0,1fr)]">
-        <div className="leading-8 text-[14px] font-normal text-slate-900">
-          No Rek :
-        </div>
+    <div className="grid gap-2">
+      {/* rapatkan jarak antar row + rapatkan jarak label ke input */}
+      <div className="grid gap-y-1.5 gap-x-2 [grid-template-columns:84px_minmax(0,1fr)]">
+        <div className="pt-1 text-[14px] font-normal text-slate-900">No Rek :</div>
 
         <div className="flex min-w-0 items-stretch">
           <Input
@@ -94,20 +92,14 @@ function NasabahRow() {
           </button>
         </div>
 
-        <div className="leading-6 text-[14px] font-normal text-slate-900">
-          Nama :
-        </div>
-        <div className="leading-6" />
+        <div className="pt-1 text-[14px] font-normal text-slate-900">Nama :</div>
+        <div />
 
-        <div className="leading-6 text-[14px] font-normal text-slate-900">
-          Alamat :
-        </div>
-        <div className="leading-6" />
+        <div className="pt-1 text-[14px] font-normal text-slate-900">Alamat :</div>
+        <div />
 
-        <div className="leading-6 text-[14px] font-normal text-slate-900">
-          Produk :
-        </div>
-        <div className="leading-6" />
+        <div className="pt-1 text-[14px] font-normal text-slate-900">Produk :</div>
+        <div />
       </div>
     </div>
   );
