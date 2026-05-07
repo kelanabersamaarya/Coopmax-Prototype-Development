@@ -82,21 +82,16 @@ export default function LoanInstallmentPaymentV2() {
           </div>
         </div>
 
-        {/* Scope: paksa seluruh font di halaman ini menjadi 12px */}
         <Card className="mt-6 overflow-hidden rounded-3xl border-slate-200/70 bg-white/90 p-0 shadow-sm backdrop-blur">
-          <div className="text-[12px] [&_*]:text-[12px]">
+          {/* Default halaman 12px, tapi TIDAK memaksa semua child */}
+          <div className="text-[12px]">
             <div className="px-6 py-6 sm:px-8">
               <div className={cn("grid", GAP)}>
                 <FieldRow label="Tanggal" required>
                   <DatePickerDmyField
                     value={tanggal}
                     onChange={setTanggal}
-                    inputClassName={cn(
-                      H,
-                      R,
-                      "border-slate-200 bg-white pr-11",
-                      "text-[12px] [&_*]:text-[12px]",
-                    )}
+                    inputClassName={cn(H, R, "border-slate-200 bg-white pr-11")}
                     popoverAlign="end"
                     placeholder="DD-MM-YYYY"
                   />
@@ -135,7 +130,6 @@ export default function LoanInstallmentPaymentV2() {
                   </Select>
                 </FieldRow>
 
-                {/* Bagian bawah field: header tabel sesuai screenshot */}
                 <LoanInstallmentPaymentV2Table />
               </div>
             </div>
