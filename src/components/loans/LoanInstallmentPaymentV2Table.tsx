@@ -280,10 +280,12 @@ function SelectedPinjamanInfo({
   accountNo,
   canOpenDaftarTagihan,
   onOpenDaftarTagihan,
+  hideInstallmentInfo = false,
 }: {
   accountNo: string;
   canOpenDaftarTagihan: boolean;
   onOpenDaftarTagihan: () => void;
+  hideInstallmentInfo?: boolean;
 }) {
   const info = React.useMemo(
     () => getNasabahInfoByAccountNo(accountNo),
@@ -305,12 +307,16 @@ function SelectedPinjamanInfo({
 
   if (topItems.length === 0) return null;
 
-  const installmentMeta = [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo
+    ? []
+    : [{ label: "Angsuran ke", value: "2" }];
 
-  const installments = [
-    { label: "Angsuran Lunas", value: "1" },
-    { label: "Angsuran Seharusnya", value: "1" },
-  ];
+  const installments = hideInstallmentInfo
+    ? []
+    : [
+        { label: "Angsuran Lunas", value: "1" },
+        { label: "Angsuran Seharusnya", value: "1" },
+      ];
 
   const extra = [
     { label: "Jangka Waktu", value: "12 Bulan" },
@@ -329,16 +335,18 @@ function SelectedPinjamanInfo({
         ))}
       </div>
 
-      <div className="my-4 h-px w-full bg-slate-200" />
+      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
 
-      <div className="grid gap-4">
-        {installmentMeta.map((it) => (
-          <InfoStack key={it.label} label={it.label} value={it.value} />
-        ))}
-        {installments.map((it) => (
-          <InfoStack key={it.label} label={it.label} value={it.value} />
-        ))}
-      </div>
+      {!hideInstallmentInfo ? (
+        <div className="grid gap-4">
+          {installmentMeta.map((it) => (
+            <InfoStack key={it.label} label={it.label} value={it.value} />
+          ))}
+          {installments.map((it) => (
+            <InfoStack key={it.label} label={it.label} value={it.value} />
+          ))}
+        </div>
+      ) : null}
 
       <div className="my-4 h-px w-full bg-slate-200" />
 
@@ -434,6 +442,14 @@ function BillTotalsBlock({ totals }: { totals: BillTotals }) {
       <InfoStack label="Tagihan Bunga" value={totals.bunga} />
       <InfoStack label="Tagihan Denda" value={totals.denda} />
       <InfoStack label="Total Tagihan" value={totals.total} strong />
+    </div>
+  );
+}
+
+function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
+  return (
+    <div className="grid gap-4">
+      <InfoStack label="Sisa Pinjaman" value={sisaPinjaman} strong />
     </div>
   );
 }
@@ -824,6 +840,9 @@ export default function LoanInstallmentPaymentV2Table({
     [],
   );
 
+  // Prototype sisa pinjaman (baki debet)
+  const sisaPinjamanBakiDebet = "9.116.000,00";
+
   const nominalPelunasan = "5.500.002";
 
   function openPicker() {
@@ -898,12 +917,12 @@ export default function LoanInstallmentPaymentV2Table({
                   accountNo={accountNo}
                   canOpenDaftarTagihan={isReguler || isBakiDebet || isKhusus}
                   onOpenDaftarTagihan={() => setDaftarTagihanOpen(true)}
+                  hideInstallmentInfo={isBakiDebet}
                 />
               ) : null}
             </Td>
 
             <Td className="bg-white">
-              {/* ✅ Metode Pembayaran dipindah ke atas blok Tagihan */}
               <TransactionPaymentMethodField
                 value={paymentMethod}
                 onChange={setPaymentMethod}
@@ -911,7 +930,12 @@ export default function LoanInstallmentPaymentV2Table({
 
               <Divider />
 
-              <BillTotalsBlock totals={totals} />
+              {/* ✅ Baki Debet: ringkasan hanya Sisa Pinjaman */}
+              {isBakiDebet ? (
+                <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
+              ) : (
+                <BillTotalsBlock totals={totals} />
+              )}
 
               {isReguler ? (
                 <>
