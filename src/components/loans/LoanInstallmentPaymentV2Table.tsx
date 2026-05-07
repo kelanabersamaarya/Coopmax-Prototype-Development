@@ -191,6 +191,7 @@ function InfoStack({
     <div className="grid gap-1">
       <div className="text-[12px] font-normal text-black">{label}</div>
 
+      {/* value (bold) => 14px */}
       <div className="text-[14px] font-semibold text-slate-900 leading-snug break-words">
         {value}
       </div>
