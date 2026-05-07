@@ -69,12 +69,13 @@ export default function DaftarTagihanDialog({
 }) {
   const rows = React.useMemo(() => seedRows, []);
   const [selected, setSelected] = React.useState<boolean[]>(() =>
-    rows.map(() => true),
+    rows.map(() => false),
   );
 
   React.useEffect(() => {
     if (!open) return;
-    setSelected(rows.map(() => true));
+    // ✅ saat modal dibuka: default tidak ada yang tercentang
+    setSelected(rows.map(() => false));
   }, [open, rows]);
 
   return (
