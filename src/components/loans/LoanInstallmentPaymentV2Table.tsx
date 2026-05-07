@@ -182,23 +182,21 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(
-    () => getNasabahInfoByAccountNo(accountNo),
-    [accountNo],
-  );
+  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   if (!info) return null;
 
-  // Kunci: indent kiri agar lurus dengan awal input (kolom kanan) pada "No Rek :"
-  // grid-template-columns: 62px (label) + gap-x-2 (8px) = 70px
-  const indentLeft = "pl-[70px]";
-
+  // ✅ Sejajarkan dengan kolom LABEL "No Rek :" (bukan kolom input)
+  // Jadi tidak ada indent khusus.
   return (
-    <div className={cn("mt-3 bg-white", indentLeft)}>
+    <div className="mt-3 bg-white">
       <div className="grid gap-4">
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
+        <InfoStack
+          label="No Simpanan Wajib Peminjam"
+          value={info.noSimpananWajib}
+        />
         <InfoStack
           label="Saldo Simpanan Wajib Peminjam"
           value={info.saldoSimpananWajib}
