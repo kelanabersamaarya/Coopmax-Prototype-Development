@@ -220,7 +220,12 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div className={cn("text-[12px] font-normal text-black", strong ? "font-semibold" : "")}>
+      <div
+        className={cn(
+          "text-[12px] font-normal text-black",
+          strong ? "font-semibold" : "",
+        )}
+      >
         {label}
       </div>
       <div
@@ -236,7 +241,10 @@ function InfoStack({
 }
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
+  const info = React.useMemo(
+    () => getNasabahInfoByAccountNo(accountNo),
+    [accountNo],
+  );
   if (!info) return null;
 
   return (
@@ -245,8 +253,14 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Nama" value={info.nama} />
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
-        <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
+        <InfoStack
+          label="No Simpanan Wajib Peminjam"
+          value={info.noSimpananWajib}
+        />
+        <InfoStack
+          label="Saldo Simpanan Wajib Peminjam"
+          value={info.saldoSimpananWajib}
+        />
       </div>
     </div>
   );
@@ -329,7 +343,7 @@ function SelectedPinjamanInfo({
         ))}
       </div>
 
-      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
+      {!hideInstallmentInfo ? <div className="py-3" /> : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -342,7 +356,7 @@ function SelectedPinjamanInfo({
         </div>
       ) : null}
 
-      <div className="my-4 h-px w-full bg-slate-200" />
+      <div className="py-3" />
 
       <div className="grid gap-4">
         {extra.map((r) => (
@@ -350,7 +364,7 @@ function SelectedPinjamanInfo({
         ))}
       </div>
 
-      <div className="my-4 h-px w-full bg-slate-200" />
+      <div className="py-3" />
 
       <div className="grid gap-2.5">
         <LoanActionButton
@@ -402,8 +416,9 @@ function FieldLabelLikeNasabah({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Divider() {
-  return <div className="my-4 h-px w-full bg-slate-200" />;
+/** Divider rapat: tetap ada garis, tapi tanpa margin vertikal (no whitespace) */
+function DividerTight() {
+  return <div className="h-px w-full bg-slate-200" />;
 }
 
 function BillTotalsBlock({
@@ -776,60 +791,72 @@ export default function LoanInstallmentPaymentV2Table({
                     paymentMethod={row.paymentMethod}
                   />
 
-                  <DaftarTagihanTopButton
-                    disabled={!canOpenDaftarTagihan}
-                    onClick={() => {
-                      if (!canOpenDaftarTagihan) {
-                        toast("Belum tersedia", {
-                          description:
-                            "Lihat Tagihan & Denda pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
-                        });
-                        return;
+                  <div className="grid gap-3">
+                    <DaftarTagihanTopButton
+                      disabled={!canOpenDaftarTagihan}
+                      onClick={() => {
+                        if (!canOpenDaftarTagihan) {
+                          toast("Belum tersedia", {
+                            description:
+                              "Lihat Tagihan & Denda pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
+                          });
+                          return;
+                        }
+                        setRows((prev) =>
+                          prev.map((x) =>
+                            x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
+                          ),
+                        );
+                      }}
+                    />
+                  </div>
+
+                  <div className="pt-3">
+                    <DividerTight />
+                  </div>
+
+                  <div className="pt-3">
+                    <TransactionPaymentMethodField
+                      value={row.paymentMethod}
+                      onChange={(v) =>
+                        setRows((prev) =>
+                          prev.map((x) =>
+                            x.id === row.id ? { ...x, paymentMethod: v } : x,
+                          ),
+                        )
                       }
-                      setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
-                        ),
-                      );
-                    }}
-                  />
+                      rightActions={
+                        <TransactionRowActions
+                          onAdd={() => addRow(row.id)}
+                          onDelete={() => deleteRow(row.id)}
+                          disableDelete={rows.length <= 1}
+                        />
+                      }
+                    />
+                  </div>
 
-                  <Divider />
+                  <div className="pt-3">
+                    <DividerTight />
+                  </div>
 
-                  {/* Metode Pembayaran */}
-                  <TransactionPaymentMethodField
-                    value={row.paymentMethod}
-                    onChange={(v) =>
-                      setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, paymentMethod: v } : x,
-                        ),
-                      )
-                    }
-                    rightActions={
-                      <TransactionRowActions
-                        onAdd={() => addRow(row.id)}
-                        onDelete={() => deleteRow(row.id)}
-                        disableDelete={rows.length <= 1}
-                      />
-                    }
-                  />
+                  <div className="pt-3">
+                    {isBakiDebet ? (
+                      <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
+                    ) : (
+                      <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
+                    )}
+                  </div>
 
-                  {/* ✅ Ringkasan langsung menempel di bawah metode pembayaran */}
-                  <Divider />
+                  <div className="pt-3">
+                    <DividerTight />
+                  </div>
 
-                  {isBakiDebet ? (
-                    <RemainingLoanBlock sisaPinjaman={sisaPinjamanBakiDebet} />
-                  ) : (
-                    <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
-                  )}
-
-                  <Divider />
-
-                  <TransactionStatusBadge
-                    title="Status Transaksi"
-                    status="Belum diproses"
-                  />
+                  <div className="pt-3">
+                    <TransactionStatusBadge
+                      title="Status Transaksi"
+                      status="Belum diproses"
+                    />
+                  </div>
 
                   <div className="sr-only">
                     {row.nominalReguler}
