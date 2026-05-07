@@ -117,7 +117,6 @@ export default function LoanInstallmentPaymentV2Table({
 }: {
   className?: string;
 }) {
-  // NO (56) + NASABAH (280) = 336px
   const fixedPx = 56 + 280;
 
   return (
@@ -126,7 +125,6 @@ export default function LoanInstallmentPaymentV2Table({
         <colgroup>
           <col style={{ width: 56 }} />
           <col style={{ width: 280 }} />
-          {/* Sengaja dibikin kontras: PINJAMAN 35% vs TRANSAKSI 65% */}
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.35)` }} />
           <col style={{ width: `calc((100% - ${fixedPx}px) * 0.65)` }} />
         </colgroup>
@@ -141,10 +139,7 @@ export default function LoanInstallmentPaymentV2Table({
 
             <Th className="bg-sky-50/80 border-l border-slate-200">PINJAMAN</Th>
 
-            <Th
-              className="bg-emerald-50/80 border-l border-slate-200 text-center"
-              align="center"
-            >
+            <Th className="bg-emerald-50/80 border-l border-slate-200">
               TRANSAKSI
             </Th>
           </tr>
