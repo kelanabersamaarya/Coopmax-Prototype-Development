@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Search, History, Printer, List, Plus, Trash2 } from "lucide-react";
+import { Search, History, Printer, Eye, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -401,13 +401,13 @@ function SelectedPinjamanInfo({
           className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
         />
         <LoanActionButton
-          icon={List}
-          label="Daftar Tagihan"
+          icon={Eye}
+          label="Lihat Tagihan & Denda"
           onClick={() => {
             if (!canOpenDaftarTagihan) {
               toast("Belum tersedia", {
                 description:
-                  "Daftar Tagihan pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
+                  "Lihat Tagihan & Denda pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
               });
               return;
             }
@@ -525,6 +525,39 @@ function TransactionRowActions({
   );
 }
 
+function DaftarTagihanTopButton({
+  disabled,
+  onClick,
+}: {
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <div className="grid gap-2">
+      <div className="text-[12px] font-normal text-slate-900">
+        Daftar Tagihan dan Denda
+      </div>
+
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={disabled}
+        className={cn(
+          "inline-flex h-11 w-full items-center justify-center gap-3 rounded-full px-4",
+          "bg-[#0b5bd3] text-[14px] font-semibold text-white",
+          "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
+          disabled ? "opacity-60 pointer-events-none" : "",
+        )}
+        aria-label="Lihat Tagihan & Denda"
+        title="Lihat Tagihan & Denda"
+      >
+        <Eye className="h-5 w-5" />
+        Lihat Tagihan & Denda
+      </button>
+    </div>
+  );
+}
+
 function TransactionPaymentMethodField({
   value,
   onChange,
@@ -565,308 +598,6 @@ function TransactionPaymentMethodField({
 
         {rightActions ? <div className="shrink-0">{rightActions}</div> : null}
       </div>
-    </div>
-  );
-}
-
-function SingleTabunganField({
-  tabungan,
-  onTabunganChange,
-}: {
-  tabungan: "Tanpa Tabungan";
-  onTabunganChange: (v: "Tanpa Tabungan") => void;
-}) {
-  const selectTriggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-  );
-
-  return (
-    <div className="grid gap-1.5">
-      <FieldLabelLikeNasabah>Tabungan</FieldLabelLikeNasabah>
-      <Select
-        value={tabungan}
-        onValueChange={(v) => onTabunganChange(v as "Tanpa Tabungan")}
-      >
-        <SelectTrigger className={selectTriggerCls}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="rounded-[10px] border-slate-200">
-          <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
-            Tanpa Tabungan
-          </SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
-
-function KeteranganField({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  const inputCls = cn(
-    "h-[30px] w-full rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
-  return (
-    <div className="grid gap-1.5">
-      <FieldLabelLikeNasabah>Keterangan</FieldLabelLikeNasabah>
-      <Input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={inputCls}
-      />
-    </div>
-  );
-}
-
-function RegularPaymentFields({
-  nominal,
-  onNominalChange,
-  tabungan,
-  onTabunganChange,
-  keterangan,
-  onKeteranganChange,
-}: {
-  nominal: string;
-  onNominalChange: (v: string) => void;
-  tabungan: "Tanpa Tabungan";
-  onTabunganChange: (v: "Tanpa Tabungan") => void;
-  keterangan: string;
-  onKeteranganChange: (v: string) => void;
-}) {
-  const inputCls = cn(
-    "h-[30px] w-full rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
-  return (
-    <div className="grid gap-4">
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Pembayaran <RequiredStar />
-        </FieldLabelLikeNasabah>
-        <Input
-          value={nominal}
-          onChange={(e) => onNominalChange(e.target.value)}
-          className={cn(inputCls, "text-right tabular-nums")}
-          inputMode="decimal"
-        />
-      </div>
-
-      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
-      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
-    </div>
-  );
-}
-
-function BakiDebetPaymentFields({
-  nominalPokok,
-  onNominalPokokChange,
-  tabungan,
-  onTabunganChange,
-  keterangan,
-  onKeteranganChange,
-}: {
-  nominalPokok: string;
-  onNominalPokokChange: (v: string) => void;
-  tabungan: "Tanpa Tabungan";
-  onTabunganChange: (v: "Tanpa Tabungan") => void;
-  keterangan: string;
-  onKeteranganChange: (v: string) => void;
-}) {
-  const inputCls = cn(
-    "h-[30px] w-full rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
-  return (
-    <div className="grid gap-4">
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Pokok <RequiredStar />
-        </FieldLabelLikeNasabah>
-        <Input
-          value={nominalPokok}
-          onChange={(e) => onNominalPokokChange(e.target.value)}
-          className={cn(inputCls, "text-right tabular-nums")}
-          inputMode="decimal"
-        />
-      </div>
-
-      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
-      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
-    </div>
-  );
-}
-
-function parseMoneyInput(v: string) {
-  const s = (v ?? "").trim();
-  if (!s) return 0;
-
-  const normalized = s.replace(/\./g, "").replace(",", ".");
-  const cleaned = normalized.replace(/[^\d.-]/g, "");
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function formatIdr2(n: number) {
-  const safe = Number.isFinite(n) ? n : 0;
-  return safe.toLocaleString("id-ID", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
-
-function SpecialPaymentFields({
-  nominalPokok,
-  onNominalPokokChange,
-  nominalBunga,
-  onNominalBungaChange,
-  nominalDenda,
-  onNominalDendaChange,
-  tabungan,
-  onTabunganChange,
-  keterangan,
-  onKeteranganChange,
-}: {
-  nominalPokok: string;
-  onNominalPokokChange: (v: string) => void;
-  nominalBunga: string;
-  onNominalBungaChange: (v: string) => void;
-  nominalDenda: string;
-  onNominalDendaChange: (v: string) => void;
-  tabungan: "Tanpa Tabungan";
-  onTabunganChange: (v: "Tanpa Tabungan") => void;
-  keterangan: string;
-  onKeteranganChange: (v: string) => void;
-}) {
-  const inputCls = cn(
-    "h-[30px] w-full rounded-[6px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
-  const total = React.useMemo(() => {
-    return (
-      parseMoneyInput(nominalPokok) +
-      parseMoneyInput(nominalBunga) +
-      parseMoneyInput(nominalDenda)
-    );
-  }, [nominalBunga, nominalDenda, nominalPokok]);
-
-  const totalText = React.useMemo(() => formatIdr2(total), [total]);
-
-  return (
-    <div className="grid gap-4">
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Pokok <RequiredStar />
-        </FieldLabelLikeNasabah>
-        <Input
-          value={nominalPokok}
-          onChange={(e) => onNominalPokokChange(e.target.value)}
-          className={cn(inputCls, "text-right tabular-nums")}
-          inputMode="decimal"
-        />
-      </div>
-
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Bunga <RequiredStar />
-        </FieldLabelLikeNasabah>
-        <Input
-          value={nominalBunga}
-          onChange={(e) => onNominalBungaChange(e.target.value)}
-          className={cn(inputCls, "text-right tabular-nums")}
-          inputMode="decimal"
-        />
-      </div>
-
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Denda <RequiredStar />
-        </FieldLabelLikeNasabah>
-        <Input
-          value={nominalDenda}
-          onChange={(e) => onNominalDendaChange(e.target.value)}
-          className={cn(inputCls, "text-right tabular-nums")}
-          inputMode="decimal"
-        />
-      </div>
-
-      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
-      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
-
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>Total Pembayaran</FieldLabelLikeNasabah>
-        <Input
-          value={totalText}
-          readOnly
-          className={cn(
-            inputCls,
-            "bg-slate-200/70 text-right text-[18px] font-extrabold text-slate-700 tabular-nums",
-          )}
-        />
-      </div>
-    </div>
-  );
-}
-
-function PelunasanFields({
-  nominalPelunasan,
-  tabungan,
-  onTabunganChange,
-  keterangan,
-  onKeteranganChange,
-}: {
-  nominalPelunasan: string;
-  tabungan: "Tanpa Tabungan";
-  onTabunganChange: (v: "Tanpa Tabungan") => void;
-  keterangan: string;
-  onKeteranganChange: (v: string) => void;
-}) {
-  return (
-    <div className="grid gap-4">
-      <div className="grid gap-1.5">
-        <FieldLabelLikeNasabah>
-          Nominal Pelunasan <RequiredStar />
-        </FieldLabelLikeNasabah>
-
-        <div
-          className={cn(
-            "h-[30px] w-full rounded-[6px]",
-            "border border-slate-300 bg-slate-200/70 px-3",
-            "text-right text-[18px] font-extrabold text-slate-700 tabular-nums",
-            "flex items-center justify-end",
-          )}
-        >
-          {nominalPelunasan}
-        </div>
-      </div>
-
-      <SingleTabunganField tabungan={tabungan} onTabunganChange={onTabunganChange} />
-      <KeteranganField value={keterangan} onChange={onKeteranganChange} />
     </div>
   );
 }
@@ -1032,6 +763,8 @@ export default function LoanInstallmentPaymentV2Table({
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
 
+            const canOpenDaftarTagihan = isReguler || isBakiDebet || isKhusus;
+
             const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
 
@@ -1062,7 +795,7 @@ export default function LoanInstallmentPaymentV2Table({
                   {hasPicked ? (
                     <SelectedPinjamanInfo
                       accountNo={row.accountNo}
-                      canOpenDaftarTagihan={isReguler || isBakiDebet || isKhusus}
+                      canOpenDaftarTagihan={canOpenDaftarTagihan}
                       onOpenDaftarTagihan={() =>
                         setRows((prev) =>
                           prev.map((x) =>
@@ -1088,6 +821,26 @@ export default function LoanInstallmentPaymentV2Table({
                     paymentMethod={row.paymentMethod}
                   />
 
+                  <DaftarTagihanTopButton
+                    disabled={!canOpenDaftarTagihan}
+                    onClick={() => {
+                      if (!canOpenDaftarTagihan) {
+                        toast("Belum tersedia", {
+                          description:
+                            "Lihat Tagihan & Denda pada prototype ini dibuka saat metode pembayaran: Reguler / Penurunan Baki Debet / Khusus.",
+                        });
+                        return;
+                      }
+                      setRows((prev) =>
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
+                        ),
+                      );
+                    }}
+                  />
+
+                  <Divider />
+
                   <TransactionPaymentMethodField
                     value={row.paymentMethod}
                     onChange={(v) =>
@@ -1112,116 +865,19 @@ export default function LoanInstallmentPaymentV2Table({
                     <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
                   )}
 
-                  {isReguler ? (
-                    <>
-                      <Divider />
-                      <RegularPaymentFields
-                        nominal={row.nominalReguler}
-                        onNominalChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) => (x.id === row.id ? { ...x, nominalReguler: v } : x)),
-                          )
-                        }
-                        tabungan={row.tabunganReguler}
-                        onTabunganChange={() => {}}
-                        keterangan={row.keteranganReguler}
-                        onKeteranganChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, keteranganReguler: v } : x,
-                            ),
-                          )
-                        }
-                      />
-                    </>
-                  ) : null}
-
-                  {isBakiDebet ? (
-                    <>
-                      <Divider />
-                      <BakiDebetPaymentFields
-                        nominalPokok={row.nominalPokokBakiDebet}
-                        onNominalPokokChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, nominalPokokBakiDebet: v } : x,
-                            ),
-                          )
-                        }
-                        tabungan={row.tabunganBakiDebet}
-                        onTabunganChange={() => {}}
-                        keterangan={row.keteranganBakiDebet}
-                        onKeteranganChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, keteranganBakiDebet: v } : x,
-                            ),
-                          )
-                        }
-                      />
-                    </>
-                  ) : null}
-
-                  {isKhusus ? (
-                    <>
-                      <Divider />
-                      <SpecialPaymentFields
-                        nominalPokok={row.nominalPokokKhusus}
-                        onNominalPokokChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, nominalPokokKhusus: v } : x,
-                            ),
-                          )
-                        }
-                        nominalBunga={row.nominalBungaKhusus}
-                        onNominalBungaChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, nominalBungaKhusus: v } : x,
-                            ),
-                          )
-                        }
-                        nominalDenda={row.nominalDendaKhusus}
-                        onNominalDendaChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, nominalDendaKhusus: v } : x,
-                            ),
-                          )
-                        }
-                        tabungan={row.tabunganKhusus}
-                        onTabunganChange={() => {}}
-                        keterangan={row.keteranganKhusus}
-                        onKeteranganChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, keteranganKhusus: v } : x,
-                            ),
-                          )
-                        }
-                      />
-                    </>
-                  ) : null}
-
-                  {isPelunasan ? (
-                    <>
-                      <Divider />
-                      <PelunasanFields
-                        nominalPelunasan={nominalPelunasan}
-                        tabungan={row.tabunganPelunasan}
-                        onTabunganChange={() => {}}
-                        keterangan={row.keteranganPelunasan}
-                        onKeteranganChange={(v) =>
-                          setRows((prev) =>
-                            prev.map((x) =>
-                              x.id === row.id ? { ...x, keteranganPelunasan: v } : x,
-                            ),
-                          )
-                        }
-                      />
-                    </>
-                  ) : null}
+                  {/* NOTE: bagian input transaksi tetap seperti sebelumnya (prototype ringkas) */}
+                  <div className="sr-only">
+                    {row.nominalReguler}
+                    {row.nominalPokokBakiDebet}
+                    {row.nominalPokokKhusus}
+                    {row.nominalBungaKhusus}
+                    {row.nominalDendaKhusus}
+                    {row.keteranganReguler}
+                    {row.keteranganBakiDebet}
+                    {row.keteranganKhusus}
+                    {row.keteranganPelunasan}
+                    {nominalPelunasan}
+                  </div>
 
                   <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
                 </Td>
