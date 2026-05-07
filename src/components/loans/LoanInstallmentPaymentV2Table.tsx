@@ -1002,8 +1002,8 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
-                  {/* ✅ tambah padding atas ~16px */}
-                  <div className={cn(isLastRow ? "pt-4 pb-68" : "")}>
+                  {/* ✅ padding atas ~64px (pt-16) */}
+                  <div className={cn(isLastRow ? "pt-16 pb-68" : "")}>
                     {lockUi ? (
                       <div>
                         <div className="text-[12px] font-normal text-slate-900">
