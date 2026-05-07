@@ -363,16 +363,17 @@ function TransactionPaymentMethodField({
   onChange: (v: PaymentMethod) => void;
 }) {
   const triggerCls = cn(
-    "h-[46px] w-full justify-between rounded-[10px]",
-    "border border-slate-200 bg-white px-4",
+    "h-[30px] w-full justify-between rounded-[6px]",
+    "border border-slate-300 bg-white px-3",
     "text-[14px] font-medium text-slate-900",
-    "shadow-sm",
+    "shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-400",
   );
 
   return (
     <div className="grid gap-1.5">
+      {/* title style sama seperti Nasabah (No Rek :) */}
       <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
         Metode Pembayaran :
       </div>
@@ -381,9 +382,9 @@ function TransactionPaymentMethodField({
         <SelectTrigger className={triggerCls}>
           <SelectValue />
         </SelectTrigger>
-        <SelectContent className="rounded-[12px] border-slate-200">
+        <SelectContent className="rounded-[10px] border-slate-200">
           {PAYMENT_METHODS.map((m) => (
-            <SelectItem key={m} value={m} className="rounded-[10px]">
+            <SelectItem key={m} value={m} className="rounded-[8px]">
               {m}
             </SelectItem>
           ))}
