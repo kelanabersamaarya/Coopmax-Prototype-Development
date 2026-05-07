@@ -362,17 +362,13 @@ function SelectedPinjamanInfo({
             key={it.label}
             label={it.label}
             value={
-              it.value ?? (
-                <span className="text-slate-400 font-semibold">-</span>
-              )
+              it.value ?? <span className="text-slate-400 font-semibold">-</span>
             }
           />
         ))}
       </div>
 
-      {!hideInstallmentInfo ? (
-        <div className="my-4 h-px w-full bg-slate-200" />
-      ) : null}
+      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -381,11 +377,7 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? (
-                  it.value
-                ) : (
-                  <span className="text-slate-400 font-semibold">-</span>
-                )
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
               }
             />
           ))}
@@ -394,11 +386,7 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? (
-                  it.value
-                ) : (
-                  <span className="text-slate-400 font-semibold">-</span>
-                )
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
               }
             />
           ))}
@@ -413,11 +401,7 @@ function SelectedPinjamanInfo({
             key={r.label}
             label={r.label}
             value={
-              hasInfo ? (
-                r.value
-              ) : (
-                <span className="text-slate-400 font-semibold">-</span>
-              )
+              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
             }
           />
         ))}
@@ -755,7 +739,7 @@ function FooterTotalsAndActions({
   );
 
   return (
-    <div className="text-[14px]">
+    <div className="mt-3 text-[14px]">
       <div className="mt-2">
         {totalsRow("Total Nominal", valueText)}
         {totalsRow("Total Denda", valueText)}
@@ -908,10 +892,12 @@ export default function LoanInstallmentPaymentV2Table({
               row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
 
-            const canOpenDaftarTagihan = (isReguler || isBakiDebet || isKhusus) && hasPicked;
+            const canOpenDaftarTagihan =
+              (isReguler || isBakiDebet || isKhusus) && hasPicked;
 
             const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
-            const totalsLabel = row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
+            const totalsLabel =
+              row.paymentMethod === "Pelunasan" ? "Total Pelunasan" : "Total Tagihan";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const nominalPelunasan = "5.500.002";
@@ -930,7 +916,9 @@ export default function LoanInstallmentPaymentV2Table({
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, accountNo: v } : x,
+                        ),
                       )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
@@ -983,7 +971,9 @@ export default function LoanInstallmentPaymentV2Table({
                     value={row.paymentMethod}
                     onChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, paymentMethod: v } : x,
+                        ),
                       )
                     }
                     disabled={lockUi}
@@ -1012,8 +1002,8 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <Divider />
 
-                  {/* ✅ tambahkan padding bawah untuk mendorong footer ke bawah */}
-                  <div className={cn(isLastRow ? "pb-8" : "")}>
+                  {/* ✅ tambah padding bottom lebih besar agar footer melewati area tombol simulasi tunggakan */}
+                  <div className={cn(isLastRow ? "pb-28" : "")}>
                     {lockUi ? (
                       <div>
                         <div className="text-[12px] font-normal text-slate-900">
@@ -1026,11 +1016,13 @@ export default function LoanInstallmentPaymentV2Table({
                         </div>
                       </div>
                     ) : (
-                      <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
+                      <TransactionStatusBadge
+                        title="Status Transaksi"
+                        status="Belum diproses"
+                      />
                     )}
                   </div>
 
-                  {/* Footer tetap di kolom TAGIHAN & TRANSAKSI, dan terdorong oleh padding di atas */}
                   {isLastRow ? <FooterTotalsAndActions lockUi={lockUi} /> : null}
 
                   <div className="sr-only">
