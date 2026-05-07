@@ -14,6 +14,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import InformasiRekeningHeader from "@/components/anggota/InformasiRekeningHeader";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -154,8 +155,14 @@ const statusHistorySeed: StatusHistoryRow[] = [
 
 export default function LoanAccountDetailSections({
   accountNo,
+  meta,
 }: {
   accountNo: string;
+  meta?: {
+    skemaTagihan?: string;
+    satuanGracePeriod?: string;
+    durasiGracePeriod?: string;
+  };
 }) {
   const [history, setHistory] = React.useState<StatusHistoryRow[]>(
     () => statusHistorySeed,
@@ -220,60 +227,57 @@ export default function LoanAccountDetailSections({
         </Card>
 
         {/* Main teal panel */}
-        <div className="min-w-0 overflow-hidden rounded-3xl bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
-          <div className="text-sm font-extrabold tracking-wide">
-            PINJAMAN BULANAN 9
-          </div>
+        <div className="min-w-0">
+          <InformasiRekeningHeader
+            title="PINJAMAN BULANAN 9"
+            items={[
+              { label: "Kode Pinjaman", value: accountNo },
+              { label: "Sektor Pinjaman", value: "Umum" },
+              { label: "Tujuan Pinjaman", value: "Konsumtif" },
+              { label: "Kolektor", value: "Gina Farida M.M." },
+              { label: "Tanggal Dibuat", value: "07 Apr 2026" },
+              { label: "Tanggal Jatuh Tempo", value: "07 Apr 2027" },
+              { label: "Tanggal Transaksi Terakhir", value: "14 Apr 2026" },
+              { label: "Selisih Tanggal Transaksi", value: "6 Hari" },
+              { label: "Tanggal Pinjaman Aktif", value: "07 Apr 2026" },
+              { label: "Tanggal Pembayaran Setiap Bulan", value: "07" },
+              { label: "Periode Waktu", value: "12 Bulan" },
+              { label: "Metode Bunga Pinjaman", value: "Bunga Flat" },
+              { label: "Bunga Per Tahun (%)", value: "12,00%" },
+              { label: "Jumlah Pinjaman Diajukan", value: "12.000.000,00" },
+              { label: "Jumlah Pinjaman Disetujui", value: "12.000.000,00" },
+              { label: "Sisa Pinjaman", value: "10.553.571,00" },
+              { label: "Sisa Bunga Pinjaman", value: "1.266.429,00" },
+              { label: "Angsuran Pokok", value: "1.000.000,00" },
+              { label: "Angsuran Bunga", value: "120.000,00" },
+              { label: "Hutang Pokok", value: "0,00" },
+              { label: "Hutang Bunga", value: "0,00" },
+              { label: "Jumlah Hutang Pokok", value: "0 Kali" },
+              { label: "Jumlah Hutang Bunga", value: "0 Kali" },
+              { label: "Total Bayar Bunga", value: "120.000,00" },
+              { label: "Total Harus Bayar", value: "1.120.000,00" },
+              { label: "Kolektibilitas", value: "-" },
+              {
+                label: "Status",
+                value: (
+                  <span className="inline-flex items-center rounded-md bg-lime-500 px-2.5 py-1 text-xs font-extrabold text-white ring-1 ring-lime-200/30">
+                    Aktif / Sudah Dicairkan
+                  </span>
+                ),
+              },
 
-          <div
-            className={cn(
-              "mt-5 grid gap-x-8 gap-y-5",
-              "sm:[grid-template-columns:repeat(2,minmax(0,1fr))]",
-              "lg:[grid-template-columns:repeat(4,minmax(0,1fr))]",
-            )}
-          >
-            <Field label="Kode Pinjaman" value={accountNo} />
-            <Field label="Sektor Pinjaman" value="Umum" />
-            <Field label="Tujuan Pinjaman" value="Konsumtif" />
-            <Field label="Kolektor" value="Gina Farida M.M." />
-
-            <Field label="Tanggal Dibuat" value="07 Apr 2026" />
-            <Field label="Tanggal Jatuh Tempo" value="07 Apr 2027" />
-            <Field label="Tanggal Transaksi Terakhir" value="14 Apr 2026" />
-            <Field label="Selisih Tanggal Transaksi" value="6 Hari" />
-
-            <Field label="Tanggal Pinjaman Aktif" value="07 Apr 2026" />
-            <Field label="Tanggal Pembayaran Setiap Bulan" value="07" />
-            <Field label="Periode Waktu" value="12 Bulan" />
-            <Field label="Metode Bunga Pinjaman" value="Bunga Flat" />
-
-            <Field label="Bunga Per Tahun (%)" value="12,00%" />
-            <Field label="Jumlah Pinjaman Diajukan" value="12.000.000,00" />
-            <Field label="Jumlah Pinjaman Disetujui" value="12.000.000,00" />
-            <Field label="Sisa Pinjaman" value="10.553.571,00" />
-
-            <Field label="Sisa Bunga Pinjaman" value="1.266.429,00" />
-            <Field label="Angsuran Pokok" value="1.000.000,00" />
-            <Field label="Angsuran Bunga" value="120.000,00" />
-            <Field label="Hutang Pokok" value="0,00" />
-
-            <Field label="Hutang Bunga" value="0,00" />
-            <Field label="Jumlah Hutang Pokok" value="0 Kali" />
-            <Field label="Jumlah Hutang Bunga" value="0 Kali" />
-            <Field label="Total Bayar Bunga" value="120.000,00" />
-
-            <Field label="Total Harus Bayar" value="1.120.000,00" />
-            <Field label="Kolektibilitas" value="-" />
-            <div className="min-w-0">
-              <div className="text-xs font-semibold text-white/85">Status</div>
-              <div className="mt-2">
-                <span className="inline-flex items-center rounded-md bg-lime-500 px-2.5 py-1 text-xs font-extrabold text-white ring-1 ring-lime-200/30">
-                  Aktif / Sudah Dicairkan
-                </span>
-              </div>
-            </div>
-            <div />
-          </div>
+              // ✅ Tambahan (muncul hanya saat rekening dipilih, karena meta di-passing dari page)
+              ...(meta?.skemaTagihan
+                ? [{ label: "Skema Tagihan", value: meta.skemaTagihan }]
+                : []),
+              ...(meta?.satuanGracePeriod
+                ? [{ label: "Satuan Grace Period", value: meta.satuanGracePeriod }]
+                : []),
+              ...(meta?.durasiGracePeriod
+                ? [{ label: "Durasi Grace Period", value: meta.durasiGracePeriod }]
+                : []),
+            ]}
+          />
         </div>
       </div>
 
@@ -363,16 +367,10 @@ export default function LoanAccountDetailSections({
           <div>
             <KeyValueRow label="Satuan Grace Period" value="Bulan" right />
             <KeyValueRow label="Durasi Grace Period" value="6" right />
-            <KeyValueRow
-              label="Status Grace Period"
-              value={<ActiveBadge>Aktif</ActiveBadge>}
-              right
-            />
+            <KeyValueRow label="Status Grace Period" value={<ActiveBadge>Aktif</ActiveBadge>} right />
             <KeyValueRow
               label="Skema Tagihan"
-              value={
-                <span className="font-semibold">Tagihan Sesuai Jadwal Angsuran</span>
-              }
+              value={<span className="font-semibold">Tagihan Sesuai Jadwal Angsuran</span>}
               right
             />
             <KeyValueRow

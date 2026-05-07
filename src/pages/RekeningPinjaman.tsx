@@ -338,7 +338,15 @@ export default function RekeningPinjaman() {
               }
             />
 
-            <LoanAccountDetailSections accountNo={selectedAccountNo} />
+            {/* ✅ Info tambahan tampil setelah rekening dipilih (style mengikuti header teal) */}
+            <LoanAccountDetailSections
+              accountNo={selectedAccountNo}
+              meta={{
+                skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
+                satuanGracePeriod: "Bulan",
+                durasiGracePeriod: "3",
+              }}
+            />
           </>
         ) : null}
 
