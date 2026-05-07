@@ -123,24 +123,23 @@ export default function LoanInstallmentPaymentV2Table({
         <colgroup>
           <col className="w-[56px]" />
           <col className="w-[280px]" />
-          {/* Sisa lebar dibagi rata: PINJAMAN = 1fr, TRANSAKSI = 1fr */}
           <col className="w-1/2" />
           <col className="w-1/2" />
         </colgroup>
 
         <thead className="bg-white">
           <tr>
-            <Th className="px-3">
+            <Th className="px-3" align="left">
               <div className="text-left">NO</div>
             </Th>
 
-            <Th className="pl-3 pr-4">NASABAH</Th>
-
-            <Th>PINJAMAN</Th>
-
-            <Th className="text-center" align="center">
-              TRANSAKSI
+            <Th className="pl-3 pr-4" align="left">
+              NASABAH
             </Th>
+
+            <Th align="center">PINJAMAN</Th>
+
+            <Th align="center">TRANSAKSI</Th>
           </tr>
         </thead>
 
