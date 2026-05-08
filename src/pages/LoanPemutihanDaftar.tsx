@@ -299,7 +299,7 @@ export default function LoanPemutihanDaftar() {
                         "w-full",
                         "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
                         "shadow-sm",
-                        "text-right tabular-nums",
+                        "text-left",
                         "focus-visible:ring-0 focus-visible:ring-offset-0",
                       )}
                     />
@@ -315,7 +315,7 @@ export default function LoanPemutihanDaftar() {
                         "w-full",
                         "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
                         "shadow-sm",
-                        "text-right tabular-nums",
+                        "text-left",
                         "focus-visible:ring-0 focus-visible:ring-offset-0",
                       )}
                     />
