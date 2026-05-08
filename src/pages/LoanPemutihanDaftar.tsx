@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import LoanWriteoffAccountSummary from "@/components/loans/LoanWriteoffAccountSummary";
+import LoanWriteoffSectionHeader from "@/components/loans/LoanWriteoffSectionHeader";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
@@ -218,17 +219,20 @@ export default function LoanPemutihanDaftar() {
             {/* Divider bawah semua field */}
             <Separator className="mt-2 bg-slate-200" />
 
-            {/* Ringkasan rekening (muncul setelah pilih rekening) */}
+            {/* Header + Ringkasan rekening (muncul setelah pilih rekening) */}
             {showSummary && summary ? (
-              <LoanWriteoffAccountSummary
-                className="mt-2"
-                accountNo={selectedAccountNo}
-                customerName={summary.nama}
-                sisaPokok={summary.sisaPokok}
-                sisaBunga={summary.sisaBunga}
-                sisaDenda={summary.sisaDenda}
-                totalKewajibanBerjalan={summary.totalKewajibanBerjalan}
-              />
+              <div className="mt-2">
+                <LoanWriteoffSectionHeader title="Informasi Rekening" />
+                <LoanWriteoffAccountSummary
+                  className="mt-4"
+                  accountNo={selectedAccountNo}
+                  customerName={summary.nama}
+                  sisaPokok={summary.sisaPokok}
+                  sisaBunga={summary.sisaBunga}
+                  sisaDenda={summary.sisaDenda}
+                  totalKewajibanBerjalan={summary.totalKewajibanBerjalan}
+                />
+              </div>
             ) : null}
           </div>
 
