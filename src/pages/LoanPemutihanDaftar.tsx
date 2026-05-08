@@ -5,13 +5,6 @@ import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog"
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import LoanWriteoffAccountSummary from "@/components/loans/LoanWriteoffAccountSummary";
 import LoanWriteoffSectionHeader from "@/components/loans/LoanWriteoffSectionHeader";
 import { Separator } from "@/components/ui/separator";
@@ -20,13 +13,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
-
-const COLLECTORS = [
-  "Pilih Kolektor",
-  "Dinda Sudiati",
-  "Kolektor A",
-  "Kolektor B",
-] as const;
 
 function toDmyFromIso(iso: string) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec((iso ?? "").trim());
@@ -72,10 +58,6 @@ export default function LoanPemutihanDaftar() {
     return toDmyFromIso(todayIso) || "06-05-2026";
   });
 
-  const [kolektor, setKolektor] = React.useState<(typeof COLLECTORS)[number]>(
-    "Pilih Kolektor",
-  );
-
   const [nominal, setNominal] = React.useState("0,00");
   const [keterangan, setKeterangan] = React.useState("");
   const [confirm, setConfirm] = React.useState(false);
@@ -83,17 +65,6 @@ export default function LoanPemutihanDaftar() {
   function openPicker() {
     setPickerOpen(true);
   }
-
-  const selectTriggerCls = cn(
-    H,
-    R,
-    "w-full border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-sm",
-    "justify-between",
-    "[&>svg]:text-slate-400",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
 
   const selectedAccountNo = qNasabah.trim();
   const showSummary = selectedAccountNo.length > 0;
@@ -226,7 +197,6 @@ export default function LoanPemutihanDaftar() {
 
                 {/* Form Detail Pemutihan Pinjaman */}
                 <div className="mt-4 grid gap-[15px]">
-                  {/* Dipindahkan ke atas field Nominal */}
                   <FieldRow label="Tanggal" required>
                     <DatePickerDmyField
                       value={tanggal}
@@ -256,26 +226,6 @@ export default function LoanPemutihanDaftar() {
                       )}
                     />
                   </FieldRow>
-
-                  <FieldRow label="Kolektor" required>
-                    <Select
-                      value={kolektor}
-                      onValueChange={(v) => setKolektor(v as any)}
-                    >
-                      <SelectTrigger className={selectTriggerCls}>
-                        <SelectValue placeholder="Pilih Kolektor" />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        {COLLECTORS.map((k) => (
-                          <SelectItem key={k} value={k} className="rounded-lg">
-                            {k}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FieldRow>
-
-                  <Separator className="my-2 bg-slate-200/70" />
 
                   <FieldRow label="Nominal">
                     <Input
