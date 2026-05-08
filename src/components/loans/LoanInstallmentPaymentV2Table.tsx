@@ -270,10 +270,7 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
         <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-        <InfoStack
-          label="Saldo Simpanan Wajib Peminjam"
-          value={info.saldoSimpananWajib}
-        />
+        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
       </div>
     </div>
   );
@@ -386,11 +383,7 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? (
-                  it.value
-                ) : (
-                  <span className="text-slate-400 font-semibold">-</span>
-                )
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
               }
             />
           ))}
@@ -399,11 +392,7 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? (
-                  it.value
-                ) : (
-                  <span className="text-slate-400 font-semibold">-</span>
-                )
+                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
               }
             />
           ))}
@@ -418,11 +407,7 @@ function SelectedPinjamanInfo({
             key={r.label}
             label={r.label}
             value={
-              hasInfo ? (
-                r.value
-              ) : (
-                <span className="text-slate-400 font-semibold">-</span>
-              )
+              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
             }
           />
         ))}
@@ -1097,29 +1082,27 @@ function SummaryBlock({
   );
 }
 
-function showPaymentInstallmentSavedToast(transactionNo: string) {
+function showPaymentInstallmentSavedToast() {
   toast.custom((t) => (
-    <div className="mr-4 mt-4">
+    // ⛔️ Jangan pakai margin (mr/mt) karena bisa bikin toast kepotong (Sonner sudah punya padding/inset)
+    <div className="w-full">
       <div
         className={cn(
-          "w-[min(560px,calc(100vw-1rem))]",
+          "w-[min(420px,calc(100vw-2rem))]",
           "rounded-[10px] bg-emerald-600 text-white shadow-xl",
           "ring-1 ring-emerald-700/40",
-          "px-5 py-4",
+          "px-4 py-3",
+          "text-[12px]",
         )}
       >
-        <div className="flex items-start gap-3">
-          <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
             <Check className="h-5 w-5" strokeWidth={3} />
           </span>
 
           <div className="min-w-0 flex-1">
-            <div className="text-[15px] font-semibold leading-none">
+            <div className="font-semibold leading-snug break-words">
               Transaksi Pembayaran Angsuran Berhasil Tersimpan
-            </div>
-            <div className="mt-2 text-[14px] font-medium text-white/90">
-              No. Transaksi:{" "}
-              <span className="font-semibold text-white">{transactionNo}</span>
             </div>
           </div>
 
@@ -1225,7 +1208,7 @@ export default function LoanInstallmentPaymentV2Table({
         onOpenChange={(v) => setSuccessOpen(v)}
         onBackToList={() => {
           setSuccessOpen(false);
-          showPaymentInstallmentSavedToast(transactionNo);
+          showPaymentInstallmentSavedToast();
           navigate("/loans/transactions");
         }}
         onViewDetail={() => {
@@ -1505,10 +1488,7 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <div className="mt-4" />
 
-                  <TransactionStatusBadge
-                    title="Status Transaksi"
-                    status="Belum diproses"
-                  />
+                  <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
 
                   {isLast ? (
                     <SummaryBlock
@@ -1544,6 +1524,8 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
+
+      <div className="sr-only">{deriveNasabahNameByAccountNo("12260006")}</div>
     </div>
   );
 }
