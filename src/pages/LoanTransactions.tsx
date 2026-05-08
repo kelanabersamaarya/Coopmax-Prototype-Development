@@ -13,7 +13,7 @@ import {
 import LoanTransactionsTable from "@/components/loans/LoanTransactionsTable";
 import LoanTransactionsDetailHeader from "@/components/loans/LoanTransactionsDetailHeader";
 import LoanTransactionDetailCard from "@/components/loans/LoanTransactionDetailCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Action = {
   label: string;
@@ -55,10 +55,22 @@ function ActionPill({
 
 export default function LoanTransactions() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [detailTransactionNo, setDetailTransactionNo] = React.useState<string | null>(
     null,
   );
+
+  React.useEffect(() => {
+    const st = (location.state ?? null) as { detailTransactionNo?: string } | null;
+    if (!st?.detailTransactionNo) return;
+
+    setDetailTransactionNo(st.detailTransactionNo);
+
+    // bersihkan state supaya refresh/back tidak terus membuka detail
+    navigate(location.pathname, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key]);
 
   const actions: Action[] = [
     {
