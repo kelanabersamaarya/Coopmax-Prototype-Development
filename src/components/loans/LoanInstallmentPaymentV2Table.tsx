@@ -1084,11 +1084,11 @@ function SummaryBlock({
 
 function showPaymentInstallmentSavedToast() {
   toast.custom((t) => (
-    // ⛔️ Jangan pakai margin (mr/mt) karena bisa bikin toast kepotong (Sonner sudah punya padding/inset)
-    <div className="w-full">
+    // Extra gutter kanan/kiri supaya tidak "nempel" ke edge screen
+    <div className="flex w-full justify-end pt-1 pr-3">
       <div
         className={cn(
-          "w-[min(420px,calc(100vw-2rem))]",
+          "w-[min(420px,calc(100vw-3rem))]",
           "rounded-[10px] bg-emerald-600 text-white shadow-xl",
           "ring-1 ring-emerald-700/40",
           "px-4 py-3",
