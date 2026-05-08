@@ -339,9 +339,7 @@ function SelectedPinjamanInfo({
         { label: "Durasi Grace Period" },
       ];
 
-  const installmentMeta = hideInstallmentInfo
-    ? []
-    : [{ label: "Angsuran ke", value: "2" }];
+  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
   const installments = hideInstallmentInfo
     ? []
     : [
@@ -365,16 +363,12 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={it.label}
             label={it.label}
-            value={
-              it.value ?? <span className="text-slate-400 font-semibold">-</span>
-            }
+            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
 
-      {!hideInstallmentInfo ? (
-        <div className="my-4 h-px w-full bg-slate-200" />
-      ) : null}
+      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -382,18 +376,14 @@ function SelectedPinjamanInfo({
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
           {installments.map((it) => (
             <InfoStack
               key={it.label}
               label={it.label}
-              value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
-              }
+              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
             />
           ))}
         </div>
@@ -406,9 +396,7 @@ function SelectedPinjamanInfo({
           <InfoStack
             key={r.label}
             label={r.label}
-            value={
-              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
-            }
+            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
           />
         ))}
       </div>
@@ -730,18 +718,10 @@ function PaymentInputBlock({
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
             Nominal Pelunasan{required}
           </div>
-          <Input
-            value="5.500.002"
-            readOnly
-            className={cn(inputCls, "bg-slate-100")}
-          />
+          <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
         </div>
 
-        <TabunganField
-          value={tabunganPelunasan}
-          onChange={onTabunganPelunasan}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganPelunasan} onChange={onTabunganPelunasan} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -775,11 +755,7 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField
-          value={tabunganBakiDebet}
-          onChange={onTabunganBakiDebet}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganBakiDebet} onChange={onTabunganBakiDebet} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -839,11 +815,7 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField
-          value={tabunganKhusus}
-          onChange={onTabunganKhusus}
-          disabled={disabled}
-        />
+        <TabunganField value={tabunganKhusus} onChange={onTabunganKhusus} disabled={disabled} />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -876,11 +848,7 @@ function PaymentInputBlock({
         />
       </div>
 
-      <TabunganField
-        value={tabunganReguler}
-        onChange={onTabunganReguler}
-        disabled={disabled}
-      />
+      <TabunganField value={tabunganReguler} onChange={onTabunganReguler} disabled={disabled} />
 
       <div className="grid gap-1.5">
         <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -1095,7 +1063,6 @@ function showPaymentInstallmentSavedToast() {
           )}
         >
           <div className="flex items-center gap-3">
-            {/* ✅ icon TANPA background / container */}
             <Check className="h-6 w-6 text-white" strokeWidth={3} />
 
             <div className="min-w-0 flex-1">
@@ -1136,12 +1103,11 @@ function showAccountPickedToast() {
           )}
         >
           <div className="flex items-center gap-3">
-            {/* ✅ icon TANPA background / container */}
             <Check className="h-6 w-6 text-white" strokeWidth={3} />
 
             <div className="min-w-0 flex-1">
               <div className="truncate text-[15px] font-semibold leading-none">
-                Data berhasil ditampilkan
+                Data Berhasil Ditampilkan
               </div>
             </div>
 
@@ -1183,7 +1149,6 @@ export default function LoanInstallmentPaymentV2Table({
 
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
-  // Prototype: nomor transaksi (karena belum ada backend)
   const transactionNo = "BA/050526/0001";
 
   function openPickerForRow(rowId: string) {
@@ -1305,8 +1270,7 @@ export default function LoanInstallmentPaymentV2Table({
             const lockRowUi = !hasPicked;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
-            const isBakiDebet =
-              row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
 
@@ -1334,9 +1298,7 @@ export default function LoanInstallmentPaymentV2Table({
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, accountNo: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
                       )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
@@ -1357,9 +1319,7 @@ export default function LoanInstallmentPaymentV2Table({
                     open={row.daftarTagihanOpen}
                     onOpenChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, daftarTagihanOpen: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: v } : x)),
                       )
                     }
                     paymentMethod={row.paymentMethod}
@@ -1375,9 +1335,7 @@ export default function LoanInstallmentPaymentV2Table({
                         return;
                       }
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: true } : x)),
                       );
                     }}
                   />
@@ -1388,9 +1346,7 @@ export default function LoanInstallmentPaymentV2Table({
                     value={row.paymentMethod}
                     onChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, paymentMethod: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)),
                       )
                     }
                     disabled={lockRowUi}
@@ -1429,25 +1385,19 @@ export default function LoanInstallmentPaymentV2Table({
                     nominalReguler={row.nominalReguler}
                     onNominalReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, nominalReguler: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalReguler: v } : x)),
                       )
                     }
                     tabunganReguler={row.tabunganReguler}
                     onTabunganReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, tabunganReguler: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganReguler: v } : x)),
                       )
                     }
                     keteranganReguler={row.keteranganReguler}
                     onKeteranganReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, keteranganReguler: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganReguler: v } : x)),
                       )
                     }
                     nominalPokokBakiDebet={row.nominalPokokBakiDebet}
@@ -1461,73 +1411,55 @@ export default function LoanInstallmentPaymentV2Table({
                     tabunganBakiDebet={row.tabunganBakiDebet}
                     onTabunganBakiDebet={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, tabunganBakiDebet: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganBakiDebet: v } : x)),
                       )
                     }
                     keteranganBakiDebet={row.keteranganBakiDebet}
                     onKeteranganBakiDebet={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, keteranganBakiDebet: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganBakiDebet: v } : x)),
                       )
                     }
                     nominalPokokKhusus={row.nominalPokokKhusus}
                     onNominalPokokKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, nominalPokokKhusus: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalPokokKhusus: v } : x)),
                       )
                     }
                     nominalBungaKhusus={row.nominalBungaKhusus}
                     onNominalBungaKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, nominalBungaKhusus: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalBungaKhusus: v } : x)),
                       )
                     }
                     nominalDendaKhusus={row.nominalDendaKhusus}
                     onNominalDendaKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, nominalDendaKhusus: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, nominalDendaKhusus: v } : x)),
                       )
                     }
                     tabunganKhusus={row.tabunganKhusus}
                     onTabunganKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, tabunganKhusus: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganKhusus: v } : x)),
                       )
                     }
                     keteranganKhusus={row.keteranganKhusus}
                     onKeteranganKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, keteranganKhusus: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganKhusus: v } : x)),
                       )
                     }
                     tabunganPelunasan={row.tabunganPelunasan}
                     onTabunganPelunasan={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, tabunganPelunasan: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, tabunganPelunasan: v } : x)),
                       )
                     }
                     keteranganPelunasan={row.keteranganPelunasan}
                     onKeteranganPelunasan={(v) =>
                       setRows((prev) =>
-                        prev.map((x) =>
-                          x.id === row.id ? { ...x, keteranganPelunasan: v } : x,
-                        ),
+                        prev.map((x) => (x.id === row.id ? { ...x, keteranganPelunasan: v } : x)),
                       )
                     }
                   />
