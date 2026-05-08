@@ -5,9 +5,11 @@ import { cn } from "@/lib/utils";
 
 export default function LoanWriteoffSectionHeader({
   title = "Informasi Rekening",
+  subtitle,
   className,
 }: {
   title?: string;
+  subtitle?: string;
   className?: string;
 }) {
   return (
@@ -16,6 +18,12 @@ export default function LoanWriteoffSectionHeader({
         {title}
       </div>
       <div className="mt-2 h-px w-full bg-slate-300/70" />
+
+      {subtitle ? (
+        <div className="mt-3 text-center text-[13px] font-semibold tracking-tight text-slate-800">
+          {subtitle}
+        </div>
+      ) : null}
     </div>
   );
 }
