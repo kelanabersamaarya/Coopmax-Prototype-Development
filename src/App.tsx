@@ -27,7 +27,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner position="top-right" />
+      <Sonner
+        position="top-right"
+        offset={{ top: 16, right: 16, left: 16, bottom: 16 }}
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />}>
