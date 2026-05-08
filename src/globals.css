@@ -362,51 +362,8 @@ button[role="radio"]:focus-visible,
 
 /* ===========================
    Sonner toaster inset (global)
+   NOTE: Jangan paksa top/right/left/bottom di sini karena bisa bikin toast keluar viewport.
    =========================== */
 :where([data-sonner-toaster]) {
-  padding: 16px !important; /* insets */
-}
-
-/* Force inset for corner positions (fix "nempel" even for toast.custom) */
-:where([data-sonner-toaster][data-position="top-right"]) {
-  top: 20px !important;
-  right: 32px !important;
-  left: auto !important;
-  bottom: auto !important;
-}
-:where([data-sonner-toaster][data-position="top-left"]) {
-  top: 20px !important;
-  left: 32px !important;
-  right: auto !important;
-  bottom: auto !important;
-}
-:where([data-sonner-toaster][data-position="bottom-right"]) {
-  bottom: 20px !important;
-  right: 32px !important;
-  left: auto !important;
-  top: auto !important;
-}
-:where([data-sonner-toaster][data-position="bottom-left"]) {
-  bottom: 20px !important;
-  left: 32px !important;
-  right: auto !important;
-  top: auto !important;
-}
-
-/* Keep legacy rules (harmless) */
-:where([data-sonner-toaster][data-position="top-right"]) {
-  top: 20px !important;
-  right: 32px !important;
-}
-:where([data-sonner-toaster][data-position="bottom-right"]) {
-  bottom: 20px !important;
-  right: 32px !important;
-}
-:where([data-sonner-toaster][data-position="top-left"]) {
-  top: 20px !important;
-  left: 32px !important;
-}
-:where([data-sonner-toaster][data-position="bottom-left"]) {
-  bottom: 20px !important;
-  left: 32px !important;
+  padding: 16px !important;
 }
