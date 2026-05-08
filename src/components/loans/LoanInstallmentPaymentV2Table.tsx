@@ -1134,12 +1134,16 @@ function showAccountPickedToast() {
             "rounded-[10px] bg-emerald-600 text-white shadow-xl",
             "ring-1 ring-emerald-700/40",
             "px-4 py-3",
-            "text-[12px]",
           )}
         >
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
-              <CheckSquare className="h-5 w-5" strokeWidth={3} />
+            <span
+              className={cn(
+                "inline-flex h-8 w-8 items-center justify-center rounded-full",
+                "bg-emerald-950/20 ring-1 ring-white/15",
+              )}
+            >
+              <Check className="h-5 w-5" strokeWidth={3} />
             </span>
 
             <div className="min-w-0 flex-1">
