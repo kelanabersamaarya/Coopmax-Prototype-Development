@@ -10,6 +10,7 @@ import {
   Trash2,
   CheckSquare,
   X,
+  Check,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
@@ -269,7 +270,10 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
         <InfoStack label="Alamat" value={info.alamat} />
         <InfoStack label="Produk" value={info.produk} />
         <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-        <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
+        <InfoStack
+          label="Saldo Simpanan Wajib Peminjam"
+          value={info.saldoSimpananWajib}
+        />
       </div>
     </div>
   );
@@ -382,7 +386,9 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? it.value : (
+                hasInfo ? (
+                  it.value
+                ) : (
                   <span className="text-slate-400 font-semibold">-</span>
                 )
               }
@@ -393,7 +399,9 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? it.value : (
+                hasInfo ? (
+                  it.value
+                ) : (
                   <span className="text-slate-400 font-semibold">-</span>
                 )
               }
@@ -410,7 +418,11 @@ function SelectedPinjamanInfo({
             key={r.label}
             label={r.label}
             value={
-              hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>
+              hasInfo ? (
+                r.value
+              ) : (
+                <span className="text-slate-400 font-semibold">-</span>
+              )
             }
           />
         ))}
@@ -1085,6 +1097,51 @@ function SummaryBlock({
   );
 }
 
+function showPaymentInstallmentSavedToast(transactionNo: string) {
+  toast.custom((t) => (
+    <div className="mr-4 mt-4">
+      <div
+        className={cn(
+          "w-[min(560px,calc(100vw-1rem))]",
+          "rounded-[10px] bg-emerald-600 text-white shadow-xl",
+          "ring-1 ring-emerald-700/40",
+          "px-5 py-4",
+        )}
+      >
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
+            <Check className="h-5 w-5" strokeWidth={3} />
+          </span>
+
+          <div className="min-w-0 flex-1">
+            <div className="text-[15px] font-semibold leading-none">
+              Transaksi Pembayaran Angsuran Berhasil Tersimpan
+            </div>
+            <div className="mt-2 text-[14px] font-medium text-white/90">
+              No. Transaksi:{" "}
+              <span className="font-semibold text-white">{transactionNo}</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => toast.dismiss(t)}
+            className={cn(
+              "inline-flex h-8 w-8 items-center justify-center rounded-full",
+              "bg-white/15 ring-1 ring-white/20",
+              "transition hover:bg-white/20",
+            )}
+            aria-label="Tutup"
+            title="Tutup"
+          >
+            <X className="h-4.5 w-4.5 text-white" />
+          </button>
+        </div>
+      </div>
+    </div>
+  ));
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -1119,9 +1176,6 @@ export default function LoanInstallmentPaymentV2Table({
         r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r,
       ),
     );
-
-    // ✅ Dihilangkan: toast sukses saat memilih rekening (sesuai permintaan)
-    // toast.success("Data berhasil ditampilkan")
 
     setPickerOpen(false);
     setPickerTargetRowId(null);
@@ -1171,9 +1225,7 @@ export default function LoanInstallmentPaymentV2Table({
         onOpenChange={(v) => setSuccessOpen(v)}
         onBackToList={() => {
           setSuccessOpen(false);
-          toast.success("Transaksi tersimpan (prototype)", {
-            description: `No. Transaksi: ${transactionNo}`,
-          });
+          showPaymentInstallmentSavedToast(transactionNo);
           navigate("/loans/transactions");
         }}
         onViewDetail={() => {
@@ -1453,7 +1505,10 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <div className="mt-4" />
 
-                  <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
+                  <TransactionStatusBadge
+                    title="Status Transaksi"
+                    status="Belum diproses"
+                  />
 
                   {isLast ? (
                     <SummaryBlock
