@@ -1125,6 +1125,49 @@ function showPaymentInstallmentSavedToast() {
   ));
 }
 
+function showAccountPickedToast() {
+  toast.custom((t) => (
+    <div className="pointer-events-none bg-transparent p-0">
+      <div className="pointer-events-auto ml-auto w-[min(520px,calc(100vw-1rem))] mr-4 mt-4">
+        <div
+          className={cn(
+            "rounded-[10px] bg-emerald-600 text-white shadow-xl",
+            "ring-1 ring-emerald-700/40",
+            "px-4 py-3",
+            "text-[12px]",
+          )}
+        >
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
+              <CheckSquare className="h-5 w-5" strokeWidth={3} />
+            </span>
+
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-[15px] font-semibold leading-none">
+                Data berhasil ditampilkan
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => toast.dismiss(t)}
+              className={cn(
+                "inline-flex h-8 w-8 items-center justify-center rounded-full",
+                "bg-white/15 ring-1 ring-white/20",
+                "transition hover:bg-white/20",
+              )}
+              aria-label="Tutup"
+              title="Tutup"
+            >
+              <X className="h-4.5 w-4.5 text-white" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  ));
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -1154,14 +1197,20 @@ export default function LoanInstallmentPaymentV2Table({
   function onPick(nextAccountNo: string) {
     if (!pickerTargetRowId) return;
 
+    let didChange = false;
+
     setRows((prev) =>
-      prev.map((r) =>
-        r.id === pickerTargetRowId ? { ...r, accountNo: nextAccountNo } : r,
-      ),
+      prev.map((r) => {
+        if (r.id !== pickerTargetRowId) return r;
+        didChange = r.accountNo !== nextAccountNo;
+        return { ...r, accountNo: nextAccountNo };
+      }),
     );
 
     setPickerOpen(false);
     setPickerTargetRowId(null);
+
+    if (didChange) showAccountPickedToast();
   }
 
   function addRow(afterRowId: string) {
