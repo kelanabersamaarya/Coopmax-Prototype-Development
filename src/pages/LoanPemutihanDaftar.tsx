@@ -226,10 +226,8 @@ export default function LoanPemutihanDaftar() {
             {/* Header + Ringkasan rekening (muncul setelah pilih rekening) */}
             {showSummary && summary ? (
               <div className="mt-2">
-                <LoanWriteoffSectionHeader
-                  title="Informasi Rekening"
-                  subtitle="Detail Pelunasan"
-                />
+                <LoanWriteoffSectionHeader title="Informasi Rekening" />
+
                 <LoanWriteoffAccountSummary
                   className="mt-4"
                   accountNo={selectedAccountNo}
@@ -239,6 +237,10 @@ export default function LoanPemutihanDaftar() {
                   sisaDenda={summary.sisaDenda}
                   totalKewajibanBerjalan={summary.totalKewajibanBerjalan}
                 />
+
+                <div className="mt-3 text-center text-[13px] font-semibold tracking-tight text-slate-800">
+                  Detail Pelunasan
+                </div>
               </div>
             ) : null}
           </div>
