@@ -76,7 +76,7 @@ export default function LoanPemutihanDaftar() {
     "Pilih Kolektor",
   );
 
-  const [nominal, setNominal] = React.useState("");
+  const [nominal, setNominal] = React.useState("0,00");
   const [keterangan, setKeterangan] = React.useState("");
   const [confirm, setConfirm] = React.useState(false);
 
@@ -130,14 +130,8 @@ export default function LoanPemutihanDaftar() {
   }, [showSummary]);
 
   React.useEffect(() => {
-    if (!showSummary) return;
-    // set default nominal saat rekening dipilih (prototype)
-    setNominal("11.820.000,00");
-  }, [showSummary]);
-
-  React.useEffect(() => {
     if (showSummary) return;
-    setNominal("");
+    setNominal("0,00");
     setKeterangan("");
     setConfirm(false);
   }, [showSummary]);
@@ -287,7 +281,7 @@ export default function LoanPemutihanDaftar() {
                         "w-full",
                         "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
                         "shadow-sm",
-                        "text-right tabular-nums",
+                        "text-left",
                         "focus-visible:ring-0 focus-visible:ring-offset-0",
                       )}
                       placeholder="0,00"
