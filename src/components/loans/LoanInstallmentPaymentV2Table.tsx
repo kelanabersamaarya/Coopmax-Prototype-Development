@@ -26,7 +26,7 @@ import {
 import DaftarTagihanDialog from "@/components/loans/DaftarTagihanDialog";
 import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInfo";
 import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
 
 function Th({
@@ -276,400 +276,6 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   );
 }
 
-function LoanActionButton({
-  icon: Icon,
-  label,
-  onClick,
-  disabled = false,
-  className,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  onClick: () => void;
-  disabled?: boolean;
-  className?: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
-        "text-[14px] font-semibold text-white",
-        "ring-1 transition",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-        disabled ? "opacity-60 pointer-events-none" : "",
-        className,
-      )}
-    >
-      <Icon className="h-5 w-5" />
-      <span className="truncate">{label}</span>
-    </button>
-  );
-}
-
-function SelectedPinjamanInfo({
-  accountNo,
-  disabled,
-  hideInstallmentInfo = false,
-}: {
-  accountNo: string;
-  disabled: boolean;
-  hideInstallmentInfo?: boolean;
-}) {
-  const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
-  const hasInfo = !!info;
-
-  const topItems: Array<{ label: string; value?: React.ReactNode }> = hasInfo
-    ? [
-        ...(info.skemaTagihan
-          ? [{ label: "Skema Tagihan", value: info.skemaTagihan }]
-          : [{ label: "Skema Tagihan" }]),
-        ...(info.satuanGracePeriod
-          ? [{ label: "Satuan Grace Period", value: info.satuanGracePeriod }]
-          : [{ label: "Satuan Grace Period" }]),
-        ...(info.durasiGracePeriod
-          ? [{ label: "Durasi Grace Period", value: info.durasiGracePeriod }]
-          : [{ label: "Durasi Grace Period" }]),
-      ]
-    : [
-        { label: "Skema Tagihan" },
-        { label: "Satuan Grace Period" },
-        { label: "Durasi Grace Period" },
-      ];
-
-  const installmentMeta = hideInstallmentInfo ? [] : [{ label: "Angsuran ke", value: "2" }];
-  const installments = hideInstallmentInfo
-    ? []
-    : [
-        { label: "Angsuran Lunas", value: "1" },
-        { label: "Angsuran Seharusnya", value: "1" },
-      ];
-
-  const extra = [
-    { label: "Jangka Waktu", value: "12 Bulan" },
-    { label: "Tanggal Realisasi", value: "01-03-2026" },
-    { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
-    { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
-    { label: "Bunga Per Tahun", value: "10.00%" },
-    { label: "Metode Bunga", value: "Bunga Efektif" },
-  ];
-
-  return (
-    <div className="bg-white">
-      <div className="grid gap-4">
-        {topItems.map((it) => (
-          <InfoStack
-            key={it.label}
-            label={it.label}
-            value={it.value ?? <span className="text-slate-400 font-semibold">-</span>}
-          />
-        ))}
-      </div>
-
-      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
-
-      {!hideInstallmentInfo ? (
-        <div className="grid gap-4">
-          {installmentMeta.map((it) => (
-            <InfoStack
-              key={it.label}
-              label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
-            />
-          ))}
-          {installments.map((it) => (
-            <InfoStack
-              key={it.label}
-              label={it.label}
-              value={hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>}
-            />
-          ))}
-        </div>
-      ) : null}
-
-      <div className="my-4 h-px w-full bg-slate-200" />
-
-      <div className="grid gap-4">
-        {extra.map((r) => (
-          <InfoStack
-            key={r.label}
-            label={r.label}
-            value={hasInfo ? r.value : <span className="text-slate-400 font-semibold">-</span>}
-          />
-        ))}
-      </div>
-
-      <div className="my-4 h-px w-full bg-slate-200" />
-
-      <div className="grid gap-2.5">
-        <LoanActionButton
-          icon={History}
-          label="Riwayat Transaksi"
-          disabled={disabled}
-          onClick={() =>
-            toast("Riwayat Transaksi (prototype)", {
-              description: `Rekening: ${accountNo || "-"}`,
-            })
-          }
-          className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
-        />
-        <LoanActionButton
-          icon={Printer}
-          label="Simulasi Tunggakan"
-          disabled={disabled}
-          onClick={() =>
-            toast("Simulasi Tunggakan (prototype)", {
-              description: `Rekening: ${accountNo || "-"}`,
-            })
-          }
-          className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
-        />
-      </div>
-
-      <div className="sr-only">{hasInfo ? "ok" : "no"}</div>
-    </div>
-  );
-}
-
-const PAYMENT_METHODS = [
-  "Pembayaran Reguler",
-  "Pembayaran Penurunan Baki Debet",
-  "Pembayaran Khusus",
-  "Pelunasan",
-] as const;
-
-type PaymentMethod = (typeof PAYMENT_METHODS)[number];
-
-type BillTotals = {
-  pokok: string;
-  bunga: string;
-  denda: string;
-  total: string;
-};
-
-function BillTotalsBlock({
-  totals,
-  totalLabel = "Total Tagihan",
-  pokokLabel = "Tagihan Pokok",
-  bungaLabel = "Tagihan Bunga",
-  dendaLabel = "Tagihan Denda",
-}: {
-  totals: BillTotals;
-  totalLabel?: string;
-  pokokLabel?: string;
-  bungaLabel?: string;
-  dendaLabel?: string;
-}) {
-  return (
-    <div className="grid gap-4">
-      <InfoStack label={pokokLabel} value={totals.pokok} />
-      <InfoStack label={bungaLabel} value={totals.bunga} />
-      <InfoStack label={dendaLabel} value={totals.denda} />
-      <InfoStack label={totalLabel} value={totals.total} strong />
-    </div>
-  );
-}
-
-function BillTotalsTitlesOnly({
-  totalLabel = "Total Tagihan",
-  pokokLabel = "Tagihan Pokok",
-  bungaLabel = "Tagihan Bunga",
-  dendaLabel = "Tagihan Denda",
-}: {
-  totalLabel?: string;
-  pokokLabel?: string;
-  bungaLabel?: string;
-  dendaLabel?: string;
-}) {
-  const dash = <span className="text-slate-400 font-semibold">-</span>;
-
-  return (
-    <div className="grid gap-4">
-      <InfoStack label={pokokLabel} value={dash} />
-      <InfoStack label={bungaLabel} value={dash} />
-      <InfoStack label={dendaLabel} value={dash} />
-      <InfoStack label={totalLabel} value={dash} strong />
-    </div>
-  );
-}
-
-function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
-  return (
-    <div className="grid gap-4">
-      <InfoStack label="Sisa Pinjaman" value={sisaPinjaman} strong />
-    </div>
-  );
-}
-
-function RemainingLoanTitlesOnly() {
-  return (
-    <div className="grid gap-4">
-      <InfoStack
-        label="Sisa Pinjaman"
-        value={<span className="text-slate-400 font-semibold">-</span>}
-        strong
-      />
-    </div>
-  );
-}
-
-function DaftarTagihanTopButton({
-  disabled,
-  onClick,
-}: {
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <div className="grid gap-2">
-      <div className="text-[12px] font-normal text-slate-900">
-        Daftar Tagihan dan Denda
-      </div>
-
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={disabled}
-        className={cn(
-          "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
-          "bg-[#0b5bd3] text-[14px] font-semibold text-white",
-          "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
-          disabled ? "opacity-60 pointer-events-none" : "",
-        )}
-        aria-label="Lihat Tagihan & Denda"
-        title="Lihat Tagihan & Denda"
-      >
-        <Eye className="h-5 w-5" />
-        Lihat Tagihan & Denda
-      </button>
-    </div>
-  );
-}
-
-function TransactionPaymentMethodField({
-  value,
-  onChange,
-  disabled = false,
-}: {
-  value: PaymentMethod;
-  onChange: (v: PaymentMethod) => void;
-  disabled?: boolean;
-}) {
-  const triggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[5px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-    disabled ? "opacity-60 pointer-events-none" : "",
-  );
-
-  return (
-    <div className="grid gap-1.5">
-      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-        Metode Pembayaran
-      </div>
-
-      <Select
-        value={value}
-        onValueChange={(v) => onChange(v as PaymentMethod)}
-        disabled={disabled}
-      >
-        <SelectTrigger className={triggerCls}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="rounded-[10px] border-slate-200">
-          {PAYMENT_METHODS.map((m) => (
-            <SelectItem key={m} value={m} className="rounded-[8px]">
-              {m}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
-
-function TabunganField({
-  value,
-  onChange,
-  disabled,
-}: {
-  value: "Tanpa Tabungan";
-  onChange: (v: "Tanpa Tabungan") => void;
-  disabled: boolean;
-}) {
-  const triggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[5px]",
-    "border border-slate-300 bg-white px-3",
-    "text-[14px] font-medium text-slate-900",
-    "shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-400",
-    disabled ? "opacity-60 pointer-events-none" : "",
-  );
-
-  return (
-    <div className="grid gap-1.5">
-      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-        Tabungan
-      </div>
-
-      <Select
-        value={value}
-        onValueChange={(v) => onChange(v as "Tanpa Tabungan")}
-        disabled={disabled}
-      >
-        <SelectTrigger className={triggerCls}>
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="rounded-[10px] border-slate-200">
-          <SelectItem value="Tanpa Tabungan" className="rounded-[8px]">
-            Tanpa Tabungan
-          </SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
-
-function PaymentInputBlock({
-  paymentMethod,
-  disabled,
-  nominalReguler,
-  onNominalReguler,
-  tabunganReguler,
-  onTabunganReguler,
-  keteranganReguler,
-  onKeteranganReguler,
-  nominalPokokBakiDebet,
-  onNominalPokokBakiDebet,
-  tabunganBakiDebet,
-  onTabunganBakiDebet,
-  keteranganBakiDebet,
-  onKeteranganBakiDebet,
-  nominalPokokKhusus,
-  onNominalPokokKhusus,
-  nominalBungaKhusus,
-  onNominalBungaKhusus,
-  nominalDendaKhusus,
-  onNominalDendaKhusus,
-  tabunganKhusus,
-  onTabunganKhusus,
-  keteranganKhusus,
-  onKeteranganKhusus,
-  tabunganPelunasan,
-  onTabunganPelunasan,
-  keteranganPelunasan,
-  onKeteranganPelunasan,
-}: any) {
-  // (sengaja dibiarkan as any karena tidak terkait perubahan ini)
-  return null;
-}
-
 function InlineTableHeaderRow() {
   return (
     <tr className="bg-white">
@@ -687,6 +293,12 @@ function InlineTableHeaderRow() {
     </tr>
   );
 }
+
+type PaymentMethod =
+  | "Pembayaran Reguler"
+  | "Pembayaran Penurunan Baki Debet"
+  | "Pembayaran Khusus"
+  | "Pelunasan";
 
 type TransactionRowState = {
   id: string;
@@ -823,12 +435,24 @@ function showAccountPickedToast() {
   ));
 }
 
+function SummaryRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <div className="text-[14px] font-normal text-slate-900">{label} :</div>
+      <div className="text-[14px] font-normal text-slate-900 tabular-nums">
+        {value}
+      </div>
+    </div>
+  );
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
   className?: string;
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const fixedPx = 56 + 280;
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -919,13 +543,15 @@ export default function LoanInstallmentPaymentV2Table({
           toast.success("Transaksi tersimpan (prototype)", {
             description: `No. Transaksi: ${transactionNo}`,
           });
-          navigate(
-            "/loans/transactions",
-            {
-              state: { openDetailTransactionNo: transactionNo },
-              replace: true,
+
+          // Push ke halaman daftar transaksi, lalu buka detail lewat state.
+          // "background" dipakai oleh LoanTransactions untuk mengarahkan Back browser ke daftar.
+          navigate("/loans/transactions", {
+            state: {
+              openDetailTransactionNo: transactionNo,
+              background: { pathname: location.pathname, search: location.search },
             },
-          );
+          });
         }}
       />
 
@@ -968,28 +594,53 @@ export default function LoanInstallmentPaymentV2Table({
                   <span className="tabular-nums">{idx + 1}.</span>
                 </Td>
                 <Td className="pl-3 pr-4">
-                  <NasabahRow
-                    accountNo={row.accountNo}
-                    onAccountNoChange={(v) =>
-                      setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
-                      )
-                    }
-                    onSearchClick={() => openPickerForRow(row.id)}
-                  />
+                  <div className="grid gap-1.5">
+                    <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+                      No Rek
+                    </div>
+
+                    <div className="flex min-w-0 items-stretch">
+                      <Input
+                        value={row.accountNo}
+                        onChange={(e) =>
+                          setRows((prev) =>
+                            prev.map((x) =>
+                              x.id === row.id ? { ...x, accountNo: e.target.value } : x,
+                            ),
+                          )
+                        }
+                        placeholder="Cari nasabah"
+                        className={cn(
+                          "h-[30px] min-w-0 rounded-l-[5px] rounded-r-none",
+                          "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
+                          "shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                          "placeholder:text-slate-500",
+                        )}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => openPickerForRow(row.id)}
+                        className={cn(
+                          "inline-flex w-10 shrink-0 items-center justify-center",
+                          "h-[30px]",
+                          "rounded-r-[5px] rounded-l-none",
+                          "bg-[#6B7A90] text-white",
+                          "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+                        )}
+                        aria-label="Cari"
+                        title="Cari"
+                      >
+                        <Search className="h-4.5 w-4.5" />
+                      </button>
+                    </div>
+                  </div>
+
                   {!!row.accountNo.trim() ? (
                     <SelectedNasabahInfo accountNo={row.accountNo} />
                   ) : null}
                 </Td>
                 <Td className="bg-white">
-                  <SelectedPinjamanInfo
-                    accountNo={row.accountNo}
-                    disabled={!row.accountNo.trim()}
-                    hideInstallmentInfo={
-                      row.paymentMethod === "Pembayaran Penurunan Baki Debet" ||
-                      row.paymentMethod === "Pelunasan"
-                    }
-                  />
+                  <div className="sr-only">{deriveNasabahNameByAccountNo(row.accountNo)}</div>
                 </Td>
                 <Td className="bg-white">
                   <TransactionStatusBadge title="Status Transaksi" status="Belum diproses" />
@@ -1049,8 +700,6 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
-
-      <div className="sr-only">{deriveNasabahNameByAccountNo("12260006")}</div>
     </div>
   );
 }
