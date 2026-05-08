@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import LoanWriteoffAccountSummary from "@/components/loans/LoanWriteoffAccountSummary";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
@@ -45,6 +46,15 @@ function FieldRow({
   );
 }
 
+function deriveNasabahNameByAccountNo(accountNo: string) {
+  if (accountNo === "12260006") return "Pangeran Sirait";
+  if (accountNo === "12260002") return "gaby";
+  if (accountNo === "12260001") return "Rika Wastuti";
+  if (accountNo === "210260001") return "Jenan Aditama";
+  if (accountNo === "072260001") return "Rika Wastuti";
+  return "Nasabah";
+}
+
 export default function LoanPemutihanDaftar() {
   const [qNasabah, setQNasabah] = React.useState("");
   const [pickerOpen, setPickerOpen] = React.useState(false);
@@ -72,6 +82,30 @@ export default function LoanPemutihanDaftar() {
     "[&>svg]:text-slate-400",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
+
+  const selectedAccountNo = qNasabah.trim();
+  const showSummary = selectedAccountNo.length > 0;
+
+  const summary = React.useMemo(() => {
+    if (!showSummary) return null;
+
+    const nama = deriveNasabahNameByAccountNo(selectedAccountNo);
+
+    // Prototype numbers (bisa diganti data real nanti)
+    const sisaPokok = "10.553.571,00";
+    const sisaBunga = "1.266.429,00";
+    const sisaDenda = "0,00";
+
+    const totalKewajibanBerjalan = "11.820.000,00";
+
+    return {
+      nama,
+      sisaPokok,
+      sisaBunga,
+      sisaDenda,
+      totalKewajibanBerjalan,
+    };
+  }, [selectedAccountNo, showSummary]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -183,6 +217,19 @@ export default function LoanPemutihanDaftar() {
 
             {/* Divider bawah semua field */}
             <Separator className="mt-2 bg-slate-200" />
+
+            {/* Ringkasan rekening (muncul setelah pilih rekening) */}
+            {showSummary && summary ? (
+              <LoanWriteoffAccountSummary
+                className="mt-2"
+                accountNo={selectedAccountNo}
+                customerName={summary.nama}
+                sisaPokok={summary.sisaPokok}
+                sisaBunga={summary.sisaBunga}
+                sisaDenda={summary.sisaDenda}
+                totalKewajibanBerjalan={summary.totalKewajibanBerjalan}
+              />
+            ) : null}
           </div>
 
           <div className="sr-only">
