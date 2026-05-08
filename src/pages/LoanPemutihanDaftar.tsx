@@ -228,9 +228,6 @@ export default function LoanPemutihanDaftar() {
               </div>
             </FieldRow>
 
-            {/* Divider utama setelah input rekening */}
-            {showSummary ? <div className={DIVIDER} /> : null}
-
             {/* Header + Ringkasan rekening (muncul setelah pilih rekening) */}
             {showSummary && summary ? (
               <div className="mt-2">
