@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search } from "lucide-react";
+import { Search, CheckSquare, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
@@ -124,6 +124,49 @@ export default function LoanPemutihanDaftar() {
     setKeterangan("");
     setConfirm(false);
   }, [showSummary]);
+
+  const actionBtnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    "h-[28px] w-[90px] px-2",
+    "rounded-[6px]",
+    "text-[11px] font-bold tracking-tight text-white",
+    "ring-1 transition",
+    "leading-none",
+  );
+
+  const actionIconCls = "h-4 w-4";
+
+  function handleCancel() {
+    setQNasabah("");
+    toast("Dibatalkan", { description: "Form pemutihan dibersihkan." });
+  }
+
+  function handleSave() {
+    if (!selectedAccountNo) {
+      toast("No. Rekening wajib diisi", {
+        description: "Silakan pilih rekening terlebih dahulu.",
+      });
+      return;
+    }
+    if (!tanggal.trim()) {
+      toast("Tanggal wajib diisi", { description: "Silakan pilih tanggal." });
+      return;
+    }
+    if (!keterangan.trim()) {
+      toast("Keterangan wajib diisi", { description: "Silakan isi keterangan." });
+      return;
+    }
+    if (!confirm) {
+      toast("Konfirmasi diperlukan", {
+        description: "Centang persetujuan sebelum menyimpan.",
+      });
+      return;
+    }
+
+    toast.success("Pemutihan Pinjaman Berhasil Dilakukan (prototype)", {
+      description: `Rekening: ${selectedAccountNo} • Tanggal: ${tanggal}`,
+    });
+  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -330,6 +373,36 @@ export default function LoanPemutihanDaftar() {
                       />
                       Yakin untuk melunasi pemutihan pinjaman ini
                     </label>
+                  </div>
+
+                  {/* Tombol pojok kanan bawah */}
+                  <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center pt-2">
+                    <div className="hidden sm:block" />
+                    <div className="flex justify-end gap-4">
+                      <button
+                        type="button"
+                        onClick={handleCancel}
+                        className={cn(
+                          actionBtnBase,
+                          "bg-[#77839A] ring-[#77839A]/25 hover:bg-[#6b768c]",
+                        )}
+                      >
+                        <X className={actionIconCls} strokeWidth={3} />
+                        Batalkan
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleSave}
+                        className={cn(
+                          actionBtnBase,
+                          "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
+                        )}
+                      >
+                        <CheckSquare className={actionIconCls} strokeWidth={3} />
+                        Simpan
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
