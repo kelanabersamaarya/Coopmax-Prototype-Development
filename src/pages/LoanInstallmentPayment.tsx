@@ -104,9 +104,10 @@ export default function LoanInstallmentPayment() {
     setQNasabah(accountNo);
     setPickerOpen(false);
 
-    toast.success("Berhasil Menampilkan Tagihan Nasabah", {
-      description: `${nama} • ${accountNo}`,
-    });
+    // ✅ Dihilangkan: toast sukses saat menambahkan rekening (sesuai permintaan)
+    // toast.success("Berhasil Menampilkan Tagihan Nasabah", {
+    //   description: `${nama} • ${accountNo}`,
+    // });
   }
 
   function removeAccount(accountNo: string) {
