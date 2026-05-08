@@ -4,9 +4,25 @@ import { cn } from "@/lib/utils";
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
+
+const COLLECTORS = ["Pilih Kolektor", "Dinda Sudiati", "Kolektor A", "Kolektor B"] as const;
+
+function toDmyFromIso(iso: string) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec((iso ?? "").trim());
+  if (!m) return "";
+  return `${m[3]}-${m[2]}-${m[1]}`;
+}
 
 function FieldRow({
   label,
@@ -32,9 +48,29 @@ export default function LoanPemutihanDaftar() {
   const [qNasabah, setQNasabah] = React.useState("");
   const [pickerOpen, setPickerOpen] = React.useState(false);
 
+  const [tanggal, setTanggal] = React.useState(() => {
+    const todayIso = new Date().toISOString().slice(0, 10);
+    return toDmyFromIso(todayIso) || "06-05-2026";
+  });
+
+  const [kolektor, setKolektor] = React.useState<(typeof COLLECTORS)[number]>(
+    "Pilih Kolektor",
+  );
+
   function openPicker() {
     setPickerOpen(true);
   }
+
+  const selectTriggerCls = cn(
+    H,
+    R,
+    "w-full border border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900",
+    "shadow-sm",
+    "justify-between",
+    "[&>svg]:text-slate-400",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -59,7 +95,7 @@ export default function LoanPemutihanDaftar() {
 
         <div className="mt-6 rounded-3xl border border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur">
           <div className="grid gap-[15px]">
-            {/* No. Rekening + tombol cari */}
+            {/* 1) No. Rekening + tombol cari */}
             <FieldRow label="No. Rekening" required>
               <div className="flex w-full items-stretch">
                 <Input
@@ -96,7 +132,23 @@ export default function LoanPemutihanDaftar() {
               </div>
             </FieldRow>
 
-            {/* Jenis Transaksi (readonly) */}
+            {/* 2) Tanggal */}
+            <FieldRow label="Tanggal" required>
+              <DatePickerDmyField
+                value={tanggal}
+                onChange={setTanggal}
+                inputClassName={cn(
+                  H,
+                  R,
+                  "border-slate-300 bg-white pr-11 text-[14px] font-medium text-slate-900",
+                  "shadow-sm",
+                )}
+                popoverAlign="end"
+                placeholder="DD-MM-YYYY"
+              />
+            </FieldRow>
+
+            {/* 3) Jenis Transaksi (readonly) */}
             <FieldRow label="Jenis Transaksi" required>
               <Input
                 value="Pemutihan Pinjaman"
@@ -111,10 +163,25 @@ export default function LoanPemutihanDaftar() {
                 )}
               />
             </FieldRow>
+
+            {/* 4) Kolektor */}
+            <FieldRow label="Kolektor" required>
+              <Select value={kolektor} onValueChange={(v) => setKolektor(v as any)}>
+                <SelectTrigger className={selectTriggerCls}>
+                  <SelectValue placeholder="Pilih Kolektor" />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl border-slate-200">
+                  {COLLECTORS.map((k) => (
+                    <SelectItem key={k} value={k} className="rounded-lg">
+                      {k}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FieldRow>
           </div>
 
           <div className="sr-only">
-            {/* keep constant used */}
             <div>{R}</div>
           </div>
         </div>
