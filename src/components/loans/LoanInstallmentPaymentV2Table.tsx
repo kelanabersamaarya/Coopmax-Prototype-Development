@@ -27,6 +27,7 @@ import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInf
 import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
 import { useNavigate } from "react-router-dom";
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
+import { showSolidSuccess } from "@/utils/solid-toast";
 
 function Th({
   children,
@@ -1120,9 +1121,8 @@ export default function LoanInstallmentPaymentV2Table({
       ),
     );
 
-    toast.success("Berhasil Menampilkan Tagihan Nasabah", {
-      description: `${deriveNasabahNameByAccountNo(nextAccountNo)} • ${nextAccountNo}`,
-    });
+    // ✅ toast solid (tidak transparan) sesuai screenshot
+    showSolidSuccess("Data berhasil ditampilkan");
 
     setPickerOpen(false);
     setPickerTargetRowId(null);
