@@ -44,17 +44,18 @@ function Th({
   colSpan,
   rowSpan,
   align = "center",
+  noRightBorder = false,
 }: {
   children: React.ReactNode;
   className?: string;
   colSpan?: number;
   rowSpan?: number;
   align?: Align;
+  noRightBorder?: boolean;
 }) {
   const isGroup = typeof colSpan === "number";
 
-  // Hilangkan garis bawah khusus untuk header grup (colSpan) seperti "CABANG".
-  // Header lainnya tetap punya garis bawah untuk pemisah header -> body.
+  // Header grup (colSpan) seperti "CABANG" tidak pakai garis bawah khusus.
   const bottomDivider = isGroup ? "" : "border-b border-slate-300";
 
   return (
@@ -62,10 +63,10 @@ function Th({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        // dipersempit: px-3 -> px-2
         "bg-white px-2 py-2.5 align-middle",
         bottomDivider,
-        // no vertical borders
+        // ✅ kembali tampilkan garis vertikal
+        noRightBorder ? "" : "border-r border-slate-300",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -86,19 +87,21 @@ function Td({
   className,
   align = "left",
   title,
+  noRightBorder = false,
 }: {
   children: React.ReactNode;
   className?: string;
   align?: Align;
   title?: string;
+  noRightBorder?: boolean;
 }) {
   return (
     <td
       title={title}
       className={cn(
-        // dipersempit: px-3 -> px-2
         "border-b border-slate-200 px-2 py-2 align-top",
-        // no vertical borders
+        // ✅ kembali tampilkan garis vertikal
+        noRightBorder ? "" : "border-r border-slate-200",
         "text-[13px] font-medium text-slate-900",
         align === "center"
           ? "text-left"
@@ -239,11 +242,9 @@ function TotalRowMergedToJangkaWaktu({
   totals: Totals;
 }) {
   const totalRowText =
-    // dipersempit: px-3 -> px-2
-    "border-b border-slate-200 last:border-r-0 px-2 py-2.5 text-[13px] font-extrabold text-slate-900";
+    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    // dipersempit: px-3 -> px-2
-    "border-b border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_TO_JW_END = 15;
 
@@ -269,7 +270,7 @@ function TotalRowMergedToJangkaWaktu({
       <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
-      <td className={totalRowText} />
+      <td className={cn(totalRowText, "border-r-0")} />
     </tr>
   );
 }
@@ -343,7 +344,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[2930px] w-full border-collapse bg-white">
+          <table className="min-w-[2930px] w-full border-collapse bg-white border-l border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no} align="left">
@@ -409,6 +410,7 @@ export default function KolektibilitasReportTable({
                   rowSpan={2}
                   className={cn(colW.kolektibilitas, "whitespace-nowrap")}
                   align="left"
+                  noRightBorder
                 >
                   KOLEKTIBLILITAS
                 </Th>
@@ -662,6 +664,7 @@ export default function KolektibilitasReportTable({
                       <Td
                         className={cn(colW.kolektibilitas, "whitespace-nowrap")}
                         align="left"
+                        noRightBorder
                       >
                         {kolek}
                       </Td>
