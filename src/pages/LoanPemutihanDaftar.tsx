@@ -321,7 +321,7 @@ export default function LoanPemutihanDaftar() {
                     />
                   </FieldRow>
 
-                  <FieldRow label="Bayar Hutang">
+                  <FieldRow label="Bayar Hutang Bunga">
                     <Input
                       value={detail?.bayarHutang ?? ""}
                       readOnly
