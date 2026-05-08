@@ -24,7 +24,10 @@ import {
 } from "@/components/ui/select";
 import DaftarTagihanDialog from "@/components/loans/DaftarTagihanDialog";
 import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInfo";
-import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
+import {
+  PaymentConfirmModal,
+  PaymentSuccessModal,
+} from "@/components/anggota/PaymentConfirmModals";
 import { useNavigate } from "react-router-dom";
 
 function Th({
@@ -370,7 +373,9 @@ function SelectedPinjamanInfo({
         ))}
       </div>
 
-      {!hideInstallmentInfo ? <div className="my-4 h-px w-full bg-slate-200" /> : null}
+      {!hideInstallmentInfo ? (
+        <div className="my-4 h-px w-full bg-slate-200" />
+      ) : null}
 
       {!hideInstallmentInfo ? (
         <div className="grid gap-4">
@@ -1089,6 +1094,7 @@ export default function LoanInstallmentPaymentV2Table({
   const fixedPx = 56 + 280;
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(
@@ -1154,6 +1160,14 @@ export default function LoanInstallmentPaymentV2Table({
         onCancel={() => setConfirmOpen(false)}
         onYes={() => {
           setConfirmOpen(false);
+          setSuccessOpen(true);
+        }}
+      />
+
+      <PaymentSuccessModal
+        open={successOpen}
+        onOk={() => {
+          setSuccessOpen(false);
           toast.success("Simpan (prototype)", {
             description: "Transaksi disimpan (dummy).",
           });
@@ -1462,6 +1476,8 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
+
+      <div className="sr-only">{navigate}</div>
     </div>
   );
 }
