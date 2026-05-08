@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
+const DIVIDER = "h-px w-full bg-slate-300/70";
 
 function toDmyFromIso(iso: string) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec((iso ?? "").trim());
@@ -227,9 +228,13 @@ export default function LoanPemutihanDaftar() {
               </div>
             </FieldRow>
 
+            {/* Divider utama setelah input rekening */}
+            {showSummary ? <div className={DIVIDER} /> : null}
+
             {/* Header + Ringkasan rekening (muncul setelah pilih rekening) */}
             {showSummary && summary ? (
               <div className="mt-2">
+                {/* Header Informasi Rekening (punya divider sendiri), tetap pakai komponen */}
                 <LoanWriteoffSectionHeader title="Informasi Rekening" />
 
                 <LoanWriteoffAccountSummary
@@ -242,8 +247,12 @@ export default function LoanPemutihanDaftar() {
                   totalKewajibanBerjalan={summary.totalKewajibanBerjalan}
                 />
 
-                <div className="mt-3 text-center text-[13px] font-semibold tracking-tight text-slate-800">
-                  Detail Pemutihan Pinjaman
+                {/* Divider konsisten sebelum detail pemutihan */}
+                <div className="mt-4">
+                  <div className="text-center text-[13px] font-semibold tracking-tight text-slate-800">
+                    Detail Pemutihan Pinjaman
+                  </div>
+                  <div className={cn("mt-2", DIVIDER)} />
                 </div>
 
                 {/* Form Detail Pemutihan Pinjaman */}
@@ -360,6 +369,9 @@ export default function LoanPemutihanDaftar() {
                     />
                   </FieldRow>
 
+                  {/* Divider sebelum konfirmasi (samakan ukuran) */}
+                  <div className={DIVIDER} />
+
                   <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                     <div className="hidden sm:block" />
                     <label className="flex items-center gap-3 text-[14px] font-medium text-slate-900">
@@ -370,6 +382,9 @@ export default function LoanPemutihanDaftar() {
                       Yakin untuk melunasi pemutihan pinjaman ini
                     </label>
                   </div>
+
+                  {/* Divider sebelum tombol aksi (samakan ukuran) */}
+                  <div className={DIVIDER} />
 
                   {/* Tombol pojok kanan bawah */}
                   <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center pt-2">
