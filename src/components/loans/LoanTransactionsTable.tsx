@@ -42,6 +42,19 @@ const seed: Row[] = [
     nominal: "500.000,00",
     denda: "0,00",
   },
+  {
+    noTransaksi: "PMT/050526/0001",
+    rekPinjaman: "12260006",
+    rekTabungan: "-",
+    idNasabah: "N2400029",
+    namaNasabah: "Pangeran Sirait",
+    namaKolektor: "Dinda Sudiati",
+    produkPinjaman: "Pinjaman Bulanan",
+    tanggal: "05-05-2026",
+    jenisTransaksi: "Pemutihan Pinjaman",
+    nominal: "0,00",
+    denda: "0,00",
+  },
 ];
 
 type HeaderKind = "sort" | "menu" | "none";
