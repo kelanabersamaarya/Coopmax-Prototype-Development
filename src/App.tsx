@@ -27,7 +27,7 @@ const App = () => (
     <TooltipProvider>
       <Sonner
         position="top-right"
-        offset={{ top: 16, right: 16, left: 16, bottom: 16 }}
+        offset={{ top: 20, right: 32, left: 16, bottom: 16 }}
       />
       <BrowserRouter>
         <Routes>
