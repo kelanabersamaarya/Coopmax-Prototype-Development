@@ -8,12 +8,12 @@ export default function LoanPemutihanDaftar() {
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
             Pemutihan Pinjaman
           </h1>
-          <div className="text-base font-semibold text-slate-600">Daftar</div>
+          <div className="text-base font-semibold text-slate-600">Tambah</div>
         </div>
 
         <div className="mt-6 rounded-3xl border border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur">
           <div className="text-sm font-medium text-slate-700">
-            Halaman daftar pemutihan pinjaman (prototype).
+            Halaman pemutihan pinjaman (prototype).
           </div>
         </div>
       </div>
