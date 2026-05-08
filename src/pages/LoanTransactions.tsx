@@ -9,6 +9,7 @@ import {
   Percent,
   ArrowUp,
   Banknote,
+  Eraser,
 } from "lucide-react";
 import LoanTransactionsTable from "@/components/loans/LoanTransactionsTable";
 import LoanTransactionsDetailHeader from "@/components/loans/LoanTransactionsDetailHeader";
@@ -131,7 +132,7 @@ export default function LoanTransactions() {
     },
     {
       label: "Pemutihan Pinjaman",
-      icon: Trash2,
+      icon: Eraser,
       onClick: () =>
         toast("Pemutihan Pinjaman (prototype)", {
           description: "Fitur pemutihan belum dihubungkan.",
