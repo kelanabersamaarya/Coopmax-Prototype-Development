@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/select";
 import LoanWriteoffAccountSummary from "@/components/loans/LoanWriteoffAccountSummary";
 import LoanWriteoffSectionHeader from "@/components/loans/LoanWriteoffSectionHeader";
+import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
@@ -73,6 +76,10 @@ export default function LoanPemutihanDaftar() {
     "Pilih Kolektor",
   );
 
+  const [nominal, setNominal] = React.useState("");
+  const [keterangan, setKeterangan] = React.useState("");
+  const [confirm, setConfirm] = React.useState(false);
+
   function openPicker() {
     setPickerOpen(true);
   }
@@ -111,6 +118,29 @@ export default function LoanPemutihanDaftar() {
       totalKewajibanBerjalan,
     };
   }, [selectedAccountNo, showSummary]);
+
+  // Detail Pelunasan (prototype values)
+  const detail = React.useMemo(() => {
+    if (!showSummary) return null;
+    return {
+      bayarPokok: "10.553.571,00",
+      bayarBunga: "1.266.429,00",
+      bayarHutang: "0,00",
+    };
+  }, [showSummary]);
+
+  React.useEffect(() => {
+    if (!showSummary) return;
+    // set default nominal saat rekening dipilih (prototype)
+    setNominal("11.820.000,00");
+  }, [showSummary]);
+
+  React.useEffect(() => {
+    if (showSummary) return;
+    setNominal("");
+    setKeterangan("");
+    setConfirm(false);
+  }, [showSummary]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -240,6 +270,105 @@ export default function LoanPemutihanDaftar() {
 
                 <div className="mt-3 text-center text-[13px] font-semibold tracking-tight text-slate-800">
                   Detail Pelunasan
+                </div>
+
+                {/* Divider persis di bawah teks Detail Pelunasan */}
+                <Separator className="mt-3 bg-slate-200/70" />
+
+                {/* Form Detail Pelunasan */}
+                <div className="mt-4 grid gap-[15px]">
+                  <FieldRow label="Nominal">
+                    <Input
+                      value={nominal}
+                      onChange={(e) => setNominal(e.target.value)}
+                      className={cn(
+                        H,
+                        R,
+                        "w-full",
+                        "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
+                        "shadow-sm",
+                        "text-right tabular-nums",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                      placeholder="0,00"
+                      inputMode="decimal"
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Bayar Pokok">
+                    <Input
+                      value={detail?.bayarPokok ?? ""}
+                      readOnly
+                      className={cn(
+                        H,
+                        R,
+                        "w-full",
+                        "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
+                        "shadow-sm",
+                        "text-right tabular-nums",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Bayar Bunga">
+                    <Input
+                      value={detail?.bayarBunga ?? ""}
+                      readOnly
+                      className={cn(
+                        H,
+                        R,
+                        "w-full",
+                        "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
+                        "shadow-sm",
+                        "text-right tabular-nums",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Bayar Hutang">
+                    <Input
+                      value={detail?.bayarHutang ?? ""}
+                      readOnly
+                      className={cn(
+                        H,
+                        R,
+                        "w-full",
+                        "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
+                        "shadow-sm",
+                        "text-right tabular-nums",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Keterangan">
+                    <Textarea
+                      value={keterangan}
+                      onChange={(e) => setKeterangan(e.target.value)}
+                      className={cn(
+                        "min-h-[96px]",
+                        R,
+                        "w-full",
+                        "border-slate-300 bg-white text-[14px] font-medium text-slate-900",
+                        "shadow-sm",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                      placeholder="Tulis keterangan…"
+                    />
+                  </FieldRow>
+
+                  <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                    <div className="hidden sm:block" />
+                    <label className="flex items-center gap-3 text-[14px] font-medium text-slate-900">
+                      <Checkbox
+                        checked={confirm}
+                        onCheckedChange={(v) => setConfirm(!!v)}
+                      />
+                      Yakin untuk melunasi pemutihan pinjaman ini
+                    </label>
+                  </div>
                 </div>
               </div>
             ) : null}
