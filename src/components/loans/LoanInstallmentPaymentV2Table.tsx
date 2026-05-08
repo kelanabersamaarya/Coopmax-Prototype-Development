@@ -1095,9 +1095,8 @@ function showPaymentInstallmentSavedToast() {
           )}
         >
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
-              <Check className="h-5 w-5" strokeWidth={3} />
-            </span>
+            {/* ✅ icon TANPA background / container */}
+            <Check className="h-6 w-6 text-white" strokeWidth={3} />
 
             <div className="min-w-0 flex-1">
               <div className="font-semibold leading-snug break-words">
