@@ -189,7 +189,7 @@ export default function LoanPemutihanDaftar() {
           <div className="text-base font-semibold text-slate-600">Tambah</div>
         </div>
 
-        <div className="mt-6 rounded-3xl border border-slate-200/70 bg-white/85 px-[35px] py-5 shadow-sm backdrop-blur">
+        <div className="mt-6 rounded-3xl border border-slate-200/70 bg-white/85 px-[35px] pt-[35px] pb-5 shadow-sm backdrop-blur">
           <div className="grid gap-[15px]">
             {/* 1) No. Rekening + tombol cari */}
             <FieldRow label="No. Rekening" required>
