@@ -362,7 +362,7 @@ button[role="radio"]:focus-visible,
 
 /* ===========================
    Sonner toaster inset (global)
-   Supaya toast tidak menempel ke tepi kanan/atas layar
+   Supaya toast tidak menempel ke tepi layar
    =========================== */
 :where([data-sonner-toaster][data-position="top-right"]) {
   top: 16px !important;
@@ -379,4 +379,14 @@ button[role="radio"]:focus-visible,
 :where([data-sonner-toaster][data-position="bottom-left"]) {
   bottom: 16px !important;
   left: 16px !important;
+}
+
+/* ===========================
+   Radix Toast (shadcn Toaster) inset (global)
+   Supaya toast tidak menempel ke tepi kanan layar
+   =========================== */
+:where([data-radix-toast-viewport]) {
+  right: 16px !important;
+  top: 16px !important;
+  bottom: 16px !important;
 }
