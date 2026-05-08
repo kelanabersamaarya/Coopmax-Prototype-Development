@@ -377,9 +377,6 @@ export default function LoanPemutihanDaftar() {
                     </label>
                   </div>
 
-                  {/* Divider sebelum tombol aksi (samakan ukuran) */}
-                  <div className={DIVIDER} />
-
                   {/* Tombol pojok kanan bawah */}
                   <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center pt-2">
                     <div className="hidden sm:block" />
