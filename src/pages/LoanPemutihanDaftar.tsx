@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import LoanWriteoffAccountSummary from "@/components/loans/LoanWriteoffAccountSummary";
 import LoanWriteoffSectionHeader from "@/components/loans/LoanWriteoffSectionHeader";
-import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -136,8 +135,6 @@ export default function LoanPemutihanDaftar() {
 
   const actionIconCls = "h-4 w-4";
 
-  const dividerCls = "bg-slate-200/70";
-
   function handleCancel() {
     setQNasabah("");
     toast("Dibatalkan", { description: "Form pemutihan dibersihkan." });
@@ -235,9 +232,6 @@ export default function LoanPemutihanDaftar() {
               <div className="mt-2">
                 <LoanWriteoffSectionHeader title="Informasi Rekening" />
 
-                {/* Divider (samakan style) */}
-                <Separator className={cn("mt-3", dividerCls)} />
-
                 <LoanWriteoffAccountSummary
                   className="mt-4"
                   accountNo={selectedAccountNo}
@@ -251,9 +245,6 @@ export default function LoanPemutihanDaftar() {
                 <div className="mt-3 text-center text-[13px] font-semibold tracking-tight text-slate-800">
                   Detail Pemutihan Pinjaman
                 </div>
-
-                {/* Divider persis di bawah teks Detail Pemutihan Pinjaman (samakan style) */}
-                <Separator className={cn("mt-3", dividerCls)} />
 
                 {/* Form Detail Pemutihan Pinjaman */}
                 <div className="mt-4 grid gap-[15px]">
