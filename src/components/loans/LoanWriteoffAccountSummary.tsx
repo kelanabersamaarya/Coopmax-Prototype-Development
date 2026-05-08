@@ -58,7 +58,7 @@ export default function LoanWriteoffAccountSummary({
     >
       <div className="px-4 py-3 sm:px-5">
         <div className="text-[13px] font-extrabold uppercase tracking-wide text-slate-900">
-          Informasi Rekening
+          PINJAMAN BILLING
         </div>
 
         <div className="mt-3 grid gap-4 sm:grid-cols-2">
