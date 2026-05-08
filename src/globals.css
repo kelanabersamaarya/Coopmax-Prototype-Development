@@ -359,3 +359,24 @@ button[role="radio"]:focus-visible,
   box-shadow: none !important;
   border-color: var(--field-focus-border) !important;
 }
+
+/* ===========================
+   Sonner toaster inset (global)
+   Supaya toast tidak menempel ke tepi kanan/atas layar
+   =========================== */
+:where([data-sonner-toaster][data-position="top-right"]) {
+  top: 16px !important;
+  right: 16px !important;
+}
+:where([data-sonner-toaster][data-position="bottom-right"]) {
+  bottom: 16px !important;
+  right: 16px !important;
+}
+:where([data-sonner-toaster][data-position="top-left"]) {
+  top: 16px !important;
+  left: 16px !important;
+}
+:where([data-sonner-toaster][data-position="bottom-left"]) {
+  bottom: 16px !important;
+  left: 16px !important;
+}
