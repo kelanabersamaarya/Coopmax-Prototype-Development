@@ -55,12 +55,11 @@ function Th({
 }) {
   const isGroup = typeof colSpan === "number";
 
-  // ✅ garis horizontal untuk semua header:
-  // - baris grup: ada border-bottom juga agar grid header terlihat
-  const bottomDivider = "border-b border-slate-300";
-
-  // ✅ untuk baris grup (colSpan), tambahkan border-top supaya terlihat "kotak"
+  // ✅ Terapkan grid horizontal untuk SEMUA header:
+  // - baris grup (colSpan): border-top + border-bottom
+  // - baris biasa: border-bottom
   const topDivider = isGroup ? "border-t border-slate-300" : "";
+  const bottomDivider = "border-b border-slate-300";
 
   return (
     <th
@@ -70,7 +69,7 @@ function Th({
         "bg-white px-2 py-2.5 align-middle",
         topDivider,
         bottomDivider,
-        // garis vertikal
+        // ✅ garis vertikal
         noRightBorder ? "" : "border-r border-slate-300",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
@@ -105,7 +104,7 @@ function Td({
       title={title}
       className={cn(
         "border-b border-slate-200 px-2 py-2 align-top",
-        // garis vertikal
+        // ✅ garis vertikal
         noRightBorder ? "" : "border-r border-slate-200",
         "text-[13px] font-medium text-slate-900",
         align === "center"
