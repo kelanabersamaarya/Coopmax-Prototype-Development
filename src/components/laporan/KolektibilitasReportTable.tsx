@@ -343,7 +343,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[2930px] w-full border-collapse bg-white border-l border-slate-300">
+          <table className="min-w-[2930px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no} align="left">
