@@ -129,6 +129,14 @@ export default function LoanTransactions() {
       icon: Banknote,
       onClick: () => navigate("/loans/transactions/installment-payment-v2"),
     },
+    {
+      label: "Pemutihan Pinjaman",
+      icon: Trash2,
+      onClick: () =>
+        toast("Pemutihan Pinjaman (prototype)", {
+          description: "Fitur pemutihan belum dihubungkan.",
+        }),
+    },
   ];
 
   if (detailTransactionNo) {
