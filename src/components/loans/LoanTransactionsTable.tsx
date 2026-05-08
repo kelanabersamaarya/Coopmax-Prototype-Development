@@ -551,7 +551,8 @@ export default function LoanTransactionsTable({
     namaKolektor: "w-[96px] min-w-[96px]",
     produkPinjaman: "w-[64px] min-w-[64px] max-w-[64px]",
     tanggal: "w-[84px] min-w-[84px]",
-    jenisTransaksi: "w-[104px] min-w-[104px]",
+    // ✅ kecilkan lebar + izinkan wrap 2 baris di cell
+    jenisTransaksi: "w-[92px] min-w-[92px] max-w-[92px]",
     nominal: "w-[110px] min-w-[110px]",
     denda: "w-[84px] min-w-[84px]",
   } as const;
@@ -778,8 +779,10 @@ export default function LoanTransactionsTable({
                       </Td>
 
                       <Td className="tabular-nums whitespace-nowrap">{r.tanggal}</Td>
-                      <Td>
-                        <div className="truncate" title={r.jenisTransaksi}>
+
+                      {/* ✅ 2 baris max, tanpa memperlebar table */}
+                      <Td className={cn(colW.jenisTransaksi, "whitespace-normal break-words")}>
+                        <div className="line-clamp-2 leading-snug" title={r.jenisTransaksi}>
                           {r.jenisTransaksi}
                         </div>
                       </Td>
