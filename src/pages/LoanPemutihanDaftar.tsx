@@ -366,9 +366,6 @@ export default function LoanPemutihanDaftar() {
                     />
                   </FieldRow>
 
-                  {/* Divider sebelum konfirmasi (samakan ukuran) */}
-                  <div className={DIVIDER} />
-
                   <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                     <div className="hidden sm:block" />
                     <label className="flex items-center gap-3 text-[14px] font-medium text-slate-900">
