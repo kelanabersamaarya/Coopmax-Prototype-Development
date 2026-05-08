@@ -27,7 +27,6 @@ import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInf
 import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
 import { useNavigate } from "react-router-dom";
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
-import { showSolidSuccess } from "@/utils/solid-toast";
 
 function Th({
   children,
@@ -1121,8 +1120,8 @@ export default function LoanInstallmentPaymentV2Table({
       ),
     );
 
-    // ✅ toast solid (tidak transparan) sesuai screenshot
-    showSolidSuccess("Data berhasil ditampilkan");
+    // ✅ Dihilangkan: toast sukses saat memilih rekening (sesuai permintaan)
+    // toast.success("Data berhasil ditampilkan")
 
     setPickerOpen(false);
     setPickerTargetRowId(null);
