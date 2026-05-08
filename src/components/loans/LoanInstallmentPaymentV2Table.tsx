@@ -1084,8 +1084,8 @@ function SummaryBlock({
 
 function showPaymentInstallmentSavedToast() {
   toast.custom((t) => (
-    <div className="w-full px-4 pt-3">
-      <div className="ml-auto w-[min(420px,calc(100vw-2rem))]">
+    <div className="pointer-events-none bg-transparent p-0">
+      <div className="pointer-events-auto ml-auto w-[min(520px,calc(100vw-1rem))] mr-4 mt-4">
         <div
           className={cn(
             "rounded-[10px] bg-emerald-600 text-white shadow-xl",
