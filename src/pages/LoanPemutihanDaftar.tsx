@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
@@ -179,6 +180,9 @@ export default function LoanPemutihanDaftar() {
                 </SelectContent>
               </Select>
             </FieldRow>
+
+            {/* Divider bawah semua field */}
+            <Separator className="mt-2 bg-slate-200" />
           </div>
 
           <div className="sr-only">
