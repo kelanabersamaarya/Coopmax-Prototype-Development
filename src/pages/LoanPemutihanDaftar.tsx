@@ -12,14 +12,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import LoanWriteoffAccountSummary from "@/components/loans/LoanWriteoffAccountSummary";
 import LoanWriteoffSectionHeader from "@/components/loans/LoanWriteoffSectionHeader";
 
 const H = "h-[30px]";
 const R = "rounded-[5px]";
 
-const COLLECTORS = ["Pilih Kolektor", "Dinda Sudiati", "Kolektor A", "Kolektor B"] as const;
+const COLLECTORS = [
+  "Pilih Kolektor",
+  "Dinda Sudiati",
+  "Kolektor A",
+  "Kolektor B",
+] as const;
 
 function toDmyFromIso(iso: string) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec((iso ?? "").trim());
@@ -202,7 +206,10 @@ export default function LoanPemutihanDaftar() {
 
             {/* 4) Kolektor */}
             <FieldRow label="Kolektor" required>
-              <Select value={kolektor} onValueChange={(v) => setKolektor(v as any)}>
+              <Select
+                value={kolektor}
+                onValueChange={(v) => setKolektor(v as any)}
+              >
                 <SelectTrigger className={selectTriggerCls}>
                   <SelectValue placeholder="Pilih Kolektor" />
                 </SelectTrigger>
@@ -215,9 +222,6 @@ export default function LoanPemutihanDaftar() {
                 </SelectContent>
               </Select>
             </FieldRow>
-
-            {/* Divider bawah semua field */}
-            <Separator className="mt-2 bg-slate-200" />
 
             {/* Header + Ringkasan rekening (muncul setelah pilih rekening) */}
             {showSummary && summary ? (
