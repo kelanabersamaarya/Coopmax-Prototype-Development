@@ -119,12 +119,18 @@ export default function LoanPemutihanDaftar() {
     };
   }, [selectedAccountNo, showSummary]);
 
-  // Detail Pelunasan (prototype values)
+  // Detail Pelunasan (prototype values) — semua default nominal = 0,00
   const detail = React.useMemo(() => {
-    if (!showSummary) return null;
+    if (!showSummary)
+      return {
+        bayarPokok: "0,00",
+        bayarBunga: "0,00",
+        bayarHutang: "0,00",
+      };
+
     return {
-      bayarPokok: "10.553.571,00",
-      bayarBunga: "1.266.429,00",
+      bayarPokok: "0,00",
+      bayarBunga: "0,00",
       bayarHutang: "0,00",
     };
   }, [showSummary]);
@@ -291,7 +297,7 @@ export default function LoanPemutihanDaftar() {
 
                   <FieldRow label="Bayar Pokok">
                     <Input
-                      value={detail?.bayarPokok ?? ""}
+                      value={detail?.bayarPokok ?? "0,00"}
                       readOnly
                       className={cn(
                         H,
@@ -307,7 +313,7 @@ export default function LoanPemutihanDaftar() {
 
                   <FieldRow label="Bayar Bunga">
                     <Input
-                      value={detail?.bayarBunga ?? ""}
+                      value={detail?.bayarBunga ?? "0,00"}
                       readOnly
                       className={cn(
                         H,
@@ -323,7 +329,7 @@ export default function LoanPemutihanDaftar() {
 
                   <FieldRow label="Bayar Hutang Bunga">
                     <Input
-                      value={detail?.bayarHutang ?? ""}
+                      value={detail?.bayarHutang ?? "0,00"}
                       readOnly
                       className={cn(
                         H,
@@ -331,7 +337,7 @@ export default function LoanPemutihanDaftar() {
                         "w-full",
                         "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
                         "shadow-sm",
-                        "text-right tabular-nums",
+                        "text-left",
                         "focus-visible:ring-0 focus-visible:ring-offset-0",
                       )}
                     />
