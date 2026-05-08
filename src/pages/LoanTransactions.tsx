@@ -133,10 +133,7 @@ export default function LoanTransactions() {
     {
       label: "Pemutihan Pinjaman",
       icon: Eraser,
-      onClick: () =>
-        toast("Pemutihan Pinjaman (prototype)", {
-          description: "Fitur pemutihan belum dihubungkan.",
-        }),
+      onClick: () => navigate("/loans/pemutihan"),
     },
   ];
 

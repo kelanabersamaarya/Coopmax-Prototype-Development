@@ -19,6 +19,7 @@ import LoanAccountEdit from "./pages/LoanAccountEdit";
 import LoanTransactions from "./pages/LoanTransactions";
 import LoanInstallmentPayment from "./pages/LoanInstallmentPayment";
 import LoanInstallmentPaymentV2 from "./pages/LoanInstallmentPaymentV2";
+import LoanPemutihanDaftar from "./pages/LoanPemutihanDaftar";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
               element={<LoanAccountEdit />}
             />
             <Route path="loans/transactions" element={<LoanTransactions />} />
+            <Route path="loans/pemutihan" element={<LoanPemutihanDaftar />} />
             <Route
               path="loans/transactions/installment-payment"
               element={<LoanInstallmentPayment />}
