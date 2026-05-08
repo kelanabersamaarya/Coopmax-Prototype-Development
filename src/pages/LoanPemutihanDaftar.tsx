@@ -226,6 +226,57 @@ export default function LoanPemutihanDaftar() {
 
                 {/* Form Detail Pemutihan Pinjaman */}
                 <div className="mt-4 grid gap-[15px]">
+                  {/* Dipindahkan ke atas field Nominal */}
+                  <FieldRow label="Tanggal" required>
+                    <DatePickerDmyField
+                      value={tanggal}
+                      onChange={setTanggal}
+                      inputClassName={cn(
+                        H,
+                        R,
+                        "border-slate-300 bg-white pr-11 text-[14px] font-medium text-slate-900",
+                        "shadow-sm",
+                      )}
+                      popoverAlign="end"
+                      placeholder="DD-MM-YYYY"
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Jenis Transaksi" required>
+                    <Input
+                      value="Pemutihan Pinjaman"
+                      readOnly
+                      className={cn(
+                        H,
+                        R,
+                        "w-full",
+                        "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
+                        "shadow-sm",
+                        "focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                    />
+                  </FieldRow>
+
+                  <FieldRow label="Kolektor" required>
+                    <Select
+                      value={kolektor}
+                      onValueChange={(v) => setKolektor(v as any)}
+                    >
+                      <SelectTrigger className={selectTriggerCls}>
+                        <SelectValue placeholder="Pilih Kolektor" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        {COLLECTORS.map((k) => (
+                          <SelectItem key={k} value={k} className="rounded-lg">
+                            {k}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FieldRow>
+
+                  <Separator className="my-2 bg-slate-200/70" />
+
                   <FieldRow label="Nominal">
                     <Input
                       value={nominal}
@@ -318,57 +369,6 @@ export default function LoanPemutihanDaftar() {
                       Yakin untuk melunasi pemutihan pinjaman ini
                     </label>
                   </div>
-
-                  {/* Dipindahkan ke bawah Detail Pemutihan Pinjaman */}
-                  <Separator className="my-2 bg-slate-200/70" />
-
-                  <FieldRow label="Tanggal" required>
-                    <DatePickerDmyField
-                      value={tanggal}
-                      onChange={setTanggal}
-                      inputClassName={cn(
-                        H,
-                        R,
-                        "border-slate-300 bg-white pr-11 text-[14px] font-medium text-slate-900",
-                        "shadow-sm",
-                      )}
-                      popoverAlign="end"
-                      placeholder="DD-MM-YYYY"
-                    />
-                  </FieldRow>
-
-                  <FieldRow label="Jenis Transaksi" required>
-                    <Input
-                      value="Pemutihan Pinjaman"
-                      readOnly
-                      className={cn(
-                        H,
-                        R,
-                        "w-full",
-                        "border-slate-300 bg-slate-200/70 text-[14px] font-medium text-slate-800",
-                        "shadow-sm",
-                        "focus-visible:ring-0 focus-visible:ring-offset-0",
-                      )}
-                    />
-                  </FieldRow>
-
-                  <FieldRow label="Kolektor" required>
-                    <Select
-                      value={kolektor}
-                      onValueChange={(v) => setKolektor(v as any)}
-                    >
-                      <SelectTrigger className={selectTriggerCls}>
-                        <SelectValue placeholder="Pilih Kolektor" />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        {COLLECTORS.map((k) => (
-                          <SelectItem key={k} value={k} className="rounded-lg">
-                            {k}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FieldRow>
                 </div>
               </div>
             ) : null}
