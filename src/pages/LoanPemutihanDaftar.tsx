@@ -23,15 +23,27 @@ function toDmyFromIso(iso: string) {
 function FieldRow({
   label,
   required = false,
+  align = "center",
   children,
 }: {
   label: string;
   required?: boolean;
+  align?: "top" | "center";
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-      <div className="text-[14px] font-normal text-slate-900">
+    <div
+      className={cn(
+        "grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)]",
+        align === "top" ? "sm:items-start" : "sm:items-center",
+      )}
+    >
+      <div
+        className={cn(
+          "text-[14px] font-normal text-slate-900",
+          align === "top" ? "pt-2" : "",
+        )}
+      >
         {label}
         {required ? <span className="text-rose-600">*</span> : null}
       </div>
@@ -293,7 +305,7 @@ export default function LoanPemutihanDaftar() {
                     />
                   </FieldRow>
 
-                  <FieldRow label="Keterangan">
+                  <FieldRow label="Keterangan" align="top">
                     <Textarea
                       value={keterangan}
                       onChange={(e) => setKeterangan(e.target.value)}
