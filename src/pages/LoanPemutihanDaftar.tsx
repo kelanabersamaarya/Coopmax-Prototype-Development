@@ -119,7 +119,7 @@ export default function LoanPemutihanDaftar() {
     };
   }, [selectedAccountNo, showSummary]);
 
-  // Detail Pelunasan (prototype values) — semua default nominal = 0,00
+  // Detail Pemutihan Pinjaman (prototype values) — semua default nominal = 0,00
   const detail = React.useMemo(() => {
     if (!showSummary)
       return {
@@ -269,13 +269,13 @@ export default function LoanPemutihanDaftar() {
                 />
 
                 <div className="mt-3 text-center text-[13px] font-semibold tracking-tight text-slate-800">
-                  Detail Pelunasan
+                  Detail Pemutihan Pinjaman
                 </div>
 
-                {/* Divider persis di bawah teks Detail Pelunasan */}
+                {/* Divider persis di bawah teks Detail Pemutihan Pinjaman */}
                 <Separator className="mt-3 bg-slate-200/70" />
 
-                {/* Form Detail Pelunasan */}
+                {/* Form Detail Pemutihan Pinjaman */}
                 <div className="mt-4 grid gap-[15px]">
                   <FieldRow label="Nominal">
                     <Input
