@@ -104,10 +104,46 @@ export default function LoanInstallmentPayment() {
     setQNasabah(accountNo);
     setPickerOpen(false);
 
-    // ✅ Dihilangkan: toast sukses saat menambahkan rekening (sesuai permintaan)
-    // toast.success("Berhasil Menampilkan Tagihan Nasabah", {
-    //   description: `${nama} • ${accountNo}`,
-    // });
+    // ✅ Tampilkan toast sukses seperti referensi
+    toast.custom((t) => (
+      <div className="pointer-events-none bg-transparent p-0">
+        <div className="pointer-events-auto ml-auto w-[min(520px,calc(100vw-1rem))] mr-4 mt-4">
+          <div
+            className={cn(
+              "rounded-[10px] bg-emerald-600 text-white shadow-xl",
+              "ring-1 ring-emerald-700/40",
+              "px-4 py-3",
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
+                <CheckSquare className="h-5 w-5" strokeWidth={3} />
+              </span>
+
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-[15px] font-semibold leading-none">
+                  Data berhasil ditampilkan
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => toast.dismiss(t)}
+                className={cn(
+                  "inline-flex h-8 w-8 items-center justify-center rounded-full",
+                  "bg-white/15 ring-1 ring-white/20",
+                  "transition hover:bg-white/20",
+                )}
+                aria-label="Tutup"
+                title="Tutup"
+              >
+                <X className="h-4.5 w-4.5 text-white" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ));
   }
 
   function removeAccount(accountNo: string) {
