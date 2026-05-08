@@ -24,11 +24,9 @@ import {
 } from "@/components/ui/select";
 import DaftarTagihanDialog from "@/components/loans/DaftarTagihanDialog";
 import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInfo";
-import {
-  PaymentConfirmModal,
-  PaymentSuccessModal,
-} from "@/components/anggota/PaymentConfirmModals";
+import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
 import { useNavigate } from "react-router-dom";
+import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
 
 function Th({
   children,
@@ -444,6 +442,8 @@ function SelectedPinjamanInfo({
           className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
         />
       </div>
+
+      <div className="sr-only">{hasInfo ? "ok" : "no"}</div>
     </div>
   );
 }
@@ -1103,6 +1103,9 @@ export default function LoanInstallmentPaymentV2Table({
 
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
+  // Prototype: nomor transaksi (karena belum ada backend)
+  const transactionNo = "BA/050526/0001";
+
   function openPickerForRow(rowId: string) {
     setPickerTargetRowId(rowId);
     setPickerOpen(true);
@@ -1164,12 +1167,23 @@ export default function LoanInstallmentPaymentV2Table({
         }}
       />
 
-      <PaymentSuccessModal
+      <LoanTransactionSuccessModal
         open={successOpen}
-        onOk={() => {
+        onOpenChange={(v) => setSuccessOpen(v)}
+        onBackToList={() => {
           setSuccessOpen(false);
-          toast.success("Simpan (prototype)", {
-            description: "Transaksi disimpan (dummy).",
+          toast.success("Transaksi tersimpan (prototype)", {
+            description: `No. Transaksi: ${transactionNo}`,
+          });
+          navigate("/loans/transactions");
+        }}
+        onViewDetail={() => {
+          setSuccessOpen(false);
+          toast.success("Transaksi tersimpan (prototype)", {
+            description: `No. Transaksi: ${transactionNo}`,
+          });
+          navigate("/loans/transactions", {
+            state: { openDetailTransactionNo: transactionNo },
           });
         }}
       />
@@ -1476,8 +1490,6 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
-
-      <div className="sr-only">{navigate}</div>
     </div>
   );
 }
