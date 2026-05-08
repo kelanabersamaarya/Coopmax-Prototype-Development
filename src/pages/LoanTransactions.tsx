@@ -53,8 +53,6 @@ function ActionPill({
   );
 }
 
-type BackgroundLocation = { pathname: string; search?: string };
-
 export default function LoanTransactions() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,11 +60,6 @@ export default function LoanTransactions() {
   const [detailTransactionNo, setDetailTransactionNo] = React.useState<string | null>(
     null,
   );
-
-  const background = React.useMemo<BackgroundLocation | null>(() => {
-    const st = (location.state ?? null) as { background?: BackgroundLocation } | null;
-    return st?.background ?? null;
-  }, [location.state]);
 
   React.useEffect(() => {
     const st = (location.state ?? null) as { openDetailTransactionNo?: string } | null;
@@ -76,22 +69,6 @@ export default function LoanTransactions() {
       navigate(location.pathname, { replace: true, state: null });
     }
   }, [location.pathname, location.state, navigate]);
-
-  // Jika detail dibuka dari halaman lain (mis. Pembayaran), saat user menekan Back browser,
-  // kita paksa kembali ke daftar transaksi (bukan kembali ke halaman asal).
-  React.useEffect(() => {
-    if (!detailTransactionNo) return;
-    if (!background) return;
-
-    const onPop = () => {
-      // kembali ke daftar transaksi
-      setDetailTransactionNo(null);
-      navigate("/loans/transactions", { replace: true });
-    };
-
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, [background, detailTransactionNo, navigate]);
 
   const actions: Action[] = [
     {
