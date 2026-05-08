@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import DaftarTagihanDialog from "@/components/loans/DaftarTagihanDialog";
 import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInfo";
+import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
 
 function Th({
   children,
@@ -377,7 +378,9 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
+                hasInfo ? it.value : (
+                  <span className="text-slate-400 font-semibold">-</span>
+                )
               }
             />
           ))}
@@ -386,7 +389,9 @@ function SelectedPinjamanInfo({
               key={it.label}
               label={it.label}
               value={
-                hasInfo ? it.value : <span className="text-slate-400 font-semibold">-</span>
+                hasInfo ? it.value : (
+                  <span className="text-slate-400 font-semibold">-</span>
+                )
               }
             />
           ))}
@@ -1081,6 +1086,8 @@ export default function LoanInstallmentPaymentV2Table({
 }) {
   const fixedPx = 56 + 280;
 
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [pickerTargetRowId, setPickerTargetRowId] = React.useState<string | null>(
     null,
@@ -1140,6 +1147,17 @@ export default function LoanInstallmentPaymentV2Table({
 
   return (
     <div className={cn("mt-5 overflow-hidden rounded-2xl bg-white", className)}>
+      <PaymentConfirmModal
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onYes={() => {
+          setConfirmOpen(false);
+          toast.success("Simpan (prototype)", {
+            description: "Transaksi disimpan (dummy).",
+          });
+        }}
+      />
+
       <LoanAccountPickerDialog
         open={pickerOpen}
         onOpenChange={(v) => {
@@ -1418,11 +1436,7 @@ export default function LoanInstallmentPaymentV2Table({
                           description: "Aksi batalkan belum dihubungkan di V2.",
                         })
                       }
-                      onSave={() =>
-                        toast.success("Simpan (prototype)", {
-                          description: "Transaksi disimpan (dummy).",
-                        })
-                      }
+                      onSave={() => setConfirmOpen(true)}
                     />
                   ) : null}
                 </Td>
