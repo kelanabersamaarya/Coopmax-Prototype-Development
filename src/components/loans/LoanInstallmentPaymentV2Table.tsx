@@ -25,6 +25,7 @@ import {
 import DaftarTagihanDialog from "@/components/loans/DaftarTagihanDialog";
 import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInfo";
 import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
+import { useNavigate } from "react-router-dom";
 
 function Th({
   children,
@@ -1084,6 +1085,7 @@ export default function LoanInstallmentPaymentV2Table({
 }: {
   className?: string;
 }) {
+  const navigate = useNavigate();
   const fixedPx = 56 + 280;
 
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -1431,11 +1433,7 @@ export default function LoanInstallmentPaymentV2Table({
                       totalNominal={totalNominal}
                       totalDenda={totalDenda}
                       grandTotal={grandTotal}
-                      onCancel={() =>
-                        toast("Batalkan (prototype)", {
-                          description: "Aksi batalkan belum dihubungkan di V2.",
-                        })
-                      }
+                      onCancel={() => navigate("/loans/transactions")}
                       onSave={() => setConfirmOpen(true)}
                     />
                   ) : null}
