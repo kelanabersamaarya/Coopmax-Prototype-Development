@@ -87,6 +87,12 @@ export default function PenaltyAdjustDialog({
     R5,
   );
 
+  const saveBtnCls = cn(
+    actionBtnBase,
+    "bg-[#2fb300] text-white ring-1 ring-[#2fb300]/25 transition",
+    canSave ? "hover:bg-[#279800]" : "opacity-60",
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -262,7 +268,7 @@ export default function PenaltyAdjustDialog({
             {/* Divider di atas tombol */}
             <div className="mt-6 h-px w-full bg-slate-200" />
 
-            {/* Footer buttons (match gambar) */}
+            {/* Footer buttons */}
             <div className="mt-4 flex items-center justify-end gap-3">
               <button
                 type="button"
@@ -299,12 +305,7 @@ export default function PenaltyAdjustDialog({
                   });
                   onOpenChange(false);
                 }}
-                className={cn(
-                  actionBtnBase,
-                  canSave
-                    ? "bg-[#2fb300] text-white ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]"
-                    : "bg-slate-200 text-slate-500 ring-1 ring-slate-200 pointer-events-none",
-                )}
+                className={saveBtnCls}
               >
                 <CheckSquare className="h-4 w-4" strokeWidth={3} />
                 Simpan
