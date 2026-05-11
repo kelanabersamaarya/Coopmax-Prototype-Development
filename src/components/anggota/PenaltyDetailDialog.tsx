@@ -5,6 +5,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
+import { toast } from "sonner";
 import PenaltyAdjustDialog from "@/components/anggota/PenaltyAdjustDialog";
 
 export type PenaltyDetailRow = {
@@ -57,6 +58,33 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
   );
 }
 
+function RowActionXButton({
+  disabled,
+  onClick,
+}: {
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        "inline-flex h-8 w-8 items-center justify-center rounded-full",
+        "bg-rose-50 text-rose-700 ring-1 ring-rose-200",
+        "transition hover:bg-rose-100",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-600/20",
+        disabled ? "opacity-50 pointer-events-none" : "",
+      )}
+      aria-label={disabled ? "Aksi tidak tersedia" : "Batalkan denda"}
+      title={disabled ? "Hanya denda Aktif yang bisa dibatalkan" : "Batalkan denda"}
+    >
+      <X className="h-4.5 w-4.5" strokeWidth={3} />
+    </button>
+  );
+}
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -71,19 +99,30 @@ export default function PenaltyDetailDialog({
   // default saat popup dibuka: hanya tampilkan denda Aktif
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
 
+  // local prototype state: baris yang dibatalkan via tombol X
+  const [canceledIds, setCanceledIds] = React.useState<Set<number>>(() => new Set());
+
   React.useEffect(() => {
     if (!open) return;
     setStatusFilter("Aktif");
+    setCanceledIds(new Set());
   }, [open]);
 
-  // Precompute status by original index (stable)
+  // Precompute status by original index (stable), then apply local cancel state
   const withStatus = React.useMemo(() => {
-    return rows.map((r, originalIndex) => ({
-      ...r,
-      originalIndex,
-      status: deriveStatusForRowIndex(originalIndex),
-    }));
-  }, [rows]);
+    return rows.map((r, originalIndex) => {
+      const baseStatus = deriveStatusForRowIndex(originalIndex);
+      const status: Exclude<StatusValue, "Semua"> = canceledIds.has(originalIndex)
+        ? "Dibatalkan"
+        : baseStatus;
+
+      return {
+        ...r,
+        originalIndex,
+        status,
+      };
+    });
+  }, [canceledIds, rows]);
 
   const filteredRows = React.useMemo(() => {
     if (statusFilter === "Semua") return withStatus;
@@ -109,8 +148,8 @@ export default function PenaltyDetailDialog({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           className={cn(
-            "w-[calc(100vw-1.25rem)] sm:w-[820px]",
-            "max-w-[820px]",
+            "w-[calc(100vw-1.25rem)] sm:w-[900px]",
+            "max-w-[900px]",
             "max-h-[80vh]",
             "overflow-hidden",
             R,
@@ -128,8 +167,6 @@ export default function PenaltyDetailDialog({
                   Rincian Denda
                 </div>
               </div>
-
-              {/* tombol Aksi disembunyikan sesuai request */}
 
               <button
                 type="button"
@@ -163,7 +200,7 @@ export default function PenaltyDetailDialog({
                 <div className="safe-x-scroll bg-white">
                   <table
                     className={cn(
-                      "w-full min-w-[760px] table-fixed border-collapse",
+                      "w-full min-w-[860px] table-fixed border-collapse",
                       "border-l border-slate-300",
                     )}
                   >
@@ -184,6 +221,10 @@ export default function PenaltyDetailDialog({
 
                         <th className="w-[140px] px-4 py-4 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
+                        </th>
+
+                        <th className="w-[90px] px-4 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                          AKSI
                         </th>
                       </tr>
 
@@ -211,6 +252,7 @@ export default function PenaltyDetailDialog({
                             </select>
                           </div>
                         </th>
+                        <th className="px-4 py-2" />
                       </tr>
                     </thead>
 
@@ -218,7 +260,7 @@ export default function PenaltyDetailDialog({
                       {filteredRows.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={5}
+                            colSpan={6}
                             className="px-5 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada rincian denda.
@@ -228,6 +270,8 @@ export default function PenaltyDetailDialog({
                         filteredRows.map((r, idx) => {
                           const lateDays =
                             lateDaysPattern[idx % lateDaysPattern.length];
+
+                          const canCancel = r.status === "Aktif";
 
                           return (
                             <tr
@@ -240,9 +284,11 @@ export default function PenaltyDetailDialog({
                               <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {idx + 1}
                               </td>
+
                               <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {lateDays}
                               </td>
+
                               <td className="px-5 py-4 text-center text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.tanggalKeterlambatan}
                               </td>
@@ -253,6 +299,25 @@ export default function PenaltyDetailDialog({
 
                               <td className="px-4 py-4 text-[14px] font-normal text-slate-900">
                                 <StatusPill status={r.status} />
+                              </td>
+
+                              <td className="px-4 py-4">
+                                <div className="flex justify-center">
+                                  <RowActionXButton
+                                    disabled={!canCancel}
+                                    onClick={() => {
+                                      setCanceledIds((prev) => {
+                                        const next = new Set(prev);
+                                        next.add(r.originalIndex);
+                                        return next;
+                                      });
+
+                                      toast("Denda dibatalkan (prototype)", {
+                                        description: `Tanggal: ${r.tanggalKeterlambatan}`,
+                                      });
+                                    }}
+                                  />
+                                </div>
                               </td>
                             </tr>
                           );
@@ -271,6 +336,7 @@ export default function PenaltyDetailDialog({
                           {totalText}
                         </td>
 
+                        <td className="px-4 py-4" />
                         <td className="px-4 py-4" />
                       </tr>
                     </tbody>
