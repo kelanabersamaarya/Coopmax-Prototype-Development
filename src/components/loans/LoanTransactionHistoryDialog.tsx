@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 type Row = {
   angsuranKe: string;
@@ -83,7 +84,11 @@ const seed: Row[] = [
 const R = "rounded-[5px]";
 const H = "h-[30px]";
 
-function DetailActionButton({ onClick }: { onClick: () => void }) {
+function DetailActionButton({
+  onClick,
+}: {
+  onClick: () => void;
+}) {
   return (
     <button
       type="button"
@@ -113,6 +118,7 @@ export default function LoanTransactionHistoryDialog({
   onOpenChange: (v: boolean) => void;
   accountNo: string;
 }) {
+  const navigate = useNavigate();
   const [dateStart, setDateStart] = React.useState("");
   const [dateEnd, setDateEnd] = React.useState("");
   const [pageSize, setPageSize] = React.useState<number>(20);
@@ -148,11 +154,8 @@ export default function LoanTransactionHistoryDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // Header 12px, padding antar kolom 5px (horizontal) — header bold
   const headerTh =
     "px-[5px] py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700";
-
-  // Body tabel: pastikan TIDAK bold (font-normal)
   const tdBase = "px-[5px] py-2.5 text-[13px] font-normal text-slate-900";
 
   const selectTriggerCls = cn(
@@ -178,7 +181,6 @@ export default function LoanTransactionHistoryDialog({
     "bg-slate-700 text-white hover:bg-slate-800",
   );
 
-  // ✅ tinggi 30px, lebar 80px
   const btnTutupFooterCls = cn(
     H,
     "w-[80px] px-0",
@@ -196,7 +198,6 @@ export default function LoanTransactionHistoryDialog({
           "overflow-hidden",
           R,
           "border-slate-200 p-0 shadow-2xl",
-          // pastikan X bawaan shadcn tidak muncul
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -204,7 +205,6 @@ export default function LoanTransactionHistoryDialog({
         )}
       >
         <div className="bg-white">
-          {/* Header */}
           <div className="flex items-center justify-between gap-3 px-5 py-4 sm:px-6">
             <div className="min-w-0">
               <div className="text-xl font-extrabold tracking-tight text-slate-900">
@@ -230,7 +230,6 @@ export default function LoanTransactionHistoryDialog({
 
           <Separator className="bg-slate-200" />
 
-          {/* Body */}
           <div
             className="overflow-auto px-5 py-4 sm:px-6"
             style={{ maxHeight: "calc(85vh - 64px - 84px)" }}
@@ -366,6 +365,9 @@ export default function LoanTransactionHistoryDialog({
                       ) : (
                         paged.map((r, idx) => {
                           const derivedNo = (page - 1) * pageSize + idx + 1;
+                          const trxNo = `BA/${r.tanggal.replaceAll("-", "")}/${String(
+                            derivedNo,
+                          ).padStart(4, "0")}`;
 
                           return (
                             <tr
@@ -461,7 +463,6 @@ export default function LoanTransactionHistoryDialog({
                                 {r.sisaPinjamanAkhir}
                               </td>
 
-                              {/* isi keterangan disembunyikan */}
                               <td className={cn(tdBase, "text-slate-700")}>
                                 <span className="text-slate-400">-</span>
                               </td>
@@ -469,11 +470,12 @@ export default function LoanTransactionHistoryDialog({
                               <td className={cn(tdBase)}>
                                 <div className="flex justify-start">
                                   <DetailActionButton
-                                    onClick={() =>
-                                      toast("Detail transaksi (prototype)", {
-                                        description: `${r.tipe} • ${r.tanggal}`,
-                                      })
-                                    }
+                                    onClick={() => {
+                                      onOpenChange(false);
+                                      navigate(
+                                        `/loans/transactions/${encodeURIComponent(trxNo)}`,
+                                      );
+                                    }}
                                   />
                                 </div>
                               </td>
@@ -533,7 +535,6 @@ export default function LoanTransactionHistoryDialog({
 
           <Separator className="bg-slate-200" />
 
-          {/* Footer */}
           <div className="px-5 py-4 sm:px-6">
             <div className="flex justify-end">
               <Button onClick={() => onOpenChange(false)} className={btnTutupFooterCls}>
