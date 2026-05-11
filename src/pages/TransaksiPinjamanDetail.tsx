@@ -88,14 +88,16 @@ function Pill({
   tone = "emerald",
 }: {
   children: React.ReactNode;
-  tone?: "emerald" | "rose" | "lime";
+  tone?: "emerald" | "rose" | "lime" | "lunas";
 }) {
   const cls =
     tone === "rose"
       ? "bg-rose-600 text-white ring-1 ring-rose-600/20"
       : tone === "lime"
         ? "bg-lime-500 text-white ring-1 ring-lime-500/20"
-        : "bg-emerald-600 text-white ring-1 ring-emerald-600/20";
+        : tone === "lunas"
+          ? "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25"
+          : "bg-emerald-600 text-white ring-1 ring-emerald-600/20";
 
   return (
     <span
@@ -208,10 +210,7 @@ export default function TransaksiPinjamanDetail() {
               <InfoHeaderField label="Angsuran Bunga" value="50.000,00" />
               <InfoHeaderField label="Hutang Pokok" value="0" />
               <InfoHeaderField label="Hutang Bunga" value="0,00" />
-              <InfoHeaderField
-                label="Status"
-                value={<Pill tone="lime">Aktif / Sudah Dicairkan</Pill>}
-              />
+              <InfoHeaderField label="Status" value={<Pill tone="lunas">Lunas</Pill>} />
             </div>
           </div>
 
