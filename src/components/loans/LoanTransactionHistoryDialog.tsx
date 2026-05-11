@@ -148,6 +148,7 @@ export default function LoanTransactionHistoryDialog({
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
   // ✅ lebih rapat: kecilkan padding & font header
+  // ✅ header: semua rata kiri
   const headerTh =
     "px-2.5 py-2.5 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
   const tdBase = "px-2.5 py-2.5 text-[13px] font-medium text-slate-900";
@@ -293,39 +294,36 @@ export default function LoanTransactionHistoryDialog({
                           Transaksi
                         </th>
 
-                        <th className={cn(headerTh, "w-[140px] text-right")}>
-                          Nominal
-                        </th>
+                        {/* ✅ sebelumnya text-right, sekarang rata kiri */}
+                        <th className={cn(headerTh, "w-[140px]")}>Nominal</th>
 
-                        <th className={cn(headerTh, "w-[150px] text-right")}>
+                        <th className={cn(headerTh, "w-[150px]")}>
                           Angsuran
                           <br />
                           Pokok
                         </th>
 
-                        <th className={cn(headerTh, "w-[150px] text-right")}>
+                        <th className={cn(headerTh, "w-[150px]")}>
                           Angsuran
                           <br />
                           Bunga
                         </th>
 
-                        <th className={cn(headerTh, "w-[140px] text-right")}>
+                        <th className={cn(headerTh, "w-[140px]")}>
                           Hutang
                           <br />
                           Pokok
                         </th>
 
-                        <th className={cn(headerTh, "w-[140px] text-right")}>
+                        <th className={cn(headerTh, "w-[140px]")}>
                           Hutang
                           <br />
                           Bunga
                         </th>
 
-                        <th className={cn(headerTh, "w-[110px] text-right")}>
-                          Denda
-                        </th>
+                        <th className={cn(headerTh, "w-[110px]")}>Denda</th>
 
-                        <th className={cn(headerTh, "w-[160px] text-right")}>
+                        <th className={cn(headerTh, "w-[160px]")}>
                           Sisa Pinjaman
                           <br />
                           Akhir
@@ -333,7 +331,8 @@ export default function LoanTransactionHistoryDialog({
 
                         <th className={cn(headerTh, "w-[180px]")}>Keterangan</th>
 
-                        <th className={cn(headerTh, "w-[120px] text-center")}>
+                        {/* ✅ sebelumnya text-center, sekarang rata kiri */}
+                        <th className={cn(headerTh, "w-[120px]")}>
                           Detail
                           <br />
                           Transaksi
@@ -459,8 +458,8 @@ export default function LoanTransactionHistoryDialog({
                                 <span className="text-slate-400">-</span>
                               </td>
 
-                              <td className={cn(tdBase, "text-center")}>
-                                <div className="flex justify-center">
+                              <td className={cn(tdBase)}>
+                                <div className="flex justify-start">
                                   <DetailActionButton
                                     onClick={() =>
                                       toast("Detail transaksi (prototype)", {
