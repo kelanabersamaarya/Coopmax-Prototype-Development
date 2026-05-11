@@ -59,7 +59,7 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[12px] font-semibold leading-none",
+        "inline-flex items-center rounded-[5px] px-2 py-1 text-[12px] font-semibold leading-none",
         cls,
       )}
     >
@@ -81,9 +81,9 @@ function CancelPenaltyButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "inline-flex h-9 items-center justify-center px-4",
+        "inline-flex h-8 items-center justify-center px-3",
         "rounded-[5px]",
-        "bg-[#DC3545] text-[14px] font-semibold text-white",
+        "bg-[#DC3545] text-[13px] font-semibold text-white",
         "ring-1 ring-[#DC3545]/25 transition hover:bg-[#c72f3d]",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DC3545]/20",
         disabled ? "opacity-50 pointer-events-none" : "",
@@ -102,7 +102,7 @@ function RowActionEyeButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center",
+        "inline-flex h-8 w-8 items-center justify-center",
         "rounded-[5px]",
         "bg-transparent text-slate-500",
         "ring-1 ring-slate-200",
@@ -112,7 +112,7 @@ function RowActionEyeButton({ onClick }: { onClick: () => void }) {
       aria-label="Lihat detail"
       title="Lihat detail"
     >
-      <Eye className="h-5 w-5" strokeWidth={2.5} />
+      <Eye className="h-4.5 w-4.5" strokeWidth={2.5} />
     </button>
   );
 }
@@ -249,7 +249,7 @@ export default function PenaltyDetailDialog({
   );
 
   const ActionSlotSpacer = (
-    <span className="inline-block h-9 w-9" aria-hidden="true" />
+    <span className="inline-block h-8 w-8" aria-hidden="true" />
   );
 
   return (
@@ -376,46 +376,41 @@ export default function PenaltyDetailDialog({
               style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
             >
               <div
-                className={cn("overflow-hidden", R, "bg-white", "ring-1 ring-slate-300")}
+                className={cn(
+                  "overflow-hidden",
+                  R,
+                  "bg-white ring-1 ring-slate-300",
+                )}
               >
                 <div className="safe-x-scroll bg-white">
-                  <table
-                    className={cn(
-                      "w-full min-w-[860px] table-fixed border-collapse",
-                      "border-l border-slate-300",
-                    )}
-                  >
+                  <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="border-b border-slate-300 text-left">
-                        <th className="w-[70px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[56px] px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           NO.
                         </th>
-                        <th className="w-[200px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[190px] px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           KETERLAMBATAN (HARI)
                         </th>
-
-                        <th className="w-[170px] px-5 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[140px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
-
-                        <th className="w-[170px] px-5 py-4 text-right text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
-
-                        <th className="w-[140px] px-4 py-4 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
-
-                        <th className="w-[220px] px-2 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[190px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
 
                       <tr className="bg-white">
-                        <th className="px-5 py-2" />
-                        <th className="px-5 py-2" />
-                        <th className="px-5 py-2" />
-                        <th className="px-5 py-2" />
+                        <th className="px-4 py-2" />
+                        <th className="px-4 py-2" />
+                        <th className="px-4 py-2" />
+                        <th className="px-4 py-2" />
                         <th className="px-4 py-2">
                           <div className="relative">
                             <select
@@ -424,7 +419,7 @@ export default function PenaltyDetailDialog({
                                 setStatusFilter(e.target.value as StatusValue)
                               }
                               className={cn(
-                                "h-9 w-full rounded-[5px] border border-slate-200 bg-white px-3",
+                                "h-8 w-full rounded-[5px] border border-slate-200 bg-white px-3",
                                 "text-[13px] font-semibold text-slate-700 shadow-none",
                                 "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
                               )}
@@ -435,7 +430,7 @@ export default function PenaltyDetailDialog({
                             </select>
                           </div>
                         </th>
-                        <th className="px-2 py-2" />
+                        <th className="px-4 py-2" />
                       </tr>
                     </thead>
 
@@ -444,7 +439,7 @@ export default function PenaltyDetailDialog({
                         <tr>
                           <td
                             colSpan={6}
-                            className="px-5 py-10 text-center text-sm text-slate-600"
+                            className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada rincian denda.
                           </td>
@@ -465,28 +460,28 @@ export default function PenaltyDetailDialog({
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                               )}
                             >
-                              <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-4 py-3 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {idx + 1}
                               </td>
 
-                              <td className="px-5 py-4 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-4 py-3 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {lateDays}
                               </td>
 
-                              <td className="px-5 py-4 text-center text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-4 py-3 text-left text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.tanggalKeterlambatan}
                               </td>
 
-                              <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-4 py-3 text-left text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
-                              <td className="px-4 py-4 text-[14px] font-normal text-slate-900">
+                              <td className="px-4 py-3 text-[14px] font-normal text-slate-900">
                                 <StatusPill status={r.status} />
                               </td>
 
-                              <td className="px-2 py-4">
-                                <div className="flex items-center justify-center gap-2">
+                              <td className="px-4 py-3">
+                                <div className="flex items-center justify-start gap-2">
                                   {isAdded ? (
                                     <>
                                       <CancelPenaltyButton
@@ -560,17 +555,17 @@ export default function PenaltyDetailDialog({
                       <tr className="border-t border-slate-300 bg-white">
                         <td
                           colSpan={3}
-                          className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900"
+                          className="px-4 py-3 text-[13px] font-extrabold uppercase tracking-wide text-slate-900"
                         >
                           TOTAL DENDA
                         </td>
 
-                        <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        <td className="px-4 py-3 text-left text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
 
-                        <td className="px-4 py-4" />
-                        <td className="px-2 py-4" />
+                        <td className="px-4 py-3" />
+                        <td className="px-4 py-3" />
                       </tr>
                     </tbody>
                   </table>
