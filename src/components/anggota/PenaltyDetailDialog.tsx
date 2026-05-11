@@ -47,8 +47,7 @@ const R = "rounded-[5px]";
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
 function deriveStatusForRow(idx: number): Exclude<StatusValue, "Semua"> {
-  // ✅ Default: semua Aktif (sesuai request)
-  // Tetap sisakan beberapa "Dibatalkan" agar filter bisa didemokan saat dipilih.
+  // Default: Aktif
   return idx % 7 === 0 ? "Dibatalkan" : "Aktif";
 }
 
@@ -325,16 +324,22 @@ export default function PenaltyDetailDialog({
                         })
                       )}
 
+                      {/* ✅ TOTAL DENDA: label tetap kiri, angka pindah ke kolom DENDA (kolom ke-4) */}
                       <tr className="border-t border-slate-300 bg-white">
                         <td
-                          colSpan={4}
+                          colSpan={3}
                           className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900"
                         >
                           TOTAL DENDA
                         </td>
-                        <td className="px-4 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+
+                        {/* font disamakan dengan nominal denda (14px normal) */}
+                        <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
+
+                        {/* kolom STATUS kosong */}
+                        <td className="px-4 py-4" />
                       </tr>
                     </tbody>
                   </table>
