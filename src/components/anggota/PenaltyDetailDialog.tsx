@@ -4,7 +4,14 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
+import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -71,19 +78,84 @@ export default function PenaltyDetailDialog({
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
               Rincian Denda
             </div>
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className={cn(
-                "inline-flex h-9 w-9 items-center justify-center",
-                R,
-                "text-slate-700 transition hover:bg-slate-100",
-              )}
-              aria-label="Tutup"
-              title="Tutup"
-            >
-              <X className="h-5 w-5" />
-            </button>
+
+            <div className="flex items-center gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    className={cn(
+                      "inline-flex h-[30px] items-center gap-2 px-4",
+                      "rounded-[5px]",
+                      "bg-[#1aa0b5] text-white",
+                      "ring-1 ring-[#1aa0b5]/25 transition hover:bg-[#168ea0]",
+                      "text-[13px] font-semibold",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1aa0b5]/20",
+                    )}
+                    aria-label="Aksi denda"
+                  >
+                    Aksi
+                    <ChevronDown className="h-4 w-4 text-white/90" />
+                  </button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  align="start"
+                  className={cn("w-56 border-slate-200 p-1", "rounded-[10px]")}
+                >
+                  <DropdownMenuItem
+                    className="rounded-[8px]"
+                    onClick={() =>
+                      toast("Riwayat Perubahan (prototype)", {
+                        description: "Fitur riwayat perubahan denda belum dihubungkan.",
+                      })
+                    }
+                  >
+                    Riwayat Perubahan
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    className="rounded-[8px]"
+                    onClick={() =>
+                      toast("Ubah Denda (prototype)", {
+                        description: "Fitur ubah denda belum dihubungkan.",
+                      })
+                    }
+                  >
+                    Ubah Denda
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    className={cn(
+                      "rounded-[8px]",
+                      "text-rose-700 focus:text-rose-700",
+                      "focus:bg-rose-50",
+                    )}
+                    onClick={() =>
+                      toast("Hapus Denda (prototype)", {
+                        description: "Fitur hapus denda belum dihubungkan.",
+                      })
+                    }
+                  >
+                    Hapus Denda
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "inline-flex h-9 w-9 items-center justify-center",
+                  R,
+                  "text-slate-700 transition hover:bg-slate-100",
+                )}
+                aria-label="Tutup"
+                title="Tutup"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
           <Separator className="bg-slate-200" />
