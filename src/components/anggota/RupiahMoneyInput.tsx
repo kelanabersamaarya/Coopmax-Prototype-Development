@@ -7,12 +7,11 @@ function onlyDigits(s: string) {
   return (s ?? "").replace(/[^\d]/g, "");
 }
 
-function formatRupiahWith00FromDigits(digits: string) {
+function formatRibuanFromDigits(digits: string) {
   const cleaned = onlyDigits(digits);
-  const n = cleaned === "" ? 0 : Number(cleaned);
-  const intStr = Number.isFinite(n) ? String(Math.trunc(n)) : "0";
-  const withThousands = intStr.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  return `${withThousands},00`;
+  if (cleaned === "") return "";
+  // jangan Number() agar aman untuk angka panjang, cukup format string
+  return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 function clamp(n: number, min: number, max: number) {
@@ -21,8 +20,8 @@ function clamp(n: number, min: number, max: number) {
 
 /**
  * Heuristic caret keeper:
- * - we count how many digits are to the left of caret in the raw input
- * - after formatting, we place caret after the same amount of digits
+ * - hitung jumlah digit di kiri caret pada raw input
+ * - setelah diformat, letakkan caret setelah jumlah digit yang sama
  */
 function caretFromDigitsCount(formatted: string, digitsToLeft: number) {
   if (digitsToLeft <= 0) return 0;
@@ -36,6 +35,12 @@ function caretFromDigitsCount(formatted: string, digitsToLeft: number) {
   return formatted.length;
 }
 
+/**
+ * RupiahMoneyInput (separator only):
+ * - user ketik angka
+ * - otomatis tambah pemisah ribuan "."
+ * - tidak auto menambahkan ",00" dan tidak auto mengisi "0" ketika kosong
+ */
 export default function RupiahMoneyInput({
   value,
   onChange,
@@ -54,10 +59,9 @@ export default function RupiahMoneyInput({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const lastSelectionRef = React.useRef<{ digitsLeft: number } | null>(null);
 
-  // Normalize incoming value to our format (safe)
   const displayValue = React.useMemo(() => {
     const digits = onlyDigits(value);
-    return formatRupiahWith00FromDigits(digits);
+    return formatRibuanFromDigits(digits);
   }, [value]);
 
   React.useLayoutEffect(() => {
@@ -93,61 +97,13 @@ export default function RupiahMoneyInput({
         const raw = e.target.value ?? "";
         const caret = e.target.selectionStart ?? raw.length;
 
-        // count digits left of caret in raw string
+        // jumlah digit di kiri caret (raw)
         const rawLeft = raw.slice(0, caret);
         const digitsLeft = onlyDigits(rawLeft).length;
         lastSelectionRef.current = { digitsLeft };
 
         const digits = onlyDigits(raw);
-        onChange(formatRupiahWith00FromDigits(digits));
-      }}
-      onFocus={(e) => {
-        // place caret before ",00" on focus (nice UX)
-        const pos = Math.max(0, (e.target.value ?? "").length - 3);
-        requestAnimationFrame(() => {
-          try {
-            e.target.setSelectionRange(pos, pos);
-          } catch {
-            // ignore
-          }
-        });
-      }}
-      onKeyDown={(e) => {
-        // prevent editing the fixed ",00" part
-        const el = e.currentTarget;
-        const len = el.value.length;
-        const selStart = el.selectionStart ?? 0;
-        const selEnd = el.selectionEnd ?? 0;
-        const fixedStart = Math.max(0, len - 3); // ",00"
-
-        const isMod = e.ctrlKey || e.metaKey || e.altKey;
-        if (isMod) return;
-
-        const key = e.key;
-
-        // allow navigation keys
-        if (
-          key === "ArrowLeft" ||
-          key === "ArrowRight" ||
-          key === "ArrowUp" ||
-          key === "ArrowDown" ||
-          key === "Tab" ||
-          key === "Home" ||
-          key === "End"
-        ) {
-          return;
-        }
-
-        // if selection touches the fixed tail, snap it to before tail
-        if (selEnd > fixedStart) {
-          // allow delete/backspace but we'll reformat anyway
-          return;
-        }
-
-        // prevent typing inside fixed tail
-        if (selStart >= fixedStart && key.length === 1) {
-          e.preventDefault();
-        }
+        onChange(formatRibuanFromDigits(digits));
       }}
     />
   );

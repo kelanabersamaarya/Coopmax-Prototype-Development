@@ -15,6 +15,7 @@ function parseIdrLike(input: string) {
   const s = (input ?? "").trim();
   if (!s) return 0;
 
+  // untuk input "50.000" -> 50000
   const normalized = s.replace(/\./g, "").replace(",", ".");
   const cleaned = normalized.replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
@@ -218,7 +219,7 @@ export default function PenaltyAdjustDialog({
                   value={amount}
                   onChange={setAmount}
                   aria-label="Nominal Penyesuaian"
-                  placeholder="0,00"
+                  placeholder="Masukkan nominal"
                 />
               </div>
 
