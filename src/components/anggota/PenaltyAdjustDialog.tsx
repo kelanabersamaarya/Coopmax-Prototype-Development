@@ -100,9 +100,21 @@ export default function PenaltyAdjustDialog({
   const labelCls = "text-[14px] font-normal text-slate-900";
   const requiredStar = <span className="text-rose-600">*</span>;
 
-  // Lebarkan field supaya lebih “mendekati” area title (lebih lebar daripada sebelumnya)
   const fieldGrid = "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center";
-  const fieldGridTop = "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start";
+  const fieldGridTop =
+    "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start";
+
+  // Summary typography (match reference: same size, all regular)
+  const summaryLabelCls = "text-[15px] font-normal text-slate-900";
+  const summaryValueCls = "text-[15px] font-normal text-slate-900";
+  const summaryDeltaCls = cn(
+    "text-[15px] font-normal",
+    delta > 0
+      ? "text-emerald-700"
+      : delta < 0
+        ? "text-amber-700"
+        : "text-slate-400",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -112,7 +124,6 @@ export default function PenaltyAdjustDialog({
           "max-w-[780px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
-          // hide default close button
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -120,7 +131,6 @@ export default function PenaltyAdjustDialog({
         )}
       >
         <div className="bg-white">
-          {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
               Penyesuaian Denda
@@ -143,9 +153,7 @@ export default function PenaltyAdjustDialog({
 
           <Separator className="bg-slate-200" />
 
-          {/* Body */}
           <div className="px-6 py-5">
-            {/* Mode buttons (hapus Hapus semua) */}
             <div className="grid gap-3 sm:grid-cols-2">
               <button
                 type="button"
@@ -176,7 +184,6 @@ export default function PenaltyAdjustDialog({
               </button>
             </div>
 
-            {/* Fields */}
             <div className="mt-5 grid gap-4">
               <div className={fieldGrid}>
                 <div className={labelCls}>
@@ -215,7 +222,6 @@ export default function PenaltyAdjustDialog({
               </div>
             </div>
 
-            {/* Summary */}
             <div
               className={cn(
                 "mt-5 overflow-hidden bg-slate-50 ring-1 ring-slate-200",
@@ -223,56 +229,33 @@ export default function PenaltyAdjustDialog({
               )}
             >
               <div className="px-5 py-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="text-[13px] font-semibold text-slate-700">
-                    Denda sebelum penyesuaian
-                  </div>
-
-                  <div className="text-right">
-                    <div className="text-[16px] font-extrabold text-slate-900">
-                      Rp {formatIdr0(basePenalty)}
-                    </div>
+                <div className="flex items-center justify-between gap-4">
+                  <div className={summaryLabelCls}>Denda sebelum penyesuaian</div>
+                  <div className={cn(summaryValueCls, "text-right")}>
+                    Rp {formatIdr0(basePenalty)}
                   </div>
                 </div>
 
-                <div className="mt-3 flex items-start justify-between gap-4">
-                  <div className="text-[13px] font-semibold text-slate-700">
-                    Nominal Penyesuaian
-                  </div>
-
-                  <div className="text-right">
-                    <div
-                      className={cn(
-                        "text-[14px] font-extrabold",
-                        delta > 0
-                          ? "text-emerald-700"
-                          : delta < 0
-                            ? "text-amber-700"
-                            : "text-slate-400",
-                      )}
-                    >
-                      {deltaText}
-                    </div>
-                  </div>
+                <div className="mt-4 flex items-center justify-between gap-4">
+                  <div className={summaryLabelCls}>Nominal Penyesuaian</div>
+                  <div className={cn(summaryDeltaCls, "text-right")}>{deltaText}</div>
                 </div>
 
                 <div className="my-4 h-px w-full bg-slate-200" />
 
                 <div className="flex items-center justify-between gap-4">
-                  <div className="text-[15px] font-extrabold text-slate-900">
+                  <div className={summaryLabelCls}>
                     Total Denda Setelah Penyesuaian
                   </div>
-                  <div className="text-[18px] font-extrabold text-slate-900">
+                  <div className={cn(summaryValueCls, "text-right")}>
                     Rp {formatIdr0(after)}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Divider full width modal (full-bleed) */}
             <div className="mt-6 -mx-6 h-px bg-slate-200" />
 
-            {/* Footer buttons */}
             <div className="mt-4 flex items-center justify-end gap-3">
               <button
                 type="button"
