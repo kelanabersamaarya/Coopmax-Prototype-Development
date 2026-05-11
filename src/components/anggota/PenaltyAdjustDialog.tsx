@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Minus, Plus, SlidersHorizontal, Trash2, X } from "lucide-react";
+import { Minus, Plus, Trash2, X } from "lucide-react";
 
 type Mode = "add" | "subtract";
 
@@ -87,13 +87,8 @@ export default function PenaltyAdjustDialog({
         <div className="bg-white">
           {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-50 text-violet-700 ring-1 ring-violet-200">
-                <SlidersHorizontal className="h-5 w-5" />
-              </span>
-              <div className="text-lg font-extrabold tracking-tight text-slate-900">
-                Ubah denda
-              </div>
+            <div className="text-lg font-extrabold tracking-tight text-slate-900">
+              Ubah denda
             </div>
 
             <button
