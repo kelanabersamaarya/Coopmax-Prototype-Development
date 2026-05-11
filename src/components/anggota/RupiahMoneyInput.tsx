@@ -10,7 +10,6 @@ function onlyDigits(s: string) {
 function formatRibuanFromDigits(digits: string) {
   const cleaned = onlyDigits(digits);
   if (cleaned === "") return "";
-  // jangan Number() agar aman untuk angka panjang, cukup format string
   return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
@@ -18,11 +17,6 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-/**
- * Heuristic caret keeper:
- * - hitung jumlah digit di kiri caret pada raw input
- * - setelah diformat, letakkan caret setelah jumlah digit yang sama
- */
 function caretFromDigitsCount(formatted: string, digitsToLeft: number) {
   if (digitsToLeft <= 0) return 0;
   let seen = 0;
@@ -35,11 +29,18 @@ function caretFromDigitsCount(formatted: string, digitsToLeft: number) {
   return formatted.length;
 }
 
+function isZeroComma00(v: string) {
+  return (v ?? "").trim() === "0,00";
+}
+
 /**
- * RupiahMoneyInput (separator only):
- * - user ketik angka
- * - otomatis tambah pemisah ribuan "."
- * - tidak auto menambahkan ",00" dan tidak auto mengisi "0" ketika kosong
+ * RupiahMoneyInput:
+ * - Default tampil "0,00"
+ * - Saat user mengetik angka: otomatis titik ribuan (contoh 50000 -> 50.000)
+ * - Jika user mengosongkan: kembali ke "0,00"
+ *
+ * Catatan: komponen ini sengaja tidak mempertahankan desimal (",00") saat user mengetik,
+ * karena request hanya ingin auto titik ribuan/jutaan; namun default tetap "0,00".
  */
 export default function RupiahMoneyInput({
   value,
@@ -60,14 +61,33 @@ export default function RupiahMoneyInput({
   const lastSelectionRef = React.useRef<{ digitsLeft: number } | null>(null);
 
   const displayValue = React.useMemo(() => {
+    // keep default "0,00" visible as-is
+    if (isZeroComma00(value)) return "0,00";
+
     const digits = onlyDigits(value);
-    return formatRibuanFromDigits(digits);
+    if (digits === "") return "0,00";
+
+    // drop leading zeros to avoid "000" visual
+    const normalizedDigits = digits.replace(/^0+(?=\d)/, "");
+    const formatted = formatRibuanFromDigits(normalizedDigits);
+    return formatted === "" ? "0,00" : formatted;
   }, [value]);
 
   React.useLayoutEffect(() => {
     const meta = lastSelectionRef.current;
     const el = inputRef.current;
     if (!meta || !el) return;
+
+    // If currently showing default, place caret at start
+    if (displayValue === "0,00") {
+      try {
+        el.setSelectionRange(0, 0);
+      } catch {
+        // ignore
+      }
+      lastSelectionRef.current = null;
+      return;
+    }
 
     const nextPos = caretFromDigitsCount(displayValue, meta.digitsLeft);
     const pos = clamp(nextPos, 0, displayValue.length);
@@ -93,17 +113,37 @@ export default function RupiahMoneyInput({
         "focus-visible:ring-0 focus-visible:ring-offset-0",
         className,
       )}
+      onFocus={(e) => {
+        // Kalau default "0,00", select semua biar tinggal ketik angka langsung
+        if ((e.currentTarget.value ?? "") === "0,00") {
+          requestAnimationFrame(() => {
+            try {
+              e.currentTarget.setSelectionRange(0, 4);
+            } catch {
+              // ignore
+            }
+          });
+        }
+      }}
       onChange={(e) => {
         const raw = e.target.value ?? "";
         const caret = e.target.selectionStart ?? raw.length;
 
-        // jumlah digit di kiri caret (raw)
         const rawLeft = raw.slice(0, caret);
         const digitsLeft = onlyDigits(rawLeft).length;
         lastSelectionRef.current = { digitsLeft };
 
         const digits = onlyDigits(raw);
-        onChange(formatRibuanFromDigits(digits));
+
+        if (digits === "") {
+          onChange("0,00");
+          return;
+        }
+
+        const normalizedDigits = digits.replace(/^0+(?=\d)/, "");
+        const formatted = formatRibuanFromDigits(normalizedDigits);
+
+        onChange(formatted === "" ? "0,00" : formatted);
       }}
     />
   );
