@@ -60,7 +60,7 @@ export default function LoanPemutihanDialog({
 }) {
   const [tanggal, setTanggal] = React.useState("20-04-2026");
   const [tipeTransaksi, setTipeTransaksi] = React.useState(TIPE_TRANSAKSI);
-  const [nominal, setNominal] = React.useState("11.820.000,00");
+  const [nominal, setNominal] = React.useState("");
   const [keterangan, setKeterangan] = React.useState("");
   const [confirm, setConfirm] = React.useState(false);
 
@@ -68,7 +68,7 @@ export default function LoanPemutihanDialog({
     if (!open) return;
     setTanggal("20-04-2026");
     setTipeTransaksi(TIPE_TRANSAKSI);
-    setNominal("11.820.000,00");
+    setNominal("");
     setKeterangan("");
     setConfirm(false);
   }, [open]);
@@ -95,7 +95,10 @@ export default function LoanPemutihanDialog({
     () => Math.max(0, Math.round(nominalN * (1 - POKOK_RATIO))),
     [nominalN],
   );
-  const pokokN = React.useMemo(() => Math.max(0, nominalN - bungaN), [nominalN, bungaN]);
+  const pokokN = React.useMemo(
+    () => Math.max(0, nominalN - bungaN),
+    [nominalN, bungaN],
+  );
   const hutangBungaN = 0;
 
   const inputBase = cn(
@@ -239,7 +242,10 @@ export default function LoanPemutihanDialog({
                 <Textarea
                   value={keterangan}
                   onChange={(e) => setKeterangan(e.target.value)}
-                  className={cn(R5, "min-h-[120px] border-slate-200 bg-white text-sm font-normal text-slate-900")}
+                  className={cn(
+                    R5,
+                    "min-h-[120px] border-slate-200 bg-white text-sm font-normal text-slate-900",
+                  )}
                 />
               </div>
 
