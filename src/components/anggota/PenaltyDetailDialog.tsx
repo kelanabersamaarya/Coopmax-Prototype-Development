@@ -453,7 +453,6 @@ export default function PenaltyDetailDialog({
                           KETERLAMBATAN (HARI)
                         </th>
 
-                        {/* ✅ diperkecil lagi dari 115px -> 96px */}
                         <th className="w-[96px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
@@ -461,9 +460,12 @@ export default function PenaltyDetailDialog({
                         <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
-                        <th className="w-[140px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+
+                        {/* ✅ perkecil kolom STATUS */}
+                        <th className="w-[108px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
+
                         <th className="w-[118px] px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
