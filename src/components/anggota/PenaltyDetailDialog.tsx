@@ -330,8 +330,6 @@ export default function PenaltyDetailDialog({
             ...prev,
             [key]: { addDate: date, reason, by: currentUserName },
           }));
-
-          // ❌ tidak menampilkan toast sukses (sesuai request)
         }}
       />
 
@@ -372,8 +370,6 @@ export default function PenaltyDetailDialog({
           }));
 
           setCancelTarget(null);
-
-          // ❌ tidak menampilkan toast sukses (sesuai request)
         }}
       />
 
@@ -453,14 +449,15 @@ export default function PenaltyDetailDialog({
                           NO.
                         </th>
 
-                        {/* ✅ diperkecil dari w-[190px] */}
                         <th className="w-[150px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           KETERLAMBATAN (HARI)
                         </th>
 
-                        <th className="w-[140px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ diperkecil dari w-[140px] */}
+                        <th className="w-[115px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
+
                         <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
