@@ -126,10 +126,10 @@ export default function TransaksiPinjamanDetail() {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
             <div className="flex items-baseline gap-2">
-              <h1 className="text-[28px] font-extrabold tracking-tight text-black md:text-[32px]">
+              <h1 className="text-[21px] font-extrabold tracking-tight text-black">
                 Transaksi Pinjaman
               </h1>
-              <span className="text-[18px] font-normal tracking-tight text-black md:text-[20px]">
+              <span className="text-[16px] font-normal tracking-tight text-black">
                 Detail
               </span>
             </div>
