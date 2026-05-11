@@ -68,7 +68,7 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
   );
 }
 
-function RowActionXButton({
+function CancelPenaltyButton({
   disabled,
   onClick,
 }: {
@@ -81,17 +81,17 @@ function RowActionXButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "inline-flex h-8 w-8 items-center justify-center",
-        "rounded-full",
-        "bg-transparent text-rose-600",
-        "transition hover:bg-transparent hover:text-rose-700",
-        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-        disabled ? "opacity-35 pointer-events-none" : "",
+        "inline-flex h-9 items-center justify-center px-4",
+        "rounded-[5px]",
+        "bg-[#DC3545] text-[14px] font-semibold text-white",
+        "ring-1 ring-[#DC3545]/25 transition hover:bg-[#c72f3d]",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DC3545]/20",
+        disabled ? "opacity-50 pointer-events-none" : "",
       )}
       aria-label={disabled ? "Aksi tidak tersedia" : "Batalkan denda"}
       title={disabled ? "Hanya denda Aktif yang bisa dibatalkan" : "Batalkan denda"}
     >
-      <X className="h-6 w-6" strokeWidth={3} />
+      Batalkan Denda
     </button>
   );
 }
@@ -102,16 +102,17 @@ function RowActionEyeButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-8 w-8 items-center justify-center",
-        "rounded-full",
+        "inline-flex h-9 w-9 items-center justify-center",
+        "rounded-[5px]",
         "bg-transparent text-slate-500",
-        "transition hover:bg-transparent hover:text-slate-700",
-        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        "ring-1 ring-slate-200",
+        "transition hover:bg-slate-50 hover:text-slate-700",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
       )}
       aria-label="Lihat detail"
       title="Lihat detail"
     >
-      <Eye className="h-6 w-6" strokeWidth={2.5} />
+      <Eye className="h-5 w-5" strokeWidth={2.5} />
     </button>
   );
 }
@@ -247,7 +248,9 @@ export default function PenaltyDetailDialog({
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
   );
 
-  const ActionSlotSpacer = <span className="inline-block h-8 w-8" aria-hidden="true" />;
+  const ActionSlotSpacer = (
+    <span className="inline-block h-9 w-9" aria-hidden="true" />
+  );
 
   return (
     <>
@@ -372,7 +375,9 @@ export default function PenaltyDetailDialog({
               className="overflow-auto px-6 py-5"
               style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
             >
-              <div className={cn("overflow-hidden", R, "bg-white", "ring-1 ring-slate-300")}>
+              <div
+                className={cn("overflow-hidden", R, "bg-white", "ring-1 ring-slate-300")}
+              >
                 <div className="safe-x-scroll bg-white">
                   <table
                     className={cn(
@@ -401,7 +406,7 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        <th className="w-[70px] px-2 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[220px] px-2 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
@@ -481,10 +486,10 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-2 py-4">
-                                <div className="flex items-center justify-center gap-1.5">
+                                <div className="flex items-center justify-center gap-2">
                                   {isAdded ? (
                                     <>
-                                      <RowActionXButton
+                                      <CancelPenaltyButton
                                         disabled={!canCancel}
                                         onClick={() => {
                                           setCancelTarget({
@@ -531,7 +536,7 @@ export default function PenaltyDetailDialog({
                                     </>
                                   ) : (
                                     <>
-                                      <RowActionXButton
+                                      <CancelPenaltyButton
                                         disabled={!canCancel}
                                         onClick={() => {
                                           setCancelTarget({
