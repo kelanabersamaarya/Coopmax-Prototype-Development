@@ -73,13 +73,15 @@ export default function RupiahMoneyInput({
     return formatted === "" ? "0,00" : formatted;
   }, [value]);
 
+  const isDefaultDisplay = displayValue === "0,00";
+
   React.useLayoutEffect(() => {
     const meta = lastSelectionRef.current;
     const el = inputRef.current;
     if (!meta || !el) return;
 
     // If currently showing default, place caret at start
-    if (displayValue === "0,00") {
+    if (isDefaultDisplay) {
       try {
         el.setSelectionRange(0, 0);
       } catch {
@@ -97,7 +99,7 @@ export default function RupiahMoneyInput({
       // ignore
     }
     lastSelectionRef.current = null;
-  }, [displayValue]);
+  }, [displayValue, isDefaultDisplay]);
 
   return (
     <input
@@ -109,8 +111,9 @@ export default function RupiahMoneyInput({
       inputMode="numeric"
       className={cn(
         "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3",
-        "text-[14px] font-medium text-slate-900 shadow-sm",
+        "text-[14px] font-medium shadow-sm",
         "focus-visible:ring-0 focus-visible:ring-offset-0",
+        isDefaultDisplay ? "text-[#94a3b8]" : "text-slate-900",
         className,
       )}
       onFocus={(e) => {
