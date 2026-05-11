@@ -3,11 +3,11 @@
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Minus, Plus, X, CheckSquare } from "lucide-react";
+import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
 
 type Mode = "add" | "subtract";
 
@@ -113,15 +113,6 @@ export default function PenaltyAdjustDialog({
   const summaryTotalLabelCls = cn(bodyText, "font-bold text-slate-900");
   const summaryTotalValueCls = cn(bodyText, "font-bold text-slate-900");
 
-  const inputBase = cn(
-    "h-[30px]",
-    R5,
-    bodyText,
-    "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
-    "shadow-sm",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
   const textareaBase = cn(
     R5,
     bodyText,
@@ -223,12 +214,11 @@ export default function PenaltyAdjustDialog({
                 <div className={labelCls}>
                   Nominal Penyesuaian{requiredStar}
                 </div>
-                <Input
+                <RupiahMoneyInput
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Masukkan Nominal Penyesuaian"
-                  inputMode="decimal"
-                  className={inputBase}
+                  onChange={setAmount}
+                  aria-label="Nominal Penyesuaian"
+                  placeholder="0,00"
                 />
               </div>
 
