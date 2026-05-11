@@ -396,7 +396,7 @@ export default function PenaltyDetailDialog({
                         <th className="w-[140px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
-                        <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[120px] px-4 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
                         <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
@@ -473,7 +473,7 @@ export default function PenaltyDetailDialog({
                                 {r.tanggalKeterlambatan}
                               </td>
 
-                              <td className="px-4 py-3 text-left text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
@@ -514,7 +514,7 @@ export default function PenaltyDetailDialog({
                                     </>
                                   ) : isCanceled ? (
                                     <>
-                                      {ActionSlotSpacer}
+                                      <span className="inline-block h-8 w-8" aria-hidden="true" />
                                       <RowActionEyeButton
                                         onClick={() => {
                                           const meta = cancelMeta[r.originalIndex];
@@ -543,7 +543,7 @@ export default function PenaltyDetailDialog({
                                           setCancelDialogOpen(true);
                                         }}
                                       />
-                                      {ActionSlotSpacer}
+                                      <span className="inline-block h-8 w-8" aria-hidden="true" />
                                     </>
                                   )}
                                 </div>
@@ -561,7 +561,7 @@ export default function PenaltyDetailDialog({
                           TOTAL DENDA
                         </td>
 
-                        <td className="px-4 py-3 text-left text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
 
