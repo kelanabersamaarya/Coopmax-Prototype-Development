@@ -176,10 +176,13 @@ function InfoIconTooltip({
       </TooltipTrigger>
 
       <TooltipContent
-        side="top"
+        portalled
+        side="right"
         align="start"
+        collisionPadding={16}
+        sideOffset={10}
         className={cn(
-          "max-w-[360px] rounded-2xl border-slate-200 bg-white px-4 py-3 shadow-xl",
+          "z-50 max-w-[380px] rounded-2xl border-slate-200 bg-white px-4 py-3 shadow-xl",
           "text-[13px] font-normal leading-relaxed text-slate-800",
         )}
       >
@@ -327,7 +330,6 @@ export default function PenaltyDetailDialog({
         open={addOpen}
         onOpenChange={setAddOpen}
         onConfirm={(reason, date) => {
-          // Prototype: nilai nominal default sama seperti contoh per-hari (25.000)
           setAddedPenalties((prev) => [
             ...prev,
             { tanggalKeterlambatan: date, nominalDenda: "25.000" },
@@ -475,7 +477,7 @@ export default function PenaltyDetailDialog({
                         <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
-                        <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[140px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
                         <th className="w-[118px] px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
@@ -557,7 +559,6 @@ export default function PenaltyDetailDialog({
                               ];
                             }
 
-                            // Aktif (seed): tidak ada meta khusus
                             return [];
                           })();
 
