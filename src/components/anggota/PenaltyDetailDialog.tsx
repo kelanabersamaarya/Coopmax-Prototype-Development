@@ -5,8 +5,8 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-import { toast } from "sonner";
 import PenaltyAdjustDialog from "@/components/anggota/PenaltyAdjustDialog";
+import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -99,13 +99,28 @@ export default function PenaltyDetailDialog({
   // default saat popup dibuka: hanya tampilkan denda Aktif
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
 
-  // local prototype state: baris yang dibatalkan via tombol X
+  // local prototype state: baris yang dibatalkan via modal alasan
   const [canceledIds, setCanceledIds] = React.useState<Set<number>>(() => new Set());
+
+  // (opsional) simpan alasan, supaya bisa dipakai nanti kalau mau ditampilkan
+  const [cancelReasons, setCancelReasons] = React.useState<Record<number, string>>(
+    () => ({}),
+  );
+
+  const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
+  const [cancelTarget, setCancelTarget] = React.useState<{
+    originalIndex: number;
+    tanggal: string;
+    nominal: string;
+  } | null>(null);
 
   React.useEffect(() => {
     if (!open) return;
     setStatusFilter("Aktif");
     setCanceledIds(new Set());
+    setCancelReasons({});
+    setCancelDialogOpen(false);
+    setCancelTarget(null);
   }, [open]);
 
   // Precompute status by original index (stable), then apply local cancel state
@@ -143,6 +158,32 @@ export default function PenaltyDetailDialog({
         open={adjustOpen}
         onOpenChange={setAdjustOpen}
         basePenalty={total}
+      />
+
+      <PenaltyCancelReasonDialog
+        open={cancelDialogOpen}
+        onOpenChange={(v) => {
+          setCancelDialogOpen(v);
+          if (!v) setCancelTarget(null);
+        }}
+        tanggal={cancelTarget?.tanggal ?? ""}
+        nominal={cancelTarget?.nominal ?? ""}
+        onConfirm={(reason) => {
+          if (!cancelTarget) return;
+
+          setCanceledIds((prev) => {
+            const next = new Set(prev);
+            next.add(cancelTarget.originalIndex);
+            return next;
+          });
+
+          setCancelReasons((prev) => ({
+            ...prev,
+            [cancelTarget.originalIndex]: reason,
+          }));
+
+          setCancelTarget(null);
+        }}
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -306,15 +347,12 @@ export default function PenaltyDetailDialog({
                                   <RowActionXButton
                                     disabled={!canCancel}
                                     onClick={() => {
-                                      setCanceledIds((prev) => {
-                                        const next = new Set(prev);
-                                        next.add(r.originalIndex);
-                                        return next;
+                                      setCancelTarget({
+                                        originalIndex: r.originalIndex,
+                                        tanggal: r.tanggalKeterlambatan,
+                                        nominal: r.nominalDenda,
                                       });
-
-                                      toast("Denda dibatalkan (prototype)", {
-                                        description: `Tanggal: ${r.tanggalKeterlambatan}`,
-                                      });
+                                      setCancelDialogOpen(true);
                                     }}
                                   />
                                 </div>
@@ -342,6 +380,10 @@ export default function PenaltyDetailDialog({
                     </tbody>
                   </table>
                 </div>
+              </div>
+
+              <div className="sr-only">
+                {Object.keys(cancelReasons).length > 0 ? "has-reasons" : "no-reasons"}
               </div>
             </div>
 
