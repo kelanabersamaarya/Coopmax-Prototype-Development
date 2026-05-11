@@ -148,10 +148,12 @@ export default function LoanTransactionHistoryDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // Header 12px, padding antar kolom 5px (horizontal)
+  // Header 12px, padding antar kolom 5px (horizontal) — header bold
   const headerTh =
     "px-[5px] py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700";
-  const tdBase = "px-[5px] py-2.5 text-[13px] font-medium text-slate-900";
+
+  // Body tabel: pastikan TIDAK bold (font-normal)
+  const tdBase = "px-[5px] py-2.5 text-[13px] font-normal text-slate-900";
 
   const selectTriggerCls = cn(
     H,
@@ -161,7 +163,6 @@ export default function LoanTransactionHistoryDialog({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  // ✅ tinggi field tanggal transaksi = 30px
   const inputCls = cn(
     H,
     "border-slate-200 bg-white",
@@ -170,7 +171,6 @@ export default function LoanTransactionHistoryDialog({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  // ✅ tinggi tombol cari = 30px
   const btnCariCls = cn(
     H,
     "px-4",
@@ -178,10 +178,11 @@ export default function LoanTransactionHistoryDialog({
     "bg-slate-700 text-white hover:bg-slate-800",
   );
 
-  // ✅ tinggi tombol tutup (footer) = 30px
+  // ✅ tinggi 30px, lebar 80px
   const btnTutupFooterCls = cn(
     H,
-    "bg-slate-600 px-6 text-white hover:bg-slate-700",
+    "w-[80px] px-0",
+    "bg-slate-600 text-white hover:bg-slate-700",
     R,
   );
 
@@ -374,12 +375,7 @@ export default function LoanTransactionHistoryDialog({
                                 idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
                               )}
                             >
-                              <td
-                                className={cn(
-                                  tdBase,
-                                  "font-semibold text-slate-700 tabular-nums",
-                                )}
-                              >
+                              <td className={cn(tdBase, "text-slate-700 tabular-nums")}>
                                 {derivedNo}
                               </td>
 
@@ -390,14 +386,14 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                                  "text-slate-900 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.tanggal}
                               </td>
 
                               <td className={cn(tdBase, "text-slate-900")}>
-                                <div className="whitespace-normal font-semibold leading-snug">
+                                <div className="whitespace-normal leading-snug">
                                   {r.tipe}
                                 </div>
                               </td>
@@ -405,7 +401,7 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap",
+                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.nominal}
@@ -414,7 +410,7 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap",
+                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.angsuranPokok}
@@ -423,7 +419,7 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap",
+                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.angsuranBunga}
@@ -432,7 +428,7 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap",
+                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.hutangPokok}
@@ -441,7 +437,7 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap",
+                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.hutangBunga}
@@ -450,7 +446,7 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "text-right font-bold text-emerald-700 tabular-nums whitespace-nowrap",
+                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.denda}
@@ -459,7 +455,7 @@ export default function LoanTransactionHistoryDialog({
                               <td
                                 className={cn(
                                   tdBase,
-                                  "text-right font-extrabold text-emerald-700 tabular-nums whitespace-nowrap",
+                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {r.sisaPinjamanAkhir}
