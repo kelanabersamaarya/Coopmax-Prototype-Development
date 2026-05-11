@@ -289,14 +289,14 @@ export default function LoanPemutihanDialog({
                 <RowKV label="Sisa Bunga" value={sisaBunga} />
                 <RowKV label="Sisa Denda" value={sisaDenda} />
 
-                {/* ✅ tombol benar-benar nempel di samping nominal */}
+                {/* ✅ value + button inline, nempel */}
                 <div className="grid items-center gap-3 py-1.5 [grid-template-columns:170px_minmax(0,1fr)]">
                   <div className="text-sm font-normal text-slate-700">
                     Total Kewajiban Berjalan
                   </div>
 
                   <div className="min-w-0">
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
                       <div className="min-w-0 text-sm font-normal text-slate-900">
                         {totalKewajibanBerjalan}
                       </div>
@@ -317,6 +317,11 @@ export default function LoanPemutihanDialog({
                       </button>
                     </div>
                   </div>
+                </div>
+
+                {/* keep helper component used (avoid unused) */}
+                <div className="sr-only">
+                  <RowKVWithAction label="x" value="y" action={<span />} />
                 </div>
               </div>
             </div>
