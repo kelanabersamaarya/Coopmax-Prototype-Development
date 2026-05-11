@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { X, Info } from "lucide-react";
+import { X, Info, Plus, Ban, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
@@ -150,6 +150,42 @@ function InfoIconTooltip({
   );
 }
 
+function ActionIconButton({
+  label,
+  onClick,
+  icon,
+  disabled = false,
+  tone = "slate",
+}: {
+  label: string;
+  onClick: () => void;
+  icon: React.ReactNode;
+  disabled?: boolean;
+  tone?: "slate" | "rose";
+}) {
+  const cls = cn(
+    "inline-flex h-8 w-8 items-center justify-center rounded-full transition",
+    "bg-transparent ring-0 shadow-none",
+    tone === "rose"
+      ? "text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+      : "text-slate-600 hover:text-slate-900 hover:bg-slate-900/5",
+    disabled ? "opacity-50 pointer-events-none" : "",
+  );
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cls}
+      aria-label={label}
+      title={label}
+      disabled={disabled}
+    >
+      {icon}
+    </button>
+  );
+}
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -249,7 +285,6 @@ export default function PenaltyDetailDialog({
 
   return (
     <>
-      {/* Tetap dipertahankan agar tidak merusak flow existing, walau tombol "Tambah Denda" di UI dihilangkan */}
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={setAddOpen}
@@ -264,6 +299,10 @@ export default function PenaltyDetailDialog({
             ...prev,
             [key]: { addDate: date, reason, by: currentUserName },
           }));
+
+          toast("Denda ditambahkan (prototype)", {
+            description: `${date} • 25.000`,
+          });
         }}
       />
 
@@ -340,19 +379,35 @@ export default function PenaltyDetailDialog({
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className={cn(
-                  "inline-flex h-9 w-9 items-center justify-center",
-                  R,
-                  "text-slate-700 transition hover:bg-slate-100",
-                )}
-                aria-label="Tutup"
-                title="Tutup"
-              >
-                <X className="h-5 w-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAddOpen(true)}
+                  className={cn(
+                    "inline-flex h-9 items-center justify-center gap-2 px-4",
+                    "rounded-[10px] bg-[#2563eb] text-white",
+                    "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
+                    "text-[13px] font-semibold",
+                  )}
+                >
+                  <Plus className="h-4.5 w-4.5" />
+                  Tambah Denda
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    "inline-flex h-9 w-9 items-center justify-center",
+                    R,
+                    "text-slate-700 transition hover:bg-slate-100",
+                  )}
+                  aria-label="Tutup"
+                  title="Tutup"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             <Separator className="bg-slate-200" />
@@ -363,7 +418,7 @@ export default function PenaltyDetailDialog({
             >
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[620px] table-fixed border-collapse border-l border-slate-300">
+                  <table className="w-full min-w-[760px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
                         <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
@@ -382,8 +437,12 @@ export default function PenaltyDetailDialog({
                           DENDA
                         </th>
 
-                        <th className="w-[108px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[140px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
+                        </th>
+
+                        <th className="w-[120px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                          AKSI
                         </th>
                       </tr>
 
@@ -411,6 +470,7 @@ export default function PenaltyDetailDialog({
                             </select>
                           </div>
                         </th>
+                        <th className="px-4 py-2" />
                       </tr>
                     </thead>
 
@@ -418,7 +478,7 @@ export default function PenaltyDetailDialog({
                       {filteredRows.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={5}
+                            colSpan={6}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada rincian denda.
@@ -462,6 +522,9 @@ export default function PenaltyDetailDialog({
                             return [];
                           })();
 
+                          const cancelDisabled = isCanceled;
+                          const detailDisabled = r.status === "Aktif";
+
                           return (
                             <tr
                               key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
@@ -504,6 +567,54 @@ export default function PenaltyDetailDialog({
                                   ) : null}
                                 </div>
                               </td>
+
+                              <td className="px-4 py-3">
+                                <div className="flex items-center justify-center gap-2">
+                                  <ActionIconButton
+                                    label="Batalkan"
+                                    tone="rose"
+                                    disabled={cancelDisabled}
+                                    icon={<Ban className="h-5 w-5" />}
+                                    onClick={() => {
+                                      if (cancelDisabled) return;
+
+                                      setCancelTarget({
+                                        originalIndex: r.originalIndex,
+                                        tanggal: r.tanggalKeterlambatan,
+                                        nominal: r.nominalDenda,
+                                      });
+                                      setCancelDialogOpen(true);
+                                    }}
+                                  />
+
+                                  <ActionIconButton
+                                    label="Detail"
+                                    tone="slate"
+                                    disabled={detailDisabled}
+                                    icon={<ExternalLink className="h-5 w-5" />}
+                                    onClick={() => {
+                                      if (detailDisabled) return;
+
+                                      if (isAdded) {
+                                        const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
+                                        setAddDetailTarget({
+                                          addDate: meta?.addDate ?? "-",
+                                          reason: meta?.reason ?? "-",
+                                        });
+                                        setAddDetailOpen(true);
+                                        return;
+                                      }
+
+                                      const meta = cancelMeta[r.originalIndex];
+                                      setCancelDetailTarget({
+                                        cancelDate: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
+                                        reason: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                                      });
+                                      setCancelDetailOpen(true);
+                                    }}
+                                  />
+                                </div>
+                              </td>
                             </tr>
                           );
                         })
@@ -520,6 +631,8 @@ export default function PenaltyDetailDialog({
                         <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
+
+                        <td className="px-4 py-3" />
 
                         <td className="px-4 py-3" />
                       </tr>
@@ -551,12 +664,6 @@ export default function PenaltyDetailDialog({
           </div>
         </DialogContent>
       </Dialog>
-
-      <div className="sr-only">
-        <button type="button" onClick={() => toast("sync")}>
-          sync
-        </button>
-      </div>
     </>
   );
 }
