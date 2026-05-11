@@ -35,6 +35,12 @@ const R = "rounded-[5px]";
 
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
+type RowWithMeta = PenaltyDetailRow & {
+  originalIndex: number;
+  status: Exclude<StatusValue, "Semua">;
+  source: "seed" | "added";
+};
+
 function deriveStatusForRowIndex(
   originalIndex: number,
 ): Exclude<StatusValue, "Semua"> {
@@ -113,6 +119,11 @@ const DEFAULT_CANCEL_DETAIL = {
   reason: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
 } as const;
 
+function nextOriginalIndex(seedCount: number, addedCount: number) {
+  // Seed indices: 0..seedCount-1, added indices continue after that
+  return seedCount + addedCount;
+}
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -132,6 +143,9 @@ export default function PenaltyDetailDialog({
   const [cancelMeta, setCancelMeta] = React.useState<
     Record<number, { reason: string; cancelDate: string }>
   >(() => ({}));
+
+  // ✅ denda yang ditambahkan (prototype) -> akan tampil sebagai baris baru status Aktif
+  const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>([]);
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
@@ -158,11 +172,11 @@ export default function PenaltyDetailDialog({
     setDetailOpen(false);
     setDetailTarget(null);
     setAddOpen(false);
+    setAddedPenalties([]);
   }, [open]);
 
-  // Precompute status by original index (stable), then apply local cancel state
-  const withStatus = React.useMemo(() => {
-    return rows.map((r, originalIndex) => {
+  const allRows: RowWithMeta[] = React.useMemo(() => {
+    const seedWithMeta: RowWithMeta[] = rows.map((r, originalIndex) => {
       const baseStatus = deriveStatusForRowIndex(originalIndex);
       const status: Exclude<StatusValue, "Semua"> = canceledIds.has(originalIndex)
         ? "Dibatalkan"
@@ -172,14 +186,24 @@ export default function PenaltyDetailDialog({
         ...r,
         originalIndex,
         status,
+        source: "seed",
       };
     });
-  }, [canceledIds, rows]);
+
+    const addedWithMeta: RowWithMeta[] = addedPenalties.map((r, idx) => ({
+      ...r,
+      originalIndex: nextOriginalIndex(rows.length, idx),
+      status: "Aktif",
+      source: "added",
+    }));
+
+    return [...seedWithMeta, ...addedWithMeta];
+  }, [addedPenalties, canceledIds, rows]);
 
   const filteredRows = React.useMemo(() => {
-    if (statusFilter === "Semua") return withStatus;
-    return withStatus.filter((it) => it.status === statusFilter);
-  }, [statusFilter, withStatus]);
+    if (statusFilter === "Semua") return allRows;
+    return allRows.filter((it) => it.status === statusFilter);
+  }, [allRows, statusFilter]);
 
   const total = React.useMemo(() => {
     return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
@@ -203,9 +227,21 @@ export default function PenaltyDetailDialog({
         open={addOpen}
         onOpenChange={setAddOpen}
         onConfirm={(reason, date) => {
+          // Prototype: nilai nominal default sama seperti contoh per-hari (25.000)
+          setAddedPenalties((prev) => [
+            ...prev,
+            {
+              tanggalKeterlambatan: date,
+              nominalDenda: "25.000",
+            },
+          ]);
+
           toast.success("Tambah denda tersimpan (prototype)", {
             description: `${date} • ${reason}`,
           });
+
+          // Jika user sedang melihat filter Dibatalkan, kita tetap biarkan;
+          // tapi baris baru hanya akan tampak jika filter = Semua/Aktif.
         }}
       />
 
@@ -381,7 +417,7 @@ export default function PenaltyDetailDialog({
 
                           return (
                             <tr
-                              key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
+                              key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
                               className={cn(
                                 "border-t border-slate-300/70",
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
