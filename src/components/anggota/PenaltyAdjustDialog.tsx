@@ -30,8 +30,6 @@ function clampNonNegative(n: number) {
   return Math.max(0, Number.isFinite(n) ? n : 0);
 }
 
-const R = "rounded-[5px]";
-
 export default function PenaltyAdjustDialog({
   open,
   onOpenChange,
@@ -58,7 +56,10 @@ export default function PenaltyAdjustDialog({
     return mode === "subtract" ? -n : n;
   }, [amount, mode]);
 
-  const after = React.useMemo(() => clampNonNegative(basePenalty + delta), [basePenalty, delta]);
+  const after = React.useMemo(
+    () => clampNonNegative(basePenalty + delta),
+    [basePenalty, delta],
+  );
 
   const deltaText = React.useMemo(() => {
     if (delta === 0) return "Rp 0";
@@ -83,20 +84,22 @@ export default function PenaltyAdjustDialog({
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <div className="bg-[#2f2f2f] text-white">
+        <div className="bg-white">
           {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-[10px] bg-white/10 ring-1 ring-white/10">
-                <SlidersHorizontal className="h-5 w-5 text-white/90" />
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-50 text-violet-700 ring-1 ring-violet-200">
+                <SlidersHorizontal className="h-5 w-5" />
               </span>
-              <div className="text-lg font-extrabold tracking-tight">Ubah denda</div>
+              <div className="text-lg font-extrabold tracking-tight text-slate-900">
+                Ubah denda
+              </div>
             </div>
 
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
               aria-label="Tutup"
               title="Tutup"
             >
@@ -104,7 +107,7 @@ export default function PenaltyAdjustDialog({
             </button>
           </div>
 
-          <Separator className="bg-white/10" />
+          <Separator className="bg-slate-200" />
 
           {/* Body */}
           <div className="px-6 py-5">
@@ -114,10 +117,10 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 onClick={() => setMode("add")}
                 className={cn(
-                  "inline-flex h-[44px] items-center justify-center gap-2 rounded-[10px] px-4 text-[14px] font-semibold",
+                  "inline-flex h-11 items-center justify-center gap-2 rounded-2xl px-4 text-[14px] font-semibold transition",
                   mode === "add"
-                    ? "bg-emerald-900/40 text-emerald-50 ring-1 ring-emerald-600/40"
-                    : "bg-white/5 text-white ring-1 ring-white/10 hover:bg-white/10",
+                    ? "bg-emerald-600 text-white ring-1 ring-emerald-600/25 hover:bg-emerald-700"
+                    : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
                 )}
               >
                 <Plus className="h-5 w-5" />
@@ -128,10 +131,10 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 onClick={() => setMode("subtract")}
                 className={cn(
-                  "inline-flex h-[44px] items-center justify-center gap-2 rounded-[10px] px-4 text-[14px] font-semibold",
+                  "inline-flex h-11 items-center justify-center gap-2 rounded-2xl px-4 text-[14px] font-semibold transition",
                   mode === "subtract"
-                    ? "bg-amber-900/40 text-amber-50 ring-1 ring-amber-500/40"
-                    : "bg-white/5 text-white ring-1 ring-white/10 hover:bg-white/10",
+                    ? "bg-amber-500 text-white ring-1 ring-amber-500/25 hover:bg-amber-600"
+                    : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
                 )}
               >
                 <Minus className="h-5 w-5" />
@@ -145,60 +148,68 @@ export default function PenaltyAdjustDialog({
                   setMode("subtract");
                 }}
                 className={cn(
-                  "inline-flex h-[44px] items-center justify-center gap-2 rounded-[10px] px-4 text-[14px] font-semibold",
-                  "bg-white/5 text-white ring-1 ring-white/10 hover:bg-white/10",
+                  "inline-flex h-11 items-center justify-center gap-2 rounded-2xl px-4 text-[14px] font-semibold transition",
+                  "bg-rose-600 text-white ring-1 ring-rose-600/25 hover:bg-rose-700",
                 )}
               >
-                <Trash2 className="h-5 w-5 text-rose-300" />
+                <Trash2 className="h-5 w-5" />
                 Hapus semua
               </button>
             </div>
 
             <div className="mt-5 grid gap-2">
-              <div className="text-[13px] font-semibold text-white/80">Jumlah (Rp)</div>
+              <div className="text-[13px] font-semibold text-slate-700">
+                Jumlah (Rp)
+              </div>
               <Input
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="Masukkan jumlah..."
                 inputMode="decimal"
                 className={cn(
-                  "h-11 rounded-[10px] border-white/10 bg-white/5 text-white placeholder:text-white/35",
+                  "h-11 rounded-2xl border-slate-200 bg-white",
+                  "text-slate-900 placeholder:text-slate-400",
                   "focus-visible:ring-0 focus-visible:ring-offset-0",
                 )}
               />
             </div>
 
             <div className="mt-5 grid gap-2">
-              <div className="text-[13px] font-semibold text-white/80">
-                Alasan penyesuaian <span className="text-rose-400">*</span>
+              <div className="text-[13px] font-semibold text-slate-700">
+                Alasan penyesuaian <span className="text-rose-600">*</span>
               </div>
               <Textarea
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 placeholder="Wajib diisi. Jelaskan alasan penyesuaian denda..."
                 className={cn(
-                  "min-h-[120px] rounded-[10px] border-white/10 bg-white/5 text-white placeholder:text-white/35",
+                  "min-h-[120px] rounded-2xl border-slate-200 bg-white",
+                  "text-slate-900 placeholder:text-slate-400",
                   "focus-visible:ring-0 focus-visible:ring-offset-0",
                 )}
               />
             </div>
 
-            <div className="mt-5 overflow-hidden rounded-[12px] bg-black/25 ring-1 ring-white/10">
+            <div className="mt-5 overflow-hidden rounded-3xl bg-slate-50 ring-1 ring-slate-200">
               <div className="px-5 py-4">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="text-[14px] font-semibold text-white/85">
+                  <div className="text-[13px] font-semibold text-slate-700">
                     <div>Denda sebelum</div>
                     <div>Penyesuaian</div>
                   </div>
 
                   <div className="text-right">
-                    <div className="text-[16px] font-extrabold">
+                    <div className="text-[16px] font-extrabold text-slate-900">
                       Rp {formatIdr0(basePenalty)}
                     </div>
                     <div
                       className={cn(
                         "mt-1 text-[14px] font-extrabold",
-                        delta > 0 ? "text-emerald-300" : delta < 0 ? "text-amber-300" : "text-white/50",
+                        delta > 0
+                          ? "text-emerald-700"
+                          : delta < 0
+                            ? "text-amber-700"
+                            : "text-slate-400",
                       )}
                     >
                       {deltaText}
@@ -206,11 +217,15 @@ export default function PenaltyAdjustDialog({
                   </div>
                 </div>
 
-                <div className="my-4 h-px w-full bg-white/10" />
+                <div className="my-4 h-px w-full bg-slate-200" />
 
                 <div className="flex items-center justify-between gap-4">
-                  <div className="text-[16px] font-extrabold">Total setelah</div>
-                  <div className="text-[18px] font-extrabold">Rp {formatIdr0(after)}</div>
+                  <div className="text-[15px] font-extrabold text-slate-900">
+                    Total setelah
+                  </div>
+                  <div className="text-[18px] font-extrabold text-slate-900">
+                    Rp {formatIdr0(after)}
+                  </div>
                 </div>
               </div>
             </div>
@@ -220,8 +235,8 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "h-11 w-full rounded-[10px] px-6 text-[14px] font-semibold sm:w-auto",
-                  "bg-white/5 text-white ring-1 ring-white/10 transition hover:bg-white/10",
+                  "h-11 w-full rounded-full px-6 text-[14px] font-semibold sm:w-auto",
+                  "bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50",
                 )}
               >
                 Batal
@@ -233,7 +248,8 @@ export default function PenaltyAdjustDialog({
                 onClick={() => {
                   if (!reason.trim()) {
                     toast("Alasan wajib diisi", {
-                      description: "Mohon isi alasan penyesuaian denda terlebih dahulu.",
+                      description:
+                        "Mohon isi alasan penyesuaian denda terlebih dahulu.",
                     });
                     return;
                   }
@@ -250,10 +266,10 @@ export default function PenaltyAdjustDialog({
                   onOpenChange(false);
                 }}
                 className={cn(
-                  "h-11 w-full rounded-[10px] px-6 text-[14px] font-semibold sm:w-auto",
+                  "h-11 w-full rounded-full px-6 text-[14px] font-semibold sm:w-auto transition",
                   canApply
                     ? "bg-emerald-600 text-white ring-1 ring-emerald-600/25 hover:bg-emerald-700"
-                    : "bg-white/10 text-white/40 ring-1 ring-white/10",
+                    : "bg-slate-200 text-slate-500 ring-1 ring-slate-200 pointer-events-none",
                 )}
               >
                 Terapkan
