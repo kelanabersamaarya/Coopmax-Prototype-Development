@@ -163,16 +163,16 @@ export default function PenaltyDetailDialog({
                 <div className="safe-x-scroll bg-white">
                   <table
                     className={cn(
-                      "w-full min-w-[720px] table-fixed border-collapse",
+                      "w-full min-w-[760px] table-fixed border-collapse",
                       "border-l border-slate-300",
                     )}
                   >
                     <thead className="bg-white">
                       <tr className="border-b border-slate-300 text-left">
-                        <th className="w-[56px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[70px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           NO.
                         </th>
-                        <th className="w-[160px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[200px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           KETERLAMBATAN (HARI)
                         </th>
                         <th className="px-5 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
