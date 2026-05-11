@@ -240,8 +240,9 @@ export default function PenaltyDetailDialog({
 
   const headerAddBtnCls = cn(
     "inline-flex h-9 items-center gap-2 px-4",
-    "rounded-full",
+    "rounded-[5px]",
     "bg-white text-slate-700 ring-1 ring-slate-200 shadow-sm",
+    "text-[14px] font-semibold",
     "transition hover:bg-slate-50",
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
   );
@@ -480,7 +481,6 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-2 py-4">
-                                {/* Slot konsisten supaya ikon X lurus walau ada 1 atau 2 ikon */}
                                 <div className="flex items-center justify-center gap-1.5">
                                   {isAdded ? (
                                     <>
@@ -513,7 +513,6 @@ export default function PenaltyDetailDialog({
                                     </>
                                   ) : isCanceled ? (
                                     <>
-                                      {/* Spacer kiri agar posisi ikon Eye sama seperti kolom kanan pada baris added */}
                                       {ActionSlotSpacer}
                                       <RowActionEyeButton
                                         onClick={() => {
@@ -543,7 +542,6 @@ export default function PenaltyDetailDialog({
                                           setCancelDialogOpen(true);
                                         }}
                                       />
-                                      {/* Spacer kanan agar posisi X tetap lurus di semua baris */}
                                       {ActionSlotSpacer}
                                     </>
                                   )}
