@@ -46,7 +46,9 @@ const R = "rounded-[5px]";
 
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
-function deriveStatusForRowIndex(originalIndex: number): Exclude<StatusValue, "Semua"> {
+function deriveStatusForRowIndex(
+  originalIndex: number,
+): Exclude<StatusValue, "Semua"> {
   // IMPORTANT: status harus konsisten berdasar index asli row (bukan index setelah difilter)
   return originalIndex % 7 === 0 ? "Dibatalkan" : "Aktif";
 }
@@ -304,13 +306,9 @@ export default function PenaltyDetailDialog({
                               <SelectValue placeholder="-- Semua --" />
                             </SelectTrigger>
                             <SelectContent className="rounded-[5px] border-slate-200">
-                              <SelectItem value="Semua">
-                                -- Semua -- ({counts.semua})
-                              </SelectItem>
-                              <SelectItem value="Aktif">Aktif ({counts.aktif})</SelectItem>
-                              <SelectItem value="Dibatalkan">
-                                Dibatalkan ({counts.dibatalkan})
-                              </SelectItem>
+                              <SelectItem value="Semua">-- Semua --</SelectItem>
+                              <SelectItem value="Aktif">Aktif</SelectItem>
+                              <SelectItem value="Dibatalkan">Dibatalkan</SelectItem>
                             </SelectContent>
                           </Select>
                         </th>
