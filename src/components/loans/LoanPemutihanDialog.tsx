@@ -195,6 +195,16 @@ export default function LoanPemutihanDialog({
     "focus-visible:ring-2 focus-visible:ring-slate-900/15 focus-visible:ring-offset-0",
   );
 
+  // Prototype info (sesuai permintaan list)
+  const customerName = "Bapak Bagus";
+  const totalPinjaman = "12.000.000,00";
+  const angsuranPokok = "1.000.000,00";
+  const angsuranBunga = "120.000,00";
+  const sisaPokok = "10.553.571,00";
+  const sisaBunga = "1.266.429,00";
+  const sisaDenda = "0,00";
+  const totalKewajibanBerjalan = "11.820.000,00";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -235,15 +245,18 @@ export default function LoanPemutihanDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: `calc(85vh - 64px - ${footerH}px)` }}
           >
-            {/* Summary */}
+            {/* Summary (updated) */}
             <div className="rounded-2xl bg-white">
               <div className="grid gap-1">
-                <RowKV label="Total Pinjaman" value="12.000.000,00" />
-                <RowKV label="Sisa Pinjaman" value="10.553.571,00" />
-                <RowKV label="Angsuran Pokok" value="1.000.000,00" />
-                <RowKV label="Angsuran Bunga" value="120.000,00" />
-                <RowKV label="Hutang Pokok" value="0,00" />
-                <RowKV label="Hutang Bunga" value="0,00" />
+                <RowKV label="No. Rekening Pinjaman" value={accountNo} />
+                <RowKV label="Nama Nasabah" value={customerName} />
+                <RowKV label="Total Pinjaman" value={totalPinjaman} />
+                <RowKV label="Angsuran Pokok" value={angsuranPokok} />
+                <RowKV label="Angsuran Bunga" value={angsuranBunga} />
+                <RowKV label="Sisa Pokok" value={sisaPokok} />
+                <RowKV label="Sisa Bunga" value={sisaBunga} />
+                <RowKV label="Sisa Denda" value={sisaDenda} />
+                <RowKV label="Total Kewajiban Berjalan" value={totalKewajibanBerjalan} />
               </div>
             </div>
 
