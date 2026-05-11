@@ -49,6 +49,16 @@ export default function LoanPemutihanDialog({
 
   const footerH = 72; // kira-kira tinggi footer + separator
 
+  const btnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    "w-[90px] h-[28px]",
+    "rounded-[5px]",
+    "text-[11px] font-bold tracking-tight text-white",
+    "ring-1 transition",
+    "leading-none",
+    "focus:outline-none focus-visible:ring-4",
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -186,6 +196,7 @@ export default function LoanPemutihanDialog({
             </div>
           </div>
 
+          {/* ✅ Divider di atas tombol */}
           <Separator className="bg-slate-200" />
 
           {/* Footer (sticky) */}
@@ -194,11 +205,13 @@ export default function LoanPemutihanDialog({
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
-                className="inline-flex h-10 w-full items-center justify-center rounded-xl bg-slate-500 px-5 text-sm font-semibold text-white ring-1 ring-slate-500/20 transition hover:bg-slate-600 sm:w-auto"
+                className={cn(
+                  btnBase,
+                  "bg-slate-500 ring-slate-500/20 hover:bg-slate-600 focus-visible:ring-slate-500/25",
+                )}
               >
-                <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/15">
-                  ×
-                </span>
+                {/* ✅ hilangkan background icon */}
+                <X className="h-4 w-4" strokeWidth={3} />
                 Tutup
               </button>
 
@@ -223,11 +236,11 @@ export default function LoanPemutihanDialog({
                   onOpenChange(false);
                 }}
                 className={cn(
-                  "inline-flex h-10 w-full items-center justify-center rounded-xl px-5 text-sm font-semibold text-white sm:w-auto",
-                  "bg-green-600 ring-1 ring-green-600/20 transition hover:bg-green-700",
+                  btnBase,
+                  "bg-green-600 ring-green-600/20 hover:bg-green-700 focus-visible:ring-green-600/25",
                 )}
               >
-                <CheckSquare className="mr-2 h-4 w-4" />
+                <CheckSquare className="h-4 w-4" />
                 Simpan
               </button>
             </div>
