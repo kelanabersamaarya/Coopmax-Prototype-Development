@@ -80,6 +80,13 @@ export default function PenaltyAdjustDialog({
     "leading-none",
   );
 
+  const modeBtnBase = cn(
+    "inline-flex items-center justify-center gap-2 px-4",
+    "h-[35px]",
+    "text-[14px] font-semibold transition",
+    R5,
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -127,8 +134,7 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 onClick={() => setMode("add")}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center gap-2 px-4 text-[14px] font-semibold transition",
-                  R5,
+                  modeBtnBase,
                   mode === "add"
                     ? "bg-emerald-600 text-white ring-1 ring-emerald-600/25 hover:bg-emerald-700"
                     : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
@@ -142,8 +148,7 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 onClick={() => setMode("subtract")}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center gap-2 px-4 text-[14px] font-semibold transition",
-                  R5,
+                  modeBtnBase,
                   mode === "subtract"
                     ? "bg-amber-500 text-white ring-1 ring-amber-500/25 hover:bg-amber-600"
                     : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
@@ -160,8 +165,7 @@ export default function PenaltyAdjustDialog({
                   setMode("subtract");
                 }}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center gap-2 px-4 text-[14px] font-semibold transition",
-                  R5,
+                  modeBtnBase,
                   "bg-rose-600 text-white ring-1 ring-rose-600/25 hover:bg-rose-700",
                 )}
               >
@@ -209,7 +213,12 @@ export default function PenaltyAdjustDialog({
             </div>
 
             {/* Summary */}
-            <div className={cn("mt-5 overflow-hidden bg-slate-50 ring-1 ring-slate-200", R5)}>
+            <div
+              className={cn(
+                "mt-5 overflow-hidden bg-slate-50 ring-1 ring-slate-200",
+                R5,
+              )}
+            >
               <div className="px-5 py-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="text-[13px] font-semibold text-slate-700">
@@ -269,7 +278,8 @@ export default function PenaltyAdjustDialog({
                 onClick={() => {
                   if (!reason.trim()) {
                     toast("Alasan wajib diisi", {
-                      description: "Mohon isi alasan penyesuaian denda terlebih dahulu.",
+                      description:
+                        "Mohon isi alasan penyesuaian denda terlebih dahulu.",
                     });
                     return;
                   }
