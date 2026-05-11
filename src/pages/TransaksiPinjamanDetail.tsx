@@ -76,11 +76,9 @@ function KVRow({
           : "[grid-template-columns:minmax(0,220px)_14px_minmax(0,1fr)]",
       )}
     >
-      <div className="text-[12.5px] text-slate-600">{label}</div>
-      <div className="text-center text-[12.5px] font-semibold text-slate-300">
-        :
-      </div>
-      <div className="text-[12.5px] font-semibold text-slate-900">{value}</div>
+      <div className="text-[14px] font-normal text-slate-900">{label}</div>
+      <div className="text-center text-[14px] font-normal text-slate-900">:</div>
+      <div className="text-[14px] font-normal text-slate-900">{value}</div>
     </div>
   );
 }
@@ -161,7 +159,9 @@ export default function TransaksiPinjamanDetail() {
               icon={Trash2}
               label="Hapus"
               onClick={() =>
-                toast("Hapus (prototype)", { description: "Aksi hapus belum diimplementasikan." })
+                toast("Hapus (prototype)", {
+                  description: "Aksi hapus belum diimplementasikan.",
+                })
               }
             />
           </div>
