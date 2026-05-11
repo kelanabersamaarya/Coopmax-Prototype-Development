@@ -56,7 +56,7 @@ const seed: Row[] = [
   {
     angsuranKe: "",
     tanggal: "17-04-2026",
-    tipe: "Pemutihan Pinjaman",
+    tipe: "Pembayaran Angsuran",
     nominal: "79.861",
     angsuranPokok: "0",
     angsuranBunga: "79.861",
@@ -69,7 +69,7 @@ const seed: Row[] = [
   {
     angsuranKe: "",
     tanggal: "10-04-2026",
-    tipe: "Pemutihan Pinjaman",
+    tipe: "Pembayaran Angsuran",
     nominal: "500.000",
     angsuranPokok: "416.667",
     angsuranBunga: "83.333",
