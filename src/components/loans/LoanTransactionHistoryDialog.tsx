@@ -88,7 +88,7 @@ function DetailActionButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center",
+        "inline-flex h-8 w-8 items-center justify-center",
         R,
         "bg-transparent text-slate-700",
         "ring-0 shadow-none border-0",
@@ -147,9 +147,10 @@ export default function LoanTransactionHistoryDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
+  // ✅ lebih rapat: kecilkan padding & font header
   const headerTh =
-    "px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-700";
-  const tdBase = "px-4 py-3 text-[13px] font-medium text-slate-900";
+    "px-2.5 py-2.5 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  const tdBase = "px-2.5 py-2.5 text-[13px] font-medium text-slate-900";
 
   const selectTriggerCls = cn(
     "h-9 w-[96px] border-slate-200 bg-white",
@@ -273,67 +274,66 @@ export default function LoanTransactionHistoryDialog({
 
               <div className={cn("mt-2 overflow-hidden ring-1 ring-slate-200", R)}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[1300px] border-collapse">
+                  <table className="w-full min-w-[1220px] border-collapse">
                     <thead className="bg-white">
                       <tr className="border-b border-slate-200">
-                        <th className={cn(headerTh, "w-[70px]")}>No.</th>
+                        <th className={cn(headerTh, "w-[58px]")}>No.</th>
 
-                        <th className={cn(headerTh, "w-[140px]")}>
+                        <th className={cn(headerTh, "w-[120px]")}>
                           Angsuran
                           <br />
                           Ke-
                         </th>
 
-                        <th className={cn(headerTh, "w-[140px]")}>Tanggal</th>
+                        <th className={cn(headerTh, "w-[120px]")}>Tanggal</th>
 
-                        <th className={cn(headerTh, "w-[190px]")}>
+                        <th className={cn(headerTh, "w-[170px]")}>
                           Tipe
                           <br />
                           Transaksi
                         </th>
 
-                        <th className={cn(headerTh, "w-[150px] text-right")}>
+                        <th className={cn(headerTh, "w-[140px] text-right")}>
                           Nominal
                         </th>
 
-                        <th className={cn(headerTh, "w-[170px] text-right")}>
+                        <th className={cn(headerTh, "w-[150px] text-right")}>
                           Angsuran
                           <br />
                           Pokok
                         </th>
 
-                        <th className={cn(headerTh, "w-[170px] text-right")}>
+                        <th className={cn(headerTh, "w-[150px] text-right")}>
                           Angsuran
                           <br />
                           Bunga
                         </th>
 
-                        <th className={cn(headerTh, "w-[150px] text-right")}>
+                        <th className={cn(headerTh, "w-[140px] text-right")}>
                           Hutang
                           <br />
                           Pokok
                         </th>
 
-                        <th className={cn(headerTh, "w-[150px] text-right")}>
+                        <th className={cn(headerTh, "w-[140px] text-right")}>
                           Hutang
                           <br />
                           Bunga
                         </th>
 
-                        <th className={cn(headerTh, "w-[120px] text-right")}>
+                        <th className={cn(headerTh, "w-[110px] text-right")}>
                           Denda
                         </th>
 
-                        <th className={cn(headerTh, "w-[180px] text-right")}>
+                        <th className={cn(headerTh, "w-[160px] text-right")}>
                           Sisa Pinjaman
                           <br />
                           Akhir
                         </th>
 
-                        {/* ✅ tampilkan header Keterangan */}
-                        <th className={cn(headerTh, "w-[220px]")}>Keterangan</th>
+                        <th className={cn(headerTh, "w-[180px]")}>Keterangan</th>
 
-                        <th className={cn(headerTh, "w-[160px] text-center")}>
+                        <th className={cn(headerTh, "w-[120px] text-center")}>
                           Detail
                           <br />
                           Transaksi
@@ -454,7 +454,7 @@ export default function LoanTransactionHistoryDialog({
                                 {r.sisaPinjamanAkhir}
                               </td>
 
-                              {/* ✅ isi keterangan disembunyikan */}
+                              {/* isi keterangan disembunyikan */}
                               <td className={cn(tdBase, "text-slate-700")}>
                                 <span className="text-slate-400">-</span>
                               </td>
