@@ -246,6 +246,8 @@ export default function PenaltyDetailDialog({
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
   );
 
+  const ActionSlotSpacer = <span className="inline-block h-8 w-8" aria-hidden="true" />;
+
   return (
     <>
       <PenaltyAddReasonDialog
@@ -478,10 +480,10 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-2 py-4">
-                                <div className="flex justify-center gap-1.5">
+                                {/* Slot konsisten supaya ikon X lurus walau ada 1 atau 2 ikon */}
+                                <div className="flex items-center justify-center gap-1.5">
                                   {isAdded ? (
                                     <>
-                                      {/* X di kiri */}
                                       <RowActionXButton
                                         disabled={!canCancel}
                                         onClick={() => {
@@ -493,7 +495,6 @@ export default function PenaltyDetailDialog({
                                           setCancelDialogOpen(true);
                                         }}
                                       />
-                                      {/* Eye di kanan */}
                                       <RowActionEyeButton
                                         onClick={() => {
                                           const meta = r.addMetaKey
@@ -511,31 +512,40 @@ export default function PenaltyDetailDialog({
                                       />
                                     </>
                                   ) : isCanceled ? (
-                                    <RowActionEyeButton
-                                      onClick={() => {
-                                        const meta = cancelMeta[r.originalIndex];
+                                    <>
+                                      {/* Spacer kiri agar posisi ikon Eye sama seperti kolom kanan pada baris added */}
+                                      {ActionSlotSpacer}
+                                      <RowActionEyeButton
+                                        onClick={() => {
+                                          const meta = cancelMeta[r.originalIndex];
 
-                                        setCancelDetailTarget({
-                                          cancelDate:
-                                            meta?.cancelDate ??
-                                            DEFAULT_CANCEL_DETAIL.cancelDate,
-                                          reason: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
-                                        });
-                                        setCancelDetailOpen(true);
-                                      }}
-                                    />
+                                          setCancelDetailTarget({
+                                            cancelDate:
+                                              meta?.cancelDate ??
+                                              DEFAULT_CANCEL_DETAIL.cancelDate,
+                                            reason:
+                                              meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                                          });
+                                          setCancelDetailOpen(true);
+                                        }}
+                                      />
+                                    </>
                                   ) : (
-                                    <RowActionXButton
-                                      disabled={!canCancel}
-                                      onClick={() => {
-                                        setCancelTarget({
-                                          originalIndex: r.originalIndex,
-                                          tanggal: r.tanggalKeterlambatan,
-                                          nominal: r.nominalDenda,
-                                        });
-                                        setCancelDialogOpen(true);
-                                      }}
-                                    />
+                                    <>
+                                      <RowActionXButton
+                                        disabled={!canCancel}
+                                        onClick={() => {
+                                          setCancelTarget({
+                                            originalIndex: r.originalIndex,
+                                            tanggal: r.tanggalKeterlambatan,
+                                            nominal: r.nominalDenda,
+                                          });
+                                          setCancelDialogOpen(true);
+                                        }}
+                                      />
+                                      {/* Spacer kanan agar posisi X tetap lurus di semua baris */}
+                                      {ActionSlotSpacer}
+                                    </>
                                   )}
                                 </div>
                               </td>
