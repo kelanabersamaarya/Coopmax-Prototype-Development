@@ -31,6 +31,8 @@ function clampNonNegative(n: number) {
 }
 
 const R5 = "rounded-[5px]";
+const SAVE_GREEN = "#3BB001";
+const SAVE_GREEN_HOVER = "#349d01";
 
 export default function PenaltyAdjustDialog({
   open,
@@ -89,10 +91,8 @@ export default function PenaltyAdjustDialog({
 
   const saveBtnCls = cn(
     actionBtnBase,
-    // force green (even if disabled)
-    "!bg-[#3BB001] !text-white ring-1 ring-[#3BB001]/25",
-    // hover only when enabled
-    "enabled:hover:!bg-[#349d01]",
+    // fallback classes (warna utama tetap dipaksa lewat style inline)
+    "text-white transition",
     canSave ? "" : "opacity-60",
   );
 
@@ -309,6 +309,19 @@ export default function PenaltyAdjustDialog({
                   onOpenChange(false);
                 }}
                 className={saveBtnCls}
+                style={{
+                  backgroundColor: SAVE_GREEN,
+                  borderColor: SAVE_GREEN,
+                }}
+                onMouseEnter={(e) => {
+                  if (!canSave) return;
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                    SAVE_GREEN_HOVER;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                    SAVE_GREEN;
+                }}
               >
                 <CheckSquare className="h-4 w-4" strokeWidth={3} />
                 Simpan
