@@ -4,12 +4,17 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Eye, Plus, X } from "lucide-react";
+import { Eye, Plus, X, Info } from "lucide-react";
 import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -121,6 +126,7 @@ function RowActionEyeButton({ onClick }: { onClick: () => void }) {
 const DEFAULT_CANCEL_DETAIL = {
   cancelDate: "11-05-2026",
   reason: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
+  by: "Arya Dharma",
 } as const;
 
 function nextOriginalIndex(seedCount: number, addedCount: number) {
@@ -131,10 +137,70 @@ function nextOriginalIndex(seedCount: number, addedCount: number) {
 type AddedPenaltyMeta = {
   addDate: string;
   reason: string;
+  by: string;
+};
+
+type CanceledPenaltyMeta = {
+  cancelDate: string;
+  reason: string;
+  by: string;
 };
 
 function metaKeyForAddedRow(addedIndex: number) {
   return `added-${addedIndex}`;
+}
+
+function InfoIconTooltip({
+  label,
+  rows,
+}: {
+  label: string;
+  rows: Array<{ k: string; v: string }>;
+}) {
+  return (
+    <Tooltip delayDuration={150}>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          className={cn(
+            "inline-flex h-5 w-5 items-center justify-center rounded-full",
+            "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
+            "transition hover:bg-[#1d4ed8]",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
+          )}
+          aria-label={label}
+          title={label}
+        >
+          <Info className="h-3.5 w-3.5" />
+        </button>
+      </TooltipTrigger>
+
+      <TooltipContent
+        side="top"
+        align="start"
+        className={cn(
+          "max-w-[360px] rounded-2xl border-slate-200 bg-white px-4 py-3 shadow-xl",
+          "text-[13px] font-normal leading-relaxed text-slate-800",
+        )}
+      >
+        <div className="text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+          Info Denda
+        </div>
+
+        <div className="mt-2 space-y-1.5">
+          {rows.map((r) => (
+            <div
+              key={r.k}
+              className="grid gap-x-2 [grid-template-columns:140px_minmax(0,1fr)]"
+            >
+              <div className="text-slate-600">{r.k}</div>
+              <div className="font-semibold text-slate-900">{r.v}</div>
+            </div>
+          ))}
+        </div>
+      </TooltipContent>
+    </Tooltip>
+  );
 }
 
 export default function PenaltyDetailDialog({
@@ -152,10 +218,10 @@ export default function PenaltyDetailDialog({
   // local prototype state: baris yang dibatalkan via modal alasan
   const [canceledIds, setCanceledIds] = React.useState<Set<number>>(() => new Set());
 
-  // simpan alasan + tanggal pembatalan (prototype)
-  const [cancelMeta, setCancelMeta] = React.useState<
-    Record<number, { reason: string; cancelDate: string }>
-  >(() => ({}));
+  // simpan alasan + tanggal pembatalan (prototype) + siapa yang melakukan
+  const [cancelMeta, setCancelMeta] = React.useState<Record<number, CanceledPenaltyMeta>>(
+    () => ({}),
+  );
 
   // ✅ denda yang ditambahkan (prototype) -> akan tampil sebagai baris baru status Aktif
   const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>([]);
@@ -253,6 +319,8 @@ export default function PenaltyDetailDialog({
     <span className="inline-block h-8 w-8" aria-hidden="true" />
   );
 
+  const currentUserName = "Arya Dharma";
+
   return (
     <>
       <PenaltyAddReasonDialog
@@ -264,8 +332,12 @@ export default function PenaltyDetailDialog({
             ...prev,
             { tanggalKeterlambatan: date, nominalDenda: "25.000" },
           ]);
+
           const key = metaKeyForAddedRow(addedPenalties.length);
-          setAddedMeta((prev) => ({ ...prev, [key]: { addDate: date, reason } }));
+          setAddedMeta((prev) => ({
+            ...prev,
+            [key]: { addDate: date, reason, by: currentUserName },
+          }));
 
           toast.success("Tambah denda tersimpan (prototype)", {
             description: `${date} • ${reason}`,
@@ -302,7 +374,11 @@ export default function PenaltyDetailDialog({
 
           setCancelMeta((prev) => ({
             ...prev,
-            [cancelTarget.originalIndex]: { reason, cancelDate },
+            [cancelTarget.originalIndex]: {
+              reason,
+              cancelDate,
+              by: currentUserName,
+            },
           }));
 
           setCancelTarget(null);
@@ -453,6 +529,38 @@ export default function PenaltyDetailDialog({
                           const canCancel = r.status === "Aktif";
                           const isCanceled = r.status === "Dibatalkan";
 
+                          const statusInfoRows: Array<{ k: string; v: string }> = (() => {
+                            if (isAdded) {
+                              const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
+                              return [
+                                { k: "Tanggal penambahan", v: meta?.addDate ?? "-" },
+                                { k: "Alasan penambahan", v: meta?.reason ?? "-" },
+                                { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
+                              ];
+                            }
+
+                            if (isCanceled) {
+                              const meta = cancelMeta[r.originalIndex];
+                              return [
+                                {
+                                  k: "Tanggal pembatalan",
+                                  v: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
+                                },
+                                {
+                                  k: "Alasan pembatalan",
+                                  v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                                },
+                                {
+                                  k: "Dibatalkan oleh",
+                                  v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
+                                },
+                              ];
+                            }
+
+                            // Aktif (seed): tidak ada meta khusus
+                            return [];
+                          })();
+
                           return (
                             <tr
                               key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
@@ -483,7 +591,15 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-4 py-3 text-[14px] font-normal text-slate-900">
-                                <StatusPill status={r.status} />
+                                <div className="flex items-center gap-2">
+                                  <StatusPill status={r.status} />
+                                  {statusInfoRows.length > 0 ? (
+                                    <InfoIconTooltip
+                                      label="Info status denda"
+                                      rows={statusInfoRows}
+                                    />
+                                  ) : null}
+                                </div>
                               </td>
 
                               <td className="px-3 py-3">
