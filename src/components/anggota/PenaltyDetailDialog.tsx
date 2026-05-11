@@ -4,22 +4,8 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { ChevronDown, X, Clock, Pencil, Trash2 } from "lucide-react";
-import { toast } from "sonner";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { X } from "lucide-react";
 import PenaltyAdjustDialog from "@/components/anggota/PenaltyAdjustDialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -99,18 +85,6 @@ export default function PenaltyDetailDialog({
     }));
   }, [rows]);
 
-  const counts = React.useMemo(() => {
-    let aktif = 0;
-    let dibatalkan = 0;
-
-    for (const it of withStatus) {
-      if (it.status === "Aktif") aktif++;
-      else dibatalkan++;
-    }
-
-    return { aktif, dibatalkan, semua: withStatus.length };
-  }, [withStatus]);
-
   const filteredRows = React.useMemo(() => {
     if (statusFilter === "Semua") return withStatus;
     return withStatus.filter((it) => it.status === statusFilter);
@@ -123,13 +97,6 @@ export default function PenaltyDetailDialog({
   const totalText = React.useMemo(() => formatIdrLike(total), [total]);
 
   const lateDaysPattern = [3, 4, 2] as const;
-
-  const activeCountText =
-    statusFilter === "Semua"
-      ? `${counts.semua} item`
-      : statusFilter === "Aktif"
-        ? `${counts.aktif} item`
-        : `${counts.dibatalkan} item`;
 
   return (
     <>
@@ -160,88 +127,23 @@ export default function PenaltyDetailDialog({
                 <div className="text-lg font-extrabold tracking-tight text-slate-900">
                   Rincian Denda
                 </div>
-                <div className="mt-0.5 text-[12px] font-medium text-slate-600">
-                  Menampilkan: <span className="font-semibold">{activeCountText}</span>
-                </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button
-                      type="button"
-                      className={cn(
-                        "inline-flex h-[30px] items-center gap-2 px-4",
-                        "rounded-[5px]",
-                        "bg-violet-600 text-white",
-                        "ring-1 ring-violet-600/25 shadow-sm transition hover:bg-violet-700",
-                        "text-[13px] font-semibold",
-                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600/25",
-                      )}
-                      aria-label="Aksi denda"
-                    >
-                      Aksi
-                      <ChevronDown className="h-4 w-4 text-white/90" />
-                    </button>
-                  </DropdownMenuTrigger>
+              {/* tombol Aksi disembunyikan sesuai request */}
 
-                  <DropdownMenuContent
-                    align="start"
-                    className={cn("w-64 border-slate-200 p-1", "rounded-[5px]")}
-                  >
-                    <DropdownMenuItem
-                      className="rounded-[5px]"
-                      onClick={() =>
-                        toast("Riwayat Perubahan (prototype)", {
-                          description:
-                            "Fitur riwayat perubahan denda belum dihubungkan.",
-                        })
-                      }
-                    >
-                      <Clock className="mr-2 h-4 w-4 text-slate-600" />
-                      Riwayat Perubahan
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem
-                      className="rounded-[5px]"
-                      onClick={() => setAdjustOpen(true)}
-                    >
-                      <Pencil className="mr-2 h-4 w-4 text-slate-600" />
-                      Penyesuaian Denda
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem
-                      className={cn(
-                        "rounded-[5px]",
-                        "text-rose-700 focus:text-rose-700",
-                        "focus:bg-rose-50",
-                      )}
-                      onClick={() =>
-                        toast("Hapus Denda (prototype)", {
-                          description: "Fitur hapus denda belum dihubungkan.",
-                        })
-                      }
-                    >
-                      <Trash2 className="mr-2 h-4 w-4 text-rose-700" />
-                      Hapus Denda
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <button
-                  type="button"
-                  onClick={() => onOpenChange(false)}
-                  className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center",
-                    R,
-                    "text-slate-700 transition hover:bg-slate-100",
-                  )}
-                  aria-label="Tutup"
-                  title="Tutup"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "inline-flex h-9 w-9 items-center justify-center",
+                  R,
+                  "text-slate-700 transition hover:bg-slate-100",
+                )}
+                aria-label="Tutup"
+                title="Tutup"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
 
             <Separator className="bg-slate-200" />
@@ -291,26 +193,23 @@ export default function PenaltyDetailDialog({
                         <th className="px-5 py-2" />
                         <th className="px-5 py-2" />
                         <th className="px-4 py-2">
-                          <Select
-                            value={statusFilter}
-                            onValueChange={(v) => setStatusFilter(v as StatusValue)}
-                          >
-                            <SelectTrigger
+                          <div className="relative">
+                            <select
+                              value={statusFilter}
+                              onChange={(e) =>
+                                setStatusFilter(e.target.value as StatusValue)
+                              }
                               className={cn(
-                                "h-9 w-full rounded-[5px] border-slate-200 bg-white",
-                                "text-[13px] font-semibold text-slate-700",
-                                "shadow-none",
-                                "focus-visible:ring-0 focus-visible:ring-offset-0",
+                                "h-9 w-full rounded-[5px] border border-slate-200 bg-white px-3",
+                                "text-[13px] font-semibold text-slate-700 shadow-none",
+                                "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
                               )}
                             >
-                              <SelectValue placeholder="-- Semua --" />
-                            </SelectTrigger>
-                            <SelectContent className="rounded-[5px] border-slate-200">
-                              <SelectItem value="Semua">-- Semua --</SelectItem>
-                              <SelectItem value="Aktif">Aktif</SelectItem>
-                              <SelectItem value="Dibatalkan">Dibatalkan</SelectItem>
-                            </SelectContent>
-                          </Select>
+                              <option value="Semua">-- Semua --</option>
+                              <option value="Aktif">Aktif</option>
+                              <option value="Dibatalkan">Dibatalkan</option>
+                            </select>
+                          </div>
                         </th>
                       </tr>
                     </thead>
