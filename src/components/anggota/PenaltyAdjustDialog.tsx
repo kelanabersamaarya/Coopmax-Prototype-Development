@@ -73,8 +73,6 @@ export default function PenaltyAdjustDialog({
     return delta > 0 ? `+ Rp ${abs}` : `- Rp ${abs}`;
   }, [delta]);
 
-  const canSave = reason.trim().length > 0 && amountNumber > 0;
-
   // ✅ Semua font 14px (kecuali header popup)
   const bodyText = "text-[14px]";
   const labelCls = cn(bodyText, "font-normal text-slate-900");
@@ -95,8 +93,6 @@ export default function PenaltyAdjustDialog({
     R5,
     "text-[14px] font-semibold transition",
   );
-
-  const saveBtnCls = cn(actionBtnBase, canSave ? "" : "opacity-60");
 
   const fieldGrid = "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center";
   const fieldGridTop =
@@ -132,6 +128,26 @@ export default function PenaltyAdjustDialog({
     "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
+
+  function onSave() {
+    if (amountNumber <= 0) {
+      toast("Nominal Penyesuaian wajib diisi", {
+        description: "Mohon masukkan nominal penyesuaian (> 0).",
+      });
+      return;
+    }
+    if (!reason.trim()) {
+      toast("Alasan penyesuaian wajib diisi", {
+        description: "Mohon isi alasan penyesuaian denda terlebih dahulu.",
+      });
+      return;
+    }
+
+    toast.success("Denda berhasil disesuaikan (prototype)", {
+      description: `Sebelum: Rp ${formatIdr0(basePenalty)} • Sesudah: Rp ${formatIdr0(after)}`,
+    });
+    onOpenChange(false);
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -278,34 +294,13 @@ export default function PenaltyAdjustDialog({
 
               <button
                 type="button"
-                disabled={!canSave}
-                onClick={() => {
-                  if (amountNumber <= 0) {
-                    toast("Nominal Penyesuaian wajib diisi", {
-                      description: "Mohon masukkan nominal penyesuaian (> 0).",
-                    });
-                    return;
-                  }
-                  if (!reason.trim()) {
-                    toast("Alasan penyesuaian wajib diisi", {
-                      description:
-                        "Mohon isi alasan penyesuaian denda terlebih dahulu.",
-                    });
-                    return;
-                  }
-
-                  toast.success("Denda berhasil disesuaikan (prototype)", {
-                    description: `Sebelum: Rp ${formatIdr0(basePenalty)} • Sesudah: Rp ${formatIdr0(after)}`,
-                  });
-                  onOpenChange(false);
-                }}
-                className={saveBtnCls}
+                onClick={onSave}
+                className={cn(actionBtnBase)}
                 style={{
                   backgroundColor: SAVE_GREEN,
                   borderColor: SAVE_GREEN,
                 }}
                 onMouseEnter={(e) => {
-                  if (!canSave) return;
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor =
                     SAVE_GREEN_HOVER;
                 }}
