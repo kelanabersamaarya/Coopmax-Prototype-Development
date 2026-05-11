@@ -20,9 +20,9 @@ function ActionButton({
       className={cn(
         "inline-flex h-10 items-center gap-2 rounded-full px-4",
         "bg-transparent text-[13px] font-semibold text-slate-700",
-        "ring-1 ring-slate-200 shadow-none",
+        "ring-0 shadow-none border-0",
         "transition hover:bg-slate-50",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
     >
       <Icon className="h-4.5 w-4.5 text-slate-600" />
