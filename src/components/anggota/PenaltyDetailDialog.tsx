@@ -620,24 +620,8 @@ export default function PenaltyDetailDialog({
                                       />
                                     </>
                                   ) : isCanceled ? (
-                                    <>
-                                      {ActionSlotSpacer}
-                                      <RowActionEyeButton
-                                        onClick={() => {
-                                          const meta = cancelMeta[r.originalIndex];
-
-                                          setCancelDetailTarget({
-                                            cancelDate:
-                                              meta?.cancelDate ??
-                                              DEFAULT_CANCEL_DETAIL.cancelDate,
-                                            reason:
-                                              meta?.reason ??
-                                              DEFAULT_CANCEL_DETAIL.reason,
-                                          });
-                                          setCancelDetailOpen(true);
-                                        }}
-                                      />
-                                    </>
+                                    // ✅ Untuk status Dibatalkan: hilangkan icon mata (aksi detail).
+                                    <></>
                                   ) : (
                                     <>
                                       <CancelPenaltyButton
