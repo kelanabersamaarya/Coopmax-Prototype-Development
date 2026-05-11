@@ -10,11 +10,7 @@ import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonD
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -444,7 +440,8 @@ export default function PenaltyDetailDialog({
                 <div className="safe-x-scroll bg-white">
                   <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
-                      <tr className="border-b border-slate-300 text-left">
+                      {/* ✅ hilangkan border-b di header row, supaya tidak ada garis di atas filter */}
+                      <tr className="text-left">
                         <th className="w-[56px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           NO.
                         </th>
@@ -470,8 +467,8 @@ export default function PenaltyDetailDialog({
                         </th>
                       </tr>
 
-                      {/* ✅ hilangkan garis di atas filter status (hapus border-top) */}
-                      <tr className="bg-white">
+                      {/* ✅ garis sekarang pindah ke bawah filter */}
+                      <tr className="border-b border-slate-300 bg-white">
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
