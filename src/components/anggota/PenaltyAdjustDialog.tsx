@@ -75,11 +75,16 @@ export default function PenaltyAdjustDialog({
 
   const canSave = reason.trim().length > 0 && amountNumber > 0;
 
+  // ✅ Semua font 14px (kecuali header popup)
+  const bodyText = "text-[14px]";
+  const labelCls = cn(bodyText, "font-normal text-slate-900");
+  const requiredStar = <span className="text-rose-600">*</span>;
+
   const actionBtnBase = cn(
     "inline-flex items-center justify-center gap-2",
-    "h-[30px] w-[90px] px-2",
+    "h-[30px] px-3",
     R5,
-    "text-[11px] font-bold tracking-tight text-white",
+    "text-[14px] font-semibold text-white",
     "ring-1 transition",
     "leading-none",
   );
@@ -87,28 +92,21 @@ export default function PenaltyAdjustDialog({
   const modeBtnBase = cn(
     "inline-flex items-center justify-center gap-2 px-4",
     "h-[35px]",
-    "text-[14px] font-semibold transition",
     R5,
+    "text-[14px] font-semibold transition",
   );
 
-  const saveBtnCls = cn(
-    actionBtnBase,
-    "text-white transition",
-    canSave ? "" : "opacity-60",
-  );
-
-  const labelCls = "text-[14px] font-normal text-slate-900";
-  const requiredStar = <span className="text-rose-600">*</span>;
+  const saveBtnCls = cn(actionBtnBase, canSave ? "" : "opacity-60");
 
   const fieldGrid = "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center";
   const fieldGridTop =
     "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start";
 
-  // Summary typography
-  const summaryLabelCls = "text-[15px] font-normal text-slate-900";
-  const summaryValueCls = "text-[15px] font-normal text-slate-900";
+  const summaryLabelCls = cn(bodyText, "font-normal text-slate-900");
+  const summaryValueCls = cn(bodyText, "font-normal text-slate-900");
   const summaryDeltaCls = cn(
-    "text-[15px] font-normal",
+    bodyText,
+    "font-normal",
     delta > 0
       ? "text-emerald-700"
       : delta < 0
@@ -116,9 +114,24 @@ export default function PenaltyAdjustDialog({
         : "text-slate-400",
   );
 
-  // Bold only for total row (as requested)
-  const summaryTotalLabelCls = "text-[15px] font-bold text-slate-900";
-  const summaryTotalValueCls = "text-[15px] font-bold text-slate-900";
+  const summaryTotalLabelCls = cn(bodyText, "font-bold text-slate-900");
+  const summaryTotalValueCls = cn(bodyText, "font-bold text-slate-900");
+
+  const inputBase = cn(
+    "h-[30px]",
+    R5,
+    bodyText,
+    "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
+    "shadow-sm",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const textareaBase = cn(
+    R5,
+    bodyText,
+    "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -135,6 +148,7 @@ export default function PenaltyAdjustDialog({
         )}
       >
         <div className="bg-white">
+          {/* Header (boleh beda size) */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
               Penyesuaian Denda
@@ -157,7 +171,7 @@ export default function PenaltyAdjustDialog({
 
           <Separator className="bg-slate-200" />
 
-          <div className="px-6 py-5">
+          <div className={cn("px-6 py-5", bodyText)}>
             <div className="grid gap-3 sm:grid-cols-2">
               <button
                 type="button"
@@ -198,13 +212,7 @@ export default function PenaltyAdjustDialog({
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="Masukkan Nominal Penyesuaian"
                   inputMode="decimal"
-                  className={cn(
-                    "h-[30px]",
-                    R5,
-                    "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
-                    "shadow-sm",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0",
-                  )}
+                  className={inputBase}
                 />
               </div>
 
@@ -216,12 +224,7 @@ export default function PenaltyAdjustDialog({
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Wajib diisi. Jelaskan alasan penyesuaian denda..."
-                  className={cn(
-                    "min-h-[120px]",
-                    R5,
-                    "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0",
-                  )}
+                  className={cn(textareaBase, "min-h-[120px]")}
                 />
               </div>
             </div>
@@ -266,10 +269,10 @@ export default function PenaltyAdjustDialog({
                 onClick={() => onOpenChange(false)}
                 className={cn(
                   actionBtnBase,
-                  "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
+                  "bg-[#77839A] ring-1 ring-[#77839A]/25 hover:bg-[#6b768c]",
                 )}
               >
-                <X className="h-4 w-4" strokeWidth={3} />
+                <X className="h-4.5 w-4.5" strokeWidth={3} />
                 Batalkan
               </button>
 
@@ -311,7 +314,7 @@ export default function PenaltyAdjustDialog({
                     SAVE_GREEN;
                 }}
               >
-                <CheckSquare className="h-4 w-4" strokeWidth={3} />
+                <CheckSquare className="h-4.5 w-4.5" strokeWidth={3} />
                 Simpan
               </button>
             </div>
