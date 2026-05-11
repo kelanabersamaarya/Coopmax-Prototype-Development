@@ -14,14 +14,34 @@ import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 function RowKV({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid items-center gap-3 py-1.5 [grid-template-columns:170px_minmax(0,1fr)]">
-      <div className="text-sm font-semibold text-slate-700">{label}</div>
-      <div className="text-sm font-semibold text-slate-900">{value}</div>
+      <div className="text-sm font-normal text-slate-700">{label}</div>
+      <div className="text-sm font-normal text-slate-900">{value}</div>
     </div>
   );
 }
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-sm font-semibold text-slate-700">{children}</div>;
+  return <div className="text-sm font-normal text-slate-700">{children}</div>;
+}
+
+function parseIdrLike(input: string) {
+  const s = (input ?? "").trim();
+  if (!s) return 0;
+
+  // "11.820.000,00" -> 11820000
+  // "11820000" -> 11820000
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdr2(n: number) {
+  const value = Number.isFinite(n) ? n : 0;
+  return value.toLocaleString("id-ID", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }
 
 const TIPE_TRANSAKSI = "Pemutihan Pinjaman";
@@ -37,6 +57,7 @@ export default function LoanPemutihanDialog({
 }) {
   const [tanggal, setTanggal] = React.useState("20-04-2026");
   const [tipeTransaksi, setTipeTransaksi] = React.useState(TIPE_TRANSAKSI);
+  const [nominal, setNominal] = React.useState("11.820.000,00");
   const [keterangan, setKeterangan] = React.useState("");
   const [confirm, setConfirm] = React.useState(false);
 
@@ -44,6 +65,7 @@ export default function LoanPemutihanDialog({
     if (!open) return;
     setTanggal("20-04-2026");
     setTipeTransaksi(TIPE_TRANSAKSI);
+    setNominal("11.820.000,00");
     setKeterangan("");
     setConfirm(false);
   }, [open]);
@@ -59,6 +81,14 @@ export default function LoanPemutihanDialog({
     "leading-none",
     "focus:outline-none focus-visible:ring-4",
   );
+
+  const nominalN = React.useMemo(() => parseIdrLike(nominal), [nominal]);
+
+  // Rasio mengikuti contoh screenshot (±)
+  const POKOK_RATIO = 0.893;
+  const bungaN = React.useMemo(() => Math.max(0, Math.round(nominalN * (1 - POKOK_RATIO))), [nominalN]);
+  const pokokN = React.useMemo(() => Math.max(0, nominalN - bungaN), [nominalN, bungaN]);
+  const hutangBungaN = 0;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -79,7 +109,7 @@ export default function LoanPemutihanDialog({
         <div className="bg-white">
           {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="text-lg font-extrabold tracking-tight text-slate-900">
+            <div className="text-lg font-semibold tracking-tight text-slate-900">
               Pemutihan Pinjaman
             </div>
             <button
@@ -95,7 +125,7 @@ export default function LoanPemutihanDialog({
 
           <Separator className="bg-slate-200" />
 
-          {/* Body (scroll) — kasih padding bawah supaya konten tidak ketutup footer sticky */}
+          {/* Body (scroll) */}
           <div
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: `calc(85vh - 64px - ${footerH}px)` }}
@@ -126,7 +156,7 @@ export default function LoanPemutihanDialog({
                   onChange={setTanggal}
                   inputClassName={cn(
                     "h-10 rounded-xl border-slate-200 bg-white pr-11",
-                    "text-sm font-medium text-slate-900",
+                    "text-sm font-normal text-slate-900",
                     "shadow-sm",
                   )}
                   popoverAlign="end"
@@ -143,7 +173,7 @@ export default function LoanPemutihanDialog({
                     value={tipeTransaksi}
                     onChange={(e) => setTipeTransaksi(e.target.value)}
                     className={cn(
-                      "h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-900",
+                      "h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-normal text-slate-900",
                       "shadow-sm outline-none transition focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
                     )}
                   >
@@ -155,29 +185,38 @@ export default function LoanPemutihanDialog({
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel>Nominal</FieldLabel>
                 <Input
-                  value="11.820.000,00"
-                  readOnly
-                  className="h-10 rounded-xl border-slate-200 bg-slate-200/70 text-slate-800"
+                  value={nominal}
+                  onChange={(e) => setNominal(e.target.value)}
+                  className={cn(
+                    "h-10 rounded-xl border-slate-200 bg-white text-slate-900",
+                    "font-normal",
+                    "shadow-sm",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                  placeholder="0,00"
+                  inputMode="decimal"
                 />
               </div>
 
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel>Bayar Pokok</FieldLabel>
-                <div className="text-sm font-semibold text-slate-700">
-                  10.553.571,00
+                <div className="text-sm font-normal text-slate-900">
+                  {formatIdr2(pokokN)}
                 </div>
               </div>
 
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel>Bayar Bunga</FieldLabel>
-                <div className="text-sm font-semibold text-slate-700">
-                  1.266.429,00
+                <div className="text-sm font-normal text-slate-900">
+                  {formatIdr2(bungaN)}
                 </div>
               </div>
 
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel>Bayar Hutang Bunga</FieldLabel>
-                <div className="text-sm font-semibold text-slate-700">0,00</div>
+                <div className="text-sm font-normal text-slate-900">
+                  {formatIdr2(hutangBungaN)}
+                </div>
               </div>
 
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-start">
@@ -187,13 +226,13 @@ export default function LoanPemutihanDialog({
                 <Textarea
                   value={keterangan}
                   onChange={(e) => setKeterangan(e.target.value)}
-                  className="min-h-[120px] rounded-xl border-slate-200 bg-white"
+                  className="min-h-[120px] rounded-xl border-slate-200 bg-white text-sm font-normal text-slate-900"
                 />
               </div>
 
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <div className="hidden sm:block" />
-                <label className="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <label className="flex items-center gap-3 text-sm font-normal text-slate-800">
                   <Checkbox
                     checked={confirm}
                     onCheckedChange={(v) => setConfirm(!!v)}
@@ -204,7 +243,7 @@ export default function LoanPemutihanDialog({
             </div>
           </div>
 
-          {/* ✅ Divider di atas tombol */}
+          {/* Divider di atas tombol */}
           <Separator className="bg-slate-200" />
 
           {/* Footer (sticky) */}
@@ -238,7 +277,7 @@ export default function LoanPemutihanDialog({
                     return;
                   }
                   toast.success("Pemutihan Pinjaman Berhasil Dilakukan", {
-                    description: `Rekening: ${accountNo} • Tanggal: ${tanggal}`,
+                    description: `Rekening: ${accountNo} • Tanggal: ${tanggal} • Nominal: ${formatIdr2(nominalN)}`,
                   });
                   onOpenChange(false);
                 }}
