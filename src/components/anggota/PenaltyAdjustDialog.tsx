@@ -104,7 +104,7 @@ export default function PenaltyAdjustDialog({
   const fieldGridTop =
     "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start";
 
-  // Summary typography (match reference: same size, all regular)
+  // Summary typography
   const summaryLabelCls = "text-[15px] font-normal text-slate-900";
   const summaryValueCls = "text-[15px] font-normal text-slate-900";
   const summaryDeltaCls = cn(
@@ -115,6 +115,10 @@ export default function PenaltyAdjustDialog({
         ? "text-amber-700"
         : "text-slate-400",
   );
+
+  // Bold only for total row (as requested)
+  const summaryTotalLabelCls = "text-[15px] font-bold text-slate-900";
+  const summaryTotalValueCls = "text-[15px] font-bold text-slate-900";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -244,10 +248,10 @@ export default function PenaltyAdjustDialog({
                 <div className="my-4 h-px w-full bg-slate-200" />
 
                 <div className="flex items-center justify-between gap-4">
-                  <div className={summaryLabelCls}>
+                  <div className={summaryTotalLabelCls}>
                     Total Denda Setelah Penyesuaian
                   </div>
-                  <div className={cn(summaryValueCls, "text-right")}>
+                  <div className={cn(summaryTotalValueCls, "text-right")}>
                     Rp {formatIdr0(after)}
                   </div>
                 </div>
