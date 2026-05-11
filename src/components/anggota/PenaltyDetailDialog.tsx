@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { X, Info, Plus, Ban, ExternalLink } from "lucide-react";
+import { X, Info, Plus } from "lucide-react";
 import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
@@ -150,38 +150,21 @@ function InfoIconTooltip({
   );
 }
 
-function ActionIconButton({
-  label,
-  onClick,
-  icon,
-  disabled = false,
-  tone = "slate",
-}: {
-  label: string;
-  onClick: () => void;
-  icon: React.ReactNode;
-  disabled?: boolean;
-  tone?: "slate" | "rose";
-}) {
-  const cls = cn(
-    "inline-flex h-8 w-8 items-center justify-center rounded-full transition",
-    "bg-transparent ring-0 shadow-none",
-    tone === "rose"
-      ? "text-rose-600 hover:text-rose-700 hover:bg-rose-50"
-      : "text-slate-600 hover:text-slate-900 hover:bg-slate-900/5",
-    disabled ? "opacity-50 pointer-events-none" : "",
-  );
-
+function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={cls}
-      aria-label={label}
-      title={label}
-      disabled={disabled}
+      className={cn(
+        "inline-flex h-9 items-center justify-center px-4",
+        "rounded-[10px]",
+        "bg-rose-600 text-white",
+        "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
+        "text-[13px] font-semibold",
+        "focus:outline-none focus-visible:ring-4 focus-visible:ring-rose-600/20",
+      )}
     >
-      {icon}
+      Batalkan Denda
     </button>
   );
 }
@@ -441,7 +424,7 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        <th className="w-[120px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[160px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
@@ -522,9 +505,6 @@ export default function PenaltyDetailDialog({
                             return [];
                           })();
 
-                          const cancelDisabled = isCanceled;
-                          const detailDisabled = r.status === "Aktif";
-
                           return (
                             <tr
                               key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
@@ -569,50 +549,19 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-4 py-3">
-                                <div className="flex items-center justify-center gap-2">
-                                  <ActionIconButton
-                                    label="Batalkan"
-                                    tone="rose"
-                                    disabled={cancelDisabled}
-                                    icon={<Ban className="h-5 w-5" />}
-                                    onClick={() => {
-                                      if (cancelDisabled) return;
-
-                                      setCancelTarget({
-                                        originalIndex: r.originalIndex,
-                                        tanggal: r.tanggalKeterlambatan,
-                                        nominal: r.nominalDenda,
-                                      });
-                                      setCancelDialogOpen(true);
-                                    }}
-                                  />
-
-                                  <ActionIconButton
-                                    label="Detail"
-                                    tone="slate"
-                                    disabled={detailDisabled}
-                                    icon={<ExternalLink className="h-5 w-5" />}
-                                    onClick={() => {
-                                      if (detailDisabled) return;
-
-                                      if (isAdded) {
-                                        const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
-                                        setAddDetailTarget({
-                                          addDate: meta?.addDate ?? "-",
-                                          reason: meta?.reason ?? "-",
+                                <div className="flex justify-center">
+                                  {r.status === "Aktif" ? (
+                                    <CancelPenaltyButton
+                                      onClick={() => {
+                                        setCancelTarget({
+                                          originalIndex: r.originalIndex,
+                                          tanggal: r.tanggalKeterlambatan,
+                                          nominal: r.nominalDenda,
                                         });
-                                        setAddDetailOpen(true);
-                                        return;
-                                      }
-
-                                      const meta = cancelMeta[r.originalIndex];
-                                      setCancelDetailTarget({
-                                        cancelDate: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
-                                        reason: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
-                                      });
-                                      setCancelDetailOpen(true);
-                                    }}
-                                  />
+                                        setCancelDialogOpen(true);
+                                      }}
+                                    />
+                                  ) : null}
                                 </div>
                               </td>
                             </tr>
