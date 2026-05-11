@@ -81,6 +81,7 @@ const seed: Row[] = [
 ];
 
 const R = "rounded-[5px]";
+const H = "h-[30px]";
 
 function DetailActionButton({ onClick }: { onClick: () => void }) {
   return (
@@ -147,23 +148,41 @@ export default function LoanTransactionHistoryDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // ✅ Header 12px, padding antar kolom 5px (horizontal)
+  // Header 12px, padding antar kolom 5px (horizontal)
   const headerTh =
     "px-[5px] py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700";
   const tdBase = "px-[5px] py-2.5 text-[13px] font-medium text-slate-900";
 
   const selectTriggerCls = cn(
-    "h-9 w-[96px] border-slate-200 bg-white",
+    H,
+    "w-[96px] border-slate-200 bg-white",
     R,
     "shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  // ✅ tinggi field tanggal transaksi = 30px
   const inputCls = cn(
-    "h-11 border-slate-200 bg-white",
+    H,
+    "border-slate-200 bg-white",
     R,
     "shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  // ✅ tinggi tombol cari = 30px
+  const btnCariCls = cn(
+    H,
+    "px-4",
+    R,
+    "bg-slate-700 text-white hover:bg-slate-800",
+  );
+
+  // ✅ tinggi tombol tutup (footer) = 30px
+  const btnTutupFooterCls = cn(
+    H,
+    "bg-slate-600 px-6 text-white hover:bg-slate-700",
+    R,
   );
 
   return (
@@ -241,11 +260,7 @@ export default function LoanTransactionHistoryDialog({
                       description: "Filter diterapkan otomatis saat Anda mengetik.",
                     })
                   }
-                  className={cn(
-                    "h-11 px-6",
-                    R,
-                    "bg-slate-700 text-white hover:bg-slate-800",
-                  )}
+                  className={btnCariCls}
                 >
                   <Search className="mr-2 h-4 w-4" />
                   Cari
@@ -525,10 +540,7 @@ export default function LoanTransactionHistoryDialog({
           {/* Footer */}
           <div className="px-5 py-4 sm:px-6">
             <div className="flex justify-end">
-              <Button
-                onClick={() => onOpenChange(false)}
-                className={cn("h-11 bg-slate-600 px-6 text-white hover:bg-slate-700", R)}
-              >
+              <Button onClick={() => onOpenChange(false)} className={btnTutupFooterCls}>
                 <X className="mr-2 h-4 w-4" />
                 Tutup
               </Button>
