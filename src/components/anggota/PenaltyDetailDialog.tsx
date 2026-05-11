@@ -416,37 +416,39 @@ export default function PenaltyDetailDialog({
                   <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
-                        <th className="w-[56px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           NO.
                         </th>
 
-                        <th className="w-[150px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[150px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           KETERLAMBATAN (HARI)
                         </th>
 
-                        <th className="w-[96px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[96px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
 
-                        <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[120px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
 
-                        <th className="w-[108px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ kecilkan padding bawah header STATUS supaya jarak ke filter lebih rapat */}
+                        <th className="w-[108px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
 
-                        <th className="w-[118px] px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[118px] px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
 
+                      {/* ✅ kecilkan padding atas baris filter (khusus kolom STATUS) */}
                       <tr className="border-b border-slate-300 bg-white">
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
-                        <th className="px-4 py-2">
+                        <th className="px-4 pt-1 pb-2">
                           <div className="relative">
                             <select
                               value={statusFilter}
@@ -562,22 +564,18 @@ export default function PenaltyDetailDialog({
                               <td className="px-3 py-3">
                                 <div className="flex items-center justify-start gap-2">
                                   {isAdded ? (
-                                    <>
-                                      <CancelPenaltyButton
-                                        disabled={!canCancel}
-                                        onClick={() => {
-                                          setCancelTarget({
-                                            originalIndex: r.originalIndex,
-                                            tanggal: r.tanggalKeterlambatan,
-                                            nominal: r.nominalDenda,
-                                          });
-                                          setCancelDialogOpen(true);
-                                        }}
-                                      />
-                                    </>
-                                  ) : isCanceled ? (
-                                    <></>
-                                  ) : (
+                                    <CancelPenaltyButton
+                                      disabled={!canCancel}
+                                      onClick={() => {
+                                        setCancelTarget({
+                                          originalIndex: r.originalIndex,
+                                          tanggal: r.tanggalKeterlambatan,
+                                          nominal: r.nominalDenda,
+                                        });
+                                        setCancelDialogOpen(true);
+                                      }}
+                                    />
+                                  ) : isCanceled ? null : (
                                     <CancelPenaltyButton
                                       disabled={!canCancel}
                                       onClick={() => {
