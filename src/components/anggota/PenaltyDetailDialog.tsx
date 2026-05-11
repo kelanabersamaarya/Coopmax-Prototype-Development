@@ -387,16 +387,16 @@ export default function PenaltyDetailDialog({
                   <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="border-b border-slate-300 text-left">
-                        <th className="w-[56px] px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[56px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           NO.
                         </th>
-                        <th className="w-[190px] px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[190px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           KETERLAMBATAN (HARI)
                         </th>
                         <th className="w-[140px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
-                        <th className="w-[120px] px-4 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
                         <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
