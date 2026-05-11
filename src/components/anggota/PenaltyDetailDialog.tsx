@@ -154,7 +154,6 @@ function useViewportCollisionBoundary() {
   const [boundary, setBoundary] = React.useState<HTMLElement | null>(null);
 
   React.useEffect(() => {
-    // Use viewport root as collision boundary
     setBoundary(document.documentElement);
   }, []);
 
@@ -191,11 +190,11 @@ function InfoIconTooltip({
       <TooltipContent
         portalled
         side="left"
-        align="start"
+        align="center"
         sideOffset={10}
         avoidCollisions
         sticky="always"
-        collisionPadding={16}
+        collisionPadding={8}
         collisionBoundary={boundary ?? undefined}
         className={cn(
           "z-[9999] max-w-[320px] rounded-2xl border-slate-200 bg-white px-4 py-3 shadow-xl",
@@ -231,18 +230,11 @@ export default function PenaltyDetailDialog({
   onOpenChange: (v: boolean) => void;
   rows: PenaltyDetailRow[];
 }) {
-  // default saat popup dibuka: hanya tampilkan denda Aktif
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
-
-  // local prototype state: baris yang dibatalkan via modal alasan
   const [canceledIds, setCanceledIds] = React.useState<Set<number>>(() => new Set());
-
-  // simpan alasan + tanggal pembatalan (prototype) + siapa yang melakukan
   const [cancelMeta, setCancelMeta] = React.useState<Record<number, CanceledPenaltyMeta>>(
     () => ({}),
   );
-
-  // ✅ denda yang ditambahkan (prototype) -> akan tampil sebagai baris baru status Aktif
   const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>([]);
   const [addedMeta, setAddedMeta] = React.useState<Record<string, AddedPenaltyMeta>>(
     () => ({}),
@@ -279,7 +271,6 @@ export default function PenaltyDetailDialog({
     setCancelDetailOpen(false);
     setCancelDetailTarget(null);
     setAddOpen(false);
-
     setAddedPenalties([]);
     setAddedMeta({});
     setAddDetailOpen(false);
