@@ -335,6 +335,9 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  // ✅ khusus kolom "Total Tagihan Belum Dibayar": kecilkan padding kanan supaya angka rata ke ujung kolom
+  const totalColPad = "px-4 pr-2";
+
   return (
     <div className={cn("mt-3", className)}>
       <PenaltyDetailDialog
@@ -380,7 +383,6 @@ export default function BillingTableView2({
                           const rowIndex = idx;
                           const globalIdx = penaltyIndexOffset + rowIndex;
 
-                          // ✅ hilangkan ring/border aktif saat dicentang (untuk reguler/khusus)
                           const active = false;
 
                           return (
@@ -425,7 +427,7 @@ export default function BillingTableView2({
                                     {r.jatuhTempo}
                                   </div>
 
-                                  <div className={cn("px-4", cellY, numberTextClass)}>
+                                  <div className={cn(totalColPad, cellY, numberTextClass)}>
                                     <RightNum value={r.totalBelumDibayar} />
                                   </div>
 
@@ -464,7 +466,6 @@ export default function BillingTableView2({
                   const rowIndex = graceCount + idx;
                   const globalIdx = penaltyIndexOffset + rowIndex;
 
-                  // ✅ hilangkan ring/border aktif saat dicentang (untuk reguler/khusus)
                   const active = false;
 
                   return (
@@ -507,7 +508,7 @@ export default function BillingTableView2({
                               {r.jatuhTempo}
                             </div>
 
-                            <div className={cn("px-4", cellY, numberTextClass)}>
+                            <div className={cn(totalColPad, cellY, numberTextClass)}>
                               <RightNum value={r.totalBelumDibayar} />
                             </div>
 
@@ -554,7 +555,6 @@ export default function BillingTableView2({
                   rows.map((r, idx) => {
                     const globalIdx = penaltyIndexOffset + idx;
 
-                    // ✅ hilangkan ring/border aktif saat dicentang (untuk reguler/khusus)
                     const active = false;
 
                     return (
@@ -597,7 +597,7 @@ export default function BillingTableView2({
                                 {r.jatuhTempo}
                               </div>
 
-                              <div className={cn("px-4", cellY, numberTextClass)}>
+                              <div className={cn(totalColPad, cellY, numberTextClass)}>
                                 <RightNum value={r.totalBelumDibayar} />
                               </div>
 
