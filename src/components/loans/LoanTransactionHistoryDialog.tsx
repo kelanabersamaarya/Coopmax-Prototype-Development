@@ -11,6 +11,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  ExternalLink,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -81,7 +82,7 @@ const seed: Row[] = [
 
 const R = "rounded-[5px]";
 
-function DetailArrowButton({ onClick }: { onClick: () => void }) {
+function DetailActionButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       type="button"
@@ -94,7 +95,7 @@ function DetailArrowButton({ onClick }: { onClick: () => void }) {
       aria-label="Detail transaksi"
       title="Detail transaksi"
     >
-      <ChevronRight className="h-5 w-5" />
+      <ExternalLink className="h-5 w-5" />
     </button>
   );
 }
@@ -326,10 +327,10 @@ export default function LoanTransactionHistoryDialog({
                           Akhir
                         </th>
 
-                        {/* ✅ header keterangan dikosongkan */}
+                        {/* header keterangan dikosongkan */}
                         <th className={cn(headerTh, "w-[220px]")}></th>
 
-                        {/* ✅ header aksi jadi 2 baris */}
+                        {/* header aksi jadi 2 baris */}
                         <th className={cn(headerTh, "w-[160px] text-center")}>
                           Detail
                           <br />
@@ -360,7 +361,12 @@ export default function LoanTransactionHistoryDialog({
                                 idx % 2 === 0 ? "bg-slate-50/70" : "bg-white",
                               )}
                             >
-                              <td className={cn(tdBase, "font-semibold text-slate-700 tabular-nums")}>
+                              <td
+                                className={cn(
+                                  tdBase,
+                                  "font-semibold text-slate-700 tabular-nums",
+                                )}
+                              >
                                 {derivedNo}
                               </td>
 
@@ -464,7 +470,7 @@ export default function LoanTransactionHistoryDialog({
 
                               <td className={cn(tdBase, "text-center")}>
                                 <div className="flex justify-center">
-                                  <DetailArrowButton
+                                  <DetailActionButton
                                     onClick={() =>
                                       toast("Detail transaksi (prototype)", {
                                         description: `${r.tipe} • ${r.tanggal}`,
