@@ -7,17 +7,16 @@ import {
   Calendar,
   ChevronDown,
   Clock3,
-  FileText,
   Percent,
   Printer,
   RotateCcw,
   Sparkles,
   TimerReset,
-  Wrench,
   Pencil,
   List,
   BadgePercent,
-  ArrowLeft,
+  Eraser,
+  Banknote,
 } from "lucide-react";
 import LoanPemutihanDialog from "@/components/loans/LoanPemutihanDialog";
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
@@ -111,8 +110,9 @@ export default function LoanAccountDetailHeader({
             onClick={() => onAction("Cetak")}
           />
 
+          {/* dokumen -> printer */}
           <ActionPill
-            icon={FileText}
+            icon={Printer}
             label="Dokumen"
             withCaret
             onClick={() => onAction("Dokumen")}
@@ -124,14 +124,16 @@ export default function LoanAccountDetailHeader({
             onClick={() => setTxHistoryOpen(true)}
           />
 
+          {/* pemutihan pinjaman -> penghapus */}
           <ActionPill
-            icon={Wrench}
+            icon={Eraser}
             label="Pemutihan Pinjaman"
             onClick={() => setPemutihanOpen(true)}
           />
 
+          {/* riwayat transaksi autodebet -> kalender */}
           <ActionPill
-            icon={TimerReset}
+            icon={Calendar}
             label="Riwayat Transaksi Autodebet"
             onClick={() => onAction("Riwayat Transaksi Autodebet")}
           />
@@ -146,8 +148,9 @@ export default function LoanAccountDetailHeader({
             }
           />
 
+          {/* ubah hutang -> uang */}
           <ActionPill
-            icon={Pencil}
+            icon={Banknote}
             label="Ubah Hutang"
             onClick={() => onAction("Ubah Hutang")}
           />
@@ -164,12 +167,14 @@ export default function LoanAccountDetailHeader({
             onClick={() => onAction("Ubah Bunga")}
           />
 
+          {/* simulasi tunggakan -> printer */}
           <ActionPill
-            icon={RotateCcw}
+            icon={Printer}
             label="Simulasi Tunggakan"
             onClick={() => onAction("Simulasi Tunggakan")}
           />
 
+          {/* kembali ke daftar -> list */}
           <Button
             variant="outline"
             onClick={onBack}
@@ -179,7 +184,7 @@ export default function LoanAccountDetailHeader({
               "focus-visible:ring-0 focus-visible:ring-offset-0",
             )}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <List className="mr-2 h-4 w-4" />
             Kembali ke Daftar
           </Button>
 
@@ -198,6 +203,11 @@ export default function LoanAccountDetailHeader({
             Dapatkan Analisa 5C
             <BadgePercent className="ml-2 h-4 w-4 opacity-90" />
           </Button>
+
+          <div className="sr-only">
+            <TimerReset />
+            <RotateCcw />
+          </div>
         </div>
       </div>
     </>
