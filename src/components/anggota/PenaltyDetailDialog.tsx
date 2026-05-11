@@ -251,39 +251,33 @@ export default function PenaltyDetailDialog({
                         </th>
                       </tr>
 
-                      {/* Filter row (seperti contoh) */}
+                      {/* Filter row (tanpa label STATUS + lebih kecil) */}
                       <tr className="border-b border-slate-200 bg-white">
-                        <th className="px-5 py-3" />
-                        <th className="px-5 py-3" />
-                        <th className="px-5 py-3" />
-                        <th className="px-5 py-3" />
-                        <th className="px-5 py-3">
-                          <div className="grid gap-2">
-                            <div className="text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                              STATUS
-                            </div>
-
-                            <Select
-                              value={statusFilter}
-                              onValueChange={(v) => setStatusFilter(v as StatusValue)}
+                        <th className="px-5 py-2" />
+                        <th className="px-5 py-2" />
+                        <th className="px-5 py-2" />
+                        <th className="px-5 py-2" />
+                        <th className="px-5 py-2">
+                          <Select
+                            value={statusFilter}
+                            onValueChange={(v) => setStatusFilter(v as StatusValue)}
+                          >
+                            <SelectTrigger
+                              className={cn(
+                                "h-9 w-full rounded-[10px] border-slate-200 bg-white",
+                                "text-[13px] font-semibold text-slate-700",
+                                "shadow-none",
+                                "focus-visible:ring-0 focus-visible:ring-offset-0",
+                              )}
                             >
-                              <SelectTrigger
-                                className={cn(
-                                  "h-[42px] w-full rounded-[10px] border-slate-200 bg-white",
-                                  "text-[18px] font-semibold text-slate-700",
-                                  "shadow-none",
-                                  "focus-visible:ring-0 focus-visible:ring-offset-0",
-                                )}
-                              >
-                                <SelectValue placeholder="-- Semua --" />
-                              </SelectTrigger>
-                              <SelectContent className="rounded-[12px] border-slate-200">
-                                <SelectItem value="Semua">-- Semua --</SelectItem>
-                                <SelectItem value="Aktif">Aktif</SelectItem>
-                                <SelectItem value="Dibatalkan">Dibatalkan</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
+                              <SelectValue placeholder="-- Semua --" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-[12px] border-slate-200">
+                              <SelectItem value="Semua">-- Semua --</SelectItem>
+                              <SelectItem value="Aktif">Aktif</SelectItem>
+                              <SelectItem value="Dibatalkan">Dibatalkan</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </th>
                       </tr>
                     </thead>
