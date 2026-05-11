@@ -79,11 +79,13 @@ export default function PenaltyDetailDialog({
   rows: PenaltyDetailRow[];
 }) {
   const [adjustOpen, setAdjustOpen] = React.useState(false);
-  const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Semua");
+
+  // ✅ default saat popup dibuka: hanya tampilkan denda Aktif
+  const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
 
   React.useEffect(() => {
     if (!open) return;
-    setStatusFilter("Semua");
+    setStatusFilter("Aktif");
   }, [open]);
 
   const filteredRows = React.useMemo(() => {
@@ -313,7 +315,6 @@ export default function PenaltyDetailDialog({
                                 {r.tanggalKeterlambatan}
                               </td>
 
-                              {/* ✅ 75.000: tetap bold dan ukuran 14px (samakan size dengan TOTAL DENDA) */}
                               <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
@@ -326,7 +327,6 @@ export default function PenaltyDetailDialog({
                         })
                       )}
 
-                      {/* TOTAL DENDA: label kiri, angka total di kolom DENDA */}
                       <tr className="border-t border-slate-300 bg-white">
                         <td
                           colSpan={3}
@@ -335,7 +335,6 @@ export default function PenaltyDetailDialog({
                           TOTAL DENDA
                         </td>
 
-                        {/* ukuran 14px sama dengan TOTAL DENDA, dan bold (sejajar gaya angka denda) */}
                         <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
