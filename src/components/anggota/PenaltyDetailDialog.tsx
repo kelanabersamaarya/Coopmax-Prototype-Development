@@ -4,9 +4,10 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
+import { Eye, X } from "lucide-react";
 import PenaltyAdjustDialog from "@/components/anggota/PenaltyAdjustDialog";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
+import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -71,16 +72,45 @@ function RowActionXButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "inline-flex h-8 w-8 items-center justify-center rounded-full",
-        "bg-rose-50 text-rose-700 ring-1 ring-rose-200",
-        "transition hover:bg-rose-100",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-600/20",
-        disabled ? "opacity-50 pointer-events-none" : "",
+        "inline-flex h-8 w-8 items-center justify-center",
+        "rounded-full",
+        "bg-transparent text-rose-600",
+        "transition hover:bg-transparent hover:text-rose-700",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        disabled ? "opacity-35 pointer-events-none" : "",
       )}
       aria-label={disabled ? "Aksi tidak tersedia" : "Batalkan denda"}
       title={disabled ? "Hanya denda Aktif yang bisa dibatalkan" : "Batalkan denda"}
     >
-      <X className="h-4.5 w-4.5" strokeWidth={3} />
+      <X className="h-6 w-6" strokeWidth={3} />
+    </button>
+  );
+}
+
+function RowActionEyeButton({
+  disabled,
+  onClick,
+}: {
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        "inline-flex h-8 w-8 items-center justify-center",
+        "rounded-full",
+        "bg-transparent text-slate-500",
+        "transition hover:bg-transparent hover:text-slate-700",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        disabled ? "opacity-35 pointer-events-none" : "",
+      )}
+      aria-label="Lihat detail pembatalan"
+      title="Lihat detail pembatalan"
+    >
+      <Eye className="h-6 w-6" strokeWidth={2.5} />
     </button>
   );
 }
@@ -114,6 +144,12 @@ export default function PenaltyDetailDialog({
     nominal: string;
   } | null>(null);
 
+  const [detailOpen, setDetailOpen] = React.useState(false);
+  const [detailTarget, setDetailTarget] = React.useState<{
+    cancelDate: string;
+    reason: string;
+  } | null>(null);
+
   React.useEffect(() => {
     if (!open) return;
     setStatusFilter("Aktif");
@@ -121,6 +157,8 @@ export default function PenaltyDetailDialog({
     setCancelMeta({});
     setCancelDialogOpen(false);
     setCancelTarget(null);
+    setDetailOpen(false);
+    setDetailTarget(null);
   }, [open]);
 
   // Precompute status by original index (stable), then apply local cancel state
@@ -186,6 +224,16 @@ export default function PenaltyDetailDialog({
         }}
       />
 
+      <PenaltyCancelDetailDialog
+        open={detailOpen}
+        onOpenChange={(v) => {
+          setDetailOpen(v);
+          if (!v) setDetailTarget(null);
+        }}
+        cancelDate={detailTarget?.cancelDate ?? "-"}
+        reason={detailTarget?.reason ?? "-"}
+      />
+
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           className={cn(
@@ -230,14 +278,7 @@ export default function PenaltyDetailDialog({
               className="overflow-auto px-6 py-5"
               style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
             >
-              <div
-                className={cn(
-                  "overflow-hidden",
-                  R,
-                  "bg-white",
-                  "ring-1 ring-slate-300",
-                )}
-              >
+              <div className={cn("overflow-hidden", R, "bg-white", "ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
                   <table
                     className={cn(
@@ -253,9 +294,12 @@ export default function PenaltyDetailDialog({
                         <th className="w-[200px] px-5 py-4 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           KETERLAMBATAN (HARI)
                         </th>
-                        <th className="px-5 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+
+                        {/* ✅ kecilkan lebar kolom tanggal */}
+                        <th className="w-[170px] px-5 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
+
                         <th className="w-[170px] px-5 py-4 text-right text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
@@ -264,7 +308,8 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        <th className="w-[90px] px-4 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ perkecil kolom aksi */}
+                        <th className="w-[70px] px-2 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
@@ -278,9 +323,7 @@ export default function PenaltyDetailDialog({
                           <div className="relative">
                             <select
                               value={statusFilter}
-                              onChange={(e) =>
-                                setStatusFilter(e.target.value as StatusValue)
-                              }
+                              onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
                               className={cn(
                                 "h-9 w-full rounded-[5px] border border-slate-200 bg-white px-3",
                                 "text-[13px] font-semibold text-slate-700 shadow-none",
@@ -293,26 +336,23 @@ export default function PenaltyDetailDialog({
                             </select>
                           </div>
                         </th>
-                        <th className="px-4 py-2" />
+                        <th className="px-2 py-2" />
                       </tr>
                     </thead>
 
                     <tbody className="bg-white">
                       {filteredRows.length === 0 ? (
                         <tr>
-                          <td
-                            colSpan={6}
-                            className="px-5 py-10 text-center text-sm text-slate-600"
-                          >
+                          <td colSpan={6} className="px-5 py-10 text-center text-sm text-slate-600">
                             Tidak ada rincian denda.
                           </td>
                         </tr>
                       ) : (
                         filteredRows.map((r, idx) => {
-                          const lateDays =
-                            lateDaysPattern[idx % lateDaysPattern.length];
+                          const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
 
                           const canCancel = r.status === "Aktif";
+                          const isCanceled = r.status === "Dibatalkan";
 
                           return (
                             <tr
@@ -342,19 +382,34 @@ export default function PenaltyDetailDialog({
                                 <StatusPill status={r.status} />
                               </td>
 
-                              <td className="px-4 py-4">
+                              <td className="px-2 py-4">
                                 <div className="flex justify-center">
-                                  <RowActionXButton
-                                    disabled={!canCancel}
-                                    onClick={() => {
-                                      setCancelTarget({
-                                        originalIndex: r.originalIndex,
-                                        tanggal: r.tanggalKeterlambatan,
-                                        nominal: r.nominalDenda,
-                                      });
-                                      setCancelDialogOpen(true);
-                                    }}
-                                  />
+                                  {isCanceled ? (
+                                    <RowActionEyeButton
+                                      disabled={!cancelMeta[r.originalIndex]}
+                                      onClick={() => {
+                                        const meta = cancelMeta[r.originalIndex];
+                                        if (!meta) return;
+                                        setDetailTarget({
+                                          cancelDate: meta.cancelDate,
+                                          reason: meta.reason,
+                                        });
+                                        setDetailOpen(true);
+                                      }}
+                                    />
+                                  ) : (
+                                    <RowActionXButton
+                                      disabled={!canCancel}
+                                      onClick={() => {
+                                        setCancelTarget({
+                                          originalIndex: r.originalIndex,
+                                          tanggal: r.tanggalKeterlambatan,
+                                          nominal: r.nominalDenda,
+                                        });
+                                        setCancelDialogOpen(true);
+                                      }}
+                                    />
+                                  )}
                                 </div>
                               </td>
                             </tr>
@@ -375,16 +430,14 @@ export default function PenaltyDetailDialog({
                         </td>
 
                         <td className="px-4 py-4" />
-                        <td className="px-4 py-4" />
+                        <td className="px-2 py-4" />
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
 
-              <div className="sr-only">
-                {Object.keys(cancelMeta).length > 0 ? "has-meta" : "no-meta"}
-              </div>
+              <div className="sr-only">{Object.keys(cancelMeta).length}</div>
             </div>
 
             <Separator className="bg-slate-200" />
