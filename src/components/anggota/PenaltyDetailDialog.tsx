@@ -47,7 +47,9 @@ const R = "rounded-[5px]";
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
 function deriveStatusForRow(idx: number): Exclude<StatusValue, "Semua"> {
-  return idx % 3 === 0 ? "Dibatalkan" : "Aktif";
+  // ✅ Default: semua Aktif (sesuai request)
+  // Tetap sisakan beberapa "Dibatalkan" agar filter bisa didemokan saat dipilih.
+  return idx % 7 === 0 ? "Dibatalkan" : "Aktif";
 }
 
 function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
