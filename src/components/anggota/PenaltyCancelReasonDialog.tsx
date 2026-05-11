@@ -33,7 +33,7 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-[200px_minmax(0,1fr)] sm:items-start">
+    <div className="grid gap-3 sm:grid-cols-[170px_minmax(0,1fr)] sm:items-start">
       <div className="pt-2 text-[14px] font-normal text-slate-900">
         {label}
         {required ? <span className="text-rose-600"> *</span> : null}
@@ -65,12 +65,21 @@ export default function PenaltyCancelReasonDialog({
     setCancelDate(getTodayDmy());
   }, [open]);
 
+  const footerBtnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    "w-[90px] h-[28px] px-2",
+    "rounded-[6px]",
+    "text-[11px] font-bold tracking-tight text-white",
+    "ring-1 transition",
+    "leading-none",
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[700px]",
-          "max-w-[700px]",
+          "w-[calc(100vw-1rem)] sm:w-[760px]",
+          "max-w-[760px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
           "[&>button[aria-label=Close]]:hidden",
@@ -116,7 +125,7 @@ export default function PenaltyCancelReasonDialog({
                   value={cancelDate}
                   onChange={setCancelDate}
                   inputClassName={cn(
-                    "h-11 rounded-[5px] border-slate-200 bg-white pr-11 text-[14px] font-normal text-slate-900",
+                    "h-11 w-full rounded-[5px] border-slate-200 bg-white pr-11 text-[14px] font-normal text-slate-900",
                   )}
                   popoverAlign="end"
                   placeholder="DD-MM-YYYY"
@@ -129,7 +138,7 @@ export default function PenaltyCancelReasonDialog({
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Wajib diisi. Jelaskan alasan pembatalan denda..."
                   className={cn(
-                    "min-h-[160px]",
+                    "min-h-[180px] w-full",
                     R,
                     "border-slate-200 bg-white text-[14px] font-normal text-slate-900",
                     "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -147,17 +156,16 @@ export default function PenaltyCancelReasonDialog({
           <Separator className="bg-slate-200" />
 
           <div className="px-6 py-4">
-            <div className="flex flex-col justify-end gap-3 sm:flex-row">
+            <div className="flex justify-end gap-3">
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center px-5 text-[14px] font-semibold",
-                  R,
-                  "bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700",
+                  footerBtnBase,
+                  "bg-[#6B7A90] ring-1 ring-[#6B7A90]/25 hover:bg-[#5f6d82]",
                 )}
               >
-                <X className="mr-2 h-4 w-4" strokeWidth={3} />
+                <X className="h-4 w-4" strokeWidth={3} />
                 Batalkan
               </button>
 
@@ -184,12 +192,11 @@ export default function PenaltyCancelReasonDialog({
                   });
                 }}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center px-5 text-[14px] font-semibold",
-                  R,
-                  "bg-emerald-600 text-white ring-1 ring-emerald-600/20 transition hover:bg-emerald-700",
+                  footerBtnBase,
+                  "bg-emerald-600 ring-1 ring-emerald-600/20 hover:bg-emerald-700",
                 )}
               >
-                <CheckSquare className="mr-2 h-4 w-4" strokeWidth={3} />
+                <CheckSquare className="h-4 w-4" strokeWidth={3} />
                 Simpan
               </button>
             </div>
