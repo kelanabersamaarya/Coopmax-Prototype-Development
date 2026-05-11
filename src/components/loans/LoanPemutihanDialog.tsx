@@ -187,6 +187,14 @@ export default function LoanPemutihanDialog({
     "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
   );
 
+  const checkboxCls = cn(
+    "h-5 w-5 rounded-[6px]",
+    "border border-slate-300 bg-white",
+    "data-[state=checked]:bg-slate-700 data-[state=checked]:border-slate-700",
+    "data-[state=checked]:text-white",
+    "focus-visible:ring-2 focus-visible:ring-slate-900/15 focus-visible:ring-offset-0",
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -333,6 +341,7 @@ export default function LoanPemutihanDialog({
                 <div className="hidden sm:block" />
                 <label className="flex items-center gap-3 text-sm font-normal text-slate-800">
                   <Checkbox
+                    className={checkboxCls}
                     checked={confirm}
                     onCheckedChange={(v) => setConfirm(!!v)}
                   />
