@@ -288,26 +288,36 @@ export default function LoanPemutihanDialog({
                 <RowKV label="Sisa Pokok" value={sisaPokok} />
                 <RowKV label="Sisa Bunga" value={sisaBunga} />
                 <RowKV label="Sisa Denda" value={sisaDenda} />
-                <RowKVWithAction
-                  label="Total Kewajiban Berjalan"
-                  value={totalKewajibanBerjalan}
-                  action={
-                    <button
-                      type="button"
-                      className={viewBillsBtnCls}
-                      onClick={() =>
-                        toast("Lihat Tagihan (prototype)", {
-                          description: `Rekening: ${accountNo}`,
-                        })
-                      }
-                      aria-label="Lihat Tagihan"
-                      title="Lihat Tagihan"
-                    >
-                      <Eye className="h-4 w-4" />
-                      Lihat Tagihan
-                    </button>
-                  }
-                />
+
+                {/* ✅ tombol benar-benar nempel di samping nominal */}
+                <div className="grid items-center gap-3 py-1.5 [grid-template-columns:170px_minmax(0,1fr)]">
+                  <div className="text-sm font-normal text-slate-700">
+                    Total Kewajiban Berjalan
+                  </div>
+
+                  <div className="min-w-0">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0 text-sm font-normal text-slate-900">
+                        {totalKewajibanBerjalan}
+                      </div>
+
+                      <button
+                        type="button"
+                        className={viewBillsBtnCls}
+                        onClick={() =>
+                          toast("Lihat Tagihan (prototype)", {
+                            description: `Rekening: ${accountNo}`,
+                          })
+                        }
+                        aria-label="Lihat Tagihan"
+                        title="Lihat Tagihan"
+                      >
+                        <Eye className="h-4 w-4" />
+                        Lihat Tagihan
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
