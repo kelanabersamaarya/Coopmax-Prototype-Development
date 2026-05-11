@@ -76,8 +76,8 @@ function KVRow({
           : "[grid-template-columns:minmax(0,220px)_14px_minmax(0,1fr)]",
       )}
     >
-      <div className="text-[14px] font-normal text-slate-900">{label}</div>
-      <div className="text-center text-[14px] font-normal text-slate-900">:</div>
+      <div className="text-[14px] font-normal text-[#7987A1]">{label}</div>
+      <div className="text-center text-[14px] font-normal text-[#7987A1]">:</div>
       <div className="text-[14px] font-normal text-slate-900">{value}</div>
     </div>
   );
