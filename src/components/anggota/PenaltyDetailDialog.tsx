@@ -47,7 +47,7 @@ const R = "rounded-[5px]";
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
 function deriveStatusForRow(idx: number): Exclude<StatusValue, "Semua"> {
-  // Default: Aktif
+  // Default: Aktif (tetap sisakan beberapa dibatalkan agar filter bisa dites)
   return idx % 7 === 0 ? "Dibatalkan" : "Aktif";
 }
 
@@ -312,7 +312,9 @@ export default function PenaltyDetailDialog({
                               <td className="px-5 py-4 text-center text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.tanggalKeterlambatan}
                               </td>
-                              <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+
+                              {/* ✅ 75.000: tetap bold dan ukuran 14px (samakan size dengan TOTAL DENDA) */}
+                              <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
@@ -324,7 +326,7 @@ export default function PenaltyDetailDialog({
                         })
                       )}
 
-                      {/* ✅ TOTAL DENDA: label tetap kiri, angka pindah ke kolom DENDA (kolom ke-4) */}
+                      {/* TOTAL DENDA: label kiri, angka total di kolom DENDA */}
                       <tr className="border-t border-slate-300 bg-white">
                         <td
                           colSpan={3}
@@ -333,12 +335,11 @@ export default function PenaltyDetailDialog({
                           TOTAL DENDA
                         </td>
 
-                        {/* font disamakan dengan nominal denda (14px normal) */}
-                        <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                        {/* ukuran 14px sama dengan TOTAL DENDA, dan bold (sejajar gaya angka denda) */}
+                        <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
 
-                        {/* kolom STATUS kosong */}
                         <td className="px-4 py-4" />
                       </tr>
                     </tbody>
