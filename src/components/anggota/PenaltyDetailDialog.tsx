@@ -402,7 +402,7 @@ export default function PenaltyDetailDialog({
                         <th className="w-[120px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
-                        <th className="w-[150px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[118px] px-3 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
@@ -431,7 +431,7 @@ export default function PenaltyDetailDialog({
                             </select>
                           </div>
                         </th>
-                        <th className="px-4 py-2" />
+                        <th className="px-3 py-2" />
                       </tr>
                     </thead>
 
@@ -481,7 +481,7 @@ export default function PenaltyDetailDialog({
                                 <StatusPill status={r.status} />
                               </td>
 
-                              <td className="px-4 py-3">
+                              <td className="px-3 py-3">
                                 <div className="flex items-center justify-start gap-2">
                                   {isAdded ? (
                                     <>
@@ -566,7 +566,7 @@ export default function PenaltyDetailDialog({
                         </td>
 
                         <td className="px-4 py-3" />
-                        <td className="px-4 py-3" />
+                        <td className="px-3 py-3" />
                       </tr>
                     </tbody>
                   </table>
