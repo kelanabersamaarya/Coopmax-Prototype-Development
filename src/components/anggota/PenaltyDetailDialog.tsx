@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Eye, Plus, X, Info } from "lucide-react";
+import { Plus, X, Info } from "lucide-react";
 import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
@@ -93,27 +93,6 @@ function CancelPenaltyButton({
       title={disabled ? "Hanya denda Aktif yang bisa dibatalkan" : "Batalkan denda"}
     >
       Batalkan Denda
-    </button>
-  );
-}
-
-function RowActionEyeButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "inline-flex h-8 w-8 items-center justify-center",
-        "rounded-[5px]",
-        "bg-transparent text-slate-500",
-        "ring-1 ring-slate-200",
-        "transition hover:bg-slate-50 hover:text-slate-700",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-      )}
-      aria-label="Lihat detail"
-      title="Lihat detail"
-    >
-      <Eye className="h-4.5 w-4.5" strokeWidth={2.5} />
     </button>
   );
 }
@@ -304,10 +283,6 @@ export default function PenaltyDetailDialog({
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
   );
 
-  const ActionSlotSpacer = (
-    <span className="inline-block h-8 w-8" aria-hidden="true" />
-  );
-
   const currentUserName = "Arya Dharma";
 
   return (
@@ -440,7 +415,6 @@ export default function PenaltyDetailDialog({
                 <div className="safe-x-scroll bg-white">
                   <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
-                      {/* ✅ hilangkan border-b di header row, supaya tidak ada garis di atas filter */}
                       <tr className="text-left">
                         <th className="w-[56px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           NO.
@@ -467,7 +441,6 @@ export default function PenaltyDetailDialog({
                         </th>
                       </tr>
 
-                      {/* ✅ garis sekarang pindah ke bawah filter */}
                       <tr className="border-b border-slate-300 bg-white">
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
@@ -601,40 +574,21 @@ export default function PenaltyDetailDialog({
                                           setCancelDialogOpen(true);
                                         }}
                                       />
-                                      <RowActionEyeButton
-                                        onClick={() => {
-                                          const meta = r.addMetaKey
-                                            ? addedMeta[r.addMetaKey]
-                                            : null;
-
-                                          setAddDetailTarget({
-                                            addDate:
-                                              meta?.addDate ?? r.tanggalKeterlambatan,
-                                            reason:
-                                              meta?.reason ??
-                                              "Denda ditambahkan (prototype) tanpa alasan tersimpan.",
-                                          });
-                                          setAddDetailOpen(true);
-                                        }}
-                                      />
                                     </>
                                   ) : isCanceled ? (
                                     <></>
                                   ) : (
-                                    <>
-                                      <CancelPenaltyButton
-                                        disabled={!canCancel}
-                                        onClick={() => {
-                                          setCancelTarget({
-                                            originalIndex: r.originalIndex,
-                                            tanggal: r.tanggalKeterlambatan,
-                                            nominal: r.nominalDenda,
-                                          });
-                                          setCancelDialogOpen(true);
-                                        }}
-                                      />
-                                      {ActionSlotSpacer}
-                                    </>
+                                    <CancelPenaltyButton
+                                      disabled={!canCancel}
+                                      onClick={() => {
+                                        setCancelTarget({
+                                          originalIndex: r.originalIndex,
+                                          tanggal: r.tanggalKeterlambatan,
+                                          nominal: r.nominalDenda,
+                                        });
+                                        setCancelDialogOpen(true);
+                                      }}
+                                    />
                                   )}
                                 </div>
                               </td>
