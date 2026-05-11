@@ -13,6 +13,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import PenaltyAdjustDialog from "@/components/anggota/PenaltyAdjustDialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -40,6 +47,31 @@ function formatIdrLike(n: number) {
 
 const R = "rounded-[5px]";
 
+type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
+
+function deriveStatusForRow(idx: number): Exclude<StatusValue, "Semua"> {
+  // Prototype sederhana: variasi agar filter terlihat bekerja
+  return idx % 3 === 0 ? "Dibatalkan" : "Aktif";
+}
+
+function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
+  const cls =
+    status === "Aktif"
+      ? "bg-emerald-600 text-white ring-1 ring-emerald-600/20"
+      : "bg-rose-600 text-white ring-1 ring-rose-600/20";
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-[6px] px-2.5 py-1 text-[12px] font-semibold leading-none",
+        cls,
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -50,10 +82,21 @@ export default function PenaltyDetailDialog({
   rows: PenaltyDetailRow[];
 }) {
   const [adjustOpen, setAdjustOpen] = React.useState(false);
+  const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Semua");
+
+  React.useEffect(() => {
+    if (!open) return;
+    setStatusFilter("Semua");
+  }, [open]);
+
+  const filteredRows = React.useMemo(() => {
+    if (statusFilter === "Semua") return rows;
+    return rows.filter((_r, idx) => deriveStatusForRow(idx) === statusFilter);
+  }, [rows, statusFilter]);
 
   const total = React.useMemo(() => {
-    return rows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
-  }, [rows]);
+    return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
+  }, [filteredRows]);
 
   const totalText = React.useMemo(() => formatIdrLike(total), [total]);
 
@@ -70,8 +113,8 @@ export default function PenaltyDetailDialog({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           className={cn(
-            "w-[calc(100vw-1.25rem)] sm:w-[740px]",
-            "max-w-[740px]",
+            "w-[calc(100vw-1.25rem)] sm:w-[820px]",
+            "max-w-[820px]",
             "max-h-[80vh]",
             "overflow-hidden",
             R,
@@ -185,7 +228,7 @@ export default function PenaltyDetailDialog({
                 <div className="safe-x-scroll bg-white">
                   <table
                     className={cn(
-                      "w-full min-w-[640px] table-fixed border-collapse",
+                      "w-full min-w-[760px] table-fixed border-collapse",
                       "border-l border-slate-300",
                     )}
                   >
@@ -203,23 +246,64 @@ export default function PenaltyDetailDialog({
                         <th className="w-[170px] px-5 py-4 text-right text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
+                        <th className="w-[190px] px-5 py-4 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                          STATUS
+                        </th>
+                      </tr>
+
+                      {/* Filter row (seperti contoh) */}
+                      <tr className="border-b border-slate-200 bg-white">
+                        <th className="px-5 py-3" />
+                        <th className="px-5 py-3" />
+                        <th className="px-5 py-3" />
+                        <th className="px-5 py-3" />
+                        <th className="px-5 py-3">
+                          <div className="grid gap-2">
+                            <div className="text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                              STATUS
+                            </div>
+
+                            <Select
+                              value={statusFilter}
+                              onValueChange={(v) => setStatusFilter(v as StatusValue)}
+                            >
+                              <SelectTrigger
+                                className={cn(
+                                  "h-[42px] w-full rounded-[10px] border-slate-200 bg-white",
+                                  "text-[18px] font-semibold text-slate-700",
+                                  "shadow-none",
+                                  "focus-visible:ring-0 focus-visible:ring-offset-0",
+                                )}
+                              >
+                                <SelectValue placeholder="-- Semua --" />
+                              </SelectTrigger>
+                              <SelectContent className="rounded-[12px] border-slate-200">
+                                <SelectItem value="Semua">-- Semua --</SelectItem>
+                                <SelectItem value="Aktif">Aktif</SelectItem>
+                                <SelectItem value="Dibatalkan">Dibatalkan</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </th>
                       </tr>
                     </thead>
 
                     <tbody className="bg-white">
-                      {rows.length === 0 ? (
+                      {filteredRows.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={4}
+                            colSpan={5}
                             className="px-5 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada rincian denda.
                           </td>
                         </tr>
                       ) : (
-                        rows.map((r, idx) => {
+                        filteredRows.map((r, idx) => {
                           const lateDays =
                             lateDaysPattern[idx % lateDaysPattern.length];
+
+                          const derivedStatus = deriveStatusForRow(idx);
 
                           return (
                             <tr
@@ -241,6 +325,9 @@ export default function PenaltyDetailDialog({
                               <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
+                              <td className="px-5 py-4 text-[14px] font-normal text-slate-900">
+                                <StatusPill status={derivedStatus} />
+                              </td>
                             </tr>
                           );
                         })
@@ -248,7 +335,7 @@ export default function PenaltyDetailDialog({
 
                       <tr className="border-t border-slate-300 bg-white">
                         <td
-                          colSpan={3}
+                          colSpan={4}
                           className="px-5 py-4 text-[14px] font-extrabold uppercase tracking-wide text-slate-900"
                         >
                           TOTAL DENDA
