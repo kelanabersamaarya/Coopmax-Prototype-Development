@@ -452,9 +452,12 @@ export default function PenaltyDetailDialog({
                         <th className="w-[56px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           NO.
                         </th>
-                        <th className="w-[190px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+
+                        {/* ✅ diperkecil dari w-[190px] */}
+                        <th className="w-[150px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           KETERLAMBATAN (HARI)
                         </th>
+
                         <th className="w-[140px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
@@ -620,7 +623,6 @@ export default function PenaltyDetailDialog({
                                       />
                                     </>
                                   ) : isCanceled ? (
-                                    // ✅ Untuk status Dibatalkan: hilangkan icon mata (aksi detail).
                                     <></>
                                   ) : (
                                     <>
