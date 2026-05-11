@@ -330,10 +330,9 @@ export default function LoanTransactionHistoryDialog({
                           Akhir
                         </th>
 
-                        {/* header keterangan dikosongkan */}
+                        {/* ✅ header tetap ada, tapi memang kosong sesuai contoh */}
                         <th className={cn(headerTh, "w-[220px]")}></th>
 
-                        {/* header aksi jadi 2 baris */}
                         <th className={cn(headerTh, "w-[160px] text-center")}>
                           Detail
                           <br />
@@ -455,20 +454,9 @@ export default function LoanTransactionHistoryDialog({
                                 {r.sisaPinjamanAkhir}
                               </td>
 
+                              {/* ✅ kolom Keterangan dikosongkan (isi tidak ditampilkan) */}
                               <td className={cn(tdBase, "text-slate-700")}>
-                                {r.keterangan ? (
-                                  <div
-                                    className={cn(
-                                      "leading-snug",
-                                      r.canceled ? "text-rose-700 font-semibold" : "",
-                                      r.canceled ? "" : "line-clamp-2",
-                                    )}
-                                  >
-                                    {r.keterangan}
-                                  </div>
-                                ) : (
-                                  <span className="text-slate-400">-</span>
-                                )}
+                                <span className="text-slate-400">-</span>
                               </td>
 
                               <td className={cn(tdBase, "text-center")}>
