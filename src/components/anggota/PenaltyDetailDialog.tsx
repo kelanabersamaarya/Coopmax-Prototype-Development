@@ -331,9 +331,7 @@ export default function PenaltyDetailDialog({
             [key]: { addDate: date, reason, by: currentUserName },
           }));
 
-          toast.success("Tambah denda tersimpan (prototype)", {
-            description: `${date} • ${reason}`,
-          });
+          // ❌ tidak menampilkan toast sukses (sesuai request)
         }}
       />
 
@@ -374,6 +372,8 @@ export default function PenaltyDetailDialog({
           }));
 
           setCancelTarget(null);
+
+          // ❌ tidak menampilkan toast sukses (sesuai request)
         }}
       />
 
