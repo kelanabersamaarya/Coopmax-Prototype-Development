@@ -44,6 +44,14 @@ function formatIdr2(n: number) {
   });
 }
 
+function formatThousandsDots(raw: string) {
+  const digits = (raw ?? "").replace(/[^\d]/g, "");
+  if (!digits) return "";
+  // strip leading zeros but keep single 0 if that's all
+  const normalized = digits.replace(/^0+(?=\d)/, "");
+  return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 const TIPE_TRANSAKSI = "Pemutihan Pinjaman";
 
 const R5 = "rounded-[5px]";
@@ -207,10 +215,10 @@ export default function LoanPemutihanDialog({
                 <FieldLabel>Nominal</FieldLabel>
                 <Input
                   value={nominal}
-                  onChange={(e) => setNominal(e.target.value)}
+                  onChange={(e) => setNominal(formatThousandsDots(e.target.value))}
                   className={cn(inputBase, "text-sm")}
                   placeholder="0,00"
-                  inputMode="decimal"
+                  inputMode="numeric"
                 />
               </div>
 
