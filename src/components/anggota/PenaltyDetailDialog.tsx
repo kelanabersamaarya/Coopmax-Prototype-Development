@@ -447,11 +447,11 @@ export default function PenaltyDetailDialog({
                         </tr>
                       ) : (
                         filteredRows.map((r, idx) => {
+                          const isAdded = r.source === "added";
                           const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
 
                           const canCancel = r.status === "Aktif";
                           const isCanceled = r.status === "Dibatalkan";
-                          const isAdded = r.source === "added";
 
                           return (
                             <tr
@@ -465,8 +465,13 @@ export default function PenaltyDetailDialog({
                                 {idx + 1}
                               </td>
 
-                              <td className="px-4 py-3 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                                {lateDays}
+                              <td
+                                className={cn(
+                                  "px-4 py-3 text-[14px] font-normal text-slate-900",
+                                  isAdded ? "whitespace-normal" : "tabular-nums whitespace-nowrap",
+                                )}
+                              >
+                                {isAdded ? "Denda ditambahkan secara manual" : lateDays}
                               </td>
 
                               <td className="px-4 py-3 text-left text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
@@ -503,7 +508,8 @@ export default function PenaltyDetailDialog({
                                             : null;
 
                                           setAddDetailTarget({
-                                            addDate: meta?.addDate ?? r.tanggalKeterlambatan,
+                                            addDate:
+                                              meta?.addDate ?? r.tanggalKeterlambatan,
                                             reason:
                                               meta?.reason ??
                                               "Denda ditambahkan (prototype) tanpa alasan tersimpan.",
@@ -514,7 +520,7 @@ export default function PenaltyDetailDialog({
                                     </>
                                   ) : isCanceled ? (
                                     <>
-                                      <span className="inline-block h-8 w-8" aria-hidden="true" />
+                                      {ActionSlotSpacer}
                                       <RowActionEyeButton
                                         onClick={() => {
                                           const meta = cancelMeta[r.originalIndex];
@@ -524,7 +530,8 @@ export default function PenaltyDetailDialog({
                                               meta?.cancelDate ??
                                               DEFAULT_CANCEL_DETAIL.cancelDate,
                                             reason:
-                                              meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                                              meta?.reason ??
+                                              DEFAULT_CANCEL_DETAIL.reason,
                                           });
                                           setCancelDetailOpen(true);
                                         }}
@@ -543,7 +550,7 @@ export default function PenaltyDetailDialog({
                                           setCancelDialogOpen(true);
                                         }}
                                       />
-                                      <span className="inline-block h-8 w-8" aria-hidden="true" />
+                                      {ActionSlotSpacer}
                                     </>
                                   )}
                                 </div>
