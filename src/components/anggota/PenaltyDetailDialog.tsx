@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, X, Clock, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -111,7 +111,7 @@ export default function PenaltyDetailDialog({
 
                   <DropdownMenuContent
                     align="start"
-                    className={cn("w-56 border-slate-200 p-1", "rounded-[10px]")}
+                    className={cn("w-64 border-slate-200 p-1", "rounded-[10px]")}
                   >
                     <DropdownMenuItem
                       className="rounded-[8px]"
@@ -122,6 +122,7 @@ export default function PenaltyDetailDialog({
                         })
                       }
                     >
+                      <Clock className="mr-2 h-4 w-4 text-slate-600" />
                       Riwayat Perubahan
                     </DropdownMenuItem>
 
@@ -129,7 +130,8 @@ export default function PenaltyDetailDialog({
                       className="rounded-[8px]"
                       onClick={() => setAdjustOpen(true)}
                     >
-                      Ubah Denda
+                      <Pencil className="mr-2 h-4 w-4 text-slate-600" />
+                      Penyesuaian Denda
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
@@ -144,6 +146,7 @@ export default function PenaltyDetailDialog({
                         })
                       }
                     >
+                      <Trash2 className="mr-2 h-4 w-4 text-rose-700" />
                       Hapus Denda
                     </DropdownMenuItem>
                   </DropdownMenuContent>
