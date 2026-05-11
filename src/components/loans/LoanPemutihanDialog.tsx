@@ -53,29 +53,43 @@ function formatRibuanFromDigits(digits: string) {
   return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-/** value always like "500.000,00" (or "" if empty) */
-function formatIdrCurrencyFromRaw(raw: string) {
-  const digits = onlyDigits(raw);
-  if (!digits) return "";
-  const normalized = digits.replace(/^0+(?=\d)/, "");
-  const ribuan = formatRibuanFromDigits(normalized);
-  return `${ribuan},00`;
-}
-
 function caretPosFromDigitsLeft(formatted: string, digitsLeft: number) {
   if (digitsLeft <= 0) return 0;
+
+  const comma = formatted.indexOf(",");
+  const max = comma >= 0 ? comma : formatted.length;
+
   let seen = 0;
-  for (let i = 0; i < formatted.length; i++) {
+  for (let i = 0; i < max; i++) {
     if (/\d/.test(formatted[i] ?? "")) {
       seen++;
       if (seen >= digitsLeft) return i + 1;
     }
-    // stop before comma area
-    if (formatted[i] === ",") break;
   }
-  // if exceeded, place caret right before comma (or end)
-  const comma = formatted.indexOf(",");
-  return comma >= 0 ? comma : formatted.length;
+  return max;
+}
+
+/**
+ * Format IDR:
+ * - Ambil hanya digit SEBELUM koma (bagian integer).
+ * - Tambahkan ",00" otomatis.
+ * - Jika kosong -> "" (biarkan kosong; placeholder akan muncul)
+ */
+function formatIdrCurrencyFromRaw(raw: string) {
+  const s = (raw ?? "").trim();
+  if (!s) return "";
+
+  const beforeComma = s.split(",")[0] ?? "";
+  const digits = onlyDigits(beforeComma);
+  if (!digits) return "";
+
+  const normalized = digits.replace(/^0+(?=\d)/, "");
+  const ribuan = formatRibuanFromDigits(normalized);
+
+  // jika user benar-benar mengetik 0, tetap tampil 0,00
+  const safeRibuan = ribuan === "" ? "0" : ribuan;
+
+  return `${safeRibuan},00`;
 }
 
 const TIPE_TRANSAKSI = "Pemutihan Pinjaman";
@@ -113,7 +127,7 @@ export default function LoanPemutihanDialog({
     setConfirm(false);
   }, [open]);
 
-  // restore caret after formatting
+  // restore caret after formatting (jaga caret hanya di area integer, sebelum koma)
   React.useLayoutEffect(() => {
     const el = nominalRef.current;
     const digitsLeft = lastDigitsLeftRef.current;
@@ -266,10 +280,10 @@ export default function LoanPemutihanDialog({
                   onChange={(e) => {
                     const raw = e.target.value ?? "";
                     const caret = e.target.selectionStart ?? raw.length;
-                    const left = raw.slice(0, caret);
 
-                    // how many digits exist on the left side of caret (ignore '.' and ',')
-                    const digitsLeft = onlyDigits(left).length;
+                    const left = raw.slice(0, caret);
+                    const leftBeforeComma = left.split(",")[0] ?? "";
+                    const digitsLeft = onlyDigits(leftBeforeComma).length;
                     lastDigitsLeftRef.current = digitsLeft;
 
                     setNominal(formatIdrCurrencyFromRaw(raw));
