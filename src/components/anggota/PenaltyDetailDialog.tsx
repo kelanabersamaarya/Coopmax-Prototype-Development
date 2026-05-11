@@ -107,6 +107,11 @@ function RowActionEyeButton({ onClick }: { onClick: () => void }) {
   );
 }
 
+const DEFAULT_CANCEL_DETAIL = {
+  cancelDate: "11-05-2026",
+  reason: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
+} as const;
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -381,11 +386,11 @@ export default function PenaltyDetailDialog({
                                     <RowActionEyeButton
                                       onClick={() => {
                                         const meta = cancelMeta[r.originalIndex];
+
                                         setDetailTarget({
-                                          cancelDate: meta?.cancelDate ?? "-",
-                                          reason:
-                                            meta?.reason ??
-                                            "Belum ada detail pembatalan (prototype).",
+                                          cancelDate:
+                                            meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
+                                          reason: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
                                         });
                                         setDetailOpen(true);
                                       }}
