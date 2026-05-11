@@ -481,6 +481,19 @@ export default function PenaltyDetailDialog({
                                 <div className="flex justify-center gap-1.5">
                                   {isAdded ? (
                                     <>
+                                      {/* X di kiri */}
+                                      <RowActionXButton
+                                        disabled={!canCancel}
+                                        onClick={() => {
+                                          setCancelTarget({
+                                            originalIndex: r.originalIndex,
+                                            tanggal: r.tanggalKeterlambatan,
+                                            nominal: r.nominalDenda,
+                                          });
+                                          setCancelDialogOpen(true);
+                                        }}
+                                      />
+                                      {/* Eye di kanan */}
                                       <RowActionEyeButton
                                         onClick={() => {
                                           const meta = r.addMetaKey
@@ -494,17 +507,6 @@ export default function PenaltyDetailDialog({
                                               "Denda ditambahkan (prototype) tanpa alasan tersimpan.",
                                           });
                                           setAddDetailOpen(true);
-                                        }}
-                                      />
-                                      <RowActionXButton
-                                        disabled={!canCancel}
-                                        onClick={() => {
-                                          setCancelTarget({
-                                            originalIndex: r.originalIndex,
-                                            tanggal: r.tanggalKeterlambatan,
-                                            nominal: r.nominalDenda,
-                                          });
-                                          setCancelDialogOpen(true);
                                         }}
                                       />
                                     </>
