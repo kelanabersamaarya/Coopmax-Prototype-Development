@@ -402,7 +402,8 @@ export default function PenaltyDetailDialog({
             >
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
+                  {/* ✅ min-width dinaikkan agar kolom DENDA/AKSI terasa */}
+                  <table className="w-full min-w-[820px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
                         <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
@@ -417,8 +418,8 @@ export default function PenaltyDetailDialog({
                           TANGGAL
                         </th>
 
-                        {/* ✅ lebih kecil */}
-                        <th className="w-[96px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ set 160px */}
+                        <th className="w-[160px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
 
@@ -426,8 +427,8 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        {/* ✅ lebih kecil */}
-                        <th className="w-[140px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ set 160px */}
+                        <th className="w-[160px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
