@@ -150,6 +150,17 @@ function metaKeyForAddedRow(addedIndex: number) {
   return `added-${addedIndex}`;
 }
 
+function useViewportCollisionBoundary() {
+  const [boundary, setBoundary] = React.useState<HTMLElement | null>(null);
+
+  React.useEffect(() => {
+    // Use viewport root as collision boundary
+    setBoundary(document.documentElement);
+  }, []);
+
+  return boundary;
+}
+
 function InfoIconTooltip({
   label,
   rows,
@@ -157,6 +168,8 @@ function InfoIconTooltip({
   label: string;
   rows: Array<{ k: string; v: string }>;
 }) {
+  const boundary = useViewportCollisionBoundary();
+
   return (
     <Tooltip delayDuration={150}>
       <TooltipTrigger asChild>
@@ -177,12 +190,15 @@ function InfoIconTooltip({
 
       <TooltipContent
         portalled
-        side="right"
+        side="left"
         align="start"
-        collisionPadding={16}
         sideOffset={10}
+        avoidCollisions
+        sticky="always"
+        collisionPadding={16}
+        collisionBoundary={boundary ?? undefined}
         className={cn(
-          "z-50 max-w-[380px] rounded-2xl border-slate-200 bg-white px-4 py-3 shadow-xl",
+          "z-[9999] max-w-[320px] rounded-2xl border-slate-200 bg-white px-4 py-3 shadow-xl",
           "text-[13px] font-normal leading-relaxed text-slate-800",
         )}
       >
@@ -454,13 +470,7 @@ export default function PenaltyDetailDialog({
               className="overflow-auto px-6 py-5"
               style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
             >
-              <div
-                className={cn(
-                  "overflow-hidden",
-                  R,
-                  "bg-white ring-1 ring-slate-300",
-                )}
-              >
+              <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
                   <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
