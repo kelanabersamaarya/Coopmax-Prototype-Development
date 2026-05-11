@@ -259,8 +259,11 @@ export default function PenaltyAdjustDialog({
               </div>
             </div>
 
+            {/* Divider di atas tombol */}
+            <div className="mt-6 h-px w-full bg-slate-200" />
+
             {/* Footer buttons (match gambar) */}
-            <div className="mt-6 flex items-center justify-end gap-3">
+            <div className="mt-4 flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
@@ -299,7 +302,7 @@ export default function PenaltyAdjustDialog({
                 className={cn(
                   actionBtnBase,
                   canSave
-                    ? "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]"
+                    ? "bg-[#2fb300] text-white ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]"
                     : "bg-slate-200 text-slate-500 ring-1 ring-slate-200 pointer-events-none",
                 )}
               >
