@@ -46,6 +46,9 @@ function formatIdr2(n: number) {
 
 const TIPE_TRANSAKSI = "Pemutihan Pinjaman";
 
+const R5 = "rounded-[5px]";
+const H30 = "h-[30px]";
+
 export default function LoanPemutihanDialog({
   open,
   onOpenChange,
@@ -74,8 +77,10 @@ export default function LoanPemutihanDialog({
 
   const btnBase = cn(
     "inline-flex items-center justify-center gap-2",
-    "w-[90px] h-[28px]",
-    "rounded-[5px]",
+    "w-[90px]",
+    H30,
+    "px-2",
+    "rounded-[6px]",
     "text-[11px] font-bold tracking-tight text-white",
     "ring-1 transition",
     "leading-none",
@@ -86,9 +91,29 @@ export default function LoanPemutihanDialog({
 
   // Rasio mengikuti contoh screenshot (±)
   const POKOK_RATIO = 0.893;
-  const bungaN = React.useMemo(() => Math.max(0, Math.round(nominalN * (1 - POKOK_RATIO))), [nominalN]);
+  const bungaN = React.useMemo(
+    () => Math.max(0, Math.round(nominalN * (1 - POKOK_RATIO))),
+    [nominalN],
+  );
   const pokokN = React.useMemo(() => Math.max(0, nominalN - bungaN), [nominalN, bungaN]);
   const hutangBungaN = 0;
+
+  const inputBase = cn(
+    H30,
+    R5,
+    "border-slate-200 bg-white text-slate-900",
+    "font-normal",
+    "shadow-sm",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const selectBase = cn(
+    H30,
+    R5,
+    "w-full border border-slate-200 bg-white px-3 text-sm font-normal text-slate-900",
+    "shadow-sm outline-none transition",
+    "focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -154,11 +179,7 @@ export default function LoanPemutihanDialog({
                 <DatePickerDmyField
                   value={tanggal}
                   onChange={setTanggal}
-                  inputClassName={cn(
-                    "h-10 rounded-xl border-slate-200 bg-white pr-11",
-                    "text-sm font-normal text-slate-900",
-                    "shadow-sm",
-                  )}
+                  inputClassName={cn(inputBase, "pr-11 text-sm")}
                   popoverAlign="end"
                   placeholder="DD-MM-YYYY"
                 />
@@ -172,10 +193,7 @@ export default function LoanPemutihanDialog({
                   <select
                     value={tipeTransaksi}
                     onChange={(e) => setTipeTransaksi(e.target.value)}
-                    className={cn(
-                      "h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-normal text-slate-900",
-                      "shadow-sm outline-none transition focus:border-[hsl(var(--app-accent))] focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20",
-                    )}
+                    className={selectBase}
                   >
                     <option value={TIPE_TRANSAKSI}>{TIPE_TRANSAKSI}</option>
                   </select>
@@ -187,12 +205,7 @@ export default function LoanPemutihanDialog({
                 <Input
                   value={nominal}
                   onChange={(e) => setNominal(e.target.value)}
-                  className={cn(
-                    "h-10 rounded-xl border-slate-200 bg-white text-slate-900",
-                    "font-normal",
-                    "shadow-sm",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0",
-                  )}
+                  className={cn(inputBase, "text-sm")}
                   placeholder="0,00"
                   inputMode="decimal"
                 />
@@ -226,7 +239,7 @@ export default function LoanPemutihanDialog({
                 <Textarea
                   value={keterangan}
                   onChange={(e) => setKeterangan(e.target.value)}
-                  className="min-h-[120px] rounded-xl border-slate-200 bg-white text-sm font-normal text-slate-900"
+                  className={cn(R5, "min-h-[120px] border-slate-200 bg-white text-sm font-normal text-slate-900")}
                 />
               </div>
 
