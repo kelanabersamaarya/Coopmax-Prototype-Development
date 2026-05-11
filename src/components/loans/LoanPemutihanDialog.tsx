@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { X, CheckSquare, Eye } from "lucide-react";
 import { toast } from "sonner";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import DaftarTagihanReadOnlyDialog from "@/components/loans/DaftarTagihanReadOnlyDialog";
 
 function RowKV({ label, value }: { label: string; value: string }) {
   return (
@@ -128,6 +129,8 @@ export default function LoanPemutihanDialog({
   onOpenChange: (v: boolean) => void;
   accountNo: string;
 }) {
+  const [tagihanOpen, setTagihanOpen] = React.useState(false);
+
   const [tanggal, setTanggal] = React.useState("20-04-2026");
   const [tipeTransaksi, setTipeTransaksi] = React.useState(TIPE_TRANSAKSI);
 
@@ -147,6 +150,7 @@ export default function LoanPemutihanDialog({
     setNominal("");
     setKeterangan("");
     setConfirm(false);
+    setTagihanOpen(false);
   }, [open]);
 
   // restore caret after formatting (jaga caret hanya di area integer, sebelum koma)
@@ -238,248 +242,248 @@ export default function LoanPemutihanDialog({
   const totalKewajibanBerjalan = "11.820.000,00";
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={cn(
-          "w-[calc(100vw-1.25rem)] sm:w-[760px]",
-          "max-w-[760px]",
-          "max-h-[85vh]",
-          "rounded-3xl border-slate-200 p-0 shadow-2xl",
-          "overflow-hidden",
-          // HIDE default shadcn/radix close button (biar X cuma 1)
-          "[&>button[aria-label=Close]]:hidden",
-          "[&>button.absolute.right-4.top-4]:hidden",
-          "[&_[data-slot=dialog-close]]:hidden",
-          "[&_[data-radix-dialog-close]]:hidden",
-        )}
-      >
-        <div className="bg-white">
-          {/* Header */}
-          <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="text-lg font-semibold tracking-tight text-slate-900">
-              Pemutihan Pinjaman
-            </div>
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
-              aria-label="Tutup"
-              title="Tutup"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+    <>
+      <DaftarTagihanReadOnlyDialog open={tagihanOpen} onOpenChange={setTagihanOpen} />
 
-          <Separator className="bg-slate-200" />
-
-          {/* Body (scroll) */}
-          <div
-            className="overflow-auto px-6 py-5"
-            style={{ maxHeight: `calc(85vh - 64px - ${footerH}px)` }}
-          >
-            {/* Summary (updated) */}
-            <div className="rounded-2xl bg-white">
-              <div className="grid gap-1">
-                <RowKV label="No. Rekening Pinjaman" value={accountNo} />
-                <RowKV label="Nama Nasabah" value={customerName} />
-                <RowKV label="Total Pinjaman" value={totalPinjaman} />
-                <RowKV label="Angsuran Pokok" value={angsuranPokok} />
-                <RowKV label="Angsuran Bunga" value={angsuranBunga} />
-                <RowKV label="Sisa Pokok" value={sisaPokok} />
-                <RowKV label="Sisa Bunga" value={sisaBunga} />
-                <RowKV label="Sisa Denda" value={sisaDenda} />
-
-                {/* ✅ value + button inline, nempel */}
-                <div className="grid items-center gap-3 py-1.5 [grid-template-columns:170px_minmax(0,1fr)]">
-                  <div className="text-sm font-normal text-slate-700">
-                    Total Kewajiban Berjalan
-                  </div>
-
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-3">
-                      <div className="min-w-0 text-sm font-normal text-slate-900">
-                        {totalKewajibanBerjalan}
-                      </div>
-
-                      <button
-                        type="button"
-                        className={viewBillsBtnCls}
-                        onClick={() =>
-                          toast("Lihat Tagihan (prototype)", {
-                            description: `Rekening: ${accountNo}`,
-                          })
-                        }
-                        aria-label="Lihat Tagihan"
-                        title="Lihat Tagihan"
-                      >
-                        <Eye className="h-4 w-4" />
-                        Lihat Tagihan
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* keep helper component used (avoid unused) */}
-                <div className="sr-only">
-                  <RowKVWithAction label="x" value="y" action={<span />} />
-                </div>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1.25rem)] sm:w-[760px]",
+            "max-w-[760px]",
+            "max-h-[85vh]",
+            "rounded-3xl border-slate-200 p-0 shadow-2xl",
+            "overflow-hidden",
+            // HIDE default shadcn/radix close button (biar X cuma 1)
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+            "[&_[data-radix-dialog-close]]:hidden",
+          )}
+        >
+          <div className="bg-white">
+            {/* Header */}
+            <div className="flex items-center justify-between gap-3 px-6 py-4">
+              <div className="text-lg font-semibold tracking-tight text-slate-900">
+                Pemutihan Pinjaman
               </div>
-            </div>
-
-            <Separator className="my-5 bg-slate-200/80" />
-
-            {/* Form */}
-            <div className="grid gap-4 pb-6">
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <FieldLabel>
-                  Tanggal<span className="text-rose-600"> *</span>
-                </FieldLabel>
-
-                <DatePickerDmyField
-                  value={tanggal}
-                  onChange={setTanggal}
-                  inputClassName={cn(inputBase, "pr-11 text-sm")}
-                  popoverAlign="end"
-                  placeholder="DD-MM-YYYY"
-                />
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <FieldLabel>
-                  Tipe Transaksi<span className="text-rose-600"> *</span>
-                </FieldLabel>
-                <div className="relative">
-                  <select
-                    value={tipeTransaksi}
-                    onChange={(e) => setTipeTransaksi(e.target.value)}
-                    className={selectBase}
-                  >
-                    <option value={TIPE_TRANSAKSI}>{TIPE_TRANSAKSI}</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <FieldLabel>Nominal</FieldLabel>
-                <Input
-                  ref={nominalRef}
-                  value={nominal}
-                  onChange={(e) => {
-                    const raw = e.target.value ?? "";
-                    const caret = e.target.selectionStart ?? raw.length;
-
-                    const left = raw.slice(0, caret);
-                    const leftBeforeComma = left.split(",")[0] ?? "";
-                    const digitsLeft = onlyDigits(leftBeforeComma).length;
-                    lastDigitsLeftRef.current = digitsLeft;
-
-                    setNominal(formatIdrCurrencyFromRaw(raw));
-                  }}
-                  className={cn(inputBase, "text-sm")}
-                  placeholder="0,00"
-                  inputMode="numeric"
-                />
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <FieldLabel>Bayar Pokok</FieldLabel>
-                <div className="text-sm font-normal text-slate-900">
-                  {formatIdr2(pokokN)}
-                </div>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <FieldLabel>Bayar Bunga</FieldLabel>
-                <div className="text-sm font-normal text-slate-900">
-                  {formatIdr2(bungaN)}
-                </div>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <FieldLabel>Bayar Hutang Bunga</FieldLabel>
-                <div className="text-sm font-normal text-slate-900">
-                  {formatIdr2(hutangBungaN)}
-                </div>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-start">
-                <FieldLabel>
-                  Keterangan<span className="text-rose-600"> *</span>
-                </FieldLabel>
-                <Textarea
-                  value={keterangan}
-                  onChange={(e) => setKeterangan(e.target.value)}
-                  className={cn(
-                    R5,
-                    "min-h-[120px] border-slate-200 bg-white text-sm font-normal text-slate-900",
-                  )}
-                />
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <div className="hidden sm:block" />
-                <label className="flex items-center gap-3 text-sm font-normal text-slate-800">
-                  <Checkbox
-                    className={checkboxCls}
-                    checked={confirm}
-                    onCheckedChange={(v) => setConfirm(!!v)}
-                  />
-                  Yakin untuk melunasi pemutihan pinjaman ini
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Divider di atas tombol */}
-          <Separator className="bg-slate-200" />
-
-          {/* Footer (sticky) */}
-          <div className="sticky bottom-0 bg-white px-6 py-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
-                className={cn(
-                  btnBase,
-                  "bg-slate-500 ring-slate-500/20 hover:bg-slate-600 focus-visible:ring-slate-500/25",
-                )}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+                aria-label="Tutup"
+                title="Tutup"
               >
-                <X className="h-4 w-4" strokeWidth={3} />
-                Tutup
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  if (!keterangan.trim()) {
-                    toast("Keterangan wajib diisi", {
-                      description: "Mohon isi keterangan terlebih dahulu.",
-                    });
-                    return;
-                  }
-                  if (!confirm) {
-                    toast("Konfirmasi diperlukan", {
-                      description: "Centang persetujuan sebelum menyimpan.",
-                    });
-                    return;
-                  }
-                  toast.success("Pemutihan Pinjaman Berhasil Dilakukan", {
-                    description: `Rekening: ${accountNo} • Tanggal: ${tanggal} • Nominal: ${formatIdr2(nominalN)}`,
-                  });
-                  onOpenChange(false);
-                }}
-                className={cn(
-                  btnBase,
-                  "bg-green-600 ring-green-600/20 hover:bg-green-700 focus-visible:ring-green-600/25",
-                )}
-              >
-                <CheckSquare className="h-4 w-4" />
-                Simpan
+                <X className="h-5 w-5" />
               </button>
             </div>
+
+            <Separator className="bg-slate-200" />
+
+            {/* Body (scroll) */}
+            <div
+              className="overflow-auto px-6 py-5"
+              style={{ maxHeight: `calc(85vh - 64px - ${footerH}px)` }}
+            >
+              {/* Summary (updated) */}
+              <div className="rounded-2xl bg-white">
+                <div className="grid gap-1">
+                  <RowKV label="No. Rekening Pinjaman" value={accountNo} />
+                  <RowKV label="Nama Nasabah" value={customerName} />
+                  <RowKV label="Total Pinjaman" value={totalPinjaman} />
+                  <RowKV label="Angsuran Pokok" value={angsuranPokok} />
+                  <RowKV label="Angsuran Bunga" value={angsuranBunga} />
+                  <RowKV label="Sisa Pokok" value={sisaPokok} />
+                  <RowKV label="Sisa Bunga" value={sisaBunga} />
+                  <RowKV label="Sisa Denda" value={sisaDenda} />
+
+                  {/* tombol nempel di samping nominal */}
+                  <div className="grid items-center gap-3 py-1.5 [grid-template-columns:170px_minmax(0,1fr)]">
+                    <div className="text-sm font-normal text-slate-700">
+                      Total Kewajiban Berjalan
+                    </div>
+
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-3">
+                        <div className="min-w-0 text-sm font-normal text-slate-900">
+                          {totalKewajibanBerjalan}
+                        </div>
+
+                        <button
+                          type="button"
+                          className={viewBillsBtnCls}
+                          onClick={() => setTagihanOpen(true)}
+                          aria-label="Lihat Tagihan"
+                          title="Lihat Tagihan"
+                        >
+                          <Eye className="h-4 w-4" />
+                          Lihat Tagihan
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* keep helper component used (avoid unused) */}
+                  <div className="sr-only">
+                    <RowKVWithAction label="x" value="y" action={<span />} />
+                  </div>
+                </div>
+              </div>
+
+              <Separator className="my-5 bg-slate-200/80" />
+
+              {/* Form */}
+              <div className="grid gap-4 pb-6">
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <FieldLabel>
+                    Tanggal<span className="text-rose-600"> *</span>
+                  </FieldLabel>
+
+                  <DatePickerDmyField
+                    value={tanggal}
+                    onChange={setTanggal}
+                    inputClassName={cn(inputBase, "pr-11 text-sm")}
+                    popoverAlign="end"
+                    placeholder="DD-MM-YYYY"
+                  />
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <FieldLabel>
+                    Tipe Transaksi<span className="text-rose-600"> *</span>
+                  </FieldLabel>
+                  <div className="relative">
+                    <select
+                      value={tipeTransaksi}
+                      onChange={(e) => setTipeTransaksi(e.target.value)}
+                      className={selectBase}
+                    >
+                      <option value={TIPE_TRANSAKSI}>{TIPE_TRANSAKSI}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <FieldLabel>Nominal</FieldLabel>
+                  <Input
+                    ref={nominalRef}
+                    value={nominal}
+                    onChange={(e) => {
+                      const raw = e.target.value ?? "";
+                      const caret = e.target.selectionStart ?? raw.length;
+
+                      const left = raw.slice(0, caret);
+                      const leftBeforeComma = left.split(",")[0] ?? "";
+                      const digitsLeft = onlyDigits(leftBeforeComma).length;
+                      lastDigitsLeftRef.current = digitsLeft;
+
+                      setNominal(formatIdrCurrencyFromRaw(raw));
+                    }}
+                    className={cn(inputBase, "text-sm")}
+                    placeholder="0,00"
+                    inputMode="numeric"
+                  />
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <FieldLabel>Bayar Pokok</FieldLabel>
+                  <div className="text-sm font-normal text-slate-900">
+                    {formatIdr2(pokokN)}
+                  </div>
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <FieldLabel>Bayar Bunga</FieldLabel>
+                  <div className="text-sm font-normal text-slate-900">
+                    {formatIdr2(bungaN)}
+                  </div>
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <FieldLabel>Bayar Hutang Bunga</FieldLabel>
+                  <div className="text-sm font-normal text-slate-900">
+                    {formatIdr2(hutangBungaN)}
+                  </div>
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-start">
+                  <FieldLabel>
+                    Keterangan<span className="text-rose-600"> *</span>
+                  </FieldLabel>
+                  <Textarea
+                    value={keterangan}
+                    onChange={(e) => setKeterangan(e.target.value)}
+                    className={cn(
+                      R5,
+                      "min-h-[120px] border-slate-200 bg-white text-sm font-normal text-slate-900",
+                    )}
+                  />
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <div className="hidden sm:block" />
+                  <label className="flex items-center gap-3 text-sm font-normal text-slate-800">
+                    <Checkbox
+                      className={checkboxCls}
+                      checked={confirm}
+                      onCheckedChange={(v) => setConfirm(!!v)}
+                    />
+                    Yakin untuk melunasi pemutihan pinjaman ini
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider di atas tombol */}
+            <Separator className="bg-slate-200" />
+
+            {/* Footer (sticky) */}
+            <div className="sticky bottom-0 bg-white px-6 py-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    btnBase,
+                    "bg-slate-500 ring-slate-500/20 hover:bg-slate-600 focus-visible:ring-slate-500/25",
+                  )}
+                >
+                  <X className="h-4 w-4" strokeWidth={3} />
+                  Tutup
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!keterangan.trim()) {
+                      toast("Keterangan wajib diisi", {
+                        description: "Mohon isi keterangan terlebih dahulu.",
+                      });
+                      return;
+                    }
+                    if (!confirm) {
+                      toast("Konfirmasi diperlukan", {
+                        description: "Centang persetujuan sebelum menyimpan.",
+                      });
+                      return;
+                    }
+                    toast.success("Pemutihan Pinjaman Berhasil Dilakukan", {
+                      description: `Rekening: ${accountNo} • Tanggal: ${tanggal} • Nominal: ${formatIdr2(nominalN)}`,
+                    });
+                    onOpenChange(false);
+                  }}
+                  className={cn(
+                    btnBase,
+                    "bg-green-600 ring-green-600/20 hover:bg-green-700 focus-visible:ring-green-600/25",
+                  )}
+                >
+                  <CheckSquare className="h-4 w-4" />
+                  Simpan
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
