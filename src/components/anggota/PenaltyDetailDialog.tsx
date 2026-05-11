@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
+import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -39,6 +40,7 @@ type RowWithMeta = PenaltyDetailRow & {
   originalIndex: number;
   status: Exclude<StatusValue, "Semua">;
   source: "seed" | "added";
+  addMetaKey?: string;
 };
 
 function deriveStatusForRowIndex(
@@ -106,8 +108,8 @@ function RowActionEyeButton({ onClick }: { onClick: () => void }) {
         "transition hover:bg-transparent hover:text-slate-700",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
-      aria-label="Lihat detail pembatalan"
-      title="Lihat detail pembatalan"
+      aria-label="Lihat detail"
+      title="Lihat detail"
     >
       <Eye className="h-6 w-6" strokeWidth={2.5} />
     </button>
@@ -122,6 +124,15 @@ const DEFAULT_CANCEL_DETAIL = {
 function nextOriginalIndex(seedCount: number, addedCount: number) {
   // Seed indices: 0..seedCount-1, added indices continue after that
   return seedCount + addedCount;
+}
+
+type AddedPenaltyMeta = {
+  addDate: string;
+  reason: string;
+};
+
+function metaKeyForAddedRow(addedIndex: number) {
+  return `added-${addedIndex}`;
 }
 
 export default function PenaltyDetailDialog({
@@ -146,6 +157,9 @@ export default function PenaltyDetailDialog({
 
   // ✅ denda yang ditambahkan (prototype) -> akan tampil sebagai baris baru status Aktif
   const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>([]);
+  const [addedMeta, setAddedMeta] = React.useState<Record<string, AddedPenaltyMeta>>(
+    () => ({}),
+  );
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
@@ -154,13 +168,19 @@ export default function PenaltyDetailDialog({
     nominal: string;
   } | null>(null);
 
-  const [detailOpen, setDetailOpen] = React.useState(false);
-  const [detailTarget, setDetailTarget] = React.useState<{
+  const [cancelDetailOpen, setCancelDetailOpen] = React.useState(false);
+  const [cancelDetailTarget, setCancelDetailTarget] = React.useState<{
     cancelDate: string;
     reason: string;
   } | null>(null);
 
   const [addOpen, setAddOpen] = React.useState(false);
+
+  const [addDetailOpen, setAddDetailOpen] = React.useState(false);
+  const [addDetailTarget, setAddDetailTarget] = React.useState<{
+    addDate: string;
+    reason: string;
+  } | null>(null);
 
   React.useEffect(() => {
     if (!open) return;
@@ -169,10 +189,14 @@ export default function PenaltyDetailDialog({
     setCancelMeta({});
     setCancelDialogOpen(false);
     setCancelTarget(null);
-    setDetailOpen(false);
-    setDetailTarget(null);
+    setCancelDetailOpen(false);
+    setCancelDetailTarget(null);
     setAddOpen(false);
+
     setAddedPenalties([]);
+    setAddedMeta({});
+    setAddDetailOpen(false);
+    setAddDetailTarget(null);
   }, [open]);
 
   const allRows: RowWithMeta[] = React.useMemo(() => {
@@ -195,6 +219,7 @@ export default function PenaltyDetailDialog({
       originalIndex: nextOriginalIndex(rows.length, idx),
       status: "Aktif",
       source: "added",
+      addMetaKey: metaKeyForAddedRow(idx),
     }));
 
     return [...seedWithMeta, ...addedWithMeta];
@@ -228,21 +253,24 @@ export default function PenaltyDetailDialog({
         onOpenChange={setAddOpen}
         onConfirm={(reason, date) => {
           // Prototype: nilai nominal default sama seperti contoh per-hari (25.000)
-          setAddedPenalties((prev) => [
-            ...prev,
-            {
-              tanggalKeterlambatan: date,
-              nominalDenda: "25.000",
-            },
-          ]);
+          setAddedPenalties((prev) => [...prev, { tanggalKeterlambatan: date, nominalDenda: "25.000" }]);
+          const key = metaKeyForAddedRow(addedPenalties.length);
+          setAddedMeta((prev) => ({ ...prev, [key]: { addDate: date, reason } }));
 
           toast.success("Tambah denda tersimpan (prototype)", {
             description: `${date} • ${reason}`,
           });
-
-          // Jika user sedang melihat filter Dibatalkan, kita tetap biarkan;
-          // tapi baris baru hanya akan tampak jika filter = Semua/Aktif.
         }}
+      />
+
+      <PenaltyAddDetailDialog
+        open={addDetailOpen}
+        onOpenChange={(v) => {
+          setAddDetailOpen(v);
+          if (!v) setAddDetailTarget(null);
+        }}
+        addDate={addDetailTarget?.addDate ?? "-"}
+        reason={addDetailTarget?.reason ?? "-"}
       />
 
       <PenaltyCancelReasonDialog
@@ -272,13 +300,13 @@ export default function PenaltyDetailDialog({
       />
 
       <PenaltyCancelDetailDialog
-        open={detailOpen}
+        open={cancelDetailOpen}
         onOpenChange={(v) => {
-          setDetailOpen(v);
-          if (!v) setDetailTarget(null);
+          setCancelDetailOpen(v);
+          if (!v) setCancelDetailTarget(null);
         }}
-        cancelDate={detailTarget?.cancelDate ?? "-"}
-        reason={detailTarget?.reason ?? "-"}
+        cancelDate={cancelDetailTarget?.cancelDate ?? "-"}
+        reason={cancelDetailTarget?.reason ?? "-"}
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -414,6 +442,7 @@ export default function PenaltyDetailDialog({
 
                           const canCancel = r.status === "Aktif";
                           const isCanceled = r.status === "Dibatalkan";
+                          const isAdded = r.source === "added";
 
                           return (
                             <tr
@@ -445,17 +474,34 @@ export default function PenaltyDetailDialog({
 
                               <td className="px-2 py-4">
                                 <div className="flex justify-center">
-                                  {isCanceled ? (
+                                  {isAdded ? (
+                                    <RowActionEyeButton
+                                      onClick={() => {
+                                        const meta = r.addMetaKey
+                                          ? addedMeta[r.addMetaKey]
+                                          : null;
+
+                                        setAddDetailTarget({
+                                          addDate: meta?.addDate ?? r.tanggalKeterlambatan,
+                                          reason:
+                                            meta?.reason ??
+                                            "Denda ditambahkan (prototype) tanpa alasan tersimpan.",
+                                        });
+                                        setAddDetailOpen(true);
+                                      }}
+                                    />
+                                  ) : isCanceled ? (
                                     <RowActionEyeButton
                                       onClick={() => {
                                         const meta = cancelMeta[r.originalIndex];
 
-                                        setDetailTarget({
+                                        setCancelDetailTarget({
                                           cancelDate:
-                                            meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
+                                            meta?.cancelDate ??
+                                            DEFAULT_CANCEL_DETAIL.cancelDate,
                                           reason: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
                                         });
-                                        setDetailOpen(true);
+                                        setCancelDetailOpen(true);
                                       }}
                                     />
                                   ) : (
@@ -521,6 +567,15 @@ export default function PenaltyDetailDialog({
           </div>
         </DialogContent>
       </Dialog>
+
+      <div className="sr-only">
+        <button
+          type="button"
+          onClick={() => toast("sync")}
+        >
+          sync
+        </button>
+      </div>
     </>
   );
 }
