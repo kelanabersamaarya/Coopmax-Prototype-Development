@@ -47,7 +47,6 @@ const R = "rounded-[5px]";
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
 function deriveStatusForRow(idx: number): Exclude<StatusValue, "Semua"> {
-  // Prototype sederhana: variasi agar filter terlihat bekerja
   return idx % 3 === 0 ? "Dibatalkan" : "Aktif";
 }
 
@@ -60,7 +59,7 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-[6px] px-2.5 py-1 text-[12px] font-semibold leading-none",
+        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[12px] font-semibold leading-none",
         cls,
       )}
     >
@@ -150,10 +149,10 @@ export default function PenaltyDetailDialog({
 
                   <DropdownMenuContent
                     align="start"
-                    className={cn("w-64 border-slate-200 p-1", "rounded-[10px]")}
+                    className={cn("w-64 border-slate-200 p-1", "rounded-[5px]")}
                   >
                     <DropdownMenuItem
-                      className="rounded-[8px]"
+                      className="rounded-[5px]"
                       onClick={() =>
                         toast("Riwayat Perubahan (prototype)", {
                           description:
@@ -166,7 +165,7 @@ export default function PenaltyDetailDialog({
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
-                      className="rounded-[8px]"
+                      className="rounded-[5px]"
                       onClick={() => setAdjustOpen(true)}
                     >
                       <Pencil className="mr-2 h-4 w-4 text-slate-600" />
@@ -175,7 +174,7 @@ export default function PenaltyDetailDialog({
 
                     <DropdownMenuItem
                       className={cn(
-                        "rounded-[8px]",
+                        "rounded-[5px]",
                         "text-rose-700 focus:text-rose-700",
                         "focus:bg-rose-50",
                       )}
@@ -243,13 +242,11 @@ export default function PenaltyDetailDialog({
                           DENDA
                         </th>
 
-                        {/* ✅ diperkecil */}
                         <th className="w-[140px] px-4 py-4 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
                       </tr>
 
-                      {/* ✅ hilangkan divider (border bawah) di atas kolom status: row ini tanpa border-b */}
                       <tr className="bg-white">
                         <th className="px-5 py-2" />
                         <th className="px-5 py-2" />
@@ -262,7 +259,7 @@ export default function PenaltyDetailDialog({
                           >
                             <SelectTrigger
                               className={cn(
-                                "h-9 w-full rounded-[10px] border-slate-200 bg-white",
+                                "h-9 w-full rounded-[5px] border-slate-200 bg-white",
                                 "text-[13px] font-semibold text-slate-700",
                                 "shadow-none",
                                 "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -270,7 +267,7 @@ export default function PenaltyDetailDialog({
                             >
                               <SelectValue placeholder="-- Semua --" />
                             </SelectTrigger>
-                            <SelectContent className="rounded-[12px] border-slate-200">
+                            <SelectContent className="rounded-[5px] border-slate-200">
                               <SelectItem value="Semua">-- Semua --</SelectItem>
                               <SelectItem value="Aktif">Aktif</SelectItem>
                               <SelectItem value="Dibatalkan">Dibatalkan</SelectItem>
@@ -318,7 +315,6 @@ export default function PenaltyDetailDialog({
                                 {r.nominalDenda}
                               </td>
 
-                              {/* ✅ selaras dengan header yang diperkecil */}
                               <td className="px-4 py-4 text-[14px] font-normal text-slate-900">
                                 <StatusPill status={derivedStatus} />
                               </td>
