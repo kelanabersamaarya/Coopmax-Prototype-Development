@@ -266,7 +266,7 @@ export default function TransaksiPinjamanDetail() {
               <KVRow label="Rek. Tabungan" value="-" />
               <KVRow label="Kolektor" value={kolektor} />
               <KVRow label="Tanggal Transaksi" value="08-05-2026" />
-              <KVRow label="Jenis Transaksi" value="Bayar Angsuran" />
+              <KVRow label="Jenis Transaksi" value="Pemutihan Pinjaman" />
               <KVRow label="Denda" value="0,00" />
               <KVRow label="Nominal" value="500.000,00" />
               <KVRow label="Pinjaman Awal" value="1.833.300,00" />
