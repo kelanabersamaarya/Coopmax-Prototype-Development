@@ -253,7 +253,10 @@ export default function PenaltyDetailDialog({
         onOpenChange={setAddOpen}
         onConfirm={(reason, date) => {
           // Prototype: nilai nominal default sama seperti contoh per-hari (25.000)
-          setAddedPenalties((prev) => [...prev, { tanggalKeterlambatan: date, nominalDenda: "25.000" }]);
+          setAddedPenalties((prev) => [
+            ...prev,
+            { tanggalKeterlambatan: date, nominalDenda: "25.000" },
+          ]);
           const key = metaKeyForAddedRow(addedPenalties.length);
           setAddedMeta((prev) => ({ ...prev, [key]: { addDate: date, reason } }));
 
@@ -409,7 +412,9 @@ export default function PenaltyDetailDialog({
                           <div className="relative">
                             <select
                               value={statusFilter}
-                              onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
+                              onChange={(e) =>
+                                setStatusFilter(e.target.value as StatusValue)
+                              }
                               className={cn(
                                 "h-9 w-full rounded-[5px] border border-slate-200 bg-white px-3",
                                 "text-[13px] font-semibold text-slate-700 shadow-none",
@@ -473,23 +478,36 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-2 py-4">
-                                <div className="flex justify-center">
+                                <div className="flex justify-center gap-1.5">
                                   {isAdded ? (
-                                    <RowActionEyeButton
-                                      onClick={() => {
-                                        const meta = r.addMetaKey
-                                          ? addedMeta[r.addMetaKey]
-                                          : null;
+                                    <>
+                                      <RowActionEyeButton
+                                        onClick={() => {
+                                          const meta = r.addMetaKey
+                                            ? addedMeta[r.addMetaKey]
+                                            : null;
 
-                                        setAddDetailTarget({
-                                          addDate: meta?.addDate ?? r.tanggalKeterlambatan,
-                                          reason:
-                                            meta?.reason ??
-                                            "Denda ditambahkan (prototype) tanpa alasan tersimpan.",
-                                        });
-                                        setAddDetailOpen(true);
-                                      }}
-                                    />
+                                          setAddDetailTarget({
+                                            addDate: meta?.addDate ?? r.tanggalKeterlambatan,
+                                            reason:
+                                              meta?.reason ??
+                                              "Denda ditambahkan (prototype) tanpa alasan tersimpan.",
+                                          });
+                                          setAddDetailOpen(true);
+                                        }}
+                                      />
+                                      <RowActionXButton
+                                        disabled={!canCancel}
+                                        onClick={() => {
+                                          setCancelTarget({
+                                            originalIndex: r.originalIndex,
+                                            tanggal: r.tanggalKeterlambatan,
+                                            nominal: r.nominalDenda,
+                                          });
+                                          setCancelDialogOpen(true);
+                                        }}
+                                      />
+                                    </>
                                   ) : isCanceled ? (
                                     <RowActionEyeButton
                                       onClick={() => {
@@ -569,10 +587,7 @@ export default function PenaltyDetailDialog({
       </Dialog>
 
       <div className="sr-only">
-        <button
-          type="button"
-          onClick={() => toast("sync")}
-        >
+        <button type="button" onClick={() => toast("sync")}>
           sync
         </button>
       </div>
