@@ -187,9 +187,7 @@ export default function PenaltyCancelReasonDialog({
                   }
                   onConfirm(reason.trim(), cancelDate.trim());
                   onOpenChange(false);
-                  toast.success("Denda dibatalkan (prototype)", {
-                    description: `Tanggal pembatalan: ${cancelDate}`,
-                  });
+                  // ❌ sengaja tidak menampilkan toast sukses (sesuai request)
                 }}
                 className={cn(
                   footerBtnBase,

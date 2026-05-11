@@ -178,9 +178,7 @@ export default function PenaltyAddReasonDialog({
                   }
                   onConfirm(reason.trim(), date.trim());
                   onOpenChange(false);
-                  toast.success("Denda ditambahkan (prototype)", {
-                    description: `Tanggal denda: ${date}`,
-                  });
+                  // ❌ sengaja tidak menampilkan toast sukses (sesuai request)
                 }}
                 className={cn(
                   footerBtnBase,
