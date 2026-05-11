@@ -461,7 +461,6 @@ export default function PenaltyDetailDialog({
                           DENDA
                         </th>
 
-                        {/* ✅ perkecil kolom STATUS */}
                         <th className="w-[108px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
@@ -471,6 +470,7 @@ export default function PenaltyDetailDialog({
                         </th>
                       </tr>
 
+                      {/* ✅ hilangkan garis di atas filter status (hapus border-top) */}
                       <tr className="bg-white">
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
@@ -636,7 +636,7 @@ export default function PenaltyDetailDialog({
                                           setCancelDialogOpen(true);
                                         }}
                                       />
-                                      <span className="inline-block h-8 w-8" aria-hidden="true" />
+                                      {ActionSlotSpacer}
                                     </>
                                   )}
                                 </div>
