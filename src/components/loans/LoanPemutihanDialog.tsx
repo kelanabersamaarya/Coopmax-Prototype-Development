@@ -29,7 +29,6 @@ function parseIdrLike(input: string) {
   if (!s) return 0;
 
   // "11.820.000,00" -> 11820000
-  // "11820000" -> 11820000
   const normalized = s.replace(/\./g, "").replace(",", ".");
   const cleaned = normalized.replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
@@ -44,12 +43,39 @@ function formatIdr2(n: number) {
   });
 }
 
-function formatThousandsDots(raw: string) {
-  const digits = (raw ?? "").replace(/[^\d]/g, "");
+function onlyDigits(s: string) {
+  return (s ?? "").replace(/[^\d]/g, "");
+}
+
+function formatRibuanFromDigits(digits: string) {
+  const cleaned = onlyDigits(digits);
+  if (cleaned === "") return "";
+  return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+/** value always like "500.000,00" (or "" if empty) */
+function formatIdrCurrencyFromRaw(raw: string) {
+  const digits = onlyDigits(raw);
   if (!digits) return "";
-  // strip leading zeros but keep single 0 if that's all
   const normalized = digits.replace(/^0+(?=\d)/, "");
-  return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const ribuan = formatRibuanFromDigits(normalized);
+  return `${ribuan},00`;
+}
+
+function caretPosFromDigitsLeft(formatted: string, digitsLeft: number) {
+  if (digitsLeft <= 0) return 0;
+  let seen = 0;
+  for (let i = 0; i < formatted.length; i++) {
+    if (/\d/.test(formatted[i] ?? "")) {
+      seen++;
+      if (seen >= digitsLeft) return i + 1;
+    }
+    // stop before comma area
+    if (formatted[i] === ",") break;
+  }
+  // if exceeded, place caret right before comma (or end)
+  const comma = formatted.indexOf(",");
+  return comma >= 0 ? comma : formatted.length;
 }
 
 const TIPE_TRANSAKSI = "Pemutihan Pinjaman";
@@ -68,7 +94,13 @@ export default function LoanPemutihanDialog({
 }) {
   const [tanggal, setTanggal] = React.useState("20-04-2026");
   const [tipeTransaksi, setTipeTransaksi] = React.useState(TIPE_TRANSAKSI);
+
+  // Nominal tampil formatted (contoh "500.000,00"), kosong jika belum diisi
   const [nominal, setNominal] = React.useState("");
+
+  const nominalRef = React.useRef<HTMLInputElement | null>(null);
+  const lastDigitsLeftRef = React.useRef<number | null>(null);
+
   const [keterangan, setKeterangan] = React.useState("");
   const [confirm, setConfirm] = React.useState(false);
 
@@ -80,6 +112,21 @@ export default function LoanPemutihanDialog({
     setKeterangan("");
     setConfirm(false);
   }, [open]);
+
+  // restore caret after formatting
+  React.useLayoutEffect(() => {
+    const el = nominalRef.current;
+    const digitsLeft = lastDigitsLeftRef.current;
+    if (!el || digitsLeft === null) return;
+
+    const pos = caretPosFromDigitsLeft(nominal, digitsLeft);
+    try {
+      el.setSelectionRange(pos, pos);
+    } catch {
+      // ignore
+    }
+    lastDigitsLeftRef.current = null;
+  }, [nominal]);
 
   const footerH = 72; // kira-kira tinggi footer + separator
 
@@ -214,8 +261,19 @@ export default function LoanPemutihanDialog({
               <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <FieldLabel>Nominal</FieldLabel>
                 <Input
+                  ref={nominalRef}
                   value={nominal}
-                  onChange={(e) => setNominal(formatThousandsDots(e.target.value))}
+                  onChange={(e) => {
+                    const raw = e.target.value ?? "";
+                    const caret = e.target.selectionStart ?? raw.length;
+                    const left = raw.slice(0, caret);
+
+                    // how many digits exist on the left side of caret (ignore '.' and ',')
+                    const digitsLeft = onlyDigits(left).length;
+                    lastDigitsLeftRef.current = digitsLeft;
+
+                    setNominal(formatIdrCurrencyFromRaw(raw));
+                  }}
                   className={cn(inputBase, "text-sm")}
                   placeholder="0,00"
                   inputMode="numeric"
