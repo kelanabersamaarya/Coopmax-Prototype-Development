@@ -46,9 +46,9 @@ const R = "rounded-[5px]";
 
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
-function deriveStatusForRow(idx: number): Exclude<StatusValue, "Semua"> {
-  // Default: Aktif (tetap sisakan beberapa dibatalkan agar filter bisa dites)
-  return idx % 7 === 0 ? "Dibatalkan" : "Aktif";
+function deriveStatusForRowIndex(originalIndex: number): Exclude<StatusValue, "Semua"> {
+  // IMPORTANT: status harus konsisten berdasar index asli row (bukan index setelah difilter)
+  return originalIndex % 7 === 0 ? "Dibatalkan" : "Aktif";
 }
 
 function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
@@ -80,7 +80,7 @@ export default function PenaltyDetailDialog({
 }) {
   const [adjustOpen, setAdjustOpen] = React.useState(false);
 
-  // ✅ default saat popup dibuka: hanya tampilkan denda Aktif
+  // default saat popup dibuka: hanya tampilkan denda Aktif
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
 
   React.useEffect(() => {
@@ -88,10 +88,31 @@ export default function PenaltyDetailDialog({
     setStatusFilter("Aktif");
   }, [open]);
 
+  // Precompute status by original index (stable)
+  const withStatus = React.useMemo(() => {
+    return rows.map((r, originalIndex) => ({
+      ...r,
+      originalIndex,
+      status: deriveStatusForRowIndex(originalIndex),
+    }));
+  }, [rows]);
+
+  const counts = React.useMemo(() => {
+    let aktif = 0;
+    let dibatalkan = 0;
+
+    for (const it of withStatus) {
+      if (it.status === "Aktif") aktif++;
+      else dibatalkan++;
+    }
+
+    return { aktif, dibatalkan, semua: withStatus.length };
+  }, [withStatus]);
+
   const filteredRows = React.useMemo(() => {
-    if (statusFilter === "Semua") return rows;
-    return rows.filter((_r, idx) => deriveStatusForRow(idx) === statusFilter);
-  }, [rows, statusFilter]);
+    if (statusFilter === "Semua") return withStatus;
+    return withStatus.filter((it) => it.status === statusFilter);
+  }, [statusFilter, withStatus]);
 
   const total = React.useMemo(() => {
     return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
@@ -100,6 +121,13 @@ export default function PenaltyDetailDialog({
   const totalText = React.useMemo(() => formatIdrLike(total), [total]);
 
   const lateDaysPattern = [3, 4, 2] as const;
+
+  const activeCountText =
+    statusFilter === "Semua"
+      ? `${counts.semua} item`
+      : statusFilter === "Aktif"
+        ? `${counts.aktif} item`
+        : `${counts.dibatalkan} item`;
 
   return (
     <>
@@ -126,8 +154,13 @@ export default function PenaltyDetailDialog({
         >
           <div className={cn("bg-white", R)}>
             <div className="flex items-center justify-between gap-3 px-6 py-4">
-              <div className="text-lg font-extrabold tracking-tight text-slate-900">
-                Rincian Denda
+              <div className="min-w-0">
+                <div className="text-lg font-extrabold tracking-tight text-slate-900">
+                  Rincian Denda
+                </div>
+                <div className="mt-0.5 text-[12px] font-medium text-slate-600">
+                  Menampilkan: <span className="font-semibold">{activeCountText}</span>
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
@@ -271,9 +304,13 @@ export default function PenaltyDetailDialog({
                               <SelectValue placeholder="-- Semua --" />
                             </SelectTrigger>
                             <SelectContent className="rounded-[5px] border-slate-200">
-                              <SelectItem value="Semua">-- Semua --</SelectItem>
-                              <SelectItem value="Aktif">Aktif</SelectItem>
-                              <SelectItem value="Dibatalkan">Dibatalkan</SelectItem>
+                              <SelectItem value="Semua">
+                                -- Semua -- ({counts.semua})
+                              </SelectItem>
+                              <SelectItem value="Aktif">Aktif ({counts.aktif})</SelectItem>
+                              <SelectItem value="Dibatalkan">
+                                Dibatalkan ({counts.dibatalkan})
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </th>
@@ -295,11 +332,9 @@ export default function PenaltyDetailDialog({
                           const lateDays =
                             lateDaysPattern[idx % lateDaysPattern.length];
 
-                          const derivedStatus = deriveStatusForRow(idx);
-
                           return (
                             <tr
-                              key={`${r.tanggalKeterlambatan}-${idx}`}
+                              key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
                               className={cn(
                                 "border-t border-slate-300/70",
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
@@ -320,7 +355,7 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-4 py-4 text-[14px] font-normal text-slate-900">
-                                <StatusPill status={derivedStatus} />
+                                <StatusPill status={r.status} />
                               </td>
                             </tr>
                           );
