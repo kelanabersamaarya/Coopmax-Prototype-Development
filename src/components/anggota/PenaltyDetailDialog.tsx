@@ -87,10 +87,10 @@ export default function PenaltyDetailDialog({
                     className={cn(
                       "inline-flex h-[30px] items-center gap-2 px-4",
                       "rounded-[5px]",
-                      "bg-[#1aa0b5] text-white",
-                      "ring-1 ring-[#1aa0b5]/25 transition hover:bg-[#168ea0]",
+                      "bg-violet-600 text-white",
+                      "ring-1 ring-violet-600/25 shadow-sm transition hover:bg-violet-700",
                       "text-[13px] font-semibold",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1aa0b5]/20",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600/25",
                     )}
                     aria-label="Aksi denda"
                   >
