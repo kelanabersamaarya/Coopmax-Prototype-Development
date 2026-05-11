@@ -147,11 +147,10 @@ export default function LoanTransactionHistoryDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  // ✅ lebih rapat: kecilkan padding & font header
-  // ✅ header: semua rata kiri
+  // ✅ Header 12px, padding antar kolom 5px (horizontal)
   const headerTh =
-    "px-2.5 py-2.5 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
-  const tdBase = "px-2.5 py-2.5 text-[13px] font-medium text-slate-900";
+    "px-[5px] py-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-700";
+  const tdBase = "px-[5px] py-2.5 text-[13px] font-medium text-slate-900";
 
   const selectTriggerCls = cn(
     "h-9 w-[96px] border-slate-200 bg-white",
@@ -294,7 +293,6 @@ export default function LoanTransactionHistoryDialog({
                           Transaksi
                         </th>
 
-                        {/* ✅ sebelumnya text-right, sekarang rata kiri */}
                         <th className={cn(headerTh, "w-[140px]")}>Nominal</th>
 
                         <th className={cn(headerTh, "w-[150px]")}>
@@ -331,7 +329,6 @@ export default function LoanTransactionHistoryDialog({
 
                         <th className={cn(headerTh, "w-[180px]")}>Keterangan</th>
 
-                        {/* ✅ sebelumnya text-center, sekarang rata kiri */}
                         <th className={cn(headerTh, "w-[120px]")}>
                           Detail
                           <br />
