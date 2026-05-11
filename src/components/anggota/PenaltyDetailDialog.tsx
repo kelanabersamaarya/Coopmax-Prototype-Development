@@ -5,9 +5,10 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Eye, Plus, X } from "lucide-react";
-import PenaltyAdjustDialog from "@/components/anggota/PenaltyAdjustDialog";
+import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
+import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -121,8 +122,6 @@ export default function PenaltyDetailDialog({
   onOpenChange: (v: boolean) => void;
   rows: PenaltyDetailRow[];
 }) {
-  const [adjustOpen, setAdjustOpen] = React.useState(false);
-
   // default saat popup dibuka: hanya tampilkan denda Aktif
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
 
@@ -147,6 +146,8 @@ export default function PenaltyDetailDialog({
     reason: string;
   } | null>(null);
 
+  const [addOpen, setAddOpen] = React.useState(false);
+
   React.useEffect(() => {
     if (!open) return;
     setStatusFilter("Aktif");
@@ -156,7 +157,7 @@ export default function PenaltyDetailDialog({
     setCancelTarget(null);
     setDetailOpen(false);
     setDetailTarget(null);
-    setAdjustOpen(false);
+    setAddOpen(false);
   }, [open]);
 
   // Precompute status by original index (stable), then apply local cancel state
@@ -198,10 +199,14 @@ export default function PenaltyDetailDialog({
 
   return (
     <>
-      <PenaltyAdjustDialog
-        open={adjustOpen}
-        onOpenChange={setAdjustOpen}
-        basePenalty={total}
+      <PenaltyAddReasonDialog
+        open={addOpen}
+        onOpenChange={setAddOpen}
+        onConfirm={(reason, date) => {
+          toast.success("Tambah denda tersimpan (prototype)", {
+            description: `${date} • ${reason}`,
+          });
+        }}
       />
 
       <PenaltyCancelReasonDialog
@@ -263,11 +268,10 @@ export default function PenaltyDetailDialog({
                 </div>
               </div>
 
-              {/* ✅ tombol tambah denda di samping tombol X */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => setAdjustOpen(true)}
+                  onClick={() => setAddOpen(true)}
                   className={headerAddBtnCls}
                   aria-label="Tambah denda"
                   title="Tambah denda"
