@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { X, CheckSquare } from "lucide-react";
+import { X, CheckSquare, Eye } from "lucide-react";
 import { toast } from "sonner";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
@@ -16,6 +16,28 @@ function RowKV({ label, value }: { label: string; value: string }) {
     <div className="grid items-center gap-3 py-1.5 [grid-template-columns:170px_minmax(0,1fr)]">
       <div className="text-sm font-normal text-slate-700">{label}</div>
       <div className="text-sm font-normal text-slate-900">{value}</div>
+    </div>
+  );
+}
+
+function RowKVWithAction({
+  label,
+  value,
+  action,
+}: {
+  label: string;
+  value: string;
+  action: React.ReactNode;
+}) {
+  return (
+    <div className="grid items-center gap-3 py-1.5 [grid-template-columns:170px_minmax(0,1fr)]">
+      <div className="text-sm font-normal text-slate-700">{label}</div>
+      <div className="min-w-0">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0 text-sm font-normal text-slate-900">{value}</div>
+          <div className="shrink-0">{action}</div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -195,6 +217,16 @@ export default function LoanPemutihanDialog({
     "focus-visible:ring-2 focus-visible:ring-slate-900/15 focus-visible:ring-offset-0",
   );
 
+  const viewBillsBtnCls = cn(
+    "inline-flex items-center gap-2",
+    "h-[30px] px-3",
+    "rounded-[6px]",
+    "bg-[#0b5bd3] text-white",
+    "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
+    "text-[13px] font-semibold",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b5bd3]/20",
+  );
+
   // Prototype info (sesuai permintaan list)
   const customerName = "Bapak Bagus";
   const totalPinjaman = "12.000.000,00";
@@ -256,7 +288,26 @@ export default function LoanPemutihanDialog({
                 <RowKV label="Sisa Pokok" value={sisaPokok} />
                 <RowKV label="Sisa Bunga" value={sisaBunga} />
                 <RowKV label="Sisa Denda" value={sisaDenda} />
-                <RowKV label="Total Kewajiban Berjalan" value={totalKewajibanBerjalan} />
+                <RowKVWithAction
+                  label="Total Kewajiban Berjalan"
+                  value={totalKewajibanBerjalan}
+                  action={
+                    <button
+                      type="button"
+                      className={viewBillsBtnCls}
+                      onClick={() =>
+                        toast("Lihat Tagihan (prototype)", {
+                          description: `Rekening: ${accountNo}`,
+                        })
+                      }
+                      aria-label="Lihat Tagihan"
+                      title="Lihat Tagihan"
+                    >
+                      <Eye className="h-4 w-4" />
+                      Lihat Tagihan
+                    </button>
+                  }
+                />
               </div>
             </div>
 
