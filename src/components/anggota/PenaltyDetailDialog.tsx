@@ -102,10 +102,10 @@ export default function PenaltyDetailDialog({
   // local prototype state: baris yang dibatalkan via modal alasan
   const [canceledIds, setCanceledIds] = React.useState<Set<number>>(() => new Set());
 
-  // (opsional) simpan alasan, supaya bisa dipakai nanti kalau mau ditampilkan
-  const [cancelReasons, setCancelReasons] = React.useState<Record<number, string>>(
-    () => ({}),
-  );
+  // simpan alasan + tanggal pembatalan (prototype)
+  const [cancelMeta, setCancelMeta] = React.useState<
+    Record<number, { reason: string; cancelDate: string }>
+  >(() => ({}));
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
@@ -118,7 +118,7 @@ export default function PenaltyDetailDialog({
     if (!open) return;
     setStatusFilter("Aktif");
     setCanceledIds(new Set());
-    setCancelReasons({});
+    setCancelMeta({});
     setCancelDialogOpen(false);
     setCancelTarget(null);
   }, [open]);
@@ -168,7 +168,7 @@ export default function PenaltyDetailDialog({
         }}
         tanggal={cancelTarget?.tanggal ?? ""}
         nominal={cancelTarget?.nominal ?? ""}
-        onConfirm={(reason) => {
+        onConfirm={(reason, cancelDate) => {
           if (!cancelTarget) return;
 
           setCanceledIds((prev) => {
@@ -177,9 +177,9 @@ export default function PenaltyDetailDialog({
             return next;
           });
 
-          setCancelReasons((prev) => ({
+          setCancelMeta((prev) => ({
             ...prev,
-            [cancelTarget.originalIndex]: reason,
+            [cancelTarget.originalIndex]: { reason, cancelDate },
           }));
 
           setCancelTarget(null);
@@ -383,7 +383,7 @@ export default function PenaltyDetailDialog({
               </div>
 
               <div className="sr-only">
-                {Object.keys(cancelReasons).length > 0 ? "has-reasons" : "no-reasons"}
+                {Object.keys(cancelMeta).length > 0 ? "has-meta" : "no-meta"}
               </div>
             </div>
 
