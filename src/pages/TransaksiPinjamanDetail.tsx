@@ -125,9 +125,15 @@ export default function TransaksiPinjamanDetail() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0">
-            <h1 className="text-xl font-extrabold tracking-tight text-slate-900 md:text-2xl">
-              Transaksi Pinjaman Detail
-            </h1>
+            <div className="flex items-baseline gap-2">
+              <h1 className="text-[28px] font-extrabold tracking-tight text-black md:text-[32px]">
+                Transaksi Pinjaman
+              </h1>
+              <span className="text-[18px] font-normal tracking-tight text-black md:text-[20px]">
+                Detail
+              </span>
+            </div>
+
             <div className="sr-only">{trxNo}</div>
           </div>
 
