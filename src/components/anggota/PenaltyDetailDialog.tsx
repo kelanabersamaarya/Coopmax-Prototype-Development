@@ -150,7 +150,7 @@ export default function PenaltyDetailDialog({
 
             <div
               className="overflow-auto px-6 py-5"
-              style={{ maxHeight: "calc(80vh - 64px - 84px)" }}
+              style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
             >
               <div
                 className={cn(
@@ -287,8 +287,8 @@ export default function PenaltyDetailDialog({
                   type="button"
                   onClick={() => onOpenChange(false)}
                   className={cn(
-                    "inline-flex h-11 items-center justify-center px-6 text-sm font-semibold",
-                    R,
+                    "inline-flex h-9 items-center justify-center px-4 text-[13px] font-semibold",
+                    "rounded-[10px]",
                     "bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700",
                   )}
                 >
