@@ -45,13 +45,13 @@ export default function PenaltyAdjustDialog({
   basePenalty?: number;
 }) {
   const [mode, setMode] = React.useState<Mode>("add");
-  const [amount, setAmount] = React.useState<string>("");
+  const [amount, setAmount] = React.useState<string>("0,00");
   const [reason, setReason] = React.useState<string>("");
 
   React.useEffect(() => {
     if (!open) return;
     setMode("add");
-    setAmount("");
+    setAmount("0,00");
     setReason("");
   }, [open]);
 
@@ -219,7 +219,7 @@ export default function PenaltyAdjustDialog({
                   value={amount}
                   onChange={setAmount}
                   aria-label="Nominal Penyesuaian"
-                  placeholder="Masukkan nominal"
+                  placeholder="0,00"
                 />
               </div>
 
