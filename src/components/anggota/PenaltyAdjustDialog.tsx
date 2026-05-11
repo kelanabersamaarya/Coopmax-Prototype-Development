@@ -178,17 +178,18 @@ export default function PenaltyAdjustDialog({
             <div className="mt-5 grid gap-4">
               <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                 <div className="text-[14px] font-normal text-slate-900">
-                  Jumlah (Rp)
+                  Nominal Penyesuaian
                 </div>
                 <Input
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Masukkan jumlah..."
+                  placeholder="Masukkan Nominal Penyesuaian"
                   inputMode="decimal"
                   className={cn(
-                    "h-11",
+                    "h-[30px]",
                     R5,
                     "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
+                    "shadow-sm",
                     "focus-visible:ring-0 focus-visible:ring-offset-0",
                   )}
                 />
