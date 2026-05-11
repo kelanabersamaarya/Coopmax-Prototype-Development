@@ -402,7 +402,6 @@ export default function PenaltyDetailDialog({
             >
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  {/* ✅ min-width dinaikkan agar kolom DENDA/AKSI terasa */}
                   <table className="w-full min-w-[820px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
@@ -418,7 +417,6 @@ export default function PenaltyDetailDialog({
                           TANGGAL
                         </th>
 
-                        {/* ✅ set 160px */}
                         <th className="w-[160px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
@@ -427,7 +425,6 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        {/* ✅ set 160px */}
                         <th className="w-[160px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
@@ -509,6 +506,19 @@ export default function PenaltyDetailDialog({
                             return [];
                           })();
 
+                          const keterlambatanText = isAdded
+                            ? "Denda ditambahkan secara manual"
+                            : isCanceled
+                              ? "Denda Dibatalkan Secara Manual"
+                              : String(lateDays);
+
+                          const keterlambatanCls = cn(
+                            "px-4 py-3 text-[14px] font-normal text-slate-900",
+                            isAdded || isCanceled
+                              ? "whitespace-normal leading-snug"
+                              : "tabular-nums whitespace-nowrap",
+                          );
+
                           return (
                             <tr
                               key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
@@ -521,16 +531,7 @@ export default function PenaltyDetailDialog({
                                 {idx + 1}
                               </td>
 
-                              <td
-                                className={cn(
-                                  "px-4 py-3 text-[14px] font-normal text-slate-900",
-                                  isAdded
-                                    ? "whitespace-normal"
-                                    : "tabular-nums whitespace-nowrap",
-                                )}
-                              >
-                                {isAdded ? "Denda ditambahkan secara manual" : lateDays}
-                              </td>
+                              <td className={keterlambatanCls}>{keterlambatanText}</td>
 
                               <td className="px-4 py-3 text-left text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.tanggalKeterlambatan}
