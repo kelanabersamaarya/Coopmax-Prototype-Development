@@ -156,12 +156,13 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 items-center justify-center px-4",
+        "inline-flex h-9 items-center justify-center px-3",
         "rounded-[10px]",
         "bg-rose-600 text-white",
         "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
         "text-[13px] font-semibold",
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-rose-600/20",
+        "whitespace-nowrap",
       )}
     >
       Batalkan Denda
@@ -401,7 +402,7 @@ export default function PenaltyDetailDialog({
             >
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[760px] table-fixed border-collapse border-l border-slate-300">
+                  <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
                         <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
@@ -416,7 +417,8 @@ export default function PenaltyDetailDialog({
                           TANGGAL
                         </th>
 
-                        <th className="w-[120px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ lebih kecil */}
+                        <th className="w-[96px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
 
@@ -424,7 +426,8 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        <th className="w-[160px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ lebih kecil */}
+                        <th className="w-[140px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
