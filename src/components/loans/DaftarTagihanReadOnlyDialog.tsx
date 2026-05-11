@@ -68,12 +68,12 @@ const seedRows: BillingRow[] = [
   },
   {
     jatuhTempo: "25-07-2026",
-    totalBelum DIBayar: "916.667",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "916.667",
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-  } as any,
+  },
   {
     jatuhTempo: "25-08-2026",
     totalBelumDibayar: "916.667",
