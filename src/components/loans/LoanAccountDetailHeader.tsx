@@ -97,46 +97,39 @@ export default function LoanAccountDetailHeader({
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={onBack}
-            className={cn(
-              "h-10 rounded-full bg-white px-4 text-slate-800 hover:bg-slate-50",
-              "border-0 ring-0 shadow-none",
-              "focus-visible:ring-0 focus-visible:ring-offset-0",
-            )}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Kembali ke Daftar
-          </Button>
-
+          {/* Urutan tombol sesuai request (kiri -> kanan) */}
           <ActionPill
             icon={Calendar}
             label="Perpanjangan Pinjaman"
             onClick={() => onAction("Perpanjangan Pinjaman")}
           />
+
           <ActionPill
             icon={Printer}
             label="Cetak"
             withCaret
             onClick={() => onAction("Cetak")}
           />
+
           <ActionPill
             icon={FileText}
             label="Dokumen"
             withCaret
             onClick={() => onAction("Dokumen")}
           />
+
           <ActionPill
             icon={Clock3}
             label="Riwayat Angsuran"
             onClick={() => setTxHistoryOpen(true)}
           />
+
           <ActionPill
             icon={Wrench}
             label="Pemutihan Pinjaman"
             onClick={() => setPemutihanOpen(true)}
           />
+
           <ActionPill
             icon={TimerReset}
             label="Riwayat Transaksi Autodebet"
@@ -152,26 +145,44 @@ export default function LoanAccountDetailHeader({
               })
             }
           />
+
           <ActionPill
             icon={Pencil}
             label="Ubah Hutang"
             onClick={() => onAction("Ubah Hutang")}
           />
+
           <ActionPill
             icon={Calendar}
             label="Ubah Jatuh Tempo"
             onClick={() => onAction("Ubah Jatuh Tempo")}
           />
+
           <ActionPill
             icon={Percent}
             label="Ubah Bunga"
             onClick={() => onAction("Ubah Bunga")}
           />
+
           <ActionPill
             icon={RotateCcw}
             label="Simulasi Tunggakan"
             onClick={() => onAction("Simulasi Tunggakan")}
           />
+
+          <Button
+            variant="outline"
+            onClick={onBack}
+            className={cn(
+              "h-10 rounded-full bg-white px-4 text-slate-800 hover:bg-slate-50",
+              "border-0 ring-0 shadow-none",
+              "focus-visible:ring-0 focus-visible:ring-offset-0",
+            )}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Kembali ke Daftar
+          </Button>
+
           <ActionPill icon={List} label="Simulasi" onClick={() => onAction("Simulasi")} />
 
           <Button
