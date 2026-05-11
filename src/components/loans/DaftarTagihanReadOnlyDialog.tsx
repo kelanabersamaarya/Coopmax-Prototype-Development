@@ -68,12 +68,12 @@ const seedRows: BillingRow[] = [
   },
   {
     jatuhTempo: "25-07-2026",
-    totalBelumDibayar: "916.667",
+    totalBelum DIBayar: "916.667",
     tagihanPokok: "916.667",
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-  },
+  } as any,
   {
     jatuhTempo: "25-08-2026",
     totalBelumDibayar: "916.667",
@@ -126,7 +126,7 @@ export default function DaftarTagihanReadOnlyDialog({
     return rowsAll.slice(start, start + pageSize);
   }, [page, pageSize, rowsAll]);
 
-  // read-only (checkbox tidak perlu aktif) tapi BillingTableView2 butuh array selected
+  // read-only (BillingTableView2 tetap butuh selected), tapi checkbox disembunyikan via hideSelection
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rows.map(() => true),
   );
@@ -198,7 +198,7 @@ export default function DaftarTagihanReadOnlyDialog({
                 showGraceInfo={page === 1}
                 highlightGraceBlock={page === 1}
                 keepGraceShellWithoutInfo={false}
-                hideSelection={false}
+                hideSelection={true}
                 showPenaltyColumn={true}
                 disableRowRings
                 disableRowActiveRing
