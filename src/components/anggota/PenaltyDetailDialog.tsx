@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Eye, X } from "lucide-react";
+import { Eye, Plus, X } from "lucide-react";
 import PenaltyAdjustDialog from "@/components/anggota/PenaltyAdjustDialog";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
@@ -156,6 +156,7 @@ export default function PenaltyDetailDialog({
     setCancelTarget(null);
     setDetailOpen(false);
     setDetailTarget(null);
+    setAdjustOpen(false);
   }, [open]);
 
   // Precompute status by original index (stable), then apply local cancel state
@@ -186,6 +187,14 @@ export default function PenaltyDetailDialog({
   const totalText = React.useMemo(() => formatIdrLike(total), [total]);
 
   const lateDaysPattern = [3, 4, 2] as const;
+
+  const headerAddBtnCls = cn(
+    "inline-flex h-9 items-center gap-2 px-4",
+    "rounded-full",
+    "bg-white text-slate-700 ring-1 ring-slate-200 shadow-sm",
+    "transition hover:bg-slate-50",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+  );
 
   return (
     <>
@@ -254,19 +263,33 @@ export default function PenaltyDetailDialog({
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className={cn(
-                  "inline-flex h-9 w-9 items-center justify-center",
-                  R,
-                  "text-slate-700 transition hover:bg-slate-100",
-                )}
-                aria-label="Tutup"
-                title="Tutup"
-              >
-                <X className="h-5 w-5" />
-              </button>
+              {/* ✅ tombol tambah denda di samping tombol X */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAdjustOpen(true)}
+                  className={headerAddBtnCls}
+                  aria-label="Tambah denda"
+                  title="Tambah denda"
+                >
+                  <Plus className="h-4.5 w-4.5 text-slate-600" />
+                  Tambah Denda
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    "inline-flex h-9 w-9 items-center justify-center",
+                    R,
+                    "text-slate-700 transition hover:bg-slate-100",
+                  )}
+                  aria-label="Tutup"
+                  title="Tutup"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             <Separator className="bg-slate-200" />
