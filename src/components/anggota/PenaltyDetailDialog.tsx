@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Plus, X, Info } from "lucide-react";
+import { X, Info } from "lucide-react";
 import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
@@ -65,35 +65,6 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
     >
       {status}
     </span>
-  );
-}
-
-function CancelPenaltyButton({
-  disabled,
-  onClick,
-}: {
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "inline-flex h-8 items-center justify-center px-3",
-        "rounded-[5px]",
-        "bg-[#DC3545] text-[12px] font-semibold text-white",
-        "whitespace-nowrap",
-        "ring-1 ring-[#DC3545]/25 transition hover:bg-[#c72f3d]",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DC3545]/20",
-        disabled ? "opacity-50 pointer-events-none" : "",
-      )}
-      aria-label={disabled ? "Aksi tidak tersedia" : "Batalkan denda"}
-      title={disabled ? "Hanya denda Aktif yang bisa dibatalkan" : "Batalkan denda"}
-    >
-      Batalkan Denda
-    </button>
   );
 }
 
@@ -274,19 +245,11 @@ export default function PenaltyDetailDialog({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  const headerAddBtnCls = cn(
-    "inline-flex h-9 items-center gap-2 px-4",
-    "rounded-[5px]",
-    "bg-white text-slate-700 ring-1 ring-slate-200 shadow-sm",
-    "text-[14px] font-semibold",
-    "transition hover:bg-slate-50",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-  );
-
   const currentUserName = "Arya Dharma";
 
   return (
     <>
+      {/* Tetap dipertahankan agar tidak merusak flow existing, walau tombol "Tambah Denda" di UI dihilangkan */}
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={setAddOpen}
@@ -377,32 +340,19 @@ export default function PenaltyDetailDialog({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setAddOpen(true)}
-                  className={headerAddBtnCls}
-                  aria-label="Tambah denda"
-                  title="Tambah denda"
-                >
-                  <Plus className="h-4.5 w-4.5 text-slate-600" />
-                  Tambah Denda
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => onOpenChange(false)}
-                  className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center",
-                    R,
-                    "text-slate-700 transition hover:bg-slate-100",
-                  )}
-                  aria-label="Tutup"
-                  title="Tutup"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "inline-flex h-9 w-9 items-center justify-center",
+                  R,
+                  "text-slate-700 transition hover:bg-slate-100",
+                )}
+                aria-label="Tutup"
+                title="Tutup"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
 
             <Separator className="bg-slate-200" />
@@ -413,7 +363,7 @@ export default function PenaltyDetailDialog({
             >
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
+                  <table className="w-full min-w-[620px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
                         <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
@@ -432,17 +382,11 @@ export default function PenaltyDetailDialog({
                           DENDA
                         </th>
 
-                        {/* ✅ kecilkan padding bawah header STATUS supaya jarak ke filter lebih rapat */}
                         <th className="w-[108px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
-
-                        <th className="w-[118px] px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                          AKSI
-                        </th>
                       </tr>
 
-                      {/* ✅ kecilkan padding atas baris filter (khusus kolom STATUS) */}
                       <tr className="border-b border-slate-300 bg-white">
                         <th className="px-4 py-2" />
                         <th className="px-4 py-2" />
@@ -467,7 +411,6 @@ export default function PenaltyDetailDialog({
                             </select>
                           </div>
                         </th>
-                        <th className="px-3 py-2" />
                       </tr>
                     </thead>
 
@@ -475,7 +418,7 @@ export default function PenaltyDetailDialog({
                       {filteredRows.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={6}
+                            colSpan={5}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada rincian denda.
@@ -486,7 +429,6 @@ export default function PenaltyDetailDialog({
                           const isAdded = r.source === "added";
                           const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
 
-                          const canCancel = r.status === "Aktif";
                           const isCanceled = r.status === "Dibatalkan";
 
                           const statusInfoRows: Array<{ k: string; v: string }> = (() => {
@@ -535,7 +477,9 @@ export default function PenaltyDetailDialog({
                               <td
                                 className={cn(
                                   "px-4 py-3 text-[14px] font-normal text-slate-900",
-                                  isAdded ? "whitespace-normal" : "tabular-nums whitespace-nowrap",
+                                  isAdded
+                                    ? "whitespace-normal"
+                                    : "tabular-nums whitespace-nowrap",
                                 )}
                               >
                                 {isAdded ? "Denda ditambahkan secara manual" : lateDays}
@@ -560,36 +504,6 @@ export default function PenaltyDetailDialog({
                                   ) : null}
                                 </div>
                               </td>
-
-                              <td className="px-3 py-3">
-                                <div className="flex items-center justify-start gap-2">
-                                  {isAdded ? (
-                                    <CancelPenaltyButton
-                                      disabled={!canCancel}
-                                      onClick={() => {
-                                        setCancelTarget({
-                                          originalIndex: r.originalIndex,
-                                          tanggal: r.tanggalKeterlambatan,
-                                          nominal: r.nominalDenda,
-                                        });
-                                        setCancelDialogOpen(true);
-                                      }}
-                                    />
-                                  ) : isCanceled ? null : (
-                                    <CancelPenaltyButton
-                                      disabled={!canCancel}
-                                      onClick={() => {
-                                        setCancelTarget({
-                                          originalIndex: r.originalIndex,
-                                          tanggal: r.tanggalKeterlambatan,
-                                          nominal: r.nominalDenda,
-                                        });
-                                        setCancelDialogOpen(true);
-                                      }}
-                                    />
-                                  )}
-                                </div>
-                              </td>
                             </tr>
                           );
                         })
@@ -608,7 +522,6 @@ export default function PenaltyDetailDialog({
                         </td>
 
                         <td className="px-4 py-3" />
-                        <td className="px-3 py-3" />
                       </tr>
                     </tbody>
                   </table>
