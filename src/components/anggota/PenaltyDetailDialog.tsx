@@ -30,9 +30,6 @@ function parseIdrLike(input: string) {
   const s = (input ?? "").trim();
   if (!s) return 0;
 
-  // Format ID umum: 25.000 atau 25.000,50
-  // - hapus pemisah ribuan "."
-  // - ubah desimal "," jadi "."
   const normalized = s.replace(/\./g, "").replace(",", ".");
   const cleaned = normalized.replace(/[^\d.-]/g, "");
   const n = Number(cleaned);
@@ -119,7 +116,6 @@ export default function PenaltyDetailDialog({
             "overflow-hidden",
             R,
             "border-slate-200 p-0 shadow-2xl",
-            // hide default shadcn close button (biar hanya X custom)
             "[&>button[aria-label=Close]]:hidden",
             "[&>button.absolute.right-4.top-4]:hidden",
             "[&_[data-slot=dialog-close]]:hidden",
@@ -246,18 +242,20 @@ export default function PenaltyDetailDialog({
                         <th className="w-[170px] px-5 py-4 text-right text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           DENDA
                         </th>
-                        <th className="w-[190px] px-5 py-4 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+
+                        {/* ✅ diperkecil */}
+                        <th className="w-[140px] px-4 py-4 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           STATUS
                         </th>
                       </tr>
 
-                      {/* Filter row (tanpa label STATUS + lebih kecil) */}
-                      <tr className="border-b border-slate-200 bg-white">
+                      {/* ✅ hilangkan divider (border bawah) di atas kolom status: row ini tanpa border-b */}
+                      <tr className="bg-white">
                         <th className="px-5 py-2" />
                         <th className="px-5 py-2" />
                         <th className="px-5 py-2" />
                         <th className="px-5 py-2" />
-                        <th className="px-5 py-2">
+                        <th className="px-4 py-2">
                           <Select
                             value={statusFilter}
                             onValueChange={(v) => setStatusFilter(v as StatusValue)}
@@ -319,7 +317,9 @@ export default function PenaltyDetailDialog({
                               <td className="px-5 py-4 text-right text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
-                              <td className="px-5 py-4 text-[14px] font-normal text-slate-900">
+
+                              {/* ✅ selaras dengan header yang diperkecil */}
+                              <td className="px-4 py-4 text-[14px] font-normal text-slate-900">
                                 <StatusPill status={derivedStatus} />
                               </td>
                             </tr>
@@ -334,7 +334,7 @@ export default function PenaltyDetailDialog({
                         >
                           TOTAL DENDA
                         </td>
-                        <td className="px-5 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        <td className="px-4 py-4 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
                       </tr>
