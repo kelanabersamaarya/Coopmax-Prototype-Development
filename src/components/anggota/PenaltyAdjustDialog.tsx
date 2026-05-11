@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Minus, Plus, Trash2, X, CheckSquare } from "lucide-react";
+import { Minus, Plus, X, CheckSquare } from "lucide-react";
 
 type Mode = "add" | "subtract";
 
@@ -54,11 +54,13 @@ export default function PenaltyAdjustDialog({
     setReason("");
   }, [open]);
 
+  const amountNumber = React.useMemo(() => parseIdrLike(amount), [amount]);
+
   const delta = React.useMemo(() => {
-    const n = parseIdrLike(amount);
+    const n = amountNumber;
     if (n <= 0) return 0;
     return mode === "subtract" ? -n : n;
-  }, [amount, mode]);
+  }, [amountNumber, mode]);
 
   const after = React.useMemo(
     () => clampNonNegative(basePenalty + delta),
@@ -71,7 +73,7 @@ export default function PenaltyAdjustDialog({
     return delta > 0 ? `+ Rp ${abs}` : `- Rp ${abs}`;
   }, [delta]);
 
-  const canSave = reason.trim().length > 0 && delta !== 0;
+  const canSave = reason.trim().length > 0 && amountNumber > 0;
 
   const actionBtnBase = cn(
     "inline-flex items-center justify-center gap-2",
@@ -91,17 +93,23 @@ export default function PenaltyAdjustDialog({
 
   const saveBtnCls = cn(
     actionBtnBase,
-    // fallback classes (warna utama tetap dipaksa lewat style inline)
     "text-white transition",
     canSave ? "" : "opacity-60",
   );
+
+  const labelCls = "text-[14px] font-normal text-slate-900";
+  const requiredStar = <span className="text-rose-600">*</span>;
+
+  // Lebarkan field supaya lebih “mendekati” area title (lebih lebar daripada sebelumnya)
+  const fieldGrid = "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-center";
+  const fieldGridTop = "grid gap-3 sm:grid-cols-[190px_minmax(0,1fr)] sm:items-start";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[760px]",
-          "max-w-[760px]",
+          "w-[calc(100vw-1rem)] sm:w-[780px]",
+          "max-w-[780px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
           // hide default close button
@@ -115,7 +123,7 @@ export default function PenaltyAdjustDialog({
           {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
-              Ubah denda
+              Penyesuaian Denda
             </div>
 
             <button
@@ -137,8 +145,8 @@ export default function PenaltyAdjustDialog({
 
           {/* Body */}
           <div className="px-6 py-5">
-            {/* Mode buttons */}
-            <div className="grid gap-3 sm:grid-cols-3">
+            {/* Mode buttons (hapus Hapus semua) */}
+            <div className="grid gap-3 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={() => setMode("add")}
@@ -166,28 +174,13 @@ export default function PenaltyAdjustDialog({
                 <Minus className="h-5 w-5" />
                 Kurangi
               </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setAmount(String(basePenalty));
-                  setMode("subtract");
-                }}
-                className={cn(
-                  modeBtnBase,
-                  "bg-rose-600 text-white ring-1 ring-rose-600/25 hover:bg-rose-700",
-                )}
-              >
-                <Trash2 className="h-5 w-5" />
-                Hapus semua
-              </button>
             </div>
 
             {/* Fields */}
             <div className="mt-5 grid gap-4">
-              <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
-                <div className="text-[14px] font-normal text-slate-900">
-                  Nominal Penyesuaian
+              <div className={fieldGrid}>
+                <div className={labelCls}>
+                  Nominal Penyesuaian{requiredStar}
                 </div>
                 <Input
                   value={amount}
@@ -204,9 +197,9 @@ export default function PenaltyAdjustDialog({
                 />
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-start">
-                <div className="pt-2 text-[14px] font-normal text-slate-900">
-                  Alasan penyesuaian <span className="text-rose-600">*</span>
+              <div className={fieldGridTop}>
+                <div className={cn(labelCls, "pt-2")}>
+                  Alasan penyesuaian{requiredStar}
                 </div>
                 <Textarea
                   value={reason}
@@ -232,17 +225,25 @@ export default function PenaltyAdjustDialog({
               <div className="px-5 py-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="text-[13px] font-semibold text-slate-700">
-                    <div>Denda sebelum</div>
-                    <div>Penyesuaian</div>
+                    Denda sebelum penyesuaian
                   </div>
 
                   <div className="text-right">
                     <div className="text-[16px] font-extrabold text-slate-900">
                       Rp {formatIdr0(basePenalty)}
                     </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex items-start justify-between gap-4">
+                  <div className="text-[13px] font-semibold text-slate-700">
+                    Nominal Penyesuaian
+                  </div>
+
+                  <div className="text-right">
                     <div
                       className={cn(
-                        "mt-1 text-[14px] font-extrabold",
+                        "text-[14px] font-extrabold",
                         delta > 0
                           ? "text-emerald-700"
                           : delta < 0
@@ -259,7 +260,7 @@ export default function PenaltyAdjustDialog({
 
                 <div className="flex items-center justify-between gap-4">
                   <div className="text-[15px] font-extrabold text-slate-900">
-                    Total setelah
+                    Total Denda Setelah Penyesuaian
                   </div>
                   <div className="text-[18px] font-extrabold text-slate-900">
                     Rp {formatIdr0(after)}
@@ -289,21 +290,21 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 disabled={!canSave}
                 onClick={() => {
+                  if (amountNumber <= 0) {
+                    toast("Nominal Penyesuaian wajib diisi", {
+                      description: "Mohon masukkan nominal penyesuaian (> 0).",
+                    });
+                    return;
+                  }
                   if (!reason.trim()) {
-                    toast("Alasan wajib diisi", {
+                    toast("Alasan penyesuaian wajib diisi", {
                       description:
                         "Mohon isi alasan penyesuaian denda terlebih dahulu.",
                     });
                     return;
                   }
-                  if (delta === 0) {
-                    toast("Jumlah belum diisi", {
-                      description: "Mohon masukkan jumlah penyesuaian.",
-                    });
-                    return;
-                  }
 
-                  toast.success("Denda berhasil diubah (prototype)", {
+                  toast.success("Denda berhasil disesuaikan (prototype)", {
                     description: `Sebelum: Rp ${formatIdr0(basePenalty)} • Sesudah: Rp ${formatIdr0(after)}`,
                   });
                   onOpenChange(false);
