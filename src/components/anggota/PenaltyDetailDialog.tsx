@@ -84,6 +84,7 @@ function CancelPenaltyButton({
         "inline-flex h-8 items-center justify-center px-3",
         "rounded-[5px]",
         "bg-[#DC3545] text-[12px] font-semibold text-white",
+        "whitespace-nowrap",
         "ring-1 ring-[#DC3545]/25 transition hover:bg-[#c72f3d]",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#DC3545]/20",
         disabled ? "opacity-50 pointer-events-none" : "",
