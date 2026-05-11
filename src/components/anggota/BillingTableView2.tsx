@@ -8,6 +8,7 @@ import NumericCell from "@/components/anggota/NumericCell";
 import PenaltyDetailDialog, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialog";
+import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialogReadOnly";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 
 export type BillingRow = {
@@ -176,6 +177,7 @@ export default function BillingTableView2({
   showPenaltyColumn = false,
   penaltyContentEnabled = true,
   penaltyIndexOffset = 0,
+  penaltyDialogVariant = "default",
   tone = "default",
   disableRowActiveRing = false,
   disableRowRings = false,
@@ -196,6 +198,7 @@ export default function BillingTableView2({
   penaltyContentEnabled?: boolean;
   /** Offset untuk index global (mis. (page-1)*pageSize) agar denda tidak reset tiap halaman */
   penaltyIndexOffset?: number;
+  penaltyDialogVariant?: "default" | "read-only";
   tone?: "default" | "khusus";
   disableRowActiveRing?: boolean;
   disableRowRings?: boolean;
@@ -335,16 +338,24 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  // ✅ khusus kolom "Total Tagihan Belum Dibayar": kecilkan padding kanan supaya angka rata ke ujung kolom
+  // khusus kolom "Total Tagihan Belum Dibayar"
   const totalColPad = "px-4 pr-2";
 
   return (
     <div className={cn("mt-3", className)}>
-      <PenaltyDetailDialog
-        open={penaltyOpen}
-        onOpenChange={setPenaltyOpen}
-        rows={penaltyRows}
-      />
+      {penaltyDialogVariant === "read-only" ? (
+        <PenaltyDetailDialogReadOnly
+          open={penaltyOpen}
+          onOpenChange={setPenaltyOpen}
+          rows={penaltyRows}
+        />
+      ) : (
+        <PenaltyDetailDialog
+          open={penaltyOpen}
+          onOpenChange={setPenaltyOpen}
+          rows={penaltyRows}
+        />
+      )}
 
       {showNextBillInfo ? <NextBillInfoBanner /> : null}
 
@@ -392,8 +403,8 @@ export default function BillingTableView2({
                             >
                               <RowShell
                                 active={active}
-                                disableActiveRing={true}
-                                disableRowRings={true}
+                                disableActiveRing={disableRowActiveRing}
+                                disableRowRings={disableRowRings}
                                 density={rowShellDensity}
                                 compact={isCompact}
                               >
@@ -473,8 +484,8 @@ export default function BillingTableView2({
                       <td colSpan={colCount} className="p-0">
                         <RowShell
                           active={active}
-                          disableActiveRing={true}
-                          disableRowRings={true}
+                          disableActiveRing={disableRowActiveRing}
+                          disableRowRings={disableRowRings}
                           density={rowShellDensity}
                           compact={isCompact}
                         >
@@ -562,8 +573,8 @@ export default function BillingTableView2({
                         <td colSpan={colCount} className="p-0">
                           <RowShell
                             active={active}
-                            disableActiveRing={true}
-                            disableRowRings={true}
+                            disableActiveRing={disableRowActiveRing}
+                            disableRowRings={disableRowRings}
                             density={rowShellDensity}
                             compact={isCompact}
                           >

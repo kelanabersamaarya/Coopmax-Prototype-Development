@@ -200,6 +200,7 @@ export default function DaftarTagihanReadOnlyDialog({
                 keepGraceShellWithoutInfo={false}
                 hideSelection={true}
                 showPenaltyColumn={true}
+                penaltyDialogVariant="read-only"
                 disableRowRings
                 disableRowActiveRing
                 penaltyIndexOffset={(page - 1) * pageSize}
