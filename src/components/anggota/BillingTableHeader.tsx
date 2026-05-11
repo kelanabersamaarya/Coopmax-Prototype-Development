@@ -26,44 +26,44 @@ export default function BillingTableHeader({
           </th>
         ) : null}
 
-        <th className={thBase}>
+        <th className={cn(thBase, "w-[110px]")}>
           Jatuh
           <br />
           Tempo
         </th>
 
-        <th className={thRight}>
+        <th className={cn(thRight, "w-[150px]")}>
           Total Tagihan
           <br />
           Belum Dibayar
         </th>
 
-        <th className={thRight}>
+        <th className={cn(thRight, "w-[130px]")}>
           Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={thRight}>
+        <th className={cn(thRight, "w-[120px]")}>
           Tagihan
           <br />
           Bunga
         </th>
 
-        <th className={thRight}>
+        <th className={cn(thRight, "w-[140px]")}>
           Sisa Tagihan
           <br />
           Pokok
         </th>
 
-        <th className={thRight}>
+        <th className={cn(thRight, "w-[140px]")}>
           Sisa Tagihan
           <br />
           Bunga
         </th>
 
         {showPenaltyColumn ? (
-          <th className={thRight}>
+          <th className={cn(thRight, "w-[130px]")}>
             Tagihan
             <br />
             Denda
