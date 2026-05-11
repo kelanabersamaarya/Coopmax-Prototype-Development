@@ -87,25 +87,17 @@ function RowActionXButton({
   );
 }
 
-function RowActionEyeButton({
-  disabled,
-  onClick,
-}: {
-  disabled: boolean;
-  onClick: () => void;
-}) {
+function RowActionEyeButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      disabled={disabled}
       className={cn(
         "inline-flex h-8 w-8 items-center justify-center",
         "rounded-full",
         "bg-transparent text-slate-500",
         "transition hover:bg-transparent hover:text-slate-700",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-        disabled ? "opacity-35 pointer-events-none" : "",
       )}
       aria-label="Lihat detail pembatalan"
       title="Lihat detail pembatalan"
@@ -295,7 +287,6 @@ export default function PenaltyDetailDialog({
                           KETERLAMBATAN (HARI)
                         </th>
 
-                        {/* ✅ kecilkan lebar kolom tanggal */}
                         <th className="w-[170px] px-5 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
@@ -308,7 +299,6 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        {/* ✅ perkecil kolom aksi */}
                         <th className="w-[70px] px-2 py-4 text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
@@ -343,7 +333,10 @@ export default function PenaltyDetailDialog({
                     <tbody className="bg-white">
                       {filteredRows.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="px-5 py-10 text-center text-sm text-slate-600">
+                          <td
+                            colSpan={6}
+                            className="px-5 py-10 text-center text-sm text-slate-600"
+                          >
                             Tidak ada rincian denda.
                           </td>
                         </tr>
@@ -386,13 +379,13 @@ export default function PenaltyDetailDialog({
                                 <div className="flex justify-center">
                                   {isCanceled ? (
                                     <RowActionEyeButton
-                                      disabled={!cancelMeta[r.originalIndex]}
                                       onClick={() => {
                                         const meta = cancelMeta[r.originalIndex];
-                                        if (!meta) return;
                                         setDetailTarget({
-                                          cancelDate: meta.cancelDate,
-                                          reason: meta.reason,
+                                          cancelDate: meta?.cancelDate ?? "-",
+                                          reason:
+                                            meta?.reason ??
+                                            "Belum ada detail pembatalan (prototype).",
                                         });
                                         setDetailOpen(true);
                                       }}
