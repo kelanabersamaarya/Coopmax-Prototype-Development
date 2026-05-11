@@ -288,7 +288,7 @@ export default function PenaltyDetailDialog({
                   onClick={() => onOpenChange(false)}
                   className={cn(
                     "inline-flex h-9 items-center justify-center px-4 text-[13px] font-semibold",
-                    "rounded-[10px]",
+                    "rounded-[5px]",
                     "bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700",
                   )}
                 >
