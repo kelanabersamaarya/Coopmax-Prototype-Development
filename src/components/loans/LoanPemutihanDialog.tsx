@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { X, CheckSquare } from "lucide-react";
 import { toast } from "sonner";
+import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 
 function RowKV({ label, value }: { label: string; value: string }) {
   return (
@@ -119,10 +120,17 @@ export default function LoanPemutihanDialog({
                 <FieldLabel>
                   Tanggal<span className="text-rose-600"> *</span>
                 </FieldLabel>
-                <Input
+
+                <DatePickerDmyField
                   value={tanggal}
-                  onChange={(e) => setTanggal(e.target.value)}
-                  className="h-10 rounded-xl border-slate-200 bg-white"
+                  onChange={setTanggal}
+                  inputClassName={cn(
+                    "h-10 rounded-xl border-slate-200 bg-white pr-11",
+                    "text-sm font-medium text-slate-900",
+                    "shadow-sm",
+                  )}
+                  popoverAlign="end"
+                  placeholder="DD-MM-YYYY"
                 />
               </div>
 
@@ -210,7 +218,6 @@ export default function LoanPemutihanDialog({
                   "bg-slate-500 ring-slate-500/20 hover:bg-slate-600 focus-visible:ring-slate-500/25",
                 )}
               >
-                {/* ✅ hilangkan background icon */}
                 <X className="h-4 w-4" strokeWidth={3} />
                 Tutup
               </button>
