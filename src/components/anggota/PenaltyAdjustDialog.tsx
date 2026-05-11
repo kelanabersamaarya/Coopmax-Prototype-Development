@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Minus, Plus, Trash2, X } from "lucide-react";
+import { Minus, Plus, Trash2, X, CheckSquare } from "lucide-react";
 
 type Mode = "add" | "subtract";
 
@@ -29,6 +29,8 @@ function formatIdr0(n: number) {
 function clampNonNegative(n: number) {
   return Math.max(0, Number.isFinite(n) ? n : 0);
 }
+
+const R5 = "rounded-[5px]";
 
 export default function PenaltyAdjustDialog({
   open,
@@ -67,7 +69,16 @@ export default function PenaltyAdjustDialog({
     return delta > 0 ? `+ Rp ${abs}` : `- Rp ${abs}`;
   }, [delta]);
 
-  const canApply = reason.trim().length > 0 && delta !== 0;
+  const canSave = reason.trim().length > 0 && delta !== 0;
+
+  const actionBtnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    "h-[30px] w-[90px] px-2",
+    R5,
+    "text-[11px] font-bold tracking-tight text-white",
+    "ring-1 transition",
+    "leading-none",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -94,7 +105,11 @@ export default function PenaltyAdjustDialog({
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+              className={cn(
+                "inline-flex h-9 w-9 items-center justify-center",
+                R5,
+                "text-slate-700 transition hover:bg-slate-100",
+              )}
               aria-label="Tutup"
               title="Tutup"
             >
@@ -112,7 +127,8 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 onClick={() => setMode("add")}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center gap-2 rounded-2xl px-4 text-[14px] font-semibold transition",
+                  "inline-flex h-11 items-center justify-center gap-2 px-4 text-[14px] font-semibold transition",
+                  R5,
                   mode === "add"
                     ? "bg-emerald-600 text-white ring-1 ring-emerald-600/25 hover:bg-emerald-700"
                     : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
@@ -126,7 +142,8 @@ export default function PenaltyAdjustDialog({
                 type="button"
                 onClick={() => setMode("subtract")}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center gap-2 rounded-2xl px-4 text-[14px] font-semibold transition",
+                  "inline-flex h-11 items-center justify-center gap-2 px-4 text-[14px] font-semibold transition",
+                  R5,
                   mode === "subtract"
                     ? "bg-amber-500 text-white ring-1 ring-amber-500/25 hover:bg-amber-600"
                     : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
@@ -143,7 +160,8 @@ export default function PenaltyAdjustDialog({
                   setMode("subtract");
                 }}
                 className={cn(
-                  "inline-flex h-11 items-center justify-center gap-2 rounded-2xl px-4 text-[14px] font-semibold transition",
+                  "inline-flex h-11 items-center justify-center gap-2 px-4 text-[14px] font-semibold transition",
+                  R5,
                   "bg-rose-600 text-white ring-1 ring-rose-600/25 hover:bg-rose-700",
                 )}
               >
@@ -152,40 +170,46 @@ export default function PenaltyAdjustDialog({
               </button>
             </div>
 
-            <div className="mt-5 grid gap-2">
-              <div className="text-[13px] font-semibold text-slate-700">
-                Jumlah (Rp)
+            {/* Fields: label kiri */}
+            <div className="mt-5 grid gap-4">
+              <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                <div className="text-[14px] font-normal text-slate-900">
+                  Jumlah (Rp)
+                </div>
+                <Input
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Masukkan jumlah..."
+                  inputMode="decimal"
+                  className={cn(
+                    "h-11",
+                    R5,
+                    "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                />
               </div>
-              <Input
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="Masukkan jumlah..."
-                inputMode="decimal"
-                className={cn(
-                  "h-11 rounded-2xl border-slate-200 bg-white",
-                  "text-slate-900 placeholder:text-slate-400",
-                  "focus-visible:ring-0 focus-visible:ring-offset-0",
-                )}
-              />
+
+              <div className="grid gap-3 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-start">
+                <div className="pt-2 text-[14px] font-normal text-slate-900">
+                  Alasan penyesuaian <span className="text-rose-600">*</span>
+                </div>
+                <Textarea
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  placeholder="Wajib diisi. Jelaskan alasan penyesuaian denda..."
+                  className={cn(
+                    "min-h-[120px]",
+                    R5,
+                    "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                />
+              </div>
             </div>
 
-            <div className="mt-5 grid gap-2">
-              <div className="text-[13px] font-semibold text-slate-700">
-                Alasan penyesuaian <span className="text-rose-600">*</span>
-              </div>
-              <Textarea
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                placeholder="Wajib diisi. Jelaskan alasan penyesuaian denda..."
-                className={cn(
-                  "min-h-[120px] rounded-2xl border-slate-200 bg-white",
-                  "text-slate-900 placeholder:text-slate-400",
-                  "focus-visible:ring-0 focus-visible:ring-offset-0",
-                )}
-              />
-            </div>
-
-            <div className="mt-5 overflow-hidden rounded-3xl bg-slate-50 ring-1 ring-slate-200">
+            {/* Summary */}
+            <div className={cn("mt-5 overflow-hidden bg-slate-50 ring-1 ring-slate-200", R5)}>
               <div className="px-5 py-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="text-[13px] font-semibold text-slate-700">
@@ -225,26 +249,27 @@ export default function PenaltyAdjustDialog({
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+            {/* Footer buttons (match gambar) */}
+            <div className="mt-6 flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "h-11 w-full rounded-full px-6 text-[14px] font-semibold sm:w-auto",
-                  "bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50",
+                  actionBtnBase,
+                  "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
                 )}
               >
-                Batal
+                <X className="h-4 w-4" strokeWidth={3} />
+                Batalkan
               </button>
 
               <button
                 type="button"
-                disabled={!canApply}
+                disabled={!canSave}
                 onClick={() => {
                   if (!reason.trim()) {
                     toast("Alasan wajib diisi", {
-                      description:
-                        "Mohon isi alasan penyesuaian denda terlebih dahulu.",
+                      description: "Mohon isi alasan penyesuaian denda terlebih dahulu.",
                     });
                     return;
                   }
@@ -261,13 +286,14 @@ export default function PenaltyAdjustDialog({
                   onOpenChange(false);
                 }}
                 className={cn(
-                  "h-11 w-full rounded-full px-6 text-[14px] font-semibold sm:w-auto transition",
-                  canApply
-                    ? "bg-emerald-600 text-white ring-1 ring-emerald-600/25 hover:bg-emerald-700"
+                  actionBtnBase,
+                  canSave
+                    ? "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]"
                     : "bg-slate-200 text-slate-500 ring-1 ring-slate-200 pointer-events-none",
                 )}
               >
-                Terapkan
+                <CheckSquare className="h-4 w-4" strokeWidth={3} />
+                Simpan
               </button>
             </div>
           </div>
