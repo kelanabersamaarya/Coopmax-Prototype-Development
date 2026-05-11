@@ -453,8 +453,8 @@ export default function PenaltyDetailDialog({
                           KETERLAMBATAN (HARI)
                         </th>
 
-                        {/* ✅ diperkecil dari w-[140px] */}
-                        <th className="w-[115px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        {/* ✅ diperkecil lagi dari 115px -> 96px */}
+                        <th className="w-[96px] px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           TANGGAL
                         </th>
 
@@ -634,7 +634,7 @@ export default function PenaltyDetailDialog({
                                           setCancelDialogOpen(true);
                                         }}
                                       />
-                                      {ActionSlotSpacer}
+                                      <span className="inline-block h-8 w-8" aria-hidden="true" />
                                     </>
                                   )}
                                 </div>
