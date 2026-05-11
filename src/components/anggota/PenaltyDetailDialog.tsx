@@ -51,7 +51,6 @@ type RowWithMeta = PenaltyDetailRow & {
 function deriveStatusForRowIndex(
   originalIndex: number,
 ): Exclude<StatusValue, "Semua"> {
-  // IMPORTANT: status harus konsisten berdasar index asli row (bukan index setelah difilter)
   return originalIndex % 7 === 0 ? "Dibatalkan" : "Aktif";
 }
 
@@ -130,7 +129,6 @@ const DEFAULT_CANCEL_DETAIL = {
 } as const;
 
 function nextOriginalIndex(seedCount: number, addedCount: number) {
-  // Seed indices: 0..seedCount-1, added indices continue after that
   return seedCount + addedCount;
 }
 
@@ -150,16 +148,6 @@ function metaKeyForAddedRow(addedIndex: number) {
   return `added-${addedIndex}`;
 }
 
-function useViewportCollisionBoundary() {
-  const [boundary, setBoundary] = React.useState<HTMLElement | null>(null);
-
-  React.useEffect(() => {
-    setBoundary(document.documentElement);
-  }, []);
-
-  return boundary;
-}
-
 function InfoIconTooltip({
   label,
   rows,
@@ -167,8 +155,6 @@ function InfoIconTooltip({
   label: string;
   rows: Array<{ k: string; v: string }>;
 }) {
-  const boundary = useViewportCollisionBoundary();
-
   return (
     <Tooltip delayDuration={150}>
       <TooltipTrigger asChild>
@@ -192,10 +178,7 @@ function InfoIconTooltip({
         side="left"
         align="center"
         sideOffset={10}
-        avoidCollisions
-        sticky="always"
-        collisionPadding={8}
-        collisionBoundary={boundary ?? undefined}
+        avoidCollisions={false}
         className={cn(
           "z-[9999] max-w-[320px] rounded-2xl border-slate-200 bg-white px-4 py-3 shadow-xl",
           "text-[13px] font-normal leading-relaxed text-slate-800",
