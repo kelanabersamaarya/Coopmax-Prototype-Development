@@ -265,8 +265,8 @@ export default function PenaltyAdjustDialog({
               </div>
             </div>
 
-            {/* Divider di atas tombol */}
-            <div className="mt-6 h-px w-full bg-slate-200" />
+            {/* Divider full width modal (full-bleed) */}
+            <div className="mt-6 -mx-6 h-px bg-slate-200" />
 
             {/* Footer buttons */}
             <div className="mt-4 flex items-center justify-end gap-3">
