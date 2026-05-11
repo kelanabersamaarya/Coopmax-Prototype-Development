@@ -90,7 +90,10 @@ function DetailActionButton({ onClick }: { onClick: () => void }) {
       className={cn(
         "inline-flex h-9 w-9 items-center justify-center",
         R,
-        "bg-slate-50 text-slate-700 ring-1 ring-slate-200 transition hover:bg-white",
+        "bg-transparent text-slate-700",
+        "ring-0 shadow-none border-0",
+        "transition hover:bg-slate-900/5 hover:text-slate-900",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
       aria-label="Detail transaksi"
       title="Detail transaksi"
