@@ -130,7 +130,10 @@ function CellText({
   title?: string;
 }) {
   return (
-    <div className={cn("min-w-0 overflow-hidden text-ellipsis whitespace-nowrap", className)} title={title}>
+    <div
+      className={cn("min-w-0 overflow-hidden text-ellipsis whitespace-nowrap", className)}
+      title={title}
+    >
       {children}
     </div>
   );
@@ -173,7 +176,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ sesuai request
+  // ✅ hanya kecilkan lebar kolom (tanpa mengubah alignment header)
   const COL = {
     no: 70,
     late: 200,
@@ -265,7 +268,7 @@ export default function PenaltyDetailDialogReadOnly({
                       <th className={cn(thBase)} style={{ width: COL.tanggal }}>
                         TANGGAL
                       </th>
-                      <th className={cn(thBase, "text-right")} style={{ width: COL.denda }}>
+                      <th className={cn(thBase)} style={{ width: COL.denda }}>
                         DENDA
                       </th>
                       <th className={cn(thBase)} style={{ width: COL.status }}>
@@ -273,7 +276,7 @@ export default function PenaltyDetailDialogReadOnly({
                       </th>
                     </tr>
 
-                    <tr className="border-b border-slate-200 bg-white">
+                    <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
                       <th className="px-3 py-2" style={{ width: COL.no }} />
                       <th className="px-3 py-2" style={{ width: COL.late }} />
                       <th className="px-3 py-2" style={{ width: COL.tanggal }} />
