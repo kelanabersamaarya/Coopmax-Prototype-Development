@@ -122,6 +122,21 @@ function StatusPill({ status }: { status: TagihanStatus }) {
   );
 }
 
+// Meniru RowShell BillingTableView2 (tanpa ring active)
+function StatusRowShell({
+  children,
+  compact = true,
+}: {
+  children: React.ReactNode;
+  compact?: boolean;
+}) {
+  return (
+    <div className={cn("bg-white px-3", compact ? "py-1.5" : "py-3")}>
+      <div className="rounded-[5px] bg-white">{children}</div>
+    </div>
+  );
+}
+
 const footerH = 72;
 
 const cancelBtnStyle = cn(
@@ -178,10 +193,9 @@ export default function DaftarTagihanReadOnlyDialog({
 
   // Grace/highlight seperti sebelumnya: hanya halaman 1
   const showGrace = page === 1;
-
-  // Untuk menyelaraskan jumlah "row status" dengan row visual di BillingTableView2:
-  // BillingTableView2 tetap render 1 GracePeriodInfoRow + rows.
-  const statusRowCount = 1 + rows.length;
+  const graceCount = showGrace ? Math.min(2, rows.length) : 0;
+  const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
+  const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
   // Status per row tagihan (abaikan 1 info row); index global agar konsisten antar halaman
   const statusForRowIndex = React.useCallback(
@@ -193,6 +207,28 @@ export default function DaftarTagihanReadOnlyDialog({
   );
 
   const statusColW = 190;
+
+  // Mimic header height from BillingTableHeader (py-3)
+  const statusHeader = (
+    <div className="border-b border-slate-200 px-4 py-3">
+      <div className="text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
+        Status
+        <br />
+        Tagihan
+      </div>
+    </div>
+  );
+
+  // Mimic GracePeriodInfoRow vertical spacing a bit (it uses <td className="py-1.5"> with inner paddings)
+  const graceInfoPlaceholder = (
+    <div className="bg-white py-1.5">
+      <div className="bg-white px-1.5 py-1.5">
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 px-2.5 py-2">
+          <div className="text-[12px] font-semibold text-slate-500">—</div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -258,38 +294,61 @@ export default function DaftarTagihanReadOnlyDialog({
                       />
                     </div>
 
-                    {/* RIGHT: status column overlay (scrolls together) */}
+                    {/* RIGHT: status column (table-structured to match row heights) */}
                     <div
                       className="shrink-0 border-l border-slate-200 bg-white"
                       style={{ width: statusColW }}
                     >
-                      {/* Header height match the table header visually */}
-                      <div className="border-b border-slate-200 px-4 py-3">
-                        <div className="text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-                          Status
-                          <br />
-                          Tagihan
-                        </div>
-                      </div>
+                      {statusHeader}
 
-                      {/* Rows: include grace info row placeholder + each billing row */}
-                      <div className="divide-y divide-slate-200">
-                        {/* 1) Grace info row placeholder */}
-                        <div className="px-4 py-3">
-                          <span className="text-[12px] font-semibold text-slate-400">
-                            —
-                          </span>
-                        </div>
+                      {/* Body */}
+                      <div className="bg-white">
+                        {/* 1) Grace info row placeholder (align with GracePeriodInfoRow) */}
+                        {graceInfoPlaceholder}
 
-                        {/* 2) Billing rows */}
-                        {rows.map((r, idx) => (
-                          <div key={`${r.jatuhTempo}-status-${idx}`} className="px-4 py-3">
-                            <StatusPill status={statusForRowIndex(idx)} />
+                        {/* 2) Grace block wrapper (align with highlightGraceBlock wrapper) */}
+                        {showGrace && graceRows.length > 0 ? (
+                          <div className="border-t border-slate-200">
+                            <div className="bg-white p-0">
+                              <div className="bg-white p-2">
+                                <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
+                                  {graceRows.map((r, idx) => (
+                                    <div
+                                      key={`${r.jatuhTempo}-status-grace-${idx}`}
+                                      className={cn(
+                                        idx === 0 ? "" : "border-t border-slate-200",
+                                      )}
+                                    >
+                                      <StatusRowShell compact>
+                                        <div className="px-4 py-2.5">
+                                          <StatusPill status={statusForRowIndex(idx)} />
+                                        </div>
+                                      </StatusRowShell>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        ))}
+                        ) : null}
 
-                        {/* keep count used */}
-                        <div className="sr-only">{statusRowCount}</div>
+                        {/* 3) Remaining rows (match RowShell + row divider) */}
+                        {afterGraceRows.map((r, idx) => {
+                          const rowIndex = graceCount + idx;
+
+                          return (
+                            <div
+                              key={`${r.jatuhTempo}-status-${rowIndex}`}
+                              className="border-t border-slate-200"
+                            >
+                              <StatusRowShell compact>
+                                <div className="px-4 py-2.5">
+                                  <StatusPill status={statusForRowIndex(rowIndex)} />
+                                </div>
+                              </StatusRowShell>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
