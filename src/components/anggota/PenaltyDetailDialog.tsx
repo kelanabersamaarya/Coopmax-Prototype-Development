@@ -267,14 +267,14 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Kolom dibuat jauh lebih sempit supaya "kerasa" perubahan width
-  const W = {
-    no: "w-[38px]",
-    late: "w-[120px]",
-    tanggal: "w-[96px]",
-    denda: "w-[86px]",
-    status: "w-[120px]",
-    aksi: "w-[92px]",
+  // ✅ Kolom dikunci via colgroup supaya benar-benar berubah
+  const COL = {
+    no: 34,
+    late: 110,
+    tanggal: 90,
+    denda: 76,
+    status: 112,
+    aksi: 86,
   } as const;
 
   // ✅ Padding diperkecil
@@ -283,7 +283,6 @@ export default function PenaltyDetailDialog({
   const tdBase =
     "px-2 py-2 text-[12.5px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
-  // ✅ Select filter diperkecil + padding rapat
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
     "text-[12.5px] font-semibold text-slate-700 shadow-none",
@@ -427,16 +426,24 @@ export default function PenaltyDetailDialog({
 
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  {/* ✅ min-width diperkecil agar kolom tidak “melebar” */}
-                  <table className="w-full min-w-[560px] table-fixed border-collapse border-l border-slate-300">
+                  <table className="w-full min-w-[520px] table-fixed border-collapse border-l border-slate-300">
+                    <colgroup>
+                      <col style={{ width: COL.no }} />
+                      <col style={{ width: COL.late }} />
+                      <col style={{ width: COL.tanggal }} />
+                      <col style={{ width: COL.denda }} />
+                      <col style={{ width: COL.status }} />
+                      <col style={{ width: COL.aksi }} />
+                    </colgroup>
+
                     <thead className="bg-white">
                       <tr className="text-left">
-                        <th className={cn(W.no, thBase)}>NO.</th>
-                        <th className={cn(W.late, thBase)}>KETERLAMBATAN</th>
-                        <th className={cn(W.tanggal, thBase)}>TANGGAL</th>
-                        <th className={cn(W.denda, thBase)}>DENDA</th>
-                        <th className={cn(W.status, thBase)}>STATUS</th>
-                        <th className={cn(W.aksi, thBase)}>AKSI</th>
+                        <th className={cn(thBase)}>NO.</th>
+                        <th className={cn(thBase)}>KETERLAMBATAN</th>
+                        <th className={cn(thBase)}>TANGGAL</th>
+                        <th className={cn(thBase)}>DENDA</th>
+                        <th className={cn(thBase)}>STATUS</th>
+                        <th className={cn(thBase)}>AKSI</th>
                       </tr>
 
                       <tr className="border-b border-slate-300 bg-white">
@@ -512,11 +519,6 @@ export default function PenaltyDetailDialog({
                               ? "Dibatalkan"
                               : String(lateDays);
 
-                          const keterlambatanCls = cn(
-                            "px-2 py-2 text-[12.5px] font-normal text-slate-900",
-                            "whitespace-nowrap",
-                          );
-
                           return (
                             <tr
                               key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
@@ -525,19 +527,21 @@ export default function PenaltyDetailDialog({
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                               )}
                             >
-                              <td className={cn(tdBase, "w-[38px]")}>{idx + 1}</td>
+                              <td className={cn(tdBase)}>{idx + 1}</td>
 
-                              <td className={keterlambatanCls}>{keterlambatanText}</td>
-
-                              <td className={cn(tdBase, "w-[96px]")}>
-                                {r.tanggalKeterlambatan}
+                              <td className={cn("px-2 py-2 text-[12.5px] text-slate-900")}>
+                                <div className="line-clamp-2 leading-snug">
+                                  {keterlambatanText}
+                                </div>
                               </td>
+
+                              <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
 
                               <td className="px-2 py-2 text-right text-[12.5px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
-                              <td className="px-2 py-2 text-[12.5px] font-normal text-slate-900">
+                              <td className="px-2 py-2 text-[12.5px] text-slate-900">
                                 <div className="flex items-center gap-2">
                                   <StatusPill status={r.status} />
                                   {statusInfoRows.length > 0 ? (
