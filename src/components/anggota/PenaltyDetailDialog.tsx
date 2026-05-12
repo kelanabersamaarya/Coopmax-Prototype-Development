@@ -156,7 +156,7 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-8 items-center justify-center px-2.5",
+        "inline-flex h-8 items-center justify-center px-2",
         "rounded-[8px]",
         "bg-rose-600 text-white",
         "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
@@ -271,14 +271,14 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Kolom AKSI diperkecil + padding AKSI dirapatkan
+  // ✅ Perkecil lagi: kolom AKSI jadi lebih kecil
   const COL = {
     no: 44,
     late: 170,
     tanggal: 120,
     denda: 110,
     status: 160,
-    aksi: 130,
+    aksi: 118,
   } as const;
 
   const thBase =
