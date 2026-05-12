@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { CheckSquare, X } from "lucide-react";
 import { toast } from "sonner";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
 
 const R = "rounded-[5px]";
 
@@ -21,6 +22,15 @@ function toDmyFromIso(iso: string) {
 function getTodayDmy() {
   const todayIso = new Date().toISOString().slice(0, 10);
   return toDmyFromIso(todayIso);
+}
+
+function parseIdrLike(input: string) {
+  const s = (input ?? "").trim();
+  if (!s) return 0;
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
 }
 
 function FieldRow({
@@ -50,15 +60,17 @@ export default function PenaltyAddReasonDialog({
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
-  onConfirm: (reason: string, date: string) => void;
+  onConfirm: (reason: string, date: string, nominalDenda: string) => void;
 }) {
   const [reason, setReason] = React.useState("");
   const [date, setDate] = React.useState(getTodayDmy());
+  const [nominalDenda, setNominalDenda] = React.useState<string>("0,00");
 
   React.useEffect(() => {
     if (!open) return;
     setReason("");
     setDate(getTodayDmy());
+    setNominalDenda("0,00");
   }, [open]);
 
   const footerBtnBase = cn(
@@ -123,6 +135,15 @@ export default function PenaltyAddReasonDialog({
                 />
               </FieldRow>
 
+              <FieldRow label="Nominal denda" required>
+                <RupiahMoneyInput
+                  value={nominalDenda}
+                  onChange={setNominalDenda}
+                  placeholder="0,00"
+                  aria-label="Nominal denda"
+                />
+              </FieldRow>
+
               <FieldRow label="Alasan penambahan" required>
                 <Textarea
                   value={reason}
@@ -169,6 +190,14 @@ export default function PenaltyAddReasonDialog({
                     });
                     return;
                   }
+
+                  if (parseIdrLike(nominalDenda) <= 0) {
+                    toast("Nominal denda wajib diisi", {
+                      description: "Mohon masukkan nominal denda (> 0).",
+                    });
+                    return;
+                  }
+
                   if (!reason.trim()) {
                     toast("Alasan wajib diisi", {
                       description:
@@ -176,7 +205,8 @@ export default function PenaltyAddReasonDialog({
                     });
                     return;
                   }
-                  onConfirm(reason.trim(), date.trim());
+
+                  onConfirm(reason.trim(), date.trim(), nominalDenda.trim());
                   onOpenChange(false);
                   // ❌ sengaja tidak menampilkan toast sukses (sesuai request)
                 }}

@@ -295,10 +295,10 @@ export default function PenaltyDetailDialog({
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={setAddOpen}
-        onConfirm={(reason, date) => {
+        onConfirm={(reason, date, nominalDenda) => {
           setAddedPenalties((prev) => [
             ...prev,
-            { tanggalKeterlambatan: date, nominalDenda: "25.000" },
+            { tanggalKeterlambatan: date, nominalDenda },
           ]);
 
           const key = metaKeyForAddedRow(addedPenalties.length);
@@ -308,7 +308,7 @@ export default function PenaltyDetailDialog({
           }));
 
           toast("Denda ditambahkan (prototype)", {
-            description: `${date} • 25.000`,
+            description: `${date} • ${nominalDenda}`,
           });
         }}
       />
@@ -549,7 +549,6 @@ export default function PenaltyDetailDialog({
 
                               <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
 
-                              {/* ✅ DENDA: bukan bold */}
                               <td className="px-2 py-2 text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
