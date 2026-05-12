@@ -267,20 +267,23 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Sesuai permintaan user (pakai colgroup biar benar-benar ngunci)
+  // ✅ Set kolom NO jadi 70px (dan kecilkan padding NO agar terlihat berubah)
   const COL = {
     no: 70,
     late: 200,
     tanggal: 160,
     denda: 140,
     status: 160,
-    aksi: 86, // tidak diminta, biarkan tetap kompak
+    aksi: 86,
   } as const;
 
   const thBase =
     "px-2 pb-2 pt-2.5 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
     "px-2 py-2 text-[12.5px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+
+  const thNo = cn(thBase, "px-1.5 w-[70px] max-w-[70px]");
+  const tdNo = cn(tdBase, "px-1.5 w-[70px] max-w-[70px]");
 
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
@@ -448,7 +451,7 @@ export default function PenaltyDetailDialog({
 
                     <thead className="bg-white">
                       <tr className="text-left">
-                        <th className={cn(thBase)}>NO.</th>
+                        <th className={thNo}>NO.</th>
                         <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
                         <th className={cn(thBase)}>TANGGAL</th>
                         <th className={cn(thBase)}>DENDA</th>
@@ -457,7 +460,7 @@ export default function PenaltyDetailDialog({
                       </tr>
 
                       <tr className="border-b border-slate-300 bg-white">
-                        <th className="px-2 py-1.5" />
+                        <th className="px-1.5 py-1.5" />
                         <th className="px-2 py-1.5" />
                         <th className="px-2 py-1.5" />
                         <th className="px-2 py-1.5" />
@@ -537,7 +540,7 @@ export default function PenaltyDetailDialog({
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                               )}
                             >
-                              <td className={cn(tdBase)}>{idx + 1}</td>
+                              <td className={tdNo}>{idx + 1}</td>
 
                               <td className={cn("px-2 py-2 text-[12.5px] text-slate-900")}>
                                 <div className="line-clamp-2 leading-snug">
