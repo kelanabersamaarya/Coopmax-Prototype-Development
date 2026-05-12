@@ -156,16 +156,16 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 items-center justify-center px-3",
-        "rounded-[10px]",
+        "inline-flex h-8 items-center justify-center px-2.5",
+        "rounded-[8px]",
         "bg-rose-600 text-white",
         "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
-        "text-[13px] font-semibold",
+        "text-[12.5px] font-semibold",
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-rose-600/20",
         "whitespace-nowrap",
       )}
     >
-      Batalkan Denda
+      Batalkan
     </button>
   );
 }
@@ -267,24 +267,26 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Lebar kolom diperkecil (match screenshot yang diminta)
+  // ✅ Kolom dibuat jauh lebih sempit supaya "kerasa" perubahan width
   const W = {
-    no: "w-[44px]",
-    late: "w-[150px]",
-    tanggal: "w-[110px]",
-    denda: "w-[96px]",
-    status: "w-[140px]",
-    aksi: "w-[120px]",
+    no: "w-[38px]",
+    late: "w-[120px]",
+    tanggal: "w-[96px]",
+    denda: "w-[86px]",
+    status: "w-[120px]",
+    aksi: "w-[92px]",
   } as const;
 
+  // ✅ Padding diperkecil
   const thBase =
-    "px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+    "px-2 pb-2 pt-2.5 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
-    "px-3 py-2.5 text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+    "px-2 py-2 text-[12.5px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
+  // ✅ Select filter diperkecil + padding rapat
   const filterSelectCls = cn(
-    "h-9 w-full rounded-[8px] border border-slate-200 bg-white px-3",
-    "text-[14px] font-semibold text-slate-900 shadow-none",
+    "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
+    "text-[12.5px] font-semibold text-slate-700 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
@@ -412,24 +414,25 @@ export default function PenaltyDetailDialog({
                   type="button"
                   onClick={() => setAddOpen(true)}
                   className={cn(
-                    "inline-flex h-10 items-center justify-center gap-2 px-4",
+                    "inline-flex h-9 items-center justify-center gap-2 px-3.5",
                     "rounded-[5px] bg-[#2563eb] text-white",
                     "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
-                    "text-[14px] font-semibold",
+                    "text-[13px] font-semibold",
                   )}
                 >
-                  <Plus className="h-5 w-5" />
+                  <Plus className="h-4.5 w-4.5" />
                   Tambah Denda
                 </button>
               </div>
 
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
+                  {/* ✅ min-width diperkecil agar kolom tidak “melebar” */}
+                  <table className="w-full min-w-[560px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
                         <th className={cn(W.no, thBase)}>NO.</th>
-                        <th className={cn(W.late, thBase)}>KETERLAMBATAN (HARI)</th>
+                        <th className={cn(W.late, thBase)}>KETERLAMBATAN</th>
                         <th className={cn(W.tanggal, thBase)}>TANGGAL</th>
                         <th className={cn(W.denda, thBase)}>DENDA</th>
                         <th className={cn(W.status, thBase)}>STATUS</th>
@@ -437,11 +440,11 @@ export default function PenaltyDetailDialog({
                       </tr>
 
                       <tr className="border-b border-slate-300 bg-white">
-                        <th className="px-3 py-2" />
-                        <th className="px-3 py-2" />
-                        <th className="px-3 py-2" />
-                        <th className="px-3 py-2" />
-                        <th className="px-3 pt-1 pb-2">
+                        <th className="px-2 py-1.5" />
+                        <th className="px-2 py-1.5" />
+                        <th className="px-2 py-1.5" />
+                        <th className="px-2 py-1.5" />
+                        <th className="px-2 pt-1 pb-2">
                           <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
@@ -452,7 +455,7 @@ export default function PenaltyDetailDialog({
                             <option value="Dibatalkan">Dibatalkan</option>
                           </select>
                         </th>
-                        <th className="px-3 py-2" />
+                        <th className="px-2 py-1.5" />
                       </tr>
                     </thead>
 
@@ -470,7 +473,6 @@ export default function PenaltyDetailDialog({
                         filteredRows.map((r, idx) => {
                           const isAdded = r.source === "added";
                           const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
-
                           const isCanceled = r.status === "Dibatalkan";
 
                           const statusInfoRows: Array<{ k: string; v: string }> = (() => {
@@ -505,16 +507,14 @@ export default function PenaltyDetailDialog({
                           })();
 
                           const keterlambatanText = isAdded
-                            ? "Denda ditambahkan secara manual"
+                            ? "Manual"
                             : isCanceled
-                              ? "Denda Dibatalkan Secara Manual"
+                              ? "Dibatalkan"
                               : String(lateDays);
 
                           const keterlambatanCls = cn(
-                            "px-3 py-2.5 text-[13px] font-normal text-slate-900",
-                            isAdded || isCanceled
-                              ? "whitespace-normal leading-snug"
-                              : "tabular-nums whitespace-nowrap",
+                            "px-2 py-2 text-[12.5px] font-normal text-slate-900",
+                            "whitespace-nowrap",
                           );
 
                           return (
@@ -525,19 +525,19 @@ export default function PenaltyDetailDialog({
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                               )}
                             >
-                              <td className={cn(tdBase, "w-[44px]")}>{idx + 1}</td>
+                              <td className={cn(tdBase, "w-[38px]")}>{idx + 1}</td>
 
                               <td className={keterlambatanCls}>{keterlambatanText}</td>
 
-                              <td className={cn(tdBase, "w-[110px]")}>
+                              <td className={cn(tdBase, "w-[96px]")}>
                                 {r.tanggalKeterlambatan}
                               </td>
 
-                              <td className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-2 py-2 text-right text-[12.5px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
-                              <td className="px-3 py-2.5">
+                              <td className="px-2 py-2 text-[12.5px] font-normal text-slate-900">
                                 <div className="flex items-center gap-2">
                                   <StatusPill status={r.status} />
                                   {statusInfoRows.length > 0 ? (
@@ -549,7 +549,7 @@ export default function PenaltyDetailDialog({
                                 </div>
                               </td>
 
-                              <td className="px-3 py-2.5">
+                              <td className="px-2 py-2">
                                 <div className="flex justify-start">
                                   {r.status === "Aktif" ? (
                                     <CancelPenaltyButton
@@ -573,18 +573,18 @@ export default function PenaltyDetailDialog({
                       <tr className="border-t border-slate-300 bg-white">
                         <td
                           colSpan={3}
-                          className="px-3 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
+                          className="px-2 py-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-900"
                         >
                           TOTAL DENDA
                         </td>
 
-                        <td className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        <td className="px-2 py-2 text-right text-[12.5px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
 
-                        <td className="px-3 py-2.5" />
+                        <td className="px-2 py-2" />
 
-                        <td className="px-3 py-2.5" />
+                        <td className="px-2 py-2" />
                       </tr>
                     </tbody>
                   </table>
