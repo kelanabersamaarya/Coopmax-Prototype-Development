@@ -232,10 +232,12 @@ export default function PenaltyDetailDialogReadOnly({
             className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
-            <div className="w-full rounded-[5px] bg-white ring-1 ring-slate-300">
+            {/* ✅ Single source of truth: border + radius + clipping di sini */}
+            <div className="w-full overflow-hidden rounded-[14px] border border-slate-300 bg-white">
+              {/* scroll-x tetap ada, tapi ikut ter-clip oleh overflow-hidden parent */}
               <div className="safe-x-scroll w-full bg-white">
                 <table className="w-full min-w-[640px] border-collapse">
-                  <thead className="bg-white">
+                  <thead className="bg-slate-50">
                     <tr className="border-b border-slate-200">
                       <th className={cn(headerWrapCls, "w-[72px]")}>NO.</th>
                       <th className={cn(headerWrapCls, "w-[240px]")}>
@@ -337,7 +339,10 @@ export default function PenaltyDetailDialogReadOnly({
                     )}
 
                     <tr className="border-t border-slate-200 bg-white">
-                      <td colSpan={3} className="px-4 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <td
+                        colSpan={3}
+                        className="px-4 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
+                      >
                         TOTAL DENDA
                       </td>
 
