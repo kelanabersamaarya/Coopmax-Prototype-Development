@@ -386,14 +386,13 @@ export default function PenaltyDetailDialog({
               className="overflow-auto px-6 py-5"
               style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
             >
-              {/* ✅ tombol dipindah ke sini: tepat bawah divider header, di atas tabel */}
               <div className="mb-3 flex justify-end">
                 <button
                   type="button"
                   onClick={() => setAddOpen(true)}
                   className={cn(
                     "inline-flex h-10 items-center justify-center gap-2 px-4",
-                    "rounded-full bg-[#2563eb] text-white",
+                    "rounded-[5px] bg-[#2563eb] text-white",
                     "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
                     "text-[14px] font-semibold",
                   )}
