@@ -182,13 +182,13 @@ export default function PenaltyDetailDialogReadOnly({
   const COL = {
     no: 65,
     late: 200,
-    tanggal: 120, // ✅ dari 160 -> 120
+    tanggal: 120,
     denda: 140,
     status: 170,
   } as const;
 
   const tableMinWidth =
-    COL.no + COL.late + COL.tanggal + COL.denda + COL.status; // 695
+    COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
 
   const headerWrapCls =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
@@ -215,8 +215,9 @@ export default function PenaltyDetailDialogReadOnly({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
+          // ✅ lebih kecil & simetris dengan tabel (mirip screenshot)
           "w-[calc(100vw-1.25rem)]",
-          "sm:w-[780px] sm:max-w-[780px]",
+          "sm:w-[860px] sm:max-w-[860px]",
           "max-h-[80vh]",
           "overflow-hidden",
           R,
@@ -263,6 +264,8 @@ export default function PenaltyDetailDialogReadOnly({
                     "inline-block w-fit max-w-full overflow-hidden",
                     R,
                     "bg-white ring-1 ring-slate-300",
+                    // ✅ border kiri tabel terlihat jelas (sebelumnya seperti hilang)
+                    "border-l border-slate-300",
                   )}
                 >
                   <div className="safe-x-scroll w-full bg-white">
