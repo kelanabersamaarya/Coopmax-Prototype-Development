@@ -124,14 +124,6 @@ function toIdr00(v: string) {
   return s;
 }
 
-function RowShell({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="bg-white px-3 py-1.5">
-      <div className="rounded-[5px] bg-white">{children}</div>
-    </div>
-  );
-}
-
 function RightNum({ value }: { value: string }) {
   return (
     <NumericCell align="right" className="w-full">
@@ -141,6 +133,113 @@ function RightNum({ value }: { value: string }) {
 }
 
 const STATUS_COL_W = 140;
+
+function Td({
+  children,
+  className,
+  align = "left",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  align?: "left" | "right";
+}) {
+  return (
+    <td
+      className={cn(
+        "px-4 py-3 text-[13px] font-medium text-slate-900",
+        align === "right" ? "text-right tabular-nums whitespace-nowrap" : "text-left",
+        className,
+      )}
+    >
+      {children}
+    </td>
+  );
+}
+
+function TrShell({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  // compact row feel like BillingTableView2: keep background clean
+  return <tr className={cn("border-t border-slate-200", className)}>{children}</tr>;
+}
+
+function InnerTable({
+  rows,
+  startGlobalIndex,
+  showGraceInfoRow,
+  colCount,
+  onOpenPenalty,
+}: {
+  rows: BillingRow[];
+  startGlobalIndex: number;
+  showGraceInfoRow: boolean;
+  colCount: number;
+  onOpenPenalty: (due: string) => void;
+}) {
+  return (
+    <table className="w-full border-collapse text-[13px]">
+      <tbody className="bg-white">
+        {showGraceInfoRow ? <GracePeriodInfoRow colSpan={colCount} noBorder /> : null}
+
+        {rows.map((r, idx) => {
+          const globalIdx = startGlobalIndex + idx;
+          const status = statusForIndex(globalIdx);
+          const showPenalty = globalIdx < PENALTY_ROWS;
+
+          return (
+            <tr
+              key={`${r.jatuhTempo}-${globalIdx}`}
+              className={cn(idx === 0 && showGraceInfoRow ? "border-t border-slate-200" : idx === 0 ? "" : "border-t border-slate-200")}
+            >
+              <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+                {r.jatuhTempo}
+              </Td>
+
+              <Td className="w-[128px]" align="right">
+                <RightNum value={r.totalBelumDibayar} />
+              </Td>
+
+              <Td className="w-[130px]" align="right">
+                <RightNum value={r.tagihanPokok} />
+              </Td>
+
+              <Td className="w-[120px]" align="right">
+                <RightNum value={r.tagihanBunga} />
+              </Td>
+
+              <Td className="w-[140px] pr-6" align="right">
+                <RightNum value={r.sisaPokok} />
+              </Td>
+
+              <Td className="w-[140px] pr-6" align="right">
+                <RightNum value={r.sisaBunga} />
+              </Td>
+
+              <Td className="w-[130px] pr-1" align="right">
+                {showPenalty ? (
+                  <div className="flex items-center justify-end gap-2">
+                    <span className="num-sans-tabular">
+                      {formatIdrLike(PENALTY_AMOUNT)}
+                    </span>
+                    <PenaltyInfoButton onClick={() => onOpenPenalty(r.jatuhTempo)} />
+                  </div>
+                ) : null}
+              </Td>
+
+              <Td style={{ width: STATUS_COL_W }}>
+                <StatusPill status={status} />
+              </Td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
 
 export default function BillingTableWithStatus({
   rows,
@@ -156,88 +255,15 @@ export default function BillingTableWithStatus({
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
-  const showPenaltyColumn = true;
-  const hideSelection = true;
-
-  const colCount = (hideSelection ? 6 : 7) + (showPenaltyColumn ? 1 : 0) + 1;
+  const colCount = 8;
 
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
   const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
 
-  const rowDivider = "border-t border-slate-200";
-
   function openPenalty(dueDateDmy: string) {
     setPenaltyRows(buildPenaltyDetailRows(dueDateDmy));
     setPenaltyOpen(true);
-  }
-
-  function StatusCell({ status }: { status: TagihanStatus }) {
-    return (
-      <div className="px-3 py-2.5">
-        <StatusPill status={status} />
-      </div>
-    );
-  }
-
-  function RowContent({
-    r,
-    localIdx,
-    globalIdx,
-  }: {
-    r: BillingRow;
-    localIdx: number;
-    globalIdx: number;
-  }) {
-    const status = statusForIndex(globalIdx);
-
-    return (
-      <RowShell>
-        <div
-          className={cn(
-            "grid items-center",
-            `[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)_${STATUS_COL_W}px]`,
-          )}
-        >
-          <div className="px-4 py-2.5 text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
-            {r.jatuhTempo}
-          </div>
-
-          <div className="px-4 py-2.5 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
-            <RightNum value={r.totalBelumDibayar} />
-          </div>
-
-          <div className="px-4 py-2.5 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
-            <RightNum value={r.tagihanPokok} />
-          </div>
-
-          <div className="px-4 py-2.5 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
-            <RightNum value={r.tagihanBunga} />
-          </div>
-
-          <div className="px-4 py-2.5 pr-6 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
-            <RightNum value={r.sisaPokok} />
-          </div>
-
-          <div className="px-4 py-2.5 pr-6 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
-            <RightNum value={r.sisaBunga} />
-          </div>
-
-          <div className="px-4 py-2.5 pr-1 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
-            {globalIdx < PENALTY_ROWS ? (
-              <div className="flex items-center justify-end gap-2">
-                <span className="num-sans-tabular">{formatIdrLike(PENALTY_AMOUNT)}</span>
-                <PenaltyInfoButton onClick={() => openPenalty(r.jatuhTempo)} />
-              </div>
-            ) : null}
-          </div>
-
-          <StatusCell status={status} />
-
-          <div className="sr-only">{localIdx}</div>
-        </div>
-      </RowShell>
-    );
   }
 
   const thBase =
@@ -310,54 +336,76 @@ export default function BillingTableWithStatus({
           <tbody className="bg-white">
             {rows.length === 0 ? (
               <tr>
-                <td
-                  colSpan={colCount}
-                  className="px-4 py-10 text-center text-sm text-slate-600"
-                >
+                <td colSpan={colCount} className="px-4 py-10 text-center text-sm text-slate-600">
                   Tidak ada data.
                 </td>
               </tr>
             ) : showGraceHighlight && graceRows.length > 0 ? (
               <>
-                <tr className={rowDivider}>
+                {/* Grace wrapper block: still one unit, but inside is a real table too */}
+                <TrShell>
                   <td colSpan={colCount} className="p-0">
-                    <div className="bg-white p-0">
+                    <div className="bg-white p-2">
                       <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
-                        <div className="p-1">
-                          <table className="w-full border-collapse text-[13px]">
-                            <tbody className="bg-white">
-                              <GracePeriodInfoRow colSpan={colCount} noBorder />
-                            </tbody>
-                          </table>
-                        </div>
-
-                        {graceRows.map((r, idx) => (
-                          <div
-                            key={`grace-${r.jatuhTempo}-${idx}`}
-                            className={cn(idx === 0 ? "" : "border-t border-slate-200")}
-                          >
-                            <RowContent
-                              r={r}
-                              localIdx={idx}
-                              globalIdx={penaltyIndexOffset + idx}
-                            />
-                          </div>
-                        ))}
+                        <InnerTable
+                          rows={graceRows}
+                          startGlobalIndex={penaltyIndexOffset}
+                          showGraceInfoRow={true}
+                          colCount={colCount}
+                          onOpenPenalty={openPenalty}
+                        />
                       </div>
                     </div>
                   </td>
-                </tr>
+                </TrShell>
 
                 {afterGraceRows.map((r, idx) => {
                   const rowIndex = graceCount + idx;
                   const globalIdx = penaltyIndexOffset + rowIndex;
+                  const status = statusForIndex(globalIdx);
+                  const showPenalty = globalIdx < PENALTY_ROWS;
 
                   return (
-                    <tr key={`${r.jatuhTempo}-${rowIndex}`} className={rowDivider}>
-                      <td colSpan={colCount} className="p-0">
-                        <RowContent r={r} localIdx={rowIndex} globalIdx={globalIdx} />
-                      </td>
-                    </tr>
+                    <TrShell key={`${r.jatuhTempo}-${rowIndex}`}>
+                      <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+                        {r.jatuhTempo}
+                      </Td>
+
+                      <Td className="w-[128px]" align="right">
+                        <RightNum value={r.totalBelumDibayar} />
+                      </Td>
+
+                      <Td className="w-[130px]" align="right">
+                        <RightNum value={r.tagihanPokok} />
+                      </Td>
+
+                      <Td className="w-[120px]" align="right">
+                        <RightNum value={r.tagihanBunga} />
+                      </Td>
+
+                      <Td className="w-[140px] pr-6" align="right">
+                        <RightNum value={r.sisaPokok} />
+                      </Td>
+
+                      <Td className="w-[140px] pr-6" align="right">
+                        <RightNum value={r.sisaBunga} />
+                      </Td>
+
+                      <Td className="w-[130px] pr-1" align="right">
+                        {showPenalty ? (
+                          <div className="flex items-center justify-end gap-2">
+                            <span className="num-sans-tabular">
+                              {formatIdrLike(PENALTY_AMOUNT)}
+                            </span>
+                            <PenaltyInfoButton onClick={() => openPenalty(r.jatuhTempo)} />
+                          </div>
+                        ) : null}
+                      </Td>
+
+                      <Td style={{ width: STATUS_COL_W }}>
+                        <StatusPill status={status} />
+                      </Td>
+                    </TrShell>
                   );
                 })}
               </>
@@ -365,24 +413,61 @@ export default function BillingTableWithStatus({
               <>
                 <GracePeriodInfoRow colSpan={colCount} />
 
-                {rows.map((r, idx) => (
-                  <tr key={`${r.jatuhTempo}-${idx}`} className={rowDivider}>
-                    <td colSpan={colCount} className="p-0">
-                      <RowContent
-                        r={r}
-                        localIdx={idx}
-                        globalIdx={penaltyIndexOffset + idx}
-                      />
-                    </td>
-                  </tr>
-                ))}
+                {rows.map((r, idx) => {
+                  const globalIdx = penaltyIndexOffset + idx;
+                  const status = statusForIndex(globalIdx);
+                  const showPenalty = globalIdx < PENALTY_ROWS;
+
+                  return (
+                    <TrShell key={`${r.jatuhTempo}-${idx}`}>
+                      <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+                        {r.jatuhTempo}
+                      </Td>
+
+                      <Td className="w-[128px]" align="right">
+                        <RightNum value={r.totalBelumDibayar} />
+                      </Td>
+
+                      <Td className="w-[130px]" align="right">
+                        <RightNum value={r.tagihanPokok} />
+                      </Td>
+
+                      <Td className="w-[120px]" align="right">
+                        <RightNum value={r.tagihanBunga} />
+                      </Td>
+
+                      <Td className="w-[140px] pr-6" align="right">
+                        <RightNum value={r.sisaPokok} />
+                      </Td>
+
+                      <Td className="w-[140px] pr-6" align="right">
+                        <RightNum value={r.sisaBunga} />
+                      </Td>
+
+                      <Td className="w-[130px] pr-1" align="right">
+                        {showPenalty ? (
+                          <div className="flex items-center justify-end gap-2">
+                            <span className="num-sans-tabular">
+                              {formatIdrLike(PENALTY_AMOUNT)}
+                            </span>
+                            <PenaltyInfoButton onClick={() => openPenalty(r.jatuhTempo)} />
+                          </div>
+                        ) : null}
+                      </Td>
+
+                      <Td style={{ width: STATUS_COL_W }}>
+                        <StatusPill status={status} />
+                      </Td>
+                    </TrShell>
+                  );
+                })}
               </>
             )}
           </tbody>
         </table>
 
         <div className="sr-only">
-          <StatusPill status="Belum Dibayar" />
+          <RightNum value="0,00" />
         </div>
       </div>
     </div>
