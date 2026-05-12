@@ -271,12 +271,13 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
+  // ✅ Perkecil kolom STATUS
   const COL = {
     no: 44,
     late: 170,
     tanggal: 120,
     denda: 110,
-    status: 160,
+    status: 132,
     aksi: 104,
   } as const;
 
@@ -285,7 +286,6 @@ export default function PenaltyDetailDialog({
   const tdBase =
     "px-2 py-2 text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
-  // ✅ Tambah sedikit padding kiri kolom NO (header & body)
   const thNo = cn(thBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
   const tdNo = cn(tdBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
 
