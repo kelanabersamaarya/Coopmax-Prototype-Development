@@ -154,11 +154,25 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ padding lebih rapat biar semua kolom terasa lebih kecil
+  // ✅ ukuran sesuai request
+  const COL = {
+    no: 70,
+    late: 200,
+    tanggal: 160,
+    denda: 140,
+    status: 160,
+  } as const;
+
   const thBase =
     "px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
     "px-3 py-2.5 text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+
+  const filterSelectCls = cn(
+    "h-8 w-full rounded-[5px] border border-slate-200 bg-white px-2",
+    "text-[13px] font-semibold text-slate-700 shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -207,21 +221,28 @@ export default function PenaltyDetailDialogReadOnly({
           >
             <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
               <div className="safe-x-scroll bg-white">
-                {/* ✅ min-width diperkecil + semua kolom dibuat lebih sempit */}
-                <table className="w-full min-w-[460px] table-fixed border-collapse border-l border-slate-300">
+                <table
+                  className="w-full table-fixed border-collapse border-l border-slate-300"
+                  style={{
+                    minWidth:
+                      COL.no + COL.late + COL.tanggal + COL.denda + COL.status,
+                  }}
+                >
+                  <colgroup>
+                    <col style={{ width: COL.no }} />
+                    <col style={{ width: COL.late }} />
+                    <col style={{ width: COL.tanggal }} />
+                    <col style={{ width: COL.denda }} />
+                    <col style={{ width: COL.status }} />
+                  </colgroup>
+
                   <thead className="bg-white">
                     <tr className="text-left">
-                      <th className={cn("w-[44px]", thBase)}>NO.</th>
-
-                      <th className={cn("w-[120px]", thBase)}>
-                        KETERLAMBATAN (HARI)
-                      </th>
-
-                      <th className={cn("w-[92px]", thBase)}>TANGGAL</th>
-
-                      <th className={cn("w-[78px]", thBase)}>DENDA</th>
-
-                      <th className={cn("w-[86px]", thBase)}>STATUS</th>
+                      <th className={cn(thBase)}>NO.</th>
+                      <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
+                      <th className={cn(thBase)}>TANGGAL</th>
+                      <th className={cn(thBase)}>DENDA</th>
+                      <th className={cn(thBase)}>STATUS</th>
                     </tr>
 
                     <tr className="border-b border-slate-300 bg-white">
@@ -233,12 +254,10 @@ export default function PenaltyDetailDialogReadOnly({
                         <div className="relative">
                           <select
                             value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
-                            className={cn(
-                              "h-8 w-full rounded-[5px] border border-slate-200 bg-white px-2",
-                              "text-[13px] font-semibold text-slate-700 shadow-none",
-                              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-                            )}
+                            onChange={(e) =>
+                              setStatusFilter(e.target.value as StatusValue)
+                            }
+                            className={filterSelectCls}
                           >
                             <option value="Semua">-- Semua --</option>
                             <option value="Aktif">Aktif</option>
@@ -262,6 +281,7 @@ export default function PenaltyDetailDialogReadOnly({
                     ) : (
                       filteredRows.map((r, idx) => {
                         const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
+
                         const statusInfoRows: Array<{ k: string; v: string }> =
                           r.status === "Dibatalkan"
                             ? [
@@ -282,24 +302,21 @@ export default function PenaltyDetailDialogReadOnly({
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
-                            <td className={cn("w-[44px]", tdBase)}>{idx + 1}</td>
+                            <td className={cn(tdBase)}>{idx + 1}</td>
 
-                            <td className={cn("w-[120px]", tdBase)}>{lateDays}</td>
+                            <td className={cn(tdBase)}>{lateDays}</td>
 
-                            <td className={cn("w-[92px]", tdBase)}>
-                              {r.tanggalKeterlambatan}
-                            </td>
+                            <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
 
                             <td
                               className={cn(
-                                "w-[78px]",
                                 "px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                             >
                               {r.nominalDenda}
                             </td>
 
-                            <td className={cn("w-[86px]", "px-3 py-2.5")}>
+                            <td className={cn("px-3 py-2.5")}>
                               <div className="flex items-center gap-2">
                                 <StatusPill status={r.status} />
                                 {statusInfoRows.length > 0 ? (
