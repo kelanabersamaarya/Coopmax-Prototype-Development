@@ -28,8 +28,6 @@ function formatIdrLike(n: number) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-const R = "rounded-[5px]";
-
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
 
 type RowWithMeta = PenaltyDetailRow & {
@@ -179,41 +177,16 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  const COL = {
-    no: 65,
-    late: 200,
-    tanggal: 120,
-    denda: 140,
-    status: 170,
-  } as const;
-
-  const baseTableWidth =
-    COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
-
-  // ✅ tambahan lebar agar area padding kanan ikut dihitung sebagai "konten" scroll
-  const RIGHT_GUTTER_PX = 24;
-  const tableMinWidth = baseTableWidth + RIGHT_GUTTER_PX;
-
   const headerWrapCls =
-    "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
-  const bodyWrapCls = "px-2 py-2.5 text-[12px] font-normal text-slate-900";
-  const bodyWrapRightCls = "px-2 py-2.5 text-right tabular-nums whitespace-nowrap";
-
-  const thBase = "px-0";
-  const tdBase = "px-0";
+    "px-4 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
+  const bodyWrapCls = "px-4 py-3 text-[12px] font-normal text-slate-900";
+  const bodyWrapRightCls = "px-4 py-3 text-right tabular-nums whitespace-nowrap";
 
   const filterSelectCls = cn(
     "h-10 w-full rounded-[10px] border border-slate-200 bg-white px-3",
     "text-[13px] font-semibold text-slate-800 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
-
-  const colStyle = (w: number) =>
-    ({
-      width: `${w}px`,
-      minWidth: `${w}px`,
-      maxWidth: `${w}px`,
-    }) as React.CSSProperties;
 
   const contentPadX = "px-6";
 
@@ -259,76 +232,39 @@ export default function PenaltyDetailDialogReadOnly({
             className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
-            <div className={cn("w-full rounded-[5px] bg-white ring-1 ring-slate-300")}>
-              {/* ✅ Safe-x-scroll tetap, hanya tambah padding kanan */}
-              <div
-                className={cn("safe-x-scroll w-full bg-white")}
-                style={{ paddingRight: RIGHT_GUTTER_PX }}
-              >
-                <table
-                  className={cn(
-                    "table-fixed border-collapse",
-                    "border-l border-r border-slate-300",
-                  )}
-                  style={{
-                    width: tableMinWidth,
-                    minWidth: tableMinWidth,
-                  }}
-                >
-                  <colgroup>
-                    <col style={colStyle(COL.no)} />
-                    <col style={colStyle(COL.late)} />
-                    <col style={colStyle(COL.tanggal)} />
-                    <col style={colStyle(COL.denda)} />
-                    <col style={colStyle(COL.status)} />
-                  </colgroup>
-
+            <div className="w-full rounded-[5px] bg-white ring-1 ring-slate-300">
+              <div className="safe-x-scroll w-full bg-white">
+                <table className="w-full min-w-[640px] border-collapse">
                   <thead className="bg-white">
-                    <tr className="text-left">
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>NO.</div>
+                    <tr className="border-b border-slate-200">
+                      <th className={cn(headerWrapCls, "w-[72px]")}>NO.</th>
+                      <th className={cn(headerWrapCls, "w-[240px]")}>
+                        KETERLAMBATAN (HARI)
                       </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>KETERLAMBATAN (HARI)</div>
+                      <th className={cn(headerWrapCls, "w-[140px]")}>TANGGAL</th>
+                      <th className={cn(headerWrapCls, "w-[140px] text-right")}>
+                        DENDA
                       </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>TANGGAL</div>
-                      </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>DENDA</div>
-                      </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>STATUS</div>
-                      </th>
+                      <th className={cn(headerWrapCls, "min-w-[160px]")}>STATUS</th>
                     </tr>
 
-                    <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2">
-                          <select
-                            value={statusFilter}
-                            onChange={(e) =>
-                              setStatusFilter(e.target.value as StatusValue)
-                            }
-                            className={filterSelectCls}
-                          >
-                            <option value="Semua">-- Semua --</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
-                          </select>
-                        </div>
+                    <tr className="border-b border-slate-200 bg-white">
+                      <th className="px-4 py-2" />
+                      <th className="px-4 py-2" />
+                      <th className="px-4 py-2" />
+                      <th className="px-4 py-2" />
+                      <th className="px-4 py-2">
+                        <select
+                          value={statusFilter}
+                          onChange={(e) =>
+                            setStatusFilter(e.target.value as StatusValue)
+                          }
+                          className={filterSelectCls}
+                        >
+                          <option value="Semua">-- Semua --</option>
+                          <option value="Aktif">Aktif</option>
+                          <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
                       </th>
                     </tr>
                   </thead>
@@ -368,43 +304,31 @@ export default function PenaltyDetailDialogReadOnly({
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
-                            <td className={tdBase}>
-                              <div className={bodyWrapCls}>
-                                <CellText>{idx + 1}</CellText>
-                              </div>
+                            <td className={bodyWrapCls}>
+                              <CellText>{idx + 1}</CellText>
                             </td>
 
-                            <td className={tdBase}>
-                              <div className={bodyWrapCls}>
-                                <CellText>{lateDays}</CellText>
-                              </div>
+                            <td className={bodyWrapCls}>
+                              <CellText>{lateDays}</CellText>
                             </td>
 
-                            <td className={tdBase}>
-                              <div className={bodyWrapCls}>
-                                <CellText>{r.tanggalKeterlambatan}</CellText>
-                              </div>
+                            <td className={bodyWrapCls}>
+                              <CellText>{r.tanggalKeterlambatan}</CellText>
                             </td>
 
-                            <td className={tdBase}>
-                              <div className={cn(bodyWrapRightCls)}>
-                                <CellText className="text-right">
-                                  {r.nominalDenda}
-                                </CellText>
-                              </div>
+                            <td className={cn(bodyWrapRightCls, "text-right")}>
+                              <CellText className="text-right">{r.nominalDenda}</CellText>
                             </td>
 
-                            <td className={tdBase}>
-                              <div className={cn(bodyWrapCls, "py-2.5")}>
-                                <div className="flex min-w-0 items-center gap-2">
-                                  <StatusPill status={r.status} />
-                                  {statusInfoRows.length > 0 ? (
-                                    <InfoIconTooltip
-                                      label="Info status denda"
-                                      rows={statusInfoRows}
-                                    />
-                                  ) : null}
-                                </div>
+                            <td className={bodyWrapCls}>
+                              <div className="flex min-w-0 items-center gap-2">
+                                <StatusPill status={r.status} />
+                                {statusInfoRows.length > 0 ? (
+                                  <InfoIconTooltip
+                                    label="Info status denda"
+                                    rows={statusInfoRows}
+                                  />
+                                ) : null}
                               </div>
                             </td>
                           </tr>
@@ -413,28 +337,20 @@ export default function PenaltyDetailDialogReadOnly({
                     )}
 
                     <tr className="border-t border-slate-200 bg-white">
-                      <td colSpan={3} className={tdBase}>
-                        <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                          TOTAL DENDA
-                        </div>
+                      <td colSpan={3} className="px-4 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                        TOTAL DENDA
                       </td>
 
-                      <td className={tdBase}>
-                        <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
-                          {totalText}
-                        </div>
+                      <td className="px-4 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        {totalText}
                       </td>
 
-                      <td className={tdBase}>
-                        <div className="px-2 py-3" />
-                      </td>
+                      <td className="px-4 py-3" />
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-
-            <div className="sr-only">{RIGHT_GUTTER_PX}</div>
           </div>
 
           <Separator className="bg-slate-200" />
