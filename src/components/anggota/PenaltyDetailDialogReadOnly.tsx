@@ -154,7 +154,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ ukuran sesuai request
+  // ✅ ukuran sesuai request (kunci via colgroup + inline width th/td)
   const COL = {
     no: 70,
     late: 200,
@@ -173,6 +173,9 @@ export default function PenaltyDetailDialogReadOnly({
     "text-[13px] font-semibold text-slate-700 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
+
+  const tableMinWidth =
+    COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -223,10 +226,7 @@ export default function PenaltyDetailDialogReadOnly({
               <div className="safe-x-scroll bg-white">
                 <table
                   className="w-full table-fixed border-collapse border-l border-slate-300"
-                  style={{
-                    minWidth:
-                      COL.no + COL.late + COL.tanggal + COL.denda + COL.status,
-                  }}
+                  style={{ minWidth: tableMinWidth }}
                 >
                   <colgroup>
                     <col style={{ width: COL.no }} />
@@ -238,19 +238,29 @@ export default function PenaltyDetailDialogReadOnly({
 
                   <thead className="bg-white">
                     <tr className="text-left">
-                      <th className={cn(thBase)}>NO.</th>
-                      <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
-                      <th className={cn(thBase)}>TANGGAL</th>
-                      <th className={cn(thBase)}>DENDA</th>
-                      <th className={cn(thBase)}>STATUS</th>
+                      <th className={cn(thBase)} style={{ width: COL.no }}>
+                        NO.
+                      </th>
+                      <th className={cn(thBase)} style={{ width: COL.late }}>
+                        KETERLAMBATAN (HARI)
+                      </th>
+                      <th className={cn(thBase)} style={{ width: COL.tanggal }}>
+                        TANGGAL
+                      </th>
+                      <th className={cn(thBase)} style={{ width: COL.denda }}>
+                        DENDA
+                      </th>
+                      <th className={cn(thBase)} style={{ width: COL.status }}>
+                        STATUS
+                      </th>
                     </tr>
 
                     <tr className="border-b border-slate-300 bg-white">
-                      <th className="px-3 py-2" />
-                      <th className="px-3 py-2" />
-                      <th className="px-3 py-2" />
-                      <th className="px-3 py-2" />
-                      <th className="px-3 pt-1 pb-2">
+                      <th className="px-3 py-2" style={{ width: COL.no }} />
+                      <th className="px-3 py-2" style={{ width: COL.late }} />
+                      <th className="px-3 py-2" style={{ width: COL.tanggal }} />
+                      <th className="px-3 py-2" style={{ width: COL.denda }} />
+                      <th className="px-3 pt-1 pb-2" style={{ width: COL.status }}>
                         <div className="relative">
                           <select
                             value={statusFilter}
@@ -302,21 +312,28 @@ export default function PenaltyDetailDialogReadOnly({
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
-                            <td className={cn(tdBase)}>{idx + 1}</td>
+                            <td className={cn(tdBase)} style={{ width: COL.no }}>
+                              {idx + 1}
+                            </td>
 
-                            <td className={cn(tdBase)}>{lateDays}</td>
+                            <td className={cn(tdBase)} style={{ width: COL.late }}>
+                              {lateDays}
+                            </td>
 
-                            <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
+                            <td className={cn(tdBase)} style={{ width: COL.tanggal }}>
+                              {r.tanggalKeterlambatan}
+                            </td>
 
                             <td
                               className={cn(
                                 "px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap",
                               )}
+                              style={{ width: COL.denda }}
                             >
                               {r.nominalDenda}
                             </td>
 
-                            <td className={cn("px-3 py-2.5")}>
+                            <td className={cn("px-3 py-2.5")} style={{ width: COL.status }}>
                               <div className="flex items-center gap-2">
                                 <StatusPill status={r.status} />
                                 {statusInfoRows.length > 0 ? (
@@ -340,11 +357,14 @@ export default function PenaltyDetailDialogReadOnly({
                         TOTAL DENDA
                       </td>
 
-                      <td className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                      <td
+                        className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
+                        style={{ width: COL.denda }}
+                      >
                         {totalText}
                       </td>
 
-                      <td className="px-3 py-2.5" />
+                      <td className="px-3 py-2.5" style={{ width: COL.status }} />
                     </tr>
                   </tbody>
                 </table>
