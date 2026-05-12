@@ -233,14 +233,16 @@ export default function PenaltyDetailDialogReadOnly({
             className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
-            {/* ✅ border-left dipaksa + ring supaya konsisten across build */}
+            {/* ✅ Container tabel dengan border + overlay left line (tidak ikut scroll) */}
             <div
               className={cn(
-                "w-full overflow-hidden rounded-[5px] bg-white",
-                "border border-slate-300 border-l border-l-slate-300",
-                "ring-1 ring-slate-300/60 ring-inset",
+                "relative w-full overflow-hidden rounded-[5px] bg-white",
+                "border border-slate-300",
               )}
             >
+              {/* overlay garis kiri: selalu terlihat walau scroll/subpixel */}
+              <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-px bg-slate-300" />
+
               <div className="safe-x-scroll w-full bg-white">
                 <table className="w-full min-w-[640px] border-collapse text-[12px]">
                   <thead className="bg-slate-50">
