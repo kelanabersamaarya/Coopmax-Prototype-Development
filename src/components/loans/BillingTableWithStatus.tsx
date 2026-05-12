@@ -4,7 +4,6 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
-import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 import PenaltyDetailDialogReadOnly, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialogReadOnly";
@@ -125,6 +124,23 @@ function toIdr00(v: string) {
   return s;
 }
 
+function RowShell({ children }: { children: React.ReactNode }) {
+  // mimic BillingTableView2 compact row
+  return (
+    <div className="bg-white px-3 py-1.5">
+      <div className="rounded-[5px] bg-white">{children}</div>
+    </div>
+  );
+}
+
+function RightNum({ value }: { value: string }) {
+  return (
+    <NumericCell align="right" className="w-full">
+      {toIdr00(value)}
+    </NumericCell>
+  );
+}
+
 export default function BillingTableWithStatus({
   rows,
   showGraceHighlight,
@@ -164,44 +180,6 @@ export default function BillingTableWithStatus({
     );
   }
 
-  function PenaltyCell({
-    globalIdx,
-    dueDateDmy,
-  }: {
-    globalIdx: number;
-    dueDateDmy: string;
-  }) {
-    const shouldShow = globalIdx < PENALTY_ROWS;
-
-    return (
-      <td className="px-4 py-2.5 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
-        {shouldShow ? (
-          <div className="flex items-center justify-end gap-2">
-            <span className="num-sans-tabular">{formatIdrLike(PENALTY_AMOUNT)}</span>
-            <PenaltyInfoButton onClick={() => openPenalty(dueDateDmy)} />
-          </div>
-        ) : null}
-      </td>
-    );
-  }
-
-  function RightNum({ value }: { value: string }) {
-    return (
-      <NumericCell align="right" className="w-full">
-        {toIdr00(value)}
-      </NumericCell>
-    );
-  }
-
-  // mimic BillingTableView2 "RowShell" padding (compact)
-  function RowShell({ children }: { children: React.ReactNode }) {
-    return (
-      <div className="bg-white px-3 py-1.5">
-        <div className="rounded-[5px] bg-white">{children}</div>
-      </div>
-    );
-  }
-
   function RowContent({
     r,
     localIdx,
@@ -216,37 +194,30 @@ export default function BillingTableWithStatus({
     return (
       <RowShell>
         <div className="grid items-center [grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)_190px]">
-          {/* jatuh tempo */}
           <div className="px-4 py-2.5 text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
             {r.jatuhTempo}
           </div>
 
-          {/* total belum dibayar */}
           <div className="px-4 py-2.5 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
             <RightNum value={r.totalBelumDibayar} />
           </div>
 
-          {/* tagihan pokok */}
           <div className="px-4 py-2.5 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
             <RightNum value={r.tagihanPokok} />
           </div>
 
-          {/* tagihan bunga */}
           <div className="px-4 py-2.5 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
             <RightNum value={r.tagihanBunga} />
           </div>
 
-          {/* sisa pokok */}
           <div className="px-4 py-2.5 pr-6 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
             <RightNum value={r.sisaPokok} />
           </div>
 
-          {/* sisa bunga */}
           <div className="px-4 py-2.5 pr-6 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
             <RightNum value={r.sisaBunga} />
           </div>
 
-          {/* denda */}
           <div className="px-4 py-2.5 pr-1 text-right text-[13px] font-medium text-slate-900 tabular-nums whitespace-nowrap">
             {globalIdx < PENALTY_ROWS ? (
               <div className="flex items-center justify-end gap-2">
@@ -256,15 +227,18 @@ export default function BillingTableWithStatus({
             ) : null}
           </div>
 
-          {/* status */}
           <StatusCell status={status} />
-        </div>
 
-        {/* keep localIdx used in case you want later */}
-        <div className="sr-only">{localIdx}</div>
+          <div className="sr-only">{localIdx}</div>
+        </div>
       </RowShell>
     );
   }
+
+  const thBase =
+    "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  const thRight =
+    "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 
   return (
     <div className={cn("mt-3", className)}>
@@ -276,22 +250,52 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
         <table className="w-full border-collapse text-[13px]">
-          <BillingTableHeader
-            hideSelection={true}
-            showPenaltyColumn={true}
-            className={cn(
-              // inject one extra header cell for status via CSS grid is hard,
-              // so we render a second header row for STATUS in a safe way.
-              "",
-            )}
-          />
-
+          {/* ✅ Single header row: include Status Tagihan in the same header row */}
           <thead className="bg-white">
             <tr className="border-b border-slate-200">
-              <th colSpan={7} className="p-0">
-                <div className="sr-only">header-spacer</div>
+              <th className={cn(thBase, "w-[110px]")}>
+                Jatuh
+                <br />
+                Tempo
               </th>
-              <th className="px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
+
+              <th className={cn(thRight, "w-[128px]")}>
+                Total Tagihan
+                <br />
+                Belum Dibayar
+              </th>
+
+              <th className={cn(thRight, "w-[130px]")}>
+                Tagihan
+                <br />
+                Pokok
+              </th>
+
+              <th className={cn(thRight, "w-[120px]")}>
+                Tagihan
+                <br />
+                Bunga
+              </th>
+
+              <th className={cn(thRight, "w-[140px]")}>
+                Sisa Tagihan
+                <br />
+                Pokok
+              </th>
+
+              <th className={cn(thRight, "w-[140px]")}>
+                Sisa Tagihan
+                <br />
+                Bunga
+              </th>
+
+              <th className={cn(thRight, "w-[130px]")}>
+                Tagihan
+                <br />
+                Denda
+              </th>
+
+              <th className={cn(thBase, "w-[190px]")}>
                 Status
                 <br />
                 Tagihan
@@ -311,7 +315,6 @@ export default function BillingTableWithStatus({
               </tr>
             ) : showGraceHighlight && graceRows.length > 0 ? (
               <>
-                {/* Grace wrapper block */}
                 <tr className={rowDivider}>
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white p-0">
@@ -375,7 +378,7 @@ export default function BillingTableWithStatus({
         </table>
 
         <div className="sr-only">
-          <PenaltyCell globalIdx={0} dueDateDmy="01-01-2026" />
+          <StatusPill status="Belum Dibayar" />
         </div>
       </div>
     </div>
