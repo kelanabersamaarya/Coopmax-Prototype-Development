@@ -179,7 +179,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ Ukuran kolom sesuai request
+  // ✅ Ukuran kolom sesuai request (WIDTH HARUS PAS colgroup, tanpa ditambah padding th/td)
   const COL = {
     no: 65,
     late: 200,
@@ -191,18 +191,15 @@ export default function PenaltyDetailDialogReadOnly({
   const tableMinWidth =
     COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
 
-  // ✅ Font tabel: header & body = 12px
-  const thBase =
+  // padding dipindahkan ke wrapper internal supaya width colgroup tetap presisi
+  const headerWrapCls =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
-  const tdBase = "px-2 py-2.5 text-[12px] font-normal text-slate-900";
+  const bodyWrapCls = "px-2 py-2.5 text-[12px] font-normal text-slate-900";
+  const bodyWrapRightCls = "px-2 py-2.5 text-right tabular-nums whitespace-nowrap";
 
-  const thNo = cn(
-    "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-    "w-[65px] max-w-[65px]",
-  );
-  const tdNo = cn(tdBase, "px-2 w-[65px] max-w-[65px]");
+  const thBase = "px-0";
+  const tdBase = "px-0";
 
-  // ✅ dropdown filter juga 12px
   const filterSelectCls = cn(
     "h-9 w-full rounded-[10px] border border-slate-200 bg-white px-2.5",
     "text-[12px] font-semibold text-slate-800 shadow-none",
@@ -270,40 +267,50 @@ export default function PenaltyDetailDialogReadOnly({
 
                   <thead className="bg-white">
                     <tr className="text-left">
-                      <th className={thNo} style={{ width: COL.no }}>
-                        NO.
+                      <th className={thBase} style={{ width: COL.no }}>
+                        <div className={headerWrapCls}>NO.</div>
                       </th>
-                      <th className={cn(thBase)} style={{ width: COL.late }}>
-                        KETERLAMBATAN (HARI)
+                      <th className={thBase} style={{ width: COL.late }}>
+                        <div className={headerWrapCls}>KETERLAMBATAN (HARI)</div>
                       </th>
-                      <th className={cn(thBase)} style={{ width: COL.tanggal }}>
-                        TANGGAL
+                      <th className={thBase} style={{ width: COL.tanggal }}>
+                        <div className={headerWrapCls}>TANGGAL</div>
                       </th>
-                      <th className={cn(thBase)} style={{ width: COL.denda }}>
-                        DENDA
+                      <th className={thBase} style={{ width: COL.denda }}>
+                        <div className={headerWrapCls}>DENDA</div>
                       </th>
-                      <th className={cn(thBase)} style={{ width: COL.status }}>
-                        STATUS
+                      <th className={thBase} style={{ width: COL.status }}>
+                        <div className={headerWrapCls}>STATUS</div>
                       </th>
                     </tr>
 
                     <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
-                      <th className="px-2 py-2" style={{ width: COL.no }} />
-                      <th className="px-2 py-2" style={{ width: COL.late }} />
-                      <th className="px-2 py-2" style={{ width: COL.tanggal }} />
-                      <th className="px-2 py-2" style={{ width: COL.denda }} />
-                      <th className="px-2 py-2" style={{ width: COL.status }}>
-                        <select
-                          value={statusFilter}
-                          onChange={(e) =>
-                            setStatusFilter(e.target.value as StatusValue)
-                          }
-                          className={filterSelectCls}
-                        >
-                          <option value="Semua">-- Semua --</option>
-                          <option value="Aktif">Aktif</option>
-                          <option value="Dibatalkan">Dibatalkan</option>
-                        </select>
+                      <th className={thBase} style={{ width: COL.no }}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase} style={{ width: COL.late }}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase} style={{ width: COL.tanggal }}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase} style={{ width: COL.denda }}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase} style={{ width: COL.status }}>
+                        <div className="px-2 py-2">
+                          <select
+                            value={statusFilter}
+                            onChange={(e) =>
+                              setStatusFilter(e.target.value as StatusValue)
+                            }
+                            className={filterSelectCls}
+                          >
+                            <option value="Semua">-- Semua --</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                          </select>
+                        </div>
                       </th>
                     </tr>
                   </thead>
@@ -343,44 +350,48 @@ export default function PenaltyDetailDialogReadOnly({
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
-                            <td className={tdNo} style={{ width: COL.no }}>
-                              <CellText>{idx + 1}</CellText>
+                            <td className={tdBase} style={{ width: COL.no }}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{idx + 1}</CellText>
+                              </div>
                             </td>
 
-                            <td className={cn(tdBase)} style={{ width: COL.late }}>
-                              <CellText>{lateDays}</CellText>
+                            <td className={tdBase} style={{ width: COL.late }}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{lateDays}</CellText>
+                              </div>
                             </td>
 
-                            <td
-                              className={cn(tdBase)}
-                              style={{ width: COL.tanggal }}
-                            >
-                              <CellText>{r.tanggalKeterlambatan}</CellText>
+                            <td className={tdBase} style={{ width: COL.tanggal }}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{r.tanggalKeterlambatan}</CellText>
+                              </div>
                             </td>
 
-                            <td
-                              className={cn(
-                                "px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap",
-                              )}
-                              style={{ width: COL.denda }}
-                            >
-                              <CellText className="text-right">
-                                {r.nominalDenda}
-                              </CellText>
+                            <td className={tdBase} style={{ width: COL.denda }}>
+                              <div
+                                className={cn(
+                                  bodyWrapRightCls,
+                                  "text-[12px] font-extrabold text-slate-900",
+                                )}
+                              >
+                                <CellText className="text-right">
+                                  {r.nominalDenda}
+                                </CellText>
+                              </div>
                             </td>
 
-                            <td
-                              className={cn("px-2 py-2.5")}
-                              style={{ width: COL.status }}
-                            >
-                              <div className="flex min-w-0 items-center gap-2">
-                                <StatusPill status={r.status} />
-                                {statusInfoRows.length > 0 ? (
-                                  <InfoIconTooltip
-                                    label="Info status denda"
-                                    rows={statusInfoRows}
-                                  />
-                                ) : null}
+                            <td className={tdBase} style={{ width: COL.status }}>
+                              <div className={cn(bodyWrapCls, "py-2.5")}>
+                                <div className="flex min-w-0 items-center gap-2">
+                                  <StatusPill status={r.status} />
+                                  {statusInfoRows.length > 0 ? (
+                                    <InfoIconTooltip
+                                      label="Info status denda"
+                                      rows={statusInfoRows}
+                                    />
+                                  ) : null}
+                                </div>
                               </div>
                             </td>
                           </tr>
@@ -389,21 +400,21 @@ export default function PenaltyDetailDialogReadOnly({
                     )}
 
                     <tr className="border-t border-slate-200 bg-white">
-                      <td
-                        colSpan={3}
-                        className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
-                      >
-                        TOTAL DENDA
+                      <td colSpan={3} className={tdBase}>
+                        <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                          TOTAL DENDA
+                        </div>
                       </td>
 
-                      <td
-                        className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
-                        style={{ width: COL.denda }}
-                      >
-                        {totalText}
+                      <td className={tdBase} style={{ width: COL.denda }}>
+                        <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                          {totalText}
+                        </div>
                       </td>
 
-                      <td className="px-2 py-3" style={{ width: COL.status }} />
+                      <td className={tdBase} style={{ width: COL.status }}>
+                        <div className="px-2 py-3" />
+                      </td>
                     </tr>
                   </tbody>
                 </table>
