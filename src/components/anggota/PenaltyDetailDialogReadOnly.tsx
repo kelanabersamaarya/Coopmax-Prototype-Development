@@ -204,6 +204,14 @@ export default function PenaltyDetailDialogReadOnly({
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  // Helper supaya col benar-benar terkunci (bukan cuma width)
+  const colStyle = (w: number) =>
+    ({
+      width: `${w}px`,
+      minWidth: `${w}px`,
+      maxWidth: `${w}px`,
+    }) as React.CSSProperties;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -250,175 +258,172 @@ export default function PenaltyDetailDialogReadOnly({
             style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
           >
             <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
-              {/* Wrapper full width supaya area kanan tetap putih (tidak tampak “kosong”) */}
               <div className="safe-x-scroll w-full bg-white">
-                <div className="flex w-full justify-start bg-white">
-                  <table
-                    className="table-fixed border-collapse"
-                    style={{ minWidth: tableMinWidth, width: tableMinWidth }}
-                  >
-                    <colgroup>
-                      <col style={{ width: COL.no }} />
-                      <col style={{ width: COL.late }} />
-                      <col style={{ width: COL.tanggal }} />
-                      <col style={{ width: COL.denda }} />
-                      <col style={{ width: COL.status }} />
-                    </colgroup>
+                <table
+                  className="w-full table-fixed border-collapse"
+                  style={{ minWidth: tableMinWidth }}
+                >
+                  <colgroup>
+                    <col style={colStyle(COL.no)} />
+                    <col style={colStyle(COL.late)} />
+                    <col style={colStyle(COL.tanggal)} />
+                    <col style={colStyle(COL.denda)} />
+                    <col style={colStyle(COL.status)} />
+                  </colgroup>
 
-                    <thead className="bg-white">
-                      <tr className="text-left">
-                        <th className={thBase} style={{ width: COL.no }}>
-                          <div className={headerWrapCls}>NO.</div>
-                        </th>
-                        <th className={thBase} style={{ width: COL.late }}>
-                          <div className={headerWrapCls}>KETERLAMBATAN (HARI)</div>
-                        </th>
-                        <th className={thBase} style={{ width: COL.tanggal }}>
-                          <div className={headerWrapCls}>TANGGAL</div>
-                        </th>
-                        <th className={thBase} style={{ width: COL.denda }}>
-                          <div className={headerWrapCls}>DENDA</div>
-                        </th>
-                        <th className={thBase} style={{ width: COL.status }}>
-                          <div className={headerWrapCls}>STATUS</div>
-                        </th>
-                      </tr>
+                  <thead className="bg-white">
+                    <tr className="text-left">
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>NO.</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>KETERLAMBATAN (HARI)</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>TANGGAL</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>DENDA</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>STATUS</div>
+                      </th>
+                    </tr>
 
-                      <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
-                        <th className={thBase} style={{ width: COL.no }}>
-                          <div className="px-2 py-2" />
-                        </th>
-                        <th className={thBase} style={{ width: COL.late }}>
-                          <div className="px-2 py-2" />
-                        </th>
-                        <th className={thBase} style={{ width: COL.tanggal }}>
-                          <div className="px-2 py-2" />
-                        </th>
-                        <th className={thBase} style={{ width: COL.denda }}>
-                          <div className="px-2 py-2" />
-                        </th>
-                        <th className={thBase} style={{ width: COL.status }}>
-                          <div className="px-2 py-2">
-                            <select
-                              value={statusFilter}
-                              onChange={(e) =>
-                                setStatusFilter(e.target.value as StatusValue)
-                              }
-                              className={filterSelectCls}
-                            >
-                              <option value="Semua">-- Semua --</option>
-                              <option value="Aktif">Aktif</option>
-                              <option value="Dibatalkan">Dibatalkan</option>
-                            </select>
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody className="bg-white">
-                      {filteredRows.length === 0 ? (
-                        <tr>
-                          <td
-                            colSpan={5}
-                            className="px-4 py-10 text-center text-sm text-slate-600"
+                    <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2">
+                          <select
+                            value={statusFilter}
+                            onChange={(e) =>
+                              setStatusFilter(e.target.value as StatusValue)
+                            }
+                            className={filterSelectCls}
                           >
-                            Tidak ada rincian denda.
-                          </td>
-                        </tr>
-                      ) : (
-                        filteredRows.map((r, idx) => {
-                          const lateDays =
-                            lateDaysPattern[idx % lateDaysPattern.length];
+                            <option value="Semua">-- Semua --</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                          </select>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
 
-                          const statusInfoRows: Array<{ k: string; v: string }> =
-                            r.status === "Dibatalkan"
-                              ? [
-                                  { k: "Tanggal pembatalan", v: "11-05-2026" },
-                                  {
-                                    k: "Alasan pembatalan",
-                                    v: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
-                                  },
-                                  { k: "Dibatalkan oleh", v: "Arya Dharma" },
-                                ]
-                              : [];
-
-                          return (
-                            <tr
-                              key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
-                              className={cn(
-                                "border-t border-slate-200",
-                                idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
-                              )}
-                            >
-                              <td className={tdBase} style={{ width: COL.no }}>
-                                <div className={bodyWrapCls}>
-                                  <CellText>{idx + 1}</CellText>
-                                </div>
-                              </td>
-
-                              <td className={tdBase} style={{ width: COL.late }}>
-                                <div className={bodyWrapCls}>
-                                  <CellText>{lateDays}</CellText>
-                                </div>
-                              </td>
-
-                              <td className={tdBase} style={{ width: COL.tanggal }}>
-                                <div className={bodyWrapCls}>
-                                  <CellText>{r.tanggalKeterlambatan}</CellText>
-                                </div>
-                              </td>
-
-                              <td className={tdBase} style={{ width: COL.denda }}>
-                                <div
-                                  className={cn(
-                                    bodyWrapRightCls,
-                                    "text-[12px] font-extrabold text-slate-900",
-                                  )}
-                                >
-                                  <CellText className="text-right">
-                                    {r.nominalDenda}
-                                  </CellText>
-                                </div>
-                              </td>
-
-                              <td className={tdBase} style={{ width: COL.status }}>
-                                <div className={cn(bodyWrapCls, "py-2.5")}>
-                                  <div className="flex min-w-0 items-center gap-2">
-                                    <StatusPill status={r.status} />
-                                    {statusInfoRows.length > 0 ? (
-                                      <InfoIconTooltip
-                                        label="Info status denda"
-                                        rows={statusInfoRows}
-                                      />
-                                    ) : null}
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-
-                      <tr className="border-t border-slate-200 bg-white">
-                        <td colSpan={3} className={tdBase}>
-                          <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                            TOTAL DENDA
-                          </div>
-                        </td>
-
-                        <td className={tdBase} style={{ width: COL.denda }}>
-                          <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
-                            {totalText}
-                          </div>
-                        </td>
-
-                        <td className={tdBase} style={{ width: COL.status }}>
-                          <div className="px-2 py-3" />
+                  <tbody className="bg-white">
+                    {filteredRows.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="px-4 py-10 text-center text-sm text-slate-600"
+                        >
+                          Tidak ada rincian denda.
                         </td>
                       </tr>
-                    </tbody>
-                  </table>
-                </div>
+                    ) : (
+                      filteredRows.map((r, idx) => {
+                        const lateDays =
+                          lateDaysPattern[idx % lateDaysPattern.length];
+
+                        const statusInfoRows: Array<{ k: string; v: string }> =
+                          r.status === "Dibatalkan"
+                            ? [
+                                { k: "Tanggal pembatalan", v: "11-05-2026" },
+                                {
+                                  k: "Alasan pembatalan",
+                                  v: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
+                                },
+                                { k: "Dibatalkan oleh", v: "Arya Dharma" },
+                              ]
+                            : [];
+
+                        return (
+                          <tr
+                            key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
+                            className={cn(
+                              "border-t border-slate-200",
+                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                            )}
+                          >
+                            <td className={tdBase}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{idx + 1}</CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{lateDays}</CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{r.tanggalKeterlambatan}</CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div
+                                className={cn(
+                                  bodyWrapRightCls,
+                                  "text-[12px] font-extrabold text-slate-900",
+                                )}
+                              >
+                                <CellText className="text-right">
+                                  {r.nominalDenda}
+                                </CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div className={cn(bodyWrapCls, "py-2.5")}>
+                                <div className="flex min-w-0 items-center gap-2">
+                                  <StatusPill status={r.status} />
+                                  {statusInfoRows.length > 0 ? (
+                                    <InfoIconTooltip
+                                      label="Info status denda"
+                                      rows={statusInfoRows}
+                                    />
+                                  ) : null}
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+
+                    <tr className="border-t border-slate-200 bg-white">
+                      <td colSpan={3} className={tdBase}>
+                        <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                          TOTAL DENDA
+                        </div>
+                      </td>
+
+                      <td className={tdBase}>
+                        <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                          {totalText}
+                        </div>
+                      </td>
+
+                      <td className={tdBase}>
+                        <div className="px-2 py-3" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
