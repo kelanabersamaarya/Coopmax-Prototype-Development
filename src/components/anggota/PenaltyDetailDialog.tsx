@@ -271,13 +271,13 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Perkecil kolom STATUS
+  // ✅ Perkecil lagi kolom STATUS
   const COL = {
     no: 44,
     late: 170,
     tanggal: 120,
     denda: 110,
-    status: 132,
+    status: 116,
     aksi: 104,
   } as const;
 
@@ -297,6 +297,8 @@ export default function PenaltyDetailDialog({
     "text-[12px] font-semibold text-slate-700 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
+
+  const statusCellPad = "px-1.5 py-2";
 
   return (
     <>
@@ -450,7 +452,7 @@ export default function PenaltyDetailDialog({
                       <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
                       <th className={cn(thBase)}>TANGGAL</th>
                       <th className={cn(thBase)}>DENDA</th>
-                      <th className={cn(thBase)}>STATUS</th>
+                      <th className={cn(thBase, "px-1.5")}>STATUS</th>
                       <th className={thAksi}>AKSI</th>
                     </tr>
 
@@ -459,7 +461,7 @@ export default function PenaltyDetailDialog({
                       <th className="px-2 py-1.5" />
                       <th className="px-2 py-1.5" />
                       <th className="px-2 py-1.5" />
-                      <th className="px-2 pt-1 pb-2">
+                      <th className="px-1.5 pt-1 pb-2">
                         <select
                           value={statusFilter}
                           onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
@@ -549,7 +551,7 @@ export default function PenaltyDetailDialog({
                               {r.nominalDenda}
                             </td>
 
-                            <td className="px-2 py-2 text-[12px] text-slate-900">
+                            <td className={cn(statusCellPad, "text-[12px] text-slate-900")}>
                               <div className="flex items-center gap-2">
                                 <StatusPill status={r.status} />
                                 {statusInfoRows.length > 0 ? (
@@ -594,7 +596,7 @@ export default function PenaltyDetailDialog({
                         {totalText}
                       </td>
 
-                      <td className="px-2 py-2" />
+                      <td className={cn(statusCellPad, "py-2")} />
 
                       <td className="px-0.5 py-2" />
                     </tr>
