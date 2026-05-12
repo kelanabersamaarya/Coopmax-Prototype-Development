@@ -179,6 +179,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
+  // Table widths (keep)
   const COL = {
     no: 65,
     late: 200,
@@ -199,8 +200,8 @@ export default function PenaltyDetailDialogReadOnly({
   const tdBase = "px-0";
 
   const filterSelectCls = cn(
-    "h-9 w-full rounded-[10px] border border-slate-200 bg-white px-2.5",
-    "text-[12px] font-semibold text-slate-800 shadow-none",
+    "h-10 w-full rounded-[10px] border border-slate-200 bg-white px-3",
+    "text-[13px] font-semibold text-slate-800 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
@@ -213,23 +214,26 @@ export default function PenaltyDetailDialogReadOnly({
 
   const contentPadX = "px-6";
 
+  // ✅ Layout modal: no giant empty area, footer always visible
+  // Height budget: header(64) + separator(1) + footer(64) + separator(1)
+  const contentMaxH = "calc(80vh - 64px - 1px - 64px - 1px)";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)]",
-          "sm:w-[720px] sm:max-w-[720px]",
+          "w-[calc(100vw-1.25rem)] sm:w-[720px] sm:max-w-[720px]",
           "max-h-[80vh]",
           "overflow-hidden",
-          R,
-          "border-slate-200 p-0 shadow-2xl",
+          "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <div className={cn("bg-white", R)}>
+        <div className={cn("bg-white")}>
+          {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="min-w-0">
               <div className="text-lg font-extrabold tracking-tight text-slate-900">
@@ -241,8 +245,7 @@ export default function PenaltyDetailDialogReadOnly({
               type="button"
               onClick={() => onOpenChange(false)}
               className={cn(
-                "inline-flex h-9 w-9 items-center justify-center",
-                R,
+                "inline-flex h-9 w-9 items-center justify-center rounded-full",
                 "text-slate-700 transition hover:bg-slate-100",
               )}
               aria-label="Tutup"
@@ -254,214 +257,195 @@ export default function PenaltyDetailDialogReadOnly({
 
           <Separator className="bg-slate-200" />
 
+          {/* Body (scroll only here) */}
           <div
             className={cn("overflow-auto py-5", contentPadX)}
-            style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
+            style={{ maxHeight: contentMaxH }}
           >
-            <div className="w-full">
-              <div className="mx-auto w-full max-w-full">
-                <div
+            <div
+              className={cn(
+                "w-full rounded-[5px] bg-white ring-1 ring-slate-300",
+                "overflow-visible",
+              )}
+            >
+              <div
+                className={cn(
+                  "safe-x-scroll w-full bg-white",
+                  // ✅ right gutter: prevent last column/border getting hidden by scrollbar
+                  "box-content pr-8",
+                )}
+                style={{ scrollbarGutter: "stable both-edges" }}
+              >
+                <table
                   className={cn(
-                    "w-full bg-white ring-1 ring-slate-300",
-                    R,
-                    // jangan overflow-hidden di wrapper luar; biar padding scroll tidak kepotong
-                    "overflow-visible",
+                    "table-fixed border-collapse",
+                    "border-l border-r border-slate-300",
                   )}
+                  style={{
+                    width: tableMinWidth,
+                    minWidth: tableMinWidth,
+                  }}
                 >
-                  <div
-                    className={cn(
-                      "safe-x-scroll w-full bg-white",
-                      // ✅ gutter kanan agar kolom terakhir & border kanan tidak ketutup scrollbar
-                      "box-content pr-6",
-                    )}
-                    style={{
-                      scrollbarGutter: "stable both-edges",
-                    }}
-                  >
-                    <table
-                      className={cn(
-                        "table-fixed border-collapse",
-                        // border ditaruh di table biar saat scroll tetap kelihatan
-                        "border-l border-r border-slate-300",
-                      )}
-                      style={{
-                        width: tableMinWidth,
-                        minWidth: tableMinWidth,
-                      }}
-                    >
-                      <colgroup>
-                        <col style={colStyle(COL.no)} />
-                        <col style={colStyle(COL.late)} />
-                        <col style={colStyle(COL.tanggal)} />
-                        <col style={colStyle(COL.denda)} />
-                        <col style={colStyle(COL.status)} />
-                      </colgroup>
+                  <colgroup>
+                    <col style={colStyle(COL.no)} />
+                    <col style={colStyle(COL.late)} />
+                    <col style={colStyle(COL.tanggal)} />
+                    <col style={colStyle(COL.denda)} />
+                    <col style={colStyle(COL.status)} />
+                  </colgroup>
 
-                      <thead className="bg-white">
-                        <tr className="text-left">
-                          <th className={thBase}>
-                            <div className={headerWrapCls}>NO.</div>
-                          </th>
-                          <th className={thBase}>
-                            <div className={headerWrapCls}>
-                              KETERLAMBATAN (HARI)
-                            </div>
-                          </th>
-                          <th className={thBase}>
-                            <div className={headerWrapCls}>TANGGAL</div>
-                          </th>
-                          <th className={thBase}>
-                            <div className={headerWrapCls}>DENDA</div>
-                          </th>
-                          <th className={thBase}>
-                            <div className={headerWrapCls}>STATUS</div>
-                          </th>
-                        </tr>
+                  <thead className="bg-white">
+                    <tr className="text-left">
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>NO.</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>KETERLAMBATAN (HARI)</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>TANGGAL</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>DENDA</div>
+                      </th>
+                      <th className={thBase}>
+                        <div className={headerWrapCls}>STATUS</div>
+                      </th>
+                    </tr>
 
-                        <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
-                          <th className={thBase}>
-                            <div className="px-2 py-2" />
-                          </th>
-                          <th className={thBase}>
-                            <div className="px-2 py-2" />
-                          </th>
-                          <th className={thBase}>
-                            <div className="px-2 py-2" />
-                          </th>
-                          <th className={thBase}>
-                            <div className="px-2 py-2" />
-                          </th>
-                          <th className={thBase}>
-                            <div className="px-2 py-2">
-                              <select
-                                value={statusFilter}
-                                onChange={(e) =>
-                                  setStatusFilter(e.target.value as StatusValue)
-                                }
-                                className={filterSelectCls}
-                              >
-                                <option value="Semua">-- Semua --</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Dibatalkan">Dibatalkan</option>
-                              </select>
-                            </div>
-                          </th>
-                        </tr>
-                      </thead>
+                    <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2" />
+                      </th>
+                      <th className={thBase}>
+                        <div className="px-2 py-2">
+                          <select
+                            value={statusFilter}
+                            onChange={(e) =>
+                              setStatusFilter(e.target.value as StatusValue)
+                            }
+                            className={filterSelectCls}
+                          >
+                            <option value="Semua">-- Semua --</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                          </select>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
 
-                      <tbody className="bg-white">
-                        {filteredRows.length === 0 ? (
-                          <tr>
-                            <td
-                              colSpan={5}
-                              className="px-4 py-10 text-center text-sm text-slate-600"
-                            >
-                              Tidak ada rincian denda.
+                  <tbody className="bg-white">
+                    {filteredRows.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="px-4 py-10 text-center text-sm text-slate-600"
+                        >
+                          Tidak ada rincian denda.
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredRows.map((r, idx) => {
+                        const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
+
+                        const statusInfoRows: Array<{ k: string; v: string }> =
+                          r.status === "Dibatalkan"
+                            ? [
+                                { k: "Tanggal pembatalan", v: "11-05-2026" },
+                                {
+                                  k: "Alasan pembatalan",
+                                  v: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
+                                },
+                                { k: "Dibatalkan oleh", v: "Arya Dharma" },
+                              ]
+                            : [];
+
+                        return (
+                          <tr
+                            key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
+                            className={cn(
+                              "border-t border-slate-200",
+                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                            )}
+                          >
+                            <td className={tdBase}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{idx + 1}</CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{lateDays}</CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div className={bodyWrapCls}>
+                                <CellText>{r.tanggalKeterlambatan}</CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div className={cn(bodyWrapRightCls)}>
+                                <CellText className="text-right">{r.nominalDenda}</CellText>
+                              </div>
+                            </td>
+
+                            <td className={tdBase}>
+                              <div className={cn(bodyWrapCls, "py-2.5")}>
+                                <div className="flex min-w-0 items-center gap-2">
+                                  <StatusPill status={r.status} />
+                                  {statusInfoRows.length > 0 ? (
+                                    <InfoIconTooltip
+                                      label="Info status denda"
+                                      rows={statusInfoRows}
+                                    />
+                                  ) : null}
+                                </div>
+                              </div>
                             </td>
                           </tr>
-                        ) : (
-                          filteredRows.map((r, idx) => {
-                            const lateDays =
-                              lateDaysPattern[idx % lateDaysPattern.length];
+                        );
+                      })
+                    )}
 
-                            const statusInfoRows: Array<{ k: string; v: string }> =
-                              r.status === "Dibatalkan"
-                                ? [
-                                    { k: "Tanggal pembatalan", v: "11-05-2026" },
-                                    {
-                                      k: "Alasan pembatalan",
-                                      v: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
-                                    },
-                                    { k: "Dibatalkan oleh", v: "Arya Dharma" },
-                                  ]
-                                : [];
+                    <tr className="border-t border-slate-200 bg-white">
+                      <td colSpan={3} className={tdBase}>
+                        <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                          TOTAL DENDA
+                        </div>
+                      </td>
 
-                            return (
-                              <tr
-                                key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
-                                className={cn(
-                                  "border-t border-slate-200",
-                                  idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
-                                )}
-                              >
-                                <td className={tdBase}>
-                                  <div className={bodyWrapCls}>
-                                    <CellText>{idx + 1}</CellText>
-                                  </div>
-                                </td>
+                      <td className={tdBase}>
+                        <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                          {totalText}
+                        </div>
+                      </td>
 
-                                <td className={tdBase}>
-                                  <div className={bodyWrapCls}>
-                                    <CellText>{lateDays}</CellText>
-                                  </div>
-                                </td>
-
-                                <td className={tdBase}>
-                                  <div className={bodyWrapCls}>
-                                    <CellText>{r.tanggalKeterlambatan}</CellText>
-                                  </div>
-                                </td>
-
-                                <td className={tdBase}>
-                                  <div
-                                    className={cn(
-                                      bodyWrapRightCls,
-                                      "text-[12px] font-normal text-slate-900",
-                                    )}
-                                  >
-                                    <CellText className="text-right">
-                                      {r.nominalDenda}
-                                    </CellText>
-                                  </div>
-                                </td>
-
-                                <td className={tdBase}>
-                                  <div className={cn(bodyWrapCls, "py-2.5")}>
-                                    <div className="flex min-w-0 items-center gap-2">
-                                      <StatusPill status={r.status} />
-                                      {statusInfoRows.length > 0 ? (
-                                        <InfoIconTooltip
-                                          label="Info status denda"
-                                          rows={statusInfoRows}
-                                        />
-                                      ) : null}
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        )}
-
-                        <tr className="border-t border-slate-200 bg-white">
-                          <td colSpan={3} className={tdBase}>
-                            <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                              TOTAL DENDA
-                            </div>
-                          </td>
-
-                          <td className={tdBase}>
-                            <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
-                              {totalText}
-                            </div>
-                          </td>
-
-                          <td className={tdBase}>
-                            <div className="px-2 py-3" />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="sr-only">{tableMinWidth}</div>
+                      <td className={tdBase}>
+                        <div className="px-2 py-3" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
 
           <Separator className="bg-slate-200" />
 
+          {/* Footer */}
           <div className={cn("py-4", contentPadX)}>
             <div className="flex justify-end">
               <button
