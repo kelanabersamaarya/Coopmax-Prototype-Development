@@ -156,13 +156,14 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-8 items-center justify-center px-2",
+        "inline-flex h-8 w-full items-center justify-center px-2",
         "rounded-[8px]",
         "bg-rose-600 text-white",
         "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
         "text-[12px] font-semibold",
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-rose-600/20",
-        "whitespace-nowrap",
+        // allow wrap so the column can be narrower
+        "whitespace-normal leading-[1.05]",
       )}
     >
       Batalkan Denda
@@ -271,14 +272,14 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Perkecil lagi kolom STATUS
+  // ✅ Perkecil lagi kolom AKSI
   const COL = {
     no: 44,
     late: 170,
     tanggal: 120,
     denda: 110,
     status: 116,
-    aksi: 104,
+    aksi: 88,
   } as const;
 
   const thBase =
