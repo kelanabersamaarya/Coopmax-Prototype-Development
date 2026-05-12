@@ -35,7 +35,6 @@ function StatusPill({ status }: { status: TagihanStatus }) {
         ? "bg-amber-500 text-white ring-1 ring-amber-500/20"
         : "bg-rose-600 text-white ring-1 ring-rose-600/20";
 
-  // ✅ Full width + center => semua baris mulai dari titik yang sama dan terlihat lurus
   return (
     <span
       className={cn(
@@ -170,7 +169,6 @@ function TrShell({
 }
 
 function StatusTd({ status }: { status: TagihanStatus }) {
-  // ✅ padding kiri/kanan konsisten untuk semua baris
   return (
     <td style={{ width: STATUS_COL_W }} className="px-3 py-3">
       <StatusPill status={status} />
@@ -281,9 +279,7 @@ export default function BillingTableWithStatus({
     setPenaltyOpen(true);
   }
 
-  const thBase =
-    "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
-  const thRight =
+  const thRightAll =
     "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 
   return (
@@ -298,49 +294,49 @@ export default function BillingTableWithStatus({
         <table className="w-full border-collapse text-[13px]">
           <thead className="bg-white">
             <tr className="border-b border-slate-200">
-              <th className={cn(thBase, "w-[110px]")}>
+              <th className={cn(thRightAll, "w-[110px]")}>
                 Jatuh
                 <br />
                 Tempo
               </th>
 
-              <th className={cn(thRight, "w-[128px]")}>
+              <th className={cn(thRightAll, "w-[128px]")}>
                 Total Tagihan
                 <br />
                 Belum Dibayar
               </th>
 
-              <th className={cn(thRight, "w-[130px]")}>
+              <th className={cn(thRightAll, "w-[130px]")}>
                 Tagihan
                 <br />
                 Pokok
               </th>
 
-              <th className={cn(thRight, "w-[120px]")}>
+              <th className={cn(thRightAll, "w-[120px]")}>
                 Tagihan
                 <br />
                 Bunga
               </th>
 
-              <th className={cn(thRight, "w-[140px]")}>
+              <th className={cn(thRightAll, "w-[140px]")}>
                 Sisa Tagihan
                 <br />
                 Pokok
               </th>
 
-              <th className={cn(thRight, "w-[140px]")}>
+              <th className={cn(thRightAll, "w-[140px]")}>
                 Sisa Tagihan
                 <br />
                 Bunga
               </th>
 
-              <th className={cn(thRight, "w-[130px]")}>
+              <th className={cn(thRightAll, "w-[130px]")}>
                 Tagihan
                 <br />
                 Denda
               </th>
 
-              <th className={cn(thBase)} style={{ width: STATUS_COL_W }}>
+              <th className={cn(thRightAll)} style={{ width: STATUS_COL_W }}>
                 Status
                 <br />
                 Tagihan
