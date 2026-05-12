@@ -160,7 +160,7 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
         "rounded-[8px]",
         "bg-rose-600 text-white",
         "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
-        "text-[12.5px] font-semibold",
+        "text-[12px] font-semibold",
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-rose-600/20",
         "whitespace-nowrap",
       )}
@@ -267,7 +267,6 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ NO jadi 50px
   const COL = {
     no: 50,
     late: 200,
@@ -277,17 +276,19 @@ export default function PenaltyDetailDialog({
     aksi: 86,
   } as const;
 
+  // ✅ Samakan font tabel: header & body = 12px
   const thBase =
-    "px-2 pb-2 pt-2.5 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
+    "px-2 pb-2 pt-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
-    "px-2 py-2 text-[12.5px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+    "px-2 py-2 text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
   const thNo = cn(thBase, "px-1 w-[50px] max-w-[50px]");
   const tdNo = cn(tdBase, "px-1 w-[50px] max-w-[50px]");
 
+  // ✅ dropdown filter juga 12px
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
-    "text-[12.5px] font-semibold text-slate-700 shadow-none",
+    "text-[12px] font-semibold text-slate-700 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
@@ -542,7 +543,7 @@ export default function PenaltyDetailDialog({
                             >
                               <td className={tdNo}>{idx + 1}</td>
 
-                              <td className={cn("px-2 py-2 text-[12.5px] text-slate-900")}>
+                              <td className={cn("px-2 py-2 text-[12px] text-slate-900")}>
                                 <div className="line-clamp-2 leading-snug">
                                   {keterlambatanText}
                                 </div>
@@ -550,11 +551,11 @@ export default function PenaltyDetailDialog({
 
                               <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
 
-                              <td className="px-2 py-2 text-right text-[12.5px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-2 py-2 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
-                              <td className="px-2 py-2 text-[12.5px] text-slate-900">
+                              <td className="px-2 py-2 text-[12px] text-slate-900">
                                 <div className="flex items-center gap-2">
                                   <StatusPill status={r.status} />
                                   {statusInfoRows.length > 0 ? (
@@ -590,12 +591,12 @@ export default function PenaltyDetailDialog({
                       <tr className="border-t border-slate-300 bg-white">
                         <td
                           colSpan={3}
-                          className="px-2 py-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-900"
+                          className="px-2 py-2 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
                         >
                           TOTAL DENDA
                         </td>
 
-                        <td className="px-2 py-2 text-right text-[12.5px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        <td className="px-2 py-2 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
 
