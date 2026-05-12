@@ -5,9 +5,15 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-import BillingTableView2, {
-  type BillingRow,
-} from "@/components/anggota/BillingTableView2";
+
+type BillingRow = {
+  jatuhTempo: string;
+  totalBelumDibayar: string;
+  tagihanPokok: string;
+  tagihanBunga: string;
+  sisaPokok: string;
+  sisaBunga: string;
+};
 
 const seedRows: BillingRow[] = [
   {
@@ -92,6 +98,36 @@ const seedRows: BillingRow[] = [
   },
 ];
 
+type TagihanStatus = "Belum Dibayar" | "Dibayar Sebagian" | "Lunas";
+
+function statusForIndex(i: number): TagihanStatus {
+  // Prototype mapping biar bervariasi
+  const mod = i % 6;
+  if (mod === 0 || mod === 1) return "Belum Dibayar";
+  if (mod === 2 || mod === 3) return "Dibayar Sebagian";
+  return "Lunas";
+}
+
+function StatusPill({ status }: { status: TagihanStatus }) {
+  const cls =
+    status === "Lunas"
+      ? "bg-emerald-600 text-white ring-1 ring-emerald-600/20"
+      : status === "Dibayar Sebagian"
+        ? "bg-amber-500 text-white ring-1 ring-amber-500/20"
+        : "bg-rose-600 text-white ring-1 ring-rose-600/20";
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[12px] font-semibold leading-none",
+        cls,
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
 const footerH = 72;
 
 const cancelBtnStyle = cn(
@@ -101,6 +137,8 @@ const cancelBtnStyle = cn(
   "text-[11px] font-bold tracking-tight text-white",
   "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
 );
+
+const R = "rounded-[5px]";
 
 export default function DaftarTagihanReadOnlyDialog({
   open,
@@ -126,15 +164,6 @@ export default function DaftarTagihanReadOnlyDialog({
     return rowsAll.slice(start, start + pageSize);
   }, [page, pageSize, rowsAll]);
 
-  // read-only (BillingTableView2 tetap butuh selected), tapi checkbox disembunyikan via hideSelection
-  const [selected, setSelected] = React.useState<boolean[]>(() =>
-    rows.map(() => true),
-  );
-
-  React.useEffect(() => {
-    setSelected(rows.map(() => true));
-  }, [rows]);
-
   const showingStart = rowsAll.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rowsAll.length, page * pageSize);
 
@@ -144,6 +173,14 @@ export default function DaftarTagihanReadOnlyDialog({
       "bg-white text-slate-700 ring-1 ring-slate-200 shadow-sm transition",
       disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-50",
     );
+
+  const thBase =
+    "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  const thRight =
+    "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+  const tdBase = "px-4 py-3 text-[13px] font-medium text-slate-900";
+  const tdNum = cn(tdBase, "text-right tabular-nums whitespace-nowrap");
+  const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -183,29 +220,94 @@ export default function DaftarTagihanReadOnlyDialog({
             className="overflow-auto px-5 py-5 sm:px-6"
             style={{ maxHeight: `calc(85vh - 64px - 1px - ${footerH}px)` }}
           >
-            <div
-              className={cn(
-                "[&_.bg-white.px-3.py-3]:!py-1.5",
-                "[&_.px-4.py-4]:!py-2",
-              )}
-            >
-              <BillingTableView2
-                rows={rows}
-                selected={selected}
-                setSelected={setSelected}
-                isLocked={true}
-                showNextBillInfo={false}
-                showGraceInfo={page === 1}
-                highlightGraceBlock={page === 1}
-                keepGraceShellWithoutInfo={false}
-                hideSelection={true}
-                showPenaltyColumn={true}
-                penaltyDialogVariant="read-only"
-                disableRowRings
-                disableRowActiveRing
-                penaltyIndexOffset={(page - 1) * pageSize}
-                className="mt-0"
-              />
+            <div className={cn("overflow-hidden ring-1 ring-slate-200", R)}>
+              <div className="safe-x-scroll bg-white">
+                <table className="w-full min-w-[1060px] border-collapse bg-white">
+                  <thead className="bg-white">
+                    <tr className="border-b border-slate-200">
+                      <th className={cn(thBase, "w-[120px]")}>
+                        Jatuh
+                        <br />
+                        Tempo
+                      </th>
+
+                      <th className={cn(thRight, "w-[150px]")}>
+                        Total Tagihan
+                        <br />
+                        Belum Dibayar
+                      </th>
+
+                      <th className={cn(thRight, "w-[140px]")}>
+                        Tagihan
+                        <br />
+                        Pokok
+                      </th>
+
+                      <th className={cn(thRight, "w-[130px]")}>
+                        Tagihan
+                        <br />
+                        Bunga
+                      </th>
+
+                      <th className={cn(thRight, "w-[150px]")}>
+                        Sisa Tagihan
+                        <br />
+                        Pokok
+                      </th>
+
+                      <th className={cn(thRight, "w-[150px]")}>
+                        Sisa Tagihan
+                        <br />
+                        Bunga
+                      </th>
+
+                      <th className={cn(thBase, "w-[190px]")}>
+                        Status
+                        <br />
+                        Tagihan
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="bg-white">
+                    {rows.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="px-4 py-10 text-center text-sm text-slate-600"
+                        >
+                          Tidak ada data.
+                        </td>
+                      </tr>
+                    ) : (
+                      rows.map((r, idx) => {
+                        const globalIdx = (page - 1) * pageSize + idx;
+                        const status = statusForIndex(globalIdx);
+
+                        return (
+                          <tr
+                            key={`${r.jatuhTempo}-${globalIdx}`}
+                            className={cn(
+                              "border-t border-slate-200",
+                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                            )}
+                          >
+                            <td className={tdDate}>{r.jatuhTempo}</td>
+                            <td className={tdNum}>{r.totalBelumDibayar}</td>
+                            <td className={tdNum}>{r.tagihanPokok}</td>
+                            <td className={tdNum}>{r.tagihanBunga}</td>
+                            <td className={cn(tdNum, "pr-6")}>{r.sisaPokok}</td>
+                            <td className={cn(tdNum, "pr-6")}>{r.sisaBunga}</td>
+                            <td className={cn(tdBase, "whitespace-nowrap")}>
+                              <StatusPill status={status} />
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -253,6 +355,8 @@ export default function DaftarTagihanReadOnlyDialog({
               </button>
             </div>
           </div>
+
+          <div className="sr-only">{R}</div>
         </div>
       </DialogContent>
     </Dialog>
