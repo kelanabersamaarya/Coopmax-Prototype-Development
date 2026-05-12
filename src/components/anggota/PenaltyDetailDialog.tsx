@@ -267,17 +267,16 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Kolom dikunci via colgroup supaya benar-benar berubah
+  // ✅ Sesuai permintaan user (pakai colgroup biar benar-benar ngunci)
   const COL = {
-    no: 34,
-    late: 110,
-    tanggal: 90,
-    denda: 76,
-    status: 112,
-    aksi: 86,
+    no: 70,
+    late: 200,
+    tanggal: 160,
+    denda: 140,
+    status: 160,
+    aksi: 86, // tidak diminta, biarkan tetap kompak
   } as const;
 
-  // ✅ Padding diperkecil
   const thBase =
     "px-2 pb-2 pt-2.5 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
@@ -426,7 +425,18 @@ export default function PenaltyDetailDialog({
 
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[520px] table-fixed border-collapse border-l border-slate-300">
+                  <table
+                    className="w-full table-fixed border-collapse border-l border-slate-300"
+                    style={{
+                      minWidth:
+                        COL.no +
+                        COL.late +
+                        COL.tanggal +
+                        COL.denda +
+                        COL.status +
+                        COL.aksi,
+                    }}
+                  >
                     <colgroup>
                       <col style={{ width: COL.no }} />
                       <col style={{ width: COL.late }} />
@@ -439,7 +449,7 @@ export default function PenaltyDetailDialog({
                     <thead className="bg-white">
                       <tr className="text-left">
                         <th className={cn(thBase)}>NO.</th>
-                        <th className={cn(thBase)}>KETERLAMBATAN</th>
+                        <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
                         <th className={cn(thBase)}>TANGGAL</th>
                         <th className={cn(thBase)}>DENDA</th>
                         <th className={cn(thBase)}>STATUS</th>
