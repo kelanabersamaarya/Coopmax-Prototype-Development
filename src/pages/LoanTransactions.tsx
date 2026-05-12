@@ -9,7 +9,6 @@ import {
   Percent,
   ArrowUp,
   Banknote,
-  Eraser,
 } from "lucide-react";
 import LoanTransactionsTable from "@/components/loans/LoanTransactionsTable";
 import LoanTransactionsDetailHeader from "@/components/loans/LoanTransactionsDetailHeader";
@@ -129,11 +128,6 @@ export default function LoanTransactions() {
       label: "Pembayaran Angsuran V2",
       icon: Banknote,
       onClick: () => navigate("/loans/transactions/installment-payment-v2"),
-    },
-    {
-      label: "Pemutihan Pinjaman",
-      icon: Eraser,
-      onClick: () => navigate("/loans/pemutihan"),
     },
   ];
 
