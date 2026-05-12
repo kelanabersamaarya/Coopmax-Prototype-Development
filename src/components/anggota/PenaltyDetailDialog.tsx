@@ -162,7 +162,6 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
         "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
         "text-[12px] font-semibold",
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-rose-600/20",
-        // allow wrap so the column can be narrower
         "whitespace-normal leading-[1.05]",
       )}
     >
@@ -272,7 +271,6 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Perkecil lagi kolom AKSI
   const COL = {
     no: 44,
     late: 170,
@@ -290,8 +288,9 @@ export default function PenaltyDetailDialog({
   const thNo = cn(thBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
   const tdNo = cn(tdBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
 
-  const thAksi = cn(thBase, "px-0.5");
-  const tdAksi = "px-0.5 py-2";
+  // ✅ Tambah sedikit padding kanan kolom AKSI
+  const thAksi = cn(thBase, "pl-1 pr-2");
+  const tdAksi = "pl-1 pr-2 py-2";
 
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
@@ -473,7 +472,7 @@ export default function PenaltyDetailDialog({
                           <option value="Dibatalkan">Dibatalkan</option>
                         </select>
                       </th>
-                      <th className="px-0.5 py-1.5" />
+                      <th className="pl-1 pr-2 py-1.5" />
                     </tr>
                   </thead>
 
@@ -599,7 +598,7 @@ export default function PenaltyDetailDialog({
 
                       <td className={cn(statusCellPad, "py-2")} />
 
-                      <td className="px-0.5 py-2" />
+                      <td className="pl-1 pr-2 py-2" />
                     </tr>
                   </tbody>
                 </table>
