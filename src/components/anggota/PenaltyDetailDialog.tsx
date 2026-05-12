@@ -271,7 +271,6 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Perkecil lagi kolom AKSI
   const COL = {
     no: 44,
     late: 170,
@@ -281,16 +280,15 @@ export default function PenaltyDetailDialog({
     aksi: 104,
   } as const;
 
-  // ✅ Semua teks table 12px
   const thBase =
     "px-2 pb-2 pt-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
     "px-2 py-2 text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
-  const thNo = cn(thBase, "px-1 w-[44px] max-w-[44px]");
-  const tdNo = cn(tdBase, "px-1 w-[44px] max-w-[44px]");
+  // ✅ Tambah sedikit padding kiri kolom NO (header & body)
+  const thNo = cn(thBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
+  const tdNo = cn(tdBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
 
-  // ✅ rapatkan header/body kolom aksi
   const thAksi = cn(thBase, "px-0.5");
   const tdAksi = "px-0.5 py-2";
 
@@ -457,7 +455,7 @@ export default function PenaltyDetailDialog({
                     </tr>
 
                     <tr className="border-b border-slate-300 bg-white">
-                      <th className="px-1 py-1.5" />
+                      <th className="pl-2 pr-1 py-1.5" />
                       <th className="px-2 py-1.5" />
                       <th className="px-2 py-1.5" />
                       <th className="px-2 py-1.5" />
