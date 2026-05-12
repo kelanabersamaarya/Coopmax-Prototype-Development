@@ -5,9 +5,9 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-import BillingTableView2, {
+import BillingTableWithStatus, {
   type BillingRow,
-} from "@/components/anggota/BillingTableView2";
+} from "@/components/loans/BillingTableWithStatus";
 
 const seedRows: BillingRow[] = [
   {
@@ -92,51 +92,6 @@ const seedRows: BillingRow[] = [
   },
 ];
 
-type TagihanStatus = "Belum Dibayar" | "Dibayar Sebagian" | "Lunas";
-
-function statusForIndex(i: number): TagihanStatus {
-  // Prototype mapping biar bervariasi
-  const mod = i % 6;
-  if (mod === 0 || mod === 1) return "Belum Dibayar";
-  if (mod === 2 || mod === 3) return "Dibayar Sebagian";
-  return "Lunas";
-}
-
-function StatusPill({ status }: { status: TagihanStatus }) {
-  const cls =
-    status === "Lunas"
-      ? "bg-emerald-600 text-white ring-1 ring-emerald-600/20"
-      : status === "Dibayar Sebagian"
-        ? "bg-amber-500 text-white ring-1 ring-amber-500/20"
-        : "bg-rose-600 text-white ring-1 ring-rose-600/20";
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[12px] font-semibold leading-none",
-        cls,
-      )}
-    >
-      {status}
-    </span>
-  );
-}
-
-// Meniru RowShell BillingTableView2 (tanpa ring active)
-function StatusRowShell({
-  children,
-  compact = true,
-}: {
-  children: React.ReactNode;
-  compact?: boolean;
-}) {
-  return (
-    <div className={cn("bg-white px-3", compact ? "py-1.5" : "py-3")}>
-      <div className="rounded-[5px] bg-white">{children}</div>
-    </div>
-  );
-}
-
 const footerH = 72;
 
 const cancelBtnStyle = cn(
@@ -146,8 +101,6 @@ const cancelBtnStyle = cn(
   "text-[11px] font-bold tracking-tight text-white",
   "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
 );
-
-const R = "rounded-[5px]";
 
 export default function DaftarTagihanReadOnlyDialog({
   open,
@@ -182,53 +135,7 @@ export default function DaftarTagihanReadOnlyDialog({
       disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-50",
     );
 
-  // keep BillingTableView2 selection API satisfied (read-only usage)
-  const [selected, setSelected] = React.useState<boolean[]>(() =>
-    rows.map(() => false),
-  );
-
-  React.useEffect(() => {
-    setSelected(rows.map(() => false));
-  }, [rows]);
-
-  // Grace/highlight seperti sebelumnya: hanya halaman 1
-  const showGrace = page === 1;
-  const graceCount = showGrace ? Math.min(2, rows.length) : 0;
-  const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
-  const afterGraceRows = graceCount > 0 ? rows.slice(graceCount) : rows;
-
-  // Status per row tagihan (abaikan 1 info row); index global agar konsisten antar halaman
-  const statusForRowIndex = React.useCallback(
-    (localIdx: number) => {
-      const globalIdx = (page - 1) * pageSize + localIdx;
-      return statusForIndex(globalIdx);
-    },
-    [page, pageSize],
-  );
-
-  const statusColW = 190;
-
-  // Mimic header height from BillingTableHeader (py-3)
-  const statusHeader = (
-    <div className="border-b border-slate-200 px-4 py-3">
-      <div className="text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
-        Status
-        <br />
-        Tagihan
-      </div>
-    </div>
-  );
-
-  // Mimic GracePeriodInfoRow vertical spacing a bit (it uses <td className="py-1.5"> with inner paddings)
-  const graceInfoPlaceholder = (
-    <div className="bg-white py-1.5">
-      <div className="bg-white px-1.5 py-1.5">
-        <div className="rounded-2xl border border-blue-200 bg-blue-50 px-2.5 py-2">
-          <div className="text-[12px] font-semibold text-slate-500">—</div>
-        </div>
-      </div>
-    </div>
-  );
+  const showGraceHighlight = page === 1;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -268,92 +175,13 @@ export default function DaftarTagihanReadOnlyDialog({
             className="overflow-auto px-5 py-5 sm:px-6"
             style={{ maxHeight: `calc(85vh - 64px - 1px - ${footerH}px)` }}
           >
-            <div className={cn("overflow-hidden ring-1 ring-slate-200", R)}>
-              <div className="safe-x-scroll bg-white">
-                <div className="min-w-[1180px]">
-                  <div className="flex w-full">
-                    {/* LEFT: BillingTableView2 (keeps grace/highlight + penalty column) */}
-                    <div className="min-w-0 flex-1">
-                      <BillingTableView2
-                        rows={rows}
-                        selected={selected}
-                        setSelected={setSelected}
-                        isLocked={true}
-                        showNextBillInfo={false}
-                        showGraceInfo={true}
-                        highlightGraceBlock={showGrace}
-                        keepGraceShellWithoutInfo={false}
-                        hideSelection={true}
-                        showPenaltyColumn={true}
-                        penaltyContentEnabled={true}
-                        penaltyDialogVariant="read-only"
-                        disableRowRings
-                        disableRowActiveRing
-                        rowDensity="default"
-                        className="mt-0"
-                      />
-                    </div>
-
-                    {/* RIGHT: status column (table-structured to match row heights) */}
-                    <div
-                      className="shrink-0 border-l border-slate-200 bg-white"
-                      style={{ width: statusColW }}
-                    >
-                      {statusHeader}
-
-                      {/* Body */}
-                      <div className="bg-white">
-                        {/* 1) Grace info row placeholder (align with GracePeriodInfoRow) */}
-                        {graceInfoPlaceholder}
-
-                        {/* 2) Grace block wrapper (align with highlightGraceBlock wrapper) */}
-                        {showGrace && graceRows.length > 0 ? (
-                          <div className="border-t border-slate-200">
-                            <div className="bg-white p-0">
-                              <div className="bg-white p-2">
-                                <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
-                                  {graceRows.map((r, idx) => (
-                                    <div
-                                      key={`${r.jatuhTempo}-status-grace-${idx}`}
-                                      className={cn(
-                                        idx === 0 ? "" : "border-t border-slate-200",
-                                      )}
-                                    >
-                                      <StatusRowShell compact>
-                                        <div className="px-4 py-2.5">
-                                          <StatusPill status={statusForRowIndex(idx)} />
-                                        </div>
-                                      </StatusRowShell>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ) : null}
-
-                        {/* 3) Remaining rows (match RowShell + row divider) */}
-                        {afterGraceRows.map((r, idx) => {
-                          const rowIndex = graceCount + idx;
-
-                          return (
-                            <div
-                              key={`${r.jatuhTempo}-status-${rowIndex}`}
-                              className="border-t border-slate-200"
-                            >
-                              <StatusRowShell compact>
-                                <div className="px-4 py-2.5">
-                                  <StatusPill status={statusForRowIndex(rowIndex)} />
-                                </div>
-                              </StatusRowShell>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className={cn("bg-white")}>
+              <BillingTableWithStatus
+                rows={rows}
+                showGraceHighlight={showGraceHighlight}
+                penaltyIndexOffset={(page - 1) * pageSize}
+                className="mt-0"
+              />
             </div>
 
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -401,8 +229,6 @@ export default function DaftarTagihanReadOnlyDialog({
               </button>
             </div>
           </div>
-
-          <div className="sr-only">{R}</div>
         </div>
       </DialogContent>
     </Dialog>
