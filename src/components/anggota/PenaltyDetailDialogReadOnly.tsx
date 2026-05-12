@@ -216,7 +216,7 @@ export default function PenaltyDetailDialogReadOnly({
       <DialogContent
         className={cn(
           "w-[calc(100vw-1.25rem)]",
-          "sm:w-[840px] sm:max-w-[840px]",
+          "sm:w-[780px] sm:max-w-[780px]",
           "max-h-[80vh]",
           "overflow-hidden",
           R,
