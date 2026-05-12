@@ -176,7 +176,6 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ NO jadi 70px
   const COL = {
     no: 70,
     late: 200,
@@ -191,6 +190,13 @@ export default function PenaltyDetailDialogReadOnly({
   const thBase =
     "px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase = "px-3 py-2.5 text-[13px] font-normal text-slate-900";
+
+  // ✅ hanya NO yang diperkecil padding-nya (alignment tidak berubah: tetap text-left)
+  const thNo = cn(
+    "px-2 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900",
+    "w-[70px] max-w-[70px]",
+  );
+  const tdNo = cn(tdBase, "px-2 w-[70px] max-w-[70px]");
 
   const filterSelectCls = cn(
     "h-9 w-full rounded-[10px] border border-slate-200 bg-white px-3",
@@ -259,7 +265,7 @@ export default function PenaltyDetailDialogReadOnly({
 
                   <thead className="bg-white">
                     <tr className="text-left">
-                      <th className={cn(thBase)} style={{ width: COL.no }}>
+                      <th className={thNo} style={{ width: COL.no }}>
                         NO.
                       </th>
                       <th className={cn(thBase)} style={{ width: COL.late }}>
@@ -277,7 +283,7 @@ export default function PenaltyDetailDialogReadOnly({
                     </tr>
 
                     <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
-                      <th className="px-3 py-2" style={{ width: COL.no }} />
+                      <th className="px-2 py-2" style={{ width: COL.no }} />
                       <th className="px-3 py-2" style={{ width: COL.late }} />
                       <th className="px-3 py-2" style={{ width: COL.tanggal }} />
                       <th className="px-3 py-2" style={{ width: COL.denda }} />
@@ -329,7 +335,7 @@ export default function PenaltyDetailDialogReadOnly({
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
-                            <td className={cn(tdBase)} style={{ width: COL.no }}>
+                            <td className={tdNo} style={{ width: COL.no }}>
                               <CellText>{idx + 1}</CellText>
                             </td>
 
