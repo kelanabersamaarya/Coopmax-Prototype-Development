@@ -179,7 +179,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ Ukuran kolom sesuai request (WIDTH HARUS PAS colgroup, tanpa ditambah padding th/td)
+  // Ukuran kolom sesuai request (presisi mengikuti colgroup)
   const COL = {
     no: 65,
     late: 200,
@@ -254,8 +254,8 @@ export default function PenaltyDetailDialogReadOnly({
             <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
               <div className="safe-x-scroll bg-white">
                 <table
-                  className="w-full table-fixed border-collapse"
-                  style={{ minWidth: tableMinWidth }}
+                  className="table-fixed border-collapse"
+                  style={{ minWidth: tableMinWidth, width: tableMinWidth }}
                 >
                   <colgroup>
                     <col style={{ width: COL.no }} />
