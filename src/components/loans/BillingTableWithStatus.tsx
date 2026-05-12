@@ -23,8 +23,10 @@ type TagihanStatus = "Belum Dibayar" | "Dibayar Sebagian" | "Lunas";
 function statusForIndex(i: number): TagihanStatus {
   // ✅ Sesuai request:
   // - urutan no 1 & 2 => Lunas
-  // - baris bawah => Belum Dibayar
+  // - tambahkan status Dibayar Sebagian
+  // - sisanya => Belum Dibayar
   if (i === 0 || i === 1) return "Lunas";
+  if (i === 2 || i === 3) return "Dibayar Sebagian";
   return "Belum Dibayar";
 }
 
