@@ -177,7 +177,6 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ 12px everywhere inside table
   const headerWrapCls =
     "px-4 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
   const bodyWrapCls = "px-4 py-3 text-left text-[12px] font-normal text-slate-900";
@@ -234,8 +233,14 @@ export default function PenaltyDetailDialogReadOnly({
             className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
-            {/* ✅ rounded table container = 5px */}
-            <div className="w-full overflow-hidden rounded-[5px] border border-slate-300 bg-white">
+            {/* ✅ border-left dipaksa + ring supaya konsisten across build */}
+            <div
+              className={cn(
+                "w-full overflow-hidden rounded-[5px] bg-white",
+                "border border-slate-300 border-l border-l-slate-300",
+                "ring-1 ring-slate-300/60 ring-inset",
+              )}
+            >
               <div className="safe-x-scroll w-full bg-white">
                 <table className="w-full min-w-[640px] border-collapse text-[12px]">
                   <thead className="bg-slate-50">
@@ -245,7 +250,6 @@ export default function PenaltyDetailDialogReadOnly({
                         KETERLAMBATAN (HARI)
                       </th>
                       <th className={cn(headerWrapCls, "w-[140px]")}>TANGGAL</th>
-                      {/* ✅ header juga rata kiri walaupun kolom angka */}
                       <th className={cn(headerWrapCls, "w-[140px]")}>DENDA</th>
                       <th className={cn(headerWrapCls, "min-w-[160px]")}>STATUS</th>
                     </tr>
