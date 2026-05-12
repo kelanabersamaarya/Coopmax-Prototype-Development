@@ -179,7 +179,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // Table widths (keep)
+  // Table widths (kembali seperti semula)
   const COL = {
     no: 65,
     late: 200,
@@ -214,10 +214,6 @@ export default function PenaltyDetailDialogReadOnly({
 
   const contentPadX = "px-6";
 
-  // ✅ Layout modal: no giant empty area, footer always visible
-  // Height budget: header(64) + separator(1) + footer(64) + separator(1)
-  const contentMaxH = "calc(80vh - 64px - 1px - 64px - 1px)";
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -232,7 +228,7 @@ export default function PenaltyDetailDialogReadOnly({
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <div className={cn("bg-white")}>
+        <div className="bg-white">
           {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="min-w-0">
@@ -257,25 +253,14 @@ export default function PenaltyDetailDialogReadOnly({
 
           <Separator className="bg-slate-200" />
 
-          {/* Body (scroll only here) */}
+          {/* Body: hanya scroll vertikal */}
           <div
             className={cn("overflow-auto py-5", contentPadX)}
-            style={{ maxHeight: contentMaxH }}
+            style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
-            <div
-              className={cn(
-                "w-full rounded-[5px] bg-white ring-1 ring-slate-300",
-                "overflow-visible",
-              )}
-            >
-              <div
-                className={cn(
-                  "safe-x-scroll w-full bg-white",
-                  // ✅ right gutter: prevent last column/border getting hidden by scrollbar
-                  "box-content pr-8",
-                )}
-                style={{ scrollbarGutter: "stable both-edges" }}
-              >
+            <div className={cn("w-full rounded-[5px] bg-white ring-1 ring-slate-300")}>
+              {/* KEMBALI: scroll horizontal standar, tanpa trik padding/gutter */}
+              <div className="safe-x-scroll w-full bg-white">
                 <table
                   className={cn(
                     "table-fixed border-collapse",
@@ -356,7 +341,8 @@ export default function PenaltyDetailDialogReadOnly({
                       </tr>
                     ) : (
                       filteredRows.map((r, idx) => {
-                        const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
+                        const lateDays =
+                          lateDaysPattern[idx % lateDaysPattern.length];
 
                         const statusInfoRows: Array<{ k: string; v: string }> =
                           r.status === "Dibatalkan"
@@ -398,7 +384,9 @@ export default function PenaltyDetailDialogReadOnly({
 
                             <td className={tdBase}>
                               <div className={cn(bodyWrapRightCls)}>
-                                <CellText className="text-right">{r.nominalDenda}</CellText>
+                                <CellText className="text-right">
+                                  {r.nominalDenda}
+                                </CellText>
                               </div>
                             </td>
 
