@@ -125,7 +125,6 @@ function toIdr00(v: string) {
 }
 
 function RowShell({ children }: { children: React.ReactNode }) {
-  // mimic BillingTableView2 compact row
   return (
     <div className="bg-white px-3 py-1.5">
       <div className="rounded-[5px] bg-white">{children}</div>
@@ -140,6 +139,8 @@ function RightNum({ value }: { value: string }) {
     </NumericCell>
   );
 }
+
+const STATUS_COL_W = 140;
 
 export default function BillingTableWithStatus({
   rows,
@@ -158,7 +159,6 @@ export default function BillingTableWithStatus({
   const showPenaltyColumn = true;
   const hideSelection = true;
 
-  // +1 kolom untuk STATUS
   const colCount = (hideSelection ? 6 : 7) + (showPenaltyColumn ? 1 : 0) + 1;
 
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
@@ -174,7 +174,7 @@ export default function BillingTableWithStatus({
 
   function StatusCell({ status }: { status: TagihanStatus }) {
     return (
-      <div className="px-4 py-2.5">
+      <div className="px-3 py-2.5">
         <StatusPill status={status} />
       </div>
     );
@@ -193,7 +193,12 @@ export default function BillingTableWithStatus({
 
     return (
       <RowShell>
-        <div className="grid items-center [grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)_190px]">
+        <div
+          className={cn(
+            "grid items-center",
+            `[grid-template-columns:minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1.1fr)_minmax(0,1.1fr)_minmax(0,0.95fr)_${STATUS_COL_W}px]`,
+          )}
+        >
           <div className="px-4 py-2.5 text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap">
             {r.jatuhTempo}
           </div>
@@ -250,7 +255,6 @@ export default function BillingTableWithStatus({
 
       <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
         <table className="w-full border-collapse text-[13px]">
-          {/* ✅ Single header row: include Status Tagihan in the same header row */}
           <thead className="bg-white">
             <tr className="border-b border-slate-200">
               <th className={cn(thBase, "w-[110px]")}>
@@ -295,7 +299,7 @@ export default function BillingTableWithStatus({
                 Denda
               </th>
 
-              <th className={cn(thBase, "w-[190px]")}>
+              <th className={cn(thBase)} style={{ width: STATUS_COL_W }}>
                 Status
                 <br />
                 Tagihan
