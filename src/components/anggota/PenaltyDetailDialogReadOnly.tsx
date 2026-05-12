@@ -53,7 +53,7 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
     <span
       className={cn(
         "inline-flex items-center justify-center",
-        "min-w-[74px]",
+        "min-w-[66px]",
         "rounded-[7px] px-2 py-1",
         "text-[12px] font-semibold leading-none",
         cls,
@@ -179,12 +179,13 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
+  // ✅ Perkecil lebar kolom agar tabel lebih rapat
   const COL = {
-    no: 70,
-    late: 200,
-    tanggal: 160,
-    denda: 140,
-    status: 160,
+    no: 54,
+    late: 170,
+    tanggal: 140,
+    denda: 120,
+    status: 140,
   } as const;
 
   const tableMinWidth =
@@ -192,18 +193,18 @@ export default function PenaltyDetailDialogReadOnly({
 
   // ✅ Samakan font tabel: header & body = 12px
   const thBase =
-    "px-3 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
-  const tdBase = "px-3 py-2.5 text-[12px] font-normal text-slate-900";
+    "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
+  const tdBase = "px-2 py-2.5 text-[12px] font-normal text-slate-900";
 
   const thNo = cn(
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-    "w-[70px] max-w-[70px]",
+    "w-[54px] max-w-[54px]",
   );
-  const tdNo = cn(tdBase, "px-2 w-[70px] max-w-[70px]");
+  const tdNo = cn(tdBase, "px-2 w-[54px] max-w-[54px]");
 
-  // ✅ dropdown filter juga 12px
+  // ✅ dropdown filter juga 12px (lebih rapat)
   const filterSelectCls = cn(
-    "h-9 w-full rounded-[10px] border border-slate-200 bg-white px-3",
+    "h-9 w-full rounded-[10px] border border-slate-200 bg-white px-2.5",
     "text-[12px] font-semibold text-slate-800 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
@@ -288,10 +289,10 @@ export default function PenaltyDetailDialogReadOnly({
 
                     <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
                       <th className="px-2 py-2" style={{ width: COL.no }} />
-                      <th className="px-3 py-2" style={{ width: COL.late }} />
-                      <th className="px-3 py-2" style={{ width: COL.tanggal }} />
-                      <th className="px-3 py-2" style={{ width: COL.denda }} />
-                      <th className="px-3 py-2" style={{ width: COL.status }}>
+                      <th className="px-2 py-2" style={{ width: COL.late }} />
+                      <th className="px-2 py-2" style={{ width: COL.tanggal }} />
+                      <th className="px-2 py-2" style={{ width: COL.denda }} />
+                      <th className="px-2 py-2" style={{ width: COL.status }}>
                         <select
                           value={statusFilter}
                           onChange={(e) =>
@@ -359,7 +360,7 @@ export default function PenaltyDetailDialogReadOnly({
 
                             <td
                               className={cn(
-                                "px-3 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap",
+                                "px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap",
                               )}
                               style={{ width: COL.denda }}
                             >
@@ -369,7 +370,7 @@ export default function PenaltyDetailDialogReadOnly({
                             </td>
 
                             <td
-                              className={cn("px-3 py-2.5")}
+                              className={cn("px-2 py-2.5")}
                               style={{ width: COL.status }}
                             >
                               <div className="flex min-w-0 items-center gap-2">
@@ -390,19 +391,19 @@ export default function PenaltyDetailDialogReadOnly({
                     <tr className="border-t border-slate-200 bg-white">
                       <td
                         colSpan={3}
-                        className="px-3 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
+                        className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
                       >
                         TOTAL DENDA
                       </td>
 
                       <td
-                        className="px-3 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
+                        className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
                         style={{ width: COL.denda }}
                       >
                         {totalText}
                       </td>
 
-                      <td className="px-3 py-3" style={{ width: COL.status }} />
+                      <td className="px-2 py-3" style={{ width: COL.status }} />
                     </tr>
                   </tbody>
                 </table>
