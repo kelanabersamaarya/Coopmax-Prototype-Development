@@ -21,10 +21,11 @@ export type BillingRow = {
 type TagihanStatus = "Belum Dibayar" | "Dibayar Sebagian" | "Lunas";
 
 function statusForIndex(i: number): TagihanStatus {
-  const mod = i % 6;
-  if (mod === 0 || mod === 1) return "Belum Dibayar";
-  if (mod === 2 || mod === 3) return "Dibayar Sebagian";
-  return "Lunas";
+  // ✅ Sesuai request:
+  // - urutan no 1 & 2 => Lunas
+  // - baris bawah => Belum Dibayar
+  if (i === 0 || i === 1) return "Lunas";
+  return "Belum Dibayar";
 }
 
 function StatusPill({ status }: { status: TagihanStatus }) {
