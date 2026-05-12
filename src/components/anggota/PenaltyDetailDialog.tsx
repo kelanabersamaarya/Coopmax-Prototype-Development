@@ -271,7 +271,6 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Perkecil lagi: kolom AKSI jadi lebih kecil
   const COL = {
     no: 44,
     late: 170,
@@ -281,8 +280,9 @@ export default function PenaltyDetailDialog({
     aksi: 118,
   } as const;
 
+  // ✅ Semua teks table dibuat 12px
   const thBase =
-    "px-2 pb-2 pt-2.5 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+    "px-2 pb-2 pt-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
     "px-2 py-2 text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
@@ -424,7 +424,7 @@ export default function PenaltyDetailDialog({
                   className={cn(
                     "inline-flex h-9 items-center justify-center gap-2 px-3.5",
                     "rounded-[5px] bg-[#2563eb] text-white",
-                    "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
+                    "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8)]",
                     "text-[13px] font-semibold",
                   )}
                 >
@@ -479,7 +479,7 @@ export default function PenaltyDetailDialog({
                       <tr>
                         <td
                           colSpan={6}
-                          className="px-4 py-10 text-center text-sm text-slate-600"
+                          className="px-4 py-10 text-center text-[12px] text-slate-600"
                         >
                           Tidak ada rincian denda.
                         </td>
