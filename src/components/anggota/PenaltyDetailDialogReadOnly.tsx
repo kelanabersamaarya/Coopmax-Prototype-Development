@@ -179,7 +179,6 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // Table widths (kembali seperti semula)
   const COL = {
     no: 65,
     late: 200,
@@ -188,8 +187,12 @@ export default function PenaltyDetailDialogReadOnly({
     status: 170,
   } as const;
 
-  const tableMinWidth =
+  const baseTableWidth =
     COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
+
+  // ✅ tambahan lebar agar area padding kanan ikut dihitung sebagai "konten" scroll
+  const RIGHT_GUTTER_PX = 24;
+  const tableMinWidth = baseTableWidth + RIGHT_GUTTER_PX;
 
   const headerWrapCls =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
@@ -229,7 +232,6 @@ export default function PenaltyDetailDialogReadOnly({
         )}
       >
         <div className="bg-white">
-          {/* Header */}
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="min-w-0">
               <div className="text-lg font-extrabold tracking-tight text-slate-900">
@@ -253,14 +255,16 @@ export default function PenaltyDetailDialogReadOnly({
 
           <Separator className="bg-slate-200" />
 
-          {/* Body: hanya scroll vertikal */}
           <div
             className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
             <div className={cn("w-full rounded-[5px] bg-white ring-1 ring-slate-300")}>
-              {/* KEMBALI: scroll horizontal standar, tanpa trik padding/gutter */}
-              <div className="safe-x-scroll w-full bg-white">
+              {/* ✅ Safe-x-scroll tetap, hanya tambah padding kanan */}
+              <div
+                className={cn("safe-x-scroll w-full bg-white")}
+                style={{ paddingRight: RIGHT_GUTTER_PX }}
+              >
                 <table
                   className={cn(
                     "table-fixed border-collapse",
@@ -429,11 +433,12 @@ export default function PenaltyDetailDialogReadOnly({
                 </table>
               </div>
             </div>
+
+            <div className="sr-only">{RIGHT_GUTTER_PX}</div>
           </div>
 
           <Separator className="bg-slate-200" />
 
-          {/* Footer */}
           <div className={cn("py-4", contentPadX)}>
             <div className="flex justify-end">
               <button
