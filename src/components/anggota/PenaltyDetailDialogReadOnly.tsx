@@ -179,30 +179,30 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ Perkecil lebar kolom agar tabel lebih rapat
+  // ✅ Ukuran kolom sesuai request
   const COL = {
-    no: 54,
-    late: 170,
-    tanggal: 140,
-    denda: 120,
-    status: 140,
+    no: 65,
+    late: 200,
+    tanggal: 160,
+    denda: 140,
+    status: 170,
   } as const;
 
   const tableMinWidth =
     COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
 
-  // ✅ Samakan font tabel: header & body = 12px
+  // ✅ Font tabel: header & body = 12px
   const thBase =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase = "px-2 py-2.5 text-[12px] font-normal text-slate-900";
 
   const thNo = cn(
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-    "w-[54px] max-w-[54px]",
+    "w-[65px] max-w-[65px]",
   );
-  const tdNo = cn(tdBase, "px-2 w-[54px] max-w-[54px]");
+  const tdNo = cn(tdBase, "px-2 w-[65px] max-w-[65px]");
 
-  // ✅ dropdown filter juga 12px (lebih rapat)
+  // ✅ dropdown filter juga 12px
   const filterSelectCls = cn(
     "h-9 w-full rounded-[10px] border border-slate-200 bg-white px-2.5",
     "text-[12px] font-semibold text-slate-800 shadow-none",
