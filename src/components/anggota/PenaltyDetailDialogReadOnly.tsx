@@ -154,6 +154,12 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
+  // ✅ padding lebih rapat biar semua kolom terasa lebih kecil
+  const thBase =
+    "px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+  const tdBase =
+    "px-3 py-2.5 text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -201,37 +207,29 @@ export default function PenaltyDetailDialogReadOnly({
           >
             <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[540px] table-fixed border-collapse border-l border-slate-300">
+                {/* ✅ min-width diperkecil + semua kolom dibuat lebih sempit */}
+                <table className="w-full min-w-[460px] table-fixed border-collapse border-l border-slate-300">
                   <thead className="bg-white">
                     <tr className="text-left">
-                      <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                        NO.
-                      </th>
+                      <th className={cn("w-[44px]", thBase)}>NO.</th>
 
-                      <th className="w-[150px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <th className={cn("w-[120px]", thBase)}>
                         KETERLAMBATAN (HARI)
                       </th>
 
-                      <th className="w-[110px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                        TANGGAL
-                      </th>
+                      <th className={cn("w-[92px]", thBase)}>TANGGAL</th>
 
-                      <th className="w-[96px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                        DENDA
-                      </th>
+                      <th className={cn("w-[78px]", thBase)}>DENDA</th>
 
-                      {/* ✅ perkecil lagi */}
-                      <th className="w-[96px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                        STATUS
-                      </th>
+                      <th className={cn("w-[86px]", thBase)}>STATUS</th>
                     </tr>
 
                     <tr className="border-b border-slate-300 bg-white">
-                      <th className="px-4 py-2" />
-                      <th className="px-4 py-2" />
-                      <th className="px-4 py-2" />
-                      <th className="px-4 py-2" />
-                      <th className="px-4 pt-1 pb-2">
+                      <th className="px-3 py-2" />
+                      <th className="px-3 py-2" />
+                      <th className="px-3 py-2" />
+                      <th className="px-3 py-2" />
+                      <th className="px-3 pt-1 pb-2">
                         <div className="relative">
                           <select
                             value={statusFilter}
@@ -284,23 +282,24 @@ export default function PenaltyDetailDialogReadOnly({
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
-                            <td className="px-4 py-3 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                              {idx + 1}
-                            </td>
+                            <td className={cn("w-[44px]", tdBase)}>{idx + 1}</td>
 
-                            <td className="px-4 py-3 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                              {lateDays}
-                            </td>
+                            <td className={cn("w-[120px]", tdBase)}>{lateDays}</td>
 
-                            <td className="px-4 py-3 text-left text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                            <td className={cn("w-[92px]", tdBase)}>
                               {r.tanggalKeterlambatan}
                             </td>
 
-                            <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                            <td
+                              className={cn(
+                                "w-[78px]",
+                                "px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap",
+                              )}
+                            >
                               {r.nominalDenda}
                             </td>
 
-                            <td className="px-4 py-3 text-[14px] font-normal text-slate-900">
+                            <td className={cn("w-[86px]", "px-3 py-2.5")}>
                               <div className="flex items-center gap-2">
                                 <StatusPill status={r.status} />
                                 {statusInfoRows.length > 0 ? (
@@ -319,16 +318,16 @@ export default function PenaltyDetailDialogReadOnly({
                     <tr className="border-t border-slate-300 bg-white">
                       <td
                         colSpan={3}
-                        className="px-4 py-3 text-[13px] font-extrabold uppercase tracking-wide text-slate-900"
+                        className="px-3 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
                       >
                         TOTAL DENDA
                       </td>
 
-                      <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                      <td className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                         {totalText}
                       </td>
 
-                      <td className="px-4 py-3" />
+                      <td className="px-3 py-2.5" />
                     </tr>
                   </tbody>
                 </table>
