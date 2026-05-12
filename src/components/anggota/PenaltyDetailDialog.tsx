@@ -271,16 +271,17 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
+  // ✅ Perkecil lagi kolom AKSI
   const COL = {
     no: 44,
     late: 170,
     tanggal: 120,
     denda: 110,
     status: 160,
-    aksi: 118,
+    aksi: 104,
   } as const;
 
-  // ✅ Semua teks table dibuat 12px
+  // ✅ Semua teks table 12px
   const thBase =
     "px-2 pb-2 pt-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
@@ -289,8 +290,9 @@ export default function PenaltyDetailDialog({
   const thNo = cn(thBase, "px-1 w-[44px] max-w-[44px]");
   const tdNo = cn(tdBase, "px-1 w-[44px] max-w-[44px]");
 
-  const thAksi = cn(thBase, "px-1");
-  const tdAksi = "px-1 py-2";
+  // ✅ rapatkan header/body kolom aksi
+  const thAksi = cn(thBase, "px-0.5");
+  const tdAksi = "px-0.5 py-2";
 
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
@@ -470,7 +472,7 @@ export default function PenaltyDetailDialog({
                           <option value="Dibatalkan">Dibatalkan</option>
                         </select>
                       </th>
-                      <th className="px-1 py-1.5" />
+                      <th className="px-0.5 py-1.5" />
                     </tr>
                   </thead>
 
@@ -596,7 +598,7 @@ export default function PenaltyDetailDialog({
 
                       <td className="px-2 py-2" />
 
-                      <td className="px-1 py-2" />
+                      <td className="px-0.5 py-2" />
                     </tr>
                   </tbody>
                 </table>
