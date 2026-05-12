@@ -43,11 +43,12 @@ function StatusPill({ status }: { status: TagihanStatus }) {
       className={cn(
         "block w-full",
         "rounded-[5px] px-2.5 py-1",
-        "text-center text-[12px] font-semibold leading-[1.05]",
+        "text-center text-[12px] font-semibold leading-[1.15]",
+        "whitespace-normal break-words",
         cls,
       )}
     >
-      {status}
+      <span className="block line-clamp-2">{status}</span>
     </span>
   );
 }
@@ -137,7 +138,8 @@ function RightNum({ value }: { value: string }) {
   );
 }
 
-const STATUS_COL_W = 160;
+// ✅ Lebarkan sedikit biar label "Dibayar Sebagian" tidak sempit
+const STATUS_COL_W = 190;
 
 // ✅ Lebar kolom sesuai request user (untuk tampilan tabel read-only ini)
 const COL = {
