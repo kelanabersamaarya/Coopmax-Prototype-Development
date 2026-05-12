@@ -189,7 +189,7 @@ export default function PenaltyDetailDialogReadOnly({
   } as const;
 
   const tableMinWidth =
-    COL.no + COL.late + COL.tanggal + COL.denda + COL.status; // 735
+    COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
 
   const headerWrapCls =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
@@ -212,17 +212,12 @@ export default function PenaltyDetailDialogReadOnly({
       maxWidth: `${w}px`,
     }) as React.CSSProperties;
 
-  // Karena kita ingin tanpa whitespace kanan, samakan modal dengan lebar tabel + padding dialog
-  // (tableMinWidth 735 + px-6 kiri/kanan (48*2=96) => ~831px)
-  // Tapi screenshot menunjukkan layout lebih sempit; aman pakai ukuran fixed yang pas untuk konten:
-  const dialogW = 840;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)]",
-          `sm:w-[${dialogW}px] sm:max-w-[${dialogW}px]`,
+          "w-[calc(100vw-1.25rem)] sm:w-[900px]",
+          "max-w-[900px]",
           "max-h-[80vh]",
           "overflow-hidden",
           R,
@@ -262,176 +257,189 @@ export default function PenaltyDetailDialogReadOnly({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
           >
-            <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
-              <div className="safe-x-scroll w-full bg-white">
-                <table
-                  className="table-fixed border-collapse"
-                  style={{
-                    width: tableMinWidth,
-                    minWidth: tableMinWidth,
-                  }}
+            {/* ✅ wrapper mengikuti lebar tabel (tanpa whitespace kosong di dalam box) */}
+            <div className="w-full">
+              <div className="mx-auto inline-block w-fit max-w-full">
+                <div
+                  className={cn(
+                    "inline-block w-fit max-w-full overflow-hidden",
+                    R,
+                    "bg-white ring-1 ring-slate-300",
+                  )}
                 >
-                  <colgroup>
-                    <col style={colStyle(COL.no)} />
-                    <col style={colStyle(COL.late)} />
-                    <col style={colStyle(COL.tanggal)} />
-                    <col style={colStyle(COL.denda)} />
-                    <col style={colStyle(COL.status)} />
-                  </colgroup>
+                  <div className="safe-x-scroll w-full bg-white">
+                    <table
+                      className="table-fixed border-collapse"
+                      style={{
+                        width: tableMinWidth,
+                        minWidth: tableMinWidth,
+                      }}
+                    >
+                      <colgroup>
+                        <col style={colStyle(COL.no)} />
+                        <col style={colStyle(COL.late)} />
+                        <col style={colStyle(COL.tanggal)} />
+                        <col style={colStyle(COL.denda)} />
+                        <col style={colStyle(COL.status)} />
+                      </colgroup>
 
-                  <thead className="bg-white">
-                    <tr className="text-left">
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>NO.</div>
-                      </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>KETERLAMBATAN (HARI)</div>
-                      </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>TANGGAL</div>
-                      </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>DENDA</div>
-                      </th>
-                      <th className={thBase}>
-                        <div className={headerWrapCls}>STATUS</div>
-                      </th>
-                    </tr>
+                      <thead className="bg-white">
+                        <tr className="text-left">
+                          <th className={thBase}>
+                            <div className={headerWrapCls}>NO.</div>
+                          </th>
+                          <th className={thBase}>
+                            <div className={headerWrapCls}>
+                              KETERLAMBATAN (HARI)
+                            </div>
+                          </th>
+                          <th className={thBase}>
+                            <div className={headerWrapCls}>TANGGAL</div>
+                          </th>
+                          <th className={thBase}>
+                            <div className={headerWrapCls}>DENDA</div>
+                          </th>
+                          <th className={thBase}>
+                            <div className={headerWrapCls}>STATUS</div>
+                          </th>
+                        </tr>
 
-                    <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2" />
-                      </th>
-                      <th className={thBase}>
-                        <div className="px-2 py-2">
-                          <select
-                            value={statusFilter}
-                            onChange={(e) =>
-                              setStatusFilter(e.target.value as StatusValue)
-                            }
-                            className={filterSelectCls}
-                          >
-                            <option value="Semua">-- Semua --</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
-                          </select>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody className="bg-white">
-                    {filteredRows.length === 0 ? (
-                      <tr>
-                        <td
-                          colSpan={5}
-                          className="px-4 py-10 text-center text-sm text-slate-600"
-                        >
-                          Tidak ada rincian denda.
-                        </td>
-                      </tr>
-                    ) : (
-                      filteredRows.map((r, idx) => {
-                        const lateDays =
-                          lateDaysPattern[idx % lateDaysPattern.length];
-
-                        const statusInfoRows: Array<{ k: string; v: string }> =
-                          r.status === "Dibatalkan"
-                            ? [
-                                { k: "Tanggal pembatalan", v: "11-05-2026" },
-                                {
-                                  k: "Alasan pembatalan",
-                                  v: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
-                                },
-                                { k: "Dibatalkan oleh", v: "Arya Dharma" },
-                              ]
-                            : [];
-
-                        return (
-                          <tr
-                            key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
-                            className={cn(
-                              "border-t border-slate-200",
-                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
-                            )}
-                          >
-                            <td className={tdBase}>
-                              <div className={bodyWrapCls}>
-                                <CellText>{idx + 1}</CellText>
-                              </div>
-                            </td>
-
-                            <td className={tdBase}>
-                              <div className={bodyWrapCls}>
-                                <CellText>{lateDays}</CellText>
-                              </div>
-                            </td>
-
-                            <td className={tdBase}>
-                              <div className={bodyWrapCls}>
-                                <CellText>{r.tanggalKeterlambatan}</CellText>
-                              </div>
-                            </td>
-
-                            <td className={tdBase}>
-                              <div
-                                className={cn(
-                                  bodyWrapRightCls,
-                                  "text-[12px] font-normal text-slate-900",
-                                )}
+                        <tr className="border-t border-slate-200 border-b border-slate-200 bg-white">
+                          <th className={thBase}>
+                            <div className="px-2 py-2" />
+                          </th>
+                          <th className={thBase}>
+                            <div className="px-2 py-2" />
+                          </th>
+                          <th className={thBase}>
+                            <div className="px-2 py-2" />
+                          </th>
+                          <th className={thBase}>
+                            <div className="px-2 py-2" />
+                          </th>
+                          <th className={thBase}>
+                            <div className="px-2 py-2">
+                              <select
+                                value={statusFilter}
+                                onChange={(e) =>
+                                  setStatusFilter(e.target.value as StatusValue)
+                                }
+                                className={filterSelectCls}
                               >
-                                <CellText className="text-right">
-                                  {r.nominalDenda}
-                                </CellText>
-                              </div>
-                            </td>
+                                <option value="Semua">-- Semua --</option>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Dibatalkan">Dibatalkan</option>
+                              </select>
+                            </div>
+                          </th>
+                        </tr>
+                      </thead>
 
-                            <td className={tdBase}>
-                              <div className={cn(bodyWrapCls, "py-2.5")}>
-                                <div className="flex min-w-0 items-center gap-2">
-                                  <StatusPill status={r.status} />
-                                  {statusInfoRows.length > 0 ? (
-                                    <InfoIconTooltip
-                                      label="Info status denda"
-                                      rows={statusInfoRows}
-                                    />
-                                  ) : null}
-                                </div>
-                              </div>
+                      <tbody className="bg-white">
+                        {filteredRows.length === 0 ? (
+                          <tr>
+                            <td
+                              colSpan={5}
+                              className="px-4 py-10 text-center text-sm text-slate-600"
+                            >
+                              Tidak ada rincian denda.
                             </td>
                           </tr>
-                        );
-                      })
-                    )}
+                        ) : (
+                          filteredRows.map((r, idx) => {
+                            const lateDays =
+                              lateDaysPattern[idx % lateDaysPattern.length];
 
-                    <tr className="border-t border-slate-200 bg-white">
-                      <td colSpan={3} className={tdBase}>
-                        <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                          TOTAL DENDA
-                        </div>
-                      </td>
+                            const statusInfoRows: Array<{ k: string; v: string }> =
+                              r.status === "Dibatalkan"
+                                ? [
+                                    { k: "Tanggal pembatalan", v: "11-05-2026" },
+                                    {
+                                      k: "Alasan pembatalan",
+                                      v: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
+                                    },
+                                    { k: "Dibatalkan oleh", v: "Arya Dharma" },
+                                  ]
+                                : [];
 
-                      <td className={tdBase}>
-                        <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
-                          {totalText}
-                        </div>
-                      </td>
+                            return (
+                              <tr
+                                key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
+                                className={cn(
+                                  "border-t border-slate-200",
+                                  idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                                )}
+                              >
+                                <td className={tdBase}>
+                                  <div className={bodyWrapCls}>
+                                    <CellText>{idx + 1}</CellText>
+                                  </div>
+                                </td>
 
-                      <td className={tdBase}>
-                        <div className="px-2 py-3" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                                <td className={tdBase}>
+                                  <div className={bodyWrapCls}>
+                                    <CellText>{lateDays}</CellText>
+                                  </div>
+                                </td>
+
+                                <td className={tdBase}>
+                                  <div className={bodyWrapCls}>
+                                    <CellText>{r.tanggalKeterlambatan}</CellText>
+                                  </div>
+                                </td>
+
+                                <td className={tdBase}>
+                                  <div
+                                    className={cn(
+                                      bodyWrapRightCls,
+                                      "text-[12px] font-normal text-slate-900",
+                                    )}
+                                  >
+                                    <CellText className="text-right">
+                                      {r.nominalDenda}
+                                    </CellText>
+                                  </div>
+                                </td>
+
+                                <td className={tdBase}>
+                                  <div className={cn(bodyWrapCls, "py-2.5")}>
+                                    <div className="flex min-w-0 items-center gap-2">
+                                      <StatusPill status={r.status} />
+                                      {statusInfoRows.length > 0 ? (
+                                        <InfoIconTooltip
+                                          label="Info status denda"
+                                          rows={statusInfoRows}
+                                        />
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        )}
+
+                        <tr className="border-t border-slate-200 bg-white">
+                          <td colSpan={3} className={tdBase}>
+                            <div className="px-2 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                              TOTAL DENDA
+                            </div>
+                          </td>
+
+                          <td className={tdBase}>
+                            <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              {totalText}
+                            </div>
+                          </td>
+
+                          <td className={tdBase}>
+                            <div className="px-2 py-3" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
