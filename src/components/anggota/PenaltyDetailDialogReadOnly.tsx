@@ -204,6 +204,7 @@ export default function PenaltyDetailDialogReadOnly({
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  // col benar-benar terkunci
   const colStyle = (w: number) =>
     ({
       width: `${w}px`,
@@ -259,8 +260,11 @@ export default function PenaltyDetailDialogReadOnly({
             <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
               <div className="safe-x-scroll w-full bg-white">
                 <table
-                  className="w-full table-fixed border-collapse"
-                  style={{ minWidth: tableMinWidth }}
+                  className="table-fixed border-collapse"
+                  style={{
+                    width: tableMinWidth,
+                    minWidth: tableMinWidth,
+                  }}
                 >
                   <colgroup>
                     <col style={colStyle(COL.no)} />
@@ -373,10 +377,16 @@ export default function PenaltyDetailDialogReadOnly({
                               </div>
                             </td>
 
-                            {/* ✅ DENDA: bukan bold */}
                             <td className={tdBase}>
-                              <div className={cn(bodyWrapRightCls, "text-[12px] font-normal text-slate-900")}>
-                                <CellText className="text-right">{r.nominalDenda}</CellText>
+                              <div
+                                className={cn(
+                                  bodyWrapRightCls,
+                                  "text-[12px] font-normal text-slate-900",
+                                )}
+                              >
+                                <CellText className="text-right">
+                                  {r.nominalDenda}
+                                </CellText>
                               </div>
                             </td>
 
@@ -405,7 +415,6 @@ export default function PenaltyDetailDialogReadOnly({
                         </div>
                       </td>
 
-                      {/* TOTAL tetap bold */}
                       <td className={tdBase}>
                         <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
