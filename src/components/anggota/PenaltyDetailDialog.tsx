@@ -267,6 +267,27 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
+  // ✅ Lebar kolom diperkecil (match screenshot yang diminta)
+  const W = {
+    no: "w-[44px]",
+    late: "w-[150px]",
+    tanggal: "w-[110px]",
+    denda: "w-[96px]",
+    status: "w-[140px]",
+    aksi: "w-[120px]",
+  } as const;
+
+  const thBase =
+    "px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+  const tdBase =
+    "px-3 py-2.5 text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
+
+  const filterSelectCls = cn(
+    "h-9 w-full rounded-[8px] border border-slate-200 bg-white px-3",
+    "text-[14px] font-semibold text-slate-900 shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
   return (
     <>
       <PenaltyAddReasonDialog
@@ -404,59 +425,34 @@ export default function PenaltyDetailDialog({
 
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[700px] table-fixed border-collapse border-l border-slate-300">
+                  <table className="w-full min-w-[720px] table-fixed border-collapse border-l border-slate-300">
                     <thead className="bg-white">
                       <tr className="text-left">
-                        <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                          NO.
-                        </th>
-
-                        <th className="w-[150px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                          KETERLAMBATAN (HARI)
-                        </th>
-
-                        <th className="w-[96px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                          TANGGAL
-                        </th>
-
-                        <th className="w-[160px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                          DENDA
-                        </th>
-
-                        <th className="w-[110px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                          STATUS
-                        </th>
-
-                        <th className="w-[120px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
-                          AKSI
-                        </th>
+                        <th className={cn(W.no, thBase)}>NO.</th>
+                        <th className={cn(W.late, thBase)}>KETERLAMBATAN (HARI)</th>
+                        <th className={cn(W.tanggal, thBase)}>TANGGAL</th>
+                        <th className={cn(W.denda, thBase)}>DENDA</th>
+                        <th className={cn(W.status, thBase)}>STATUS</th>
+                        <th className={cn(W.aksi, thBase)}>AKSI</th>
                       </tr>
 
                       <tr className="border-b border-slate-300 bg-white">
-                        <th className="px-4 py-2" />
-                        <th className="px-4 py-2" />
-                        <th className="px-4 py-2" />
-                        <th className="px-4 py-2" />
-                        <th className="px-4 pt-1 pb-2">
-                          <div className="relative">
-                            <select
-                              value={statusFilter}
-                              onChange={(e) =>
-                                setStatusFilter(e.target.value as StatusValue)
-                              }
-                              className={cn(
-                                "h-8 w-full rounded-[5px] border border-slate-200 bg-white px-3",
-                                "text-[13px] font-semibold text-slate-700 shadow-none",
-                                "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-                              )}
-                            >
-                              <option value="Semua">-- Semua --</option>
-                              <option value="Aktif">Aktif</option>
-                              <option value="Dibatalkan">Dibatalkan</option>
-                            </select>
-                          </div>
+                        <th className="px-3 py-2" />
+                        <th className="px-3 py-2" />
+                        <th className="px-3 py-2" />
+                        <th className="px-3 py-2" />
+                        <th className="px-3 pt-1 pb-2">
+                          <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
+                            className={filterSelectCls}
+                          >
+                            <option value="Semua">-- Semua --</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                          </select>
                         </th>
-                        <th className="px-4 py-2" />
+                        <th className="px-3 py-2" />
                       </tr>
                     </thead>
 
@@ -515,7 +511,7 @@ export default function PenaltyDetailDialog({
                               : String(lateDays);
 
                           const keterlambatanCls = cn(
-                            "px-4 py-3 text-[14px] font-normal text-slate-900",
+                            "px-3 py-2.5 text-[13px] font-normal text-slate-900",
                             isAdded || isCanceled
                               ? "whitespace-normal leading-snug"
                               : "tabular-nums whitespace-nowrap",
@@ -529,21 +525,19 @@ export default function PenaltyDetailDialog({
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                               )}
                             >
-                              <td className="px-4 py-3 text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                                {idx + 1}
-                              </td>
+                              <td className={cn(tdBase, "w-[44px]")}>{idx + 1}</td>
 
                               <td className={keterlambatanCls}>{keterlambatanText}</td>
 
-                              <td className="px-4 py-3 text-left text-[14px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className={cn(tdBase, "w-[110px]")}>
                                 {r.tanggalKeterlambatan}
                               </td>
 
-                              <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
-                              <td className="px-4 py-3 text-[14px] font-normal text-slate-900">
+                              <td className="px-3 py-2.5">
                                 <div className="flex items-center gap-2">
                                   <StatusPill status={r.status} />
                                   {statusInfoRows.length > 0 ? (
@@ -555,7 +549,7 @@ export default function PenaltyDetailDialog({
                                 </div>
                               </td>
 
-                              <td className="px-4 py-3">
+                              <td className="px-3 py-2.5">
                                 <div className="flex justify-start">
                                   {r.status === "Aktif" ? (
                                     <CancelPenaltyButton
@@ -579,18 +573,18 @@ export default function PenaltyDetailDialog({
                       <tr className="border-t border-slate-300 bg-white">
                         <td
                           colSpan={3}
-                          className="px-4 py-3 text-[13px] font-extrabold uppercase tracking-wide text-slate-900"
+                          className="px-3 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
                         >
                           TOTAL DENDA
                         </td>
 
-                        <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        <td className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}
                         </td>
 
-                        <td className="px-4 py-3" />
+                        <td className="px-3 py-2.5" />
 
-                        <td className="px-4 py-3" />
+                        <td className="px-3 py-2.5" />
                       </tr>
                     </tbody>
                   </table>
