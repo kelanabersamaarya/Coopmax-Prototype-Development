@@ -178,14 +178,10 @@ export default function DaftarTagihanReadOnlyDialog({
 
   // Grace/highlight seperti sebelumnya: hanya halaman 1
   const showGrace = page === 1;
-  const graceCount = showGrace ? Math.min(2, rows.length) : 0;
 
   // Untuk menyelaraskan jumlah "row status" dengan row visual di BillingTableView2:
-  // - Jika showGrace: ada 1 row info grace + 2 row grace + (rows.length - 2) row normal
-  // - Jika tidak: ada 1 row info grace + rows.length row normal (BillingTableView2 tetap render GracePeriodInfoRow)
-  const statusRowCount = showGrace
-    ? 1 + rows.length // 1 banner row + rows (grace+normal)
-    : 1 + rows.length;
+  // BillingTableView2 tetap render 1 GracePeriodInfoRow + rows.
+  const statusRowCount = 1 + rows.length;
 
   // Status per row tagihan (abaikan 1 info row); index global agar konsisten antar halaman
   const statusForRowIndex = React.useCallback(
@@ -238,9 +234,9 @@ export default function DaftarTagihanReadOnlyDialog({
           >
             <div className={cn("overflow-hidden ring-1 ring-slate-200", R)}>
               <div className="safe-x-scroll bg-white">
-                <div className="min-w-[1060px]">
+                <div className="min-w-[1180px]">
                   <div className="flex w-full">
-                    {/* LEFT: existing BillingTableView2 (keeps grace/highlight/etc.) */}
+                    {/* LEFT: BillingTableView2 (keeps grace/highlight + penalty column) */}
                     <div className="min-w-0 flex-1">
                       <BillingTableView2
                         rows={rows}
@@ -252,7 +248,9 @@ export default function DaftarTagihanReadOnlyDialog({
                         highlightGraceBlock={showGrace}
                         keepGraceShellWithoutInfo={false}
                         hideSelection={true}
-                        showPenaltyColumn={false}
+                        showPenaltyColumn={true}
+                        penaltyContentEnabled={true}
+                        penaltyDialogVariant="read-only"
                         disableRowRings
                         disableRowActiveRing
                         rowDensity="default"
@@ -276,7 +274,7 @@ export default function DaftarTagihanReadOnlyDialog({
 
                       {/* Rows: include grace info row placeholder + each billing row */}
                       <div className="divide-y divide-slate-200">
-                        {/* 1) Grace info row placeholder (height approximated to match) */}
+                        {/* 1) Grace info row placeholder */}
                         <div className="px-4 py-3">
                           <span className="text-[12px] font-semibold text-slate-400">
                             —
@@ -290,7 +288,7 @@ export default function DaftarTagihanReadOnlyDialog({
                           </div>
                         ))}
 
-                        {/* keep count used (debug/consistency) */}
+                        {/* keep count used */}
                         <div className="sr-only">{statusRowCount}</div>
                       </div>
                     </div>
