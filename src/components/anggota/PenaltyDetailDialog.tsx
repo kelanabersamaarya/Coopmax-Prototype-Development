@@ -267,9 +267,9 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Set kolom NO jadi 70px (dan kecilkan padding NO agar terlihat berubah)
+  // ✅ NO jadi 50px
   const COL = {
-    no: 70,
+    no: 50,
     late: 200,
     tanggal: 160,
     denda: 140,
@@ -282,8 +282,8 @@ export default function PenaltyDetailDialog({
   const tdBase =
     "px-2 py-2 text-[12.5px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
-  const thNo = cn(thBase, "px-1.5 w-[70px] max-w-[70px]");
-  const tdNo = cn(tdBase, "px-1.5 w-[70px] max-w-[70px]");
+  const thNo = cn(thBase, "px-1 w-[50px] max-w-[50px]");
+  const tdNo = cn(tdBase, "px-1 w-[50px] max-w-[50px]");
 
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
@@ -460,7 +460,7 @@ export default function PenaltyDetailDialog({
                       </tr>
 
                       <tr className="border-b border-slate-300 bg-white">
-                        <th className="px-1.5 py-1.5" />
+                        <th className="px-1 py-1.5" />
                         <th className="px-2 py-1.5" />
                         <th className="px-2 py-1.5" />
                         <th className="px-2 py-1.5" />
