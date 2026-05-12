@@ -204,7 +204,6 @@ export default function PenaltyDetailDialogReadOnly({
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  // Helper supaya col benar-benar terkunci (bukan cuma width)
   const colStyle = (w: number) =>
     ({
       width: `${w}px`,
@@ -374,16 +373,10 @@ export default function PenaltyDetailDialogReadOnly({
                               </div>
                             </td>
 
+                            {/* ✅ DENDA: bukan bold */}
                             <td className={tdBase}>
-                              <div
-                                className={cn(
-                                  bodyWrapRightCls,
-                                  "text-[12px] font-extrabold text-slate-900",
-                                )}
-                              >
-                                <CellText className="text-right">
-                                  {r.nominalDenda}
-                                </CellText>
+                              <div className={cn(bodyWrapRightCls, "text-[12px] font-normal text-slate-900")}>
+                                <CellText className="text-right">{r.nominalDenda}</CellText>
                               </div>
                             </td>
 
@@ -412,6 +405,7 @@ export default function PenaltyDetailDialogReadOnly({
                         </div>
                       </td>
 
+                      {/* TOTAL tetap bold */}
                       <td className={tdBase}>
                         <div className="px-2 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                           {totalText}

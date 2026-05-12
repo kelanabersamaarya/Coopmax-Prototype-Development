@@ -276,7 +276,6 @@ export default function PenaltyDetailDialog({
     aksi: 86,
   } as const;
 
-  // ✅ Samakan font tabel: header & body = 12px
   const thBase =
     "px-2 pb-2 pt-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
@@ -285,7 +284,6 @@ export default function PenaltyDetailDialog({
   const thNo = cn(thBase, "px-1 w-[50px] max-w-[50px]");
   const tdNo = cn(tdBase, "px-1 w-[50px] max-w-[50px]");
 
-  // ✅ dropdown filter juga 12px
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
     "text-[12px] font-semibold text-slate-700 shadow-none",
@@ -551,7 +549,8 @@ export default function PenaltyDetailDialog({
 
                               <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
 
-                              <td className="px-2 py-2 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                              {/* ✅ DENDA: bukan bold */}
+                              <td className="px-2 py-2 text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.nominalDenda}
                               </td>
 
