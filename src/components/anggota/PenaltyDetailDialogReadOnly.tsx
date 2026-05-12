@@ -215,9 +215,9 @@ export default function PenaltyDetailDialogReadOnly({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          // ✅ lebih kecil & simetris dengan tabel (mirip screenshot)
+          // ✅ diperkecil lagi (sesuai screenshot user)
           "w-[calc(100vw-1.25rem)]",
-          "sm:w-[860px] sm:max-w-[860px]",
+          "sm:w-[720px] sm:max-w-[720px]",
           "max-h-[80vh]",
           "overflow-hidden",
           R,
@@ -264,7 +264,7 @@ export default function PenaltyDetailDialogReadOnly({
                     "inline-block w-fit max-w-full overflow-hidden",
                     R,
                     "bg-white ring-1 ring-slate-300",
-                    // ✅ border kiri tabel terlihat jelas (sebelumnya seperti hilang)
+                    // ✅ border kiri wrapper, supaya garis kiri tabel tidak terlihat hilang
                     "border-l border-slate-300",
                   )}
                 >
