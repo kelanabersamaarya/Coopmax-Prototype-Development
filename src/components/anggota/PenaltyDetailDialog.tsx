@@ -165,7 +165,7 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
         "whitespace-nowrap",
       )}
     >
-      Batalkan
+      Batalkan Denda
     </button>
   );
 }
@@ -180,11 +180,15 @@ export default function PenaltyDetailDialog({
   rows: PenaltyDetailRow[];
 }) {
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
-  const [canceledIds, setCanceledIds] = React.useState<Set<number>>(() => new Set());
-  const [cancelMeta, setCancelMeta] = React.useState<Record<number, CanceledPenaltyMeta>>(
-    () => ({}),
+  const [canceledIds, setCanceledIds] = React.useState<Set<number>>(
+    () => new Set(),
   );
-  const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>([]);
+  const [cancelMeta, setCancelMeta] = React.useState<
+    Record<number, CanceledPenaltyMeta>
+  >(() => ({}));
+  const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>(
+    [],
+  );
   const [addedMeta, setAddedMeta] = React.useState<Record<string, AddedPenaltyMeta>>(
     () => ({}),
   );
@@ -425,7 +429,9 @@ export default function PenaltyDetailDialog({
                 </button>
               </div>
 
-              <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
+              <div
+                className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}
+              >
                 <div className="safe-x-scroll bg-white">
                   <table
                     className="w-full table-fixed border-collapse border-l border-slate-300"
@@ -466,7 +472,9 @@ export default function PenaltyDetailDialog({
                         <th className="px-2 pt-1 pb-2">
                           <select
                             value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
+                            onChange={(e) =>
+                              setStatusFilter(e.target.value as StatusValue)
+                            }
                             className={filterSelectCls}
                           >
                             <option value="Semua">-- Semua --</option>
