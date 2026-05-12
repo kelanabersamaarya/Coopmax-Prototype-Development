@@ -271,14 +271,14 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
-  // ✅ Perkecil width tiap kolom biar muat tanpa scroll horizontal (di 900px dialog)
+  // ✅ Kolom AKSI diperkecil + padding AKSI dirapatkan
   const COL = {
     no: 44,
     late: 170,
     tanggal: 120,
     denda: 110,
-    status: 140,
-    aksi: 170,
+    status: 160,
+    aksi: 130,
   } as const;
 
   const thBase =
@@ -288,6 +288,9 @@ export default function PenaltyDetailDialog({
 
   const thNo = cn(thBase, "px-1 w-[44px] max-w-[44px]");
   const tdNo = cn(tdBase, "px-1 w-[44px] max-w-[44px]");
+
+  const thAksi = cn(thBase, "px-1");
+  const tdAksi = "px-1 py-2";
 
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
@@ -431,7 +434,6 @@ export default function PenaltyDetailDialog({
               </div>
 
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
-                {/* ✅ No horizontal scroll wrapper */}
                 <table className="w-full table-fixed border-collapse border-l border-slate-300">
                   <colgroup>
                     <col style={{ width: COL.no }} />
@@ -449,7 +451,7 @@ export default function PenaltyDetailDialog({
                       <th className={cn(thBase)}>TANGGAL</th>
                       <th className={cn(thBase)}>DENDA</th>
                       <th className={cn(thBase)}>STATUS</th>
-                      <th className={cn(thBase)}>AKSI</th>
+                      <th className={thAksi}>AKSI</th>
                     </tr>
 
                     <tr className="border-b border-slate-300 bg-white">
@@ -468,7 +470,7 @@ export default function PenaltyDetailDialog({
                           <option value="Dibatalkan">Dibatalkan</option>
                         </select>
                       </th>
-                      <th className="px-2 py-1.5" />
+                      <th className="px-1 py-1.5" />
                     </tr>
                   </thead>
 
@@ -559,7 +561,7 @@ export default function PenaltyDetailDialog({
                               </div>
                             </td>
 
-                            <td className="px-2 py-2">
+                            <td className={tdAksi}>
                               <div className="flex justify-start">
                                 {r.status === "Aktif" ? (
                                   <CancelPenaltyButton
@@ -594,7 +596,7 @@ export default function PenaltyDetailDialog({
 
                       <td className="px-2 py-2" />
 
-                      <td className="px-2 py-2" />
+                      <td className="px-1 py-2" />
                     </tr>
                   </tbody>
                 </table>
