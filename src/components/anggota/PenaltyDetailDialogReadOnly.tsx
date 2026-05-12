@@ -176,7 +176,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ hanya kecilkan lebar kolom (tanpa mengubah alignment header)
+  // ✅ NO jadi 70px
   const COL = {
     no: 70,
     late: 200,
