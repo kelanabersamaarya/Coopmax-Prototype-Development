@@ -179,17 +179,17 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ Lebar kolom sesuai permintaan
+  // Lebar kolom presisi
   const COL = {
     no: 65,
     late: 200,
-    tanggal: 160, // ✅
-    denda: 140, // ✅
-    status: 170, // ✅
+    tanggal: 160,
+    denda: 140,
+    status: 170,
   } as const;
 
   const tableMinWidth =
-    COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
+    COL.no + COL.late + COL.tanggal + COL.denda + COL.status; // 735
 
   const headerWrapCls =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
@@ -212,12 +212,17 @@ export default function PenaltyDetailDialogReadOnly({
       maxWidth: `${w}px`,
     }) as React.CSSProperties;
 
+  // Karena kita ingin tanpa whitespace kanan, samakan modal dengan lebar tabel + padding dialog
+  // (tableMinWidth 735 + px-6 kiri/kanan (48*2=96) => ~831px)
+  // Tapi screenshot menunjukkan layout lebih sempit; aman pakai ukuran fixed yang pas untuk konten:
+  const dialogW = 840;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)] sm:w-[900px]",
-          "max-w-[900px]",
+          "w-[calc(100vw-1.25rem)]",
+          `sm:w-[${dialogW}px] sm:max-w-[${dialogW}px]`,
           "max-h-[80vh]",
           "overflow-hidden",
           R,
