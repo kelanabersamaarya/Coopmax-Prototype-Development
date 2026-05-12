@@ -211,7 +211,6 @@ export default function PenaltyDetailDialogReadOnly({
       maxWidth: `${w}px`,
     }) as React.CSSProperties;
 
-  // ✅ samakan padding horizontal antara body dan footer agar kanan/kiri simetris
   const contentPadX = "px-6";
 
   return (
@@ -263,14 +262,26 @@ export default function PenaltyDetailDialogReadOnly({
               <div className="mx-auto w-full max-w-full">
                 <div
                   className={cn(
-                    "w-full overflow-hidden bg-white ring-1 ring-slate-300",
+                    "w-full bg-white ring-1 ring-slate-300",
                     R,
+                    // jangan overflow-hidden di wrapper luar; biar padding scroll tidak kepotong
+                    "overflow-visible",
                   )}
                 >
-                  <div className="safe-x-scroll w-full bg-white">
+                  <div
+                    className={cn(
+                      "safe-x-scroll w-full bg-white",
+                      // ✅ gutter kanan agar kolom terakhir & border kanan tidak ketutup scrollbar
+                      "box-content pr-6",
+                    )}
+                    style={{
+                      scrollbarGutter: "stable both-edges",
+                    }}
+                  >
                     <table
                       className={cn(
                         "table-fixed border-collapse",
+                        // border ditaruh di table biar saat scroll tetap kelihatan
                         "border-l border-r border-slate-300",
                       )}
                       style={{
