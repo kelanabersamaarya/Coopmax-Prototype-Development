@@ -201,7 +201,7 @@ export default function PenaltyDetailDialogReadOnly({
           >
             <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[620px] table-fixed border-collapse border-l border-slate-300">
+                <table className="w-full min-w-[580px] table-fixed border-collapse border-l border-slate-300">
                   <thead className="bg-white">
                     <tr className="text-left">
                       <th className="w-[56px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
@@ -212,15 +212,16 @@ export default function PenaltyDetailDialogReadOnly({
                         KETERLAMBATAN (HARI)
                       </th>
 
-                      <th className="w-[96px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <th className="w-[110px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                         TANGGAL
                       </th>
 
-                      <th className="w-[120px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                      {/* ✅ perkecil kolom DENDA */}
+                      <th className="w-[96px] px-4 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                         DENDA
                       </th>
 
-                      <th className="w-[108px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                      <th className="w-[140px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                         STATUS
                       </th>
                     </tr>
@@ -295,6 +296,7 @@ export default function PenaltyDetailDialogReadOnly({
                               {r.tanggalKeterlambatan}
                             </td>
 
+                            {/* ✅ tetap right align dan tidak melebar */}
                             <td className="px-4 py-3 text-right text-[14px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                               {r.nominalDenda}
                             </td>
