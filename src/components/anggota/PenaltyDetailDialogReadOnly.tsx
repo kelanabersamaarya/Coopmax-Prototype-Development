@@ -182,13 +182,13 @@ export default function PenaltyDetailDialogReadOnly({
   const COL = {
     no: 65,
     late: 200,
-    tanggal: 160,
+    tanggal: 120, // ✅ dari 160 -> 120
     denda: 140,
     status: 170,
   } as const;
 
   const tableMinWidth =
-    COL.no + COL.late + COL.tanggal + COL.denda + COL.status; // 735
+    COL.no + COL.late + COL.tanggal + COL.denda + COL.status; // 695
 
   const headerWrapCls =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
