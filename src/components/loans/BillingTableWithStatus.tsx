@@ -137,7 +137,16 @@ function RightNum({ value }: { value: string }) {
   );
 }
 
-const STATUS_COL_W = 140;
+const STATUS_COL_W = 160;
+
+// ✅ Lebar kolom sesuai request user (untuk tampilan tabel read-only ini)
+const COL = {
+  no: 70,
+  late: 200,
+  tanggal: 160,
+  denda: 140,
+  status: STATUS_COL_W,
+} as const;
 
 function Td({
   children,
@@ -173,7 +182,7 @@ function TrShell({
 
 function StatusTd({ status }: { status: TagihanStatus }) {
   return (
-    <td style={{ width: STATUS_COL_W }} className="px-3 py-3">
+    <td style={{ width: COL.status }} className="px-3 py-3">
       <StatusPill status={status} />
     </td>
   );
@@ -193,7 +202,15 @@ function InnerTable({
   onOpenPenalty: (due: string) => void;
 }) {
   return (
-    <table className="w-full border-collapse text-[13px]">
+    <table className="w-full table-fixed border-collapse text-[13px]">
+      <colgroup>
+        <col style={{ width: COL.no }} />
+        <col style={{ width: COL.late }} />
+        <col style={{ width: COL.tanggal }} />
+        <col style={{ width: COL.denda }} />
+        <col style={{ width: COL.status }} />
+      </colgroup>
+
       <tbody className="bg-white">
         {showGraceInfoRow ? <GracePeriodInfoRow colSpan={colCount} noBorder /> : null}
 
@@ -213,31 +230,31 @@ function InnerTable({
                     : "border-t border-slate-200",
               )}
             >
-              <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+              <Td className="font-semibold tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
               </Td>
 
-              <Td className="w-[128px]" align="right">
+              <Td align="right">
                 <RightNum value={r.totalBelumDibayar} />
               </Td>
 
-              <Td className="w-[130px]" align="right">
+              <Td align="right">
                 <RightNum value={r.tagihanPokok} />
               </Td>
 
-              <Td className="w-[120px]" align="right">
+              <Td align="right">
                 <RightNum value={r.tagihanBunga} />
               </Td>
 
-              <Td className="w-[140px] pr-6" align="right">
+              <Td className="pr-6" align="right">
                 <RightNum value={r.sisaPokok} />
               </Td>
 
-              <Td className="w-[140px] pr-6" align="right">
+              <Td className="pr-6" align="right">
                 <RightNum value={r.sisaBunga} />
               </Td>
 
-              <Td className="w-[130px] pr-1" align="right">
+              <Td className="pr-1" align="right">
                 {showPenalty ? (
                   <div className="flex items-center justify-end gap-2">
                     <span className="num-sans-tabular">
