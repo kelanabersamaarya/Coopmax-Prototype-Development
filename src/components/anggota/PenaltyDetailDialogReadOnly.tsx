@@ -154,7 +154,6 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // ✅ ukuran sesuai request (kunci via colgroup + inline width th/td)
   const COL = {
     no: 70,
     late: 200,
@@ -197,7 +196,7 @@ export default function PenaltyDetailDialogReadOnly({
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="min-w-0">
               <div className="text-lg font-extrabold tracking-tight text-slate-900">
-                Rincian Denda
+                Rincian Denda (READ-ONLY TEST)
               </div>
             </div>
 
