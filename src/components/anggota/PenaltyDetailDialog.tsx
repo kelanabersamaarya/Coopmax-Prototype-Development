@@ -271,22 +271,23 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
+  // ✅ Perkecil width tiap kolom biar muat tanpa scroll horizontal (di 900px dialog)
   const COL = {
-    no: 50,
-    late: 200,
-    tanggal: 160,
-    denda: 140,
-    status: 160,
-    aksi: 86,
+    no: 44,
+    late: 170,
+    tanggal: 120,
+    denda: 110,
+    status: 140,
+    aksi: 170,
   } as const;
 
   const thBase =
-    "px-2 pb-2 pt-2.5 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
+    "px-2 pb-2 pt-2.5 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
   const tdBase =
     "px-2 py-2 text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
 
-  const thNo = cn(thBase, "px-1 w-[50px] max-w-[50px]");
-  const tdNo = cn(tdBase, "px-1 w-[50px] max-w-[50px]");
+  const thNo = cn(thBase, "px-1 w-[44px] max-w-[44px]");
+  const tdNo = cn(tdBase, "px-1 w-[44px] max-w-[44px]");
 
   const filterSelectCls = cn(
     "h-8 w-full rounded-[7px] border border-slate-200 bg-white px-2",
@@ -429,190 +430,174 @@ export default function PenaltyDetailDialog({
                 </button>
               </div>
 
-              <div
-                className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}
-              >
-                <div className="safe-x-scroll bg-white">
-                  <table
-                    className="w-full table-fixed border-collapse border-l border-slate-300"
-                    style={{
-                      minWidth:
-                        COL.no +
-                        COL.late +
-                        COL.tanggal +
-                        COL.denda +
-                        COL.status +
-                        COL.aksi,
-                    }}
-                  >
-                    <colgroup>
-                      <col style={{ width: COL.no }} />
-                      <col style={{ width: COL.late }} />
-                      <col style={{ width: COL.tanggal }} />
-                      <col style={{ width: COL.denda }} />
-                      <col style={{ width: COL.status }} />
-                      <col style={{ width: COL.aksi }} />
-                    </colgroup>
+              <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
+                {/* ✅ No horizontal scroll wrapper */}
+                <table className="w-full table-fixed border-collapse border-l border-slate-300">
+                  <colgroup>
+                    <col style={{ width: COL.no }} />
+                    <col style={{ width: COL.late }} />
+                    <col style={{ width: COL.tanggal }} />
+                    <col style={{ width: COL.denda }} />
+                    <col style={{ width: COL.status }} />
+                    <col style={{ width: COL.aksi }} />
+                  </colgroup>
 
-                    <thead className="bg-white">
-                      <tr className="text-left">
-                        <th className={thNo}>NO.</th>
-                        <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
-                        <th className={cn(thBase)}>TANGGAL</th>
-                        <th className={cn(thBase)}>DENDA</th>
-                        <th className={cn(thBase)}>STATUS</th>
-                        <th className={cn(thBase)}>AKSI</th>
-                      </tr>
+                  <thead className="bg-white">
+                    <tr className="text-left">
+                      <th className={thNo}>NO.</th>
+                      <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
+                      <th className={cn(thBase)}>TANGGAL</th>
+                      <th className={cn(thBase)}>DENDA</th>
+                      <th className={cn(thBase)}>STATUS</th>
+                      <th className={cn(thBase)}>AKSI</th>
+                    </tr>
 
-                      <tr className="border-b border-slate-300 bg-white">
-                        <th className="px-1 py-1.5" />
-                        <th className="px-2 py-1.5" />
-                        <th className="px-2 py-1.5" />
-                        <th className="px-2 py-1.5" />
-                        <th className="px-2 pt-1 pb-2">
-                          <select
-                            value={statusFilter}
-                            onChange={(e) =>
-                              setStatusFilter(e.target.value as StatusValue)
-                            }
-                            className={filterSelectCls}
-                          >
-                            <option value="Semua">-- Semua --</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
-                          </select>
-                        </th>
-                        <th className="px-2 py-1.5" />
-                      </tr>
-                    </thead>
-
-                    <tbody className="bg-white">
-                      {filteredRows.length === 0 ? (
-                        <tr>
-                          <td
-                            colSpan={6}
-                            className="px-4 py-10 text-center text-sm text-slate-600"
-                          >
-                            Tidak ada rincian denda.
-                          </td>
-                        </tr>
-                      ) : (
-                        filteredRows.map((r, idx) => {
-                          const isAdded = r.source === "added";
-                          const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
-                          const isCanceled = r.status === "Dibatalkan";
-
-                          const statusInfoRows: Array<{ k: string; v: string }> = (() => {
-                            if (isAdded) {
-                              const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
-                              return [
-                                { k: "Tanggal penambahan", v: meta?.addDate ?? "-" },
-                                { k: "Alasan penambahan", v: meta?.reason ?? "-" },
-                                { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
-                              ];
-                            }
-
-                            if (isCanceled) {
-                              const meta = cancelMeta[r.originalIndex];
-                              return [
-                                {
-                                  k: "Tanggal pembatalan",
-                                  v: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
-                                },
-                                {
-                                  k: "Alasan pembatalan",
-                                  v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
-                                },
-                                {
-                                  k: "Dibatalkan oleh",
-                                  v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
-                                },
-                              ];
-                            }
-
-                            return [];
-                          })();
-
-                          const keterlambatanText = isAdded
-                            ? "Manual"
-                            : isCanceled
-                              ? "Dibatalkan"
-                              : String(lateDays);
-
-                          return (
-                            <tr
-                              key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
-                              className={cn(
-                                "border-t border-slate-300/70",
-                                idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
-                              )}
-                            >
-                              <td className={tdNo}>{idx + 1}</td>
-
-                              <td className={cn("px-2 py-2 text-[12px] text-slate-900")}>
-                                <div className="line-clamp-2 leading-snug">
-                                  {keterlambatanText}
-                                </div>
-                              </td>
-
-                              <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
-
-                              <td className="px-2 py-2 text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                                {r.nominalDenda}
-                              </td>
-
-                              <td className="px-2 py-2 text-[12px] text-slate-900">
-                                <div className="flex items-center gap-2">
-                                  <StatusPill status={r.status} />
-                                  {statusInfoRows.length > 0 ? (
-                                    <InfoIconTooltip
-                                      label="Info status denda"
-                                      rows={statusInfoRows}
-                                    />
-                                  ) : null}
-                                </div>
-                              </td>
-
-                              <td className="px-2 py-2">
-                                <div className="flex justify-start">
-                                  {r.status === "Aktif" ? (
-                                    <CancelPenaltyButton
-                                      onClick={() => {
-                                        setCancelTarget({
-                                          originalIndex: r.originalIndex,
-                                          tanggal: r.tanggalKeterlambatan,
-                                          nominal: r.nominalDenda,
-                                        });
-                                        setCancelDialogOpen(true);
-                                      }}
-                                    />
-                                  ) : null}
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-
-                      <tr className="border-t border-slate-300 bg-white">
-                        <td
-                          colSpan={3}
-                          className="px-2 py-2 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
+                    <tr className="border-b border-slate-300 bg-white">
+                      <th className="px-1 py-1.5" />
+                      <th className="px-2 py-1.5" />
+                      <th className="px-2 py-1.5" />
+                      <th className="px-2 py-1.5" />
+                      <th className="px-2 pt-1 pb-2">
+                        <select
+                          value={statusFilter}
+                          onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
+                          className={filterSelectCls}
                         >
-                          TOTAL DENDA
+                          <option value="Semua">-- Semua --</option>
+                          <option value="Aktif">Aktif</option>
+                          <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
+                      </th>
+                      <th className="px-2 py-1.5" />
+                    </tr>
+                  </thead>
+
+                  <tbody className="bg-white">
+                    {filteredRows.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="px-4 py-10 text-center text-sm text-slate-600"
+                        >
+                          Tidak ada rincian denda.
                         </td>
-
-                        <td className="px-2 py-2 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
-                          {totalText}
-                        </td>
-
-                        <td className="px-2 py-2" />
-
-                        <td className="px-2 py-2" />
                       </tr>
-                    </tbody>
-                  </table>
-                </div>
+                    ) : (
+                      filteredRows.map((r, idx) => {
+                        const isAdded = r.source === "added";
+                        const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
+                        const isCanceled = r.status === "Dibatalkan";
+
+                        const statusInfoRows: Array<{ k: string; v: string }> = (() => {
+                          if (isAdded) {
+                            const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
+                            return [
+                              { k: "Tanggal penambahan", v: meta?.addDate ?? "-" },
+                              { k: "Alasan penambahan", v: meta?.reason ?? "-" },
+                              { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
+                            ];
+                          }
+
+                          if (isCanceled) {
+                            const meta = cancelMeta[r.originalIndex];
+                            return [
+                              {
+                                k: "Tanggal pembatalan",
+                                v: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
+                              },
+                              {
+                                k: "Alasan pembatalan",
+                                v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                              },
+                              {
+                                k: "Dibatalkan oleh",
+                                v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
+                              },
+                            ];
+                          }
+
+                          return [];
+                        })();
+
+                        const keterlambatanText = isAdded
+                          ? "Manual"
+                          : isCanceled
+                            ? "Dibatalkan"
+                            : String(lateDays);
+
+                        return (
+                          <tr
+                            key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
+                            className={cn(
+                              "border-t border-slate-300/70",
+                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                            )}
+                          >
+                            <td className={tdNo}>{idx + 1}</td>
+
+                            <td className={cn("px-2 py-2 text-[12px] text-slate-900")}>
+                              <div className="truncate" title={keterlambatanText}>
+                                {keterlambatanText}
+                              </div>
+                            </td>
+
+                            <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
+
+                            <td className="px-2 py-2 text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              {r.nominalDenda}
+                            </td>
+
+                            <td className="px-2 py-2 text-[12px] text-slate-900">
+                              <div className="flex items-center gap-2">
+                                <StatusPill status={r.status} />
+                                {statusInfoRows.length > 0 ? (
+                                  <InfoIconTooltip
+                                    label="Info status denda"
+                                    rows={statusInfoRows}
+                                  />
+                                ) : null}
+                              </div>
+                            </td>
+
+                            <td className="px-2 py-2">
+                              <div className="flex justify-start">
+                                {r.status === "Aktif" ? (
+                                  <CancelPenaltyButton
+                                    onClick={() => {
+                                      setCancelTarget({
+                                        originalIndex: r.originalIndex,
+                                        tanggal: r.tanggalKeterlambatan,
+                                        nominal: r.nominalDenda,
+                                      });
+                                      setCancelDialogOpen(true);
+                                    }}
+                                  />
+                                ) : null}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+
+                    <tr className="border-t border-slate-300 bg-white">
+                      <td
+                        colSpan={3}
+                        className="px-2 py-2 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
+                      >
+                        TOTAL DENDA
+                      </td>
+
+                      <td className="px-2 py-2 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        {totalText}
+                      </td>
+
+                      <td className="px-2 py-2" />
+
+                      <td className="px-2 py-2" />
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
               <div className="sr-only">{Object.keys(cancelMeta).length}</div>
