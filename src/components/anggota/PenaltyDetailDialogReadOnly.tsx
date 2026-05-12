@@ -52,7 +52,7 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
       className={cn(
         "inline-flex items-center justify-center",
         "min-w-[66px]",
-        "rounded-[7px] px-2 py-1",
+        "rounded-[5px] px-2 py-1",
         "text-[12px] font-semibold leading-none",
         cls,
       )}
@@ -177,14 +177,16 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
+  // ✅ 12px everywhere inside table
   const headerWrapCls =
     "px-4 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
-  const bodyWrapCls = "px-4 py-3 text-[12px] font-normal text-slate-900";
-  const bodyWrapRightCls = "px-4 py-3 text-right tabular-nums whitespace-nowrap";
+  const bodyWrapCls = "px-4 py-3 text-left text-[12px] font-normal text-slate-900";
+  const bodyWrapRightCls =
+    "px-4 py-3 text-right text-[12px] font-normal tabular-nums whitespace-nowrap text-slate-900";
 
   const filterSelectCls = cn(
     "h-10 w-full rounded-[10px] border border-slate-200 bg-white px-3",
-    "text-[13px] font-semibold text-slate-800 shadow-none",
+    "text-[12px] font-semibold text-slate-800 shadow-none",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
@@ -232,11 +234,10 @@ export default function PenaltyDetailDialogReadOnly({
             className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
-            {/* ✅ Single source of truth: border + radius + clipping di sini */}
-            <div className="w-full overflow-hidden rounded-[14px] border border-slate-300 bg-white">
-              {/* scroll-x tetap ada, tapi ikut ter-clip oleh overflow-hidden parent */}
+            {/* ✅ rounded table container = 5px */}
+            <div className="w-full overflow-hidden rounded-[5px] border border-slate-300 bg-white">
               <div className="safe-x-scroll w-full bg-white">
-                <table className="w-full min-w-[640px] border-collapse">
+                <table className="w-full min-w-[640px] border-collapse text-[12px]">
                   <thead className="bg-slate-50">
                     <tr className="border-b border-slate-200">
                       <th className={cn(headerWrapCls, "w-[72px]")}>NO.</th>
@@ -244,9 +245,8 @@ export default function PenaltyDetailDialogReadOnly({
                         KETERLAMBATAN (HARI)
                       </th>
                       <th className={cn(headerWrapCls, "w-[140px]")}>TANGGAL</th>
-                      <th className={cn(headerWrapCls, "w-[140px] text-right")}>
-                        DENDA
-                      </th>
+                      {/* ✅ header juga rata kiri walaupun kolom angka */}
+                      <th className={cn(headerWrapCls, "w-[140px]")}>DENDA</th>
                       <th className={cn(headerWrapCls, "min-w-[160px]")}>STATUS</th>
                     </tr>
 
@@ -276,7 +276,7 @@ export default function PenaltyDetailDialogReadOnly({
                       <tr>
                         <td
                           colSpan={5}
-                          className="px-4 py-10 text-center text-sm text-slate-600"
+                          className="px-4 py-10 text-center text-[12px] text-slate-600"
                         >
                           Tidak ada rincian denda.
                         </td>
@@ -318,8 +318,10 @@ export default function PenaltyDetailDialogReadOnly({
                               <CellText>{r.tanggalKeterlambatan}</CellText>
                             </td>
 
-                            <td className={cn(bodyWrapRightCls, "text-right")}>
-                              <CellText className="text-right">{r.nominalDenda}</CellText>
+                            <td className={bodyWrapRightCls}>
+                              <CellText className="text-right">
+                                {r.nominalDenda}
+                              </CellText>
                             </td>
 
                             <td className={bodyWrapCls}>
@@ -341,7 +343,7 @@ export default function PenaltyDetailDialogReadOnly({
                     <tr className="border-t border-slate-200 bg-white">
                       <td
                         colSpan={3}
-                        className="px-4 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
+                        className="px-4 py-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
                       >
                         TOTAL DENDA
                       </td>
