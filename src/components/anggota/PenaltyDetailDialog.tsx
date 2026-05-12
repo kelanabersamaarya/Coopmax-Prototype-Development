@@ -356,6 +356,7 @@ export default function PenaltyDetailDialog({
           )}
         >
           <div className={cn("bg-white", R)}>
+            {/* Header: judul + X saja */}
             <div className="flex items-center justify-between gap-3 px-6 py-4">
               <div className="min-w-0">
                 <div className="text-lg font-extrabold tracking-tight text-slate-900">
@@ -363,43 +364,45 @@ export default function PenaltyDetailDialog({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "inline-flex h-9 w-9 items-center justify-center",
+                  R,
+                  "text-slate-700 transition hover:bg-slate-100",
+                )}
+                aria-label="Tutup"
+                title="Tutup"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <Separator className="bg-slate-200" />
+
+            {/* Body (scroll) */}
+            <div
+              className="overflow-auto px-6 py-5"
+              style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
+            >
+              {/* ✅ Toolbar di bawah divider */}
+              <div className="mb-3 flex items-center justify-end">
                 <button
                   type="button"
                   onClick={() => setAddOpen(true)}
                   className={cn(
-                    "inline-flex h-9 items-center justify-center gap-2 px-4",
+                    "inline-flex h-10 items-center justify-center gap-2 px-4",
                     "rounded-[10px] bg-[#2563eb] text-white",
                     "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
                     "text-[13px] font-semibold",
                   )}
                 >
-                  <Plus className="h-4.5 w-4.5" />
+                  <Plus className="h-5 w-5" />
                   Tambah Denda
                 </button>
-
-                <button
-                  type="button"
-                  onClick={() => onOpenChange(false)}
-                  className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center",
-                    R,
-                    "text-slate-700 transition hover:bg-slate-100",
-                  )}
-                  aria-label="Tutup"
-                  title="Tutup"
-                >
-                  <X className="h-5 w-5" />
-                </button>
               </div>
-            </div>
 
-            <Separator className="bg-slate-200" />
-
-            <div
-              className="overflow-auto px-6 py-5"
-              style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
-            >
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
                   <table className="w-full min-w-[820px] table-fixed border-collapse border-l border-slate-300">
