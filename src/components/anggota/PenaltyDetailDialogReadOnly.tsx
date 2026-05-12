@@ -179,7 +179,6 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
-  // Lebar kolom presisi
   const COL = {
     no: 65,
     late: 200,
@@ -189,7 +188,7 @@ export default function PenaltyDetailDialogReadOnly({
   } as const;
 
   const tableMinWidth =
-    COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
+    COL.no + COL.late + COL.tanggal + COL.denda + COL.status; // 735
 
   const headerWrapCls =
     "px-2 pb-2 pt-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
@@ -216,8 +215,8 @@ export default function PenaltyDetailDialogReadOnly({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)] sm:w-[900px]",
-          "max-w-[900px]",
+          "w-[calc(100vw-1.25rem)]",
+          "sm:w-[840px] sm:max-w-[840px]",
           "max-h-[80vh]",
           "overflow-hidden",
           R,
@@ -257,7 +256,6 @@ export default function PenaltyDetailDialogReadOnly({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
           >
-            {/* ✅ wrapper mengikuti lebar tabel (tanpa whitespace kosong di dalam box) */}
             <div className="w-full">
               <div className="mx-auto inline-block w-fit max-w-full">
                 <div
