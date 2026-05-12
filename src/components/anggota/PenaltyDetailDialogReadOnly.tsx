@@ -211,9 +211,8 @@ export default function PenaltyDetailDialogReadOnly({
       maxWidth: `${w}px`,
     }) as React.CSSProperties;
 
-  // ✅ padding body diperkecil + center table + jaga ruang kanan supaya tidak ketutup scrollbar
-  const bodyPadX = "px-4 sm:px-5";
-  const footerPadX = "px-4 sm:px-5";
+  // ✅ samakan padding horizontal antara body dan footer agar kanan/kiri simetris
+  const contentPadX = "px-6";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -257,7 +256,7 @@ export default function PenaltyDetailDialogReadOnly({
           <Separator className="bg-slate-200" />
 
           <div
-            className={cn("overflow-auto py-5", bodyPadX)}
+            className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
           >
             <div className="w-full">
@@ -268,17 +267,10 @@ export default function PenaltyDetailDialogReadOnly({
                     R,
                   )}
                 >
-                  <div
-                    className={cn(
-                      "safe-x-scroll w-full bg-white",
-                      // ✅ beri gutter kanan agar sisi kanan tabel tidak ketutup scrollbar
-                      "pr-4",
-                    )}
-                  >
+                  <div className="safe-x-scroll w-full bg-white">
                     <table
                       className={cn(
                         "table-fixed border-collapse",
-                        // ✅ border kiri & kanan selalu kelihatan (lebih simetris)
                         "border-l border-r border-slate-300",
                       )}
                       style={{
@@ -459,7 +451,7 @@ export default function PenaltyDetailDialogReadOnly({
 
           <Separator className="bg-slate-200" />
 
-          <div className={cn("py-4", footerPadX)}>
+          <div className={cn("py-4", contentPadX)}>
             <div className="flex justify-end">
               <button
                 type="button"
