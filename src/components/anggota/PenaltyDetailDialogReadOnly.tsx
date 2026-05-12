@@ -211,11 +211,14 @@ export default function PenaltyDetailDialogReadOnly({
       maxWidth: `${w}px`,
     }) as React.CSSProperties;
 
+  // ✅ padding body diperkecil + center table + jaga ruang kanan supaya tidak ketutup scrollbar
+  const bodyPadX = "px-4 sm:px-5";
+  const footerPadX = "px-4 sm:px-5";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          // ✅ diperkecil lagi (sesuai screenshot user)
           "w-[calc(100vw-1.25rem)]",
           "sm:w-[720px] sm:max-w-[720px]",
           "max-h-[80vh]",
@@ -254,23 +257,30 @@ export default function PenaltyDetailDialogReadOnly({
           <Separator className="bg-slate-200" />
 
           <div
-            className="overflow-auto px-6 py-5"
+            className={cn("overflow-auto py-5", bodyPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
           >
             <div className="w-full">
-              <div className="mx-auto inline-block w-fit max-w-full">
+              <div className="mx-auto w-full max-w-full">
                 <div
                   className={cn(
-                    "inline-block w-fit max-w-full overflow-hidden",
+                    "w-full overflow-hidden bg-white ring-1 ring-slate-300",
                     R,
-                    "bg-white ring-1 ring-slate-300",
-                    // ✅ border kiri wrapper, supaya garis kiri tabel tidak terlihat hilang
-                    "border-l border-slate-300",
                   )}
                 >
-                  <div className="safe-x-scroll w-full bg-white">
+                  <div
+                    className={cn(
+                      "safe-x-scroll w-full bg-white",
+                      // ✅ beri gutter kanan agar sisi kanan tabel tidak ketutup scrollbar
+                      "pr-4",
+                    )}
+                  >
                     <table
-                      className="table-fixed border-collapse"
+                      className={cn(
+                        "table-fixed border-collapse",
+                        // ✅ border kiri & kanan selalu kelihatan (lebih simetris)
+                        "border-l border-r border-slate-300",
+                      )}
                       style={{
                         width: tableMinWidth,
                         minWidth: tableMinWidth,
@@ -441,13 +451,15 @@ export default function PenaltyDetailDialogReadOnly({
                     </table>
                   </div>
                 </div>
+
+                <div className="sr-only">{tableMinWidth}</div>
               </div>
             </div>
           </div>
 
           <Separator className="bg-slate-200" />
 
-          <div className="px-6 py-4">
+          <div className={cn("py-4", footerPadX)}>
             <div className="flex justify-end">
               <button
                 type="button"
