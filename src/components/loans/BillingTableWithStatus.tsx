@@ -35,10 +35,13 @@ function StatusPill({ status }: { status: TagihanStatus }) {
         ? "bg-amber-500 text-white ring-1 ring-amber-500/20"
         : "bg-rose-600 text-white ring-1 ring-rose-600/20";
 
+  // ✅ Full width + center => semua baris mulai dari titik yang sama dan terlihat lurus
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[12px] font-semibold leading-none",
+        "block w-full",
+        "rounded-[5px] px-2.5 py-1",
+        "text-center text-[12px] font-semibold leading-[1.05]",
         cls,
       )}
     >
@@ -163,8 +166,16 @@ function TrShell({
   children: React.ReactNode;
   className?: string;
 }) {
-  // compact row feel like BillingTableView2: keep background clean
   return <tr className={cn("border-t border-slate-200", className)}>{children}</tr>;
+}
+
+function StatusTd({ status }: { status: TagihanStatus }) {
+  // ✅ padding kiri/kanan konsisten untuk semua baris
+  return (
+    <td style={{ width: STATUS_COL_W }} className="px-3 py-3">
+      <StatusPill status={status} />
+    </td>
+  );
 }
 
 function InnerTable({
@@ -193,7 +204,13 @@ function InnerTable({
           return (
             <tr
               key={`${r.jatuhTempo}-${globalIdx}`}
-              className={cn(idx === 0 && showGraceInfoRow ? "border-t border-slate-200" : idx === 0 ? "" : "border-t border-slate-200")}
+              className={cn(
+                idx === 0 && showGraceInfoRow
+                  ? "border-t border-slate-200"
+                  : idx === 0
+                    ? ""
+                    : "border-t border-slate-200",
+              )}
             >
               <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
@@ -230,9 +247,7 @@ function InnerTable({
                 ) : null}
               </Td>
 
-              <Td style={{ width: STATUS_COL_W }}>
-                <StatusPill status={status} />
-              </Td>
+              <StatusTd status={status} />
             </tr>
           );
         })}
@@ -336,13 +351,15 @@ export default function BillingTableWithStatus({
           <tbody className="bg-white">
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={colCount} className="px-4 py-10 text-center text-sm text-slate-600">
+                <td
+                  colSpan={colCount}
+                  className="px-4 py-10 text-center text-sm text-slate-600"
+                >
                   Tidak ada data.
                 </td>
               </tr>
             ) : showGraceHighlight && graceRows.length > 0 ? (
               <>
-                {/* Grace wrapper block: still one unit, but inside is a real table too */}
                 <TrShell>
                   <td colSpan={colCount} className="p-0">
                     <div className="bg-white p-2">
@@ -402,9 +419,7 @@ export default function BillingTableWithStatus({
                         ) : null}
                       </Td>
 
-                      <Td style={{ width: STATUS_COL_W }}>
-                        <StatusPill status={status} />
-                      </Td>
+                      <StatusTd status={status} />
                     </TrShell>
                   );
                 })}
@@ -455,9 +470,7 @@ export default function BillingTableWithStatus({
                         ) : null}
                       </Td>
 
-                      <Td style={{ width: STATUS_COL_W }}>
-                        <StatusPill status={status} />
-                      </Td>
+                      <StatusTd status={status} />
                     </TrShell>
                   );
                 })}
