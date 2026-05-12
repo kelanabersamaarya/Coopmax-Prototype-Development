@@ -5,15 +5,9 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-
-type BillingRow = {
-  jatuhTempo: string;
-  totalBelumDibayar: string;
-  tagihanPokok: string;
-  tagihanBunga: string;
-  sisaPokok: string;
-  sisaBunga: string;
-};
+import BillingTableView2, {
+  type BillingRow,
+} from "@/components/anggota/BillingTableView2";
 
 const seedRows: BillingRow[] = [
   {
@@ -148,7 +142,6 @@ export default function DaftarTagihanReadOnlyDialog({
   onOpenChange: (v: boolean) => void;
 }) {
   const rowsAll = React.useMemo(() => seedRows, []);
-
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState(1);
 
@@ -174,13 +167,36 @@ export default function DaftarTagihanReadOnlyDialog({
       disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-50",
     );
 
-  const thBase =
-    "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
-  const thRight =
-    "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
-  const tdBase = "px-4 py-3 text-[13px] font-medium text-slate-900";
-  const tdNum = cn(tdBase, "text-right tabular-nums whitespace-nowrap");
-  const tdDate = cn(tdBase, "font-semibold tabular-nums whitespace-nowrap");
+  // keep BillingTableView2 selection API satisfied (read-only usage)
+  const [selected, setSelected] = React.useState<boolean[]>(() =>
+    rows.map(() => false),
+  );
+
+  React.useEffect(() => {
+    setSelected(rows.map(() => false));
+  }, [rows]);
+
+  // Grace/highlight seperti sebelumnya: hanya halaman 1
+  const showGrace = page === 1;
+  const graceCount = showGrace ? Math.min(2, rows.length) : 0;
+
+  // Untuk menyelaraskan jumlah "row status" dengan row visual di BillingTableView2:
+  // - Jika showGrace: ada 1 row info grace + 2 row grace + (rows.length - 2) row normal
+  // - Jika tidak: ada 1 row info grace + rows.length row normal (BillingTableView2 tetap render GracePeriodInfoRow)
+  const statusRowCount = showGrace
+    ? 1 + rows.length // 1 banner row + rows (grace+normal)
+    : 1 + rows.length;
+
+  // Status per row tagihan (abaikan 1 info row); index global agar konsisten antar halaman
+  const statusForRowIndex = React.useCallback(
+    (localIdx: number) => {
+      const globalIdx = (page - 1) * pageSize + localIdx;
+      return statusForIndex(globalIdx);
+    },
+    [page, pageSize],
+  );
+
+  const statusColW = 190;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -222,91 +238,64 @@ export default function DaftarTagihanReadOnlyDialog({
           >
             <div className={cn("overflow-hidden ring-1 ring-slate-200", R)}>
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[1060px] border-collapse bg-white">
-                  <thead className="bg-white">
-                    <tr className="border-b border-slate-200">
-                      <th className={cn(thBase, "w-[120px]")}>
-                        Jatuh
-                        <br />
-                        Tempo
-                      </th>
+                <div className="min-w-[1060px]">
+                  <div className="flex w-full">
+                    {/* LEFT: existing BillingTableView2 (keeps grace/highlight/etc.) */}
+                    <div className="min-w-0 flex-1">
+                      <BillingTableView2
+                        rows={rows}
+                        selected={selected}
+                        setSelected={setSelected}
+                        isLocked={true}
+                        showNextBillInfo={false}
+                        showGraceInfo={true}
+                        highlightGraceBlock={showGrace}
+                        keepGraceShellWithoutInfo={false}
+                        hideSelection={true}
+                        showPenaltyColumn={false}
+                        disableRowRings
+                        disableRowActiveRing
+                        rowDensity="default"
+                        className="mt-0"
+                      />
+                    </div>
 
-                      <th className={cn(thRight, "w-[150px]")}>
-                        Total Tagihan
-                        <br />
-                        Belum Dibayar
-                      </th>
+                    {/* RIGHT: status column overlay (scrolls together) */}
+                    <div
+                      className="shrink-0 border-l border-slate-200 bg-white"
+                      style={{ width: statusColW }}
+                    >
+                      {/* Header height match the table header visually */}
+                      <div className="border-b border-slate-200 px-4 py-3">
+                        <div className="text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700">
+                          Status
+                          <br />
+                          Tagihan
+                        </div>
+                      </div>
 
-                      <th className={cn(thRight, "w-[140px]")}>
-                        Tagihan
-                        <br />
-                        Pokok
-                      </th>
+                      {/* Rows: include grace info row placeholder + each billing row */}
+                      <div className="divide-y divide-slate-200">
+                        {/* 1) Grace info row placeholder (height approximated to match) */}
+                        <div className="px-4 py-3">
+                          <span className="text-[12px] font-semibold text-slate-400">
+                            —
+                          </span>
+                        </div>
 
-                      <th className={cn(thRight, "w-[130px]")}>
-                        Tagihan
-                        <br />
-                        Bunga
-                      </th>
+                        {/* 2) Billing rows */}
+                        {rows.map((r, idx) => (
+                          <div key={`${r.jatuhTempo}-status-${idx}`} className="px-4 py-3">
+                            <StatusPill status={statusForRowIndex(idx)} />
+                          </div>
+                        ))}
 
-                      <th className={cn(thRight, "w-[150px]")}>
-                        Sisa Tagihan
-                        <br />
-                        Pokok
-                      </th>
-
-                      <th className={cn(thRight, "w-[150px]")}>
-                        Sisa Tagihan
-                        <br />
-                        Bunga
-                      </th>
-
-                      <th className={cn(thBase, "w-[190px]")}>
-                        Status
-                        <br />
-                        Tagihan
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody className="bg-white">
-                    {rows.length === 0 ? (
-                      <tr>
-                        <td
-                          colSpan={7}
-                          className="px-4 py-10 text-center text-sm text-slate-600"
-                        >
-                          Tidak ada data.
-                        </td>
-                      </tr>
-                    ) : (
-                      rows.map((r, idx) => {
-                        const globalIdx = (page - 1) * pageSize + idx;
-                        const status = statusForIndex(globalIdx);
-
-                        return (
-                          <tr
-                            key={`${r.jatuhTempo}-${globalIdx}`}
-                            className={cn(
-                              "border-t border-slate-200",
-                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                            )}
-                          >
-                            <td className={tdDate}>{r.jatuhTempo}</td>
-                            <td className={tdNum}>{r.totalBelumDibayar}</td>
-                            <td className={tdNum}>{r.tagihanPokok}</td>
-                            <td className={tdNum}>{r.tagihanBunga}</td>
-                            <td className={cn(tdNum, "pr-6")}>{r.sisaPokok}</td>
-                            <td className={cn(tdNum, "pr-6")}>{r.sisaBunga}</td>
-                            <td className={cn(tdBase, "whitespace-nowrap")}>
-                              <StatusPill status={status} />
-                            </td>
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
+                        {/* keep count used (debug/consistency) */}
+                        <div className="sr-only">{statusRowCount}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
