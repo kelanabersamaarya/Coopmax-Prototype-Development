@@ -427,7 +427,7 @@ export default function PenaltyDetailDialog({
                           STATUS
                         </th>
 
-                        <th className="w-[160px] px-4 pb-1 pt-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
+                        <th className="w-[160px] px-4 pb-1 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900">
                           AKSI
                         </th>
                       </tr>
@@ -556,7 +556,7 @@ export default function PenaltyDetailDialog({
                               </td>
 
                               <td className="px-4 py-3">
-                                <div className="flex justify-center">
+                                <div className="flex justify-start">
                                   {r.status === "Aktif" ? (
                                     <CancelPenaltyButton
                                       onClick={() => {
