@@ -52,7 +52,10 @@ function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-[5px] px-2 py-1 text-[12px] font-semibold leading-none",
+        "inline-flex items-center justify-center",
+        "min-w-[74px]",
+        "rounded-[7px] px-2 py-1",
+        "text-[12px] font-semibold leading-none",
         cls,
       )}
     >
@@ -117,6 +120,22 @@ function InfoIconTooltip({
   );
 }
 
+function CellText({
+  children,
+  className,
+  title,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  title?: string;
+}) {
+  return (
+    <div className={cn("min-w-0 overflow-hidden text-ellipsis whitespace-nowrap", className)} title={title}>
+      {children}
+    </div>
+  );
+}
+
 export default function PenaltyDetailDialogReadOnly({
   open,
   onOpenChange,
@@ -154,6 +173,7 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
+  // ✅ sesuai request
   const COL = {
     no: 70,
     late: 200,
@@ -162,19 +182,18 @@ export default function PenaltyDetailDialogReadOnly({
     status: 160,
   } as const;
 
-  const thBase =
-    "px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
-  const tdBase =
-    "px-3 py-2.5 text-[13px] font-normal text-slate-900 tabular-nums whitespace-nowrap";
-
-  const filterSelectCls = cn(
-    "h-8 w-full rounded-[5px] border border-slate-200 bg-white px-2",
-    "text-[13px] font-semibold text-slate-700 shadow-none",
-    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
   const tableMinWidth =
     COL.no + COL.late + COL.tanggal + COL.denda + COL.status;
+
+  const thBase =
+    "px-3 pb-2 pt-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-900";
+  const tdBase = "px-3 py-2.5 text-[13px] font-normal text-slate-900";
+
+  const filterSelectCls = cn(
+    "h-9 w-full rounded-[10px] border border-slate-200 bg-white px-3",
+    "text-[13px] font-semibold text-slate-800 shadow-none",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -196,7 +215,7 @@ export default function PenaltyDetailDialogReadOnly({
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="min-w-0">
               <div className="text-lg font-extrabold tracking-tight text-slate-900">
-                Rincian Denda (READ-ONLY TEST)
+                Rincian Denda
               </div>
             </div>
 
@@ -224,7 +243,7 @@ export default function PenaltyDetailDialogReadOnly({
             <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
               <div className="safe-x-scroll bg-white">
                 <table
-                  className="w-full table-fixed border-collapse border-l border-slate-300"
+                  className="w-full table-fixed border-collapse"
                   style={{ minWidth: tableMinWidth }}
                 >
                   <colgroup>
@@ -246,7 +265,7 @@ export default function PenaltyDetailDialogReadOnly({
                       <th className={cn(thBase)} style={{ width: COL.tanggal }}>
                         TANGGAL
                       </th>
-                      <th className={cn(thBase)} style={{ width: COL.denda }}>
+                      <th className={cn(thBase, "text-right")} style={{ width: COL.denda }}>
                         DENDA
                       </th>
                       <th className={cn(thBase)} style={{ width: COL.status }}>
@@ -254,25 +273,21 @@ export default function PenaltyDetailDialogReadOnly({
                       </th>
                     </tr>
 
-                    <tr className="border-b border-slate-300 bg-white">
+                    <tr className="border-b border-slate-200 bg-white">
                       <th className="px-3 py-2" style={{ width: COL.no }} />
                       <th className="px-3 py-2" style={{ width: COL.late }} />
                       <th className="px-3 py-2" style={{ width: COL.tanggal }} />
                       <th className="px-3 py-2" style={{ width: COL.denda }} />
-                      <th className="px-3 pt-1 pb-2" style={{ width: COL.status }}>
-                        <div className="relative">
-                          <select
-                            value={statusFilter}
-                            onChange={(e) =>
-                              setStatusFilter(e.target.value as StatusValue)
-                            }
-                            className={filterSelectCls}
-                          >
-                            <option value="Semua">-- Semua --</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
-                          </select>
-                        </div>
+                      <th className="px-3 py-2" style={{ width: COL.status }}>
+                        <select
+                          value={statusFilter}
+                          onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
+                          className={filterSelectCls}
+                        >
+                          <option value="Semua">-- Semua --</option>
+                          <option value="Aktif">Aktif</option>
+                          <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
                       </th>
                     </tr>
                   </thead>
@@ -307,20 +322,20 @@ export default function PenaltyDetailDialogReadOnly({
                           <tr
                             key={`${r.tanggalKeterlambatan}-${r.originalIndex}`}
                             className={cn(
-                              "border-t border-slate-300/70",
+                              "border-t border-slate-200",
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
                             <td className={cn(tdBase)} style={{ width: COL.no }}>
-                              {idx + 1}
+                              <CellText>{idx + 1}</CellText>
                             </td>
 
                             <td className={cn(tdBase)} style={{ width: COL.late }}>
-                              {lateDays}
+                              <CellText>{lateDays}</CellText>
                             </td>
 
                             <td className={cn(tdBase)} style={{ width: COL.tanggal }}>
-                              {r.tanggalKeterlambatan}
+                              <CellText>{r.tanggalKeterlambatan}</CellText>
                             </td>
 
                             <td
@@ -329,11 +344,11 @@ export default function PenaltyDetailDialogReadOnly({
                               )}
                               style={{ width: COL.denda }}
                             >
-                              {r.nominalDenda}
+                              <CellText className="text-right">{r.nominalDenda}</CellText>
                             </td>
 
                             <td className={cn("px-3 py-2.5")} style={{ width: COL.status }}>
-                              <div className="flex items-center gap-2">
+                              <div className="flex min-w-0 items-center gap-2">
                                 <StatusPill status={r.status} />
                                 {statusInfoRows.length > 0 ? (
                                   <InfoIconTooltip
@@ -348,22 +363,22 @@ export default function PenaltyDetailDialogReadOnly({
                       })
                     )}
 
-                    <tr className="border-t border-slate-300 bg-white">
+                    <tr className="border-t border-slate-200 bg-white">
                       <td
                         colSpan={3}
-                        className="px-3 py-2.5 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
+                        className="px-3 py-3 text-[12px] font-extrabold uppercase tracking-wide text-slate-900"
                       >
                         TOTAL DENDA
                       </td>
 
                       <td
-                        className="px-3 py-2.5 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
+                        className="px-3 py-3 text-right text-[13px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap"
                         style={{ width: COL.denda }}
                       >
                         {totalText}
                       </td>
 
-                      <td className="px-3 py-2.5" style={{ width: COL.status }} />
+                      <td className="px-3 py-3" style={{ width: COL.status }} />
                     </tr>
                   </tbody>
                 </table>
@@ -379,8 +394,8 @@ export default function PenaltyDetailDialogReadOnly({
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "inline-flex h-9 items-center justify-center px-4 text-[13px] font-semibold",
-                  "rounded-[5px]",
+                  "inline-flex h-10 items-center justify-center px-4 text-[13px] font-semibold",
+                  "rounded-[10px]",
                   "bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700",
                 )}
               >
