@@ -179,12 +179,13 @@ export default function PenaltyDetailDialogReadOnly({
 
   const lateDaysPattern = [3, 4, 2] as const;
 
+  // ✅ Lebar kolom sesuai permintaan
   const COL = {
     no: 65,
     late: 200,
-    tanggal: 160,
-    denda: 140,
-    status: 170,
+    tanggal: 160, // ✅
+    denda: 140, // ✅
+    status: 170, // ✅
   } as const;
 
   const tableMinWidth =
@@ -204,7 +205,6 @@ export default function PenaltyDetailDialogReadOnly({
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  // col benar-benar terkunci
   const colStyle = (w: number) =>
     ({
       width: `${w}px`,
