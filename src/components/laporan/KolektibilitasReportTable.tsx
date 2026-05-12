@@ -45,6 +45,7 @@ function Th({
   rowSpan,
   align = "center",
   noRightBorder = false,
+  leftBorder = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -52,6 +53,7 @@ function Th({
   rowSpan?: number;
   align?: Align;
   noRightBorder?: boolean;
+  leftBorder?: boolean;
 }) {
   // ✅ Selalu beri border-top agar garis horizontal paling atas header tidak putus
   // (terutama untuk th yang memakai rowSpan=2).
@@ -66,6 +68,7 @@ function Th({
         "bg-white px-2 py-2.5 align-middle",
         topDivider,
         bottomDivider,
+        leftBorder ? "border-l border-slate-300" : "",
         noRightBorder ? "" : "border-r border-slate-300",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
@@ -88,18 +91,21 @@ function Td({
   align = "left",
   title,
   noRightBorder = false,
+  leftBorder = false,
 }: {
   children: React.ReactNode;
   className?: string;
   align?: Align;
   title?: string;
   noRightBorder?: boolean;
+  leftBorder?: boolean;
 }) {
   return (
     <td
       title={title}
       className={cn(
         "border-b border-slate-200 px-2 py-2 align-top",
+        leftBorder ? "border-l border-slate-200" : "",
         noRightBorder ? "" : "border-r border-slate-200",
         "text-[13px] font-medium text-slate-900",
         align === "center"
@@ -250,7 +256,7 @@ function TotalRowMergedToJangkaWaktu({
   return (
     <tr className="border-t border-black bg-white">
       <td
-        className={cn(totalRowText, "whitespace-nowrap")}
+        className={cn(totalRowText, "whitespace-nowrap", "border-l border-slate-200")}
         colSpan={MERGE_COLS_TO_JW_END}
       >
         {label}
@@ -346,7 +352,7 @@ export default function KolektibilitasReportTable({
           <table className="min-w-[2930px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
-                <Th rowSpan={2} className={colW.no} align="left">
+                <Th rowSpan={2} className={colW.no} align="left" leftBorder>
                   NO.
                 </Th>
                 <Th rowSpan={2} className={colW.noNsb} align="left">
@@ -528,7 +534,7 @@ export default function KolektibilitasReportTable({
 
                   return (
                     <tr key={`${r.noNsb}-${idx}`} className="bg-white">
-                      <Td className={colW.no} align="left">
+                      <Td className={colW.no} align="left" leftBorder>
                         {r.no}
                       </Td>
 
