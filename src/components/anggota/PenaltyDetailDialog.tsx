@@ -366,20 +366,6 @@ export default function PenaltyDetailDialog({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => setAddOpen(true)}
-                  className={cn(
-                    "inline-flex h-9 items-center justify-center gap-2 px-4",
-                    "rounded-[10px] bg-[#2563eb] text-white",
-                    "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
-                    "text-[13px] font-semibold",
-                  )}
-                >
-                  <Plus className="h-4.5 w-4.5" />
-                  Tambah Denda
-                </button>
-
-                <button
-                  type="button"
                   onClick={() => onOpenChange(false)}
                   className={cn(
                     "inline-flex h-9 w-9 items-center justify-center",
@@ -400,6 +386,23 @@ export default function PenaltyDetailDialog({
               className="overflow-auto px-6 py-5"
               style={{ maxHeight: "calc(80vh - 64px - 76px)" }}
             >
+              {/* ✅ tombol dipindah ke sini: tepat bawah divider header, di atas tabel */}
+              <div className="mb-3 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setAddOpen(true)}
+                  className={cn(
+                    "inline-flex h-10 items-center justify-center gap-2 px-4",
+                    "rounded-full bg-[#2563eb] text-white",
+                    "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
+                    "text-[14px] font-semibold",
+                  )}
+                >
+                  <Plus className="h-5 w-5" />
+                  Tambah Denda
+                </button>
+              </div>
+
               <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
                 <div className="safe-x-scroll bg-white">
                   <table className="w-full min-w-[820px] table-fixed border-collapse border-l border-slate-300">
