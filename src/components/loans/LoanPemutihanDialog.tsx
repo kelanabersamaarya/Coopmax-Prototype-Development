@@ -11,6 +11,7 @@ import { X, CheckSquare, Eye } from "lucide-react";
 import { toast } from "sonner";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import DaftarTagihanReadOnlyDialog from "@/components/loans/DaftarTagihanReadOnlyDialog";
+import LoanPemutihanConfirmModal from "@/components/loans/LoanPemutihanConfirmModal";
 
 function RowKV({ label, value }: { label: string; value: string }) {
   return (
@@ -130,6 +131,7 @@ export default function LoanPemutihanDialog({
   accountNo: string;
 }) {
   const [tagihanOpen, setTagihanOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   const [tanggal, setTanggal] = React.useState("20-04-2026");
   const [tipeTransaksi, setTipeTransaksi] = React.useState(TIPE_TRANSAKSI);
@@ -151,6 +153,7 @@ export default function LoanPemutihanDialog({
     setKeterangan("");
     setConfirm(false);
     setTagihanOpen(false);
+    setConfirmOpen(false);
   }, [open]);
 
   // restore caret after formatting (jaga caret hanya di area integer, sebelum koma)
@@ -232,6 +235,29 @@ export default function LoanPemutihanDialog({
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b5bd3]/20",
   );
 
+  function validateBeforeConfirm() {
+    if (!keterangan.trim()) {
+      toast("Keterangan wajib diisi", {
+        description: "Mohon isi keterangan terlebih dahulu.",
+      });
+      return false;
+    }
+    if (!confirm) {
+      toast("Konfirmasi diperlukan", {
+        description: "Centang persetujuan sebelum menyimpan.",
+      });
+      return false;
+    }
+    return true;
+  }
+
+  function doSave() {
+    toast.success("Pemutihan Pinjaman Berhasil Dilakukan", {
+      description: `Rekening: ${accountNo} • Tanggal: ${tanggal} • Nominal: ${formatIdr2(nominalN)}`,
+    });
+    onOpenChange(false);
+  }
+
   // Prototype info (sesuai permintaan list)
   const customerName = "Bapak Bagus";
   const totalPinjaman = "12.000.000,00";
@@ -245,6 +271,15 @@ export default function LoanPemutihanDialog({
   return (
     <>
       <DaftarTagihanReadOnlyDialog open={tagihanOpen} onOpenChange={setTagihanOpen} />
+
+      <LoanPemutihanConfirmModal
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onYes={() => {
+          setConfirmOpen(false);
+          doSave();
+        }}
+      />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
@@ -406,7 +441,7 @@ export default function LoanPemutihanDialog({
                   </div>
                 </div>
 
-                {/* ✅ tambahan field baru */}
+                {/* tambahan field baru */}
                 <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                   <FieldLabel>Bayar Denda</FieldLabel>
                   <div className="text-sm font-normal text-slate-900">
@@ -463,22 +498,8 @@ export default function LoanPemutihanDialog({
                 <button
                   type="button"
                   onClick={() => {
-                    if (!keterangan.trim()) {
-                      toast("Keterangan wajib diisi", {
-                        description: "Mohon isi keterangan terlebih dahulu.",
-                      });
-                      return;
-                    }
-                    if (!confirm) {
-                      toast("Konfirmasi diperlukan", {
-                        description: "Centang persetujuan sebelum menyimpan.",
-                      });
-                      return;
-                    }
-                    toast.success("Pemutihan Pinjaman Berhasil Dilakukan", {
-                      description: `Rekening: ${accountNo} • Tanggal: ${tanggal} • Nominal: ${formatIdr2(nominalN)}`,
-                    });
-                    onOpenChange(false);
+                    if (!validateBeforeConfirm()) return;
+                    setConfirmOpen(true);
                   }}
                   className={cn(
                     btnBase,
