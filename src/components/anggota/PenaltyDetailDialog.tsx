@@ -170,6 +170,47 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
   );
 }
 
+function showGreenSuccessToast(title: string) {
+  toast.custom((t) => (
+    <div className="w-[min(520px,calc(100vw-1rem))]">
+      <div
+        className={cn(
+          "rounded-[10px] bg-emerald-600 text-white shadow-xl",
+          "ring-1 ring-emerald-700/40",
+          "px-4 py-3",
+        )}
+      >
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
+            <Check className="h-5 w-5 text-white" strokeWidth={3} />
+          </span>
+
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-[15px] font-semibold leading-none">
+              {title}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => toast.dismiss(t)}
+            className={cn(
+              "inline-flex h-8 w-8 items-center justify-center rounded-full",
+              "bg-transparent ring-0 shadow-none",
+              "text-white/90 transition hover:text-white",
+              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+            )}
+            aria-label="Tutup"
+            title="Tutup"
+          >
+            <X className="h-4.5 w-4.5 text-white" />
+          </button>
+        </div>
+      </div>
+    </div>
+  ));
+}
+
 export default function PenaltyDetailDialog({
   open,
   onOpenChange,
@@ -299,54 +340,6 @@ export default function PenaltyDetailDialog({
 
   const statusCellPad = "px-1.5 py-2";
 
-  function showToastSuccess(title: string) {
-    toast.custom((t) => (
-      <div className="w-[min(520px,calc(100vw-1rem))]">
-        <div
-          className={cn(
-            "rounded-[10px] bg-white text-slate-900 shadow-xl",
-            "ring-1 ring-slate-200",
-            "px-4 py-3",
-          )}
-        >
-          <div className="flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-white ring-1 ring-emerald-600/25">
-              <Check className="h-5 w-5" strokeWidth={3} />
-            </span>
-
-            <div className="min-w-0 flex-1">
-              <div className="truncate text-[15px] font-semibold leading-none">
-                {title}
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => toast.dismiss(t)}
-              className={cn(
-                "inline-flex h-8 w-8 items-center justify-center rounded-full",
-                "bg-slate-100 text-slate-600 ring-1 ring-slate-200",
-                "transition hover:bg-slate-200",
-              )}
-              aria-label="Tutup"
-              title="Tutup"
-            >
-              <X className="h-4.5 w-4.5" />
-            </button>
-          </div>
-        </div>
-      </div>
-    ));
-  }
-
-  function showPenaltyAddedToast() {
-    showToastSuccess("Berhasil Menambahkan Denda");
-  }
-
-  function showPenaltyCanceledToast() {
-    showToastSuccess("Berhasil Membatalkan Denda");
-  }
-
   return (
     <>
       <PenaltyAddReasonDialog
@@ -364,7 +357,7 @@ export default function PenaltyDetailDialog({
             [key]: { addDate: date, reason, by: currentUserName },
           }));
 
-          showPenaltyAddedToast();
+          showGreenSuccessToast("Berhasil Menambahkan Denda");
         }}
       />
 
@@ -404,8 +397,7 @@ export default function PenaltyDetailDialog({
             },
           }));
 
-          // ✅ Toast sukses pembatalan denda (desain sama)
-          showPenaltyCanceledToast();
+          showGreenSuccessToast("Berhasil Membatalkan Denda");
 
           setCancelTarget(null);
         }}
