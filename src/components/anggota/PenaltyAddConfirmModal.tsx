@@ -20,7 +20,7 @@ function ActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-[325px] w-[190px] rounded-[5px] text-[16px] font-semibold transition",
+        "h-[60px] w-[190px] rounded-[5px] text-[16px] font-semibold transition",
         variant === "primary"
           ? "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]"
           : "bg-[#7f8aa0] text-white ring-2 ring-[#7f8aa0]/20 hover:bg-[#6f7a90]",
@@ -47,7 +47,7 @@ export default function PenaltyAddConfirmModal({
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[490px]",
           "max-w-[490px]",
-          "h-[300px]",
+          "h-[325px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
           // hide default close button
