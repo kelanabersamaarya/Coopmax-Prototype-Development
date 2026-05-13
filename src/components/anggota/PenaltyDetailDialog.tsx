@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { X, Info, Plus } from "lucide-react";
+import { X, Info, Plus, Check } from "lucide-react";
 import { toast } from "sonner";
 import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonDialog";
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
@@ -288,7 +288,6 @@ export default function PenaltyDetailDialog({
   const thNo = cn(thBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
   const tdNo = cn(tdBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
 
-  // ✅ Tambah sedikit padding kanan kolom AKSI
   const thAksi = cn(thBase, "pl-1 pr-2");
   const tdAksi = "pl-1 pr-2 py-2";
 
@@ -299,6 +298,53 @@ export default function PenaltyDetailDialog({
   );
 
   const statusCellPad = "px-1.5 py-2";
+
+  function showPenaltyAddedToast() {
+    toast.custom((t) => (
+      <div
+        data-sonner-toast
+        className={cn(
+          "!bg-transparent !shadow-none !border-0 !ring-0 !p-0",
+          "pointer-events-auto",
+        )}
+      >
+        <div
+          className={cn(
+            "w-[min(520px,calc(100vw-1rem))]",
+            "rounded-[10px] bg-white text-slate-900 shadow-xl",
+            "ring-1 ring-slate-200",
+            "px-4 py-3",
+          )}
+        >
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-white ring-1 ring-emerald-600/25">
+              <Check className="h-5 w-5" strokeWidth={3} />
+            </span>
+
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-[15px] font-semibold leading-none">
+                Berhasil Menambahkan Denda
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => toast.dismiss(t)}
+              className={cn(
+                "inline-flex h-8 w-8 items-center justify-center rounded-full",
+                "bg-slate-100 text-slate-600 ring-1 ring-slate-200",
+                "transition hover:bg-slate-200",
+              )}
+              aria-label="Tutup"
+              title="Tutup"
+            >
+              <X className="h-4.5 w-4.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    ));
+  }
 
   return (
     <>
@@ -317,9 +363,8 @@ export default function PenaltyDetailDialog({
             [key]: { addDate: date, reason, by: currentUserName },
           }));
 
-          toast("Denda ditambahkan (prototype)", {
-            description: `${date} • ${nominalDenda}`,
-          });
+          // ✅ Toast sesuai permintaan
+          showPenaltyAddedToast();
         }}
       />
 
@@ -435,7 +480,13 @@ export default function PenaltyDetailDialog({
                 </button>
               </div>
 
-              <div className={cn("overflow-hidden", R, "bg-white ring-1 ring-slate-300")}>
+              <div
+                className={cn(
+                  "overflow-hidden",
+                  R,
+                  "bg-white ring-1 ring-slate-300",
+                )}
+              >
                 <table className="w-full table-fixed border-collapse border-l border-slate-300">
                   <colgroup>
                     <col style={{ width: COL.no }} />
@@ -464,7 +515,9 @@ export default function PenaltyDetailDialog({
                       <th className="px-1.5 pt-1 pb-2">
                         <select
                           value={statusFilter}
-                          onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
+                          onChange={(e) =>
+                            setStatusFilter(e.target.value as StatusValue)
+                          }
                           className={filterSelectCls}
                         >
                           <option value="Semua">-- Semua --</option>
@@ -489,39 +542,43 @@ export default function PenaltyDetailDialog({
                     ) : (
                       filteredRows.map((r, idx) => {
                         const isAdded = r.source === "added";
-                        const lateDays = lateDaysPattern[idx % lateDaysPattern.length];
+                        const lateDays =
+                          lateDaysPattern[idx % lateDaysPattern.length];
                         const isCanceled = r.status === "Dibatalkan";
 
-                        const statusInfoRows: Array<{ k: string; v: string }> = (() => {
-                          if (isAdded) {
-                            const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
-                            return [
-                              { k: "Tanggal penambahan", v: meta?.addDate ?? "-" },
-                              { k: "Alasan penambahan", v: meta?.reason ?? "-" },
-                              { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
-                            ];
-                          }
+                        const statusInfoRows: Array<{ k: string; v: string }> =
+                          (() => {
+                            if (isAdded) {
+                              const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
+                              return [
+                                { k: "Tanggal penambahan", v: meta?.addDate ?? "-" },
+                                { k: "Alasan penambahan", v: meta?.reason ?? "-" },
+                                { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
+                              ];
+                            }
 
-                          if (isCanceled) {
-                            const meta = cancelMeta[r.originalIndex];
-                            return [
-                              {
-                                k: "Tanggal pembatalan",
-                                v: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
-                              },
-                              {
-                                k: "Alasan pembatalan",
-                                v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
-                              },
-                              {
-                                k: "Dibatalkan oleh",
-                                v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
-                              },
-                            ];
-                          }
+                            if (isCanceled) {
+                              const meta = cancelMeta[r.originalIndex];
+                              return [
+                                {
+                                  k: "Tanggal pembatalan",
+                                  v:
+                                    meta?.cancelDate ??
+                                    DEFAULT_CANCEL_DETAIL.cancelDate,
+                                },
+                                {
+                                  k: "Alasan pembatalan",
+                                  v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                                },
+                                {
+                                  k: "Dibatalkan oleh",
+                                  v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
+                                },
+                              ];
+                            }
 
-                          return [];
-                        })();
+                            return [];
+                          })();
 
                         const keterlambatanText = isAdded
                           ? "Denda Ditambahkan Secara Manual"
@@ -539,7 +596,11 @@ export default function PenaltyDetailDialog({
                           >
                             <td className={tdNo}>{idx + 1}</td>
 
-                            <td className={cn("px-2 py-2 text-[12px] text-slate-900")}>
+                            <td
+                              className={cn(
+                                "px-2 py-2 text-[12px] text-slate-900",
+                              )}
+                            >
                               <div className="truncate" title={keterlambatanText}>
                                 {keterlambatanText}
                               </div>
