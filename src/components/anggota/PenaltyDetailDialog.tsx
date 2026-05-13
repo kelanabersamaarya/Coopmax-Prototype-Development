@@ -11,7 +11,6 @@ import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailD
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import PenaltyCancelConfirmModal from "@/components/anggota/PenaltyCancelConfirmModal";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -194,8 +193,6 @@ export default function PenaltyDetailDialog({
     () => ({}),
   );
 
-  const [cancelConfirmOpen, setCancelConfirmOpen] = React.useState(false);
-
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
     originalIndex: number;
@@ -222,7 +219,6 @@ export default function PenaltyDetailDialog({
     setStatusFilter("Aktif");
     setCanceledIds(new Set());
     setCancelMeta({});
-    setCancelConfirmOpen(false);
     setCancelDialogOpen(false);
     setCancelTarget(null);
     setCancelDetailOpen(false);
@@ -306,15 +302,6 @@ export default function PenaltyDetailDialog({
 
   return (
     <>
-      <PenaltyCancelConfirmModal
-        open={cancelConfirmOpen}
-        onCancel={() => setCancelConfirmOpen(false)}
-        onYes={() => {
-          setCancelConfirmOpen(false);
-          setCancelDialogOpen(true);
-        }}
-      />
-
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={setAddOpen}
@@ -477,9 +464,7 @@ export default function PenaltyDetailDialog({
                       <th className="px-1.5 pt-1 pb-2">
                         <select
                           value={statusFilter}
-                          onChange={(e) =>
-                            setStatusFilter(e.target.value as StatusValue)
-                          }
+                          onChange={(e) => setStatusFilter(e.target.value as StatusValue)}
                           className={filterSelectCls}
                         >
                           <option value="Semua">-- Semua --</option>
@@ -588,7 +573,7 @@ export default function PenaltyDetailDialog({
                                         tanggal: r.tanggalKeterlambatan,
                                         nominal: r.nominalDenda,
                                       });
-                                      setCancelConfirmOpen(true);
+                                      setCancelDialogOpen(true);
                                     }}
                                   />
                                 ) : null}
