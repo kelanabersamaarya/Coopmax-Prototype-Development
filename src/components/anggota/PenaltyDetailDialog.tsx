@@ -583,7 +583,7 @@ export default function PenaltyDetailDialog({
                           })();
 
                         const keterlambatanText = isAdded
-                          ? "Denda Ditambahkan Secara Manual"
+                          ? "Denda Ditambahkan Manual"
                           : isCanceled
                             ? "Dibatalkan"
                             : String(lateDays);
