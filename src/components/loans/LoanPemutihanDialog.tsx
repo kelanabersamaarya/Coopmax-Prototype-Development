@@ -147,6 +147,9 @@ export default function LoanPemutihanDialog({
   const [keterangan, setKeterangan] = React.useState("");
   const [confirm, setConfirm] = React.useState(false);
 
+  const shouldToastOnSuccessCloseRef = React.useRef(false);
+  const didToastRef = React.useRef(false);
+
   React.useEffect(() => {
     if (!open) return;
     setTanggal("20-04-2026");
@@ -157,6 +160,8 @@ export default function LoanPemutihanDialog({
     setTagihanOpen(false);
     setConfirmOpen(false);
     setSuccessOpen(false);
+    shouldToastOnSuccessCloseRef.current = false;
+    didToastRef.current = false;
   }, [open]);
 
   // restore caret after formatting (jaga caret hanya di area integer, sebelum koma)
@@ -308,6 +313,13 @@ export default function LoanPemutihanDialog({
     void tanggal;
   }
 
+  function maybeToastAfterSuccessClose() {
+    if (!shouldToastOnSuccessCloseRef.current) return;
+    if (didToastRef.current) return;
+    didToastRef.current = true;
+    showPemutihanSuccessToast();
+  }
+
   // Prototype info (sesuai permintaan list)
   const customerName = "Bapak Bagus";
   const totalPinjaman = "12.000.000,00";
@@ -326,19 +338,22 @@ export default function LoanPemutihanDialog({
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
         onYes={() => {
-          // ✅ tampilkan modal sukses dulu (toast dipindah ke tombol OK)
           setConfirmOpen(false);
           doSave();
+          // toast akan dipanggil ketika modal sukses ditutup (OK/backdrop/ESC)
+          shouldToastOnSuccessCloseRef.current = true;
           setSuccessOpen(true);
         }}
       />
 
       <LoanPemutihanSuccessModal
         open={successOpen}
-        onOpenChange={(v) => setSuccessOpen(v)}
+        onOpenChange={(v) => {
+          if (!v) maybeToastAfterSuccessClose();
+          setSuccessOpen(v);
+        }}
         onOk={() => {
-          // ✅ toast muncul setelah user menutup modal sukses
-          showPemutihanSuccessToast();
+          // Tutup modal sukses; toast akan ditrigger oleh onOpenChange di atas
           setSuccessOpen(false);
           onOpenChange(false);
         }}
