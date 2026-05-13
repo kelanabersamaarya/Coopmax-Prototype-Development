@@ -8,22 +8,10 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { CheckSquare, X } from "lucide-react";
 import { toast } from "sonner";
-import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import PenaltyCancelConfirmModal from "@/components/anggota/PenaltyCancelConfirmModal";
 import PenaltyCancelSuccessModal from "@/components/anggota/PenaltyCancelSuccessModal";
 
 const R = "rounded-[5px]";
-
-function toDmyFromIso(iso: string) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec((iso ?? "").trim());
-  if (!m) return "";
-  return `${m[3]}-${m[2]}-${m[1]}`;
-}
-
-function getTodayDmy() {
-  const todayIso = new Date().toISOString().slice(0, 10);
-  return toDmyFromIso(todayIso);
-}
 
 function FieldRow({
   label,
@@ -56,17 +44,15 @@ export default function PenaltyCancelReasonDialog({
   onOpenChange: (v: boolean) => void;
   tanggal: string;
   nominal: string;
-  onConfirm: (reason: string, cancelDate: string) => void;
+  onConfirm: (reason: string) => void;
 }) {
   const [reason, setReason] = React.useState("");
-  const [cancelDate, setCancelDate] = React.useState(getTodayDmy());
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
     setReason("");
-    setCancelDate(getTodayDmy());
     setConfirmOpen(false);
     setSuccessOpen(false);
   }, [open]);
@@ -81,12 +67,6 @@ export default function PenaltyCancelReasonDialog({
   );
 
   function validate() {
-    if (!cancelDate.trim()) {
-      toast("Tanggal pembatalan wajib diisi", {
-        description: "Mohon pilih tanggal pembatalan terlebih dahulu.",
-      });
-      return false;
-    }
     if (!reason.trim()) {
       toast("Alasan wajib diisi", {
         description: "Mohon isi alasan pembatalan denda sebelum menyimpan.",
@@ -108,7 +88,7 @@ export default function PenaltyCancelReasonDialog({
             return;
           }
 
-          onConfirm(reason.trim(), cancelDate.trim());
+          onConfirm(reason.trim());
           setConfirmOpen(false);
           setSuccessOpen(true);
         }}
@@ -167,18 +147,6 @@ export default function PenaltyCancelReasonDialog({
 
             <div className="px-6 py-6">
               <div className="grid gap-5">
-                <FieldRow label="Tanggal pembatalan" required>
-                  <DatePickerDmyField
-                    value={cancelDate}
-                    onChange={setCancelDate}
-                    inputClassName={cn(
-                      "h-11 w-full rounded-[5px] border-slate-200 bg-white pr-11 text-[14px] font-normal text-slate-900",
-                    )}
-                    popoverAlign="end"
-                    placeholder="DD-MM-YYYY"
-                  />
-                </FieldRow>
-
                 <FieldRow label="Alasan pembatalan" required>
                   <Textarea
                     value={reason}

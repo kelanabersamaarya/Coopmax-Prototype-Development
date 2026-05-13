@@ -380,7 +380,7 @@ export default function PenaltyDetailDialog({
         }}
         tanggal={cancelTarget?.tanggal ?? ""}
         nominal={cancelTarget?.nominal ?? ""}
-        onConfirm={(reason, cancelDate) => {
+        onConfirm={(reason) => {
           if (!cancelTarget) return;
 
           setCanceledIds((prev) => {
@@ -393,7 +393,7 @@ export default function PenaltyDetailDialog({
             ...prev,
             [cancelTarget.originalIndex]: {
               reason,
-              cancelDate,
+              cancelDate: DEFAULT_CANCEL_DETAIL.cancelDate,
               by: currentUserName,
             },
           }));
