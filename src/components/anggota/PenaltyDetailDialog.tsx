@@ -524,7 +524,7 @@ export default function PenaltyDetailDialog({
                         })();
 
                         const keterlambatanText = isAdded
-                          ? "Manual"
+                          ? "Denda Ditambahkan Secara Manual"
                           : isCanceled
                             ? "Dibatalkan"
                             : String(lateDays);
