@@ -195,6 +195,7 @@ export default function LoanPemutihanDialog({
     [nominalN, bungaN],
   );
   const hutangBungaN = 0;
+  const dendaN = 0;
 
   const inputBase = cn(
     H30,
@@ -402,6 +403,14 @@ export default function LoanPemutihanDialog({
                   <FieldLabel>Bayar Hutang Bunga</FieldLabel>
                   <div className="text-sm font-normal text-slate-900">
                     {formatIdr2(hutangBungaN)}
+                  </div>
+                </div>
+
+                {/* ✅ tambahan field baru */}
+                <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
+                  <FieldLabel>Bayar Denda</FieldLabel>
+                  <div className="text-sm font-normal text-slate-900">
+                    {formatIdr2(dendaN)}
                   </div>
                 </div>
 
