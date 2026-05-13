@@ -299,7 +299,7 @@ export default function PenaltyDetailDialog({
 
   const statusCellPad = "px-1.5 py-2";
 
-  function showPenaltyAddedToast() {
+  function showToastSuccess(title: string) {
     toast.custom((t) => (
       <div className="w-[min(520px,calc(100vw-1rem))]">
         <div
@@ -316,7 +316,7 @@ export default function PenaltyDetailDialog({
 
             <div className="min-w-0 flex-1">
               <div className="truncate text-[15px] font-semibold leading-none">
-                Berhasil Menambahkan Denda
+                {title}
               </div>
             </div>
 
@@ -337,6 +337,14 @@ export default function PenaltyDetailDialog({
         </div>
       </div>
     ));
+  }
+
+  function showPenaltyAddedToast() {
+    showToastSuccess("Berhasil Menambahkan Denda");
+  }
+
+  function showPenaltyCanceledToast() {
+    showToastSuccess("Berhasil Membatalkan Denda");
   }
 
   return (
@@ -395,6 +403,9 @@ export default function PenaltyDetailDialog({
               by: currentUserName,
             },
           }));
+
+          // ✅ Toast sukses pembatalan denda (desain sama)
+          showPenaltyCanceledToast();
 
           setCancelTarget(null);
         }}
