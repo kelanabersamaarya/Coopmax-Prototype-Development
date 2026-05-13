@@ -47,7 +47,7 @@ export default function PenaltyCancelConfirmModal({
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[490px]",
           "max-w-[490px]",
-          "h-[325px]",
+          "h-[310px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
           // hide default close button
