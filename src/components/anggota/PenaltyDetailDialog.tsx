@@ -12,6 +12,7 @@ import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog"
 import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import PenaltyCancelConfirmModal from "@/components/anggota/PenaltyCancelConfirmModal";
+import PenaltyCancelSuccessModal from "@/components/anggota/PenaltyCancelSuccessModal";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -195,6 +196,7 @@ export default function PenaltyDetailDialog({
   );
 
   const [cancelConfirmOpen, setCancelConfirmOpen] = React.useState(false);
+  const [cancelSuccessOpen, setCancelSuccessOpen] = React.useState(false);
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
@@ -223,6 +225,7 @@ export default function PenaltyDetailDialog({
     setCanceledIds(new Set());
     setCancelMeta({});
     setCancelConfirmOpen(false);
+    setCancelSuccessOpen(false);
     setCancelDialogOpen(false);
     setCancelTarget(null);
     setCancelDetailOpen(false);
@@ -292,7 +295,6 @@ export default function PenaltyDetailDialog({
   const thNo = cn(thBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
   const tdNo = cn(tdBase, "pl-2 pr-1 w-[44px] max-w-[44px]");
 
-  // ✅ Tambah sedikit padding kanan kolom AKSI
   const thAksi = cn(thBase, "pl-1 pr-2");
   const tdAksi = "pl-1 pr-2 py-2";
 
@@ -306,12 +308,18 @@ export default function PenaltyDetailDialog({
 
   return (
     <>
+      <PenaltyCancelSuccessModal
+        open={cancelSuccessOpen}
+        onOpenChange={(v) => setCancelSuccessOpen(v)}
+        onOk={() => setCancelSuccessOpen(false)}
+      />
+
       <PenaltyCancelConfirmModal
         open={cancelConfirmOpen}
         onCancel={() => setCancelConfirmOpen(false)}
         onYes={() => {
           setCancelConfirmOpen(false);
-          setCancelDialogOpen(true);
+          setCancelSuccessOpen(true);
         }}
       />
 
