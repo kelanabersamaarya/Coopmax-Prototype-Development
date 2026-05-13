@@ -19,7 +19,7 @@ function ActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-[71px] w-[216px] rounded-[10px] text-[20px] font-semibold transition",
+        "h-[65px] w-[216px] rounded-[10px] text-[16px] font-semibold transition",
         variant === "primary"
           ? "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]"
           : "bg-[#7f8aa0] text-white ring-2 ring-[#7f8aa0]/20 hover:bg-[#6f7a90]",
@@ -45,7 +45,7 @@ export default function LoanPemutihanConfirmModal({
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[519px]",
           "max-w-[519px]",
-          "h-[338px]",
+          "h-[325px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
           // hide default close button (kita pakai X custom)
@@ -71,11 +71,11 @@ export default function LoanPemutihanConfirmModal({
               <div className="text-5xl font-semibold text-[#f2b48c]">!</div>
             </div>
 
-            <div className="mt-6 text-[26px] font-semibold leading-tight tracking-tight text-slate-900">
+            <div className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
               Yakin Melakukan Pemutihan Pinjaman?
             </div>
 
-            <div className="mt-8 grid w-full grid-cols-2 justify-items-center gap-6">
+            <div className="mt-7 grid w-full grid-cols-2 justify-items-center gap-6">
               <ActionButton variant="primary" onClick={onYes}>
                 Yes
               </ActionButton>
