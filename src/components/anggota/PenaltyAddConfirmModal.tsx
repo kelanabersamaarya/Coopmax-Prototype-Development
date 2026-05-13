@@ -64,7 +64,7 @@ export default function PenaltyAddConfirmModal({
               Yakin Menambahkan Denda?
             </div>
 
-            <div className="mt-6 grid w-full grid-cols-2 justify-items-center gap-6">
+            <div className="mt-6 grid w-full grid-cols-2 justify-items-center gap-[10px]">
               <ActionButton variant="primary" onClick={onYes}>
                 Yes
               </ActionButton>
