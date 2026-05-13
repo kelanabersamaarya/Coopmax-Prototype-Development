@@ -196,7 +196,6 @@ export default function PenaltyDetailDialog({
     () => ({}),
   );
 
-  // Flow: alasan -> konfirmasi -> sukses -> commit cancel
   const [cancelReasonOpen, setCancelReasonOpen] = React.useState(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = React.useState(false);
   const [cancelSuccessOpen, setCancelSuccessOpen] = React.useState(false);
@@ -409,7 +408,6 @@ export default function PenaltyDetailDialog({
             cancelDate,
           });
 
-          // close reason -> open confirm
           setCancelReasonOpen(false);
           setCancelConfirmOpen(true);
         }}
