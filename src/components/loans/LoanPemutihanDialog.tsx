@@ -257,7 +257,13 @@ export default function LoanPemutihanDialog({
 
   function showPemutihanSuccessToast() {
     toast.custom((t) => (
-      <div className="mr-4 mt-4">
+      <div
+        data-sonner-toast
+        className={cn(
+          "!bg-transparent !shadow-none !border-0 !ring-0 !p-0",
+          "pointer-events-auto",
+        )}
+      >
         <div
           className={cn(
             "w-[min(520px,calc(100vw-1rem))]",
@@ -267,7 +273,6 @@ export default function LoanPemutihanDialog({
           )}
         >
           <div className="flex items-center gap-3">
-            {/* ikon centang putih tanpa background */}
             <Check className="h-5 w-5 text-white" strokeWidth={3} />
 
             <div className="min-w-0 flex-1">
@@ -297,7 +302,6 @@ export default function LoanPemutihanDialog({
   }
 
   function doSave() {
-    // ✅ hilangkan detail (rekening/tanggal/nominal) sesuai request
     showPemutihanSuccessToast();
     // keep used so TS doesn't complain in this prototype file
     void formatIdr2(nominalN);
