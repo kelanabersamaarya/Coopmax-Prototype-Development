@@ -1,3 +1,4 @@
+modal sukses; setelah OK, data denda ditandai dibatalkan.">
 "use client";
 
 import * as React from "react";
@@ -195,6 +196,7 @@ export default function PenaltyDetailDialog({
     () => ({}),
   );
 
+  const [cancelReasonOpen, setCancelReasonOpen] = React.useState(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = React.useState(false);
   const [cancelSuccessOpen, setCancelSuccessOpen] = React.useState(false);
 
@@ -203,6 +205,14 @@ export default function PenaltyDetailDialog({
     originalIndex: number;
     tanggal: string;
     nominal: string;
+  } | null>(null);
+
+  const [pendingCancel, setPendingCancel] = React.useState<{
+    originalIndex: number;
+    tanggal: string;
+    nominal: string;
+    reason: string;
+    cancelDate: string;
   } | null>(null);
 
   const [cancelDetailOpen, setCancelDetailOpen] = React.useState(false);
@@ -224,10 +234,12 @@ export default function PenaltyDetailDialog({
     setStatusFilter("Aktif");
     setCanceledIds(new Set());
     setCancelMeta({});
+    setCancelReasonOpen(false);
     setCancelConfirmOpen(false);
     setCancelSuccessOpen(false);
     setCancelDialogOpen(false);
     setCancelTarget(null);
+    setPendingCancel(null);
     setCancelDetailOpen(false);
     setCancelDetailTarget(null);
     setAddOpen(false);
@@ -306,12 +318,36 @@ export default function PenaltyDetailDialog({
 
   const statusCellPad = "px-1.5 py-2";
 
+  function commitCancellation(p: NonNullable<typeof pendingCancel>) {
+    setCanceledIds((prev) => {
+      const next = new Set(prev);
+      next.add(p.originalIndex);
+      return next;
+    });
+
+    setCancelMeta((prev) => ({
+      ...prev,
+      [p.originalIndex]: {
+        reason: p.reason,
+        cancelDate: p.cancelDate,
+        by: currentUserName,
+      },
+    }));
+  }
+
   return (
     <>
       <PenaltyCancelSuccessModal
         open={cancelSuccessOpen}
         onOpenChange={(v) => setCancelSuccessOpen(v)}
-        onOk={() => setCancelSuccessOpen(false)}
+        onOk={() => {
+          setCancelSuccessOpen(false);
+
+          if (pendingCancel) {
+            commitCancellation(pendingCancel);
+            setPendingCancel(null);
+          }
+        }}
       />
 
       <PenaltyCancelConfirmModal
@@ -354,6 +390,35 @@ export default function PenaltyDetailDialog({
         reason={addDetailTarget?.reason ?? "-"}
       />
 
+      {/* Modal isi tanggal + alasan (sebelum konfirmasi) */}
+      <PenaltyCancelReasonDialog
+        open={cancelReasonOpen}
+        onOpenChange={(v) => {
+          setCancelReasonOpen(v);
+          if (!v) {
+            setCancelTarget(null);
+          }
+        }}
+        tanggal={cancelTarget?.tanggal ?? ""}
+        nominal={cancelTarget?.nominal ?? ""}
+        onConfirm={(reason, cancelDate) => {
+          if (!cancelTarget) return;
+
+          setPendingCancel({
+            originalIndex: cancelTarget.originalIndex,
+            tanggal: cancelTarget.tanggal,
+            nominal: cancelTarget.nominal,
+            reason,
+            cancelDate,
+          });
+
+          // tutup modal alasan -> buka modal konfirmasi
+          setCancelReasonOpen(false);
+          setCancelConfirmOpen(true);
+        }}
+      />
+
+      {/* (komponen lama masih dipakai di tempat lain, biar import tetap sesuai data existing) */}
       <PenaltyCancelReasonDialog
         open={cancelDialogOpen}
         onOpenChange={(v) => {
@@ -363,24 +428,9 @@ export default function PenaltyDetailDialog({
         tanggal={cancelTarget?.tanggal ?? ""}
         nominal={cancelTarget?.nominal ?? ""}
         onConfirm={(reason, cancelDate) => {
-          if (!cancelTarget) return;
-
-          setCanceledIds((prev) => {
-            const next = new Set(prev);
-            next.add(cancelTarget.originalIndex);
-            return next;
-          });
-
-          setCancelMeta((prev) => ({
-            ...prev,
-            [cancelTarget.originalIndex]: {
-              reason,
-              cancelDate,
-              by: currentUserName,
-            },
-          }));
-
-          setCancelTarget(null);
+          // path lama tidak dipakai, tapi keep agar tidak breaking dari import sebelumnya
+          void reason;
+          void cancelDate;
         }}
       />
 
@@ -596,7 +646,7 @@ export default function PenaltyDetailDialog({
                                         tanggal: r.tanggalKeterlambatan,
                                         nominal: r.nominalDenda,
                                       });
-                                      setCancelConfirmOpen(true);
+                                      setCancelReasonOpen(true);
                                     }}
                                   />
                                 ) : null}
