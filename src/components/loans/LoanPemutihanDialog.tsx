@@ -302,8 +302,7 @@ export default function LoanPemutihanDialog({
   }
 
   function doSave() {
-    showPemutihanSuccessToast();
-    // keep used so TS doesn't complain in this prototype file
+    // simulate "saved" (prototype)
     void formatIdr2(nominalN);
     void accountNo;
     void tanggal;
@@ -327,6 +326,7 @@ export default function LoanPemutihanDialog({
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
         onYes={() => {
+          // ✅ tampilkan modal sukses dulu (toast dipindah ke tombol OK)
           setConfirmOpen(false);
           doSave();
           setSuccessOpen(true);
@@ -337,6 +337,8 @@ export default function LoanPemutihanDialog({
         open={successOpen}
         onOpenChange={(v) => setSuccessOpen(v)}
         onOk={() => {
+          // ✅ toast muncul setelah user menutup modal sukses
+          showPemutihanSuccessToast();
           setSuccessOpen(false);
           onOpenChange(false);
         }}
