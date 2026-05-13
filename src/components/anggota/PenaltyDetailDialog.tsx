@@ -1,4 +1,4 @@
-konfirmasi -> sukses.">
+modal sukses; setelah OK, data denda ditandai dibatalkan.">
 "use client";
 
 import * as React from "react";
@@ -196,11 +196,11 @@ export default function PenaltyDetailDialog({
     () => ({}),
   );
 
-  // Flow: alasan -> konfirmasi -> sukses -> commit cancel
   const [cancelReasonOpen, setCancelReasonOpen] = React.useState(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = React.useState(false);
   const [cancelSuccessOpen, setCancelSuccessOpen] = React.useState(false);
 
+  const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
     originalIndex: number;
     tanggal: string;
@@ -237,6 +237,7 @@ export default function PenaltyDetailDialog({
     setCancelReasonOpen(false);
     setCancelConfirmOpen(false);
     setCancelSuccessOpen(false);
+    setCancelDialogOpen(false);
     setCancelTarget(null);
     setPendingCancel(null);
     setCancelDetailOpen(false);
@@ -279,15 +280,14 @@ export default function PenaltyDetailDialog({
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  const totalText = React.useMemo(() => {
-    const total = filteredRows.reduce(
-      (sum, r) => sum + parseIdrLike(r.nominalDenda),
-      0,
-    );
-    return formatIdrLike(total);
+  const total = React.useMemo(() => {
+    return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
   }, [filteredRows]);
 
+  const totalText = React.useMemo(() => formatIdrLike(total), [total]);
+
   const lateDaysPattern = [3, 4, 2] as const;
+
   const currentUserName = "Arya Dharma";
 
   const COL = {
@@ -390,11 +390,14 @@ export default function PenaltyDetailDialog({
         reason={addDetailTarget?.reason ?? "-"}
       />
 
+      {/* Modal isi tanggal + alasan (sebelum konfirmasi) */}
       <PenaltyCancelReasonDialog
         open={cancelReasonOpen}
         onOpenChange={(v) => {
           setCancelReasonOpen(v);
-          if (!v) setCancelTarget(null);
+          if (!v) {
+            setCancelTarget(null);
+          }
         }}
         tanggal={cancelTarget?.tanggal ?? ""}
         nominal={cancelTarget?.nominal ?? ""}
@@ -409,9 +412,25 @@ export default function PenaltyDetailDialog({
             cancelDate,
           });
 
-          // close reason -> open confirm
+          // tutup modal alasan -> buka modal konfirmasi
           setCancelReasonOpen(false);
           setCancelConfirmOpen(true);
+        }}
+      />
+
+      {/* (komponen lama masih dipakai di tempat lain, biar import tetap sesuai data existing) */}
+      <PenaltyCancelReasonDialog
+        open={cancelDialogOpen}
+        onOpenChange={(v) => {
+          setCancelDialogOpen(v);
+          if (!v) setCancelTarget(null);
+        }}
+        tanggal={cancelTarget?.tanggal ?? ""}
+        nominal={cancelTarget?.nominal ?? ""}
+        onConfirm={(reason, cancelDate) => {
+          // path lama tidak dipakai, tapi keep agar tidak breaking dari import sebelumnya
+          void reason;
+          void cancelDate;
         }}
       />
 
@@ -651,6 +670,7 @@ export default function PenaltyDetailDialog({
                       </td>
 
                       <td className={cn(statusCellPad, "py-2")} />
+
                       <td className="pl-1 pr-2 py-2" />
                     </tr>
                   </tbody>
