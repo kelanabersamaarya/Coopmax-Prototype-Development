@@ -363,15 +363,30 @@ export default function LoanPemutihanDialog({
               <div className="text-lg font-semibold tracking-tight text-slate-900">
                 Pemutihan Pinjaman
               </div>
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
-                aria-label="Tutup"
-                title="Tutup"
-              >
-                <X className="h-5 w-5" />
-              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={showPemutihanSuccessToast}
+                  className={cn(
+                    "inline-flex h-9 items-center gap-2 rounded-full px-3 text-sm font-semibold",
+                    "bg-emerald-600 text-white ring-1 ring-emerald-600/20 transition hover:bg-emerald-700",
+                  )}
+                >
+                  <Check className="h-4 w-4" />
+                  Test Toast
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
+                  aria-label="Tutup"
+                  title="Tutup"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             <Separator className="bg-slate-200" />
