@@ -44,7 +44,7 @@ export default function PenaltyAddSuccessModal({
               type="button"
               onClick={onOk}
               className={cn(
-                "h-[65px] w-[216px] rounded-[10px] text-[16px] font-semibold transition",
+                "h-[60px] w-[190px] rounded-[10px] text-[16px] font-semibold transition",
                 "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]",
               )}
             >

@@ -18,7 +18,7 @@ function ActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-[65px] w-[216px] rounded-[10px] text-[16px] font-semibold transition",
+        "h-[60px] w-[190px] rounded-[10px] text-[16px] font-semibold transition",
         variant === "primary"
           ? "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]"
           : "bg-[#7f8aa0] text-white ring-2 ring-[#7f8aa0]/20 hover:bg-[#6f7a90]",
