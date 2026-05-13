@@ -301,16 +301,9 @@ export default function PenaltyDetailDialog({
 
   function showPenaltyAddedToast() {
     toast.custom((t) => (
-      <div
-        data-sonner-toast
-        className={cn(
-          "!bg-transparent !shadow-none !border-0 !ring-0 !p-0",
-          "pointer-events-auto",
-        )}
-      >
+      <div className="w-[min(520px,calc(100vw-1rem))]">
         <div
           className={cn(
-            "w-[min(520px,calc(100vw-1rem))]",
             "rounded-[10px] bg-white text-slate-900 shadow-xl",
             "ring-1 ring-slate-200",
             "px-4 py-3",
@@ -363,7 +356,6 @@ export default function PenaltyDetailDialog({
             [key]: { addDate: date, reason, by: currentUserName },
           }));
 
-          // ✅ Toast sesuai permintaan
           showPenaltyAddedToast();
         }}
       />
@@ -549,9 +541,14 @@ export default function PenaltyDetailDialog({
                         const statusInfoRows: Array<{ k: string; v: string }> =
                           (() => {
                             if (isAdded) {
-                              const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
+                              const meta = r.addMetaKey
+                                ? addedMeta[r.addMetaKey]
+                                : null;
                               return [
-                                { k: "Tanggal penambahan", v: meta?.addDate ?? "-" },
+                                {
+                                  k: "Tanggal penambahan",
+                                  v: meta?.addDate ?? "-",
+                                },
                                 { k: "Alasan penambahan", v: meta?.reason ?? "-" },
                                 { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
                               ];
@@ -568,7 +565,8 @@ export default function PenaltyDetailDialog({
                                 },
                                 {
                                   k: "Alasan pembatalan",
-                                  v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                                  v:
+                                    meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
                                 },
                                 {
                                   k: "Dibatalkan oleh",
@@ -596,11 +594,7 @@ export default function PenaltyDetailDialog({
                           >
                             <td className={tdNo}>{idx + 1}</td>
 
-                            <td
-                              className={cn(
-                                "px-2 py-2 text-[12px] text-slate-900",
-                              )}
-                            >
+                            <td className={cn("px-2 py-2 text-[12px] text-slate-900")}>
                               <div className="truncate" title={keterlambatanText}>
                                 {keterlambatanText}
                               </div>
