@@ -8,20 +8,25 @@ function ActionButton({
   children,
   variant,
   onClick,
+  className,
 }: {
   children: React.ReactNode;
   variant: "primary" | "secondary";
   onClick: () => void;
+  className?: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
       className={cn(
-        "h-[60px] w-[190px] rounded-[10px] text-[16px] font-semibold transition",
+        "h-[60px] w-[190px] text-[16px] font-semibold transition",
+        // default radius (akan dioverride di container supaya tombol menempel)
+        "rounded-[10px]",
         variant === "primary"
           ? "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]"
           : "bg-[#7f8aa0] text-white ring-2 ring-[#7f8aa0]/20 hover:bg-[#6f7a90]",
+        className,
       )}
     >
       {children}
@@ -42,8 +47,8 @@ export default function PenaltyAddConfirmModal({
     <Dialog open={open} onOpenChange={(v) => (!v ? onCancel() : null)}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[519px]",
-          "max-w-[519px]",
+          "w-[calc(100vw-1rem)] sm:w-[490px]",
+          "max-w-[490px]",
           "h-[300px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
@@ -64,11 +69,20 @@ export default function PenaltyAddConfirmModal({
               Yakin Menambahkan Denda?
             </div>
 
-            <div className="mt-6 grid w-full grid-cols-2 justify-items-center gap-0">
-              <ActionButton variant="primary" onClick={onYes}>
+            {/* Buttons: dibuat menempel (lebih rapat dari grid) */}
+            <div className="mt-6 inline-flex items-center gap-0">
+              <ActionButton
+                variant="primary"
+                onClick={onYes}
+                className="rounded-r-none"
+              >
                 Yes
               </ActionButton>
-              <ActionButton variant="secondary" onClick={onCancel}>
+              <ActionButton
+                variant="secondary"
+                onClick={onCancel}
+                className="rounded-l-none"
+              >
                 Cancel
               </ActionButton>
             </div>
