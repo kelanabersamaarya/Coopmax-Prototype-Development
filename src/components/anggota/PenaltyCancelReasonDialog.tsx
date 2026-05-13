@@ -10,6 +10,7 @@ import { CheckSquare, X } from "lucide-react";
 import { toast } from "sonner";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import PenaltyCancelConfirmModal from "@/components/anggota/PenaltyCancelConfirmModal";
+import PenaltyCancelSuccessModal from "@/components/anggota/PenaltyCancelSuccessModal";
 
 const R = "rounded-[5px]";
 
@@ -60,12 +61,14 @@ export default function PenaltyCancelReasonDialog({
   const [reason, setReason] = React.useState("");
   const [cancelDate, setCancelDate] = React.useState(getTodayDmy());
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) return;
     setReason("");
     setCancelDate(getTodayDmy());
     setConfirmOpen(false);
+    setSuccessOpen(false);
   }, [open]);
 
   const footerBtnBase = cn(
@@ -99,14 +102,23 @@ export default function PenaltyCancelReasonDialog({
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
         onYes={() => {
-          // Setelah user konfirmasi, baru eksekusi pembatalan + tutup dialog reason
           const ok = validate();
           if (!ok) {
             setConfirmOpen(false);
             return;
           }
+
           onConfirm(reason.trim(), cancelDate.trim());
           setConfirmOpen(false);
+          setSuccessOpen(true);
+        }}
+      />
+
+      <PenaltyCancelSuccessModal
+        open={successOpen}
+        onOpenChange={setSuccessOpen}
+        onOk={() => {
+          setSuccessOpen(false);
           onOpenChange(false);
         }}
       />
@@ -131,7 +143,6 @@ export default function PenaltyCancelReasonDialog({
                   Pembatalan Denda
                 </div>
 
-                {/* Keep props used but hidden (info tidak tampil di header sesuai request) */}
                 <div className="sr-only">
                   {tanggal} • {nominal}
                 </div>
@@ -182,7 +193,6 @@ export default function PenaltyCancelReasonDialog({
                   />
                 </FieldRow>
 
-                {/* keep Input import used */}
                 <div className="sr-only">
                   <Input />
                 </div>
