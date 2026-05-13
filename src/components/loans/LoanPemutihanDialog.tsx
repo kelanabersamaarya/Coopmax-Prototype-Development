@@ -221,11 +221,12 @@ export default function LoanPemutihanDialog({
   );
 
   const checkboxCls = cn(
-    "h-5 w-5 rounded-[6px]",
-    "border border-slate-300 bg-white",
-    "data-[state=checked]:bg-slate-700 data-[state=checked]:border-slate-700",
+    "h-4 w-4 rounded-[2px]",
+    "border border-[#1D4ED8]",
+    "data-[state=checked]:bg-[#2563EB] data-[state=checked]:border-[#2563EB]",
     "data-[state=checked]:text-white",
-    "focus-visible:ring-2 focus-visible:ring-slate-900/15 focus-visible:ring-offset-0",
+    "shadow-none ring-0",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
   const viewBillsBtnCls = cn(
@@ -477,7 +478,7 @@ export default function LoanPemutihanDialog({
 
                 <div className="grid gap-2 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center">
                   <div className="hidden sm:block" />
-                  <label className="flex items-center gap-3 text-sm font-normal text-slate-800">
+                  <label className="flex items-center gap-3 text-sm font-normal text-slate-900">
                     <Checkbox
                       className={checkboxCls}
                       checked={confirm}
