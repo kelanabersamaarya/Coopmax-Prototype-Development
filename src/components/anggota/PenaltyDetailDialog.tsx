@@ -303,11 +303,24 @@ export default function PenaltyDetailDialog({
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  const total = React.useMemo(() => {
+  const totalDenda = React.useMemo(() => {
     return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
   }, [filteredRows]);
 
-  const totalText = React.useMemo(() => formatIdrLike(total), [total]);
+  const totalDendaText = React.useMemo(() => formatIdrLike(totalDenda), [totalDenda]);
+
+  // Prototype sederhana: Sisa Denda = sama dengan Denda jika Aktif, 0 jika Dibatalkan
+  const totalSisaDenda = React.useMemo(() => {
+    return filteredRows.reduce((sum, r) => {
+      if (r.status !== "Aktif") return sum;
+      return sum + parseIdrLike(r.nominalDenda);
+    }, 0);
+  }, [filteredRows]);
+
+  const totalSisaDendaText = React.useMemo(
+    () => formatIdrLike(totalSisaDenda),
+    [totalSisaDenda],
+  );
 
   const lateDaysPattern = [3, 4, 2] as const;
 
@@ -318,6 +331,7 @@ export default function PenaltyDetailDialog({
     late: 170,
     tanggal: 120,
     denda: 110,
+    sisaDenda: 120,
     status: 116,
     aksi: 88,
   } as const;
@@ -417,8 +431,8 @@ export default function PenaltyDetailDialog({
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent
           className={cn(
-            "w-[calc(100vw-1.25rem)] sm:w-[900px]",
-            "max-w-[900px]",
+            "w-[calc(100vw-1.25rem)] sm:w-[980px]",
+            "max-w-[980px]",
             "max-h-[80vh]",
             "overflow-hidden",
             R,
@@ -489,6 +503,7 @@ export default function PenaltyDetailDialog({
                     <col style={{ width: COL.late }} />
                     <col style={{ width: COL.tanggal }} />
                     <col style={{ width: COL.denda }} />
+                    <col style={{ width: COL.sisaDenda }} />
                     <col style={{ width: COL.status }} />
                     <col style={{ width: COL.aksi }} />
                   </colgroup>
@@ -499,12 +514,14 @@ export default function PenaltyDetailDialog({
                       <th className={cn(thBase)}>KETERLAMBATAN (HARI)</th>
                       <th className={cn(thBase)}>TANGGAL</th>
                       <th className={cn(thBase)}>DENDA</th>
+                      <th className={cn(thBase)}>SISA DENDA</th>
                       <th className={cn(thBase, "px-1.5")}>STATUS</th>
                       <th className={thAksi}>AKSI</th>
                     </tr>
 
                     <tr className="border-b border-slate-300 bg-white">
                       <th className="pl-2 pr-1 py-1.5" />
+                      <th className="px-2 py-1.5" />
                       <th className="px-2 py-1.5" />
                       <th className="px-2 py-1.5" />
                       <th className="px-2 py-1.5" />
@@ -529,7 +546,7 @@ export default function PenaltyDetailDialog({
                     {filteredRows.length === 0 ? (
                       <tr>
                         <td
-                          colSpan={6}
+                          colSpan={7}
                           className="px-4 py-10 text-center text-[12px] text-slate-600"
                         >
                           Tidak ada rincian denda.
@@ -592,6 +609,9 @@ export default function PenaltyDetailDialog({
                             ? cancelDate
                             : String(lateDays);
 
+                        const dendaValue = r.nominalDenda;
+                        const sisaDendaValue = r.status === "Aktif" ? r.nominalDenda : "0";
+
                         return (
                           <tr
                             key={`${r.tanggalKeterlambatan}-${r.originalIndex}-${r.source}`}
@@ -611,7 +631,11 @@ export default function PenaltyDetailDialog({
                             <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
 
                             <td className="px-2 py-2 text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
-                              {r.nominalDenda}
+                              {dendaValue}
+                            </td>
+
+                            <td className="px-2 py-2 text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
+                              {sisaDendaValue}
                             </td>
 
                             <td className={cn(statusCellPad, "text-[12px] text-slate-900")}>
@@ -656,7 +680,11 @@ export default function PenaltyDetailDialog({
                       </td>
 
                       <td className="px-2 py-2 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
-                        {totalText}
+                        {totalDendaText}
+                      </td>
+
+                      <td className="px-2 py-2 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        {totalSisaDendaText}
                       </td>
 
                       <td className={cn(statusCellPad, "py-2")} />
