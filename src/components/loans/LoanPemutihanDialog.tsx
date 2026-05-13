@@ -281,8 +281,9 @@ export default function LoanPemutihanDialog({
               onClick={() => toast.dismiss(t)}
               className={cn(
                 "inline-flex h-8 w-8 items-center justify-center rounded-full",
-                "bg-white/15 ring-1 ring-white/20",
-                "transition hover:bg-white/20",
+                "bg-transparent ring-0 shadow-none",
+                "text-white/90 transition hover:text-white",
+                "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
               )}
               aria-label="Tutup"
               title="Tutup"
