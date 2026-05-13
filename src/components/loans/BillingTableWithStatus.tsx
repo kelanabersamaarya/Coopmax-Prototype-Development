@@ -18,40 +18,6 @@ export type BillingRow = {
   sisaBunga: string;
 };
 
-type TagihanStatus = "Belum Dibayar" | "Dibayar Sebagian" | "Lunas";
-
-function statusForIndex(i: number): TagihanStatus {
-  // ✅ Sesuai request:
-  // - urutan no 1 & 2 => Lunas
-  // - tambahkan status Dibayar Sebagian
-  // - sisanya => Belum Dibayar
-  if (i === 0 || i === 1) return "Lunas";
-  if (i === 2 || i === 3) return "Dibayar Sebagian";
-  return "Belum Dibayar";
-}
-
-function StatusPill({ status }: { status: TagihanStatus }) {
-  const cls =
-    status === "Lunas"
-      ? "bg-emerald-600 text-white ring-1 ring-emerald-600/20"
-      : status === "Dibayar Sebagian"
-        ? "bg-amber-500 text-white ring-1 ring-amber-500/20"
-        : "bg-rose-600 text-white ring-1 ring-rose-600/20";
-
-  return (
-    <span
-      className={cn(
-        "block w-full",
-        "rounded-[5px] px-2.5 py-1",
-        "text-center text-[12px] font-semibold leading-[1.05]",
-        cls,
-      )}
-    >
-      {status}
-    </span>
-  );
-}
-
 const PENALTY_ROWS = 3;
 const PENALTY_AMOUNT = 75000;
 const PENALTY_DETAIL_DAYS = 3;
@@ -137,8 +103,6 @@ function RightNum({ value }: { value: string }) {
   );
 }
 
-const STATUS_COL_W = 140;
-
 function Td({
   children,
   className,
@@ -152,6 +116,7 @@ function Td({
     <td
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
+        "border-t border-slate-200",
         align === "right" ? "text-right tabular-nums whitespace-nowrap" : "text-left",
         className,
       )}
@@ -161,79 +126,57 @@ function Td({
   );
 }
 
-function TrShell({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return <tr className={cn("border-t border-slate-200", className)}>{children}</tr>;
-}
+const thBase =
+  "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+const thRight =
+  "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 
-function StatusTd({ status }: { status: TagihanStatus }) {
-  return (
-    <td style={{ width: STATUS_COL_W }} className="px-3 py-3">
-      <StatusPill status={status} />
-    </td>
-  );
-}
-
-function InnerTable({
+function InnerGraceTable({
   rows,
   startGlobalIndex,
-  showGraceInfoRow,
   colCount,
   onOpenPenalty,
 }: {
   rows: BillingRow[];
   startGlobalIndex: number;
-  showGraceInfoRow: boolean;
   colCount: number;
   onOpenPenalty: (due: string) => void;
 }) {
   return (
     <table className="w-full border-collapse text-[13px]">
       <tbody className="bg-white">
-        {showGraceInfoRow ? <GracePeriodInfoRow colSpan={colCount} noBorder /> : null}
+        <GracePeriodInfoRow colSpan={colCount} noBorder />
 
         {rows.map((r, idx) => {
           const globalIdx = startGlobalIndex + idx;
-          const status = statusForIndex(globalIdx);
           const showPenalty = globalIdx < PENALTY_ROWS;
 
           return (
             <tr
               key={`${r.jatuhTempo}-${globalIdx}`}
-              className={cn(
-                idx === 0 && showGraceInfoRow
-                  ? "border-t border-slate-200"
-                  : idx === 0
-                    ? ""
-                    : "border-t border-slate-200",
-              )}
+              className={cn(idx === 0 ? "border-t border-slate-200" : "border-t border-slate-200")}
             >
               <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
               </Td>
 
-              <Td className="w-[128px]" align="right">
+              <Td className="w-[150px]" align="right">
                 <RightNum value={r.totalBelumDibayar} />
               </Td>
 
-              <Td className="w-[130px]" align="right">
+              <Td className="w-[140px]" align="right">
                 <RightNum value={r.tagihanPokok} />
               </Td>
 
-              <Td className="w-[120px]" align="right">
+              <Td className="w-[130px]" align="right">
                 <RightNum value={r.tagihanBunga} />
               </Td>
 
-              <Td className="w-[140px] pr-6" align="right">
+              <Td className="w-[150px] pr-6" align="right">
                 <RightNum value={r.sisaPokok} />
               </Td>
 
-              <Td className="w-[140px] pr-6" align="right">
+              <Td className="w-[150px] pr-6" align="right">
                 <RightNum value={r.sisaBunga} />
               </Td>
 
@@ -247,8 +190,6 @@ function InnerTable({
                   </div>
                 ) : null}
               </Td>
-
-              <StatusTd status={status} />
             </tr>
           );
         })}
@@ -271,7 +212,8 @@ export default function BillingTableWithStatus({
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
-  const colCount = 8;
+  // ✅ Tanpa kolom Status Tagihan
+  const colCount = 7;
 
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
   const graceRows = graceCount > 0 ? rows.slice(0, graceCount) : [];
@@ -282,201 +224,191 @@ export default function BillingTableWithStatus({
     setPenaltyOpen(true);
   }
 
-  const thRightAll =
-    "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
-
   return (
-    <div className={cn("mt-3", className)}>
+    <div className={cn("mt-0", className)}>
       <PenaltyDetailDialogReadOnly
         open={penaltyOpen}
         onOpenChange={setPenaltyOpen}
         rows={penaltyRows}
       />
 
-      <div className="overflow-hidden rounded-[5px] border border-slate-200 bg-white">
-        <table className="w-full border-collapse text-[13px]">
-          <thead className="bg-white">
-            <tr className="border-b border-slate-200">
-              <th className={cn(thRightAll, "w-[110px]")}>
-                Jatuh
-                <br />
-                Tempo
-              </th>
+      <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white">
+        <div className="safe-x-scroll">
+          <table className="w-full min-w-[980px] border-collapse text-[13px]">
+            <thead className="bg-white">
+              <tr className="border-b border-slate-200">
+                <th className={cn(thBase, "w-[110px]")}>
+                  Jatuh
+                  <br />
+                  Tempo
+                </th>
 
-              <th className={cn(thRightAll, "w-[128px]")}>
-                Total Tagihan
-                <br />
-                Belum Dibayar
-              </th>
+                <th className={cn(thRight, "w-[150px]")}>
+                  Total Tagihan
+                  <br />
+                  Belum Dibayar
+                </th>
 
-              <th className={cn(thRightAll, "w-[130px]")}>
-                Tagihan
-                <br />
-                Pokok
-              </th>
+                <th className={cn(thRight, "w-[140px]")}>
+                  Tagihan
+                  <br />
+                  Pokok
+                </th>
 
-              <th className={cn(thRightAll, "w-[120px]")}>
-                Tagihan
-                <br />
-                Bunga
-              </th>
+                <th className={cn(thRight, "w-[130px]")}>
+                  Tagihan
+                  <br />
+                  Bunga
+                </th>
 
-              <th className={cn(thRightAll, "w-[140px]")}>
-                Sisa Tagihan
-                <br />
-                Pokok
-              </th>
+                <th className={cn(thRight, "w-[150px]")}>
+                  Sisa Tagihan
+                  <br />
+                  Pokok
+                </th>
 
-              <th className={cn(thRightAll, "w-[140px]")}>
-                Sisa Tagihan
-                <br />
-                Bunga
-              </th>
+                <th className={cn(thRight, "w-[150px]")}>
+                  Sisa Tagihan
+                  <br />
+                  Bunga
+                </th>
 
-              <th className={cn(thRightAll, "w-[130px]")}>
-                Tagihan
-                <br />
-                Denda
-              </th>
-
-              <th className={cn(thRightAll)} style={{ width: STATUS_COL_W }}>
-                Status
-                <br />
-                Tagihan
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="bg-white">
-            {rows.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={colCount}
-                  className="px-4 py-10 text-center text-sm text-slate-600"
-                >
-                  Tidak ada data.
-                </td>
+                <th className={cn(thRight, "w-[130px]")}>
+                  Tagihan
+                  <br />
+                  Denda
+                </th>
               </tr>
-            ) : showGraceHighlight && graceRows.length > 0 ? (
-              <>
-                <TrShell>
-                  <td colSpan={colCount} className="p-0">
-                    <div className="bg-white p-2">
-                      <div className="overflow-hidden rounded-[5px] border-2 border-blue-600/70 bg-white">
-                        <InnerTable
-                          rows={graceRows}
-                          startGlobalIndex={penaltyIndexOffset}
-                          showGraceInfoRow={true}
-                          colCount={colCount}
-                          onOpenPenalty={openPenalty}
-                        />
-                      </div>
-                    </div>
+            </thead>
+
+            <tbody className="bg-white">
+              {rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={colCount}
+                    className="px-4 py-10 text-center text-sm text-slate-600"
+                  >
+                    Tidak ada data.
                   </td>
-                </TrShell>
+                </tr>
+              ) : showGraceHighlight && graceRows.length > 0 ? (
+                <>
+                  <tr className="border-t border-slate-200">
+                    <td colSpan={colCount} className="p-0">
+                      <div className="bg-white p-2">
+                        <div className="overflow-hidden rounded-[10px] border-2 border-blue-600/70 bg-white">
+                          <InnerGraceTable
+                            rows={graceRows}
+                            startGlobalIndex={penaltyIndexOffset}
+                            colCount={colCount}
+                            onOpenPenalty={openPenalty}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
 
-                {afterGraceRows.map((r, idx) => {
-                  const rowIndex = graceCount + idx;
-                  const globalIdx = penaltyIndexOffset + rowIndex;
-                  const status = statusForIndex(globalIdx);
-                  const showPenalty = globalIdx < PENALTY_ROWS;
+                  {afterGraceRows.map((r, idx) => {
+                    const rowIndex = graceCount + idx;
+                    const globalIdx = penaltyIndexOffset + rowIndex;
+                    const showPenalty = globalIdx < PENALTY_ROWS;
 
-                  return (
-                    <TrShell key={`${r.jatuhTempo}-${rowIndex}`}>
-                      <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
-                        {r.jatuhTempo}
-                      </Td>
+                    return (
+                      <tr key={`${r.jatuhTempo}-${rowIndex}`} className="bg-white">
+                        <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+                          {r.jatuhTempo}
+                        </Td>
 
-                      <Td className="w-[128px]" align="right">
-                        <RightNum value={r.totalBelumDibayar} />
-                      </Td>
+                        <Td className="w-[150px]" align="right">
+                          <RightNum value={r.totalBelumDibayar} />
+                        </Td>
 
-                      <Td className="w-[130px]" align="right">
-                        <RightNum value={r.tagihanPokok} />
-                      </Td>
+                        <Td className="w-[140px]" align="right">
+                          <RightNum value={r.tagihanPokok} />
+                        </Td>
 
-                      <Td className="w-[120px]" align="right">
-                        <RightNum value={r.tagihanBunga} />
-                      </Td>
+                        <Td className="w-[130px]" align="right">
+                          <RightNum value={r.tagihanBunga} />
+                        </Td>
 
-                      <Td className="w-[140px] pr-6" align="right">
-                        <RightNum value={r.sisaPokok} />
-                      </Td>
+                        <Td className="w-[150px] pr-6" align="right">
+                          <RightNum value={r.sisaPokok} />
+                        </Td>
 
-                      <Td className="w-[140px] pr-6" align="right">
-                        <RightNum value={r.sisaBunga} />
-                      </Td>
+                        <Td className="w-[150px] pr-6" align="right">
+                          <RightNum value={r.sisaBunga} />
+                        </Td>
 
-                      <Td className="w-[130px] pr-1" align="right">
-                        {showPenalty ? (
-                          <div className="flex items-center justify-end gap-2">
-                            <span className="num-sans-tabular">
-                              {formatIdrLike(PENALTY_AMOUNT)}
-                            </span>
-                            <PenaltyInfoButton onClick={() => openPenalty(r.jatuhTempo)} />
-                          </div>
-                        ) : null}
-                      </Td>
+                        <Td className="w-[130px] pr-1" align="right">
+                          {showPenalty ? (
+                            <div className="flex items-center justify-end gap-2">
+                              <span className="num-sans-tabular">
+                                {formatIdrLike(PENALTY_AMOUNT)}
+                              </span>
+                              <PenaltyInfoButton
+                                onClick={() => openPenalty(r.jatuhTempo)}
+                              />
+                            </div>
+                          ) : null}
+                        </Td>
+                      </tr>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  <GracePeriodInfoRow colSpan={colCount} />
 
-                      <StatusTd status={status} />
-                    </TrShell>
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                <GracePeriodInfoRow colSpan={colCount} />
+                  {rows.map((r, idx) => {
+                    const globalIdx = penaltyIndexOffset + idx;
+                    const showPenalty = globalIdx < PENALTY_ROWS;
 
-                {rows.map((r, idx) => {
-                  const globalIdx = penaltyIndexOffset + idx;
-                  const status = statusForIndex(globalIdx);
-                  const showPenalty = globalIdx < PENALTY_ROWS;
+                    return (
+                      <tr key={`${r.jatuhTempo}-${idx}`} className="bg-white">
+                        <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
+                          {r.jatuhTempo}
+                        </Td>
 
-                  return (
-                    <TrShell key={`${r.jatuhTempo}-${idx}`}>
-                      <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
-                        {r.jatuhTempo}
-                      </Td>
+                        <Td className="w-[150px]" align="right">
+                          <RightNum value={r.totalBelumDibayar} />
+                        </Td>
 
-                      <Td className="w-[128px]" align="right">
-                        <RightNum value={r.totalBelumDibayar} />
-                      </Td>
+                        <Td className="w-[140px]" align="right">
+                          <RightNum value={r.tagihanPokok} />
+                        </Td>
 
-                      <Td className="w-[130px]" align="right">
-                        <RightNum value={r.tagihanPokok} />
-                      </Td>
+                        <Td className="w-[130px]" align="right">
+                          <RightNum value={r.tagihanBunga} />
+                        </Td>
 
-                      <Td className="w-[120px]" align="right">
-                        <RightNum value={r.tagihanBunga} />
-                      </Td>
+                        <Td className="w-[150px] pr-6" align="right">
+                          <RightNum value={r.sisaPokok} />
+                        </Td>
 
-                      <Td className="w-[140px] pr-6" align="right">
-                        <RightNum value={r.sisaPokok} />
-                      </Td>
+                        <Td className="w-[150px] pr-6" align="right">
+                          <RightNum value={r.sisaBunga} />
+                        </Td>
 
-                      <Td className="w-[140px] pr-6" align="right">
-                        <RightNum value={r.sisaBunga} />
-                      </Td>
-
-                      <Td className="w-[130px] pr-1" align="right">
-                        {showPenalty ? (
-                          <div className="flex items-center justify-end gap-2">
-                            <span className="num-sans-tabular">
-                              {formatIdrLike(PENALTY_AMOUNT)}
-                            </span>
-                            <PenaltyInfoButton onClick={() => openPenalty(r.jatuhTempo)} />
-                          </div>
-                        ) : null}
-                      </Td>
-
-                      <StatusTd status={status} />
-                    </TrShell>
-                  );
-                })}
-              </>
-            )}
-          </tbody>
-        </table>
+                        <Td className="w-[130px] pr-1" align="right">
+                          {showPenalty ? (
+                            <div className="flex items-center justify-end gap-2">
+                              <span className="num-sans-tabular">
+                                {formatIdrLike(PENALTY_AMOUNT)}
+                              </span>
+                              <PenaltyInfoButton
+                                onClick={() => openPenalty(r.jatuhTempo)}
+                              />
+                            </div>
+                          ) : null}
+                        </Td>
+                      </tr>
+                    );
+                  })}
+                </>
+              )}
+            </tbody>
+          </table>
+        </div>
 
         <div className="sr-only">
           <RightNum value="0,00" />
