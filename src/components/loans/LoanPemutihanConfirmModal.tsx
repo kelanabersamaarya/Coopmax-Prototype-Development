@@ -19,7 +19,7 @@ function ActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-12 w-full rounded-[8px] text-[14px] font-semibold transition",
+        "h-[71px] w-[216px] rounded-[10px] text-[20px] font-semibold transition",
         variant === "primary"
           ? "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]"
           : "bg-[#7f8aa0] text-white ring-2 ring-[#7f8aa0]/20 hover:bg-[#6f7a90]",
@@ -43,8 +43,9 @@ export default function LoanPemutihanConfirmModal({
     <Dialog open={open} onOpenChange={(v) => (!v ? onCancel() : null)}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.5rem)] sm:w-[720px]",
-          "max-w-[720px]",
+          "w-[calc(100vw-1rem)] sm:w-[519px]",
+          "max-w-[519px]",
+          "h-[338px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
           // hide default close button (kita pakai X custom)
@@ -54,7 +55,7 @@ export default function LoanPemutihanConfirmModal({
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <div className="relative bg-white px-6 py-10 sm:px-10 sm:py-12">
+        <div className="relative h-full bg-white px-6 py-8">
           <button
             type="button"
             onClick={onCancel}
@@ -65,16 +66,16 @@ export default function LoanPemutihanConfirmModal({
             <X className="h-5 w-5" />
           </button>
 
-          <div className="flex flex-col items-center text-center">
-            <div className="grid h-24 w-24 place-items-center rounded-full ring-2 ring-[#f2b48c]">
+          <div className="flex h-full flex-col items-center justify-center text-center">
+            <div className="-mt-2 grid h-24 w-24 place-items-center rounded-full ring-2 ring-[#f2b48c]">
               <div className="text-5xl font-semibold text-[#f2b48c]">!</div>
             </div>
 
-            <div className="mt-8 text-2xl font-semibold tracking-tight text-slate-900">
+            <div className="mt-6 text-[26px] font-semibold leading-tight tracking-tight text-slate-900">
               Yakin Melakukan Pemutihan Pinjaman?
             </div>
 
-            <div className="mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="mt-8 grid w-full grid-cols-2 justify-items-center gap-6">
               <ActionButton variant="primary" onClick={onYes}>
                 Yes
               </ActionButton>
