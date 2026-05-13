@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import DaftarTagihanReadOnlyDialog from "@/components/loans/DaftarTagihanReadOnlyDialog";
 import LoanPemutihanConfirmModal from "@/components/loans/LoanPemutihanConfirmModal";
+import LoanPemutihanSuccessModal from "@/components/loans/LoanPemutihanSuccessModal";
 
 function RowKV({ label, value }: { label: string; value: string }) {
   return (
@@ -132,6 +133,7 @@ export default function LoanPemutihanDialog({
 }) {
   const [tagihanOpen, setTagihanOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
 
   const [tanggal, setTanggal] = React.useState("20-04-2026");
   const [tipeTransaksi, setTipeTransaksi] = React.useState(TIPE_TRANSAKSI);
@@ -154,6 +156,7 @@ export default function LoanPemutihanDialog({
     setConfirm(false);
     setTagihanOpen(false);
     setConfirmOpen(false);
+    setSuccessOpen(false);
   }, [open]);
 
   // restore caret after formatting (jaga caret hanya di area integer, sebelum koma)
@@ -255,7 +258,6 @@ export default function LoanPemutihanDialog({
     toast.success("Pemutihan Pinjaman Berhasil Dilakukan", {
       description: `Rekening: ${accountNo} • Tanggal: ${tanggal} • Nominal: ${formatIdr2(nominalN)}`,
     });
-    onOpenChange(false);
   }
 
   // Prototype info (sesuai permintaan list)
@@ -278,6 +280,16 @@ export default function LoanPemutihanDialog({
         onYes={() => {
           setConfirmOpen(false);
           doSave();
+          setSuccessOpen(true);
+        }}
+      />
+
+      <LoanPemutihanSuccessModal
+        open={successOpen}
+        onOpenChange={(v) => setSuccessOpen(v)}
+        onOk={() => {
+          setSuccessOpen(false);
+          onOpenChange(false);
         }}
       />
 
