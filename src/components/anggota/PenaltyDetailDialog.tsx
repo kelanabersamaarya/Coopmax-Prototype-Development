@@ -582,10 +582,14 @@ export default function PenaltyDetailDialog({
                             return [];
                           })();
 
+                        const cancelDate =
+                          cancelMeta[r.originalIndex]?.cancelDate ??
+                          DEFAULT_CANCEL_DETAIL.cancelDate;
+
                         const keterlambatanText = isAdded
                           ? "Denda Ditambahkan Manual"
                           : isCanceled
-                            ? "Dibatalkan"
+                            ? cancelDate
                             : String(lateDays);
 
                         return (
