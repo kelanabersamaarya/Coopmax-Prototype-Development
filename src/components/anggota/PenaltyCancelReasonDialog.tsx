@@ -95,6 +95,7 @@ export default function PenaltyCancelReasonDialog({
                 Pembatalan Denda
               </div>
 
+              {/* Keep props used but hidden (info tidak tampil di header sesuai request) */}
               <div className="sr-only">
                 {tanggal} • {nominal}
               </div>
@@ -145,6 +146,7 @@ export default function PenaltyCancelReasonDialog({
                 />
               </FieldRow>
 
+              {/* keep Input import used */}
               <div className="sr-only">
                 <Input />
               </div>
@@ -183,8 +185,9 @@ export default function PenaltyCancelReasonDialog({
                     });
                     return;
                   }
-
                   onConfirm(reason.trim(), cancelDate.trim());
+                  onOpenChange(false);
+                  // ❌ sengaja tidak menampilkan toast sukses (sesuai request)
                 }}
                 className={cn(
                   footerBtnBase,
