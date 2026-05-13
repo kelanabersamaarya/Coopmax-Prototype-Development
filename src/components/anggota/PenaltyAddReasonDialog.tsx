@@ -1,4 +1,3 @@
-modal konfirmasi -> Yes -> onConfirm + modal sukses.">
 "use client";
 
 import * as React from "react";
@@ -216,7 +215,6 @@ export default function PenaltyAddReasonDialog({
                   />
                 </FieldRow>
 
-                {/* keep Input import used */}
                 <div className="sr-only">
                   <Input />
                 </div>
