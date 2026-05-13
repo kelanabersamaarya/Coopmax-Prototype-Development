@@ -344,11 +344,18 @@ export default function LoanPemutihanDialog({
       <LoanPemutihanSuccessModal
         open={successOpen}
         onOpenChange={(v) => {
+          // fallback: kalau user tutup via backdrop/ESC
           if (!v) maybeToastAfterSuccessClose();
           setSuccessOpen(v);
         }}
         onOk={() => {
-          // Tutup modal sukses; toast akan ditrigger oleh onOpenChange di atas
+          // ✅ Pasti trigger toast saat OK
+          if (!didToastRef.current) {
+            didToastRef.current = true;
+            showPemutihanSuccessToast();
+          }
+          shouldToastOnSuccessCloseRef.current = false;
+
           setSuccessOpen(false);
           onOpenChange(false);
         }}
