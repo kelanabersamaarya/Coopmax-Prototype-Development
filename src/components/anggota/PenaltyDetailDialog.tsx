@@ -165,7 +165,7 @@ function CancelPenaltyButton({ onClick }: { onClick: () => void }) {
         "whitespace-normal leading-[1.05]",
       )}
     >
-      Batalkan Denda
+      Batalkan
     </button>
   );
 }
