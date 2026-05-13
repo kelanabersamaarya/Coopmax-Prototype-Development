@@ -20,8 +20,7 @@ function ActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-[60px] w-[190px] text-[16px] font-semibold transition",
-        "rounded-[10px]",
+        "h-[60px] w-[190px] rounded-[5px] text-[16px] font-semibold transition",
         variant === "primary"
           ? "bg-[#2f80ed] text-white ring-2 ring-[#2f80ed]/30 hover:bg-[#266ed0]"
           : "bg-[#7f8aa0] text-white ring-2 ring-[#7f8aa0]/20 hover:bg-[#6f7a90]",
@@ -68,20 +67,11 @@ export default function PenaltyCancelConfirmModal({
               Yakin Melakukan Pembatalan Denda?
             </div>
 
-            {/* Buttons: dibuat menempel (lebih rapat dari grid) */}
-            <div className="mt-6 inline-flex items-center gap-0">
-              <ActionButton
-                variant="primary"
-                onClick={onYes}
-                className="rounded-r-none"
-              >
+            <div className="mt-6 inline-flex items-center gap-[6px]">
+              <ActionButton variant="primary" onClick={onYes}>
                 Yes
               </ActionButton>
-              <ActionButton
-                variant="secondary"
-                onClick={onCancel}
-                className="rounded-l-none"
-              >
+              <ActionButton variant="secondary" onClick={onCancel}>
                 Cancel
               </ActionButton>
             </div>
