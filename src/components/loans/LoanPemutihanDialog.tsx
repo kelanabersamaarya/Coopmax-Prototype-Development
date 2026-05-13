@@ -147,9 +147,6 @@ export default function LoanPemutihanDialog({
   const [keterangan, setKeterangan] = React.useState("");
   const [confirm, setConfirm] = React.useState(false);
 
-  const shouldToastOnSuccessCloseRef = React.useRef(false);
-  const didToastRef = React.useRef(false);
-
   React.useEffect(() => {
     if (!open) return;
     setTanggal("20-04-2026");
@@ -160,8 +157,6 @@ export default function LoanPemutihanDialog({
     setTagihanOpen(false);
     setConfirmOpen(false);
     setSuccessOpen(false);
-    shouldToastOnSuccessCloseRef.current = false;
-    didToastRef.current = false;
   }, [open]);
 
   // restore caret after formatting (jaga caret hanya di area integer, sebelum koma)
@@ -308,13 +303,6 @@ export default function LoanPemutihanDialog({
     void tanggal;
   }
 
-  function maybeToastAfterSuccessClose() {
-    if (!shouldToastOnSuccessCloseRef.current) return;
-    if (didToastRef.current) return;
-    didToastRef.current = true;
-    showPemutihanSuccessToast();
-  }
-
   // Prototype info (sesuai permintaan list)
   const customerName = "Bapak Bagus";
   const totalPinjaman = "12.000.000,00";
@@ -335,27 +323,19 @@ export default function LoanPemutihanDialog({
         onYes={() => {
           setConfirmOpen(false);
           doSave();
-          // toast akan dipanggil ketika modal sukses ditutup (OK/backdrop/ESC)
-          shouldToastOnSuccessCloseRef.current = true;
+
+          // ✅ Munculkan toast langsung setelah klik Yes
+          showPemutihanSuccessToast();
+
+          // tetap tampilkan modal sukses
           setSuccessOpen(true);
         }}
       />
 
       <LoanPemutihanSuccessModal
         open={successOpen}
-        onOpenChange={(v) => {
-          // fallback: kalau user tutup via backdrop/ESC
-          if (!v) maybeToastAfterSuccessClose();
-          setSuccessOpen(v);
-        }}
+        onOpenChange={(v) => setSuccessOpen(v)}
         onOk={() => {
-          // ✅ Pasti trigger toast saat OK
-          if (!didToastRef.current) {
-            didToastRef.current = true;
-            showPemutihanSuccessToast();
-          }
-          shouldToastOnSuccessCloseRef.current = false;
-
           setSuccessOpen(false);
           onOpenChange(false);
         }}
