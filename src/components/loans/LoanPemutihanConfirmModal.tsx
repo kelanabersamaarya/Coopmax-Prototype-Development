@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
 
 function ActionButton({
   children,
@@ -45,10 +44,10 @@ export default function LoanPemutihanConfirmModal({
         className={cn(
           "w-[calc(100vw-1rem)] sm:w-[519px]",
           "max-w-[519px]",
-          "h-[325px]",
+          "h-[300px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "overflow-hidden",
-          // hide default close button (kita pakai X custom)
+          // hide default close button
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -56,26 +55,16 @@ export default function LoanPemutihanConfirmModal({
         )}
       >
         <div className="relative h-full bg-white px-6 py-8">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-700 transition hover:bg-slate-100"
-            aria-label="Tutup"
-            title="Tutup"
-          >
-            <X className="h-5 w-5" />
-          </button>
-
           <div className="flex h-full flex-col items-center justify-center text-center">
-            <div className="-mt-2 grid h-24 w-24 place-items-center rounded-full ring-2 ring-[#f2b48c]">
+            <div className="-mt-2 grid h-20 w-20 place-items-center rounded-full ring-2 ring-[#f2b48c]">
               <div className="text-5xl font-semibold text-[#f2b48c]">!</div>
             </div>
 
-            <div className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
+            <div className="mt-5 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
               Yakin Melakukan Pemutihan Pinjaman?
             </div>
 
-            <div className="mt-7 grid w-full grid-cols-2 justify-items-center gap-6">
+            <div className="mt-6 grid w-full grid-cols-2 justify-items-center gap-6">
               <ActionButton variant="primary" onClick={onYes}>
                 Yes
               </ActionButton>
