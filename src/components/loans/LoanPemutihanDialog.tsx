@@ -262,27 +262,22 @@ export default function LoanPemutihanDialog({
 
   function showPemutihanSuccessToast() {
     toast.custom((t) => (
-      <div
-        data-sonner-toast
-        className={cn(
-          "!bg-transparent !shadow-none !border-0 !ring-0 !p-0",
-          "pointer-events-auto",
-        )}
-      >
+      <div className="w-[min(520px,calc(100vw-1rem))]">
         <div
           className={cn(
-            "w-[min(520px,calc(100vw-1rem))]",
             "rounded-[10px] bg-emerald-600 text-white shadow-xl",
             "ring-1 ring-emerald-700/40",
             "px-4 py-3",
           )}
         >
           <div className="flex items-center gap-3">
-            <Check className="h-5 w-5 text-white" strokeWidth={3} />
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
+              <Check className="h-5 w-5 text-white" strokeWidth={3} />
+            </span>
 
             <div className="min-w-0 flex-1">
               <div className="truncate text-[15px] font-semibold leading-none">
-                Pemutihan Pinjaman Berhasil Dilakukan
+                Pemutihan Pinjaman Berhasil
               </div>
             </div>
 
