@@ -25,9 +25,9 @@ export type BillingRow = {
 };
 
 const PENALTY_ROWS = 3;
-const PENALTY_AMOUNT = 75000;
+const PENALTY_AMOUNT = 50000; // ✅ default base penalty sekarang 50.000
 const PENALTY_DETAIL_DAYS = 3; // 3 baris detail
-const PENALTY_PER_DAY = 25000; // 75.000 / 3
+const PENALTY_PER_DAY = Math.round(PENALTY_AMOUNT / PENALTY_DETAIL_DAYS); // ✅ 16.667 (approx) per day
 
 function RowShell({
   children,
