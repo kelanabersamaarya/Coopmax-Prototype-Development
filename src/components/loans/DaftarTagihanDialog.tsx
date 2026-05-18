@@ -143,11 +143,16 @@ export default function DaftarTagihanDialog({
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isPelunasan = paymentMethod === "Pelunasan";
 
-  const isSecondNasabah = (accountNo ?? "").trim() === "12260002";
+  const normalizedAccountNo = (accountNo ?? "").trim();
+  const isSecondNasabah = normalizedAccountNo === "12260002";
+  const isThirdNasabah = normalizedAccountNo === "12260001";
+
+  // ✅ Nasabah ketiga pakai daftar tagihan yang sama seperti nasabah kedua
+  const useSecondStyle = isSecondNasabah || isThirdNasabah;
 
   const rowsAll = React.useMemo(
-    () => (isSecondNasabah ? seedRowsFor12260002 : seedRows),
-    [isSecondNasabah],
+    () => (useSecondStyle ? seedRowsFor12260002 : seedRows),
+    [useSecondStyle],
   );
 
   const [pageSize] = React.useState<number>(6);
@@ -156,10 +161,10 @@ export default function DaftarTagihanDialog({
   const pageCount = Math.max(1, Math.ceil(rowsAll.length / pageSize));
 
   const rows = React.useMemo(() => {
-    if (isSecondNasabah) return rowsAll; // tampil 1 baris seperti referensi
+    if (useSecondStyle) return rowsAll; // tampil 1 baris seperti referensi
     const start = (page - 1) * pageSize;
     return rowsAll.slice(start, start + pageSize);
-  }, [isSecondNasabah, page, pageSize, rowsAll]);
+  }, [page, pageSize, rowsAll, useSecondStyle]);
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rows.map(() => false),
@@ -206,7 +211,7 @@ export default function DaftarTagihanDialog({
 
   const showGraceHighlight = page === 1;
 
-  const title = isSecondNasabah ? "INFORMASI TAGIHAN DAN DENDA" : "Daftar Tagihan";
+  const title = useSecondStyle ? "INFORMASI TAGIHAN DAN DENDA" : "Daftar Tagihan";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -247,7 +252,7 @@ export default function DaftarTagihanDialog({
             className="overflow-auto px-5 py-5 sm:px-6"
             style={{ maxHeight: `calc(85vh - 64px - 1px - ${footerH}px)` }}
           >
-            {isSecondNasabah ? (
+            {useSecondStyle ? (
               <div>
                 <NextBillInfoBannerLikeReference />
 
@@ -360,7 +365,7 @@ export default function DaftarTagihanDialog({
               <button
                 type="button"
                 onClick={() => {
-                  if (!hideSelection && !isSecondNasabah) {
+                  if (!hideSelection && !useSecondStyle) {
                     const count = selected.filter(Boolean).length;
                     if (count === 0) {
                       toast("Pilih minimal 1 tagihan", {
