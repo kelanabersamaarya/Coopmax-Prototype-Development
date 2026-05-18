@@ -6,13 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  Search,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-} from "lucide-react";
+import { Search, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import {
   Select,
@@ -100,7 +94,7 @@ function DetailActionButton({ onClick }: { onClick: () => void }) {
       aria-label="Detail transaksi"
       title="Detail transaksi"
     >
-      <ExternalLink className="h-5 w-5" />
+      <span className="sr-only">Detail</span>
     </button>
   );
 }
@@ -285,7 +279,7 @@ export default function LoanTransactionHistoryDialog({
 
               <div className={cn("mt-2 overflow-hidden ring-1 ring-slate-200", R)}>
                 <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[1220px] border-collapse">
+                  <table className="w-full min-w-[980px] border-collapse">
                     <thead className="bg-white">
                       <tr className="border-b border-slate-200">
                         <th className={cn(headerTh, "w-[58px]")}>No.</th>
@@ -330,20 +324,10 @@ export default function LoanTransactionHistoryDialog({
                           Bunga
                         </th>
 
-                        <th className={cn(headerTh, "w-[110px]")}>Denda</th>
-
                         <th className={cn(headerTh, "w-[160px]")}>
                           Sisa Pinjaman
                           <br />
                           Akhir
-                        </th>
-
-                        <th className={cn(headerTh, "w-[180px]")}>Keterangan</th>
-
-                        <th className={cn(headerTh, "w-[120px]")}>
-                          Detail
-                          <br />
-                          Transaksi
                         </th>
                       </tr>
                     </thead>
@@ -352,7 +336,7 @@ export default function LoanTransactionHistoryDialog({
                       {paged.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={13}
+                            colSpan={10}
                             className="px-4 py-10 text-center text-sm text-slate-600"
                           >
                             Tidak ada transaksi.
@@ -447,33 +431,18 @@ export default function LoanTransactionHistoryDialog({
                                   "text-right text-emerald-700 tabular-nums whitespace-nowrap",
                                 )}
                               >
-                                {r.denda}
-                              </td>
-
-                              <td
-                                className={cn(
-                                  tdBase,
-                                  "text-right text-emerald-700 tabular-nums whitespace-nowrap",
-                                )}
-                              >
                                 {r.sisaPinjamanAkhir}
                               </td>
 
-                              <td className={cn(tdBase, "text-slate-700")}>
-                                <span className="text-slate-400">-</span>
-                              </td>
-
-                              <td className={cn(tdBase)}>
-                                <div className="flex justify-start">
-                                  <DetailActionButton
-                                    onClick={() => {
-                                      onOpenChange(false);
-                                      navigate(
-                                        `/loans/transactions/${encodeURIComponent(trxNo)}`,
-                                      );
-                                    }}
-                                  />
-                                </div>
+                              <td className="sr-only">
+                                <DetailActionButton
+                                  onClick={() => {
+                                    onOpenChange(false);
+                                    navigate(
+                                      `/loans/transactions/${encodeURIComponent(trxNo)}`,
+                                    );
+                                  }}
+                                />
                               </td>
                             </tr>
                           );
