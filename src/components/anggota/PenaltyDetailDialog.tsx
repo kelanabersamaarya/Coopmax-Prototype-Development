@@ -220,6 +220,11 @@ export default function PenaltyDetailDialog({
     reason: string;
   } | null>(null);
 
+  // ✅ fallback adds when we cannot persist (missing contextKey/dueDate/rowIndex)
+  const [localAdds, setLocalAdds] = React.useState<
+    Array<{ addDateDmy: string; amountIdrLike: string; reason: string; by: string }>
+  >([]);
+
   // Trigger re-read localStorage after mutations
   const [refreshTick, setRefreshTick] = React.useState(0);
 
@@ -237,8 +242,8 @@ export default function PenaltyDetailDialog({
     setAddOpen(false);
     setAddDetailOpen(false);
     setAddDetailTarget(null);
+    setLocalAdds([]);
 
-    // reset tick on open so it always rebuilds from storage
     setRefreshTick((t) => t + 1);
   }, [open]);
 
@@ -283,7 +288,7 @@ export default function PenaltyDetailDialog({
       };
     });
 
-    const addedWithStatus: RowWithMeta[] = storedAddsForRow.map((a) => {
+    const addedFromStorage: RowWithMeta[] = storedAddsForRow.map((a) => {
       const canceled = canPersist
         ? isPenaltyItemCanceled({
             contextKey: contextKey!,
@@ -321,9 +326,28 @@ export default function PenaltyDetailDialog({
       };
     });
 
-    // Seed dulu, baru added (biar stabil)
-    return [...seedWithStatus, ...addedWithStatus];
-  }, [canPersist, contextKey, dueDateDmy, refreshTick, rowIndexGlobal, rows, storedAddsForRow]);
+    const addedFromLocal: RowWithMeta[] = localAdds.map((a) => ({
+      tanggalKeterlambatan: a.addDateDmy,
+      nominalDenda: a.amountIdrLike,
+      source: "added",
+      status: "Aktif",
+      meta: {
+        addDate: a.addDateDmy,
+        reason: a.reason,
+        by: a.by,
+      },
+    }));
+
+    return [...seedWithStatus, ...addedFromStorage, ...addedFromLocal];
+  }, [
+    canPersist,
+    contextKey,
+    dueDateDmy,
+    localAdds,
+    rowIndexGlobal,
+    rows,
+    storedAddsForRow,
+  ]);
 
   const filteredRows = React.useMemo(() => {
     if (statusFilter === "Semua") return allRows;
@@ -406,9 +430,20 @@ export default function PenaltyDetailDialog({
               addDateDmy: date,
               by: currentUserName,
             });
+            setRefreshTick((t) => t + 1);
+          } else {
+            // fallback: tampilkan langsung dalam modal (tidak persist karena tidak ada context)
+            setLocalAdds((prev) => [
+              ...prev,
+              {
+                addDateDmy: date,
+                amountIdrLike: nominalDenda,
+                reason,
+                by: currentUserName,
+              },
+            ]);
           }
 
-          setRefreshTick((t) => t + 1);
           showGreenSuccessToast("Berhasil Menambahkan Denda");
         }}
       />
@@ -433,6 +468,15 @@ export default function PenaltyDetailDialog({
         nominal={cancelTarget?.nominal ?? ""}
         onConfirm={(reason) => {
           if (!cancelTarget) return;
+
+          if (!canPersist) {
+            toast("Tidak bisa membatalkan (context belum lengkap)", {
+              description:
+                "Buka Rincian Denda dari tabel tagihan (ikon info di kolom denda) agar pembatalan tersimpan dan tersinkron.",
+            });
+            setCancelTarget(null);
+            return;
+          }
 
           cancelItem(cancelTarget.penaltyDateDmy, cancelTarget.nominal, reason);
 
@@ -578,11 +622,10 @@ export default function PenaltyDetailDialog({
                       </tr>
                     ) : (
                       filteredRows.map((r, idx) => {
-                        const isAdded = r.source === "added";
                         const isCanceled = r.status === "Dibatalkan";
 
                         const statusInfoRows: InfoRow = (() => {
-                          if (isAdded && r.meta?.addDate) {
+                          if (r.source === "added" && r.meta?.addDate) {
                             return [
                               { k: "Tanggal penambahan", v: r.meta.addDate ?? "-" },
                               { k: "Alasan penambahan", v: r.meta.reason ?? "-" },
@@ -604,7 +647,7 @@ export default function PenaltyDetailDialog({
                         const keterlambatanText =
                           r.source === "added"
                             ? "Denda Ditambahkan Manual"
-                            : String(idx + 3); // tetap sederhana (prototype)
+                            : String(idx + 3);
 
                         const dendaValue = r.nominalDenda;
                         const sisaDendaValue = r.status === "Aktif" ? r.nominalDenda : "0";
