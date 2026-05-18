@@ -134,11 +134,13 @@ export default function DaftarTagihanDialog({
   onOpenChange,
   paymentMethod = "Pembayaran Reguler",
   accountNo,
+  contextKey,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   paymentMethod?: PaymentMethod;
   accountNo?: string;
+  contextKey?: string;
 }) {
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isPelunasan = paymentMethod === "Pelunasan";
@@ -286,6 +288,7 @@ export default function DaftarTagihanDialog({
                       disableRowActiveRing={true}
                       penaltyIndexOffset={0}
                       className="mt-0"
+                      contextKey={contextKey}
                     />
                   </div>
                 </div>
@@ -313,6 +316,7 @@ export default function DaftarTagihanDialog({
                     disableRowActiveRing={hideSelection}
                     penaltyIndexOffset={(page - 1) * pageSize}
                     className="mt-0"
+                    contextKey={contextKey}
                   />
                 </div>
 

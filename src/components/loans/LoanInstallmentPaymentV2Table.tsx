@@ -29,6 +29,7 @@ import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
 import { useNavigate } from "react-router-dom";
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
+import { makePenaltyContextKeyForInstallmentV2 } from "@/lib/penaltyContext";
 
 function Th({
   children,
@@ -1322,6 +1323,10 @@ export default function LoanInstallmentPaymentV2Table({
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const isLast = row.id === lastRowId;
 
+            const penaltyContextKey = row.accountNo.trim()
+              ? makePenaltyContextKeyForInstallmentV2(row.accountNo.trim())
+              : undefined;
+
             const contentRow = (
               <tr key={row.id} className={idx === 0 ? "" : "border-t border-slate-200"}>
                 <Td className="px-3">
@@ -1366,6 +1371,7 @@ export default function LoanInstallmentPaymentV2Table({
                     }
                     paymentMethod={row.paymentMethod}
                     accountNo={row.accountNo}
+                    contextKey={penaltyContextKey}
                   />
 
                   <DaftarTagihanTopButton
