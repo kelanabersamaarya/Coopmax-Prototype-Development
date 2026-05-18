@@ -139,7 +139,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       produk: "Pinjaman Bulanan",
       noSimpananWajib: "87260002",
       saldoSimpananWajib: "30.000,00",
-      skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
+      skemaTagihan: "Jadwal Fleksibel dan Tagihan Berkala",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
     },
