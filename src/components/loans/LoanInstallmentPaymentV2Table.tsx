@@ -1297,12 +1297,19 @@ export default function LoanInstallmentPaymentV2Table({
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
-            const totals: BillTotals = {
-              pokok: "0",
-              bunga: "0",
-              denda: "0",
-              total: "0",
-            };
+            const totals: BillTotals = isKhusus
+              ? {
+                  pokok: "5.333.334",
+                  bunga: "499.998",
+                  denda: "225.000",
+                  total: "6.058.332",
+                }
+              : {
+                  pokok: "0",
+                  bunga: "0",
+                  denda: "0",
+                  total: "0",
+                };
 
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
             const pokokLabel = isPelunasan ? "Total Tagihan Pokok" : "Tagihan Pokok";
