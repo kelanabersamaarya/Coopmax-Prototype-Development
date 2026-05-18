@@ -11,9 +11,14 @@ import PenaltyDetailDialog, {
 import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialogReadOnly";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 import {
+  getPenaltyAdds,
   getPenaltyAddedSumForRow,
+  getPenaltyCanceledItems,
   getPenaltyCanceledItemsSumForRow,
   isPenaltyCanceledForRow,
+  parseIdrLikeToNumber,
+  seedPenaltyItemId,
+  addedPenaltyItemId,
 } from "@/lib/penaltyOverridesStore";
 
 export type BillingRow = {
@@ -26,9 +31,8 @@ export type BillingRow = {
 };
 
 const PENALTY_ROWS = 3;
-const PENALTY_AMOUNT = 50000; // default base penalty di tabel: 50.000
 
-// ✅ Detail "Rincian Denda" minta fixed 25.000 per hari (bukan hasil bagi dari base)
+// ✅ base "seed" denda di rincian: 3 hari × 25.000 = 75.000 (sebelumnya tabel pakai 50.000)
 const PENALTY_DETAIL_DAYS = 3;
 const PENALTY_PER_DAY = 25000;
 
@@ -171,6 +175,13 @@ function toIdr00(v: string) {
   return s;
 }
 
+function buildSeedPenaltyDates(dueDateDmy: string) {
+  const due = parseDmyToDate(dueDateDmy) ?? new Date();
+  return Array.from({ length: PENALTY_DETAIL_DAYS }).map((_, i) =>
+    formatDmy(addDays(due, i + 1)),
+  );
+}
+
 export default function BillingTableView2({
   rows,
   selected,
@@ -305,40 +316,67 @@ export default function BillingTableView2({
   function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
     if (globalIdx >= PENALTY_ROWS) return null;
 
-    // Legacy whole-row cancel masih didukung: kalau true, base jadi 0
-    const canceledWholeRow =
-      contextKey && penaltyContentEnabled
-        ? isPenaltyCanceledForRow({
-            contextKey,
-            dueDateDmy,
-            rowIndexGlobal: globalIdx,
-          })
-        : false;
+    if (!contextKey || !penaltyContentEnabled) {
+      // fallback: tampilkan seed default (75.000)
+      const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
+      return { total: seedTotal };
+    }
 
-    const added =
-      contextKey && penaltyContentEnabled
-        ? getPenaltyAddedSumForRow({
-            contextKey,
-            dueDateDmy,
-            rowIndexGlobal: globalIdx,
-          })
-        : 0;
+    // legacy whole-row cancel -> total 0
+    const canceledWholeRow = isPenaltyCanceledForRow({
+      contextKey,
+      dueDateDmy,
+      rowIndexGlobal: globalIdx,
+    });
+    if (canceledWholeRow) return { total: 0 };
 
-    const canceledItemsSum =
-      contextKey && penaltyContentEnabled
-        ? getPenaltyCanceledItemsSumForRow({
-            contextKey,
-            dueDateDmy,
-            rowIndexGlobal: globalIdx,
-          })
-        : 0;
+    // 1) seed items (3 hari × 25.000) dikurangi yang dibatalkan per item
+    const seedDates = buildSeedPenaltyDates(dueDateDmy);
+    const canceledItems = getPenaltyCanceledItems(contextKey);
 
-    const base = canceledWholeRow ? 0 : PENALTY_AMOUNT;
+    const canceledSeedSum = seedDates.reduce((sum, d) => {
+      const pid = seedPenaltyItemId(d);
+      const isCanceled = canceledItems.some(
+        (c) =>
+          c.dueDateDmy === dueDateDmy &&
+          c.rowIndexGlobal === globalIdx &&
+          c.penaltyItemId === pid,
+      );
+      return sum + (isCanceled ? PENALTY_PER_DAY : 0);
+    }, 0);
 
-    // ✅ pembatalan item mengurangi nominal, bukan langsung 0
-    const total = Math.max(0, base + added - canceledItemsSum);
+    const seedActiveSum = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY - canceledSeedSum;
 
-    return { base, added, canceledItemsSum, total, canceledWholeRow };
+    // 2) added items sum (aktif) = total add - item added yang dibatalkan
+    const addsForRow = getPenaltyAdds(contextKey).filter(
+      (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === globalIdx,
+    );
+
+    const totalAdded = addsForRow.reduce(
+      (sum, a) => sum + parseIdrLikeToNumber(a.amountIdrLike),
+      0,
+    );
+
+    const canceledAddedSum = addsForRow.reduce((sum, a) => {
+      const pid = addedPenaltyItemId(a.id);
+      const isCanceled = canceledItems.some(
+        (c) =>
+          c.dueDateDmy === dueDateDmy &&
+          c.rowIndexGlobal === globalIdx &&
+          c.penaltyItemId === pid,
+      );
+      return sum + (isCanceled ? parseIdrLikeToNumber(a.amountIdrLike) : 0);
+    }, 0);
+
+    const addedActiveSum = Math.max(0, totalAdded - canceledAddedSum);
+
+    // total harus match "Sisa Denda" (aktif) di modal
+    const total = Math.max(0, seedActiveSum + addedActiveSum);
+
+    // keep this call used (also supports older flows that still store canceled sums generically)
+    void getPenaltyCanceledItemsSumForRow({ contextKey, dueDateDmy, rowIndexGlobal: globalIdx });
+
+    return { total };
   }
 
   function PenaltyCell({
