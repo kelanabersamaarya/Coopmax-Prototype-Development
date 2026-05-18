@@ -36,6 +36,14 @@ function formatIdrLike(n: number) {
   return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function formatTodayDmy() {
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = String(d.getFullYear());
+  return `${dd}-${mm}-${yyyy}`;
+}
+
 const R = "rounded-[5px]";
 
 type StatusValue = "Semua" | "Aktif" | "Dibatalkan";
@@ -418,7 +426,7 @@ export default function PenaltyDetailDialog({
       penaltyItemId: input.penaltyItemId,
       penaltyDateDmy: input.penaltyDateDmy,
       amountIdrLike: input.amountIdrLike,
-      cancelDateDmy: "11-05-2026",
+      cancelDateDmy: formatTodayDmy(),
       reason: input.reason,
       by: currentUserName,
     });
@@ -663,14 +671,12 @@ export default function PenaltyDetailDialog({
                           return [];
                         })();
 
-                        // ✅ Request: jika dibatalkan, kolom keterlambatan menampilkan tanggal pembatalan
                         const keterlambatanText = isCanceled
                           ? r.meta?.cancelDate ?? "-"
                           : r.source === "added"
                             ? "Denda Ditambahkan Manual"
                             : String(idx + 3);
 
-                        // kolom tanggal tetap tanggal denda dibuat
                         const tanggalDendaText = r.tanggalKeterlambatan;
 
                         const dendaValue = r.nominalDenda;

@@ -147,6 +147,19 @@ export default function PenaltyCancelReasonDialog({
 
             <div className="px-6 py-6">
               <div className="grid gap-5">
+                {/* Catatan: prop `tanggal` di sini dipakai sebagai tanggal pembatalan (bukan tanggal denda) */}
+                <FieldRow label="Tanggal pembatalan">
+                  <div className="text-[14px] font-semibold text-slate-900">
+                    {tanggal || "-"}
+                  </div>
+                </FieldRow>
+
+                <FieldRow label="Nominal denda">
+                  <div className="text-[14px] font-semibold text-slate-900">
+                    {nominal || "-"}
+                  </div>
+                </FieldRow>
+
                 <FieldRow label="Alasan pembatalan" required>
                   <Textarea
                     value={reason}
