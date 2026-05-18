@@ -356,52 +356,69 @@ export default function DaftarTagihanDialog({
 
           <div className="px-6 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className={cn(
-                  actionBtnBase,
-                  "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
-                  "focus-visible:ring-[#77839A]/25",
-                )}
-              >
-                <X className={iconCls} strokeWidth={3} />
-                Batalkan
-              </button>
+              {useSecondStyle ? (
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    actionBtnBase,
+                    "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
+                    "focus-visible:ring-[#77839A]/25",
+                  )}
+                >
+                  <X className={iconCls} strokeWidth={3} />
+                  Tutup
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => onOpenChange(false)}
+                    className={cn(
+                      actionBtnBase,
+                      "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
+                      "focus-visible:ring-[#77839A]/25",
+                    )}
+                  >
+                    <X className={iconCls} strokeWidth={3} />
+                    Batalkan
+                  </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  if (!hideSelection && !useSecondStyle) {
-                    const count = selected.filter(Boolean).length;
-                    if (count === 0) {
-                      toast("Pilih minimal 1 tagihan", {
-                        description:
-                          "Centang tagihan yang ingin dibayar sebelum menyimpan.",
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!hideSelection && !useSecondStyle) {
+                        const count = selected.filter(Boolean).length;
+                        if (count === 0) {
+                          toast("Pilih minimal 1 tagihan", {
+                            description:
+                              "Centang tagihan yang ingin dibayar sebelum menyimpan.",
+                          });
+                          return;
+                        }
+                        toast.success("Daftar tagihan disimpan (prototype)", {
+                          description: `${count} tagihan dipilih (halaman ${page}).`,
+                        });
+                        onOpenChange(false);
+                        return;
+                      }
+
+                      toast.success("Daftar tagihan disimpan (prototype)", {
+                        description: `Mode: ${paymentMethod} • Halaman ${page}`,
                       });
-                      return;
-                    }
-                    toast.success("Daftar tagihan disimpan (prototype)", {
-                      description: `${count} tagihan dipilih (halaman ${page}).`,
-                    });
-                    onOpenChange(false);
-                    return;
-                  }
-
-                  toast.success("Daftar tagihan disimpan (prototype)", {
-                    description: `Mode: ${paymentMethod} • Halaman ${page}`,
-                  });
-                  onOpenChange(false);
-                }}
-                className={cn(
-                  actionBtnBase,
-                  "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
-                  "focus-visible:ring-[#2fb300]/25",
-                )}
-              >
-                <CheckSquare className={iconCls} strokeWidth={3} />
-                Simpan
-              </button>
+                      onOpenChange(false);
+                    }}
+                    className={cn(
+                      actionBtnBase,
+                      "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
+                      "focus-visible:ring-[#2fb300]/25",
+                    )}
+                  >
+                    <CheckSquare className={iconCls} strokeWidth={3} />
+                    Simpan
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
