@@ -1297,24 +1297,25 @@ export default function LoanInstallmentPaymentV2Table({
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
-            const totals: BillTotals = isKhusus
-              ? {
-                  pokok: "5.333.334",
-                  bunga: "499.998",
-                  denda: "225.000",
-                  total: "6.058.332",
-                }
-              : {
-                  pokok: "0",
-                  bunga: "0",
-                  denda: "0",
-                  total: "0",
-                };
+            // Sesuai contoh (gambar): ringkasan tagihan untuk Khusus & Pelunasan memakai nominal ini.
+            const exampleTotals: BillTotals = {
+              pokok: "5.333.334",
+              bunga: "499.998",
+              denda: "225.000",
+              total: "6.058.332",
+            };
 
-            const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
-            const pokokLabel = isPelunasan ? "Total Tagihan Pokok" : "Tagihan Pokok";
-            const bungaLabel = isPelunasan ? "Total Tagihan Bunga" : "Tagihan Bunga";
-            const dendaLabel = isPelunasan ? "Total Tagihan Denda" : "Tagihan Denda";
+            const totals: BillTotals = isKhusus || isPelunasan ? exampleTotals : {
+              pokok: "0",
+              bunga: "0",
+              denda: "0",
+              total: "0",
+            };
+
+            const totalsLabel = "Total Tagihan";
+            const pokokLabel = "Tagihan Pokok";
+            const bungaLabel = "Tagihan Bunga";
+            const dendaLabel = "Tagihan Denda";
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const isLast = row.id === lastRowId;
