@@ -10,7 +10,10 @@ import PenaltyDetailDialog, {
 } from "@/components/anggota/PenaltyDetailDialog";
 import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialogReadOnly";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
-import { getPenaltyAddedSumForRow } from "@/lib/penaltyOverridesStore";
+import {
+  getPenaltyAddedSumForRow,
+  isPenaltyCanceledForRow,
+} from "@/lib/penaltyOverridesStore";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -198,7 +201,6 @@ export default function BillingTableView2({
   hideSelection?: boolean;
   showPenaltyColumn?: boolean;
   penaltyContentEnabled?: boolean;
-  /** Offset untuk index global (mis. (page-1)*pageSize) agar denda tidak reset tiap halaman */
   penaltyIndexOffset?: number;
   penaltyDialogVariant?: "default" | "read-only";
   tone?: "default" | "khusus";
@@ -207,7 +209,6 @@ export default function BillingTableView2({
   hideRowDividers?: boolean;
   rowDensity?: "default" | "roomy";
   className?: string;
-  /** Context key untuk persist penambahan denda (ID nasabah) */
   contextKey?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -298,6 +299,7 @@ export default function BillingTableView2({
 
   function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
     if (globalIdx >= PENALTY_ROWS) return null;
+
     const added =
       contextKey && penaltyContentEnabled
         ? getPenaltyAddedSumForRow({
@@ -307,8 +309,19 @@ export default function BillingTableView2({
           })
         : 0;
 
-    const total = PENALTY_AMOUNT + added;
-    return { base: PENALTY_AMOUNT, added, total };
+    const canceled =
+      contextKey && penaltyContentEnabled
+        ? isPenaltyCanceledForRow({
+            contextKey,
+            dueDateDmy,
+            rowIndexGlobal: globalIdx,
+          })
+        : false;
+
+    const base = canceled ? 0 : PENALTY_AMOUNT;
+    const total = base + added;
+
+    return { base, added, total, canceled };
   }
 
   function PenaltyCell({
