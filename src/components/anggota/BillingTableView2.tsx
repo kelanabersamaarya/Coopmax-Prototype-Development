@@ -12,6 +12,7 @@ import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialo
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 import {
   getPenaltyAddedSumForRow,
+  getPenaltyCanceledItemsSumForRow,
   isPenaltyCanceledForRow,
 } from "@/lib/penaltyOverridesStore";
 
@@ -278,7 +279,9 @@ export default function BillingTableView2({
     : effectiveDensity === "roomy"
       ? "py-8"
       : "py-4";
-  const rowShellDensity: "default" | "roomy" = hideSelection ? "default" : effectiveDensity;
+  const rowShellDensity: "default" | "roomy" = hideSelection
+    ? "default"
+    : effectiveDensity;
 
   const dateTextClass =
     "text-[13px] font-semibold text-slate-900 tabular-nums whitespace-nowrap";
@@ -302,6 +305,16 @@ export default function BillingTableView2({
   function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
     if (globalIdx >= PENALTY_ROWS) return null;
 
+    // Legacy whole-row cancel masih didukung: kalau true, base jadi 0
+    const canceledWholeRow =
+      contextKey && penaltyContentEnabled
+        ? isPenaltyCanceledForRow({
+            contextKey,
+            dueDateDmy,
+            rowIndexGlobal: globalIdx,
+          })
+        : false;
+
     const added =
       contextKey && penaltyContentEnabled
         ? getPenaltyAddedSumForRow({
@@ -311,19 +324,21 @@ export default function BillingTableView2({
           })
         : 0;
 
-    const canceled =
+    const canceledItemsSum =
       contextKey && penaltyContentEnabled
-        ? isPenaltyCanceledForRow({
+        ? getPenaltyCanceledItemsSumForRow({
             contextKey,
             dueDateDmy,
             rowIndexGlobal: globalIdx,
           })
-        : false;
+        : 0;
 
-    const base = canceled ? 0 : PENALTY_AMOUNT;
-    const total = base + added;
+    const base = canceledWholeRow ? 0 : PENALTY_AMOUNT;
 
-    return { base, added, total, canceled };
+    // ✅ pembatalan item mengurangi nominal, bukan langsung 0
+    const total = Math.max(0, base + added - canceledItemsSum);
+
+    return { base, added, canceledItemsSum, total, canceledWholeRow };
   }
 
   function PenaltyCell({
@@ -461,7 +476,9 @@ export default function BillingTableView2({
                                       <input
                                         type="checkbox"
                                         aria-label="Pilih tagihan"
-                                        checked={isLocked ? true : (selected[rowIndex] ?? false)}
+                                        checked={
+                                          isLocked ? true : (selected[rowIndex] ?? false)
+                                        }
                                         disabled={isLocked}
                                         onChange={(e) => {
                                           const next = e.target.checked;

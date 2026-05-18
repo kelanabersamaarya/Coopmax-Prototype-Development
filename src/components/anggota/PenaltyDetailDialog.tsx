@@ -13,7 +13,11 @@ import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   addPenaltyOverride,
+  cancelPenaltyItemOverride,
   getPenaltyAdds,
+  getPenaltyCanceledItemMeta,
+  getPenaltyCanceledItems,
+  isPenaltyItemCanceled,
   parseIdrLikeToNumber,
 } from "@/lib/penaltyOverridesStore";
 
@@ -42,36 +46,6 @@ type RowWithMeta = PenaltyDetailRow & {
   addMetaKey?: string;
 };
 
-function deriveStatusForRowIndex(
-  originalIndex: number,
-): Exclude<StatusValue, "Semua"> {
-  return originalIndex % 7 === 0 ? "Dibatalkan" : "Aktif";
-}
-
-function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
-  const cls =
-    status === "Aktif"
-      ? "bg-emerald-600 text-white ring-1 ring-emerald-600/20"
-      : "bg-rose-600 text-white ring-1 ring-rose-600/20";
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-[5px] px-2 py-1 text-[12px] font-semibold leading-none",
-        cls,
-      )}
-    >
-      {status}
-    </span>
-  );
-}
-
-const DEFAULT_CANCEL_DETAIL = {
-  cancelDate: "11-05-2026",
-  reason: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
-  by: "Arya Dharma",
-} as const;
-
 function nextOriginalIndex(seedCount: number, addedCount: number) {
   return seedCount + addedCount;
 }
@@ -86,6 +60,7 @@ type CanceledPenaltyMeta = {
   cancelDate: string;
   reason: string;
   by: string;
+  amountIdrLike: string;
 };
 
 function metaKeyForAddedRow(addedIndex: number) {
@@ -147,6 +122,24 @@ function InfoIconTooltip({
         </div>
       </TooltipContent>
     </Tooltip>
+  );
+}
+
+function StatusPill({ status }: { status: Exclude<StatusValue, "Semua"> }) {
+  const cls =
+    status === "Aktif"
+      ? "bg-emerald-600 text-white ring-1 ring-emerald-600/20"
+      : "bg-rose-600 text-white ring-1 ring-rose-600/20";
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-[5px] px-2 py-1 text-[12px] font-semibold leading-none",
+        cls,
+      )}
+    >
+      {status}
+    </span>
   );
 }
 
@@ -228,12 +221,6 @@ export default function PenaltyDetailDialog({
   rowIndexGlobal?: number;
 }) {
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
-  const [canceledIds, setCanceledIds] = React.useState<Set<number>>(
-    () => new Set(),
-  );
-  const [cancelMeta, setCancelMeta] = React.useState<
-    Record<number, CanceledPenaltyMeta>
-  >(() => ({}));
 
   const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>(
     [],
@@ -244,8 +231,7 @@ export default function PenaltyDetailDialog({
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
-    originalIndex: number;
-    tanggal: string;
+    penaltyDateDmy: string;
     nominal: string;
   } | null>(null);
 
@@ -264,23 +250,22 @@ export default function PenaltyDetailDialog({
   } | null>(null);
 
   const currentUserName = "Arya Dharma";
-
-  const canPersistAdd =
-    !!contextKey && !!dueDateDmy && typeof rowIndexGlobal === "number";
+  const canPersist = !!contextKey && !!dueDateDmy && typeof rowIndexGlobal === "number";
 
   React.useEffect(() => {
     if (!open) return;
 
     setStatusFilter("Aktif");
-    setCanceledIds(new Set());
-    setCancelMeta({});
     setCancelDialogOpen(false);
     setCancelTarget(null);
     setCancelDetailOpen(false);
     setCancelDetailTarget(null);
     setAddOpen(false);
+    setAddDetailOpen(false);
+    setAddDetailTarget(null);
 
-    if (canPersistAdd) {
+    // Load added penalties from store so dialog stays consistent
+    if (canPersist) {
       const stored = getPenaltyAdds(contextKey!).filter(
         (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === rowIndexGlobal,
       );
@@ -304,65 +289,71 @@ export default function PenaltyDetailDialog({
         return next;
       });
     } else {
-      // fallback: tetap bisa tambah denda tapi tidak persist
       setAddedPenalties([]);
       setAddedMeta({});
     }
-
-    setAddDetailOpen(false);
-    setAddDetailTarget(null);
-  }, [canPersistAdd, contextKey, dueDateDmy, open, rowIndexGlobal]);
+  }, [canPersist, contextKey, dueDateDmy, open, rowIndexGlobal]);
 
   const allRows: RowWithMeta[] = React.useMemo(() => {
     const seedWithMeta: RowWithMeta[] = rows.map((r, originalIndex) => {
-      const baseStatus = deriveStatusForRowIndex(originalIndex);
-      const status: Exclude<StatusValue, "Semua"> = canceledIds.has(originalIndex)
-        ? "Dibatalkan"
-        : baseStatus;
+      const isCanceled = canPersist
+        ? isPenaltyItemCanceled({
+            contextKey: contextKey!,
+            dueDateDmy: dueDateDmy!,
+            rowIndexGlobal: rowIndexGlobal!,
+            penaltyDateDmy: r.tanggalKeterlambatan,
+          })
+        : false;
 
       return {
         ...r,
         originalIndex,
-        status,
+        status: isCanceled ? "Dibatalkan" : "Aktif",
         source: "seed",
       };
     });
 
-    const addedWithMeta: RowWithMeta[] = addedPenalties.map((r, idx) => ({
-      ...r,
-      originalIndex: nextOriginalIndex(rows.length, idx),
-      status: "Aktif",
-      source: "added",
-      addMetaKey: metaKeyForAddedRow(idx),
-    }));
+    const addedWithMeta: RowWithMeta[] = addedPenalties.map((r, idx) => {
+      const isCanceled = canPersist
+        ? isPenaltyItemCanceled({
+            contextKey: contextKey!,
+            dueDateDmy: dueDateDmy!,
+            rowIndexGlobal: rowIndexGlobal!,
+            penaltyDateDmy: r.tanggalKeterlambatan,
+          })
+        : false;
+
+      return {
+        ...r,
+        originalIndex: nextOriginalIndex(rows.length, idx),
+        status: isCanceled ? "Dibatalkan" : "Aktif",
+        source: "added",
+        addMetaKey: metaKeyForAddedRow(idx),
+      };
+    });
 
     return [...seedWithMeta, ...addedWithMeta];
-  }, [addedPenalties, canceledIds, rows]);
+  }, [addedPenalties, addedMeta, canPersist, contextKey, dueDateDmy, rowIndexGlobal, rows]);
 
   const filteredRows = React.useMemo(() => {
     if (statusFilter === "Semua") return allRows;
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  const totalDenda = React.useMemo(() => {
-    return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
-  }, [filteredRows]);
-
-  const totalDendaText = React.useMemo(() => formatIdrLike(totalDenda), [totalDenda]);
-
-  const totalSisaDenda = React.useMemo(() => {
-    return filteredRows.reduce((sum, r) => {
+  const totals = React.useMemo(() => {
+    const sumAll = allRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
+    const sumActive = allRows.reduce((sum, r) => {
       if (r.status !== "Aktif") return sum;
       return sum + parseIdrLike(r.nominalDenda);
     }, 0);
-  }, [filteredRows]);
+    return { sumAll, sumActive };
+  }, [allRows]);
 
+  const totalDendaText = React.useMemo(() => formatIdrLike(totals.sumAll), [totals.sumAll]);
   const totalSisaDendaText = React.useMemo(
-    () => formatIdrLike(totalSisaDenda),
-    [totalSisaDenda],
+    () => formatIdrLike(totals.sumActive),
+    [totals.sumActive],
   );
-
-  const lateDaysPattern = [3, 4, 2] as const;
 
   const COL = {
     no: 44,
@@ -393,13 +384,44 @@ export default function PenaltyDetailDialog({
 
   const statusCellPad = "px-1.5 py-2";
 
+  function cancelItem(penaltyDateDmy: string, amountIdrLike: string, reason: string) {
+    if (!canPersist) return;
+
+    cancelPenaltyItemOverride(contextKey!, {
+      dueDateDmy: dueDateDmy!,
+      rowIndexGlobal: rowIndexGlobal!,
+      penaltyDateDmy,
+      amountIdrLike,
+      cancelDateDmy: "11-05-2026",
+      reason,
+      by: currentUserName,
+    });
+  }
+
+  function buildCanceledMeta(penaltyDateDmy: string): CanceledPenaltyMeta | null {
+    if (!canPersist) return null;
+    const meta = getPenaltyCanceledItemMeta({
+      contextKey: contextKey!,
+      dueDateDmy: dueDateDmy!,
+      rowIndexGlobal: rowIndexGlobal!,
+      penaltyDateDmy,
+    });
+    if (!meta) return null;
+    return {
+      cancelDate: meta.cancelDateDmy,
+      reason: meta.reason,
+      by: meta.by,
+      amountIdrLike: meta.amountIdrLike,
+    };
+  }
+
   return (
     <>
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={setAddOpen}
         onConfirm={(reason, date, nominalDenda) => {
-          if (canPersistAdd) {
+          if (canPersist) {
             addPenaltyOverride(contextKey!, {
               dueDateDmy: dueDateDmy!,
               rowIndexGlobal: rowIndexGlobal!,
@@ -441,26 +463,12 @@ export default function PenaltyDetailDialog({
           setCancelDialogOpen(v);
           if (!v) setCancelTarget(null);
         }}
-        tanggal={cancelTarget?.tanggal ?? ""}
+        tanggal={cancelTarget?.penaltyDateDmy ?? ""}
         nominal={cancelTarget?.nominal ?? ""}
         onConfirm={(reason) => {
           if (!cancelTarget) return;
 
-          setCanceledIds((prev) => {
-            const next = new Set(prev);
-            next.add(cancelTarget.originalIndex);
-            return next;
-          });
-
-          setCancelMeta((prev) => ({
-            ...prev,
-            [cancelTarget.originalIndex]: {
-              reason,
-              cancelDate: DEFAULT_CANCEL_DETAIL.cancelDate,
-              by: currentUserName,
-            },
-          }));
-
+          cancelItem(cancelTarget.penaltyDateDmy, cancelTarget.nominal, reason);
           showGreenSuccessToast("Berhasil Membatalkan Denda");
           setCancelTarget(null);
         }}
@@ -603,9 +611,9 @@ export default function PenaltyDetailDialog({
                     ) : (
                       filteredRows.map((r, idx) => {
                         const isAdded = r.source === "added";
-                        const lateDays =
-                          lateDaysPattern[idx % lateDaysPattern.length];
                         const isCanceled = r.status === "Dibatalkan";
+
+                        const cancelMeta = buildCanceledMeta(r.tanggalKeterlambatan);
 
                         const statusInfoRows: InfoRow = (() => {
                           if (isAdded) {
@@ -618,19 +626,18 @@ export default function PenaltyDetailDialog({
                           }
 
                           if (isCanceled) {
-                            const meta = cancelMeta[r.originalIndex];
                             return [
                               {
                                 k: "Tanggal pembatalan",
-                                v: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
+                                v: cancelMeta?.cancelDate ?? "-",
                               },
                               {
                                 k: "Alasan pembatalan",
-                                v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                                v: cancelMeta?.reason ?? "-",
                               },
                               {
                                 k: "Dibatalkan oleh",
-                                v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
+                                v: cancelMeta?.by ?? "-",
                               },
                             ];
                           }
@@ -638,15 +645,9 @@ export default function PenaltyDetailDialog({
                           return [];
                         })();
 
-                        const cancelDate =
-                          cancelMeta[r.originalIndex]?.cancelDate ??
-                          DEFAULT_CANCEL_DETAIL.cancelDate;
-
                         const keterlambatanText = isAdded
                           ? "Denda Ditambahkan Manual"
-                          : isCanceled
-                            ? cancelDate
-                            : String(lateDays);
+                          : String(idx + 3); // tetap sederhana (prototype)
 
                         const dendaValue = r.nominalDenda;
                         const sisaDendaValue = r.status === "Aktif" ? r.nominalDenda : "0";
@@ -695,8 +696,7 @@ export default function PenaltyDetailDialog({
                                   <CancelPenaltyButton
                                     onClick={() => {
                                       setCancelTarget({
-                                        originalIndex: r.originalIndex,
-                                        tanggal: r.tanggalKeterlambatan,
+                                        penaltyDateDmy: r.tanggalKeterlambatan,
                                         nominal: r.nominalDenda,
                                       });
                                       setCancelDialogOpen(true);
@@ -733,8 +733,6 @@ export default function PenaltyDetailDialog({
                   </tbody>
                 </table>
               </div>
-
-              <div className="sr-only">{Object.keys(cancelMeta).length}</div>
             </div>
 
             <Separator className="bg-slate-200" />

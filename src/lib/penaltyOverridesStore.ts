@@ -21,12 +21,25 @@ export type PenaltyCancelOverride = {
   createdAt: string;
 };
 
+export type PenaltyCanceledItemOverride = {
+  id: string;
+  dueDateDmy: string;
+  rowIndexGlobal: number;
+  penaltyDateDmy: string; // tanggal item denda yang dibatalkan (mis. 27-02-2026)
+  amountIdrLike: string; // nominal item denda yang dibatalkan (mis. 25.000)
+  cancelDateDmy: string;
+  reason: string;
+  by: string;
+  createdAt: string;
+};
+
 type State = {
   adds: Record<string, PenaltyAddOverride[]>;
   cancels: Record<string, PenaltyCancelOverride[]>;
+  canceledItems?: Record<string, PenaltyCanceledItemOverride[]>;
 };
 
-const STORAGE_KEY = "dyad.penaltyOverrides.v2";
+const STORAGE_KEY = "dyad.penaltyOverrides.v3";
 
 function safeParse<T>(value: string | null): T | null {
   if (!value) return null;
@@ -39,11 +52,17 @@ function safeParse<T>(value: string | null): T | null {
 
 function readState(): State {
   const parsed = safeParse<State>(localStorage.getItem(STORAGE_KEY));
-  if (!parsed || typeof parsed !== "object") return { adds: {}, cancels: {} };
+  if (!parsed || typeof parsed !== "object")
+    return { adds: {}, cancels: {}, canceledItems: {} };
+
   return {
     adds: parsed.adds && typeof parsed.adds === "object" ? parsed.adds : {},
     cancels:
       parsed.cancels && typeof parsed.cancels === "object" ? parsed.cancels : {},
+    canceledItems:
+      parsed.canceledItems && typeof parsed.canceledItems === "object"
+        ? parsed.canceledItems
+        : {},
   };
 }
 
@@ -118,7 +137,121 @@ export function getPenaltyAddedSumForRow({
   }, 0);
 }
 
-// ===== Cancels =====
+// ===== Item-level cancels (per tanggal denda) =====
+export function getPenaltyCanceledItems(
+  contextKey: string,
+): PenaltyCanceledItemOverride[] {
+  const key = (contextKey ?? "").trim();
+  if (!key) return [];
+  const st = readState();
+  const arr = st.canceledItems?.[key];
+  return Array.isArray(arr) ? arr : [];
+}
+
+export function cancelPenaltyItemOverride(
+  contextKey: string,
+  input: Omit<PenaltyCanceledItemOverride, "id" | "createdAt" | "amountIdrLike"> & {
+    amountIdrLike: string;
+  },
+) {
+  const key = (contextKey ?? "").trim();
+  if (!key) return null;
+
+  const next: PenaltyCanceledItemOverride = {
+    ...input,
+    id: nanoid(),
+    amountIdrLike: normalizeIdrLike(input.amountIdrLike),
+    createdAt: new Date().toISOString(),
+  };
+
+  const st = readState();
+  const current = Array.isArray(st.canceledItems?.[key])
+    ? st.canceledItems?.[key]!
+    : [];
+
+  // 1 item (dueDate+rowIndex+penaltyDate) cukup satu cancel record terbaru (replace)
+  const filtered = current.filter(
+    (c) =>
+      !(
+        c.dueDateDmy === next.dueDateDmy &&
+        c.rowIndexGlobal === next.rowIndexGlobal &&
+        c.penaltyDateDmy === next.penaltyDateDmy
+      ),
+  );
+
+  writeState({
+    ...st,
+    canceledItems: { ...(st.canceledItems ?? {}), [key]: [next, ...filtered] },
+  });
+
+  return next;
+}
+
+export function isPenaltyItemCanceled({
+  contextKey,
+  dueDateDmy,
+  rowIndexGlobal,
+  penaltyDateDmy,
+}: {
+  contextKey: string;
+  dueDateDmy: string;
+  rowIndexGlobal: number;
+  penaltyDateDmy: string;
+}) {
+  const items = getPenaltyCanceledItems(contextKey);
+  return items.some(
+    (c) =>
+      c.dueDateDmy === dueDateDmy &&
+      c.rowIndexGlobal === rowIndexGlobal &&
+      c.penaltyDateDmy === penaltyDateDmy,
+  );
+}
+
+export function getPenaltyCanceledItemMeta({
+  contextKey,
+  dueDateDmy,
+  rowIndexGlobal,
+  penaltyDateDmy,
+}: {
+  contextKey: string;
+  dueDateDmy: string;
+  rowIndexGlobal: number;
+  penaltyDateDmy: string;
+}) {
+  const items = getPenaltyCanceledItems(contextKey);
+  const found = items.find(
+    (c) =>
+      c.dueDateDmy === dueDateDmy &&
+      c.rowIndexGlobal === rowIndexGlobal &&
+      c.penaltyDateDmy === penaltyDateDmy,
+  );
+  if (!found) return null;
+  return {
+    cancelDateDmy: found.cancelDateDmy,
+    reason: found.reason,
+    by: found.by,
+    amountIdrLike: found.amountIdrLike,
+  };
+}
+
+export function getPenaltyCanceledItemsSumForRow({
+  contextKey,
+  dueDateDmy,
+  rowIndexGlobal,
+}: {
+  contextKey: string;
+  dueDateDmy: string;
+  rowIndexGlobal: number;
+}) {
+  const items = getPenaltyCanceledItems(contextKey);
+  return items.reduce((sum, c) => {
+    if (c.dueDateDmy !== dueDateDmy) return sum;
+    if (c.rowIndexGlobal !== rowIndexGlobal) return sum;
+    return sum + parseIdrLikeToNumber(c.amountIdrLike);
+  }, 0);
+}
+
+// ===== Cancels (legacy whole-row cancel) =====
 export function getPenaltyCancels(contextKey: string): PenaltyCancelOverride[] {
   const key = (contextKey ?? "").trim();
   if (!key) return [];
