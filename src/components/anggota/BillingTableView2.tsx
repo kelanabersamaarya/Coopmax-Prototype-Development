@@ -10,6 +10,7 @@ import PenaltyDetailDialog, {
 } from "@/components/anggota/PenaltyDetailDialog";
 import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialogReadOnly";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
+import { getPenaltyAddedSumForRow } from "@/lib/penaltyOverridesStore";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -184,6 +185,7 @@ export default function BillingTableView2({
   hideRowDividers = false,
   rowDensity = "default",
   className,
+  contextKey,
 }: {
   rows: BillingRow[];
   selected: boolean[];
@@ -205,9 +207,15 @@ export default function BillingTableView2({
   hideRowDividers?: boolean;
   rowDensity?: "default" | "roomy";
   className?: string;
+  /** Context key untuk persist penambahan denda (ID nasabah) */
+  contextKey?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
+  const [penaltyContext, setPenaltyContext] = React.useState<{
+    dueDateDmy: string;
+    rowIndexGlobal: number;
+  } | null>(null);
 
   const colCount = hideSelection
     ? showPenaltyColumn
@@ -278,13 +286,29 @@ export default function BillingTableView2({
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
 
-  function openPenaltyDetailForRow(dueDateDmy: string) {
+  function openPenaltyDetailForRow(rowIndexGlobal: number, dueDateDmy: string) {
     setPenaltyRows(buildPenaltyDetailRows(dueDateDmy));
+    setPenaltyContext({ dueDateDmy, rowIndexGlobal });
     setPenaltyOpen(true);
   }
 
   function RightNum({ value }: { value: string }) {
     return <NumericCell align="right">{value}</NumericCell>;
+  }
+
+  function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
+    if (globalIdx >= PENALTY_ROWS) return null;
+    const added =
+      contextKey && penaltyContentEnabled
+        ? getPenaltyAddedSumForRow({
+            contextKey,
+            dueDateDmy,
+            rowIndexGlobal: globalIdx,
+          })
+        : 0;
+
+    const total = PENALTY_AMOUNT + added;
+    return { base: PENALTY_AMOUNT, added, total };
   }
 
   function PenaltyCell({
@@ -298,9 +322,8 @@ export default function BillingTableView2({
       return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
     }
 
-    const shouldShow = globalIdx < PENALTY_ROWS;
-
-    if (!shouldShow) {
+    const info = penaltyValueForRow(globalIdx, dueDateDmy);
+    if (!info) {
       return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
     }
 
@@ -308,9 +331,11 @@ export default function BillingTableView2({
       <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
         <div className="flex items-center justify-end gap-2">
           <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-            {formatIdrLike(PENALTY_AMOUNT)}
+            {formatIdrLike(info.total)}
           </span>
-          <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(dueDateDmy)} />
+          <PenaltyInfoButton
+            onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
+          />
         </div>
       </div>
     );
@@ -338,7 +363,6 @@ export default function BillingTableView2({
     "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  // khusus kolom "Total Tagihan Belum Dibayar"
   const totalColPad = "px-4 pr-2";
 
   return (
@@ -354,6 +378,9 @@ export default function BillingTableView2({
           open={penaltyOpen}
           onOpenChange={setPenaltyOpen}
           rows={penaltyRows}
+          contextKey={contextKey}
+          dueDateDmy={penaltyContext?.dueDateDmy}
+          rowIndexGlobal={penaltyContext?.rowIndexGlobal}
         />
       )}
 

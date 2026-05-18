@@ -580,83 +580,22 @@ export default function TransaksiAnggotaView2({
                     : "",
                 )}
               >
-                {isReguler ? (
-                  <BillingTableView2
-                    rows={rowsToShow}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isLocked={true}
-                    showNextBillInfo={!hideNextBillInfo}
-                    showGraceInfo={showGraceInfo}
-                    highlightGraceBlock={highlightGraceBlock}
-                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
-                    hideSelection={false}
-                    showPenaltyColumn={true}
-                    disableRowActiveRing={true}
-                    penaltyIndexOffset={penaltyIndexOffset}
-                    showNextBillInfo={!hideNextBillInfo}
-                  />
-                ) : isKhusus ? (
-                  <BillingTableView2
-                    rows={rowsToShow}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isLocked={false}
-                    showNextBillInfo={!hideNextBillInfo}
-                    showGraceInfo={showGraceInfo}
-                    highlightGraceBlock={highlightGraceBlock}
-                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
-                    hideSelection={false}
-                    showPenaltyColumn={true}
-                    disableRowActiveRing={true}
-                    penaltyIndexOffset={penaltyIndexOffset}
-                  />
-                ) : isPelunasan ? (
-                  <BillingTableView2
-                    rows={rowsToShow}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isLocked={true}
-                    showNextBillInfo={!hideNextBillInfo}
-                    showGraceInfo={showGraceInfo}
-                    highlightGraceBlock={highlightGraceBlock}
-                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
-                    hideSelection={false}
-                    showPenaltyColumn={true}
-                    disableRowActiveRing={true}
-                    penaltyIndexOffset={penaltyIndexOffset}
-                  />
-                ) : isPenurunanBakiDebet ? (
-                  <BillingTableView2
-                    rows={rowsToShow}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isLocked={true}
-                    showNextBillInfo={!hideNextBillInfo}
-                    showGraceInfo={showGraceInfo}
-                    highlightGraceBlock={highlightGraceBlock}
-                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
-                    hideSelection={true}
-                    showPenaltyColumn={false}
-                    disableRowRings
-                    disableRowActiveRing
-                    penaltyIndexOffset={penaltyIndexOffset}
-                  />
-                ) : (
-                  <BillingTableView2
-                    rows={rowsToShow}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isLocked={false}
-                    showNextBillInfo={!hideNextBillInfo}
-                    showGraceInfo={showGraceInfo}
-                    highlightGraceBlock={highlightGraceBlock}
-                    keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
-                    hideSelection={isPenurunanPlafon}
-                    showPenaltyColumn={false}
-                    penaltyIndexOffset={penaltyIndexOffset}
-                  />
-                )}
+                <BillingTableView2
+                  rows={rowsToShow}
+                  selected={selected}
+                  setSelected={setSelected}
+                  isLocked={isReguler || isPelunasan || isPenurunanBakiDebet}
+                  showNextBillInfo={!hideNextBillInfo}
+                  showGraceInfo={showGraceInfo}
+                  highlightGraceBlock={highlightGraceBlock}
+                  keepGraceShellWithoutInfo={keepGraceShellWithoutInfo}
+                  hideSelection={isPenurunanBakiDebet}
+                  showPenaltyColumn={!isPenurunanBakiDebet}
+                  disableRowActiveRing={true}
+                  disableRowRings={isPenurunanBakiDebet}
+                  penaltyIndexOffset={penaltyIndexOffset}
+                  contextKey={nasabah.id}
+                />
               </div>
 
               {usePaging ? (

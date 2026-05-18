@@ -11,6 +11,11 @@ import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailD
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  addPenaltyOverride,
+  getPenaltyAdds,
+  parseIdrLikeToNumber,
+} from "@/lib/penaltyOverridesStore";
 
 export type PenaltyDetailRow = {
   tanggalKeterlambatan: string;
@@ -18,14 +23,7 @@ export type PenaltyDetailRow = {
 };
 
 function parseIdrLike(input: string) {
-  const s = (input ?? "").trim();
-  if (!s) return 0;
-
-  const normalized = s.replace(/\./g, "").replace(",", ".");
-  const cleaned = normalized.replace(/[^\d.-]/g, "");
-  const n = Number(cleaned);
-
-  return Number.isFinite(n) ? n : 0;
+  return parseIdrLikeToNumber(input);
 }
 
 function formatIdrLike(n: number) {
@@ -94,12 +92,14 @@ function metaKeyForAddedRow(addedIndex: number) {
   return `added-${addedIndex}`;
 }
 
+type InfoRow = Array<{ k: string; v: string }>;
+
 function InfoIconTooltip({
   label,
   rows,
 }: {
   label: string;
-  rows: Array<{ k: string; v: string }>;
+  rows: InfoRow;
 }) {
   return (
     <Tooltip delayDuration={150}>
@@ -216,10 +216,26 @@ export default function PenaltyDetailDialog({
   open,
   onOpenChange,
   rows,
+  contextKey,
+  dueDateDmy,
+  rowIndexGlobal,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   rows: PenaltyDetailRow[];
+  /**
+   * Context key = nasabahId (sesuai permintaan).
+   * Jika tidak ada, dialog tetap berjalan tapi penambahan tidak dipersist.
+   */
+  contextKey?: string;
+  /**
+   * due date dari baris billing (jatuh tempo) — dipakai untuk mapping penambahan denda.
+   */
+  dueDateDmy?: string;
+  /**
+   * index global baris billing (sudah termasuk offset pagination) — dipakai untuk mapping penambahan denda.
+   */
+  rowIndexGlobal?: number;
 }) {
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
   const [canceledIds, setCanceledIds] = React.useState<Set<number>>(
@@ -228,6 +244,7 @@ export default function PenaltyDetailDialog({
   const [cancelMeta, setCancelMeta] = React.useState<
     Record<number, CanceledPenaltyMeta>
   >(() => ({}));
+
   const [addedPenalties, setAddedPenalties] = React.useState<PenaltyDetailRow[]>(
     [],
   );
@@ -256,8 +273,11 @@ export default function PenaltyDetailDialog({
     reason: string;
   } | null>(null);
 
+  const currentUserName = "Arya Dharma";
+
   React.useEffect(() => {
     if (!open) return;
+
     setStatusFilter("Aktif");
     setCanceledIds(new Set());
     setCancelMeta({});
@@ -266,11 +286,39 @@ export default function PenaltyDetailDialog({
     setCancelDetailOpen(false);
     setCancelDetailTarget(null);
     setAddOpen(false);
-    setAddedPenalties([]);
-    setAddedMeta({});
+
+    // ✅ LOAD persisted "added penalties" untuk contextKey+row mapping
+    if (contextKey && dueDateDmy && typeof rowIndexGlobal === "number") {
+      const stored = getPenaltyAdds(contextKey).filter(
+        (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === rowIndexGlobal,
+      );
+
+      setAddedPenalties(
+        stored.map((s) => ({
+          tanggalKeterlambatan: s.addDateDmy,
+          nominalDenda: s.amountIdrLike,
+        })),
+      );
+
+      setAddedMeta(() => {
+        const next: Record<string, AddedPenaltyMeta> = {};
+        stored.forEach((s, idx) => {
+          next[metaKeyForAddedRow(idx)] = {
+            addDate: s.addDateDmy,
+            reason: s.reason,
+            by: s.by,
+          };
+        });
+        return next;
+      });
+    } else {
+      setAddedPenalties([]);
+      setAddedMeta({});
+    }
+
     setAddDetailOpen(false);
     setAddDetailTarget(null);
-  }, [open]);
+  }, [contextKey, dueDateDmy, open, rowIndexGlobal]);
 
   const allRows: RowWithMeta[] = React.useMemo(() => {
     const seedWithMeta: RowWithMeta[] = rows.map((r, originalIndex) => {
@@ -309,7 +357,6 @@ export default function PenaltyDetailDialog({
 
   const totalDendaText = React.useMemo(() => formatIdrLike(totalDenda), [totalDenda]);
 
-  // Prototype sederhana: Sisa Denda = sama dengan Denda jika Aktif, 0 jika Dibatalkan
   const totalSisaDenda = React.useMemo(() => {
     return filteredRows.reduce((sum, r) => {
       if (r.status !== "Aktif") return sum;
@@ -323,8 +370,6 @@ export default function PenaltyDetailDialog({
   );
 
   const lateDaysPattern = [3, 4, 2] as const;
-
-  const currentUserName = "Arya Dharma";
 
   const COL = {
     no: 44,
@@ -355,12 +400,28 @@ export default function PenaltyDetailDialog({
 
   const statusCellPad = "px-1.5 py-2";
 
+  const canPersistAdd =
+    !!contextKey && !!dueDateDmy && typeof rowIndexGlobal === "number";
+
   return (
     <>
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={setAddOpen}
         onConfirm={(reason, date, nominalDenda) => {
+          // ✅ persist dulu (kalau punya context)
+          if (canPersistAdd) {
+            addPenaltyOverride(contextKey!, {
+              dueDateDmy: dueDateDmy!,
+              rowIndexGlobal: rowIndexGlobal!,
+              amountIdrLike: nominalDenda,
+              reason,
+              addDateDmy: date,
+              by: currentUserName,
+            });
+          }
+
+          // ✅ update UI langsung
           setAddedPenalties((prev) => [
             ...prev,
             { tanggalKeterlambatan: date, nominalDenda },
@@ -413,7 +474,6 @@ export default function PenaltyDetailDialog({
           }));
 
           showGreenSuccessToast("Berhasil Membatalkan Denda");
-
           setCancelTarget(null);
         }}
       />
@@ -477,7 +537,16 @@ export default function PenaltyDetailDialog({
               <div className="mb-3 flex justify-end">
                 <button
                   type="button"
-                  onClick={() => setAddOpen(true)}
+                  onClick={() => {
+                    if (!canPersistAdd) {
+                      toast("Data nasabah belum tersedia", {
+                        description:
+                          "Tidak bisa menyimpan denda karena contextKey (ID nasabah) belum terpasang.",
+                      });
+                      return;
+                    }
+                    setAddOpen(true);
+                  }}
                   className={cn(
                     "inline-flex h-9 items-center justify-center gap-2 px-3.5",
                     "rounded-[5px] bg-[#2563eb] text-white",
@@ -559,45 +628,36 @@ export default function PenaltyDetailDialog({
                           lateDaysPattern[idx % lateDaysPattern.length];
                         const isCanceled = r.status === "Dibatalkan";
 
-                        const statusInfoRows: Array<{ k: string; v: string }> =
-                          (() => {
-                            if (isAdded) {
-                              const meta = r.addMetaKey
-                                ? addedMeta[r.addMetaKey]
-                                : null;
-                              return [
-                                {
-                                  k: "Tanggal penambahan",
-                                  v: meta?.addDate ?? "-",
-                                },
-                                { k: "Alasan penambahan", v: meta?.reason ?? "-" },
-                                { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
-                              ];
-                            }
+                        const statusInfoRows: InfoRow = (() => {
+                          if (isAdded) {
+                            const meta = r.addMetaKey ? addedMeta[r.addMetaKey] : null;
+                            return [
+                              { k: "Tanggal penambahan", v: meta?.addDate ?? "-" },
+                              { k: "Alasan penambahan", v: meta?.reason ?? "-" },
+                              { k: "Ditambahkan oleh", v: meta?.by ?? "-" },
+                            ];
+                          }
 
-                            if (isCanceled) {
-                              const meta = cancelMeta[r.originalIndex];
-                              return [
-                                {
-                                  k: "Tanggal pembatalan",
-                                  v:
-                                    meta?.cancelDate ??
-                                    DEFAULT_CANCEL_DETAIL.cancelDate,
-                                },
-                                {
-                                  k: "Alasan pembatalan",
-                                  v:
-                                    meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
-                                },
-                                {
-                                  k: "Dibatalkan oleh",
-                                  v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
-                                },
-                              ];
-                            }
+                          if (isCanceled) {
+                            const meta = cancelMeta[r.originalIndex];
+                            return [
+                              {
+                                k: "Tanggal pembatalan",
+                                v: meta?.cancelDate ?? DEFAULT_CANCEL_DETAIL.cancelDate,
+                              },
+                              {
+                                k: "Alasan pembatalan",
+                                v: meta?.reason ?? DEFAULT_CANCEL_DETAIL.reason,
+                              },
+                              {
+                                k: "Dibatalkan oleh",
+                                v: meta?.by ?? DEFAULT_CANCEL_DETAIL.by,
+                              },
+                            ];
+                          }
 
-                            return [];
-                          })();
+                          return [];
+                        })();
 
                         const cancelDate =
                           cancelMeta[r.originalIndex]?.cancelDate ??
