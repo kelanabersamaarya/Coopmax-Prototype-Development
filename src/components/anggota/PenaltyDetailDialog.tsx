@@ -45,7 +45,7 @@ type SourceKind = "seed" | "added";
 type RowWithMeta = PenaltyDetailRow & {
   status: Exclude<StatusValue, "Semua">;
   source: SourceKind;
-  itemId: string; // ✅ unique item id
+  itemId: string;
   meta?: {
     by?: string;
     reason?: string;
@@ -224,7 +224,6 @@ export default function PenaltyDetailDialog({
     reason: string;
   } | null>(null);
 
-  // fallback adds if cannot persist
   const [localAdds, setLocalAdds] = React.useState<
     Array<{
       addDateDmy: string;
@@ -366,23 +365,16 @@ export default function PenaltyDetailDialog({
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  const totals = React.useMemo(() => {
-    const sumAll = allRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
-    const sumActive = allRows.reduce((sum, r) => {
+  // ✅ TOTAL DENDA harus sama dengan SISA DENDA => hitung dari yang Aktif saja
+  const totalActive = React.useMemo(() => {
+    return allRows.reduce((sum, r) => {
       if (r.status !== "Aktif") return sum;
       return sum + parseIdrLike(r.nominalDenda);
     }, 0);
-    return { sumAll, sumActive };
   }, [allRows]);
 
-  const totalDendaText = React.useMemo(
-    () => formatIdrLike(totals.sumAll),
-    [totals.sumAll],
-  );
-  const totalSisaDendaText = React.useMemo(
-    () => formatIdrLike(totals.sumActive),
-    [totals.sumActive],
-  );
+  const totalDendaText = React.useMemo(() => formatIdrLike(totalActive), [totalActive]);
+  const totalSisaDendaText = totalDendaText;
 
   const COL = {
     no: 44,
@@ -455,7 +447,6 @@ export default function PenaltyDetailDialog({
               toast("Gagal menyimpan denda (prototype)");
             }
           } else {
-            // fallback: tampilkan langsung dalam modal
             setLocalAdds((prev) => [
               ...prev,
               {

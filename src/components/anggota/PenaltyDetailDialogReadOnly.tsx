@@ -169,22 +169,16 @@ export default function PenaltyDetailDialogReadOnly({
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  const totalDenda = React.useMemo(() => {
-    return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
-  }, [filteredRows]);
-
-  const totalSisaDenda = React.useMemo(() => {
-    return filteredRows.reduce((sum, r) => {
+  // ✅ TOTAL DENDA harus sama dengan SISA DENDA => hitung dari yang Aktif saja
+  const totalActive = React.useMemo(() => {
+    return allRows.reduce((sum, r) => {
       if (r.status !== "Aktif") return sum;
       return sum + parseIdrLike(r.nominalDenda);
     }, 0);
-  }, [filteredRows]);
+  }, [allRows]);
 
-  const totalText = React.useMemo(() => formatIdrLike(totalDenda), [totalDenda]);
-  const totalSisaText = React.useMemo(
-    () => formatIdrLike(totalSisaDenda),
-    [totalSisaDenda],
-  );
+  const totalText = React.useMemo(() => formatIdrLike(totalActive), [totalActive]);
+  const totalSisaText = totalText;
 
   const lateDaysPattern = [3, 4, 2] as const;
 
@@ -244,14 +238,12 @@ export default function PenaltyDetailDialogReadOnly({
             className={cn("overflow-auto py-5", contentPadX)}
             style={{ maxHeight: "calc(80vh - 64px - 1px - 64px - 1px)" }}
           >
-            {/* ✅ Container tabel dengan border + overlay left line (tidak ikut scroll) */}
             <div
               className={cn(
                 "relative w-full overflow-hidden rounded-[5px] bg-white",
                 "border border-slate-300",
               )}
             >
-              {/* overlay garis kiri: selalu terlihat walau scroll/subpixel */}
               <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-px bg-slate-300" />
 
               <div className="safe-x-scroll w-full bg-white">
