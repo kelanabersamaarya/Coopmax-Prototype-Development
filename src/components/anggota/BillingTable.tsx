@@ -22,6 +22,8 @@ export type BillingRow = {
 const PENALTY_ROWS = 3;
 const PENALTY_AMOUNT = 75000;
 const PENALTY_DETAIL_DAYS = 3;
+
+// ✅ sesuai request: rincian denda per hari = 25.000
 const PENALTY_PER_DAY = 25000;
 
 function formatDmy(d: Date) {
@@ -332,7 +334,6 @@ export default function BillingTable({
             ) : (
               <>
                 {graceEnabled && graceRows.length > 0 ? (
-                  // === Grace block wrapper (match contoh): border biru + banner inside ===
                   <tr className="border-t border-slate-200">
                     <td colSpan={colCount} className="p-0">
                       <div className="bg-white p-2">

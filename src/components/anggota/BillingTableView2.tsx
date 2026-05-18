@@ -25,9 +25,11 @@ export type BillingRow = {
 };
 
 const PENALTY_ROWS = 3;
-const PENALTY_AMOUNT = 50000; // ✅ default base penalty sekarang 50.000
-const PENALTY_DETAIL_DAYS = 3; // 3 baris detail
-const PENALTY_PER_DAY = Math.round(PENALTY_AMOUNT / PENALTY_DETAIL_DAYS); // ✅ 16.667 (approx) per day
+const PENALTY_AMOUNT = 50000; // default base penalty di tabel: 50.000
+
+// ✅ Detail "Rincian Denda" minta fixed 25.000 per hari (bukan hasil bagi dari base)
+const PENALTY_DETAIL_DAYS = 3;
+const PENALTY_PER_DAY = 25000;
 
 function RowShell({
   children,
