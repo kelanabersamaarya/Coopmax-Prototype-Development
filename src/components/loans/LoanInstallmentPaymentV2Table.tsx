@@ -28,6 +28,7 @@ import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInf
 import { PaymentConfirmModal } from "@/components/anggota/PaymentConfirmModals";
 import { useNavigate } from "react-router-dom";
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
+import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
 
 function Th({
   children,
@@ -313,10 +314,12 @@ function SelectedPinjamanInfo({
   accountNo,
   disabled,
   hideInstallmentInfo = false,
+  onOpenHistory,
 }: {
   accountNo: string;
   disabled: boolean;
   hideInstallmentInfo?: boolean;
+  onOpenHistory: () => void;
 }) {
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   const hasInfo = !!info;
@@ -408,11 +411,7 @@ function SelectedPinjamanInfo({
           icon={History}
           label="Riwayat Transaksi"
           disabled={disabled}
-          onClick={() =>
-            toast("Riwayat Transaksi (prototype)", {
-              description: `Rekening: ${accountNo || "-"}`,
-            })
-          }
+          onClick={onOpenHistory}
           className="bg-[#1aa0b5] ring-[#1aa0b5]/25 hover:bg-[#168ea0]"
         />
         <LoanActionButton
@@ -721,7 +720,11 @@ function PaymentInputBlock({
           <Input value="5.500.002" readOnly className={cn(inputCls, "bg-slate-100")} />
         </div>
 
-        <TabunganField value={tabunganPelunasan} onChange={onTabunganPelunasan} disabled={disabled} />
+        <TabunganField
+          value={tabunganPelunasan}
+          onChange={onTabunganPelunasan}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -755,7 +758,11 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField value={tabunganBakiDebet} onChange={onTabunganBakiDebet} disabled={disabled} />
+        <TabunganField
+          value={tabunganBakiDebet}
+          onChange={onTabunganBakiDebet}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -815,7 +822,11 @@ function PaymentInputBlock({
           />
         </div>
 
-        <TabunganField value={tabunganKhusus} onChange={onTabunganKhusus} disabled={disabled} />
+        <TabunganField
+          value={tabunganKhusus}
+          onChange={onTabunganKhusus}
+          disabled={disabled}
+        />
 
         <div className="grid gap-1.5">
           <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
@@ -1147,6 +1158,9 @@ export default function LoanInstallmentPaymentV2Table({
     null,
   );
 
+  const [historyOpen, setHistoryOpen] = React.useState(false);
+  const [historyAccountNo, setHistoryAccountNo] = React.useState<string>("");
+
   const [rows, setRows] = React.useState<TransactionRowState[]>(() => [makeRow()]);
 
   const transactionNo = "BA/050526/0001";
@@ -1243,6 +1257,12 @@ export default function LoanInstallmentPaymentV2Table({
         onPick={onPick}
       />
 
+      <LoanTransactionHistoryDialog
+        open={historyOpen}
+        onOpenChange={(v) => setHistoryOpen(v)}
+        accountNo={historyAccountNo || "-"}
+      />
+
       <table className="w-full table-fixed border-collapse bg-white">
         <colgroup>
           <col style={{ width: 56 }} />
@@ -1277,7 +1297,12 @@ export default function LoanInstallmentPaymentV2Table({
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
-            const totals: BillTotals = { pokok: "0", bunga: "0", denda: "0", total: "0" };
+            const totals: BillTotals = {
+              pokok: "0",
+              bunga: "0",
+              denda: "0",
+              total: "0",
+            };
 
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
             const pokokLabel = isPelunasan ? "Total Tagihan Pokok" : "Tagihan Pokok";
@@ -1311,6 +1336,11 @@ export default function LoanInstallmentPaymentV2Table({
                     accountNo={row.accountNo}
                     disabled={lockRowUi}
                     hideInstallmentInfo={isBakiDebet || isPelunasan}
+                    onOpenHistory={() => {
+                      if (!row.accountNo.trim()) return;
+                      setHistoryAccountNo(row.accountNo.trim());
+                      setHistoryOpen(true);
+                    }}
                   />
                 </Td>
 
@@ -1319,7 +1349,9 @@ export default function LoanInstallmentPaymentV2Table({
                     open={row.daftarTagihanOpen}
                     onOpenChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, daftarTagihanOpen: v } : x,
+                        ),
                       )
                     }
                     paymentMethod={row.paymentMethod}
@@ -1335,7 +1367,9 @@ export default function LoanInstallmentPaymentV2Table({
                         return;
                       }
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, daftarTagihanOpen: true } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, daftarTagihanOpen: true } : x,
+                        ),
                       );
                     }}
                   />
@@ -1391,13 +1425,17 @@ export default function LoanInstallmentPaymentV2Table({
                     tabunganReguler={row.tabunganReguler}
                     onTabunganReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, tabunganReguler: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, tabunganReguler: v } : x,
+                        ),
                       )
                     }
                     keteranganReguler={row.keteranganReguler}
                     onKeteranganReguler={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, keteranganReguler: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, keteranganReguler: v } : x,
+                        ),
                       )
                     }
                     nominalPokokBakiDebet={row.nominalPokokBakiDebet}
@@ -1411,55 +1449,73 @@ export default function LoanInstallmentPaymentV2Table({
                     tabunganBakiDebet={row.tabunganBakiDebet}
                     onTabunganBakiDebet={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, tabunganBakiDebet: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, tabunganBakiDebet: v } : x,
+                        ),
                       )
                     }
                     keteranganBakiDebet={row.keteranganBakiDebet}
                     onKeteranganBakiDebet={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, keteranganBakiDebet: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, keteranganBakiDebet: v } : x,
+                        ),
                       )
                     }
                     nominalPokokKhusus={row.nominalPokokKhusus}
                     onNominalPokokKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, nominalPokokKhusus: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, nominalPokokKhusus: v } : x,
+                        ),
                       )
                     }
                     nominalBungaKhusus={row.nominalBungaKhusus}
                     onNominalBungaKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, nominalBungaKhusus: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, nominalBungaKhusus: v } : x,
+                        ),
                       )
                     }
                     nominalDendaKhusus={row.nominalDendaKhusus}
                     onNominalDendaKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, nominalDendaKhusus: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, nominalDendaKhusus: v } : x,
+                        ),
                       )
                     }
                     tabunganKhusus={row.tabunganKhusus}
                     onTabunganKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, tabunganKhusus: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, tabunganKhusus: v } : x,
+                        ),
                       )
                     }
                     keteranganKhusus={row.keteranganKhusus}
                     onKeteranganKhusus={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, keteranganKhusus: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, keteranganKhusus: v } : x,
+                        ),
                       )
                     }
                     tabunganPelunasan={row.tabunganPelunasan}
                     onTabunganPelunasan={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, tabunganPelunasan: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, tabunganPelunasan: v } : x,
+                        ),
                       )
                     }
                     keteranganPelunasan={row.keteranganPelunasan}
                     onKeteranganPelunasan={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, keteranganPelunasan: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id ? { ...x, keteranganPelunasan: v } : x,
+                        ),
                       )
                     }
                   />
