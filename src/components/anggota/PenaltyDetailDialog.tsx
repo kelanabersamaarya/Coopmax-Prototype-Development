@@ -223,18 +223,8 @@ export default function PenaltyDetailDialog({
   open: boolean;
   onOpenChange: (v: boolean) => void;
   rows: PenaltyDetailRow[];
-  /**
-   * Context key = nasabahId (sesuai permintaan).
-   * Jika tidak ada, dialog tetap berjalan tapi penambahan tidak dipersist.
-   */
   contextKey?: string;
-  /**
-   * due date dari baris billing (jatuh tempo) — dipakai untuk mapping penambahan denda.
-   */
   dueDateDmy?: string;
-  /**
-   * index global baris billing (sudah termasuk offset pagination) — dipakai untuk mapping penambahan denda.
-   */
   rowIndexGlobal?: number;
 }) {
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
@@ -275,6 +265,9 @@ export default function PenaltyDetailDialog({
 
   const currentUserName = "Arya Dharma";
 
+  const canPersistAdd =
+    !!contextKey && !!dueDateDmy && typeof rowIndexGlobal === "number";
+
   React.useEffect(() => {
     if (!open) return;
 
@@ -287,9 +280,8 @@ export default function PenaltyDetailDialog({
     setCancelDetailTarget(null);
     setAddOpen(false);
 
-    // ✅ LOAD persisted "added penalties" untuk contextKey+row mapping
-    if (contextKey && dueDateDmy && typeof rowIndexGlobal === "number") {
-      const stored = getPenaltyAdds(contextKey).filter(
+    if (canPersistAdd) {
+      const stored = getPenaltyAdds(contextKey!).filter(
         (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === rowIndexGlobal,
       );
 
@@ -312,13 +304,14 @@ export default function PenaltyDetailDialog({
         return next;
       });
     } else {
+      // fallback: tetap bisa tambah denda tapi tidak persist
       setAddedPenalties([]);
       setAddedMeta({});
     }
 
     setAddDetailOpen(false);
     setAddDetailTarget(null);
-  }, [contextKey, dueDateDmy, open, rowIndexGlobal]);
+  }, [canPersistAdd, contextKey, dueDateDmy, open, rowIndexGlobal]);
 
   const allRows: RowWithMeta[] = React.useMemo(() => {
     const seedWithMeta: RowWithMeta[] = rows.map((r, originalIndex) => {
@@ -400,16 +393,12 @@ export default function PenaltyDetailDialog({
 
   const statusCellPad = "px-1.5 py-2";
 
-  const canPersistAdd =
-    !!contextKey && !!dueDateDmy && typeof rowIndexGlobal === "number";
-
   return (
     <>
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={setAddOpen}
         onConfirm={(reason, date, nominalDenda) => {
-          // ✅ persist dulu (kalau punya context)
           if (canPersistAdd) {
             addPenaltyOverride(contextKey!, {
               dueDateDmy: dueDateDmy!,
@@ -421,7 +410,6 @@ export default function PenaltyDetailDialog({
             });
           }
 
-          // ✅ update UI langsung
           setAddedPenalties((prev) => [
             ...prev,
             { tanggalKeterlambatan: date, nominalDenda },
@@ -537,16 +525,7 @@ export default function PenaltyDetailDialog({
               <div className="mb-3 flex justify-end">
                 <button
                   type="button"
-                  onClick={() => {
-                    if (!canPersistAdd) {
-                      toast("Data nasabah belum tersedia", {
-                        description:
-                          "Tidak bisa menyimpan denda karena contextKey (ID nasabah) belum terpasang.",
-                      });
-                      return;
-                    }
-                    setAddOpen(true);
-                  }}
+                  onClick={() => setAddOpen(true)}
                   className={cn(
                     "inline-flex h-9 items-center justify-center gap-2 px-3.5",
                     "rounded-[5px] bg-[#2563eb] text-white",

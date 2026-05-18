@@ -225,7 +225,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
     }
 
     if (isPenurunanBakiDebet) {
-      // checkbox-nya terkunci (isLocked=true), jadi selected harus true supaya ringkasan tidak 0
       setSelected(pagedRows.map(() => true));
       return;
     }
@@ -244,7 +243,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const hasAnySelected = React.useMemo(() => selected.some(Boolean), [selected]);
 
-  // VIEW1: page 2+ hilangkan grace info + kotak biru (wrapper)
   const showGraceHighlight = !penaltyOnlyCols && !feeOnlyCols && page === 1;
 
   const selectedPenaltyTotal = React.useMemo(() => {
@@ -317,9 +315,6 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
 
   const penurunanSisaPokokTotal = React.useMemo(() => {
     if (!isPenurunanBakiDebet) return 0;
-
-    // Karena view ini mengunci selection di tabel penurunan baki debet,
-    // kita selalu pakai total sisaPokok seluruh baris yang ditampilkan.
     return pagedRows.reduce((sum, r) => sum + parseMoneyLikeId(r.sisaPokok), 0);
   }, [isPenurunanBakiDebet, pagedRows]);
 
@@ -484,6 +479,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     disableRowActiveRing
                     rowDensity="default"
                     className="mt-0"
+                    contextKey={nasabah.id}
                   />
                 ) : useView2Style ? (
                   <BillingTableView2
@@ -501,6 +497,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     disableRowRings
                     rowDensity="default"
                     className="mt-0"
+                    contextKey={nasabah.id}
                   />
                 ) : (
                   <div className="billing-table-compact">
@@ -593,10 +590,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                 setTabungan={setTabungan}
                 keterangan={keterangan}
                 setKeterangan={setKeterangan}
-                onPayPenurunanBakiDebet={() => {
-                  // Tidak lagi menghitung sisa dari input nominal.
-                  // Sisa pinjaman mengikuti total sisa tagihan pokok (sisaPokok) dari baris yang ditampilkan.
-                }}
+                onPayPenurunanBakiDebet={() => {}}
               />
             </div>
           </div>
