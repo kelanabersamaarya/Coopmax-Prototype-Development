@@ -150,6 +150,9 @@ export default function DaftarTagihanDialog({
   // ✅ Nasabah ketiga pakai daftar tagihan yang sama seperti nasabah kedua
   const useSecondStyle = isSecondNasabah || isThirdNasabah;
 
+  // ✅ untuk nasabah kedua & ketiga: checklist wajib (checked dan tidak bisa diubah)
+  const lockChecklistForSecondStyle = useSecondStyle;
+
   const rowsAll = React.useMemo(
     () => (useSecondStyle ? seedRowsFor12260002 : seedRows),
     [useSecondStyle],
@@ -177,12 +180,15 @@ export default function DaftarTagihanDialog({
 
   React.useEffect(() => {
     // Default selection by mode:
-    // - Reguler: kosong (user pilih manual)
-    // - Khusus: kosong (user pilih manual)
-    // - Baki Debet: dianggap terpilih (tanpa checkbox)
-    // - Pelunasan: dianggap terpilih (read-only)
+    // - Nasabah 2/3 (useSecondStyle): wajib dicentang semua + tidak bisa diubah
+    // - Baki Debet / Pelunasan: dianggap terpilih (tanpa checkbox)
+    // - Lainnya: kosong (user pilih manual)
+    if (lockChecklistForSecondStyle) {
+      setSelected(rows.map(() => true));
+      return;
+    }
     setSelected(rows.map(() => (isBakiDebet || isPelunasan ? true : false)));
-  }, [isBakiDebet, isPelunasan, rows]);
+  }, [isBakiDebet, isPelunasan, lockChecklistForSecondStyle, rows]);
 
   const showingStart = rowsAll.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rowsAll.length, page * pageSize);
@@ -267,7 +273,8 @@ export default function DaftarTagihanDialog({
                       rows={rows}
                       selected={selected}
                       setSelected={setSelected}
-                      isLocked={false}
+                      // ✅ untuk nasabah 2/3: checklist wajib (locked) tapi checkbox tetap terlihat
+                      isLocked={lockChecklistForSecondStyle}
                       showNextBillInfo={false}
                       showGraceInfo={true}
                       highlightGraceBlock={true}
@@ -397,6 +404,8 @@ export default function DaftarTagihanDialog({
               </button>
             </div>
           </div>
+
+          <div className="sr-only">{showGraceHighlight ? "grace" : "nograce"}</div>
         </div>
       </DialogContent>
     </Dialog>
