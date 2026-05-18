@@ -13,11 +13,13 @@ import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   addPenaltyOverride,
+  addedPenaltyItemId,
   cancelPenaltyItemOverride,
   getPenaltyAdds,
   getPenaltyCanceledItemMeta,
   isPenaltyItemCanceled,
   parseIdrLikeToNumber,
+  seedPenaltyItemId,
 } from "@/lib/penaltyOverridesStore";
 
 export type PenaltyDetailRow = {
@@ -43,6 +45,7 @@ type SourceKind = "seed" | "added";
 type RowWithMeta = PenaltyDetailRow & {
   status: Exclude<StatusValue, "Semua">;
   source: SourceKind;
+  itemId: string; // ✅ unique item id
   meta?: {
     by?: string;
     reason?: string;
@@ -202,6 +205,7 @@ export default function PenaltyDetailDialog({
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
+    penaltyItemId: string;
     penaltyDateDmy: string;
     nominal: string;
   } | null>(null);
@@ -220,12 +224,17 @@ export default function PenaltyDetailDialog({
     reason: string;
   } | null>(null);
 
-  // ✅ fallback adds when we cannot persist (missing contextKey/dueDate/rowIndex)
+  // fallback adds if cannot persist
   const [localAdds, setLocalAdds] = React.useState<
-    Array<{ addDateDmy: string; amountIdrLike: string; reason: string; by: string }>
+    Array<{
+      addDateDmy: string;
+      amountIdrLike: string;
+      reason: string;
+      by: string;
+      itemId: string;
+    }>
   >([]);
 
-  // Trigger re-read localStorage after mutations
   const [refreshTick, setRefreshTick] = React.useState(0);
 
   const currentUserName = "Arya Dharma";
@@ -256,12 +265,14 @@ export default function PenaltyDetailDialog({
 
   const allRows: RowWithMeta[] = React.useMemo(() => {
     const seedWithStatus: RowWithMeta[] = rows.map((r) => {
+      const itemId = seedPenaltyItemId(r.tanggalKeterlambatan);
+
       const canceled = canPersist
         ? isPenaltyItemCanceled({
             contextKey: contextKey!,
             dueDateDmy: dueDateDmy!,
             rowIndexGlobal: rowIndexGlobal!,
-            penaltyDateDmy: r.tanggalKeterlambatan,
+            penaltyItemId: itemId,
           })
         : false;
 
@@ -270,12 +281,13 @@ export default function PenaltyDetailDialog({
             contextKey: contextKey!,
             dueDateDmy: dueDateDmy!,
             rowIndexGlobal: rowIndexGlobal!,
-            penaltyDateDmy: r.tanggalKeterlambatan,
+            penaltyItemId: itemId,
           })
         : null;
 
       return {
         ...r,
+        itemId,
         source: "seed",
         status: canceled ? "Dibatalkan" : "Aktif",
         meta: cancelMeta
@@ -289,12 +301,14 @@ export default function PenaltyDetailDialog({
     });
 
     const addedFromStorage: RowWithMeta[] = storedAddsForRow.map((a) => {
+      const itemId = addedPenaltyItemId(a.id);
+
       const canceled = canPersist
         ? isPenaltyItemCanceled({
             contextKey: contextKey!,
             dueDateDmy: dueDateDmy!,
             rowIndexGlobal: rowIndexGlobal!,
-            penaltyDateDmy: a.addDateDmy,
+            penaltyItemId: itemId,
           })
         : false;
 
@@ -303,13 +317,14 @@ export default function PenaltyDetailDialog({
             contextKey: contextKey!,
             dueDateDmy: dueDateDmy!,
             rowIndexGlobal: rowIndexGlobal!,
-            penaltyDateDmy: a.addDateDmy,
+            penaltyItemId: itemId,
           })
         : null;
 
       return {
         tanggalKeterlambatan: a.addDateDmy,
         nominalDenda: a.amountIdrLike,
+        itemId,
         source: "added",
         status: canceled ? "Dibatalkan" : "Aktif",
         meta: canceled
@@ -329,13 +344,10 @@ export default function PenaltyDetailDialog({
     const addedFromLocal: RowWithMeta[] = localAdds.map((a) => ({
       tanggalKeterlambatan: a.addDateDmy,
       nominalDenda: a.amountIdrLike,
+      itemId: a.itemId,
       source: "added",
       status: "Aktif",
-      meta: {
-        addDate: a.addDateDmy,
-        reason: a.reason,
-        by: a.by,
-      },
+      meta: { addDate: a.addDateDmy, reason: a.reason, by: a.by },
     }));
 
     return [...seedWithStatus, ...addedFromStorage, ...addedFromLocal];
@@ -401,16 +413,22 @@ export default function PenaltyDetailDialog({
 
   const statusCellPad = "px-1.5 py-2";
 
-  function cancelItem(penaltyDateDmyValue: string, amountIdrLike: string, reason: string) {
+  function cancelItem(input: {
+    penaltyItemId: string;
+    penaltyDateDmy: string;
+    amountIdrLike: string;
+    reason: string;
+  }) {
     if (!canPersist) return;
 
     cancelPenaltyItemOverride(contextKey!, {
       dueDateDmy: dueDateDmy!,
       rowIndexGlobal: rowIndexGlobal!,
-      penaltyDateDmy: penaltyDateDmyValue,
-      amountIdrLike,
+      penaltyItemId: input.penaltyItemId,
+      penaltyDateDmy: input.penaltyDateDmy,
+      amountIdrLike: input.amountIdrLike,
       cancelDateDmy: "11-05-2026",
-      reason,
+      reason: input.reason,
       by: currentUserName,
     });
   }
@@ -422,7 +440,7 @@ export default function PenaltyDetailDialog({
         onOpenChange={setAddOpen}
         onConfirm={(reason, date, nominalDenda) => {
           if (canPersist) {
-            addPenaltyOverride(contextKey!, {
+            const created = addPenaltyOverride(contextKey!, {
               dueDateDmy: dueDateDmy!,
               rowIndexGlobal: rowIndexGlobal!,
               amountIdrLike: nominalDenda,
@@ -430,9 +448,14 @@ export default function PenaltyDetailDialog({
               addDateDmy: date,
               by: currentUserName,
             });
+
             setRefreshTick((t) => t + 1);
+
+            if (!created) {
+              toast("Gagal menyimpan denda (prototype)");
+            }
           } else {
-            // fallback: tampilkan langsung dalam modal (tidak persist karena tidak ada context)
+            // fallback: tampilkan langsung dalam modal
             setLocalAdds((prev) => [
               ...prev,
               {
@@ -440,6 +463,7 @@ export default function PenaltyDetailDialog({
                 amountIdrLike: nominalDenda,
                 reason,
                 by: currentUserName,
+                itemId: `local::${Date.now()}-${Math.random().toString(16).slice(2)}`,
               },
             ]);
           }
@@ -478,7 +502,12 @@ export default function PenaltyDetailDialog({
             return;
           }
 
-          cancelItem(cancelTarget.penaltyDateDmy, cancelTarget.nominal, reason);
+          cancelItem({
+            penaltyItemId: cancelTarget.penaltyItemId,
+            penaltyDateDmy: cancelTarget.penaltyDateDmy,
+            amountIdrLike: cancelTarget.nominal,
+            reason,
+          });
 
           setRefreshTick((t) => t + 1);
           showGreenSuccessToast("Berhasil Membatalkan Denda");
@@ -654,7 +683,7 @@ export default function PenaltyDetailDialog({
 
                         return (
                           <tr
-                            key={`${r.tanggalKeterlambatan}-${r.source}-${idx}`}
+                            key={`${r.itemId}-${idx}`}
                             className={cn(
                               "border-t border-slate-300/70",
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
@@ -696,6 +725,7 @@ export default function PenaltyDetailDialog({
                                   <CancelPenaltyButton
                                     onClick={() => {
                                       setCancelTarget({
+                                        penaltyItemId: r.itemId,
                                         penaltyDateDmy: r.tanggalKeterlambatan,
                                         nominal: r.nominalDenda,
                                       });
