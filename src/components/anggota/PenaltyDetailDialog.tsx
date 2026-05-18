@@ -365,7 +365,6 @@ export default function PenaltyDetailDialog({
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  // ✅ TOTAL DENDA harus sama dengan SISA DENDA => hitung dari yang Aktif saja
   const totalActive = React.useMemo(() => {
     return allRows.reduce((sum, r) => {
       if (r.status !== "Aktif") return sum;
@@ -645,7 +644,7 @@ export default function PenaltyDetailDialog({
                         const isCanceled = r.status === "Dibatalkan";
 
                         const statusInfoRows: InfoRow = (() => {
-                          if (r.source === "added" && r.meta?.addDate) {
+                          if (r.source === "added" && r.meta?.addDate && !isCanceled) {
                             return [
                               { k: "Tanggal penambahan", v: r.meta.addDate ?? "-" },
                               { k: "Alasan penambahan", v: r.meta.reason ?? "-" },
@@ -664,10 +663,15 @@ export default function PenaltyDetailDialog({
                           return [];
                         })();
 
-                        const keterlambatanText =
-                          r.source === "added"
+                        // ✅ Request: jika dibatalkan, kolom keterlambatan menampilkan tanggal pembatalan
+                        const keterlambatanText = isCanceled
+                          ? r.meta?.cancelDate ?? "-"
+                          : r.source === "added"
                             ? "Denda Ditambahkan Manual"
                             : String(idx + 3);
+
+                        // kolom tanggal tetap tanggal denda dibuat
+                        const tanggalDendaText = r.tanggalKeterlambatan;
 
                         const dendaValue = r.nominalDenda;
                         const sisaDendaValue = r.status === "Aktif" ? r.nominalDenda : "0";
@@ -688,7 +692,7 @@ export default function PenaltyDetailDialog({
                               </div>
                             </td>
 
-                            <td className={cn(tdBase)}>{r.tanggalKeterlambatan}</td>
+                            <td className={cn(tdBase)}>{tanggalDendaText}</td>
 
                             <td className="px-2 py-2 text-right text-[12px] font-normal text-slate-900 tabular-nums whitespace-nowrap">
                               {dendaValue}

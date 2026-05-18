@@ -169,7 +169,6 @@ export default function PenaltyDetailDialogReadOnly({
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  // ✅ TOTAL DENDA harus sama dengan SISA DENDA => hitung dari yang Aktif saja
   const totalActive = React.useMemo(() => {
     return allRows.reduce((sum, r) => {
       if (r.status !== "Aktif") return sum;
@@ -297,10 +296,15 @@ export default function PenaltyDetailDialogReadOnly({
                         const lateDays =
                           lateDaysPattern[idx % lateDaysPattern.length];
 
+                        const isCanceled = r.status === "Dibatalkan";
+
+                        // (prototype) meta untuk dibatalkan
+                        const cancelDate = "11-05-2026";
+
                         const statusInfoRows: Array<{ k: string; v: string }> =
-                          r.status === "Dibatalkan"
+                          isCanceled
                             ? [
-                                { k: "Tanggal pembatalan", v: "11-05-2026" },
+                                { k: "Tanggal pembatalan", v: cancelDate },
                                 {
                                   k: "Alasan pembatalan",
                                   v: "Denda dibatalkan berdasarkan hasil penyesuaian transaksi pembayaran.",
@@ -308,6 +312,12 @@ export default function PenaltyDetailDialogReadOnly({
                                 { k: "Dibatalkan oleh", v: "Arya Dharma" },
                               ]
                             : [];
+
+                        // ✅ Request: jika dibatalkan, kolom keterlambatan menampilkan tanggal pembatalan
+                        const keterlambatanCellText = isCanceled ? cancelDate : String(lateDays);
+
+                        // kolom tanggal tetap tanggal denda dibuat
+                        const tanggalDendaText = r.tanggalKeterlambatan;
 
                         const sisaDendaText = r.status === "Aktif" ? r.nominalDenda : "0";
 
@@ -324,11 +334,13 @@ export default function PenaltyDetailDialogReadOnly({
                             </td>
 
                             <td className={bodyWrapCls}>
-                              <CellText>{lateDays}</CellText>
+                              <CellText title={keterlambatanCellText}>
+                                {keterlambatanCellText}
+                              </CellText>
                             </td>
 
                             <td className={bodyWrapCls}>
-                              <CellText>{r.tanggalKeterlambatan}</CellText>
+                              <CellText>{tanggalDendaText}</CellText>
                             </td>
 
                             <td className={bodyWrapRightCls}>
