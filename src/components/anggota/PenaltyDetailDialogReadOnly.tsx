@@ -169,11 +169,22 @@ export default function PenaltyDetailDialogReadOnly({
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
 
-  const total = React.useMemo(() => {
+  const totalDenda = React.useMemo(() => {
     return filteredRows.reduce((sum, r) => sum + parseIdrLike(r.nominalDenda), 0);
   }, [filteredRows]);
 
-  const totalText = React.useMemo(() => formatIdrLike(total), [total]);
+  const totalSisaDenda = React.useMemo(() => {
+    return filteredRows.reduce((sum, r) => {
+      if (r.status !== "Aktif") return sum;
+      return sum + parseIdrLike(r.nominalDenda);
+    }, 0);
+  }, [filteredRows]);
+
+  const totalText = React.useMemo(() => formatIdrLike(totalDenda), [totalDenda]);
+  const totalSisaText = React.useMemo(
+    () => formatIdrLike(totalSisaDenda),
+    [totalSisaDenda],
+  );
 
   const lateDaysPattern = [3, 4, 2] as const;
 
@@ -195,7 +206,7 @@ export default function PenaltyDetailDialogReadOnly({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1.25rem)] sm:w-[720px] sm:max-w-[720px]",
+          "w-[calc(100vw-1.25rem)] sm:w-[780px] sm:max-w-[780px]",
           "max-h-[80vh]",
           "overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
@@ -244,7 +255,7 @@ export default function PenaltyDetailDialogReadOnly({
               <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-px bg-slate-300" />
 
               <div className="safe-x-scroll w-full bg-white">
-                <table className="w-full min-w-[640px] border-collapse text-[12px]">
+                <table className="w-full min-w-[720px] border-collapse text-[12px]">
                   <thead className="bg-slate-50">
                     <tr className="border-b border-slate-200">
                       <th className={cn(headerWrapCls, "w-[72px]")}>NO.</th>
@@ -253,10 +264,12 @@ export default function PenaltyDetailDialogReadOnly({
                       </th>
                       <th className={cn(headerWrapCls, "w-[140px]")}>TANGGAL</th>
                       <th className={cn(headerWrapCls, "w-[140px]")}>DENDA</th>
+                      <th className={cn(headerWrapCls, "w-[140px]")}>SISA DENDA</th>
                       <th className={cn(headerWrapCls, "min-w-[160px]")}>STATUS</th>
                     </tr>
 
                     <tr className="border-b border-slate-200 bg-white">
+                      <th className="px-4 py-2" />
                       <th className="px-4 py-2" />
                       <th className="px-4 py-2" />
                       <th className="px-4 py-2" />
@@ -281,7 +294,7 @@ export default function PenaltyDetailDialogReadOnly({
                     {filteredRows.length === 0 ? (
                       <tr>
                         <td
-                          colSpan={5}
+                          colSpan={6}
                           className="px-4 py-10 text-center text-[12px] text-slate-600"
                         >
                           Tidak ada rincian denda.
@@ -303,6 +316,8 @@ export default function PenaltyDetailDialogReadOnly({
                                 { k: "Dibatalkan oleh", v: "Arya Dharma" },
                               ]
                             : [];
+
+                        const sisaDendaText = r.status === "Aktif" ? r.nominalDenda : "0";
 
                         return (
                           <tr
@@ -328,6 +343,10 @@ export default function PenaltyDetailDialogReadOnly({
                               <CellText className="text-right">
                                 {r.nominalDenda}
                               </CellText>
+                            </td>
+
+                            <td className={bodyWrapRightCls}>
+                              <CellText className="text-right">{sisaDendaText}</CellText>
                             </td>
 
                             <td className={bodyWrapCls}>
@@ -356,6 +375,10 @@ export default function PenaltyDetailDialogReadOnly({
 
                       <td className="px-4 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
                         {totalText}
+                      </td>
+
+                      <td className="px-4 py-3 text-right text-[12px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">
+                        {totalSisaText}
                       </td>
 
                       <td className="px-4 py-3" />
