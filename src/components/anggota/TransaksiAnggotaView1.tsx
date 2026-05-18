@@ -42,6 +42,7 @@ import {
   calcKhususSelectedTotals,
   formatIdr0,
 } from "@/components/anggota/khusus-selected-totals";
+import { makePenaltyContextKey } from "@/lib/penaltyContext";
 
 type Props = {
   nasabah: {
@@ -156,6 +157,11 @@ function normalizeMode(v: string | null | undefined) {
 const PELUNASAN_DENDA_FLAT = 215000;
 
 export default function TransaksiAnggotaView1({ nasabah }: Props) {
+  const penaltyContextKey = React.useMemo(
+    () => makePenaltyContextKey(nasabah.id, "anggota-view1"),
+    [nasabah.id],
+  );
+
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
     "Pembayaran Reguler",
@@ -479,7 +485,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     disableRowActiveRing
                     rowDensity="default"
                     className="mt-0"
-                    contextKey={nasabah.id}
+                    contextKey={penaltyContextKey}
                   />
                 ) : useView2Style ? (
                   <BillingTableView2
@@ -497,7 +503,7 @@ export default function TransaksiAnggotaView1({ nasabah }: Props) {
                     disableRowRings
                     rowDensity="default"
                     className="mt-0"
-                    contextKey={nasabah.id}
+                    contextKey={penaltyContextKey}
                   />
                 ) : (
                   <div className="billing-table-compact">

@@ -49,6 +49,7 @@ import {
   formatIdr0,
 } from "@/components/anggota/khusus-selected-totals";
 import { TX } from "@/components/anggota/transaction-types";
+import { makePenaltyContextKey, type PenaltyViewScope } from "@/lib/penaltyContext";
 
 type Props = {
   nasabah: {
@@ -59,6 +60,7 @@ type Props = {
   };
   skemaTagihanLabel?: string;
   hideNextBillInfo?: boolean;
+  penaltyScope?: PenaltyViewScope;
 };
 
 const currentBill: BillingRow = {
@@ -200,7 +202,13 @@ export default function TransaksiAnggotaView2({
   nasabah,
   skemaTagihanLabel,
   hideNextBillInfo = false,
+  penaltyScope = "anggota-view2",
 }: Props) {
+  const penaltyContextKey = React.useMemo(
+    () => makePenaltyContextKey(nasabah.id, penaltyScope),
+    [nasabah.id, penaltyScope],
+  );
+
   const [tanggalEfektif, setTanggalEfektif] = React.useState("25-03-2026");
   const [jenisTransaksi, setJenisTransaksi] = React.useState<TransactionType>(
     TX.REGULER,
@@ -280,7 +288,6 @@ export default function TransaksiAnggotaView2({
     }
 
     if (isKhusus) {
-      // VIEW2/3: Pembayaran Khusus default tercentang
       setSelected(rowsToShow.map(() => true));
       return;
     }
@@ -470,6 +477,14 @@ export default function TransaksiAnggotaView2({
     selectedPenaltyTotal,
   ]);
 
+  const disableRowChrome = !isPenurunanBakiDebet;
+
+  const compactTableWrap = cn(
+    "[&_.bg-white.px-3.py-3]:!py-1.5",
+    "[&_.px-4.py-4]:!py-2",
+    "[&_.billing-table-compact_td]:!py-2.5 [&_.billing-table-compact_th]:!py-2.5",
+  );
+
   return (
     <div className="w-full px-0">
       <div className="space-y-5">
@@ -570,16 +585,7 @@ export default function TransaksiAnggotaView2({
 
               <Separator className="my-3 bg-slate-200/70" />
 
-              <div
-                className={cn(
-                  compactRowsForView2
-                    ? [
-                        "[&_.bg-white.px-3.py-3]:!py-1.5",
-                        "[&_.px-4.py-4]:!py-2",
-                      ].join(" ")
-                    : "",
-                )}
-              >
+              <div className={compactTableWrap}>
                 <BillingTableView2
                   rows={rowsToShow}
                   selected={selected}
@@ -592,9 +598,9 @@ export default function TransaksiAnggotaView2({
                   hideSelection={isPenurunanBakiDebet}
                   showPenaltyColumn={!isPenurunanBakiDebet}
                   disableRowActiveRing={true}
-                  disableRowRings={isPenurunanBakiDebet}
+                  disableRowRings={disableRowChrome}
                   penaltyIndexOffset={penaltyIndexOffset}
-                  contextKey={nasabah.id}
+                  contextKey={penaltyContextKey}
                 />
               </div>
 
@@ -625,6 +631,7 @@ export default function TransaksiAnggotaView2({
                 installment={{ ke: "10", lunas: "9", seharusnya: "9" }}
                 transactionType={jenisTransaksi as any}
                 onTransactionTypeChange={(v: any) => setJenisTransaksi(v)}
+                hasAnySelected={selected.some(Boolean)}
               />
 
               <TransactionFormCardView2

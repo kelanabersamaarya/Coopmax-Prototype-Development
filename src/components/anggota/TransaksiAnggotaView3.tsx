@@ -17,6 +17,7 @@ export default function TransaksiAnggotaView3({ nasabah }: Props) {
     <TransaksiAnggotaView2
       nasabah={nasabah}
       skemaTagihanLabel="Tagihan Dihitung dari Sisa Saldo Pokok"
+      penaltyScope="anggota-view3"
     />
   );
 }
