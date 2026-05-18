@@ -1305,14 +1305,17 @@ export default function LoanInstallmentPaymentV2Table({
               total: "6.058.332",
             };
 
-            const totals: BillTotals = isKhusus || isPelunasan ? exampleTotals : {
-              pokok: "0",
-              bunga: "0",
-              denda: "0",
-              total: "0",
-            };
+            const totals: BillTotals =
+              isKhusus || isPelunasan
+                ? exampleTotals
+                : {
+                    pokok: "0",
+                    bunga: "0",
+                    denda: "0",
+                    total: "0",
+                  };
 
-            const totalsLabel = "Total Tagihan";
+            const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
             const pokokLabel = "Tagihan Pokok";
             const bungaLabel = "Tagihan Bunga";
             const dendaLabel = "Tagihan Denda";
