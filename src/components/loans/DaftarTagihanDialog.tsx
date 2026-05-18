@@ -93,25 +93,62 @@ const seedRows: BillingRow[] = [
   },
 ];
 
+const seedRowsFor12260002: BillingRow[] = [
+  {
+    jatuhTempo: "25-01-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "0,00",
+    tagihanBunga: "83.333",
+    sisaPokok: "0,00",
+    sisaBunga: "26.389",
+  },
+];
+
 type PaymentMethod =
   | "Pembayaran Reguler"
   | "Pembayaran Penurunan Baki Debet"
   | "Pembayaran Khusus"
   | "Pelunasan";
 
+function NextBillInfoBannerLikeReference() {
+  return (
+    <div className="rounded-[5px] border border-slate-200 bg-white px-4 py-4">
+      <div className="flex items-center gap-4">
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
+          <span className="text-base font-extrabold">i</span>
+        </span>
+
+        <div className="min-w-0 text-sm font-medium text-slate-900">
+          Tagihan berikutnya akan diterbitkan pada{" "}
+          <span className="font-extrabold text-[#3366FF]">20 April 2025</span>{" "}
+          dan jatuh tempo pada{" "}
+          <span className="font-extrabold text-[#3366FF]">5 Mei 2025</span>.
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function DaftarTagihanDialog({
   open,
   onOpenChange,
   paymentMethod = "Pembayaran Reguler",
+  accountNo,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   paymentMethod?: PaymentMethod;
+  accountNo?: string;
 }) {
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isPelunasan = paymentMethod === "Pelunasan";
 
-  const rowsAll = React.useMemo(() => seedRows, []);
+  const isSecondNasabah = (accountNo ?? "").trim() === "12260002";
+
+  const rowsAll = React.useMemo(
+    () => (isSecondNasabah ? seedRowsFor12260002 : seedRows),
+    [isSecondNasabah],
+  );
 
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState(1);
@@ -119,9 +156,10 @@ export default function DaftarTagihanDialog({
   const pageCount = Math.max(1, Math.ceil(rowsAll.length / pageSize));
 
   const rows = React.useMemo(() => {
+    if (isSecondNasabah) return rowsAll; // tampil 1 baris seperti referensi
     const start = (page - 1) * pageSize;
     return rowsAll.slice(start, start + pageSize);
-  }, [page, pageSize, rowsAll]);
+  }, [isSecondNasabah, page, pageSize, rowsAll]);
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
     rows.map(() => false),
@@ -164,8 +202,11 @@ export default function DaftarTagihanDialog({
   const hideSelection = isBakiDebet || isPelunasan;
   const showPenaltyColumn = !isBakiDebet;
 
-  // lock hanya untuk Baki Debet & Pelunasan
   const isLocked = isBakiDebet || isPelunasan;
+
+  const showGraceHighlight = page === 1;
+
+  const title = isSecondNasabah ? "INFORMASI TAGIHAN DAN DENDA" : "Daftar Tagihan";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -186,7 +227,7 @@ export default function DaftarTagihanDialog({
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 px-6 py-4">
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
-              Daftar Tagihan
+              {title}
             </div>
 
             <button
@@ -206,62 +247,97 @@ export default function DaftarTagihanDialog({
             className="overflow-auto px-5 py-5 sm:px-6"
             style={{ maxHeight: `calc(85vh - 64px - 1px - ${footerH}px)` }}
           >
-            <div
-              className={cn(
-                "[&_.bg-white.px-3.py-3]:!py-1.5",
-                "[&_.px-4.py-4]:!py-2",
-              )}
-            >
-              <BillingTableView2
-                rows={rows}
-                selected={selected}
-                setSelected={setSelected}
-                isLocked={isLocked}
-                showNextBillInfo={false}
-                showGraceInfo={page === 1}
-                highlightGraceBlock={page === 1}
-                keepGraceShellWithoutInfo={false}
-                hideSelection={hideSelection}
-                showPenaltyColumn={showPenaltyColumn}
-                disableRowRings={hideSelection}
-                disableRowActiveRing={hideSelection}
-                penaltyIndexOffset={(page - 1) * pageSize}
-                className="mt-0"
-              />
-            </div>
+            {isSecondNasabah ? (
+              <div>
+                <NextBillInfoBannerLikeReference />
 
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-[14px] text-slate-900">
-                Menampilkan {showingStart} sampai {showingEnd} dari {rowsAll.length}{" "}
-                entri
+                <div className="mt-4">
+                  <div
+                    className={cn(
+                      "[&_.bg-white.px-3.py-3]:!py-1.5",
+                      "[&_.px-4.py-4]:!py-2",
+                    )}
+                  >
+                    <BillingTableView2
+                      rows={rows}
+                      selected={selected}
+                      setSelected={setSelected}
+                      isLocked={false}
+                      showNextBillInfo={false}
+                      showGraceInfo={true}
+                      highlightGraceBlock={true}
+                      keepGraceShellWithoutInfo={false}
+                      hideSelection={false}
+                      showPenaltyColumn={true}
+                      penaltyContentEnabled={true}
+                      disableRowRings={true}
+                      disableRowActiveRing={true}
+                      penaltyIndexOffset={0}
+                      className="mt-0"
+                    />
+                  </div>
+                </div>
               </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  className={pagerBtn(page <= 1)}
-                  disabled={page <= 1}
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+            ) : (
+              <>
+                <div
+                  className={cn(
+                    "[&_.bg-white.px-3.py-3]:!py-1.5",
+                    "[&_.px-4.py-4]:!py-2",
+                  )}
                 >
-                  <ChevronLeft className="h-5 w-5 text-slate-500" />
-                  Sebelumnya
-                </button>
-
-                <div className="inline-flex h-11 min-w-11 items-center justify-center rounded-2xl bg-violet-600 px-5 text-[14px] font-extrabold text-white">
-                  {page}
+                  <BillingTableView2
+                    rows={rows}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isLocked={isLocked}
+                    showNextBillInfo={false}
+                    showGraceInfo={page === 1}
+                    highlightGraceBlock={page === 1}
+                    keepGraceShellWithoutInfo={false}
+                    hideSelection={hideSelection}
+                    showPenaltyColumn={showPenaltyColumn}
+                    disableRowRings={hideSelection}
+                    disableRowActiveRing={hideSelection}
+                    penaltyIndexOffset={(page - 1) * pageSize}
+                    className="mt-0"
+                  />
                 </div>
 
-                <button
-                  type="button"
-                  className={pagerBtn(page >= pageCount)}
-                  disabled={page >= pageCount}
-                  onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
-                >
-                  Selanjutnya
-                  <ChevronRight className="h-5 w-5 text-slate-500" />
-                </button>
-              </div>
-            </div>
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="text-[14px] text-slate-900">
+                    Menampilkan {showingStart} sampai {showingEnd} dari {rowsAll.length}{" "}
+                    entri
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      className={pagerBtn(page <= 1)}
+                      disabled={page <= 1}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    >
+                      <ChevronLeft className="h-5 w-5 text-slate-500" />
+                      Sebelumnya
+                    </button>
+
+                    <div className="inline-flex h-11 min-w-11 items-center justify-center rounded-2xl bg-violet-600 px-5 text-[14px] font-extrabold text-white">
+                      {page}
+                    </div>
+
+                    <button
+                      type="button"
+                      className={pagerBtn(page >= pageCount)}
+                      disabled={page >= pageCount}
+                      onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+                    >
+                      Selanjutnya
+                      <ChevronRight className="h-5 w-5 text-slate-500" />
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           <Separator className="bg-slate-200" />
@@ -284,7 +360,7 @@ export default function DaftarTagihanDialog({
               <button
                 type="button"
                 onClick={() => {
-                  if (!hideSelection) {
+                  if (!hideSelection && !isSecondNasabah) {
                     const count = selected.filter(Boolean).length;
                     if (count === 0) {
                       toast("Pilih minimal 1 tagihan", {

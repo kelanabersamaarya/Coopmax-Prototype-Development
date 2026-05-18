@@ -1297,7 +1297,6 @@ export default function LoanInstallmentPaymentV2Table({
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
-            // Sesuai contoh (gambar): ringkasan tagihan untuk Khusus & Pelunasan memakai nominal ini.
             const exampleTotals: BillTotals = {
               pokok: "5.333.334",
               bunga: "499.998",
@@ -1366,6 +1365,7 @@ export default function LoanInstallmentPaymentV2Table({
                       )
                     }
                     paymentMethod={row.paymentMethod}
+                    accountNo={row.accountNo}
                   />
 
                   <DaftarTagihanTopButton
