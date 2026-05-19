@@ -162,26 +162,24 @@ export default function ObsSamudraHarta() {
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
 
-  const [qNama, setQNama] = React.useState<string>("-- Semua --");
+  // ✅ NAMA sekarang pakai input text saja (tanpa dropdown "-- Semua --")
+  const [qNama, setQNama] = React.useState<string>("");
+
   const [qPhone, setQPhone] = React.useState("");
   const [qEmail, setQEmail] = React.useState("");
   const [qAlamat, setQAlamat] = React.useState("");
   const [qTanggal, setQTanggal] = React.useState("");
   const [qProduk, setQProduk] = React.useState<ProductType>("-- Semua --");
 
-  const nameOptions = React.useMemo(() => {
-    const set = new Set(rows.map((r) => r.nama));
-    return ["-- Semua --", ...Array.from(set)];
-  }, [rows]);
-
   const filtered = React.useMemo(() => {
+    const namaQ = qNama.trim().toLowerCase();
     const phoneQ = qPhone.trim().toLowerCase();
     const emailQ = qEmail.trim().toLowerCase();
     const alamatQ = qAlamat.trim().toLowerCase();
     const tglQ = qTanggal.trim().toLowerCase();
 
     return rows.filter((r) => {
-      const okNama = qNama === "-- Semua --" ? true : r.nama === qNama;
+      const okNama = namaQ ? r.nama.toLowerCase().includes(namaQ) : true;
       const okPhone = phoneQ ? r.phone.toLowerCase().includes(phoneQ) : true;
       const okEmail = emailQ ? r.email.toLowerCase().includes(emailQ) : true;
       const okAlamat = alamatQ ? r.alamat.toLowerCase().includes(alamatQ) : true;
@@ -218,9 +216,6 @@ export default function ObsSamudraHarta() {
 
   const filterInputCls =
     "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
-
-  const filterSelectTriggerCls =
-    "h-9 rounded-[6px] border-slate-300 bg-[#F1F5F9] text-[13px] font-semibold shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const produkSelectTriggerCls =
     "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
@@ -290,29 +285,14 @@ export default function ObsSamudraHarta() {
                   <tr className="border-b border-slate-200 bg-white">
                     <th className={filterCell} />
 
+                    {/* ✅ Filter NAMA: input text saja */}
                     <th className={filterCell}>
-                      <Select value={qNama} onValueChange={setQNama}>
-                        <SelectTrigger className={filterSelectTriggerCls}>
-                          <SelectValue placeholder="NAMA" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          {nameOptions.map((n) => (
-                            <SelectItem key={n} value={n}>
-                              {n}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <div className="mt-2">
-                        <Input
-                          value=""
-                          onChange={() => {}}
-                          className={filterInputCls}
-                          placeholder=""
-                          readOnly
-                        />
-                      </div>
+                      <Input
+                        value={qNama}
+                        onChange={(e) => setQNama(e.target.value)}
+                        className={filterInputCls}
+                        placeholder=""
+                      />
                     </th>
 
                     <th className={filterCell}>
@@ -370,14 +350,21 @@ export default function ObsSamudraHarta() {
                     </th>
 
                     <th className={filterCell}>
-                      <Select value={qProduk} onValueChange={(v) => setQProduk(v as ProductType)}>
+                      <Select
+                        value={qProduk}
+                        onValueChange={(v) => setQProduk(v as ProductType)}
+                      >
                         <SelectTrigger className={produkSelectTriggerCls}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                          <SelectItem value="Produk Pinjaman">Produk Pinjaman</SelectItem>
-                          <SelectItem value="Produk Tabungan">Produk Tabungan</SelectItem>
+                          <SelectItem value="Produk Pinjaman">
+                            Produk Pinjaman
+                          </SelectItem>
+                          <SelectItem value="Produk Tabungan">
+                            Produk Tabungan
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </th>
@@ -445,7 +432,8 @@ export default function ObsSamudraHarta() {
 
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="text-[14px] text-slate-900">
-              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length} entri
+              Menampilkan {showingStart} sampai {showingEnd} dari {filtered.length}{" "}
+              entri
             </div>
 
             <PaginationBar page={page} pageCount={pageCount} onPage={setPage} />
