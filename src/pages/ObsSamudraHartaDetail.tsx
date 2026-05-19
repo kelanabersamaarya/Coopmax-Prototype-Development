@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, XCircle } from "lucide-react";
 
 type ProductType = "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "Diajukan" | "Diproses" | "Ditolak";
@@ -170,12 +170,53 @@ function InsetDivider() {
   );
 }
 
+type StatusHistoryRow = {
+  no: number;
+  status: string;
+  tanggal: string;
+  diubahOleh: string;
+  deskripsi: string;
+};
+
+const statusHistorySeed: StatusHistoryRow[] = [
+  {
+    no: 1,
+    status: "Aktif / Sudah Dicairkan",
+    tanggal: "07-04-2026",
+    diubahOleh: "Gusman",
+    deskripsi: "tess",
+  },
+  {
+    no: 2,
+    status: "Disetujui",
+    tanggal: "07-04-2026",
+    diubahOleh: "Gusman",
+    deskripsi: "Tes",
+  },
+  {
+    no: 3,
+    status: "Diajukan",
+    tanggal: "07-04-2026",
+    diubahOleh: "Gusman",
+    deskripsi: "Tes",
+  },
+];
+
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
   const id = params.id ?? "";
 
   const data = React.useMemo(() => seed.find((r) => r.id === id) ?? null, [id]);
+
+  const [history, setHistory] = React.useState<StatusHistoryRow[]>(
+    () => statusHistorySeed,
+  );
+
+  React.useEffect(() => {
+    // reset state sederhana saat pindah detail
+    setHistory(statusHistorySeed);
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -280,6 +321,109 @@ export default function ObsSamudraHartaDetail() {
                             Tidak ada file.
                           </td>
                         </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* divider inset */}
+              <InsetDivider />
+
+              {/* INFORMASI FILE */}
+              <div className="px-6 pb-6 pt-4 sm:px-10 sm:pb-8">
+                <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                  INFORMASI FILE
+                </div>
+
+                <div className="mt-4 text-[14px] font-medium text-slate-700">
+                  Tidak ada file yang diupload
+                </div>
+              </div>
+
+              {/* divider inset */}
+              <InsetDivider />
+
+              {/* RIWAYAT PERUBAHAN STATUS */}
+              <div className="px-6 pb-7 pt-4 sm:px-10 sm:pb-9">
+                <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                  RIWAYAT PERUBAHAN STATUS
+                </div>
+
+                <div className="mt-4 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
+                  <div className="safe-x-scroll">
+                    <table className="w-full min-w-[980px] border-collapse bg-white">
+                      <thead className="bg-white">
+                        <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
+                          <th className="w-[80px] px-4 py-4">NO.</th>
+                          <th className="w-[320px] px-4 py-4">STATUS</th>
+                          <th className="w-[180px] px-4 py-4">TANGGAL</th>
+                          <th className="w-[180px] px-4 py-4">DIUBAH OLEH</th>
+                          <th className="min-w-[360px] px-4 py-4">DESKRIPSI</th>
+                          <th className="w-[120px] px-4 py-4 text-center">
+                            AKSI
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {history.length === 0 ? (
+                          <tr>
+                            <td
+                              colSpan={6}
+                              className="px-4 py-10 text-center text-sm text-slate-600"
+                            >
+                              Belum ada riwayat.
+                            </td>
+                          </tr>
+                        ) : (
+                          history.map((r, idx) => (
+                            <tr
+                              key={r.no}
+                              className={cn(
+                                "border-t border-slate-100 text-[14px]",
+                                idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                              )}
+                            >
+                              <td className="px-4 py-5 text-slate-900 tabular-nums">
+                                {r.no}
+                              </td>
+                              <td className="px-4 py-5 font-extrabold text-slate-900">
+                                {r.status}
+                              </td>
+                              <td className="px-4 py-5 text-slate-900 tabular-nums whitespace-nowrap">
+                                {r.tanggal}
+                              </td>
+                              <td className="px-4 py-5 text-slate-900">
+                                {r.diubahOleh}
+                              </td>
+                              <td className="px-4 py-5 text-slate-900">
+                                {r.deskripsi}
+                              </td>
+                              <td className="px-4 py-5">
+                                <div className="flex justify-center">
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setHistory((prev) =>
+                                        prev.filter((x) => x.no !== r.no),
+                                      )
+                                    }
+                                    className={cn(
+                                      "inline-flex h-11 w-11 items-center justify-center rounded-full",
+                                      "bg-rose-50 text-rose-600 ring-1 ring-rose-200",
+                                      "transition hover:bg-white",
+                                    )}
+                                    aria-label="Hapus"
+                                    title="Hapus"
+                                  >
+                                    <XCircle className="h-5 w-5" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        )}
                       </tbody>
                     </table>
                   </div>
