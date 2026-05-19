@@ -193,7 +193,11 @@ export default function ObsSamudraHartaDetail() {
                 {/* Panel teal */}
                 <div className="mt-5">
                   <TealInfoPanel
-                    title={data.produk === "Produk Pinjaman" ? "Pinjaman Koperasi" : "TABUNGAN"}
+                    title={
+                      data.produk === "Produk Pinjaman"
+                        ? "PINJAMAN KOPERASI"
+                        : "TABUNGAN"
+                    }
                     items={[
                       { label: "Nama Pendaftar", value: data.nama },
                       { label: "Nomor Telepon", value: data.phone },
