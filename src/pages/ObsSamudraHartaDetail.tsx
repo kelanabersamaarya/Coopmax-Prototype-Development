@@ -82,26 +82,6 @@ const seed: Row[] = [
   },
 ];
 
-function Pill({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <span
-      className={cn(
-        "inline-flex h-8 min-w-[300px] items-center justify-center rounded-[3px]",
-        "px-4 text-[13px] font-extrabold text-white",
-        className,
-      )}
-    >
-      {children}
-    </span>
-  );
-}
-
 function productTypeLabel(produk: ProductType) {
   if (produk === "Produk Pinjaman") return "Pinjaman Koperasi";
   return "Tabungan";
@@ -163,9 +143,6 @@ export default function ObsSamudraHartaDetail() {
 
   const data = React.useMemo(() => seed.find((r) => r.id === id) ?? null, [id]);
 
-  const productPillCls = "bg-[#3BB001] ring-1 ring-[#3BB001]/25";
-  const typePillCls = "bg-[#2563EB] ring-1 ring-[#2563EB]/25";
-
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -212,25 +189,23 @@ export default function ObsSamudraHartaDetail() {
                 INFORMASI PENDAFTAR BARU
               </div>
 
-              {/* ✅ Layout diubah jadi panel teal seperti referensi */}
+              {/* Panel teal */}
               <div className="mt-5">
                 <TealInfoPanel
-                  title={data.produk === "Produk Pinjaman" ? "PINJAMAN BULANAN 9" : "TABUNGAN"}
+                  title={
+                    data.produk === "Produk Pinjaman" ? "PINJAMAN BULANAN 9" : "TABUNGAN"
+                  }
                   items={[
                     { label: "Nama Pendaftar", value: data.nama },
                     { label: "Nomor Telepon", value: data.phone },
                     { label: "Email", value: data.email },
                     { label: "Alamat", value: data.alamat },
                     { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
-                    { label: "Produk", value: <Pill className={productPillCls}>{data.produk}</Pill> },
-                    {
-                      label: "Tipe Produk",
-                      value: (
-                        <Pill className={typePillCls}>
-                          {productTypeLabel(data.produk)}
-                        </Pill>
-                      ),
-                    },
+
+                    // ✅ sekarang teks biasa
+                    { label: "Produk", value: data.produk },
+                    { label: "Tipe Produk", value: productTypeLabel(data.produk) },
+
                     { label: "Status", value: data.status === "Ditolak" ? "Ditolak" : "Diproses" },
                   ]}
                 />
