@@ -124,11 +124,7 @@ export default function Dashboard() {
             subtitle="Menu OBS untuk monitoring & aktivitas operasional (prototype)."
             icon={Landmark}
             accent="emerald"
-            onClick={() =>
-              toast("OBS Samudra Harta (prototype)", {
-                description: "Menu ini belum dihubungkan ke halaman khusus.",
-              })
-            }
+            onClick={() => navigate("/obs-samudra-harta")}
           />
 
           <DevMenuCard

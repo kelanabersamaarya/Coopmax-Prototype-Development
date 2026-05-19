@@ -21,6 +21,7 @@ import LoanInstallmentPayment from "./pages/LoanInstallmentPayment";
 import LoanInstallmentPaymentV2 from "./pages/LoanInstallmentPaymentV2";
 import LoanPemutihanDaftar from "./pages/LoanPemutihanDaftar";
 import TransaksiPinjamanDetail from "./pages/TransaksiPinjamanDetail";
+import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/" element={<Index />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
             <Route path="loan-products" element={<LoanProducts />} />
             <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loan-products/:id" element={<LoanProductDetail />} />
