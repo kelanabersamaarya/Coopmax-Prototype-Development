@@ -202,6 +202,31 @@ const statusHistorySeed: StatusHistoryRow[] = [
   },
 ];
 
+function HistoryDeleteIconButton({
+  onClick,
+}: {
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex h-9 w-9 items-center justify-center",
+        "rounded-full",
+        "bg-transparent",
+        "text-rose-600 transition-colors",
+        "hover:text-rose-700",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+      )}
+      aria-label="Hapus"
+      title="Hapus"
+    >
+      <XCircle className="h-5 w-5" />
+    </button>
+  );
+}
+
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -355,12 +380,24 @@ export default function ObsSamudraHartaDetail() {
                     <table className="w-full min-w-[980px] border-collapse bg-white">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
-                          <th className="w-[80px] px-4 py-3">NO.</th>
-                          <th className="w-[320px] px-4 py-3">STATUS</th>
-                          <th className="w-[180px] px-4 py-3">TANGGAL</th>
-                          <th className="w-[180px] px-4 py-3">DIUBAH OLEH</th>
-                          <th className="min-w-[360px] px-4 py-3">DESKRIPSI</th>
-                          <th className="w-[120px] px-4 py-3 text-center">AKSI</th>
+                          <th className="w-[80px] px-4 py-3 border-r border-slate-200">
+                            NO.
+                          </th>
+                          <th className="w-[320px] px-4 py-3 border-r border-slate-200">
+                            STATUS
+                          </th>
+                          <th className="w-[180px] px-4 py-3 border-r border-slate-200">
+                            TANGGAL
+                          </th>
+                          <th className="w-[180px] px-4 py-3 border-r border-slate-200">
+                            DIUBAH OLEH
+                          </th>
+                          <th className="min-w-[360px] px-4 py-3 border-r border-slate-200">
+                            DESKRIPSI
+                          </th>
+                          <th className="w-[120px] px-4 py-3 text-center">
+                            AKSI
+                          </th>
                         </tr>
                       </thead>
 
@@ -369,7 +406,7 @@ export default function ObsSamudraHartaDetail() {
                           <tr>
                             <td
                               colSpan={6}
-                              className="px-4 py-8 text-center text-sm text-slate-600"
+                              className="px-4 py-7 text-center text-sm text-slate-600"
                             >
                               Belum ada riwayat.
                             </td>
@@ -379,44 +416,34 @@ export default function ObsSamudraHartaDetail() {
                             <tr
                               key={r.no}
                               className={cn(
-                                "border-t border-slate-100 text-[14px] font-normal text-slate-900",
+                                "border-t border-slate-200 text-[14px] font-normal text-slate-900",
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                               )}
                             >
-                              <td className="px-4 py-3.5 text-slate-900 tabular-nums font-normal">
+                              <td className="px-4 py-2.5 text-slate-900 tabular-nums font-normal border-r border-slate-200">
                                 {r.no}
                               </td>
-                              <td className="px-4 py-3.5 text-slate-900 font-normal">
+                              <td className="px-4 py-2.5 text-slate-900 font-normal border-r border-slate-200">
                                 {r.status}
                               </td>
-                              <td className="px-4 py-3.5 text-slate-900 tabular-nums whitespace-nowrap font-normal">
+                              <td className="px-4 py-2.5 text-slate-900 tabular-nums whitespace-nowrap font-normal border-r border-slate-200">
                                 {r.tanggal}
                               </td>
-                              <td className="px-4 py-3.5 text-slate-900 font-normal">
+                              <td className="px-4 py-2.5 text-slate-900 font-normal border-r border-slate-200">
                                 {r.diubahOleh}
                               </td>
-                              <td className="px-4 py-3.5 text-slate-900 font-normal">
+                              <td className="px-4 py-2.5 text-slate-900 font-normal border-r border-slate-200">
                                 {r.deskripsi}
                               </td>
-                              <td className="px-4 py-3.5">
+                              <td className="px-4 py-2.5">
                                 <div className="flex justify-center">
-                                  <button
-                                    type="button"
+                                  <HistoryDeleteIconButton
                                     onClick={() =>
                                       setHistory((prev) =>
                                         prev.filter((x) => x.no !== r.no),
                                       )
                                     }
-                                    className={cn(
-                                      "inline-flex h-10 w-10 items-center justify-center rounded-full",
-                                      "bg-rose-50 text-rose-600 ring-1 ring-rose-200",
-                                      "transition hover:bg-white",
-                                    )}
-                                    aria-label="Hapus"
-                                    title="Hapus"
-                                  >
-                                    <XCircle className="h-5 w-5" />
-                                  </button>
+                                  />
                                 </div>
                               </td>
                             </tr>
@@ -425,6 +452,10 @@ export default function ObsSamudraHartaDetail() {
                       </tbody>
                     </table>
                   </div>
+                </div>
+
+                <div className="sr-only">
+                  <HistoryDeleteIconButton onClick={() => {}} />
                 </div>
               </div>
             </Card>
