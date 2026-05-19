@@ -12,6 +12,7 @@ import {
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 type ProductType = "-- Semua --" | "Produk Pinjaman" | "Produk Tabungan";
+type StatusType = "-- Semua --" | "Diajukan" | "Diproses" | "Ditolak";
 
 type Row = {
   id: string;
@@ -21,6 +22,7 @@ type Row = {
   alamat: string;
   tanggalRegistrasi: string; // yyyy-mm-dd hh:mm:ss (sesuai screenshot)
   produk: Exclude<ProductType, "-- Semua --">;
+  status: Exclude<StatusType, "-- Semua --">;
 };
 
 const seed: Row[] = [
@@ -32,6 +34,7 @@ const seed: Row[] = [
     alamat: "BR. TENGKULAK KAJA KANGIN",
     tanggalRegistrasi: "2026-04-20 16:02:58",
     produk: "Produk Pinjaman",
+    status: "Diajukan",
   },
   {
     id: "2",
@@ -41,6 +44,7 @@ const seed: Row[] = [
     alamat: "Website ini tidak aman",
     tanggalRegistrasi: "2026-04-20 15:04:33",
     produk: "Produk Pinjaman",
+    status: "Ditolak",
   },
   {
     id: "3",
@@ -50,6 +54,7 @@ const seed: Row[] = [
     alamat: "TENGKULAK KAJA",
     tanggalRegistrasi: "2026-04-06 16:47:01",
     produk: "Produk Pinjaman",
+    status: "Diproses",
   },
   {
     id: "4",
@@ -59,6 +64,7 @@ const seed: Row[] = [
     alamat: "BR TENGKULAK KAJA",
     tanggalRegistrasi: "2026-04-06 16:02:03",
     produk: "Produk Pinjaman",
+    status: "Diajukan",
   },
   {
     id: "5",
@@ -68,6 +74,7 @@ const seed: Row[] = [
     alamat: "Indonesia",
     tanggalRegistrasi: "2026-04-06 15:56:04",
     produk: "Produk Tabungan",
+    status: "Diproses",
   },
   {
     id: "6",
@@ -77,6 +84,7 @@ const seed: Row[] = [
     alamat: "Jl. Natuna",
     tanggalRegistrasi: "2026-03-10 13:28:00",
     produk: "Produk Pinjaman",
+    status: "Diajukan",
   },
 ];
 
@@ -156,6 +164,27 @@ function PaginationBar({
   );
 }
 
+function StatusPill({ status }: { status: Row["status"] }) {
+  const cls =
+    status === "Diajukan"
+      ? "bg-amber-500 text-white ring-1 ring-amber-500/20"
+      : status === "Diproses"
+        ? "bg-blue-600 text-white ring-1 ring-blue-600/20"
+        : "bg-rose-600 text-white ring-1 ring-rose-600/20";
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center justify-center rounded-[5px] px-2.5 py-1",
+        "text-[12px] font-semibold leading-none whitespace-nowrap",
+        cls,
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
 export default function ObsSamudraHarta() {
   const rows = React.useMemo(() => seed, []);
 
@@ -169,6 +198,7 @@ export default function ObsSamudraHarta() {
   const [qAlamat, setQAlamat] = React.useState("");
   const [qTanggal, setQTanggal] = React.useState("");
   const [qProduk, setQProduk] = React.useState<ProductType>("-- Semua --");
+  const [qStatus, setQStatus] = React.useState<StatusType>("-- Semua --");
 
   const filtered = React.useMemo(() => {
     const namaQ = qNama.trim().toLowerCase();
@@ -186,16 +216,17 @@ export default function ObsSamudraHarta() {
         ? r.tanggalRegistrasi.toLowerCase().includes(tglQ)
         : true;
       const okProduk = qProduk === "-- Semua --" ? true : r.produk === qProduk;
+      const okStatus = qStatus === "-- Semua --" ? true : r.status === qStatus;
 
-      return okNama && okPhone && okEmail && okAlamat && okTgl && okProduk;
+      return okNama && okPhone && okEmail && okAlamat && okTgl && okProduk && okStatus;
     });
-  }, [qAlamat, qEmail, qNama, qPhone, qProduk, qTanggal, rows]);
+  }, [qAlamat, qEmail, qNama, qPhone, qProduk, qStatus, qTanggal, rows]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
 
   React.useEffect(() => {
     setPage(1);
-  }, [pageSize, qNama, qPhone, qEmail, qAlamat, qTanggal, qProduk]);
+  }, [pageSize, qNama, qPhone, qEmail, qAlamat, qTanggal, qProduk, qStatus]);
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
@@ -217,6 +248,9 @@ export default function ObsSamudraHarta() {
     "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const produkSelectTriggerCls =
+    "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
+
+  const statusSelectTriggerCls =
     "h-9 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const pageSizeTriggerCls =
@@ -255,10 +289,9 @@ export default function ObsSamudraHarta() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[980px] border-collapse">
+              <table className="w-full min-w-[1120px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                    {/* ✅ perkecil kolom No */}
                     <th className={cn("w-[44px] whitespace-nowrap", th)}>
                       <ThLabel sortable={false}>No.</ThLabel>
                     </th>
@@ -280,8 +313,14 @@ export default function ObsSamudraHarta() {
                     <th className={cn("w-[210px]", th)}>
                       <ThLabel>TANGGAL REGISTRASI</ThLabel>
                     </th>
+
                     <th className={cn("w-[200px]", th)}>
                       <ThLabel>PRODUK</ThLabel>
+                    </th>
+
+                    {/* ✅ kolom baru: STATUS */}
+                    <th className={cn("w-[140px]", th)}>
+                      <ThLabel>STATUS</ThLabel>
                     </th>
                   </tr>
 
@@ -370,6 +409,24 @@ export default function ObsSamudraHarta() {
                         </SelectContent>
                       </Select>
                     </th>
+
+                    {/* ✅ filter STATUS */}
+                    <th className={filterCell}>
+                      <Select
+                        value={qStatus}
+                        onValueChange={(v) => setQStatus(v as StatusType)}
+                      >
+                        <SelectTrigger className={statusSelectTriggerCls}>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          <SelectItem value="-- Semua --">-- Semua --</SelectItem>
+                          <SelectItem value="Diajukan">Diajukan</SelectItem>
+                          <SelectItem value="Diproses">Diproses</SelectItem>
+                          <SelectItem value="Ditolak">Ditolak</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </th>
                   </tr>
                 </thead>
 
@@ -377,7 +434,7 @@ export default function ObsSamudraHarta() {
                   {paged.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={7}
+                        colSpan={8}
                         className="px-4 py-10 text-center text-sm text-slate-600"
                       >
                         Tidak ada data yang cocok dengan filter.
@@ -427,6 +484,10 @@ export default function ObsSamudraHarta() {
                         </td>
 
                         <td className={cn(td, "whitespace-nowrap")}>{r.produk}</td>
+
+                        <td className={cn(td)}>
+                          <StatusPill status={r.status} />
+                        </td>
                       </tr>
                     ))
                   )}
