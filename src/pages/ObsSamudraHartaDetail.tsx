@@ -146,101 +146,116 @@ export default function ObsSamudraHartaDetail() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex items-baseline gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-            Pendaftaran Online
-          </h1>
-          <div className="text-base font-semibold text-slate-600">Detail Pendaftar</div>
-        </div>
+        <div className="mx-auto w-full max-w-[1480px]">
+          <div className="flex items-baseline gap-2">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+              Pendaftaran Online
+            </h1>
+            <div className="text-base font-semibold text-slate-600">
+              Detail Pendaftar
+            </div>
+          </div>
 
-        <div className="mt-4">
-          <button
-            type="button"
-            onClick={() => navigate("/obs-samudra-harta")}
-            className={cn(
-              "inline-flex items-center gap-2 rounded-full bg-white px-4 py-2",
-              "text-[13px] font-semibold text-slate-700 ring-1 ring-slate-200 shadow-sm",
-              "transition hover:bg-slate-50",
-            )}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Kembali
-          </button>
-        </div>
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={() => navigate("/obs-samudra-harta")}
+              className={cn(
+                "inline-flex items-center gap-2 rounded-full bg-white px-4 py-2",
+                "text-[13px] font-semibold text-slate-700 ring-1 ring-slate-200 shadow-sm",
+                "transition hover:bg-slate-50",
+              )}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Kembali
+            </button>
+          </div>
 
-        {!data ? (
-          <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur">
-            <div className="text-sm font-semibold text-slate-900">
-              Data pendaftar tidak ditemukan.
-            </div>
-            <div className="mt-2 text-sm text-slate-600">
-              ID: <span className="font-semibold">{id}</span>
-            </div>
-            <div className="mt-4">
-              <Link to="/obs-samudra-harta" className="text-blue-600 hover:underline">
-                Kembali ke daftar
-              </Link>
-            </div>
-          </Card>
-        ) : (
-          <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-0 shadow-sm backdrop-blur">
-            <div className="px-6 py-6 sm:px-10 sm:py-8">
-              <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-                INFORMASI PENDAFTAR BARU
+          {!data ? (
+            <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur">
+              <div className="text-sm font-semibold text-slate-900">
+                Data pendaftar tidak ditemukan.
               </div>
-
-              {/* Panel teal */}
-              <div className="mt-5">
-                <TealInfoPanel
-                  title={
-                    data.produk === "Produk Pinjaman" ? "PINJAMAN BULANAN 9" : "TABUNGAN"
-                  }
-                  items={[
-                    { label: "Nama Pendaftar", value: data.nama },
-                    { label: "Nomor Telepon", value: data.phone },
-                    { label: "Email", value: data.email },
-                    { label: "Alamat", value: data.alamat },
-                    { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
-                    { label: "Produk", value: data.produk },
-                    { label: "Tipe Produk", value: productTypeLabel(data.produk) },
-                    { label: "Status", value: data.status === "Ditolak" ? "Ditolak" : "Diproses" },
-                  ]}
-                />
+              <div className="mt-2 text-sm text-slate-600">
+                ID: <span className="font-semibold">{id}</span>
               </div>
-            </div>
-
-            <div className="h-px w-full bg-slate-200/70" />
-
-            <div className="px-6 py-6 sm:px-10 sm:py-8">
-              <div className="text-[16px] font-extrabold uppercase tracking-wide text-slate-900">
-                GAMBAR
+              <div className="mt-4">
+                <Link
+                  to="/obs-samudra-harta"
+                  className="text-blue-600 hover:underline"
+                >
+                  Kembali ke daftar
+                </Link>
               </div>
+            </Card>
+          ) : (
+            <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-0 shadow-sm backdrop-blur">
+              <div className="px-6 py-6 sm:px-10 sm:py-8">
+                <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                  INFORMASI PENDAFTAR BARU
+                </div>
 
-              <div className="mt-5 overflow-hidden rounded-2xl ring-1 ring-slate-200">
-                <div className="safe-x-scroll bg-white">
-                  <table className="w-full min-w-[680px] border-collapse">
-                    <thead className="bg-white">
-                      <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#64748B]">
-                        <th className="w-[70px] px-4 py-3">NO</th>
-                        <th className="px-4 py-3">FILE</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td
-                          colSpan={2}
-                          className="px-4 py-10 text-center text-sm text-slate-600"
-                        >
-                          Tidak ada file.
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                {/* Panel teal */}
+                <div className="mt-5">
+                  <TealInfoPanel
+                    title={
+                      data.produk === "Produk Pinjaman"
+                        ? "PINJAMAN BULANAN 9"
+                        : "TABUNGAN"
+                    }
+                    items={[
+                      { label: "Nama Pendaftar", value: data.nama },
+                      { label: "Nomor Telepon", value: data.phone },
+                      { label: "Email", value: data.email },
+                      { label: "Alamat", value: data.alamat },
+                      {
+                        label: "Tanggal Registrasi",
+                        value: data.tanggalRegistrasi,
+                      },
+                      { label: "Produk", value: data.produk },
+                      { label: "Tipe Produk", value: productTypeLabel(data.produk) },
+                      {
+                        label: "Status",
+                        value: data.status === "Ditolak" ? "Ditolak" : "Diproses",
+                      },
+                    ]}
+                  />
                 </div>
               </div>
-            </div>
-          </Card>
-        )}
+
+              <div className="h-px w-full bg-slate-200/70" />
+
+              <div className="px-6 py-6 sm:px-10 sm:py-8">
+                <div className="text-[16px] font-extrabold uppercase tracking-wide text-slate-900">
+                  GAMBAR
+                </div>
+
+                <div className="mt-5 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+                  <div className="safe-x-scroll bg-white">
+                    <table className="w-full min-w-[680px] border-collapse">
+                      <thead className="bg-white">
+                        <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#64748B]">
+                          <th className="w-[70px] px-4 py-3">NO</th>
+                          <th className="px-4 py-3">FILE</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td
+                            colSpan={2}
+                            className="px-4 py-10 text-center text-sm text-slate-600"
+                          >
+                            Tidak ada file.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   );
