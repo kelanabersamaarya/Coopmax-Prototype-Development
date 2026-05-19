@@ -202,17 +202,13 @@ const statusHistorySeed: StatusHistoryRow[] = [
   },
 ];
 
-function HistoryDeleteIconButton({
-  onClick,
-}: {
-  onClick: () => void;
-}) {
+function HistoryDeleteIconButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center",
+        "inline-flex h-7 w-7 items-center justify-center",
         "rounded-full",
         "bg-transparent",
         "text-rose-600 transition-colors",
@@ -222,7 +218,7 @@ function HistoryDeleteIconButton({
       aria-label="Hapus"
       title="Hapus"
     >
-      <XCircle className="h-5 w-5" />
+      <XCircle className="h-4.5 w-4.5" />
     </button>
   );
 }
@@ -242,6 +238,10 @@ export default function ObsSamudraHartaDetail() {
     // reset state sederhana saat pindah detail
     setHistory(statusHistorySeed);
   }, [id]);
+
+  // Padding tabel riwayat seperti referensi (lebih rapat)
+  const historyTh = "px-4 py-2.5";
+  const historyTd = "px-4 py-1.5";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -380,22 +380,22 @@ export default function ObsSamudraHartaDetail() {
                     <table className="w-full min-w-[980px] border-collapse bg-white">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
-                          <th className="w-[80px] px-4 py-3 border-r border-slate-200">
+                          <th className={cn("w-[80px]", historyTh, "border-r border-slate-200")}>
                             NO.
                           </th>
-                          <th className="w-[320px] px-4 py-3 border-r border-slate-200">
+                          <th className={cn("w-[320px]", historyTh, "border-r border-slate-200")}>
                             STATUS
                           </th>
-                          <th className="w-[180px] px-4 py-3 border-r border-slate-200">
+                          <th className={cn("w-[180px]", historyTh, "border-r border-slate-200")}>
                             TANGGAL
                           </th>
-                          <th className="w-[180px] px-4 py-3 border-r border-slate-200">
+                          <th className={cn("w-[180px]", historyTh, "border-r border-slate-200")}>
                             DIUBAH OLEH
                           </th>
-                          <th className="min-w-[360px] px-4 py-3 border-r border-slate-200">
+                          <th className={cn("min-w-[360px]", historyTh, "border-r border-slate-200")}>
                             DESKRIPSI
                           </th>
-                          <th className="w-[120px] px-4 py-3 text-center">
+                          <th className={cn("w-[120px] text-center", historyTh)}>
                             AKSI
                           </th>
                         </tr>
@@ -420,22 +420,47 @@ export default function ObsSamudraHartaDetail() {
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                               )}
                             >
-                              <td className="px-4 py-2.5 text-slate-900 tabular-nums font-normal border-r border-slate-200">
+                              <td
+                                className={cn(
+                                  historyTd,
+                                  "tabular-nums font-normal border-r border-slate-200",
+                                )}
+                              >
                                 {r.no}
                               </td>
-                              <td className="px-4 py-2.5 text-slate-900 font-normal border-r border-slate-200">
+                              <td
+                                className={cn(
+                                  historyTd,
+                                  "font-normal border-r border-slate-200",
+                                )}
+                              >
                                 {r.status}
                               </td>
-                              <td className="px-4 py-2.5 text-slate-900 tabular-nums whitespace-nowrap font-normal border-r border-slate-200">
+                              <td
+                                className={cn(
+                                  historyTd,
+                                  "tabular-nums whitespace-nowrap font-normal border-r border-slate-200",
+                                )}
+                              >
                                 {r.tanggal}
                               </td>
-                              <td className="px-4 py-2.5 text-slate-900 font-normal border-r border-slate-200">
+                              <td
+                                className={cn(
+                                  historyTd,
+                                  "font-normal border-r border-slate-200",
+                                )}
+                              >
                                 {r.diubahOleh}
                               </td>
-                              <td className="px-4 py-2.5 text-slate-900 font-normal border-r border-slate-200">
+                              <td
+                                className={cn(
+                                  historyTd,
+                                  "font-normal border-r border-slate-200",
+                                )}
+                              >
                                 {r.deskripsi}
                               </td>
-                              <td className="px-4 py-2.5">
+                              <td className={cn(historyTd)}>
                                 <div className="flex justify-center">
                                   <HistoryDeleteIconButton
                                     onClick={() =>
