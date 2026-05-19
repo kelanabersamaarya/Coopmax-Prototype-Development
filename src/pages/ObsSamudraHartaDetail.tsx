@@ -83,7 +83,7 @@ const seed: Row[] = [
 ];
 
 function StatusPill({ status }: { status: StatusType }) {
-  if (status === "Diproses") {
+  if (status === "Diproses" || status === "Diajukan") {
     return (
       <span
         className={cn(
@@ -96,35 +96,21 @@ function StatusPill({ status }: { status: StatusType }) {
           "min-h-[34px]",
         )}
       >
-        Diproses
+        {status}
       </span>
     );
   }
 
-  if (status === "Ditolak") {
-    return (
-      <span
-        className={cn(
-          "inline-flex items-center justify-center rounded-[8px] px-3 py-1.5",
-          "bg-rose-600 text-white ring-1 ring-rose-600/25",
-          "text-[13px] font-semibold leading-none",
-        )}
-      >
-        Ditolak
-      </span>
-    );
-  }
-
-  // Diajukan
+  // Ditolak
   return (
     <span
       className={cn(
         "inline-flex items-center justify-center rounded-[8px] px-3 py-1.5",
-        "bg-blue-600 text-white ring-1 ring-blue-600/25",
+        "bg-rose-600 text-white ring-1 ring-rose-600/25",
         "text-[13px] font-semibold leading-none",
       )}
     >
-      Diajukan
+      Ditolak
     </span>
   );
 }
