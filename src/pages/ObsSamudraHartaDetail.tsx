@@ -379,23 +379,23 @@ export default function ObsSamudraHartaDetail() {
                             <tr
                               key={r.no}
                               className={cn(
-                                "border-t border-slate-100 text-[14px]",
+                                "border-t border-slate-100 text-[14px] font-normal text-slate-900",
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                               )}
                             >
-                              <td className="px-4 py-3.5 text-slate-900 tabular-nums">
+                              <td className="px-4 py-3.5 text-slate-900 tabular-nums font-normal">
                                 {r.no}
                               </td>
-                              <td className="px-4 py-3.5 font-extrabold text-slate-900">
+                              <td className="px-4 py-3.5 text-slate-900 font-normal">
                                 {r.status}
                               </td>
-                              <td className="px-4 py-3.5 text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-4 py-3.5 text-slate-900 tabular-nums whitespace-nowrap font-normal">
                                 {r.tanggal}
                               </td>
-                              <td className="px-4 py-3.5 text-slate-900">
+                              <td className="px-4 py-3.5 text-slate-900 font-normal">
                                 {r.diubahOleh}
                               </td>
-                              <td className="px-4 py-3.5 text-slate-900">
+                              <td className="px-4 py-3.5 text-slate-900 font-normal">
                                 {r.deskripsi}
                               </td>
                               <td className="px-4 py-3.5">
