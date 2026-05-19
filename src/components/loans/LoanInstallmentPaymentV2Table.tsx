@@ -1152,6 +1152,10 @@ const REGULER_AUTO_BILL: BillTotals = {
 };
 const REGULER_AUTO_NOMINAL = "991.666";
 
+function shouldAutoFillReguler(accountNo: string, paymentMethod: PaymentMethod) {
+  return paymentMethod === "Pembayaran Reguler" && REGULER_AUTO_BILL_ACCOUNTS.has(accountNo);
+}
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -1175,20 +1179,6 @@ export default function LoanInstallmentPaymentV2Table({
 
   const transactionNo = "BA/050526/0001";
 
-  React.useEffect(() => {
-    // Auto-fill untuk nasabah 2 & 3 pada pembayaran reguler
-    setRows((prev) =>
-      prev.map((r) => {
-        const acc = (r.accountNo ?? "").trim();
-        if (!REGULER_AUTO_BILL_ACCOUNTS.has(acc)) return r;
-        if (r.paymentMethod !== "Pembayaran Reguler") return r;
-
-        if (r.nominalReguler === REGULER_AUTO_NOMINAL) return r;
-        return { ...r, nominalReguler: REGULER_AUTO_NOMINAL };
-      }),
-    );
-  }, [rows]);
-
   function openPickerForRow(rowId: string) {
     setPickerTargetRowId(rowId);
     setPickerOpen(true);
@@ -1204,9 +1194,7 @@ export default function LoanInstallmentPaymentV2Table({
         if (r.id !== pickerTargetRowId) return r;
         didChange = r.accountNo !== nextAccountNo;
 
-        const shouldAutofill =
-          REGULER_AUTO_BILL_ACCOUNTS.has(nextAccountNo) &&
-          r.paymentMethod === "Pembayaran Reguler";
+        const shouldAutofill = shouldAutoFillReguler(nextAccountNo, r.paymentMethod);
 
         return {
           ...r,
@@ -1436,9 +1424,7 @@ export default function LoanInstallmentPaymentV2Table({
                           if (x.id !== row.id) return x;
 
                           const acc = (x.accountNo ?? "").trim();
-                          const shouldAutofill =
-                            v === "Pembayaran Reguler" &&
-                            REGULER_AUTO_BILL_ACCOUNTS.has(acc);
+                          const shouldAutofill = shouldAutoFillReguler(acc, v);
 
                           return {
                             ...x,
