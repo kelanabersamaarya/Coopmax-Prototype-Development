@@ -96,10 +96,10 @@ function TealInfoItem({
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[13px] font-semibold text-white/85">
+      <div className="text-[12px] font-semibold text-white/85">
         <span className="block break-words">{label}</span>
       </div>
-      <div className="mt-1 text-[15px] font-extrabold tracking-tight text-white">
+      <div className="mt-1 text-[14px] font-extrabold tracking-tight text-white">
         <span className="block break-words leading-snug">{value}</span>
       </div>
     </div>
@@ -116,7 +116,7 @@ function TealInfoPanel({
   return (
     <div className="overflow-hidden rounded-[8px] bg-[#1aa0b5] text-white ring-1 ring-white/10 shadow-sm">
       <div className="px-6 py-6 sm:px-7 sm:py-7">
-        <div className="text-[16px] font-extrabold tracking-tight text-white">
+        <div className="text-[14px] font-extrabold tracking-tight text-white">
           {title}
         </div>
 
@@ -201,11 +201,8 @@ export default function ObsSamudraHartaDetail() {
                     { label: "Email", value: data.email },
                     { label: "Alamat", value: data.alamat },
                     { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
-
-                    // ✅ sekarang teks biasa
                     { label: "Produk", value: data.produk },
                     { label: "Tipe Produk", value: productTypeLabel(data.produk) },
-
                     { label: "Status", value: data.status === "Ditolak" ? "Ditolak" : "Diproses" },
                   ]}
                 />
