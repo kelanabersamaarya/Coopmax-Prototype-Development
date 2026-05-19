@@ -89,8 +89,8 @@ function StatusPill({ status }: { status: StatusType }) {
         className={cn(
           "inline-flex items-center justify-center",
           "rounded-[8px] px-4 py-2",
-          "bg-[#4BD10B] text-white",
-          "ring-2 ring-[#4BD10B]/35",
+          "bg-[#3BB001] text-white",
+          "ring-2 ring-[#3BB001]/35",
           "shadow-[inset_0_0_0_2px_rgba(255,255,255,0.7)]",
           "text-[14px] font-extrabold leading-none",
           "min-h-[34px]",
