@@ -82,6 +82,53 @@ const seed: Row[] = [
   },
 ];
 
+function StatusPill({ status }: { status: StatusType }) {
+  if (status === "Diproses") {
+    return (
+      <span
+        className={cn(
+          "inline-flex items-center justify-center",
+          "rounded-[8px] px-4 py-2",
+          "bg-[#4BD10B] text-white",
+          "ring-2 ring-[#4BD10B]/35",
+          "shadow-[inset_0_0_0_2px_rgba(255,255,255,0.7)]",
+          "text-[14px] font-extrabold leading-none",
+          "min-h-[34px]",
+        )}
+      >
+        Diproses
+      </span>
+    );
+  }
+
+  if (status === "Ditolak") {
+    return (
+      <span
+        className={cn(
+          "inline-flex items-center justify-center rounded-[8px] px-3 py-1.5",
+          "bg-rose-600 text-white ring-1 ring-rose-600/25",
+          "text-[13px] font-semibold leading-none",
+        )}
+      >
+        Ditolak
+      </span>
+    );
+  }
+
+  // Diajukan
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center justify-center rounded-[8px] px-3 py-1.5",
+        "bg-blue-600 text-white ring-1 ring-blue-600/25",
+        "text-[13px] font-semibold leading-none",
+      )}
+    >
+      Diajukan
+    </span>
+  );
+}
+
 function TealInfoItem({
   label,
   value,
@@ -208,10 +255,7 @@ export default function ObsSamudraHartaDetail() {
                         value: data.tanggalRegistrasi,
                       },
                       { label: "Produk", value: data.produk },
-                      {
-                        label: "Status",
-                        value: data.status === "Ditolak" ? "Ditolak" : "Diproses",
-                      },
+                      { label: "Status", value: <StatusPill status={data.status} /> },
                     ]}
                   />
                 </div>
