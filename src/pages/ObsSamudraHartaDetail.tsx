@@ -146,7 +146,7 @@ export default function ObsSamudraHartaDetail() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="mx-auto w-full max-w-[1480px]">
+        <div className="mx-auto w-full max-w-[1680px]">
           <div className="flex items-baseline gap-2">
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
               Pendaftaran Online
