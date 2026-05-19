@@ -258,9 +258,11 @@ export default function ObsSamudraHarta() {
               <table className="w-full min-w-[980px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                    <th className={cn("w-[60px] whitespace-nowrap", th)}>
+                    {/* ✅ perkecil kolom No */}
+                    <th className={cn("w-[44px] whitespace-nowrap", th)}>
                       <ThLabel sortable={false}>No.</ThLabel>
                     </th>
+
                     <th className={cn("w-[210px]", th)}>
                       <ThLabel>NAMA</ThLabel>
                     </th>
@@ -271,7 +273,6 @@ export default function ObsSamudraHarta() {
                       <ThLabel>EMAIL</ThLabel>
                     </th>
 
-                    {/* ✅ perkecil kolom alamat */}
                     <th className={cn("w-[280px] max-w-[280px]", th)}>
                       <ThLabel>ALAMAT</ThLabel>
                     </th>
