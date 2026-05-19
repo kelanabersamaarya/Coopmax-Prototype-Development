@@ -162,7 +162,6 @@ export default function ObsSamudraHarta() {
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
 
-  // ✅ NAMA sekarang pakai input text saja (tanpa dropdown "-- Semua --")
   const [qNama, setQNama] = React.useState<string>("");
 
   const [qPhone, setQPhone] = React.useState("");
@@ -256,7 +255,7 @@ export default function ObsSamudraHarta() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1100px] border-collapse">
+              <table className="w-full min-w-[980px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                     <th className={cn("w-[60px] whitespace-nowrap", th)}>
@@ -271,9 +270,12 @@ export default function ObsSamudraHarta() {
                     <th className={cn("w-[220px]", th)}>
                       <ThLabel>EMAIL</ThLabel>
                     </th>
-                    <th className={cn("min-w-[420px]", th)}>
+
+                    {/* ✅ perkecil kolom alamat */}
+                    <th className={cn("w-[280px] max-w-[280px]", th)}>
                       <ThLabel>ALAMAT</ThLabel>
                     </th>
+
                     <th className={cn("w-[210px]", th)}>
                       <ThLabel>TANGGAL REGISTRASI</ThLabel>
                     </th>
@@ -285,7 +287,6 @@ export default function ObsSamudraHarta() {
                   <tr className="border-b border-slate-200 bg-white">
                     <th className={filterCell} />
 
-                    {/* ✅ Filter NAMA: input text saja */}
                     <th className={filterCell}>
                       <Input
                         value={qNama}
@@ -313,7 +314,7 @@ export default function ObsSamudraHarta() {
                       />
                     </th>
 
-                    <th className={filterCell}>
+                    <th className={cn(filterCell, "w-[280px] max-w-[280px]")}>
                       <Input
                         value={qAlamat}
                         onChange={(e) => setQAlamat(e.target.value)}
@@ -413,7 +414,10 @@ export default function ObsSamudraHarta() {
                           {r.email}
                         </td>
 
-                        <td className={cn(td, "truncate")} title={r.alamat}>
+                        <td
+                          className={cn(td, "w-[280px] max-w-[280px] truncate")}
+                          title={r.alamat}
+                        >
                           {r.alamat}
                         </td>
 
