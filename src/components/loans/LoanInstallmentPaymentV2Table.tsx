@@ -1143,6 +1143,15 @@ function showAccountPickedToast() {
   ));
 }
 
+const REGULER_AUTO_BILL_ACCOUNTS = new Set(["12260002", "12260001"]);
+const REGULER_AUTO_BILL: BillTotals = {
+  pokok: "833.333",
+  bunga: "83.333",
+  denda: "75.000",
+  total: "991.666",
+};
+const REGULER_AUTO_NOMINAL = "991.666";
+
 export default function LoanInstallmentPaymentV2Table({
   className,
 }: {
@@ -1166,6 +1175,20 @@ export default function LoanInstallmentPaymentV2Table({
 
   const transactionNo = "BA/050526/0001";
 
+  React.useEffect(() => {
+    // Auto-fill untuk nasabah 2 & 3 pada pembayaran reguler
+    setRows((prev) =>
+      prev.map((r) => {
+        const acc = (r.accountNo ?? "").trim();
+        if (!REGULER_AUTO_BILL_ACCOUNTS.has(acc)) return r;
+        if (r.paymentMethod !== "Pembayaran Reguler") return r;
+
+        if (r.nominalReguler === REGULER_AUTO_NOMINAL) return r;
+        return { ...r, nominalReguler: REGULER_AUTO_NOMINAL };
+      }),
+    );
+  }, [rows]);
+
   function openPickerForRow(rowId: string) {
     setPickerTargetRowId(rowId);
     setPickerOpen(true);
@@ -1180,7 +1203,16 @@ export default function LoanInstallmentPaymentV2Table({
       prev.map((r) => {
         if (r.id !== pickerTargetRowId) return r;
         didChange = r.accountNo !== nextAccountNo;
-        return { ...r, accountNo: nextAccountNo };
+
+        const shouldAutofill =
+          REGULER_AUTO_BILL_ACCOUNTS.has(nextAccountNo) &&
+          r.paymentMethod === "Pembayaran Reguler";
+
+        return {
+          ...r,
+          accountNo: nextAccountNo,
+          nominalReguler: shouldAutofill ? REGULER_AUTO_NOMINAL : r.nominalReguler,
+        };
       }),
     );
 
@@ -1287,7 +1319,8 @@ export default function LoanInstallmentPaymentV2Table({
 
         <tbody>
           {rows.map((row, idx) => {
-            const hasPicked = !!row.accountNo.trim();
+            const accountNo = row.accountNo.trim();
+            const hasPicked = !!accountNo;
             const lockRowUi = !hasPicked;
 
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
@@ -1298,33 +1331,35 @@ export default function LoanInstallmentPaymentV2Table({
             const canOpenDaftarTagihan =
               (isReguler || isBakiDebet || isKhusus || isPelunasan) && hasPicked;
 
-            const exampleTotals: BillTotals = {
-              pokok: "5.333.334",
-              bunga: "499.998",
-              denda: "225.000",
-              total: "6.058.332",
-            };
-
-            const totals: BillTotals =
-              isKhusus || isPelunasan
-                ? exampleTotals
-                : {
-                    pokok: "0",
-                    bunga: "0",
-                    denda: "0",
-                    total: "0",
-                  };
-
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
             const pokokLabel = "Tagihan Pokok";
             const bungaLabel = "Tagihan Bunga";
             const dendaLabel = "Tagihan Denda";
 
+            const isAutoReguler = isReguler && REGULER_AUTO_BILL_ACCOUNTS.has(accountNo);
+
+            const totals: BillTotals =
+              isKhusus || isPelunasan
+                ? {
+                    pokok: "5.333.334",
+                    bunga: "499.998",
+                    denda: "225.000",
+                    total: "6.058.332",
+                  }
+                : isAutoReguler
+                  ? REGULER_AUTO_BILL
+                  : {
+                      pokok: "0",
+                      bunga: "0",
+                      denda: "0",
+                      total: "0",
+                    };
+
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const isLast = row.id === lastRowId;
 
-            const penaltyContextKey = row.accountNo.trim()
-              ? makePenaltyContextKeyForInstallmentV2(row.accountNo.trim())
+            const penaltyContextKey = accountNo
+              ? makePenaltyContextKeyForInstallmentV2(accountNo)
               : undefined;
 
             const contentRow = (
@@ -1352,8 +1387,8 @@ export default function LoanInstallmentPaymentV2Table({
                     disabled={lockRowUi}
                     hideInstallmentInfo={isBakiDebet || isPelunasan}
                     onOpenHistory={() => {
-                      if (!row.accountNo.trim()) return;
-                      setHistoryAccountNo(row.accountNo.trim());
+                      if (!accountNo) return;
+                      setHistoryAccountNo(accountNo);
                       setHistoryOpen(true);
                     }}
                   />
@@ -1397,7 +1432,20 @@ export default function LoanInstallmentPaymentV2Table({
                     value={row.paymentMethod}
                     onChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, paymentMethod: v } : x)),
+                        prev.map((x) => {
+                          if (x.id !== row.id) return x;
+
+                          const acc = (x.accountNo ?? "").trim();
+                          const shouldAutofill =
+                            v === "Pembayaran Reguler" &&
+                            REGULER_AUTO_BILL_ACCOUNTS.has(acc);
+
+                          return {
+                            ...x,
+                            paymentMethod: v,
+                            nominalReguler: shouldAutofill ? REGULER_AUTO_NOMINAL : x.nominalReguler,
+                          };
+                        }),
                       )
                     }
                     disabled={lockRowUi}
