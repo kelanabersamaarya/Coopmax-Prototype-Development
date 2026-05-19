@@ -2,7 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { ReceiptText, UsersRound } from "lucide-react";
+import { ReceiptText, UsersRound, Landmark } from "lucide-react";
 
 function DevMenuCard({
   title,
@@ -117,6 +117,18 @@ export default function Dashboard() {
               });
               navigate("/anggota/transaksi");
             }}
+          />
+
+          <DevMenuCard
+            title="OBS Samudra Harta"
+            subtitle="Menu OBS untuk monitoring & aktivitas operasional (prototype)."
+            icon={Landmark}
+            accent="emerald"
+            onClick={() =>
+              toast("OBS Samudra Harta (prototype)", {
+                description: "Menu ini belum dihubungkan ke halaman khusus.",
+              })
+            }
           />
 
           <DevMenuCard
