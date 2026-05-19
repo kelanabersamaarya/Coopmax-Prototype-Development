@@ -166,11 +166,9 @@ function PaginationBar({
 
 function StatusPill({ status }: { status: Row["status"] }) {
   const cls =
-    status === "Diajukan"
-      ? "bg-amber-500 text-white ring-1 ring-amber-500/20"
-      : status === "Diproses"
-        ? "bg-blue-600 text-white ring-1 ring-blue-600/20"
-        : "bg-rose-600 text-white ring-1 ring-rose-600/20";
+    status === "Ditolak"
+      ? "bg-rose-600 text-white ring-1 ring-rose-600/20"
+      : "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25";
 
   return (
     <span
@@ -318,7 +316,6 @@ export default function ObsSamudraHarta() {
                       <ThLabel>PRODUK</ThLabel>
                     </th>
 
-                    {/* ✅ kolom baru: STATUS */}
                     <th className={cn("w-[140px]", th)}>
                       <ThLabel>STATUS</ThLabel>
                     </th>
@@ -410,7 +407,6 @@ export default function ObsSamudraHarta() {
                       </Select>
                     </th>
 
-                    {/* ✅ filter STATUS */}
                     <th className={filterCell}>
                       <Select
                         value={qStatus}
