@@ -82,30 +82,6 @@ const seed: Row[] = [
   },
 ];
 
-function FieldRow({
-  label,
-  value,
-  className,
-}: {
-  label: string;
-  value: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        "grid items-start gap-3 py-3",
-        "grid-cols-[280px_14px_minmax(0,1fr)]",
-        className,
-      )}
-    >
-      <div className="text-[14px] font-medium text-[#64748B]">{label}</div>
-      <div className="text-[14px] font-semibold text-[#64748B]">:</div>
-      <div className="text-[14px] font-semibold text-slate-900">{value}</div>
-    </div>
-  );
-}
-
 function Pill({
   children,
   className,
@@ -127,9 +103,57 @@ function Pill({
 }
 
 function productTypeLabel(produk: ProductType) {
-  // sesuai screenshot: "Tipe Produk: Pinjaman Koperasi"
   if (produk === "Produk Pinjaman") return "Pinjaman Koperasi";
   return "Tabungan";
+}
+
+function TealInfoItem({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[13px] font-semibold text-white/85">
+        <span className="block break-words">{label}</span>
+      </div>
+      <div className="mt-1 text-[15px] font-extrabold tracking-tight text-white">
+        <span className="block break-words leading-snug">{value}</span>
+      </div>
+    </div>
+  );
+}
+
+function TealInfoPanel({
+  title,
+  items,
+}: {
+  title: string;
+  items: Array<{ label: string; value: React.ReactNode }>;
+}) {
+  return (
+    <div className="overflow-hidden rounded-[8px] bg-[#1aa0b5] text-white ring-1 ring-white/10 shadow-sm">
+      <div className="px-6 py-6 sm:px-7 sm:py-7">
+        <div className="text-[16px] font-extrabold tracking-tight text-white">
+          {title}
+        </div>
+
+        <div
+          className={cn(
+            "mt-5 grid gap-x-10 gap-y-5",
+            "sm:[grid-template-columns:repeat(2,minmax(0,1fr))]",
+            "lg:[grid-template-columns:repeat(4,minmax(0,1fr))]",
+          )}
+        >
+          {items.map((it) => (
+            <TealInfoItem key={it.label} label={it.label} value={it.value} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function ObsSamudraHartaDetail() {
@@ -188,21 +212,27 @@ export default function ObsSamudraHartaDetail() {
                 INFORMASI PENDAFTAR BARU
               </div>
 
-              <div className="mt-6">
-                <FieldRow label="Nama Pendaftar" value={data.nama} />
-                <FieldRow label="Nomor Telepon" value={data.phone} />
-                <FieldRow label="Email" value={data.email} />
-                <FieldRow label="Alamat" value={data.alamat} />
-                <FieldRow label="Tanggal Registrasi" value={data.tanggalRegistrasi} />
-
-                <FieldRow
-                  label="Produk"
-                  value={<Pill className={productPillCls}>{data.produk}</Pill>}
-                />
-
-                <FieldRow
-                  label="Tipe Produk"
-                  value={<Pill className={typePillCls}>{productTypeLabel(data.produk)}</Pill>}
+              {/* ✅ Layout diubah jadi panel teal seperti referensi */}
+              <div className="mt-5">
+                <TealInfoPanel
+                  title={data.produk === "Produk Pinjaman" ? "PINJAMAN BULANAN 9" : "TABUNGAN"}
+                  items={[
+                    { label: "Nama Pendaftar", value: data.nama },
+                    { label: "Nomor Telepon", value: data.phone },
+                    { label: "Email", value: data.email },
+                    { label: "Alamat", value: data.alamat },
+                    { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
+                    { label: "Produk", value: <Pill className={productPillCls}>{data.produk}</Pill> },
+                    {
+                      label: "Tipe Produk",
+                      value: (
+                        <Pill className={typePillCls}>
+                          {productTypeLabel(data.produk)}
+                        </Pill>
+                      ),
+                    },
+                    { label: "Status", value: data.status === "Ditolak" ? "Ditolak" : "Diproses" },
+                  ]}
                 />
               </div>
             </div>
