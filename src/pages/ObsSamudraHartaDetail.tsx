@@ -162,6 +162,14 @@ function TealInfoPanel({
   );
 }
 
+function InsetDivider() {
+  return (
+    <div className="px-6 sm:px-10">
+      <div className="h-px w-full bg-slate-200/70" />
+    </div>
+  );
+}
+
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -245,7 +253,8 @@ export default function ObsSamudraHartaDetail() {
                 </div>
               </div>
 
-              <div className="h-px w-full bg-slate-200/70" />
+              {/* divider inset (tidak mentok ujung card) */}
+              <InsetDivider />
 
               <div className="px-6 py-6 sm:px-10 sm:py-8">
                 <div className="text-[16px] font-extrabold uppercase tracking-wide text-slate-900">
