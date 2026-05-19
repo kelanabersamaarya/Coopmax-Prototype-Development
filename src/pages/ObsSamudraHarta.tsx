@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type ProductType = "-- Semua --" | "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "-- Semua --" | "Diajukan" | "Diproses" | "Ditolak";
@@ -184,6 +185,7 @@ function StatusPill({ status }: { status: Row["status"] }) {
 }
 
 export default function ObsSamudraHarta() {
+  const navigate = useNavigate();
   const rows = React.useMemo(() => seed, []);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
@@ -452,7 +454,9 @@ export default function ObsSamudraHarta() {
                         <td className={cn(td)}>
                           <button
                             type="button"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={() =>
+                              navigate(`/obs-samudra-harta/${encodeURIComponent(r.id)}`)
+                            }
                             className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
                             title={r.nama}
                           >
