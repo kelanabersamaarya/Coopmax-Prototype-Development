@@ -303,20 +303,20 @@ export default function ObsSamudraHartaDetail() {
                   GAMBAR
                 </div>
 
-                <div className="mt-5 overflow-hidden rounded-2xl ring-1 ring-slate-200">
+                <div className="mt-5 overflow-hidden rounded-[5px] ring-1 ring-slate-200">
                   <div className="safe-x-scroll bg-white">
                     <table className="w-full min-w-[680px] border-collapse">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#64748B]">
-                          <th className="w-[70px] px-4 py-3">NO</th>
-                          <th className="px-4 py-3">FILE</th>
+                          <th className="w-[70px] px-4 py-2.5">NO</th>
+                          <th className="px-4 py-2.5">FILE</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td
                             colSpan={2}
-                            className="px-4 py-10 text-center text-sm text-slate-600"
+                            className="px-4 py-8 text-center text-sm text-slate-600"
                           >
                             Tidak ada file.
                           </td>
@@ -350,19 +350,17 @@ export default function ObsSamudraHartaDetail() {
                   RIWAYAT PERUBAHAN STATUS
                 </div>
 
-                <div className="mt-4 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
+                <div className="mt-4 overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
                   <div className="safe-x-scroll">
                     <table className="w-full min-w-[980px] border-collapse bg-white">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
-                          <th className="w-[80px] px-4 py-4">NO.</th>
-                          <th className="w-[320px] px-4 py-4">STATUS</th>
-                          <th className="w-[180px] px-4 py-4">TANGGAL</th>
-                          <th className="w-[180px] px-4 py-4">DIUBAH OLEH</th>
-                          <th className="min-w-[360px] px-4 py-4">DESKRIPSI</th>
-                          <th className="w-[120px] px-4 py-4 text-center">
-                            AKSI
-                          </th>
+                          <th className="w-[80px] px-4 py-3">NO.</th>
+                          <th className="w-[320px] px-4 py-3">STATUS</th>
+                          <th className="w-[180px] px-4 py-3">TANGGAL</th>
+                          <th className="w-[180px] px-4 py-3">DIUBAH OLEH</th>
+                          <th className="min-w-[360px] px-4 py-3">DESKRIPSI</th>
+                          <th className="w-[120px] px-4 py-3 text-center">AKSI</th>
                         </tr>
                       </thead>
 
@@ -371,7 +369,7 @@ export default function ObsSamudraHartaDetail() {
                           <tr>
                             <td
                               colSpan={6}
-                              className="px-4 py-10 text-center text-sm text-slate-600"
+                              className="px-4 py-8 text-center text-sm text-slate-600"
                             >
                               Belum ada riwayat.
                             </td>
@@ -385,22 +383,22 @@ export default function ObsSamudraHartaDetail() {
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
                               )}
                             >
-                              <td className="px-4 py-5 text-slate-900 tabular-nums">
+                              <td className="px-4 py-3.5 text-slate-900 tabular-nums">
                                 {r.no}
                               </td>
-                              <td className="px-4 py-5 font-extrabold text-slate-900">
+                              <td className="px-4 py-3.5 font-extrabold text-slate-900">
                                 {r.status}
                               </td>
-                              <td className="px-4 py-5 text-slate-900 tabular-nums whitespace-nowrap">
+                              <td className="px-4 py-3.5 text-slate-900 tabular-nums whitespace-nowrap">
                                 {r.tanggal}
                               </td>
-                              <td className="px-4 py-5 text-slate-900">
+                              <td className="px-4 py-3.5 text-slate-900">
                                 {r.diubahOleh}
                               </td>
-                              <td className="px-4 py-5 text-slate-900">
+                              <td className="px-4 py-3.5 text-slate-900">
                                 {r.deskripsi}
                               </td>
-                              <td className="px-4 py-5">
+                              <td className="px-4 py-3.5">
                                 <div className="flex justify-center">
                                   <button
                                     type="button"
@@ -410,7 +408,7 @@ export default function ObsSamudraHartaDetail() {
                                       )
                                     }
                                     className={cn(
-                                      "inline-flex h-11 w-11 items-center justify-center rounded-full",
+                                      "inline-flex h-10 w-10 items-center justify-center rounded-full",
                                       "bg-rose-50 text-rose-600 ring-1 ring-rose-200",
                                       "transition hover:bg-white",
                                     )}
