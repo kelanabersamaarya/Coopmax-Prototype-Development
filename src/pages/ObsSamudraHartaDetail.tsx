@@ -185,7 +185,7 @@ export default function ObsSamudraHartaDetail() {
         ) : (
           <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-0 shadow-sm backdrop-blur">
             <div className="px-6 py-6 sm:px-10 sm:py-8">
-              <div className="text-[16px] font-extrabold uppercase tracking-wide text-slate-900">
+              <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
                 INFORMASI PENDAFTAR BARU
               </div>
 
