@@ -82,11 +82,6 @@ const seed: Row[] = [
   },
 ];
 
-function productTypeLabel(produk: ProductType) {
-  if (produk === "Produk Pinjaman") return "Pinjaman Koperasi";
-  return "Tabungan";
-}
-
 function TealInfoItem({
   label,
   value,
@@ -198,11 +193,7 @@ export default function ObsSamudraHartaDetail() {
                 {/* Panel teal */}
                 <div className="mt-5">
                   <TealInfoPanel
-                    title={
-                      data.produk === "Produk Pinjaman"
-                        ? "PINJAMAN BULANAN 9"
-                        : "TABUNGAN"
-                    }
+                    title={data.produk === "Produk Pinjaman" ? "Pinjaman Koperasi" : "TABUNGAN"}
                     items={[
                       { label: "Nama Pendaftar", value: data.nama },
                       { label: "Nomor Telepon", value: data.phone },
@@ -213,7 +204,6 @@ export default function ObsSamudraHartaDetail() {
                         value: data.tanggalRegistrasi,
                       },
                       { label: "Produk", value: data.produk },
-                      { label: "Tipe Produk", value: productTypeLabel(data.produk) },
                       {
                         label: "Status",
                         value: data.status === "Ditolak" ? "Ditolak" : "Diproses",
