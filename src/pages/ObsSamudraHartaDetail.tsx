@@ -256,8 +256,9 @@ export default function ObsSamudraHartaDetail() {
               {/* divider inset (tidak mentok ujung card) */}
               <InsetDivider />
 
-              <div className="px-6 py-6 sm:px-10 sm:py-8">
-                <div className="text-[16px] font-extrabold uppercase tracking-wide text-slate-900">
+              {/* ✅ padding-top diperkecil agar lebih dekat ke divider */}
+              <div className="px-6 pb-6 pt-3 sm:px-10 sm:pb-8 sm:pt-4">
+                <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
                   GAMBAR
                 </div>
 
