@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
 import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
+import SidebarObsMenu from "@/components/SidebarObsMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -26,6 +27,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 // Routes yang benar-benar ada saat ini
 const implementedRoutes = new Set([
   "/dashboard",
+  "/obs-samudra-harta",
   "/loan-products",
   "/loan-products/new",
   "/loans/new",
@@ -136,6 +138,9 @@ export default function Index() {
 
                           {/* Pinjaman (collapsible) tepat di bawah Anggota */}
                           <SidebarPinjamanMenu />
+
+                          {/* Online Banking / OBS (collapsible) */}
+                          <SidebarObsMenu />
 
                           {/* Laporan (collapsible) */}
                           <SidebarLaporanMenu />
