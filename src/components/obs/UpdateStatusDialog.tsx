@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { XCircle, X, Save } from "lucide-react";
+import { X, Save } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
@@ -30,7 +30,7 @@ export type UpdateStatusDialogPrefill = {
 };
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-[14px] font-semibold text-[#1e3a8a]">{children}</div>;
+  return <div className="text-[14px] font-normal text-[#1e3a8a]">{children}</div>;
 }
 
 function LeftLabel({ children }: { children: React.ReactNode }) {
@@ -70,6 +70,22 @@ function FieldRow({
   );
 }
 
+function DataPemohonKV({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 sm:grid-cols-[180px_14px_minmax(0,1fr)]">
+      <div className="text-[14px] font-normal text-slate-900">{label}</div>
+      <div className="hidden sm:block text-[14px] font-normal text-slate-400">:</div>
+      <div className="text-[14px] font-normal text-slate-900">{value}</div>
+    </div>
+  );
+}
+
 export default function UpdateStatusDialog({
   open,
   onOpenChange,
@@ -95,20 +111,20 @@ export default function UpdateStatusDialog({
   const triggerCls = cn(
     "h-10 w-full justify-between rounded-[6px]",
     "border-slate-200 bg-white px-3",
-    "text-[14px] font-medium text-slate-900 shadow-sm",
+    "text-[14px] font-normal text-slate-900 shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-500",
   );
 
   const inputCls = cn(
     "h-10 rounded-[6px] border-slate-200 bg-white",
-    "text-[14px] font-medium text-slate-900 shadow-sm",
+    "text-[14px] font-normal text-slate-900 shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
   const textareaCls = cn(
     "min-h-[240px] rounded-[6px] border-slate-200 bg-white",
-    "text-[14px] font-medium text-slate-900 shadow-sm",
+    "text-[14px] font-normal text-slate-900 shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
@@ -129,7 +145,7 @@ export default function UpdateStatusDialog({
       >
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="text-[18px] font-extrabold tracking-tight text-slate-900">
+            <div className="text-[18px] font-normal tracking-tight text-slate-900">
               Perbarui Status
             </div>
 
@@ -171,39 +187,15 @@ export default function UpdateStatusDialog({
 
               <FieldRow label="Data Pemohon" align="top">
                 <div className="rounded-[6px] border border-slate-200 bg-white p-4 shadow-sm">
-                  <div className="grid gap-2 text-[14px]">
-                    <div className="grid gap-2 sm:grid-cols-[180px_14px_minmax(0,1fr)]">
-                      <div className="font-semibold text-slate-900">NIK Pemohon</div>
-                      <div className="hidden sm:block font-semibold text-slate-400">
-                        :
-                      </div>
-                      <div className="font-medium text-slate-900 tabular-nums">
-                        {prefill.nikPemohon}
-                      </div>
-                    </div>
-
-                    <div className="grid gap-2 sm:grid-cols-[180px_14px_minmax(0,1fr)]">
-                      <div className="font-semibold text-slate-900">Nama Pemohon</div>
-                      <div className="hidden sm:block font-semibold text-slate-400">
-                        :
-                      </div>
-                      <div className="font-medium text-slate-900">
-                        {prefill.namaPemohon}
-                      </div>
-                    </div>
+                  <div className="grid gap-3">
+                    <DataPemohonKV label="Nama Pemohon" value={prefill.namaPemohon} />
+                    <DataPemohonKV label="No Telepon" value="085461231456" />
+                    <DataPemohonKV label="Alamat" value="BR. TENGKULAK KAJA KANGIN" />
                   </div>
 
-                  <div className="mt-4 rounded-[6px] bg-rose-50 px-4 py-3 ring-1 ring-rose-100">
-                    <div className="flex items-center justify-center gap-3 text-rose-700">
-                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white ring-1 ring-rose-200">
-                        <XCircle className="h-4.5 w-4.5" />
-                      </span>
-                      <div className="text-[14px] font-extrabold tracking-wide">
-                        {prefill.verified
-                          ? "SUDAH TERVERIFIKASI"
-                          : "BELUM TERVERIFIKASI"}
-                      </div>
-                    </div>
+                  {/* keep nikPemohon & verified referenced to avoid TS unused warnings */}
+                  <div className="sr-only">
+                    {prefill.nikPemohon} • {String(prefill.verified)}
                   </div>
                 </div>
               </FieldRow>
@@ -216,12 +208,9 @@ export default function UpdateStatusDialog({
                 />
               </FieldRow>
 
-              {/* Nominal Pengajuan (readonly) */}
               <FieldRow label="Nominal Pengajuan">
                 <Input value={prefill.pinjamanDiajukan} readOnly className={inputCls} />
               </FieldRow>
-
-              {/* Field di bawahnya dihapus sesuai request */}
 
               <FieldRow label="Deskripsi" align="top">
                 <Textarea
@@ -246,7 +235,7 @@ export default function UpdateStatusDialog({
                 className={cn(
                   "inline-flex h-10 items-center justify-center gap-2 rounded-[10px] px-4",
                   "bg-[#6B7A90] text-white ring-1 ring-[#6B7A90]/25 transition hover:bg-[#5f6d82]",
-                  "text-[14px] font-semibold",
+                  "text-[14px] font-normal",
                 )}
               >
                 <X className="h-5 w-5" />
@@ -260,7 +249,6 @@ export default function UpdateStatusDialog({
                     ...prefill,
                     status,
                     tanggal,
-                    // pinjamanDisetujui tidak diubah dari UI (field dihapus)
                     deskripsi,
                   };
                   onSave?.(next);
@@ -272,7 +260,7 @@ export default function UpdateStatusDialog({
                 className={cn(
                   "inline-flex h-10 items-center justify-center gap-2 rounded-[10px] px-4",
                   "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
-                  "text-[14px] font-semibold",
+                  "text-[14px] font-normal",
                 )}
               >
                 <Save className="h-5 w-5" />
