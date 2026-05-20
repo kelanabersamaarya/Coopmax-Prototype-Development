@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowLeft } from "lucide-react";
+import { List } from "lucide-react";
 
 type ProductType = "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "Diajukan" | "Diproses" | "Ditolak";
@@ -262,13 +262,20 @@ export default function ObsSamudraHartaDetail() {
               type="button"
               onClick={() => navigate("/obs-samudra-harta")}
               className={cn(
-                "inline-flex items-center gap-2 rounded-full bg-white px-4 py-2",
-                "text-[13px] font-semibold text-slate-700 ring-1 ring-slate-200 shadow-sm",
+                "inline-flex items-center justify-center gap-3",
+                "w-[194px] h-10",
+                "rounded-full bg-white",
+                "px-5",
+                "text-[15px] font-semibold text-slate-800",
+                "ring-1 ring-slate-200 shadow-sm",
                 "transition hover:bg-slate-50",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
               )}
+              aria-label="Kembali ke Daftar"
+              title="Kembali ke Daftar"
             >
-              <ArrowLeft className="h-4 w-4" />
-              Kembali
+              <List className="h-5 w-5 text-slate-600" />
+              <span className="whitespace-nowrap">Kembali ke Daftar</span>
             </button>
           </div>
 
