@@ -165,12 +165,15 @@ export default function ObsWeb() {
     "focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
   );
 
+  // ✅ border lebih kontras untuk textarea "Deskripsi"
   const textareaCls = cn(
-    "min-h-[120px] rounded-2xl border-slate-200 bg-white",
+    "min-h-[120px] rounded-2xl border border-slate-300 bg-white",
     "text-[14px] font-medium text-slate-900",
     "placeholder:text-slate-400",
     "shadow-sm",
-    "focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
+    "transition-colors",
+    "hover:border-slate-400",
+    "focus-visible:border-slate-400 focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
   );
 
   return (
