@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Info } from "lucide-react";
+import { Info, Plus } from "lucide-react";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
 import PenaltyDetailDialog, {
@@ -137,13 +137,17 @@ function buildPenaltyDetailRows(dueDateDmy: string) {
   return rows;
 }
 
-function PenaltyInfoButton({
+function PenaltyIconButton({
   onClick,
+  icon = "info",
   className,
 }: {
   onClick: () => void;
+  icon?: "info" | "plus";
   className?: string;
 }) {
+  const Icon = icon === "plus" ? Plus : Info;
+
   return (
     <button
       type="button"
@@ -162,7 +166,7 @@ function PenaltyInfoButton({
       aria-label="Rincian denda"
       title="Rincian denda"
     >
-      <Info className="h-3.5 w-3.5" />
+      <Icon className="h-3.5 w-3.5" />
     </button>
   );
 }
@@ -392,6 +396,9 @@ export default function BillingTableView2({
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
+    // ✅ Request: baris ke-5 (globalIdx=4) icon jadi plus, tetap pakai lingkaran
+    const iconVariant: "info" | "plus" = globalIdx === 4 ? "plus" : "info";
+
     return (
       <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
         <div className="flex items-center justify-end gap-2">
@@ -403,7 +410,8 @@ export default function BillingTableView2({
             <span className="sr-only">Tidak ada denda</span>
           )}
 
-          <PenaltyInfoButton
+          <PenaltyIconButton
+            icon={iconVariant}
             onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
           />
         </div>
