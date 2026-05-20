@@ -10,7 +10,9 @@ import PenaltyDetailDialog, {
 } from "@/components/anggota/PenaltyDetailDialog";
 import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialogReadOnly";
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
+import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import {
+  addPenaltyOverride,
   getPenaltyAdds,
   getPenaltyCanceledItems,
   isPenaltyCanceledForRow,
@@ -234,6 +236,15 @@ export default function BillingTableView2({
     rowIndexGlobal: number;
   } | null>(null);
 
+  const [addOpen, setAddOpen] = React.useState(false);
+  const [addTarget, setAddTarget] = React.useState<{
+    dueDateDmy: string;
+    rowIndexGlobal: number;
+  } | null>(null);
+
+  const [refreshTick, setRefreshTick] = React.useState(0);
+  const currentUserName = "Arya Dharma";
+
   const colCount = hideSelection
     ? showPenaltyColumn
       ? 7
@@ -311,21 +322,35 @@ export default function BillingTableView2({
     // ✅ Popup kosong jika belum ada denda seed, tapi tetap bisa tampilkan denda tambahan dari store.
     // - seed rows (<= PENALTY_ROWS-1): pakai seed detail
     // - beyond: seed kosong
-    setPenaltyRows(rowIndexGlobal >= PENALTY_ROWS ? [] : buildPenaltyDetailRows(dueDateDmy));
+    setPenaltyRows(
+      rowIndexGlobal >= PENALTY_ROWS ? [] : buildPenaltyDetailRows(dueDateDmy),
+    );
     setPenaltyContext({ dueDateDmy, rowIndexGlobal });
     setPenaltyOpen(true);
+  }
+
+  function openAddPenalty(dueDateDmy: string, rowIndexGlobal: number) {
+    setAddTarget({ dueDateDmy, rowIndexGlobal });
+    setAddOpen(true);
   }
 
   function RightNum({ value }: { value: string }) {
     return <NumericCell align="right">{value}</NumericCell>;
   }
 
+  function getAddsForRow(globalIdx: number, dueDateDmy: string) {
+    if (!canPersist) return [];
+    return getPenaltyAdds(contextKey!).filter(
+      (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === globalIdx,
+    );
+  }
+
   function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
     // ✅ Tanpa contextKey (atau penaltyContentDisabled): hanya baris denda seed yang tampil angka
     if (!canPersist) {
-      if (globalIdx >= PENALTY_ROWS) return { total: 0 };
+      if (globalIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
       const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
-      return { total: seedTotal };
+      return { total: seedTotal, hasAdded: false };
     }
 
     // legacy whole-row cancel -> total 0
@@ -334,7 +359,7 @@ export default function BillingTableView2({
       dueDateDmy,
       rowIndexGlobal: globalIdx,
     });
-    if (canceledWholeRow) return { total: 0 };
+    if (canceledWholeRow) return { total: 0, hasAdded: false };
 
     const canceledItems = getPenaltyCanceledItems(contextKey!);
 
@@ -360,9 +385,7 @@ export default function BillingTableView2({
     }
 
     // 2) Added penalties: berlaku untuk semua baris (termasuk baris yang awalnya tanpa denda)
-    const addsForRow = getPenaltyAdds(contextKey!).filter(
-      (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === globalIdx,
-    );
+    const addsForRow = getAddsForRow(globalIdx, dueDateDmy);
 
     const totalAdded = addsForRow.reduce(
       (sum, a) => sum + parseIdrLikeToNumber(a.amountIdrLike),
@@ -383,7 +406,9 @@ export default function BillingTableView2({
     const addedActiveSum = Math.max(0, totalAdded - canceledAddedSum);
 
     const total = Math.max(0, seedActiveSum + addedActiveSum);
-    return { total };
+    const hasAdded = addedActiveSum > 0;
+
+    return { total, hasAdded };
   }
 
   function PenaltyCell({
@@ -396,8 +421,18 @@ export default function BillingTableView2({
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
-    // ✅ Request: baris ke-5 (globalIdx=4) icon jadi plus, tetap pakai lingkaran
-    const iconVariant: "info" | "plus" = globalIdx === 4 ? "plus" : "info";
+    // ✅ Request: baris ke-5 awalnya icon plus; jika sudah ada penambahan denda -> jadi info
+    const isRow5 = globalIdx === 4;
+    const iconVariant: "info" | "plus" =
+      isRow5 && !info.hasAdded ? "plus" : "info";
+
+    const handleClick = () => {
+      if (iconVariant === "plus") {
+        openAddPenalty(dueDateDmy, globalIdx);
+        return;
+      }
+      openPenaltyDetailForRow(globalIdx, dueDateDmy);
+    };
 
     return (
       <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
@@ -410,10 +445,7 @@ export default function BillingTableView2({
             <span className="sr-only">Tidak ada denda</span>
           )}
 
-          <PenaltyIconButton
-            icon={iconVariant}
-            onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
-          />
+          <PenaltyIconButton icon={iconVariant} onClick={handleClick} />
         </div>
       </div>
     );
@@ -445,6 +477,34 @@ export default function BillingTableView2({
 
   return (
     <div className={cn("mt-3", className)}>
+      {/* Modal Tambah Denda (khusus klik ikon plus) */}
+      <PenaltyAddReasonDialog
+        open={addOpen}
+        onOpenChange={(v) => {
+          setAddOpen(v);
+          if (!v) setAddTarget(null);
+        }}
+        onConfirm={(reason, date, nominalDenda) => {
+          if (!canPersist || !addTarget) {
+            // Jika contextKey belum tersedia, jangan simpan ke storage (biar konsisten)
+            // Modal sudah punya validasi & success modal sendiri.
+            return;
+          }
+
+          addPenaltyOverride(contextKey!, {
+            dueDateDmy: addTarget.dueDateDmy,
+            rowIndexGlobal: addTarget.rowIndexGlobal,
+            amountIdrLike: nominalDenda,
+            reason,
+            addDateDmy: date,
+            by: currentUserName,
+          });
+
+          // refresh agar icon berubah plus->info dan nominal total update
+          setRefreshTick((t) => t + 1);
+        }}
+      />
+
       {penaltyDialogVariant === "read-only" ? (
         <PenaltyDetailDialogReadOnly
           open={penaltyOpen}
@@ -754,6 +814,8 @@ export default function BillingTableView2({
           <NumericCell>0</NumericCell>
         </div>
       </div>
+
+      <div className="sr-only">{refreshTick}</div>
     </div>
   );
 }
