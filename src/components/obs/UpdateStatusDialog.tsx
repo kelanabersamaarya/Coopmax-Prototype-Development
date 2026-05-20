@@ -142,6 +142,16 @@ export default function UpdateStatusDialog({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  const footerBtnBase = cn(
+    "inline-flex items-center justify-center gap-2",
+    "w-[88px] h-[28px]",
+    "rounded-[6px]",
+    "text-[11px] font-bold tracking-tight text-white",
+    "ring-1 transition",
+    "leading-none",
+    "focus:outline-none focus-visible:ring-4",
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -238,19 +248,17 @@ export default function UpdateStatusDialog({
           <Separator className="bg-slate-200" />
 
           <div className="px-6 py-4">
-            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <div className="flex items-center justify-end gap-4">
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "inline-flex items-center justify-center gap-2 px-4",
-                  UI.radius,
-                  "h-10",
-                  "bg-[#6B7A90] text-white ring-1 ring-[#6B7A90]/25 transition hover:bg-[#5f6d82]",
-                  "text-[14px] font-normal",
+                  footerBtnBase,
+                  "bg-[#77839A] ring-[#77839A]/25 hover:bg-[#6b768c]",
+                  "focus-visible:ring-[#77839A]/25",
                 )}
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" strokeWidth={3} />
                 Tutup
               </button>
 
@@ -270,14 +278,12 @@ export default function UpdateStatusDialog({
                   onOpenChange(false);
                 }}
                 className={cn(
-                  "inline-flex items-center justify-center gap-2 px-4",
-                  UI.radius,
-                  "h-10",
-                  "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
-                  "text-[14px] font-normal",
+                  footerBtnBase,
+                  "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
+                  "focus-visible:ring-[#2fb300]/25",
                 )}
               >
-                <Save className="h-5 w-5" />
+                <Save className="h-4 w-4" strokeWidth={3} />
                 Simpan
               </button>
             </div>
