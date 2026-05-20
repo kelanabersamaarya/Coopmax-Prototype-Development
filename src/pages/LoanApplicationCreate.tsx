@@ -416,7 +416,7 @@ export default function LoanApplicationCreate() {
 
     setNasabahModalOpen(false);
 
-    toast.success("Nasabah dipilih", {
+    toast.success("Data Nasabah Berhasil Ditampilkan", {
       description: `${row.nama} • ${row.id}`,
     });
   }
