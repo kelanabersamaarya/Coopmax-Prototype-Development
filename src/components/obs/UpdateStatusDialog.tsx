@@ -29,6 +29,13 @@ export type UpdateStatusDialogPrefill = {
   status: StatusOption;
 };
 
+const UI = {
+  gapY: "gap-[15px]",
+  h: "h-[30px]",
+  radius: "rounded-[5px]",
+  text: "text-[12.5px]",
+} as const;
+
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return <div className="text-[14px] font-normal text-[#1e3a8a]">{children}</div>;
 }
@@ -54,12 +61,9 @@ function FieldRow({
       )}
     >
       <div className={cn("md:pt-1", align === "top" ? "md:pt-2" : "")}>
-        {/* Mobile label */}
         <div className="md:hidden">
           <FieldLabel>{label}</FieldLabel>
         </div>
-
-        {/* Desktop label */}
         <div className="hidden md:block">
           <LeftLabel>{label}</LeftLabel>
         </div>
@@ -109,22 +113,31 @@ export default function UpdateStatusDialog({
   }, [open, prefill]);
 
   const triggerCls = cn(
-    "h-10 w-full justify-between rounded-[6px]",
+    UI.h,
+    "w-full justify-between",
+    UI.radius,
+    UI.text,
     "border-slate-200 bg-white px-3",
-    "text-[14px] font-normal text-slate-900 shadow-sm",
+    "font-normal text-slate-900 shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-500",
   );
 
   const inputCls = cn(
-    "h-10 rounded-[6px] border-slate-200 bg-white",
-    "text-[14px] font-normal text-slate-900 shadow-sm",
+    UI.h,
+    UI.radius,
+    UI.text,
+    "border-slate-200 bg-white",
+    "font-normal text-slate-900 shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
   const textareaCls = cn(
-    "min-h-[240px] rounded-[6px] border-slate-200 bg-white",
-    "text-[14px] font-normal text-slate-900 shadow-sm",
+    UI.radius,
+    UI.text,
+    "min-h-[180px]",
+    "border-slate-200 bg-white",
+    "font-normal text-slate-900 shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
@@ -136,7 +149,6 @@ export default function UpdateStatusDialog({
           "max-w-[920px]",
           "max-h-[85vh] overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
-          // hide default close button
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -166,7 +178,7 @@ export default function UpdateStatusDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(85vh - 64px - 86px)" }}
           >
-            <div className="grid gap-6">
+            <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Status">
                 <Select
                   value={status}
@@ -186,8 +198,8 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Data Pemohon" align="top">
-                <div className="rounded-[6px] border border-slate-200 bg-white p-4 shadow-sm">
-                  <div className="grid gap-3">
+                <div className={cn("border border-slate-200 bg-white p-4 shadow-sm", UI.radius)}>
+                  <div className={cn("grid", UI.gapY)}>
                     <DataPemohonKV label="Nama Pemohon" value={prefill.namaPemohon} />
                     <DataPemohonKV label="No Telepon" value="085461231456" />
                     <DataPemohonKV label="Alamat" value="BR. TENGKULAK KAJA KANGIN" />
@@ -220,7 +232,6 @@ export default function UpdateStatusDialog({
                 />
               </FieldRow>
 
-              {/* keep prefill.pinjamanDisetujui used so TS doesn't complain */}
               <div className="sr-only">{prefill.pinjamanDisetujui}</div>
             </div>
           </div>
@@ -233,7 +244,9 @@ export default function UpdateStatusDialog({
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "inline-flex h-10 items-center justify-center gap-2 rounded-[10px] px-4",
+                  "inline-flex items-center justify-center gap-2 px-4",
+                  UI.radius,
+                  "h-10",
                   "bg-[#6B7A90] text-white ring-1 ring-[#6B7A90]/25 transition hover:bg-[#5f6d82]",
                   "text-[14px] font-normal",
                 )}
@@ -258,7 +271,9 @@ export default function UpdateStatusDialog({
                   onOpenChange(false);
                 }}
                 className={cn(
-                  "inline-flex h-10 items-center justify-center gap-2 rounded-[10px] px-4",
+                  "inline-flex items-center justify-center gap-2 px-4",
+                  UI.radius,
+                  "h-10",
                   "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
                   "text-[14px] font-normal",
                 )}
