@@ -564,7 +564,7 @@ export default function ObsWeb() {
                         </div>
                         <div className="mt-1 max-w-[520px] text-center text-[12px] font-semibold text-slate-600">
                           Klik tombol di bawah atau drag & drop file ke area ini. (JPG,
-                          JPEG, PNG, PDF) — bisa pilih lebih dari 1 file.
+                          JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File.
                         </div>
                       </div>
 
