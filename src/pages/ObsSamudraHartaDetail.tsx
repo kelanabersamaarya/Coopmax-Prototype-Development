@@ -4,6 +4,9 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { List, Save } from "lucide-react";
 import { toast } from "sonner";
+import UpdateStatusDialog, {
+  type UpdateStatusDialogPrefill,
+} from "@/components/obs/UpdateStatusDialog";
 
 type ProductType = "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "Diajukan" | "Diproses" | "Ditolak";
@@ -307,6 +310,19 @@ function loanMetaById(id: string) {
   };
 }
 
+function defaultUpdateStatusPrefill(data: Row | null, loanMeta: ReturnType<typeof loanMetaById>): UpdateStatusDialogPrefill {
+  return {
+    nikPemohon: "3511775911222525",
+    namaPemohon: data?.nama ?? "Pemohon",
+    verified: false,
+    tanggal: "20-05-2026",
+    pinjamanDiajukan: loanMeta.nominalPengajuan === "-" ? "30.000.000,00" : loanMeta.nominalPengajuan,
+    pinjamanDisetujui: loanMeta.nominalPengajuan === "-" ? "30.000.000,00" : loanMeta.nominalPengajuan,
+    deskripsi: loanMeta.deskripsi === "-" ? "" : loanMeta.deskripsi,
+    status: "Pilih Status",
+  };
+}
+
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -329,8 +345,24 @@ export default function ObsSamudraHartaDetail() {
 
   const loanMeta = React.useMemo(() => loanMetaById(id), [id]);
 
+  const [updateOpen, setUpdateOpen] = React.useState(false);
+
+  const updatePrefill = React.useMemo(
+    () => defaultUpdateStatusPrefill(data, loanMeta),
+    [data, loanMeta],
+  );
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <UpdateStatusDialog
+        open={updateOpen}
+        onOpenChange={setUpdateOpen}
+        prefill={updatePrefill}
+        onSave={() => {
+          toast.success("Perbarui Status tersimpan (prototype)");
+        }}
+      />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="mx-auto w-full max-w-[1680px]">
           <div className="flex items-baseline gap-2">
@@ -353,11 +385,7 @@ export default function ObsSamudraHartaDetail() {
             <TopPillButton
               icon={Save}
               label="Perbarui Status"
-              onClick={() =>
-                toast("Perbarui Status (prototype)", {
-                  description: "Aksi perbarui status belum dihubungkan.",
-                })
-              }
+              onClick={() => setUpdateOpen(true)}
               className="w-[194px]"
             />
           </div>
