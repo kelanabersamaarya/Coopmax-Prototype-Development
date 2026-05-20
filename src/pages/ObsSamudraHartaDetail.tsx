@@ -284,10 +284,7 @@ function defaultUpdateStatusPrefill(
       loanMeta.nominalPengajuan === "-"
         ? "30.000.000,00"
         : loanMeta.nominalPengajuan,
-
-    // ✅ request: default deskripsi tidak terisi
     deskripsi: "",
-
     status: effectiveStatus,
   };
 }
@@ -330,7 +327,7 @@ export default function ObsSamudraHartaDetail() {
     if (stored.length > 0) {
       return stored
         .slice()
-        .reverse() // oldest first in table
+        .reverse()
         .map((r, idx) => ({
           rowId: r.id,
           no: idx + 1,
@@ -341,7 +338,6 @@ export default function ObsSamudraHartaDetail() {
         }));
     }
 
-    // fallback seed (sesuai screenshot)
     return [
       {
         rowId: "seed-1",
@@ -382,7 +378,6 @@ export default function ObsSamudraHartaDetail() {
   const showCreateLoanButton =
     status === "Diproses" && data?.produk === "Produk Pinjaman";
 
-  // Padding tabel riwayat seperti referensi (lebih rapat)
   const historyTh = "px-4 py-2.5";
   const historyTd = "px-4 py-1.5";
 
@@ -393,7 +388,6 @@ export default function ObsSamudraHartaDetail() {
         onOpenChange={setUpdateOpen}
         prefill={updatePrefill}
         onSave={(next) => {
-          // status sudah dipersist oleh dialog; sinkronkan UI detail dan refresh tabel
           setStatus(next.status);
           setHistoryTick((t) => t + 1);
 
@@ -435,7 +429,8 @@ export default function ObsSamudraHartaDetail() {
                 label="Buat Pengajuan Pinjaman"
                 onClick={() => {
                   toast.success("Membuka form Pengajuan Pinjaman", {
-                    description: "Dialihkan ke halaman tambah pengajuan (prototype).",
+                    description:
+                      "Dialihkan ke halaman tambah pengajuan (prototype).",
                   });
                   navigate("/loans/applications/new");
                 }}
@@ -480,10 +475,7 @@ export default function ObsSamudraHartaDetail() {
                       { label: "Nomor Telepon", value: data.phone },
                       { label: "Email", value: data.email },
                       { label: "Alamat", value: data.alamat },
-                      {
-                        label: "Tanggal Registrasi",
-                        value: data.tanggalRegistrasi,
-                      },
+                      { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
                       { label: "Produk", value: data.produk },
                       ...(data.produk === "Produk Pinjaman"
                         ? ([
@@ -554,7 +546,7 @@ export default function ObsSamudraHartaDetail() {
 
                 <div className="mt-4 overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
                   <div className="safe-x-scroll">
-                    <table className="w-full min-w-[900px] border-collapse bg-white">
+                    <table className="w-full min-w-[980px] border-collapse bg-white">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
                           <th
@@ -593,9 +585,18 @@ export default function ObsSamudraHartaDetail() {
                           >
                             DIUBAH OLEH
                           </th>
-                          <th className={cn("min-w-[360px]", historyTh)}>
+                          <th
+                            className={cn(
+                              "min-w-[360px]",
+                              historyTh,
+                              "border-r border-slate-200",
+                            )}
+                          >
                             DESKRIPSI
                           </th>
+
+                          {/* ✅ Kolom AKSI tetap ada (sesuai request), tetapi tidak ada ikon X */}
+                          <th className={cn("w-[110px]", historyTh)}>AKSI</th>
                         </tr>
                       </thead>
 
@@ -603,7 +604,7 @@ export default function ObsSamudraHartaDetail() {
                         {historyRows.length === 0 ? (
                           <tr>
                             <td
-                              colSpan={5}
+                              colSpan={6}
                               className="px-4 py-7 text-center text-sm text-slate-600"
                             >
                               Belum ada riwayat.
@@ -650,8 +651,18 @@ export default function ObsSamudraHartaDetail() {
                               >
                                 {r.diubahOleh}
                               </td>
-                              <td className={cn(historyTd, "font-normal")}>
+                              <td
+                                className={cn(
+                                  historyTd,
+                                  "font-normal border-r border-slate-200",
+                                )}
+                              >
                                 {r.deskripsi}
+                              </td>
+
+                              {/* ✅ Sel aksi kosong (tidak menampilkan ikon X) */}
+                              <td className={cn(historyTd, "text-center text-slate-400")}>
+                                {/* intentionally blank */}
                               </td>
                             </tr>
                           ))
