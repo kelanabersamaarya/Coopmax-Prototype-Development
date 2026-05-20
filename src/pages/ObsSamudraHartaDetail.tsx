@@ -282,7 +282,10 @@ function defaultUpdateStatusPrefill(
       loanMeta.nominalPengajuan === "-"
         ? "30.000.000,00"
         : loanMeta.nominalPengajuan,
-    deskripsi: loanMeta.deskripsi === "-" ? "" : loanMeta.deskripsi,
+
+    // ✅ request: default deskripsi tidak terisi
+    deskripsi: "",
+
     status: effectiveStatus,
   };
 }
