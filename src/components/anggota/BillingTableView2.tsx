@@ -319,9 +319,6 @@ export default function BillingTableView2({
   const canPersist = !!contextKey && penaltyContentEnabled;
 
   function openPenaltyDetailForRow(rowIndexGlobal: number, dueDateDmy: string) {
-    // ✅ Popup kosong jika belum ada denda seed, tapi tetap bisa tampilkan denda tambahan dari store.
-    // - seed rows (<= PENALTY_ROWS-1): pakai seed detail
-    // - beyond: seed kosong
     setPenaltyRows(
       rowIndexGlobal >= PENALTY_ROWS ? [] : buildPenaltyDetailRows(dueDateDmy),
     );
@@ -346,14 +343,12 @@ export default function BillingTableView2({
   }
 
   function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
-    // ✅ Tanpa contextKey (atau penaltyContentDisabled): hanya baris denda seed yang tampil angka
     if (!canPersist) {
       if (globalIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
       const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
       return { total: seedTotal, hasAdded: false };
     }
 
-    // legacy whole-row cancel -> total 0
     const canceledWholeRow = isPenaltyCanceledForRow({
       contextKey: contextKey!,
       dueDateDmy,
@@ -363,7 +358,6 @@ export default function BillingTableView2({
 
     const canceledItems = getPenaltyCanceledItems(contextKey!);
 
-    // 1) Seed penalties: hanya untuk baris awal
     let seedActiveSum = 0;
     if (globalIdx < PENALTY_ROWS) {
       const seedDates = buildSeedPenaltyDates(dueDateDmy);
@@ -384,7 +378,6 @@ export default function BillingTableView2({
       );
     }
 
-    // 2) Added penalties: berlaku untuk semua baris (termasuk baris yang awalnya tanpa denda)
     const addsForRow = getAddsForRow(globalIdx, dueDateDmy);
 
     const totalAdded = addsForRow.reduce(
@@ -422,12 +415,10 @@ export default function BillingTableView2({
     const total = info.total;
 
     // ✅ Request update:
-    // - baris ke-5 (globalIdx=4) SELALU plus
-    // - baris ke-6 (globalIdx=5) SELALU plus
-    const isRow5 = globalIdx === 4;
-    const isRow6 = globalIdx === 5;
+    // baris ke-4/5/6 (globalIdx=3/4/5) selalu icon Plus & flow Tambah Denda
+    const forcePlusRows = globalIdx === 3 || globalIdx === 4 || globalIdx === 5;
 
-    const iconVariant: "info" | "plus" = isRow5 || isRow6 ? "plus" : "info";
+    const iconVariant: "info" | "plus" = forcePlusRows ? "plus" : "info";
 
     const handleClick = () => {
       if (iconVariant === "plus") {
@@ -480,7 +471,6 @@ export default function BillingTableView2({
 
   return (
     <div className={cn("mt-3", className)}>
-      {/* Modal Tambah Denda (khusus klik ikon plus) */}
       <PenaltyAddReasonDialog
         open={addOpen}
         onOpenChange={(v) => {
@@ -488,11 +478,7 @@ export default function BillingTableView2({
           if (!v) setAddTarget(null);
         }}
         onConfirm={(reason, date, nominalDenda) => {
-          if (!canPersist || !addTarget) {
-            // Jika contextKey belum tersedia, jangan simpan ke storage (biar konsisten)
-            // Modal sudah punya validasi & success modal sendiri.
-            return;
-          }
+          if (!canPersist || !addTarget) return;
 
           addPenaltyOverride(contextKey!, {
             dueDateDmy: addTarget.dueDateDmy,
@@ -503,7 +489,6 @@ export default function BillingTableView2({
             by: currentUserName,
           });
 
-          // refresh agar nominal total update
           setRefreshTick((t) => t + 1);
         }}
       />
