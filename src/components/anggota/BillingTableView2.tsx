@@ -302,7 +302,8 @@ export default function BillingTableView2({
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
 
   function openPenaltyDetailForRow(rowIndexGlobal: number, dueDateDmy: string) {
-    setPenaltyRows(buildPenaltyDetailRows(dueDateDmy));
+    // ✅ Jika tagihan belum punya denda (di luar PENALTY_ROWS), tampilkan popup kosong
+    setPenaltyRows(rowIndexGlobal >= PENALTY_ROWS ? [] : buildPenaltyDetailRows(dueDateDmy));
     setPenaltyContext({ dueDateDmy, rowIndexGlobal });
     setPenaltyOpen(true);
   }
