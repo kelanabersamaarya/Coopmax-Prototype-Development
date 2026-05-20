@@ -22,7 +22,7 @@ import {
   Image as ImageIcon,
   Upload,
   FileText,
-  X,
+  Trash2,
 } from "lucide-react";
 
 type Product = "Pinjaman Koperasi" | "Produk Tabungan";
@@ -472,9 +472,6 @@ export default function ObsWeb() {
                                 >
                                   {p.name}
                                 </div>
-                                <div className="text-[11px] font-semibold text-slate-500">
-                                  {p.type || "file"}
-                                </div>
                               </div>
 
                               <button
@@ -487,7 +484,7 @@ export default function ObsWeb() {
                                 aria-label={`Hapus ${p.name}`}
                                 title="Hapus"
                               >
-                                <X className="h-4.5 w-4.5" />
+                                <Trash2 className="h-4 w-4" />
                               </button>
                             </div>
 
