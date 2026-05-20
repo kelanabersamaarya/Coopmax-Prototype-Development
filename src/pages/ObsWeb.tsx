@@ -269,8 +269,8 @@ export default function ObsWeb() {
                 />
               </div>
 
-              {/* NEW fields below Alamat */}
-              <div className="grid gap-4 md:grid-cols-2">
+              {/* NEW fields below Alamat (✅ one column) */}
+              <div className="grid gap-5">
                 <div className="grid gap-2">
                   <Label className="text-[13px] font-semibold text-slate-700">
                     Kolektor
@@ -295,9 +295,7 @@ export default function ObsWeb() {
                     inputMode="numeric"
                   />
                 </div>
-              </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
                 <div className="grid gap-2">
                   <Label className="text-[13px] font-semibold text-slate-700">
                     Jangka Waktu (bulan)
