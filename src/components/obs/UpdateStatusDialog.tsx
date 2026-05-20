@@ -129,7 +129,9 @@ export default function UpdateStatusDialog({
                   <LeftLabel>Data Pemohon</LeftLabel>
                   <LeftLabel>Tanggal</LeftLabel>
                   <LeftLabel>Pinjaman Diajukan</LeftLabel>
-                  <LeftLabel>Pinjaman yang Disetujui</LeftLabel>
+                  <div className="text-[14px] font-normal text-black" aria-hidden="true">
+                    {/* label dihilangkan sesuai permintaan */}
+                  </div>
                   <LeftLabel>Deskripsi</LeftLabel>
                 </div>
               </div>
@@ -204,7 +206,11 @@ export default function UpdateStatusDialog({
                     <div className="md:hidden">
                       <FieldLabel>Tanggal</FieldLabel>
                     </div>
-                    <Input value={tanggal} onChange={(e) => setTanggal(e.target.value)} className={inputCls} />
+                    <Input
+                      value={tanggal}
+                      onChange={(e) => setTanggal(e.target.value)}
+                      className={inputCls}
+                    />
                   </div>
 
                   {/* Pinjaman Diajukan (read-only) */}
@@ -217,7 +223,7 @@ export default function UpdateStatusDialog({
                     </div>
                   </div>
 
-                  {/* Pinjaman yang Disetujui */}
+                  {/* Pinjaman yang Disetujui (tetap ada field, tapi label kiri dihilangkan) */}
                   <div className="grid gap-2">
                     <div className="md:hidden">
                       <FieldLabel>Pinjaman yang Disetujui</FieldLabel>
