@@ -189,137 +189,141 @@ export default function ObsWeb() {
         </div>
 
         <div className="mt-7">
+          {/* ✅ Card luar (wrapper) yang meng-cover seluruh isi menu */}
           <Card className="rounded-3xl border-slate-200/70 bg-[#F8FAFC] p-5 shadow-sm md:p-6">
-            <div className="grid gap-5">
-              <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Nama
-                </Label>
-                <Input
-                  value={nama}
-                  onChange={(e) => setNama(e.target.value)}
-                  className={inputCls}
-                  placeholder=""
-                />
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
+            {/* ✅ Inner panel putih untuk form fields */}
+            <div className="rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
+              <div className="grid gap-5">
                 <div className="grid gap-2">
                   <Label className="text-[13px] font-semibold text-slate-700">
-                    Nomor Telepon
+                    Nama
                   </Label>
                   <Input
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    value={nama}
+                    onChange={(e) => setNama(e.target.value)}
                     className={inputCls}
                     placeholder=""
-                    inputMode="tel"
+                  />
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="grid gap-2">
+                    <Label className="text-[13px] font-semibold text-slate-700">
+                      Nomor Telepon
+                    </Label>
+                    <Input
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className={inputCls}
+                      placeholder=""
+                      inputMode="tel"
+                    />
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label className="text-[13px] font-semibold text-slate-700">
+                      Email
+                    </Label>
+                    <Input
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className={inputCls}
+                      placeholder=""
+                      inputMode="email"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-2">
+                  <Label className="text-[13px] font-semibold text-slate-700">
+                    Alamat
+                  </Label>
+                  <Input
+                    value={alamat}
+                    onChange={(e) => setAlamat(e.target.value)}
+                    className={inputCls}
+                    placeholder=""
                   />
                 </div>
 
                 <div className="grid gap-2">
                   <Label className="text-[13px] font-semibold text-slate-700">
-                    Email
+                    Produk
                   </Label>
-                  <Input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={inputCls}
-                    placeholder=""
-                    inputMode="email"
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Alamat
-                </Label>
-                <Input
-                  value={alamat}
-                  onChange={(e) => setAlamat(e.target.value)}
-                  className={inputCls}
-                  placeholder=""
-                />
-              </div>
-
-              <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Produk
-                </Label>
-                <Select
-                  value={produk}
-                  onValueChange={(v) => setProduk(v as Product)}
-                >
-                  <SelectTrigger
-                    className={cn(
-                      inputCls,
-                      "h-11 justify-between rounded-2xl",
-                      "[&>svg]:text-slate-400",
-                    )}
+                  <Select
+                    value={produk}
+                    onValueChange={(v) => setProduk(v as Product)}
                   >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
-                    <SelectItem value="Pinjaman Koperasi" className="rounded-xl">
-                      Pinjaman Koperasi
-                    </SelectItem>
-                    <SelectItem value="Produk Tabungan" className="rounded-xl">
-                      Produk Tabungan
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Dokumen (opsional)
-                </Label>
-
-                <div className="rounded-3xl border border-slate-200 bg-white p-4">
-                  <div className="grid gap-4 md:grid-cols-[160px_minmax(0,1fr)] md:items-start">
-                    <div className="grid place-items-center rounded-2xl bg-slate-50 p-6 ring-1 ring-slate-200">
-                      <div className="text-[12px] font-extrabold text-slate-500">
-                        Pratinjau
-                      </div>
-                      <div className="mt-1 text-[11px] font-medium text-slate-400">
-                        (prototype)
-                      </div>
-                    </div>
-
-                    <div className="min-w-0">
-                      <input
-                        type="file"
-                        className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800"
-                        onChange={(e) =>
-                          setFileName(e.target.files?.[0]?.name ?? "")
-                        }
-                      />
-                      {fileName ? (
-                        <div className="mt-2 text-[12px] font-semibold text-slate-700">
-                          File:{" "}
-                          <span className="text-slate-900">{fileName}</span>
-                        </div>
-                      ) : (
-                        <div className="mt-2 text-[12px] text-slate-500">
-                          Belum ada file dipilih.
-                        </div>
+                    <SelectTrigger
+                      className={cn(
+                        inputCls,
+                        "h-11 justify-between rounded-2xl",
+                        "[&>svg]:text-slate-400",
                       )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl border-slate-200">
+                      <SelectItem value="Pinjaman Koperasi" className="rounded-xl">
+                        Pinjaman Koperasi
+                      </SelectItem>
+                      <SelectItem value="Produk Tabungan" className="rounded-xl">
+                        Produk Tabungan
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid gap-2">
+                  <Label className="text-[13px] font-semibold text-slate-700">
+                    Dokumen (opsional)
+                  </Label>
+
+                  <div className="rounded-3xl border border-slate-200 bg-white p-4">
+                    <div className="grid gap-4 md:grid-cols-[160px_minmax(0,1fr)] md:items-start">
+                      <div className="grid place-items-center rounded-2xl bg-slate-50 p-6 ring-1 ring-slate-200">
+                        <div className="text-[12px] font-extrabold text-slate-500">
+                          Pratinjau
+                        </div>
+                        <div className="mt-1 text-[11px] font-medium text-slate-400">
+                          (prototype)
+                        </div>
+                      </div>
+
+                      <div className="min-w-0">
+                        <input
+                          type="file"
+                          className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800"
+                          onChange={(e) =>
+                            setFileName(e.target.files?.[0]?.name ?? "")
+                          }
+                        />
+                        {fileName ? (
+                          <div className="mt-2 text-[12px] font-semibold text-slate-700">
+                            File:{" "}
+                            <span className="text-slate-900">{fileName}</span>
+                          </div>
+                        ) : (
+                          <div className="mt-2 text-[12px] text-slate-500">
+                            Belum ada file dipilih.
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <Button
-                onClick={submit}
-                className={cn(
-                  "h-12 w-full rounded-full",
-                  "bg-[#1d4f91] text-white hover:bg-[#18467f]",
-                  "text-[14px] font-extrabold tracking-tight",
-                )}
-              >
-                Kirim Pendaftaran
-              </Button>
+                <Button
+                  onClick={submit}
+                  className={cn(
+                    "h-12 w-full rounded-full",
+                    "bg-[#1d4f91] text-white hover:bg-[#18467f]",
+                    "text-[14px] font-extrabold tracking-tight",
+                  )}
+                >
+                  Kirim Pendaftaran
+                </Button>
+              </div>
             </div>
           </Card>
         </div>
