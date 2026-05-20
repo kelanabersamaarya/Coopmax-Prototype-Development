@@ -362,9 +362,9 @@ export default function BillingTableView2({
     });
   }
 
-  function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
+  function penaltyValueForRow(globalIdx: number, dueDateDmy: string, localIdx: number) {
     if (!canPersist) {
-      if (globalIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
+      if (localIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
       const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
       return { total: seedTotal, hasAdded: false };
     }
@@ -379,7 +379,7 @@ export default function BillingTableView2({
     const canceledItems = getPenaltyCanceledItems(contextKey!);
 
     let seedActiveSum = 0;
-    if (globalIdx < PENALTY_ROWS) {
+    if (localIdx < PENALTY_ROWS) {
       const seedDates = buildSeedPenaltyDates(dueDateDmy);
       const canceledSeedSum = seedDates.reduce((sum, d) => {
         const pid = seedPenaltyItemId(d);
@@ -426,15 +426,17 @@ export default function BillingTableView2({
 
   function PenaltyCell({
     globalIdx,
+    localIdx,
     dueDateDmy,
   }: {
     globalIdx: number;
+    localIdx: number;
     dueDateDmy: string;
   }) {
-    const isNoSeedPenaltyRow = globalIdx >= PENALTY_ROWS;
+    // ✅ Baru: seed penalty hanya berlaku untuk 3 baris pertama pada halaman ini.
+    // Baris 4 & 5 akan mengikuti behaviour baris 6 (default Plus).
+    const isNoSeedPenaltyRow = localIdx >= PENALTY_ROWS;
 
-    // IMPORTANT: baris tanpa denda bawaan:
-    // tampilkan Info hanya jika ada add aktif yang match (dueDateDmy + rowIndexGlobal).
     if (isNoSeedPenaltyRow) {
       const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
 
@@ -457,8 +459,8 @@ export default function BillingTableView2({
       );
     }
 
-    // Baris yang punya denda bawaan: tampil nominal total + Info
-    const info = penaltyValueForRow(globalIdx, dueDateDmy);
+    // Baris yang punya denda bawaan (3 baris pertama di halaman): tampil nominal total + Info
+    const info = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
     const total = info.total;
 
     return (
@@ -654,7 +656,11 @@ export default function BillingTableView2({
                                   </div>
 
                                   {showPenaltyColumn ? (
-                                    <PenaltyCell globalIdx={globalIdx} dueDateDmy={r.jatuhTempo} />
+                                    <PenaltyCell
+                                      globalIdx={globalIdx}
+                                      localIdx={rowIndex}
+                                      dueDateDmy={r.jatuhTempo}
+                                    />
                                   ) : null}
                                 </div>
                               </RowShell>
@@ -731,7 +737,11 @@ export default function BillingTableView2({
                             </div>
 
                             {showPenaltyColumn ? (
-                              <PenaltyCell globalIdx={globalIdx} dueDateDmy={r.jatuhTempo} />
+                              <PenaltyCell
+                                globalIdx={globalIdx}
+                                localIdx={rowIndex}
+                                dueDateDmy={r.jatuhTempo}
+                              />
                             ) : null}
                           </div>
                         </RowShell>
@@ -813,7 +823,11 @@ export default function BillingTableView2({
                               </div>
 
                               {showPenaltyColumn ? (
-                                <PenaltyCell globalIdx={globalIdx} dueDateDmy={r.jatuhTempo} />
+                                <PenaltyCell
+                                  globalIdx={globalIdx}
+                                  localIdx={idx}
+                                  dueDateDmy={r.jatuhTempo}
+                                />
                               ) : null}
                             </div>
                           </RowShell>
