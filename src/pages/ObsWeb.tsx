@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Mail, MapPin, Phone, Globe, Building2 } from "lucide-react";
+import { Mail, MapPin, Phone, Globe, Building2, Image as ImageIcon, Upload } from "lucide-react";
 
 type Product = "Pinjaman Koperasi" | "Produk Tabungan";
 
@@ -119,6 +119,13 @@ export default function ObsWeb() {
   const [produk, setProduk] = React.useState<Product>("Pinjaman Koperasi");
   const [fileName, setFileName] = React.useState<string>("");
 
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+  const [dragActive, setDragActive] = React.useState(false);
+
+  function handlePickFile(file: File | null | undefined) {
+    setFileName(file?.name ?? "");
+  }
+
   function submit() {
     if (!nama.trim()) {
       toast("Nama wajib diisi", { description: "Mohon lengkapi nama." });
@@ -165,7 +172,6 @@ export default function ObsWeb() {
     "focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
   );
 
-  // ✅ Fix: teks di textarea tidak terpotong (baseline/line-height/padding)
   const textareaCls = cn(
     "min-h-[120px] rounded-2xl border border-slate-300 bg-white",
     "px-3 py-2.5",
@@ -220,7 +226,6 @@ export default function ObsWeb() {
         </div>
 
         <div className="mt-7">
-          {/* Hanya 1 panel form (tanpa card wrapper luar) */}
           <div className="rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
             <div className="grid gap-5">
               <div className="grid gap-2">
@@ -359,37 +364,76 @@ export default function ObsWeb() {
                   Dokumen (opsional)
                 </Label>
 
-                <div className="rounded-3xl border border-slate-200 bg-white p-4">
-                  <div className="grid gap-4 md:grid-cols-[160px_minmax(0,1fr)] md:items-start">
-                    <div className="grid place-items-center rounded-2xl bg-slate-50 p-6 ring-1 ring-slate-200">
-                      <div className="text-[12px] font-extrabold text-slate-500">
-                        Pratinjau
+                {/* Hidden native input (tanpa tombol Choose File) */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  className="sr-only"
+                  accept="image/*,.jpg,.jpeg,.png,.pdf"
+                  onChange={(e) => handlePickFile(e.target.files?.[0])}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  onDragEnter={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDragActive(true);
+                  }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDragActive(true);
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDragActive(false);
+                  }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDragActive(false);
+                    handlePickFile(e.dataTransfer.files?.[0]);
+                  }}
+                  className={cn(
+                    "w-full rounded-3xl border-2 border-dashed p-4 text-left transition",
+                    dragActive
+                      ? "border-[hsl(var(--app-accent))] bg-[hsl(var(--app-accent))]/5"
+                      : "border-slate-200 bg-white hover:bg-slate-50",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
+                  )}
+                  aria-label="Unggah dokumen"
+                >
+                  <div className="grid place-items-center gap-2 py-3">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900/5 text-slate-700 ring-1 ring-slate-200">
+                      <ImageIcon className="h-5 w-5" />
+                    </span>
+
+                    <div className="text-center">
+                      <div className="text-[13px] font-extrabold text-slate-900">
+                        {fileName ? "File terpilih" : "Upload Dokumen"}
                       </div>
-                      <div className="mt-1 text-[11px] font-medium text-slate-400">
-                        (prototype)
+                      <div className="mt-1 max-w-[520px] text-center text-[12px] font-semibold text-slate-600">
+                        {fileName
+                          ? fileName
+                          : "Klik tombol di bawah atau drag & drop file ke area ini. (JPG, JPEG, PNG, PDF)"}
                       </div>
                     </div>
 
-                    <div className="min-w-0">
-                      <input
-                        type="file"
-                        className="block w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800"
-                        onChange={(e) =>
-                          setFileName(e.target.files?.[0]?.name ?? "")
-                        }
-                      />
-                      {fileName ? (
-                        <div className="mt-2 text-[12px] font-semibold text-slate-700">
-                          File: <span className="text-slate-900">{fileName}</span>
-                        </div>
-                      ) : (
-                        <div className="mt-2 text-[12px] text-slate-500">
-                          Belum ada file dipilih.
-                        </div>
-                      )}
+                    <div className="mt-2 inline-flex items-center justify-center rounded-[8px] bg-[#2563eb] px-4 py-2 text-[12.5px] font-semibold text-white ring-1 ring-[#2563eb]/25 transition hover:bg-[#1d4ed8]">
+                      <Upload className="mr-2 h-4 w-4" />
+                      Unggah Dokumen
                     </div>
+
+                    {fileName ? (
+                      <div className="mt-1 text-[12px] font-semibold text-slate-500">
+                        Klik lagi untuk ganti file.
+                      </div>
+                    ) : null}
                   </div>
-                </div>
+                </button>
               </div>
 
               <Button
