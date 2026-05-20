@@ -222,8 +222,10 @@ export default function UpdateStatusDialog({
                 />
               </FieldRow>
 
-              {/* Pinjaman Diajukan: disembunyikan sesuai request sebelumnya */}
-              <div className="sr-only">{prefill.pinjamanDiajukan}</div>
+              {/* ✅ Nominal Pengajuan (readonly) */}
+              <FieldRow label="Nominal Pengajuan">
+                <Input value={prefill.pinjamanDiajukan} readOnly className={inputCls} />
+              </FieldRow>
 
               {/* Pinjaman Disetujui: label desktop disembunyikan, field tetap ada */}
               <FieldRow label="Pinjaman yang Disetujui" hideLabelOnDesktop>
