@@ -421,17 +421,13 @@ export default function BillingTableView2({
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
-    // ✅ Baris ke-5 (globalIdx=4): plus hanya kalau belum ada denda tambahan; jika sudah ada, jadi info
+    // ✅ Request update:
+    // - baris ke-5 (globalIdx=4) SELALU plus
+    // - baris ke-6 (globalIdx=5) SELALU plus
     const isRow5 = globalIdx === 4;
-
-    // ✅ Request: baris ke-6 (globalIdx=5) SELALU plus
     const isRow6 = globalIdx === 5;
 
-    const iconVariant: "info" | "plus" = isRow6
-      ? "plus"
-      : isRow5 && !info.hasAdded
-        ? "plus"
-        : "info";
+    const iconVariant: "info" | "plus" = isRow5 || isRow6 ? "plus" : "info";
 
     const handleClick = () => {
       if (iconVariant === "plus") {
