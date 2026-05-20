@@ -39,12 +39,10 @@ function LeftLabel({ children }: { children: React.ReactNode }) {
 
 function FieldRow({
   label,
-  hideLabelOnDesktop = false,
   align = "center",
   children,
 }: {
   label: string;
-  hideLabelOnDesktop?: boolean;
   align?: "top" | "center";
   children: React.ReactNode;
 }) {
@@ -62,7 +60,7 @@ function FieldRow({
         </div>
 
         {/* Desktop label */}
-        <div className={cn("hidden md:block", hideLabelOnDesktop ? "invisible" : "")}>
+        <div className="hidden md:block">
           <LeftLabel>{label}</LeftLabel>
         </div>
       </div>
@@ -85,16 +83,12 @@ export default function UpdateStatusDialog({
 }) {
   const [status, setStatus] = React.useState<StatusOption>(prefill.status);
   const [tanggal, setTanggal] = React.useState(prefill.tanggal);
-  const [pinjamanDisetujui, setPinjamanDisetujui] = React.useState(
-    prefill.pinjamanDisetujui,
-  );
   const [deskripsi, setDeskripsi] = React.useState(prefill.deskripsi);
 
   React.useEffect(() => {
     if (!open) return;
     setStatus(prefill.status);
     setTanggal(prefill.tanggal);
-    setPinjamanDisetujui(prefill.pinjamanDisetujui);
     setDeskripsi(prefill.deskripsi);
   }, [open, prefill]);
 
@@ -222,20 +216,12 @@ export default function UpdateStatusDialog({
                 />
               </FieldRow>
 
-              {/* ✅ Nominal Pengajuan (readonly) */}
+              {/* Nominal Pengajuan (readonly) */}
               <FieldRow label="Nominal Pengajuan">
                 <Input value={prefill.pinjamanDiajukan} readOnly className={inputCls} />
               </FieldRow>
 
-              {/* Pinjaman Disetujui: label desktop disembunyikan, field tetap ada */}
-              <FieldRow label="Pinjaman yang Disetujui" hideLabelOnDesktop>
-                <Input
-                  value={pinjamanDisetujui}
-                  onChange={(e) => setPinjamanDisetujui(e.target.value)}
-                  className={inputCls}
-                  inputMode="decimal"
-                />
-              </FieldRow>
+              {/* Field di bawahnya dihapus sesuai request */}
 
               <FieldRow label="Deskripsi" align="top">
                 <Textarea
@@ -244,6 +230,9 @@ export default function UpdateStatusDialog({
                   className={textareaCls}
                 />
               </FieldRow>
+
+              {/* keep prefill.pinjamanDisetujui used so TS doesn't complain */}
+              <div className="sr-only">{prefill.pinjamanDisetujui}</div>
             </div>
           </div>
 
@@ -271,7 +260,7 @@ export default function UpdateStatusDialog({
                     ...prefill,
                     status,
                     tanggal,
-                    pinjamanDisetujui,
+                    // pinjamanDisetujui tidak diubah dari UI (field dihapus)
                     deskripsi,
                   };
                   onSave?.(next);
