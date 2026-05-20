@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 
-type StatusOption = "Pilih Status" | "Diajukan" | "Diproses" | "Ditolak" | "Disetujui";
+type StatusOption = "Diajukan" | "Diproses" | "Ditolak";
 
 export type UpdateStatusDialogPrefill = {
   nikPemohon: string;
@@ -101,15 +101,15 @@ export default function UpdateStatusDialog({
   prefill: UpdateStatusDialogPrefill;
   onSave?: (next: UpdateStatusDialogPrefill) => void;
 }) {
-  const [status, setStatus] = React.useState<StatusOption>(prefill.status);
+  const [status, setStatus] = React.useState<StatusOption>("Diajukan");
   const [tanggal, setTanggal] = React.useState(prefill.tanggal);
   const [deskripsi, setDeskripsi] = React.useState("");
 
   React.useEffect(() => {
     if (!open) return;
-    setStatus(prefill.status);
+    // ✅ default selalu "Diajukan"
+    setStatus("Diajukan");
     setTanggal(prefill.tanggal);
-    // ✅ default kosong saat modal dibuka
     setDeskripsi("");
   }, [open, prefill]);
 
@@ -186,13 +186,11 @@ export default function UpdateStatusDialog({
                   onValueChange={(v) => setStatus(v as StatusOption)}
                 >
                   <SelectTrigger className={triggerCls}>
-                    <SelectValue placeholder="Pilih Status" />
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih Status">Pilih Status</SelectItem>
                     <SelectItem value="Diajukan">Diajukan</SelectItem>
                     <SelectItem value="Diproses">Diproses</SelectItem>
-                    <SelectItem value="Disetujui">Disetujui</SelectItem>
                     <SelectItem value="Ditolak">Ditolak</SelectItem>
                   </SelectContent>
                 </Select>
