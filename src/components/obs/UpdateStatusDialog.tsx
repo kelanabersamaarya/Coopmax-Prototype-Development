@@ -133,6 +133,12 @@ export default function UpdateStatusDialog({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  const readOnlyInputCls = cn(
+    inputCls,
+    "bg-slate-200/70 text-slate-800",
+    "cursor-not-allowed",
+  );
+
   const textareaCls = cn(
     UI.radius,
     UI.text,
@@ -230,7 +236,12 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Nominal Pengajuan">
-                <Input value={prefill.pinjamanDiajukan} readOnly className={inputCls} />
+                <Input
+                  value={prefill.pinjamanDiajukan}
+                  readOnly
+                  disabled
+                  className={readOnlyInputCls}
+                />
               </FieldRow>
 
               <FieldRow label="Deskripsi" align="top">
