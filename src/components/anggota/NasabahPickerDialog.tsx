@@ -202,6 +202,8 @@ export default function NasabahPickerDialog({
           "flex flex-col",
           R,
           "border-slate-200 p-0 shadow-xl",
+          // ✅ safe inset supaya footer tidak kepotong/menempel di bawah
+          "mb-3",
           // hide default shadcn close button (gunakan X custom)
           "[&>button[aria-label=Close]]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -438,8 +440,8 @@ export default function NasabahPickerDialog({
           ) : null}
         </div>
 
-        {/* FOOTER (sticky) */}
-        <div className="shrink-0 border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
+        {/* FOOTER */}
+        <div className="shrink-0 border-t border-slate-200 bg-white px-5 pb-6 pt-4 sm:px-6">
           <div className="flex items-center justify-end">
             <button
               type="button"
