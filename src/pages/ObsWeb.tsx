@@ -440,7 +440,7 @@ export default function ObsWeb() {
 
               <div className="grid gap-2">
                 <Label className="text-[13px] font-semibold text-slate-700">
-                  Dokumen (opsional)
+                  Dokumen Pendukung (Opsional)
                 </Label>
 
                 {/* Hidden native input (tanpa tombol Choose File) */}
