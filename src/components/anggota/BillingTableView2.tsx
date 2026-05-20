@@ -12,9 +12,7 @@ import PenaltyDetailDialogReadOnly from "@/components/anggota/PenaltyDetailDialo
 import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 import {
   getPenaltyAdds,
-  getPenaltyAddedSumForRow,
   getPenaltyCanceledItems,
-  getPenaltyCanceledItemsSumForRow,
   isPenaltyCanceledForRow,
   parseIdrLikeToNumber,
   seedPenaltyItemId,
@@ -373,9 +371,6 @@ export default function BillingTableView2({
     // total harus match "Sisa Denda" (aktif) di modal
     const total = Math.max(0, seedActiveSum + addedActiveSum);
 
-    // keep this call used (also supports older flows that still store canceled sums generically)
-    void getPenaltyCanceledItemsSumForRow({ contextKey, dueDateDmy, rowIndexGlobal: globalIdx });
-
     return { total };
   }
 
@@ -386,24 +381,33 @@ export default function BillingTableView2({
     globalIdx: number;
     dueDateDmy: string;
   }) {
+    // Untuk baris yang "tidak punya denda", tetap tampilkan ikon info agar sejajar di kolom denda.
+    // Klik tetap membuka dialog rincian denda untuk baris tsb.
     if (!penaltyContentEnabled) {
-      return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
+      return (
+        <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
+          <div className="flex items-center justify-end">
+            <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)} />
+          </div>
+        </div>
+      );
     }
 
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
-    if (!info) {
-      return <div className={cn("px-4 pr-1", cellY, numberTextClass)} />;
-    }
 
     return (
       <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
         <div className="flex items-center justify-end gap-2">
-          <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-            {formatIdrLike(info.total)}
-          </span>
-          <PenaltyInfoButton
-            onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
-          />
+          {info ? (
+            <span className="tabular-nums whitespace-nowrap num-sans-tabular">
+              {formatIdrLike(info.total)}
+            </span>
+          ) : (
+            // placeholder kosong agar ikon tetap di kolom denda tanpa angka
+            <span className="sr-only">Tidak ada denda</span>
+          )}
+
+          <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)} />
         </div>
       </div>
     );
