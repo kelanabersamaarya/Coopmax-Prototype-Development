@@ -179,14 +179,12 @@ function PaginationLikeExample({
         : "bg-slate-200/70 text-slate-800 hover:bg-slate-200",
     );
 
-  // Simple windowed pager like common UI
   const pages = React.useMemo(() => {
-    const max = 4; // keep compact like screenshot (1..4)
+    const max = 4;
     const last = Math.max(1, pageCount);
 
     if (last <= max) return Array.from({ length: last }, (_, i) => i + 1);
 
-    // If lots of pages, show a small window around current
     const windowSize = 4;
     const start = Math.min(Math.max(1, page - 1), last - windowSize + 1);
     return Array.from({ length: windowSize }, (_, i) => start + i);
@@ -336,7 +334,6 @@ export default function NasabahPickerModal({
           "max-w-[1200px]",
           "max-h-[85vh] overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
-          // hide default close button
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -579,8 +576,8 @@ export default function NasabahPickerModal({
 
           <Separator className="bg-slate-200" />
 
-          {/* ✅ Tambah padding bawah agar tombol "Tutup" terlihat lebih centered */}
-          <div className="px-6 pb-7 pt-4">
+          {/* ✅ Padding vertikal dibuat lebih seimbang supaya tombol naik dan terlihat "tengah" */}
+          <div className="px-6 py-6">
             <div className="flex justify-end">
               <button
                 type="button"
