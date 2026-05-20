@@ -429,10 +429,9 @@ export default function ObsSamudraHartaDetail() {
                 label="Buat Pengajuan Pinjaman"
                 onClick={() => {
                   toast.success("Membuka form Pengajuan Pinjaman", {
-                    description:
-                      "Dialihkan ke halaman tambah pengajuan (prototype).",
+                    description: "Form akan dibuka dalam mode kosong (tanpa prefill).",
                   });
-                  navigate("/loans/applications/new");
+                  navigate("/loans/applications/new?prefill=empty");
                 }}
                 className="w-[240px]"
               />
@@ -595,7 +594,6 @@ export default function ObsSamudraHartaDetail() {
                             DESKRIPSI
                           </th>
 
-                          {/* ✅ Kolom AKSI tetap ada (sesuai request), tetapi tidak ada ikon X */}
                           <th className={cn("w-[110px]", historyTh)}>AKSI</th>
                         </tr>
                       </thead>
@@ -660,7 +658,6 @@ export default function ObsSamudraHartaDetail() {
                                 {r.deskripsi}
                               </td>
 
-                              {/* ✅ Sel aksi kosong (tidak menampilkan ikon X) */}
                               <td className={cn(historyTd, "text-center text-slate-400")}>
                                 {/* intentionally blank */}
                               </td>

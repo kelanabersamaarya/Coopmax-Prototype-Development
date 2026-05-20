@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -242,6 +242,11 @@ const RECURRING_TT =
 
 export default function LoanApplicationCreate() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const prefillMode = (searchParams.get("prefill") ?? "").trim().toLowerCase();
+  const prefillEmpty = prefillMode === "empty";
+
   const [tab, setTab] = React.useState<TabId>("general");
 
   const [noRekening, setNoRekening] = React.useState("6459.00");
@@ -280,6 +285,37 @@ export default function LoanApplicationCreate() {
   const [besarPinjaman, setBesarPinjaman] = React.useState("0,00");
   const [jangkaWaktu, setJangkaWaktu] = React.useState("0,00");
 
+  // ✅ Jika dibuka dari OBS dengan ?prefill=empty, kosongkan semua field (tab General)
+  React.useEffect(() => {
+    if (!prefillEmpty) return;
+
+    setTab("general");
+
+    setNoRekening("");
+    setIdNasabah("");
+
+    setNik("");
+    setKtpVerified(false);
+
+    setNama("");
+    setAlamat("");
+    setUnitAnggota("");
+
+    setKolektor("Pilih Kolektor");
+    setTanggal(getTodayDmy());
+
+    setProdukPinjaman("Pilih Pinjaman");
+    setSektorPinjaman("Pilih Sektor Pinjaman");
+    setTujuanPeminjaman("Pilih Tujuan Peminjaman");
+
+    setBungaPerTahun("");
+    setMetodeBunga("Pilih Metode Bunga Pinjaman");
+
+    setBesarPinjaman("0,00");
+    setJangkaWaktu("0,00");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefillEmpty]);
+
   const showJadwalTab = produkPinjaman === "Pinjaman Billing";
 
   React.useEffect(() => {
@@ -310,7 +346,6 @@ export default function LoanApplicationCreate() {
   const [penaltyRecurring, setPenaltyRecurring] = React.useState(false);
 
   const penaltyIsRp = penaltyDraft.rateMode === "rp";
-  const penaltyIsPercent = penaltyDraft.rateMode === "percent";
 
   React.useEffect(() => {
     if (!showJadwalTab) setPenaltyVisible(false);
