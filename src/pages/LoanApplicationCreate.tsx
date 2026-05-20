@@ -40,7 +40,9 @@ import PenaltyScheduleForm, {
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import { Switch } from "@/components/ui/switch";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
-import NasabahPickerModal from "@/components/anggota/NasabahPickerModal";
+import NasabahPickerModal, {
+  type NasabahPickerRow,
+} from "@/components/anggota/NasabahPickerModal";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
@@ -251,7 +253,6 @@ export default function LoanApplicationCreate() {
   const [nasabahModalOpen, setNasabahModalOpen] = React.useState(false);
 
   React.useEffect(() => {
-    // ✅ ketika halaman pengajuan baru dibuka, langsung munculkan modal nasabah
     setNasabahModalOpen(true);
   }, []);
 
@@ -293,7 +294,6 @@ export default function LoanApplicationCreate() {
   const [besarPinjaman, setBesarPinjaman] = React.useState("0,00");
   const [jangkaWaktu, setJangkaWaktu] = React.useState("0,00");
 
-  // ✅ Jika dibuka dari OBS dengan ?prefill=empty, kosongkan semua field (tab General)
   React.useEffect(() => {
     if (!prefillEmpty) return;
 
@@ -330,7 +330,6 @@ export default function LoanApplicationCreate() {
     if (!showJadwalTab && tab === "jadwal") setTab("general");
   }, [showJadwalTab, tab]);
 
-  // --- Jadwal tab state (prototype) ---
   const [jenisPerhitunganBunga, setJenisPerhitunganBunga] =
     React.useState<string>("Jadwal Tetap");
   const [metodePerhitunganBunga, setMetodePerhitunganBunga] =
@@ -341,7 +340,6 @@ export default function LoanApplicationCreate() {
     getTodayDmy(),
   );
 
-  // --- Denda (Jadwal Denda) ---
   const [penaltyVisible, setPenaltyVisible] = React.useState(false);
   const [penaltyDraft, setPenaltyDraft] = React.useState<PenaltyScheduleDraft>({
     rateMode: "percent",
@@ -404,9 +402,32 @@ export default function LoanApplicationCreate() {
   const moneyLikeText = (v: string) =>
     isDefaultMoney(v) ? "text-[#64748B]" : "text-slate-900";
 
+  function handlePickNasabah(row: NasabahPickerRow) {
+    setIdNasabah(row.id);
+    setNama(row.nama);
+    setAlamat(row.alamat);
+
+    setNik(row.noIdentitas);
+
+    const verified = row.statusKtp === "Terverifikasi";
+    setKtpVerified(verified);
+
+    setUnitAnggota(row.statusKeanggotaan);
+
+    setNasabahModalOpen(false);
+
+    toast.success("Nasabah dipilih", {
+      description: `${row.nama} • ${row.id}`,
+    });
+  }
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <NasabahPickerModal open={nasabahModalOpen} onOpenChange={setNasabahModalOpen} />
+      <NasabahPickerModal
+        open={nasabahModalOpen}
+        onOpenChange={setNasabahModalOpen}
+        onPick={handlePickNasabah}
+      />
 
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
@@ -470,12 +491,7 @@ export default function LoanApplicationCreate() {
                       />
                       <ActionIconButton
                         label="Cari nasabah"
-                        onClick={() =>
-                          toast("Cari Nasabah (prototype)", {
-                            description:
-                              "Dialog pencarian nasabah belum dihubungkan di halaman ini.",
-                          })
-                        }
+                        onClick={() => setNasabahModalOpen(true)}
                         icon={<Search className="h-4.5 w-4.5" />}
                       />
                     </div>

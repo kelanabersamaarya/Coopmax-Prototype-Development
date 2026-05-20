@@ -25,7 +25,7 @@ import { toast } from "sonner";
 type StatusKtp = "Belum Terverifikasi" | "Terverifikasi";
 type StatusKeanggotaan = "Calon Anggota" | "Anggota";
 
-type Row = {
+export type NasabahPickerRow = {
   no: number;
   id: string;
   nama: string;
@@ -35,7 +35,7 @@ type Row = {
   statusKeanggotaan: StatusKeanggotaan;
 };
 
-const seed: Row[] = [
+const seed: NasabahPickerRow[] = [
   {
     no: 1,
     id: "N2600013",
@@ -140,11 +140,9 @@ function StatusKtpPill({ v }: { v: StatusKtp }) {
       className={cn(
         "inline-flex items-center justify-center gap-2",
         "rounded-[5px]",
-        // ✅ tambah tinggi + padding vertikal untuk yg belum terverifikasi agar teks tidak mepet
         isBad ? "min-h-9 py-1.5" : "min-h-7 py-1",
         "px-3",
         "text-[11px] font-extrabold uppercase tracking-wide",
-        // ✅ hilangkan border/ring untuk semua status
         "border-0 ring-0 shadow-none",
         isBad ? "bg-rose-600 text-white" : "bg-emerald-600 text-white",
       )}
@@ -239,9 +237,11 @@ const R = "rounded-[5px]";
 export default function NasabahPickerModal({
   open,
   onOpenChange,
+  onPick,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
+  onPick?: (row: NasabahPickerRow) => void;
 }) {
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
@@ -334,6 +334,11 @@ export default function NasabahPickerModal({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-black",
   );
+
+  function pick(row: NasabahPickerRow) {
+    if (!onPick) return;
+    onPick(row);
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -539,31 +544,46 @@ export default function NasabahPickerModal({
                         </td>
                       </tr>
                     ) : (
-                      paged.map((r, idx) => (
-                        <tr
-                          key={`${r.id}-${idx}`}
-                          className={cn(
-                            "border-b border-slate-200 text-[12px] text-black",
-                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                          )}
-                        >
-                          <td className={cn(td, "tabular-nums")}>{r.no}</td>
-                          <td className={cn(td, "tabular-nums font-semibold")}>
-                            {r.id}
-                          </td>
-                          <td className={cn(td, "font-medium")}>{r.nama}</td>
-                          <td className={cn(td, "whitespace-nowrap")}>
-                            {r.noIdentitas}
-                          </td>
-                          <td className={cn(td)}>
-                            <StatusKtpPill v={r.statusKtp} />
-                          </td>
-                          <td className={cn(td, "whitespace-normal leading-snug")}>
-                            {r.alamat}
-                          </td>
-                          <td className={cn(td)}>{r.statusKeanggotaan}</td>
-                        </tr>
-                      ))
+                      paged.map((r, idx) => {
+                        const clickable = !!onPick;
+                        return (
+                          <tr
+                            key={`${r.id}-${idx}`}
+                            className={cn(
+                              "border-b border-slate-200 text-[12px] text-black",
+                              idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                              clickable ? "cursor-pointer hover:bg-slate-50" : "",
+                            )}
+                            role={clickable ? "button" : undefined}
+                            tabIndex={clickable ? 0 : undefined}
+                            onClick={() => pick(r)}
+                            onKeyDown={(e) => {
+                              if (!clickable) return;
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                pick(r);
+                              }
+                            }}
+                            aria-label={clickable ? `Pilih nasabah ${r.nama}` : undefined}
+                          >
+                            <td className={cn(td, "tabular-nums")}>{r.no}</td>
+                            <td className={cn(td, "tabular-nums font-semibold")}>
+                              {r.id}
+                            </td>
+                            <td className={cn(td, "font-medium")}>{r.nama}</td>
+                            <td className={cn(td, "whitespace-nowrap")}>
+                              {r.noIdentitas}
+                            </td>
+                            <td className={cn(td)}>
+                              <StatusKtpPill v={r.statusKtp} />
+                            </td>
+                            <td className={cn(td, "whitespace-normal leading-snug")}>
+                              {r.alamat}
+                            </td>
+                            <td className={cn(td)}>{r.statusKeanggotaan}</td>
+                          </tr>
+                        );
+                      })
                     )}
                   </tbody>
                 </table>
@@ -575,11 +595,7 @@ export default function NasabahPickerModal({
                 Showing {showingStart} to {showingEnd} of {totalEntries} entries
               </div>
 
-              <PaginationLikeExample
-                page={page}
-                pageCount={pageCount}
-                onPage={setPage}
-              />
+              <PaginationLikeExample page={page} pageCount={pageCount} onPage={setPage} />
             </div>
           </div>
 
@@ -602,6 +618,8 @@ export default function NasabahPickerModal({
               </button>
             </div>
           </div>
+
+          <div className="sr-only">{R}</div>
         </div>
       </DialogContent>
     </Dialog>
