@@ -68,7 +68,9 @@ function FooterInfoRow({
       <span className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/10">
         <Icon className="h-4.5 w-4.5" />
       </span>
-      <div className="min-w-0 text-[13px] font-semibold text-white/90">{children}</div>
+      <div className="min-w-0 text-[13px] font-semibold text-white/90">
+        {children}
+      </div>
     </div>
   );
 }
@@ -187,7 +189,7 @@ export default function ObsWeb() {
         </div>
 
         <div className="mt-7">
-          <Card className="rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
+          <Card className="rounded-3xl border-slate-200/70 bg-[#F8FAFC] p-5 shadow-sm md:p-6">
             <div className="grid gap-5">
               <div className="grid gap-2">
                 <Label className="text-[13px] font-semibold text-slate-700">
@@ -245,7 +247,10 @@ export default function ObsWeb() {
                 <Label className="text-[13px] font-semibold text-slate-700">
                   Produk
                 </Label>
-                <Select value={produk} onValueChange={(v) => setProduk(v as Product)}>
+                <Select
+                  value={produk}
+                  onValueChange={(v) => setProduk(v as Product)}
+                >
                   <SelectTrigger
                     className={cn(
                       inputCls,
@@ -292,7 +297,8 @@ export default function ObsWeb() {
                       />
                       {fileName ? (
                         <div className="mt-2 text-[12px] font-semibold text-slate-700">
-                          File: <span className="text-slate-900">{fileName}</span>
+                          File:{" "}
+                          <span className="text-slate-900">{fileName}</span>
                         </div>
                       ) : (
                         <div className="mt-2 text-[12px] text-slate-500">
@@ -341,8 +347,8 @@ export default function ObsWeb() {
                 <div>
                   <div className="font-extrabold text-white">Kantor Pusat</div>
                   <div className="mt-1 text-[12px] font-semibold text-white/80">
-                    Jl. Pasung Gris, Kemenuh, Kec. Sukawati, Kabupaten Gianyar, Bali
-                    80582
+                    Jl. Pasung Gris, Kemenuh, Kec. Sukawati, Kabupaten Gianyar,
+                    Bali 80582
                   </div>
                 </div>
               </FooterInfoRow>
@@ -351,7 +357,8 @@ export default function ObsWeb() {
                 <div>
                   <div className="font-extrabold text-white">Kantor Cabang</div>
                   <div className="mt-1 text-[12px] font-semibold text-white/80">
-                    Jl. Suneta, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali 80571
+                    Jl. Suneta, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali
+                    80571
                   </div>
                 </div>
               </FooterInfoRow>
