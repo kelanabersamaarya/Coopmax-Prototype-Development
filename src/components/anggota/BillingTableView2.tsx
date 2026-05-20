@@ -411,22 +411,23 @@ export default function BillingTableView2({
     globalIdx: number;
     dueDateDmy: string;
   }) {
+    // ✅ HARD OVERRIDE: baris ke-4/5/6 selalu Plus & selalu buka "Tambah Denda"
+    // Tidak peduli apakah total denda sudah ada atau tidak.
+    if (globalIdx === 3 || globalIdx === 4 || globalIdx === 5) {
+      return (
+        <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
+          <div className="flex items-center justify-end gap-2">
+            <PenaltyIconButton
+              icon="plus"
+              onClick={() => openAddPenalty(dueDateDmy, globalIdx)}
+            />
+          </div>
+        </div>
+      );
+    }
+
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
-
-    // ✅ Request update:
-    // baris ke-4/5/6 (globalIdx=3/4/5) selalu icon Plus & flow Tambah Denda
-    const forcePlusRows = globalIdx === 3 || globalIdx === 4 || globalIdx === 5;
-
-    const iconVariant: "info" | "plus" = forcePlusRows ? "plus" : "info";
-
-    const handleClick = () => {
-      if (iconVariant === "plus") {
-        openAddPenalty(dueDateDmy, globalIdx);
-        return;
-      }
-      openPenaltyDetailForRow(globalIdx, dueDateDmy);
-    };
 
     return (
       <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
@@ -439,7 +440,10 @@ export default function BillingTableView2({
             <span className="sr-only">Tidak ada denda</span>
           )}
 
-          <PenaltyIconButton icon={iconVariant} onClick={handleClick} />
+          <PenaltyIconButton
+            icon="info"
+            onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
+          />
         </div>
       </div>
     );
