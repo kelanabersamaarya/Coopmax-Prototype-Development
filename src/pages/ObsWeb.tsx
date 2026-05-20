@@ -100,11 +100,22 @@ function MiniMapCard() {
   );
 }
 
+function onlyDigits(input: string) {
+  return (input ?? "").replace(/[^\d]/g, "");
+}
+
 export default function ObsWeb() {
   const [nama, setNama] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [alamat, setAlamat] = React.useState("");
+
+  // NEW fields (below Alamat)
+  const [kolektor, setKolektor] = React.useState("");
+  const [nominalPengajuan, setNominalPengajuan] = React.useState("");
+  const [jangkaWaktuBulan, setJangkaWaktuBulan] = React.useState("");
+  const [deskripsi, setDeskripsi] = React.useState("");
+
   const [produk, setProduk] = React.useState<Product>("Pinjaman Koperasi");
   const [fileName, setFileName] = React.useState<string>("");
 
@@ -136,12 +147,26 @@ export default function ObsWeb() {
     setPhone("");
     setEmail("");
     setAlamat("");
+
+    setKolektor("");
+    setNominalPengajuan("");
+    setJangkaWaktuBulan("");
+    setDeskripsi("");
+
     setProduk("Pinjaman Koperasi");
     setFileName("");
   }
 
   const inputCls = cn(
     "h-11 rounded-2xl border-slate-200 bg-white",
+    "text-[14px] font-medium text-slate-900",
+    "placeholder:text-slate-400",
+    "shadow-sm",
+    "focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
+  );
+
+  const textareaCls = cn(
+    "min-h-[120px] rounded-2xl border-slate-200 bg-white",
     "text-[14px] font-medium text-slate-900",
     "placeholder:text-slate-400",
     "shadow-sm",
@@ -243,6 +268,62 @@ export default function ObsWeb() {
                   placeholder=""
                 />
               </div>
+
+              {/* NEW fields below Alamat */}
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label className="text-[13px] font-semibold text-slate-700">
+                    Kolektor
+                  </Label>
+                  <Input
+                    value={kolektor}
+                    onChange={(e) => setKolektor(e.target.value)}
+                    className={inputCls}
+                    placeholder=""
+                  />
+                </div>
+
+                <div className="grid gap-2">
+                  <Label className="text-[13px] font-semibold text-slate-700">
+                    Nominal Pengajuan
+                  </Label>
+                  <Input
+                    value={nominalPengajuan}
+                    onChange={(e) => setNominalPengajuan(onlyDigits(e.target.value))}
+                    className={inputCls}
+                    placeholder="0"
+                    inputMode="numeric"
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label className="text-[13px] font-semibold text-slate-700">
+                    Jangka Waktu (bulan)
+                  </Label>
+                  <Input
+                    value={jangkaWaktuBulan}
+                    onChange={(e) => setJangkaWaktuBulan(onlyDigits(e.target.value))}
+                    className={inputCls}
+                    placeholder="0"
+                    inputMode="numeric"
+                  />
+                </div>
+
+                <div className="grid gap-2">
+                  <Label className="text-[13px] font-semibold text-slate-700">
+                    Deskripsi
+                  </Label>
+                  <textarea
+                    value={deskripsi}
+                    onChange={(e) => setDeskripsi(e.target.value)}
+                    className={textareaCls}
+                    placeholder=""
+                  />
+                </div>
+              </div>
+              {/* END new fields */}
 
               <div className="grid gap-2">
                 <Label className="text-[13px] font-semibold text-slate-700">
