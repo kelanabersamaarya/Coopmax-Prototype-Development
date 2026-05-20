@@ -88,6 +88,28 @@ export function parseIdrLikeToNumber(input: string) {
   return Number.isFinite(n) ? n : 0;
 }
 
+/**
+ * Clear all overrides (adds, cancels, canceledItems) for a given contextKey.
+ * Useful to reset stale prototype data in localStorage.
+ */
+export function clearPenaltyOverrides(contextKey: string) {
+  const key = (contextKey ?? "").trim();
+  if (!key) return;
+
+  const st = readState();
+
+  const { [key]: _a, ...restAdds } = st.adds ?? {};
+  const { [key]: _c, ...restCancels } = st.cancels ?? {};
+  const { [key]: _i, ...restItems } = st.canceledItems ?? {};
+
+  writeState({
+    ...st,
+    adds: restAdds,
+    cancels: restCancels,
+    canceledItems: restItems,
+  });
+}
+
 // ===== Adds =====
 export function getPenaltyAdds(contextKey: string): PenaltyAddOverride[] {
   const key = (contextKey ?? "").trim();
