@@ -40,6 +40,7 @@ import PenaltyScheduleForm, {
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import { Switch } from "@/components/ui/switch";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import NasabahPickerModal from "@/components/anggota/NasabahPickerModal";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
@@ -247,6 +248,13 @@ export default function LoanApplicationCreate() {
   const prefillMode = (searchParams.get("prefill") ?? "").trim().toLowerCase();
   const prefillEmpty = prefillMode === "empty";
 
+  const [nasabahModalOpen, setNasabahModalOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    // ✅ ketika halaman pengajuan baru dibuka, langsung munculkan modal nasabah
+    setNasabahModalOpen(true);
+  }, []);
+
   const [tab, setTab] = React.useState<TabId>("general");
 
   const [noRekening, setNoRekening] = React.useState("6459.00");
@@ -351,8 +359,6 @@ export default function LoanApplicationCreate() {
     if (!showJadwalTab) setPenaltyVisible(false);
   }, [showJadwalTab]);
 
-  // ❌ Jangan force disable recurring ketika mode Rp
-  // (sesuai kebutuhan: toggle harus tetap tersedia untuk Rp)
   React.useEffect(() => {
     if (penaltyIsRp) {
       setPenaltyBase("Pokok");
@@ -400,6 +406,8 @@ export default function LoanApplicationCreate() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <NasabahPickerModal open={nasabahModalOpen} onOpenChange={setNasabahModalOpen} />
+
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
@@ -827,7 +835,6 @@ export default function LoanApplicationCreate() {
                       />
 
                       <div className="mt-[15px] grid gap-[15px]">
-                        {/* ✅ tampil untuk % dan Rp */}
                         <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                           <div className="flex min-w-0 items-start gap-2">
                             <div className="min-w-0 text-[14px] font-medium leading-tight text-slate-900">
