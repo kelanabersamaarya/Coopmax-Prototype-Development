@@ -30,7 +30,7 @@ export type BillingRow = {
 
 const PENALTY_ROWS = 3;
 
-// ✅ base "seed" denda di rincian: 3 hari × 25.000 = 75.000 (sebelumnya tabel pakai 50.000)
+// ✅ base "seed" denda di rincian: 3 hari × 25.000 = 75.000
 const PENALTY_DETAIL_DAYS = 3;
 const PENALTY_PER_DAY = 25000;
 
@@ -301,8 +301,12 @@ export default function BillingTableView2({
   const numberTextClass =
     tone === "khusus" ? numberTextClassBase : numberTextClassBase;
 
+  const canPersist = !!contextKey && penaltyContentEnabled;
+
   function openPenaltyDetailForRow(rowIndexGlobal: number, dueDateDmy: string) {
-    // ✅ Jika tagihan belum punya denda (di luar PENALTY_ROWS), tampilkan popup kosong
+    // ✅ Popup kosong jika belum ada denda seed, tapi tetap bisa tampilkan denda tambahan dari store.
+    // - seed rows (<= PENALTY_ROWS-1): pakai seed detail
+    // - beyond: seed kosong
     setPenaltyRows(rowIndexGlobal >= PENALTY_ROWS ? [] : buildPenaltyDetailRows(dueDateDmy));
     setPenaltyContext({ dueDateDmy, rowIndexGlobal });
     setPenaltyOpen(true);
@@ -313,41 +317,46 @@ export default function BillingTableView2({
   }
 
   function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
-    if (globalIdx >= PENALTY_ROWS) return null;
-
-    if (!contextKey || !penaltyContentEnabled) {
-      // fallback: tampilkan seed default (75.000)
+    // ✅ Tanpa contextKey (atau penaltyContentDisabled): hanya baris denda seed yang tampil angka
+    if (!canPersist) {
+      if (globalIdx >= PENALTY_ROWS) return { total: 0 };
       const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
       return { total: seedTotal };
     }
 
     // legacy whole-row cancel -> total 0
     const canceledWholeRow = isPenaltyCanceledForRow({
-      contextKey,
+      contextKey: contextKey!,
       dueDateDmy,
       rowIndexGlobal: globalIdx,
     });
     if (canceledWholeRow) return { total: 0 };
 
-    // 1) seed items (3 hari × 25.000) dikurangi yang dibatalkan per item
-    const seedDates = buildSeedPenaltyDates(dueDateDmy);
-    const canceledItems = getPenaltyCanceledItems(contextKey);
+    const canceledItems = getPenaltyCanceledItems(contextKey!);
 
-    const canceledSeedSum = seedDates.reduce((sum, d) => {
-      const pid = seedPenaltyItemId(d);
-      const isCanceled = canceledItems.some(
-        (c) =>
-          c.dueDateDmy === dueDateDmy &&
-          c.rowIndexGlobal === globalIdx &&
-          c.penaltyItemId === pid,
+    // 1) Seed penalties: hanya untuk baris awal
+    let seedActiveSum = 0;
+    if (globalIdx < PENALTY_ROWS) {
+      const seedDates = buildSeedPenaltyDates(dueDateDmy);
+      const canceledSeedSum = seedDates.reduce((sum, d) => {
+        const pid = seedPenaltyItemId(d);
+        const isCanceled = canceledItems.some(
+          (c) =>
+            c.dueDateDmy === dueDateDmy &&
+            c.rowIndexGlobal === globalIdx &&
+            c.penaltyItemId === pid,
+        );
+        return sum + (isCanceled ? PENALTY_PER_DAY : 0);
+      }, 0);
+
+      seedActiveSum = Math.max(
+        0,
+        PENALTY_DETAIL_DAYS * PENALTY_PER_DAY - canceledSeedSum,
       );
-      return sum + (isCanceled ? PENALTY_PER_DAY : 0);
-    }, 0);
+    }
 
-    const seedActiveSum = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY - canceledSeedSum;
-
-    // 2) added items sum (aktif) = total add - item added yang dibatalkan
-    const addsForRow = getPenaltyAdds(contextKey).filter(
+    // 2) Added penalties: berlaku untuk semua baris (termasuk baris yang awalnya tanpa denda)
+    const addsForRow = getPenaltyAdds(contextKey!).filter(
       (a) => a.dueDateDmy === dueDateDmy && a.rowIndexGlobal === globalIdx,
     );
 
@@ -369,9 +378,7 @@ export default function BillingTableView2({
 
     const addedActiveSum = Math.max(0, totalAdded - canceledAddedSum);
 
-    // total harus match "Sisa Denda" (aktif) di modal
     const total = Math.max(0, seedActiveSum + addedActiveSum);
-
     return { total };
   }
 
@@ -382,33 +389,23 @@ export default function BillingTableView2({
     globalIdx: number;
     dueDateDmy: string;
   }) {
-    // Untuk baris yang "tidak punya denda", tetap tampilkan ikon info agar sejajar di kolom denda.
-    // Klik tetap membuka dialog rincian denda untuk baris tsb.
-    if (!penaltyContentEnabled) {
-      return (
-        <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
-          <div className="flex items-center justify-end">
-            <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)} />
-          </div>
-        </div>
-      );
-    }
-
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
+    const total = info.total;
 
     return (
       <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
         <div className="flex items-center justify-end gap-2">
-          {info ? (
+          {total > 0 ? (
             <span className="tabular-nums whitespace-nowrap num-sans-tabular">
-              {formatIdrLike(info.total)}
+              {formatIdrLike(total)}
             </span>
           ) : (
-            // placeholder kosong agar ikon tetap di kolom denda tanpa angka
             <span className="sr-only">Tidak ada denda</span>
           )}
 
-          <PenaltyInfoButton onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)} />
+          <PenaltyInfoButton
+            onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
+          />
         </div>
       </div>
     );
