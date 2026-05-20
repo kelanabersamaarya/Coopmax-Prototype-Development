@@ -81,6 +81,33 @@ const seed: Row[] = [
     alamat: "jl. kamboja",
     statusKeanggotaan: "Calon Anggota",
   },
+  {
+    no: 6,
+    id: "N2500016",
+    nama: "Kadek Anggara",
+    noIdentitas: "KTP - 9876543210123456",
+    statusKtp: "Terverifikasi",
+    alamat: "Jl. Mawar No. 8",
+    statusKeanggotaan: "Anggota",
+  },
+  {
+    no: 7,
+    id: "N2500017",
+    nama: "Made Wirawan",
+    noIdentitas: "KTP - 1234567890123456",
+    statusKtp: "Terverifikasi",
+    alamat: "Jl. Melati No. 12",
+    statusKeanggotaan: "Anggota",
+  },
+  {
+    no: 8,
+    id: "N2500018",
+    nama: "Ni Luh Sari",
+    noIdentitas: "SIM C - 1111222233334444",
+    statusKtp: "Belum Terverifikasi",
+    alamat: "Jl. Kamboja No. 2",
+    statusKeanggotaan: "Calon Anggota",
+  },
 ];
 
 function ThLabel({
@@ -112,7 +139,9 @@ function StatusKtpPill({ v }: { v: StatusKtp }) {
       className={cn(
         "inline-flex items-center justify-center gap-2",
         "h-7 rounded-full px-3 text-[11px] font-extrabold uppercase tracking-wide",
-        isBad ? "bg-rose-600 text-white ring-1 ring-rose-600/25" : "bg-emerald-600 text-white ring-1 ring-emerald-600/25",
+        isBad
+          ? "bg-rose-600 text-white ring-1 ring-rose-600/25"
+          : "bg-emerald-600 text-white ring-1 ring-emerald-600/25",
       )}
     >
       <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
@@ -120,6 +149,83 @@ function StatusKtpPill({ v }: { v: StatusKtp }) {
       </span>
       {v}
     </span>
+  );
+}
+
+function PaginationLikeExample({
+  page,
+  pageCount,
+  onPage,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (p: number) => void;
+}) {
+  if (pageCount <= 1) return null;
+
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= pageCount;
+
+  const navBtn = (disabled: boolean) =>
+    cn(
+      "h-10 px-4 text-[14px] font-medium transition",
+      "bg-slate-100 text-slate-500",
+      disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-200",
+    );
+
+  const pageBtn = (active: boolean) =>
+    cn(
+      "h-10 w-10 text-[14px] font-semibold transition",
+      active
+        ? "bg-violet-600 text-white"
+        : "bg-slate-200/70 text-slate-800 hover:bg-slate-200",
+    );
+
+  // Simple windowed pager like common UI
+  const pages = React.useMemo(() => {
+    const max = 4; // keep compact like screenshot (1..4)
+    const last = pageCount;
+
+    if (last <= max) return Array.from({ length: last }, (_, i) => i + 1);
+
+    // If lots of pages, show a small window around current
+    const windowSize = 4;
+    const start = Math.min(Math.max(1, page - 1), last - windowSize + 1);
+    return Array.from({ length: windowSize }, (_, i) => start + i);
+  }, [page, pageCount]);
+
+  return (
+    <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+      <button
+        type="button"
+        className={navBtn(prevDisabled)}
+        disabled={prevDisabled}
+        onClick={() => onPage(Math.max(1, page - 1))}
+      >
+        Previous
+      </button>
+
+      {pages.map((p) => (
+        <button
+          key={p}
+          type="button"
+          className={pageBtn(p === page)}
+          onClick={() => onPage(p)}
+          aria-current={p === page ? "page" : undefined}
+        >
+          {p}
+        </button>
+      ))}
+
+      <button
+        type="button"
+        className={navBtn(nextDisabled)}
+        disabled={nextDisabled}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+      >
+        Next
+      </button>
+    </div>
   );
 }
 
@@ -132,14 +238,16 @@ export default function NasabahPickerModal({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
-  const [pageSize] = React.useState<number>(20);
+  const [pageSize, setPageSize] = React.useState<number>(20);
+  const [page, setPage] = React.useState<number>(1);
 
   const [qId, setQId] = React.useState("");
   const [qNama, setQNama] = React.useState("");
   const [qNo, setQNo] = React.useState("");
   const [qAlamat, setQAlamat] = React.useState("");
   const [qStatusKtp, setQStatusKtp] = React.useState<string>("-- Semua --");
-  const [qStatusKeanggotaan, setQStatusKeanggotaan] = React.useState<string>("-- Semua --");
+  const [qStatusKeanggotaan, setQStatusKeanggotaan] =
+    React.useState<string>("-- Semua --");
 
   React.useEffect(() => {
     if (!open) return;
@@ -149,6 +257,8 @@ export default function NasabahPickerModal({
     setQAlamat("");
     setQStatusKtp("-- Semua --");
     setQStatusKeanggotaan("-- Semua --");
+    setPageSize(20);
+    setPage(1);
   }, [open]);
 
   const filtered = React.useMemo(() => {
@@ -181,8 +291,24 @@ export default function NasabahPickerModal({
     });
   }, [qAlamat, qId, qNama, qNo, qStatusKeanggotaan, qStatusKtp]);
 
-  const rows = filtered.slice(0, 5);
-  const totalEntries = rows.length;
+  React.useEffect(() => {
+    setPage(1);
+  }, [pageSize, qId, qNama, qNo, qAlamat, qStatusKtp, qStatusKeanggotaan]);
+
+  const totalEntries = filtered.length;
+  const pageCount = Math.max(1, Math.ceil(totalEntries / pageSize));
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  const paged = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, page, pageSize]);
+
+  const showingStart = totalEntries === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(totalEntries, page * pageSize);
 
   const filterInputCls =
     "h-8 rounded-[6px] border-slate-300 bg-white text-[12px] font-normal text-black shadow-none placeholder:text-black/60 focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
@@ -195,6 +321,14 @@ export default function NasabahPickerModal({
   const th = "px-3 py-3";
   const filterCell = "px-3 py-2";
   const td = "px-3 py-2.5";
+
+  const pageSizeTriggerCls = cn(
+    "h-8 w-[74px] rounded-[6px] border border-slate-300 bg-white px-2",
+    "text-[13px] font-normal text-black",
+    "shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-black",
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -230,7 +364,10 @@ export default function NasabahPickerModal({
                     Tambah <ChevronDown className="ml-2 h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className={cn("border-slate-200 p-1", R)} align="end">
+                <DropdownMenuContent
+                  className={cn("border-slate-200 p-1", R)}
+                  align="end"
+                >
                   <DropdownMenuItem
                     className={cn(R)}
                     onClick={() => toast("Tambah Nasabah (prototype)")}
@@ -271,9 +408,21 @@ export default function NasabahPickerModal({
           >
             <div className="flex items-center gap-2 text-[13px] font-normal text-black">
               <div>Show</div>
-              <div className="inline-flex h-8 items-center rounded-[6px] border border-slate-300 bg-white px-2 text-[12px] text-black shadow-none">
-                {pageSize}
-              </div>
+              <Select
+                value={String(pageSize)}
+                onValueChange={(v) => setPageSize(Number(v))}
+              >
+                <SelectTrigger className={pageSizeTriggerCls}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl border-slate-200">
+                  {[5, 10, 20, 50].map((n) => (
+                    <SelectItem key={n} value={String(n)}>
+                      {n}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <div>entries</div>
             </div>
 
@@ -341,7 +490,9 @@ export default function NasabahPickerModal({
                             <SelectItem value="Belum Terverifikasi">
                               Belum Terverifikasi
                             </SelectItem>
-                            <SelectItem value="Terverifikasi">Terverifikasi</SelectItem>
+                            <SelectItem value="Terverifikasi">
+                              Terverifikasi
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </th>
@@ -363,7 +514,9 @@ export default function NasabahPickerModal({
                           </SelectTrigger>
                           <SelectContent className="rounded-xl border-slate-200">
                             <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                            <SelectItem value="Calon Anggota">Calon Anggota</SelectItem>
+                            <SelectItem value="Calon Anggota">
+                              Calon Anggota
+                            </SelectItem>
                             <SelectItem value="Anggota">Anggota</SelectItem>
                           </SelectContent>
                         </Select>
@@ -372,29 +525,38 @@ export default function NasabahPickerModal({
                   </thead>
 
                   <tbody className="bg-white">
-                    {rows.length === 0 ? (
+                    {paged.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="px-4 py-10 text-center text-sm text-slate-600">
+                        <td
+                          colSpan={7}
+                          className="px-4 py-10 text-center text-sm text-slate-600"
+                        >
                           Tidak ada data.
                         </td>
                       </tr>
                     ) : (
-                      rows.map((r, idx) => (
+                      paged.map((r, idx) => (
                         <tr
-                          key={r.id}
+                          key={`${r.id}-${idx}`}
                           className={cn(
                             "border-b border-slate-200 text-[12px] text-black",
                             idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                           )}
                         >
                           <td className={cn(td, "tabular-nums")}>{r.no}</td>
-                          <td className={cn(td, "tabular-nums font-semibold")}>{r.id}</td>
+                          <td className={cn(td, "tabular-nums font-semibold")}>
+                            {r.id}
+                          </td>
                           <td className={cn(td, "font-medium")}>{r.nama}</td>
-                          <td className={cn(td, "whitespace-nowrap")}>{r.noIdentitas}</td>
+                          <td className={cn(td, "whitespace-nowrap")}>
+                            {r.noIdentitas}
+                          </td>
                           <td className={cn(td)}>
                             <StatusKtpPill v={r.statusKtp} />
                           </td>
-                          <td className={cn(td, "whitespace-normal leading-snug")}>{r.alamat}</td>
+                          <td className={cn(td, "whitespace-normal leading-snug")}>
+                            {r.alamat}
+                          </td>
                           <td className={cn(td)}>{r.statusKeanggotaan}</td>
                         </tr>
                       ))
@@ -404,8 +566,16 @@ export default function NasabahPickerModal({
               </div>
             </div>
 
-            <div className="mt-3 text-[14px] text-black">
-              Showing 1 to {totalEntries} of {totalEntries} entries
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-[14px] text-black">
+                Showing {showingStart} to {showingEnd} of {totalEntries} entries
+              </div>
+
+              <PaginationLikeExample
+                page={page}
+                pageCount={pageCount}
+                onPage={setPage}
+              />
             </div>
           </div>
 
