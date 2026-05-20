@@ -128,9 +128,11 @@ export default function UpdateStatusDialog({
                   <LeftLabel>Status</LeftLabel>
                   <LeftLabel>Data Pemohon</LeftLabel>
                   <LeftLabel>Tanggal</LeftLabel>
-                  <LeftLabel>Pinjaman Diajukan</LeftLabel>
                   <div className="text-[14px] font-normal text-black" aria-hidden="true">
-                    {/* label dihilangkan sesuai permintaan */}
+                    {/* Pinjaman Diajukan label dihilangkan */}
+                  </div>
+                  <div className="text-[14px] font-normal text-black" aria-hidden="true">
+                    {/* Pinjaman yang Disetujui label dihilangkan */}
                   </div>
                   <LeftLabel>Deskripsi</LeftLabel>
                 </div>
@@ -213,15 +215,8 @@ export default function UpdateStatusDialog({
                     />
                   </div>
 
-                  {/* Pinjaman Diajukan (read-only) */}
-                  <div className="grid gap-2">
-                    <div className="md:hidden">
-                      <FieldLabel>Pinjaman Diajukan</FieldLabel>
-                    </div>
-                    <div className="text-[16px] font-semibold text-slate-700 tabular-nums">
-                      {prefill.pinjamanDiajukan}
-                    </div>
-                  </div>
+                  {/* Pinjaman Diajukan (DISENGAJA DISEMBUNYIKAN SESUAI REQUEST) */}
+                  <div className="sr-only">{prefill.pinjamanDiajukan}</div>
 
                   {/* Pinjaman yang Disetujui (tetap ada field, tapi label kiri dihilangkan) */}
                   <div className="grid gap-2">
