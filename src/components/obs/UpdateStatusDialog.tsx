@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import UpdateStatusDateField from "@/components/obs/UpdateStatusDateField";
 
 type StatusOption = "Diajukan" | "Diproses" | "Ditolak";
 
@@ -107,7 +108,6 @@ export default function UpdateStatusDialog({
 
   React.useEffect(() => {
     if (!open) return;
-    // ✅ default selalu "Diajukan"
     setStatus("Diajukan");
     setTanggal(prefill.tanggal);
     setDeskripsi("");
@@ -197,7 +197,12 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Data Pemohon" align="top">
-                <div className={cn("border border-slate-200 bg-white p-4 shadow-sm", UI.radius)}>
+                <div
+                  className={cn(
+                    "border border-slate-200 bg-white p-4 shadow-sm",
+                    UI.radius,
+                  )}
+                >
                   <div className={cn("grid", UI.gapY)}>
                     <DataPemohonKV label="Nama Pemohon" value={prefill.namaPemohon} />
                     <DataPemohonKV label="No Telepon" value="085461231456" />
@@ -211,11 +216,7 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Tanggal">
-                <Input
-                  value={tanggal}
-                  onChange={(e) => setTanggal(e.target.value)}
-                  className={inputCls}
-                />
+                <UpdateStatusDateField value={tanggal} onChange={setTanggal} />
               </FieldRow>
 
               <FieldRow label="Nominal Pengajuan">
