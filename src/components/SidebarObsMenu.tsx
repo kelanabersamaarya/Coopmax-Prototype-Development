@@ -10,7 +10,10 @@ type SubItem = {
   to?: string;
 };
 
-const items: SubItem[] = [{ label: "Pendaftaran Online", to: "/obs-samudra-harta" }];
+const items: SubItem[] = [
+  { label: "Pendaftaran Online", to: "/obs-samudra-harta" },
+  { label: "OBS Web", to: "/obs-web" },
+];
 
 export default function SidebarObsMenu() {
   const location = useLocation();
