@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { X, ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { X, ChevronDown, ChevronUp, Plus, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
@@ -134,18 +134,24 @@ function ThLabel({
 
 function StatusKtpPill({ v }: { v: StatusKtp }) {
   const isBad = v === "Belum Terverifikasi";
+
   return (
     <span
       className={cn(
         "inline-flex items-center justify-center gap-2",
-        "h-7 rounded-full px-3 text-[11px] font-extrabold uppercase tracking-wide",
+        "h-7 rounded-[5px] px-3",
+        "text-[11px] font-extrabold uppercase tracking-wide",
         isBad
           ? "bg-rose-600 text-white ring-1 ring-rose-600/25"
           : "bg-emerald-600 text-white ring-1 ring-emerald-600/25",
       )}
     >
       <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
-        <span className="block h-2.5 w-2.5 rounded-full bg-white" />
+        {isBad ? (
+          <X className="h-3 w-3 text-white" strokeWidth={3} />
+        ) : (
+          <Check className="h-3 w-3 text-white" strokeWidth={3} />
+        )}
       </span>
       {v}
     </span>
