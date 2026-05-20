@@ -1,4 +1,3 @@
-=4), tampilkan Info hanya jika ada penalty add aktif yang match (dueDateDmy + rowIndexGlobal) agar baris 4/5/6 tidak false-positive dari data lama.">
 "use client";
 
 import * as React from "react";
@@ -14,12 +13,12 @@ import BillingTableHeader from "@/components/anggota/BillingTableHeader";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import {
   addPenaltyOverride,
+  addedPenaltyItemId,
   getPenaltyAdds,
   getPenaltyCanceledItems,
   isPenaltyCanceledForRow,
   parseIdrLikeToNumber,
   seedPenaltyItemId,
-  addedPenaltyItemId,
 } from "@/lib/penaltyOverridesStore";
 
 export type BillingRow = {
@@ -33,9 +32,9 @@ export type BillingRow = {
 
 const PENALTY_ROWS = 3;
 
-// ✅ base "seed" denda di rincian: 3 hari × 25.000 = 75.000
+// Base penalty detail: 3 hari × 25.000 = 75.000
 const PENALTY_DETAIL_DAYS = 3;
-const PENALTY_PER_DAY = 25000;
+const PENALTY_PER_DAY = 25_000;
 
 function RowShell({
   children,
@@ -149,7 +148,7 @@ function PenaltyIconButton({
   icon?: "info" | "plus";
   className?: string;
 }) {
-  const Icon = icon === "plus" ? Plus : Info;
+  const IconComp = icon === "plus" ? Plus : Info;
 
   return (
     <button
@@ -169,7 +168,7 @@ function PenaltyIconButton({
       aria-label="Denda"
       title="Denda"
     >
-      <Icon className="h-3.5 w-3.5" />
+      <IconComp className="h-3.5 w-3.5" />
     </button>
   );
 }
@@ -434,8 +433,8 @@ export default function BillingTableView2({
   }) {
     const isNoSeedPenaltyRow = globalIdx >= PENALTY_ROWS;
 
-    // ✅ Hotfix: baris tanpa denda bawaan:
-    // tampilkan Info hanya jika ada add aktif yang match (dueDate + rowIndexGlobal) supaya tidak false-positive.
+    // IMPORTANT: baris tanpa denda bawaan:
+    // tampilkan Info hanya jika ada add aktif yang match (dueDateDmy + rowIndexGlobal).
     if (isNoSeedPenaltyRow) {
       const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
 
@@ -458,7 +457,7 @@ export default function BillingTableView2({
       );
     }
 
-    // Baris yang memang punya denda bawaan: tampil info + nominal total
+    // Baris yang punya denda bawaan: tampil nominal total + Info
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
@@ -645,7 +644,9 @@ export default function BillingTableView2({
                                   </div>
 
                                   <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
-                                    <RightNum value={displaySisaPokok(rowIndex, r.sisaPokok)} />
+                                    <RightNum
+                                      value={displaySisaPokok(rowIndex, r.sisaPokok)}
+                                    />
                                   </div>
 
                                   <div className={cn("px-4 pr-6", cellY, numberTextClass)}>
@@ -707,9 +708,7 @@ export default function BillingTableView2({
                               </div>
                             ) : null}
 
-                            <div className={cn("px-4", cellY, dateTextClass)}>
-                              {r.jatuhTempo}
-                            </div>
+                            <div className={cn("px-4", cellY, dateTextClass)}>{r.jatuhTempo}</div>
 
                             <div className={cn(totalColPad, cellY, numberTextClass)}>
                               <RightNum value={r.totalBelumDibayar} />
@@ -772,12 +771,7 @@ export default function BillingTableView2({
                           >
                             <div className={cn("grid items-center gap-0", gridTemplate)}>
                               {!hideSelection ? (
-                                <div
-                                  className={cn(
-                                    "flex items-center justify-center px-4",
-                                    cellY,
-                                  )}
-                                >
+                                <div className={cn("flex items-center justify-center px-4", cellY)}>
                                   <input
                                     type="checkbox"
                                     aria-label="Pilih tagihan"
@@ -796,9 +790,7 @@ export default function BillingTableView2({
                                 </div>
                               ) : null}
 
-                              <div className={cn("px-4", cellY, dateTextClass)}>
-                                {r.jatuhTempo}
-                              </div>
+                              <div className={cn("px-4", cellY, dateTextClass)}>{r.jatuhTempo}</div>
 
                               <div className={cn(totalColPad, cellY, numberTextClass)}>
                                 <RightNum value={r.totalBelumDibayar} />
