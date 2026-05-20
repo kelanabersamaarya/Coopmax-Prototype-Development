@@ -23,6 +23,7 @@ import LoanPemutihanDaftar from "./pages/LoanPemutihanDaftar";
 import TransaksiPinjamanDetail from "./pages/TransaksiPinjamanDetail";
 import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
+import ObsWeb from "./pages/ObsWeb";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
             <Route path="obs-samudra-harta/:id" element={<ObsSamudraHartaDetail />} />
+            <Route path="obs-web" element={<ObsWeb />} />
             <Route path="loan-products" element={<LoanProducts />} />
             <Route path="loan-products/new" element={<LoanProductCreate />} />
             <Route path="loan-products/:id" element={<LoanProductDetail />} />
