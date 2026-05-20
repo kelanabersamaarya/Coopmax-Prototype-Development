@@ -520,22 +520,6 @@ export default function ObsWeb() {
                           </div>
                         ))}
                       </div>
-
-                      <div className="mt-2 flex justify-end">
-                        <button
-                          type="button"
-                          onClick={clearAllFiles}
-                          className={cn(
-                            "inline-flex h-9 items-center justify-center gap-2 rounded-full px-4",
-                            "bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-100",
-                          )}
-                          aria-label="Hapus semua file"
-                          title="Hapus semua"
-                        >
-                          <X className="h-4.5 w-4.5" />
-                          Hapus semua
-                        </button>
-                      </div>
                     </div>
                   ) : null}
 
