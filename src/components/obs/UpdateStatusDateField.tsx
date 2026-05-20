@@ -45,33 +45,32 @@ export default function UpdateStatusDateField({
 
   return (
     <div className={cn("relative", className)}>
-      <Input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={cn(
-          "h-[30px] rounded-[5px] border-slate-200 bg-white pr-10 text-[12.5px] font-normal text-slate-900 shadow-sm",
-          "focus-visible:ring-0 focus-visible:ring-offset-0",
-        )}
-        placeholder="DD-MM-YYYY"
-        inputMode="numeric"
-      />
-
       <Popover open={open} onOpenChange={setOpen}>
+        {/* ✅ Seluruh field menjadi trigger */}
         <PopoverTrigger asChild>
           <button
             type="button"
-            className={cn(
-              "absolute right-0 top-0",
-              "h-[30px] w-10",
-              "rounded-r-[5px] rounded-l-none",
-              "bg-transparent text-slate-500",
-              "transition hover:bg-slate-100 hover:text-slate-700",
-              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-            )}
+            className="block w-full text-left"
             aria-label="Pilih tanggal"
             title="Pilih tanggal"
           >
-            <CalendarDays className="mx-auto h-4.5 w-4.5" />
+            <div className="relative">
+              <Input
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className={cn(
+                  "h-[30px] rounded-[5px] border-slate-200 bg-white pr-10 text-[12.5px] font-normal text-slate-900 shadow-sm",
+                  "focus-visible:ring-0 focus-visible:ring-offset-0",
+                )}
+                placeholder="DD-MM-YYYY"
+                inputMode="numeric"
+              />
+
+              {/* Icon tetap terlihat, tapi bukan satu-satunya trigger */}
+              <span className="pointer-events-none absolute right-0 top-0 grid h-[30px] w-10 place-items-center text-slate-500">
+                <CalendarDays className="h-4.5 w-4.5" />
+              </span>
+            </div>
           </button>
         </PopoverTrigger>
 
