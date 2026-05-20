@@ -189,9 +189,6 @@ export default function NasabahPickerDialog({
   const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
-  const dialogMaxH = "70vh";
-  const contentMaxH = "calc(70vh - 56px - 1px)";
-
   const R = "rounded-[5px]";
 
   return (
@@ -200,19 +197,19 @@ export default function NasabahPickerDialog({
         className={cn(
           "w-[calc(100vw-1.5rem)] sm:w-[calc(100vw-2.5rem)]",
           "max-w-[920px]",
-          `max-h-[${dialogMaxH}]`,
+          "max-h-[70vh]",
           "overflow-hidden",
+          "flex flex-col",
           R,
           "border-slate-200 p-0 shadow-xl",
-          // scoped: hide default shadcn close button (X kecil pojok kanan)
-          "[&>button[aria-label=Close]]:hidden [&>button[aria-label=Close]]:!hidden",
-          "[&_[data-slot=dialog-close]]:hidden [&_[data-slot=dialog-close]]:!hidden",
-          "[&>button.absolute.right-4.top-4]:hidden [&>button.absolute.right-4.top-4]:!hidden",
-          "[&>button[data-state]]:hidden [&>button[data-state]]:!hidden",
+          // hide default shadcn close button (gunakan X custom)
+          "[&>button[aria-label=Close]]:hidden",
+          "[&_[data-slot=dialog-close]]:hidden",
+          "[&>button.absolute.right-4.top-4]:hidden",
         )}
       >
-        {/* HEADER: area fix 56px + baseline dinormalkan */}
-        <div className="relative">
+        {/* HEADER */}
+        <div className="shrink-0">
           <div className="flex h-[56px] items-center justify-between gap-3 px-5 sm:px-6">
             <div className="text-lg font-semibold leading-none tracking-tight text-slate-900 sm:text-xl">
               Nasabah
@@ -268,13 +265,8 @@ export default function NasabahPickerDialog({
           <Separator className="bg-slate-200" />
         </div>
 
-        {/* KONTEN: tanpa scroll vertikal, dipaksa muat */}
-        <div
-          className={cn(
-            `h-[${contentMaxH}]`,
-            "overflow-hidden px-5 py-3 sm:px-6 sm:py-4",
-          )}
-        >
+        {/* CONTENT (scroll) */}
+        <div className="min-h-0 flex-1 overflow-auto px-5 py-3 sm:px-6 sm:py-4">
           <div className="flex flex-wrap items-center gap-3">
             <div className="text-sm text-slate-700">Tampilkan</div>
             <Select
@@ -439,14 +431,21 @@ export default function NasabahPickerDialog({
             <Pagination page={page} pageCount={pageCount} onPage={setPage} />
           </div>
 
-          <Separator className="mt-4 bg-slate-200" />
+          {onPick ? (
+            <div className="sr-only">
+              <Card />
+            </div>
+          ) : null}
+        </div>
 
-          <div className="mt-3 flex items-center justify-end">
+        {/* FOOTER (sticky) */}
+        <div className="shrink-0 border-t border-slate-200 bg-white px-5 py-4 sm:px-6">
+          <div className="flex items-center justify-end">
             <button
               type="button"
               onClick={() => onOpenChange(false)}
               className={cn(
-                "inline-flex h-[28px] w-[90px] items-center justify-center gap-2",
+                "inline-flex h-[32px] w-[120px] items-center justify-center gap-2",
                 R,
                 "bg-slate-600 text-[12px] font-semibold text-white",
                 "ring-1 ring-slate-600/25 transition hover:bg-slate-700",
@@ -459,12 +458,6 @@ export default function NasabahPickerDialog({
               Batalkan
             </button>
           </div>
-
-          {onPick ? (
-            <div className="sr-only">
-              <Card />
-            </div>
-          ) : null}
         </div>
       </DialogContent>
     </Dialog>
