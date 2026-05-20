@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { X, Save } from "lucide-react";
+import { X, CheckSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
@@ -283,7 +283,7 @@ export default function UpdateStatusDialog({
                   "focus-visible:ring-[#2fb300]/25",
                 )}
               >
-                <Save className="h-4 w-4" strokeWidth={3} />
+                <CheckSquare className="h-4 w-4" strokeWidth={3} />
                 Simpan
               </button>
             </div>
