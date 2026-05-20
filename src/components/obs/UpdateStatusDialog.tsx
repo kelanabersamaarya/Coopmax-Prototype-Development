@@ -34,7 +34,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 }
 
 function LeftLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-[14px] font-semibold text-[#1e3a8a]">{children}</div>;
+  return <div className="text-[14px] font-normal text-black">{children}</div>;
 }
 
 export default function UpdateStatusDialog({
