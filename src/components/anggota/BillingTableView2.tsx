@@ -165,8 +165,8 @@ function PenaltyIconButton({
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
         className,
       )}
-      aria-label="Rincian denda"
-      title="Rincian denda"
+      aria-label="Denda"
+      title="Denda"
     >
       <Icon className="h-3.5 w-3.5" />
     </button>
@@ -404,6 +404,34 @@ export default function BillingTableView2({
     return { total, hasAdded };
   }
 
+  function hasActiveManualPenaltyForRow(globalIdx: number, dueDateDmy: string) {
+    if (!canPersist) return false;
+
+    const canceledWholeRow = isPenaltyCanceledForRow({
+      contextKey: contextKey!,
+      dueDateDmy,
+      rowIndexGlobal: globalIdx,
+    });
+    if (canceledWholeRow) return false;
+
+    const adds = getAddsForRow(globalIdx, dueDateDmy);
+    if (adds.length === 0) return false;
+
+    const canceledItems = getPenaltyCanceledItems(contextKey!);
+
+    // "active" = ada minimal 1 added item yang tidak dibatalkan
+    return adds.some((a) => {
+      const pid = addedPenaltyItemId(a.id);
+      const isCanceled = canceledItems.some(
+        (c) =>
+          c.dueDateDmy === dueDateDmy &&
+          c.rowIndexGlobal === globalIdx &&
+          c.penaltyItemId === pid,
+      );
+      return !isCanceled;
+    });
+  }
+
   function PenaltyCell({
     globalIdx,
     dueDateDmy,
@@ -411,25 +439,39 @@ export default function BillingTableView2({
     globalIdx: number;
     dueDateDmy: string;
   }) {
-    // ✅ RULE FINAL:
-    // Baris yang tidak punya denda bawaan (globalIdx >= PENALTY_ROWS) harus selalu tampil PLUS
-    // dan selalu membuka modal "Tambah Denda", meskipun sudah ada denda manual tersimpan.
     const isNoSeedPenaltyRow = globalIdx >= PENALTY_ROWS;
 
+    // ✅ requirement: kalau baris awalnya tidak punya denda,
+    // setelah ada penambahan denda (manual) ikon berubah dari Plus → Info.
     if (isNoSeedPenaltyRow) {
+      const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
+
+      if (!hasManualActive) {
+        return (
+          <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
+            <div className="flex items-center justify-end gap-2">
+              <PenaltyIconButton
+                icon="plus"
+                onClick={() => openAddPenalty(dueDateDmy, globalIdx)}
+              />
+            </div>
+          </div>
+        );
+      }
+
       return (
         <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
             <PenaltyIconButton
-              icon="plus"
-              onClick={() => openAddPenalty(dueDateDmy, globalIdx)}
+              icon="info"
+              onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
             />
           </div>
         </div>
       );
     }
 
-    // Baris yang memang punya denda bawaan: tetap tampil info + nominal total (bisa termasuk hasil penyesuaian)
+    // Baris yang memang punya denda bawaan: tampil info + nominal total (bisa termasuk hasil penyesuaian)
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
