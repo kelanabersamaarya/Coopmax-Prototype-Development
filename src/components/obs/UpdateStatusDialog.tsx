@@ -16,8 +16,9 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import UpdateStatusDateField from "@/components/obs/UpdateStatusDateField";
+import { setObsRegistrationStatus, type ObsStatus } from "@/lib/obsRegistrationsStore";
 
-type StatusOption = "Diajukan" | "Diproses" | "Ditolak";
+type StatusOption = ObsStatus;
 
 export type UpdateStatusDialogPrefill = {
   nikPemohon: string;
@@ -108,9 +109,9 @@ export default function UpdateStatusDialog({
 
   React.useEffect(() => {
     if (!open) return;
-    setStatus("Diajukan");
+    setStatus(prefill.status ?? "Diajukan");
     setTanggal(prefill.tanggal);
-    setDeskripsi("");
+    setDeskripsi(prefill.deskripsi ?? "");
   }, [open, prefill]);
 
   const triggerCls = cn(
@@ -197,10 +198,7 @@ export default function UpdateStatusDialog({
           >
             <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Status">
-                <Select
-                  value={status}
-                  onValueChange={(v) => setStatus(v as StatusOption)}
-                >
+                <Select value={status} onValueChange={(v) => setStatus(v as StatusOption)}>
                   <SelectTrigger className={triggerCls}>
                     <SelectValue />
                   </SelectTrigger>
@@ -213,12 +211,7 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Data Pemohon" align="top">
-                <div
-                  className={cn(
-                    "border border-slate-200 bg-white p-4 shadow-sm",
-                    UI.radius,
-                  )}
-                >
+                <div className={cn("border border-slate-200 bg-white p-4 shadow-sm", UI.radius)}>
                   <div className={cn("grid", UI.gapY)}>
                     <DataPemohonKV label="Nama Pemohon" value={prefill.namaPemohon} />
                     <DataPemohonKV label="No Telepon" value="085461231456" />
@@ -236,20 +229,11 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Nominal Pengajuan">
-                <Input
-                  value={prefill.pinjamanDiajukan}
-                  readOnly
-                  disabled
-                  className={readOnlyInputCls}
-                />
+                <Input value={prefill.pinjamanDiajukan} readOnly disabled className={readOnlyInputCls} />
               </FieldRow>
 
               <FieldRow label="Deskripsi" align="top">
-                <Textarea
-                  value={deskripsi}
-                  onChange={(e) => setDeskripsi(e.target.value)}
-                  className={textareaCls}
-                />
+                <Textarea value={deskripsi} onChange={(e) => setDeskripsi(e.target.value)} className={textareaCls} />
               </FieldRow>
 
               <div className="sr-only">{prefill.pinjamanDisetujui}</div>
@@ -282,10 +266,16 @@ export default function UpdateStatusDialog({
                     tanggal,
                     deskripsi,
                   };
+
+                  // ✅ persist status untuk pendaftar (agar tombol di detail bisa muncul/hilang)
+                  setObsRegistrationStatus(prefill.nikPemohon, status);
+
                   onSave?.(next);
+
                   toast.success("Status diperbarui (prototype)", {
                     description: `${next.status} • ${next.tanggal}`,
                   });
+
                   onOpenChange(false);
                 }}
                 className={cn(

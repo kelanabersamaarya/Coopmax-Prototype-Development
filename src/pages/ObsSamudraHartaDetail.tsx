@@ -2,11 +2,16 @@ import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { List, Save } from "lucide-react";
+import { List, Save, FilePlus2 } from "lucide-react";
 import { toast } from "sonner";
 import UpdateStatusDialog, {
   type UpdateStatusDialogPrefill,
 } from "@/components/obs/UpdateStatusDialog";
+import {
+  getObsRegistrationStatus,
+  setObsRegistrationStatus,
+  type ObsStatus,
+} from "@/lib/obsRegistrationsStore";
 
 type ProductType = "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "Diajukan" | "Diproses" | "Ditolak";
@@ -222,7 +227,6 @@ function HistoryDeleteIconButton({ onClick }: { onClick: () => void }) {
       aria-label="Hapus"
       title="Hapus"
     >
-      {/* icon intentionally removed */}
       <span className="sr-only">Hapus</span>
     </button>
   );
@@ -302,24 +306,37 @@ function loanMetaById(id: string) {
     },
   };
 
-  return map[id] ?? {
-    nominalPengajuan: "-",
-    jangkaWaktu: "-",
-    kolektor: "-",
-    deskripsi: "-",
-  };
+  return (
+    map[id] ?? {
+      nominalPengajuan: "-",
+      jangkaWaktu: "-",
+      kolektor: "-",
+      deskripsi: "-",
+    }
+  );
 }
 
-function defaultUpdateStatusPrefill(data: Row | null, loanMeta: ReturnType<typeof loanMetaById>): UpdateStatusDialogPrefill {
+function defaultUpdateStatusPrefill(
+  data: Row | null,
+  loanMeta: ReturnType<typeof loanMetaById>,
+  effectiveStatus: ObsStatus,
+  idKey: string,
+): UpdateStatusDialogPrefill {
   return {
-    nikPemohon: "3511775911222525",
+    nikPemohon: idKey,
     namaPemohon: data?.nama ?? "Pemohon",
     verified: false,
     tanggal: "20-05-2026",
-    pinjamanDiajukan: loanMeta.nominalPengajuan === "-" ? "30.000.000,00" : loanMeta.nominalPengajuan,
-    pinjamanDisetujui: loanMeta.nominalPengajuan === "-" ? "30.000.000,00" : loanMeta.nominalPengajuan,
+    pinjamanDiajukan:
+      loanMeta.nominalPengajuan === "-"
+        ? "30.000.000,00"
+        : loanMeta.nominalPengajuan,
+    pinjamanDisetujui:
+      loanMeta.nominalPengajuan === "-"
+        ? "30.000.000,00"
+        : loanMeta.nominalPengajuan,
     deskripsi: loanMeta.deskripsi === "-" ? "" : loanMeta.deskripsi,
-    status: "Pilih Status",
+    status: effectiveStatus,
   };
 }
 
@@ -329,6 +346,19 @@ export default function ObsSamudraHartaDetail() {
   const id = params.id ?? "";
 
   const data = React.useMemo(() => seed.find((r) => r.id === id) ?? null, [id]);
+
+  // ✅ gunakan status tersimpan jika ada, fallback ke status seed
+  const idKey = id; // key penyimpanan per-pendaftar
+  const [status, setStatus] = React.useState<ObsStatus>(() => {
+    const stored = getObsRegistrationStatus(idKey);
+    return stored ?? (data?.status ?? "Diajukan");
+  });
+
+  React.useEffect(() => {
+    const stored = getObsRegistrationStatus(idKey);
+    setStatus(stored ?? (data?.status ?? "Diajukan"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const [history, setHistory] = React.useState<StatusHistoryRow[]>(
     () => statusHistorySeed,
@@ -348,9 +378,11 @@ export default function ObsSamudraHartaDetail() {
   const [updateOpen, setUpdateOpen] = React.useState(false);
 
   const updatePrefill = React.useMemo(
-    () => defaultUpdateStatusPrefill(data, loanMeta),
-    [data, loanMeta],
+    () => defaultUpdateStatusPrefill(data, loanMeta, status, idKey),
+    [data, loanMeta, status, idKey],
   );
+
+  const showCreateLoanButton = status === "Diproses" && data?.produk === "Produk Pinjaman";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -358,8 +390,14 @@ export default function ObsSamudraHartaDetail() {
         open={updateOpen}
         onOpenChange={setUpdateOpen}
         prefill={updatePrefill}
-        onSave={() => {
-          toast.success("Perbarui Status tersimpan (prototype)");
+        onSave={(next) => {
+          // ✅ simpan status, lalu update UI local agar tombol muncul/hilang tanpa refresh
+          setObsRegistrationStatus(idKey, next.status);
+          setStatus(next.status);
+
+          toast.success("Perbarui Status tersimpan (prototype)", {
+            description: `Status: ${next.status}`,
+          });
         }}
       />
 
@@ -388,6 +426,20 @@ export default function ObsSamudraHartaDetail() {
               onClick={() => setUpdateOpen(true)}
               className="w-[194px]"
             />
+
+            {showCreateLoanButton ? (
+              <TopPillButton
+                icon={FilePlus2}
+                label="Buat Pengajuan Pinjaman"
+                onClick={() => {
+                  toast.success("Membuka form Pengajuan Pinjaman", {
+                    description: "Dialihkan ke halaman tambah pengajuan (prototype).",
+                  });
+                  navigate("/loans/applications/new");
+                }}
+                className="w-[240px]"
+              />
+            ) : null}
           </div>
 
           {!data ? (
@@ -432,7 +484,6 @@ export default function ObsSamudraHartaDetail() {
                         value: data.tanggalRegistrasi,
                       },
 
-                      // ✅ Produk + info pinjaman baru ditaruh "di samping kanan" Produk (urutan grid)
                       { label: "Produk", value: data.produk },
 
                       ...(data.produk === "Produk Pinjaman"
@@ -447,16 +498,15 @@ export default function ObsSamudraHartaDetail() {
                           ] as const)
                         : []),
 
-                      { label: "Status", value: <StatusPill status={data.status} /> },
+                      // ✅ status dari state/store
+                      { label: "Status", value: <StatusPill status={status} /> },
                     ]}
                   />
                 </div>
               </div>
 
-              {/* divider inset (tidak mentok ujung card) */}
               <InsetDivider />
 
-              {/* ✅ padding-top diperkecil agar lebih dekat ke divider */}
               <div className="px-6 pb-6 pt-3 sm:px-10 sm:pb-8 sm:pt-4">
                 <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
                   GAMBAR
@@ -486,10 +536,8 @@ export default function ObsSamudraHartaDetail() {
                 </div>
               </div>
 
-              {/* divider inset */}
               <InsetDivider />
 
-              {/* INFORMASI FILE */}
               <div className="px-6 pb-6 pt-4 sm:px-10 sm:pb-8">
                 <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
                   INFORMASI FILE
@@ -500,10 +548,8 @@ export default function ObsSamudraHartaDetail() {
                 </div>
               </div>
 
-              {/* divider inset */}
               <InsetDivider />
 
-              {/* RIWAYAT PERUBAHAN STATUS */}
               <div className="px-6 pb-7 pt-4 sm:px-10 sm:pb-9">
                 <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
                   RIWAYAT PERUBAHAN STATUS
