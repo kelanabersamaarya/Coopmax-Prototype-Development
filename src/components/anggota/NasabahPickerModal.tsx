@@ -139,14 +139,17 @@ function StatusKtpPill({ v }: { v: StatusKtp }) {
     <span
       className={cn(
         "inline-flex items-center justify-center gap-2",
-        "h-7 rounded-[5px] px-3",
+        "rounded-[5px]",
+        // ✅ tambah tinggi + padding vertikal untuk yg belum terverifikasi agar teks tidak mepet
+        isBad ? "min-h-9 py-1.5" : "min-h-7 py-1",
+        "px-3",
         "text-[11px] font-extrabold uppercase tracking-wide",
-        isBad
-          ? "bg-rose-600 text-white ring-1 ring-rose-600/25"
-          : "bg-emerald-600 text-white ring-1 ring-emerald-600/25",
+        // ✅ hilangkan border/ring untuk semua status
+        "border-0 ring-0 shadow-none",
+        isBad ? "bg-rose-600 text-white" : "bg-emerald-600 text-white",
       )}
     >
-      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/20">
+      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-white/15">
         {isBad ? (
           <X className="h-3 w-3 text-white" strokeWidth={3} />
         ) : (
@@ -582,7 +585,6 @@ export default function NasabahPickerModal({
 
           <Separator className="bg-slate-200" />
 
-          {/* ✅ Padding vertikal dibuat lebih seimbang supaya tombol naik dan terlihat "tengah" */}
           <div className="px-6 py-6">
             <div className="flex justify-end">
               <button
