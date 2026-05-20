@@ -37,6 +37,41 @@ function LeftLabel({ children }: { children: React.ReactNode }) {
   return <div className="text-[14px] font-normal text-black">{children}</div>;
 }
 
+function FieldRow({
+  label,
+  hideLabelOnDesktop = false,
+  align = "center",
+  children,
+}: {
+  label: string;
+  hideLabelOnDesktop?: boolean;
+  align?: "top" | "center";
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        "grid gap-2 md:grid-cols-[200px_minmax(0,1fr)]",
+        align === "top" ? "md:items-start" : "md:items-center",
+      )}
+    >
+      <div className={cn("md:pt-1", align === "top" ? "md:pt-2" : "")}>
+        {/* Mobile label */}
+        <div className="md:hidden">
+          <FieldLabel>{label}</FieldLabel>
+        </div>
+
+        {/* Desktop label */}
+        <div className={cn("hidden md:block", hideLabelOnDesktop ? "invisible" : "")}>
+          <LeftLabel>{label}</LeftLabel>
+        </div>
+      </div>
+
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
 export default function UpdateStatusDialog({
   open,
   onOpenChange,
@@ -121,129 +156,92 @@ export default function UpdateStatusDialog({
             className="overflow-auto px-6 py-5"
             style={{ maxHeight: "calc(85vh - 64px - 86px)" }}
           >
-            <div className="grid gap-6 md:grid-cols-[200px_minmax(0,1fr)]">
-              {/* Left labels column */}
-              <div className="hidden md:block">
-                <div className="grid gap-6 pt-1">
-                  <LeftLabel>Status</LeftLabel>
-                  <LeftLabel>Data Pemohon</LeftLabel>
-                  <LeftLabel>Tanggal</LeftLabel>
-                  <div className="text-[14px] font-normal text-black" aria-hidden="true">
-                    {/* Pinjaman Diajukan label dihilangkan */}
-                  </div>
-                  <div className="text-[14px] font-normal text-black" aria-hidden="true">
-                    {/* Pinjaman yang Disetujui label dihilangkan */}
-                  </div>
-                  <LeftLabel>Deskripsi</LeftLabel>
-                </div>
-              </div>
+            <div className="grid gap-6">
+              <FieldRow label="Status">
+                <Select
+                  value={status}
+                  onValueChange={(v) => setStatus(v as StatusOption)}
+                >
+                  <SelectTrigger className={triggerCls}>
+                    <SelectValue placeholder="Pilih Status" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-slate-200">
+                    <SelectItem value="Pilih Status">Pilih Status</SelectItem>
+                    <SelectItem value="Diajukan">Diajukan</SelectItem>
+                    <SelectItem value="Diproses">Diproses</SelectItem>
+                    <SelectItem value="Disetujui">Disetujui</SelectItem>
+                    <SelectItem value="Ditolak">Ditolak</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
 
-              {/* Right form column */}
-              <div className="min-w-0">
-                <div className="grid gap-4">
-                  {/* Status */}
-                  <div className="grid gap-2">
-                    <div className="md:hidden">
-                      <FieldLabel>Status</FieldLabel>
-                    </div>
-
-                    <Select value={status} onValueChange={(v) => setStatus(v as StatusOption)}>
-                      <SelectTrigger className={triggerCls}>
-                        <SelectValue placeholder="Pilih Status" />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
-                        <SelectItem value="Pilih Status">Pilih Status</SelectItem>
-                        <SelectItem value="Diajukan">Diajukan</SelectItem>
-                        <SelectItem value="Diproses">Diproses</SelectItem>
-                        <SelectItem value="Disetujui">Disetujui</SelectItem>
-                        <SelectItem value="Ditolak">Ditolak</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Data Pemohon */}
-                  <div className="grid gap-2">
-                    <div className="md:hidden">
-                      <FieldLabel>Data Pemohon</FieldLabel>
-                    </div>
-
-                    <div className="rounded-[6px] border border-slate-200 bg-white p-4 shadow-sm">
-                      <div className="grid gap-2 text-[14px]">
-                        <div className="grid gap-2 sm:grid-cols-[180px_14px_minmax(0,1fr)]">
-                          <div className="font-semibold text-slate-900">NIK Pemohon</div>
-                          <div className="hidden sm:block font-semibold text-slate-400">
-                            :
-                          </div>
-                          <div className="font-medium text-slate-900 tabular-nums">
-                            {prefill.nikPemohon}
-                          </div>
-                        </div>
-
-                        <div className="grid gap-2 sm:grid-cols-[180px_14px_minmax(0,1fr)]">
-                          <div className="font-semibold text-slate-900">Nama Pemohon</div>
-                          <div className="hidden sm:block font-semibold text-slate-400">
-                            :
-                          </div>
-                          <div className="font-medium text-slate-900">
-                            {prefill.namaPemohon}
-                          </div>
-                        </div>
+              <FieldRow label="Data Pemohon" align="top">
+                <div className="rounded-[6px] border border-slate-200 bg-white p-4 shadow-sm">
+                  <div className="grid gap-2 text-[14px]">
+                    <div className="grid gap-2 sm:grid-cols-[180px_14px_minmax(0,1fr)]">
+                      <div className="font-semibold text-slate-900">NIK Pemohon</div>
+                      <div className="hidden sm:block font-semibold text-slate-400">
+                        :
                       </div>
+                      <div className="font-medium text-slate-900 tabular-nums">
+                        {prefill.nikPemohon}
+                      </div>
+                    </div>
 
-                      <div className="mt-4 rounded-[6px] bg-rose-50 px-4 py-3 ring-1 ring-rose-100">
-                        <div className="flex items-center justify-center gap-3 text-rose-700">
-                          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white ring-1 ring-rose-200">
-                            <XCircle className="h-4.5 w-4.5" />
-                          </span>
-                          <div className="text-[14px] font-extrabold tracking-wide">
-                            {prefill.verified ? "SUDAH TERVERIFIKASI" : "BELUM TERVERIFIKASI"}
-                          </div>
-                        </div>
+                    <div className="grid gap-2 sm:grid-cols-[180px_14px_minmax(0,1fr)]">
+                      <div className="font-semibold text-slate-900">Nama Pemohon</div>
+                      <div className="hidden sm:block font-semibold text-slate-400">
+                        :
+                      </div>
+                      <div className="font-medium text-slate-900">
+                        {prefill.namaPemohon}
                       </div>
                     </div>
                   </div>
 
-                  {/* Tanggal */}
-                  <div className="grid gap-2">
-                    <div className="md:hidden">
-                      <FieldLabel>Tanggal</FieldLabel>
+                  <div className="mt-4 rounded-[6px] bg-rose-50 px-4 py-3 ring-1 ring-rose-100">
+                    <div className="flex items-center justify-center gap-3 text-rose-700">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white ring-1 ring-rose-200">
+                        <XCircle className="h-4.5 w-4.5" />
+                      </span>
+                      <div className="text-[14px] font-extrabold tracking-wide">
+                        {prefill.verified
+                          ? "SUDAH TERVERIFIKASI"
+                          : "BELUM TERVERIFIKASI"}
+                      </div>
                     </div>
-                    <Input
-                      value={tanggal}
-                      onChange={(e) => setTanggal(e.target.value)}
-                      className={inputCls}
-                    />
-                  </div>
-
-                  {/* Pinjaman Diajukan (DISENGAJA DISEMBUNYIKAN SESUAI REQUEST) */}
-                  <div className="sr-only">{prefill.pinjamanDiajukan}</div>
-
-                  {/* Pinjaman yang Disetujui (tetap ada field, tapi label kiri dihilangkan) */}
-                  <div className="grid gap-2">
-                    <div className="md:hidden">
-                      <FieldLabel>Pinjaman yang Disetujui</FieldLabel>
-                    </div>
-                    <Input
-                      value={pinjamanDisetujui}
-                      onChange={(e) => setPinjamanDisetujui(e.target.value)}
-                      className={inputCls}
-                      inputMode="decimal"
-                    />
-                  </div>
-
-                  {/* Deskripsi */}
-                  <div className="grid gap-2">
-                    <div className="md:hidden">
-                      <FieldLabel>Deskripsi</FieldLabel>
-                    </div>
-                    <Textarea
-                      value={deskripsi}
-                      onChange={(e) => setDeskripsi(e.target.value)}
-                      className={textareaCls}
-                    />
                   </div>
                 </div>
-              </div>
+              </FieldRow>
+
+              <FieldRow label="Tanggal">
+                <Input
+                  value={tanggal}
+                  onChange={(e) => setTanggal(e.target.value)}
+                  className={inputCls}
+                />
+              </FieldRow>
+
+              {/* Pinjaman Diajukan: disembunyikan sesuai request sebelumnya */}
+              <div className="sr-only">{prefill.pinjamanDiajukan}</div>
+
+              {/* Pinjaman Disetujui: label desktop disembunyikan, field tetap ada */}
+              <FieldRow label="Pinjaman yang Disetujui" hideLabelOnDesktop>
+                <Input
+                  value={pinjamanDisetujui}
+                  onChange={(e) => setPinjamanDisetujui(e.target.value)}
+                  className={inputCls}
+                  inputMode="decimal"
+                />
+              </FieldRow>
+
+              <FieldRow label="Deskripsi" align="top">
+                <Textarea
+                  value={deskripsi}
+                  onChange={(e) => setDeskripsi(e.target.value)}
+                  className={textareaCls}
+                />
+              </FieldRow>
             </div>
           </div>
 
