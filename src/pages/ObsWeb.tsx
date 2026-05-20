@@ -568,7 +568,25 @@ export default function ObsWeb() {
                         </div>
                       </div>
 
-                      <div className="mt-2 inline-flex items-center justify-center rounded-[8px] bg-[#2563eb] px-4 py-2 text-[12.5px] font-semibold text-white ring-1 ring-[#2563eb]/25 transition hover:bg-[#1d4ed8]">
+                      <div
+                        className={cn(
+                          "mt-2 inline-flex items-center justify-center rounded-[8px] px-4 py-2",
+                          "text-[12.5px] font-semibold text-white",
+                          "ring-1 transition",
+                        )}
+                        style={{
+                          backgroundColor: "#275AA3",
+                          borderColor: "rgba(39,90,163,0.25)",
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                            "#224f8f";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                            "#275AA3";
+                        }}
+                      >
                         <Upload className="mr-2 h-4 w-4" />
                         Unggah Dokumen
                       </div>
@@ -581,9 +599,17 @@ export default function ObsWeb() {
                 onClick={submit}
                 className={cn(
                   "h-12 w-full rounded-full",
-                  "bg-[#1d4f91] text-white hover:bg-[#18467f]",
-                  "text-[14px] font-extrabold tracking-tight",
+                  "text-[14px] font-extrabold tracking-tight text-white",
                 )}
+                style={{ backgroundColor: "#275AA3" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                    "#224f8f";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                    "#275AA3";
+                }}
               >
                 Kirim Pendaftaran
               </Button>
