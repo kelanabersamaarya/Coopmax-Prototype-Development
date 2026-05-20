@@ -149,7 +149,7 @@ export default function ObsWeb() {
   );
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+    <div className="min-h-screen bg-[#F8FAFC]">
       {/* Top Header */}
       <div className="border-b border-slate-200/70 bg-[#dbeafe]">
         <div className="mx-auto w-full max-w-6xl px-4 py-4 md:px-8">
@@ -189,9 +189,9 @@ export default function ObsWeb() {
         </div>
 
         <div className="mt-7">
-          {/* ✅ Card luar (wrapper) yang meng-cover seluruh isi menu */}
-          <Card className="rounded-3xl border-slate-200/70 bg-[#F8FAFC] p-5 shadow-sm md:p-6">
-            {/* ✅ Inner panel putih untuk form fields */}
+          {/* Wrapper luar yang meng-cover seluruh form */}
+          <Card className="rounded-3xl border-slate-200/70 bg-white/70 p-5 shadow-sm backdrop-blur md:p-6">
+            {/* Inner panel putih untuk fields */}
             <div className="rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
               <div className="grid gap-5">
                 <div className="grid gap-2">
