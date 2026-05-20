@@ -257,19 +257,54 @@ function TopPillButton({
 }
 
 function loanMetaById(id: string) {
-  // Prototype: khusus untuk Produk Pinjaman, mengikuti request penambahan informasi.
+  // Prototype: khusus untuk Produk Pinjaman
   const map: Record<
     string,
-    { nominalPengajuan: string; jangkaWaktu: string; kolektor: string }
+    {
+      nominalPengajuan: string;
+      jangkaWaktu: string;
+      kolektor: string;
+      deskripsi: string;
+    }
   > = {
-    "1": { nominalPengajuan: "12.000.000,00", jangkaWaktu: "12 Bulan", kolektor: "Gina Farida M.M." },
-    "2": { nominalPengajuan: "2.000.000,00", jangkaWaktu: "9 Bulan", kolektor: "Kolektor A" },
-    "3": { nominalPengajuan: "5.000.000,00", jangkaWaktu: "12 Bulan", kolektor: "Kolektor B" },
-    "4": { nominalPengajuan: "10.000.000,00", jangkaWaktu: "12 Bulan", kolektor: "Gina Farida M.M." },
-    "6": { nominalPengajuan: "7.500.000,00", jangkaWaktu: "10 Bulan", kolektor: "Kolektor A" },
+    "1": {
+      nominalPengajuan: "12.000.000,00",
+      jangkaWaktu: "12 Bulan",
+      kolektor: "Gina Farida M.M.",
+      deskripsi: "Pengajuan pinjaman koperasi untuk kebutuhan konsumtif.",
+    },
+    "2": {
+      nominalPengajuan: "2.000.000,00",
+      jangkaWaktu: "9 Bulan",
+      kolektor: "Kolektor A",
+      deskripsi: "Pengajuan pinjaman mikro (prototype).",
+    },
+    "3": {
+      nominalPengajuan: "5.000.000,00",
+      jangkaWaktu: "12 Bulan",
+      kolektor: "Kolektor B",
+      deskripsi: "Pengajuan pinjaman untuk modal usaha (prototype).",
+    },
+    "4": {
+      nominalPengajuan: "10.000.000,00",
+      jangkaWaktu: "12 Bulan",
+      kolektor: "Gina Farida M.M.",
+      deskripsi: "Pengajuan pinjaman koperasi (prototype).",
+    },
+    "6": {
+      nominalPengajuan: "7.500.000,00",
+      jangkaWaktu: "10 Bulan",
+      kolektor: "Kolektor A",
+      deskripsi: "Pengajuan pinjaman (prototype).",
+    },
   };
 
-  return map[id] ?? { nominalPengajuan: "-", jangkaWaktu: "-", kolektor: "-" };
+  return map[id] ?? {
+    nominalPengajuan: "-",
+    jangkaWaktu: "-",
+    kolektor: "-",
+    deskripsi: "-",
+  };
 }
 
 export default function ObsSamudraHartaDetail() {
@@ -369,7 +404,7 @@ export default function ObsSamudraHartaDetail() {
                         value: data.tanggalRegistrasi,
                       },
 
-                      // ✅ Produk + informasi pinjaman baru ditaruh "di samping kanan" Produk (urutan grid)
+                      // ✅ Produk + info pinjaman baru ditaruh "di samping kanan" Produk (urutan grid)
                       { label: "Produk", value: data.produk },
 
                       ...(data.produk === "Produk Pinjaman"
@@ -380,6 +415,7 @@ export default function ObsSamudraHartaDetail() {
                             },
                             { label: "Jangka Waktu", value: loanMeta.jangkaWaktu },
                             { label: "Kolektor", value: loanMeta.kolektor },
+                            { label: "Deskripsi", value: loanMeta.deskripsi },
                           ] as const)
                         : []),
 
