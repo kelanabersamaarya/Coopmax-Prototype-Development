@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowLeft, XCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 type ProductType = "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "Diajukan" | "Diproses" | "Ditolak";
@@ -218,7 +218,8 @@ function HistoryDeleteIconButton({ onClick }: { onClick: () => void }) {
       aria-label="Hapus"
       title="Hapus"
     >
-      <XCircle className="h-4.5 w-4.5" />
+      {/* icon intentionally removed */}
+      <span className="sr-only">Hapus</span>
     </button>
   );
 }
@@ -380,19 +381,49 @@ export default function ObsSamudraHartaDetail() {
                     <table className="w-full min-w-[980px] border-collapse bg-white">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
-                          <th className={cn("w-[80px]", historyTh, "border-r border-slate-200")}>
+                          <th
+                            className={cn(
+                              "w-[80px]",
+                              historyTh,
+                              "border-r border-slate-200",
+                            )}
+                          >
                             NO.
                           </th>
-                          <th className={cn("w-[320px]", historyTh, "border-r border-slate-200")}>
+                          <th
+                            className={cn(
+                              "w-[320px]",
+                              historyTh,
+                              "border-r border-slate-200",
+                            )}
+                          >
                             STATUS
                           </th>
-                          <th className={cn("w-[180px]", historyTh, "border-r border-slate-200")}>
+                          <th
+                            className={cn(
+                              "w-[180px]",
+                              historyTh,
+                              "border-r border-slate-200",
+                            )}
+                          >
                             TANGGAL
                           </th>
-                          <th className={cn("w-[180px]", historyTh, "border-r border-slate-200")}>
+                          <th
+                            className={cn(
+                              "w-[180px]",
+                              historyTh,
+                              "border-r border-slate-200",
+                            )}
+                          >
                             DIUBAH OLEH
                           </th>
-                          <th className={cn("min-w-[360px]", historyTh, "border-r border-slate-200")}>
+                          <th
+                            className={cn(
+                              "min-w-[360px]",
+                              historyTh,
+                              "border-r border-slate-200",
+                            )}
+                          >
                             DESKRIPSI
                           </th>
                           <th className={cn("w-[120px] text-center", historyTh)}>
