@@ -455,19 +455,73 @@ export default function ObsWeb() {
 
                 {/* ✅ Border luar solid */}
                 <div className="rounded-3xl border border-slate-200 bg-white p-2">
-                  {/* ✅ Preview semua file di atas dropzone */}
+                  {/* ✅ Preview semua file di atas dropzone (tanpa header box) */}
                   {files.length > 0 ? (
-                    <div className="mb-2 overflow-hidden rounded-[20px] bg-slate-50 ring-1 ring-slate-200">
-                      <div className="flex items-center justify-between gap-3 px-4 py-3">
-                        <div className="min-w-0">
-                          <div className="truncate text-[13px] font-extrabold text-slate-900">
-                            Preview ({files.length})
-                          </div>
-                          <div className="mt-0.5 text-[12px] font-semibold text-slate-600">
-                            Semua file yang dipilih akan ikut terkirim (prototype).
-                          </div>
-                        </div>
+                    <div className="mb-2 bg-white">
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        {previews.map((p) => (
+                          <div
+                            key={p.key}
+                            className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200"
+                          >
+                            <div className="flex items-center justify-between gap-2 px-3 py-2">
+                              <div className="min-w-0">
+                                <div
+                                  className="truncate text-[12px] font-extrabold text-slate-900"
+                                  title={p.name}
+                                >
+                                  {p.name}
+                                </div>
+                                <div className="text-[11px] font-semibold text-slate-500">
+                                  {p.type || "file"}
+                                </div>
+                              </div>
 
+                              <button
+                                type="button"
+                                onClick={() => removeFileByKey(p.key)}
+                                className={cn(
+                                  "inline-flex h-8 w-8 items-center justify-center rounded-full",
+                                  "bg-slate-900/5 text-slate-700 transition hover:bg-slate-900/10",
+                                )}
+                                aria-label={`Hapus ${p.name}`}
+                                title="Hapus"
+                              >
+                                <X className="h-4.5 w-4.5" />
+                              </button>
+                            </div>
+
+                            {p.url ? (
+                              <div className="bg-white p-3">
+                                <img
+                                  src={p.url}
+                                  alt={p.name}
+                                  className="h-[160px] w-full rounded-xl object-cover ring-1 ring-slate-200"
+                                  draggable={false}
+                                />
+                              </div>
+                            ) : (
+                              <div className="bg-white p-3">
+                                <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
+                                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white text-slate-700 ring-1 ring-slate-200">
+                                    <FileText className="h-5 w-5" />
+                                  </span>
+                                  <div className="min-w-0">
+                                    <div className="text-[12px] font-extrabold text-slate-900">
+                                      File terpilih
+                                    </div>
+                                    <div className="mt-1 text-[11px] font-semibold text-slate-600">
+                                      Preview hanya tersedia untuk gambar.
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-2 flex justify-end">
                         <button
                           type="button"
                           onClick={clearAllFiles}
@@ -481,71 +535,6 @@ export default function ObsWeb() {
                           <X className="h-4.5 w-4.5" />
                           Hapus semua
                         </button>
-                      </div>
-
-                      <div className="bg-white p-3">
-                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                          {previews.map((p) => (
-                            <div
-                              key={p.key}
-                              className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200"
-                            >
-                              <div className="flex items-center justify-between gap-2 px-3 py-2">
-                                <div className="min-w-0">
-                                  <div
-                                    className="truncate text-[12px] font-extrabold text-slate-900"
-                                    title={p.name}
-                                  >
-                                    {p.name}
-                                  </div>
-                                  <div className="text-[11px] font-semibold text-slate-500">
-                                    {p.type || "file"}
-                                  </div>
-                                </div>
-
-                                <button
-                                  type="button"
-                                  onClick={() => removeFileByKey(p.key)}
-                                  className={cn(
-                                    "inline-flex h-8 w-8 items-center justify-center rounded-full",
-                                    "bg-slate-900/5 text-slate-700 transition hover:bg-slate-900/10",
-                                  )}
-                                  aria-label={`Hapus ${p.name}`}
-                                  title="Hapus"
-                                >
-                                  <X className="h-4.5 w-4.5" />
-                                </button>
-                              </div>
-
-                              {p.url ? (
-                                <div className="bg-white p-3">
-                                  <img
-                                    src={p.url}
-                                    alt={p.name}
-                                    className="h-[160px] w-full rounded-xl object-cover ring-1 ring-slate-200"
-                                    draggable={false}
-                                  />
-                                </div>
-                              ) : (
-                                <div className="bg-white p-3">
-                                  <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
-                                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white text-slate-700 ring-1 ring-slate-200">
-                                      <FileText className="h-5 w-5" />
-                                    </span>
-                                    <div className="min-w-0">
-                                      <div className="text-[12px] font-extrabold text-slate-900">
-                                        File terpilih
-                                      </div>
-                                      <div className="mt-1 text-[11px] font-semibold text-slate-600">
-                                        Preview hanya tersedia untuk gambar.
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
                       </div>
                     </div>
                   ) : null}
