@@ -411,9 +411,12 @@ export default function BillingTableView2({
     globalIdx: number;
     dueDateDmy: string;
   }) {
-    // ✅ HARD OVERRIDE: baris ke-4/5/6 selalu Plus & selalu buka "Tambah Denda"
-    // Tidak peduli apakah total denda sudah ada atau tidak.
-    if (globalIdx === 3 || globalIdx === 4 || globalIdx === 5) {
+    // ✅ RULE FINAL:
+    // Baris yang tidak punya denda bawaan (globalIdx >= PENALTY_ROWS) harus selalu tampil PLUS
+    // dan selalu membuka modal "Tambah Denda", meskipun sudah ada denda manual tersimpan.
+    const isNoSeedPenaltyRow = globalIdx >= PENALTY_ROWS;
+
+    if (isNoSeedPenaltyRow) {
       return (
         <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
@@ -426,6 +429,7 @@ export default function BillingTableView2({
       );
     }
 
+    // Baris yang memang punya denda bawaan: tetap tampil info + nominal total (bisa termasuk hasil penyesuaian)
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
