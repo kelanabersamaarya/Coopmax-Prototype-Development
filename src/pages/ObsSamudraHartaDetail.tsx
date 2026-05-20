@@ -2,7 +2,8 @@ import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { List } from "lucide-react";
+import { List, Save } from "lucide-react";
+import { toast } from "sonner";
 
 type ProductType = "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "Diajukan" | "Diproses" | "Ditolak";
@@ -224,6 +225,37 @@ function HistoryDeleteIconButton({ onClick }: { onClick: () => void }) {
   );
 }
 
+function TopPillButton({
+  icon: Icon,
+  label,
+  onClick,
+  className,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  onClick: () => void;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center justify-center gap-3",
+        "h-10 rounded-full bg-white px-5",
+        "text-[15px] font-semibold text-slate-800",
+        "ring-1 ring-slate-200 shadow-sm",
+        "transition hover:bg-slate-50",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+        className,
+      )}
+    >
+      <Icon className="h-5 w-5 text-slate-600" />
+      <span className="whitespace-nowrap">{label}</span>
+    </button>
+  );
+}
+
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -257,26 +289,24 @@ export default function ObsSamudraHartaDetail() {
             </div>
           </div>
 
-          <div className="mt-4">
-            <button
-              type="button"
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <TopPillButton
+              icon={List}
+              label="Kembali ke Daftar"
               onClick={() => navigate("/obs-samudra-harta")}
-              className={cn(
-                "inline-flex items-center justify-center gap-3",
-                "w-[194px] h-10",
-                "rounded-full bg-white",
-                "px-5",
-                "text-[15px] font-semibold text-slate-800",
-                "ring-1 ring-slate-200 shadow-sm",
-                "transition hover:bg-slate-50",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
-              )}
-              aria-label="Kembali ke Daftar"
-              title="Kembali ke Daftar"
-            >
-              <List className="h-5 w-5 text-slate-600" />
-              <span className="whitespace-nowrap">Kembali ke Daftar</span>
-            </button>
+              className="w-[194px]"
+            />
+
+            <TopPillButton
+              icon={Save}
+              label="Perbarui Status"
+              onClick={() =>
+                toast("Perbarui Status (prototype)", {
+                  description: "Aksi perbarui status belum dihubungkan.",
+                })
+              }
+              className="w-[194px]"
+            />
           </div>
 
           {!data ? (
