@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Info, Plus } from "lucide-react";
+import { Eye, Plus } from "lucide-react";
 import GracePeriodInfoRow from "@/components/anggota/GracePeriodInfoRow";
 import NumericCell from "@/components/anggota/NumericCell";
 import PenaltyDetailDialog, {
@@ -20,6 +20,11 @@ import {
   parseIdrLikeToNumber,
   seedPenaltyItemId,
 } from "@/lib/penaltyOverridesStore";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -77,7 +82,7 @@ function NextBillInfoBanner() {
     <div className="rounded-[5px] border border-slate-200 bg-white px-4 py-4">
       <div className="flex items-center gap-4">
         <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-blue-700 ring-1 ring-blue-200">
-          <Info className="h-5 w-5" />
+          <span className="text-base font-extrabold">i</span>
         </span>
 
         <div className="min-w-0 text-sm font-medium text-slate-900">
@@ -141,35 +146,44 @@ function buildPenaltyDetailRows(dueDateDmy: string) {
 
 function PenaltyIconButton({
   onClick,
-  icon = "info",
+  icon = "eye",
   className,
 }: {
   onClick: () => void;
-  icon?: "info" | "plus";
+  icon?: "eye" | "plus";
   className?: string;
 }) {
-  const IconComp = icon === "plus" ? Plus : Info;
+  const IconComp = icon === "plus" ? Plus : Eye;
+
+  const label = icon === "plus" ? "Tambah Denda" : "Lihat Detail Denda";
 
   return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onClick();
-      }}
-      className={cn(
-        "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
-        "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
-        "transition hover:bg-[#1d4ed8]",
-        "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
-        className,
-      )}
-      aria-label="Denda"
-      title="Denda"
-    >
-      <IconComp className="h-3.5 w-3.5" />
-    </button>
+    <Tooltip delayDuration={120}>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClick();
+          }}
+          className={cn(
+            "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+            "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
+            "transition hover:bg-[#1d4ed8]",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
+            className,
+          )}
+          aria-label={label}
+        >
+          <IconComp className="h-3.5 w-3.5" />
+        </button>
+      </TooltipTrigger>
+
+      <TooltipContent className="rounded-xl border-slate-200 bg-white px-3 py-1.5 text-[12px] font-semibold text-slate-800 shadow-xl">
+        {label}
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -252,23 +266,6 @@ export default function BillingTableView2({
     : showPenaltyColumn
       ? 8
       : 7;
-
-  const allChecked = React.useMemo(() => {
-    if (rows.length === 0) return false;
-    return rows.every((_, idx) => selected[idx] === true);
-  }, [rows, selected]);
-
-  const anyChecked = React.useMemo(() => {
-    return rows.some((_, idx) => selected[idx] === true);
-  }, [rows, selected]);
-
-  const headerCheckboxRef = React.useRef<HTMLInputElement | null>(null);
-
-  React.useEffect(() => {
-    if (!headerCheckboxRef.current) return;
-    headerCheckboxRef.current.indeterminate =
-      !isLocked && anyChecked && !allChecked;
-  }, [allChecked, anyChecked, isLocked]);
 
   React.useEffect(() => {
     if (selected.length === rows.length) return;
@@ -456,7 +453,7 @@ export default function BillingTableView2({
 
             {hasManualActive ? (
               <PenaltyIconButton
-                icon="info"
+                icon="eye"
                 onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
               />
             ) : (
@@ -470,7 +467,7 @@ export default function BillingTableView2({
       );
     }
 
-    // Baris yang punya denda bawaan (3 baris pertama): tampil nominal total + Info
+    // Baris yang punya denda bawaan (3 baris pertama): tampil nominal total + Eye
     const info = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
     const total = info.total;
 
@@ -486,7 +483,7 @@ export default function BillingTableView2({
           )}
 
           <PenaltyIconButton
-            icon="info"
+            icon="eye"
             onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
           />
         </div>
