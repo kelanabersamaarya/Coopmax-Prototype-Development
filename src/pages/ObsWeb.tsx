@@ -165,15 +165,18 @@ export default function ObsWeb() {
     "focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
   );
 
-  // ✅ border lebih kontras untuk textarea "Deskripsi"
+  // ✅ Fix: teks di textarea tidak terpotong (baseline/line-height/padding)
   const textareaCls = cn(
     "min-h-[120px] rounded-2xl border border-slate-300 bg-white",
+    "px-3 py-2.5",
     "text-[14px] font-medium text-slate-900",
+    "leading-6",
     "placeholder:text-slate-400",
     "shadow-sm",
     "transition-colors",
     "hover:border-slate-400",
     "focus-visible:border-slate-400 focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
+    "resize-y",
   );
 
   return (
