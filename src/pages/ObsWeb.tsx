@@ -563,7 +563,7 @@ export default function ObsWeb() {
                           Upload Dokumen
                         </div>
                         <div className="mt-1 max-w-[520px] text-center text-[12px] font-semibold text-slate-600">
-                          Klik tombol di bawah atau drag & drop file ke area ini. (JPG,
+                          Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG,
                           JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File.
                         </div>
                       </div>
