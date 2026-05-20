@@ -16,7 +16,11 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import UpdateStatusDateField from "@/components/obs/UpdateStatusDateField";
-import { setObsRegistrationStatus, type ObsStatus } from "@/lib/obsRegistrationsStore";
+import {
+  setObsRegistrationStatus,
+  type ObsStatus,
+} from "@/lib/obsRegistrationsStore";
+import { appendObsRegistrationHistory } from "@/lib/obsRegistrationsHistoryStore";
 
 type StatusOption = ObsStatus;
 
@@ -159,6 +163,8 @@ export default function UpdateStatusDialog({
     "focus:outline-none focus-visible:ring-4",
   );
 
+  const changedBy = "Gusman";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -175,7 +181,7 @@ export default function UpdateStatusDialog({
       >
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="text-[18px] font-semibold tracking-tight text-slate-900">
+            <div className="text-[18px] font-extrabold tracking-tight text-slate-900">
               Perbarui Status
             </div>
 
@@ -198,7 +204,10 @@ export default function UpdateStatusDialog({
           >
             <div className={cn("grid", UI.gapY)}>
               <FieldRow label="Status">
-                <Select value={status} onValueChange={(v) => setStatus(v as StatusOption)}>
+                <Select
+                  value={status}
+                  onValueChange={(v) => setStatus(v as StatusOption)}
+                >
                   <SelectTrigger className={triggerCls}>
                     <SelectValue />
                   </SelectTrigger>
@@ -211,11 +220,19 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Data Pemohon" align="top">
-                <div className={cn("border border-slate-200 bg-white p-4 shadow-sm", UI.radius)}>
+                <div
+                  className={cn(
+                    "border border-slate-200 bg-white p-4 shadow-sm",
+                    UI.radius,
+                  )}
+                >
                   <div className={cn("grid", UI.gapY)}>
                     <DataPemohonKV label="Nama Pemohon" value={prefill.namaPemohon} />
                     <DataPemohonKV label="No Telepon" value="085461231456" />
-                    <DataPemohonKV label="Alamat" value="BR. TENGKULAK KAJA KANGIN" />
+                    <DataPemohonKV
+                      label="Alamat"
+                      value="BR. TENGKULAK KAJA KANGIN"
+                    />
                   </div>
 
                   <div className="sr-only">
@@ -229,11 +246,20 @@ export default function UpdateStatusDialog({
               </FieldRow>
 
               <FieldRow label="Nominal Pengajuan">
-                <Input value={prefill.pinjamanDiajukan} readOnly disabled className={readOnlyInputCls} />
+                <Input
+                  value={prefill.pinjamanDiajukan}
+                  readOnly
+                  disabled
+                  className={readOnlyInputCls}
+                />
               </FieldRow>
 
               <FieldRow label="Deskripsi" align="top">
-                <Textarea value={deskripsi} onChange={(e) => setDeskripsi(e.target.value)} className={textareaCls} />
+                <Textarea
+                  value={deskripsi}
+                  onChange={(e) => setDeskripsi(e.target.value)}
+                  className={textareaCls}
+                />
               </FieldRow>
 
               <div className="sr-only">{prefill.pinjamanDisetujui}</div>
@@ -267,8 +293,16 @@ export default function UpdateStatusDialog({
                     deskripsi,
                   };
 
-                  // ✅ persist status untuk pendaftar (agar tombol di detail bisa muncul/hilang)
+                  // ✅ persist status untuk pendaftar
                   setObsRegistrationStatus(prefill.nikPemohon, status);
+
+                  // ✅ append history row agar langsung muncul di tabel riwayat
+                  appendObsRegistrationHistory(prefill.nikPemohon, {
+                    status,
+                    tanggal,
+                    diubahOleh: changedBy,
+                    deskripsi: deskripsi?.trim() || "-",
+                  });
 
                   onSave?.(next);
 

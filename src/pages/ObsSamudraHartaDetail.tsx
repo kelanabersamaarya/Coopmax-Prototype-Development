@@ -7,11 +7,12 @@ import { toast } from "sonner";
 import UpdateStatusDialog, {
   type UpdateStatusDialogPrefill,
 } from "@/components/obs/UpdateStatusDialog";
+import { getObsRegistrationStatus, type ObsStatus } from "@/lib/obsRegistrationsStore";
 import {
-  getObsRegistrationStatus,
-  setObsRegistrationStatus,
-  type ObsStatus,
-} from "@/lib/obsRegistrationsStore";
+  getObsRegistrationHistory,
+  removeObsRegistrationHistoryRow,
+  type ObsStatusHistoryRow,
+} from "@/lib/obsRegistrationsHistoryStore";
 
 type ProductType = "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "Diajukan" | "Diproses" | "Ditolak";
@@ -179,59 +180,6 @@ function InsetDivider() {
   );
 }
 
-type StatusHistoryRow = {
-  no: number;
-  status: string;
-  tanggal: string;
-  diubahOleh: string;
-  deskripsi: string;
-};
-
-const statusHistorySeed: StatusHistoryRow[] = [
-  {
-    no: 1,
-    status: "Aktif / Sudah Dicairkan",
-    tanggal: "07-04-2026",
-    diubahOleh: "Gusman",
-    deskripsi: "tess",
-  },
-  {
-    no: 2,
-    status: "Disetujui",
-    tanggal: "07-04-2026",
-    diubahOleh: "Gusman",
-    deskripsi: "Tes",
-  },
-  {
-    no: 3,
-    status: "Diajukan",
-    tanggal: "07-04-2026",
-    diubahOleh: "Gusman",
-    deskripsi: "Tes",
-  },
-];
-
-function HistoryDeleteIconButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "inline-flex h-7 w-7 items-center justify-center",
-        "rounded-full",
-        "bg-transparent",
-        "text-rose-600 transition-colors",
-        "hover:text-rose-700",
-        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-      )}
-      aria-label="Hapus"
-      title="Hapus"
-    >
-      <span className="sr-only">Hapus</span>
-    </button>
-  );
-}
-
 function TopPillButton({
   icon: Icon,
   label,
@@ -264,7 +212,6 @@ function TopPillButton({
 }
 
 function loanMetaById(id: string) {
-  // Prototype: khusus untuk Produk Pinjaman
   const map: Record<
     string,
     {
@@ -340,6 +287,37 @@ function defaultUpdateStatusPrefill(
   };
 }
 
+type TableHistoryRow = {
+  rowId: string;
+  no: number;
+  status: string;
+  tanggal: string;
+  diubahOleh: string;
+  deskripsi: string;
+};
+
+function HistoryDeleteIconButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex h-7 w-7 items-center justify-center",
+        "rounded-full",
+        "bg-transparent",
+        "text-rose-600 transition-colors",
+        "hover:text-rose-700",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+      )}
+      aria-label="Hapus"
+      title="Hapus"
+    >
+      <span className="sr-only">Hapus</span>
+      ×
+    </button>
+  );
+}
+
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -347,31 +325,67 @@ export default function ObsSamudraHartaDetail() {
 
   const data = React.useMemo(() => seed.find((r) => r.id === id) ?? null, [id]);
 
-  // ✅ gunakan status tersimpan jika ada, fallback ke status seed
-  const idKey = id; // key penyimpanan per-pendaftar
+  const idKey = id;
+
   const [status, setStatus] = React.useState<ObsStatus>(() => {
     const stored = getObsRegistrationStatus(idKey);
     return stored ?? (data?.status ?? "Diajukan");
   });
 
+  const [historyTick, setHistoryTick] = React.useState(0);
+
   React.useEffect(() => {
     const stored = getObsRegistrationStatus(idKey);
     setStatus(stored ?? (data?.status ?? "Diajukan"));
+    setHistoryTick((t) => t + 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const [history, setHistory] = React.useState<StatusHistoryRow[]>(
-    () => statusHistorySeed,
-  );
+  const historyRows = React.useMemo<TableHistoryRow[]>(() => {
+    const stored = getObsRegistrationHistory(idKey);
 
-  React.useEffect(() => {
-    // reset state sederhana saat pindah detail
-    setHistory(statusHistorySeed);
-  }, [id]);
+    if (stored.length > 0) {
+      return stored
+        .slice()
+        .reverse() // oldest first in table
+        .map((r, idx) => ({
+          rowId: r.id,
+          no: idx + 1,
+          status: r.status,
+          tanggal: r.tanggal,
+          diubahOleh: r.diubahOleh,
+          deskripsi: r.deskripsi,
+        }));
+    }
 
-  // Padding tabel riwayat seperti referensi (lebih rapat)
-  const historyTh = "px-4 py-2.5";
-  const historyTd = "px-4 py-1.5";
+    // fallback seed (sesuai screenshot)
+    return [
+      {
+        rowId: "seed-1",
+        no: 1,
+        status: "Aktif / Sudah Dicairkan",
+        tanggal: "07-04-2026",
+        diubahOleh: "Gusman",
+        deskripsi: "tess",
+      },
+      {
+        rowId: "seed-2",
+        no: 2,
+        status: "Disetujui",
+        tanggal: "07-04-2026",
+        diubahOleh: "Gusman",
+        deskripsi: "Tes",
+      },
+      {
+        rowId: "seed-3",
+        no: 3,
+        status: "Diajukan",
+        tanggal: "07-04-2026",
+        diubahOleh: "Gusman",
+        deskripsi: "Tes",
+      },
+    ];
+  }, [historyTick, idKey]);
 
   const loanMeta = React.useMemo(() => loanMetaById(id), [id]);
 
@@ -382,7 +396,12 @@ export default function ObsSamudraHartaDetail() {
     [data, loanMeta, status, idKey],
   );
 
-  const showCreateLoanButton = status === "Diproses" && data?.produk === "Produk Pinjaman";
+  const showCreateLoanButton =
+    status === "Diproses" && data?.produk === "Produk Pinjaman";
+
+  // Padding tabel riwayat seperti referensi (lebih rapat)
+  const historyTh = "px-4 py-2.5";
+  const historyTd = "px-4 py-1.5";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -391,9 +410,9 @@ export default function ObsSamudraHartaDetail() {
         onOpenChange={setUpdateOpen}
         prefill={updatePrefill}
         onSave={(next) => {
-          // ✅ simpan status, lalu update UI local agar tombol muncul/hilang tanpa refresh
-          setObsRegistrationStatus(idKey, next.status);
+          // status sudah dipersist oleh dialog; sinkronkan UI detail dan refresh tabel
           setStatus(next.status);
+          setHistoryTick((t) => t + 1);
 
           toast.success("Perbarui Status tersimpan (prototype)", {
             description: `Status: ${next.status}`,
@@ -466,7 +485,6 @@ export default function ObsSamudraHartaDetail() {
                   INFORMASI PENDAFTAR BARU
                 </div>
 
-                {/* Panel teal */}
                 <div className="mt-5">
                   <TealInfoPanel
                     title={
@@ -483,9 +501,7 @@ export default function ObsSamudraHartaDetail() {
                         label: "Tanggal Registrasi",
                         value: data.tanggalRegistrasi,
                       },
-
                       { label: "Produk", value: data.produk },
-
                       ...(data.produk === "Produk Pinjaman"
                         ? ([
                             {
@@ -497,9 +513,7 @@ export default function ObsSamudraHartaDetail() {
                             { label: "Deskripsi", value: loanMeta.deskripsi },
                           ] as const)
                         : []),
-
-                      // ✅ status dari state/store
-                      { label: "Status", value: <StatusPill status={status} /> },
+                      { label: "Status", value: <StatusPill status={status as any} /> },
                     ]}
                   />
                 </div>
@@ -612,7 +626,7 @@ export default function ObsSamudraHartaDetail() {
                       </thead>
 
                       <tbody>
-                        {history.length === 0 ? (
+                        {historyRows.length === 0 ? (
                           <tr>
                             <td
                               colSpan={6}
@@ -622,9 +636,9 @@ export default function ObsSamudraHartaDetail() {
                             </td>
                           </tr>
                         ) : (
-                          history.map((r, idx) => (
+                          historyRows.map((r, idx) => (
                             <tr
-                              key={r.no}
+                              key={r.rowId}
                               className={cn(
                                 "border-t border-slate-200 text-[14px] font-normal text-slate-900",
                                 idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
@@ -673,11 +687,22 @@ export default function ObsSamudraHartaDetail() {
                               <td className={cn(historyTd)}>
                                 <div className="flex justify-center">
                                   <HistoryDeleteIconButton
-                                    onClick={() =>
-                                      setHistory((prev) =>
-                                        prev.filter((x) => x.no !== r.no),
-                                      )
-                                    }
+                                    onClick={() => {
+                                      // Seed rows tidak dihapus (karena bukan storage)
+                                      if (r.rowId.startsWith("seed-")) {
+                                        toast("Tidak bisa menghapus data contoh", {
+                                          description:
+                                            "Riwayat contoh hanya untuk tampilan awal.",
+                                        });
+                                        return;
+                                      }
+
+                                      removeObsRegistrationHistoryRow(idKey, r.rowId);
+                                      setHistoryTick((t) => t + 1);
+                                      toast("Riwayat dihapus", {
+                                        description: `Baris #${r.no} dihapus.`,
+                                      });
+                                    }}
                                   />
                                 </div>
                               </td>
@@ -689,9 +714,7 @@ export default function ObsSamudraHartaDetail() {
                   </div>
                 </div>
 
-                <div className="sr-only">
-                  <HistoryDeleteIconButton onClick={() => {}} />
-                </div>
+                <div className="sr-only">{historyTick}</div>
               </div>
             </Card>
           )}
