@@ -103,13 +103,14 @@ export default function UpdateStatusDialog({
 }) {
   const [status, setStatus] = React.useState<StatusOption>(prefill.status);
   const [tanggal, setTanggal] = React.useState(prefill.tanggal);
-  const [deskripsi, setDeskripsi] = React.useState(prefill.deskripsi);
+  const [deskripsi, setDeskripsi] = React.useState("");
 
   React.useEffect(() => {
     if (!open) return;
     setStatus(prefill.status);
     setTanggal(prefill.tanggal);
-    setDeskripsi(prefill.deskripsi);
+    // ✅ default kosong saat modal dibuka
+    setDeskripsi("");
   }, [open, prefill]);
 
   const triggerCls = cn(
@@ -205,7 +206,6 @@ export default function UpdateStatusDialog({
                     <DataPemohonKV label="Alamat" value="BR. TENGKULAK KAJA KANGIN" />
                   </div>
 
-                  {/* keep nikPemohon & verified referenced to avoid TS unused warnings */}
                   <div className="sr-only">
                     {prefill.nikPemohon} • {String(prefill.verified)}
                   </div>
