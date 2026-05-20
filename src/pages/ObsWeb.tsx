@@ -118,6 +118,29 @@ function isImageFile(file: File) {
   return file.type.startsWith("image/");
 }
 
+function fileKey(file: File) {
+  return `${file.name}::${file.size}::${file.lastModified}`;
+}
+
+function uniqByKey<T>(items: T[], keyFn: (item: T) => string) {
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const it of items) {
+    const k = keyFn(it);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(it);
+  }
+  return out;
+}
+
+type PreviewItem = {
+  key: string;
+  name: string;
+  type: string;
+  url?: string;
+};
+
 export default function ObsWeb() {
   const [nama, setNama] = React.useState("");
   const [phone, setPhone] = React.useState("");
@@ -131,33 +154,53 @@ export default function ObsWeb() {
   const [deskripsi, setDeskripsi] = React.useState("");
 
   const [produk, setProduk] = React.useState<Product>("Pinjaman Koperasi");
-  const [fileName, setFileName] = React.useState<string>("");
-  const [file, setFile] = React.useState<File | null>(null);
 
+  // ✅ multi-file
+  const [files, setFiles] = React.useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [dragActive, setDragActive] = React.useState(false);
 
-  const previewUrl = React.useMemo(() => {
-    if (!file) return null;
-    if (!isImageFile(file)) return null;
-    return URL.createObjectURL(file);
-  }, [file]);
+  // ✅ build preview URLs for ALL image files
+  const previews = React.useMemo<PreviewItem[]>(() => {
+    return files.map((f) => {
+      const key = fileKey(f);
+      const isImage = isImageFile(f);
+      return {
+        key,
+        name: f.name,
+        type: f.type,
+        url: isImage ? URL.createObjectURL(f) : undefined,
+      };
+    });
+  }, [files]);
 
   React.useEffect(() => {
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previews.forEach((p) => {
+        if (p.url) URL.revokeObjectURL(p.url);
+      });
     };
-  }, [previewUrl]);
+  }, [previews]);
 
-  function handlePickFile(next: File | null | undefined) {
-    setFile(next ?? null);
-    setFileName(next?.name ?? "");
+  function addFiles(next: File[] | FileList | null | undefined) {
+    const list = next ? Array.from(next) : [];
+    if (list.length === 0) return;
+
+    setFiles((prev) => uniqByKey([...prev, ...list], fileKey));
   }
 
-  function clearFile() {
-    setFile(null);
-    setFileName("");
+  function clearAllFiles() {
+    setFiles([]);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  function removeFileByKey(key: string) {
+    setFiles((prev) => prev.filter((f) => fileKey(f) !== key));
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }
+
+  function openPicker() {
+    fileInputRef.current?.click();
   }
 
   function submit() {
@@ -181,7 +224,9 @@ export default function ObsWeb() {
     }
 
     toast.success("Pendaftaran terkirim (prototype)", {
-      description: `Produk: ${produk}${fileName ? ` • Dokumen: ${fileName}` : ""}`,
+      description: `Produk: ${produk}${
+        files.length > 0 ? ` • Dokumen: ${files.length} file` : ""
+      }`,
     });
 
     setNama("");
@@ -195,7 +240,7 @@ export default function ObsWeb() {
     setDeskripsi("");
 
     setProduk("Pinjaman Koperasi");
-    clearFile();
+    clearAllFiles();
   }
 
   const inputCls = cn(
@@ -402,73 +447,112 @@ export default function ObsWeb() {
                 <input
                   ref={fileInputRef}
                   type="file"
+                  multiple
                   className="sr-only"
                   accept="image/*,.jpg,.jpeg,.png,.pdf"
-                  onChange={(e) => handlePickFile(e.target.files?.[0])}
+                  onChange={(e) => addFiles(e.target.files)}
                 />
 
                 {/* ✅ Border luar solid */}
                 <div className="rounded-3xl border border-slate-200 bg-white p-2">
-                  {/* ✅ Preview di atas dropzone dashed */}
-                  {file ? (
+                  {/* ✅ Preview semua file di atas dropzone */}
+                  {files.length > 0 ? (
                     <div className="mb-2 overflow-hidden rounded-[20px] bg-slate-50 ring-1 ring-slate-200">
                       <div className="flex items-center justify-between gap-3 px-4 py-3">
                         <div className="min-w-0">
                           <div className="truncate text-[13px] font-extrabold text-slate-900">
-                            Preview
+                            Preview ({files.length})
                           </div>
-                          <div className="mt-0.5 truncate text-[12px] font-semibold text-slate-600">
-                            {file.name}
+                          <div className="mt-0.5 text-[12px] font-semibold text-slate-600">
+                            Semua file yang dipilih akan ikut terkirim (prototype).
                           </div>
                         </div>
 
                         <button
                           type="button"
-                          onClick={clearFile}
+                          onClick={clearAllFiles}
                           className={cn(
-                            "inline-flex h-9 w-9 items-center justify-center rounded-full",
+                            "inline-flex h-9 items-center justify-center gap-2 rounded-full px-4",
                             "bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-100",
                           )}
-                          aria-label="Hapus file"
-                          title="Hapus file"
+                          aria-label="Hapus semua file"
+                          title="Hapus semua"
                         >
                           <X className="h-4.5 w-4.5" />
+                          Hapus semua
                         </button>
                       </div>
 
-                      {previewUrl ? (
-                        <div className="bg-white p-3">
-                          <img
-                            src={previewUrl}
-                            alt={file.name}
-                            className="mx-auto max-h-[240px] w-full rounded-2xl object-contain ring-1 ring-slate-200"
-                            draggable={false}
-                          />
-                        </div>
-                      ) : (
-                        <div className="bg-white p-4">
-                          <div className="flex items-start gap-3">
-                            <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900/5 text-slate-700 ring-1 ring-slate-200">
-                              <FileText className="h-5 w-5" />
-                            </span>
+                      <div className="bg-white p-3">
+                        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                          {previews.map((p) => (
+                            <div
+                              key={p.key}
+                              className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200"
+                            >
+                              <div className="flex items-center justify-between gap-2 px-3 py-2">
+                                <div className="min-w-0">
+                                  <div
+                                    className="truncate text-[12px] font-extrabold text-slate-900"
+                                    title={p.name}
+                                  >
+                                    {p.name}
+                                  </div>
+                                  <div className="text-[11px] font-semibold text-slate-500">
+                                    {p.type || "file"}
+                                  </div>
+                                </div>
 
-                            <div className="min-w-0">
-                              <div className="text-[13px] font-extrabold text-slate-900">
-                                File terpilih
+                                <button
+                                  type="button"
+                                  onClick={() => removeFileByKey(p.key)}
+                                  className={cn(
+                                    "inline-flex h-8 w-8 items-center justify-center rounded-full",
+                                    "bg-slate-900/5 text-slate-700 transition hover:bg-slate-900/10",
+                                  )}
+                                  aria-label={`Hapus ${p.name}`}
+                                  title="Hapus"
+                                >
+                                  <X className="h-4.5 w-4.5" />
+                                </button>
                               </div>
-                              <div className="mt-1 text-[12px] font-semibold text-slate-600">
-                                Preview hanya tersedia untuk gambar (JPG/PNG). File ini akan tetap ikut terkirim saat submit.
-                              </div>
+
+                              {p.url ? (
+                                <div className="bg-white p-3">
+                                  <img
+                                    src={p.url}
+                                    alt={p.name}
+                                    className="h-[160px] w-full rounded-xl object-cover ring-1 ring-slate-200"
+                                    draggable={false}
+                                  />
+                                </div>
+                              ) : (
+                                <div className="bg-white p-3">
+                                  <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
+                                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white text-slate-700 ring-1 ring-slate-200">
+                                      <FileText className="h-5 w-5" />
+                                    </span>
+                                    <div className="min-w-0">
+                                      <div className="text-[12px] font-extrabold text-slate-900">
+                                        File terpilih
+                                      </div>
+                                      <div className="mt-1 text-[11px] font-semibold text-slate-600">
+                                        Preview hanya tersedia untuk gambar.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                          </div>
+                          ))}
                         </div>
-                      )}
+                      </div>
                     </div>
                   ) : null}
 
                   <button
                     type="button"
-                    onClick={() => fileInputRef.current?.click()}
+                    onClick={openPicker}
                     onDragEnter={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -488,7 +572,7 @@ export default function ObsWeb() {
                       e.preventDefault();
                       e.stopPropagation();
                       setDragActive(false);
-                      handlePickFile(e.dataTransfer.files?.[0]);
+                      addFiles(e.dataTransfer.files);
                     }}
                     className={cn(
                       "w-full rounded-[20px] border-2 border-dashed p-4 text-left transition",
@@ -506,12 +590,11 @@ export default function ObsWeb() {
 
                       <div className="text-center">
                         <div className="text-[13px] font-extrabold text-slate-900">
-                          {fileName ? "File terpilih" : "Upload Dokumen"}
+                          Upload Dokumen
                         </div>
                         <div className="mt-1 max-w-[520px] text-center text-[12px] font-semibold text-slate-600">
-                          {fileName
-                            ? fileName
-                            : "Klik tombol di bawah atau drag & drop file ke area ini. (JPG, JPEG, PNG, PDF)"}
+                          Klik tombol di bawah atau drag & drop file ke area ini. (JPG,
+                          JPEG, PNG, PDF) — bisa pilih lebih dari 1 file.
                         </div>
                       </div>
 
@@ -520,9 +603,9 @@ export default function ObsWeb() {
                         Unggah Dokumen
                       </div>
 
-                      {fileName ? (
+                      {files.length > 0 ? (
                         <div className="mt-1 text-[12px] font-semibold text-slate-500">
-                          Klik lagi untuk ganti file.
+                          Klik lagi untuk menambahkan file lain.
                         </div>
                       ) : null}
                     </div>
@@ -581,8 +664,7 @@ export default function ObsWeb() {
                 <div>
                   <div className="font-extrabold text-white">Kantor Cabang</div>
                   <div className="mt-1 text-[12px] font-semibold text-white/80">
-                    Jl. Suneta, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali
-                    80571
+                    Jl. Suneta, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali 80571
                   </div>
                 </div>
               </FooterInfoRow>
