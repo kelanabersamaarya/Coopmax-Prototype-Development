@@ -421,10 +421,17 @@ export default function BillingTableView2({
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
-    // ✅ Request: baris ke-5 awalnya icon plus; jika sudah ada penambahan denda -> jadi info
+    // ✅ Baris ke-5 (globalIdx=4): plus hanya kalau belum ada denda tambahan; jika sudah ada, jadi info
     const isRow5 = globalIdx === 4;
-    const iconVariant: "info" | "plus" =
-      isRow5 && !info.hasAdded ? "plus" : "info";
+
+    // ✅ Request: baris ke-6 (globalIdx=5) SELALU plus
+    const isRow6 = globalIdx === 5;
+
+    const iconVariant: "info" | "plus" = isRow6
+      ? "plus"
+      : isRow5 && !info.hasAdded
+        ? "plus"
+        : "info";
 
     const handleClick = () => {
       if (iconVariant === "plus") {
@@ -500,7 +507,7 @@ export default function BillingTableView2({
             by: currentUserName,
           });
 
-          // refresh agar icon berubah plus->info dan nominal total update
+          // refresh agar nominal total update
           setRefreshTick((t) => t + 1);
         }}
       />
