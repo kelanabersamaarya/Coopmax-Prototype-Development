@@ -362,7 +362,11 @@ export default function BillingTableView2({
     });
   }
 
-  function penaltyValueForRow(globalIdx: number, dueDateDmy: string, localIdx: number) {
+  function penaltyValueForRow(
+    globalIdx: number,
+    dueDateDmy: string,
+    localIdx: number,
+  ) {
     if (!canPersist) {
       if (localIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
       const seedTotal = PENALTY_DETAIL_DAYS * PENALTY_PER_DAY;
@@ -433,16 +437,23 @@ export default function BillingTableView2({
     localIdx: number;
     dueDateDmy: string;
   }) {
-    // ✅ Baru: seed penalty hanya berlaku untuk 3 baris pertama pada halaman ini.
-    // Baris 4 & 5 akan mengikuti behaviour baris 6 (default Plus).
+    // Seed penalty hanya berlaku untuk 3 baris pertama per halaman.
     const isNoSeedPenaltyRow = localIdx >= PENALTY_ROWS;
 
     if (isNoSeedPenaltyRow) {
+      const info = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
+      const total = info.total;
       const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
 
       return (
         <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
+            {hasManualActive && total > 0 ? (
+              <span className="tabular-nums whitespace-nowrap num-sans-tabular">
+                {formatIdrLike(total)}
+              </span>
+            ) : null}
+
             {hasManualActive ? (
               <PenaltyIconButton
                 icon="info"
@@ -459,7 +470,7 @@ export default function BillingTableView2({
       );
     }
 
-    // Baris yang punya denda bawaan (3 baris pertama di halaman): tampil nominal total + Info
+    // Baris yang punya denda bawaan (3 baris pertama): tampil nominal total + Info
     const info = penaltyValueForRow(globalIdx, dueDateDmy, localIdx);
     const total = info.total;
 
@@ -843,10 +854,9 @@ export default function BillingTableView2({
 
         <div className="sr-only">
           <NumericCell>0</NumericCell>
+          <span>{refreshTick}</span>
         </div>
       </div>
-
-      <div className="sr-only">{refreshTick}</div>
     </div>
   );
 }
