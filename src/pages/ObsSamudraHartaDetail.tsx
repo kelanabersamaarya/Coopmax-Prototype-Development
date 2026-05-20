@@ -256,6 +256,22 @@ function TopPillButton({
   );
 }
 
+function loanMetaById(id: string) {
+  // Prototype: khusus untuk Produk Pinjaman, mengikuti request penambahan informasi.
+  const map: Record<
+    string,
+    { nominalPengajuan: string; jangkaWaktu: string; kolektor: string }
+  > = {
+    "1": { nominalPengajuan: "12.000.000,00", jangkaWaktu: "12 Bulan", kolektor: "Gina Farida M.M." },
+    "2": { nominalPengajuan: "2.000.000,00", jangkaWaktu: "9 Bulan", kolektor: "Kolektor A" },
+    "3": { nominalPengajuan: "5.000.000,00", jangkaWaktu: "12 Bulan", kolektor: "Kolektor B" },
+    "4": { nominalPengajuan: "10.000.000,00", jangkaWaktu: "12 Bulan", kolektor: "Gina Farida M.M." },
+    "6": { nominalPengajuan: "7.500.000,00", jangkaWaktu: "10 Bulan", kolektor: "Kolektor A" },
+  };
+
+  return map[id] ?? { nominalPengajuan: "-", jangkaWaktu: "-", kolektor: "-" };
+}
+
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -275,6 +291,8 @@ export default function ObsSamudraHartaDetail() {
   // Padding tabel riwayat seperti referensi (lebih rapat)
   const historyTh = "px-4 py-2.5";
   const historyTd = "px-4 py-1.5";
+
+  const loanMeta = React.useMemo(() => loanMetaById(id), [id]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -350,7 +368,21 @@ export default function ObsSamudraHartaDetail() {
                         label: "Tanggal Registrasi",
                         value: data.tanggalRegistrasi,
                       },
+
+                      // ✅ Produk + informasi pinjaman baru ditaruh "di samping kanan" Produk (urutan grid)
                       { label: "Produk", value: data.produk },
+
+                      ...(data.produk === "Produk Pinjaman"
+                        ? ([
+                            {
+                              label: "Nominal Pengajuan",
+                              value: loanMeta.nominalPengajuan,
+                            },
+                            { label: "Jangka Waktu", value: loanMeta.jangkaWaktu },
+                            { label: "Kolektor", value: loanMeta.kolektor },
+                          ] as const)
+                        : []),
+
                       { label: "Status", value: <StatusPill status={data.status} /> },
                     ]}
                   />
