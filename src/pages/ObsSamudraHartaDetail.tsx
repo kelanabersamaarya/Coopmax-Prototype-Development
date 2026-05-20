@@ -7,10 +7,12 @@ import { toast } from "sonner";
 import UpdateStatusDialog, {
   type UpdateStatusDialogPrefill,
 } from "@/components/obs/UpdateStatusDialog";
-import { getObsRegistrationStatus, type ObsStatus } from "@/lib/obsRegistrationsStore";
+import {
+  getObsRegistrationStatus,
+  type ObsStatus,
+} from "@/lib/obsRegistrationsStore";
 import {
   getObsRegistrationHistory,
-  removeObsRegistrationHistoryRow,
   type ObsStatusHistoryRow,
 } from "@/lib/obsRegistrationsHistoryStore";
 
@@ -299,28 +301,6 @@ type TableHistoryRow = {
   deskripsi: string;
 };
 
-function HistoryDeleteIconButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "inline-flex h-7 w-7 items-center justify-center",
-        "rounded-full",
-        "bg-transparent",
-        "text-rose-600 transition-colors",
-        "hover:text-rose-700",
-        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-      )}
-      aria-label="Hapus"
-      title="Hapus"
-    >
-      <span className="sr-only">Hapus</span>
-      ×
-    </button>
-  );
-}
-
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
@@ -345,7 +325,7 @@ export default function ObsSamudraHartaDetail() {
   }, [id]);
 
   const historyRows = React.useMemo<TableHistoryRow[]>(() => {
-    const stored = getObsRegistrationHistory(idKey);
+    const stored: ObsStatusHistoryRow[] = getObsRegistrationHistory(idKey);
 
     if (stored.length > 0) {
       return stored
@@ -574,7 +554,7 @@ export default function ObsSamudraHartaDetail() {
 
                 <div className="mt-4 overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
                   <div className="safe-x-scroll">
-                    <table className="w-full min-w-[980px] border-collapse bg-white">
+                    <table className="w-full min-w-[900px] border-collapse bg-white">
                       <thead className="bg-white">
                         <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
                           <th
@@ -613,17 +593,8 @@ export default function ObsSamudraHartaDetail() {
                           >
                             DIUBAH OLEH
                           </th>
-                          <th
-                            className={cn(
-                              "min-w-[360px]",
-                              historyTh,
-                              "border-r border-slate-200",
-                            )}
-                          >
+                          <th className={cn("min-w-[360px]", historyTh)}>
                             DESKRIPSI
-                          </th>
-                          <th className={cn("w-[120px] text-center", historyTh)}>
-                            AKSI
                           </th>
                         </tr>
                       </thead>
@@ -632,7 +603,7 @@ export default function ObsSamudraHartaDetail() {
                         {historyRows.length === 0 ? (
                           <tr>
                             <td
-                              colSpan={6}
+                              colSpan={5}
                               className="px-4 py-7 text-center text-sm text-slate-600"
                             >
                               Belum ada riwayat.
@@ -679,35 +650,8 @@ export default function ObsSamudraHartaDetail() {
                               >
                                 {r.diubahOleh}
                               </td>
-                              <td
-                                className={cn(
-                                  historyTd,
-                                  "font-normal border-r border-slate-200",
-                                )}
-                              >
+                              <td className={cn(historyTd, "font-normal")}>
                                 {r.deskripsi}
-                              </td>
-                              <td className={cn(historyTd)}>
-                                <div className="flex justify-center">
-                                  <HistoryDeleteIconButton
-                                    onClick={() => {
-                                      // Seed rows tidak dihapus (karena bukan storage)
-                                      if (r.rowId.startsWith("seed-")) {
-                                        toast("Tidak bisa menghapus data contoh", {
-                                          description:
-                                            "Riwayat contoh hanya untuk tampilan awal.",
-                                        });
-                                        return;
-                                      }
-
-                                      removeObsRegistrationHistoryRow(idKey, r.rowId);
-                                      setHistoryTick((t) => t + 1);
-                                      toast("Riwayat dihapus", {
-                                        description: `Baris #${r.no} dihapus.`,
-                                      });
-                                    }}
-                                  />
-                                </div>
                               </td>
                             </tr>
                           ))
