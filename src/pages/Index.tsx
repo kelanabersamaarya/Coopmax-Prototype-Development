@@ -99,6 +99,11 @@ export default function Index() {
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
 
+  const isPinjamanArea =
+    location.pathname.startsWith("/loan-products") ||
+    location.pathname.startsWith("/loans") ||
+    location.pathname.startsWith("/anggota/transaksi");
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-[var(--shell-gutter)] py-6 md:py-8">
@@ -139,8 +144,8 @@ export default function Index() {
                           {/* Pinjaman (collapsible) tepat di bawah Anggota */}
                           <SidebarPinjamanMenu />
 
-                          {/* Online Banking / OBS (collapsible) */}
-                          <SidebarObsMenu />
+                          {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman area */}
+                          {!isPinjamanArea ? <SidebarObsMenu /> : null}
 
                           {/* Laporan (collapsible) */}
                           <SidebarLaporanMenu />
