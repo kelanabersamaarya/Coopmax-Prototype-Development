@@ -161,8 +161,6 @@ function PaginationLikeExample({
   pageCount: number;
   onPage: (p: number) => void;
 }) {
-  if (pageCount <= 1) return null;
-
   const prevDisabled = page <= 1;
   const nextDisabled = page >= pageCount;
 
@@ -184,7 +182,7 @@ function PaginationLikeExample({
   // Simple windowed pager like common UI
   const pages = React.useMemo(() => {
     const max = 4; // keep compact like screenshot (1..4)
-    const last = pageCount;
+    const last = Math.max(1, pageCount);
 
     if (last <= max) return Array.from({ length: last }, (_, i) => i + 1);
 
