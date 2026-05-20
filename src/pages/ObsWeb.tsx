@@ -572,12 +572,6 @@ export default function ObsWeb() {
                         <Upload className="mr-2 h-4 w-4" />
                         Unggah Dokumen
                       </div>
-
-                      {files.length > 0 ? (
-                        <div className="mt-1 text-[12px] font-semibold text-slate-500">
-                          Klik lagi untuk menambahkan file lain.
-                        </div>
-                      ) : null}
                     </div>
                   </button>
                 </div>
