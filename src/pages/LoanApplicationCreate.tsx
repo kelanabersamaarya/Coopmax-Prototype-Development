@@ -43,6 +43,7 @@ import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import NasabahPickerModal, {
   type NasabahPickerRow,
 } from "@/components/anggota/NasabahPickerModal";
+import { showSolidSuccess } from "@/utils/solid-toast";
 
 type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
 
@@ -416,9 +417,8 @@ export default function LoanApplicationCreate() {
 
     setNasabahModalOpen(false);
 
-    toast.success("Data Nasabah Berhasil Ditampilkan", {
-      description: `${row.nama} • ${row.id}`,
-    });
+    // ✅ Toast hijau solid + tanpa deskripsi (tanpa info nasabah)
+    showSolidSuccess("Data Nasabah Berhasil Ditampilkan");
   }
 
   return (
