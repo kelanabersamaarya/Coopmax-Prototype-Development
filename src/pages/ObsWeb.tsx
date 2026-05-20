@@ -21,6 +21,8 @@ import {
   Building2,
   Image as ImageIcon,
   Upload,
+  FileText,
+  X,
 } from "lucide-react";
 
 type Product = "Pinjaman Koperasi" | "Produk Tabungan";
@@ -112,6 +114,10 @@ function onlyDigits(input: string) {
   return (input ?? "").replace(/[^\d]/g, "");
 }
 
+function isImageFile(file: File) {
+  return file.type.startsWith("image/");
+}
+
 export default function ObsWeb() {
   const [nama, setNama] = React.useState("");
   const [phone, setPhone] = React.useState("");
@@ -126,12 +132,32 @@ export default function ObsWeb() {
 
   const [produk, setProduk] = React.useState<Product>("Pinjaman Koperasi");
   const [fileName, setFileName] = React.useState<string>("");
+  const [file, setFile] = React.useState<File | null>(null);
 
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [dragActive, setDragActive] = React.useState(false);
 
-  function handlePickFile(file: File | null | undefined) {
-    setFileName(file?.name ?? "");
+  const previewUrl = React.useMemo(() => {
+    if (!file) return null;
+    if (!isImageFile(file)) return null;
+    return URL.createObjectURL(file);
+  }, [file]);
+
+  React.useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  function handlePickFile(next: File | null | undefined) {
+    setFile(next ?? null);
+    setFileName(next?.name ?? "");
+  }
+
+  function clearFile() {
+    setFile(null);
+    setFileName("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
   function submit() {
@@ -169,7 +195,7 @@ export default function ObsWeb() {
     setDeskripsi("");
 
     setProduk("Pinjaman Koperasi");
-    setFileName("");
+    clearFile();
   }
 
   const inputCls = cn(
@@ -383,6 +409,63 @@ export default function ObsWeb() {
 
                 {/* ✅ Border luar solid */}
                 <div className="rounded-3xl border border-slate-200 bg-white p-2">
+                  {/* ✅ Preview di atas dropzone dashed */}
+                  {file ? (
+                    <div className="mb-2 overflow-hidden rounded-[20px] bg-slate-50 ring-1 ring-slate-200">
+                      <div className="flex items-center justify-between gap-3 px-4 py-3">
+                        <div className="min-w-0">
+                          <div className="truncate text-[13px] font-extrabold text-slate-900">
+                            Preview
+                          </div>
+                          <div className="mt-0.5 truncate text-[12px] font-semibold text-slate-600">
+                            {file.name}
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={clearFile}
+                          className={cn(
+                            "inline-flex h-9 w-9 items-center justify-center rounded-full",
+                            "bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-100",
+                          )}
+                          aria-label="Hapus file"
+                          title="Hapus file"
+                        >
+                          <X className="h-4.5 w-4.5" />
+                        </button>
+                      </div>
+
+                      {previewUrl ? (
+                        <div className="bg-white p-3">
+                          <img
+                            src={previewUrl}
+                            alt={file.name}
+                            className="mx-auto max-h-[240px] w-full rounded-2xl object-contain ring-1 ring-slate-200"
+                            draggable={false}
+                          />
+                        </div>
+                      ) : (
+                        <div className="bg-white p-4">
+                          <div className="flex items-start gap-3">
+                            <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900/5 text-slate-700 ring-1 ring-slate-200">
+                              <FileText className="h-5 w-5" />
+                            </span>
+
+                            <div className="min-w-0">
+                              <div className="text-[13px] font-extrabold text-slate-900">
+                                File terpilih
+                              </div>
+                              <div className="mt-1 text-[12px] font-semibold text-slate-600">
+                                Preview hanya tersedia untuk gambar (JPG/PNG). File ini akan tetap ikut terkirim saat submit.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : null}
+
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
