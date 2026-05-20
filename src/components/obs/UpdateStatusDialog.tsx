@@ -174,7 +174,7 @@ export default function UpdateStatusDialog({
       >
         <div className="bg-white">
           <div className="flex items-center justify-between gap-3 px-6 py-4">
-            <div className="text-[18px] font-normal tracking-tight text-slate-900">
+            <div className="text-[18px] font-semibold tracking-tight text-slate-900">
               Perbarui Status
             </div>
 
