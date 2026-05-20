@@ -579,7 +579,8 @@ export default function NasabahPickerModal({
 
           <Separator className="bg-slate-200" />
 
-          <div className="px-6 py-4">
+          {/* ✅ Tambah padding bawah agar tombol "Tutup" terlihat lebih centered */}
+          <div className="px-6 pb-7 pt-4">
             <div className="flex justify-end">
               <button
                 type="button"
