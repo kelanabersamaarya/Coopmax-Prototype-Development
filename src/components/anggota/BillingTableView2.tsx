@@ -1,3 +1,4 @@
+=4), tampilkan Info hanya jika ada penalty add aktif yang match (dueDateDmy + rowIndexGlobal) agar baris 4/5/6 tidak false-positive dari data lama.">
 "use client";
 
 import * as React from "react";
@@ -342,17 +343,10 @@ export default function BillingTableView2({
     );
   }
 
-  // ✅ Untuk baris tanpa seed penalty (idx >= 3), identitas rowIndexGlobal bisa berubah karena pagination/slice.
-  // Supaya baris 4/5/6 tidak salah "kebaca" punya denda, kita deteksi add berbasis dueDateDmy saja (lebih stabil).
-  function getAddsByDueDate(dueDateDmy: string) {
-    if (!canPersist) return [];
-    return getPenaltyAdds(contextKey!).filter((a) => a.dueDateDmy === dueDateDmy);
-  }
-
-  function hasActiveManualPenaltyForDueDate(dueDateDmy: string) {
+  function hasActiveManualPenaltyForRow(globalIdx: number, dueDateDmy: string) {
     if (!canPersist) return false;
 
-    const adds = getAddsByDueDate(dueDateDmy);
+    const adds = getAddsForRow(globalIdx, dueDateDmy);
     if (adds.length === 0) return false;
 
     const canceledItems = getPenaltyCanceledItems(contextKey!);
@@ -360,7 +354,10 @@ export default function BillingTableView2({
     return adds.some((a) => {
       const pid = addedPenaltyItemId(a.id);
       const isCanceled = canceledItems.some(
-        (c) => c.dueDateDmy === dueDateDmy && c.penaltyItemId === pid,
+        (c) =>
+          c.dueDateDmy === dueDateDmy &&
+          c.rowIndexGlobal === globalIdx &&
+          c.penaltyItemId === pid,
       );
       return !isCanceled;
     });
@@ -437,32 +434,25 @@ export default function BillingTableView2({
   }) {
     const isNoSeedPenaltyRow = globalIdx >= PENALTY_ROWS;
 
-    // ✅ Baris tanpa denda bawaan:
-    // - default: Plus (buka tambah denda)
-    // - setelah ada penambahan denda (aktif): Info (buka rincian)
+    // ✅ Hotfix: baris tanpa denda bawaan:
+    // tampilkan Info hanya jika ada add aktif yang match (dueDate + rowIndexGlobal) supaya tidak false-positive.
     if (isNoSeedPenaltyRow) {
-      const hasManualActive = hasActiveManualPenaltyForDueDate(dueDateDmy);
-
-      if (!hasManualActive) {
-        return (
-          <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
-            <div className="flex items-center justify-end gap-2">
-              <PenaltyIconButton
-                icon="plus"
-                onClick={() => openAddPenalty(dueDateDmy, globalIdx)}
-              />
-            </div>
-          </div>
-        );
-      }
+      const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
 
       return (
         <div className={cn("px-4 pr-1", cellY, numberTextClass)}>
           <div className="flex items-center justify-end gap-2">
-            <PenaltyIconButton
-              icon="info"
-              onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
-            />
+            {hasManualActive ? (
+              <PenaltyIconButton
+                icon="info"
+                onClick={() => openPenaltyDetailForRow(globalIdx, dueDateDmy)}
+              />
+            ) : (
+              <PenaltyIconButton
+                icon="plus"
+                onClick={() => openAddPenalty(dueDateDmy, globalIdx)}
+              />
+            )}
           </div>
         </div>
       );
