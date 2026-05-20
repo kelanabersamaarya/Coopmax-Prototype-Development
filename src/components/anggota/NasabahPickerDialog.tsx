@@ -190,275 +190,290 @@ export default function NasabahPickerDialog({
   const showingEnd = Math.min(filtered.length, page * pageSize);
 
   const R = "rounded-[5px]";
+  const CONTENT_R = "rounded-3xl";
+  const INSET = "p-3 sm:p-4";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
+          // ukuran modal
           "w-[calc(100vw-1.5rem)] sm:w-[calc(100vw-2.5rem)]",
           "max-w-[920px]",
           "max-h-[70vh]",
-          "overflow-hidden",
-          "flex flex-col",
-          R,
-          "border-slate-200 p-0 shadow-xl",
-          // ✅ safe inset supaya footer tidak kepotong/menempel di bawah
-          "mb-3",
-          // hide default shadcn close button (gunakan X custom)
+          // ✅ inset wrapper (agar konten putih tidak menempel ke tepi modal)
+          INSET,
+          // container transparan supaya radius wrapper internal terlihat
+          "bg-transparent border-0 shadow-none",
+          // gunakan flex agar content bisa scroll
+          "overflow-hidden flex flex-col",
+          // hide default close shadcn/radix
           "[&>button[aria-label=Close]]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
         )}
       >
-        {/* HEADER */}
-        <div className="shrink-0">
-          <div className="flex h-[56px] items-center justify-between gap-3 px-5 sm:px-6">
-            <div className="text-lg font-semibold leading-none tracking-tight text-slate-900 sm:text-xl">
-              Nasabah
+        {/* ✅ Wrapper internal yang benar-benar rounded + overflow-hidden */}
+        <div
+          className={cn(
+            "min-h-0 flex-1 overflow-hidden",
+            CONTENT_R,
+            "bg-white",
+            "shadow-xl",
+            "ring-1 ring-slate-200",
+            "flex flex-col",
+          )}
+        >
+          {/* HEADER */}
+          <div className="shrink-0">
+            <div className="flex h-[56px] items-center justify-between gap-3 px-5 sm:px-6">
+              <div className="text-lg font-semibold leading-none tracking-tight text-slate-900 sm:text-xl">
+                Nasabah
+              </div>
+
+              <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      className={cn(
+                        "h-8 px-4 text-sm leading-none",
+                        "bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]",
+                        R,
+                      )}
+                    >
+                      Tambah <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className={cn("border-slate-200 p-1", R)}>
+                    <DropdownMenuItem
+                      className={cn(R)}
+                      onClick={() => toast("Tambah Nasabah (prototype)")}
+                    >
+                      <Plus className="mr-2 h-4 w-4" />
+                      Tambah Nasabah
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className={cn(R)}
+                      onClick={() => toast("Import (prototype)")}
+                    >
+                      Import Data
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    "inline-flex h-8 w-8 items-center justify-center",
+                    "text-slate-700 transition hover:bg-slate-100",
+                    "leading-none",
+                    R,
+                  )}
+                  aria-label="Tutup dialog"
+                  title="Tutup"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    className={cn(
-                      "h-8 px-4 text-sm leading-none",
-                      "bg-[hsl(var(--app-accent))] text-white hover:bg-[hsl(var(--app-accent-2))]",
-                      R,
-                    )}
-                  >
-                    Tambah <ChevronDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className={cn("border-slate-200 p-1", R)}>
-                  <DropdownMenuItem
-                    className={cn(R)}
-                    onClick={() => toast("Tambah Nasabah (prototype)")}
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Tambah Nasabah
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className={cn(R)}
-                    onClick={() => toast("Import (prototype)")}
-                  >
-                    Import Data
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            <Separator className="bg-slate-200" />
+          </div>
 
+          {/* CONTENT (scroll) */}
+          <div className="min-h-0 flex-1 overflow-auto px-5 py-3 sm:px-6 sm:py-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="text-sm text-slate-700">Tampilkan</div>
+              <Select
+                value={String(pageSize)}
+                onValueChange={(v) => setPageSize(Number(v))}
+              >
+                <SelectTrigger
+                  className={cn("h-8 w-[92px] border-slate-200 bg-white", R)}
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className={cn("border-slate-200", R)}>
+                  {[5, 10, 20, 50].map((n) => (
+                    <SelectItem key={n} value={String(n)}>
+                      {n}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="text-sm text-slate-700">Entri</div>
+            </div>
+
+            <div className={cn("mt-3 overflow-hidden ring-1 ring-slate-200", R)}>
+              <div className="min-w-0 max-w-full overflow-x-hidden">
+                <table className="w-full max-w-full table-fixed border-collapse">
+                  <thead className="bg-white">
+                    <tr className="text-left text-sm font-semibold text-slate-900">
+                      <th className="w-[52px] px-3 py-2.5">No.</th>
+                      <th className="w-[110px] px-3 py-2.5">ID</th>
+                      <th className="w-[140px] px-3 py-2.5">NAMA</th>
+                      <th className="w-[140px] px-3 py-2.5">NO. IDENTITAS</th>
+                      <th className="w-[180px] px-3 py-2.5">ALAMAT</th>
+                      <th className="w-[120px] px-3 py-2.5">STATUS</th>
+                    </tr>
+
+                    <tr className="border-t border-slate-200 bg-white">
+                      <th className="px-3 py-2.5" />
+                      <th className="px-3 py-2.5">
+                        <Input
+                          value={qId}
+                          onChange={(e) => setQId(e.target.value)}
+                          placeholder="ID"
+                          className={cn("h-8 w-full border-slate-200 bg-white", R)}
+                        />
+                      </th>
+                      <th className="px-3 py-2.5">
+                        <Input
+                          value={qNama}
+                          onChange={(e) => setQNama(e.target.value)}
+                          placeholder="Nama"
+                          className={cn("h-8 w-full border-slate-200 bg-white", R)}
+                        />
+                      </th>
+                      <th className="px-3 py-2.5">
+                        <Input
+                          value={qNo}
+                          onChange={(e) => setQNo(e.target.value)}
+                          placeholder="No Identitas"
+                          className={cn("h-8 w-full border-slate-200 bg-white", R)}
+                        />
+                      </th>
+                      <th className="px-3 py-2.5">
+                        <Input
+                          value={qAlamat}
+                          onChange={(e) => setQAlamat(e.target.value)}
+                          placeholder="Alamat"
+                          className={cn("h-8 w-full border-slate-200 bg-white", R)}
+                        />
+                      </th>
+                      <th className="px-3 py-2.5">
+                        <Select
+                          value={status}
+                          onValueChange={(v) => setStatus(v as StatusKeanggotaan)}
+                        >
+                          <SelectTrigger
+                            className={cn("h-8 w-full border-slate-200 bg-white", R)}
+                          >
+                            <SelectValue placeholder="-- Semua" />
+                          </SelectTrigger>
+                          <SelectContent className={cn("border-slate-200", R)}>
+                            <SelectItem value="Semua">-- Semua</SelectItem>
+                            <SelectItem value="Anggota">Anggota</SelectItem>
+                            <SelectItem value="Calon">Calon</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="bg-white">
+                    {paged.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan={6}
+                          className="px-4 py-8 text-center text-sm text-slate-600"
+                        >
+                          Tidak ada data.
+                        </td>
+                      </tr>
+                    ) : (
+                      paged.map((n, idx) => {
+                        const no = (page - 1) * pageSize + idx + 1;
+                        const isClickable = !!onPick;
+
+                        return (
+                          <tr
+                            key={`${n.id}-${idx}`}
+                            className={cn(
+                              "border-t border-slate-200 text-sm text-slate-900",
+                              isClickable
+                                ? "cursor-pointer hover:bg-slate-50"
+                                : "cursor-default",
+                            )}
+                            role={isClickable ? "button" : undefined}
+                            tabIndex={isClickable ? 0 : undefined}
+                            onClick={() => onPick?.(n)}
+                            onKeyDown={(e) => {
+                              if (!onPick) return;
+                              if (e.key === "Enter" || e.key === " ") onPick(n);
+                            }}
+                          >
+                            <td className="px-3 py-3">{no}</td>
+                            <td className="bg-slate-50 px-3 py-3">
+                              <div className="truncate" title={n.id}>
+                                {n.id}
+                              </div>
+                            </td>
+                            <td className="px-3 py-3 font-medium">
+                              <div className="truncate" title={n.nama}>
+                                {n.nama}
+                              </div>
+                            </td>
+                            <td className="px-3 py-3">
+                              <div className="truncate" title={n.noIdentitas}>
+                                {n.noIdentitas}
+                              </div>
+                            </td>
+                            <td className="px-3 py-3 text-slate-800">
+                              <div className="truncate" title={n.alamat}>
+                                {n.alamat}
+                              </div>
+                            </td>
+                            <td className="px-3 py-3">
+                              <div className="truncate" title={n.status}>
+                                {n.status}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="text-sm text-slate-700">
+                Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries}{" "}
+                entri
+              </div>
+              <Pagination page={page} pageCount={pageCount} onPage={setPage} />
+            </div>
+
+            {onPick ? (
+              <div className="sr-only">
+                <Card />
+              </div>
+            ) : null}
+          </div>
+
+          {/* FOOTER */}
+          <div className="shrink-0 border-t border-slate-200 bg-white px-5 pb-6 pt-4 sm:px-6">
+            <div className="flex items-center justify-end">
               <button
                 type="button"
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "inline-flex h-8 w-8 items-center justify-center",
-                  "text-slate-700 transition hover:bg-slate-100",
-                  "leading-none",
+                  "inline-flex h-[32px] w-[120px] items-center justify-center gap-2",
                   R,
+                  "bg-slate-600 text-[12px] font-semibold text-white",
+                  "ring-1 ring-slate-600/25 transition hover:bg-slate-700",
+                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-600/25",
                 )}
-                aria-label="Tutup dialog"
-                title="Tutup"
               >
-                <X className="h-5 w-5" />
+                <span className="inline-flex items-center justify-center text-white">
+                  ×
+                </span>
+                Tutup
               </button>
             </div>
-          </div>
-
-          <Separator className="bg-slate-200" />
-        </div>
-
-        {/* CONTENT (scroll) */}
-        <div className="min-h-0 flex-1 overflow-auto px-5 py-3 sm:px-6 sm:py-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="text-sm text-slate-700">Tampilkan</div>
-            <Select
-              value={String(pageSize)}
-              onValueChange={(v) => setPageSize(Number(v))}
-            >
-              <SelectTrigger
-                className={cn("h-8 w-[92px] border-slate-200 bg-white", R)}
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className={cn("border-slate-200", R)}>
-                {[5, 10, 20, 50].map((n) => (
-                  <SelectItem key={n} value={String(n)}>
-                    {n}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <div className="text-sm text-slate-700">Entri</div>
-          </div>
-
-          <div className={cn("mt-3 overflow-hidden ring-1 ring-slate-200", R)}>
-            <div className="min-w-0 max-w-full overflow-x-hidden">
-              <table className="w-full max-w-full table-fixed border-collapse">
-                <thead className="bg-white">
-                  <tr className="text-left text-sm font-semibold text-slate-900">
-                    <th className="w-[52px] px-3 py-2.5">No.</th>
-                    <th className="w-[110px] px-3 py-2.5">ID</th>
-                    <th className="w-[140px] px-3 py-2.5">NAMA</th>
-                    <th className="w-[140px] px-3 py-2.5">NO. IDENTITAS</th>
-                    <th className="w-[180px] px-3 py-2.5">ALAMAT</th>
-                    <th className="w-[120px] px-3 py-2.5">STATUS</th>
-                  </tr>
-
-                  <tr className="border-t border-slate-200 bg-white">
-                    <th className="px-3 py-2.5" />
-                    <th className="px-3 py-2.5">
-                      <Input
-                        value={qId}
-                        onChange={(e) => setQId(e.target.value)}
-                        placeholder="ID"
-                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
-                      />
-                    </th>
-                    <th className="px-3 py-2.5">
-                      <Input
-                        value={qNama}
-                        onChange={(e) => setQNama(e.target.value)}
-                        placeholder="Nama"
-                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
-                      />
-                    </th>
-                    <th className="px-3 py-2.5">
-                      <Input
-                        value={qNo}
-                        onChange={(e) => setQNo(e.target.value)}
-                        placeholder="No Identitas"
-                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
-                      />
-                    </th>
-                    <th className="px-3 py-2.5">
-                      <Input
-                        value={qAlamat}
-                        onChange={(e) => setQAlamat(e.target.value)}
-                        placeholder="Alamat"
-                        className={cn("h-8 w-full border-slate-200 bg-white", R)}
-                      />
-                    </th>
-                    <th className="px-3 py-2.5">
-                      <Select
-                        value={status}
-                        onValueChange={(v) => setStatus(v as StatusKeanggotaan)}
-                      >
-                        <SelectTrigger
-                          className={cn("h-8 w-full border-slate-200 bg-white", R)}
-                        >
-                          <SelectValue placeholder="-- Semua" />
-                        </SelectTrigger>
-                        <SelectContent className={cn("border-slate-200", R)}>
-                          <SelectItem value="Semua">-- Semua</SelectItem>
-                          <SelectItem value="Anggota">Anggota</SelectItem>
-                          <SelectItem value="Calon">Calon</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="bg-white">
-                  {paged.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan={6}
-                        className="px-4 py-8 text-center text-sm text-slate-600"
-                      >
-                        Tidak ada data.
-                      </td>
-                    </tr>
-                  ) : (
-                    paged.map((n, idx) => {
-                      const no = (page - 1) * pageSize + idx + 1;
-                      const isClickable = !!onPick;
-
-                      return (
-                        <tr
-                          key={`${n.id}-${idx}`}
-                          className={cn(
-                            "border-t border-slate-200 text-sm text-slate-900",
-                            isClickable
-                              ? "cursor-pointer hover:bg-slate-50"
-                              : "cursor-default",
-                          )}
-                          role={isClickable ? "button" : undefined}
-                          tabIndex={isClickable ? 0 : undefined}
-                          onClick={() => onPick?.(n)}
-                          onKeyDown={(e) => {
-                            if (!onPick) return;
-                            if (e.key === "Enter" || e.key === " ") onPick(n);
-                          }}
-                        >
-                          <td className="px-3 py-3">{no}</td>
-                          <td className="bg-slate-50 px-3 py-3">
-                            <div className="truncate" title={n.id}>
-                              {n.id}
-                            </div>
-                          </td>
-                          <td className="px-3 py-3 font-medium">
-                            <div className="truncate" title={n.nama}>
-                              {n.nama}
-                            </div>
-                          </td>
-                          <td className="px-3 py-3">
-                            <div className="truncate" title={n.noIdentitas}>
-                              {n.noIdentitas}
-                            </div>
-                          </td>
-                          <td className="px-3 py-3 text-slate-800">
-                            <div className="truncate" title={n.alamat}>
-                              {n.alamat}
-                            </div>
-                          </td>
-                          <td className="px-3 py-3">
-                            <div className="truncate" title={n.status}>
-                              {n.status}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="text-sm text-slate-700">
-              Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries}{" "}
-              entri
-            </div>
-            <Pagination page={page} pageCount={pageCount} onPage={setPage} />
-          </div>
-
-          {onPick ? (
-            <div className="sr-only">
-              <Card />
-            </div>
-          ) : null}
-        </div>
-
-        {/* FOOTER */}
-        <div className="shrink-0 border-t border-slate-200 bg-white px-5 pb-6 pt-4 sm:px-6">
-          <div className="flex items-center justify-end">
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className={cn(
-                "inline-flex h-[32px] w-[120px] items-center justify-center gap-2",
-                R,
-                "bg-slate-600 text-[12px] font-semibold text-white",
-                "ring-1 ring-slate-600/25 transition hover:bg-slate-700",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-600/25",
-              )}
-            >
-              <span className="inline-flex items-center justify-center text-white">
-                ×
-              </span>
-              Batalkan
-            </button>
           </div>
         </div>
       </DialogContent>
