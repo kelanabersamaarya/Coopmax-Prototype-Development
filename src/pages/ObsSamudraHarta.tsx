@@ -200,6 +200,8 @@ export default function ObsSamudraHarta() {
   const [qProduk, setQProduk] = React.useState<ProductType>("-- Semua --");
   const [qStatus, setQStatus] = React.useState<StatusType>("-- Semua --");
 
+  const shouldShowStatusColumn = qProduk !== "Produk Tabungan";
+
   const filtered = React.useMemo(() => {
     const namaQ = qNama.trim().toLowerCase();
     const phoneQ = qPhone.trim().toLowerCase();
@@ -215,8 +217,16 @@ export default function ObsSamudraHarta() {
       const okTgl = tglQ
         ? r.tanggalRegistrasi.toLowerCase().includes(tglQ)
         : true;
+
       const okProduk = qProduk === "-- Semua --" ? true : r.produk === qProduk;
-      const okStatus = qStatus === "-- Semua --" ? true : r.status === qStatus;
+
+      // Status filter hanya relevan untuk Produk Pinjaman (atau "-- Semua --" dengan row pinjaman).
+      const okStatus =
+        qStatus === "-- Semua --"
+          ? true
+          : r.produk === "Produk Tabungan"
+            ? false
+            : r.status === qStatus;
 
       return okNama && okPhone && okEmail && okAlamat && okTgl && okProduk && okStatus;
     });
@@ -318,9 +328,11 @@ export default function ObsSamudraHarta() {
                       <ThLabel>PRODUK</ThLabel>
                     </th>
 
-                    <th className={cn("w-[140px]", th)}>
-                      <ThLabel>STATUS</ThLabel>
-                    </th>
+                    {shouldShowStatusColumn ? (
+                      <th className={cn("w-[140px]", th)}>
+                        <ThLabel>STATUS</ThLabel>
+                      </th>
+                    ) : null}
                   </tr>
 
                   <tr className="border-b border-slate-200 bg-white">
@@ -409,22 +421,24 @@ export default function ObsSamudraHarta() {
                       </Select>
                     </th>
 
-                    <th className={filterCell}>
-                      <Select
-                        value={qStatus}
-                        onValueChange={(v) => setQStatus(v as StatusType)}
-                      >
-                        <SelectTrigger className={statusSelectTriggerCls}>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl border-slate-200">
-                          <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                          <SelectItem value="Diajukan">Diajukan</SelectItem>
-                          <SelectItem value="Diproses">Diproses</SelectItem>
-                          <SelectItem value="Ditolak">Ditolak</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </th>
+                    {shouldShowStatusColumn ? (
+                      <th className={filterCell}>
+                        <Select
+                          value={qStatus}
+                          onValueChange={(v) => setQStatus(v as StatusType)}
+                        >
+                          <SelectTrigger className={statusSelectTriggerCls}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-xl border-slate-200">
+                            <SelectItem value="-- Semua --">-- Semua --</SelectItem>
+                            <SelectItem value="Diajukan">Diajukan</SelectItem>
+                            <SelectItem value="Diproses">Diproses</SelectItem>
+                            <SelectItem value="Ditolak">Ditolak</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
 
@@ -432,64 +446,72 @@ export default function ObsSamudraHarta() {
                   {paged.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={8}
+                        colSpan={shouldShowStatusColumn ? 8 : 7}
                         className="px-4 py-10 text-center text-sm text-slate-600"
                       >
                         Tidak ada data yang cocok dengan filter.
                       </td>
                     </tr>
                   ) : (
-                    paged.map((r, idx) => (
-                      <tr
-                        key={r.id}
-                        className={cn(
-                          "border-b border-slate-200 text-[13px]",
-                          idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                        )}
-                      >
-                        <td className={cn(td, "tabular-nums text-slate-900")}>
-                          {(page - 1) * pageSize + idx + 1}
-                        </td>
+                    paged.map((r, idx) => {
+                      const showStatusCell =
+                        shouldShowStatusColumn &&
+                        !(qProduk === "-- Semua --" && r.produk === "Produk Tabungan");
 
-                        <td className={cn(td)}>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              navigate(`/obs-samudra-harta/${encodeURIComponent(r.id)}`)
-                            }
-                            className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
-                            title={r.nama}
-                          >
-                            {r.nama}
-                          </button>
-                        </td>
-
-                        <td className={cn(td, "tabular-nums whitespace-nowrap")}>
-                          {r.phone}
-                        </td>
-
-                        <td className={cn(td, "truncate")} title={r.email}>
-                          {r.email}
-                        </td>
-
-                        <td
-                          className={cn(td, "w-[280px] max-w-[280px] truncate")}
-                          title={r.alamat}
+                      return (
+                        <tr
+                          key={r.id}
+                          className={cn(
+                            "border-b border-slate-200 text-[13px]",
+                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                          )}
                         >
-                          {r.alamat}
-                        </td>
+                          <td className={cn(td, "tabular-nums text-slate-900")}>
+                            {(page - 1) * pageSize + idx + 1}
+                          </td>
 
-                        <td className={cn(td, "tabular-nums whitespace-nowrap")}>
-                          {r.tanggalRegistrasi}
-                        </td>
+                          <td className={cn(td)}>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                navigate(`/obs-samudra-harta/${encodeURIComponent(r.id)}`)
+                              }
+                              className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
+                              title={r.nama}
+                            >
+                              {r.nama}
+                            </button>
+                          </td>
 
-                        <td className={cn(td, "whitespace-nowrap")}>{r.produk}</td>
+                          <td className={cn(td, "tabular-nums whitespace-nowrap")}>
+                            {r.phone}
+                          </td>
 
-                        <td className={cn(td)}>
-                          <StatusPill status={r.status} />
-                        </td>
-                      </tr>
-                    ))
+                          <td className={cn(td, "truncate")} title={r.email}>
+                            {r.email}
+                          </td>
+
+                          <td
+                            className={cn(td, "w-[280px] max-w-[280px] truncate")}
+                            title={r.alamat}
+                          >
+                            {r.alamat}
+                          </td>
+
+                          <td className={cn(td, "tabular-nums whitespace-nowrap")}>
+                            {r.tanggalRegistrasi}
+                          </td>
+
+                          <td className={cn(td, "whitespace-nowrap")}>{r.produk}</td>
+
+                          {shouldShowStatusColumn ? (
+                            <td className={cn(td)}>
+                              {showStatusCell ? <StatusPill status={r.status} /> : null}
+                            </td>
+                          ) : null}
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </table>
