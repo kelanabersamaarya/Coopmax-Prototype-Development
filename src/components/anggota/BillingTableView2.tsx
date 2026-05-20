@@ -342,6 +342,30 @@ export default function BillingTableView2({
     );
   }
 
+  // ✅ Untuk baris tanpa seed penalty (idx >= 3), identitas rowIndexGlobal bisa berubah karena pagination/slice.
+  // Supaya baris 4/5/6 tidak salah "kebaca" punya denda, kita deteksi add berbasis dueDateDmy saja (lebih stabil).
+  function getAddsByDueDate(dueDateDmy: string) {
+    if (!canPersist) return [];
+    return getPenaltyAdds(contextKey!).filter((a) => a.dueDateDmy === dueDateDmy);
+  }
+
+  function hasActiveManualPenaltyForDueDate(dueDateDmy: string) {
+    if (!canPersist) return false;
+
+    const adds = getAddsByDueDate(dueDateDmy);
+    if (adds.length === 0) return false;
+
+    const canceledItems = getPenaltyCanceledItems(contextKey!);
+
+    return adds.some((a) => {
+      const pid = addedPenaltyItemId(a.id);
+      const isCanceled = canceledItems.some(
+        (c) => c.dueDateDmy === dueDateDmy && c.penaltyItemId === pid,
+      );
+      return !isCanceled;
+    });
+  }
+
   function penaltyValueForRow(globalIdx: number, dueDateDmy: string) {
     if (!canPersist) {
       if (globalIdx >= PENALTY_ROWS) return { total: 0, hasAdded: false };
@@ -404,34 +428,6 @@ export default function BillingTableView2({
     return { total, hasAdded };
   }
 
-  function hasActiveManualPenaltyForRow(globalIdx: number, dueDateDmy: string) {
-    if (!canPersist) return false;
-
-    const canceledWholeRow = isPenaltyCanceledForRow({
-      contextKey: contextKey!,
-      dueDateDmy,
-      rowIndexGlobal: globalIdx,
-    });
-    if (canceledWholeRow) return false;
-
-    const adds = getAddsForRow(globalIdx, dueDateDmy);
-    if (adds.length === 0) return false;
-
-    const canceledItems = getPenaltyCanceledItems(contextKey!);
-
-    // "active" = ada minimal 1 added item yang tidak dibatalkan
-    return adds.some((a) => {
-      const pid = addedPenaltyItemId(a.id);
-      const isCanceled = canceledItems.some(
-        (c) =>
-          c.dueDateDmy === dueDateDmy &&
-          c.rowIndexGlobal === globalIdx &&
-          c.penaltyItemId === pid,
-      );
-      return !isCanceled;
-    });
-  }
-
   function PenaltyCell({
     globalIdx,
     dueDateDmy,
@@ -441,10 +437,11 @@ export default function BillingTableView2({
   }) {
     const isNoSeedPenaltyRow = globalIdx >= PENALTY_ROWS;
 
-    // ✅ requirement: kalau baris awalnya tidak punya denda,
-    // setelah ada penambahan denda (manual) ikon berubah dari Plus → Info.
+    // ✅ Baris tanpa denda bawaan:
+    // - default: Plus (buka tambah denda)
+    // - setelah ada penambahan denda (aktif): Info (buka rincian)
     if (isNoSeedPenaltyRow) {
-      const hasManualActive = hasActiveManualPenaltyForRow(globalIdx, dueDateDmy);
+      const hasManualActive = hasActiveManualPenaltyForDueDate(dueDateDmy);
 
       if (!hasManualActive) {
         return (
@@ -471,7 +468,7 @@ export default function BillingTableView2({
       );
     }
 
-    // Baris yang memang punya denda bawaan: tampil info + nominal total (bisa termasuk hasil penyesuaian)
+    // Baris yang memang punya denda bawaan: tampil info + nominal total
     const info = penaltyValueForRow(globalIdx, dueDateDmy);
     const total = info.total;
 
