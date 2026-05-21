@@ -261,10 +261,15 @@ export default function ObsWeb() {
     "resize-y",
   );
 
+  // ✅ rounded dropdown jadi 5px + hilangkan indikator centang di kiri item (yang bikin huruf "P" terlihat ada tanda)
   const produkSelectContentCls = cn(
-    "rounded-2xl border-slate-200",
-    // hilangkan icon centang bawaan shadcn
+    "rounded-[5px] border-slate-200 p-1 shadow-xl",
+    // sembunyikan indikator centang bawaan (Radix/shadcn)
     "[&_[data-slot=select-item-indicator]]:hidden",
+    "[&_[data-radix-collection-item]_[data-radix-select-item-indicator]]:hidden",
+    "[&_[data-radix-select-item-indicator]]:hidden",
+    // jaga padding item supaya teks tidak bergeser walau indikator disembunyikan
+    "[&_[data-radix-collection-item]]:pl-3",
     // warna highlight/selected seperti referensi
     "[&_[data-radix-collection-item][data-highlighted]]:bg-[#275AA3]",
     "[&_[data-radix-collection-item][data-highlighted]]:text-white",
@@ -275,11 +280,7 @@ export default function ObsWeb() {
     "[&_[data-radix-collection-item]:hover]:text-white",
   );
 
-  const produkSelectItemCls = cn(
-    "rounded-xl",
-    // pastikan padding konsisten walau indikator disembunyikan
-    "pl-3 pr-3",
-  );
+  const produkSelectItemCls = cn("rounded-[5px]", "pr-3");
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
