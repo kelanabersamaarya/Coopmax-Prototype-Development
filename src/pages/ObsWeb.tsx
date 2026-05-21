@@ -272,6 +272,8 @@ export default function ObsWeb() {
 
   const produkSelectTriggerCls = cn(inputCls, "h-11 justify-between rounded-2xl");
 
+  const logoSrc = "/samudra-harta-logo.png";
+
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Top Header */}
@@ -280,7 +282,28 @@ export default function ObsWeb() {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
               <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white ring-1 ring-slate-200">
-                <Globe className="h-5 w-5 text-[hsl(var(--app-accent-2))]" />
+                <img
+                  src={logoSrc}
+                  alt="Samudra Harta"
+                  className="h-7 w-7 rounded-full object-contain"
+                  draggable={false}
+                  onError={(e) => {
+                    // fallback to Globe icon if logo not found
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                    const parent = (e.currentTarget as HTMLImageElement)
+                      .parentElement;
+                    if (parent) {
+                      const fallback = document.createElement("div");
+                      fallback.className =
+                        "grid h-7 w-7 place-items-center text-[hsl(var(--app-accent-2))]";
+                      fallback.innerHTML = "";
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+                <span className="sr-only">
+                  <Globe className="h-5 w-5" />
+                </span>
               </div>
               <div className="min-w-0">
                 <div className="truncate text-[18px] font-extrabold tracking-tight text-[#275AA3]">
