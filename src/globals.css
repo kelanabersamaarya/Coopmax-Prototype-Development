@@ -367,3 +367,19 @@ button[role="radio"]:focus-visible,
 :where([data-sonner-toaster]) {
   padding: 16px !important;
 }
+
+/* ===========================
+   Scoped fix: OBS Web Produk Select
+   Pastikan tidak ada centang/indicator pada item Select (karena bisa overlap teks).
+   =========================== */
+[data-radix-select-content] :where([data-radix-select-item-indicator]),
+[data-radix-select-content] :where([data-slot="select-item-indicator"]),
+[data-radix-select-content] :where(span.absolute.right-2) {
+  display: none !important;
+}
+
+/* Hilangkan ruang reserve indicator (biasanya padding kiri besar untuk checkmark) */
+[data-radix-select-content] :where([data-radix-select-item]) {
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}

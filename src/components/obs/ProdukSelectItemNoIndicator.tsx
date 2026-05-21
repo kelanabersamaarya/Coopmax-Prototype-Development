@@ -18,13 +18,17 @@ export default function ProdukSelectItemNoIndicator({
       value={value}
       className={cn(
         "rounded-[5px]",
-        // Pastikan tidak ada ruang/ikon indicator yang mengganggu
+        // Jangan sisakan padding untuk indicator di kanan
         "pl-3 pr-3",
-        // Hide Radix/shadcn indicator node apapun yang dipakai versi komponen ini
+        // Force: hilangkan indicator Radix/shadcn apapun (berbagai versi)
         "[&_[data-slot=select-item-indicator]]:hidden",
         "[&_[data-radix-select-item-indicator]]:hidden",
-        // Fallback: sembunyikan elemen indicator yang biasanya absolute/right-2
+        "[&_[data-radix-select-item-indicator]]:opacity-0",
+        // Fallback: beberapa versi menaruh indicator sebagai span.absolute.right-2
         "[&>span.absolute.right-2]:hidden",
+        "[&>span.absolute.right-2]:opacity-0",
+        // Pastikan tidak ada ruang “reserve” untuk indicator
+        "[&_[data-slot=select-item-text]]:mr-0",
         className,
       )}
     >
