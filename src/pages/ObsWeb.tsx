@@ -261,21 +261,17 @@ export default function ObsWeb() {
     "resize-y",
   );
 
-  // ✅ Produk Select: hilangkan centang dengan cara paling pasti:
-  // - sembunyikan semua svg di dalam item (termasuk Check)
-  // - sembunyikan indicator slot jika ada
-  // - paksa padding kiri item normal (biar teks tidak "geser" karena indikator)
+  // ✅ Produk Select: hilangkan icon centang/indicator, tapi biarkan chevron trigger tetap ada.
   const produkSelectContentCls = cn(
     "rounded-[5px] border-slate-200 p-1 shadow-xl",
-    // hide any built-in indicators
+    // hide any built-in indicators (Radix + shadcn)
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&_[data-radix-select-item-indicator]]:hidden",
-    // hide ANY svg inside items (this removes check icon)
-    "[&_[data-radix-collection-item]svg]:hidden",
-    // normalize item padding so text aligns nicely without icon
+    "[&_[data-slot=select-item]_[data-slot=select-item-indicator]]:hidden",
+    // ensure item text doesn't shift/overlap due to indicator space
     "[&_[data-radix-collection-item]]:pl-3",
     "[&_[data-radix-collection-item]]:pr-3",
-    // blue highlight/selected like reference
+    // highlight/selected like reference
     "[&_[data-radix-collection-item][data-highlighted]]:bg-[#275AA3]",
     "[&_[data-radix-collection-item][data-highlighted]]:text-white",
     "[&_[data-radix-collection-item][data-state=checked]]:bg-[#275AA3]",
@@ -286,13 +282,8 @@ export default function ObsWeb() {
 
   const produkSelectItemCls = cn("rounded-[5px]");
 
-  // ✅ Hide the default SelectTrigger chevron (it looks like a "check" on blue)
-  const produkSelectTriggerCls = cn(
-    inputCls,
-    "h-11 justify-between rounded-2xl",
-    // hide Radix/shadcn trigger icon (chevron)
-    "[&>svg]:hidden",
-  );
+  // ✅ Trigger chevron tetap tampil (tidak disembunyikan)
+  const produkSelectTriggerCls = cn(inputCls, "h-11 justify-between rounded-2xl");
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
@@ -451,7 +442,10 @@ export default function ObsWeb() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className={produkSelectContentCls}>
-                    <SelectItem value="Pinjaman Koperasi" className={produkSelectItemCls}>
+                    <SelectItem
+                      value="Pinjaman Koperasi"
+                      className={produkSelectItemCls}
+                    >
                       Pinjaman Koperasi
                     </SelectItem>
                   </SelectContent>
