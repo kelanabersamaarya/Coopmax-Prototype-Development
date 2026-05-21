@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
 
-type Product = "Pinjaman Koperasi" | "Produk Tabungan";
+type Product = "Pinjaman Koperasi";
 
 function TopNavLink({
   label,
@@ -283,7 +283,6 @@ export default function ObsWeb() {
               <TopNavLink label="Produk & Layanan" />
               <TopNavLink label="Berita" />
               <TopNavLink label="Tentang Kami" />
-              {/* ✅ Jangan ada menu yang "aktif" */}
               <TopNavLink label="Pengaduan" />
             </nav>
           </div>
@@ -414,7 +413,7 @@ export default function ObsWeb() {
                 <Label className="text-[13px] font-semibold text-slate-700">
                   Produk
                 </Label>
-                <Select value={produk} onValueChange={(v) => setProduk(v as Product)}>
+                <Select value={produk} onValueChange={() => {}}>
                   <SelectTrigger
                     className={cn(
                       inputCls,
@@ -427,9 +426,6 @@ export default function ObsWeb() {
                   <SelectContent className="rounded-2xl border-slate-200">
                     <SelectItem value="Pinjaman Koperasi" className="rounded-xl">
                       Pinjaman Koperasi
-                    </SelectItem>
-                    <SelectItem value="Produk Tabungan" className="rounded-xl">
-                      Produk Tabungan
                     </SelectItem>
                   </SelectContent>
                 </Select>
