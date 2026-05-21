@@ -286,10 +286,8 @@ export default function ObsWeb() {
               <TopNavLink label="Produk & Layanan" />
               <TopNavLink label="Berita" />
               <TopNavLink label="Tentang Kami" />
-              <TopNavLink
-                label="Pengaduan"
-                className="bg-white/50 hover:bg-white/80"
-              />
+              {/* ✅ Jangan ada menu yang "aktif" */}
+              <TopNavLink label="Pengaduan" />
             </nav>
           </div>
         </div>
