@@ -379,9 +379,6 @@ export default function ObsWeb() {
                     aria-label="Nominal Pengajuan"
                     className="h-11 rounded-2xl border-slate-200 bg-white px-3 text-[14px] font-medium shadow-sm focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0"
                   />
-                  <div className="text-[11px] font-semibold text-slate-500">
-                    Otomatis pakai pemisah ribuan dengan titik (contoh: 1.250.000).
-                  </div>
                 </div>
 
                 <div className="grid gap-2">
