@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -25,6 +24,7 @@ import {
   Trash2,
 } from "lucide-react";
 import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
+import ProdukSelectItemNoIndicator from "@/components/obs/ProdukSelectItemNoIndicator";
 
 type Product = "Pinjaman Koperasi";
 
@@ -261,16 +261,8 @@ export default function ObsWeb() {
     "resize-y",
   );
 
-  // ✅ Produk Select: hilangkan icon centang/indicator, tapi biarkan chevron trigger tetap ada.
   const produkSelectContentCls = cn(
     "rounded-[5px] border-slate-200 p-1 shadow-xl",
-    // hide any built-in indicators (Radix + shadcn)
-    "[&_[data-slot=select-item-indicator]]:hidden",
-    "[&_[data-radix-select-item-indicator]]:hidden",
-    "[&_[data-slot=select-item]_[data-slot=select-item-indicator]]:hidden",
-    // ensure item text doesn't shift/overlap due to indicator space
-    "[&_[data-radix-collection-item]]:pl-3",
-    "[&_[data-radix-collection-item]]:pr-3",
     // highlight/selected like reference
     "[&_[data-radix-collection-item][data-highlighted]]:bg-[#275AA3]",
     "[&_[data-radix-collection-item][data-highlighted]]:text-white",
@@ -280,9 +272,6 @@ export default function ObsWeb() {
     "[&_[data-radix-collection-item]:hover]:text-white",
   );
 
-  const produkSelectItemCls = cn("rounded-[5px]");
-
-  // ✅ Trigger chevron tetap tampil (tidak disembunyikan)
   const produkSelectTriggerCls = cn(inputCls, "h-11 justify-between rounded-2xl");
 
   return (
@@ -442,12 +431,9 @@ export default function ObsWeb() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className={produkSelectContentCls}>
-                    <SelectItem
-                      value="Pinjaman Koperasi"
-                      className={produkSelectItemCls}
-                    >
+                    <ProdukSelectItemNoIndicator value="Pinjaman Koperasi">
                       Pinjaman Koperasi
-                    </SelectItem>
+                    </ProdukSelectItemNoIndicator>
                   </SelectContent>
                 </Select>
               </div>
