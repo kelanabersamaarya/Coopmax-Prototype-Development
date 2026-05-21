@@ -261,26 +261,30 @@ export default function ObsWeb() {
     "resize-y",
   );
 
-  // ✅ rounded dropdown jadi 5px + hilangkan indikator centang di kiri item (yang bikin huruf "P" terlihat ada tanda)
+  // ✅ Produk Select: hilangkan centang dengan cara paling pasti:
+  // - sembunyikan semua svg di dalam item (termasuk Check)
+  // - sembunyikan indicator slot jika ada
+  // - paksa padding kiri item normal (biar teks tidak "geser" karena indikator)
   const produkSelectContentCls = cn(
     "rounded-[5px] border-slate-200 p-1 shadow-xl",
-    // sembunyikan indikator centang bawaan (Radix/shadcn)
+    // hide any built-in indicators
     "[&_[data-slot=select-item-indicator]]:hidden",
-    "[&_[data-radix-collection-item]_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-radix-select-item-indicator]]:hidden",
-    // jaga padding item supaya teks tidak bergeser walau indikator disembunyikan
+    // hide ANY svg inside items (this removes check icon)
+    "[&_[data-radix-collection-item]svg]:hidden",
+    // normalize item padding so text aligns nicely without icon
     "[&_[data-radix-collection-item]]:pl-3",
-    // warna highlight/selected seperti referensi
+    "[&_[data-radix-collection-item]]:pr-3",
+    // blue highlight/selected like reference
     "[&_[data-radix-collection-item][data-highlighted]]:bg-[#275AA3]",
     "[&_[data-radix-collection-item][data-highlighted]]:text-white",
     "[&_[data-radix-collection-item][data-state=checked]]:bg-[#275AA3]",
     "[&_[data-radix-collection-item][data-state=checked]]:text-white",
-    // jaga hover juga biru
     "[&_[data-radix-collection-item]:hover]:bg-[#275AA3]",
     "[&_[data-radix-collection-item]:hover]:text-white",
   );
 
-  const produkSelectItemCls = cn("rounded-[5px]", "pr-3");
+  const produkSelectItemCls = cn("rounded-[5px]");
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
