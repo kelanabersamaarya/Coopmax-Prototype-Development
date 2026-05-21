@@ -261,6 +261,26 @@ export default function ObsWeb() {
     "resize-y",
   );
 
+  const produkSelectContentCls = cn(
+    "rounded-2xl border-slate-200",
+    // hilangkan icon centang bawaan shadcn
+    "[&_[data-slot=select-item-indicator]]:hidden",
+    // warna highlight/selected seperti referensi
+    "[&_[data-radix-collection-item][data-highlighted]]:bg-[#275AA3]",
+    "[&_[data-radix-collection-item][data-highlighted]]:text-white",
+    "[&_[data-radix-collection-item][data-state=checked]]:bg-[#275AA3]",
+    "[&_[data-radix-collection-item][data-state=checked]]:text-white",
+    // jaga hover juga biru
+    "[&_[data-radix-collection-item]:hover]:bg-[#275AA3]",
+    "[&_[data-radix-collection-item]:hover]:text-white",
+  );
+
+  const produkSelectItemCls = cn(
+    "rounded-xl",
+    // pastikan padding konsisten walau indikator disembunyikan
+    "pl-3 pr-3",
+  );
+
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Top Header */}
@@ -423,8 +443,8 @@ export default function ObsWeb() {
                   >
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="rounded-2xl border-slate-200">
-                    <SelectItem value="Pinjaman Koperasi" className="rounded-xl">
+                  <SelectContent className={produkSelectContentCls}>
+                    <SelectItem value="Pinjaman Koperasi" className={produkSelectItemCls}>
                       Pinjaman Koperasi
                     </SelectItem>
                   </SelectContent>
