@@ -275,7 +275,7 @@ export default function ObsWeb() {
                 <Globe className="h-5 w-5 text-[hsl(var(--app-accent-2))]" />
               </div>
               <div className="min-w-0">
-                <div className="truncate text-[14px] font-extrabold tracking-tight text-slate-900">
+                <div className="truncate text-[18px] font-extrabold tracking-tight text-[#275AA3]">
                   KOPERASI SIMPAN PINJAM SAMUDRA HARTA
                 </div>
               </div>
