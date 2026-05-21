@@ -104,6 +104,10 @@ export default function Index() {
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi");
 
+  const isObsArea =
+    location.pathname.startsWith("/obs-samudra-harta") ||
+    location.pathname.startsWith("/obs-web");
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-[var(--shell-gutter)] py-6 md:py-8">
@@ -138,17 +142,17 @@ export default function Index() {
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
 
-                          {/* Anggota (collapsible) tepat di bawah Dashboard */}
-                          <SidebarAnggotaMenu />
+                          {/* Anggota (collapsible) - hide in OBS area */}
+                          {!isObsArea ? <SidebarAnggotaMenu /> : null}
 
-                          {/* Pinjaman (collapsible) tepat di bawah Anggota */}
-                          <SidebarPinjamanMenu />
+                          {/* Pinjaman (collapsible) - hide in OBS area */}
+                          {!isObsArea ? <SidebarPinjamanMenu /> : null}
 
                           {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman area */}
                           {!isPinjamanArea ? <SidebarObsMenu /> : null}
 
-                          {/* Laporan (collapsible) */}
-                          <SidebarLaporanMenu />
+                          {/* Laporan (collapsible) - hide in OBS area */}
+                          {!isObsArea ? <SidebarLaporanMenu /> : null}
 
                           {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
                           {g.items
