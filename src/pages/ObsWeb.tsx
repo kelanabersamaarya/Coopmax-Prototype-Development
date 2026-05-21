@@ -286,6 +286,14 @@ export default function ObsWeb() {
 
   const produkSelectItemCls = cn("rounded-[5px]");
 
+  // ✅ Hide the default SelectTrigger chevron (it looks like a "check" on blue)
+  const produkSelectTriggerCls = cn(
+    inputCls,
+    "h-11 justify-between rounded-2xl",
+    // hide Radix/shadcn trigger icon (chevron)
+    "[&>svg]:hidden",
+  );
+
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Top Header */}
@@ -439,13 +447,7 @@ export default function ObsWeb() {
                   Produk
                 </Label>
                 <Select value={produk} onValueChange={() => {}}>
-                  <SelectTrigger
-                    className={cn(
-                      inputCls,
-                      "h-11 justify-between rounded-2xl",
-                      "[&>svg]:text-slate-400",
-                    )}
-                  >
+                  <SelectTrigger className={produkSelectTriggerCls}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className={produkSelectContentCls}>
