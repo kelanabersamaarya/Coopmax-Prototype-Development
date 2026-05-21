@@ -221,9 +221,7 @@ export default function ObsWeb() {
     }
 
     toast.success("Pendaftaran terkirim (prototype)", {
-      description: `Produk: ${produk}${
-        files.length > 0 ? ` • Dokumen: ${files.length} file` : ""
-      }`,
+      description: `Produk: ${produk}${files.length > 0 ? ` • Dokumen: ${files.length} file` : ""}`,
     });
 
     setNama("");
