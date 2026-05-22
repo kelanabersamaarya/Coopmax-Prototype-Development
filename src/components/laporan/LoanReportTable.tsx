@@ -1,4 +1,3 @@
-di JSX dan typo total tgkPokok pada tabel laporan pinjaman.">
 "use client";
 
 import * as React from "react";
