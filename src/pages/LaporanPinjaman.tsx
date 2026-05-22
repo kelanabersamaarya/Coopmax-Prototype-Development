@@ -216,8 +216,8 @@ export default function LaporanPinjaman() {
           </div>
         </div>
 
-        <div className="mt-6 grid items-start gap-4 xl:grid-cols-[minmax(0,660px)_minmax(560px,680px)]">
-          <Card className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
+        <div className="mt-6 flex flex-col gap-4 xl:flex-row xl:flex-wrap xl:items-start xl:gap-x-4 xl:gap-y-4">
+          <Card className="w-full shrink-0 rounded-3xl border-0 bg-transparent p-0 shadow-none xl:w-[660px]">
             <div className="grid gap-4">
               <FieldRow label="Jenis Pinjaman">
                 <FieldWrap>
@@ -528,14 +528,16 @@ export default function LaporanPinjaman() {
             </div>
           </Card>
 
-          <ReportCustomizationHint
-            className="w-full xl:mt-0"
-            onChooseReport={() =>
-              toast("Pilih Laporan (prototype)", {
-                description: "Menu penyesuaian laporan belum dihubungkan.",
-              })
-            }
-          />
+          <div className="w-full xl:w-[520px] xl:max-w-[520px]">
+            <ReportCustomizationHint
+              className="w-full"
+              onChooseReport={() =>
+                toast("Pilih Laporan (prototype)", {
+                  description: "Menu penyesuaian laporan belum dihubungkan.",
+                })
+              }
+            />
+          </div>
         </div>
 
         {showReport ? <LoanReportTable /> : null}
