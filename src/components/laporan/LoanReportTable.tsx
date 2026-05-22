@@ -20,6 +20,8 @@ type Row = {
   jatuhTempo: string;
   bunga: string;
   jumlahPinjaman: string;
+  pinjamanSldPokok: string;
+  pinjamanBng: string;
   angsuranPerBln: string;
   angsuranSdhHr: string;
   tunggakanBln: string;
@@ -184,6 +186,8 @@ const seedRows: Row[] = [
     jatuhTempo: "07-04-2027",
     bunga: "12.00",
     jumlahPinjaman: "12.000.000,00",
+    pinjamanSldPokok: "10.553.571,00",
+    pinjamanBng: "12.00",
     angsuranPerBln: "270.833",
     angsuranSdhHr: "2 / 2",
     tunggakanBln: "0",
@@ -213,6 +217,8 @@ const seedRows: Row[] = [
     jatuhTempo: "10-02-2027",
     bunga: "11.50",
     jumlahPinjaman: "10.000.000,00",
+    pinjamanSldPokok: "8.645.833,33",
+    pinjamanBng: "11.50",
     angsuranPerBln: "270.833",
     angsuranSdhHr: "6 / 7",
     tunggakanBln: "1",
@@ -242,6 +248,8 @@ const seedRows: Row[] = [
     jatuhTempo: "26-04-2025",
     bunga: "20.00",
     jumlahPinjaman: "3.500.000,00",
+    pinjamanSldPokok: "3.250.000,00",
+    pinjamanBng: "20.00",
     angsuranPerBln: "216.667",
     angsuranSdhHr: "0 / 3",
     tunggakanBln: "3",
@@ -271,6 +279,8 @@ const seedRows: Row[] = [
     jatuhTempo: "30-04-2027",
     bunga: "24.00",
     jumlahPinjaman: "2.000.000,00",
+    pinjamanSldPokok: "1.040.000,00",
+    pinjamanBng: "24.00",
     angsuranPerBln: "216.667",
     angsuranSdhHr: "2 / 4",
     tunggakanBln: "2",
@@ -300,6 +310,8 @@ const seedRows: Row[] = [
     jatuhTempo: "30-09-2026",
     bunga: "20.00",
     jumlahPinjaman: "22.000.000,00",
+    pinjamanSldPokok: "22.000.000,00",
+    pinjamanBng: "20.00",
     angsuranPerBln: "650.000",
     angsuranSdhHr: "4 / 18",
     tunggakanBln: "0",
@@ -341,6 +353,7 @@ export default function LoanReportTable({
 
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
+      pinjamanSldPokok: sum((r) => r.pinjamanSldPokok),
       tgkPokok: sum((r) => r.tgkPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
@@ -358,6 +371,7 @@ export default function LoanReportTable({
 
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
+      pinjamanSldPokok: sum((r) => r.pinjamanSldPokok),
       tgkPokok: sum((r) => r.tgkPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
@@ -372,7 +386,7 @@ export default function LoanReportTable({
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
 
-  const COLS = 27;
+  const COLS = 29;
   const LABEL_SPAN = 14;
   const totalDivider = "border-t border-slate-300/80";
 
@@ -381,7 +395,7 @@ export default function LoanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2650px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[2820px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="h-[88px] w-[46px]">
@@ -446,6 +460,16 @@ export default function LoanReportTable({
                       "bg-white text-center align-middle text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                     )}
                   >
+                    Pinjaman
+                  </th>
+
+                  <th
+                    colSpan={2}
+                    className={cn(
+                      "h-[44px] border-b border-r border-slate-300/80 px-2 py-3",
+                      "bg-white text-center align-middle text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+                    )}
+                  >
                     Angsuran
                   </th>
 
@@ -480,6 +504,13 @@ export default function LoanReportTable({
                   <Th className="h-[44px] w-[54px] bg-white">Bln</Th>
                   <Th className="h-[44px] w-[118px] bg-white">
                     Dari tgl. s/d tgl.
+                  </Th>
+
+                  <Th className="h-[44px] w-[120px] bg-white">
+                    <PlainHeader>Sld. Pokok</PlainHeader>
+                  </Th>
+                  <Th className="h-[44px] w-[70px] bg-white">
+                    <PlainHeader>Bng</PlainHeader>
                   </Th>
 
                   <Th className="h-[44px] w-[108px] bg-white">Per bln</Th>
@@ -595,6 +626,14 @@ export default function LoanReportTable({
                         {r.jumlahPinjaman}
                       </Td>
 
+                      <Td className="w-[120px]" align="right">
+                        {r.pinjamanSldPokok}
+                      </Td>
+
+                      <Td className="w-[70px]" align="right">
+                        {r.pinjamanBng}
+                      </Td>
+
                       <Td className="w-[108px]" align="right">
                         {r.angsuranPerBln}
                       </Td>
@@ -659,6 +698,10 @@ export default function LoanReportTable({
                       <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.jumlahPinjaman)}
                       </td>
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsPage.pinjamanSldPokok)}
+                      </td>
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5" />
 
                       <td className="border-t border-r border-slate-300/80 px-2 py-2.5" />
                       <td className="border-t border-r border-slate-300/80 px-2 py-2.5" />
@@ -711,6 +754,20 @@ export default function LoanReportTable({
                       >
                         {formatIdNumber(totalsAll.jumlahPinjaman)}
                       </td>
+                      <td
+                        className={cn(
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
+                        {formatIdNumber(totalsAll.pinjamanSldPokok)}
+                      </td>
+                      <td
+                        className={cn(
+                          "border-r border-slate-300/80 px-2 py-2.5",
+                          totalDivider,
+                        )}
+                      />
 
                       <td
                         className={cn(
