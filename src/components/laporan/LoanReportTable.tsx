@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import SortableHeaderLabel from "@/components/laporan/SortableHeaderLabel";
 
 type Row = {
   no: number;
@@ -76,31 +77,10 @@ function Td({
   );
 }
 
-function Pill({ children, tone }: { children: React.ReactNode; tone: "emerald" | "slate" | "rose" }) {
-  const map = {
-    emerald: "bg-emerald-600 text-white ring-1 ring-emerald-600/20",
-    slate: "bg-slate-200 text-slate-900 ring-1 ring-slate-200",
-    rose: "bg-rose-600 text-white ring-1 ring-rose-600/20",
-  } as const;
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center justify-center rounded-[5px] px-2.5 py-1",
-        "text-[12px] font-semibold leading-none whitespace-nowrap",
-        map[tone],
-      )}
-    >
-      {children}
-    </span>
-  );
-}
-
-function statusTone(status: string): "emerald" | "slate" | "rose" {
-  const s = (status ?? "").toLowerCase();
-  if (s.includes("macet") || s.includes("ditolak")) return "rose";
-  if (s.includes("lunas")) return "slate";
-  return "emerald";
+function normalizeStatus(s: string) {
+  const v = (s ?? "").toLowerCase();
+  if (v.includes("non")) return "Non Anggota";
+  return "Anggota";
 }
 
 function PaginationBar({
@@ -148,7 +128,7 @@ const seedRows: Row[] = [
     no: 1,
     noRekening: "SMG260004",
     namaNasabah: "Bapak Bagus",
-    status: "Aktif / Sudah Dicairkan",
+    status: "Anggota",
     jenisPinjaman: "Pinjaman Billing",
     tanggalPinjaman: "07-04-2026",
     kolektor: "Gina Farida M.M.",
@@ -165,7 +145,7 @@ const seedRows: Row[] = [
     no: 2,
     noRekening: "klpk04.07260001",
     namaNasabah: "Indah Sari",
-    status: "Aktif / Sudah Dicairkan",
+    status: "Non Anggota",
     jenisPinjaman: "Pinjaman Billing",
     tanggalPinjaman: "10-02-2026",
     kolektor: "Kolektor A",
@@ -182,7 +162,7 @@ const seedRows: Row[] = [
     no: 3,
     noRekening: "SMG260021",
     namaNasabah: "Rika Wastuti",
-    status: "Macet",
+    status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
     tanggalPinjaman: "26-06-2024",
     kolektor: "Kolektor B",
@@ -199,7 +179,7 @@ const seedRows: Row[] = [
     no: 4,
     noRekening: "12260006",
     namaNasabah: "Pangeran Sirait",
-    status: "Aktif / Sudah Dicairkan",
+    status: "Non Anggota",
     jenisPinjaman: "Pinjaman Bulanan 9",
     tanggalPinjaman: "30-04-2026",
     kolektor: "Dinda Sudiati",
@@ -216,7 +196,7 @@ const seedRows: Row[] = [
     no: 5,
     noRekening: "072260001",
     namaNasabah: "Rika Wastuti",
-    status: "Aktif / Sudah Dicairkan",
+    status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
     tanggalPinjaman: "31-03-2026",
     kolektor: "Kolektor A",
@@ -260,53 +240,53 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1400px] border-collapse bg-white">
+            <table className="w-full min-w-[1600px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className="w-[60px]" align="left">
-                    NO
+                    NO.
                   </Th>
                   <Th className="w-[150px]" align="left">
-                    NO REKENING
+                    <SortableHeaderLabel lines={["NO", "REKENING"]} align="left" />
                   </Th>
                   <Th className="w-[220px]" align="left">
-                    NAMA NASABAH
-                  </Th>
-                  <Th className="w-[180px]" align="left">
-                    STATUS
-                  </Th>
-                  <Th className="w-[180px]" align="left">
-                    JENIS PINJAMAN
-                  </Th>
-                  <Th className="w-[140px]" align="left">
-                    TANGGAL PINJAMAN
-                  </Th>
-                  <Th className="w-[180px]" align="left">
-                    KOLEKTOR
-                  </Th>
-                  <Th className="w-[110px]" align="left">
-                    JW
-                  </Th>
-                  <Th className="w-[140px]" align="left">
-                    JATUH TEMPO
-                  </Th>
-                  <Th className="w-[110px]" align="right">
-                    BUNGA
-                  </Th>
-                  <Th className="w-[170px]" align="right">
-                    JUMLAH PINJAMAN
-                  </Th>
-                  <Th className="w-[140px]" align="right">
-                    TGK. POKOK
-                  </Th>
-                  <Th className="w-[140px]" align="right">
-                    TGK. BUNGA
-                  </Th>
-                  <Th className="w-[170px]" align="right">
-                    SISA PINJAMAN
+                    <SortableHeaderLabel lines={["NAMA", "NASABAH"]} align="left" />
                   </Th>
                   <Th className="w-[160px]" align="left">
-                    KOLEKTIBILITAS
+                    <SortableHeaderLabel lines={["STATUS", "NASABAH"]} align="left" />
+                  </Th>
+                  <Th className="w-[180px]" align="left">
+                    <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} align="left" />
+                  </Th>
+                  <Th className="w-[140px]" align="left">
+                    <SortableHeaderLabel lines={["TANGGAL", "PINJAMAN"]} align="left" />
+                  </Th>
+                  <Th className="w-[180px]" align="left">
+                    <SortableHeaderLabel lines={["KOLEKTOR", ""]} align="left" />
+                  </Th>
+                  <Th className="w-[110px]" align="left">
+                    <SortableHeaderLabel lines={["JW", ""]} align="left" />
+                  </Th>
+                  <Th className="w-[140px]" align="left">
+                    <SortableHeaderLabel lines={["JATUH", "TEMPO"]} align="left" />
+                  </Th>
+                  <Th className="w-[110px]" align="right">
+                    <SortableHeaderLabel lines={["BUNGA", ""]} align="right" />
+                  </Th>
+                  <Th className="w-[170px]" align="right">
+                    <SortableHeaderLabel lines={["JUMLAH", "PINJAMAN"]} align="right" />
+                  </Th>
+                  <Th className="w-[140px]" align="right">
+                    <SortableHeaderLabel lines={["TGK", "POKOK"]} align="right" />
+                  </Th>
+                  <Th className="w-[140px]" align="right">
+                    <SortableHeaderLabel lines={["TGK", "BUNGA"]} align="right" />
+                  </Th>
+                  <Th className="w-[170px]" align="right">
+                    <SortableHeaderLabel lines={["SISA", "PINJAMAN"]} align="right" />
+                  </Th>
+                  <Th className="w-[160px]" align="left">
+                    <SortableHeaderLabel lines={["KOLEKTI", "BILITAS"]} align="left" />
                   </Th>
                 </tr>
               </thead>
@@ -337,8 +317,8 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[180px]" align="left">
-                        <Pill tone={statusTone(r.status)}>{r.status}</Pill>
+                      <Td className="w-[160px]" align="left">
+                        <span className="whitespace-nowrap">{normalizeStatus(r.status)}</span>
                       </Td>
 
                       <Td className="w-[180px]" align="left">
