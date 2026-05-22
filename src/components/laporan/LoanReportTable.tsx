@@ -9,6 +9,8 @@ type Row = {
   noRekening: string;
   namaNasabah: string;
   alamat: string;
+  noHp: string;
+  email: string;
   status: string;
   jenisPinjaman: string;
   tanggalPinjaman: string;
@@ -171,6 +173,8 @@ const seedRows: Row[] = [
     noRekening: "SMG260004",
     namaNasabah: "Bapak Bagus",
     alamat: "Jl. Sunset APRIL 43",
+    noHp: "0812 4567 8901",
+    email: "bapak.bagus@email.com",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Billing",
     tanggalPinjaman: "07-04-2026",
@@ -198,6 +202,8 @@ const seedRows: Row[] = [
     noRekening: "klpk04.07260001",
     namaNasabah: "Indah Sari",
     alamat: "Jl. Galang",
+    noHp: "0878 3312 4421",
+    email: "indah.sari@email.com",
     status: "Non Anggota",
     jenisPinjaman: "Pinjaman Billing",
     tanggalPinjaman: "10-02-2026",
@@ -225,6 +231,8 @@ const seedRows: Row[] = [
     noRekening: "SMG260021",
     namaNasabah: "Rika Wastuti",
     alamat: "Jl. Kenanga No. 12",
+    noHp: "0857 8901 2234",
+    email: "rika.wastuti@email.com",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
     tanggalPinjaman: "26-06-2024",
@@ -252,6 +260,8 @@ const seedRows: Row[] = [
     noRekening: "12260006",
     namaNasabah: "Pangeran Sirait",
     alamat: "Sidakarya",
+    noHp: "0813 7000 4555",
+    email: "pangeran.sirait@email.com",
     status: "Non Anggota",
     jenisPinjaman: "Pinjaman Bulanan 9",
     tanggalPinjaman: "30-04-2026",
@@ -279,6 +289,8 @@ const seedRows: Row[] = [
     noRekening: "072260001",
     namaNasabah: "Rika Wastuti",
     alamat: "Jl. Mawar",
+    noHp: "0895 6291 594",
+    email: "rika.mawar@email.com",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
     tanggalPinjaman: "31-03-2026",
@@ -359,8 +371,8 @@ export default function LoanReportTable({
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
 
-  const COLS = 25;
-  const LABEL_SPAN = 12;
+  const COLS = 27;
+  const LABEL_SPAN = 14;
   const totalDivider = "border-t border-slate-300/80";
 
   return (
@@ -368,7 +380,7 @@ export default function LoanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2420px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[2650px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="h-[88px] w-[46px]">
@@ -382,6 +394,12 @@ export default function LoanReportTable({
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[130px]">
                     <SortableHeaderLabel lines={["ALAMAT"]} />
+                  </Th>
+                  <Th rowSpan={2} className="h-[88px] w-[130px]">
+                    <SortableHeaderLabel lines={["NO", "HP"]} />
+                  </Th>
+                  <Th rowSpan={2} className="h-[88px] w-[180px]">
+                    <SortableHeaderLabel lines={["EMAIL"]} />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[95px]">
                     <PlainHeader>
@@ -511,6 +529,18 @@ export default function LoanReportTable({
                       <Td className="w-[130px]" align="left">
                         <div className="truncate" title={r.alamat}>
                           {r.alamat}
+                        </div>
+                      </Td>
+
+                      <Td className="w-[130px]" align="left">
+                        <div className="truncate tabular-nums" title={r.noHp}>
+                          {r.noHp}
+                        </div>
+                      </Td>
+
+                      <Td className="w-[180px]" align="left">
+                        <div className="truncate" title={r.email}>
+                          {r.email}
                         </div>
                       </Td>
 
