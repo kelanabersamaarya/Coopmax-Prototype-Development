@@ -216,7 +216,7 @@ export default function LaporanPinjaman() {
           </div>
         </div>
 
-        <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,760px)_minmax(360px,1fr)]">
+        <div className="mt-6 grid items-start gap-4 xl:grid-cols-[minmax(0,660px)_minmax(560px,680px)]">
           <Card className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
             <div className="grid gap-4">
               <FieldRow label="Jenis Pinjaman">
@@ -529,7 +529,7 @@ export default function LaporanPinjaman() {
           </Card>
 
           <ReportCustomizationHint
-            className="xl:mt-0"
+            className="w-full xl:mt-0"
             onChooseReport={() =>
               toast("Pilih Laporan (prototype)", {
                 description: "Menu penyesuaian laporan belum dihubungkan.",
