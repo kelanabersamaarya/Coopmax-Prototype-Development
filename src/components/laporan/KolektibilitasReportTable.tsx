@@ -37,6 +37,11 @@ function formatFloat2(n: number) {
   return (Number.isFinite(n) ? n : 0).toFixed(2);
 }
 
+function calcNplPercent(r: KolektibilitasRow) {
+  if (!Number.isFinite(r.pinjamanSldPokok) || r.pinjamanSldPokok <= 0) return 0;
+  return (r.tunggakanNilai / r.pinjamanSldPokok) * 100;
+}
+
 type Align = "left" | "center" | "right";
 
 function Th({
@@ -189,6 +194,7 @@ const colW = {
   t31_60: "w-[140px]",
   t61_90: "w-[140px]",
   t90p: "w-[140px]",
+  npl: "w-[82px]",
   sisaPinjaman: "w-[160px]",
   hutangPokok: "w-[150px]",
   hutangBunga: "w-[150px]",
@@ -219,6 +225,21 @@ function BranchKetOneLine({ kd, ket }: { kd: string; ket: string }) {
   );
 }
 
+function NplCell({ value }: { value: number }) {
+  const highlighted = value >= 15 && value < 20;
+
+  return (
+    <span
+      className={cn(
+        "inline-flex min-w-[58px] justify-end px-1 tabular-nums",
+        highlighted ? "bg-yellow-300 text-slate-950" : "",
+      )}
+    >
+      {formatFloat2(value)}
+    </span>
+  );
+}
+
 type Totals = {
   pokok: number;
   nilai: number;
@@ -226,6 +247,7 @@ type Totals = {
   t31_60: number;
   t61_90: number;
   t90p: number;
+  npl: number;
   sisa: number;
   hutangPokok: number;
   hutangBunga: number;
@@ -261,6 +283,7 @@ function TotalRow({
       <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.t61_90)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.t90p)}</td>
+      <td className={totalRowNumber}>{formatFloat2(totals.npl)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
@@ -269,7 +292,7 @@ function TotalRow({
   );
 }
 
-const TOTAL_COLS = 22;
+const TOTAL_COLS = 23;
 
 export default function KolektibilitasReportTable({
   rows,
@@ -304,7 +327,7 @@ export default function KolektibilitasReportTable({
   const showingEnd = Math.min(totalEntriesResolved, page * pageSize);
 
   const totals = React.useMemo<Totals>(() => {
-    return paged.reduce(
+    const base = paged.reduce(
       (acc, r) => {
         acc.pokok += r.pinjamanSldPokok;
 
@@ -332,13 +355,18 @@ export default function KolektibilitasReportTable({
         hutangBunga: 0,
       },
     );
+
+    return {
+      ...base,
+      npl: base.pokok > 0 ? (base.nilai / base.pokok) * 100 : 0,
+    };
   }, [paged]);
 
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[2320px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[2400px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no} align="left" leftBorder>
@@ -389,7 +417,17 @@ export default function KolektibilitasReportTable({
                 </Th>
 
                 <Th colSpan={5} align="center">
-                  TUNGGAKAN
+                  TUNGGAKAN ANGSURAN
+                </Th>
+
+                <Th
+                  rowSpan={2}
+                  className={cn(colW.npl, "bg-[#d9edf7]")}
+                  align="center"
+                >
+                  NPL
+                  <br />
+                  (%)
                 </Th>
 
                 <Th rowSpan={2} className={colW.sisaPinjaman} align="left">
@@ -498,6 +536,7 @@ export default function KolektibilitasReportTable({
                     0,
                     Math.round(r.tunggakanNilai * 0.15),
                   );
+                  const npl = calcNplPercent(r);
 
                   return (
                     <tr key={`${r.noNsb}-${idx}`} className="bg-white">
@@ -593,6 +632,10 @@ export default function KolektibilitasReportTable({
                       </Td>
                       <Td className={colW.t90p} align="right">
                         {formatIdr0(r.tunggakan90p)}
+                      </Td>
+
+                      <Td className={cn(colW.npl, "bg-[#f8fbfd]")} align="right">
+                        <NplCell value={npl} />
                       </Td>
 
                       <Td className={colW.sisaPinjaman} align="right">
