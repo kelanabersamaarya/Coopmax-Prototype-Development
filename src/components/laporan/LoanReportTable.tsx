@@ -395,7 +395,7 @@ export default function LoanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2820px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[2760px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="h-[88px] w-[46px]">
@@ -410,8 +410,11 @@ export default function LoanReportTable({
                   <Th rowSpan={2} className="h-[88px] w-[130px]">
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
-                  <Th rowSpan={2} className="h-[88px] w-[130px]">
-                    <SortableHeaderLabel lines={["AO", "ID"]} />
+                  <Th rowSpan={2} className="h-[88px] w-[70px]">
+                    <SortableHeaderLabel
+                      lines={["AO ID"]}
+                      className="[&_*]:whitespace-nowrap"
+                    />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[180px]">
                     <SortableHeaderLabel lines={["EMAIL"]} />
@@ -563,8 +566,8 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[130px]" align="left">
-                        <div className="truncate tabular-nums" title={r.aoId}>
+                      <Td className="w-[70px]" align="left">
+                        <div className="truncate font-semibold" title={r.aoId}>
                           {r.aoId}
                         </div>
                       </Td>
