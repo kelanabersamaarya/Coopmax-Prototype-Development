@@ -172,8 +172,8 @@ function PaginationLikeExample({
 
 const colW = {
   no: "w-[60px]",
-  // ✅ lebih kecil dari sebelumnya (140px)
-  noNsb: "w-[110px]",
+  // ✅ sedikit diperlebar agar header "NO."/"REKENING" konsisten 2 baris
+  noNsb: "w-[125px]",
   nama: "w-[180px]",
   status: "w-[110px]",
   alamat: "w-[170px]",
