@@ -579,12 +579,12 @@ export default function LaporanPinjaman() {
                       setShowReport(true);
                     }}
                     className={cn(
-                      "inline-flex h-[30px] items-center gap-2 rounded-[10px] px-6",
+                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
                       "bg-[#3BB001] text-[13px] font-normal text-white",
                       "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
                     )}
                   >
-                    <Search className="h-4.5 w-4.5" />
+                    <Search className="h-3.5 w-3.5" />
                     Cari
                   </button>
                 </div>
