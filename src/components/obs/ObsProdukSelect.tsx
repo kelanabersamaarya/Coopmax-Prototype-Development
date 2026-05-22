@@ -25,18 +25,29 @@ export default function ObsProdukSelect({
   triggerClassName?: string;
   contentClassName?: string;
 }) {
-  const noPurpleRing = cn(
+  const noFocusRingHard = cn(
+    // hard kill outline & shadow in all focus/open states
     "outline-none",
-    "focus:outline-none focus:ring-0 focus:ring-offset-0",
-    "focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-    "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
-    // jaga border tetap netral saat fokus/open
-    "focus:border-slate-300 focus-visible:border-slate-300",
+    "focus:outline-none focus-visible:outline-none",
+    "ring-0 ring-transparent",
+    "focus:ring-0 focus-visible:ring-0",
+    "ring-offset-0 focus:ring-offset-0 focus-visible:ring-offset-0",
+    "shadow-none focus:shadow-none focus-visible:shadow-none",
+    "data-[state=open]:ring-0 data-[state=open]:ring-offset-0 data-[state=open]:shadow-none",
+    // Radix/shadcn kadang pakai box-shadow custom
+    "[&]:!shadow-none",
+    "[&:focus]:!shadow-none",
+    "[&:focus-visible]:!shadow-none",
+    "[&[data-state=open]]:!shadow-none",
+    // keep border neutral
+    "focus:border-slate-300 focus-visible:border-slate-300 data-[state=open]:border-slate-300",
   );
 
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className={cn(noPurpleRing, triggerClassName, className)}>
+      <SelectTrigger
+        className={cn(noFocusRingHard, triggerClassName, className)}
+      >
         <SelectValue />
       </SelectTrigger>
 
