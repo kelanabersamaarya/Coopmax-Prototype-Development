@@ -16,28 +16,30 @@ type Row = {
   jatuhTempo: string; // dd-mm-yyyy
   bunga: string; // "24.00"
   jumlahPinjaman: string; // "2.000.000,00"
+  tunggakanBln: string; // "0"
+  tunggakanNilai: string; // "270,833"
+  tunggakan1_30: string;
+  tunggakan31_60: string;
+  tunggakan61_90: string;
+  tunggakan90p: string;
   tgkPokok: string; // "0,00"
   tgkBunga: string; // "0,00"
   sisaPinjaman: string; // "1.040.000,00"
   kolektibilitas: string; // "Lancar" | ...
 };
 
-function Th({
-  children,
-  className,
-  align = "left",
-}: {
+type ThProps = React.ThHTMLAttributes<HTMLTableCellElement> & {
   children: React.ReactNode;
-  className?: string;
-  align?: "left" | "right" | "center";
-}) {
+};
+
+function Th({ children, className, ...props }: ThProps) {
   return (
     <th
+      {...props}
       className={cn(
         "px-3 py-3",
         "border-b border-slate-300/80",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
-        // header selalu rata kiri seperti contoh
         "text-left",
         className,
       )}
@@ -137,6 +139,12 @@ const seedRows: Row[] = [
     jatuhTempo: "07-04-2027",
     bunga: "12.00",
     jumlahPinjaman: "12.000.000,00",
+    tunggakanBln: "0",
+    tunggakanNilai: "0,00",
+    tunggakan1_30: "0,00",
+    tunggakan31_60: "0,00",
+    tunggakan61_90: "0,00",
+    tunggakan90p: "0,00",
     tgkPokok: "0,00",
     tgkBunga: "0,00",
     sisaPinjaman: "10.553.571,00",
@@ -154,6 +162,12 @@ const seedRows: Row[] = [
     jatuhTempo: "10-02-2027",
     bunga: "11.50",
     jumlahPinjaman: "10.000.000,00",
+    tunggakanBln: "1",
+    tunggakanNilai: "270.833",
+    tunggakan1_30: "270.833",
+    tunggakan31_60: "0",
+    tunggakan61_90: "0",
+    tunggakan90p: "0",
     tgkPokok: "0,00",
     tgkBunga: "0,00",
     sisaPinjaman: "8.645.833,33",
@@ -171,6 +185,12 @@ const seedRows: Row[] = [
     jatuhTempo: "26-04-2025",
     bunga: "20.00",
     jumlahPinjaman: "3.500.000,00",
+    tunggakanBln: "3",
+    tunggakanNilai: "650.001",
+    tunggakan1_30: "216.667",
+    tunggakan31_60: "216.667",
+    tunggakan61_90: "216.667",
+    tunggakan90p: "0",
     tgkPokok: "220.000,00",
     tgkBunga: "0,00",
     sisaPinjaman: "3.250.000,00",
@@ -188,6 +208,12 @@ const seedRows: Row[] = [
     jatuhTempo: "30-04-2027",
     bunga: "24.00",
     jumlahPinjaman: "2.000.000,00",
+    tunggakanBln: "2",
+    tunggakanNilai: "433.334",
+    tunggakan1_30: "216.667",
+    tunggakan31_60: "216.667",
+    tunggakan61_90: "0",
+    tunggakan90p: "0",
     tgkPokok: "0,00",
     tgkBunga: "0,00",
     sisaPinjaman: "1.040.000,00",
@@ -205,6 +231,12 @@ const seedRows: Row[] = [
     jatuhTempo: "30-09-2026",
     bunga: "20.00",
     jumlahPinjaman: "22.000.000,00",
+    tunggakanBln: "0",
+    tunggakanNilai: "0",
+    tunggakan1_30: "0",
+    tunggakan31_60: "0",
+    tunggakan61_90: "0",
+    tunggakan90p: "0",
     tgkPokok: "0,00",
     tgkBunga: "0,00",
     sisaPinjaman: "22.000.000,00",
@@ -241,61 +273,83 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2000px] border-collapse bg-white">
+            <table className="w-full min-w-[2800px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
-                  <Th className="w-[60px]" align="left">
+                  <Th rowSpan={2} className="w-[60px] align-bottom">
                     <SortableHeaderLabel lines={["NO"]} />
                   </Th>
-                  <Th className="w-[150px]" align="left">
+                  <Th rowSpan={2} className="w-[150px] align-bottom">
                     <SortableHeaderLabel lines={["NO", "REKENING"]} />
                   </Th>
-                  <Th className="w-[220px]" align="left">
+                  <Th rowSpan={2} className="w-[220px] align-bottom">
                     <SortableHeaderLabel lines={["NAMA", "NASABAH"]} />
                   </Th>
-                  <Th className="w-[160px]" align="left">
+                  <Th rowSpan={2} className="w-[160px] align-bottom">
                     <SortableHeaderLabel lines={["STATUS", "NASABAH"]} />
                   </Th>
-                  <Th className="w-[190px]" align="left">
+                  <Th rowSpan={2} className="w-[190px] align-bottom">
                     <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} />
                   </Th>
-                  <Th className="w-[180px]" align="left">
+                  <Th rowSpan={2} className="w-[180px] align-bottom">
                     <SortableHeaderLabel lines={["TANGGAL", "PINJAMAN"]} />
                   </Th>
-                  <Th className="w-[180px]" align="left">
+                  <Th rowSpan={2} className="w-[180px] align-bottom">
                     <SortableHeaderLabel lines={["KOLEKTOR"]} />
                   </Th>
-                  <Th className="w-[110px]" align="left">
+                  <Th rowSpan={2} className="w-[110px] align-bottom">
                     <SortableHeaderLabel lines={["JW"]} />
                   </Th>
-                  <Th className="w-[140px]" align="left">
+                  <Th rowSpan={2} className="w-[140px] align-bottom">
                     <SortableHeaderLabel lines={["JATUH", "TEMPO"]} />
                   </Th>
-                  <Th className="w-[120px]" align="right">
+                  <Th rowSpan={2} className="w-[120px] align-bottom">
                     <SortableHeaderLabel lines={["BUNGA"]} />
                   </Th>
-                  <Th className="w-[190px]" align="right">
+
+                  <Th rowSpan={2} className="w-[190px] align-bottom">
                     <SortableHeaderLabel lines={["JUMLAH", "PINJAMAN"]} />
                   </Th>
-                  <Th className="w-[150px]" align="right">
+
+                  <th
+                    colSpan={6}
+                    className={cn(
+                      "border-b border-slate-300/80 bg-slate-50/60",
+                      "px-3 py-2",
+                      "text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                    )}
+                  >
+                    Tunggakan
+                  </th>
+
+                  <Th rowSpan={2} className="w-[150px] align-bottom">
                     <SortableHeaderLabel lines={["TGK", "POKOK"]} />
                   </Th>
-                  <Th className="w-[150px]" align="right">
+                  <Th rowSpan={2} className="w-[150px] align-bottom">
                     <SortableHeaderLabel lines={["TGK.", "BUNGA"]} />
                   </Th>
-                  <Th className="w-[190px]" align="right">
+                  <Th rowSpan={2} className="w-[190px] align-bottom">
                     <SortableHeaderLabel lines={["SISA", "PINJAMAN"]} />
                   </Th>
-                  <Th className="w-[170px]" align="left">
+                  <Th rowSpan={2} className="w-[170px] align-bottom">
                     <SortableHeaderLabel lines={["KOLEKTIBILITAS"]} />
                   </Th>
+                </tr>
+
+                <tr className="bg-white">
+                  <Th className="w-[80px] bg-slate-50/60">Bln</Th>
+                  <Th className="w-[140px] bg-slate-50/60">Nilai</Th>
+                  <Th className="w-[140px] bg-slate-50/60">1-30 Hr</Th>
+                  <Th className="w-[140px] bg-slate-50/60">31-60 Hr</Th>
+                  <Th className="w-[140px] bg-slate-50/60">61-90 Hr</Th>
+                  <Th className="w-[140px] bg-slate-50/60">&gt; 90 Hr</Th>
                 </tr>
               </thead>
 
               <tbody className="bg-white">
                 {paged.length === 0 ? (
                   <tr>
-                    <td colSpan={15} className="px-4 py-10 text-center text-sm text-slate-600">
+                    <td colSpan={21} className="px-4 py-10 text-center text-sm text-slate-600">
                       Tidak ada data.
                     </td>
                   </tr>
@@ -322,13 +376,13 @@ export default function LoanReportTable({
                         <span className="whitespace-nowrap">{normalizeStatus(r.status)}</span>
                       </Td>
 
-                      <Td className="w-[180px]" align="left">
+                      <Td className="w-[190px]" align="left">
                         <div className="whitespace-normal leading-snug" title={r.jenisPinjaman}>
                           {r.jenisPinjaman}
                         </div>
                       </Td>
 
-                      <Td className="w-[140px]" align="left">
+                      <Td className="w-[180px]" align="left">
                         <span className="tabular-nums whitespace-nowrap">{r.tanggalPinjaman}</span>
                       </Td>
 
@@ -346,27 +400,46 @@ export default function LoanReportTable({
                         <span className="tabular-nums whitespace-nowrap">{r.jatuhTempo}</span>
                       </Td>
 
-                      <Td className="w-[110px]" align="right">
+                      <Td className="w-[120px]" align="right">
                         {r.bunga}
                       </Td>
 
-                      <Td className="w-[170px]" align="right">
+                      <Td className="w-[190px]" align="right">
                         {r.jumlahPinjaman}
                       </Td>
 
+                      <Td className="w-[80px]" align="right">
+                        {r.tunggakanBln}
+                      </Td>
                       <Td className="w-[140px]" align="right">
+                        {r.tunggakanNilai}
+                      </Td>
+                      <Td className="w-[140px]" align="right">
+                        {r.tunggakan1_30}
+                      </Td>
+                      <Td className="w-[140px]" align="right">
+                        {r.tunggakan31_60}
+                      </Td>
+                      <Td className="w-[140px]" align="right">
+                        {r.tunggakan61_90}
+                      </Td>
+                      <Td className="w-[140px]" align="right">
+                        {r.tunggakan90p}
+                      </Td>
+
+                      <Td className="w-[150px]" align="right">
                         {r.tgkPokok}
                       </Td>
 
-                      <Td className="w-[140px]" align="right">
+                      <Td className="w-[150px]" align="right">
                         {r.tgkBunga}
                       </Td>
 
-                      <Td className="w-[170px]" align="right">
+                      <Td className="w-[190px]" align="right">
                         {r.sisaPinjaman}
                       </Td>
 
-                      <Td className="w-[160px]" align="left">
+                      <Td className="w-[170px]" align="left">
                         {r.kolektibilitas}
                       </Td>
                     </tr>
