@@ -52,7 +52,7 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-1 md:grid-cols-[320px_minmax(0,1fr)] md:items-center">
+    <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
       <div className="text-[13px] font-normal tracking-tight text-black">
         {label}
       </div>
