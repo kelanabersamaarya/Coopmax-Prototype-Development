@@ -102,7 +102,8 @@ export default function Index() {
   const isPinjamanArea =
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
-    location.pathname.startsWith("/anggota/transaksi");
+    location.pathname.startsWith("/anggota/transaksi") ||
+    location.pathname.startsWith("/laporan");
 
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
@@ -148,7 +149,7 @@ export default function Index() {
                           {/* Pinjaman (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarPinjamanMenu /> : null}
 
-                          {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman area */}
+                          {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
                           {!isPinjamanArea ? <SidebarObsMenu /> : null}
 
                           {/* Laporan (collapsible) - hide in OBS area */}
