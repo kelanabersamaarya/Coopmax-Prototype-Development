@@ -60,7 +60,13 @@ export default function SearchableFeeCoaSelect({
           contentClassName,
         )}
       >
-        <Command className="rounded-[5px]">
+        <Command
+          className={cn(
+            "rounded-[5px]",
+            "[&_[cmdk-input-wrapper]_svg]:hidden",
+            "[&_[cmdk-input-wrapper]]:px-3",
+          )}
+        >
           <CommandInput
             placeholder=""
             className="h-9 border-0 text-[13px] focus:ring-0"
