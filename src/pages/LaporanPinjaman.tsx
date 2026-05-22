@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import LoanReportTable from "@/components/laporan/LoanReportTable";
-import { Input } from "@/components/ui/input";
+import ClearableFilterInput from "@/components/laporan/ClearableFilterInput";
 import {
   Select,
   SelectContent,
@@ -66,31 +66,6 @@ function FieldWrap({ children }: { children: React.ReactNode }) {
   return <div className="w-full md:w-[440px] -mt-0.5">{children}</div>;
 }
 
-function DateClearButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onClick();
-      }}
-      className={cn(
-        "absolute right-0 top-0",
-        "h-[30px] w-[38px]",
-        "rounded-r-[5px] rounded-l-none",
-        "bg-[#77839A] text-white",
-        "ring-1 ring-[#77839A]/20 transition hover:bg-[#6b768c]",
-        "text-[18px] font-extrabold leading-none",
-      )}
-      aria-label="Clear"
-      title="Clear"
-    >
-      ×
-    </button>
-  );
-}
-
 function DateRangeField({
   startValue,
   endValue,
@@ -106,30 +81,19 @@ function DateRangeField({
   startPlaceholder: string;
   endPlaceholder: string;
 }) {
-  const inputCls =
-    "h-[30px] rounded-[5px] border-slate-200 bg-white pr-11 text-[12.5px] font-normal text-slate-900 shadow-sm placeholder:text-[#64748B] focus-visible:ring-0 focus-visible:ring-offset-0";
-
   return (
     <div className="grid gap-2 md:grid-cols-2">
-      <div className="relative">
-        <Input
-          value={startValue}
-          onChange={(e) => onStartChange(e.target.value)}
-          placeholder={startPlaceholder}
-          className={inputCls}
-        />
-        <DateClearButton onClick={() => onStartChange("")} />
-      </div>
+      <ClearableFilterInput
+        value={startValue}
+        onChange={onStartChange}
+        placeholder={startPlaceholder}
+      />
 
-      <div className="relative">
-        <Input
-          value={endValue}
-          onChange={(e) => onEndChange(e.target.value)}
-          placeholder={endPlaceholder}
-          className={inputCls}
-        />
-        <DateClearButton onClick={() => onEndChange("")} />
-      </div>
+      <ClearableFilterInput
+        value={endValue}
+        onChange={onEndChange}
+        placeholder={endPlaceholder}
+      />
     </div>
   );
 }
@@ -228,20 +192,6 @@ export default function LaporanPinjaman() {
     "[&>svg]:text-slate-500",
   );
 
-  const inputCls = cn(
-    "h-[30px] w-full rounded-[6px] border border-slate-200 bg-white px-3",
-    "text-[12.5px] font-normal text-slate-900 shadow-sm",
-    "placeholder:text-[#64748B]",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
-  const dateInputCls = cn(
-    "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 pr-11",
-    "text-[12.5px] font-normal text-slate-900 shadow-sm",
-    "placeholder:text-[#64748B]",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
   const mutedSelectText = "text-[#64748B]";
   const normalSelectText = "text-slate-900";
 
@@ -294,11 +244,10 @@ export default function LaporanPinjaman() {
 
             <FieldRow label="Nama/No Rekening">
               <FieldWrap>
-                <Input
+                <ClearableFilterInput
                   value={namaNoRek}
-                  onChange={(e) => setNamaNoRek(e.target.value)}
+                  onChange={setNamaNoRek}
                   placeholder="Masukkan Nama/No Rekening"
-                  className={inputCls}
                 />
               </FieldWrap>
             </FieldRow>
@@ -506,15 +455,11 @@ export default function LaporanPinjaman() {
 
             <FieldRow label="Tanggal Saldo">
               <FieldWrap>
-                <div className="relative">
-                  <Input
-                    value={tanggalSaldo}
-                    onChange={(e) => setTanggalSaldo(e.target.value)}
-                    placeholder="Masukkan tanggal saldo.."
-                    className={dateInputCls}
-                  />
-                  <DateClearButton onClick={() => setTanggalSaldo("")} />
-                </div>
+                <ClearableFilterInput
+                  value={tanggalSaldo}
+                  onChange={setTanggalSaldo}
+                  placeholder="Masukkan tanggal saldo.."
+                />
               </FieldWrap>
             </FieldRow>
 
@@ -546,18 +491,16 @@ export default function LaporanPinjaman() {
             <FieldRow label="Sisa Pinjaman">
               <FieldWrap>
                 <div className="grid gap-2 md:grid-cols-2">
-                  <Input
+                  <ClearableFilterInput
                     value={sisaMin}
-                    onChange={(e) => setSisaMin(e.target.value)}
+                    onChange={setSisaMin}
                     placeholder="Sisa Minimal"
-                    className={inputCls}
                     inputMode="decimal"
                   />
-                  <Input
+                  <ClearableFilterInput
                     value={sisaMax}
-                    onChange={(e) => setSisaMax(e.target.value)}
+                    onChange={setSisaMax}
                     placeholder="Sisa Maksimal"
-                    className={inputCls}
                     inputMode="decimal"
                   />
                 </div>
