@@ -52,7 +52,7 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 md:grid-cols-[320px_minmax(0,1fr)] md:items-center">
+    <div className="grid gap-1 md:grid-cols-[320px_minmax(0,1fr)] md:items-center">
       <div className="text-[13px] font-normal tracking-tight text-black">
         {label}
       </div>
@@ -61,12 +61,8 @@ function FieldRow({
   );
 }
 
-function FieldWrap({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <div className="w-full md:w-[440px]">{children}</div>;
+function FieldWrap({ children }: { children: React.ReactNode }) {
+  return <div className="w-full md:w-[440px] -mt-0.5">{children}</div>;
 }
 
 function DateRangeField({
@@ -113,7 +109,7 @@ function DateRangeField({
   }
 
   return (
-    <div className="grid gap-3 md:grid-cols-2">
+    <div className="grid gap-2 md:grid-cols-2">
       <div className="relative">
         <Input
           value={startValue}
@@ -258,7 +254,7 @@ export default function LaporanPinjaman() {
 
         {/* wrapper Card transparan */}
         <Card className="mt-6 rounded-3xl border-0 bg-transparent p-0 shadow-none">
-          <div className="grid gap-5">
+          <div className="grid gap-4">
             <FieldRow label="Jenis Pinjaman">
               <FieldWrap>
                 <Select value={jenisPinjaman} onValueChange={setJenisPinjaman}>
@@ -346,7 +342,7 @@ export default function LaporanPinjaman() {
 
             <FieldRow label="Kolektibilitas Per">
               <FieldWrap>
-                <div className="grid gap-3 md:grid-cols-2">
+                <div className="grid gap-2 md:grid-cols-2">
                   <Select
                     value={kolektibilitasBulan}
                     onValueChange={setKolektibilitasBulan}
@@ -491,7 +487,7 @@ export default function LaporanPinjaman() {
 
             <FieldRow label="Sisa Pinjaman">
               <FieldWrap>
-                <div className="grid gap-3 md:grid-cols-2">
+                <div className="grid gap-2 md:grid-cols-2">
                   <Input
                     value={sisaMin}
                     onChange={(e) => setSisaMin(e.target.value)}
