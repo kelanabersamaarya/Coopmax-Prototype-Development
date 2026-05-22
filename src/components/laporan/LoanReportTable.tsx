@@ -51,6 +51,20 @@ function Th({ children, className, ...props }: ThProps) {
   );
 }
 
+function PlainHeader({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("leading-[1.05] whitespace-nowrap text-left", className)}>
+      {children}
+    </div>
+  );
+}
+
 function Td({
   children,
   className,
@@ -315,7 +329,7 @@ export default function LoanReportTable({
       paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
-      tgkPokok: sum((r) => r.tgkPokok),
+      tgkPokok: sum((r) => r.tgPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -331,7 +345,7 @@ export default function LoanReportTable({
       rows.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
-      tgkPokok: sum((r) => r.tgkPokok),
+      tgkPokok: sum((r) => r.tgPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -370,10 +384,11 @@ export default function LoanReportTable({
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[95px]">
-                    <SortableHeaderLabel
-                      lines={["STATUS", "NASABAH"]}
-                      className="[&_span]:whitespace-nowrap"
-                    />
+                    <PlainHeader>
+                      STATUS
+                      <br />
+                      NASABAH
+                    </PlainHeader>
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[145px]">
                     <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} />
@@ -427,16 +442,10 @@ export default function LoanReportTable({
                   </th>
 
                   <Th rowSpan={2} className="h-[88px] w-[98px]">
-                    <SortableHeaderLabel
-                      lines={["TGK. POKOK"]}
-                      className="[&_span]:whitespace-nowrap"
-                    />
+                    <PlainHeader>TGK. POKOK</PlainHeader>
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[98px]">
-                    <SortableHeaderLabel
-                      lines={["TGK. BUNGA"]}
-                      className="[&_span]:whitespace-nowrap"
-                    />
+                    <PlainHeader>TGK. BUNGA</PlainHeader>
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[110px]">
                     <SortableHeaderLabel
