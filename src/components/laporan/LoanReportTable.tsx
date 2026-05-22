@@ -8,11 +8,13 @@ type Row = {
   no: number;
   noRekening: string;
   namaNasabah: string;
+  alamat: string;
   status: string;
   jenisPinjaman: string;
   tanggalPinjaman: string; // dd-mm-yyyy
   kolektor: string;
-  jw: string; // contoh "12 Bulan"
+  jwBln: string; // contoh "12"
+  jwRange: string; // contoh "08/12/25-08/12/26"
   jatuhTempo: string; // dd-mm-yyyy
   bunga: string; // "24.00"
   jumlahPinjaman: string; // "2.000.000,00"
@@ -135,11 +137,13 @@ const seedRows: Row[] = [
     no: 1,
     noRekening: "SMG260004",
     namaNasabah: "Bapak Bagus",
+    alamat: "Jl. Sunset APRIL 43",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Billing",
     tanggalPinjaman: "07-04-2026",
     kolektor: "Gina Farida M.M.",
-    jw: "12 Bulan",
+    jwBln: "12",
+    jwRange: "08/12/25-08/12/26",
     jatuhTempo: "07-04-2027",
     bunga: "12.00",
     jumlahPinjaman: "12.000.000,00",
@@ -160,11 +164,13 @@ const seedRows: Row[] = [
     no: 2,
     noRekening: "klpk04.07260001",
     namaNasabah: "Indah Sari",
+    alamat: "Jl. Galang",
     status: "Non Anggota",
     jenisPinjaman: "Pinjaman Billing",
     tanggalPinjaman: "10-02-2026",
     kolektor: "Kolektor A",
-    jw: "12 Bulan",
+    jwBln: "12",
+    jwRange: "24/07/25-24/07/26",
     jatuhTempo: "10-02-2027",
     bunga: "11.50",
     jumlahPinjaman: "10.000.000,00",
@@ -185,11 +191,13 @@ const seedRows: Row[] = [
     no: 3,
     noRekening: "SMG260021",
     namaNasabah: "Rika Wastuti",
+    alamat: "Jl. Kenanga No. 12",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
     tanggalPinjaman: "26-06-2024",
     kolektor: "Kolektor B",
-    jw: "10 Bulan",
+    jwBln: "10",
+    jwRange: "15/05/25-15/03/26",
     jatuhTempo: "26-04-2025",
     bunga: "20.00",
     jumlahPinjaman: "3.500.000,00",
@@ -210,11 +218,13 @@ const seedRows: Row[] = [
     no: 4,
     noRekening: "12260006",
     namaNasabah: "Pangeran Sirait",
+    alamat: "Sidakarya",
     status: "Non Anggota",
     jenisPinjaman: "Pinjaman Bulanan 9",
     tanggalPinjaman: "30-04-2026",
     kolektor: "Dinda Sudiati",
-    jw: "12 Bulan",
+    jwBln: "12",
+    jwRange: "06/08/24-06/08/25",
     jatuhTempo: "30-04-2027",
     bunga: "24.00",
     jumlahPinjaman: "2.000.000,00",
@@ -235,11 +245,13 @@ const seedRows: Row[] = [
     no: 5,
     noRekening: "072260001",
     namaNasabah: "Rika Wastuti",
+    alamat: "Jl. Mawar",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
     tanggalPinjaman: "31-03-2026",
     kolektor: "Kolektor A",
-    jw: "6 Bulan",
+    jwBln: "18",
+    jwRange: "03/12/25-03/06/27",
     jatuhTempo: "30-09-2026",
     bunga: "20.00",
     jumlahPinjaman: "22.000.000,00",
@@ -287,7 +299,7 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[3050px] border-collapse bg-white">
+            <table className="w-full min-w-[3450px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="w-[60px] align-bottom">
@@ -298,6 +310,9 @@ export default function LoanReportTable({
                   </Th>
                   <Th rowSpan={2} className="w-[220px] align-bottom">
                     <SortableHeaderLabel lines={["NAMA", "NASABAH"]} />
+                  </Th>
+                  <Th rowSpan={2} className="w-[240px] align-bottom">
+                    <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
                   <Th rowSpan={2} className="w-[160px] align-bottom">
                     <SortableHeaderLabel lines={["STATUS", "NASABAH"]} />
@@ -311,9 +326,18 @@ export default function LoanReportTable({
                   <Th rowSpan={2} className="w-[180px] align-bottom">
                     <SortableHeaderLabel lines={["KOLEKTOR"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[110px] align-bottom">
-                    <SortableHeaderLabel lines={["JW"]} />
-                  </Th>
+
+                  <th
+                    colSpan={2}
+                    className={cn(
+                      "px-3 py-2",
+                      "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "bg-transparent border-b-0",
+                    )}
+                  >
+                    Jangka Waktu
+                  </th>
+
                   <Th rowSpan={2} className="w-[140px] align-bottom">
                     <SortableHeaderLabel lines={["JATUH", "TEMPO"]} />
                   </Th>
@@ -341,7 +365,6 @@ export default function LoanReportTable({
                     className={cn(
                       "px-3 py-2",
                       "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
-                      // seperti contoh: tanpa background & tanpa garis horizontal
                       "bg-transparent border-b-0",
                     )}
                   >
@@ -363,6 +386,9 @@ export default function LoanReportTable({
                 </tr>
 
                 <tr className="bg-white">
+                  <Th className="w-[80px] border-b-0 bg-transparent">Bln</Th>
+                  <Th className="w-[220px] border-b-0 bg-transparent">Dari tgl. s/d tgl.</Th>
+
                   <Th className="w-[140px] border-b-0 bg-transparent">Per bln</Th>
                   <Th className="w-[110px] border-b-0 bg-transparent">Sdh/Hr</Th>
 
@@ -378,7 +404,7 @@ export default function LoanReportTable({
               <tbody className="bg-white">
                 {paged.length === 0 ? (
                   <tr>
-                    <td colSpan={23} className="px-4 py-10 text-center text-sm text-slate-600">
+                    <td colSpan={25} className="px-4 py-10 text-center text-sm text-slate-600">
                       Tidak ada data.
                     </td>
                   </tr>
@@ -398,6 +424,12 @@ export default function LoanReportTable({
                       <Td className="w-[220px]" align="left">
                         <div className="truncate" title={r.namaNasabah}>
                           {r.namaNasabah}
+                        </div>
+                      </Td>
+
+                      <Td className="w-[240px]" align="left">
+                        <div className="truncate" title={r.alamat}>
+                          {r.alamat}
                         </div>
                       </Td>
 
@@ -421,8 +453,11 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[110px]" align="left">
-                        {r.jw}
+                      <Td className="w-[80px]" align="right">
+                        {r.jwBln}
+                      </Td>
+                      <Td className="w-[220px]" align="left">
+                        <span className="whitespace-nowrap">{r.jwRange}</span>
                       </Td>
 
                       <Td className="w-[140px]" align="left">
