@@ -11,25 +11,25 @@ type Row = {
   alamat: string;
   status: string;
   jenisPinjaman: string;
-  tanggalPinjaman: string; // dd-mm-yyyy
+  tanggalPinjaman: string;
   kolektor: string;
-  jwBln: string; // contoh "12"
-  jwRange: string; // contoh "08/12/25-08/12/26"
-  jatuhTempo: string; // dd-mm-yyyy
-  bunga: string; // "24.00"
-  jumlahPinjaman: string; // "2.000.000,00"
+  jwBln: string;
+  jwRange: string;
+  jatuhTempo: string;
+  bunga: string;
+  jumlahPinjaman: string;
   angsuranPerBln: string;
-  angsuranSdhHr: string; // format "2 / 2"
-  tunggakanBln: string; // "0"
-  tunggakanNilai: string; // "270,833"
+  angsuranSdhHr: string;
+  tunggakanBln: string;
+  tunggakanNilai: string;
   tunggakan1_30: string;
   tunggakan31_60: string;
   tunggakan61_90: string;
   tunggakan90p: string;
-  tgkPokok: string; // "0,00"
-  tgkBunga: string; // "0,00"
-  sisaPinjaman: string; // "1.040.000,00"
-  kolektibilitas: string; // "Lancar" | ...
+  tgkPokok: string;
+  tgkBunga: string;
+  sisaPinjaman: string;
+  kolektibilitas: string;
 };
 
 type ThProps = React.ThHTMLAttributes<HTMLTableCellElement> & {
@@ -41,9 +41,9 @@ function Th({ children, className, ...props }: ThProps) {
     <th
       {...props}
       className={cn(
-        "px-3 py-3",
+        "px-2 py-2.5",
         "border-b border-slate-300/80",
-        "text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+        "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
         "text-left",
         props.rowSpan && Number(props.rowSpan) > 1 ? "border-b-0" : "",
         className,
@@ -68,9 +68,9 @@ function Td({
   return (
     <td
       className={cn(
-        "px-3 py-2.5 align-top",
+        "px-2 py-2 align-top",
         "border-b border-slate-200",
-        "text-[13px] font-medium",
+        "text-[12px] font-medium",
         tone === "muted" ? "text-slate-600" : "text-slate-900",
         align === "right"
           ? "text-right tabular-nums whitespace-nowrap"
@@ -350,69 +350,69 @@ export default function LoanReportTable({
   const showingEnd = Math.min(rows.length, page * pageSize);
 
   const COLS = 25;
-  const LABEL_SPAN = 12; // sampai sebelum kolom JUMLAH PINJAMAN
+  const LABEL_SPAN = 12;
   const totalDivider = "border-t border-slate-300/80";
 
   return (
     <div className={cn("mt-6", className)}>
-      <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
+      <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[3450px] border-collapse bg-white">
+            <table className="w-full min-w-[2700px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
-                  <Th rowSpan={2} className="w-[60px] align-bottom">
+                  <Th rowSpan={2} className="w-[46px] align-bottom">
                     <SortableHeaderLabel lines={["NO"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[150px] align-bottom">
+                  <Th rowSpan={2} className="w-[118px] align-bottom">
                     <SortableHeaderLabel lines={["NO", "REKENING"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[220px] align-bottom">
+                  <Th rowSpan={2} className="w-[165px] align-bottom">
                     <SortableHeaderLabel lines={["NAMA", "NASABAH"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[240px] align-bottom">
+                  <Th rowSpan={2} className="w-[175px] align-bottom">
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[160px] align-bottom">
+                  <Th rowSpan={2} className="w-[120px] align-bottom">
                     <SortableHeaderLabel lines={["STATUS", "NASABAH"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[190px] align-bottom">
+                  <Th rowSpan={2} className="w-[145px] align-bottom">
                     <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[180px] align-bottom">
+                  <Th rowSpan={2} className="w-[135px] align-bottom">
                     <SortableHeaderLabel lines={["TANGGAL", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[180px] align-bottom">
+                  <Th rowSpan={2} className="w-[140px] align-bottom">
                     <SortableHeaderLabel lines={["KOLEKTOR"]} />
                   </Th>
 
                   <th
                     colSpan={2}
                     className={cn(
-                      "px-3 py-2",
-                      "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "px-2 py-2",
+                      "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                       "bg-transparent border-b-0",
                     )}
                   >
                     Jangka Waktu
                   </th>
 
-                  <Th rowSpan={2} className="w-[140px] align-bottom">
+                  <Th rowSpan={2} className="w-[112px] align-bottom">
                     <SortableHeaderLabel lines={["JATUH", "TEMPO"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[120px] align-bottom">
+                  <Th rowSpan={2} className="w-[82px] align-bottom">
                     <SortableHeaderLabel lines={["BUNGA"]} />
                   </Th>
 
-                  <Th rowSpan={2} className="w-[190px] align-bottom">
+                  <Th rowSpan={2} className="w-[145px] align-bottom">
                     <SortableHeaderLabel lines={["JUMLAH", "PINJAMAN"]} />
                   </Th>
 
                   <th
                     colSpan={2}
                     className={cn(
-                      "px-3 py-2",
-                      "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "px-2 py-2",
+                      "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                       "bg-transparent border-b-0",
                     )}
                   >
@@ -422,43 +422,43 @@ export default function LoanReportTable({
                   <th
                     colSpan={6}
                     className={cn(
-                      "px-3 py-2",
-                      "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "px-2 py-2",
+                      "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                       "bg-transparent border-b-0",
                     )}
                   >
                     Tunggakan
                   </th>
 
-                  <Th rowSpan={2} className="w-[150px] align-bottom">
+                  <Th rowSpan={2} className="w-[115px] align-bottom">
                     <SortableHeaderLabel lines={["TGK", "POKOK"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[150px] align-bottom">
+                  <Th rowSpan={2} className="w-[115px] align-bottom">
                     <SortableHeaderLabel lines={["TGK.", "BUNGA"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[190px] align-bottom">
+                  <Th rowSpan={2} className="w-[145px] align-bottom">
                     <SortableHeaderLabel lines={["SISA", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[170px] align-bottom">
+                  <Th rowSpan={2} className="w-[125px] align-bottom">
                     <SortableHeaderLabel lines={["KOLEKTIBILITAS"]} />
                   </Th>
                 </tr>
 
                 <tr className="bg-white">
-                  <Th className="w-[80px] border-b-0 bg-transparent">Bln</Th>
-                  <Th className="w-[220px] border-b-0 bg-transparent">
+                  <Th className="w-[54px] border-b-0 bg-transparent">Bln</Th>
+                  <Th className="w-[150px] border-b-0 bg-transparent">
                     Dari tgl. s/d tgl.
                   </Th>
 
-                  <Th className="w-[140px] border-b-0 bg-transparent">Per bln</Th>
-                  <Th className="w-[110px] border-b-0 bg-transparent">Sdh/Hr</Th>
+                  <Th className="w-[108px] border-b-0 bg-transparent">Per bln</Th>
+                  <Th className="w-[86px] border-b-0 bg-transparent">Sdh/Hr</Th>
 
-                  <Th className="w-[80px] border-b-0 bg-transparent">Bln</Th>
-                  <Th className="w-[140px] border-b-0 bg-transparent">Nilai</Th>
-                  <Th className="w-[140px] border-b-0 bg-transparent">1-30 Hr</Th>
-                  <Th className="w-[140px] border-b-0 bg-transparent">31-60 Hr</Th>
-                  <Th className="w-[140px] border-b-0 bg-transparent">61-90 Hr</Th>
-                  <Th className="w-[140px] border-b-0 bg-transparent">> 90 Hr</Th>
+                  <Th className="w-[54px] border-b-0 bg-transparent">Bln</Th>
+                  <Th className="w-[105px] border-b-0 bg-transparent">Nilai</Th>
+                  <Th className="w-[105px] border-b-0 bg-transparent">1-30 Hr</Th>
+                  <Th className="w-[105px] border-b-0 bg-transparent">31-60 Hr</Th>
+                  <Th className="w-[105px] border-b-0 bg-transparent">61-90 Hr</Th>
+                  <Th className="w-[105px] border-b-0 bg-transparent">> 90 Hr</Th>
                 </tr>
               </thead>
 
@@ -478,106 +478,106 @@ export default function LoanReportTable({
                       key={`${r.noRekening}-${idx}`}
                       className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
                     >
-                      <Td className="w-[60px]" align="left">
+                      <Td className="w-[46px]" align="left">
                         <span className="tabular-nums">{r.no}</span>
                       </Td>
 
-                      <Td className="w-[150px]" align="left">
+                      <Td className="w-[118px]" align="left">
                         <div className="truncate font-semibold" title={r.noRekening}>
                           {r.noRekening}
                         </div>
                       </Td>
 
-                      <Td className="w-[220px]" align="left">
+                      <Td className="w-[165px]" align="left">
                         <div className="truncate" title={r.namaNasabah}>
                           {r.namaNasabah}
                         </div>
                       </Td>
 
-                      <Td className="w-[240px]" align="left">
+                      <Td className="w-[175px]" align="left">
                         <div className="truncate" title={r.alamat}>
                           {r.alamat}
                         </div>
                       </Td>
 
-                      <Td className="w-[160px]" align="left">
+                      <Td className="w-[120px]" align="left">
                         <span className="whitespace-nowrap">{normalizeStatus(r.status)}</span>
                       </Td>
 
-                      <Td className="w-[190px]" align="left">
+                      <Td className="w-[145px]" align="left">
                         <div className="whitespace-normal leading-snug" title={r.jenisPinjaman}>
                           {r.jenisPinjaman}
                         </div>
                       </Td>
 
-                      <Td className="w-[180px]" align="left">
+                      <Td className="w-[135px]" align="left">
                         <span className="tabular-nums whitespace-nowrap">{r.tanggalPinjaman}</span>
                       </Td>
 
-                      <Td className="w-[180px]" align="left">
+                      <Td className="w-[140px]" align="left">
                         <div className="truncate" title={r.kolektor}>
                           {r.kolektor}
                         </div>
                       </Td>
 
-                      <Td className="w-[80px]" align="right">
+                      <Td className="w-[54px]" align="right">
                         {r.jwBln}
                       </Td>
-                      <Td className="w-[220px]" align="left">
+                      <Td className="w-[150px]" align="left">
                         <span className="whitespace-nowrap">{r.jwRange}</span>
                       </Td>
 
-                      <Td className="w-[140px]" align="left">
+                      <Td className="w-[112px]" align="left">
                         <span className="tabular-nums whitespace-nowrap">{r.jatuhTempo}</span>
                       </Td>
 
-                      <Td className="w-[120px]" align="right">
+                      <Td className="w-[82px]" align="right">
                         {r.bunga}
                       </Td>
 
-                      <Td className="w-[190px]" align="right">
+                      <Td className="w-[145px]" align="right">
                         {r.jumlahPinjaman}
                       </Td>
 
-                      <Td className="w-[140px]" align="right">
+                      <Td className="w-[108px]" align="right">
                         {r.angsuranPerBln}
                       </Td>
-                      <Td className="w-[110px]" align="right">
+                      <Td className="w-[86px]" align="right">
                         {r.angsuranSdhHr}
                       </Td>
 
-                      <Td className="w-[80px]" align="right">
+                      <Td className="w-[54px]" align="right">
                         {r.tunggakanBln}
                       </Td>
-                      <Td className="w-[140px]" align="right">
+                      <Td className="w-[105px]" align="right">
                         {r.tunggakanNilai}
                       </Td>
-                      <Td className="w-[140px]" align="right">
+                      <Td className="w-[105px]" align="right">
                         {r.tunggakan1_30}
                       </Td>
-                      <Td className="w-[140px]" align="right">
+                      <Td className="w-[105px]" align="right">
                         {r.tunggakan31_60}
                       </Td>
-                      <Td className="w-[140px]" align="right">
+                      <Td className="w-[105px]" align="right">
                         {r.tunggakan61_90}
                       </Td>
-                      <Td className="w-[140px]" align="right">
+                      <Td className="w-[105px]" align="right">
                         {r.tunggakan90p}
                       </Td>
 
-                      <Td className="w-[150px]" align="right">
+                      <Td className="w-[115px]" align="right">
                         {r.tgkPokok}
                       </Td>
 
-                      <Td className="w-[150px]" align="right">
+                      <Td className="w-[115px]" align="right">
                         {r.tgkBunga}
                       </Td>
 
-                      <Td className="w-[190px]" align="right">
+                      <Td className="w-[145px]" align="right">
                         {r.sisaPinjaman}
                       </Td>
 
-                      <Td className="w-[170px]" align="left">
+                      <Td className="w-[125px]" align="left">
                         {r.kolektibilitas}
                       </Td>
                     </tr>
@@ -589,52 +589,52 @@ export default function LoanReportTable({
                     <tr className="bg-white">
                       <td
                         colSpan={LABEL_SPAN}
-                        className="px-3 py-3 text-[13px] font-semibold text-slate-900 border-t border-slate-300/80"
+                        className="px-2 py-2.5 text-[12px] font-semibold text-slate-900 border-t border-slate-300/80"
                       >
                         Total per Halaman
                       </td>
 
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.jumlahPinjaman)}
                       </td>
 
-                      <td className="px-3 py-3 border-t border-slate-300/80" />
-                      <td className="px-3 py-3 border-t border-slate-300/80" />
+                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
+                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
 
-                      <td className="px-3 py-3 border-t border-slate-300/80" />
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakanNilai)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan1_30)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan31_60)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan61_90)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan90p)}
                       </td>
 
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tgkPokok)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tgkBunga)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.sisaPinjaman)}
                       </td>
-                      <td className="px-3 py-3 border-t border-slate-300/80" />
+                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
                     </tr>
 
                     <tr className="bg-white">
                       <td
                         colSpan={LABEL_SPAN}
                         className={cn(
-                          "px-3 py-3 text-[13px] font-semibold text-slate-900",
+                          "px-2 py-2.5 text-[12px] font-semibold text-slate-900",
                           totalDivider,
                         )}
                       >
@@ -643,20 +643,20 @@ export default function LoanReportTable({
 
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
                         {formatIdNumber(totalsAll.jumlahPinjaman)}
                       </td>
 
-                      <td className={cn("px-3 py-3", totalDivider)} />
-                      <td className={cn("px-3 py-3", totalDivider)} />
+                      <td className={cn("px-2 py-2.5", totalDivider)} />
+                      <td className={cn("px-2 py-2.5", totalDivider)} />
 
-                      <td className={cn("px-3 py-3", totalDivider)} />
+                      <td className={cn("px-2 py-2.5", totalDivider)} />
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -664,7 +664,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -672,7 +672,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -680,7 +680,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -688,7 +688,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -697,7 +697,7 @@ export default function LoanReportTable({
 
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -705,7 +705,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -713,13 +713,13 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
                         {formatIdNumber(totalsAll.sisaPinjaman)}
                       </td>
-                      <td className={cn("px-3 py-3", totalDivider)} />
+                      <td className={cn("px-2 py-2.5", totalDivider)} />
                     </tr>
                   </>
                 ) : null}
