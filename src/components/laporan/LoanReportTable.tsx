@@ -241,7 +241,7 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1600px] border-collapse bg-white">
+            <table className="w-full min-w-[2000px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th className="w-[60px]" align="left">
@@ -256,10 +256,10 @@ export default function LoanReportTable({
                   <Th className="w-[160px]" align="left">
                     <SortableHeaderLabel lines={["STATUS", "NASABAH"]} />
                   </Th>
-                  <Th className="w-[180px]" align="left">
+                  <Th className="w-[190px]" align="left">
                     <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} />
                   </Th>
-                  <Th className="w-[140px]" align="left">
+                  <Th className="w-[180px]" align="left">
                     <SortableHeaderLabel lines={["TANGGAL", "PINJAMAN"]} />
                   </Th>
                   <Th className="w-[180px]" align="left">
@@ -271,22 +271,22 @@ export default function LoanReportTable({
                   <Th className="w-[140px]" align="left">
                     <SortableHeaderLabel lines={["JATUH", "TEMPO"]} />
                   </Th>
-                  <Th className="w-[110px]" align="right">
+                  <Th className="w-[120px]" align="right">
                     <SortableHeaderLabel lines={["BUNGA"]} />
                   </Th>
-                  <Th className="w-[170px]" align="right">
+                  <Th className="w-[190px]" align="right">
                     <SortableHeaderLabel lines={["JUMLAH", "PINJAMAN"]} />
                   </Th>
-                  <Th className="w-[140px]" align="right">
+                  <Th className="w-[150px]" align="right">
                     <SortableHeaderLabel lines={["TGK", "POKOK"]} />
                   </Th>
-                  <Th className="w-[140px]" align="right">
+                  <Th className="w-[150px]" align="right">
                     <SortableHeaderLabel lines={["TGK.", "BUNGA"]} />
                   </Th>
-                  <Th className="w-[170px]" align="right">
+                  <Th className="w-[190px]" align="right">
                     <SortableHeaderLabel lines={["SISA", "PINJAMAN"]} />
                   </Th>
-                  <Th className="w-[160px]" align="left">
+                  <Th className="w-[170px]" align="left">
                     <SortableHeaderLabel lines={["KOLEKTIBILITAS"]} />
                   </Th>
                 </tr>

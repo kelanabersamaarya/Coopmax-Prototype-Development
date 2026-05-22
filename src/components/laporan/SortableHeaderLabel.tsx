@@ -39,7 +39,10 @@ export default function SortableHeaderLabel({
         )}
       >
         {lines.map((l, idx) => (
-          <span key={idx} className="block">
+          <span
+            key={idx}
+            className={cn("block", idx === 0 ? "whitespace-nowrap" : "")}
+          >
             {l}
           </span>
         ))}
