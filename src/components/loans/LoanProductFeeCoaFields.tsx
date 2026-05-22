@@ -3,13 +3,7 @@
 import * as React from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import SearchableFeeCoaSelect from "@/components/loans/SearchableFeeCoaSelect";
 
 type FeeCoaOption =
   | "PEN. BIAYA PROVISI"
@@ -51,6 +45,18 @@ const fields: FieldConfig[] = [
     primaryOption: "PEN. AKTIVASI M-BANKING",
   },
 ];
+
+const commonCoaOptions: FeeCoaOption[] = [
+  "PEN. BIAYA PROVISI",
+  "PEN. ADMINISTRASI",
+  "PEN. BIAYA ASURANSI",
+  "PEN. AKTIVASI M-BANKING",
+  "PENDAPATAN LAIN - LAIN",
+];
+
+function uniqueOptions(primaryOption: FeeCoaOption) {
+  return Array.from(new Set([primaryOption, ...commonCoaOptions]));
+}
 
 export default function LoanProductFeeCoaFields({
   selectTriggerClassName,
@@ -111,39 +117,22 @@ export default function LoanProductFeeCoaFields({
                 </button>
               ) : null}
 
-              <Select
+              <SearchableFeeCoaSelect
                 value={selectedValue}
-                onValueChange={(value) =>
+                placeholder={field.placeholder}
+                options={uniqueOptions(field.primaryOption)}
+                onChange={(value) =>
                   setValues((prev) => ({
                     ...prev,
                     [field.key]: value as FeeCoaOption,
                   }))
                 }
-              >
-                <SelectTrigger
-                  className={cn(
-                    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
-                    hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
-                    selectTriggerClassName,
-                  )}
-                >
-                  <SelectValue placeholder={field.placeholder} />
-                </SelectTrigger>
-
-                <SelectContent
-                  className={cn(
-                    "rounded-[10px] border-slate-200",
-                    selectContentClassName,
-                  )}
-                >
-                  <SelectItem value={field.primaryOption}>
-                    {field.primaryOption}
-                  </SelectItem>
-                  <SelectItem value="PENDAPATAN LAIN - LAIN">
-                    PENDAPATAN LAIN - LAIN
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                triggerClassName={cn(
+                  hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
+                  selectTriggerClassName,
+                )}
+                contentClassName={selectContentClassName}
+              />
             </div>
           </div>
         );
