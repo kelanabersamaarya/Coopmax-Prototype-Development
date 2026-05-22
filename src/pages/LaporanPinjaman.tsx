@@ -82,7 +82,7 @@ function DateRangeField({
   endPlaceholder: string;
 }) {
   const inputCls =
-    "h-[30px] rounded-[6px] border-slate-200 bg-white text-[12.5px] font-normal text-slate-900 shadow-sm placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0";
+    "h-[30px] rounded-[6px] border-slate-200 bg-white text-[12.5px] font-normal text-slate-900 shadow-sm placeholder:text-[#64748B] focus-visible:ring-0 focus-visible:ring-offset-0";
 
   function ClearBtn({ onClick }: { onClick: () => void }) {
     return (
@@ -223,7 +223,7 @@ export default function LaporanPinjaman() {
 
   const selectTriggerCls = cn(
     "h-[30px] w-full justify-between rounded-[6px] border border-slate-200 bg-white px-3",
-    "text-[12.5px] font-normal text-slate-900 shadow-sm",
+    "text-[12.5px] font-normal shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-500",
   );
@@ -231,9 +231,12 @@ export default function LaporanPinjaman() {
   const inputCls = cn(
     "h-[30px] w-full rounded-[6px] border border-slate-200 bg-white px-3",
     "text-[12.5px] font-normal text-slate-900 shadow-sm",
-    "placeholder:text-slate-500",
+    "placeholder:text-[#64748B]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
+
+  const mutedSelectText = "text-[#64748B]";
+  const normalSelectText = "text-slate-900";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] text-[13px] font-normal">
@@ -255,13 +258,19 @@ export default function LaporanPinjaman() {
           </div>
         </div>
 
-        {/* wrapper Card transparan */}
         <Card className="mt-6 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="grid gap-4">
             <FieldRow label="Jenis Pinjaman">
               <FieldWrap>
                 <Select value={jenisPinjaman} onValueChange={setJenisPinjaman}>
-                  <SelectTrigger className={selectTriggerCls}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerCls,
+                      jenisPinjaman === "Pilih pinjaman"
+                        ? mutedSelectText
+                        : normalSelectText,
+                    )}
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
@@ -290,7 +299,14 @@ export default function LaporanPinjaman() {
             <FieldRow label="Kolektor">
               <FieldWrap>
                 <Select value={kolektor} onValueChange={setKolektor}>
-                  <SelectTrigger className={selectTriggerCls}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerCls,
+                      kolektor === "Pilih Kolektor"
+                        ? mutedSelectText
+                        : normalSelectText,
+                    )}
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
@@ -306,7 +322,14 @@ export default function LaporanPinjaman() {
             <FieldRow label="Wilayah">
               <FieldWrap>
                 <Select value={wilayah} onValueChange={setWilayah}>
-                  <SelectTrigger className={selectTriggerCls}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerCls,
+                      wilayah === "Pilih wilayah"
+                        ? mutedSelectText
+                        : normalSelectText,
+                    )}
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
@@ -326,7 +349,14 @@ export default function LaporanPinjaman() {
                   value={tipeKolektibilitas}
                   onValueChange={setTipeKolektibilitas}
                 >
-                  <SelectTrigger className={selectTriggerCls}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerCls,
+                      tipeKolektibilitas === "-- Semua --"
+                        ? mutedSelectText
+                        : normalSelectText,
+                    )}
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
@@ -350,7 +380,14 @@ export default function LaporanPinjaman() {
                     value={kolektibilitasBulan}
                     onValueChange={setKolektibilitasBulan}
                   >
-                    <SelectTrigger className={selectTriggerCls}>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerCls,
+                        kolektibilitasBulan === "Mei"
+                          ? mutedSelectText
+                          : normalSelectText,
+                      )}
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
@@ -366,7 +403,14 @@ export default function LaporanPinjaman() {
                     value={kolektibilitasTahun}
                     onValueChange={setKolektibilitasTahun}
                   >
-                    <SelectTrigger className={selectTriggerCls}>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerCls,
+                        kolektibilitasTahun === "2026"
+                          ? mutedSelectText
+                          : normalSelectText,
+                      )}
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
@@ -397,7 +441,14 @@ export default function LaporanPinjaman() {
             <FieldRow label="Jenis Kelamin">
               <FieldWrap>
                 <Select value={jenisKelamin} onValueChange={setJenisKelamin}>
-                  <SelectTrigger className={selectTriggerCls}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerCls,
+                      jenisKelamin === "-- Semua --"
+                        ? mutedSelectText
+                        : normalSelectText,
+                    )}
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
@@ -412,7 +463,14 @@ export default function LaporanPinjaman() {
             <FieldRow label="Status Pinjaman">
               <FieldWrap>
                 <Select value={statusPinjaman} onValueChange={setStatusPinjaman}>
-                  <SelectTrigger className={selectTriggerCls}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerCls,
+                      statusPinjaman === "Aktif / Sudah Dicairkan"
+                        ? mutedSelectText
+                        : normalSelectText,
+                    )}
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
@@ -473,7 +531,14 @@ export default function LaporanPinjaman() {
             <FieldRow label="Status Anggota">
               <FieldWrap>
                 <Select value={statusAnggota} onValueChange={setStatusAnggota}>
-                  <SelectTrigger className={selectTriggerCls}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerCls,
+                      statusAnggota === "Pilih Jenis Anggota"
+                        ? mutedSelectText
+                        : normalSelectText,
+                    )}
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-slate-200">
