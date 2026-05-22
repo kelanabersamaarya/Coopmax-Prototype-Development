@@ -172,7 +172,8 @@ function PaginationLikeExample({
 
 const colW = {
   no: "w-[60px]",
-  noNsb: "w-[140px]",
+  // ✅ lebih kecil dari sebelumnya (140px)
+  noNsb: "w-[110px]",
   nama: "w-[180px]",
   status: "w-[110px]",
   alamat: "w-[170px]",
