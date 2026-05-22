@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import SortableHeaderLabel from "@/components/laporan/SortableHeaderLabel";
 
 export type KolektibilitasRow = {
   no: number;
@@ -355,24 +356,34 @@ export default function KolektibilitasReportTable({
                 <Th rowSpan={2} className={colW.no} align="left" leftBorder>
                   NO.
                 </Th>
+
                 <Th rowSpan={2} className={colW.noNsb} align="left">
-                  NO.REKENING
+                  <SortableHeaderLabel lines={["NO.", "REKENING"]} align="left" />
                 </Th>
+
                 <Th rowSpan={2} className={colW.nama} align="left">
-                  NAMA
+                  <SortableHeaderLabel lines={["NAMA", "NASABAH"]} align="left" />
                 </Th>
+
                 <Th rowSpan={2} className={colW.status} align="left">
                   STATUS
                 </Th>
+
                 <Th rowSpan={2} className={colW.alamat} align="left">
                   ALAMAT
                 </Th>
+
                 <Th rowSpan={2} className={colW.tanggalPinjaman} align="left">
-                  TANGGAL PINJAMAN
+                  <SortableHeaderLabel lines={["TANGGAL", "PINJAMAN"]} align="left" />
                 </Th>
+
                 <Th rowSpan={2} className={colW.tanggalJatuhTempo} align="left">
-                  TANGGAL JATUH TEMPO
+                  <SortableHeaderLabel
+                    lines={["TANGGAL", "JATUH TEMPO"]}
+                    align="left"
+                  />
                 </Th>
+
                 <Th rowSpan={2} className={colW.jenisPinjaman} align="left">
                   JENIS PINJAMAN
                 </Th>
@@ -382,8 +393,9 @@ export default function KolektibilitasReportTable({
                 </Th>
 
                 <Th rowSpan={2} className={colW.plafon} align="left">
-                  PLAFON
+                  <SortableHeaderLabel lines={["PLAFON"]} align="left" />
                 </Th>
+
                 <Th rowSpan={2} className={colW.aoId} align="left">
                   AO ID
                 </Th>
@@ -402,8 +414,9 @@ export default function KolektibilitasReportTable({
                 </Th>
 
                 <Th rowSpan={2} className={colW.sisaPinjaman} align="left">
-                  SISA PINJAMAN
+                  <SortableHeaderLabel lines={["SISA PINJAMAN"]} align="left" />
                 </Th>
+
                 <Th rowSpan={2} className={colW.hutangPokok} align="left">
                   HUTANG POKOK
                 </Th>
