@@ -12,6 +12,7 @@ import {
 import { Card } from "@/components/ui/card";
 import LoanReportTable from "@/components/laporan/LoanReportTable";
 import ClearableFilterInput from "@/components/laporan/ClearableFilterInput";
+import ReportCustomizationHint from "@/components/laporan/ReportCustomizationHint";
 import {
   Select,
   SelectContent,
@@ -215,131 +216,16 @@ export default function LaporanPinjaman() {
           </div>
         </div>
 
-        <Card className="mt-6 rounded-3xl border-0 bg-transparent p-0 shadow-none">
-          <div className="grid gap-4">
-            <FieldRow label="Jenis Pinjaman">
-              <FieldWrap>
-                <Select value={jenisPinjaman} onValueChange={setJenisPinjaman}>
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerCls,
-                      jenisPinjaman === "Pilih pinjaman"
-                        ? mutedSelectText
-                        : normalSelectText,
-                    )}
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih pinjaman">Pilih pinjaman</SelectItem>
-                    <SelectItem value="Pinjaman Bulanan 9">
-                      Pinjaman Bulanan 9
-                    </SelectItem>
-                    <SelectItem value="Pinjaman Harian">Pinjaman Harian</SelectItem>
-                    <SelectItem value="Pinjaman Billing">Pinjaman Billing</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldWrap>
-            </FieldRow>
-
-            <FieldRow label="Nama/No Rekening">
-              <FieldWrap>
-                <ClearableFilterInput
-                  value={namaNoRek}
-                  onChange={setNamaNoRek}
-                  placeholder="Masukkan Nama/No Rekening"
-                />
-              </FieldWrap>
-            </FieldRow>
-
-            <FieldRow label="Kolektor">
-              <FieldWrap>
-                <Select value={kolektor} onValueChange={setKolektor}>
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerCls,
-                      kolektor === "Pilih Kolektor"
-                        ? mutedSelectText
-                        : normalSelectText,
-                    )}
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
-                    <SelectItem value="Dinda Sudiati">Dinda Sudiati</SelectItem>
-                    <SelectItem value="Kolektor A">Kolektor A</SelectItem>
-                    <SelectItem value="Kolektor B">Kolektor B</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldWrap>
-            </FieldRow>
-
-            <FieldRow label="Wilayah">
-              <FieldWrap>
-                <Select value={wilayah} onValueChange={setWilayah}>
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerCls,
-                      wilayah === "Pilih wilayah"
-                        ? mutedSelectText
-                        : normalSelectText,
-                    )}
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih wilayah">Pilih wilayah</SelectItem>
-                    <SelectItem value="Pusat">Pusat</SelectItem>
-                    <SelectItem value="Denpasar">Denpasar</SelectItem>
-                    <SelectItem value="Badung">Badung</SelectItem>
-                    <SelectItem value="Gianyar">Gianyar</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldWrap>
-            </FieldRow>
-
-            <FieldRow label="Tipe Kolektibilitas">
-              <FieldWrap>
-                <Select
-                  value={tipeKolektibilitas}
-                  onValueChange={setTipeKolektibilitas}
-                >
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerCls,
-                      tipeKolektibilitas === "-- Semua --"
-                        ? mutedSelectText
-                        : normalSelectText,
-                    )}
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                    <SelectItem value="Lancar">Lancar</SelectItem>
-                    <SelectItem value="Dalam Perhatian Khusus">
-                      Dalam Perhatian Khusus
-                    </SelectItem>
-                    <SelectItem value="Kurang Lancar">Kurang Lancar</SelectItem>
-                    <SelectItem value="Diragukan">Diragukan</SelectItem>
-                    <SelectItem value="Macet">Macet</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldWrap>
-            </FieldRow>
-
-            <FieldRow label="Kolektibilitas Per">
-              <FieldWrap>
-                <div className="grid gap-2 md:grid-cols-2">
-                  <Select
-                    value={kolektibilitasBulan}
-                    onValueChange={setKolektibilitasBulan}
-                  >
+        <div className="mt-6 grid items-start gap-6 xl:grid-cols-[minmax(0,760px)_minmax(360px,1fr)]">
+          <Card className="rounded-3xl border-0 bg-transparent p-0 shadow-none">
+            <div className="grid gap-4">
+              <FieldRow label="Jenis Pinjaman">
+                <FieldWrap>
+                  <Select value={jenisPinjaman} onValueChange={setJenisPinjaman}>
                     <SelectTrigger
                       className={cn(
                         selectTriggerCls,
-                        kolektibilitasBulan === "Mei"
+                        jenisPinjaman === "Pilih pinjaman"
                           ? mutedSelectText
                           : normalSelectText,
                       )}
@@ -347,22 +233,34 @@ export default function LaporanPinjaman() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      {months.map((m) => (
-                        <SelectItem key={m} value={m}>
-                          {m}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="Pilih pinjaman">Pilih pinjaman</SelectItem>
+                      <SelectItem value="Pinjaman Bulanan 9">
+                        Pinjaman Bulanan 9
+                      </SelectItem>
+                      <SelectItem value="Pinjaman Harian">Pinjaman Harian</SelectItem>
+                      <SelectItem value="Pinjaman Billing">Pinjaman Billing</SelectItem>
                     </SelectContent>
                   </Select>
+                </FieldWrap>
+              </FieldRow>
 
-                  <Select
-                    value={kolektibilitasTahun}
-                    onValueChange={setKolektibilitasTahun}
-                  >
+              <FieldRow label="Nama/No Rekening">
+                <FieldWrap>
+                  <ClearableFilterInput
+                    value={namaNoRek}
+                    onChange={setNamaNoRek}
+                    placeholder="Masukkan Nama/No Rekening"
+                  />
+                </FieldWrap>
+              </FieldRow>
+
+              <FieldRow label="Kolektor">
+                <FieldWrap>
+                  <Select value={kolektor} onValueChange={setKolektor}>
                     <SelectTrigger
                       className={cn(
                         selectTriggerCls,
-                        kolektibilitasTahun === "2026"
+                        kolektor === "Pilih Kolektor"
                           ? mutedSelectText
                           : normalSelectText,
                       )}
@@ -370,161 +268,275 @@ export default function LaporanPinjaman() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
-                      {years.map((y) => (
-                        <SelectItem key={y} value={y}>
-                          {y}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
+                      <SelectItem value="Dinda Sudiati">Dinda Sudiati</SelectItem>
+                      <SelectItem value="Kolektor A">Kolektor A</SelectItem>
+                      <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-              </FieldWrap>
-            </FieldRow>
+                </FieldWrap>
+              </FieldRow>
 
-            <FieldRow label="Tanggal Jatuh Tempo">
-              <FieldWrap>
-                <DateRangeField
-                  startValue={jatuhTempoStart}
-                  endValue={jatuhTempoEnd}
-                  onStartChange={setJatuhTempoStart}
-                  onEndChange={setJatuhTempoEnd}
-                  startPlaceholder="Masukkan tanggal awal"
-                  endPlaceholder="Masukkan tanggal akhir"
-                />
-              </FieldWrap>
-            </FieldRow>
+              <FieldRow label="Wilayah">
+                <FieldWrap>
+                  <Select value={wilayah} onValueChange={setWilayah}>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerCls,
+                        wilayah === "Pilih wilayah"
+                          ? mutedSelectText
+                          : normalSelectText,
+                      )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      <SelectItem value="Pilih wilayah">Pilih wilayah</SelectItem>
+                      <SelectItem value="Pusat">Pusat</SelectItem>
+                      <SelectItem value="Denpasar">Denpasar</SelectItem>
+                      <SelectItem value="Badung">Badung</SelectItem>
+                      <SelectItem value="Gianyar">Gianyar</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FieldWrap>
+              </FieldRow>
 
-            <FieldRow label="Jenis Kelamin">
-              <FieldWrap>
-                <Select value={jenisKelamin} onValueChange={setJenisKelamin}>
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerCls,
-                      jenisKelamin === "-- Semua --"
-                        ? mutedSelectText
-                        : normalSelectText,
-                    )}
+              <FieldRow label="Tipe Kolektibilitas">
+                <FieldWrap>
+                  <Select
+                    value={tipeKolektibilitas}
+                    onValueChange={setTipeKolektibilitas}
                   >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                    <SelectItem value="Laki-laki">Laki-laki</SelectItem>
-                    <SelectItem value="Perempuan">Perempuan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldWrap>
-            </FieldRow>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerCls,
+                        tipeKolektibilitas === "-- Semua --"
+                          ? mutedSelectText
+                          : normalSelectText,
+                      )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      <SelectItem value="-- Semua --">-- Semua --</SelectItem>
+                      <SelectItem value="Lancar">Lancar</SelectItem>
+                      <SelectItem value="Dalam Perhatian Khusus">
+                        Dalam Perhatian Khusus
+                      </SelectItem>
+                      <SelectItem value="Kurang Lancar">Kurang Lancar</SelectItem>
+                      <SelectItem value="Diragukan">Diragukan</SelectItem>
+                      <SelectItem value="Macet">Macet</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FieldWrap>
+              </FieldRow>
 
-            <FieldRow label="Status Pinjaman">
-              <FieldWrap>
-                <Select value={statusPinjaman} onValueChange={setStatusPinjaman}>
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerCls,
-                      statusPinjaman === "Aktif / Sudah Dicairkan"
-                        ? mutedSelectText
-                        : normalSelectText,
-                    )}
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Aktif / Sudah Dicairkan">
-                      Aktif / Sudah Dicairkan
-                    </SelectItem>
-                    <SelectItem value="Lunas">Lunas</SelectItem>
-                    <SelectItem value="Macet">Macet</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldWrap>
-            </FieldRow>
+              <FieldRow label="Kolektibilitas Per">
+                <FieldWrap>
+                  <div className="grid gap-2 md:grid-cols-2">
+                    <Select
+                      value={kolektibilitasBulan}
+                      onValueChange={setKolektibilitasBulan}
+                    >
+                      <SelectTrigger
+                        className={cn(
+                          selectTriggerCls,
+                          kolektibilitasBulan === "Mei"
+                            ? mutedSelectText
+                            : normalSelectText,
+                        )}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        {months.map((m) => (
+                          <SelectItem key={m} value={m}>
+                            {m}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
 
-            <FieldRow label="Tanggal Aktif / Sudah Dicairkan">
-              <FieldWrap>
-                <DateRangeField
-                  startValue={aktifStart}
-                  endValue={aktifEnd}
-                  onStartChange={setAktifStart}
-                  onEndChange={setAktifEnd}
-                  startPlaceholder="Masukkan tanggal awal"
-                  endPlaceholder="Masukkan tanggal akhir"
-                />
-              </FieldWrap>
-            </FieldRow>
+                    <Select
+                      value={kolektibilitasTahun}
+                      onValueChange={setKolektibilitasTahun}
+                    >
+                      <SelectTrigger
+                        className={cn(
+                          selectTriggerCls,
+                          kolektibilitasTahun === "2026"
+                            ? mutedSelectText
+                            : normalSelectText,
+                        )}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-slate-200">
+                        {years.map((y) => (
+                          <SelectItem key={y} value={y}>
+                            {y}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </FieldWrap>
+              </FieldRow>
 
-            <FieldRow label="Tanggal Saldo">
-              <FieldWrap>
-                <ClearableFilterInput
-                  value={tanggalSaldo}
-                  onChange={setTanggalSaldo}
-                  placeholder="Masukkan tanggal saldo.."
-                />
-              </FieldWrap>
-            </FieldRow>
-
-            <FieldRow label="Status Anggota">
-              <FieldWrap>
-                <Select value={statusAnggota} onValueChange={setStatusAnggota}>
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerCls,
-                      statusAnggota === "Pilih Jenis Anggota"
-                        ? mutedSelectText
-                        : normalSelectText,
-                    )}
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200">
-                    <SelectItem value="Pilih Jenis Anggota">
-                      Pilih Jenis Anggota
-                    </SelectItem>
-                    <SelectItem value="Semua">Semua</SelectItem>
-                    <SelectItem value="Anggota">Anggota</SelectItem>
-                    <SelectItem value="Calon">Calon</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FieldWrap>
-            </FieldRow>
-
-            <FieldRow label="Sisa Pinjaman">
-              <FieldWrap>
-                <div className="grid gap-2 md:grid-cols-2">
-                  <ClearableFilterInput
-                    value={sisaMin}
-                    onChange={setSisaMin}
-                    placeholder="Sisa Minimal"
-                    inputMode="decimal"
+              <FieldRow label="Tanggal Jatuh Tempo">
+                <FieldWrap>
+                  <DateRangeField
+                    startValue={jatuhTempoStart}
+                    endValue={jatuhTempoEnd}
+                    onStartChange={setJatuhTempoStart}
+                    onEndChange={setJatuhTempoEnd}
+                    startPlaceholder="Masukkan tanggal awal"
+                    endPlaceholder="Masukkan tanggal akhir"
                   />
-                  <ClearableFilterInput
-                    value={sisaMax}
-                    onChange={setSisaMax}
-                    placeholder="Sisa Maksimal"
-                    inputMode="decimal"
-                  />
-                </div>
+                </FieldWrap>
+              </FieldRow>
 
-                <div className="mt-2 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowReport(true);
-                    }}
-                    className={cn(
-                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
-                      "bg-[#3BB001] text-[13px] font-normal text-white",
-                      "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
-                    )}
-                  >
-                    <Search className="h-3.5 w-3.5" />
-                    Cari
-                  </button>
-                </div>
-              </FieldWrap>
-            </FieldRow>
-          </div>
-        </Card>
+              <FieldRow label="Jenis Kelamin">
+                <FieldWrap>
+                  <Select value={jenisKelamin} onValueChange={setJenisKelamin}>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerCls,
+                        jenisKelamin === "-- Semua --"
+                          ? mutedSelectText
+                          : normalSelectText,
+                      )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      <SelectItem value="-- Semua --">-- Semua --</SelectItem>
+                      <SelectItem value="Laki-laki">Laki-laki</SelectItem>
+                      <SelectItem value="Perempuan">Perempuan</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FieldWrap>
+              </FieldRow>
+
+              <FieldRow label="Status Pinjaman">
+                <FieldWrap>
+                  <Select value={statusPinjaman} onValueChange={setStatusPinjaman}>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerCls,
+                        statusPinjaman === "Aktif / Sudah Dicairkan"
+                          ? mutedSelectText
+                          : normalSelectText,
+                      )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      <SelectItem value="Aktif / Sudah Dicairkan">
+                        Aktif / Sudah Dicairkan
+                      </SelectItem>
+                      <SelectItem value="Lunas">Lunas</SelectItem>
+                      <SelectItem value="Macet">Macet</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FieldWrap>
+              </FieldRow>
+
+              <FieldRow label="Tanggal Aktif / Sudah Dicairkan">
+                <FieldWrap>
+                  <DateRangeField
+                    startValue={aktifStart}
+                    endValue={aktifEnd}
+                    onStartChange={setAktifStart}
+                    onEndChange={setAktifEnd}
+                    startPlaceholder="Masukkan tanggal awal"
+                    endPlaceholder="Masukkan tanggal akhir"
+                  />
+                </FieldWrap>
+              </FieldRow>
+
+              <FieldRow label="Tanggal Saldo">
+                <FieldWrap>
+                  <ClearableFilterInput
+                    value={tanggalSaldo}
+                    onChange={setTanggalSaldo}
+                    placeholder="Masukkan tanggal saldo.."
+                  />
+                </FieldWrap>
+              </FieldRow>
+
+              <FieldRow label="Status Anggota">
+                <FieldWrap>
+                  <Select value={statusAnggota} onValueChange={setStatusAnggota}>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerCls,
+                        statusAnggota === "Pilih Jenis Anggota"
+                          ? mutedSelectText
+                          : normalSelectText,
+                      )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-slate-200">
+                      <SelectItem value="Pilih Jenis Anggota">
+                        Pilih Jenis Anggota
+                      </SelectItem>
+                      <SelectItem value="Semua">Semua</SelectItem>
+                      <SelectItem value="Anggota">Anggota</SelectItem>
+                      <SelectItem value="Calon">Calon</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FieldWrap>
+              </FieldRow>
+
+              <FieldRow label="Sisa Pinjaman">
+                <FieldWrap>
+                  <div className="grid gap-2 md:grid-cols-2">
+                    <ClearableFilterInput
+                      value={sisaMin}
+                      onChange={setSisaMin}
+                      placeholder="Sisa Minimal"
+                      inputMode="decimal"
+                    />
+                    <ClearableFilterInput
+                      value={sisaMax}
+                      onChange={setSisaMax}
+                      placeholder="Sisa Maksimal"
+                      inputMode="decimal"
+                    />
+                  </div>
+
+                  <div className="mt-2 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowReport(true);
+                      }}
+                      className={cn(
+                        "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
+                        "bg-[#3BB001] text-[13px] font-normal text-white",
+                        "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
+                      )}
+                    >
+                      <Search className="h-3.5 w-3.5" />
+                      Cari
+                    </button>
+                  </div>
+                </FieldWrap>
+              </FieldRow>
+            </div>
+          </Card>
+
+          <ReportCustomizationHint
+            className="xl:mt-0"
+            onChooseReport={() =>
+              toast("Pilih Laporan (prototype)", {
+                description: "Menu penyesuaian laporan belum dihubungkan.",
+              })
+            }
+          />
+        </div>
 
         {showReport ? <LoanReportTable /> : null}
       </div>
