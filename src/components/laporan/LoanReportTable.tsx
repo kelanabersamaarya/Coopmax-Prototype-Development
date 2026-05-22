@@ -9,7 +9,7 @@ type Row = {
   noRekening: string;
   namaNasabah: string;
   alamat: string;
-  noHp: string;
+  aoId: string;
   email: string;
   status: string;
   jenisPinjaman: string;
@@ -175,7 +175,7 @@ const seedRows: Row[] = [
     noRekening: "SMG260004",
     namaNasabah: "Bapak Bagus",
     alamat: "Jl. Sunset APRIL 43",
-    noHp: "0812 4567 8901",
+    aoId: "ADK",
     email: "bapak.bagus@email.com",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Billing",
@@ -206,7 +206,7 @@ const seedRows: Row[] = [
     noRekening: "klpk04.07260001",
     namaNasabah: "Indah Sari",
     alamat: "Jl. Galang",
-    noHp: "0878 3312 4421",
+    aoId: "YSP",
     email: "indah.sari@email.com",
     status: "Non Anggota",
     jenisPinjaman: "Pinjaman Billing",
@@ -237,7 +237,7 @@ const seedRows: Row[] = [
     noRekening: "SMG260021",
     namaNasabah: "Rika Wastuti",
     alamat: "Jl. Kenanga No. 12",
-    noHp: "0857 8901 2234",
+    aoId: "ADK",
     email: "rika.wastuti@email.com",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
@@ -268,7 +268,7 @@ const seedRows: Row[] = [
     noRekening: "12260006",
     namaNasabah: "Pangeran Sirait",
     alamat: "Sidakarya",
-    noHp: "0813 7000 4555",
+    aoId: "YSP",
     email: "pangeran.sirait@email.com",
     status: "Non Anggota",
     jenisPinjaman: "Pinjaman Bulanan 9",
@@ -299,7 +299,7 @@ const seedRows: Row[] = [
     noRekening: "072260001",
     namaNasabah: "Rika Wastuti",
     alamat: "Jl. Mawar",
-    noHp: "0895 6291 594",
+    aoId: "ADK",
     email: "rika.mawar@email.com",
     status: "Anggota",
     jenisPinjaman: "Pinjaman Harian",
@@ -354,7 +354,7 @@ export default function LoanReportTable({
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
       pinjamanSldPokok: sum((r) => r.pinjamanSldPokok),
-      tgkPokok: sum((r) => r.tgPokok),
+      tgkPokok: sum((r) => r.tgkPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -564,8 +564,8 @@ export default function LoanReportTable({
                       </Td>
 
                       <Td className="w-[130px]" align="left">
-                        <div className="truncate tabular-nums" title={r.noHp}>
-                          {r.noHp}
+                        <div className="truncate tabular-nums" title={r.aoId}>
+                          {r.aoId}
                         </div>
                       </Td>
 
