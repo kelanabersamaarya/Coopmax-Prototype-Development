@@ -71,7 +71,7 @@ function FieldRow({
   hint,
   children,
 }: {
-  label: string;
+  label: React.ReactNode;
   hint?: string;
   children: React.ReactNode;
 }) {
@@ -219,17 +219,14 @@ const TT = {
     "Skema tagihan menentukan bagaimana nominal dan komponen tagihan dihitung setiap periode (misalnya pokok, bunga, biaya, dan tunggakan).",
   gracePeriod:
     "Grace period adalah periode awal pinjaman yang memberi keringanan pembayaran untuk sementara waktu sesuai skema yang dipilih.",
-
   tagihanSesuaiJadwalAngsuran:
     "Tagihan diterbitkan mengikuti jadwal angsuran yang ditentukan sebelumnya. Setiap periode, angsuran akan ditagihkan sesuai jadwal jatuh tempo (misalnya pokok + bunga + biaya).",
   jadwalFleksibelTagihanBerkala:
     "Tagihan diterbitkan rutin setiap periode (misalnya bulanan), namun jenis tagihan bisa disesuaikan (misalnya hanya melakukan penagihan bunga atau hanya pokok pinjaman).",
   tagihanDihitungDariSisaSaldoPokok:
     "Tagihan yang diterbitkan mencakup seluruh pokok, bunga dan denda yang masih harus dibayarkan.",
-
   gracePeriodBunga:
     "Grace period bunga adalah periode awal pinjaman dimana nasabah hanya membayar bunga tanpa membayar pokok pinjaman",
-
   recurringPenalty:
     "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi",
 } as const;
@@ -237,50 +234,37 @@ const TT = {
 export default function LoanProductCreate() {
   const navigate = useNavigate();
 
-  // --- Basic ---
   const [code, setCode] = React.useState("klp04.07");
   const [name, setName] = React.useState("Pinjaman Emas");
   const [rc, setRc] = React.useState(false);
-
   const [periodUnit, setPeriodUnit] = React.useState<PeriodUnit>("Bulan");
   const [minPeriod, setMinPeriod] = React.useState("12");
   const [maxPeriod, setMaxPeriod] = React.useState("12");
-
   const [billingScheme, setBillingScheme] =
     React.useState<BillingScheme>("Anuitas");
-
   const [interestCountsOnInterestDebt, setInterestCountsOnInterestDebt] =
     React.useState(false);
-
   const [interestYearly, setInterestYearly] = React.useState("24.00");
-
   const [roundingType, setRoundingType] =
     React.useState<RoundingType>("Pembulatan Keatas");
   const [roundingMultiple, setRoundingMultiple] = React.useState("100");
-
   const [nominalStep, setNominalStep] = React.useState("100");
-
   const [terms, setTerms] = React.useState("");
 
-  // --- Advanced ---
   const [accInterest, setAccInterest] = React.useState(false);
   const [ignorePrincipalDebt, setIgnorePrincipalDebt] = React.useState(false);
   const [ignoreInterestDebt, setIgnoreInterestDebt] = React.useState(false);
-
   const [minLoan, setMinLoan] = React.useState("1.000.000,00");
   const [maxLoan, setMaxLoan] = React.useState("100.000.000,00");
-
   const [specialEndDate, setSpecialEndDate] = React.useState(false);
-
+  const [aturCoaJenisBiaya, setAturCoaJenisBiaya] = React.useState(false);
   const [propisi, setPropisi] = React.useState("0,00");
   const [admin, setAdmin] = React.useState("0,00");
   const [insurance, setInsurance] = React.useState("0,00");
   const [mbankingActivation, setMbankingActivation] = React.useState("0,00");
-
   const [withoutCollateral, setWithoutCollateral] = React.useState(false);
   const [splitInterestRevenue, setSplitInterestRevenue] = React.useState(false);
 
-  // --- COA ---
   const [coaLoan, setCoaLoan] = React.useState<CoaOption>(
     "PINJAMAN YANG DIBERIKAN",
   );
@@ -295,12 +279,10 @@ export default function LoanProductCreate() {
   const [coaAdminRevenue, setCoaAdminRevenue] =
     React.useState<CoaOption>("PEN. ADMINISTRASI");
 
-  // --- Fee Kolektor (layout sesuai contoh) ---
   const [collectorFees, setCollectorFees] = React.useState<CollectorFeeRow[]>(
     [],
   );
 
-  // --- Installment ---
   const [useInstallmentTable, setUseInstallmentTable] = React.useState(true);
   const [installmentMode, setInstallmentMode] =
     React.useState<InstallmentMode>("Jadwal Tetap (Diterbitkan Penuh di Awal)");
@@ -339,10 +321,6 @@ export default function LoanProductCreate() {
     setDasarPerhitungan("Pilih Dasar Perhitungan");
   }, [hideDasarPerhitungan]);
 
-  // Saat mode berubah, recurring tetap boleh untuk % maupun Rp (sesuai permintaan).
-  // Jadi tidak ada reset dendaBerulang ketika mode Rp.
-
-  // === compact style (match halaman Ubah) ===
   const compactField =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]";
   const compactSelectTrigger =
@@ -415,35 +393,20 @@ export default function LoanProductCreate() {
 
             <div className="mt-5 grid gap-5">
               <FieldRow label="Kode">
-                <Input
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className={cn(compactField, "bg-slate-100")}
-                />
+                <Input value={code} onChange={(e) => setCode(e.target.value)} className={cn(compactField, "bg-slate-100")} />
               </FieldRow>
 
               <FieldRow label="Produk Pinjaman">
-                <Input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={compactField}
-                />
+                <Input value={name} onChange={(e) => setName(e.target.value)} className={compactField} />
               </FieldRow>
 
               <FieldRow label="RC">
-                <div className="flex items-center gap-3">
-                  <Switch checked={rc} onCheckedChange={setRc} />
-                </div>
+                <Switch checked={rc} onCheckedChange={setRc} />
               </FieldRow>
 
               <FieldRow label="Periode Pinjaman">
-                <Select
-                  value={periodUnit}
-                  onValueChange={(v) => setPeriodUnit(v as PeriodUnit)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue />
-                  </SelectTrigger>
+                <Select value={periodUnit} onValueChange={(v) => setPeriodUnit(v as PeriodUnit)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
                     <SelectItem value="Bulan">Bulan</SelectItem>
                     <SelectItem value="Hari">Hari</SelectItem>
@@ -452,35 +415,18 @@ export default function LoanProductCreate() {
               </FieldRow>
 
               <FieldRow label="Minimal Periode Pinjaman">
-                <Input
-                  value={minPeriod}
-                  onChange={(e) => setMinPeriod(e.target.value)}
-                  inputMode="numeric"
-                  className={compactField}
-                />
+                <Input value={minPeriod} onChange={(e) => setMinPeriod(e.target.value)} inputMode="numeric" className={compactField} />
               </FieldRow>
 
               <FieldRow label="Maksimal Periode Pinjaman">
-                <Input
-                  value={maxPeriod}
-                  onChange={(e) => setMaxPeriod(e.target.value)}
-                  inputMode="numeric"
-                  className={compactField}
-                />
+                <Input value={maxPeriod} onChange={(e) => setMaxPeriod(e.target.value)} inputMode="numeric" className={compactField} />
               </FieldRow>
 
               <FieldRow label="Metode Bunga Pinjaman">
-                <Select
-                  value={billingScheme}
-                  onValueChange={(v) => setBillingScheme(v as BillingScheme)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue />
-                  </SelectTrigger>
+                <Select value={billingScheme} onValueChange={(v) => setBillingScheme(v as BillingScheme)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
-                    <SelectItem value="Anuitas">
-                      Bunga Efektif (Anuitas)
-                    </SelectItem>
+                    <SelectItem value="Anuitas">Bunga Efektif (Anuitas)</SelectItem>
                     <SelectItem value="Flat">Bunga Flat</SelectItem>
                     <SelectItem value="Menurun">Menurun</SelectItem>
                   </SelectContent>
@@ -488,214 +434,114 @@ export default function LoanProductCreate() {
               </FieldRow>
 
               <FieldRow label="Bunga Pinjaman Memperhitungkan Hutang Bunga">
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={interestCountsOnInterestDebt}
-                    onCheckedChange={setInterestCountsOnInterestDebt}
-                  />
-                </div>
+                <Switch checked={interestCountsOnInterestDebt} onCheckedChange={setInterestCountsOnInterestDebt} />
               </FieldRow>
 
               <FieldRow label="Bunga Per Tahun (%)">
-                <Input
-                  value={interestYearly}
-                  onChange={(e) => setInterestYearly(e.target.value)}
-                  inputMode="decimal"
-                  className={compactField}
-                />
+                <Input value={interestYearly} onChange={(e) => setInterestYearly(e.target.value)} inputMode="decimal" className={compactField} />
               </FieldRow>
 
               <FieldRow label="Jenis Pembulatan">
-                <Select
-                  value={roundingType}
-                  onValueChange={(v) => setRoundingType(v as RoundingType)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue />
-                  </SelectTrigger>
+                <Select value={roundingType} onValueChange={(v) => setRoundingType(v as RoundingType)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
-                    <SelectItem value="Pembulatan Keatas">
-                      Pembulatan Keatas
-                    </SelectItem>
-                    <SelectItem value="Pembulatan Kebawah">
-                      Pembulatan Kebawah
-                    </SelectItem>
-                    <SelectItem value="Tanpa Pembulatan">
-                      Tanpa Pembulatan
-                    </SelectItem>
+                    <SelectItem value="Pembulatan Keatas">Pembulatan Keatas</SelectItem>
+                    <SelectItem value="Pembulatan Kebawah">Pembulatan Kebawah</SelectItem>
+                    <SelectItem value="Tanpa Pembulatan">Tanpa Pembulatan</SelectItem>
                   </SelectContent>
                 </Select>
               </FieldRow>
 
               <FieldRow label="Kelipatan Pembulatan">
-                <Input
-                  value={roundingMultiple}
-                  onChange={(e) => setRoundingMultiple(e.target.value)}
-                  inputMode="numeric"
-                  className={compactField}
-                />
+                <Input value={roundingMultiple} onChange={(e) => setRoundingMultiple(e.target.value)} inputMode="numeric" className={compactField} />
               </FieldRow>
 
               <FieldRow label="Nominal Kelipatan">
-                <Input
-                  value={nominalStep}
-                  onChange={(e) => setNominalStep(e.target.value)}
-                  inputMode="numeric"
-                  className={compactField}
-                />
+                <Input value={nominalStep} onChange={(e) => setNominalStep(e.target.value)} inputMode="numeric" className={compactField} />
               </FieldRow>
 
               <FieldRow label="Ketentuan Produk Pinjaman">
-                <Textarea
-                  value={terms}
-                  onChange={(e) => setTerms(e.target.value)}
-                  className="min-h-[96px] rounded-[5px] border-slate-200 bg-white text-[12.5px]"
-                />
+                <Textarea value={terms} onChange={(e) => setTerms(e.target.value)} className="min-h-[96px] rounded-[5px] border-slate-200 bg-white text-[12.5px]" />
               </FieldRow>
             </div>
 
             <div className="mt-6 grid gap-5">
               <FieldRow label="Akumulasi Bunga Pinjaman">
-                <div className="flex items-center gap-3">
-                  <Switch checked={accInterest} onCheckedChange={setAccInterest} />
-                </div>
+                <Switch checked={accInterest} onCheckedChange={setAccInterest} />
               </FieldRow>
 
               <FieldRow label="Tidak Menghitung Hutang Pokok">
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={ignorePrincipalDebt}
-                    onCheckedChange={setIgnorePrincipalDebt}
-                  />
-                </div>
+                <Switch checked={ignorePrincipalDebt} onCheckedChange={setIgnorePrincipalDebt} />
               </FieldRow>
 
               <FieldRow label="Tidak Menghitung Hutang Bunga">
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={ignoreInterestDebt}
-                    onCheckedChange={setIgnoreInterestDebt}
-                  />
-                </div>
+                <Switch checked={ignoreInterestDebt} onCheckedChange={setIgnoreInterestDebt} />
               </FieldRow>
 
               <FieldRow label="Minimal Pinjaman">
-                <Input
-                  value={minLoan}
-                  onChange={(e) => setMinLoan(e.target.value)}
-                  className={compactField}
-                />
+                <Input value={minLoan} onChange={(e) => setMinLoan(e.target.value)} className={compactField} />
               </FieldRow>
 
               <FieldRow label="Maksimal Pinjaman">
-                <Input
-                  value={maxLoan}
-                  onChange={(e) => setMaxLoan(e.target.value)}
-                  className={compactField}
-                />
+                <Input value={maxLoan} onChange={(e) => setMaxLoan(e.target.value)} className={compactField} />
               </FieldRow>
 
               <FieldRow label="Menggunakan Tanggal Khusus untuk Akhir Periode">
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={specialEndDate}
-                    onCheckedChange={setSpecialEndDate}
-                  />
-                </div>
+                <Switch checked={specialEndDate} onCheckedChange={setSpecialEndDate} />
+              </FieldRow>
+
+              <FieldRow label="Atur COA Jenis Biaya pada Produk Pinjaman">
+                <Switch checked={aturCoaJenisBiaya} onCheckedChange={setAturCoaJenisBiaya} />
               </FieldRow>
 
               <FieldRow label="Propisi">
-                <Input
-                  value={propisi}
-                  onChange={(e) => setPropisi(e.target.value)}
-                  className={compactField}
-                  inputMode="decimal"
-                />
+                <Input value={propisi} onChange={(e) => setPropisi(e.target.value)} className={compactField} inputMode="decimal" />
               </FieldRow>
 
               <FieldRow label="Administrasi">
-                <Input
-                  value={admin}
-                  onChange={(e) => setAdmin(e.target.value)}
-                  className={compactField}
-                  inputMode="decimal"
-                />
+                <Input value={admin} onChange={(e) => setAdmin(e.target.value)} className={compactField} inputMode="decimal" />
               </FieldRow>
 
               <FieldRow label="Biaya Asuransi">
-                <Input
-                  value={insurance}
-                  onChange={(e) => setInsurance(e.target.value)}
-                  className={compactField}
-                  inputMode="decimal"
-                />
+                <Input value={insurance} onChange={(e) => setInsurance(e.target.value)} className={compactField} inputMode="decimal" />
               </FieldRow>
 
               <FieldRow label="Biaya Aktivasi M-Banking">
-                <Input
-                  value={mbankingActivation}
-                  onChange={(e) => setMbankingActivation(e.target.value)}
-                  className={compactField}
-                  inputMode="decimal"
-                />
+                <Input value={mbankingActivation} onChange={(e) => setMbankingActivation(e.target.value)} className={compactField} inputMode="decimal" />
               </FieldRow>
 
               <FieldRow label="Tanpa Agunan">
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={withoutCollateral}
-                    onCheckedChange={setWithoutCollateral}
-                  />
-                </div>
+                <Switch checked={withoutCollateral} onCheckedChange={setWithoutCollateral} />
               </FieldRow>
 
               <FieldRow
                 label={
                   <span className="inline-flex items-center">
                     Split Pendapatan Bunga <InfoBadge />
-                  </span> as any
+                  </span>
                 }
                 hint="Prototype UI."
               >
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={splitInterestRevenue}
-                    onCheckedChange={setSplitInterestRevenue}
-                  />
-                </div>
+                <Switch checked={splitInterestRevenue} onCheckedChange={setSplitInterestRevenue} />
               </FieldRow>
             </div>
 
             <div className="mt-6 grid gap-5">
               <FieldRow label="KP Pinjaman">
-                <Select
-                  value={coaLoan}
-                  onValueChange={(v) => setCoaLoan(v as CoaOption)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue placeholder="Pilih CoA Pinjaman" />
-                  </SelectTrigger>
+                <Select value={coaLoan} onValueChange={(v) => setCoaLoan(v as CoaOption)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue placeholder="Pilih CoA Pinjaman" /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
-                    <SelectItem value="PINJAMAN YANG DIBERIKAN">
-                      PINJAMAN YANG DIBERIKAN
-                    </SelectItem>
+                    <SelectItem value="PINJAMAN YANG DIBERIKAN">PINJAMAN YANG DIBERIKAN</SelectItem>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
                   </SelectContent>
                 </Select>
               </FieldRow>
 
               <FieldRow label="KP Pendapatan Bunga">
-                <Select
-                  value={coaInterestRevenue}
-                  onValueChange={(v) => setCoaInterestRevenue(v as CoaOption)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue placeholder="Pilih CoA Pendapatan Bunga" />
-                  </SelectTrigger>
+                <Select value={coaInterestRevenue} onValueChange={(v) => setCoaInterestRevenue(v as CoaOption)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue placeholder="Pilih CoA Pendapatan Bunga" /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
-                    <SelectItem value="PEND. BUNGA PINJAMAN">
-                      PEND. BUNGA PINJAMAN
-                    </SelectItem>
+                    <SelectItem value="PEND. BUNGA PINJAMAN">PEND. BUNGA PINJAMAN</SelectItem>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
                   </SelectContent>
                 </Select>
@@ -705,37 +551,23 @@ export default function LoanProductCreate() {
                 label={
                   <span className="inline-flex items-center">
                     KP Pembagi Pendapatan Bunga <InfoBadge />
-                  </span> as any
+                  </span>
                 }
                 hint="Diisi jika ingin pembukuan pendapatan Bunga dibagi ke KP ini."
               >
-                <Select
-                  value={coaSplitInterestRevenue}
-                  onValueChange={(v) => setCoaSplitInterestRevenue(v as CoaOption)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue placeholder="Pilih COA Pendapatan Bunga" />
-                  </SelectTrigger>
+                <Select value={coaSplitInterestRevenue} onValueChange={(v) => setCoaSplitInterestRevenue(v as CoaOption)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue placeholder="Pilih COA Pendapatan Bunga" /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
-                    <SelectItem value="PEND. BUNGA PINJAMAN">
-                      PEND. BUNGA PINJAMAN
-                    </SelectItem>
-                    <SelectItem value="PENDAPATAN LAIN - LAIN">
-                      PENDAPATAN LAIN - LAIN
-                    </SelectItem>
+                    <SelectItem value="PEND. BUNGA PINJAMAN">PEND. BUNGA PINJAMAN</SelectItem>
+                    <SelectItem value="PENDAPATAN LAIN - LAIN">PENDAPATAN LAIN - LAIN</SelectItem>
                   </SelectContent>
                 </Select>
               </FieldRow>
 
               <FieldRow label="KP Pendapatan Denda">
-                <Select
-                  value={coaPenaltyRevenue}
-                  onValueChange={(v) => setCoaPenaltyRevenue(v as CoaOption)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue placeholder="Pilih CoA Biaya Denda" />
-                  </SelectTrigger>
+                <Select value={coaPenaltyRevenue} onValueChange={(v) => setCoaPenaltyRevenue(v as CoaOption)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue placeholder="Pilih CoA Biaya Denda" /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
                     <SelectItem value="PEND. DENDA">PEND. DENDA</SelectItem>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
@@ -744,34 +576,20 @@ export default function LoanProductCreate() {
               </FieldRow>
 
               <FieldRow label="KP Pendapatan Pembulatan">
-                <Select
-                  value={coaRoundingRevenue}
-                  onValueChange={(v) => setCoaRoundingRevenue(v as CoaOption)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue placeholder="Pilih CoA Pembulatan" />
-                  </SelectTrigger>
+                <Select value={coaRoundingRevenue} onValueChange={(v) => setCoaRoundingRevenue(v as CoaOption)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue placeholder="Pilih CoA Pembulatan" /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
-                    <SelectItem value="PENDAPATAN LAIN - LAIN">
-                      PENDAPATAN LAIN - LAIN
-                    </SelectItem>
+                    <SelectItem value="PENDAPATAN LAIN - LAIN">PENDAPATAN LAIN - LAIN</SelectItem>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
                   </SelectContent>
                 </Select>
               </FieldRow>
 
               <FieldRow label="KP Pendapatan Admin">
-                <Select
-                  value={coaAdminRevenue}
-                  onValueChange={(v) => setCoaAdminRevenue(v as CoaOption)}
-                >
-                  <SelectTrigger className={compactSelectTrigger}>
-                    <SelectValue placeholder="Pilih CoA Biaya Admin" />
-                  </SelectTrigger>
+                <Select value={coaAdminRevenue} onValueChange={(v) => setCoaAdminRevenue(v as CoaOption)}>
+                  <SelectTrigger className={compactSelectTrigger}><SelectValue placeholder="Pilih CoA Biaya Admin" /></SelectTrigger>
                   <SelectContent className={compactSelectContent}>
-                    <SelectItem value="PEN. ADMINISTRASI">
-                      PEN. ADMINISTRASI
-                    </SelectItem>
+                    <SelectItem value="PEN. ADMINISTRASI">PEN. ADMINISTRASI</SelectItem>
                     <SelectItem value="PILIH">Pilih…</SelectItem>
                   </SelectContent>
                 </Select>
@@ -785,22 +603,7 @@ export default function LoanProductCreate() {
                 Konfigurasi Fee Kolektor
               </div>
               <Button
-                onClick={() => {
-                  setCollectorFees((prev) => [
-                    ...prev,
-                    {
-                      id: String(Date.now()),
-                      collectorKind: "Kolektor 1",
-                      feeMethod: "Plafon Pinjaman",
-                      minLoan: "1.000.000,00",
-                      maxLoan: "50.000.000,00",
-                      feePercent: "12",
-                    },
-                  ]);
-                  toast("Fee kolektor ditambahkan", {
-                    description: "Silakan sesuaikan jenis, metode, dan nominalnya.",
-                  });
-                }}
+                onClick={addCollectorFee}
                 className="h-10 rounded-xl bg-[#2563EB] px-8 text-white hover:bg-[#1D4ED8]"
               >
                 <Plus className="mr-2 h-4 w-4" />
@@ -841,15 +644,10 @@ export default function LoanProductCreate() {
                   <span className="inline-flex items-center">
                     Tagihan Angsuran Menggunakan Tabel Angsuran
                     <FieldTooltip content={TT.tagihanMengikutiTabelAngsuran} />
-                  </span> as any
+                  </span>
                 }
               >
-                <div className="flex items-center gap-3">
-                  <Switch
-                    checked={useInstallmentTable}
-                    onCheckedChange={setUseInstallmentTable}
-                  />
-                </div>
+                <Switch checked={useInstallmentTable} onCheckedChange={setUseInstallmentTable} />
               </FieldRow>
 
               {useInstallmentTable ? (
@@ -926,19 +724,12 @@ export default function LoanProductCreate() {
 
                     {!hideDasarPerhitungan ? (
                       <FieldRow label="Dasar Perhitungan">
-                        <Select
-                          value={dasarPerhitungan}
-                          onValueChange={(v) =>
-                            setDasarPerhitungan(v as PenaltyBase)
-                          }
-                        >
+                        <Select value={dasarPerhitungan} onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}>
                           <SelectTrigger className={compactSelectTrigger}>
                             <SelectValue placeholder="Pilih Dasar Perhitungan" />
                           </SelectTrigger>
                           <SelectContent className={compactSelectContent}>
-                            <SelectItem value="Pilih Dasar Perhitungan">
-                              Pilih Dasar Perhitungan
-                            </SelectItem>
+                            <SelectItem value="Pilih Dasar Perhitungan">Pilih Dasar Perhitungan</SelectItem>
                             <SelectItem value="Pokok">Pokok</SelectItem>
                             <SelectItem value="Bunga">Bunga</SelectItem>
                             <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
@@ -959,7 +750,6 @@ export default function LoanProductCreate() {
                       />
                     </FieldRow>
 
-                    {/* ✅ SEKARANG MUNCUL UNTUK % MAUPUN RP */}
                     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
                       <div className="pt-1 text-sm font-normal text-slate-900">
                         <span className="inline-flex items-center gap-1.5">
@@ -967,12 +757,7 @@ export default function LoanProductCreate() {
                           <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
                         </span>
                       </div>
-                      <div className="flex items-center">
-                        <Switch
-                          checked={dendaBerulang}
-                          onCheckedChange={setDendaBerulang}
-                        />
-                      </div>
+                      <Switch checked={dendaBerulang} onCheckedChange={setDendaBerulang} />
                     </div>
                   </div>
 
@@ -990,12 +775,7 @@ export default function LoanProductCreate() {
                       <div className="pt-1 text-sm font-normal text-slate-900">
                         Grace Period
                       </div>
-                      <div className="flex items-center gap-3">
-                        <Switch
-                          checked={gracePeriodEnabled}
-                          onCheckedChange={setGracePeriodEnabled}
-                        />
-                      </div>
+                      <Switch checked={gracePeriodEnabled} onCheckedChange={setGracePeriodEnabled} />
                     </div>
 
                     {gracePeriodEnabled ? (
@@ -1010,10 +790,7 @@ export default function LoanProductCreate() {
                             className="flex items-center gap-6"
                           >
                             <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
-                              <RadioGroupItem
-                                value="Hanya Bayar Bunga"
-                                id="grace-hanya-bayar-bunga"
-                              />
+                              <RadioGroupItem value="Hanya Bayar Bunga" id="grace-hanya-bayar-bunga" />
                               <span className="inline-flex items-center">
                                 Hanya Bayar Bunga
                                 <FieldTooltip content={TT.gracePeriodBunga} />
@@ -1022,31 +799,20 @@ export default function LoanProductCreate() {
                           </RadioGroup>
                         </div>
 
-                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                          <div className="pt-1 text-sm font-normal text-slate-900">
-                            Satuan Grace Period
-                          </div>
-                          <Select
-                            value={graceUnit}
-                            onValueChange={(v) => setGraceUnit(v as GraceUnit)}
-                          >
+                        <FieldRow label="Satuan Grace Period">
+                          <Select value={graceUnit} onValueChange={(v) => setGraceUnit(v as GraceUnit)}>
                             <SelectTrigger className={compactSelectTrigger}>
                               <SelectValue placeholder="Pilih Satuan Grace Period" />
                             </SelectTrigger>
                             <SelectContent className={compactSelectContent}>
-                              <SelectItem value="Pilih Satuan Grace Period">
-                                Pilih Satuan Grace Period
-                              </SelectItem>
+                              <SelectItem value="Pilih Satuan Grace Period">Pilih Satuan Grace Period</SelectItem>
                               <SelectItem value="Hari">Hari</SelectItem>
                               <SelectItem value="Bulan">Bulan</SelectItem>
                             </SelectContent>
                           </Select>
-                        </div>
+                        </FieldRow>
 
-                        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-                          <div className="pt-1 text-sm font-normal text-slate-900">
-                            {graceDurationLabel}
-                          </div>
+                        <FieldRow label={graceDurationLabel}>
                           <Input
                             value={graceDuration}
                             onChange={(e) => setGraceDuration(e.target.value)}
@@ -1054,7 +820,7 @@ export default function LoanProductCreate() {
                             placeholder={graceDurationPlaceholder}
                             inputMode="numeric"
                           />
-                        </div>
+                        </FieldRow>
                       </>
                     ) : null}
                   </div>
@@ -1071,6 +837,7 @@ export default function LoanProductCreate() {
               <Info />
               <Save />
               <X />
+              {aturCoaJenisBiaya ? "coa-biaya-active" : "coa-biaya-inactive"}
             </div>
           </Card>
         </div>
