@@ -49,13 +49,25 @@ function ActionPill({
 function FieldRow({
   label,
   children,
+  align = "center",
 }: {
   label: string;
   children: React.ReactNode;
+  align?: "center" | "top";
 }) {
   return (
-    <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-      <div className="text-[13px] font-normal tracking-tight text-black">
+    <div
+      className={cn(
+        "grid gap-1 md:grid-cols-[220px_minmax(0,1fr)]",
+        align === "top" ? "md:items-start" : "md:items-center",
+      )}
+    >
+      <div
+        className={cn(
+          "text-[13px] font-normal tracking-tight text-black",
+          align === "top" ? "pt-[6px]" : "",
+        )}
+      >
         {label}
       </div>
       <div className="min-w-0">{children}</div>
@@ -490,7 +502,7 @@ export default function LaporanPinjaman() {
                 </FieldWrap>
               </FieldRow>
 
-              <FieldRow label="Sisa Pinjaman">
+              <FieldRow label="Sisa Pinjaman" align="top">
                 <FieldWrap>
                   <div className="grid gap-2 md:grid-cols-2">
                     <ClearableFilterInput
@@ -507,7 +519,7 @@ export default function LaporanPinjaman() {
                     />
                   </div>
 
-                  <div className="mt-3 flex justify-end">
+                  <div className="mt-4 flex justify-end">
                     <button
                       type="button"
                       onClick={() => {
