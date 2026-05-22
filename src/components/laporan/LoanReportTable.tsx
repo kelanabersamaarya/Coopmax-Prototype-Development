@@ -45,7 +45,6 @@ function Th({ children, className, ...props }: ThProps) {
         "border-b border-slate-300/80",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
         "text-left",
-        // memastikan header rowSpan (atas) tidak punya garis horizontal di bawahnya
         props.rowSpan && Number(props.rowSpan) > 1 ? "border-b-0" : "",
         className,
       )}
@@ -90,6 +89,20 @@ function normalizeStatus(s: string) {
   const v = (s ?? "").toLowerCase();
   if (v.includes("non")) return "Non Anggota";
   return "Anggota";
+}
+
+function parseIdNumber(s: string): number {
+  if (!s) return 0;
+  const cleaned = s.replace(/\./g, "").replace(/\s/g, "").replace(/,/g, ".");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdNumber(n: number): string {
+  return new Intl.NumberFormat("id-ID", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(n);
 }
 
 function PaginationBar({
@@ -291,8 +304,41 @@ export default function LoanReportTable({
     return rows.slice(start, start + pageSize);
   }, [page, pageSize, rows]);
 
+  const totalsPage = React.useMemo(() => {
+    const sum = (pick: (r: Row) => string) => paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
+    return {
+      jumlahPinjaman: sum((r) => r.jumlahPinjaman),
+      tgkPokok: sum((r) => r.tgkPokok),
+      tgkBunga: sum((r) => r.tgkBunga),
+      sisaPinjaman: sum((r) => r.sisaPinjaman),
+      tunggakanNilai: sum((r) => r.tunggakanNilai),
+      tunggakan1_30: sum((r) => r.tunggakan1_30),
+      tunggakan31_60: sum((r) => r.tunggakan31_60),
+      tunggakan61_90: sum((r) => r.tunggakan61_90),
+      tunggakan90p: sum((r) => r.tunggakan90p),
+    };
+  }, [paged]);
+
+  const totalsAll = React.useMemo(() => {
+    const sum = (pick: (r: Row) => string) => rows.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
+    return {
+      jumlahPinjaman: sum((r) => r.jumlahPinjaman),
+      tgkPokok: sum((r) => r.tgkPokok),
+      tgkBunga: sum((r) => r.tgkBunga),
+      sisaPinjaman: sum((r) => r.sisaPinjaman),
+      tunggakanNilai: sum((r) => r.tunggakanNilai),
+      tunggakan1_30: sum((r) => r.tunggakan1_30),
+      tunggakan31_60: sum((r) => r.tunggakan31_60),
+      tunggakan61_90: sum((r) => r.tunggakan61_90),
+      tunggakan90p: sum((r) => r.tunggakan90p),
+    };
+  }, [rows]);
+
   const showingStart = rows.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rows.length, page * pageSize);
+
+  const COLS = 25;
+  const LABEL_SPAN = 12; // sampai sebelum kolom JUMLAH PINJAMAN
 
   return (
     <div className={cn("mt-6", className)}>
@@ -404,7 +450,7 @@ export default function LoanReportTable({
               <tbody className="bg-white">
                 {paged.length === 0 ? (
                   <tr>
-                    <td colSpan={25} className="px-4 py-10 text-center text-sm text-slate-600">
+                    <td colSpan={COLS} className="px-4 py-10 text-center text-sm text-slate-600">
                       Tidak ada data.
                     </td>
                   </tr>
@@ -516,6 +562,100 @@ export default function LoanReportTable({
                     </tr>
                   ))
                 )}
+
+                {/* TOTALS */}
+                {rows.length ? (
+                  <>
+                    <tr className="bg-white">
+                      <td
+                        colSpan={LABEL_SPAN}
+                        className="px-3 py-3 text-[13px] font-semibold text-slate-900 border-t border-slate-300/80"
+                      >
+                        Total per Halaman
+                      </td>
+
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.jumlahPinjaman)}
+                      </td>
+
+                      {/* Angsuran (2 kolom) */}
+                      <td className="px-3 py-3 border-t border-slate-300/80" />
+                      <td className="px-3 py-3 border-t border-slate-300/80" />
+
+                      {/* Tunggakan (6 kolom) */}
+                      <td className="px-3 py-3 border-t border-slate-300/80" />
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.tunggakanNilai)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.tunggakan1_30)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.tunggakan31_60)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.tunggakan61_90)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.tunggakan90p)}
+                      </td>
+
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.tgkPokok)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.tgkBunga)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                        {formatIdNumber(totalsPage.sisaPinjaman)}
+                      </td>
+                      <td className="px-3 py-3 border-t border-slate-300/80" />
+                    </tr>
+
+                    <tr className="bg-white">
+                      <td colSpan={LABEL_SPAN} className="px-3 py-3 text-[13px] font-semibold text-slate-900">
+                        Total
+                      </td>
+
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.jumlahPinjaman)}
+                      </td>
+
+                      {/* Angsuran (2 kolom) */}
+                      <td className="px-3 py-3" />
+                      <td className="px-3 py-3" />
+
+                      {/* Tunggakan (6 kolom) */}
+                      <td className="px-3 py-3" />
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.tunggakanNilai)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.tunggakan1_30)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.tunggakan31_60)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.tunggakan61_90)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.tunggakan90p)}
+                      </td>
+
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.tgkPokok)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.tgkBunga)}
+                      </td>
+                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                        {formatIdNumber(totalsAll.sisaPinjaman)}
+                      </td>
+                      <td className="px-3 py-3" />
+                    </tr>
+                  </>
+                ) : null}
               </tbody>
             </table>
           </div>
