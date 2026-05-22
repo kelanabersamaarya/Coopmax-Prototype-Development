@@ -1,0 +1,152 @@
+"use client";
+
+import * as React from "react";
+import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import FieldTooltip from "@/components/loans/FieldTooltip";
+import SearchableFeeCoaSelect from "@/components/loans/SearchableFeeCoaSelect";
+
+export type MainCoaOption =
+  | "PINJAMAN YANG DIBERIKAN"
+  | "PEND. BUNGA PINJAMAN"
+  | "PEND. DENDA"
+  | "PENDAPATAN LAIN - LAIN"
+  | "PEN. ADMINISTRASI"
+  | "PILIH";
+
+type FieldConfig = {
+  key:
+    | "coaLoan"
+    | "coaInterestRevenue"
+    | "coaSplitInterestRevenue"
+    | "coaPenaltyRevenue"
+    | "coaRoundingRevenue"
+    | "coaAdminRevenue";
+  label: React.ReactNode;
+  hint?: string;
+  placeholder: string;
+  options: Exclude<MainCoaOption, "PILIH">[];
+};
+
+const fields: FieldConfig[] = [
+  {
+    key: "coaLoan",
+    label: "KP Pinjaman",
+    placeholder: "Pilih CoA Pinjaman",
+    options: ["PINJAMAN YANG DIBERIKAN", "PENDAPATAN LAIN - LAIN"],
+  },
+  {
+    key: "coaInterestRevenue",
+    label: "KP Pendapatan Bunga",
+    placeholder: "Pilih CoA Pendapatan Bunga",
+    options: ["PEND. BUNGA PINJAMAN", "PENDAPATAN LAIN - LAIN"],
+  },
+  {
+    key: "coaSplitInterestRevenue",
+    label: (
+      <span className="inline-flex items-center">
+        KP Pembagi Pendapatan Bunga
+        <FieldTooltip content="Diisi jika ingin pembukuan pendapatan Bunga dibagi ke KP ini." />
+      </span>
+    ),
+    hint: "Diisi jika ingin pembukuan pendapatan Bunga dibagi ke KP ini.",
+    placeholder: "Pilih COA Pendapatan Bunga",
+    options: ["PEND. BUNGA PINJAMAN", "PENDAPATAN LAIN - LAIN"],
+  },
+  {
+    key: "coaPenaltyRevenue",
+    label: "KP Pendapatan Denda",
+    placeholder: "Pilih CoA Biaya Denda",
+    options: ["PEND. DENDA", "PENDAPATAN LAIN - LAIN"],
+  },
+  {
+    key: "coaRoundingRevenue",
+    label: "KP Pendapatan Pembulatan",
+    placeholder: "Pilih CoA Pembulatan",
+    options: ["PENDAPATAN LAIN - LAIN", "PEND. DENDA"],
+  },
+  {
+    key: "coaAdminRevenue",
+    label: "KP Pendapatan Admin",
+    placeholder: "Pilih CoA Biaya Admin",
+    options: ["PEN. ADMINISTRASI", "PENDAPATAN LAIN - LAIN"],
+  },
+];
+
+type Values = Record<FieldConfig["key"], MainCoaOption>;
+
+export default function LoanProductAccountingCoaFields({
+  values,
+  onChange,
+  selectTriggerClassName,
+  selectContentClassName,
+  className,
+}: {
+  values: Values;
+  onChange: (key: FieldConfig["key"], value: MainCoaOption) => void;
+  selectTriggerClassName?: string;
+  selectContentClassName?: string;
+  className?: string;
+}) {
+  return (
+    <div className={cn("grid gap-5", className)}>
+      {fields.map((field) => {
+        const rawValue = values[field.key];
+        const selectedValue = rawValue === "PILIH" ? undefined : rawValue;
+        const hasSelected = !!selectedValue;
+
+        return (
+          <div
+            key={field.key}
+            className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start"
+          >
+            <div className="pt-1">
+              <div className="text-sm font-normal text-slate-900">
+                {field.label}
+              </div>
+              {field.hint ? (
+                <div className="mt-1 text-xs text-slate-500">{field.hint}</div>
+              ) : null}
+            </div>
+
+            <div className="relative min-w-0">
+              {hasSelected ? (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onChange(field.key, "PILIH");
+                  }}
+                  className={cn(
+                    "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
+                    "rounded-[5px] text-red-600 transition hover:bg-red-50",
+                    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                  aria-label={`Hapus ${field.placeholder}`}
+                  title="Hapus pilihan"
+                >
+                  <X className="h-4.5 w-4.5" strokeWidth={3} />
+                </button>
+              ) : null}
+
+              <SearchableFeeCoaSelect
+                value={selectedValue}
+                placeholder={field.placeholder}
+                options={field.options}
+                onChange={(value) =>
+                  onChange(field.key, value as MainCoaOption)
+                }
+                triggerClassName={cn(
+                  hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
+                  selectTriggerClassName,
+                )}
+                contentClassName={selectContentClassName}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
