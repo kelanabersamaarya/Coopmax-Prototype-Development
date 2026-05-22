@@ -23,6 +23,7 @@ import PenaltyRateField, {
 } from "@/components/loans/PenaltyRateField";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
+import LoanProductFeeCoaFields from "@/components/loans/LoanProductFeeCoaFields";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -519,6 +520,13 @@ export default function LoanProductEdit() {
               <FieldRow label="Atur COA Jenis Biaya pada Produk Pinjaman">
                 <Switch checked={aturCoaJenisBiaya} onCheckedChange={setAturCoaJenisBiaya} />
               </FieldRow>
+
+              {aturCoaJenisBiaya ? (
+                <LoanProductFeeCoaFields
+                  selectTriggerClassName={UI.selectTrigger}
+                  selectContentClassName="rounded-[10px] border-slate-200"
+                />
+              ) : null}
 
               <FieldRow label="Propisi">
                 <AmountModeInput

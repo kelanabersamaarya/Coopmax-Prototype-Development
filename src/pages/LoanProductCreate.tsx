@@ -24,6 +24,7 @@ import PenaltyRateField, {
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import { cn } from "@/lib/utils";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
+import LoanProductFeeCoaFields from "@/components/loans/LoanProductFeeCoaFields";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -493,6 +494,13 @@ export default function LoanProductCreate() {
               <FieldRow label="Atur COA Jenis Biaya pada Produk Pinjaman">
                 <Switch checked={aturCoaJenisBiaya} onCheckedChange={setAturCoaJenisBiaya} />
               </FieldRow>
+
+              {aturCoaJenisBiaya ? (
+                <LoanProductFeeCoaFields
+                  selectTriggerClassName={compactSelectTrigger}
+                  selectContentClassName={compactSelectContent}
+                />
+              ) : null}
 
               <FieldRow label="Propisi">
                 <Input value={propisi} onChange={(e) => setPropisi(e.target.value)} className={compactField} inputMode="decimal" />
