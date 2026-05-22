@@ -319,7 +319,7 @@ export default function LoanReportTable({
       paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
-      tgkPokok: sum((r) => r.tgkPokok),
+      tgkPokok: sum((r) => r.tgPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -482,8 +482,8 @@ export default function LoanReportTable({
                         <span className="tabular-nums">{r.no}</span>
                       </Td>
 
-                      <Td className="w-[118px]" align="left">
-                        <div className="truncate font-semibold" title={r.noRekening}>
+                      <Td className="w-[118px] font-normal" align="left">
+                        <div className="truncate" title={r.noRekening}>
                           {r.noRekening}
                         </div>
                       </Td>
