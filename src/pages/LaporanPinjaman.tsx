@@ -66,6 +66,31 @@ function FieldWrap({ children }: { children: React.ReactNode }) {
   return <div className="w-full md:w-[440px] -mt-0.5">{children}</div>;
 }
 
+function DateClearButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
+      className={cn(
+        "absolute right-0 top-0",
+        "h-[30px] w-[38px]",
+        "rounded-r-[5px] rounded-l-none",
+        "bg-[#77839A] text-white",
+        "ring-1 ring-[#77839A]/20 transition hover:bg-[#6b768c]",
+        "text-[18px] font-extrabold leading-none",
+      )}
+      aria-label="Clear"
+      title="Clear"
+    >
+      ×
+    </button>
+  );
+}
+
 function DateRangeField({
   startValue,
   endValue,
@@ -82,32 +107,7 @@ function DateRangeField({
   endPlaceholder: string;
 }) {
   const inputCls =
-    "h-[30px] rounded-[6px] border-slate-200 bg-white text-[12.5px] font-normal text-slate-900 shadow-sm placeholder:text-[#64748B] focus-visible:ring-0 focus-visible:ring-offset-0";
-
-  function ClearBtn({ onClick }: { onClick: () => void }) {
-    return (
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onClick();
-        }}
-        className={cn(
-          "absolute right-0 top-0",
-          "h-[30px] w-[36px]",
-          "rounded-r-[6px] rounded-l-none",
-          "bg-slate-600 text-white",
-          "ring-1 ring-slate-600/20 transition hover:bg-slate-700",
-          "text-[16px] font-semibold leading-none",
-        )}
-        aria-label="Clear"
-        title="Clear"
-      >
-        ×
-      </button>
-    );
-  }
+    "h-[30px] rounded-[5px] border-slate-200 bg-white pr-11 text-[12.5px] font-normal text-slate-900 shadow-sm placeholder:text-[#64748B] focus-visible:ring-0 focus-visible:ring-offset-0";
 
   return (
     <div className="grid gap-2 md:grid-cols-2">
@@ -116,9 +116,9 @@ function DateRangeField({
           value={startValue}
           onChange={(e) => onStartChange(e.target.value)}
           placeholder={startPlaceholder}
-          className={cn(inputCls, startValue ? "pr-10" : "")}
+          className={inputCls}
         />
-        {startValue ? <ClearBtn onClick={() => onStartChange("")} /> : null}
+        <DateClearButton onClick={() => onStartChange("")} />
       </div>
 
       <div className="relative">
@@ -126,9 +126,9 @@ function DateRangeField({
           value={endValue}
           onChange={(e) => onEndChange(e.target.value)}
           placeholder={endPlaceholder}
-          className={cn(inputCls, endValue ? "pr-10" : "")}
+          className={inputCls}
         />
-        {endValue ? <ClearBtn onClick={() => onEndChange("")} /> : null}
+        <DateClearButton onClick={() => onEndChange("")} />
       </div>
     </div>
   );
@@ -230,6 +230,13 @@ export default function LaporanPinjaman() {
 
   const inputCls = cn(
     "h-[30px] w-full rounded-[6px] border border-slate-200 bg-white px-3",
+    "text-[12.5px] font-normal text-slate-900 shadow-sm",
+    "placeholder:text-[#64748B]",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const dateInputCls = cn(
+    "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 pr-11",
     "text-[12.5px] font-normal text-slate-900 shadow-sm",
     "placeholder:text-[#64748B]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -504,26 +511,9 @@ export default function LaporanPinjaman() {
                     value={tanggalSaldo}
                     onChange={(e) => setTanggalSaldo(e.target.value)}
                     placeholder="Masukkan tanggal saldo.."
-                    className={cn(inputCls, tanggalSaldo ? "pr-10" : "")}
+                    className={dateInputCls}
                   />
-                  {tanggalSaldo ? (
-                    <button
-                      type="button"
-                      onClick={() => setTanggalSaldo("")}
-                      className={cn(
-                        "absolute right-0 top-0",
-                        "h-[30px] w-[36px]",
-                        "rounded-r-[6px] rounded-l-none",
-                        "bg-slate-600 text-white",
-                        "ring-1 ring-slate-600/20 transition hover:bg-slate-700",
-                        "text-[16px] font-semibold leading-none",
-                      )}
-                      aria-label="Clear tanggal saldo"
-                      title="Clear"
-                    >
-                      ×
-                    </button>
-                  ) : null}
+                  <DateClearButton onClick={() => setTanggalSaldo("")} />
                 </div>
               </FieldWrap>
             </FieldRow>
