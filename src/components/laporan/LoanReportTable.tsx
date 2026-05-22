@@ -354,11 +354,11 @@ export default function LoanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2528px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[2420px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="h-[88px] w-[46px]">
-                    <SortableHeaderLabel lines={["NO"]} />
+                    NO
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[118px]">
                     <SortableHeaderLabel lines={["NO", "REKENING"]} />
@@ -366,7 +366,7 @@ export default function LoanReportTable({
                   <Th rowSpan={2} className="h-[88px] w-[135px]">
                     <SortableHeaderLabel lines={["NAMA", "NASABAH"]} />
                   </Th>
-                  <Th rowSpan={2} className="h-[88px] w-[175px]">
+                  <Th rowSpan={2} className="h-[88px] w-[130px]">
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[95px]">
@@ -426,14 +426,23 @@ export default function LoanReportTable({
                     Tunggakan
                   </th>
 
-                  <Th rowSpan={2} className="h-[88px] w-[115px]">
-                    <SortableHeaderLabel lines={["TGK", "POKOK"]} />
+                  <Th rowSpan={2} className="h-[88px] w-[98px]">
+                    <SortableHeaderLabel
+                      lines={["TGK. POKOK"]}
+                      className="[&_span]:whitespace-nowrap"
+                    />
                   </Th>
-                  <Th rowSpan={2} className="h-[88px] w-[115px]">
-                    <SortableHeaderLabel lines={["TGK.", "BUNGA"]} />
+                  <Th rowSpan={2} className="h-[88px] w-[98px]">
+                    <SortableHeaderLabel
+                      lines={["TGK. BUNGA"]}
+                      className="[&_span]:whitespace-nowrap"
+                    />
                   </Th>
-                  <Th rowSpan={2} className="h-[88px] w-[120px]">
-                    <SortableHeaderLabel lines={["SISA", "PINJAMAN"]} />
+                  <Th rowSpan={2} className="h-[88px] w-[110px]">
+                    <SortableHeaderLabel
+                      lines={["SISA PINJAMAN"]}
+                      className="[&_span]:whitespace-nowrap"
+                    />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[125px]">
                     <SortableHeaderLabel lines={["KOLEKTIBILITAS"]} />
@@ -490,7 +499,7 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[175px]" align="left">
+                      <Td className="w-[130px]" align="left">
                         <div className="truncate" title={r.alamat}>
                           {r.alamat}
                         </div>
@@ -563,15 +572,15 @@ export default function LoanReportTable({
                         {r.tunggakan90p}
                       </Td>
 
-                      <Td className="w-[115px]" align="right">
+                      <Td className="w-[98px]" align="right">
                         {r.tgkPokok}
                       </Td>
 
-                      <Td className="w-[115px]" align="right">
+                      <Td className="w-[98px]" align="right">
                         {r.tgkBunga}
                       </Td>
 
-                      <Td className="w-[120px]" align="right">
+                      <Td className="w-[110px]" align="right">
                         {r.sisaPinjaman}
                       </Td>
 
