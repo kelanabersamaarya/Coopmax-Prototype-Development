@@ -56,8 +56,6 @@ function Th({
   noRightBorder?: boolean;
   leftBorder?: boolean;
 }) {
-  // ✅ Selalu beri border-top agar garis horizontal paling atas header tidak putus
-  // (terutama untuk th yang memakai rowSpan=2).
   const topDivider = "border-t border-slate-300";
   const bottomDivider = "border-b border-slate-300";
 
@@ -172,7 +170,6 @@ function PaginationLikeExample({
 
 const colW = {
   no: "w-[60px]",
-  // ✅ sedikit diperlebar agar header "NO."/"REKENING" konsisten 2 baris
   noNsb: "w-[125px]",
   nama: "w-[180px]",
   status: "w-[110px]",
@@ -185,15 +182,8 @@ const colW = {
   cabangKet: "w-[120px]",
 
   plafon: "w-[130px]",
-  aoId: "w-[90px]",
-  jwBln: "w-[70px]",
-  jwDari: "w-[96px]",
-  jwSampai: "w-[96px]",
   pinPokok: "w-[130px]",
   pinBng: "w-[90px]",
-  angPerBln: "w-[130px]",
-  angsuranSdhHr: "w-[90px]",
-  tBln: "w-[60px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
   t31_60: "w-[140px]",
@@ -241,7 +231,7 @@ type Totals = {
   hutangBunga: number;
 };
 
-function TotalRowMergedToJangkaWaktu({
+function TotalRow({
   label,
   totals,
 }: {
@@ -253,21 +243,18 @@ function TotalRowMergedToJangkaWaktu({
   const totalRowNumber =
     "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
-  const MERGE_COLS_TO_JW_END = 15;
+  const MERGE_COLS_TO_PINJAMAN = 11;
 
   return (
     <tr className="border-t border-black bg-white">
       <td
         className={cn(totalRowText, "whitespace-nowrap", "border-l border-slate-200")}
-        colSpan={MERGE_COLS_TO_JW_END}
+        colSpan={MERGE_COLS_TO_PINJAMAN}
       >
         {label}
       </td>
 
       <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
-      <td className={totalRowText} />
-      <td className={totalRowText} />
-      <td className={totalRowText} />
       <td className={totalRowText} />
       <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
@@ -282,7 +269,7 @@ function TotalRowMergedToJangkaWaktu({
   );
 }
 
-const TOTAL_COLS = 29;
+const TOTAL_COLS = 22;
 
 export default function KolektibilitasReportTable({
   rows,
@@ -351,7 +338,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[2930px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[2320px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no} align="left" leftBorder>
@@ -397,20 +384,11 @@ export default function KolektibilitasReportTable({
                   <SortableHeaderLabel lines={["PLAFON"]} align="left" />
                 </Th>
 
-                <Th rowSpan={2} className={colW.aoId} align="left">
-                  AO ID
-                </Th>
-
-                <Th colSpan={3} align="center">
-                  JANGKA WAKTU
-                </Th>
                 <Th colSpan={2} align="center">
                   PINJAMAN
                 </Th>
-                <Th colSpan={2} align="center">
-                  ANGSURAN
-                </Th>
-                <Th colSpan={6} align="center">
+
+                <Th colSpan={5} align="center">
                   TUNGGAKAN
                 </Th>
 
@@ -443,16 +421,6 @@ export default function KolektibilitasReportTable({
                   KET.
                 </Th>
 
-                <Th className={colW.jwBln} align="left">
-                  BLN
-                </Th>
-                <Th className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
-                  DARI TGL.
-                </Th>
-                <Th className={cn(colW.jwSampai, "whitespace-nowrap")} align="left">
-                  S/D TGL.
-                </Th>
-
                 <Th className={cn(colW.pinPokok, "whitespace-nowrap")} align="left">
                   SLD. POKOK
                 </Th>
@@ -460,19 +428,6 @@ export default function KolektibilitasReportTable({
                   BNG
                 </Th>
 
-                <Th className={colW.angPerBln} align="left">
-                  PER BLN
-                </Th>
-                <Th
-                  className={cn(colW.angsuranSdhHr, "whitespace-nowrap")}
-                  align="left"
-                >
-                  SDH/HR
-                </Th>
-
-                <Th className={colW.tBln} align="left">
-                  BLN
-                </Th>
                 <Th className={colW.tNilai} align="left">
                   NILAI
                 </Th>
@@ -543,8 +498,6 @@ export default function KolektibilitasReportTable({
                     0,
                     Math.round(r.tunggakanNilai * 0.15),
                   );
-
-                  const tunggakanBlnDisplay = String(r.tunggakanBln);
 
                   return (
                     <tr key={`${r.noNsb}-${idx}`} className="bg-white">
@@ -619,39 +572,11 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(plafon)},00
                       </Td>
 
-                      <Td className={cn(colW.aoId, "whitespace-nowrap")} align="left">
-                        {r.aoId}
-                      </Td>
-
-                      <Td className={colW.jwBln} align="left">
-                        {r.jangkaWaktuBln}
-                      </Td>
-                      <Td className={cn(colW.jwDari, "whitespace-nowrap")} align="left">
-                        {r.dari}
-                      </Td>
-                      <Td
-                        className={cn(colW.jwSampai, "whitespace-nowrap")}
-                        align="left"
-                      >
-                        {r.sampai}
-                      </Td>
-
                       <Td className={cn(colW.pinPokok, "whitespace-nowrap")} align="right">
                         {formatIdr0(r.pinjamanSldPokok)}
                       </Td>
                       <Td className={colW.pinBng} align="right">
                         {formatFloat2(r.pinjamanBng)}
-                      </Td>
-
-                      <Td className={colW.angPerBln} align="right">
-                        {formatIdr0(r.angsuranPerBln)}
-                      </Td>
-                      <Td className={colW.angsuranSdhHr} align="right">
-                        {formatFloat2(r.angsuranSdhHr)}
-                      </Td>
-
-                      <Td className={colW.tBln} align="left">
-                        {tunggakanBlnDisplay}
                       </Td>
 
                       <Td className={colW.tNilai} align="right">
@@ -694,8 +619,8 @@ export default function KolektibilitasReportTable({
 
               {paged.length > 0 ? (
                 <>
-                  <TotalRowMergedToJangkaWaktu label="Total per Halaman" totals={totals} />
-                  <TotalRowMergedToJangkaWaktu label="Total" totals={totals} />
+                  <TotalRow label="Total per Halaman" totals={totals} />
+                  <TotalRow label="Total" totals={totals} />
                 </>
               ) : null}
             </tbody>
