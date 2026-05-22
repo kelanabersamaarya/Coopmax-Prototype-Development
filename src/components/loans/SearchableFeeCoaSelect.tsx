@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +42,7 @@ export default function SearchableFeeCoaSelect({
           aria-expanded={open}
           className={cn(
             "h-[30px] w-full justify-between rounded-[5px] border-slate-200 bg-white px-3 text-left text-[12.5px] font-normal shadow-sm hover:bg-white",
+            "focus-visible:ring-0 focus-visible:ring-offset-0",
             hasSelected ? "text-slate-900" : "text-slate-500",
             triggerClassName,
           )}
@@ -56,18 +57,32 @@ export default function SearchableFeeCoaSelect({
       <PopoverContent
         align="start"
         className={cn(
-          "w-[--radix-popover-trigger-width] rounded-[5px] border-slate-200 p-0 shadow-xl",
+          "w-[--radix-popover-trigger-width] overflow-hidden rounded-[5px] border border-slate-200 bg-white p-0 shadow-xl",
+          "border-t-4 border-t-violet-600",
           contentClassName,
         )}
       >
-        <Command className="rounded-[5px]">
-          <CommandInput
-            placeholder=""
-            className="h-9 border-0 text-[13px] focus:ring-0"
-          />
-          <CommandList className="max-h-[260px]">
-            <CommandEmpty>Tidak ada CoA yang cocok.</CommandEmpty>
-            <CommandGroup>
+        <Command className="rounded-none bg-white">
+          <div className="border-b border-slate-100 bg-white px-3 py-2">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <CommandInput
+                placeholder="Cari CoA..."
+                className={cn(
+                  "h-9 rounded-[5px] border border-slate-200 bg-white pl-9 pr-3",
+                  "text-[13px] font-normal text-slate-900 placeholder:text-slate-400",
+                  "focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+                )}
+              />
+            </div>
+          </div>
+
+          <CommandList className="max-h-[280px] bg-white py-2">
+            <CommandEmpty className="px-4 py-6 text-center text-[13px] text-slate-500">
+              Tidak ada CoA yang cocok.
+            </CommandEmpty>
+
+            <CommandGroup className="p-0">
               {options.map((option) => {
                 const selected = value === option;
 
@@ -80,13 +95,13 @@ export default function SearchableFeeCoaSelect({
                       setOpen(false);
                     }}
                     className={cn(
-                      "rounded-none px-3 py-2.5 text-[13px] font-normal text-slate-900",
-                      "data-[selected=true]:bg-violet-600 data-[selected=true]:text-white",
-                      selected ? "bg-violet-600 text-white" : "",
+                      "cursor-pointer rounded-none px-5 py-4 text-[14px] font-normal text-slate-900",
+                      "transition-colors hover:bg-slate-50",
+                      "data-[selected=true]:bg-slate-50 data-[selected=true]:text-slate-900",
+                      selected ? "bg-slate-50 text-slate-900" : "",
                     )}
                   >
                     <span className="min-w-0 flex-1 truncate">{option}</span>
-                    {selected ? <Check className="h-4 w-4 shrink-0" /> : null}
                   </CommandItem>
                 );
               })}
