@@ -2,7 +2,13 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ObsProdukSelect({
   value,
@@ -19,9 +25,18 @@ export default function ObsProdukSelect({
   triggerClassName?: string;
   contentClassName?: string;
 }) {
+  const noPurpleRing = cn(
+    "outline-none",
+    "focus:outline-none focus:ring-0 focus:ring-offset-0",
+    "focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+    "data-[state=open]:ring-0 data-[state=open]:ring-offset-0",
+    // jaga border tetap netral saat fokus/open
+    "focus:border-slate-300 focus-visible:border-slate-300",
+  );
+
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className={cn(triggerClassName, className)}>
+      <SelectTrigger className={cn(noPurpleRing, triggerClassName, className)}>
         <SelectValue />
       </SelectTrigger>
 
