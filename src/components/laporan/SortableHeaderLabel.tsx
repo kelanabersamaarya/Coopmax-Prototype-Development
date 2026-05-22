@@ -8,7 +8,7 @@ export default function SortableHeaderLabel({
   lines,
   className,
   iconClassName,
-  align = "center",
+  align = "left",
 }: {
   lines: string[];
   className?: string;
@@ -19,11 +19,12 @@ export default function SortableHeaderLabel({
     <div
       className={cn(
         "relative flex w-full items-center gap-2 pr-6",
+        // default mengikuti permintaan: rata kiri
         align === "right"
           ? "justify-end"
-          : align === "left"
-            ? "justify-start"
-            : "justify-center",
+          : align === "center"
+            ? "justify-center"
+            : "justify-start",
         className,
       )}
     >
