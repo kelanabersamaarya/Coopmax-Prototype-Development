@@ -16,6 +16,8 @@ type Row = {
   jatuhTempo: string; // dd-mm-yyyy
   bunga: string; // "24.00"
   jumlahPinjaman: string; // "2.000.000,00"
+  angsuranPerBln: string;
+  angsuranSdhHr: string; // format "2 / 2"
   tunggakanBln: string; // "0"
   tunggakanNilai: string; // "270,833"
   tunggakan1_30: string;
@@ -141,6 +143,8 @@ const seedRows: Row[] = [
     jatuhTempo: "07-04-2027",
     bunga: "12.00",
     jumlahPinjaman: "12.000.000,00",
+    angsuranPerBln: "270.833",
+    angsuranSdhHr: "2 / 2",
     tunggakanBln: "0",
     tunggakanNilai: "0,00",
     tunggakan1_30: "0,00",
@@ -164,6 +168,8 @@ const seedRows: Row[] = [
     jatuhTempo: "10-02-2027",
     bunga: "11.50",
     jumlahPinjaman: "10.000.000,00",
+    angsuranPerBln: "270.833",
+    angsuranSdhHr: "6 / 7",
     tunggakanBln: "1",
     tunggakanNilai: "270.833",
     tunggakan1_30: "270.833",
@@ -187,6 +193,8 @@ const seedRows: Row[] = [
     jatuhTempo: "26-04-2025",
     bunga: "20.00",
     jumlahPinjaman: "3.500.000,00",
+    angsuranPerBln: "216.667",
+    angsuranSdhHr: "0 / 3",
     tunggakanBln: "3",
     tunggakanNilai: "650.001",
     tunggakan1_30: "216.667",
@@ -210,6 +218,8 @@ const seedRows: Row[] = [
     jatuhTempo: "30-04-2027",
     bunga: "24.00",
     jumlahPinjaman: "2.000.000,00",
+    angsuranPerBln: "216.667",
+    angsuranSdhHr: "2 / 4",
     tunggakanBln: "2",
     tunggakanNilai: "433.334",
     tunggakan1_30: "216.667",
@@ -233,6 +243,8 @@ const seedRows: Row[] = [
     jatuhTempo: "30-09-2026",
     bunga: "20.00",
     jumlahPinjaman: "22.000.000,00",
+    angsuranPerBln: "650.000",
+    angsuranSdhHr: "4 / 18",
     tunggakanBln: "0",
     tunggakanNilai: "0",
     tunggakan1_30: "0",
@@ -275,7 +287,7 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2800px] border-collapse bg-white">
+            <table className="w-full min-w-[3050px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="w-[60px] align-bottom">
@@ -314,6 +326,17 @@ export default function LoanReportTable({
                   </Th>
 
                   <th
+                    colSpan={2}
+                    className={cn(
+                      "px-3 py-2",
+                      "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "bg-transparent border-b-0",
+                    )}
+                  >
+                    Angsuran
+                  </th>
+
+                  <th
                     colSpan={6}
                     className={cn(
                       "px-3 py-2",
@@ -340,6 +363,9 @@ export default function LoanReportTable({
                 </tr>
 
                 <tr className="bg-white">
+                  <Th className="w-[140px] border-b-0 bg-transparent">Per bln</Th>
+                  <Th className="w-[110px] border-b-0 bg-transparent">Sdh/Hr</Th>
+
                   <Th className="w-[80px] border-b-0 bg-transparent">Bln</Th>
                   <Th className="w-[140px] border-b-0 bg-transparent">Nilai</Th>
                   <Th className="w-[140px] border-b-0 bg-transparent">1-30 Hr</Th>
@@ -352,7 +378,7 @@ export default function LoanReportTable({
               <tbody className="bg-white">
                 {paged.length === 0 ? (
                   <tr>
-                    <td colSpan={21} className="px-4 py-10 text-center text-sm text-slate-600">
+                    <td colSpan={23} className="px-4 py-10 text-center text-sm text-slate-600">
                       Tidak ada data.
                     </td>
                   </tr>
@@ -409,6 +435,13 @@ export default function LoanReportTable({
 
                       <Td className="w-[190px]" align="right">
                         {r.jumlahPinjaman}
+                      </Td>
+
+                      <Td className="w-[140px]" align="right">
+                        {r.angsuranPerBln}
+                      </Td>
+                      <Td className="w-[110px]" align="right">
+                        {r.angsuranSdhHr}
                       </Td>
 
                       <Td className="w-[80px]" align="right">
