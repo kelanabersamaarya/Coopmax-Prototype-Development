@@ -41,6 +41,8 @@ function Th({ children, className, ...props }: ThProps) {
         "border-b border-slate-300/80",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
         "text-left",
+        // memastikan header rowSpan (atas) tidak punya garis horizontal di bawahnya
+        props.rowSpan && Number(props.rowSpan) > 1 ? "border-b-0" : "",
         className,
       )}
     >
@@ -314,9 +316,10 @@ export default function LoanReportTable({
                   <th
                     colSpan={6}
                     className={cn(
-                      "border-b border-slate-300/80 bg-slate-50/60",
                       "px-3 py-2",
-                      "text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-800",
+                      // seperti contoh: tanpa background & tanpa garis horizontal
+                      "bg-transparent border-b-0",
                     )}
                   >
                     Tunggakan
@@ -337,12 +340,12 @@ export default function LoanReportTable({
                 </tr>
 
                 <tr className="bg-white">
-                  <Th className="w-[80px] bg-slate-50/60">Bln</Th>
-                  <Th className="w-[140px] bg-slate-50/60">Nilai</Th>
-                  <Th className="w-[140px] bg-slate-50/60">1-30 Hr</Th>
-                  <Th className="w-[140px] bg-slate-50/60">31-60 Hr</Th>
-                  <Th className="w-[140px] bg-slate-50/60">61-90 Hr</Th>
-                  <Th className="w-[140px] bg-slate-50/60">&gt; 90 Hr</Th>
+                  <Th className="w-[80px] border-b-0 bg-transparent">Bln</Th>
+                  <Th className="w-[140px] border-b-0 bg-transparent">Nilai</Th>
+                  <Th className="w-[140px] border-b-0 bg-transparent">1-30 Hr</Th>
+                  <Th className="w-[140px] border-b-0 bg-transparent">31-60 Hr</Th>
+                  <Th className="w-[140px] border-b-0 bg-transparent">61-90 Hr</Th>
+                  <Th className="w-[140px] border-b-0 bg-transparent">&gt; 90 Hr</Th>
                 </tr>
               </thead>
 
