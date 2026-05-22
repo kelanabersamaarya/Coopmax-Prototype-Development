@@ -41,11 +41,8 @@ function Th({ children, className, ...props }: ThProps) {
     <th
       {...props}
       className={cn(
-        "px-2 py-2.5",
-        "border-b border-slate-300/80",
-        "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
-        "text-left",
-        props.rowSpan && Number(props.rowSpan) > 1 ? "border-b-0" : "",
+        "border-b border-r border-slate-300/80 px-2 py-2.5",
+        "text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
         className,
       )}
     >
@@ -68,8 +65,7 @@ function Td({
   return (
     <td
       className={cn(
-        "px-2 py-2 align-top",
-        "border-b border-slate-200",
+        "border-b border-r border-slate-200 px-2 py-2 align-top",
         "text-[12px] font-medium",
         tone === "muted" ? "text-slate-600" : "text-slate-900",
         align === "right"
@@ -358,7 +354,7 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2528px] border-collapse bg-white">
+            <table className="w-full min-w-[2528px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="w-[46px] align-bottom">
@@ -392,9 +388,8 @@ export default function LoanReportTable({
                   <th
                     colSpan={2}
                     className={cn(
-                      "px-2 py-2",
-                      "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
-                      "bg-transparent border-b-0",
+                      "border-b border-r border-slate-300/80 px-2 py-2",
+                      "bg-white text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                     )}
                   >
                     Jangka Waktu
@@ -414,9 +409,8 @@ export default function LoanReportTable({
                   <th
                     colSpan={2}
                     className={cn(
-                      "px-2 py-2",
-                      "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
-                      "bg-transparent border-b-0",
+                      "border-b border-r border-slate-300/80 px-2 py-2",
+                      "bg-white text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                     )}
                   >
                     Angsuran
@@ -425,9 +419,8 @@ export default function LoanReportTable({
                   <th
                     colSpan={6}
                     className={cn(
-                      "px-2 py-2",
-                      "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
-                      "bg-transparent border-b-0",
+                      "border-b border-r border-slate-300/80 px-2 py-2",
+                      "bg-white text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                     )}
                   >
                     Tunggakan
@@ -448,20 +441,18 @@ export default function LoanReportTable({
                 </tr>
 
                 <tr className="bg-white">
-                  <Th className="w-[54px] border-b-0 bg-transparent">Bln</Th>
-                  <Th className="w-[118px] border-b-0 bg-transparent">
-                    Dari tgl. s/d tgl.
-                  </Th>
+                  <Th className="w-[54px] bg-white">Bln</Th>
+                  <Th className="w-[118px] bg-white">Dari tgl. s/d tgl.</Th>
 
-                  <Th className="w-[108px] border-b-0 bg-transparent">Per bln</Th>
-                  <Th className="w-[86px] border-b-0 bg-transparent">Sdh/Hr</Th>
+                  <Th className="w-[108px] bg-white">Per bln</Th>
+                  <Th className="w-[86px] bg-white">Sdh/Hr</Th>
 
-                  <Th className="w-[54px] border-b-0 bg-transparent">Bln</Th>
-                  <Th className="w-[105px] border-b-0 bg-transparent">Nilai</Th>
-                  <Th className="w-[105px] border-b-0 bg-transparent">1-30 Hr</Th>
-                  <Th className="w-[105px] border-b-0 bg-transparent">31-60 Hr</Th>
-                  <Th className="w-[105px] border-b-0 bg-transparent">61-90 Hr</Th>
-                  <Th className="w-[105px] border-b-0 bg-transparent">> 90 Hr</Th>
+                  <Th className="w-[54px] bg-white">Bln</Th>
+                  <Th className="w-[105px] bg-white">Nilai</Th>
+                  <Th className="w-[105px] bg-white">1-30 Hr</Th>
+                  <Th className="w-[105px] bg-white">31-60 Hr</Th>
+                  <Th className="w-[105px] bg-white">61-90 Hr</Th>
+                  <Th className="w-[105px] bg-white">> 90 Hr</Th>
                 </tr>
               </thead>
 
@@ -470,7 +461,7 @@ export default function LoanReportTable({
                   <tr>
                     <td
                       colSpan={COLS}
-                      className="px-4 py-10 text-center text-sm text-slate-600"
+                      className="border-b border-r border-slate-200 px-4 py-10 text-center text-sm text-slate-600"
                     >
                       Tidak ada data.
                     </td>
@@ -594,52 +585,52 @@ export default function LoanReportTable({
                     <tr className="bg-white">
                       <td
                         colSpan={LABEL_SPAN}
-                        className="px-2 py-2.5 text-[12px] font-semibold text-slate-900 border-t border-slate-300/80"
+                        className="border-t border-r border-slate-300/80 px-2 py-2.5 text-[12px] font-semibold text-slate-900"
                       >
                         Total per Halaman
                       </td>
 
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.jumlahPinjaman)}
                       </td>
 
-                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
-                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5" />
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5" />
 
-                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5" />
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakanNilai)}
                       </td>
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan1_30)}
                       </td>
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan31_60)}
                       </td>
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan61_90)}
                       </td>
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakan90p)}
                       </td>
 
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.tgkPokok)}
                       </td>
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.tgkBunga)}
                       </td>
-                      <td className="px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums">
                         {formatIdNumber(totalsPage.sisaPinjaman)}
                       </td>
-                      <td className="px-2 py-2.5 border-t border-slate-300/80" />
+                      <td className="border-t border-r border-slate-300/80 px-2 py-2.5" />
                     </tr>
 
                     <tr className="bg-white">
                       <td
                         colSpan={LABEL_SPAN}
                         className={cn(
-                          "px-2 py-2.5 text-[12px] font-semibold text-slate-900",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-[12px] font-semibold text-slate-900",
                           totalDivider,
                         )}
                       >
@@ -648,20 +639,20 @@ export default function LoanReportTable({
 
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
                         {formatIdNumber(totalsAll.jumlahPinjaman)}
                       </td>
 
-                      <td className={cn("px-2 py-2.5", totalDivider)} />
-                      <td className={cn("px-2 py-2.5", totalDivider)} />
+                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
+                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
 
-                      <td className={cn("px-2 py-2.5", totalDivider)} />
+                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -669,7 +660,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -677,7 +668,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -685,7 +676,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -693,7 +684,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -702,7 +693,7 @@ export default function LoanReportTable({
 
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -710,7 +701,7 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
@@ -718,13 +709,13 @@ export default function LoanReportTable({
                       </td>
                       <td
                         className={cn(
-                          "px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
+                          "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
                           totalDivider,
                         )}
                       >
                         {formatIdNumber(totalsAll.sisaPinjaman)}
                       </td>
-                      <td className={cn("px-2 py-2.5", totalDivider)} />
+                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
                     </tr>
                   </>
                 ) : null}
