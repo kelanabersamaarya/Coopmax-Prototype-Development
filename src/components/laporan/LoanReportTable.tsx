@@ -319,7 +319,7 @@ export default function LoanReportTable({
       paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
-      tgkPokok: sum((r) => r.tgPokok),
+      tgkPokok: sum((r) => r.tgkPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -358,7 +358,7 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2700px] border-collapse bg-white">
+            <table className="w-full min-w-[2560px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="w-[46px] align-bottom">
@@ -367,22 +367,22 @@ export default function LoanReportTable({
                   <Th rowSpan={2} className="w-[118px] align-bottom">
                     <SortableHeaderLabel lines={["NO", "REKENING"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[165px] align-bottom">
+                  <Th rowSpan={2} className="w-[135px] align-bottom">
                     <SortableHeaderLabel lines={["NAMA", "NASABAH"]} />
                   </Th>
                   <Th rowSpan={2} className="w-[175px] align-bottom">
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[120px] align-bottom">
+                  <Th rowSpan={2} className="w-[95px] align-bottom">
                     <SortableHeaderLabel lines={["STATUS", "NASABAH"]} />
                   </Th>
                   <Th rowSpan={2} className="w-[145px] align-bottom">
                     <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[135px] align-bottom">
+                  <Th rowSpan={2} className="w-[105px] align-bottom">
                     <SortableHeaderLabel lines={["TANGGAL", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[140px] align-bottom">
+                  <Th rowSpan={2} className="w-[110px] align-bottom">
                     <SortableHeaderLabel lines={["KOLEKTOR"]} />
                   </Th>
 
@@ -436,7 +436,7 @@ export default function LoanReportTable({
                   <Th rowSpan={2} className="w-[115px] align-bottom">
                     <SortableHeaderLabel lines={["TGK.", "BUNGA"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[145px] align-bottom">
+                  <Th rowSpan={2} className="w-[120px] align-bottom">
                     <SortableHeaderLabel lines={["SISA", "PINJAMAN"]} />
                   </Th>
                   <Th rowSpan={2} className="w-[125px] align-bottom">
@@ -488,7 +488,7 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[165px]" align="left">
+                      <Td className="w-[135px]" align="left">
                         <div className="truncate" title={r.namaNasabah}>
                           {r.namaNasabah}
                         </div>
@@ -500,7 +500,7 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[120px]" align="left">
+                      <Td className="w-[95px]" align="left">
                         <span className="whitespace-nowrap">{normalizeStatus(r.status)}</span>
                       </Td>
 
@@ -510,11 +510,11 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[135px]" align="left">
+                      <Td className="w-[105px]" align="left">
                         <span className="tabular-nums whitespace-nowrap">{r.tanggalPinjaman}</span>
                       </Td>
 
-                      <Td className="w-[140px]" align="left">
+                      <Td className="w-[110px]" align="left">
                         <div className="truncate" title={r.kolektor}>
                           {r.kolektor}
                         </div>
@@ -573,7 +573,7 @@ export default function LoanReportTable({
                         {r.tgkBunga}
                       </Td>
 
-                      <Td className="w-[145px]" align="right">
+                      <Td className="w-[120px]" align="right">
                         {r.sisaPinjaman}
                       </Td>
 
