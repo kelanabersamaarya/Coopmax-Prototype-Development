@@ -18,7 +18,7 @@ export default function SortableHeaderLabel({
   return (
     <div
       className={cn(
-        "flex items-center gap-1.5",
+        "relative flex w-full items-center gap-2 pr-6",
         align === "right"
           ? "justify-end"
           : align === "left"
@@ -27,7 +27,16 @@ export default function SortableHeaderLabel({
         className,
       )}
     >
-      <div className="leading-[1.05]">
+      <div
+        className={cn(
+          "min-w-0 leading-[1.05]",
+          align === "right"
+            ? "text-right"
+            : align === "left"
+              ? "text-left"
+              : "text-center",
+        )}
+      >
         {lines.map((l, idx) => (
           <span key={idx} className="block">
             {l}
@@ -35,7 +44,13 @@ export default function SortableHeaderLabel({
         ))}
       </div>
 
-      <span className={cn("inline-flex flex-col leading-none text-slate-900/80", iconClassName)}>
+      <span
+        className={cn(
+          "absolute right-0 top-1/2 -translate-y-1/2",
+          "inline-flex flex-col leading-none text-slate-900/80",
+          iconClassName,
+        )}
+      >
         <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
         <ChevronDown className="h-3.5 w-3.5" />
       </span>
