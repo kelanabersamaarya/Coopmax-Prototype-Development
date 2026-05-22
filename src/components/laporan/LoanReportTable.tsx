@@ -125,7 +125,12 @@ function PaginationBar({
 
   return (
     <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
-      <button type="button" className={btnBase} disabled={prevDisabled} onClick={() => onPage(Math.max(1, page - 1))}>
+      <button
+        type="button"
+        className={btnBase}
+        disabled={prevDisabled}
+        onClick={() => onPage(Math.max(1, page - 1))}
+      >
         Sebelumnya
       </button>
 
@@ -138,7 +143,12 @@ function PaginationBar({
         {page}
       </button>
 
-      <button type="button" className={btnBase} disabled={nextDisabled} onClick={() => onPage(Math.min(pageCount, page + 1))}>
+      <button
+        type="button"
+        className={btnBase}
+        disabled={nextDisabled}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+      >
         Selanjutnya
       </button>
     </div>
@@ -305,7 +315,8 @@ export default function LoanReportTable({
   }, [page, pageSize, rows]);
 
   const totalsPage = React.useMemo(() => {
-    const sum = (pick: (r: Row) => string) => paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
+    const sum = (pick: (r: Row) => string) =>
+      paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
       tgkPokok: sum((r) => r.tgkPokok),
@@ -320,7 +331,8 @@ export default function LoanReportTable({
   }, [paged]);
 
   const totalsAll = React.useMemo(() => {
-    const sum = (pick: (r: Row) => string) => rows.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
+    const sum = (pick: (r: Row) => string) =>
+      rows.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
       tgkPokok: sum((r) => r.tgkPokok),
@@ -339,6 +351,7 @@ export default function LoanReportTable({
 
   const COLS = 25;
   const LABEL_SPAN = 12; // sampai sebelum kolom JUMLAH PINJAMAN
+  const totalDivider = "border-t border-slate-300/80";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -433,7 +446,9 @@ export default function LoanReportTable({
 
                 <tr className="bg-white">
                   <Th className="w-[80px] border-b-0 bg-transparent">Bln</Th>
-                  <Th className="w-[220px] border-b-0 bg-transparent">Dari tgl. s/d tgl.</Th>
+                  <Th className="w-[220px] border-b-0 bg-transparent">
+                    Dari tgl. s/d tgl.
+                  </Th>
 
                   <Th className="w-[140px] border-b-0 bg-transparent">Per bln</Th>
                   <Th className="w-[110px] border-b-0 bg-transparent">Sdh/Hr</Th>
@@ -443,20 +458,26 @@ export default function LoanReportTable({
                   <Th className="w-[140px] border-b-0 bg-transparent">1-30 Hr</Th>
                   <Th className="w-[140px] border-b-0 bg-transparent">31-60 Hr</Th>
                   <Th className="w-[140px] border-b-0 bg-transparent">61-90 Hr</Th>
-                  <Th className="w-[140px] border-b-0 bg-transparent">&gt; 90 Hr</Th>
+                  <Th className="w-[140px] border-b-0 bg-transparent">> 90 Hr</Th>
                 </tr>
               </thead>
 
               <tbody className="bg-white">
                 {paged.length === 0 ? (
                   <tr>
-                    <td colSpan={COLS} className="px-4 py-10 text-center text-sm text-slate-600">
+                    <td
+                      colSpan={COLS}
+                      className="px-4 py-10 text-center text-sm text-slate-600"
+                    >
                       Tidak ada data.
                     </td>
                   </tr>
                 ) : (
                   paged.map((r, idx) => (
-                    <tr key={`${r.noRekening}-${idx}`} className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}>
+                    <tr
+                      key={`${r.noRekening}-${idx}`}
+                      className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
+                    >
                       <Td className="w-[60px]" align="left">
                         <span className="tabular-nums">{r.no}</span>
                       </Td>
@@ -563,7 +584,6 @@ export default function LoanReportTable({
                   ))
                 )}
 
-                {/* TOTALS */}
                 {rows.length ? (
                   <>
                     <tr className="bg-white">
@@ -578,11 +598,9 @@ export default function LoanReportTable({
                         {formatIdNumber(totalsPage.jumlahPinjaman)}
                       </td>
 
-                      {/* Angsuran (2 kolom) */}
                       <td className="px-3 py-3 border-t border-slate-300/80" />
                       <td className="px-3 py-3 border-t border-slate-300/80" />
 
-                      {/* Tunggakan (6 kolom) */}
                       <td className="px-3 py-3 border-t border-slate-300/80" />
                       <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 border-t border-slate-300/80 tabular-nums">
                         {formatIdNumber(totalsPage.tunggakanNilai)}
@@ -613,46 +631,95 @@ export default function LoanReportTable({
                     </tr>
 
                     <tr className="bg-white">
-                      <td colSpan={LABEL_SPAN} className="px-3 py-3 text-[13px] font-semibold text-slate-900">
+                      <td
+                        colSpan={LABEL_SPAN}
+                        className={cn(
+                          "px-3 py-3 text-[13px] font-semibold text-slate-900",
+                          totalDivider,
+                        )}
+                      >
                         Total
                       </td>
 
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.jumlahPinjaman)}
                       </td>
 
-                      {/* Angsuran (2 kolom) */}
-                      <td className="px-3 py-3" />
-                      <td className="px-3 py-3" />
+                      <td className={cn("px-3 py-3", totalDivider)} />
+                      <td className={cn("px-3 py-3", totalDivider)} />
 
-                      {/* Tunggakan (6 kolom) */}
-                      <td className="px-3 py-3" />
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td className={cn("px-3 py-3", totalDivider)} />
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.tunggakanNilai)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.tunggakan1_30)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.tunggakan31_60)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.tunggakan61_90)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.tunggakan90p)}
                       </td>
 
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.tgkPokok)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.tgkBunga)}
                       </td>
-                      <td className="px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums">
+                      <td
+                        className={cn(
+                          "px-3 py-3 text-right text-[13px] font-semibold text-slate-900 tabular-nums",
+                          totalDivider,
+                        )}
+                      >
                         {formatIdNumber(totalsAll.sisaPinjaman)}
                       </td>
-                      <td className="px-3 py-3" />
+                      <td className={cn("px-3 py-3", totalDivider)} />
                     </tr>
                   </>
                 ) : null}
