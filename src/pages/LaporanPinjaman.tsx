@@ -10,6 +10,7 @@ import {
   Search,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import LoanReportTable from "@/components/laporan/LoanReportTable";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -187,6 +188,8 @@ export default function LaporanPinjaman() {
 
   const [sisaMin, setSisaMin] = React.useState("");
   const [sisaMax, setSisaMax] = React.useState("");
+
+  const [showReport, setShowReport] = React.useState(false);
 
   const actions = [
     {
@@ -508,9 +511,7 @@ export default function LaporanPinjaman() {
                   <button
                     type="button"
                     onClick={() => {
-                      toast("Cari (prototype)", {
-                        description: "Filter belum dihubungkan ke data laporan.",
-                      });
+                      setShowReport(true);
                     }}
                     className={cn(
                       "inline-flex h-[30px] items-center gap-2 rounded-[10px] px-6",
@@ -526,6 +527,8 @@ export default function LaporanPinjaman() {
             </FieldRow>
           </div>
         </Card>
+
+        {showReport ? <LoanReportTable /> : null}
       </div>
     </div>
   );
