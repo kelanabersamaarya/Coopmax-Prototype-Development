@@ -1,3 +1,4 @@
+pada JSX header laporan agar build Vercel berhasil.">
 "use client";
 
 import * as React from "react";
@@ -329,7 +330,7 @@ export default function LoanReportTable({
       paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
-      tgkPokok: sum((r) => r.tgkPokok),
+      tgkPokok: sum((r) => r.tgPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -472,7 +473,7 @@ export default function LoanReportTable({
                   <Th className="h-[44px] w-[105px] bg-white">1-30 Hr</Th>
                   <Th className="h-[44px] w-[105px] bg-white">31-60 Hr</Th>
                   <Th className="h-[44px] w-[105px] bg-white">61-90 Hr</Th>
-                  <Th className="h-[44px] w-[105px] bg-white">> 90 Hr</Th>
+                  <Th className="h-[44px] w-[105px] bg-white">{"> 90 Hr"}</Th>
                 </tr>
               </thead>
 
