@@ -10,7 +10,10 @@ type SubItem = {
   to?: string;
 };
 
-const items: SubItem[] = [{ label: "Laporan Kolektibilitas", to: "/laporan/kolektibilitas" }];
+const items: SubItem[] = [
+  { label: "Laporan Kolektibilitas", to: "/laporan/kolektibilitas" },
+  { label: "Laporan Pinjaman", to: "/laporan/pinjaman" },
+];
 
 export default function SidebarLaporanMenu() {
   const location = useLocation();

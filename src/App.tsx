@@ -24,6 +24,7 @@ import TransaksiPinjamanDetail from "./pages/TransaksiPinjamanDetail";
 import ObsSamudraHarta from "./pages/ObsSamudraHarta";
 import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsWeb from "./pages/ObsWeb";
+import LaporanPinjaman from "./pages/LaporanPinjaman";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const App = () => (
               path="laporan/kolektibilitas"
               element={<LaporanKolektibilitas />}
             />
+            <Route path="laporan/pinjaman" element={<LaporanPinjaman />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
