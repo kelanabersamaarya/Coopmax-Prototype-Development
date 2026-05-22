@@ -358,7 +358,7 @@ export default function LoanReportTable({
       <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2560px] border-collapse bg-white">
+            <table className="w-full min-w-[2528px] border-collapse bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
                   <Th rowSpan={2} className="w-[46px] align-bottom">
@@ -374,7 +374,10 @@ export default function LoanReportTable({
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
                   <Th rowSpan={2} className="w-[95px] align-bottom">
-                    <SortableHeaderLabel lines={["STATUS", "NASABAH"]} />
+                    <SortableHeaderLabel
+                      lines={["STATUS", "NASABAH"]}
+                      className="[&_span]:whitespace-nowrap"
+                    />
                   </Th>
                   <Th rowSpan={2} className="w-[145px] align-bottom">
                     <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} />
@@ -446,7 +449,7 @@ export default function LoanReportTable({
 
                 <tr className="bg-white">
                   <Th className="w-[54px] border-b-0 bg-transparent">Bln</Th>
-                  <Th className="w-[150px] border-b-0 bg-transparent">
+                  <Th className="w-[118px] border-b-0 bg-transparent">
                     Dari tgl. s/d tgl.
                   </Th>
 
@@ -523,8 +526,10 @@ export default function LoanReportTable({
                       <Td className="w-[54px]" align="right">
                         {r.jwBln}
                       </Td>
-                      <Td className="w-[150px]" align="left">
-                        <span className="whitespace-nowrap">{r.jwRange}</span>
+                      <Td className="w-[118px]" align="left">
+                        <div className="truncate" title={r.jwRange}>
+                          {r.jwRange}
+                        </div>
                       </Td>
 
                       <Td className="w-[112px]" align="left">
