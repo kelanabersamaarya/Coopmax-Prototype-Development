@@ -34,7 +34,7 @@ function ActionPill({
       onClick={onClick}
       className={cn(
         "inline-flex h-9 items-center gap-2 rounded-full bg-white px-4",
-        "text-[12.5px] font-semibold text-slate-700",
+        "text-[13px] font-normal text-slate-700",
         "ring-1 ring-slate-200 shadow-sm transition hover:bg-slate-50",
       )}
     >
@@ -53,7 +53,7 @@ function FieldRow({
 }) {
   return (
     <div className="grid gap-2 md:grid-cols-[320px_minmax(0,1fr)] md:items-center">
-      <div className="text-[14px] font-semibold tracking-tight text-[#163A8A]">
+      <div className="text-[13px] font-normal tracking-tight text-[#163A8A]">
         {label}
       </div>
       <div className="min-w-0">{children}</div>
@@ -77,7 +77,7 @@ function DateRangeField({
   endPlaceholder: string;
 }) {
   const inputCls =
-    "h-[40px] rounded-[6px] border-slate-200 bg-white text-[14px] font-medium text-slate-900 shadow-sm placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0";
+    "h-[40px] rounded-[6px] border-slate-200 bg-white text-[13px] font-normal text-slate-900 shadow-sm placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0";
 
   function ClearBtn({ onClick }: { onClick: () => void }) {
     return (
@@ -212,20 +212,20 @@ export default function LaporanPinjaman() {
 
   const selectTriggerCls = cn(
     "h-[40px] w-full justify-between rounded-[6px] border border-slate-200 bg-white px-3",
-    "text-[14px] font-medium text-slate-900 shadow-sm",
+    "text-[13px] font-normal text-slate-900 shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-500",
   );
 
   const inputCls = cn(
     "h-[40px] w-full rounded-[6px] border border-slate-200 bg-white px-3",
-    "text-[14px] font-medium text-slate-900 shadow-sm",
+    "text-[13px] font-normal text-slate-900 shadow-sm",
     "placeholder:text-slate-500",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+    <div className="min-h-screen bg-[hsl(var(--app-bg))] text-[13px] font-normal">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
@@ -463,7 +463,7 @@ export default function LaporanPinjaman() {
                 }}
                 className={cn(
                   "inline-flex h-10 items-center gap-2 rounded-[10px] px-6",
-                  "bg-[#3BB001] text-[14px] font-semibold text-white",
+                  "bg-[#3BB001] text-[13px] font-normal text-white",
                   "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
                 )}
               >
