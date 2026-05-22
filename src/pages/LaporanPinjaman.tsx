@@ -2,11 +2,11 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
+  Calculator,
   FileSpreadsheet,
   FileText,
   Printer,
   RefreshCw,
-  Table2,
 } from "lucide-react";
 
 function ActionPill({
@@ -46,7 +46,7 @@ export default function LaporanPinjaman() {
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
             <ActionPill
-              icon={Table2}
+              icon={Calculator}
               label="Rekapitulasi Kolektibilitas"
               onClick={() =>
                 toast("Rekapitulasi Kolektibilitas (prototype)", {
