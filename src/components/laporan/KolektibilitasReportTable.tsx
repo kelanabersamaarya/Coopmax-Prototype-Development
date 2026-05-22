@@ -188,7 +188,6 @@ const colW = {
 
   plafon: "w-[130px]",
   pinPokok: "w-[130px]",
-  pinBng: "w-[90px]",
   tNilai: "w-[160px]",
   t1_30: "w-[140px]",
   t31_60: "w-[140px]",
@@ -270,7 +269,6 @@ function TotalRow({
       </td>
 
       <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
-      <td className={totalRowText} />
       <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.t31_60)}</td>
@@ -285,7 +283,7 @@ function TotalRow({
   );
 }
 
-const TOTAL_COLS = 23;
+const TOTAL_COLS = 22;
 
 export default function KolektibilitasReportTable({
   rows,
@@ -359,7 +357,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[2400px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[2310px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no} align="left" leftBorder>
@@ -399,10 +397,6 @@ export default function KolektibilitasReportTable({
 
                 <Th colSpan={2} align="center">
                   CABANG
-                </Th>
-
-                <Th rowSpan={2} className={colW.plafon} align="left">
-                  <SortableHeaderLabel lines={["PLAFON"]} align="left" />
                 </Th>
 
                 <Th colSpan={2} align="center">
@@ -448,11 +442,11 @@ export default function KolektibilitasReportTable({
                   KET.
                 </Th>
 
+                <Th className={colW.plafon} align="left">
+                  <SortableHeaderLabel lines={["PLAFON"]} align="left" />
+                </Th>
                 <Th className={cn(colW.pinPokok, "whitespace-nowrap")} align="left">
                   SLD. POKOK
-                </Th>
-                <Th className={colW.pinBng} align="left">
-                  BNG
                 </Th>
 
                 <Th className={colW.tNilai} align="left">
@@ -602,9 +596,6 @@ export default function KolektibilitasReportTable({
 
                       <Td className={cn(colW.pinPokok, "whitespace-nowrap")} align="right">
                         {formatIdr0(r.pinjamanSldPokok)}
-                      </Td>
-                      <Td className={colW.pinBng} align="right">
-                        {formatFloat2(r.pinjamanBng)}
                       </Td>
 
                       <Td className={colW.tNilai} align="right">
