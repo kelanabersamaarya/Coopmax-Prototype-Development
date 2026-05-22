@@ -219,6 +219,7 @@ function NplCell({ value }: { value: number }) {
 }
 
 type Totals = {
+  plafon: number;
   pokok: number;
   nilai: number;
   t1_30: number;
@@ -243,17 +244,18 @@ function TotalRow({
   const totalRowNumber =
     "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
-  const MERGE_COLS_TO_PINJAMAN = 9;
+  const MERGE_COLS_BEFORE_PINJAMAN = 8;
 
   return (
     <tr className="border-t border-black bg-white">
       <td
         className={cn(totalRowText, "whitespace-nowrap", "border-l border-slate-200")}
-        colSpan={MERGE_COLS_TO_PINJAMAN}
+        colSpan={MERGE_COLS_BEFORE_PINJAMAN}
       >
         {label}
       </td>
 
+      <td className={totalRowNumber}>{formatIdr0(totals.plafon)},00</td>
       <td className={totalRowNumber}>{formatIdr0(totals.pokok)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.nilai)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.t1_30)}</td>
@@ -306,6 +308,9 @@ export default function KolektibilitasReportTable({
   const totals = React.useMemo<Totals>(() => {
     const base = paged.reduce(
       (acc, r) => {
+        const plafon = r.pinjamanSldPokok + 1500000;
+
+        acc.plafon += plafon;
         acc.pokok += r.pinjamanSldPokok;
 
         acc.nilai += r.tunggakanNilai;
@@ -321,6 +326,7 @@ export default function KolektibilitasReportTable({
         return acc;
       },
       {
+        plafon: 0,
         pokok: 0,
         nilai: 0,
         t1_30: 0,
