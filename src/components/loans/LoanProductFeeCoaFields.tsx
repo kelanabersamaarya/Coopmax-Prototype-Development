@@ -11,11 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type FeeCoaValue =
-  | "Pilih CoA Biaya Provisi"
-  | "Pilih CoA Biaya Administrasi"
-  | "Pilih CoA Biaya Asuransi"
-  | "Pilih CoA Biaya Aktivasi M-Banking"
+type FeeCoaOption =
   | "PEN. BIAYA PROVISI"
   | "PEN. ADMINISTRASI"
   | "PEN. BIAYA ASURANSI"
@@ -25,8 +21,8 @@ type FeeCoaValue =
 type FieldConfig = {
   key: "provisi" | "administrasi" | "asuransi" | "mbanking";
   label: string;
-  placeholder: FeeCoaValue;
-  primaryOption: FeeCoaValue;
+  placeholder: string;
+  primaryOption: FeeCoaOption;
 };
 
 const fields: FieldConfig[] = [
@@ -65,18 +61,20 @@ export default function LoanProductFeeCoaFields({
   selectContentClassName?: string;
   className?: string;
 }) {
-  const [values, setValues] = React.useState<Record<FieldConfig["key"], FeeCoaValue>>({
-    provisi: "Pilih CoA Biaya Provisi",
-    administrasi: "Pilih CoA Biaya Administrasi",
-    asuransi: "Pilih CoA Biaya Asuransi",
-    mbanking: "Pilih CoA Biaya Aktivasi M-Banking",
+  const [values, setValues] = React.useState<
+    Record<FieldConfig["key"], FeeCoaOption | undefined>
+  >({
+    provisi: undefined,
+    administrasi: undefined,
+    asuransi: undefined,
+    mbanking: undefined,
   });
 
   return (
     <div className={cn("grid gap-5", className)}>
       {fields.map((field) => {
         const selectedValue = values[field.key];
-        const hasSelected = selectedValue !== field.placeholder;
+        const hasSelected = !!selectedValue;
 
         return (
           <div
@@ -98,7 +96,7 @@ export default function LoanProductFeeCoaFields({
                     e.stopPropagation();
                     setValues((prev) => ({
                       ...prev,
-                      [field.key]: field.placeholder,
+                      [field.key]: undefined,
                     }));
                   }}
                   className={cn(
@@ -118,7 +116,7 @@ export default function LoanProductFeeCoaFields({
                 onValueChange={(value) =>
                   setValues((prev) => ({
                     ...prev,
-                    [field.key]: value as FeeCoaValue,
+                    [field.key]: value as FeeCoaOption,
                   }))
                 }
               >
@@ -138,9 +136,6 @@ export default function LoanProductFeeCoaFields({
                     selectContentClassName,
                   )}
                 >
-                  <SelectItem value={field.placeholder}>
-                    {field.placeholder}
-                  </SelectItem>
                   <SelectItem value={field.primaryOption}>
                     {field.primaryOption}
                   </SelectItem>
