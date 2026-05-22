@@ -68,7 +68,6 @@ const UI = {
   gapY: "gap-[15px]",
   input:
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] shadow-sm",
-  btn: "h-[30px] rounded-[5px] px-5 text-[13px] font-semibold text-white",
 } as const;
 
 function ActionPill({
@@ -446,12 +445,12 @@ export default function LaporanKolektibilitas() {
                     type="button"
                     onClick={doSearch}
                     className={cn(
-                      UI.btn,
-                      "inline-flex items-center gap-2",
-                      "bg-green-600 shadow-sm ring-1 ring-green-600/20 transition hover:bg-green-700",
+                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
+                      "bg-[#3BB001] text-[13px] font-normal text-white",
+                      "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
                     )}
                   >
-                    <Search className="h-4 w-4" />
+                    <Search className="h-3.5 w-3.5" />
                     Cari
                   </button>
                 </div>
