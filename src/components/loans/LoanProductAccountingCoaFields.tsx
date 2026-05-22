@@ -14,14 +14,16 @@ export type MainCoaOption =
   | "PEN. ADMINISTRASI"
   | "PILIH";
 
+type FieldKey =
+  | "coaLoan"
+  | "coaInterestRevenue"
+  | "coaSplitInterestRevenue"
+  | "coaPenaltyRevenue"
+  | "coaRoundingRevenue"
+  | "coaAdminRevenue";
+
 type FieldConfig = {
-  key:
-    | "coaLoan"
-    | "coaInterestRevenue"
-    | "coaSplitInterestRevenue"
-    | "coaPenaltyRevenue"
-    | "coaRoundingRevenue"
-    | "coaAdminRevenue";
+  key: FieldKey;
   label: React.ReactNode;
   hint?: string;
   placeholder: string;
@@ -73,7 +75,7 @@ const fields: FieldConfig[] = [
   },
 ];
 
-type Values = Record<FieldConfig["key"], MainCoaOption>;
+type Values = Record<FieldKey, MainCoaOption>;
 
 export default function LoanProductAccountingCoaFields({
   values,
@@ -83,7 +85,7 @@ export default function LoanProductAccountingCoaFields({
   className,
 }: {
   values: Values;
-  onChange: (key: FieldConfig["key"], value: MainCoaOption) => void;
+  onChange: (key: FieldKey, value: MainCoaOption) => void;
   selectTriggerClassName?: string;
   selectContentClassName?: string;
   className?: string;
@@ -141,7 +143,10 @@ export default function LoanProductAccountingCoaFields({
                   hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
                   selectTriggerClassName,
                 )}
-                contentClassName={selectContentClassName}
+                contentClassName={cn(
+                  "rounded-[5px] border-slate-200 p-0 shadow-xl",
+                  selectContentClassName,
+                )}
               />
             </div>
           </div>
