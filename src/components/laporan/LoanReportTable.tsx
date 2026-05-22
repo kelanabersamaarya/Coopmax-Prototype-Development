@@ -1,3 +1,4 @@
+di JSX dan typo total tgkPokok pada tabel laporan pinjaman.">
 "use client";
 
 import * as React from "react";
@@ -329,7 +330,7 @@ export default function LoanReportTable({
       paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
-      tgkPokok: sum((r) => r.tgPokok),
+      tgkPokok: sum((r) => r.tgkPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -345,7 +346,7 @@ export default function LoanReportTable({
       rows.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
-      tgkPokok: sum((r) => r.tgPokok),
+      tgkPokok: sum((r) => r.tgkPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -515,17 +516,24 @@ export default function LoanReportTable({
                       </Td>
 
                       <Td className="w-[95px]" align="left">
-                        <span className="whitespace-nowrap">{normalizeStatus(r.status)}</span>
+                        <span className="whitespace-nowrap">
+                          {normalizeStatus(r.status)}
+                        </span>
                       </Td>
 
                       <Td className="w-[145px]" align="left">
-                        <div className="whitespace-normal leading-snug" title={r.jenisPinjaman}>
+                        <div
+                          className="whitespace-normal leading-snug"
+                          title={r.jenisPinjaman}
+                        >
                           {r.jenisPinjaman}
                         </div>
                       </Td>
 
                       <Td className="w-[105px]" align="left">
-                        <span className="tabular-nums whitespace-nowrap">{r.tanggalPinjaman}</span>
+                        <span className="tabular-nums whitespace-nowrap">
+                          {r.tanggalPinjaman}
+                        </span>
                       </Td>
 
                       <Td className="w-[110px]" align="left">
@@ -544,7 +552,9 @@ export default function LoanReportTable({
                       </Td>
 
                       <Td className="w-[112px]" align="left">
-                        <span className="tabular-nums whitespace-nowrap">{r.jatuhTempo}</span>
+                        <span className="tabular-nums whitespace-nowrap">
+                          {r.jatuhTempo}
+                        </span>
                       </Td>
 
                       <Td className="w-[82px]" align="right">
@@ -666,10 +676,25 @@ export default function LoanReportTable({
                         {formatIdNumber(totalsAll.jumlahPinjaman)}
                       </td>
 
-                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
-                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
+                      <td
+                        className={cn(
+                          "border-r border-slate-300/80 px-2 py-2.5",
+                          totalDivider,
+                        )}
+                      />
+                      <td
+                        className={cn(
+                          "border-r border-slate-300/80 px-2 py-2.5",
+                          totalDivider,
+                        )}
+                      />
 
-                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
+                      <td
+                        className={cn(
+                          "border-r border-slate-300/80 px-2 py-2.5",
+                          totalDivider,
+                        )}
+                      />
                       <td
                         className={cn(
                           "border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-semibold text-slate-900 tabular-nums",
@@ -735,7 +760,12 @@ export default function LoanReportTable({
                       >
                         {formatIdNumber(totalsAll.sisaPinjaman)}
                       </td>
-                      <td className={cn("border-r border-slate-300/80 px-2 py-2.5", totalDivider)} />
+                      <td
+                        className={cn(
+                          "border-r border-slate-300/80 px-2 py-2.5",
+                          totalDivider,
+                        )}
+                      />
                     </tr>
                   </>
                 ) : null}
