@@ -411,10 +411,7 @@ export default function LoanReportTable({
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[70px]">
-                    <SortableHeaderLabel
-                      lines={["AO ID"]}
-                      className="[&_*]:whitespace-nowrap"
-                    />
+                    <PlainHeader>AO ID</PlainHeader>
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[180px]">
                     <SortableHeaderLabel lines={["EMAIL"]} />
