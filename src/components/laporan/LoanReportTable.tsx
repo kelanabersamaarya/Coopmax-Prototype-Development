@@ -354,7 +354,7 @@ export default function LoanReportTable({
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
       pinjamanSldPokok: sum((r) => r.pinjamanSldPokok),
-      tgkPokok: sum((r) => r.tgkPokok),
+      tgkPokok: sum((r) => r.tgPokok),
       tgkBunga: sum((r) => r.tgkBunga),
       sisaPinjaman: sum((r) => r.sisaPinjaman),
       tunggakanNilai: sum((r) => r.tunggakanNilai),
@@ -411,7 +411,7 @@ export default function LoanReportTable({
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[130px]">
-                    <SortableHeaderLabel lines={["NO", "HP"]} />
+                    <SortableHeaderLabel lines={["AO", "ID"]} />
                   </Th>
                   <Th rowSpan={2} className="h-[88px] w-[180px]">
                     <SortableHeaderLabel lines={["EMAIL"]} />
