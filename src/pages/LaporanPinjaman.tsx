@@ -507,7 +507,7 @@ export default function LaporanPinjaman() {
                     />
                   </div>
 
-                  <div className="mt-2 flex justify-end">
+                  <div className="mt-3 flex justify-end">
                     <button
                       type="button"
                       onClick={() => {
