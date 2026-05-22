@@ -5,12 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import {
   Mail,
@@ -24,7 +18,7 @@ import {
   Trash2,
 } from "lucide-react";
 import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
-import ProdukSelectItemNoIndicator from "@/components/obs/ProdukSelectItemNoIndicator";
+import ObsProdukSelect from "@/components/obs/ObsProdukSelect";
 
 type Product = "Pinjaman Koperasi";
 
@@ -447,16 +441,14 @@ export default function ObsWeb() {
                 <Label className="text-[13px] font-semibold text-slate-700">
                   Produk
                 </Label>
-                <Select value={produk} onValueChange={() => {}}>
-                  <SelectTrigger className={produkSelectTriggerCls}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className={produkSelectContentCls}>
-                    <ProdukSelectItemNoIndicator value="Pinjaman Koperasi">
-                      Pinjaman Koperasi
-                    </ProdukSelectItemNoIndicator>
-                  </SelectContent>
-                </Select>
+
+                <ObsProdukSelect
+                  value={produk}
+                  onValueChange={(v) => setProduk(v as Product)}
+                  options={["Pinjaman Koperasi"]}
+                  triggerClassName={produkSelectTriggerCls}
+                  contentClassName={produkSelectContentCls}
+                />
               </div>
 
               <div className="grid gap-2">
