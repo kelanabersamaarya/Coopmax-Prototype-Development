@@ -503,27 +503,27 @@ export default function LaporanPinjaman() {
                     inputMode="decimal"
                   />
                 </div>
+
+                <div className="mt-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      toast("Cari (prototype)", {
+                        description: "Filter belum dihubungkan ke data laporan.",
+                      });
+                    }}
+                    className={cn(
+                      "inline-flex h-[30px] items-center gap-2 rounded-[10px] px-6",
+                      "bg-[#3BB001] text-[13px] font-normal text-white",
+                      "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
+                    )}
+                  >
+                    <Search className="h-4.5 w-4.5" />
+                    Cari
+                  </button>
+                </div>
               </FieldWrap>
             </FieldRow>
-
-            <div className="flex justify-end pt-1">
-              <button
-                type="button"
-                onClick={() => {
-                  toast("Cari (prototype)", {
-                    description: "Filter belum dihubungkan ke data laporan.",
-                  });
-                }}
-                className={cn(
-                  "inline-flex h-[30px] items-center gap-2 rounded-[10px] px-6",
-                  "bg-[#3BB001] text-[13px] font-normal text-white",
-                  "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
-                )}
-              >
-                <Search className="h-4.5 w-4.5" />
-                Cari
-              </button>
-            </div>
           </div>
         </Card>
       </div>
