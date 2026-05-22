@@ -41,8 +41,8 @@ function Th({ children, className, ...props }: ThProps) {
     <th
       {...props}
       className={cn(
-        "border-b border-r border-slate-300/80 px-2 py-2.5",
-        "text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+        "border-b border-r border-slate-300/80 px-2 py-3",
+        "align-middle text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
         className,
       )}
     >
@@ -351,66 +351,66 @@ export default function LoanReportTable({
 
   return (
     <div className={cn("mt-6", className)}>
-      <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
-        <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
+      <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
+        <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
             <table className="w-full min-w-[2528px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr className="bg-white">
-                  <Th rowSpan={2} className="w-[46px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[46px]">
                     <SortableHeaderLabel lines={["NO"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[118px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[118px]">
                     <SortableHeaderLabel lines={["NO", "REKENING"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[135px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[135px]">
                     <SortableHeaderLabel lines={["NAMA", "NASABAH"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[175px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[175px]">
                     <SortableHeaderLabel lines={["ALAMAT"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[95px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[95px]">
                     <SortableHeaderLabel
                       lines={["STATUS", "NASABAH"]}
                       className="[&_span]:whitespace-nowrap"
                     />
                   </Th>
-                  <Th rowSpan={2} className="w-[145px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[145px]">
                     <SortableHeaderLabel lines={["JENIS", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[105px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[105px]">
                     <SortableHeaderLabel lines={["TANGGAL", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[110px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[110px]">
                     <SortableHeaderLabel lines={["KOLEKTOR"]} />
                   </Th>
 
                   <th
                     colSpan={2}
                     className={cn(
-                      "border-b border-r border-slate-300/80 px-2 py-2",
-                      "bg-white text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "h-[44px] border-b border-r border-slate-300/80 px-2 py-3",
+                      "bg-white text-center align-middle text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                     )}
                   >
                     Jangka Waktu
                   </th>
 
-                  <Th rowSpan={2} className="w-[112px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[112px]">
                     <SortableHeaderLabel lines={["JATUH", "TEMPO"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[82px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[82px]">
                     <SortableHeaderLabel lines={["BUNGA"]} />
                   </Th>
 
-                  <Th rowSpan={2} className="w-[145px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[145px]">
                     <SortableHeaderLabel lines={["JUMLAH", "PINJAMAN"]} />
                   </Th>
 
                   <th
                     colSpan={2}
                     className={cn(
-                      "border-b border-r border-slate-300/80 px-2 py-2",
-                      "bg-white text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "h-[44px] border-b border-r border-slate-300/80 px-2 py-3",
+                      "bg-white text-center align-middle text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                     )}
                   >
                     Angsuran
@@ -419,40 +419,42 @@ export default function LoanReportTable({
                   <th
                     colSpan={6}
                     className={cn(
-                      "border-b border-r border-slate-300/80 px-2 py-2",
-                      "bg-white text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+                      "h-[44px] border-b border-r border-slate-300/80 px-2 py-3",
+                      "bg-white text-center align-middle text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
                     )}
                   >
                     Tunggakan
                   </th>
 
-                  <Th rowSpan={2} className="w-[115px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[115px]">
                     <SortableHeaderLabel lines={["TGK", "POKOK"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[115px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[115px]">
                     <SortableHeaderLabel lines={["TGK.", "BUNGA"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[120px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[120px]">
                     <SortableHeaderLabel lines={["SISA", "PINJAMAN"]} />
                   </Th>
-                  <Th rowSpan={2} className="w-[125px] align-bottom">
+                  <Th rowSpan={2} className="h-[88px] w-[125px]">
                     <SortableHeaderLabel lines={["KOLEKTIBILITAS"]} />
                   </Th>
                 </tr>
 
                 <tr className="bg-white">
-                  <Th className="w-[54px] bg-white">Bln</Th>
-                  <Th className="w-[118px] bg-white">Dari tgl. s/d tgl.</Th>
+                  <Th className="h-[44px] w-[54px] bg-white">Bln</Th>
+                  <Th className="h-[44px] w-[118px] bg-white">
+                    Dari tgl. s/d tgl.
+                  </Th>
 
-                  <Th className="w-[108px] bg-white">Per bln</Th>
-                  <Th className="w-[86px] bg-white">Sdh/Hr</Th>
+                  <Th className="h-[44px] w-[108px] bg-white">Per bln</Th>
+                  <Th className="h-[44px] w-[86px] bg-white">Sdh/Hr</Th>
 
-                  <Th className="w-[54px] bg-white">Bln</Th>
-                  <Th className="w-[105px] bg-white">Nilai</Th>
-                  <Th className="w-[105px] bg-white">1-30 Hr</Th>
-                  <Th className="w-[105px] bg-white">31-60 Hr</Th>
-                  <Th className="w-[105px] bg-white">61-90 Hr</Th>
-                  <Th className="w-[105px] bg-white">> 90 Hr</Th>
+                  <Th className="h-[44px] w-[54px] bg-white">Bln</Th>
+                  <Th className="h-[44px] w-[105px] bg-white">Nilai</Th>
+                  <Th className="h-[44px] w-[105px] bg-white">1-30 Hr</Th>
+                  <Th className="h-[44px] w-[105px] bg-white">31-60 Hr</Th>
+                  <Th className="h-[44px] w-[105px] bg-white">61-90 Hr</Th>
+                  <Th className="h-[44px] w-[105px] bg-white">> 90 Hr</Th>
                 </tr>
               </thead>
 
