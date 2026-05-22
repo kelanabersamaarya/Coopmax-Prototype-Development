@@ -61,7 +61,7 @@ function PlainHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("leading-[1.05] whitespace-nowrap text-left", className)}>
+    <div className={cn("whitespace-nowrap text-left leading-[1.05]", className)}>
       {children}
     </div>
   );
@@ -85,7 +85,7 @@ function Td({
         "text-[12px] font-medium",
         tone === "muted" ? "text-slate-600" : "text-slate-900",
         align === "right"
-          ? "text-right tabular-nums whitespace-nowrap"
+          ? "whitespace-nowrap text-right tabular-nums"
           : align === "center"
             ? "text-center"
             : "text-left",
@@ -132,7 +132,7 @@ function PaginationBar({
   const btnBase = cn(
     "h-10 px-4 text-[14px] font-semibold transition",
     "bg-slate-100 text-slate-500 hover:bg-slate-200",
-    "disabled:opacity-60 disabled:pointer-events-none",
+    "disabled:pointer-events-none disabled:opacity-60",
   );
 
   return (
@@ -323,7 +323,6 @@ export default function LoanReportTable({
   pageSize?: number;
 }) {
   const rows = React.useMemo(() => seedRows, []);
-
   const [page, setPage] = React.useState(1);
   const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
 
@@ -339,6 +338,7 @@ export default function LoanReportTable({
   const totalsPage = React.useMemo(() => {
     const sum = (pick: (r: Row) => string) =>
       paged.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
+
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
       tgkPokok: sum((r) => r.tgkPokok),
@@ -355,6 +355,7 @@ export default function LoanReportTable({
   const totalsAll = React.useMemo(() => {
     const sum = (pick: (r: Row) => string) =>
       rows.reduce((acc, r) => acc + parseIdNumber(pick(r)), 0);
+
     return {
       jumlahPinjaman: sum((r) => r.jumlahPinjaman),
       tgkPokok: sum((r) => r.tgkPokok),
@@ -434,7 +435,6 @@ export default function LoanReportTable({
                   <Th rowSpan={2} className="h-[88px] w-[82px]">
                     <SortableHeaderLabel lines={["BUNGA"]} />
                   </Th>
-
                   <Th rowSpan={2} className="h-[88px] w-[145px]">
                     <SortableHeaderLabel lines={["JUMLAH", "PINJAMAN"]} />
                   </Th>
@@ -560,7 +560,7 @@ export default function LoanReportTable({
                       </Td>
 
                       <Td className="w-[105px]" align="left">
-                        <span className="tabular-nums whitespace-nowrap">
+                        <span className="whitespace-nowrap tabular-nums">
                           {r.tanggalPinjaman}
                         </span>
                       </Td>
@@ -574,6 +574,7 @@ export default function LoanReportTable({
                       <Td className="w-[54px]" align="right">
                         {r.jwBln}
                       </Td>
+
                       <Td className="w-[118px]" align="left">
                         <div className="truncate" title={r.jwRange}>
                           {r.jwRange}
@@ -581,7 +582,7 @@ export default function LoanReportTable({
                       </Td>
 
                       <Td className="w-[112px]" align="left">
-                        <span className="tabular-nums whitespace-nowrap">
+                        <span className="whitespace-nowrap tabular-nums">
                           {r.jatuhTempo}
                         </span>
                       </Td>
@@ -597,6 +598,7 @@ export default function LoanReportTable({
                       <Td className="w-[108px]" align="right">
                         {r.angsuranPerBln}
                       </Td>
+
                       <Td className="w-[86px]" align="right">
                         {r.angsuranSdhHr}
                       </Td>
@@ -604,18 +606,23 @@ export default function LoanReportTable({
                       <Td className="w-[54px]" align="right">
                         {r.tunggakanBln}
                       </Td>
+
                       <Td className="w-[105px]" align="right">
                         {r.tunggakanNilai}
                       </Td>
+
                       <Td className="w-[105px]" align="right">
                         {r.tunggakan1_30}
                       </Td>
+
                       <Td className="w-[105px]" align="right">
                         {r.tunggakan31_60}
                       </Td>
+
                       <Td className="w-[105px]" align="right">
                         {r.tunggakan61_90}
                       </Td>
+
                       <Td className="w-[105px]" align="right">
                         {r.tunggakan90p}
                       </Td>
