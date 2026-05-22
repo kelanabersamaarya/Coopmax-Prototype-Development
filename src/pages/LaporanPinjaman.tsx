@@ -239,7 +239,9 @@ export default function LaporanPinjaman() {
           </div>
         </div>
 
-        <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-6">
+        {/* ✅ HAPUS PANEL PUTIH: wrapper Card jadi transparan */}
+        <Card className="mt-6 rounded-3xl border-0 bg-transparent p-0 shadow-none">
+          {/* optional: batasi lebar agar rapi seperti form sebelumnya */}
           <div className="grid gap-5">
             <FieldRow label="Jenis Pinjaman">
               <Select value={jenisPinjaman} onValueChange={setJenisPinjaman}>
