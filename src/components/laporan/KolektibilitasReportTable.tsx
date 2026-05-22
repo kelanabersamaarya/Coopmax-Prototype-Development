@@ -226,15 +226,8 @@ function BranchKetOneLine({ kd, ket }: { kd: string; ket: string }) {
 }
 
 function NplCell({ value }: { value: number }) {
-  const highlighted = value >= 15 && value < 20;
-
   return (
-    <span
-      className={cn(
-        "inline-flex min-w-[58px] justify-end px-1 tabular-nums",
-        highlighted ? "bg-yellow-300 text-slate-950" : "",
-      )}
-    >
+    <span className="inline-flex min-w-[58px] justify-end px-1 tabular-nums">
       {formatFloat2(value)}
     </span>
   );
@@ -420,11 +413,7 @@ export default function KolektibilitasReportTable({
                   TUNGGAKAN ANGSURAN
                 </Th>
 
-                <Th
-                  rowSpan={2}
-                  className={cn(colW.npl, "bg-[#d9edf7]")}
-                  align="center"
-                >
+                <Th rowSpan={2} className={colW.npl} align="center">
                   NPL
                   <br />
                   (%)
@@ -634,7 +623,7 @@ export default function KolektibilitasReportTable({
                         {formatIdr0(r.tunggakan90p)}
                       </Td>
 
-                      <Td className={cn(colW.npl, "bg-[#f8fbfd]")} align="right">
+                      <Td className={colW.npl} align="right">
                         <NplCell value={npl} />
                       </Td>
 
