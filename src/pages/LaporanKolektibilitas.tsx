@@ -15,7 +15,6 @@ import KolektibilitasReportTable, {
   type KolektibilitasRow,
 } from "@/components/laporan/KolektibilitasReportTable";
 import LoanTypeMultiSelect from "@/components/laporan/LoanTypeMultiSelect";
-import MultiSelectChips from "@/components/laporan/MultiSelectChips";
 import {
   Select,
   SelectContent,
@@ -60,14 +59,6 @@ const loanOptions = [
   "Pinjaman Bulanan 1",
   "Pinjaman Bulanan 5",
   "Pinjaman Billing",
-] as const;
-
-const branchOptions = [
-  "Pilih cabang",
-  "Cabang Pusat",
-  "Cabang Denpasar",
-  "Cabang Badung",
-  "Cabang Gianyar",
 ] as const;
 
 const UI = {
@@ -288,7 +279,6 @@ const seedRows: KolektibilitasRow[] = [
 
 export default function LaporanKolektibilitas() {
   const [jenisPinjaman, setJenisPinjaman] = React.useState<string[]>([]);
-  const [cabang, setCabang] = React.useState<string[]>([]);
   const [namaKode, setNamaKode] = React.useState("");
 
   const [bulan, setBulan] = React.useState<(typeof months)[number]>("April");
@@ -351,7 +341,11 @@ export default function LaporanKolektibilitas() {
               label="Export PDF"
               onClick={() => toast("Export PDF (prototype)")}
             />
-            <ActionPill icon={Printer} label="Cetak" onClick={() => toast("Cetak (prototype)")} />
+            <ActionPill
+              icon={Printer}
+              label="Cetak"
+              onClick={() => toast("Cetak (prototype)")}
+            />
           </div>
         </div>
 
@@ -365,18 +359,6 @@ export default function LaporanKolektibilitas() {
                     value={jenisPinjaman}
                     onChange={setJenisPinjaman}
                     placeholder="Pilih pinjaman"
-                  />
-                </div>
-              </FieldRow>
-
-              <FieldRow label="Cabang">
-                <div className={fieldW}>
-                  <MultiSelectChips
-                    options={branchOptions.filter((b) => b !== "Pilih cabang")}
-                    value={cabang}
-                    onChange={setCabang}
-                    placeholder="Pilih cabang"
-                    disabledOptions={[]}
                   />
                 </div>
               </FieldRow>
@@ -457,7 +439,6 @@ export default function LaporanKolektibilitas() {
                 </div>
               </FieldRow>
 
-              {/* Tombol Cari masuk ke kolom field (sejajar ujung kanan field) */}
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
                 <div className={cn(fieldW, "flex justify-end")}>

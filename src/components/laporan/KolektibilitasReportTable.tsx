@@ -183,9 +183,6 @@ const colW = {
   tanggalJatuhTempo: "w-[140px]",
   jenisPinjaman: "w-[170px]",
 
-  cabangKd: "w-[80px]",
-  cabangKet: "w-[120px]",
-
   plafon: "w-[130px]",
   pinPokok: "w-[130px]",
   tNilai: "w-[160px]",
@@ -211,17 +208,6 @@ function deriveKolektibilitas(r: KolektibilitasRow): KolektibilitasLabel {
 
 function Wrap2Lines({ children }: { children: React.ReactNode }) {
   return <div className="whitespace-normal leading-[1.05]">{children}</div>;
-}
-
-function BranchKetOneLine({ kd, ket }: { kd: string; ket: string }) {
-  return (
-    <div className="min-w-0">
-      <div className="truncate text-[12px] font-medium text-slate-900">
-        <span className="tabular-nums">{kd}</span>{" "}
-        <span className="text-slate-800">{ket}</span>
-      </div>
-    </div>
-  );
 }
 
 function NplCell({ value }: { value: number }) {
@@ -257,7 +243,7 @@ function TotalRow({
   const totalRowNumber =
     "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
-  const MERGE_COLS_TO_PINJAMAN = 11;
+  const MERGE_COLS_TO_PINJAMAN = 9;
 
   return (
     <tr className="border-t border-black bg-white">
@@ -283,7 +269,7 @@ function TotalRow({
   );
 }
 
-const TOTAL_COLS = 22;
+const TOTAL_COLS = 20;
 
 export default function KolektibilitasReportTable({
   rows,
@@ -357,7 +343,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[2310px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[2110px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no} align="left" leftBorder>
@@ -396,10 +382,6 @@ export default function KolektibilitasReportTable({
                 </Th>
 
                 <Th colSpan={2} align="center">
-                  CABANG
-                </Th>
-
-                <Th colSpan={2} align="center">
                   PINJAMAN
                 </Th>
 
@@ -435,13 +417,6 @@ export default function KolektibilitasReportTable({
               </tr>
 
               <tr className="bg-white">
-                <Th className={colW.cabangKd} align="left">
-                  KD
-                </Th>
-                <Th className={colW.cabangKet} align="left">
-                  KET.
-                </Th>
-
                 <Th className={colW.plafon} align="left">
                   <SortableHeaderLabel lines={["PLAFON"]} align="left" />
                 </Th>
@@ -487,25 +462,6 @@ export default function KolektibilitasReportTable({
                   const jenisPinjaman =
                     idx % 2 === 0 ? "Pinjaman Bulanan 9" : "Pinjaman Harian";
                   const plafon = r.pinjamanSldPokok + 1500000;
-
-                  const cabangKd =
-                    r.cabangKd ??
-                    (idx % 4 === 0
-                      ? "KTR"
-                      : idx % 4 === 1
-                        ? "AND"
-                        : idx % 4 === 2
-                          ? "ADK"
-                          : "YSP");
-                  const cabangKet =
-                    r.cabangKet ??
-                    (cabangKd === "KTR"
-                      ? "KANTOR"
-                      : cabangKd === "AND"
-                        ? "ANDRE"
-                        : cabangKd === "ADK"
-                          ? "DODY"
-                          : "FEPRI");
 
                   const sisaPinjaman = Math.max(
                     0,
@@ -573,21 +529,6 @@ export default function KolektibilitasReportTable({
                           <br />
                           {jenisPinjaman}
                         </Wrap2Lines>
-                      </Td>
-
-                      <Td
-                        className={cn(colW.cabangKd, "whitespace-nowrap")}
-                        align="left"
-                      >
-                        <span className="tabular-nums">{cabangKd}</span>
-                      </Td>
-
-                      <Td
-                        className={cn(colW.cabangKet, "whitespace-nowrap")}
-                        align="left"
-                        title={`${cabangKd} ${cabangKet}`}
-                      >
-                        <BranchKetOneLine kd={cabangKd} ket={cabangKet} />
                       </Td>
 
                       <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
