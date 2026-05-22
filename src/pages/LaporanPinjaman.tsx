@@ -53,7 +53,7 @@ function FieldRow({
 }) {
   return (
     <div className="grid gap-2 md:grid-cols-[320px_minmax(0,1fr)] md:items-center">
-      <div className="text-[13px] font-normal tracking-tight text-[#163A8A]">
+      <div className="text-[13px] font-normal tracking-tight text-black">
         {label}
       </div>
       <div className="min-w-0">{children}</div>
