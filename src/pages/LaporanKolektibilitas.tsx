@@ -445,7 +445,7 @@ export default function LaporanKolektibilitas() {
                     type="button"
                     onClick={doSearch}
                     className={cn(
-                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[20px]",
+                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
                       "bg-[#3BB001] text-[13px] font-normal text-white",
                       "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
                     )}
