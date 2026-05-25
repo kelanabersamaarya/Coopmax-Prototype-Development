@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import LoanReportTable from "@/components/laporan/LoanReportTable";
 import ClearableFilterInput from "@/components/laporan/ClearableFilterInput";
 import ReportCustomizationHint from "@/components/laporan/ReportCustomizationHint";
+import LoanTypeMultiSelect from "@/components/laporan/LoanTypeMultiSelect";
 import {
   Select,
   SelectContent,
@@ -20,6 +21,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+const loanOptions = [
+  "Pinjaman Bulanan 9",
+  "Pinjaman Harian",
+  "Pinjaman Bulanan 17",
+  "Pinjaman Emas",
+  "Pinjaman Bulanan 18",
+  "Pinjaman Bulanan 8",
+  "Pinjaman Bulanan 3",
+  "Pinjaman Bulanan 1",
+  "Pinjaman Bulanan 5",
+  "Pinjaman Billing",
+] as const;
 
 function ActionPill({
   icon: Icon,
@@ -135,7 +149,7 @@ export default function LaporanPinjaman() {
     return Array.from({ length: 7 }).map((_, i) => String(now - 3 + i));
   }, []);
 
-  const [jenisPinjaman, setJenisPinjaman] = React.useState("Pilih pinjaman");
+  const [jenisPinjaman, setJenisPinjaman] = React.useState<string[]>([]);
   const [namaNoRek, setNamaNoRek] = React.useState("");
   const [kolektor, setKolektor] = React.useState("Pilih Kolektor");
   const [wilayah, setWilayah] = React.useState("Pilih wilayah");
@@ -252,34 +266,12 @@ export default function LaporanPinjaman() {
             <div className="grid gap-4">
               <FieldRow label="Jenis Pinjaman">
                 <FieldWrap>
-                  <Select value={jenisPinjaman} onValueChange={setJenisPinjaman}>
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={solidSelectContentCls}>
-                      <SelectItem value="Pilih pinjaman" className={solidSelectItemCls}>
-                        Pilih pinjaman
-                      </SelectItem>
-                      <SelectItem
-                        value="Pinjaman Bulanan 9"
-                        className={solidSelectItemCls}
-                      >
-                        Pinjaman Bulanan 9
-                      </SelectItem>
-                      <SelectItem
-                        value="Pinjaman Harian"
-                        className={solidSelectItemCls}
-                      >
-                        Pinjaman Harian
-                      </SelectItem>
-                      <SelectItem
-                        value="Pinjaman Billing"
-                        className={solidSelectItemCls}
-                      >
-                        Pinjaman Billing
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <LoanTypeMultiSelect
+                    options={[...loanOptions]}
+                    value={jenisPinjaman}
+                    onChange={setJenisPinjaman}
+                    placeholder="Pilih pinjaman"
+                  />
                 </FieldWrap>
               </FieldRow>
 
