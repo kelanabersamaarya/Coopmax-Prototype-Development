@@ -55,7 +55,7 @@ export default function LoanTypeMultiSelect({
                   key={v}
                   className={cn(
                     "inline-flex items-center gap-2",
-                    "rounded-[5px] bg-[#275AA3] px-2.5 py-1",
+                    "rounded-[5px] bg-violet-600 px-2.5 py-1",
                     "text-[12.5px] font-semibold text-white",
                   )}
                 >
@@ -115,7 +115,7 @@ export default function LoanTypeMultiSelect({
             "[&_[cmdk-item]]:text-[14px]",
             "[&_[cmdk-item]]:font-normal",
             "[&_[cmdk-item]]:text-black",
-            "[&_[cmdk-item][data-selected=true]]:bg-[#275AA3]",
+            "[&_[cmdk-item][data-selected=true]]:bg-violet-600",
             "[&_[cmdk-item][data-selected=true]]:text-white",
           )}
         >
@@ -127,7 +127,7 @@ export default function LoanTypeMultiSelect({
                     key={opt}
                     value={opt}
                     onSelect={() => toggle(opt)}
-                    className="rounded-none text-black transition-colors hover:bg-[#275AA3] hover:text-white data-[selected=true]:bg-[#275AA3] data-[selected=true]:text-white"
+                    className="rounded-none text-black transition-colors hover:bg-violet-600 hover:text-white data-[selected=true]:bg-violet-600 data-[selected=true]:text-white"
                   >
                     <span className="min-w-0 flex-1 truncate">{opt}</span>
                   </CommandItem>
