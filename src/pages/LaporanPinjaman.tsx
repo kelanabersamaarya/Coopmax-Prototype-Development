@@ -16,6 +16,7 @@ import LoanReportTable from "@/components/laporan/LoanReportTable";
 import ClearableFilterInput from "@/components/laporan/ClearableFilterInput";
 import ReportCustomizationHint from "@/components/laporan/ReportCustomizationHint";
 import LoanTypeMultiSelect from "@/components/laporan/LoanTypeMultiSelect";
+import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import {
   Select,
   SelectContent,
@@ -110,18 +111,29 @@ function DateRangeField({
   startPlaceholder: string;
   endPlaceholder: string;
 }) {
+  const dateInputCls = cn(
+    "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 pr-10",
+    "text-[12.5px] font-normal text-slate-900 shadow-sm",
+    "placeholder:text-[#64748B]",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
   return (
     <div className="grid gap-2 md:grid-cols-2">
-      <ClearableFilterInput
+      <DatePickerDmyField
         value={startValue}
         onChange={onStartChange}
         placeholder={startPlaceholder}
+        inputClassName={dateInputCls}
+        popoverAlign="start"
       />
 
-      <ClearableFilterInput
+      <DatePickerDmyField
         value={endValue}
         onChange={onEndChange}
         placeholder={endPlaceholder}
+        inputClassName={dateInputCls}
+        popoverAlign="start"
       />
     </div>
   );
