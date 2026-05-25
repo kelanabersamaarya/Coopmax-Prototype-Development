@@ -118,6 +118,12 @@ function formatIdNumber(n: number): string {
   }).format(n);
 }
 
+function formatPercent(value: string) {
+  const trimmed = (value ?? "").trim();
+  if (!trimmed) return "-";
+  return trimmed.endsWith("%") ? trimmed : `${trimmed}%`;
+}
+
 function PaginationBar({
   page,
   pageCount,
@@ -604,7 +610,7 @@ export default function LoanReportTable({
                       </Td>
 
                       <Td className="w-[82px]" align="right">
-                        {r.bunga}
+                        {formatPercent(r.bunga)}
                       </Td>
 
                       <Td className="w-[145px]" align="right">
