@@ -563,8 +563,8 @@ export default function LoanReportTable({
                         </div>
                       </Td>
 
-                      <Td className="w-[70px]" align="left">
-                        <div className="truncate font-semibold" title={r.aoId}>
+                      <Td className="w-[70px] font-normal" align="left">
+                        <div className="truncate" title={r.aoId}>
                           {r.aoId}
                         </div>
                       </Td>
