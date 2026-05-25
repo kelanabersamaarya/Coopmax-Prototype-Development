@@ -215,12 +215,12 @@ export default function LaporanPinjaman() {
   );
 
   const solidSelectItemCls = cn(
-    "rounded-none px-4 py-2.5 text-[14px] font-normal text-[#2f4f83]",
+    "rounded-none px-4 py-2.5 text-[14px] font-normal text-black",
     "transition-colors",
     "hover:bg-[#275AA3] hover:text-white",
     "focus:bg-[#275AA3] focus:text-white",
     "data-[highlighted]:bg-[#275AA3] data-[highlighted]:text-white",
-    "data-[state=checked]:bg-white data-[state=checked]:text-[#2f4f83]",
+    "data-[state=checked]:bg-white data-[state=checked]:text-black",
     "data-[state=checked]:focus:bg-[#275AA3] data-[state=checked]:focus:text-white",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
@@ -228,7 +228,7 @@ export default function LaporanPinjaman() {
   );
 
   const mutedSelectText = "text-[#64748B]";
-  const normalSelectText = "text-slate-900";
+  const normalSelectText = "text-black";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] text-[13px] font-normal">
