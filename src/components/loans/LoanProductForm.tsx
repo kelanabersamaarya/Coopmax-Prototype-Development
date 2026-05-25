@@ -709,17 +709,6 @@ export default function LoanProductForm({
           <Switch checked={specialEndDate} onCheckedChange={setSpecialEndDate} />
         </FieldRow>
 
-        <FieldRow label="Atur COA Jenis Biaya pada Produk Pinjaman">
-          <Switch checked={aturCoaJenisBiaya} onCheckedChange={setAturCoaJenisBiaya} />
-        </FieldRow>
-
-        {aturCoaJenisBiaya ? (
-          <LoanProductFeeCoaFields
-            selectTriggerClassName={style.selectTriggerClassName}
-            selectContentClassName={style.selectContentClassName}
-          />
-        ) : null}
-
         <FieldRow label="Propisi">
           {isCreate ? (
             <Input value={propisi} onChange={(e) => setPropisi(e.target.value)} className={style.inputClassName} inputMode="decimal" />
@@ -743,6 +732,17 @@ export default function LoanProductForm({
         <FieldRow label="Biaya Aktivasi M-Banking">
           <Input value={mbankingActivation} onChange={(e) => setMbankingActivation(e.target.value)} className={style.inputClassName} inputMode="decimal" />
         </FieldRow>
+
+        <FieldRow label="Atur COA Jenis Biaya pada Produk Pinjaman">
+          <Switch checked={aturCoaJenisBiaya} onCheckedChange={setAturCoaJenisBiaya} />
+        </FieldRow>
+
+        {aturCoaJenisBiaya ? (
+          <LoanProductFeeCoaFields
+            selectTriggerClassName={style.selectTriggerClassName}
+            selectContentClassName={style.selectContentClassName}
+          />
+        ) : null}
 
         <FieldRow label="Tanpa Agunan">
           <Switch checked={withoutCollateral} onCheckedChange={setWithoutCollateral} />
