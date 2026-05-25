@@ -128,7 +128,7 @@ function StyledSelect({
 }) {
   const triggerCls = cn(
     "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium shadow-sm",
-    muted ? "text-slate-500" : "text-black",
+    muted ? "text-slate-500" : "text-violet-700",
     "ring-0 ring-transparent",
     "outline-none",
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -163,11 +163,11 @@ function StyledSelect({
             className={cn(
               "rounded-none px-4 py-2.5 text-[14px] font-normal text-black",
               "transition-colors",
-              "hover:bg-[#275AA3] hover:text-white",
-              "focus:bg-[#275AA3] focus:text-white",
-              "data-[highlighted]:bg-[#275AA3] data-[highlighted]:text-white",
-              "data-[state=checked]:bg-white data-[state=checked]:text-black",
-              "data-[state=checked]:focus:bg-[#275AA3] data-[state=checked]:focus:text-white",
+              "hover:bg-violet-600 hover:text-white",
+              "focus:bg-violet-600 focus:text-white",
+              "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
+              "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
+              "data-[state=checked]:focus:bg-violet-600 data-[state=checked]:focus:text-white",
               "[&_[data-radix-select-item-indicator]]:hidden",
               "[&_[data-slot=select-item-indicator]]:hidden",
               "[&>span.absolute.right-2]:hidden",
