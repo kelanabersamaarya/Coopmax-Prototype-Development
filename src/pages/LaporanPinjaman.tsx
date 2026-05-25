@@ -205,7 +205,7 @@ export default function LaporanPinjaman() {
     "[&>svg]:text-slate-500",
   );
 
-  const monthSelectContentCls = cn(
+  const solidSelectContentCls = cn(
     "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
@@ -214,7 +214,7 @@ export default function LaporanPinjaman() {
     "[&_[data-radix-collection-item]]:pr-4",
   );
 
-  const monthSelectItemCls = cn(
+  const solidSelectItemCls = cn(
     "rounded-none px-4 py-2.5 text-[14px] font-normal text-[#2f4f83]",
     "transition-colors",
     "hover:bg-[#275AA3] hover:text-white",
@@ -266,13 +266,28 @@ export default function LaporanPinjaman() {
                     >
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Pilih pinjaman">Pilih pinjaman</SelectItem>
-                      <SelectItem value="Pinjaman Bulanan 9">
+                    <SelectContent className={solidSelectContentCls}>
+                      <SelectItem value="Pilih pinjaman" className={solidSelectItemCls}>
+                        Pilih pinjaman
+                      </SelectItem>
+                      <SelectItem
+                        value="Pinjaman Bulanan 9"
+                        className={solidSelectItemCls}
+                      >
                         Pinjaman Bulanan 9
                       </SelectItem>
-                      <SelectItem value="Pinjaman Harian">Pinjaman Harian</SelectItem>
-                      <SelectItem value="Pinjaman Billing">Pinjaman Billing</SelectItem>
+                      <SelectItem
+                        value="Pinjaman Harian"
+                        className={solidSelectItemCls}
+                      >
+                        Pinjaman Harian
+                      </SelectItem>
+                      <SelectItem
+                        value="Pinjaman Billing"
+                        className={solidSelectItemCls}
+                      >
+                        Pinjaman Billing
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldWrap>
@@ -301,11 +316,19 @@ export default function LaporanPinjaman() {
                     >
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Pilih Kolektor">Pilih Kolektor</SelectItem>
-                      <SelectItem value="Dinda Sudiati">Dinda Sudiati</SelectItem>
-                      <SelectItem value="Kolektor A">Kolektor A</SelectItem>
-                      <SelectItem value="Kolektor B">Kolektor B</SelectItem>
+                    <SelectContent className={solidSelectContentCls}>
+                      <SelectItem value="Pilih Kolektor" className={solidSelectItemCls}>
+                        Pilih Kolektor
+                      </SelectItem>
+                      <SelectItem value="Dinda Sudiati" className={solidSelectItemCls}>
+                        Dinda Sudiati
+                      </SelectItem>
+                      <SelectItem value="Kolektor A" className={solidSelectItemCls}>
+                        Kolektor A
+                      </SelectItem>
+                      <SelectItem value="Kolektor B" className={solidSelectItemCls}>
+                        Kolektor B
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldWrap>
@@ -324,12 +347,22 @@ export default function LaporanPinjaman() {
                     >
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Pilih wilayah">Pilih wilayah</SelectItem>
-                      <SelectItem value="Pusat">Pusat</SelectItem>
-                      <SelectItem value="Denpasar">Denpasar</SelectItem>
-                      <SelectItem value="Badung">Badung</SelectItem>
-                      <SelectItem value="Gianyar">Gianyar</SelectItem>
+                    <SelectContent className={solidSelectContentCls}>
+                      <SelectItem value="Pilih wilayah" className={solidSelectItemCls}>
+                        Pilih wilayah
+                      </SelectItem>
+                      <SelectItem value="Pusat" className={solidSelectItemCls}>
+                        Pusat
+                      </SelectItem>
+                      <SelectItem value="Denpasar" className={solidSelectItemCls}>
+                        Denpasar
+                      </SelectItem>
+                      <SelectItem value="Badung" className={solidSelectItemCls}>
+                        Badung
+                      </SelectItem>
+                      <SelectItem value="Gianyar" className={solidSelectItemCls}>
+                        Gianyar
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldWrap>
@@ -382,9 +415,9 @@ export default function LaporanPinjaman() {
                       >
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className={monthSelectContentCls}>
+                      <SelectContent className={solidSelectContentCls}>
                         {months.map((m) => (
-                          <SelectItem key={m} value={m} className={monthSelectItemCls}>
+                          <SelectItem key={m} value={m} className={solidSelectItemCls}>
                             {m}
                           </SelectItem>
                         ))}
@@ -405,9 +438,9 @@ export default function LaporanPinjaman() {
                       >
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-slate-200">
+                      <SelectContent className={solidSelectContentCls}>
                         {years.map((y) => (
-                          <SelectItem key={y} value={y}>
+                          <SelectItem key={y} value={y} className={solidSelectItemCls}>
                             {y}
                           </SelectItem>
                         ))}
@@ -443,10 +476,16 @@ export default function LaporanPinjaman() {
                     >
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                      <SelectItem value="Laki-laki">Laki-laki</SelectItem>
-                      <SelectItem value="Perempuan">Perempuan</SelectItem>
+                    <SelectContent className={solidSelectContentCls}>
+                      <SelectItem value="-- Semua --" className={solidSelectItemCls}>
+                        -- Semua --
+                      </SelectItem>
+                      <SelectItem value="Laki-laki" className={solidSelectItemCls}>
+                        Laki-laki
+                      </SelectItem>
+                      <SelectItem value="Perempuan" className={solidSelectItemCls}>
+                        Perempuan
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldWrap>
@@ -465,12 +504,19 @@ export default function LaporanPinjaman() {
                     >
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Aktif / Sudah Dicairkan">
+                    <SelectContent className={solidSelectContentCls}>
+                      <SelectItem
+                        value="Aktif / Sudah Dicairkan"
+                        className={solidSelectItemCls}
+                      >
                         Aktif / Sudah Dicairkan
                       </SelectItem>
-                      <SelectItem value="Lunas">Lunas</SelectItem>
-                      <SelectItem value="Macet">Macet</SelectItem>
+                      <SelectItem value="Lunas" className={solidSelectItemCls}>
+                        Lunas
+                      </SelectItem>
+                      <SelectItem value="Macet" className={solidSelectItemCls}>
+                        Macet
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldWrap>
@@ -512,13 +558,22 @@ export default function LaporanPinjaman() {
                     >
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="Pilih Jenis Anggota">
+                    <SelectContent className={solidSelectContentCls}>
+                      <SelectItem
+                        value="Pilih Jenis Anggota"
+                        className={solidSelectItemCls}
+                      >
                         Pilih Jenis Anggota
                       </SelectItem>
-                      <SelectItem value="Semua">Semua</SelectItem>
-                      <SelectItem value="Anggota">Anggota</SelectItem>
-                      <SelectItem value="Calon">Calon</SelectItem>
+                      <SelectItem value="Semua" className={solidSelectItemCls}>
+                        Semua
+                      </SelectItem>
+                      <SelectItem value="Anggota" className={solidSelectItemCls}>
+                        Anggota
+                      </SelectItem>
+                      <SelectItem value="Calon" className={solidSelectItemCls}>
+                        Calon
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldWrap>
