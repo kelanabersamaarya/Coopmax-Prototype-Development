@@ -325,6 +325,19 @@ button[role="radio"]:focus-visible,
   border-color: var(--field-focus-border) !important;
 }
 
+/* Hard remove purple focus/highlight on dropdown triggers */
+:where(button[role="combobox"], [data-slot="select-trigger"]):focus,
+:where(button[role="combobox"], [data-slot="select-trigger"]):focus-visible,
+:where(button[role="combobox"], [data-slot="select-trigger"])[data-state="open"] {
+  outline: none !important;
+  border-color: var(--field-focus-border) !important;
+  box-shadow: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-offset-width: 0px !important;
+}
+
 /* ===========================
    Scoped: LoanApplicationCreate -> Pengaturan Jadwal
    Hilangkan ring ungu pada Select (trigger + item highlight)
