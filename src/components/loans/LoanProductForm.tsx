@@ -378,7 +378,7 @@ export default function LoanProductForm({
   const [coaRoundingRevenue, setCoaRoundingRevenue] = React.useState<MainCoaOption>("PENDAPATAN LAIN - LAIN");
   const [coaAdminRevenue, setCoaAdminRevenue] = React.useState<MainCoaOption>("PEN. ADMINISTRASI");
   const [collectorFees, setCollectorFees] = React.useState<CollectorFeeRow[]>([]);
-  const [useInstallmentTable, setUseInstallmentTable] = React.useState(true);
+  const [useInstallmentTable, setUseInstallmentTable] = React.useState(!isCreate);
   const [installmentMode, setInstallmentMode] = React.useState<InstallmentMode>("Jadwal Tetap (Diterbitkan Penuh di Awal)");
   const [tarifDendaMode, setTarifDendaMode] = React.useState<PenaltyRateMode>("rp");
   const [tarifDendaValue, setTarifDendaValue] = React.useState("0,00");
