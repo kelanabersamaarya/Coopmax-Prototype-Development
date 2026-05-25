@@ -253,10 +253,6 @@ export default function LoanApplicationCreate() {
 
   const [nasabahModalOpen, setNasabahModalOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    setNasabahModalOpen(true);
-  }, []);
-
   const [tab, setTab] = React.useState<TabId>("general");
 
   const [noRekening, setNoRekening] = React.useState("6459.00");
@@ -417,7 +413,6 @@ export default function LoanApplicationCreate() {
 
     setNasabahModalOpen(false);
 
-    // ✅ Toast hijau solid + tanpa deskripsi (tanpa info nasabah)
     showSolidSuccess("Data Nasabah Berhasil Ditampilkan");
   }
 
@@ -646,7 +641,7 @@ export default function LoanApplicationCreate() {
                           Pilih Tujuan Peminjaman
                         </SelectItem>
                         <SelectItem value="Modal Usaha">Modal Usaha</SelectItem>
-                        <SelectItem value="Konsumtif">Konsumtif</SelectItem>
+                        <SelectItem value="Konsumtif">Konsumif</SelectItem>
                       </SelectContent>
                     </Select>
                   </FieldRowInline>
