@@ -200,7 +200,7 @@ export default function LaporanPinjaman() {
 
   const selectTriggerCls = cn(
     "h-[30px] w-full justify-between rounded-[6px] border border-slate-200 bg-white px-3",
-    "text-[12.5px] font-normal shadow-sm",
+    "text-[12.5px] font-normal text-[#596882] shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-500",
   );
@@ -217,18 +217,15 @@ export default function LaporanPinjaman() {
   const solidSelectItemCls = cn(
     "rounded-none px-4 py-2.5 text-[14px] font-normal text-black",
     "transition-colors",
-    "hover:bg-[#275AA3] hover:text-white",
-    "focus:bg-[#275AA3] focus:text-white",
-    "data-[highlighted]:bg-[#275AA3] data-[highlighted]:text-white",
-    "data-[state=checked]:bg-white data-[state=checked]:text-black",
-    "data-[state=checked]:focus:bg-[#275AA3] data-[state=checked]:focus:text-white",
+    "hover:bg-violet-600 hover:text-white",
+    "focus:bg-violet-600 focus:text-white",
+    "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
+    "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
+    "data-[state=checked]:focus:bg-violet-600 data-[state=checked]:focus:text-white",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.right-2]:hidden",
   );
-
-  const mutedSelectText = "text-[#64748B]";
-  const normalSelectText = "text-black";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] text-[13px] font-normal">
@@ -256,14 +253,7 @@ export default function LaporanPinjaman() {
               <FieldRow label="Jenis Pinjaman">
                 <FieldWrap>
                   <Select value={jenisPinjaman} onValueChange={setJenisPinjaman}>
-                    <SelectTrigger
-                      className={cn(
-                        selectTriggerCls,
-                        jenisPinjaman === "Pilih pinjaman"
-                          ? mutedSelectText
-                          : normalSelectText,
-                      )}
-                    >
+                    <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={solidSelectContentCls}>
@@ -306,14 +296,7 @@ export default function LaporanPinjaman() {
               <FieldRow label="Kolektor">
                 <FieldWrap>
                   <Select value={kolektor} onValueChange={setKolektor}>
-                    <SelectTrigger
-                      className={cn(
-                        selectTriggerCls,
-                        kolektor === "Pilih Kolektor"
-                          ? mutedSelectText
-                          : normalSelectText,
-                      )}
-                    >
+                    <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={solidSelectContentCls}>
@@ -337,14 +320,7 @@ export default function LaporanPinjaman() {
               <FieldRow label="Wilayah">
                 <FieldWrap>
                   <Select value={wilayah} onValueChange={setWilayah}>
-                    <SelectTrigger
-                      className={cn(
-                        selectTriggerCls,
-                        wilayah === "Pilih wilayah"
-                          ? mutedSelectText
-                          : normalSelectText,
-                      )}
-                    >
+                    <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={solidSelectContentCls}>
@@ -374,14 +350,7 @@ export default function LaporanPinjaman() {
                     value={tipeKolektibilitas}
                     onValueChange={setTipeKolektibilitas}
                   >
-                    <SelectTrigger
-                      className={cn(
-                        selectTriggerCls,
-                        tipeKolektibilitas === "-- Semua --"
-                          ? mutedSelectText
-                          : normalSelectText,
-                      )}
-                    >
+                    <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={solidSelectContentCls}>
@@ -421,14 +390,7 @@ export default function LaporanPinjaman() {
                       value={kolektibilitasBulan}
                       onValueChange={setKolektibilitasBulan}
                     >
-                      <SelectTrigger
-                        className={cn(
-                          selectTriggerCls,
-                          kolektibilitasBulan === "Mei"
-                            ? mutedSelectText
-                            : normalSelectText,
-                        )}
-                      >
+                      <SelectTrigger className={selectTriggerCls}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className={solidSelectContentCls}>
@@ -444,14 +406,7 @@ export default function LaporanPinjaman() {
                       value={kolektibilitasTahun}
                       onValueChange={setKolektibilitasTahun}
                     >
-                      <SelectTrigger
-                        className={cn(
-                          selectTriggerCls,
-                          kolektibilitasTahun === "2026"
-                            ? mutedSelectText
-                            : normalSelectText,
-                        )}
-                      >
+                      <SelectTrigger className={selectTriggerCls}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className={solidSelectContentCls}>
@@ -482,14 +437,7 @@ export default function LaporanPinjaman() {
               <FieldRow label="Jenis Kelamin">
                 <FieldWrap>
                   <Select value={jenisKelamin} onValueChange={setJenisKelamin}>
-                    <SelectTrigger
-                      className={cn(
-                        selectTriggerCls,
-                        jenisKelamin === "-- Semua --"
-                          ? mutedSelectText
-                          : normalSelectText,
-                      )}
-                    >
+                    <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={solidSelectContentCls}>
@@ -510,14 +458,7 @@ export default function LaporanPinjaman() {
               <FieldRow label="Status Pinjaman">
                 <FieldWrap>
                   <Select value={statusPinjaman} onValueChange={setStatusPinjaman}>
-                    <SelectTrigger
-                      className={cn(
-                        selectTriggerCls,
-                        statusPinjaman === "Aktif / Sudah Dicairkan"
-                          ? mutedSelectText
-                          : normalSelectText,
-                      )}
-                    >
+                    <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={solidSelectContentCls}>
@@ -564,14 +505,7 @@ export default function LaporanPinjaman() {
               <FieldRow label="Status Anggota">
                 <FieldWrap>
                   <Select value={statusAnggota} onValueChange={setStatusAnggota}>
-                    <SelectTrigger
-                      className={cn(
-                        selectTriggerCls,
-                        statusAnggota === "Pilih Jenis Anggota"
-                          ? mutedSelectText
-                          : normalSelectText,
-                      )}
-                    >
+                    <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={solidSelectContentCls}>
