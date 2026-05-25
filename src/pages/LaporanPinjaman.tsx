@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import LoanReportTable from "@/components/laporan/LoanReportTable";
 import ClearableFilterInput from "@/components/laporan/ClearableFilterInput";
 import ReportCustomizationHint from "@/components/laporan/ReportCustomizationHint";
@@ -213,6 +214,13 @@ export default function LaporanPinjaman() {
     { label: "Cetak", icon: Printer, onClick: () => toast("Cetak (prototype)") },
   ] as const;
 
+  const inputCls = cn(
+    "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3",
+    "text-[12.5px] font-normal text-slate-900 shadow-sm",
+    "placeholder:text-[#64748B]",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
   const selectTriggerCls = cn(
     "h-[30px] w-full justify-between rounded-[6px] border border-slate-200 bg-white px-3",
     "text-[12.5px] font-normal text-[#596882] shadow-sm",
@@ -220,10 +228,7 @@ export default function LaporanPinjaman() {
     "[&>svg]:text-slate-500",
   );
 
-  const clearableSelectTriggerCls = cn(
-    selectTriggerCls,
-    "pl-10",
-  );
+  const clearableSelectTriggerCls = cn(selectTriggerCls, "pl-10");
 
   const solidSelectContentCls = cn(
     "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
@@ -285,10 +290,11 @@ export default function LaporanPinjaman() {
 
               <FieldRow label="Nama/No Rekening">
                 <FieldWrap>
-                  <ClearableFilterInput
+                  <Input
                     value={namaNoRek}
-                    onChange={setNamaNoRek}
+                    onChange={(e) => setNamaNoRek(e.target.value)}
                     placeholder="Masukkan Nama/No Rekening"
+                    className={inputCls}
                   />
                 </FieldWrap>
               </FieldRow>
