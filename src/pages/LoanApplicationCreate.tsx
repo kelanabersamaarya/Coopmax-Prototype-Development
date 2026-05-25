@@ -255,22 +255,18 @@ export default function LoanApplicationCreate() {
 
   const [tab, setTab] = React.useState<TabId>("general");
 
-  const [noRekening, setNoRekening] = React.useState("6459.00");
-  const [idNasabah, setIdNasabah] = React.useState("Z261283");
+  const [noRekening, setNoRekening] = React.useState("");
+  const [idNasabah, setIdNasabah] = React.useState("");
 
-  const [nik, setNik] = React.useState("1601095402960002");
+  const [nik, setNik] = React.useState("");
   const [ktpVerified, setKtpVerified] = React.useState(false);
 
-  const [nama, setNama] = React.useState("FERNA MARLENA");
-  const [alamat, setAlamat] = React.useState(
-    "Tidak Dusun IV Sumber Sari Blok N Batumarta XI",
-  );
-  const [unitAnggota, setUnitAnggota] = React.useState(
-    "Tidak Terdapat Unit Anggota",
-  );
+  const [nama, setNama] = React.useState("");
+  const [alamat, setAlamat] = React.useState("");
+  const [unitAnggota, setUnitAnggota] = React.useState("");
 
   const [kolektor, setKolektor] = React.useState("Pilih Kolektor");
-  const [tanggal, setTanggal] = React.useState("02-10-2025");
+  const [tanggal, setTanggal] = React.useState(getTodayDmy());
 
   const [produkPinjaman, setProdukPinjaman] = React.useState<
     LoanProductOption | "Pilih Pinjaman"
@@ -641,7 +637,7 @@ export default function LoanApplicationCreate() {
                           Pilih Tujuan Peminjaman
                         </SelectItem>
                         <SelectItem value="Modal Usaha">Modal Usaha</SelectItem>
-                        <SelectItem value="Konsumtif">Konsumif</SelectItem>
+                        <SelectItem value="Konsumtif">Konsumtif</SelectItem>
                       </SelectContent>
                     </Select>
                   </FieldRowInline>
