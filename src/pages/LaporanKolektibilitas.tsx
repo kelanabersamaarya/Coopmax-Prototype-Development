@@ -128,7 +128,7 @@ function StyledSelect({
 }) {
   const triggerCls = cn(
     "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium shadow-sm",
-    muted ? "text-slate-500" : "text-violet-700",
+    muted ? "text-slate-500" : "text-black",
     "ring-0 ring-transparent",
     "outline-none",
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
