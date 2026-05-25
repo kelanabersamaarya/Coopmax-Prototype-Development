@@ -89,14 +89,22 @@ export default function SearchableFeeCoaSelect({
                       setOpen(false);
                     }}
                     className={cn(
-                      "rounded-none px-3 py-2.5 text-[13px] font-normal text-slate-900",
-                      "data-[selected=true]:bg-slate-50 data-[selected=true]:text-slate-900",
-                      "hover:bg-slate-50 hover:text-slate-900",
+                      "rounded-none px-3 py-2.5 text-[13px] font-normal",
+                      "text-slate-900 transition-colors",
+                      "hover:bg-violet-600 hover:text-white",
+                      "data-[selected=true]:bg-violet-600 data-[selected=true]:text-white",
                       selected ? "bg-slate-100 text-slate-900" : "",
                     )}
                   >
                     <span className="min-w-0 flex-1 truncate">{option}</span>
-                    {selected ? <Check className="h-4 w-4 shrink-0 text-slate-600" /> : null}
+                    {selected ? (
+                      <Check
+                        className={cn(
+                          "h-4 w-4 shrink-0",
+                          "text-slate-600 group-data-[selected=true]:text-white",
+                        )}
+                      />
+                    ) : null}
                   </CommandItem>
                 );
               })}
