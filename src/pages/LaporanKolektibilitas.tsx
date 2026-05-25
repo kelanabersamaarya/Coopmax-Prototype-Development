@@ -128,7 +128,7 @@ function StyledSelect({
 }) {
   const triggerCls = cn(
     "h-[30px] w-full rounded-[5px] border border-slate-200 bg-white px-3 text-[12.5px] font-medium shadow-sm",
-    muted ? "text-slate-500" : "text-slate-900",
+    muted ? "text-slate-500" : "text-black",
     "ring-0 ring-transparent",
     "outline-none",
     "focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -147,10 +147,12 @@ function StyledSelect({
 
       <SelectContent
         className={cn(
-          "rounded-[12px] border-slate-200 p-1 shadow-xl",
-          "[&_[data-state=checked]]:bg-slate-100/80",
-          "[&_[data-state=checked]]:text-slate-900",
-          "[&_[data-radix-collection-item]]:rounded-[10px]",
+          "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
+          "[&_[data-radix-select-item-indicator]]:hidden",
+          "[&_[data-slot=select-item-indicator]]:hidden",
+          "[&>span.absolute.right-2]:hidden",
+          "[&_[data-radix-collection-item]]:pl-4",
+          "[&_[data-radix-collection-item]]:pr-4",
           contentClassName,
         )}
       >
@@ -159,10 +161,16 @@ function StyledSelect({
             key={o}
             value={o}
             className={cn(
-              "rounded-[10px] py-2 text-[15px] font-medium text-slate-800",
-              "focus:bg-violet-600 focus:text-white",
-              "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
-              "data-[state=checked]:focus:bg-slate-100/80 data-[state=checked]:focus:text-slate-900",
+              "rounded-none px-4 py-2.5 text-[14px] font-normal text-black",
+              "transition-colors",
+              "hover:bg-[#275AA3] hover:text-white",
+              "focus:bg-[#275AA3] focus:text-white",
+              "data-[highlighted]:bg-[#275AA3] data-[highlighted]:text-white",
+              "data-[state=checked]:bg-white data-[state=checked]:text-black",
+              "data-[state=checked]:focus:bg-[#275AA3] data-[state=checked]:focus:text-white",
+              "[&_[data-radix-select-item-indicator]]:hidden",
+              "[&_[data-slot=select-item-indicator]]:hidden",
+              "[&>span.absolute.right-2]:hidden",
             )}
           >
             {o}
@@ -399,7 +407,7 @@ export default function LaporanKolektibilitas() {
                   className={cn(
                     UI.input,
                     "placeholder:text-slate-500",
-                    isDefaultTahun ? "text-slate-500" : "text-slate-900",
+                    isDefaultTahun ? "text-slate-500" : "text-black",
                     fieldW,
                   )}
                   placeholder="Pilih Tahun"

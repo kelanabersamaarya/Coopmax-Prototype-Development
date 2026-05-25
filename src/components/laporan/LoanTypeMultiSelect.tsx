@@ -55,7 +55,7 @@ export default function LoanTypeMultiSelect({
                   key={v}
                   className={cn(
                     "inline-flex items-center gap-2",
-                    "rounded-[5px] bg-violet-600 px-2.5 py-1",
+                    "rounded-[5px] bg-[#275AA3] px-2.5 py-1",
                     "text-[12.5px] font-semibold text-white",
                   )}
                 >
@@ -104,23 +104,30 @@ export default function LoanTypeMultiSelect({
 
       <PopoverContent
         align="start"
-        className="w-[--radix-popover-trigger-width] rounded-[12px] border-slate-200 p-0 shadow-xl"
+        className="w-[--radix-popover-trigger-width] rounded-[5px] border-slate-300 p-0 shadow-xl"
       >
-        <Command className="rounded-[12px]">
+        <Command
+          className={cn(
+            "rounded-[5px]",
+            "[&_[cmdk-item]]:rounded-none",
+            "[&_[cmdk-item]]:px-4",
+            "[&_[cmdk-item]]:py-2.5",
+            "[&_[cmdk-item]]:text-[14px]",
+            "[&_[cmdk-item]]:font-normal",
+            "[&_[cmdk-item]]:text-black",
+            "[&_[cmdk-item][data-selected=true]]:bg-[#275AA3]",
+            "[&_[cmdk-item][data-selected=true]]:text-white",
+          )}
+        >
           <CommandList>
             <CommandGroup>
               {options.map((opt) => {
-                const checked = value.includes(opt);
-
                 return (
                   <CommandItem
                     key={opt}
                     value={opt}
                     onSelect={() => toggle(opt)}
-                    className={cn(
-                      "rounded-[10px]",
-                      checked ? "bg-violet-50 text-violet-800" : "",
-                    )}
+                    className="rounded-none text-black transition-colors hover:bg-[#275AA3] hover:text-white data-[selected=true]:bg-[#275AA3] data-[selected=true]:text-white"
                   >
                     <span className="min-w-0 flex-1 truncate">{opt}</span>
                   </CommandItem>
