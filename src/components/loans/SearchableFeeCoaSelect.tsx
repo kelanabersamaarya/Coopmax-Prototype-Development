@@ -41,8 +41,11 @@ export default function SearchableFeeCoaSelect({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "h-[30px] w-full justify-between rounded-[5px] border-slate-200 bg-white px-3 text-left text-[12.5px] font-normal shadow-sm hover:bg-white",
-            hasSelected ? "text-slate-900" : "text-slate-500",
+            "h-[30px] w-full justify-between rounded-[5px] border-slate-200 bg-white px-3 text-left text-[12.5px] font-normal shadow-sm",
+            "hover:bg-white hover:text-slate-900",
+            "focus:text-slate-900 focus-visible:text-slate-900",
+            "data-[state=open]:text-slate-900",
+            hasSelected ? "text-slate-900" : "text-slate-500 hover:text-slate-500",
             triggerClassName,
           )}
         >
@@ -87,12 +90,13 @@ export default function SearchableFeeCoaSelect({
                     }}
                     className={cn(
                       "rounded-none px-3 py-2.5 text-[13px] font-normal text-slate-900",
-                      "data-[selected=true]:bg-violet-600 data-[selected=true]:text-white",
-                      selected ? "bg-violet-600 text-white" : "",
+                      "data-[selected=true]:bg-slate-50 data-[selected=true]:text-slate-900",
+                      "hover:bg-slate-50 hover:text-slate-900",
+                      selected ? "bg-slate-100 text-slate-900" : "",
                     )}
                   >
                     <span className="min-w-0 flex-1 truncate">{option}</span>
-                    {selected ? <Check className="h-4 w-4 shrink-0" /> : null}
+                    {selected ? <Check className="h-4 w-4 shrink-0 text-slate-600" /> : null}
                   </CommandItem>
                 );
               })}
