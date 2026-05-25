@@ -84,7 +84,7 @@ function ActionPill({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 items-center gap-2 rounded-[15px] bg-white px-4 text-[12.5px] font-semibold text-slate-700",
+        "inline-flex h-9 items-center gap-2 rounded-[20px] bg-white px-4 text-[12.5px] font-semibold text-slate-700",
         "ring-1 ring-slate-200 shadow-sm transition hover:bg-slate-50",
       )}
     >
@@ -445,7 +445,7 @@ export default function LaporanKolektibilitas() {
                     type="button"
                     onClick={doSearch}
                     className={cn(
-                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[15px]",
+                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[20px]",
                       "bg-[#3BB001] text-[13px] font-normal text-white",
                       "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
                     )}
