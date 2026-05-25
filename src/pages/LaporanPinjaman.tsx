@@ -384,15 +384,31 @@ export default function LaporanPinjaman() {
                     >
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-slate-200">
-                      <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                      <SelectItem value="Lancar">Lancar</SelectItem>
-                      <SelectItem value="Dalam Perhatian Khusus">
+                    <SelectContent className={solidSelectContentCls}>
+                      <SelectItem value="-- Semua --" className={solidSelectItemCls}>
+                        -- Semua --
+                      </SelectItem>
+                      <SelectItem value="Lancar" className={solidSelectItemCls}>
+                        Lancar
+                      </SelectItem>
+                      <SelectItem
+                        value="Dalam Perhatian Khusus"
+                        className={solidSelectItemCls}
+                      >
                         Dalam Perhatian Khusus
                       </SelectItem>
-                      <SelectItem value="Kurang Lancar">Kurang Lancar</SelectItem>
-                      <SelectItem value="Diragukan">Diragukan</SelectItem>
-                      <SelectItem value="Macet">Macet</SelectItem>
+                      <SelectItem
+                        value="Kurang Lancar"
+                        className={solidSelectItemCls}
+                      >
+                        Kurang Lancar
+                      </SelectItem>
+                      <SelectItem value="Diragukan" className={solidSelectItemCls}>
+                        Diragukan
+                      </SelectItem>
+                      <SelectItem value="Macet" className={solidSelectItemCls}>
+                        Macet
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldWrap>
