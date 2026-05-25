@@ -8,6 +8,7 @@ import {
   Printer,
   RefreshCw,
   Search,
+  X,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import LoanReportTable from "@/components/laporan/LoanReportTable";
@@ -219,6 +220,11 @@ export default function LaporanPinjaman() {
     "[&>svg]:text-slate-500",
   );
 
+  const clearableSelectTriggerCls = cn(
+    selectTriggerCls,
+    "pl-10",
+  );
+
   const solidSelectContentCls = cn(
     "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
     "[&_[data-radix-select-item-indicator]]:hidden",
@@ -240,6 +246,8 @@ export default function LaporanPinjaman() {
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.right-2]:hidden",
   );
+
+  const kolektorTerpilih = kolektor !== "Pilih Kolektor";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] text-[13px] font-normal">
@@ -287,25 +295,62 @@ export default function LaporanPinjaman() {
 
               <FieldRow label="Kolektor">
                 <FieldWrap>
-                  <Select value={kolektor} onValueChange={setKolektor}>
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={solidSelectContentCls}>
-                      <SelectItem value="Pilih Kolektor" className={solidSelectItemCls}>
-                        Pilih Kolektor
-                      </SelectItem>
-                      <SelectItem value="Dinda Sudiati" className={solidSelectItemCls}>
-                        Dinda Sudiati
-                      </SelectItem>
-                      <SelectItem value="Kolektor A" className={solidSelectItemCls}>
-                        Kolektor A
-                      </SelectItem>
-                      <SelectItem value="Kolektor B" className={solidSelectItemCls}>
-                        Kolektor B
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="relative">
+                    {kolektorTerpilih ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setKolektor("Pilih Kolektor");
+                        }}
+                        className={cn(
+                          "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
+                          "rounded-[5px] text-red-600 transition hover:bg-red-50",
+                          "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                        )}
+                        aria-label="Hapus kolektor"
+                        title="Hapus pilihan"
+                      >
+                        <X className="h-4.5 w-4.5" strokeWidth={3} />
+                      </button>
+                    ) : null}
+
+                    <Select value={kolektor} onValueChange={setKolektor}>
+                      <SelectTrigger
+                        className={
+                          kolektorTerpilih
+                            ? clearableSelectTriggerCls
+                            : selectTriggerCls
+                        }
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className={solidSelectContentCls}>
+                        <SelectItem
+                          value="Pilih Kolektor"
+                          className={solidSelectItemCls}
+                        >
+                          Pilih Kolektor
+                        </SelectItem>
+                        <SelectItem
+                          value="Dinda Sudiati"
+                          className={solidSelectItemCls}
+                        >
+                          Dinda Sudiati
+                        </SelectItem>
+                        <SelectItem value="Gusman" className={solidSelectItemCls}>
+                          Gusman
+                        </SelectItem>
+                        <SelectItem value="Kolektor A" className={solidSelectItemCls}>
+                          Kolektor A
+                        </SelectItem>
+                        <SelectItem value="Kolektor B" className={solidSelectItemCls}>
+                          Kolektor B
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </FieldWrap>
               </FieldRow>
 
@@ -564,7 +609,7 @@ export default function LaporanPinjaman() {
               className="w-full"
               onChooseReport={() =>
                 toast("Pilih Laporan (prototype)", {
-                  description: "Menu penyesuaian laporan belum dihubungkan.",
+                  description: "Menu penyesian laporan belum dihubungkan.",
                 })
               }
             />
