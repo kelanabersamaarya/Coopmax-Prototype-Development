@@ -8,6 +8,11 @@ import PenaltyDetailDialogReadOnly, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialogReadOnly";
 import { Eye } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -68,24 +73,39 @@ function buildPenaltyDetailRows(dueDateDmy: string): PenaltyDetailRow[] {
 
 function PenaltyInfoButton({ onClick }: { onClick: () => void }) {
   return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onClick();
-      }}
-      className={cn(
-        "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
-        "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
-        "transition hover:bg-[#1d4ed8]",
-        "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
-      )}
-      aria-label="Lihat detail denda"
-      title="Lihat detail denda"
-    >
-      <Eye className="h-3.5 w-3.5" />
-    </button>
+    <Tooltip delayDuration={120}>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClick();
+          }}
+          className={cn(
+            "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+            "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/15",
+            "transition hover:bg-[#1d4ed8]",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
+          )}
+          aria-label="Lihat Detail Denda"
+        >
+          <Eye className="h-3.5 w-3.5" />
+        </button>
+      </TooltipTrigger>
+
+      <TooltipContent
+        side="top"
+        align="center"
+        sideOffset={8}
+        className={cn(
+          "rounded-[14px] border-slate-200 bg-white px-4 py-2.5 shadow-lg",
+          "text-[14px] font-semibold text-slate-900",
+        )}
+      >
+        Lihat Detail Denda
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -117,7 +137,9 @@ function Td({
       className={cn(
         "px-4 py-3 text-[13px] font-medium text-slate-900",
         "border-t border-slate-200",
-        align === "right" ? "text-right tabular-nums whitespace-nowrap" : "text-left",
+        align === "right"
+          ? "text-right tabular-nums whitespace-nowrap"
+          : "text-left",
         className,
       )}
     >
@@ -154,7 +176,9 @@ function InnerGraceTable({
           return (
             <tr
               key={`${r.jatuhTempo}-${globalIdx}`}
-              className={cn(idx === 0 ? "border-t border-slate-200" : "border-t border-slate-200")}
+              className={cn(
+                idx === 0 ? "border-t border-slate-200" : "border-t border-slate-200",
+              )}
             >
               <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
