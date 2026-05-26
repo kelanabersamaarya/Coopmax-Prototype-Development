@@ -182,6 +182,8 @@ const colW = {
   tanggalPinjaman: "w-[130px]",
   tanggalJatuhTempo: "w-[140px]",
   jenisPinjaman: "w-[170px]",
+  aoKd: "w-[78px]",
+  aoNama: "w-[140px]",
 
   plafon: "w-[130px]",
   pinPokok: "w-[130px]",
@@ -204,6 +206,31 @@ function deriveKolektibilitas(r: KolektibilitasRow): KolektibilitasLabel {
   if (r.tunggakanBln === 3) return "Diragukan";
   if (r.tunggakanBln === 2) return "Kurang Lancar";
   return "Lancar";
+}
+
+function deriveAoInfo(aoId: string, idx: number) {
+  const mapped: Record<string, { kd: string; nama: string }> = {
+    A01: { kd: "KTR", nama: "KANTOR" },
+    A02: { kd: "AND", nama: "ANDRE" },
+    A03: { kd: "ADK", nama: "DODY" },
+    YSP: { kd: "YSP", nama: "FEPRI" },
+    KKM: { kd: "KKM", nama: "REMEDIAL 1" },
+    AMN: { kd: "AMN", nama: "ENGGAR" },
+    DNI: { kd: "DNI", nama: "INDAH" },
+  };
+
+  const fallback = [
+    { kd: "KTR", nama: "KANTOR" },
+    { kd: "AND", nama: "ANDRE" },
+    { kd: "ADK", nama: "DODY" },
+    { kd: "YSP", nama: "FEPRI" },
+    { kd: "YSP", nama: "DIO" },
+    { kd: "KKM", nama: "REMEDIAL 1" },
+    { kd: "AMN", nama: "ENGGAR" },
+    { kd: "DNI", nama: "INDAH" },
+  ];
+
+  return mapped[aoId] ?? fallback[idx % fallback.length];
 }
 
 function Wrap2Lines({ children }: { children: React.ReactNode }) {
@@ -244,7 +271,7 @@ function TotalRow({
   const totalRowNumber =
     "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
-  const MERGE_COLS_BEFORE_PINJAMAN = 8;
+  const MERGE_COLS_BEFORE_PINJAMAN = 10;
 
   return (
     <tr className="border-t border-black bg-white">
@@ -271,7 +298,7 @@ function TotalRow({
   );
 }
 
-const TOTAL_COLS = 20;
+const TOTAL_COLS = 22;
 
 export default function KolektibilitasReportTable({
   rows,
@@ -349,7 +376,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[2110px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[2330px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th rowSpan={2} className={colW.no} align="left" leftBorder>
@@ -388,6 +415,10 @@ export default function KolektibilitasReportTable({
                 </Th>
 
                 <Th colSpan={2} align="center">
+                  AO
+                </Th>
+
+                <Th colSpan={2} align="center">
                   PINJAMAN
                 </Th>
 
@@ -423,6 +454,13 @@ export default function KolektibilitasReportTable({
               </tr>
 
               <tr className="bg-white">
+                <Th className={colW.aoKd} align="left">
+                  KD
+                </Th>
+                <Th className={colW.aoNama} align="left">
+                  Nama
+                </Th>
+
                 <Th className={colW.plafon} align="left">
                   <SortableHeaderLabel lines={["PLAFON"]} align="left" />
                 </Th>
@@ -461,6 +499,7 @@ export default function KolektibilitasReportTable({
               ) : (
                 paged.map((r, idx) => {
                   const kolek = deriveKolektibilitas(r);
+                  const ao = deriveAoInfo(r.aoId, idx);
 
                   const status = idx % 5 === 0 ? "Calon" : "Anggota";
                   const tanggalPinjaman = r.dari;
@@ -535,6 +574,21 @@ export default function KolektibilitasReportTable({
                           <br />
                           {jenisPinjaman}
                         </Wrap2Lines>
+                      </Td>
+
+                      <Td
+                        className={cn(colW.aoKd, "whitespace-nowrap")}
+                        align="left"
+                      >
+                        {ao.kd}
+                      </Td>
+
+                      <Td
+                        className={cn(colW.aoNama, "whitespace-nowrap")}
+                        align="left"
+                        title={ao.nama}
+                      >
+                        {ao.nama}
                       </Td>
 
                       <Td className={cn(colW.plafon, "whitespace-nowrap")} align="right">
