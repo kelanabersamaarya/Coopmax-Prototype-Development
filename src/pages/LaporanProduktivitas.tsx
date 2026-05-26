@@ -22,6 +22,8 @@ type Row = {
   produktivitas: string;
 };
 
+type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
+
 const seedRows: Row[] = [
   {
     no: 1,
@@ -102,6 +104,8 @@ export default function LaporanProduktivitas() {
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
+  const [jenisLaporan, setJenisLaporan] =
+    React.useState<JenisLaporan>("Laporan Produktivitas");
   const [showReport, setShowReport] = React.useState(false);
 
   const rows = React.useMemo(() => {
@@ -211,6 +215,30 @@ export default function LaporanProduktivitas() {
               </div>
 
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                <div className="text-[13px] font-normal text-slate-900">
+                  Jenis Laporan
+                </div>
+                <div className="w-full md:max-w-[440px]">
+                  <Select
+                    value={jenisLaporan}
+                    onValueChange={(value) =>
+                      setJenisLaporan(value as JenisLaporan)
+                    }
+                  >
+                    <SelectTrigger className={selectTriggerCls}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-[5px] border-slate-200">
+                      <SelectItem value="Laporan Produktivitas">
+                        Laporan Produktivitas
+                      </SelectItem>
+                      <SelectItem value="Detail NPL">Detail NPL</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
                 <div className="flex w-full justify-end md:max-w-[440px]">
                   <button
@@ -234,7 +262,7 @@ export default function LaporanProduktivitas() {
         {showReport ? (
           <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
             <div className="mb-4 text-[13px] font-semibold text-slate-700">
-              Periode: {bulan} {tahun}
+              {jenisLaporan} • Periode: {bulan} {tahun}
             </div>
 
             <div className="overflow-hidden rounded-[5px] ring-1 ring-slate-200">
