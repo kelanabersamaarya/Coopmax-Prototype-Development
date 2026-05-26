@@ -108,13 +108,16 @@ function Cell({
   children,
   className,
   align = "left",
+  colSpan,
 }: {
   children?: React.ReactNode;
   className?: string;
   align?: "left" | "center" | "right";
+  colSpan?: number;
 }) {
   return (
     <td
+      colSpan={colSpan}
       className={cn(
         "border border-slate-500 px-2 py-1.5 text-[13px] font-normal text-slate-900",
         align === "right"
@@ -166,9 +169,8 @@ export default function DetailNplDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-1rem)] sm:w-[760px]",
-          "max-w-[760px]",
-          "max-h-[85vh] overflow-hidden",
+          "flex w-[calc(100vw-1rem)] max-w-[760px] flex-col overflow-hidden",
+          "max-h-[85vh] sm:w-[760px]",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
@@ -176,8 +178,8 @@ export default function DetailNplDialog({
           "[&_[data-radix-dialog-close]]:hidden",
         )}
       >
-        <div className="bg-white">
-          <div className="flex items-center justify-between gap-3 px-6 py-4">
+        <div className="flex min-h-0 flex-1 flex-col bg-white">
+          <div className="flex shrink-0 items-center justify-between gap-3 px-6 py-4">
             <div className="text-lg font-extrabold tracking-tight text-slate-900">
               Detail NPL
             </div>
@@ -193,9 +195,9 @@ export default function DetailNplDialog({
             </button>
           </div>
 
-          <Separator className="bg-slate-200" />
+          <Separator className="shrink-0 bg-slate-200" />
 
-          <div className="overflow-auto px-5 py-5 sm:px-6">
+          <div className="min-h-0 flex-1 overflow-auto px-5 py-5 sm:px-6">
             <div className="safe-x-scroll rounded-[5px] border border-slate-500 bg-white">
               <table className="w-full min-w-[680px] border-collapse bg-white">
                 <thead>
@@ -272,9 +274,9 @@ export default function DetailNplDialog({
             </div>
           </div>
 
-          <Separator className="bg-slate-200" />
+          <Separator className="shrink-0 bg-slate-200" />
 
-          <div className="px-6 py-4">
+          <div className="shrink-0 px-6 py-4">
             <div className="flex justify-end">
               <button
                 type="button"
