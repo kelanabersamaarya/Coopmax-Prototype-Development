@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
+  BarChart3,
   RefreshCw,
   FileSpreadsheet,
   FileText,
@@ -329,6 +330,15 @@ export default function LaporanKolektibilitas() {
           </h1>
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
+            <ActionPill
+              icon={BarChart3}
+              label="Detail NPL"
+              onClick={() =>
+                toast("Detail NPL (prototype)", {
+                  description: "Detail NPL belum dihubungkan.",
+                })
+              }
+            />
             <ActionPill
               icon={RefreshCw}
               label="Proses Kolektibilitas"
