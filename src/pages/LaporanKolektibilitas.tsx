@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog";
+import DetailNplDialog from "@/components/laporan/DetailNplDialog";
 import KolektibilitasReportTable, {
   type KolektibilitasRow,
 } from "@/components/laporan/KolektibilitasReportTable";
@@ -296,6 +297,7 @@ export default function LaporanKolektibilitas() {
     React.useState<StatusAnggota>("Semua");
 
   const [warnOpen, setWarnOpen] = React.useState(false);
+  const [detailNplOpen, setDetailNplOpen] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
 
   function doSearch() {
@@ -322,6 +324,7 @@ export default function LaporanKolektibilitas() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <LoanTypeRequiredDialog open={warnOpen} onOpenChange={setWarnOpen} />
+      <DetailNplDialog open={detailNplOpen} onOpenChange={setDetailNplOpen} />
 
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -333,11 +336,7 @@ export default function LaporanKolektibilitas() {
             <ActionPill
               icon={BarChart3}
               label="Detail NPL"
-              onClick={() =>
-                toast("Detail NPL (prototype)", {
-                  description: "Detail NPL belum dihubungkan.",
-                })
-              }
+              onClick={() => setDetailNplOpen(true)}
             />
             <ActionPill
               icon={RefreshCw}
