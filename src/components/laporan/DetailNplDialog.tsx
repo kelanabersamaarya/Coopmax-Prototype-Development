@@ -1,3 +1,4 @@
+di JSX agar build Vercel berhasil.">
 "use client";
 
 import * as React from "react";
@@ -210,7 +211,7 @@ export default function DetailNplDialog({
                     <HeaderCell className="w-[92px]">1-30 hr</HeaderCell>
                     <HeaderCell className="w-[92px]">31-60 hr</HeaderCell>
                     <HeaderCell className="w-[92px]">61-90 hr</HeaderCell>
-                    <HeaderCell className="w-[92px]">> 91 hr</HeaderCell>
+                    <HeaderCell className="w-[92px]">{"\u003E"} 91 hr</HeaderCell>
                     <HeaderCell className="w-[92px]">Jumlah</HeaderCell>
                   </tr>
                 </thead>
