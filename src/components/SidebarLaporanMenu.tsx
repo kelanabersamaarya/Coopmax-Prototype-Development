@@ -13,6 +13,7 @@ type SubItem = {
 const items: SubItem[] = [
   { label: "Laporan Kolektibilitas", to: "/laporan/kolektibilitas" },
   { label: "Laporan Pinjaman", to: "/laporan/pinjaman" },
+  { label: "Laporan Produktivitas", to: "/laporan/produktivitas" },
 ];
 
 export default function SidebarLaporanMenu() {
