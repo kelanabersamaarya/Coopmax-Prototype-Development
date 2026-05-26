@@ -17,16 +17,21 @@ type UseAnggotaBillingSelectionConfig<Row> = {
   variant: BillingSelectionVariant;
 };
 
+function makeSelection(length: number, value: boolean) {
+  return Array.from({ length }, () => value);
+}
+
 export function useAnggotaBillingSelection<Row>({
   rows,
   jenisTransaksi,
   variant,
 }: UseAnggotaBillingSelectionConfig<Row>) {
+  const rowCount = rows.length;
+
   const [selected, setSelected] = React.useState<boolean[]>(() =>
-    rows.map(() => false),
+    makeSelection(rowCount, false),
   );
 
-  const rowCount = rows.length;
   const reguler = isReguler(jenisTransaksi);
   const khusus = isKhusus(jenisTransaksi);
   const pelunasan = isPelunasan(jenisTransaksi);
@@ -37,35 +42,37 @@ export function useAnggotaBillingSelection<Row>({
   React.useEffect(() => {
     if (variant === "view1") {
       if (pelunasan) {
-        setSelected(rows.map(() => true));
+        setSelected(makeSelection(rowCount, true));
         return;
       }
 
       if (reguler) {
-        setSelected((prev) => rows.map((_, i) => prev[i] ?? true));
+        setSelected((prev) =>
+          Array.from({ length: rowCount }, (_, i) => prev[i] ?? true),
+        );
         return;
       }
 
       if (khusus) {
-        setSelected(rows.map(() => false));
+        setSelected(makeSelection(rowCount, false));
         return;
       }
 
       if (penurunanBakiDebet) {
-        setSelected(rows.map(() => true));
+        setSelected(makeSelection(rowCount, true));
         return;
       }
 
-      setSelected(rows.map(() => false));
+      setSelected(makeSelection(rowCount, false));
       return;
     }
 
     if (reguler || khusus || pelunasan || penaltyOnly || feeOnly || penurunanBakiDebet) {
-      setSelected(rows.map(() => true));
+      setSelected(makeSelection(rowCount, true));
       return;
     }
 
-    setSelected(rows.map(() => true));
+    setSelected(makeSelection(rowCount, true));
   }, [
     feeOnly,
     khusus,
@@ -74,7 +81,6 @@ export function useAnggotaBillingSelection<Row>({
     penurunanBakiDebet,
     reguler,
     rowCount,
-    rows,
     variant,
   ]);
 
