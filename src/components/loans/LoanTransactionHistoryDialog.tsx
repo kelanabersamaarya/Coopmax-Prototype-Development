@@ -345,7 +345,7 @@ export default function LoanTransactionHistoryDialog({
                       ) : (
                         paged.map((r, idx) => {
                           const derivedNo = (page - 1) * pageSize + idx + 1;
-                          const trxNo = `BA/${r.tanggal.replaceAll("-", "")}/${String(
+                          const trxNo = `BA/${r.tanggal.replace(/-/g, "")}/${String(
                             derivedNo,
                           ).padStart(4, "0")}`;
 
