@@ -190,14 +190,7 @@ export default function LaporanProduktivitas() {
           </div>
         </Card>
 
-        {showReport ? (
-          <div>
-            <div className="mt-6 text-[13px] font-semibold text-slate-700">
-              {jenisLaporan} • Periode: {bulan} {tahun}
-            </div>
-            <LaporanProduktivitasReportTable />
-          </div>
-        ) : null}
+        {showReport ? <LaporanProduktivitasReportTable /> : null}
       </div>
     </div>
   );
