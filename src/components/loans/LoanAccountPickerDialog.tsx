@@ -169,7 +169,7 @@ export default function LoanAccountPickerDialog({
     });
   }, [q]);
 
-  const totalEntries = 47; // sesuai contoh tampilan (prototype)
+  const totalEntries: number = 47; // sesuai contoh tampilan (prototype)
   const pageCount = Math.max(1, Math.ceil(totalEntries / pageSize));
 
   React.useEffect(() => {
