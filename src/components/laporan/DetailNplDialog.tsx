@@ -115,7 +115,7 @@ function Cell({
     <td
       colSpan={colSpan}
       className={cn(
-        "border border-slate-500 bg-white px-2 py-1.5 text-[13px] font-normal text-slate-900",
+        "border border-[#CDD4E0] bg-white px-2 py-1.5 text-[13px] font-normal text-slate-900",
         align === "right"
           ? "text-right tabular-nums"
           : align === "center"
@@ -145,7 +145,7 @@ function HeaderCell({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "border border-slate-500 bg-white px-2 py-1.5 text-center text-[13px] font-semibold text-slate-800",
+        "border border-[#CDD4E0] bg-white px-2 py-1.5 text-center text-[13px] font-semibold text-slate-800",
         className,
       )}
     >
@@ -194,7 +194,7 @@ export default function DetailNplDialog({
           <Separator className="shrink-0 bg-slate-200" />
 
           <div className="min-h-0 flex-1 overflow-auto px-5 py-5 sm:px-6">
-            <div className="safe-x-scroll rounded-[5px] border border-slate-500 bg-white">
+            <div className="safe-x-scroll rounded-[5px] border border-[#CDD4E0] bg-white">
               <table className="w-full min-w-[680px] border-collapse bg-white">
                 <thead>
                   <tr>
