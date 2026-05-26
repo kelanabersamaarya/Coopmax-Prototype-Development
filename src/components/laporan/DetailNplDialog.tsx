@@ -230,7 +230,7 @@ export default function DetailNplDialog({
                   ))}
 
                   <tr className="bg-white">
-                    <Cell colSpan={3} align="right" className="font-semibold">
+                    <Cell colSpan={3} align="left" className="font-semibold">
                       Total
                     </Cell>
                     <Cell align="right" className="font-semibold">
