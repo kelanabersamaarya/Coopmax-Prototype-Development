@@ -140,7 +140,6 @@ function Th({
   className,
   colSpan,
   rowSpan,
-  align = "center",
   leftBorder = false,
   noRightBorder = false,
 }: {
@@ -160,12 +159,7 @@ function Th({
         "border-b border-t border-slate-300 bg-white px-2 py-2.5 align-middle",
         leftBorder ? "border-l border-slate-300" : "",
         noRightBorder ? "" : "border-r border-slate-300",
-        "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
-        align === "right"
-          ? "text-right"
-          : align === "left"
-            ? "text-left"
-            : "text-center",
+        "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         className,
       )}
     >
@@ -248,7 +242,7 @@ export default function LaporanProduktivitasReportTable({
           <table className="w-full min-w-[1160px] border-collapse border-l border-r border-slate-300 bg-white">
             <thead className="bg-white">
               <tr>
-                <Th rowSpan={2} className="w-[54px]" align="left" leftBorder>
+                <Th rowSpan={2} className="w-[54px]" leftBorder>
                   No
                 </Th>
                 <Th colSpan={2}>AO</Th>
@@ -262,33 +256,15 @@ export default function LaporanProduktivitasReportTable({
               </tr>
 
               <tr>
-                <Th className="w-[62px]" align="left">
-                  KD
-                </Th>
-                <Th className="w-[150px]" align="left">
-                  Nama
-                </Th>
-                <Th className="w-[150px]" align="right">
-                  Plafond
-                </Th>
-                <Th className="w-[150px]" align="right">
-                  Sld. Pokok
-                </Th>
-                <Th className="w-[135px]" align="right">
-                  Nilai
-                </Th>
-                <Th className="w-[135px]" align="right">
-                  1 - 30 hr
-                </Th>
-                <Th className="w-[135px]" align="right">
-                  31 - 60 hr
-                </Th>
-                <Th className="w-[135px]" align="right">
-                  61 - 90 hr
-                </Th>
-                <Th className="w-[135px]" align="right">
-                  {">"} 91 hr
-                </Th>
+                <Th className="w-[62px]">KD</Th>
+                <Th className="w-[150px]">Nama</Th>
+                <Th className="w-[150px]">Plafond</Th>
+                <Th className="w-[150px]">Sld. Pokok</Th>
+                <Th className="w-[135px]">Nilai</Th>
+                <Th className="w-[135px]">1 - 30 hr</Th>
+                <Th className="w-[135px]">31 - 60 hr</Th>
+                <Th className="w-[135px]">61 - 90 hr</Th>
+                <Th className="w-[135px]">{">"} 91 hr</Th>
               </tr>
             </thead>
 
