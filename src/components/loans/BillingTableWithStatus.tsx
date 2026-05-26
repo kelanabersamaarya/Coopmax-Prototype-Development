@@ -7,7 +7,7 @@ import NumericCell from "@/components/anggota/NumericCell";
 import PenaltyDetailDialogReadOnly, {
   type PenaltyDetailRow,
 } from "@/components/anggota/PenaltyDetailDialogReadOnly";
-import { Info } from "lucide-react";
+import { Eye } from "lucide-react";
 
 export type BillingRow = {
   jatuhTempo: string;
@@ -81,10 +81,10 @@ function PenaltyInfoButton({ onClick }: { onClick: () => void }) {
         "transition hover:bg-[#1d4ed8]",
         "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2563eb]/20",
       )}
-      aria-label="Rincian denda"
-      title="Rincian denda"
+      aria-label="Lihat detail denda"
+      title="Lihat detail denda"
     >
-      <Info className="h-3.5 w-3.5" />
+      <Eye className="h-3.5 w-3.5" />
     </button>
   );
 }
@@ -212,7 +212,6 @@ export default function BillingTableWithStatus({
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
   const [penaltyRows, setPenaltyRows] = React.useState<PenaltyDetailRow[]>([]);
 
-  // ✅ Tanpa kolom Status Tagihan
   const colCount = 7;
 
   const graceCount = showGraceHighlight ? Math.min(2, rows.length) : 0;
