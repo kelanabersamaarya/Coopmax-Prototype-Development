@@ -314,6 +314,15 @@ export default function LaporanKolektibilitas() {
     setSubmitted(true);
   }
 
+  function openDetailNpl() {
+    if (jenisPinjaman.length === 0) {
+      setWarnOpen(true);
+      return;
+    }
+
+    setDetailNplOpen(true);
+  }
+
   const isDefaultBulan = bulan === "April";
   const isDefaultTahun = tahun === "2026";
   const isDefaultTipe = tipe === "-- Semua --";
@@ -333,11 +342,7 @@ export default function LaporanKolektibilitas() {
           </h1>
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
-            <ActionPill
-              icon={BarChart3}
-              label="Detail NPL"
-              onClick={() => setDetailNplOpen(true)}
-            />
+            <ActionPill icon={BarChart3} label="Detail NPL" onClick={openDetailNpl} />
             <ActionPill
               icon={RefreshCw}
               label="Proses Kolektibilitas"
