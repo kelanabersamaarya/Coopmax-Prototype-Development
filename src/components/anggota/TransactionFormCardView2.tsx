@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, CheckSquare, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { parseAmount } from "@/components/anggota/anggota-money";
+import { formatIdrLike, parseAmount } from "@/components/anggota/anggota-money";
 import {
   PaymentConfirmModal,
   PaymentSuccessModal,
@@ -36,7 +36,7 @@ const transactionTypes = [
   "Bayar Biaya Lainnya",
 ] as const;
 
-function titleForTransaction(t: TransactionType | null) {
+function titleForTransaction(t: string | null) {
   if (!t) return "PILIH TRANSAKSI";
   if (t === TX.REGULER) return "PEMBAYARAN REGULER";
   if (t === TX.PENURUNAN_BAKI_DEBET) return "PEMBAYARAN PENURUNAN BAKI DEBET";
@@ -167,6 +167,12 @@ function parseDmyToDate(value: string): Date | undefined {
     return undefined;
   }
   return d;
+}
+
+function formatNumericInput(value: string) {
+  const digits = (value ?? "").replace(/\D/g, "");
+  if (!digits) return "";
+  return formatIdrLike(Number(digits));
 }
 
 function EffectiveDateField({
@@ -418,7 +424,7 @@ export default function TransactionFormCardView2({
                     </Label>
                     <Input
                       value={nominalPokok}
-                      onChange={(e) => setNominalPokok(e.target.value)}
+                      onChange={(e) => setNominalPokok(formatNumericInput(e.target.value))}
                       inputMode="numeric"
                       className="h-10 rounded-[5px] border-slate-200 bg-white text-right"
                       placeholder="0"
@@ -431,7 +437,7 @@ export default function TransactionFormCardView2({
                     </Label>
                     <Input
                       value={nominalBunga}
-                      onChange={(e) => setNominalBunga(e.target.value)}
+                      onChange={(e) => setNominalBunga(formatNumericInput(e.target.value))}
                       inputMode="numeric"
                       className="h-10 rounded-[5px] border-slate-200 bg-white text-right"
                       placeholder="0"
@@ -444,7 +450,7 @@ export default function TransactionFormCardView2({
                     </Label>
                     <Input
                       value={nominalDenda}
-                      onChange={(e) => setNominalDenda(e.target.value)}
+                      onChange={(e) => setNominalDenda(formatNumericInput(e.target.value))}
                       inputMode="numeric"
                       className="h-10 rounded-[5px] border-slate-200 bg-white text-right"
                       placeholder="0"
@@ -491,7 +497,7 @@ export default function TransactionFormCardView2({
                     ) : (
                       <Input
                         value={nominal}
-                        onChange={(e) => setNominal(e.target.value)}
+                        onChange={(e) => setNominal(formatNumericInput(e.target.value))}
                         inputMode="numeric"
                         className="h-10 rounded-[5px] border-slate-200 bg-white text-right"
                       />
