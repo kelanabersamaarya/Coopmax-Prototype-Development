@@ -41,6 +41,7 @@ function ActionPill({
 }
 
 export default function LaporanProduktivitas() {
+  const [cabang, setCabang] = React.useState("-- Semua --");
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
@@ -86,6 +87,28 @@ export default function LaporanProduktivitas() {
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[760px]">
             <div className="grid gap-[15px]">
+              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                <div className="text-[13px] font-normal text-slate-900">
+                  Cabang
+                </div>
+                <div className="w-full md:max-w-[440px]">
+                  <Select value={cabang} onValueChange={setCabang}>
+                    <SelectTrigger className={selectTriggerCls}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-[5px] border-slate-200">
+                      <SelectItem value="-- Semua --">-- Semua --</SelectItem>
+                      <SelectItem value="KANTOR">KANTOR</SelectItem>
+                      <SelectItem value="ANDRE">ANDRE</SelectItem>
+                      <SelectItem value="DODY">DODY</SelectItem>
+                      <SelectItem value="FEPRI">FEPRI</SelectItem>
+                      <SelectItem value="ENGGAR">ENGGAR</SelectItem>
+                      <SelectItem value="INDAH">INDAH</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div className="text-[13px] font-normal text-slate-900">
                   Kolektor
