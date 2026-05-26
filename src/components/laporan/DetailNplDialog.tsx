@@ -1,4 +1,3 @@
-di JSX agar build Vercel berhasil.">
 "use client";
 
 import * as React from "react";
