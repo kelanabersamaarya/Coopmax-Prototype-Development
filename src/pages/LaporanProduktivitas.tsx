@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
@@ -49,8 +48,10 @@ export default function LaporanProduktivitas() {
     React.useState<JenisLaporan>("Laporan Produktivitas");
   const [showReport, setShowReport] = React.useState(false);
 
-  const inputCls =
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
+  const yearOptions = React.useMemo(
+    () => ["2023", "2024", "2025", "2026", "2027", "2028", "2029"],
+    [],
+  );
 
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
@@ -137,12 +138,18 @@ export default function LaporanProduktivitas() {
                     </SelectContent>
                   </Select>
 
-                  <Input
-                    value={tahun}
-                    onChange={(e) => setTahun(e.target.value)}
-                    className={inputCls}
-                    inputMode="numeric"
-                  />
+                  <Select value={tahun} onValueChange={setTahun}>
+                    <SelectTrigger className={selectTriggerCls}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-[5px] border-slate-200">
+                      {yearOptions.map((year) => (
+                        <SelectItem key={year} value={year}>
+                          {year}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
