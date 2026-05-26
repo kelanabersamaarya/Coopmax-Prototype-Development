@@ -95,12 +95,14 @@ function PenaltyInfoButton({ onClick }: { onClick: () => void }) {
       </TooltipTrigger>
 
       <TooltipContent
-        side="top"
+        portalled
+        side="left"
         align="center"
-        sideOffset={8}
+        sideOffset={10}
+        collisionPadding={16}
         className={cn(
-          "rounded-[14px] border-slate-200 bg-white px-4 py-2.5 shadow-lg",
-          "text-[14px] font-semibold text-slate-900",
+          "z-[9999] rounded-[14px] border-slate-200 bg-white px-4 py-2.5 shadow-lg",
+          "whitespace-nowrap text-[14px] font-semibold text-slate-900",
         )}
       >
         Lihat Detail Denda
@@ -177,7 +179,9 @@ function InnerGraceTable({
             <tr
               key={`${r.jatuhTempo}-${globalIdx}`}
               className={cn(
-                idx === 0 ? "border-t border-slate-200" : "border-t border-slate-200",
+                idx === 0
+                  ? "border-t border-slate-200"
+                  : "border-t border-slate-200",
               )}
             >
               <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
