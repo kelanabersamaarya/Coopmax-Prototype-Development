@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProduktivitasReportTable";
+import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import {
   Select,
   SelectContent,
@@ -190,7 +191,13 @@ export default function LaporanProduktivitas() {
           </div>
         </Card>
 
-        {showReport ? <LaporanProduktivitasReportTable /> : null}
+        {showReport ? (
+          jenisLaporan === "Detail NPL" ? (
+            <DetailNplReportTable />
+          ) : (
+            <LaporanProduktivitasReportTable />
+          )
+        ) : null}
       </div>
     </div>
   );
