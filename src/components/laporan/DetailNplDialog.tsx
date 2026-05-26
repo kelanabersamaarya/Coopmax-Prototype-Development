@@ -15,7 +15,6 @@ type NplRow = {
   npl61_90: string;
   npl91: string;
   jumlah: string;
-  highlighted?: boolean;
 };
 
 const rows: NplRow[] = [
@@ -38,7 +37,6 @@ const rows: NplRow[] = [
     npl61_90: "0.34",
     npl91: "4.78",
     jumlah: "12.56",
-    highlighted: true,
   },
   {
     no: 3,
@@ -102,8 +100,6 @@ const rows: NplRow[] = [
   },
 ];
 
-const emptyRows = Array.from({ length: 7 });
-
 function Cell({
   children,
   className,
@@ -119,7 +115,7 @@ function Cell({
     <td
       colSpan={colSpan}
       className={cn(
-        "border border-slate-500 px-2 py-1.5 text-[13px] font-normal text-slate-900",
+        "border border-slate-500 bg-white px-2 py-1.5 text-[13px] font-normal text-slate-900",
         align === "right"
           ? "text-right tabular-nums"
           : align === "center"
@@ -149,7 +145,7 @@ function HeaderCell({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "border border-slate-500 bg-[#d7edf8] px-2 py-1.5 text-center text-[13px] font-semibold text-slate-800",
+        "border border-slate-500 bg-white px-2 py-1.5 text-center text-[13px] font-semibold text-slate-800",
         className,
       )}
     >
@@ -221,10 +217,7 @@ export default function DetailNplDialog({
 
                 <tbody>
                   {rows.map((r) => (
-                    <tr
-                      key={r.no}
-                      className={cn(r.highlighted ? "bg-lime-300" : "bg-white")}
-                    >
+                    <tr key={r.no} className="bg-white">
                       <Cell align="center">{r.no}</Cell>
                       <Cell>{r.kd}</Cell>
                       <Cell>{r.ket}</Cell>
@@ -236,20 +229,7 @@ export default function DetailNplDialog({
                     </tr>
                   ))}
 
-                  {emptyRows.map((_, idx) => (
-                    <tr key={`empty-${idx}`} className="bg-white">
-                      <Cell>&nbsp;</Cell>
-                      <Cell />
-                      <Cell />
-                      <Cell />
-                      <Cell />
-                      <Cell />
-                      <Cell />
-                      <Cell />
-                    </tr>
-                  ))}
-
-                  <tr className="bg-[#d7edf8]">
+                  <tr className="bg-white">
                     <Cell colSpan={3} align="right" className="font-semibold">
                       Total
                     </Cell>
