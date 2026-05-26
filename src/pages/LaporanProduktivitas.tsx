@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
+import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProduktivitasReportTable";
 import {
   Select,
   SelectContent,
@@ -12,47 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type Row = {
-  no: number;
-  kolektor: string;
-  jumlahNasabah: number;
-  totalPencairan: string;
-  totalAngsuran: string;
-  transaksi: number;
-  produktivitas: string;
-};
-
 type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
-
-const seedRows: Row[] = [
-  {
-    no: 1,
-    kolektor: "Gina Farida M.M.",
-    jumlahNasabah: 42,
-    totalPencairan: "126.000.000,00",
-    totalAngsuran: "84.500.000,00",
-    transaksi: 118,
-    produktivitas: "Sangat Baik",
-  },
-  {
-    no: 2,
-    kolektor: "Dinda Sudiati",
-    jumlahNasabah: 35,
-    totalPencairan: "98.500.000,00",
-    totalAngsuran: "61.250.000,00",
-    transaksi: 92,
-    produktivitas: "Baik",
-  },
-  {
-    no: 3,
-    kolektor: "Kolektor A",
-    jumlahNasabah: 28,
-    totalPencairan: "72.000.000,00",
-    totalAngsuran: "43.750.000,00",
-    transaksi: 76,
-    produktivitas: "Cukup",
-  },
-];
 
 function ActionPill({
   icon: Icon,
@@ -79,27 +40,6 @@ function ActionPill({
   );
 }
 
-function StatusBadge({ value }: { value: string }) {
-  const cls =
-    value === "Sangat Baik"
-      ? "bg-emerald-600 text-white"
-      : value === "Baik"
-        ? "bg-blue-600 text-white"
-        : "bg-amber-500 text-white";
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-[5px] px-2.5 py-1",
-        "text-[12px] font-semibold leading-none",
-        cls,
-      )}
-    >
-      {value}
-    </span>
-  );
-}
-
 export default function LaporanProduktivitas() {
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [bulan, setBulan] = React.useState("Mei");
@@ -108,20 +48,11 @@ export default function LaporanProduktivitas() {
     React.useState<JenisLaporan>("Laporan Produktivitas");
   const [showReport, setShowReport] = React.useState(false);
 
-  const rows = React.useMemo(() => {
-    if (kolektor === "-- Semua --") return seedRows;
-    return seedRows.filter((row) => row.kolektor === kolektor);
-  }, [kolektor]);
-
   const inputCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
-
-  const th =
-    "border-b border-slate-300 px-3 py-3 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900";
-  const td = "border-b border-slate-200 px-3 py-2.5 text-[13px] text-slate-900";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -260,65 +191,12 @@ export default function LaporanProduktivitas() {
         </Card>
 
         {showReport ? (
-          <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">
-            <div className="mb-4 text-[13px] font-semibold text-slate-700">
+          <div>
+            <div className="mt-6 text-[13px] font-semibold text-slate-700">
               {jenisLaporan} • Periode: {bulan} {tahun}
             </div>
-
-            <div className="overflow-hidden rounded-[5px] ring-1 ring-slate-200">
-              <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[980px] border-collapse">
-                  <thead className="bg-white">
-                    <tr>
-                      <th className={cn(th, "w-[70px]")}>No.</th>
-                      <th className={cn(th, "w-[220px]")}>Kolektor</th>
-                      <th className={cn(th, "w-[150px] text-right")}>
-                        Jumlah Nasabah
-                      </th>
-                      <th className={cn(th, "w-[180px] text-right")}>
-                        Total Pencairan
-                      </th>
-                      <th className={cn(th, "w-[180px] text-right")}>
-                        Total Angsuran
-                      </th>
-                      <th className={cn(th, "w-[140px] text-right")}>
-                        Transaksi
-                      </th>
-                      <th className={cn(th, "w-[160px]")}>Produktivitas</th>
-                    </tr>
-                  </thead>
-
-                  <tbody className="bg-white">
-                    {rows.map((row) => (
-                      <tr key={row.no}>
-                        <td className={cn(td, "tabular-nums")}>{row.no}</td>
-                        <td className={cn(td, "font-semibold")}>{row.kolektor}</td>
-                        <td className={cn(td, "text-right tabular-nums")}>
-                          {row.jumlahNasabah}
-                        </td>
-                        <td className={cn(td, "text-right tabular-nums")}>
-                          {row.totalPencairan}
-                        </td>
-                        <td className={cn(td, "text-right tabular-nums")}>
-                          {row.totalAngsuran}
-                        </td>
-                        <td className={cn(td, "text-right tabular-nums")}>
-                          {row.transaksi}
-                        </td>
-                        <td className={td}>
-                          <StatusBadge value={row.produktivitas} />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div className="mt-4 text-[14px] text-slate-900">
-              Menampilkan 1 sampai {rows.length} dari {rows.length} entri
-            </div>
-          </Card>
+            <LaporanProduktivitasReportTable />
+          </div>
         ) : null}
       </div>
     </div>
