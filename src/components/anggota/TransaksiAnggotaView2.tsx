@@ -35,8 +35,7 @@ import BillingTableView2, {
 import { calcPenaltyTotal } from "@/components/anggota/calc-penalties";
 import { calcSelectedPenaltyTotal } from "@/components/anggota/penalty-utils";
 import { calcKhususTotalsFromRows } from "@/components/anggota/khsus-summary";
-import { calcKhususSelectedTotals } from "@/components/anggota/khusus-selected-totals";
-import { formatIdr0, formatIdrLike } from "@/components/anggota/anggota-money";
+import { formatIdrLike } from "@/components/anggota/anggota-money";
 import {
   calcKhususSummary,
   calcPelunasanSummary,
@@ -177,6 +176,8 @@ export default function TransaksiAnggotaView2({
     defaultJenisTransaksi: TX.REGULER,
   });
 
+  const previousTransactionTypeRef = React.useRef(jenisTransaksi);
+
   const isPelunasanMode = isPelunasan(jenisTransaksi);
   const isRegulerMode = isReguler(jenisTransaksi);
   const isKhususMode = isKhusus(jenisTransaksi);
@@ -194,6 +195,23 @@ export default function TransaksiAnggotaView2({
   React.useEffect(() => {
     setPage(1);
   }, [jenisTransaksi]);
+
+  React.useEffect(() => {
+    const previous = previousTransactionTypeRef.current;
+    previousTransactionTypeRef.current = jenisTransaksi;
+
+    if (!isKhususMode || previous === jenisTransaksi) return;
+
+    setNominalPokok("");
+    setNominalBunga("");
+    setNominalDenda("");
+  }, [
+    isKhususMode,
+    jenisTransaksi,
+    setNominalBunga,
+    setNominalDenda,
+    setNominalPokok,
+  ]);
 
   const allRowsForMode: BillingRow[] = isRegulerMode
     ? [currentBill]
@@ -236,15 +254,6 @@ export default function TransaksiAnggotaView2({
     jenisTransaksi,
     variant: "view2",
   });
-
-  React.useEffect(() => {
-    if (!isKhususMode) return;
-    const t = calcKhususSelectedTotals(rowsToShow, selected);
-    setNominalPokok(formatIdr0(t.pokok));
-    setNominalBunga(formatIdr0(t.bunga));
-    setNominalDenda(formatIdr0(t.denda));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isKhususMode, rowsToShow, selected]);
 
   const penaltyTotalExplicit = React.useMemo(() => {
     if (!penaltyOnlyCols) return null;
