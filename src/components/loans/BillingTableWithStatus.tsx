@@ -154,6 +154,7 @@ const thBase =
   "px-4 py-3 text-left text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
 const thRight =
   "px-4 py-3 text-right text-[10.5px] font-extrabold uppercase tracking-wide text-slate-700";
+const alignedPenaltyCellClass = "w-[130px] pr-[17px]";
 
 function InnerGraceTable({
   rows,
@@ -178,11 +179,7 @@ function InnerGraceTable({
           return (
             <tr
               key={`${r.jatuhTempo}-${globalIdx}`}
-              className={cn(
-                idx === 0
-                  ? "border-t border-slate-200"
-                  : "border-t border-slate-200",
-              )}
+              className="border-t border-slate-200"
             >
               <Td className="w-[110px] font-semibold tabular-nums whitespace-nowrap">
                 {r.jatuhTempo}
@@ -366,7 +363,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="w-[130px] pr-1" align="right">
+                        <Td className={alignedPenaltyCellClass} align="right">
                           {showPenalty ? (
                             <div className="flex items-center justify-end gap-2">
                               <span className="num-sans-tabular">
@@ -416,7 +413,7 @@ export default function BillingTableWithStatus({
                           <RightNum value={r.sisaBunga} />
                         </Td>
 
-                        <Td className="w-[130px] pr-1" align="right">
+                        <Td className={alignedPenaltyCellClass} align="right">
                           {showPenalty ? (
                             <div className="flex items-center justify-end gap-2">
                               <span className="num-sans-tabular">
