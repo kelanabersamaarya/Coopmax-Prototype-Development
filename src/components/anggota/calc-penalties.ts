@@ -1,6 +1,7 @@
 "use client";
 
 import type { BillingRow } from "@/components/anggota/BillingTable";
+import { formatIdrLike } from "@/components/anggota/anggota-money";
 
 const PENALTY_ROWS = 3;
 const PENALTY_AMOUNT = 75000;
@@ -14,7 +15,4 @@ export function calcPenaltyTotal(rows: BillingRow[], selected: boolean[]) {
   }, 0);
 }
 
-export function formatIdrLike(n: number) {
-  const s = Math.round(n).toString();
-  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
+export { formatIdrLike };
