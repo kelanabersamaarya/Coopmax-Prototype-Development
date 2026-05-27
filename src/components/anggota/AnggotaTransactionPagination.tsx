@@ -14,10 +14,11 @@ export default function AnggotaTransactionPagination({
   pageCount,
   onPage,
 }: AnggotaTransactionPaginationProps) {
-  if (pageCount <= 1) return null;
+  const safePageCount = Math.max(1, pageCount);
+  const safePage = Math.min(Math.max(1, page), safePageCount);
 
-  const disabledPrev = page <= 1;
-  const disabledNext = page >= pageCount;
+  const disabledPrev = safePage <= 1;
+  const disabledNext = safePage >= safePageCount;
 
   return (
     <div className="flex items-center gap-2">
@@ -28,7 +29,7 @@ export default function AnggotaTransactionPagination({
           "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
           disabledPrev ? "opacity-60 pointer-events-none" : "",
         )}
-        onClick={() => onPage(Math.max(1, page - 1))}
+        onClick={() => onPage(Math.max(1, safePage - 1))}
         disabled={disabledPrev}
       >
         <ChevronLeft className="mr-1 h-4 w-4" />
@@ -36,7 +37,7 @@ export default function AnggotaTransactionPagination({
       </button>
 
       <div className="inline-flex h-10 min-w-10 items-center justify-center rounded-xl bg-violet-600 px-4 text-sm font-extrabold text-white">
-        {page}
+        {safePage}
       </div>
 
       <button
@@ -46,7 +47,7 @@ export default function AnggotaTransactionPagination({
           "bg-slate-100 text-slate-600 ring-1 ring-slate-200 transition hover:bg-slate-200",
           disabledNext ? "opacity-60 pointer-events-none" : "",
         )}
-        onClick={() => onPage(Math.min(pageCount, page + 1))}
+        onClick={() => onPage(Math.min(safePageCount, safePage + 1))}
         disabled={disabledNext}
       >
         Selanjutnya
