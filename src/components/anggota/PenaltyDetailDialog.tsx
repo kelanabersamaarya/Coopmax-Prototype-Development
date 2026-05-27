@@ -672,7 +672,7 @@ export default function PenaltyDetailDialog({
                         })();
 
                         const keterlambatanText = isCanceled
-                          ? r.meta?.cancelDate ?? "-"
+                          ? "Denda Ditambahkan Manual"
                           : r.source === "added"
                             ? "Denda Ditambahkan Manual"
                             : String(idx + 3);
