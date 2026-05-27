@@ -212,7 +212,7 @@ export default function PenaltyDetailDialog({
 }) {
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
   const [page, setPage] = React.useState(1);
-  const pageSize = 3;
+  const pageSize = 5;
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
