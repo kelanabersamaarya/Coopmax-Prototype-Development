@@ -10,6 +10,7 @@ import PenaltyCancelReasonDialog from "@/components/anggota/PenaltyCancelReasonD
 import PenaltyCancelDetailDialog from "@/components/anggota/PenaltyCancelDetailDialog";
 import PenaltyAddReasonDialog from "@/components/anggota/PenaltyAddReasonDialog";
 import PenaltyAddDetailDialog from "@/components/anggota/PenaltyAddDetailDialog";
+import AnggotaTransactionPagination from "@/components/anggota/AnggotaTransactionPagination";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   addPenaltyOverride,
@@ -210,6 +211,8 @@ export default function PenaltyDetailDialog({
   rowIndexGlobal?: number;
 }) {
   const [statusFilter, setStatusFilter] = React.useState<StatusValue>("Aktif");
+  const [page, setPage] = React.useState(1);
+  const pageSize = 3;
 
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [cancelTarget, setCancelTarget] = React.useState<{
@@ -251,6 +254,7 @@ export default function PenaltyDetailDialog({
     if (!open) return;
 
     setStatusFilter("Aktif");
+    setPage(1);
     setCancelDialogOpen(false);
     setCancelTarget(null);
     setCancelDetailOpen(false);
@@ -262,6 +266,10 @@ export default function PenaltyDetailDialog({
 
     setRefreshTick((t) => t + 1);
   }, [open]);
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [statusFilter, refreshTick]);
 
   const storedAddsForRow = React.useMemo(() => {
     if (!canPersist) return [];
@@ -372,6 +380,21 @@ export default function PenaltyDetailDialog({
     if (statusFilter === "Semua") return allRows;
     return allRows.filter((it) => it.status === statusFilter);
   }, [allRows, statusFilter]);
+
+  const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  const pagedRows = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filteredRows.slice(start, start + pageSize);
+  }, [filteredRows, page]);
+
+  const showingStart =
+    filteredRows.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(filteredRows.length, page * pageSize);
 
   const totalActive = React.useMemo(() => {
     return allRows.reduce((sum, r) => {
@@ -576,7 +599,7 @@ export default function PenaltyDetailDialog({
                   className={cn(
                     "inline-flex h-9 items-center justify-center gap-2 px-3.5",
                     "rounded-[5px] bg-[#2563eb] text-white",
-                    "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8)]",
+                    "ring-1 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
                     "text-[13px] font-semibold",
                   )}
                 >
@@ -638,7 +661,7 @@ export default function PenaltyDetailDialog({
                   </thead>
 
                   <tbody className="bg-white">
-                    {filteredRows.length === 0 ? (
+                    {pagedRows.length === 0 ? (
                       <tr>
                         <td
                           colSpan={7}
@@ -648,7 +671,8 @@ export default function PenaltyDetailDialog({
                         </td>
                       </tr>
                     ) : (
-                      filteredRows.map((r, idx) => {
+                      pagedRows.map((r, idx) => {
+                        const absoluteIndex = showingStart + idx;
                         const isCanceled = r.status === "Dibatalkan";
 
                         const statusInfoRows: InfoRow = (() => {
@@ -675,7 +699,7 @@ export default function PenaltyDetailDialog({
                           ? "Denda Ditambahkan Manual"
                           : r.source === "added"
                             ? "Denda Ditambahkan Manual"
-                            : String(idx + 3);
+                            : String(absoluteIndex + 2);
 
                         const tanggalDendaText = r.tanggalKeterlambatan;
 
@@ -684,13 +708,13 @@ export default function PenaltyDetailDialog({
 
                         return (
                           <tr
-                            key={`${r.itemId}-${idx}`}
+                            key={`${r.itemId}-${absoluteIndex}`}
                             className={cn(
                               "border-t border-slate-300/70",
                               idx % 2 === 0 ? "bg-white" : "bg-slate-50/50",
                             )}
                           >
-                            <td className={tdNo}>{idx + 1}</td>
+                            <td className={tdNo}>{absoluteIndex}</td>
 
                             <td className={cn("px-2 py-2 text-[12px] text-slate-900")}>
                               <div className="truncate" title={keterlambatanText}>
@@ -763,6 +787,19 @@ export default function PenaltyDetailDialog({
                     </tr>
                   </tbody>
                 </table>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="text-xs text-slate-700">
+                  Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+                  {filteredRows.length} entri
+                </div>
+
+                <AnggotaTransactionPagination
+                  page={page}
+                  pageCount={pageCount}
+                  onPage={setPage}
+                />
               </div>
             </div>
 
