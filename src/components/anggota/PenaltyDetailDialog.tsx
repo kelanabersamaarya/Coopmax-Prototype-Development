@@ -246,6 +246,8 @@ export default function PenaltyDetailDialog({
   >([]);
 
   const [refreshTick, setRefreshTick] = React.useState(0);
+  const [jumpToLastPageAfterAdd, setJumpToLastPageAfterAdd] =
+    React.useState(false);
 
   const currentUserName = "Arya Dharma";
   const canPersist = !!contextKey && !!dueDateDmy && typeof rowIndexGlobal === "number";
@@ -263,13 +265,15 @@ export default function PenaltyDetailDialog({
     setAddDetailOpen(false);
     setAddDetailTarget(null);
     setLocalAdds([]);
+    setJumpToLastPageAfterAdd(false);
 
     setRefreshTick((t) => t + 1);
   }, [open]);
 
   React.useEffect(() => {
+    if (jumpToLastPageAfterAdd) return;
     setPage(1);
-  }, [statusFilter, refreshTick]);
+  }, [statusFilter, refreshTick, jumpToLastPageAfterAdd]);
 
   const storedAddsForRow = React.useMemo(() => {
     if (!canPersist) return [];
@@ -387,6 +391,12 @@ export default function PenaltyDetailDialog({
     if (page > pageCount) setPage(pageCount);
   }, [page, pageCount]);
 
+  React.useEffect(() => {
+    if (!jumpToLastPageAfterAdd) return;
+    setPage(pageCount);
+    setJumpToLastPageAfterAdd(false);
+  }, [filteredRows.length, jumpToLastPageAfterAdd, pageCount]);
+
   const pagedRows = React.useMemo(() => {
     const start = (page - 1) * pageSize;
     return filteredRows.slice(start, start + pageSize);
@@ -471,6 +481,8 @@ export default function PenaltyDetailDialog({
               by: currentUserName,
             });
 
+            setStatusFilter("Aktif");
+            setJumpToLastPageAfterAdd(true);
             setRefreshTick((t) => t + 1);
 
             if (!created) {
@@ -487,6 +499,8 @@ export default function PenaltyDetailDialog({
                 itemId: `local::${Date.now()}-${Math.random().toString(16).slice(2)}`,
               },
             ]);
+            setStatusFilter("Aktif");
+            setJumpToLastPageAfterAdd(true);
           }
 
           showGreenSuccessToast("Berhasil Menambahkan Denda");
