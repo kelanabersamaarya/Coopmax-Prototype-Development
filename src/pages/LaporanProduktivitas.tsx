@@ -157,7 +157,7 @@ export default function LaporanProduktivitas() {
 
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div className="text-[13px] font-normal text-slate-900">
-                  Kolektor
+                  Kolektor / AO
                 </div>
                 <div className="w-full md:max-w-[440px]">
                   <Select value={kolektor} onValueChange={setKolektor}>
