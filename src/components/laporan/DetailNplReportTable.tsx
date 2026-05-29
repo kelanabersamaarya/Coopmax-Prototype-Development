@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 type NplRow = {
   no: number;
   kd: string;
-  cabangAo: string;
   ket: string;
   npl1_30: string;
   npl31_60: string;
@@ -19,7 +18,6 @@ const rows: NplRow[] = [
   {
     no: 1,
     kd: "KTR",
-    cabangAo: "Kantor Pusat",
     ket: "KANTOR",
     npl1_30: "2.01",
     npl31_60: "",
@@ -30,7 +28,6 @@ const rows: NplRow[] = [
   {
     no: 2,
     kd: "AND",
-    cabangAo: "Ubud",
     ket: "ANDRE",
     npl1_30: "5.24",
     npl31_60: "2.19",
@@ -41,7 +38,6 @@ const rows: NplRow[] = [
   {
     no: 3,
     kd: "ADK",
-    cabangAo: "Gianyar",
     ket: "DODY",
     npl1_30: "6.54",
     npl31_60: "2.92",
@@ -52,7 +48,6 @@ const rows: NplRow[] = [
   {
     no: 4,
     kd: "YSP",
-    cabangAo: "Denpasar",
     ket: "FEPRI",
     npl1_30: "17.18",
     npl31_60: "3.86",
@@ -63,7 +58,6 @@ const rows: NplRow[] = [
   {
     no: 5,
     kd: "YSM",
-    cabangAo: "Badung",
     ket: "DIO",
     npl1_30: "10.51",
     npl31_60: "6.41",
@@ -74,7 +68,6 @@ const rows: NplRow[] = [
   {
     no: 6,
     kd: "KKM",
-    cabangAo: "Sukawati",
     ket: "REMEDIAL 1",
     npl1_30: "0.31",
     npl31_60: "0.13",
@@ -85,7 +78,6 @@ const rows: NplRow[] = [
   {
     no: 7,
     kd: "AMN",
-    cabangAo: "Tabanan",
     ket: "ENGGAR",
     npl1_30: "10.35",
     npl31_60: "4.18",
@@ -96,7 +88,6 @@ const rows: NplRow[] = [
   {
     no: 8,
     kd: "DNI",
-    cabangAo: "Klungkung",
     ket: "INDAH",
     npl1_30: "11.39",
     npl31_60: "3.37",
@@ -126,7 +117,6 @@ function Th({
   className?: string;
   colSpan?: number;
   rowSpan?: number;
-  align?: "left" | "center" | "right";
   leftBorder?: boolean;
   noRightBorder?: boolean;
 }) {
@@ -218,13 +208,13 @@ export default function DetailNplReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className="safe-x-scroll border-b border-slate-300 bg-white">
-          <table className="w-full min-w-[900px] border-collapse border-l border-r border-slate-300 bg-white">
+          <table className="w-full min-w-[760px] border-collapse border-l border-r border-slate-300 bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className="w-[54px]" leftBorder>
                   No
                 </Th>
-                <Th colSpan={3}>CABANG</Th>
+                <Th colSpan={2}>CABANG</Th>
                 <Th colSpan={5} noRightBorder>
                   N P L
                 </Th>
@@ -232,7 +222,6 @@ export default function DetailNplReportTable({
 
               <tr>
                 <Th className="w-[62px]">KD</Th>
-                <Th className="w-[150px]">Cabang AO</Th>
                 <Th className="w-[180px]">Ket.</Th>
                 <Th className="w-[110px]">1-30 hr</Th>
                 <Th className="w-[110px]">31-60 hr</Th>
@@ -251,7 +240,6 @@ export default function DetailNplReportTable({
                     {row.no}
                   </Td>
                   <Td align="left">{row.kd}</Td>
-                  <Td align="left">{row.cabangAo}</Td>
                   <Td align="left">{row.ket}</Td>
                   <Td align="right">{row.npl1_30}</Td>
                   <Td align="right">{row.npl31_60}</Td>
@@ -265,7 +253,7 @@ export default function DetailNplReportTable({
 
               <tr className="border-t border-black bg-white">
                 <TotalCell
-                  colSpan={4}
+                  colSpan={3}
                   align="center"
                   className="border-l border-slate-200"
                 >
