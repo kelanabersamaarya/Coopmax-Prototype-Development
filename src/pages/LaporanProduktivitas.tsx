@@ -57,14 +57,13 @@ export default function LaporanProduktivitas() {
   const cabangAoOptions = React.useMemo(
     () => [
       "-- Semua --",
-      "KANTOR",
-      "ANDRE",
-      "DODY",
-      "FEPRI",
-      "DIO",
-      "REMEDIAL 1",
-      "ENGGAR",
-      "INDAH",
+      "Kantor Pusat",
+      "Ubud",
+      "Gianyar",
+      "Denpasar",
+      "Badung",
+      "Sukawati",
+      "Tabanan",
     ],
     [],
   );
