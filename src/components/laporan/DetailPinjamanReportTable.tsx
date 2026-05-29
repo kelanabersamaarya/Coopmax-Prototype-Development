@@ -360,57 +360,25 @@ export default function DetailPinjamanReportTable({
                   <GroupTh rowSpan={2} className="w-[60px]" align="left">
                     AO ID
                   </GroupTh>
-                  <GroupTh colSpan={2} align="left">
-                    Jangka Waktu
-                  </GroupTh>
-                  <GroupTh colSpan={3} align="left">
-                    Pinjaman
-                  </GroupTh>
-                  <GroupTh colSpan={2} align="left">
-                    Angsuran
-                  </GroupTh>
-                  <GroupTh colSpan={6} align="left">
-                    Tunggakan
-                  </GroupTh>
+                  <GroupTh colSpan={2}>Jangka Waktu</GroupTh>
+                  <GroupTh colSpan={3}>Pinjaman</GroupTh>
+                  <GroupTh colSpan={2}>Angsuran</GroupTh>
+                  <GroupTh colSpan={6}>Tunggakan</GroupTh>
                 </tr>
 
                 <tr>
-                  <Th className="w-[52px]" align="right">
-                    Bln
-                  </Th>
-                  <Th className="w-[132px]">
-                    Dari tgl. s/d tgl.
-                  </Th>
-                  <Th className="w-[130px]" align="right">
-                    Sld. Pokok
-                  </Th>
-                  <Th className="w-[58px]" align="right">
-                    Bng
-                  </Th>
-                  <Th className="w-[120px]" align="right">
-                    Per bln
-                  </Th>
-                  <Th className="w-[74px]" align="right">
-                    Sdh/Hr
-                  </Th>
-                  <Th className="w-[52px]" align="right">
-                    Bln
-                  </Th>
-                  <Th className="w-[115px]" align="right">
-                    Nilai
-                  </Th>
-                  <Th className="w-[115px]" align="right">
-                    1-30 Hr
-                  </Th>
-                  <Th className="w-[115px]" align="right">
-                    31-60 Hr
-                  </Th>
-                  <Th className="w-[115px]" align="right">
-                    61-90 Hr
-                  </Th>
-                  <Th className="w-[115px]" align="right">
-                    {"> 90 Hr"}
-                  </Th>
+                  <Th className="w-[52px]">Bln</Th>
+                  <Th className="w-[132px]">Dari tgl. s/d tgl.</Th>
+                  <Th className="w-[130px]">Sld. Pokok</Th>
+                  <Th className="w-[58px]">Bng</Th>
+                  <Th className="w-[120px]">Per bln</Th>
+                  <Th className="w-[74px]">Sdh/Hr</Th>
+                  <Th className="w-[52px]">Bln</Th>
+                  <Th className="w-[115px]">Nilai</Th>
+                  <Th className="w-[115px]">1-30 Hr</Th>
+                  <Th className="w-[115px]">31-60 Hr</Th>
+                  <Th className="w-[115px]">61-90 Hr</Th>
+                  <Th className="w-[115px]">{"> 90 Hr"}</Th>
                 </tr>
               </thead>
 
