@@ -26,6 +26,7 @@ import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsWeb from "./pages/ObsWeb";
 import LaporanPinjaman from "./pages/LaporanPinjaman";
 import LaporanProduktivitas from "./pages/LaporanProduktivitas";
+import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 
 const queryClient = new QueryClient();
 
@@ -80,6 +81,10 @@ const App = () => (
             />
             <Route path="laporan/pinjaman" element={<LaporanPinjaman />} />
             <Route path="laporan/produktivitas" element={<LaporanProduktivitas />} />
+            <Route
+              path="laporan/produktivitas-cabang"
+              element={<LaporanProduktivitasCabang />}
+            />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
