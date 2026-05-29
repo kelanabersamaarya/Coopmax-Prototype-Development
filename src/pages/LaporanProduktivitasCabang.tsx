@@ -1,7 +1,13 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
+import {
+  ChevronDown,
+  FileSpreadsheet,
+  FileText,
+  Printer,
+  Search,
+} from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanProduktivitasCabangReportTable";
 import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
@@ -12,8 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 type JenisLaporan = "Laporan Produktivitas Cabang" | "Detail NPL Cabang";
+
+const jenisLaporanOptions: JenisLaporan[] = [
+  "Laporan Produktivitas Cabang",
+  "Detail NPL Cabang",
+];
 
 function ActionPill({
   icon: Icon,
@@ -62,6 +74,7 @@ export default function LaporanProduktivitasCabang() {
   const [jenisLaporan, setJenisLaporan] = React.useState<JenisLaporan>(
     "Laporan Produktivitas Cabang",
   );
+  const [jenisLaporanOpen, setJenisLaporanOpen] = React.useState(false);
   const [showReport, setShowReport] = React.useState(false);
 
   const selectedKolektorAo = kolektorAo === "-- Semua --" ? undefined : kolektorAo;
@@ -107,6 +120,14 @@ export default function LaporanProduktivitasCabang() {
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.right-2]:hidden",
+  );
+
+  const jenisLaporanTriggerCls = cn(
+    "flex h-[30px] w-full items-center justify-between rounded-[5px]",
+    "border border-slate-200 bg-white px-3",
+    "text-left text-[12.5px] font-normal text-black shadow-sm",
+    "transition hover:bg-white",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
   return (
@@ -203,25 +224,47 @@ export default function LaporanProduktivitasCabang() {
               </FieldRow>
 
               <FieldRow label="Jenis Laporan">
-                <Select
-                  value={jenisLaporan}
-                  onValueChange={(value) => setJenisLaporan(value as JenisLaporan)}
+                <Popover
+                  open={jenisLaporanOpen}
+                  onOpenChange={setJenisLaporanOpen}
                 >
-                  <SelectTrigger className={selectTriggerCls}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className={selectContentCls}>
-                    <SelectItem
-                      value="Laporan Produktivitas Cabang"
-                      className={selectItemCls}
-                    >
-                      Laporan Produktivitas Cabang
-                    </SelectItem>
-                    <SelectItem value="Detail NPL Cabang" className={selectItemCls}>
-                      Detail NPL Cabang
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                  <PopoverTrigger asChild>
+                    <button type="button" className={jenisLaporanTriggerCls}>
+                      <span className="truncate">{jenisLaporan}</span>
+                      <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
+                    </button>
+                  </PopoverTrigger>
+
+                  <PopoverContent
+                    align="start"
+                    className="w-[--radix-popover-trigger-width] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl"
+                  >
+                    <div className="py-0">
+                      {jenisLaporanOptions.map((option) => {
+                        const active = option === jenisLaporan;
+
+                        return (
+                          <button
+                            key={option}
+                            type="button"
+                            onClick={() => {
+                              setJenisLaporan(option);
+                              setJenisLaporanOpen(false);
+                            }}
+                            className={cn(
+                              "block w-full px-5 py-3 text-left text-[14px] font-normal transition-colors",
+                              active
+                                ? "bg-violet-600 text-white"
+                                : "bg-white text-black hover:bg-violet-600 hover:text-white",
+                            )}
+                          >
+                            {option}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </FieldRow>
 
               <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
