@@ -243,7 +243,11 @@ export default function DetailNplReportTable({
               <tr>
                 <Th className="w-[62px]">KD</Th>
                 {showCabangAo ? (
-                  <Th className="w-[150px]">Cabang AO</Th>
+                  <Th className="w-[150px]">
+                    Cabang AO
+                    <br />
+                    Terdaftar
+                  </Th>
                 ) : null}
                 <Th className="w-[180px]">Ket.</Th>
                 <Th className="w-[110px]">1-30 hr</Th>
