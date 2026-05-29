@@ -156,29 +156,17 @@ export default function LoanProductAccountingCoaFields({
   selectContentClassName?: string;
   className?: string;
 }) {
-  const loanField = fields[0];
-  const otherFields = fields.slice(1);
-
   return (
     <div className={cn("mt-6", className)}>
       <div className="mb-5">
+        <div className="mb-6 h-px w-full bg-slate-200/80" />
         <div className="text-base font-semibold text-slate-900">
           Konfigurasi CoA Pendapatan dan Biaya Pinjaman
         </div>
       </div>
 
       <div className="grid gap-5">
-        <CoaFieldRow
-          field={loanField}
-          values={values}
-          onChange={onChange}
-          selectTriggerClassName={selectTriggerClassName}
-          selectContentClassName={selectContentClassName}
-        />
-
-        <div className="h-px w-full bg-slate-200/80" />
-
-        {otherFields.map((field) => (
+        {fields.map((field) => (
           <CoaFieldRow
             key={field.key}
             field={field}
