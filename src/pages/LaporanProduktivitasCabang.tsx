@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanProduktivitasCabangReportTable";
-import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import {
   Select,
   SelectContent,
@@ -12,8 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
 
 function ActionPill({
   icon: Icon,
@@ -41,22 +39,17 @@ function ActionPill({
 }
 
 export default function LaporanProduktivitasCabang() {
+  const [namaNoRekening, setNamaNoRekening] = React.useState("");
   const [kolektor, setKolektor] = React.useState("-- Semua --");
-  const [bulan, setBulan] = React.useState("Mei");
-  const [tahun, setTahun] = React.useState("2026");
-  const [jenisLaporan, setJenisLaporan] =
-    React.useState<JenisLaporan>("Laporan Produktivitas");
   const [showReport, setShowReport] = React.useState(false);
-
-  const yearOptions = React.useMemo(
-    () => ["2023", "2024", "2025", "2026", "2027", "2028", "2029"],
-    [],
-  );
 
   const selectedKolektorAo =
     kolektor === "-- Semua --" ? undefined : kolektor;
 
   const selectTriggerCls =
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
+
+  const inputCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectContentCls = cn(
@@ -78,20 +71,6 @@ export default function LaporanProduktivitasCabang() {
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.right-2]:hidden",
   );
-
-  function renderReport() {
-    if (!showReport) return null;
-
-    if (jenisLaporan === "Detail NPL") {
-      return <DetailNplReportTable selectedKolektorAo={selectedKolektorAo} />;
-    }
-
-    return (
-      <LaporanProduktivitasCabangReportTable
-        selectedKolektorAo={selectedKolektorAo}
-      />
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -125,7 +104,21 @@ export default function LaporanProduktivitasCabang() {
             <div className="grid gap-[15px]">
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div className="text-[13px] font-normal text-slate-900">
-                  Kolektor / AO
+                  Nama/ No. Rekening
+                </div>
+                <div className="w-full md:max-w-[440px]">
+                  <Input
+                    value={namaNoRekening}
+                    onChange={(e) => setNamaNoRekening(e.target.value)}
+                    placeholder="Masukkan Nama/ No. Rekening"
+                    className={inputCls}
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                <div className="text-[13px] font-normal text-slate-900">
+                  Kolektor/AO
                 </div>
                 <div className="w-full md:max-w-[440px]">
                   <Select value={kolektor} onValueChange={setKolektor}>
@@ -157,89 +150,6 @@ export default function LaporanProduktivitasCabang() {
               </div>
 
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                <div className="text-[13px] font-normal text-slate-900">
-                  Periode
-                </div>
-                <div className="grid w-full gap-2 md:max-w-[440px] md:grid-cols-2">
-                  <Select value={bulan} onValueChange={setBulan}>
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      {[
-                        "Januari",
-                        "Februari",
-                        "Maret",
-                        "April",
-                        "Mei",
-                        "Juni",
-                        "Juli",
-                        "Agustus",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Desember",
-                      ].map((month) => (
-                        <SelectItem
-                          key={month}
-                          value={month}
-                          className={selectItemCls}
-                        >
-                          {month}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={tahun} onValueChange={setTahun}>
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      {yearOptions.map((year) => (
-                        <SelectItem
-                          key={year}
-                          value={year}
-                          className={selectItemCls}
-                        >
-                          {year}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                <div className="text-[13px] font-normal text-slate-900">
-                  Jenis Laporan
-                </div>
-                <div className="w-full md:max-w-[440px]">
-                  <Select
-                    value={jenisLaporan}
-                    onValueChange={(value) =>
-                      setJenisLaporan(value as JenisLaporan)
-                    }
-                  >
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      <SelectItem
-                        value="Laporan Produktivitas"
-                        className={selectItemCls}
-                      >
-                        Laporan Produktivitas
-                      </SelectItem>
-                      <SelectItem value="Detail NPL" className={selectItemCls}>
-                        Detail NPL
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
                 <div className="flex w-full justify-end md:max-w-[440px]">
                   <button
@@ -260,7 +170,13 @@ export default function LaporanProduktivitasCabang() {
           </div>
         </Card>
 
-        {renderReport()}
+        {showReport ? (
+          <LaporanProduktivitasCabangReportTable
+            selectedKolektorAo={selectedKolektorAo}
+          />
+        ) : null}
+
+        <div className="sr-only">{namaNoRekening}</div>
       </div>
     </div>
   );
