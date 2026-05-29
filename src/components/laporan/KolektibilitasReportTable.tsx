@@ -39,8 +39,6 @@ function Th({
   children,
   className,
   align = "left",
-  noRightBorder = false,
-  leftBorder = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -52,8 +50,6 @@ function Th({
     <th
       className={cn(
         "border-b border-t border-slate-300 bg-white px-2 py-2.5 align-middle",
-        leftBorder ? "border-l border-slate-300" : "",
-        noRightBorder ? "" : "border-r border-slate-300",
         "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
         "leading-[1.05]",
         align === "center"
@@ -74,8 +70,6 @@ function Td({
   className,
   align = "left",
   title,
-  noRightBorder = false,
-  leftBorder = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -89,8 +83,6 @@ function Td({
       title={title}
       className={cn(
         "border-b border-slate-200 px-2 py-2 align-top",
-        leftBorder ? "border-l border-slate-200" : "",
-        noRightBorder ? "" : "border-r border-slate-200",
         "text-[13px] font-medium text-slate-900",
         align === "center"
           ? "text-left"
@@ -196,16 +188,16 @@ function TotalRow({
   totals: Totals;
 }) {
   const totalRowText =
-    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-[13px] font-extrabold text-slate-900";
+    "border-b border-slate-200 px-2 py-2.5 text-[13px] font-extrabold text-slate-900";
   const totalRowNumber =
-    "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
+    "border-b border-slate-200 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
   const MERGE_COLS_BEFORE_TOTALS = 7;
 
   return (
     <tr className="border-t border-black bg-white">
       <td
-        className={cn(totalRowText, "whitespace-nowrap", "border-l border-slate-200")}
+        className={cn(totalRowText, "whitespace-nowrap")}
         colSpan={MERGE_COLS_BEFORE_TOTALS}
       >
         {label}
@@ -215,7 +207,7 @@ function TotalRow({
       <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
-      <td className={cn(totalRowText, "border-r-0")} />
+      <td className={totalRowText} />
     </tr>
   );
 }
@@ -279,10 +271,10 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[1585px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[1585px] w-full border-collapse bg-white">
             <thead className="bg-white">
               <tr className="bg-white">
-                <Th className={colW.no} align="left" leftBorder>
+                <Th className={colW.no} align="left">
                   NO.
                 </Th>
 
@@ -332,7 +324,6 @@ export default function KolektibilitasReportTable({
                 <Th
                   className={cn(colW.kolektibilitas, "whitespace-nowrap")}
                   align="left"
-                  noRightBorder
                 >
                   KOLEKTIBLILITAS
                 </Th>
@@ -375,7 +366,7 @@ export default function KolektibilitasReportTable({
 
                   return (
                     <tr key={`${r.noNsb}-${idx}`} className="bg-white">
-                      <Td className={colW.no} align="left" leftBorder>
+                      <Td className={colW.no} align="left">
                         {r.no}
                       </Td>
 
@@ -438,7 +429,6 @@ export default function KolektibilitasReportTable({
                       <Td
                         className={cn(colW.kolektibilitas, "whitespace-nowrap")}
                         align="left"
-                        noRightBorder
                       >
                         {kolek}
                       </Td>

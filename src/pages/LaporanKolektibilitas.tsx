@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
-  BarChart3,
   RefreshCw,
   FileSpreadsheet,
   FileText,
@@ -11,8 +10,6 @@ import {
   Search,
 } from "lucide-react";
 import { toast } from "sonner";
-import LoanTypeRequiredDialog from "@/components/laporan/LoanTypeRequiredDialog";
-import DetailNplDialog from "@/components/laporan/DetailNplDialog";
 import KolektibilitasReportTable, {
   type KolektibilitasRow,
 } from "@/components/laporan/KolektibilitasReportTable";
@@ -296,8 +293,6 @@ export default function LaporanKolektibilitas() {
   const [statusAnggota, setStatusAnggota] =
     React.useState<StatusAnggota>("Semua");
 
-  const [warnOpen, setWarnOpen] = React.useState(false);
-  const [detailNplOpen, setDetailNplOpen] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
 
   function doSearch() {
@@ -309,15 +304,6 @@ export default function LaporanKolektibilitas() {
     setSubmitted(true);
   }
 
-  function openDetailNpl() {
-    if (jenisPinjaman.length === 0) {
-      setWarnOpen(true);
-      return;
-    }
-
-    setDetailNplOpen(true);
-  }
-
   const isDefaultBulan = bulan === "April";
   const isDefaultTahun = tahun === "2026";
   const isDefaultTipe = tipe === "-- Semua --";
@@ -327,9 +313,6 @@ export default function LaporanKolektibilitas() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <LoanTypeRequiredDialog open={warnOpen} onOpenChange={setWarnOpen} />
-      <DetailNplDialog open={detailNplOpen} onOpenChange={setDetailNplOpen} />
-
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
@@ -337,7 +320,6 @@ export default function LaporanKolektibilitas() {
           </h1>
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
-            <ActionPill icon={BarChart3} label="Detail NPL" onClick={openDetailNpl} />
             <ActionPill
               icon={RefreshCw}
               label="Proses Kolektibilitas"
