@@ -224,7 +224,7 @@ export default function DetailNplReportTable({
                 <Th rowSpan={2} className="w-[54px]" leftBorder>
                   No
                 </Th>
-                <Th colSpan={3}>AO</Th>
+                <Th colSpan={3}>CABANG</Th>
                 <Th colSpan={5} noRightBorder>
                   N P L
                 </Th>
