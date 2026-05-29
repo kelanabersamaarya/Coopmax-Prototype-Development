@@ -45,9 +45,9 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 md:grid-cols-[270px_minmax(0,1fr)] md:items-center">
+    <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
       <div className="text-[13px] font-normal text-black">{label}</div>
-      <div className="w-full md:max-w-[544px]">{children}</div>
+      <div className="w-full md:max-w-[440px]">{children}</div>
     </div>
   );
 }
@@ -84,7 +84,7 @@ export default function LaporanProduktivitas() {
   const years = React.useMemo(() => ["2024", "2025", "2026", "2027"], []);
 
   const selectTriggerCls =
-    "h-[38px] rounded-[5px] border-slate-200 bg-white px-4 text-[14px] font-normal text-black shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
+    "h-[30px] rounded-[5px] border-slate-200 bg-white px-3 text-[12.5px] font-normal text-black shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectContentCls = cn(
     "overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
@@ -134,8 +134,8 @@ export default function LaporanProduktivitas() {
         </div>
 
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
-          <div className="w-full max-w-[860px]">
-            <div className="grid gap-[18px]">
+          <div className="w-full max-w-[760px]">
+            <div className="grid gap-[15px]">
               <FieldRow label="Cabang AO/Kolektor Terdaftar">
                 <Select value={cabangAo} onValueChange={setCabangAo}>
                   <SelectTrigger className={selectTriggerCls}>
@@ -190,7 +190,7 @@ export default function LaporanProduktivitas() {
               </FieldRow>
 
               <FieldRow label="Periode">
-                <div className="grid gap-3 md:grid-cols-[1fr_0.9fr]">
+                <div className="grid gap-2 md:grid-cols-[1fr_0.9fr]">
                   <Select value={bulan} onValueChange={setBulan}>
                     <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
@@ -246,9 +246,9 @@ export default function LaporanProduktivitas() {
                 </Select>
               </FieldRow>
 
-              <div className="grid gap-2 md:grid-cols-[270px_minmax(0,1fr)] md:items-center">
+              <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
-                <div className="flex w-full justify-end md:max-w-[544px]">
+                <div className="flex w-full justify-end md:max-w-[440px]">
                   <button
                     type="button"
                     onClick={() => setShowReport(true)}
