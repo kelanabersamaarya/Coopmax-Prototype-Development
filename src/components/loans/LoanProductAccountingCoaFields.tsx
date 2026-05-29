@@ -2,9 +2,11 @@
 
 import * as React from "react";
 import { X } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import SearchableFeeCoaSelect from "@/components/loans/SearchableFeeCoaSelect";
+import LoanProductFeeCoaFields from "@/components/loans/LoanProductFeeCoaFields";
 
 export type MainCoaOption =
   | "PINJAMAN YANG DIBERIKAN"
@@ -146,14 +148,22 @@ function CoaFieldRow({
 export default function LoanProductAccountingCoaFields({
   values,
   onChange,
+  aturCoaJenisBiaya,
+  onAturCoaJenisBiayaChange,
   selectTriggerClassName,
   selectContentClassName,
+  feeSelectTriggerClassName,
+  feeSelectContentClassName,
   className,
 }: {
   values: Values;
   onChange: (key: FieldKey, value: MainCoaOption) => void;
+  aturCoaJenisBiaya: boolean;
+  onAturCoaJenisBiayaChange: (checked: boolean) => void;
   selectTriggerClassName?: string;
   selectContentClassName?: string;
+  feeSelectTriggerClassName?: string;
+  feeSelectContentClassName?: string;
   className?: string;
 }) {
   return (
@@ -166,6 +176,23 @@ export default function LoanProductAccountingCoaFields({
       </div>
 
       <div className="grid gap-5">
+        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+          <div className="pt-1 text-sm font-normal text-slate-900">
+            Atur COA Jenis Biaya pada Produk Pinjaman
+          </div>
+          <Switch
+            checked={aturCoaJenisBiaya}
+            onCheckedChange={onAturCoaJenisBiayaChange}
+          />
+        </div>
+
+        {aturCoaJenisBiaya ? (
+          <LoanProductFeeCoaFields
+            selectTriggerClassName={feeSelectTriggerClassName ?? selectTriggerClassName}
+            selectContentClassName={feeSelectContentClassName ?? selectContentClassName}
+          />
+        ) : null}
+
         {fields.map((field) => (
           <CoaFieldRow
             key={field.key}

@@ -23,7 +23,6 @@ import PenaltyRateField, {
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import { cn } from "@/lib/utils";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
-import LoanProductFeeCoaFields from "@/components/loans/LoanProductFeeCoaFields";
 import LoanProductAccountingCoaFields, {
   type MainCoaOption,
 } from "@/components/loans/LoanProductAccountingCoaFields";
@@ -733,17 +732,6 @@ export default function LoanProductForm({
           <Input value={mbankingActivation} onChange={(e) => setMbankingActivation(e.target.value)} className={style.inputClassName} inputMode="decimal" />
         </FieldRow>
 
-        <FieldRow label="Atur COA Jenis Biaya pada Produk Pinjaman">
-          <Switch checked={aturCoaJenisBiaya} onCheckedChange={setAturCoaJenisBiaya} />
-        </FieldRow>
-
-        {aturCoaJenisBiaya ? (
-          <LoanProductFeeCoaFields
-            selectTriggerClassName={style.selectTriggerClassName}
-            selectContentClassName={style.selectContentClassName}
-          />
-        ) : null}
-
         <FieldRow label="Tanpa Agunan">
           <Switch checked={withoutCollateral} onCheckedChange={setWithoutCollateral} />
         </FieldRow>
@@ -771,8 +759,12 @@ export default function LoanProductForm({
           coaAdminRevenue,
         }}
         onChange={updateAccountingCoa}
+        aturCoaJenisBiaya={aturCoaJenisBiaya}
+        onAturCoaJenisBiayaChange={setAturCoaJenisBiaya}
         selectTriggerClassName={style.selectTriggerClassName}
         selectContentClassName="rounded-[5px] border-slate-200 p-0 shadow-xl"
+        feeSelectTriggerClassName={style.selectTriggerClassName}
+        feeSelectContentClassName={style.selectContentClassName}
       />
 
       <Separator className="my-6 bg-slate-200/70" />
