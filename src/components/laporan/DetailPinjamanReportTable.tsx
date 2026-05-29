@@ -220,11 +220,13 @@ function GroupTh({
   colSpan,
   rowSpan,
   className,
+  align = "center",
 }: {
   children: React.ReactNode;
   colSpan?: number;
   rowSpan?: number;
   className?: string;
+  align?: "left" | "center" | "right";
 }) {
   return (
     <th
@@ -232,7 +234,12 @@ function GroupTh({
       rowSpan={rowSpan}
       className={cn(
         "border-b border-r border-t border-slate-300/80 bg-white px-2 py-2.5 align-middle",
-        "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+        "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+        align === "right"
+          ? "text-right"
+          : align === "left"
+            ? "text-left"
+            : "text-center",
         className,
       )}
     >
@@ -335,28 +342,36 @@ export default function DetailPinjamanReportTable({
             <table className="w-full min-w-[1810px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
-                  <GroupTh rowSpan={2} className="w-[50px] text-left">
+                  <GroupTh rowSpan={2} className="w-[50px]" align="left">
                     No
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[122px] text-left">
+                  <GroupTh rowSpan={2} className="w-[122px]" align="left">
                     <SortableHeaderLabel
                       lines={["No.", "Rekening"]}
                       className="[&_span]:whitespace-nowrap"
                     />
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[165px] text-left">
+                  <GroupTh rowSpan={2} className="w-[165px]" align="left">
                     <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[120px] text-left">
+                  <GroupTh rowSpan={2} className="w-[120px]" align="left">
                     <SortableHeaderLabel lines={["Alamat"]} />
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[60px] text-left">
+                  <GroupTh rowSpan={2} className="w-[60px]" align="left">
                     AO ID
                   </GroupTh>
-                  <GroupTh colSpan={2}>Jangka Waktu</GroupTh>
-                  <GroupTh colSpan={3}>Pinjaman</GroupTh>
-                  <GroupTh colSpan={2}>Angsuran</GroupTh>
-                  <GroupTh colSpan={6}>Tunggakan</GroupTh>
+                  <GroupTh colSpan={2} align="left">
+                    Jangka Waktu
+                  </GroupTh>
+                  <GroupTh colSpan={3} align="left">
+                    Pinjaman
+                  </GroupTh>
+                  <GroupTh colSpan={2} align="left">
+                    Angsuran
+                  </GroupTh>
+                  <GroupTh colSpan={6} align="left">
+                    Tunggakan
+                  </GroupTh>
                 </tr>
 
                 <tr>
