@@ -107,6 +107,7 @@ function Th({
   className,
   colSpan,
   rowSpan,
+  align = "center",
   leftBorder = false,
   noRightBorder = false,
 }: {
@@ -114,6 +115,7 @@ function Th({
   className?: string;
   colSpan?: number;
   rowSpan?: number;
+  align?: "left" | "center" | "right";
   leftBorder?: boolean;
   noRightBorder?: boolean;
 }) {
@@ -125,7 +127,12 @@ function Th({
         "border-b border-t border-slate-300 bg-white px-2 py-2.5 align-middle",
         leftBorder ? "border-l border-slate-300" : "",
         noRightBorder ? "" : "border-r border-slate-300",
-        "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        align === "left"
+          ? "text-left"
+          : align === "right"
+            ? "text-right"
+            : "text-center",
         className,
       )}
     >
@@ -228,15 +235,33 @@ export default function LaporanProduktivitasCabangReportTable({
               </tr>
 
               <tr>
-                <Th className="w-[70px]">KD</Th>
-                <Th className="w-[190px]">Nama</Th>
-                <Th className="w-[150px]">Plafond</Th>
-                <Th className="w-[150px]">Sld. Pokok</Th>
-                <Th className="w-[135px]">Nilai</Th>
-                <Th className="w-[135px]">1 - 30 hr</Th>
-                <Th className="w-[135px]">31 - 60 hr</Th>
-                <Th className="w-[135px]">61 - 90 hr</Th>
-                <Th className="w-[135px]">{">"} 91 hr</Th>
+                <Th className="w-[70px]" align="left">
+                  KD
+                </Th>
+                <Th className="w-[190px]" align="left">
+                  Nama
+                </Th>
+                <Th className="w-[150px]" align="left">
+                  Plafond
+                </Th>
+                <Th className="w-[150px]" align="left">
+                  Sld. Pokok
+                </Th>
+                <Th className="w-[135px]" align="left">
+                  Nilai
+                </Th>
+                <Th className="w-[135px]" align="left">
+                  1 - 30 hr
+                </Th>
+                <Th className="w-[135px]" align="left">
+                  31 - 60 hr
+                </Th>
+                <Th className="w-[135px]" align="left">
+                  61 - 90 hr
+                </Th>
+                <Th className="w-[135px]" align="left">
+                  {">"} 91 hr
+                </Th>
               </tr>
             </thead>
 
