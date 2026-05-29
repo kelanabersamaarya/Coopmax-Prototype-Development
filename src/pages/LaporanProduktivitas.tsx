@@ -68,6 +68,9 @@ export default function LaporanProduktivitas() {
     [],
   );
 
+  const selectedCabangAo =
+    cabangAo === "-- Semua --" ? undefined : cabangAo;
+
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
@@ -95,10 +98,15 @@ export default function LaporanProduktivitas() {
     if (!showReport) return null;
 
     if (jenisLaporan === "Detail NPL") {
-      return <DetailNplReportTable showCabangAo />;
+      return (
+        <DetailNplReportTable
+          showCabangAo
+          selectedCabangAo={selectedCabangAo}
+        />
+      );
     }
 
-    return <LaporanProduktivitasReportTable />;
+    return <LaporanProduktivitasReportTable selectedCabangAo={selectedCabangAo} />;
   }
 
   return (

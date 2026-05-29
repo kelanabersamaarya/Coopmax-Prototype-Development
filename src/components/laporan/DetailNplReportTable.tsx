@@ -211,9 +211,11 @@ function TotalCell({
 export default function DetailNplReportTable({
   className,
   showCabangAo = false,
+  selectedCabangAo,
 }: {
   className?: string;
   showCabangAo?: boolean;
+  selectedCabangAo?: string;
 }) {
   const cabangColSpan = showCabangAo ? 3 : 2;
   const totalLabelColSpan = showCabangAo ? 4 : 3;
@@ -267,7 +269,9 @@ export default function DetailNplReportTable({
                     {row.no}
                   </Td>
                   <Td align="left">{row.kd}</Td>
-                  {showCabangAo ? <Td align="left">{row.cabangAo}</Td> : null}
+                  {showCabangAo ? (
+                    <Td align="left">{selectedCabangAo ?? row.cabangAo}</Td>
+                  ) : null}
                   <Td align="left">{row.ket}</Td>
                   <Td align="right">{row.npl1_30}</Td>
                   <Td align="right">{row.npl31_60}</Td>

@@ -241,8 +241,10 @@ function TotalCell({
 
 export default function LaporanProduktivitasReportTable({
   className,
+  selectedCabangAo,
 }: {
   className?: string;
+  selectedCabangAo?: string;
 }) {
   return (
     <div className={cn("mt-6", className)}>
@@ -289,7 +291,7 @@ export default function LaporanProduktivitasReportTable({
                     {row.no}
                   </Td>
                   <Td align="left">{row.kd}</Td>
-                  <Td align="left">{row.cabangAo}</Td>
+                  <Td align="left">{selectedCabangAo ?? row.cabangAo}</Td>
                   <Td align="left">{row.nama}</Td>
                   <Td align="right">{row.plafond}</Td>
                   <Td align="right">{row.saldoPokok}</Td>
