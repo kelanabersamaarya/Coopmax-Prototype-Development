@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProduktivitasReportTable";
+import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanProduktivitasCabangReportTable";
 import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import {
   Select,
@@ -13,7 +14,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
+type JenisLaporan =
+  | "Laporan Produktivitas"
+  | "Laporan Produktivitas Cabang"
+  | "Detail NPL";
 
 function ActionPill({
   icon: Icon,
@@ -75,6 +79,20 @@ export default function LaporanProduktivitas() {
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.right-2]:hidden",
   );
+
+  function renderReport() {
+    if (!showReport) return null;
+
+    if (jenisLaporan === "Detail NPL") {
+      return <DetailNplReportTable />;
+    }
+
+    if (jenisLaporan === "Laporan Produktivitas Cabang") {
+      return <LaporanProduktivitasCabangReportTable />;
+    }
+
+    return <LaporanProduktivitasReportTable />;
+  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -214,6 +232,12 @@ export default function LaporanProduktivitas() {
                       >
                         Laporan Produktivitas
                       </SelectItem>
+                      <SelectItem
+                        value="Laporan Produktivitas Cabang"
+                        className={selectItemCls}
+                      >
+                        Laporan Produktivitas Cabang
+                      </SelectItem>
                       <SelectItem value="Detail NPL" className={selectItemCls}>
                         Detail NPL
                       </SelectItem>
@@ -243,13 +267,7 @@ export default function LaporanProduktivitas() {
           </div>
         </Card>
 
-        {showReport ? (
-          jenisLaporan === "Detail NPL" ? (
-            <DetailNplReportTable />
-          ) : (
-            <LaporanProduktivitasReportTable />
-          )
-        ) : null}
+        {renderReport()}
       </div>
     </div>
   );
