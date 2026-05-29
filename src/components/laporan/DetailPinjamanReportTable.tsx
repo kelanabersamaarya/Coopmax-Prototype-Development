@@ -124,7 +124,7 @@ function Th({
   return (
     <th
       className={cn(
-        "border-b border-r border-slate-300/80 bg-white px-2 py-3 align-middle",
+        "border-b border-r border-t border-slate-300/80 bg-white px-2 py-3 align-middle",
         "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
         align === "right"
           ? "text-right"
@@ -166,19 +166,44 @@ function Td({
   );
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const isActive = status.includes("Aktif");
-  const isBad = status === "Macet";
-
+function TotalRow({
+  label,
+  totals,
+}: {
+  label: string;
+  totals: {
+    plafon: number;
+    sisaPokok: number;
+    sisaBunga: number;
+    angsuranPokok: number;
+    angsuranBunga: number;
+  };
+}) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[11px] font-semibold leading-none text-white",
-        isActive ? "bg-emerald-600" : isBad ? "bg-rose-600" : "bg-slate-600",
-      )}
-    >
-      {status}
-    </span>
+    <tr className="border-t border-black bg-white">
+      <td
+        colSpan={10}
+        className="border-b border-r border-slate-300/80 px-2 py-2.5 text-[12px] font-extrabold text-slate-900"
+      >
+        {label}
+      </td>
+      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
+        {formatIdr2(totals.plafon)}
+      </td>
+      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
+        {formatIdr2(totals.sisaPokok)}
+      </td>
+      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
+        {formatIdr2(totals.sisaBunga)}
+      </td>
+      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
+        {formatIdr2(totals.angsuranPokok)}
+      </td>
+      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
+        {formatIdr2(totals.angsuranBunga)}
+      </td>
+      <td className="border-b border-r border-slate-300/80 px-2 py-2.5" />
+    </tr>
   );
 }
 
@@ -217,9 +242,17 @@ export default function DetailPinjamanReportTable({
         acc.plafon += parseIdrLike(row.plafon);
         acc.sisaPokok += parseIdrLike(row.sisaPokok);
         acc.sisaBunga += parseIdrLike(row.sisaBunga);
+        acc.angsuranPokok += parseIdrLike(row.angsuranPokok);
+        acc.angsuranBunga += parseIdrLike(row.angsuranBunga);
         return acc;
       },
-      { plafon: 0, sisaPokok: 0, sisaBunga: 0 },
+      {
+        plafon: 0,
+        sisaPokok: 0,
+        sisaBunga: 0,
+        angsuranPokok: 0,
+        angsuranBunga: 0,
+      },
     );
   }, []);
 
@@ -228,7 +261,7 @@ export default function DetailPinjamanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1780px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[1780px] border-collapse border-l border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
                   <Th className="w-[48px]">No.</Th>
@@ -248,7 +281,7 @@ export default function DetailPinjamanReportTable({
                     <SortableHeaderLabel lines={["Tanggal", "Pinjaman"]} />
                   </Th>
                   <Th className="w-[130px]">
-                    <SortableHeaderLabel lines={["Jatuh", "Tempo"]} />
+                    <SortableHeaderLabel lines={["Tanggal", "Jatuh Tempo"]} />
                   </Th>
                   <Th className="w-[145px]">
                     <SortableHeaderLabel lines={["Kolektor"]} />
@@ -301,32 +334,12 @@ export default function DetailPinjamanReportTable({
                     <Td align="right">{row.sisaBunga}</Td>
                     <Td align="right">{row.angsuranPokok}</Td>
                     <Td align="right">{row.angsuranBunga}</Td>
-                    <Td>
-                      <StatusBadge status={row.status} />
-                    </Td>
+                    <Td>{row.status}</Td>
                   </tr>
                 ))}
 
-                <tr className="border-t border-black bg-white">
-                  <td
-                    colSpan={10}
-                    className="border-b border-r border-slate-300/80 px-2 py-2.5 text-[12px] font-extrabold text-slate-900"
-                  >
-                    Total
-                  </td>
-                  <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-                    {formatIdr2(totals.plafon)}
-                  </td>
-                  <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-                    {formatIdr2(totals.sisaPokok)}
-                  </td>
-                  <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-                    {formatIdr2(totals.sisaBunga)}
-                  </td>
-                  <td className="border-b border-r border-slate-300/80 px-2 py-2.5" />
-                  <td className="border-b border-r border-slate-300/80 px-2 py-2.5" />
-                  <td className="border-b border-r border-slate-300/80 px-2 py-2.5" />
-                </tr>
+                <TotalRow label="Total per Halaman" totals={totals} />
+                <TotalRow label="Total" totals={totals} />
               </tbody>
             </table>
           </div>
