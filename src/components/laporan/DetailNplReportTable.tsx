@@ -125,6 +125,7 @@ function Th({
   className,
   colSpan,
   rowSpan,
+  align = "center",
   leftBorder = false,
   noRightBorder = false,
 }: {
@@ -144,7 +145,12 @@ function Th({
         "border-b border-t border-slate-300 bg-white px-2 py-2.5 align-middle",
         leftBorder ? "border-l border-slate-300" : "",
         noRightBorder ? "" : "border-r border-slate-300",
-        "text-center text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        "text-[12px] font-extrabold uppercase tracking-wide text-slate-900",
+        align === "left"
+          ? "text-left"
+          : align === "right"
+            ? "text-right"
+            : "text-center",
         className,
       )}
     >
@@ -255,20 +261,32 @@ export default function DetailNplReportTable({
               </tr>
 
               <tr>
-                <Th className="w-[62px]">KD</Th>
+                <Th className="w-[62px]" align="left">
+                  KD
+                </Th>
                 {showCabangAo ? (
-                  <Th className="w-[150px]">
+                  <Th className="w-[150px]" align="left">
                     CABANG KOLEKTOR /
                     <br />
                     AO TERDAFTAR
                   </Th>
                 ) : null}
-                <Th className="w-[180px]">Ket.</Th>
-                <Th className="w-[110px]">1-30 hr</Th>
-                <Th className="w-[110px]">31-60 hr</Th>
-                <Th className="w-[110px]">61-90 hr</Th>
-                <Th className="w-[110px]">{">"} 91 hr</Th>
-                <Th className="w-[110px]" noRightBorder>
+                <Th className="w-[180px]" align="left">
+                  Ket.
+                </Th>
+                <Th className="w-[110px]" align="left">
+                  1-30 hr
+                </Th>
+                <Th className="w-[110px]" align="left">
+                  31-60 hr
+                </Th>
+                <Th className="w-[110px]" align="left">
+                  61-90 hr
+                </Th>
+                <Th className="w-[110px]" align="left">
+                  {">"} 91 hr
+                </Th>
+                <Th className="w-[110px]" align="left" noRightBorder>
                   Jumlah
                 </Th>
               </tr>
