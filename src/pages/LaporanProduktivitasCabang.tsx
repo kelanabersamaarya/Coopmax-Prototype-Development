@@ -37,19 +37,27 @@ function ActionPill({
   );
 }
 
+function FieldRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+      <div className="text-[13px] font-normal text-slate-900">{label}</div>
+      <div className="w-full md:max-w-[440px]">{children}</div>
+    </div>
+  );
+}
+
 export default function LaporanProduktivitasCabang() {
-  const [cabangAoKolektor, setCabangAoKolektor] = React.useState("-- Semua --");
+  const [cabangAo, setCabangAo] = React.useState("-- Semua --");
+  const [kolektorAo, setKolektorAo] = React.useState("-- Semua --");
   const [showReport, setShowReport] = React.useState(false);
 
-  const kolektorOptions = React.useMemo(
-    () => ["Gina Farida M.M.", "Dinda Sudiati", "Kolektor A"],
-    [],
-  );
-
-  const selectedKolektorAo =
-    cabangAoKolektor !== "-- Semua --" && kolektorOptions.includes(cabangAoKolektor)
-      ? cabangAoKolektor
-      : undefined;
+  const selectedKolektorAo = kolektorAo === "-- Semua --" ? undefined : kolektorAo;
 
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
@@ -104,41 +112,58 @@ export default function LaporanProduktivitasCabang() {
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[760px]">
             <div className="grid gap-[15px]">
-              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                <div className="text-[13px] font-normal text-slate-900">
-                  Cabang AO/Kolektor Terdaftar
-                </div>
-                <div className="w-full md:max-w-[440px]">
-                  <Select
-                    value={cabangAoKolektor}
-                    onValueChange={setCabangAoKolektor}
-                  >
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      <SelectItem value="-- Semua --" className={selectItemCls}>
-                        -- Semua --
-                      </SelectItem>
-                      <SelectItem
-                        value="Gina Farida M.M."
-                        className={selectItemCls}
-                      >
-                        Gina Farida M.M.
-                      </SelectItem>
-                      <SelectItem
-                        value="Dinda Sudiati"
-                        className={selectItemCls}
-                      >
-                        Dinda Sudiati
-                      </SelectItem>
-                      <SelectItem value="Kolektor A" className={selectItemCls}>
-                        Kolektor A
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+              <FieldRow label="Cabang AO/Kolektor Terdaftar">
+                <Select value={cabangAo} onValueChange={setCabangAo}>
+                  <SelectTrigger className={selectTriggerCls}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={selectContentCls}>
+                    <SelectItem value="-- Semua --" className={selectItemCls}>
+                      -- Semua --
+                    </SelectItem>
+                    <SelectItem value="Kantor Pusat" className={selectItemCls}>
+                      Kantor Pusat
+                    </SelectItem>
+                    <SelectItem value="Ubud" className={selectItemCls}>
+                      Ubud
+                    </SelectItem>
+                    <SelectItem value="Gianyar" className={selectItemCls}>
+                      Gianyar
+                    </SelectItem>
+                    <SelectItem value="Denpasar" className={selectItemCls}>
+                      Denpasar
+                    </SelectItem>
+                    <SelectItem value="Badung" className={selectItemCls}>
+                      Badung
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <FieldRow label="Kolektor/AO">
+                <Select value={kolektorAo} onValueChange={setKolektorAo}>
+                  <SelectTrigger className={selectTriggerCls}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={selectContentCls}>
+                    <SelectItem value="-- Semua --" className={selectItemCls}>
+                      -- Semua --
+                    </SelectItem>
+                    <SelectItem value="Gina Farida M.M." className={selectItemCls}>
+                      Gina Farida M.M.
+                    </SelectItem>
+                    <SelectItem value="Dinda Sudiati" className={selectItemCls}>
+                      Dinda Sudiati
+                    </SelectItem>
+                    <SelectItem value="Kolektor A" className={selectItemCls}>
+                      Kolektor A
+                    </SelectItem>
+                    <SelectItem value="Kolektor B" className={selectItemCls}>
+                      Kolektor B
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
 
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
@@ -167,7 +192,9 @@ export default function LaporanProduktivitasCabang() {
           />
         ) : null}
 
-        <div className="sr-only">{cabangAoKolektor}</div>
+        <div className="sr-only">
+          {cabangAo} {kolektorAo}
+        </div>
       </div>
     </div>
   );
