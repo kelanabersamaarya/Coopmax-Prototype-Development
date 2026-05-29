@@ -5,7 +5,6 @@ import {
   FileSpreadsheet,
   FileText,
   Printer,
-  RefreshCw,
   Search,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -65,14 +64,6 @@ export default function LaporanDetailPinjaman() {
   const [showReport, setShowReport] = React.useState(false);
 
   const actions = [
-    {
-      label: "Refresh",
-      icon: RefreshCw,
-      onClick: () =>
-        toast("Refresh laporan (prototype)", {
-          description: "Data laporan ditampilkan ulang.",
-        }),
-    },
     {
       label: "Export Excel",
       icon: FileSpreadsheet,
