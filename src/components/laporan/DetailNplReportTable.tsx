@@ -217,7 +217,7 @@ export default function DetailNplReportTable({
 }) {
   const cabangColSpan = showCabangAo ? 3 : 2;
   const totalLabelColSpan = showCabangAo ? 4 : 3;
-  const minWidth = showCabangAo ? "min-w-[940px]" : "min-w-[760px]";
+  const minWidth = showCabangAo ? "min-w-[900px]" : "min-w-[760px]";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -243,7 +243,7 @@ export default function DetailNplReportTable({
               <tr>
                 <Th className="w-[62px]">KD</Th>
                 {showCabangAo ? (
-                  <Th className="w-[190px]">
+                  <Th className="w-[150px]">
                     CABANG KOLEKTOR /
                     <br />
                     AO TERDAFTAR
