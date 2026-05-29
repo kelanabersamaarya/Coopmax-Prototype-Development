@@ -36,13 +36,13 @@ const fields: FieldConfig[] = [
   {
     key: "coaLoan",
     label: "KP Pinjaman",
-    placeholder: "Pilih CoA Pinjaman",
+    placeholder: "Pilih KP Pinjaman",
     options: ["PINJAMAN YANG DIBERIKAN", "PENDAPATAN LAIN - LAIN"],
   },
   {
     key: "coaInterestRevenue",
     label: "KP Pendapatan Bunga",
-    placeholder: "Pilih CoA Pendapatan Bunga",
+    placeholder: "Pilih KP Pendapatan Bunga",
     options: ["PEND. BUNGA PINJAMAN", "PENDAPATAN LAIN - LAIN"],
   },
   {
@@ -54,25 +54,25 @@ const fields: FieldConfig[] = [
       </span>
     ),
     hint: "Diisi jika ingin pembukuan pendapatan Bunga dibagi ke KP ini.",
-    placeholder: "Pilih COA Pendapatan Bunga",
+    placeholder: "Pilih KP Pendapatan Bunga",
     options: ["PEND. BUNGA PINJAMAN", "PENDAPATAN LAIN - LAIN"],
   },
   {
     key: "coaPenaltyRevenue",
     label: "KP Pendapatan Denda",
-    placeholder: "Pilih CoA Biaya Denda",
+    placeholder: "Pilih KP Biaya Denda",
     options: ["PEND. DENDA", "PENDAPATAN LAIN - LAIN"],
   },
   {
     key: "coaRoundingRevenue",
     label: "KP Pendapatan Pembulatan",
-    placeholder: "Pilih CoA Pembulatan",
+    placeholder: "Pilih KP Pembulatan",
     options: ["PENDAPATAN LAIN - LAIN", "PEND. DENDA"],
   },
   {
     key: "coaAdminRevenue",
     label: "KP Pendapatan Admin",
-    placeholder: "Pilih CoA Biaya Admin",
+    placeholder: "Pilih KP Biaya Admin",
     options: ["PEN. ADMINISTRASI", "PENDAPATAN LAIN - LAIN"],
   },
 ];
@@ -171,14 +171,14 @@ export default function LoanProductAccountingCoaFields({
       <div className="mb-5">
         <div className="mb-6 h-px w-full bg-slate-200/80" />
         <div className="text-base font-semibold text-slate-900">
-          Konfigurasi CoA Pendapatan dan Biaya Pinjaman
+          Konfigurasi KP Pendapatan dan Biaya Pinjaman
         </div>
       </div>
 
       <div className="grid gap-5">
         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
           <div className="pt-1 text-sm font-normal text-slate-900">
-            Atur COA Jenis Biaya pada Produk Pinjaman
+            Atur KP Jenis Biaya pada Produk Pinjaman
           </div>
           <Switch
             checked={aturCoaJenisBiaya}

@@ -22,26 +22,26 @@ type FieldConfig = {
 const fields: FieldConfig[] = [
   {
     key: "provisi",
-    label: "CoA Biaya Provisi",
-    placeholder: "Pilih CoA Biaya Provisi",
+    label: "KP Biaya Provisi",
+    placeholder: "Pilih KP Biaya Provisi",
     primaryOption: "PEN. BIAYA PROVISI",
   },
   {
     key: "administrasi",
-    label: "CoA Biaya Administrasi",
-    placeholder: "Pilih CoA Biaya Administrasi",
+    label: "KP Biaya Administrasi",
+    placeholder: "Pilih KP Biaya Administrasi",
     primaryOption: "PEN. ADMINISTRASI",
   },
   {
     key: "asuransi",
-    label: "CoA Biaya Asuransi",
-    placeholder: "Pilih CoA Biaya Asuransi",
+    label: "KP Biaya Asuransi",
+    placeholder: "Pilih KP Biaya Asuransi",
     primaryOption: "PEN. BIAYA ASURANSI",
   },
   {
     key: "mbanking",
-    label: "CoA Biaya Aktivasi M-Banking",
-    placeholder: "Pilih CoA Biaya Aktivasi M-Banking",
+    label: "KP Biaya Aktivasi M-Banking",
+    placeholder: "Pilih KP Biaya Aktivasi M-Banking",
     primaryOption: "PEN. AKTIVASI M-BANKING",
   },
 ];

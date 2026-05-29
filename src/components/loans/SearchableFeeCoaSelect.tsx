@@ -75,7 +75,7 @@ export default function SearchableFeeCoaSelect({
             className="h-9 border-0 text-[13px] focus:ring-0"
           />
           <CommandList className="max-h-[260px]">
-            <CommandEmpty>Tidak ada CoA yang cocok.</CommandEmpty>
+            <CommandEmpty>Tidak ada KP yang cocok.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
                 const selected = value === option;
