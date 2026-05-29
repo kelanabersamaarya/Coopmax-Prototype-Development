@@ -77,6 +77,72 @@ const fields: FieldConfig[] = [
 
 type Values = Record<FieldKey, MainCoaOption>;
 
+function CoaFieldRow({
+  field,
+  values,
+  onChange,
+  selectTriggerClassName,
+  selectContentClassName,
+}: {
+  field: FieldConfig;
+  values: Values;
+  onChange: (key: FieldKey, value: MainCoaOption) => void;
+  selectTriggerClassName?: string;
+  selectContentClassName?: string;
+}) {
+  const rawValue = values[field.key];
+  const selectedValue = rawValue === "PILIH" ? undefined : rawValue;
+  const hasSelected = !!selectedValue;
+
+  return (
+    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
+      <div className="pt-1">
+        <div className="text-sm font-normal text-slate-900">{field.label}</div>
+        {field.hint ? (
+          <div className="mt-1 text-xs text-slate-500">{field.hint}</div>
+        ) : null}
+      </div>
+
+      <div className="relative min-w-0">
+        {hasSelected ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onChange(field.key, "PILIH");
+            }}
+            className={cn(
+              "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
+              "rounded-[5px] text-red-600 transition hover:bg-red-50",
+              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+            )}
+            aria-label={`Hapus ${field.placeholder}`}
+            title="Hapus pilihan"
+          >
+            <X className="h-4.5 w-4.5" strokeWidth={3} />
+          </button>
+        ) : null}
+
+        <SearchableFeeCoaSelect
+          value={selectedValue}
+          placeholder={field.placeholder}
+          options={field.options}
+          onChange={(value) => onChange(field.key, value as MainCoaOption)}
+          triggerClassName={cn(
+            hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
+            selectTriggerClassName,
+          )}
+          contentClassName={cn(
+            "rounded-[5px] border-slate-200 p-0 shadow-xl",
+            selectContentClassName,
+          )}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function LoanProductAccountingCoaFields({
   values,
   onChange,
@@ -90,68 +156,39 @@ export default function LoanProductAccountingCoaFields({
   selectContentClassName?: string;
   className?: string;
 }) {
+  const loanField = fields[0];
+  const otherFields = fields.slice(1);
+
   return (
-    <div className={cn("grid gap-5", className)}>
-      {fields.map((field) => {
-        const rawValue = values[field.key];
-        const selectedValue = rawValue === "PILIH" ? undefined : rawValue;
-        const hasSelected = !!selectedValue;
+    <div className={cn("mt-6", className)}>
+      <div className="mb-5">
+        <div className="text-base font-semibold text-slate-900">
+          Konfigurasi CoA Pendapatan dan Biaya Pinjaman
+        </div>
+      </div>
 
-        return (
-          <div
+      <div className="grid gap-5">
+        <CoaFieldRow
+          field={loanField}
+          values={values}
+          onChange={onChange}
+          selectTriggerClassName={selectTriggerClassName}
+          selectContentClassName={selectContentClassName}
+        />
+
+        <div className="h-px w-full bg-slate-200/80" />
+
+        {otherFields.map((field) => (
+          <CoaFieldRow
             key={field.key}
-            className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start"
-          >
-            <div className="pt-1">
-              <div className="text-sm font-normal text-slate-900">
-                {field.label}
-              </div>
-              {field.hint ? (
-                <div className="mt-1 text-xs text-slate-500">{field.hint}</div>
-              ) : null}
-            </div>
-
-            <div className="relative min-w-0">
-              {hasSelected ? (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onChange(field.key, "PILIH");
-                  }}
-                  className={cn(
-                    "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
-                    "rounded-[5px] text-red-600 transition hover:bg-red-50",
-                    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-                  )}
-                  aria-label={`Hapus ${field.placeholder}`}
-                  title="Hapus pilihan"
-                >
-                  <X className="h-4.5 w-4.5" strokeWidth={3} />
-                </button>
-              ) : null}
-
-              <SearchableFeeCoaSelect
-                value={selectedValue}
-                placeholder={field.placeholder}
-                options={field.options}
-                onChange={(value) =>
-                  onChange(field.key, value as MainCoaOption)
-                }
-                triggerClassName={cn(
-                  hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
-                  selectTriggerClassName,
-                )}
-                contentClassName={cn(
-                  "rounded-[5px] border-slate-200 p-0 shadow-xl",
-                  selectContentClassName,
-                )}
-              />
-            </div>
-          </div>
-        );
-      })}
+            field={field}
+            values={values}
+            onChange={onChange}
+            selectTriggerClassName={selectTriggerClassName}
+            selectContentClassName={selectContentClassName}
+          />
+        ))}
+      </div>
     </div>
   );
 }
