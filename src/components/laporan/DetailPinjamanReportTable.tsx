@@ -188,6 +188,10 @@ const totalRows = {
   tunggakan90p: "415,961,390",
 };
 
+function cleanNasabahName(name: string) {
+  return name.split("/")[0]?.trim() ?? name;
+}
+
 function Th({
   children,
   className,
@@ -383,40 +387,44 @@ export default function DetailPinjamanReportTable({
               </thead>
 
               <tbody className="bg-white">
-                {rows.map((row, idx) => (
-                  <tr
-                    key={`${row.noRekening}-${row.no}-${idx}`}
-                    className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
-                  >
-                    <Td className="tabular-nums">{row.no}</Td>
-                    <Td className="tabular-nums">{row.noRekening}</Td>
-                    <Td>
-                      <div className="truncate" title={row.namaNasabah}>
-                        {row.namaNasabah}
-                      </div>
-                    </Td>
-                    <Td>
-                      <div className="truncate" title={row.alamat}>
-                        {row.alamat}
-                      </div>
-                    </Td>
-                    <Td>{row.aoId}</Td>
-                    <Td align="right">{row.jwBln}</Td>
-                    <Td className="whitespace-nowrap tabular-nums">
-                      {row.periode}
-                    </Td>
-                    <Td align="right">{row.saldoPokok}</Td>
-                    <Td align="right">{row.bunga}</Td>
-                    <Td align="right">{row.angsuranPerBln}</Td>
-                    <Td align="right">{row.angsuranSdhHr}</Td>
-                    <Td align="right">{row.tunggakanBln}</Td>
-                    <Td align="right">{row.tunggakanNilai}</Td>
-                    <Td align="right">{row.tunggakan1_30}</Td>
-                    <Td align="right">{row.tunggakan31_60}</Td>
-                    <Td align="right">{row.tunggakan61_90}</Td>
-                    <Td align="right">{row.tunggakan90p}</Td>
-                  </tr>
-                ))}
+                {rows.map((row, idx) => {
+                  const cleanName = cleanNasabahName(row.namaNasabah);
+
+                  return (
+                    <tr
+                      key={`${row.noRekening}-${row.no}-${idx}`}
+                      className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
+                    >
+                      <Td className="tabular-nums">{row.no}</Td>
+                      <Td className="tabular-nums">{row.noRekening}</Td>
+                      <Td>
+                        <div className="truncate" title={cleanName}>
+                          {cleanName}
+                        </div>
+                      </Td>
+                      <Td>
+                        <div className="truncate" title={row.alamat}>
+                          {row.alamat}
+                        </div>
+                      </Td>
+                      <Td>{row.aoId}</Td>
+                      <Td align="right">{row.jwBln}</Td>
+                      <Td className="whitespace-nowrap tabular-nums">
+                        {row.periode}
+                      </Td>
+                      <Td align="right">{row.saldoPokok}</Td>
+                      <Td align="right">{row.bunga}</Td>
+                      <Td align="right">{row.angsuranPerBln}</Td>
+                      <Td align="right">{row.angsuranSdhHr}</Td>
+                      <Td align="right">{row.tunggakanBln}</Td>
+                      <Td align="right">{row.tunggakanNilai}</Td>
+                      <Td align="right">{row.tunggakan1_30}</Td>
+                      <Td align="right">{row.tunggakan31_60}</Td>
+                      <Td align="right">{row.tunggakan61_90}</Td>
+                      <Td align="right">{row.tunggakan90p}</Td>
+                    </tr>
+                  );
+                })}
 
                 <tr className="border-t border-slate-300/80 bg-white">
                   <TotalCell colSpan={7} align="left">
