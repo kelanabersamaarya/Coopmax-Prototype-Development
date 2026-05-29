@@ -53,6 +53,9 @@ export default function LaporanProduktivitasCabang() {
     [],
   );
 
+  const selectedKolektorAo =
+    kolektor === "-- Semua --" ? undefined : kolektor;
+
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
@@ -80,10 +83,14 @@ export default function LaporanProduktivitasCabang() {
     if (!showReport) return null;
 
     if (jenisLaporan === "Detail NPL") {
-      return <DetailNplReportTable />;
+      return <DetailNplReportTable selectedKolektorAo={selectedKolektorAo} />;
     }
 
-    return <LaporanProduktivitasCabangReportTable />;
+    return (
+      <LaporanProduktivitasCabangReportTable
+        selectedKolektorAo={selectedKolektorAo}
+      />
+    );
   }
 
   return (
