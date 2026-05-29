@@ -301,11 +301,6 @@ export default function LaporanKolektibilitas() {
   const [submitted, setSubmitted] = React.useState(false);
 
   function doSearch() {
-    if (jenisPinjaman.length === 0) {
-      setWarnOpen(true);
-      return;
-    }
-
     if (!bulan) setBulan("April");
     if (!tahun) setTahun("2026");
     if (!tipe) setTipe("-- Semua --");
