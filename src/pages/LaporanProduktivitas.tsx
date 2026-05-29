@@ -95,7 +95,7 @@ export default function LaporanProduktivitas() {
     if (!showReport) return null;
 
     if (jenisLaporan === "Detail NPL") {
-      return <DetailNplReportTable />;
+      return <DetailNplReportTable showCabangAo />;
     }
 
     return <LaporanProduktivitasReportTable />;
