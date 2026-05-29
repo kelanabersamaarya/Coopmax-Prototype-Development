@@ -283,7 +283,7 @@ function TotalCell({
     <td
       colSpan={colSpan}
       className={cn(
-        "border-b border-r border-slate-300/80 bg-[#d9edf7] px-2 py-2",
+        "border-b border-r border-slate-300/80 bg-white px-2 py-2",
         "text-[12px] font-extrabold text-slate-900",
         align === "right"
           ? "text-right tabular-nums"
@@ -432,7 +432,7 @@ export default function DetailPinjamanReportTable({
                   </tr>
                 ))}
 
-                <tr className="border-t border-slate-300/80">
+                <tr className="border-t border-slate-300/80 bg-white">
                   <TotalCell colSpan={7} align="center">
                     Jumlah
                   </TotalCell>
