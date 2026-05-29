@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type JenisLaporan = "Laporan Produktivitas Konsolidasi" | "Detail NPL";
+type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
 
 function ActionPill({
   icon: Icon,
@@ -45,7 +45,7 @@ export default function LaporanProduktivitas() {
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
   const [jenisLaporan, setJenisLaporan] =
-    React.useState<JenisLaporan>("Laporan Produktivitas Konsolidasi");
+    React.useState<JenisLaporan>("Laporan Produktivitas");
   const [showReport, setShowReport] = React.useState(false);
 
   const yearOptions = React.useMemo(
@@ -91,7 +91,7 @@ export default function LaporanProduktivitas() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Laporan Produktivitas Konsolidasi
+            Laporan Produktivitas
           </h1>
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
@@ -219,10 +219,10 @@ export default function LaporanProduktivitas() {
                     </SelectTrigger>
                     <SelectContent className={selectContentCls}>
                       <SelectItem
-                        value="Laporan Produktivitas Konsolidasi"
+                        value="Laporan Produktivitas"
                         className={selectItemCls}
                       >
-                        Laporan Produktivitas Konsolidasi
+                        Laporan Produktivitas
                       </SelectItem>
                       <SelectItem value="Detail NPL" className={selectItemCls}>
                         Detail NPL
