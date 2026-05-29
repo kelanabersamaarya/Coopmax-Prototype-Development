@@ -7,119 +7,212 @@ import SortableHeaderLabel from "@/components/laporan/SortableHeaderLabel";
 type DetailPinjamanRow = {
   no: number;
   noRekening: string;
-  idNasabah: string;
   namaNasabah: string;
   alamat: string;
-  statusNasabah: string;
-  jenisPinjaman: string;
-  tanggalPinjaman: string;
-  tanggalJatuhTempo: string;
-  kolektor: string;
-  jangkaWaktu: string;
+  aoId: string;
+  jwBln: string;
+  periode: string;
+  saldoPokok: string;
   bunga: string;
-  plafon: string;
-  sisaPokok: string;
-  sisaBunga: string;
-  angsuranPokok: string;
-  angsuranBunga: string;
-  statusPinjaman: string;
+  angsuranPerBln: string;
+  angsuranSdhHr: string;
+  tunggakanBln: string;
+  tunggakanNilai: string;
+  tunggakan1_30: string;
+  tunggakan31_60: string;
+  tunggakan61_90: string;
+  tunggakan90p: string;
 };
 
 const rows: DetailPinjamanRow[] = [
   {
-    no: 1,
-    noRekening: "SMG260004",
-    idNasabah: "N2600006",
-    namaNasabah: "Bapak Bagus",
-    alamat: "Sidakarya",
-    statusNasabah: "Anggota",
-    jenisPinjaman: "Pinjaman Billing",
-    tanggalPinjaman: "07-04-2026",
-    tanggalJatuhTempo: "07-04-2027",
-    kolektor: "Gina Farida M.M.",
-    jangkaWaktu: "12 Bulan",
-    bunga: "12.00%",
-    plafon: "12.000.000,00",
-    sisaPokok: "10.553.571,00",
-    sisaBunga: "1.266.429,00",
-    angsuranPokok: "1.000.000,00",
-    angsuranBunga: "120.000,00",
-    statusPinjaman: "Aktif / Sudah Dicairkan",
+    no: 111,
+    noRekening: "007041",
+    namaNasabah: "Achmad Syafi'i / -",
+    alamat: "Jl. Mayjend",
+    aoId: "ADK",
+    jwBln: "12",
+    periode: "19/11/25-19/11/26",
+    saldoPokok: "3,749,999",
+    bunga: "2.50",
+    angsuranPerBln: "541,667",
+    angsuranSdhHr: "3 / 3",
+    tunggakanBln: "0",
+    tunggakanNilai: "",
+    tunggakan1_30: "",
+    tunggakan31_60: "",
+    tunggakan61_90: "",
+    tunggakan90p: "",
   },
   {
-    no: 2,
-    noRekening: "klpk04.07260001",
-    idNasabah: "N2500009",
-    namaNasabah: "Indah Sari",
-    alamat: "Jl. Galang",
-    statusNasabah: "Non Anggota",
-    jenisPinjaman: "Pinjaman Bulanan 1",
-    tanggalPinjaman: "10-02-2026",
-    tanggalJatuhTempo: "10-02-2027",
-    kolektor: "Kolektor A",
-    jangkaWaktu: "12 Bulan",
-    bunga: "11.50%",
-    plafon: "10.000.000,00",
-    sisaPokok: "8.645.833,33",
-    sisaBunga: "950.000,00",
-    angsuranPokok: "833.333,00",
-    angsuranBunga: "95.833,00",
-    statusPinjaman: "Aktif / Sudah Dicairkan",
+    no: 112,
+    noRekening: "007056",
+    namaNasabah: "Sukar / Soinem",
+    alamat: "Jl. A Yani",
+    aoId: "ADK",
+    jwBln: "12",
+    periode: "16/02/26-16/02/27",
+    saldoPokok: "5,000,000",
+    bunga: "2.50",
+    angsuranPerBln: "541,667",
+    angsuranSdhHr: "0 / 0",
+    tunggakanBln: "0",
+    tunggakanNilai: "",
+    tunggakan1_30: "",
+    tunggakan31_60: "",
+    tunggakan61_90: "",
+    tunggakan90p: "",
   },
   {
-    no: 3,
-    noRekening: "12260006",
-    idNasabah: "N2400029",
-    namaNasabah: "Pangeran Sirait",
-    alamat: "Sidakarya",
-    statusNasabah: "Non Anggota",
-    jenisPinjaman: "Pinjaman Bulanan",
-    tanggalPinjaman: "30-04-2026",
-    tanggalJatuhTempo: "30-04-2027",
-    kolektor: "Dinda Sudiati",
-    jangkaWaktu: "12 Bulan",
-    bunga: "24.00%",
-    plafon: "2.000.000,00",
-    sisaPokok: "1.040.000,00",
-    sisaBunga: "240.000,00",
-    angsuranPokok: "166.700,00",
-    angsuranBunga: "40.000,00",
-    statusPinjaman: "Aktif / Sudah Dicairkan",
+    no: 113,
+    noRekening: "007057",
+    namaNasabah: "Jujon / Sumiati",
+    alamat: "Jl. Kyai",
+    aoId: "ADK",
+    jwBln: "18",
+    periode: "26/06/25-26/12/26",
+    saldoPokok: "3,111,112",
+    bunga: "2.50",
+    angsuranPerBln: "322,222",
+    angsuranSdhHr: "4 / 8",
+    tunggakanBln: "4",
+    tunggakanNilai: "1,288,888",
+    tunggakan1_30: "322,222",
+    tunggakan31_60: "322,222",
+    tunggakan61_90: "322,222",
+    tunggakan90p: "322,222",
   },
   {
-    no: 4,
-    noRekening: "072260001",
-    idNasabah: "N2400033",
-    namaNasabah: "Rika Wastuti",
-    alamat: "Jl. Kenanga No. 12",
-    statusNasabah: "Anggota",
-    jenisPinjaman: "Pinjaman Harian",
-    tanggalPinjaman: "31-03-2026",
-    tanggalJatuhTempo: "30-09-2026",
-    kolektor: "Kolektor B",
-    jangkaWaktu: "18 Bulan",
-    bunga: "20.00%",
-    plafon: "22.000.000,00",
-    sisaPokok: "22.000.000,00",
-    sisaBunga: "1.800.000,00",
-    angsuranPokok: "650.000,00",
-    angsuranBunga: "183.333,00",
-    statusPinjaman: "Macet",
+    no: 114,
+    noRekening: "007075",
+    namaNasabah: "Hanafi Wibowo / -",
+    alamat: "Dsn Karng",
+    aoId: "ADK",
+    jwBln: "10",
+    periode: "24/11/25-24/09/26",
+    saldoPokok: "7,200,000",
+    bunga: "2.50",
+    angsuranPerBln: "1,125,000",
+    angsuranSdhHr: "2 / 3",
+    tunggakanBln: "1",
+    tunggakanNilai: "1,125,000",
+    tunggakan1_30: "1,125,000",
+    tunggakan31_60: "",
+    tunggakan61_90: "",
+    tunggakan90p: "",
+  },
+  {
+    no: 115,
+    noRekening: "007114",
+    namaNasabah: "Ira Purwandari / -",
+    alamat: "Jl. Kauman",
+    aoId: "AND",
+    jwBln: "8",
+    periode: "03/11/25-03/07/26",
+    saldoPokok: "2,500,000",
+    bunga: "3.00",
+    angsuranPerBln: "620,000",
+    angsuranSdhHr: "3 / 4",
+    tunggakanBln: "1",
+    tunggakanNilai: "620,000",
+    tunggakan1_30: "620,000",
+    tunggakan31_60: "",
+    tunggakan61_90: "",
+    tunggakan90p: "",
+  },
+  {
+    no: 116,
+    noRekening: "007114",
+    namaNasabah: "Ira Purwandari / -",
+    alamat: "Jl. Kauman",
+    aoId: "AND",
+    jwBln: "10",
+    periode: "04/11/25-04/09/26",
+    saldoPokok: "6,300,000",
+    bunga: "2.50",
+    angsuranPerBln: "1,125,000",
+    angsuranSdhHr: "3 / 3",
+    tunggakanBln: "0",
+    tunggakanNilai: "",
+    tunggakan1_30: "",
+    tunggakan31_60: "",
+    tunggakan61_90: "",
+    tunggakan90p: "",
+  },
+  {
+    no: 117,
+    noRekening: "007155",
+    namaNasabah: "Eko Cahyono",
+    alamat: "Dsn Demak",
+    aoId: "ADK",
+    jwBln: "12",
+    periode: "26/01/26-26/01/27",
+    saldoPokok: "5,000,000",
+    bunga: "2.50",
+    angsuranPerBln: "541,667",
+    angsuranSdhHr: "0 / 1",
+    tunggakanBln: "1",
+    tunggakanNilai: "541,667",
+    tunggakan1_30: "541,667",
+    tunggakan31_60: "",
+    tunggakan61_90: "",
+    tunggakan90p: "",
+  },
+  {
+    no: 118,
+    noRekening: "007157",
+    namaNasabah: "Didik Yulianto / Y",
+    alamat: "Dsn Karang",
+    aoId: "ADK",
+    jwBln: "12",
+    periode: "26/01/26-26/01/27",
+    saldoPokok: "3,000,000",
+    bunga: "2.50",
+    angsuranPerBln: "325,000",
+    angsuranSdhHr: "0 / 1",
+    tunggakanBln: "1",
+    tunggakanNilai: "325,000",
+    tunggakan1_30: "325,000",
+    tunggakan31_60: "",
+    tunggakan61_90: "",
+    tunggakan90p: "",
   },
 ];
 
-function parseIdrLike(input: string) {
-  const normalized = input.replace(/\./g, "").replace(",", ".");
-  const cleaned = normalized.replace(/[^\d.-]/g, "");
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : 0;
-}
+const totalRows = {
+  saldoPokok: "4,794,829,831",
+  tunggakanNilai: "1,120,442,772",
+  tunggakan1_30: "437,029,718",
+  tunggakan31_60: "160,656,348",
+  tunggakan61_90: "106,795,316",
+  tunggakan90p: "415,961,390",
+};
 
-function formatIdr2(value: number) {
-  return value.toLocaleString("id-ID", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+function Th({
+  children,
+  className,
+  align = "left",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  align?: "left" | "right" | "center";
+}) {
+  return (
+    <th
+      className={cn(
+        "border-b border-r border-slate-300/80 bg-white px-2 py-2.5 align-middle",
+        "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+        align === "right"
+          ? "text-right"
+          : align === "center"
+            ? "text-center"
+            : "text-left",
+        className,
+      )}
+    >
+      {children}
+    </th>
+  );
 }
 
 function GroupTh({
@@ -138,35 +231,8 @@ function GroupTh({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "border-b border-r border-t border-slate-300/80 bg-white px-2 py-3 align-middle",
+        "border-b border-r border-t border-slate-300/80 bg-white px-2 py-2.5 align-middle",
         "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
-        className,
-      )}
-    >
-      {children}
-    </th>
-  );
-}
-
-function Th({
-  children,
-  className,
-  align = "left",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  align?: "left" | "right" | "center";
-}) {
-  return (
-    <th
-      className={cn(
-        "border-b border-r border-slate-300/80 bg-white px-2 py-3 align-middle",
-        "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
-        align === "right"
-          ? "text-right"
-          : align === "center"
-            ? "text-center"
-            : "text-left",
         className,
       )}
     >
@@ -187,7 +253,7 @@ function Td({
   return (
     <td
       className={cn(
-        "border-b border-r border-slate-200 px-2 py-2 align-top",
+        "border-b border-r border-slate-200 px-2 py-1.5 align-top",
         "text-[12px] font-medium text-slate-900",
         align === "right"
           ? "whitespace-nowrap text-right tabular-nums"
@@ -202,44 +268,33 @@ function Td({
   );
 }
 
-function TotalRow({
-  label,
-  totals,
+function TotalCell({
+  children,
+  colSpan,
+  align = "right",
+  className,
 }: {
-  label: string;
-  totals: {
-    plafon: number;
-    sisaPokok: number;
-    sisaBunga: number;
-    angsuranPokok: number;
-    angsuranBunga: number;
-  };
+  children?: React.ReactNode;
+  colSpan?: number;
+  align?: "left" | "right" | "center";
+  className?: string;
 }) {
   return (
-    <tr className="border-t border-black bg-white">
-      <td
-        colSpan={12}
-        className="border-b border-r border-slate-300/80 px-2 py-2.5 text-[12px] font-extrabold text-slate-900"
-      >
-        {label}
-      </td>
-      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-        {formatIdr2(totals.plafon)}
-      </td>
-      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-        {formatIdr2(totals.sisaPokok)}
-      </td>
-      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-        {formatIdr2(totals.sisaBunga)}
-      </td>
-      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-        {formatIdr2(totals.angsuranPokok)}
-      </td>
-      <td className="border-b border-r border-slate-300/80 px-2 py-2.5 text-right text-[12px] font-extrabold text-slate-900 tabular-nums">
-        {formatIdr2(totals.angsuranBunga)}
-      </td>
-      <td className="border-b border-r border-slate-300/80 px-2 py-2.5" />
-    </tr>
+    <td
+      colSpan={colSpan}
+      className={cn(
+        "border-b border-r border-slate-300/80 bg-[#d9edf7] px-2 py-2",
+        "text-[12px] font-extrabold text-slate-900",
+        align === "right"
+          ? "text-right tabular-nums"
+          : align === "center"
+            ? "text-center"
+            : "text-left",
+        className,
+      )}
+    >
+      {children}
+    </td>
   );
 }
 
@@ -272,93 +327,71 @@ export default function DetailPinjamanReportTable({
 }: {
   className?: string;
 }) {
-  const totals = React.useMemo(() => {
-    return rows.reduce(
-      (acc, row) => {
-        acc.plafon += parseIdrLike(row.plafon);
-        acc.sisaPokok += parseIdrLike(row.sisaPokok);
-        acc.sisaBunga += parseIdrLike(row.sisaBunga);
-        acc.angsuranPokok += parseIdrLike(row.angsuranPokok);
-        acc.angsuranBunga += parseIdrLike(row.angsuranBunga);
-        return acc;
-      },
-      {
-        plafon: 0,
-        sisaPokok: 0,
-        sisaBunga: 0,
-        angsuranPokok: 0,
-        angsuranBunga: 0,
-      },
-    );
-  }, []);
-
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[2050px] border-collapse border-l border-slate-300/80 bg-white">
+            <table className="w-full min-w-[1780px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
-                  <GroupTh rowSpan={2} className="w-[48px] text-left">
-                    No.
+                  <GroupTh rowSpan={2} className="w-[50px] text-left">
+                    No
                   </GroupTh>
-                  <GroupTh colSpan={6}>Informasi Nasabah</GroupTh>
-                  <GroupTh colSpan={5}>Informasi Pinjaman</GroupTh>
-                  <GroupTh colSpan={5}>Nominal Pinjaman</GroupTh>
-                  <GroupTh rowSpan={2} className="w-[170px] text-left">
-                    Status
+                  <GroupTh rowSpan={2} className="w-[82px] text-left">
+                    <SortableHeaderLabel lines={["No.", "Rek"]} />
                   </GroupTh>
+                  <GroupTh rowSpan={2} className="w-[165px] text-left">
+                    <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
+                  </GroupTh>
+                  <GroupTh rowSpan={2} className="w-[120px] text-left">
+                    <SortableHeaderLabel lines={["Alamat"]} />
+                  </GroupTh>
+                  <GroupTh rowSpan={2} className="w-[60px] text-left">
+                    AO ID
+                  </GroupTh>
+                  <GroupTh colSpan={2}>Jangka Waktu</GroupTh>
+                  <GroupTh colSpan={3}>Pinjaman</GroupTh>
+                  <GroupTh colSpan={2}>Angsuran</GroupTh>
+                  <GroupTh colSpan={6}>Tunggakan</GroupTh>
                 </tr>
 
                 <tr>
-                  <Th className="w-[130px]">
-                    <SortableHeaderLabel lines={["No.", "Rekening"]} />
+                  <Th className="w-[52px]" align="right">
+                    Bln
                   </Th>
-                  <Th className="w-[120px]">
-                    <SortableHeaderLabel lines={["ID", "Nasabah"]} />
+                  <Th className="w-[132px]">
+                    Dari tgl. s/d tgl.
                   </Th>
-                  <Th className="w-[165px]">
-                    <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
+                  <Th className="w-[130px]" align="right">
+                    Sld. Pokok
                   </Th>
-                  <Th className="w-[170px]">
-                    <SortableHeaderLabel lines={["Alamat"]} />
+                  <Th className="w-[58px]" align="right">
+                    Bng
                   </Th>
-                  <Th className="w-[115px]">
-                    <SortableHeaderLabel lines={["Status", "Nasabah"]} />
+                  <Th className="w-[120px]" align="right">
+                    Per bln
                   </Th>
-                  <Th className="w-[165px]">
-                    <SortableHeaderLabel lines={["Jenis", "Pinjaman"]} />
+                  <Th className="w-[74px]" align="right">
+                    Sdh/Hr
                   </Th>
-
-                  <Th className="w-[120px]">
-                    <SortableHeaderLabel lines={["Tanggal", "Pinjaman"]} />
+                  <Th className="w-[52px]" align="right">
+                    Bln
                   </Th>
-                  <Th className="w-[130px]">
-                    <SortableHeaderLabel lines={["Tanggal", "Jatuh Tempo"]} />
+                  <Th className="w-[115px]" align="right">
+                    Nilai
                   </Th>
-                  <Th className="w-[145px]">
-                    <SortableHeaderLabel lines={["Kolektor"]} />
+                  <Th className="w-[115px]" align="right">
+                    1-30 Hr
                   </Th>
-                  <Th className="w-[105px]">Jangka Waktu</Th>
-                  <Th className="w-[90px]" align="right">
-                    Bunga
+                  <Th className="w-[115px]" align="right">
+                    31-60 Hr
                   </Th>
-
-                  <Th className="w-[140px]" align="right">
-                    Plafon
+                  <Th className="w-[115px]" align="right">
+                    61-90 Hr
                   </Th>
-                  <Th className="w-[150px]" align="right">
-                    Sisa Pokok
-                  </Th>
-                  <Th className="w-[150px]" align="right">
-                    Sisa Bunga
-                  </Th>
-                  <Th className="w-[150px]" align="right">
-                    Angsuran Pokok
-                  </Th>
-                  <Th className="w-[150px]" align="right">
-                    Angsuran Bunga
+                  <Th className="w-[115px]" align="right">
+                    {"> 90 Hr"}
                   </Th>
                 </tr>
               </thead>
@@ -366,38 +399,54 @@ export default function DetailPinjamanReportTable({
               <tbody className="bg-white">
                 {rows.map((row, idx) => (
                   <tr
-                    key={row.noRekening}
+                    key={`${row.noRekening}-${row.no}-${idx}`}
                     className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
                   >
-                    <Td>{row.no}</Td>
-                    <Td className="font-semibold text-blue-600">{row.noRekening}</Td>
-                    <Td className="tabular-nums">{row.idNasabah}</Td>
-                    <Td>{row.namaNasabah}</Td>
-                    <Td>{row.alamat}</Td>
-                    <Td>{row.statusNasabah}</Td>
-                    <Td>{row.jenisPinjaman}</Td>
-
-                    <Td className="whitespace-nowrap tabular-nums">
-                      {row.tanggalPinjaman}
+                    <Td className="tabular-nums">{row.no}</Td>
+                    <Td className="tabular-nums">{row.noRekening}</Td>
+                    <Td>
+                      <div className="truncate" title={row.namaNasabah}>
+                        {row.namaNasabah}
+                      </div>
                     </Td>
-                    <Td className="whitespace-nowrap tabular-nums">
-                      {row.tanggalJatuhTempo}
+                    <Td>
+                      <div className="truncate" title={row.alamat}>
+                        {row.alamat}
+                      </div>
                     </Td>
-                    <Td>{row.kolektor}</Td>
-                    <Td>{row.jangkaWaktu}</Td>
+                    <Td>{row.aoId}</Td>
+                    <Td align="right">{row.jwBln}</Td>
+                    <Td className="whitespace-nowrap tabular-nums">
+                      {row.periode}
+                    </Td>
+                    <Td align="right">{row.saldoPokok}</Td>
                     <Td align="right">{row.bunga}</Td>
-
-                    <Td align="right">{row.plafon}</Td>
-                    <Td align="right">{row.sisaPokok}</Td>
-                    <Td align="right">{row.sisaBunga}</Td>
-                    <Td align="right">{row.angsuranPokok}</Td>
-                    <Td align="right">{row.angsuranBunga}</Td>
-                    <Td>{row.statusPinjaman}</Td>
+                    <Td align="right">{row.angsuranPerBln}</Td>
+                    <Td align="right">{row.angsuranSdhHr}</Td>
+                    <Td align="right">{row.tunggakanBln}</Td>
+                    <Td align="right">{row.tunggakanNilai}</Td>
+                    <Td align="right">{row.tunggakan1_30}</Td>
+                    <Td align="right">{row.tunggakan31_60}</Td>
+                    <Td align="right">{row.tunggakan61_90}</Td>
+                    <Td align="right">{row.tunggakan90p}</Td>
                   </tr>
                 ))}
 
-                <TotalRow label="Total per Halaman" totals={totals} />
-                <TotalRow label="Total" totals={totals} />
+                <tr className="border-t border-slate-300/80">
+                  <TotalCell colSpan={7} align="center">
+                    Jumlah
+                  </TotalCell>
+                  <TotalCell>{totalRows.saldoPokok}</TotalCell>
+                  <TotalCell />
+                  <TotalCell />
+                  <TotalCell />
+                  <TotalCell />
+                  <TotalCell>{totalRows.tunggakanNilai}</TotalCell>
+                  <TotalCell>{totalRows.tunggakan1_30}</TotalCell>
+                  <TotalCell>{totalRows.tunggakan31_60}</TotalCell>
+                  <TotalCell>{totalRows.tunggakan61_90}</TotalCell>
+                  <TotalCell>{totalRows.tunggakan90p}</TotalCell>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -405,7 +454,7 @@ export default function DetailPinjamanReportTable({
 
         <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-[14px] text-slate-900">
-            Menampilkan 1 sampai {rows.length} dari {rows.length} entri
+            Menampilkan 111 sampai 118 dari 118 entri
           </div>
           <PaginationBar />
         </div>
