@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanProduktivitasCabangReportTable";
+import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import {
   Select,
   SelectContent,
@@ -11,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+type JenisLaporan = "Laporan Produktivitas Cabang" | "Detail NPL";
 
 function ActionPill({
   icon: Icon,
@@ -41,6 +44,8 @@ export default function LaporanProduktivitasCabang() {
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
+  const [jenisLaporan, setJenisLaporan] =
+    React.useState<JenisLaporan>("Laporan Produktivitas Cabang");
   const [showReport, setShowReport] = React.useState(false);
 
   const yearOptions = React.useMemo(
@@ -71,12 +76,22 @@ export default function LaporanProduktivitasCabang() {
     "[&>span.absolute.right-2]:hidden",
   );
 
+  function renderReport() {
+    if (!showReport) return null;
+
+    if (jenisLaporan === "Detail NPL") {
+      return <DetailNplReportTable />;
+    }
+
+    return <LaporanProduktivitasCabangReportTable />;
+  }
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Laporan Produktivitas Cabang
+            Laporan Produktivitas
           </h1>
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
@@ -189,6 +204,35 @@ export default function LaporanProduktivitasCabang() {
               </div>
 
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                <div className="text-[13px] font-normal text-slate-900">
+                  Jenis Laporan
+                </div>
+                <div className="w-full md:max-w-[440px]">
+                  <Select
+                    value={jenisLaporan}
+                    onValueChange={(value) =>
+                      setJenisLaporan(value as JenisLaporan)
+                    }
+                  >
+                    <SelectTrigger className={selectTriggerCls}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className={selectContentCls}>
+                      <SelectItem
+                        value="Laporan Produktivitas Cabang"
+                        className={selectItemCls}
+                      >
+                        Laporan Produktivitas Cabang
+                      </SelectItem>
+                      <SelectItem value="Detail NPL" className={selectItemCls}>
+                        Detail NPL
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
                 <div className="flex w-full justify-end md:max-w-[440px]">
                   <button
@@ -209,7 +253,7 @@ export default function LaporanProduktivitasCabang() {
           </div>
         </Card>
 
-        {showReport ? <LaporanProduktivitasCabangReportTable /> : null}
+        {renderReport()}
       </div>
     </div>
   );
