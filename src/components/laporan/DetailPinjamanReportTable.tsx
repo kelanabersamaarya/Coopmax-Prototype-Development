@@ -309,6 +309,26 @@ function TotalCell({
   );
 }
 
+function TotalSummaryRow({ label }: { label: string }) {
+  return (
+    <tr className="border-t border-slate-300/80 bg-white">
+      <TotalCell colSpan={7} align="left">
+        {label}
+      </TotalCell>
+      <TotalCell>{totalRows.saldoPokok}</TotalCell>
+      <TotalCell />
+      <TotalCell />
+      <TotalCell />
+      <TotalCell />
+      <TotalCell>{totalRows.tunggakanNilai}</TotalCell>
+      <TotalCell>{totalRows.tunggakan1_30}</TotalCell>
+      <TotalCell>{totalRows.tunggakan31_60}</TotalCell>
+      <TotalCell>{totalRows.tunggakan61_90}</TotalCell>
+      <TotalCell>{totalRows.tunggakan90p}</TotalCell>
+    </tr>
+  );
+}
+
 function PaginationBar() {
   return (
     <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
@@ -426,21 +446,8 @@ export default function DetailPinjamanReportTable({
                   );
                 })}
 
-                <tr className="border-t border-slate-300/80 bg-white">
-                  <TotalCell colSpan={7} align="left">
-                    Jumlah
-                  </TotalCell>
-                  <TotalCell>{totalRows.saldoPokok}</TotalCell>
-                  <TotalCell />
-                  <TotalCell />
-                  <TotalCell />
-                  <TotalCell />
-                  <TotalCell>{totalRows.tunggakanNilai}</TotalCell>
-                  <TotalCell>{totalRows.tunggakan1_30}</TotalCell>
-                  <TotalCell>{totalRows.tunggakan31_60}</TotalCell>
-                  <TotalCell>{totalRows.tunggakan61_90}</TotalCell>
-                  <TotalCell>{totalRows.tunggakan90p}</TotalCell>
-                </tr>
+                <TotalSummaryRow label="Total per Halaman" />
+                <TotalSummaryRow label="Total" />
               </tbody>
             </table>
           </div>
