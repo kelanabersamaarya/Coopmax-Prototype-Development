@@ -157,8 +157,6 @@ const colW = {
   no: "w-[60px]",
   noNsb: "w-[125px]",
   nama: "w-[180px]",
-  status: "w-[110px]",
-  alamat: "w-[190px]",
   tanggalPinjaman: "w-[130px]",
   tanggalJatuhTempo: "w-[140px]",
   jenisPinjaman: "w-[180px]",
@@ -199,7 +197,7 @@ function TotalRow({
   const totalRowNumber =
     "border-b border-slate-200 border-r border-slate-200 last:border-r-0 px-2 py-2.5 text-right text-[13px] font-extrabold tabular-nums text-slate-900";
 
-  const MERGE_COLS_BEFORE_TOTALS = 8;
+  const MERGE_COLS_BEFORE_TOTALS = 6;
 
   return (
     <tr className="border-t border-black bg-white">
@@ -218,7 +216,7 @@ function TotalRow({
   );
 }
 
-const TOTAL_COLS = 12;
+const TOTAL_COLS = 10;
 
 export default function KolektibilitasReportTable({
   rows,
@@ -273,7 +271,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[1625px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[1325px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th className={colW.no} align="left" leftBorder>
@@ -286,14 +284,6 @@ export default function KolektibilitasReportTable({
 
                 <Th className={colW.nama} align="left">
                   <SortableHeaderLabel lines={["NAMA", "NASABAH"]} align="left" />
-                </Th>
-
-                <Th className={colW.status} align="left">
-                  STATUS
-                </Th>
-
-                <Th className={colW.alamat} align="left">
-                  ALAMAT
                 </Th>
 
                 <Th className={colW.tanggalPinjaman} align="left">
@@ -347,7 +337,6 @@ export default function KolektibilitasReportTable({
                 paged.map((r, idx) => {
                   const kolek = deriveKolektibilitas(r);
 
-                  const status = idx % 5 === 0 ? "Calon" : "Anggota";
                   const tanggalPinjaman = r.dari;
                   const tanggalJatuhTempo = r.sampai;
                   const jenisPinjaman =
@@ -381,21 +370,6 @@ export default function KolektibilitasReportTable({
 
                       <Td className={cn(colW.nama, "whitespace-nowrap")} align="left">
                         {r.nama}
-                      </Td>
-
-                      <Td
-                        className={cn(colW.status, "whitespace-nowrap")}
-                        align="left"
-                      >
-                        {status}
-                      </Td>
-
-                      <Td
-                        className={cn(colW.alamat, "truncate")}
-                        title={r.alamat}
-                        align="left"
-                      >
-                        {r.alamat}
                       </Td>
 
                       <Td
