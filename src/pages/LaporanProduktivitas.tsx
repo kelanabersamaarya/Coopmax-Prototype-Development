@@ -54,7 +54,7 @@ export default function LaporanProduktivitas() {
   );
 
   const selectTriggerCls =
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
+    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectContentCls = cn(
     "overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
@@ -65,7 +65,7 @@ export default function LaporanProduktivitas() {
   );
 
   const selectItemCls = cn(
-    "rounded-none px-5 py-3.5 text-[15px] font-normal text-black",
+    "rounded-none px-5 py-3 text-[12px] font-normal text-black",
     "transition-colors",
     "focus:bg-violet-600 focus:text-white",
     "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
