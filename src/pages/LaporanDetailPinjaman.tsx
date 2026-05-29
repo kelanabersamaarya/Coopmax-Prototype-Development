@@ -11,13 +11,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import DetailPinjamanReportTable from "@/components/laporan/DetailPinjamanReportTable";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
 
 function ActionPill({
   icon: Icon,
@@ -104,31 +98,9 @@ export default function LaporanDetailPinjaman() {
   );
 
   const selectTriggerCls = cn(
-    "h-[30px] w-full justify-between rounded-[6px] border border-slate-200 bg-white px-3",
-    "text-[12.5px] font-normal text-[#596882] shadow-sm",
+    "h-[30px] rounded-[5px] border-slate-200 bg-white px-3",
+    "text-[12.5px] font-normal text-black shadow-sm",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-500",
-  );
-
-  const selectContentCls = cn(
-    "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
-    "[&_[data-radix-select-item-indicator]]:hidden",
-    "[&_[data-slot=select-item-indicator]]:hidden",
-    "[&>span.absolute.right-2]:hidden",
-    "[&_[data-radix-collection-item]]:pl-4",
-    "[&_[data-radix-collection-item]]:pr-4",
-  );
-
-  const selectItemCls = cn(
-    "rounded-none px-4 py-2.5 text-[14px] font-normal text-black",
-    "transition-colors",
-    "hover:bg-violet-600 hover:text-white",
-    "focus:bg-violet-600 focus:text-white",
-    "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
-    "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
-    "[&_[data-radix-select-item-indicator]]:hidden",
-    "[&_[data-slot=select-item-indicator]]:hidden",
-    "[&>span.absolute.right-2]:hidden",
   );
 
   return (
@@ -167,28 +139,18 @@ export default function LaporanDetailPinjaman() {
 
               <FieldRow label="Kolektor/AO">
                 <FieldWrap>
-                  <Select value={kolektor} onValueChange={setKolektor}>
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      <SelectItem value="-- Semua --" className={selectItemCls}>
-                        -- Semua --
-                      </SelectItem>
-                      <SelectItem value="Gina Farida M.M." className={selectItemCls}>
-                        Gina Farida M.M.
-                      </SelectItem>
-                      <SelectItem value="Dinda Sudiati" className={selectItemCls}>
-                        Dinda Sudiati
-                      </SelectItem>
-                      <SelectItem value="Kolektor A" className={selectItemCls}>
-                        Kolektor A
-                      </SelectItem>
-                      <SelectItem value="Kolektor B" className={selectItemCls}>
-                        Kolektor B
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <PlainFilterSelect
+                    value={kolektor}
+                    onValueChange={setKolektor}
+                    options={[
+                      "-- Semua --",
+                      "Gina Farida M.M.",
+                      "Dinda Sudiati",
+                      "Kolektor A",
+                      "Kolektor B",
+                    ]}
+                    triggerClassName={selectTriggerCls}
+                  />
                 </FieldWrap>
               </FieldRow>
 
