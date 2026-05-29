@@ -11,8 +11,6 @@ import {
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import DetailPinjamanReportTable from "@/components/laporan/DetailPinjamanReportTable";
-import ClearableDatePickerField from "@/components/laporan/ClearableDatePickerField";
-import LoanTypeMultiSelect from "@/components/laporan/LoanTypeMultiSelect";
 import {
   Select,
   SelectContent,
@@ -20,15 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const loanOptions = [
-  "Pinjaman Billing",
-  "Pinjaman Bulanan",
-  "Pinjaman Bulanan 1",
-  "Pinjaman Bulanan 9",
-  "Pinjaman Harian",
-  "Pinjaman RC",
-] as const;
 
 function ActionPill({
   icon: Icon,
@@ -77,14 +66,8 @@ function FieldWrap({ children }: { children: React.ReactNode }) {
 }
 
 export default function LaporanDetailPinjaman() {
-  const [jenisPinjaman, setJenisPinjaman] = React.useState<string[]>([]);
   const [namaNoRek, setNamaNoRek] = React.useState("");
   const [kolektor, setKolektor] = React.useState("-- Semua --");
-  const [statusPinjaman, setStatusPinjaman] = React.useState("-- Semua --");
-  const [tanggalStart, setTanggalStart] = React.useState("");
-  const [tanggalEnd, setTanggalEnd] = React.useState("");
-  const [jatuhTempoStart, setJatuhTempoStart] = React.useState("");
-  const [jatuhTempoEnd, setJatuhTempoEnd] = React.useState("");
   const [showReport, setShowReport] = React.useState(false);
 
   const actions = [
@@ -171,17 +154,6 @@ export default function LaporanDetailPinjaman() {
         <div className="mt-6">
           <Card className="w-full rounded-3xl border-0 bg-transparent p-0 shadow-none xl:w-[660px]">
             <div className="grid gap-4">
-              <FieldRow label="Jenis Pinjaman">
-                <FieldWrap>
-                  <LoanTypeMultiSelect
-                    options={[...loanOptions]}
-                    value={jenisPinjaman}
-                    onChange={setJenisPinjaman}
-                    placeholder="Pilih pinjaman"
-                  />
-                </FieldWrap>
-              </FieldRow>
-
               <FieldRow label="Nama/No Rekening">
                 <FieldWrap>
                   <Input
@@ -193,7 +165,7 @@ export default function LaporanDetailPinjaman() {
                 </FieldWrap>
               </FieldRow>
 
-              <FieldRow label="Kolektor">
+              <FieldRow label="Kolektor/AO">
                 <FieldWrap>
                   <Select value={kolektor} onValueChange={setKolektor}>
                     <SelectTrigger className={selectTriggerCls}>
@@ -220,89 +192,32 @@ export default function LaporanDetailPinjaman() {
                 </FieldWrap>
               </FieldRow>
 
-              <FieldRow label="Status Pinjaman">
-                <FieldWrap>
-                  <Select
-                    value={statusPinjaman}
-                    onValueChange={setStatusPinjaman}
+              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                <div />
+                <div className="flex w-full justify-end md:max-w-[440px]">
+                  <button
+                    type="button"
+                    onClick={() => setShowReport(true)}
+                    className={cn(
+                      "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
+                      "bg-[#3BB001] text-[13px] font-normal text-white",
+                      "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
+                    )}
                   >
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      <SelectItem value="-- Semua --" className={selectItemCls}>
-                        -- Semua --
-                      </SelectItem>
-                      <SelectItem
-                        value="Aktif / Sudah Dicairkan"
-                        className={selectItemCls}
-                      >
-                        Aktif / Sudah Dicairkan
-                      </SelectItem>
-                      <SelectItem value="Lunas" className={selectItemCls}>
-                        Lunas
-                      </SelectItem>
-                      <SelectItem value="Macet" className={selectItemCls}>
-                        Macet
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FieldWrap>
-              </FieldRow>
-
-              <FieldRow label="Tanggal Pinjaman">
-                <FieldWrap>
-                  <div className="grid gap-2 md:grid-cols-2">
-                    <ClearableDatePickerField
-                      value={tanggalStart}
-                      onChange={setTanggalStart}
-                      placeholder="Tanggal awal"
-                    />
-                    <ClearableDatePickerField
-                      value={tanggalEnd}
-                      onChange={setTanggalEnd}
-                      placeholder="Tanggal akhir"
-                    />
-                  </div>
-                </FieldWrap>
-              </FieldRow>
-
-              <FieldRow label="Tanggal Jatuh Tempo">
-                <FieldWrap>
-                  <div className="grid gap-2 md:grid-cols-2">
-                    <ClearableDatePickerField
-                      value={jatuhTempoStart}
-                      onChange={setJatuhTempoStart}
-                      placeholder="Tanggal awal"
-                    />
-                    <ClearableDatePickerField
-                      value={jatuhTempoEnd}
-                      onChange={setJatuhTempoEnd}
-                      placeholder="Tanggal akhir"
-                    />
-                  </div>
-
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => setShowReport(true)}
-                      className={cn(
-                        "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
-                        "bg-[#3BB001] text-[13px] font-normal text-white",
-                        "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
-                      )}
-                    >
-                      <Search className="h-3.5 w-3.5" />
-                      Cari
-                    </button>
-                  </div>
-                </FieldWrap>
-              </FieldRow>
+                    <Search className="h-3.5 w-3.5" />
+                    Cari
+                  </button>
+                </div>
+              </div>
             </div>
           </Card>
         </div>
 
         {showReport ? <DetailPinjamanReportTable /> : null}
+
+        <div className="sr-only">
+          {namaNoRek} {kolektor}
+        </div>
       </div>
     </div>
   );
