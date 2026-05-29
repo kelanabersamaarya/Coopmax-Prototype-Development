@@ -56,6 +56,26 @@ export default function LaporanProduktivitas() {
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
+  const selectContentCls = cn(
+    "overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
+    "[&_[data-radix-select-viewport]]:p-0",
+    "[&_[data-radix-select-item-indicator]]:hidden",
+    "[&_[data-slot=select-item-indicator]]:hidden",
+    "[&>span.absolute.right-2]:hidden",
+  );
+
+  const selectItemCls = cn(
+    "rounded-none px-5 py-3.5 text-[15px] font-normal text-black",
+    "transition-colors",
+    "focus:bg-violet-600 focus:text-white",
+    "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
+    "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
+    "data-[state=checked]:focus:bg-violet-600 data-[state=checked]:focus:text-white",
+    "[&_[data-radix-select-item-indicator]]:hidden",
+    "[&_[data-slot=select-item-indicator]]:hidden",
+    "[&>span.absolute.right-2]:hidden",
+  );
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -95,13 +115,25 @@ export default function LaporanProduktivitas() {
                     <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-[5px] border-slate-200">
-                      <SelectItem value="-- Semua --">-- Semua --</SelectItem>
-                      <SelectItem value="Gina Farida M.M.">
+                    <SelectContent className={selectContentCls}>
+                      <SelectItem value="-- Semua --" className={selectItemCls}>
+                        -- Semua --
+                      </SelectItem>
+                      <SelectItem
+                        value="Gina Farida M.M."
+                        className={selectItemCls}
+                      >
                         Gina Farida M.M.
                       </SelectItem>
-                      <SelectItem value="Dinda Sudiati">Dinda Sudiati</SelectItem>
-                      <SelectItem value="Kolektor A">Kolektor A</SelectItem>
+                      <SelectItem
+                        value="Dinda Sudiati"
+                        className={selectItemCls}
+                      >
+                        Dinda Sudiati
+                      </SelectItem>
+                      <SelectItem value="Kolektor A" className={selectItemCls}>
+                        Kolektor A
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -116,7 +148,7 @@ export default function LaporanProduktivitas() {
                     <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-[5px] border-slate-200">
+                    <SelectContent className={selectContentCls}>
                       {[
                         "Januari",
                         "Februari",
@@ -131,7 +163,11 @@ export default function LaporanProduktivitas() {
                         "November",
                         "Desember",
                       ].map((month) => (
-                        <SelectItem key={month} value={month}>
+                        <SelectItem
+                          key={month}
+                          value={month}
+                          className={selectItemCls}
+                        >
                           {month}
                         </SelectItem>
                       ))}
@@ -142,9 +178,13 @@ export default function LaporanProduktivitas() {
                     <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-[5px] border-slate-200">
+                    <SelectContent className={selectContentCls}>
                       {yearOptions.map((year) => (
-                        <SelectItem key={year} value={year}>
+                        <SelectItem
+                          key={year}
+                          value={year}
+                          className={selectItemCls}
+                        >
                           {year}
                         </SelectItem>
                       ))}
@@ -167,11 +207,16 @@ export default function LaporanProduktivitas() {
                     <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="rounded-[5px] border-slate-200">
-                      <SelectItem value="Laporan Produktivitas">
+                    <SelectContent className={selectContentCls}>
+                      <SelectItem
+                        value="Laporan Produktivitas"
+                        className={selectItemCls}
+                      >
                         Laporan Produktivitas
                       </SelectItem>
-                      <SelectItem value="Detail NPL">Detail NPL</SelectItem>
+                      <SelectItem value="Detail NPL" className={selectItemCls}>
+                        Detail NPL
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
