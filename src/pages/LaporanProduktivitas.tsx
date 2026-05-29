@@ -45,9 +45,9 @@ function FieldRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-      <div className="text-[13px] font-normal text-slate-900">{label}</div>
-      <div className="w-full md:max-w-[440px]">{children}</div>
+    <div className="grid gap-2 md:grid-cols-[270px_minmax(0,1fr)] md:items-center">
+      <div className="text-[13px] font-normal text-black">{label}</div>
+      <div className="w-full md:max-w-[544px]">{children}</div>
     </div>
   );
 }
@@ -55,13 +55,36 @@ function FieldRow({
 export default function LaporanProduktivitas() {
   const [cabangAo, setCabangAo] = React.useState("-- Semua --");
   const [kolektorAo, setKolektorAo] = React.useState("-- Semua --");
+  const [bulan, setBulan] = React.useState("Mei");
+  const [tahun, setTahun] = React.useState("2026");
+  const [jenisLaporan, setJenisLaporan] = React.useState("Laporan Produktivitas");
   const [showReport, setShowReport] = React.useState(false);
 
   const selectedCabangAo = cabangAo === "-- Semua --" ? undefined : cabangAo;
   const selectedKolektorAo = kolektorAo === "-- Semua --" ? undefined : kolektorAo;
 
+  const months = React.useMemo(
+    () => [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ],
+    [],
+  );
+
+  const years = React.useMemo(() => ["2024", "2025", "2026", "2027"], []);
+
   const selectTriggerCls =
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
+    "h-[38px] rounded-[5px] border-slate-200 bg-white px-4 text-[14px] font-normal text-black shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectContentCls = cn(
     "overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
@@ -72,7 +95,7 @@ export default function LaporanProduktivitas() {
   );
 
   const selectItemCls = cn(
-    "rounded-none px-5 py-3 text-[12px] font-normal text-black",
+    "rounded-none px-5 py-3 text-[14px] font-normal text-black",
     "transition-colors",
     "focus:bg-violet-600 focus:text-white",
     "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
@@ -111,8 +134,8 @@ export default function LaporanProduktivitas() {
         </div>
 
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
-          <div className="w-full max-w-[760px]">
-            <div className="grid gap-[15px]">
+          <div className="w-full max-w-[860px]">
+            <div className="grid gap-[18px]">
               <FieldRow label="Cabang AO/Kolektor Terdaftar">
                 <Select value={cabangAo} onValueChange={setCabangAo}>
                   <SelectTrigger className={selectTriggerCls}>
@@ -141,7 +164,7 @@ export default function LaporanProduktivitas() {
                 </Select>
               </FieldRow>
 
-              <FieldRow label="Kolektor/AO">
+              <FieldRow label="Kolektor / AO">
                 <Select value={kolektorAo} onValueChange={setKolektorAo}>
                   <SelectTrigger className={selectTriggerCls}>
                     <SelectValue />
@@ -166,9 +189,66 @@ export default function LaporanProduktivitas() {
                 </Select>
               </FieldRow>
 
-              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+              <FieldRow label="Periode">
+                <div className="grid gap-3 md:grid-cols-[1fr_0.9fr]">
+                  <Select value={bulan} onValueChange={setBulan}>
+                    <SelectTrigger className={selectTriggerCls}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className={selectContentCls}>
+                      {months.map((month) => (
+                        <SelectItem
+                          key={month}
+                          value={month}
+                          className={selectItemCls}
+                        >
+                          {month}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={tahun} onValueChange={setTahun}>
+                    <SelectTrigger className={selectTriggerCls}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className={selectContentCls}>
+                      {years.map((year) => (
+                        <SelectItem
+                          key={year}
+                          value={year}
+                          className={selectItemCls}
+                        >
+                          {year}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </FieldRow>
+
+              <FieldRow label="Jenis Laporan">
+                <Select value={jenisLaporan} onValueChange={setJenisLaporan}>
+                  <SelectTrigger className={selectTriggerCls}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={selectContentCls}>
+                    <SelectItem
+                      value="Laporan Produktivitas"
+                      className={selectItemCls}
+                    >
+                      Laporan Produktivitas
+                    </SelectItem>
+                    <SelectItem value="Detail NPL" className={selectItemCls}>
+                      Detail NPL
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
+              <div className="grid gap-2 md:grid-cols-[270px_minmax(0,1fr)] md:items-center">
                 <div />
-                <div className="flex w-full justify-end md:max-w-[440px]">
+                <div className="flex w-full justify-end md:max-w-[544px]">
                   <button
                     type="button"
                     onClick={() => setShowReport(true)}
@@ -195,7 +275,7 @@ export default function LaporanProduktivitas() {
         ) : null}
 
         <div className="sr-only">
-          {cabangAo} {kolektorAo}
+          {cabangAo} {kolektorAo} {bulan} {tahun} {jenisLaporan}
         </div>
       </div>
     </div>
