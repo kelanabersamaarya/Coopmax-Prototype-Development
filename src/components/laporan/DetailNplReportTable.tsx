@@ -221,6 +221,31 @@ function TotalCell({
   );
 }
 
+function TotalSummaryRow({
+  label,
+  totalLabelColSpan,
+}: {
+  label: string;
+  totalLabelColSpan: number;
+}) {
+  return (
+    <tr className="border-t border-black bg-white">
+      <TotalCell
+        colSpan={totalLabelColSpan}
+        align="left"
+        className="border-l border-slate-200"
+      >
+        {label}
+      </TotalCell>
+      <TotalCell>{totals.npl1_30}</TotalCell>
+      <TotalCell>{totals.npl31_60}</TotalCell>
+      <TotalCell>{totals.npl61_90}</TotalCell>
+      <TotalCell>{totals.npl91}</TotalCell>
+      <TotalCell className="border-r-0">{totals.jumlah}</TotalCell>
+    </tr>
+  );
+}
+
 export default function DetailNplReportTable({
   className,
   showCabangAo = false,
@@ -313,20 +338,11 @@ export default function DetailNplReportTable({
                 </tr>
               ))}
 
-              <tr className="border-t border-black bg-white">
-                <TotalCell
-                  colSpan={totalLabelColSpan}
-                  align="center"
-                  className="border-l border-slate-200"
-                >
-                  Total
-                </TotalCell>
-                <TotalCell>{totals.npl1_30}</TotalCell>
-                <TotalCell>{totals.npl31_60}</TotalCell>
-                <TotalCell>{totals.npl61_90}</TotalCell>
-                <TotalCell>{totals.npl91}</TotalCell>
-                <TotalCell className="border-r-0">{totals.jumlah}</TotalCell>
-              </tr>
+              <TotalSummaryRow
+                label="Total per Halaman"
+                totalLabelColSpan={totalLabelColSpan}
+              />
+              <TotalSummaryRow label="Total" totalLabelColSpan={totalLabelColSpan} />
             </tbody>
           </table>
         </div>
