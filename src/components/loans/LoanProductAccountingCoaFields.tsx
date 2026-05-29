@@ -179,7 +179,7 @@ export default function LoanProductAccountingCoaFields({
 }) {
   return (
     <div className={cn("mt-6", className)}>
-      <SectionTitle>Konfigurasi KP (Kode Perkiraan) Biaya Pinjaman</SectionTitle>
+      <SectionTitle>Konfigurasi KP Biaya Pinjaman</SectionTitle>
 
       <div className="mt-5 grid gap-5">
         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
@@ -201,9 +201,7 @@ export default function LoanProductAccountingCoaFields({
       </div>
 
       <div className="mt-6">
-        <SectionTitle>
-          Konfigurasi KP (Kode Perkiraan) Pendapatan Pinjaman
-        </SectionTitle>
+        <SectionTitle>Konfigurasi KP Pendapatan Pinjaman</SectionTitle>
 
         <div className="mt-5 grid gap-5">
           {fields.map((field) => (
