@@ -161,6 +161,7 @@ const colW = {
   tanggalPinjaman: "w-[130px]",
   tanggalJatuhTempo: "w-[140px]",
   jenisPinjaman: "w-[180px]",
+  plafon: "w-[150px]",
   sisaPinjaman: "w-[160px]",
   hutangPokok: "w-[150px]",
   hutangBunga: "w-[150px]",
@@ -181,6 +182,7 @@ function Wrap2Lines({ children }: { children: React.ReactNode }) {
 }
 
 type Totals = {
+  plafon: number;
   sisa: number;
   hutangPokok: number;
   hutangBunga: number;
@@ -209,6 +211,7 @@ function TotalRow({
         {label}
       </td>
 
+      <td className={totalRowNumber}>{formatIdr0(totals.plafon)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.sisa)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangPokok)}</td>
       <td className={totalRowNumber}>{formatIdr0(totals.hutangBunga)}</td>
@@ -217,7 +220,7 @@ function TotalRow({
   );
 }
 
-const TOTAL_COLS = 11;
+const TOTAL_COLS = 12;
 
 export default function KolektibilitasReportTable({
   rows,
@@ -254,6 +257,9 @@ export default function KolektibilitasReportTable({
   const totals = React.useMemo<Totals>(() => {
     return paged.reduce(
       (acc, r) => {
+        const plafon = Math.max(0, r.pinjamanSldPokok + r.tunggakanNilai);
+
+        acc.plafon += plafon;
         acc.sisa += Math.max(0, r.pinjamanSldPokok - r.tunggakanNilai);
         acc.hutangPokok += Math.max(0, Math.round(r.tunggakanNilai * 0.35));
         acc.hutangBunga += Math.max(0, Math.round(r.tunggakanNilai * 0.15));
@@ -261,6 +267,7 @@ export default function KolektibilitasReportTable({
         return acc;
       },
       {
+        plafon: 0,
         sisa: 0,
         hutangPokok: 0,
         hutangBunga: 0,
@@ -272,7 +279,7 @@ export default function KolektibilitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className={cn("safe-x-scroll", "border-b border-slate-300 bg-white")}>
-          <table className="min-w-[1435px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
+          <table className="min-w-[1585px] w-full border-collapse bg-white border-l border-slate-300 border-r border-slate-300">
             <thead className="bg-white">
               <tr className="bg-white">
                 <Th className={colW.no} align="left" leftBorder>
@@ -304,6 +311,10 @@ export default function KolektibilitasReportTable({
 
                 <Th className={colW.jenisPinjaman} align="left">
                   JENIS PINJAMAN
+                </Th>
+
+                <Th className={colW.plafon} align="left">
+                  PLAFON
                 </Th>
 
                 <Th className={colW.sisaPinjaman} align="left">
@@ -348,6 +359,7 @@ export default function KolektibilitasReportTable({
                   const jenisPinjaman =
                     idx % 2 === 0 ? "Pinjaman Bulanan 9" : "Pinjaman Harian";
 
+                  const plafon = Math.max(0, r.pinjamanSldPokok + r.tunggakanNilai);
                   const sisaPinjaman = Math.max(
                     0,
                     r.pinjamanSldPokok - r.tunggakanNilai,
@@ -405,6 +417,10 @@ export default function KolektibilitasReportTable({
                           <br />
                           {jenisPinjaman}
                         </Wrap2Lines>
+                      </Td>
+
+                      <Td className={colW.plafon} align="right">
+                        {formatIdr0(plafon)}
                       </Td>
 
                       <Td className={colW.sisaPinjaman} align="right">
