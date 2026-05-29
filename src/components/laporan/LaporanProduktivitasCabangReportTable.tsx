@@ -96,6 +96,12 @@ const totals = {
   npl: "7.32",
 };
 
+const kolektorKdMap: Record<string, string> = {
+  "Gina Farida M.M.": "KTR",
+  "Dinda Sudiati": "UBD",
+  "Kolektor A": "GNR",
+};
+
 function Th({
   children,
   className,
@@ -197,6 +203,10 @@ export default function LaporanProduktivitasCabangReportTable({
   className?: string;
   selectedKolektorAo?: string;
 }) {
+  const selectedKodeCabang = selectedKolektorAo
+    ? kolektorKdMap[selectedKolektorAo]
+    : undefined;
+
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
@@ -236,7 +246,7 @@ export default function LaporanProduktivitasCabangReportTable({
                   <Td align="left" leftBorder>
                     {row.no}
                   </Td>
-                  <Td align="left">{row.kodeCabang}</Td>
+                  <Td align="left">{selectedKodeCabang ?? row.kodeCabang}</Td>
                   <Td align="left">{selectedKolektorAo ?? row.namaAo}</Td>
                   <Td align="right">{row.plafond}</Td>
                   <Td align="right">{row.saldoPokok}</Td>

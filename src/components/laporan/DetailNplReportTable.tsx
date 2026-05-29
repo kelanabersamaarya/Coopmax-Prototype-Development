@@ -114,6 +114,12 @@ const totals = {
   jumlah: "23.13",
 };
 
+const kolektorKdMap: Record<string, string> = {
+  "Gina Farida M.M.": "KTR",
+  "Dinda Sudiati": "AND",
+  "Kolektor A": "ADK",
+};
+
 function Th({
   children,
   className,
@@ -126,6 +132,7 @@ function Th({
   className?: string;
   colSpan?: number;
   rowSpan?: number;
+  align?: "left" | "center" | "right";
   leftBorder?: boolean;
   noRightBorder?: boolean;
 }) {
@@ -222,6 +229,9 @@ export default function DetailNplReportTable({
   const cabangColSpan = showCabangAo ? 3 : 2;
   const totalLabelColSpan = showCabangAo ? 4 : 3;
   const minWidth = showCabangAo ? "min-w-[900px]" : "min-w-[760px]";
+  const selectedKd = selectedKolektorAo
+    ? kolektorKdMap[selectedKolektorAo]
+    : undefined;
 
   return (
     <div className={cn("mt-6", className)}>
@@ -270,7 +280,7 @@ export default function DetailNplReportTable({
                   <Td align="left" leftBorder>
                     {row.no}
                   </Td>
-                  <Td align="left">{row.kd}</Td>
+                  <Td align="left">{selectedKd ?? row.kd}</Td>
                   {showCabangAo ? (
                     <Td align="left">{selectedCabangAo ?? row.cabangAo}</Td>
                   ) : null}
