@@ -436,7 +436,7 @@ export default function DetailPinjamanReportTable({
                 ))}
 
                 <tr className="border-t border-slate-300/80 bg-white">
-                  <TotalCell colSpan={7} align="center">
+                  <TotalCell colSpan={7} align="left">
                     Jumlah
                   </TotalCell>
                   <TotalCell>{totalRows.saldoPokok}</TotalCell>
