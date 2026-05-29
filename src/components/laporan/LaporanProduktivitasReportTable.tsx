@@ -248,7 +248,7 @@ export default function LaporanProduktivitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className="safe-x-scroll border-b border-slate-300 bg-white">
-          <table className="w-full min-w-[1280px] border-collapse border-l border-r border-slate-300 bg-white">
+          <table className="w-full min-w-[1320px] border-collapse border-l border-r border-slate-300 bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className="w-[54px]" leftBorder>
@@ -266,10 +266,10 @@ export default function LaporanProduktivitasReportTable({
 
               <tr>
                 <Th className="w-[62px]">KD</Th>
-                <Th className="w-[150px]">
-                  Cabang AO
+                <Th className="w-[190px]">
+                  CABANG KOLEKTOR /
                   <br />
-                  Terdaftar
+                  AO TERDAFTAR
                 </Th>
                 <Th className="w-[150px]">Nama</Th>
                 <Th className="w-[150px]">Plafond</Th>
