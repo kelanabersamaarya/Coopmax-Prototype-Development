@@ -266,7 +266,11 @@ export default function LaporanProduktivitasReportTable({
 
               <tr>
                 <Th className="w-[62px]">KD</Th>
-                <Th className="w-[150px]">Cabang AO</Th>
+                <Th className="w-[150px]">
+                  Cabang AO
+                  <br />
+                  Terdaftar
+                </Th>
                 <Th className="w-[150px]">Nama</Th>
                 <Th className="w-[150px]">Plafond</Th>
                 <Th className="w-[150px]">Sld. Pokok</Th>
