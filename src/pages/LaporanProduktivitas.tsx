@@ -68,10 +68,26 @@ export default function LaporanProduktivitas() {
     [],
   );
 
+  const kolektorCabangMap = React.useMemo<Record<string, string>>(
+    () => ({
+      "Gina Farida M.M.": "Kantor Pusat",
+      "Dinda Sudiati": "Ubud",
+      "Kolektor A": "Gianyar",
+    }),
+    [],
+  );
+
   const selectedCabangAo =
     cabangAo === "-- Semua --" ? undefined : cabangAo;
   const selectedKolektorAo =
     kolektor === "-- Semua --" ? undefined : kolektor;
+
+  const cabangFromSelectedKolektor = selectedKolektorAo
+    ? kolektorCabangMap[selectedKolektorAo]
+    : undefined;
+
+  const effectiveSelectedCabangAo =
+    selectedCabangAo ?? cabangFromSelectedKolektor;
 
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
@@ -103,7 +119,7 @@ export default function LaporanProduktivitas() {
       return (
         <DetailNplReportTable
           showCabangAo
-          selectedCabangAo={selectedCabangAo}
+          selectedCabangAo={effectiveSelectedCabangAo}
           selectedKolektorAo={selectedKolektorAo}
         />
       );
@@ -111,7 +127,7 @@ export default function LaporanProduktivitas() {
 
     return (
       <LaporanProduktivitasReportTable
-        selectedCabangAo={selectedCabangAo}
+        selectedCabangAo={effectiveSelectedCabangAo}
         selectedKolektorAo={selectedKolektorAo}
       />
     );
