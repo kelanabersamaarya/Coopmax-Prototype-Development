@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 type CabangProduktivitasRow = {
   no: number;
   kodeCabang: string;
-  namaCabang: string;
+  namaAo: string;
   plafond: string;
   saldoPokok: string;
   nilaiTunggakan: string;
@@ -21,7 +21,7 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 1,
     kodeCabang: "KTR",
-    namaCabang: "KANTOR PUSAT",
+    namaAo: "KANTOR",
     plafond: "2,145,500,000",
     saldoPokok: "1,728,440,250",
     nilaiTunggakan: "96,850,000",
@@ -34,7 +34,7 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 2,
     kodeCabang: "UBD",
-    namaCabang: "UBUD",
+    namaAo: "ANDRE",
     plafond: "1,385,250,000",
     saldoPokok: "1,074,332,900",
     nilaiTunggakan: "88,760,500",
@@ -47,7 +47,7 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 3,
     kodeCabang: "GNR",
-    namaCabang: "GIANYAR",
+    namaAo: "DODY",
     plafond: "1,754,000,000",
     saldoPokok: "1,289,774,320",
     nilaiTunggakan: "142,510,000",
@@ -60,7 +60,7 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 4,
     kodeCabang: "DPS",
-    namaCabang: "DENPASAR",
+    namaAo: "FEPRI",
     plafond: "980,750,000",
     saldoPokok: "752,910,640",
     nilaiTunggakan: "53,220,000",
@@ -73,7 +73,7 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 5,
     kodeCabang: "BDG",
-    namaCabang: "BADUNG",
+    namaAo: "DIO",
     plafond: "1,124,850,000",
     saldoPokok: "884,705,055",
     nilaiTunggakan: "37,900,000",
@@ -235,7 +235,7 @@ export default function LaporanProduktivitasCabangReportTable({
                     {row.no}
                   </Td>
                   <Td align="left">{row.kodeCabang}</Td>
-                  <Td align="left">{row.namaCabang}</Td>
+                  <Td align="left">{row.namaAo}</Td>
                   <Td align="right">{row.plafond}</Td>
                   <Td align="right">{row.saldoPokok}</Td>
                   <Td align="right">{row.nilaiTunggakan}</Td>
