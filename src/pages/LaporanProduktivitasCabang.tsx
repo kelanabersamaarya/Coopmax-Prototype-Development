@@ -56,6 +56,7 @@ export default function LaporanProduktivitasCabang() {
   const [kolektorAo, setKolektorAo] = React.useState("-- Semua --");
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
+  const [jenisLaporan, setJenisLaporan] = React.useState("Laporan Produktivitas Cabang");
   const [showReport, setShowReport] = React.useState(false);
 
   const selectedKolektorAo = kolektorAo === "-- Semua --" ? undefined : kolektorAo;
@@ -196,6 +197,25 @@ export default function LaporanProduktivitasCabang() {
                 </div>
               </FieldRow>
 
+              <FieldRow label="Jenis Laporan">
+                <Select value={jenisLaporan} onValueChange={setJenisLaporan}>
+                  <SelectTrigger className={selectTriggerCls}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={selectContentCls}>
+                    <SelectItem
+                      value="Laporan Produktivitas Cabang"
+                      className={selectItemCls}
+                    >
+                      Laporan Produktivitas Cabang
+                    </SelectItem>
+                    <SelectItem value="Detail NPL Cabang" className={selectItemCls}>
+                      Detail NPL Cabang
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FieldRow>
+
               <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
                 <div className="flex w-full justify-end md:max-w-[544px]">
@@ -224,7 +244,7 @@ export default function LaporanProduktivitasCabang() {
         ) : null}
 
         <div className="sr-only">
-          {kolektorAo} {bulan} {tahun}
+          {kolektorAo} {bulan} {tahun} {jenisLaporan}
         </div>
       </div>
     </div>
