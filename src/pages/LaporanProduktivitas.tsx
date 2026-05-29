@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProduktivitasReportTable";
-import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanProduktivitasCabangReportTable";
+import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import {
   Select,
   SelectContent,
@@ -13,9 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type JenisLaporan =
-  | "Laporan Produktivitas Konsolidasi"
-  | "Laporan Produktivitas Cabang";
+type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
 
 function ActionPill({
   icon: Icon,
@@ -47,7 +45,7 @@ export default function LaporanProduktivitas() {
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
   const [jenisLaporan, setJenisLaporan] =
-    React.useState<JenisLaporan>("Laporan Produktivitas Konsolidasi");
+    React.useState<JenisLaporan>("Laporan Produktivitas");
   const [showReport, setShowReport] = React.useState(false);
 
   const yearOptions = React.useMemo(
@@ -211,16 +209,13 @@ export default function LaporanProduktivitas() {
                     </SelectTrigger>
                     <SelectContent className={selectContentCls}>
                       <SelectItem
-                        value="Laporan Produktivitas Konsolidasi"
+                        value="Laporan Produktivitas"
                         className={selectItemCls}
                       >
-                        Laporan Produktivitas Konsolidasi
+                        Laporan Produktivitas
                       </SelectItem>
-                      <SelectItem
-                        value="Laporan Produktivitas Cabang"
-                        className={selectItemCls}
-                      >
-                        Laporan Produktivitas Cabang
+                      <SelectItem value="Detail NPL" className={selectItemCls}>
+                        Detail NPL
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -249,8 +244,8 @@ export default function LaporanProduktivitas() {
         </Card>
 
         {showReport ? (
-          jenisLaporan === "Laporan Produktivitas Cabang" ? (
-            <LaporanProduktivitasCabangReportTable />
+          jenisLaporan === "Detail NPL" ? (
+            <DetailNplReportTable />
           ) : (
             <LaporanProduktivitasReportTable />
           )
