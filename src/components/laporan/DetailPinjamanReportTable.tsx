@@ -332,14 +332,17 @@ export default function DetailPinjamanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1780px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[1810px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
                   <GroupTh rowSpan={2} className="w-[50px] text-left">
                     No
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[92px] text-left">
-                    <SortableHeaderLabel lines={["No.", "Rekening"]} />
+                  <GroupTh rowSpan={2} className="w-[122px] text-left">
+                    <SortableHeaderLabel
+                      lines={["No.", "Rekening"]}
+                      className="[&_span]:whitespace-nowrap"
+                    />
                   </GroupTh>
                   <GroupTh rowSpan={2} className="w-[165px] text-left">
                     <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
