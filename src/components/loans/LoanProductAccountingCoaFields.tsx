@@ -79,6 +79,17 @@ const fields: FieldConfig[] = [
 
 type Values = Record<FieldKey, MainCoaOption>;
 
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="h-px w-full bg-slate-200/80" />
+      <div className="mt-6 text-base font-semibold text-slate-900">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function CoaFieldRow({
   field,
   values,
@@ -168,14 +179,9 @@ export default function LoanProductAccountingCoaFields({
 }) {
   return (
     <div className={cn("mt-6", className)}>
-      <div className="mb-5">
-        <div className="mb-6 h-px w-full bg-slate-200/80" />
-        <div className="text-base font-semibold text-slate-900">
-          Konfigurasi KP Pendapatan dan Biaya Pinjaman
-        </div>
-      </div>
+      <SectionTitle>Konfigurasi KP Biaya Pinjaman</SectionTitle>
 
-      <div className="grid gap-5">
+      <div className="mt-5 grid gap-5">
         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
           <div className="pt-1 text-sm font-normal text-slate-900">
             Atur KP Jenis Biaya pada Produk Pinjaman
@@ -192,17 +198,23 @@ export default function LoanProductAccountingCoaFields({
             selectContentClassName={feeSelectContentClassName ?? selectContentClassName}
           />
         ) : null}
+      </div>
 
-        {fields.map((field) => (
-          <CoaFieldRow
-            key={field.key}
-            field={field}
-            values={values}
-            onChange={onChange}
-            selectTriggerClassName={selectTriggerClassName}
-            selectContentClassName={selectContentClassName}
-          />
-        ))}
+      <div className="mt-6">
+        <SectionTitle>Konfigurasi KP Pendapatan Pinjaman</SectionTitle>
+
+        <div className="mt-5 grid gap-5">
+          {fields.map((field) => (
+            <CoaFieldRow
+              key={field.key}
+              field={field}
+              values={values}
+              onChange={onChange}
+              selectTriggerClassName={selectTriggerClassName}
+              selectContentClassName={selectContentClassName}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
