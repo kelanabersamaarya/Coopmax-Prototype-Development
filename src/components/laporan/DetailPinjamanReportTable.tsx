@@ -9,7 +9,9 @@ type DetailPinjamanRow = {
   noRekening: string;
   idNasabah: string;
   namaNasabah: string;
-  produkPinjaman: string;
+  alamat: string;
+  statusNasabah: string;
+  jenisPinjaman: string;
   tanggalPinjaman: string;
   tanggalJatuhTempo: string;
   kolektor: string;
@@ -20,7 +22,7 @@ type DetailPinjamanRow = {
   sisaBunga: string;
   angsuranPokok: string;
   angsuranBunga: string;
-  status: string;
+  statusPinjaman: string;
 };
 
 const rows: DetailPinjamanRow[] = [
@@ -29,7 +31,9 @@ const rows: DetailPinjamanRow[] = [
     noRekening: "SMG260004",
     idNasabah: "N2600006",
     namaNasabah: "Bapak Bagus",
-    produkPinjaman: "Pinjaman Billing",
+    alamat: "Sidakarya",
+    statusNasabah: "Anggota",
+    jenisPinjaman: "Pinjaman Billing",
     tanggalPinjaman: "07-04-2026",
     tanggalJatuhTempo: "07-04-2027",
     kolektor: "Gina Farida M.M.",
@@ -40,14 +44,16 @@ const rows: DetailPinjamanRow[] = [
     sisaBunga: "1.266.429,00",
     angsuranPokok: "1.000.000,00",
     angsuranBunga: "120.000,00",
-    status: "Aktif / Sudah Dicairkan",
+    statusPinjaman: "Aktif / Sudah Dicairkan",
   },
   {
     no: 2,
     noRekening: "klpk04.07260001",
     idNasabah: "N2500009",
     namaNasabah: "Indah Sari",
-    produkPinjaman: "Pinjaman Bulanan 1",
+    alamat: "Jl. Galang",
+    statusNasabah: "Non Anggota",
+    jenisPinjaman: "Pinjaman Bulanan 1",
     tanggalPinjaman: "10-02-2026",
     tanggalJatuhTempo: "10-02-2027",
     kolektor: "Kolektor A",
@@ -58,14 +64,16 @@ const rows: DetailPinjamanRow[] = [
     sisaBunga: "950.000,00",
     angsuranPokok: "833.333,00",
     angsuranBunga: "95.833,00",
-    status: "Aktif / Sudah Dicairkan",
+    statusPinjaman: "Aktif / Sudah Dicairkan",
   },
   {
     no: 3,
     noRekening: "12260006",
     idNasabah: "N2400029",
     namaNasabah: "Pangeran Sirait",
-    produkPinjaman: "Pinjaman Bulanan",
+    alamat: "Sidakarya",
+    statusNasabah: "Non Anggota",
+    jenisPinjaman: "Pinjaman Bulanan",
     tanggalPinjaman: "30-04-2026",
     tanggalJatuhTempo: "30-04-2027",
     kolektor: "Dinda Sudiati",
@@ -76,14 +84,16 @@ const rows: DetailPinjamanRow[] = [
     sisaBunga: "240.000,00",
     angsuranPokok: "166.700,00",
     angsuranBunga: "40.000,00",
-    status: "Aktif / Sudah Dicairkan",
+    statusPinjaman: "Aktif / Sudah Dicairkan",
   },
   {
     no: 4,
     noRekening: "072260001",
     idNasabah: "N2400033",
     namaNasabah: "Rika Wastuti",
-    produkPinjaman: "Pinjaman Harian",
+    alamat: "Jl. Kenanga No. 12",
+    statusNasabah: "Anggota",
+    jenisPinjaman: "Pinjaman Harian",
     tanggalPinjaman: "31-03-2026",
     tanggalJatuhTempo: "30-09-2026",
     kolektor: "Kolektor B",
@@ -94,7 +104,7 @@ const rows: DetailPinjamanRow[] = [
     sisaBunga: "1.800.000,00",
     angsuranPokok: "650.000,00",
     angsuranBunga: "183.333,00",
-    status: "Macet",
+    statusPinjaman: "Macet",
   },
 ];
 
@@ -112,6 +122,32 @@ function formatIdr2(value: number) {
   });
 }
 
+function GroupTh({
+  children,
+  colSpan,
+  rowSpan,
+  className,
+}: {
+  children: React.ReactNode;
+  colSpan?: number;
+  rowSpan?: number;
+  className?: string;
+}) {
+  return (
+    <th
+      colSpan={colSpan}
+      rowSpan={rowSpan}
+      className={cn(
+        "border-b border-r border-t border-slate-300/80 bg-white px-2 py-3 align-middle",
+        "text-center text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
+        className,
+      )}
+    >
+      {children}
+    </th>
+  );
+}
+
 function Th({
   children,
   className,
@@ -124,7 +160,7 @@ function Th({
   return (
     <th
       className={cn(
-        "border-b border-r border-t border-slate-300/80 bg-white px-2 py-3 align-middle",
+        "border-b border-r border-slate-300/80 bg-white px-2 py-3 align-middle",
         "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
         align === "right"
           ? "text-right"
@@ -182,7 +218,7 @@ function TotalRow({
   return (
     <tr className="border-t border-black bg-white">
       <td
-        colSpan={10}
+        colSpan={12}
         className="border-b border-r border-slate-300/80 px-2 py-2.5 text-[12px] font-extrabold text-slate-900"
       >
         {label}
@@ -261,10 +297,21 @@ export default function DetailPinjamanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1780px] border-collapse border-l border-slate-300/80 bg-white">
+            <table className="w-full min-w-[2050px] border-collapse border-l border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
-                  <Th className="w-[48px]">No.</Th>
+                  <GroupTh rowSpan={2} className="w-[48px] text-left">
+                    No.
+                  </GroupTh>
+                  <GroupTh colSpan={6}>Informasi Nasabah</GroupTh>
+                  <GroupTh colSpan={5}>Informasi Pinjaman</GroupTh>
+                  <GroupTh colSpan={5}>Nominal Pinjaman</GroupTh>
+                  <GroupTh rowSpan={2} className="w-[170px] text-left">
+                    Status
+                  </GroupTh>
+                </tr>
+
+                <tr>
                   <Th className="w-[130px]">
                     <SortableHeaderLabel lines={["No.", "Rekening"]} />
                   </Th>
@@ -274,9 +321,16 @@ export default function DetailPinjamanReportTable({
                   <Th className="w-[165px]">
                     <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
                   </Th>
-                  <Th className="w-[160px]">
-                    <SortableHeaderLabel lines={["Produk", "Pinjaman"]} />
+                  <Th className="w-[170px]">
+                    <SortableHeaderLabel lines={["Alamat"]} />
                   </Th>
+                  <Th className="w-[115px]">
+                    <SortableHeaderLabel lines={["Status", "Nasabah"]} />
+                  </Th>
+                  <Th className="w-[165px]">
+                    <SortableHeaderLabel lines={["Jenis", "Pinjaman"]} />
+                  </Th>
+
                   <Th className="w-[120px]">
                     <SortableHeaderLabel lines={["Tanggal", "Pinjaman"]} />
                   </Th>
@@ -290,6 +344,7 @@ export default function DetailPinjamanReportTable({
                   <Th className="w-[90px]" align="right">
                     Bunga
                   </Th>
+
                   <Th className="w-[140px]" align="right">
                     Plafon
                   </Th>
@@ -305,7 +360,6 @@ export default function DetailPinjamanReportTable({
                   <Th className="w-[150px]" align="right">
                     Angsuran Bunga
                   </Th>
-                  <Th className="w-[170px]">Status</Th>
                 </tr>
               </thead>
 
@@ -319,7 +373,10 @@ export default function DetailPinjamanReportTable({
                     <Td className="font-semibold text-blue-600">{row.noRekening}</Td>
                     <Td className="tabular-nums">{row.idNasabah}</Td>
                     <Td>{row.namaNasabah}</Td>
-                    <Td>{row.produkPinjaman}</Td>
+                    <Td>{row.alamat}</Td>
+                    <Td>{row.statusNasabah}</Td>
+                    <Td>{row.jenisPinjaman}</Td>
+
                     <Td className="whitespace-nowrap tabular-nums">
                       {row.tanggalPinjaman}
                     </Td>
@@ -329,12 +386,13 @@ export default function DetailPinjamanReportTable({
                     <Td>{row.kolektor}</Td>
                     <Td>{row.jangkaWaktu}</Td>
                     <Td align="right">{row.bunga}</Td>
+
                     <Td align="right">{row.plafon}</Td>
                     <Td align="right">{row.sisaPokok}</Td>
                     <Td align="right">{row.sisaBunga}</Td>
                     <Td align="right">{row.angsuranPokok}</Td>
                     <Td align="right">{row.angsuranBunga}</Td>
-                    <Td>{row.status}</Td>
+                    <Td>{row.statusPinjaman}</Td>
                   </tr>
                 ))}
 
