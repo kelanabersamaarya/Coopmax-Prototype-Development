@@ -13,6 +13,7 @@ type SubItem = {
 const items: SubItem[] = [
   { label: "Laporan Kolektibilitas", to: "/laporan/kolektibilitas" },
   { label: "Laporan Pinjaman", to: "/laporan/pinjaman" },
+  { label: "Laporan Detail Pinjaman", to: "/laporan/detail-pinjaman" },
   { label: "Laporan Produktivitas Konsolidasi", to: "/laporan/produktivitas" },
   { label: "Laporan Produktivitas Cabang", to: "/laporan/produktivitas-cabang" },
 ];
