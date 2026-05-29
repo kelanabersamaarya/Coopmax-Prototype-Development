@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
@@ -39,8 +38,7 @@ function ActionPill({
 }
 
 export default function LaporanProduktivitas() {
-  const [namaNoRekening, setNamaNoRekening] = React.useState("");
-  const [kolektor, setKolektor] = React.useState("-- Semua --");
+  const [cabangAoKolektor, setCabangAoKolektor] = React.useState("-- Semua --");
   const [showReport, setShowReport] = React.useState(false);
 
   const kolektorCabangMap = React.useMemo<Record<string, string>>(
@@ -52,17 +50,26 @@ export default function LaporanProduktivitas() {
     [],
   );
 
-  const selectedKolektorAo =
-    kolektor === "-- Semua --" ? undefined : kolektor;
+  const cabangOptions = React.useMemo(
+    () => ["Kantor Pusat", "Ubud", "Gianyar", "Denpasar", "Badung"],
+    [],
+  );
 
-  const selectedCabangAo = selectedKolektorAo
-    ? kolektorCabangMap[selectedKolektorAo]
-    : undefined;
+  const selectedKolektorAo =
+    cabangAoKolektor !== "-- Semua --" && kolektorCabangMap[cabangAoKolektor]
+      ? cabangAoKolektor
+      : undefined;
+
+  const selectedCabangAo =
+    cabangAoKolektor === "-- Semua --"
+      ? undefined
+      : selectedKolektorAo
+        ? kolektorCabangMap[selectedKolektorAo]
+        : cabangOptions.includes(cabangAoKolektor)
+          ? cabangAoKolektor
+          : undefined;
 
   const selectTriggerCls =
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
-
-  const inputCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectContentCls = cn(
@@ -117,30 +124,34 @@ export default function LaporanProduktivitas() {
             <div className="grid gap-[15px]">
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div className="text-[13px] font-normal text-slate-900">
-                  Nama/ No. Rekening
+                  Cabang AO/Kolektor Terdaftar
                 </div>
                 <div className="w-full md:max-w-[440px]">
-                  <Input
-                    value={namaNoRekening}
-                    onChange={(e) => setNamaNoRekening(e.target.value)}
-                    placeholder="Masukkan Nama/ No. Rekening"
-                    className={inputCls}
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                <div className="text-[13px] font-normal text-slate-900">
-                  Kolektor/AO
-                </div>
-                <div className="w-full md:max-w-[440px]">
-                  <Select value={kolektor} onValueChange={setKolektor}>
+                  <Select
+                    value={cabangAoKolektor}
+                    onValueChange={setCabangAoKolektor}
+                  >
                     <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className={selectContentCls}>
                       <SelectItem value="-- Semua --" className={selectItemCls}>
                         -- Semua --
+                      </SelectItem>
+                      <SelectItem value="Kantor Pusat" className={selectItemCls}>
+                        Kantor Pusat
+                      </SelectItem>
+                      <SelectItem value="Ubud" className={selectItemCls}>
+                        Ubud
+                      </SelectItem>
+                      <SelectItem value="Gianyar" className={selectItemCls}>
+                        Gianyar
+                      </SelectItem>
+                      <SelectItem value="Denpasar" className={selectItemCls}>
+                        Denpasar
+                      </SelectItem>
+                      <SelectItem value="Badung" className={selectItemCls}>
+                        Badung
                       </SelectItem>
                       <SelectItem
                         value="Gina Farida M.M."
@@ -190,7 +201,7 @@ export default function LaporanProduktivitas() {
           />
         ) : null}
 
-        <div className="sr-only">{namaNoRekening}</div>
+        <div className="sr-only">{cabangAoKolektor}</div>
       </div>
     </div>
   );

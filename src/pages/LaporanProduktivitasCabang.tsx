@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
@@ -39,17 +38,20 @@ function ActionPill({
 }
 
 export default function LaporanProduktivitasCabang() {
-  const [namaNoRekening, setNamaNoRekening] = React.useState("");
-  const [kolektor, setKolektor] = React.useState("-- Semua --");
+  const [cabangAoKolektor, setCabangAoKolektor] = React.useState("-- Semua --");
   const [showReport, setShowReport] = React.useState(false);
 
+  const kolektorOptions = React.useMemo(
+    () => ["Gina Farida M.M.", "Dinda Sudiati", "Kolektor A"],
+    [],
+  );
+
   const selectedKolektorAo =
-    kolektor === "-- Semua --" ? undefined : kolektor;
+    cabangAoKolektor !== "-- Semua --" && kolektorOptions.includes(cabangAoKolektor)
+      ? cabangAoKolektor
+      : undefined;
 
   const selectTriggerCls =
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
-
-  const inputCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectContentCls = cn(
@@ -104,24 +106,13 @@ export default function LaporanProduktivitasCabang() {
             <div className="grid gap-[15px]">
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div className="text-[13px] font-normal text-slate-900">
-                  Nama/ No. Rekening
+                  Cabang AO/Kolektor Terdaftar
                 </div>
                 <div className="w-full md:max-w-[440px]">
-                  <Input
-                    value={namaNoRekening}
-                    onChange={(e) => setNamaNoRekening(e.target.value)}
-                    placeholder="Masukkan Nama/ No. Rekening"
-                    className={inputCls}
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-                <div className="text-[13px] font-normal text-slate-900">
-                  Kolektor/AO
-                </div>
-                <div className="w-full md:max-w-[440px]">
-                  <Select value={kolektor} onValueChange={setKolektor}>
+                  <Select
+                    value={cabangAoKolektor}
+                    onValueChange={setCabangAoKolektor}
+                  >
                     <SelectTrigger className={selectTriggerCls}>
                       <SelectValue />
                     </SelectTrigger>
@@ -176,7 +167,7 @@ export default function LaporanProduktivitasCabang() {
           />
         ) : null}
 
-        <div className="sr-only">{namaNoRekening}</div>
+        <div className="sr-only">{cabangAoKolektor}</div>
       </div>
     </div>
   );
