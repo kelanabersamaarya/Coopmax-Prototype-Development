@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanProduktivitasCabangReportTable";
+import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import {
   Select,
   SelectContent,
@@ -11,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+type JenisLaporan = "Laporan Produktivitas Cabang" | "Detail NPL Cabang";
 
 function ActionPill({
   icon: Icon,
@@ -56,7 +59,9 @@ export default function LaporanProduktivitasCabang() {
   const [kolektorAo, setKolektorAo] = React.useState("-- Semua --");
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
-  const [jenisLaporan, setJenisLaporan] = React.useState("Laporan Produktivitas Cabang");
+  const [jenisLaporan, setJenisLaporan] = React.useState<JenisLaporan>(
+    "Laporan Produktivitas Cabang",
+  );
   const [showReport, setShowReport] = React.useState(false);
 
   const selectedKolektorAo = kolektorAo === "-- Semua --" ? undefined : kolektorAo;
@@ -85,7 +90,7 @@ export default function LaporanProduktivitasCabang() {
     "h-[30px] rounded-[5px] border-slate-200 bg-white px-3 text-[12.5px] font-normal text-black shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
   const selectContentCls = cn(
-    "overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
+    "w-[--radix-select-trigger-width] overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
     "[&_[data-radix-select-viewport]]:p-0",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
@@ -198,7 +203,10 @@ export default function LaporanProduktivitasCabang() {
               </FieldRow>
 
               <FieldRow label="Jenis Laporan">
-                <Select value={jenisLaporan} onValueChange={setJenisLaporan}>
+                <Select
+                  value={jenisLaporan}
+                  onValueChange={(value) => setJenisLaporan(value as JenisLaporan)}
+                >
                   <SelectTrigger className={selectTriggerCls}>
                     <SelectValue />
                   </SelectTrigger>
@@ -237,8 +245,15 @@ export default function LaporanProduktivitasCabang() {
           </div>
         </Card>
 
-        {showReport ? (
+        {showReport && jenisLaporan === "Laporan Produktivitas Cabang" ? (
           <LaporanProduktivitasCabangReportTable
+            selectedKolektorAo={selectedKolektorAo}
+          />
+        ) : null}
+
+        {showReport && jenisLaporan === "Detail NPL Cabang" ? (
+          <DetailNplReportTable
+            showCabangAo
             selectedKolektorAo={selectedKolektorAo}
           />
         ) : null}
