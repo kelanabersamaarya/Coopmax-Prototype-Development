@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 type ProduktivitasRow = {
   no: number;
   kd: string;
+  cabangAo: string;
   nama: string;
   plafond: string;
   saldoPokok: string;
@@ -21,6 +22,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 1,
     kd: "KTR",
+    cabangAo: "Kantor Pusat",
     nama: "KANTOR",
     plafond: "160,850,000",
     saldoPokok: "110,882,878",
@@ -34,6 +36,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 2,
     kd: "AND",
+    cabangAo: "Ubud",
     nama: "ANDRE",
     plafond: "1,587,521,000",
     saldoPokok: "1,366,590,042",
@@ -47,6 +50,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 3,
     kd: "ADK",
+    cabangAo: "Gianyar",
     nama: "DODY",
     plafond: "1,216,150,000",
     saldoPokok: "914,831,958",
@@ -60,6 +64,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 4,
     kd: "YSP",
+    cabangAo: "Denpasar",
     nama: "FEPRI",
     plafond: "1,371,050,000",
     saldoPokok: "1,026,738,841",
@@ -73,6 +78,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 5,
     kd: "YSM",
+    cabangAo: "Badung",
     nama: "DIO",
     plafond: "1,043,385,000",
     saldoPokok: "652,917,763",
@@ -86,6 +92,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 6,
     kd: "KKM",
+    cabangAo: "Sukawati",
     nama: "REMEDIAL 1",
     plafond: "231,102,000",
     saldoPokok: "223,772,837",
@@ -99,6 +106,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 7,
     kd: "AMN",
+    cabangAo: "Tabanan",
     nama: "ENGGAR",
     plafond: "604,865,000",
     saldoPokok: "452,239,955",
@@ -112,6 +120,7 @@ const rows: ProduktivitasRow[] = [
   {
     no: 8,
     kd: "DNI",
+    cabangAo: "Klungkung",
     nama: "INDAH",
     plafond: "150,100,000",
     saldoPokok: "97,188,891",
@@ -239,13 +248,13 @@ export default function LaporanProduktivitasReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className="safe-x-scroll border-b border-slate-300 bg-white">
-          <table className="w-full min-w-[1160px] border-collapse border-l border-r border-slate-300 bg-white">
+          <table className="w-full min-w-[1280px] border-collapse border-l border-r border-slate-300 bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className="w-[54px]" leftBorder>
                   No
                 </Th>
-                <Th colSpan={2}>AO</Th>
+                <Th colSpan={3}>AO</Th>
                 <Th colSpan={2}>Kredit</Th>
                 <Th colSpan={5}>Tunggakan Angsuran</Th>
                 <Th rowSpan={2} className="w-[82px]" noRightBorder>
@@ -257,6 +266,7 @@ export default function LaporanProduktivitasReportTable({
 
               <tr>
                 <Th className="w-[62px]">KD</Th>
+                <Th className="w-[150px]">Cabang AO</Th>
                 <Th className="w-[150px]">Nama</Th>
                 <Th className="w-[150px]">Plafond</Th>
                 <Th className="w-[150px]">Sld. Pokok</Th>
@@ -275,6 +285,7 @@ export default function LaporanProduktivitasReportTable({
                     {row.no}
                   </Td>
                   <Td align="left">{row.kd}</Td>
+                  <Td align="left">{row.cabangAo}</Td>
                   <Td align="left">{row.nama}</Td>
                   <Td align="right">{row.plafond}</Td>
                   <Td align="right">{row.saldoPokok}</Td>
@@ -291,7 +302,7 @@ export default function LaporanProduktivitasReportTable({
 
               <tr className="border-t border-black bg-white">
                 <TotalCell
-                  colSpan={3}
+                  colSpan={4}
                   align="center"
                   className="border-l border-slate-200"
                 >
