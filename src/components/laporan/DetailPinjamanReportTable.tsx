@@ -338,8 +338,8 @@ export default function DetailPinjamanReportTable({
                   <GroupTh rowSpan={2} className="w-[50px] text-left">
                     No
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[82px] text-left">
-                    <SortableHeaderLabel lines={["No.", "Rek"]} />
+                  <GroupTh rowSpan={2} className="w-[92px] text-left">
+                    <SortableHeaderLabel lines={["No.", "Rekening"]} />
                   </GroupTh>
                   <GroupTh rowSpan={2} className="w-[165px] text-left">
                     <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
