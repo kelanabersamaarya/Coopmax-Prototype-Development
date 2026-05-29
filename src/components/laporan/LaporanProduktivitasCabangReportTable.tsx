@@ -203,6 +203,28 @@ function TotalCell({
   );
 }
 
+function TotalSummaryRow({ label }: { label: string }) {
+  return (
+    <tr className="border-t border-black bg-white">
+      <TotalCell
+        colSpan={3}
+        align="left"
+        className="border-l border-slate-200"
+      >
+        {label}
+      </TotalCell>
+      <TotalCell>{totals.plafond}</TotalCell>
+      <TotalCell>{totals.saldoPokok}</TotalCell>
+      <TotalCell>{totals.nilaiTunggakan}</TotalCell>
+      <TotalCell>{totals.tunggakan1_30}</TotalCell>
+      <TotalCell>{totals.tunggakan31_60}</TotalCell>
+      <TotalCell>{totals.tunggakan61_90}</TotalCell>
+      <TotalCell>{totals.tunggakan91}</TotalCell>
+      <TotalCell className="border-r-0">{totals.npl}</TotalCell>
+    </tr>
+  );
+}
+
 export default function LaporanProduktivitasCabangReportTable({
   className,
   selectedKolektorAo,
@@ -286,23 +308,8 @@ export default function LaporanProduktivitasCabangReportTable({
                 </tr>
               ))}
 
-              <tr className="border-t border-black bg-white">
-                <TotalCell
-                  colSpan={3}
-                  align="center"
-                  className="border-l border-slate-200"
-                >
-                  Total
-                </TotalCell>
-                <TotalCell>{totals.plafond}</TotalCell>
-                <TotalCell>{totals.saldoPokok}</TotalCell>
-                <TotalCell>{totals.nilaiTunggakan}</TotalCell>
-                <TotalCell>{totals.tunggakan1_30}</TotalCell>
-                <TotalCell>{totals.tunggakan31_60}</TotalCell>
-                <TotalCell>{totals.tunggakan61_90}</TotalCell>
-                <TotalCell>{totals.tunggakan91}</TotalCell>
-                <TotalCell className="border-r-0">{totals.npl}</TotalCell>
-              </tr>
+              <TotalSummaryRow label="Total per Halaman" />
+              <TotalSummaryRow label="Total" />
             </tbody>
           </table>
         </div>
