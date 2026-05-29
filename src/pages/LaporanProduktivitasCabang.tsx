@@ -20,11 +20,11 @@ import {
 } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-type JenisLaporan = "Laporan Produktivitas Cabang" | "Detail NPL Cabang";
+type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
 
 const jenisLaporanOptions: JenisLaporan[] = [
-  "Laporan Produktivitas Cabang",
-  "Detail NPL Cabang",
+  "Laporan Produktivitas",
+  "Detail NPL",
 ];
 
 function ActionPill({
@@ -72,7 +72,7 @@ export default function LaporanProduktivitasCabang() {
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
   const [jenisLaporan, setJenisLaporan] = React.useState<JenisLaporan>(
-    "Laporan Produktivitas Cabang",
+    "Laporan Produktivitas",
   );
   const [jenisLaporanOpen, setJenisLaporanOpen] = React.useState(false);
   const [showReport, setShowReport] = React.useState(false);
@@ -288,13 +288,13 @@ export default function LaporanProduktivitasCabang() {
           </div>
         </Card>
 
-        {showReport && jenisLaporan === "Laporan Produktivitas Cabang" ? (
+        {showReport && jenisLaporan === "Laporan Produktivitas" ? (
           <LaporanProduktivitasCabangReportTable
             selectedKolektorAo={selectedKolektorAo}
           />
         ) : null}
 
-        {showReport && jenisLaporan === "Detail NPL Cabang" ? (
+        {showReport && jenisLaporan === "Detail NPL" ? (
           <DetailNplReportTable
             showCabangAo
             selectedKolektorAo={selectedKolektorAo}
