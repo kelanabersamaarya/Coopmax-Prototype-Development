@@ -41,6 +41,7 @@ function ActionPill({
 }
 
 export default function LaporanProduktivitas() {
+  const [cabangAo, setCabangAo] = React.useState("-- Semua --");
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [bulan, setBulan] = React.useState("Mei");
   const [tahun, setTahun] = React.useState("2026");
@@ -50,6 +51,21 @@ export default function LaporanProduktivitas() {
 
   const yearOptions = React.useMemo(
     () => ["2023", "2024", "2025", "2026", "2027", "2028", "2029"],
+    [],
+  );
+
+  const cabangAoOptions = React.useMemo(
+    () => [
+      "-- Semua --",
+      "KANTOR",
+      "ANDRE",
+      "DODY",
+      "FEPRI",
+      "DIO",
+      "REMEDIAL 1",
+      "ENGGAR",
+      "INDAH",
+    ],
     [],
   );
 
@@ -116,6 +132,30 @@ export default function LaporanProduktivitas() {
         <Card className="mt-5 rounded-3xl border-0 bg-transparent p-0 shadow-none">
           <div className="w-full max-w-[760px]">
             <div className="grid gap-[15px]">
+              <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+                <div className="text-[13px] font-normal text-slate-900">
+                  Cabang AO
+                </div>
+                <div className="w-full md:max-w-[440px]">
+                  <Select value={cabangAo} onValueChange={setCabangAo}>
+                    <SelectTrigger className={selectTriggerCls}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className={selectContentCls}>
+                      {cabangAoOptions.map((option) => (
+                        <SelectItem
+                          key={option}
+                          value={option}
+                          className={selectItemCls}
+                        >
+                          {option}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
               <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div className="text-[13px] font-normal text-slate-900">
                   Kolektor
