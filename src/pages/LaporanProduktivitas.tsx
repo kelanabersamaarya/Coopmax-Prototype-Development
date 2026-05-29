@@ -4,13 +4,7 @@ import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProduktivitasReportTable";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
 
 function ActionPill({
   icon: Icon,
@@ -86,26 +80,6 @@ export default function LaporanProduktivitas() {
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white px-3 text-[12.5px] font-normal text-black shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
 
-  const selectContentCls = cn(
-    "overflow-hidden rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
-    "[&_[data-radix-select-viewport]]:p-0",
-    "[&_[data-radix-select-item-indicator]]:hidden",
-    "[&_[data-slot=select-item-indicator]]:hidden",
-    "[&>span.absolute.right-2]:hidden",
-  );
-
-  const selectItemCls = cn(
-    "rounded-none px-5 py-3 text-[14px] font-normal text-black",
-    "transition-colors",
-    "focus:bg-violet-600 focus:text-white",
-    "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
-    "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
-    "data-[state=checked]:focus:bg-violet-600 data-[state=checked]:focus:text-white",
-    "[&_[data-radix-select-item-indicator]]:hidden",
-    "[&_[data-slot=select-item-indicator]]:hidden",
-    "[&>span.absolute.right-2]:hidden",
-  );
-
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
@@ -137,113 +111,61 @@ export default function LaporanProduktivitas() {
           <div className="w-full max-w-[760px]">
             <div className="grid gap-[15px]">
               <FieldRow label="Cabang AO/Kolektor Terdaftar">
-                <Select value={cabangAo} onValueChange={setCabangAo}>
-                  <SelectTrigger className={selectTriggerCls}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className={selectContentCls}>
-                    <SelectItem value="-- Semua --" className={selectItemCls}>
-                      -- Semua --
-                    </SelectItem>
-                    <SelectItem value="Kantor Pusat" className={selectItemCls}>
-                      Kantor Pusat
-                    </SelectItem>
-                    <SelectItem value="Ubud" className={selectItemCls}>
-                      Ubud
-                    </SelectItem>
-                    <SelectItem value="Gianyar" className={selectItemCls}>
-                      Gianyar
-                    </SelectItem>
-                    <SelectItem value="Denpasar" className={selectItemCls}>
-                      Denpasar
-                    </SelectItem>
-                    <SelectItem value="Badung" className={selectItemCls}>
-                      Badung
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <PlainFilterSelect
+                  value={cabangAo}
+                  onValueChange={setCabangAo}
+                  options={[
+                    "-- Semua --",
+                    "Kantor Pusat",
+                    "Ubud",
+                    "Gianyar",
+                    "Denpasar",
+                    "Badung",
+                  ]}
+                  triggerClassName={selectTriggerCls}
+                />
               </FieldRow>
 
               <FieldRow label="Kolektor / AO">
-                <Select value={kolektorAo} onValueChange={setKolektorAo}>
-                  <SelectTrigger className={selectTriggerCls}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className={selectContentCls}>
-                    <SelectItem value="-- Semua --" className={selectItemCls}>
-                      -- Semua --
-                    </SelectItem>
-                    <SelectItem value="Gina Farida M.M." className={selectItemCls}>
-                      Gina Farida M.M.
-                    </SelectItem>
-                    <SelectItem value="Dinda Sudiati" className={selectItemCls}>
-                      Dinda Sudiati
-                    </SelectItem>
-                    <SelectItem value="Kolektor A" className={selectItemCls}>
-                      Kolektor A
-                    </SelectItem>
-                    <SelectItem value="Kolektor B" className={selectItemCls}>
-                      Kolektor B
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <PlainFilterSelect
+                  value={kolektorAo}
+                  onValueChange={setKolektorAo}
+                  options={[
+                    "-- Semua --",
+                    "Gina Farida M.M.",
+                    "Dinda Sudiati",
+                    "Kolektor A",
+                    "Kolektor B",
+                  ]}
+                  triggerClassName={selectTriggerCls}
+                />
               </FieldRow>
 
               <FieldRow label="Periode">
                 <div className="grid gap-2 md:grid-cols-[1fr_0.9fr]">
-                  <Select value={bulan} onValueChange={setBulan}>
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      {months.map((month) => (
-                        <SelectItem
-                          key={month}
-                          value={month}
-                          className={selectItemCls}
-                        >
-                          {month}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <PlainFilterSelect
+                    value={bulan}
+                    onValueChange={setBulan}
+                    options={months}
+                    triggerClassName={selectTriggerCls}
+                  />
 
-                  <Select value={tahun} onValueChange={setTahun}>
-                    <SelectTrigger className={selectTriggerCls}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className={selectContentCls}>
-                      {years.map((year) => (
-                        <SelectItem
-                          key={year}
-                          value={year}
-                          className={selectItemCls}
-                        >
-                          {year}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <PlainFilterSelect
+                    value={tahun}
+                    onValueChange={setTahun}
+                    options={years}
+                    triggerClassName={selectTriggerCls}
+                  />
                 </div>
               </FieldRow>
 
               <FieldRow label="Jenis Laporan">
-                <Select value={jenisLaporan} onValueChange={setJenisLaporan}>
-                  <SelectTrigger className={selectTriggerCls}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className={selectContentCls}>
-                    <SelectItem
-                      value="Laporan Produktivitas"
-                      className={selectItemCls}
-                    >
-                      Laporan Produktivitas
-                    </SelectItem>
-                    <SelectItem value="Detail NPL" className={selectItemCls}>
-                      Detail NPL
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <PlainFilterSelect
+                  value={jenisLaporan}
+                  onValueChange={setJenisLaporan}
+                  options={["Laporan Produktivitas", "Detail NPL"]}
+                  triggerClassName={selectTriggerCls}
+                />
               </FieldRow>
 
               <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
