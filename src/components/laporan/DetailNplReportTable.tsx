@@ -212,10 +212,12 @@ export default function DetailNplReportTable({
   className,
   showCabangAo = false,
   selectedCabangAo,
+  selectedKolektorAo,
 }: {
   className?: string;
   showCabangAo?: boolean;
   selectedCabangAo?: string;
+  selectedKolektorAo?: string;
 }) {
   const cabangColSpan = showCabangAo ? 3 : 2;
   const totalLabelColSpan = showCabangAo ? 4 : 3;
@@ -272,7 +274,7 @@ export default function DetailNplReportTable({
                   {showCabangAo ? (
                     <Td align="left">{selectedCabangAo ?? row.cabangAo}</Td>
                   ) : null}
-                  <Td align="left">{row.ket}</Td>
+                  <Td align="left">{selectedKolektorAo ?? row.ket}</Td>
                   <Td align="right">{row.npl1_30}</Td>
                   <Td align="right">{row.npl31_60}</Td>
                   <Td align="right">{row.npl61_90}</Td>

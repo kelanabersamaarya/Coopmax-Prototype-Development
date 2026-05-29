@@ -70,6 +70,8 @@ export default function LaporanProduktivitas() {
 
   const selectedCabangAo =
     cabangAo === "-- Semua --" ? undefined : cabangAo;
+  const selectedKolektorAo =
+    kolektor === "-- Semua --" ? undefined : kolektor;
 
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12px] font-normal shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
@@ -102,11 +104,17 @@ export default function LaporanProduktivitas() {
         <DetailNplReportTable
           showCabangAo
           selectedCabangAo={selectedCabangAo}
+          selectedKolektorAo={selectedKolektorAo}
         />
       );
     }
 
-    return <LaporanProduktivitasReportTable selectedCabangAo={selectedCabangAo} />;
+    return (
+      <LaporanProduktivitasReportTable
+        selectedCabangAo={selectedCabangAo}
+        selectedKolektorAo={selectedKolektorAo}
+      />
+    );
   }
 
   return (
