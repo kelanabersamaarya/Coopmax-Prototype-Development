@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 type CabangProduktivitasRow = {
   no: number;
   kodeCabang: string;
-  cabangAo: string;
   namaCabang: string;
   plafond: string;
   saldoPokok: string;
@@ -22,7 +21,6 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 1,
     kodeCabang: "KTR",
-    cabangAo: "Kantor Pusat",
     namaCabang: "KANTOR PUSAT",
     plafond: "2,145,500,000",
     saldoPokok: "1,728,440,250",
@@ -36,7 +34,6 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 2,
     kodeCabang: "UBD",
-    cabangAo: "Ubud",
     namaCabang: "UBUD",
     plafond: "1,385,250,000",
     saldoPokok: "1,074,332,900",
@@ -50,7 +47,6 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 3,
     kodeCabang: "GNR",
-    cabangAo: "Gianyar",
     namaCabang: "GIANYAR",
     plafond: "1,754,000,000",
     saldoPokok: "1,289,774,320",
@@ -64,7 +60,6 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 4,
     kodeCabang: "DPS",
-    cabangAo: "Denpasar",
     namaCabang: "DENPASAR",
     plafond: "980,750,000",
     saldoPokok: "752,910,640",
@@ -78,7 +73,6 @@ const rows: CabangProduktivitasRow[] = [
   {
     no: 5,
     kodeCabang: "BDG",
-    cabangAo: "Badung",
     namaCabang: "BADUNG",
     plafond: "1,124,850,000",
     saldoPokok: "884,705,055",
@@ -205,13 +199,13 @@ export default function LaporanProduktivitasCabangReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-2xl bg-white/90 p-4 ring-1 ring-slate-200/70">
         <div className="safe-x-scroll border-b border-slate-300 bg-white">
-          <table className="w-full min-w-[1320px] border-collapse border-l border-r border-slate-300 bg-white">
+          <table className="w-full min-w-[1180px] border-collapse border-l border-r border-slate-300 bg-white">
             <thead className="bg-white">
               <tr>
                 <Th rowSpan={2} className="w-[54px]" leftBorder>
                   No
                 </Th>
-                <Th colSpan={3}>Cabang</Th>
+                <Th colSpan={2}>AO</Th>
                 <Th colSpan={2}>Kredit</Th>
                 <Th colSpan={5}>Tunggakan Angsuran</Th>
                 <Th rowSpan={2} className="w-[82px]" noRightBorder>
@@ -223,8 +217,7 @@ export default function LaporanProduktivitasCabangReportTable({
 
               <tr>
                 <Th className="w-[70px]">KD</Th>
-                <Th className="w-[150px]">Cabang AO</Th>
-                <Th className="w-[190px]">Nama Cabang</Th>
+                <Th className="w-[190px]">Nama</Th>
                 <Th className="w-[150px]">Plafond</Th>
                 <Th className="w-[150px]">Sld. Pokok</Th>
                 <Th className="w-[135px]">Nilai</Th>
@@ -242,7 +235,6 @@ export default function LaporanProduktivitasCabangReportTable({
                     {row.no}
                   </Td>
                   <Td align="left">{row.kodeCabang}</Td>
-                  <Td align="left">{row.cabangAo}</Td>
                   <Td align="left">{row.namaCabang}</Td>
                   <Td align="right">{row.plafond}</Td>
                   <Td align="right">{row.saldoPokok}</Td>
@@ -259,7 +251,7 @@ export default function LaporanProduktivitasCabangReportTable({
 
               <tr className="border-t border-black bg-white">
                 <TotalCell
-                  colSpan={4}
+                  colSpan={3}
                   align="center"
                   className="border-l border-slate-200"
                 >
