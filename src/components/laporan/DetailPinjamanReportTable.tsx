@@ -318,10 +318,16 @@ function TotalCell({
   );
 }
 
-function TotalSummaryRow({ label }: { label: string }) {
+function TotalSummaryRow({
+  label,
+  hideCabangPembukaanRekening,
+}: {
+  label: string;
+  hideCabangPembukaanRekening: boolean;
+}) {
   return (
     <tr className="border-t border-slate-300/80 bg-white">
-      <TotalCell colSpan={8} align="left">
+      <TotalCell colSpan={hideCabangPembukaanRekening ? 7 : 8} align="left">
         {label}
       </TotalCell>
       <TotalCell>{totalRows.saldoPokok}</TotalCell>
@@ -365,9 +371,11 @@ function PaginationBar() {
 export default function DetailPinjamanReportTable({
   className,
   selectedCabangPembukaanRekening,
+  hideCabangPembukaanRekening = false,
 }: {
   className?: string;
   selectedCabangPembukaanRekening?: string;
+  hideCabangPembukaanRekening?: boolean;
 }) {
   const visibleRows = React.useMemo(() => {
     if (!selectedCabangPembukaanRekening) return rows;
@@ -376,12 +384,15 @@ export default function DetailPinjamanReportTable({
     );
   }, [selectedCabangPembukaanRekening]);
 
+  const colSpan = hideCabangPembukaanRekening ? 17 : 18;
+  const minWidth = hideCabangPembukaanRekening ? "min-w-[1720px]" : "min-w-[1840px]";
+
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1840px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className={cn("w-full border-collapse border-l border-t border-slate-300/80 bg-white", minWidth)}>
               <thead className="bg-white">
                 <tr>
                   <GroupTh rowSpan={2} className="w-[38px] px-1.5" align="left">
@@ -393,11 +404,13 @@ export default function DetailPinjamanReportTable({
                       className="[&_span]:whitespace-nowrap"
                     />
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[120px]" align="left">
-                    <SortableHeaderLabel
-                      lines={["Cabang", "Pembukaan", "Rekening"]}
-                    />
-                  </GroupTh>
+                  {!hideCabangPembukaanRekening ? (
+                    <GroupTh rowSpan={2} className="w-[120px]" align="left">
+                      <SortableHeaderLabel
+                        lines={["Cabang", "Pembukaan", "Rekening"]}
+                      />
+                    </GroupTh>
+                  ) : null}
                   <GroupTh rowSpan={2} className="w-[130px]" align="left">
                     <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
                   </GroupTh>
@@ -433,7 +446,7 @@ export default function DetailPinjamanReportTable({
                 {visibleRows.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={18}
+                      colSpan={colSpan}
                       className="px-4 py-10 text-center text-sm text-slate-600"
                     >
                       Tidak ada data.
@@ -456,14 +469,16 @@ export default function DetailPinjamanReportTable({
                             {row.noRekening}
                           </div>
                         </Td>
-                        <Td className="w-[120px] max-w-[120px]">
-                          <div
-                            className="truncate"
-                            title={row.cabangPembukaanRekening}
-                          >
-                            {row.cabangPembukaanRekening}
-                          </div>
-                        </Td>
+                        {!hideCabangPembukaanRekening ? (
+                          <Td className="w-[120px] max-w-[120px]">
+                            <div
+                              className="truncate"
+                              title={row.cabangPembukaanRekening}
+                            >
+                              {row.cabangPembukaanRekening}
+                            </div>
+                          </Td>
+                        ) : null}
                         <Td className="w-[130px] max-w-[130px]">
                           <div className="truncate" title={cleanName}>
                             {cleanName}
@@ -498,8 +513,14 @@ export default function DetailPinjamanReportTable({
 
                 {visibleRows.length > 0 ? (
                   <>
-                    <TotalSummaryRow label="Total per Halaman" />
-                    <TotalSummaryRow label="Total" />
+                    <TotalSummaryRow
+                      label="Total per Halaman"
+                      hideCabangPembukaanRekening={hideCabangPembukaanRekening}
+                    />
+                    <TotalSummaryRow
+                      label="Total"
+                      hideCabangPembukaanRekening={hideCabangPembukaanRekening}
+                    />
                   </>
                 ) : null}
               </tbody>

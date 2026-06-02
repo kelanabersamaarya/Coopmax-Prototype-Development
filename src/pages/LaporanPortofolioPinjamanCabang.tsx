@@ -54,7 +54,6 @@ function FieldWrap({ children }: { children: React.ReactNode }) {
 }
 
 export default function LaporanPortofolioPinjamanCabang() {
-  const [cabang, setCabang] = React.useState("-- Semua --");
   const [namaNoRek, setNamaNoRek] = React.useState("");
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [showReport, setShowReport] = React.useState(false);
@@ -113,24 +112,6 @@ export default function LaporanPortofolioPinjamanCabang() {
         <div className="mt-6">
           <Card className="w-full rounded-3xl border-0 bg-transparent p-0 shadow-none xl:w-[660px]">
             <div className="grid gap-4">
-              <FieldRow label="Cabang">
-                <FieldWrap>
-                  <PlainFilterSelect
-                    value={cabang}
-                    onValueChange={setCabang}
-                    options={[
-                      "-- Semua --",
-                      "Kantor Pusat",
-                      "Ubud",
-                      "Gianyar",
-                      "Denpasar",
-                      "Badung",
-                    ]}
-                    triggerClassName={selectTriggerCls}
-                  />
-                </FieldWrap>
-              </FieldRow>
-
               <FieldRow label="Nama/No Rekening">
                 <FieldWrap>
                   <Input
@@ -180,10 +161,10 @@ export default function LaporanPortofolioPinjamanCabang() {
           </Card>
         </div>
 
-        {showReport ? <DetailPinjamanReportTable /> : null}
+        {showReport ? <DetailPinjamanReportTable hideCabangPembukaanRekening /> : null}
 
         <div className="sr-only">
-          {cabang} {namaNoRek} {kolektor}
+          {namaNoRek} {kolektor}
         </div>
       </div>
     </div>
