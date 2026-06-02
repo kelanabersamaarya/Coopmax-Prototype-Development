@@ -84,6 +84,15 @@ const App = () => (
             <Route path="laporan/pinjaman" element={<LaporanPinjaman />} />
             <Route
               path="laporan/detail-pinjaman"
+              element={
+                <Navigate
+                  to="/laporan/portofolio-pinjaman-konsolidasi"
+                  replace
+                />
+              }
+            />
+            <Route
+              path="laporan/portofolio-pinjaman-konsolidasi"
               element={<LaporanDetailPinjaman />}
             />
             <Route

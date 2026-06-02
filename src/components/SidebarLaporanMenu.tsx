@@ -13,7 +13,7 @@ type SubItem = {
 const items: SubItem[] = [
   {
     label: "Laporan Portofolio Pinjaman Konsolidasi",
-    to: "/laporan/detail-pinjaman",
+    to: "/laporan/portofolio-pinjaman-konsolidasi",
   },
   {
     label: "Laporan Portofolio Pinjaman Cabang",
