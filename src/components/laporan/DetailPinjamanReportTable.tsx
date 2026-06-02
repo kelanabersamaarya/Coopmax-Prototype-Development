@@ -363,7 +363,7 @@ export default function DetailPinjamanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1735px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[1720px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
                   <GroupTh rowSpan={2} className="w-[38px] px-1.5" align="left">
@@ -391,7 +391,7 @@ export default function DetailPinjamanReportTable({
                 </tr>
 
                 <tr>
-                  <Th className="w-[52px]">Bln</Th>
+                  <Th className="w-[38px] px-1.5 text-center">Bln</Th>
                   <Th className="w-[132px]">Dari tgl. s/d tgl.</Th>
                   <Th className="w-[130px]">Sld. Pokok</Th>
                   <Th className="w-[58px]">Bng</Th>
@@ -434,7 +434,9 @@ export default function DetailPinjamanReportTable({
                         </div>
                       </Td>
                       <Td>{row.aoId}</Td>
-                      <Td align="right">{row.jwBln}</Td>
+                      <Td className="w-[38px] max-w-[38px] px-1.5" align="right">
+                        {row.jwBln}
+                      </Td>
                       <Td className="whitespace-nowrap tabular-nums">
                         {row.periode}
                       </Td>
