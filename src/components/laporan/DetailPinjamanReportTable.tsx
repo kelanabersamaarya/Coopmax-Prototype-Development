@@ -502,10 +502,10 @@ export default function DetailPinjamanReportTable({
                         <Td className="w-[44px] max-w-[44px] px-1.5" align="right">
                           {row.bunga}
                         </Td>
-                        <Td className="w-[98px] max-w-[98px]" align="right">
+                        <Td className="w-[98px] max-w-[98px]" align="left">
                           {row.angsuranPerBln}
                         </Td>
-                        <Td align="right">{row.angsuranSdhHr}</Td>
+                        <Td align="left">{row.angsuranSdhHr}</Td>
                         <Td align="right">{row.tunggakanBln}</Td>
                         <Td align="right">{row.tunggakanNilai}</Td>
                         <Td align="right">{row.tunggakan1_30}</Td>
