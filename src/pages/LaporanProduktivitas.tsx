@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { FileSpreadsheet, FileText, Printer, Search } from "lucide-react";
 import { toast } from "sonner";
 import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProduktivitasReportTable";
+import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
 
 function ActionPill({
@@ -189,8 +190,16 @@ export default function LaporanProduktivitas() {
           </div>
         </Card>
 
-        {showReport ? (
+        {showReport && jenisLaporan === "Laporan Produktivitas" ? (
           <LaporanProduktivitasReportTable
+            selectedCabangAo={selectedCabangAo}
+            selectedKolektorAo={selectedKolektorAo}
+          />
+        ) : null}
+
+        {showReport && jenisLaporan === "Detail NPL" ? (
+          <DetailNplReportTable
+            showCabangAo
             selectedCabangAo={selectedCabangAo}
             selectedKolektorAo={selectedKolektorAo}
           />
