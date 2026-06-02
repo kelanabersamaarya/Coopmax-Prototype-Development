@@ -335,6 +335,7 @@ function TotalSummaryRow({
       <TotalCell />
       <TotalCell />
       <TotalCell />
+      <TotalCell />
       <TotalCell>{totalRows.tunggakanNilai}</TotalCell>
       <TotalCell>{totalRows.tunggakan1_30}</TotalCell>
       <TotalCell>{totalRows.tunggakan31_60}</TotalCell>
@@ -385,14 +386,19 @@ export default function DetailPinjamanReportTable({
   }, [selectedCabangPembukaanRekening]);
 
   const colSpan = hideCabangPembukaanRekening ? 17 : 18;
-  const minWidth = hideCabangPembukaanRekening ? "min-w-[1628px]" : "min-w-[1748px]";
+  const minWidth = hideCabangPembukaanRekening ? "min-w-[1596px]" : "min-w-[1716px]";
 
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className={cn("w-full border-collapse border-l border-t border-slate-300/80 bg-white", minWidth)}>
+            <table
+              className={cn(
+                "w-full border-collapse border-l border-t border-slate-300/80 bg-white",
+                minWidth,
+              )}
+            >
               <thead className="bg-white">
                 <tr>
                   <GroupTh rowSpan={2} className="w-[38px] px-1.5" align="left">
@@ -433,7 +439,7 @@ export default function DetailPinjamanReportTable({
                   <Th className="w-[44px] px-1.5">Bng</Th>
                   <Th className="w-[82px]">Per bln</Th>
                   <Th className="w-[58px] px-1.5">Sdh/Hr</Th>
-                  <Th className="w-[52px]">Bln</Th>
+                  <Th className="w-[30px] px-1 text-left">Bln</Th>
                   <Th className="w-[115px]">Nilai</Th>
                   <Th className="w-[115px]">1-30 Hr</Th>
                   <Th className="w-[115px]">31-60 Hr</Th>
@@ -508,7 +514,9 @@ export default function DetailPinjamanReportTable({
                         <Td className="w-[58px] max-w-[58px] px-1.5" align="left">
                           {row.angsuranSdhHr}
                         </Td>
-                        <Td align="right">{row.tunggakanBln}</Td>
+                        <Td className="w-[30px] max-w-[30px] px-1 tabular-nums" align="left">
+                          {row.tunggakanBln}
+                        </Td>
                         <Td align="right">{row.tunggakanNilai}</Td>
                         <Td align="right">{row.tunggakan1_30}</Td>
                         <Td align="right">{row.tunggakan31_60}</Td>
