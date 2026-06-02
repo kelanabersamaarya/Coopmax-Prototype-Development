@@ -26,6 +26,7 @@ import ObsSamudraHartaDetail from "./pages/ObsSamudraHartaDetail";
 import ObsWeb from "./pages/ObsWeb";
 import LaporanPinjaman from "./pages/LaporanPinjaman";
 import LaporanDetailPinjaman from "./pages/LaporanDetailPinjaman";
+import LaporanPortofolioPinjamanCabang from "./pages/LaporanPortofolioPinjamanCabang";
 import LaporanProduktivitas from "./pages/LaporanProduktivitas";
 import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 
@@ -84,6 +85,10 @@ const App = () => (
             <Route
               path="laporan/detail-pinjaman"
               element={<LaporanDetailPinjaman />}
+            />
+            <Route
+              path="laporan/portofolio-pinjaman-cabang"
+              element={<LaporanPortofolioPinjamanCabang />}
             />
             <Route path="laporan/produktivitas" element={<LaporanProduktivitas />} />
             <Route
