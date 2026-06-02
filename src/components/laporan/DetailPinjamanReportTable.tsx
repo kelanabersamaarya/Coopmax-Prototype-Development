@@ -507,7 +507,7 @@ export default function DetailPinjamanReportTable({
                         <Td className="w-[44px] max-w-[44px] px-1.5" align="right">
                           {row.bunga}
                         </Td>
-                        <Td className="w-[82px] max-w-[82px]" align="left">
+                        <Td className="w-[82px] max-w-[82px]" align="right">
                           {row.angsuranPerBln}
                         </Td>
                         <Td className="w-[58px] max-w-[58px] px-1.5" align="left">
