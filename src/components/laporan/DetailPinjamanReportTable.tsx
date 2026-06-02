@@ -363,7 +363,7 @@ export default function DetailPinjamanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1770px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[1735px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
                   <GroupTh rowSpan={2} className="w-[38px] px-1.5" align="left">
@@ -375,7 +375,7 @@ export default function DetailPinjamanReportTable({
                       className="[&_span]:whitespace-nowrap"
                     />
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[165px]" align="left">
+                  <GroupTh rowSpan={2} className="w-[130px]" align="left">
                     <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
                   </GroupTh>
                   <GroupTh rowSpan={2} className="w-[120px]" align="left">
@@ -423,7 +423,7 @@ export default function DetailPinjamanReportTable({
                           {row.noRekening}
                         </div>
                       </Td>
-                      <Td>
+                      <Td className="w-[130px] max-w-[130px]">
                         <div className="truncate" title={cleanName}>
                           {cleanName}
                         </div>
