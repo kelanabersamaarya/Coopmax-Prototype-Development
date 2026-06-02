@@ -385,7 +385,7 @@ export default function DetailPinjamanReportTable({
   }, [selectedCabangPembukaanRekening]);
 
   const colSpan = hideCabangPembukaanRekening ? 17 : 18;
-  const minWidth = hideCabangPembukaanRekening ? "min-w-[1720px]" : "min-w-[1840px]";
+  const minWidth = hideCabangPembukaanRekening ? "min-w-[1660px]" : "min-w-[1780px]";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -429,9 +429,9 @@ export default function DetailPinjamanReportTable({
                 <tr>
                   <Th className="w-[38px] px-1.5 text-left">Bln</Th>
                   <Th className="w-[132px]">Dari tgl. s/d tgl.</Th>
-                  <Th className="w-[130px]">Sld. Pokok</Th>
-                  <Th className="w-[58px]">Bng</Th>
-                  <Th className="w-[120px]">Per bln</Th>
+                  <Th className="w-[108px]">Sld. Pokok</Th>
+                  <Th className="w-[44px] px-1.5">Bng</Th>
+                  <Th className="w-[98px]">Per bln</Th>
                   <Th className="w-[74px]">Sdh/Hr</Th>
                   <Th className="w-[52px]">Bln</Th>
                   <Th className="w-[115px]">Nilai</Th>
@@ -496,9 +496,15 @@ export default function DetailPinjamanReportTable({
                         <Td className="whitespace-nowrap tabular-nums">
                           {row.periode}
                         </Td>
-                        <Td align="right">{row.saldoPokok}</Td>
-                        <Td align="right">{row.bunga}</Td>
-                        <Td align="right">{row.angsuranPerBln}</Td>
+                        <Td className="w-[108px] max-w-[108px]" align="right">
+                          {row.saldoPokok}
+                        </Td>
+                        <Td className="w-[44px] max-w-[44px] px-1.5" align="right">
+                          {row.bunga}
+                        </Td>
+                        <Td className="w-[98px] max-w-[98px]" align="right">
+                          {row.angsuranPerBln}
+                        </Td>
                         <Td align="right">{row.angsuranSdhHr}</Td>
                         <Td align="right">{row.tunggakanBln}</Td>
                         <Td align="right">{row.tunggakanNilai}</Td>
