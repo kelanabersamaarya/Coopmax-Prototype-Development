@@ -363,10 +363,10 @@ export default function DetailPinjamanReportTable({
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1785px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[1770px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
-                  <GroupTh rowSpan={2} className="w-[50px]" align="left">
+                  <GroupTh rowSpan={2} className="w-[38px] px-1.5" align="left">
                     No
                   </GroupTh>
                   <GroupTh rowSpan={2} className="w-[96px]" align="left">
@@ -415,7 +415,9 @@ export default function DetailPinjamanReportTable({
                       key={`${row.noRekening}-${row.no}-${idx}`}
                       className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
                     >
-                      <Td className="tabular-nums">{idx + 1}</Td>
+                      <Td className="w-[38px] max-w-[38px] px-1.5 text-center tabular-nums">
+                        {idx + 1}
+                      </Td>
                       <Td className="w-[96px] max-w-[96px] tabular-nums">
                         <div className="truncate" title={row.noRekening}>
                           {row.noRekening}
