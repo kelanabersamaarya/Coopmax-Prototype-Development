@@ -99,7 +99,7 @@ export default function LaporanDetailPinjaman() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Laporan Detail Pinjaman
+            Laporan Portofolio Pinjaman
           </h1>
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
