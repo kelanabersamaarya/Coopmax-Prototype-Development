@@ -7,6 +7,7 @@ import SortableHeaderLabel from "@/components/laporan/SortableHeaderLabel";
 type DetailPinjamanRow = {
   no: number;
   noRekening: string;
+  cabangPembukaanRekening: string;
   namaNasabah: string;
   alamat: string;
   aoId: string;
@@ -28,6 +29,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 111,
     noRekening: "007041",
+    cabangPembukaanRekening: "Kantor Pusat",
     namaNasabah: "Achmad Syafi'i / -",
     alamat: "Jl. Mayjend",
     aoId: "ADK",
@@ -47,6 +49,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 112,
     noRekening: "007056",
+    cabangPembukaanRekening: "Ubud",
     namaNasabah: "Sukar / Soinem",
     alamat: "Jl. A Yani",
     aoId: "ADK",
@@ -66,6 +69,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 113,
     noRekening: "007057",
+    cabangPembukaanRekening: "Gianyar",
     namaNasabah: "Jujon / Sumiati",
     alamat: "Jl. Kyai",
     aoId: "ADK",
@@ -85,6 +89,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 114,
     noRekening: "007075",
+    cabangPembukaanRekening: "Denpasar",
     namaNasabah: "Hanafi Wibowo / -",
     alamat: "Dsn Karng",
     aoId: "ADK",
@@ -104,6 +109,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 115,
     noRekening: "007114",
+    cabangPembukaanRekening: "Badung",
     namaNasabah: "Ira Purwandari / -",
     alamat: "Jl. Kauman",
     aoId: "AND",
@@ -123,6 +129,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 116,
     noRekening: "007114",
+    cabangPembukaanRekening: "Kantor Pusat",
     namaNasabah: "Ira Purwandari / -",
     alamat: "Jl. Kauman",
     aoId: "AND",
@@ -142,6 +149,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 117,
     noRekening: "007155",
+    cabangPembukaanRekening: "Ubud",
     namaNasabah: "Eko Cahyono",
     alamat: "Dsn Demak",
     aoId: "ADK",
@@ -161,6 +169,7 @@ const rows: DetailPinjamanRow[] = [
   {
     no: 118,
     noRekening: "007157",
+    cabangPembukaanRekening: "Gianyar",
     namaNasabah: "Didik Yulianto / Y",
     alamat: "Dsn Karang",
     aoId: "ADK",
@@ -312,7 +321,7 @@ function TotalCell({
 function TotalSummaryRow({ label }: { label: string }) {
   return (
     <tr className="border-t border-slate-300/80 bg-white">
-      <TotalCell colSpan={7} align="left">
+      <TotalCell colSpan={8} align="left">
         {label}
       </TotalCell>
       <TotalCell>{totalRows.saldoPokok}</TotalCell>
@@ -355,15 +364,24 @@ function PaginationBar() {
 
 export default function DetailPinjamanReportTable({
   className,
+  selectedCabangPembukaanRekening,
 }: {
   className?: string;
+  selectedCabangPembukaanRekening?: string;
 }) {
+  const visibleRows = React.useMemo(() => {
+    if (!selectedCabangPembukaanRekening) return rows;
+    return rows.filter(
+      (row) => row.cabangPembukaanRekening === selectedCabangPembukaanRekening,
+    );
+  }, [selectedCabangPembukaanRekening]);
+
   return (
     <div className={cn("mt-6", className)}>
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
           <div className="safe-x-scroll">
-            <table className="w-full min-w-[1720px] border-collapse border-l border-t border-slate-300/80 bg-white">
+            <table className="w-full min-w-[1880px] border-collapse border-l border-t border-slate-300/80 bg-white">
               <thead className="bg-white">
                 <tr>
                   <GroupTh rowSpan={2} className="w-[38px] px-1.5" align="left">
@@ -373,6 +391,11 @@ export default function DetailPinjamanReportTable({
                     <SortableHeaderLabel
                       lines={["No.", "Rekening"]}
                       className="[&_span]:whitespace-nowrap"
+                    />
+                  </GroupTh>
+                  <GroupTh rowSpan={2} className="w-[160px]" align="left">
+                    <SortableHeaderLabel
+                      lines={["Cabang", "Pembukaan", "Rekening"]}
                     />
                   </GroupTh>
                   <GroupTh rowSpan={2} className="w-[130px]" align="left">
@@ -407,55 +430,78 @@ export default function DetailPinjamanReportTable({
               </thead>
 
               <tbody className="bg-white">
-                {rows.map((row, idx) => {
-                  const cleanName = cleanNasabahName(row.namaNasabah);
-
-                  return (
-                    <tr
-                      key={`${row.noRekening}-${row.no}-${idx}`}
-                      className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
+                {visibleRows.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={18}
+                      className="px-4 py-10 text-center text-sm text-slate-600"
                     >
-                      <Td className="w-[38px] max-w-[38px] px-1.5 text-center tabular-nums">
-                        {idx + 1}
-                      </Td>
-                      <Td className="w-[96px] max-w-[96px] tabular-nums">
-                        <div className="truncate" title={row.noRekening}>
-                          {row.noRekening}
-                        </div>
-                      </Td>
-                      <Td className="w-[130px] max-w-[130px]">
-                        <div className="truncate" title={cleanName}>
-                          {cleanName}
-                        </div>
-                      </Td>
-                      <Td>
-                        <div className="truncate" title={row.alamat}>
-                          {row.alamat}
-                        </div>
-                      </Td>
-                      <Td>{row.aoId}</Td>
-                      <Td className="w-[38px] max-w-[38px] px-1.5 tabular-nums">
-                        {row.jwBln}
-                      </Td>
-                      <Td className="whitespace-nowrap tabular-nums">
-                        {row.periode}
-                      </Td>
-                      <Td align="right">{row.saldoPokok}</Td>
-                      <Td align="right">{row.bunga}</Td>
-                      <Td align="right">{row.angsuranPerBln}</Td>
-                      <Td align="right">{row.angsuranSdhHr}</Td>
-                      <Td align="right">{row.tunggakanBln}</Td>
-                      <Td align="right">{row.tunggakanNilai}</Td>
-                      <Td align="right">{row.tunggakan1_30}</Td>
-                      <Td align="right">{row.tunggakan31_60}</Td>
-                      <Td align="right">{row.tunggakan61_90}</Td>
-                      <Td align="right">{row.tunggakan90p}</Td>
-                    </tr>
-                  );
-                })}
+                      Tidak ada data.
+                    </td>
+                  </tr>
+                ) : (
+                  visibleRows.map((row, idx) => {
+                    const cleanName = cleanNasabahName(row.namaNasabah);
 
-                <TotalSummaryRow label="Total per Halaman" />
-                <TotalSummaryRow label="Total" />
+                    return (
+                      <tr
+                        key={`${row.noRekening}-${row.no}-${idx}`}
+                        className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
+                      >
+                        <Td className="w-[38px] max-w-[38px] px-1.5 text-center tabular-nums">
+                          {idx + 1}
+                        </Td>
+                        <Td className="w-[96px] max-w-[96px] tabular-nums">
+                          <div className="truncate" title={row.noRekening}>
+                            {row.noRekening}
+                          </div>
+                        </Td>
+                        <Td className="w-[160px] max-w-[160px]">
+                          <div
+                            className="truncate"
+                            title={row.cabangPembukaanRekening}
+                          >
+                            {row.cabangPembukaanRekening}
+                          </div>
+                        </Td>
+                        <Td className="w-[130px] max-w-[130px]">
+                          <div className="truncate" title={cleanName}>
+                            {cleanName}
+                          </div>
+                        </Td>
+                        <Td>
+                          <div className="truncate" title={row.alamat}>
+                            {row.alamat}
+                          </div>
+                        </Td>
+                        <Td>{row.aoId}</Td>
+                        <Td className="w-[38px] max-w-[38px] px-1.5 tabular-nums">
+                          {row.jwBln}
+                        </Td>
+                        <Td className="whitespace-nowrap tabular-nums">
+                          {row.periode}
+                        </Td>
+                        <Td align="right">{row.saldoPokok}</Td>
+                        <Td align="right">{row.bunga}</Td>
+                        <Td align="right">{row.angsuranPerBln}</Td>
+                        <Td align="right">{row.angsuranSdhHr}</Td>
+                        <Td align="right">{row.tunggakanBln}</Td>
+                        <Td align="right">{row.tunggakanNilai}</Td>
+                        <Td align="right">{row.tunggakan1_30}</Td>
+                        <Td align="right">{row.tunggakan31_60}</Td>
+                        <Td align="right">{row.tunggakan61_90}</Td>
+                        <Td align="right">{row.tunggakan90p}</Td>
+                      </tr>
+                    );
+                  })
+                )}
+
+                {visibleRows.length > 0 ? (
+                  <>
+                    <TotalSummaryRow label="Total per Halaman" />
+                    <TotalSummaryRow label="Total" />
+                  </>
+                ) : null}
               </tbody>
             </table>
           </div>
@@ -463,7 +509,7 @@ export default function DetailPinjamanReportTable({
 
         <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-[14px] text-slate-900">
-            Menampilkan 1 sampai {rows.length} dari {rows.length} entri
+            Menampilkan 1 sampai {visibleRows.length} dari {visibleRows.length} entri
           </div>
           <PaginationBar />
         </div>

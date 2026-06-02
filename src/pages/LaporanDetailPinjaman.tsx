@@ -59,6 +59,8 @@ function FieldWrap({ children }: { children: React.ReactNode }) {
 }
 
 export default function LaporanDetailPinjaman() {
+  const [cabangPembukaanRekening, setCabangPembukaanRekening] =
+    React.useState("-- Semua --");
   const [namaNoRek, setNamaNoRek] = React.useState("");
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [showReport, setShowReport] = React.useState(false);
@@ -94,12 +96,17 @@ export default function LaporanDetailPinjaman() {
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  const selectedCabang =
+    cabangPembukaanRekening === "-- Semua --"
+      ? undefined
+      : cabangPembukaanRekening;
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))] text-[13px] font-normal">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Laporan Portofolio Pinjaman Konsolidasi
+            Laporan Portofolio Pinjaman
           </h1>
 
           <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
@@ -117,6 +124,24 @@ export default function LaporanDetailPinjaman() {
         <div className="mt-6">
           <Card className="w-full rounded-3xl border-0 bg-transparent p-0 shadow-none xl:w-[660px]">
             <div className="grid gap-4">
+              <FieldRow label="Cabang Pembukaan Rekening">
+                <FieldWrap>
+                  <PlainFilterSelect
+                    value={cabangPembukaanRekening}
+                    onValueChange={setCabangPembukaanRekening}
+                    options={[
+                      "-- Semua --",
+                      "Kantor Pusat",
+                      "Ubud",
+                      "Gianyar",
+                      "Denpasar",
+                      "Badung",
+                    ]}
+                    triggerClassName={selectTriggerCls}
+                  />
+                </FieldWrap>
+              </FieldRow>
+
               <FieldRow label="Nama/No Rekening">
                 <FieldWrap>
                   <Input
@@ -166,10 +191,14 @@ export default function LaporanDetailPinjaman() {
           </Card>
         </div>
 
-        {showReport ? <DetailPinjamanReportTable /> : null}
+        {showReport ? (
+          <DetailPinjamanReportTable
+            selectedCabangPembukaanRekening={selectedCabang}
+          />
+        ) : null}
 
         <div className="sr-only">
-          {namaNoRek} {kolektor}
+          {cabangPembukaanRekening} {namaNoRek} {kolektor}
         </div>
       </div>
     </div>
