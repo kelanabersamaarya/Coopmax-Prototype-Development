@@ -5,6 +5,15 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
+function isPlaceholderLike(value: string) {
+  const normalized = (value ?? "").trim().toLowerCase();
+  return (
+    normalized === "-- semua --" ||
+    normalized === "semua" ||
+    normalized.startsWith("pilih ")
+  );
+}
+
 export default function PlainFilterSelect({
   value,
   onValueChange,
@@ -21,6 +30,7 @@ export default function PlainFilterSelect({
   itemClassName?: string;
 }) {
   const [open, setOpen] = React.useState(false);
+  const isPlaceholder = isPlaceholderLike(value);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -30,13 +40,20 @@ export default function PlainFilterSelect({
           className={cn(
             "flex h-[30px] w-full items-center justify-between rounded-[5px]",
             "border border-slate-200 bg-white px-3",
-            "text-left text-[12.5px] font-normal text-black shadow-sm",
+            "text-left text-[12.5px] font-normal shadow-sm",
             "transition hover:bg-white",
             "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
             triggerClassName,
           )}
         >
-          <span className="truncate">{value}</span>
+          <span
+            className={cn(
+              "truncate",
+              isPlaceholder ? "text-[#64748B]" : "text-black",
+            )}
+          >
+            {value}
+          </span>
           <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
         </button>
       </PopoverTrigger>
