@@ -391,7 +391,7 @@ export default function DetailPinjamanReportTable({
                 </tr>
 
                 <tr>
-                  <Th className="w-[38px] px-1.5 text-center">Bln</Th>
+                  <Th className="w-[38px] px-1.5 text-left">Bln</Th>
                   <Th className="w-[132px]">Dari tgl. s/d tgl.</Th>
                   <Th className="w-[130px]">Sld. Pokok</Th>
                   <Th className="w-[58px]">Bng</Th>
@@ -434,7 +434,7 @@ export default function DetailPinjamanReportTable({
                         </div>
                       </Td>
                       <Td>{row.aoId}</Td>
-                      <Td className="w-[38px] max-w-[38px] px-1.5" align="right">
+                      <Td className="w-[38px] max-w-[38px] px-1.5 tabular-nums">
                         {row.jwBln}
                       </Td>
                       <Td className="whitespace-nowrap tabular-nums">
