@@ -213,7 +213,7 @@ function Th({
   return (
     <th
       className={cn(
-        "border-b border-r border-slate-300/80 bg-white px-2 py-2.5 align-middle",
+        "border-b border-r border-slate-300/80 bg-white px-1.5 py-2.5 align-middle",
         "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
         align === "right"
           ? "text-right"
@@ -246,7 +246,7 @@ function GroupTh({
       colSpan={colSpan}
       rowSpan={rowSpan}
       className={cn(
-        "border-b border-r border-t border-slate-300/80 bg-white px-2 py-2.5 align-middle",
+        "border-b border-r border-t border-slate-300/80 bg-white px-1.5 py-2.5 align-middle",
         "text-[11px] font-extrabold uppercase tracking-wide text-slate-800",
         align === "right"
           ? "text-right"
@@ -273,7 +273,7 @@ function Td({
   return (
     <td
       className={cn(
-        "border-b border-r border-slate-200 px-2 py-1.5 align-top",
+        "border-b border-r border-slate-200 px-1.5 py-1.5 align-top",
         "text-[12px] font-medium text-slate-900",
         align === "right"
           ? "whitespace-nowrap text-right tabular-nums"
@@ -303,7 +303,7 @@ function TotalCell({
     <td
       colSpan={colSpan}
       className={cn(
-        "border-b border-r border-slate-300/80 bg-white px-2 py-2",
+        "border-b border-r border-slate-300/80 bg-white px-1.5 py-2",
         "text-[12px] font-extrabold text-slate-900",
         align === "right"
           ? "text-right tabular-nums"
@@ -385,7 +385,7 @@ export default function DetailPinjamanReportTable({
   }, [selectedCabangPembukaanRekening]);
 
   const colSpan = hideCabangPembukaanRekening ? 17 : 18;
-  const minWidth = hideCabangPembukaanRekening ? "min-w-[1596px]" : "min-w-[1716px]";
+  const minWidth = hideCabangPembukaanRekening ? "min-w-[1420px]" : "min-w-[1540px]";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -400,29 +400,29 @@ export default function DetailPinjamanReportTable({
             >
               <thead className="bg-white">
                 <tr>
-                  <GroupTh rowSpan={2} className="w-[38px] px-1.5" align="left">
+                  <GroupTh rowSpan={2} className="w-[36px] px-1" align="left">
                     No
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[96px]" align="left">
+                  <GroupTh rowSpan={2} className="w-[90px]" align="left">
                     <SortableHeaderLabel
                       lines={["No.", "Rekening"]}
                       className="[&_span]:whitespace-nowrap"
                     />
                   </GroupTh>
                   {!hideCabangPembukaanRekening ? (
-                    <GroupTh rowSpan={2} className="w-[120px]" align="left">
+                    <GroupTh rowSpan={2} className="w-[112px]" align="left">
                       <SortableHeaderLabel
                         lines={["Cabang", "Pembukaan", "Rekening"]}
                       />
                     </GroupTh>
                   ) : null}
-                  <GroupTh rowSpan={2} className="w-[130px]" align="left">
+                  <GroupTh rowSpan={2} className="w-[124px]" align="left">
                     <SortableHeaderLabel lines={["Nama", "Nasabah"]} />
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[120px]" align="left">
+                  <GroupTh rowSpan={2} className="w-[112px]" align="left">
                     <SortableHeaderLabel lines={["Alamat"]} />
                   </GroupTh>
-                  <GroupTh rowSpan={2} className="w-[60px]" align="left">
+                  <GroupTh rowSpan={2} className="w-[52px]" align="left">
                     AO ID
                   </GroupTh>
                   <GroupTh colSpan={2}>Jangka Waktu</GroupTh>
@@ -432,18 +432,18 @@ export default function DetailPinjamanReportTable({
                 </tr>
 
                 <tr>
-                  <Th className="w-[30px] px-1 text-left whitespace-nowrap">Bln</Th>
-                  <Th className="w-[132px]">Dari tgl. s/d tgl.</Th>
-                  <Th className="w-[108px]">Sld. Pokok</Th>
-                  <Th className="w-[44px] px-1.5">Bng</Th>
-                  <Th className="w-[82px]">Per bln</Th>
-                  <Th className="w-[58px] px-1.5">Sdh/Hr</Th>
-                  <Th className="w-[30px] px-1 text-left whitespace-nowrap">Bln</Th>
-                  <Th className="w-[115px]">Nilai</Th>
-                  <Th className="w-[115px]">1-30 Hr</Th>
-                  <Th className="w-[115px]">31-60 Hr</Th>
-                  <Th className="w-[115px]">61-90 Hr</Th>
-                  <Th className="w-[115px]">{"> 90 Hr"}</Th>
+                  <Th className="w-[28px] px-1 text-left whitespace-nowrap">Bln</Th>
+                  <Th className="w-[120px]">Dari tgl. s/d tgl.</Th>
+                  <Th className="w-[96px]">Sld. Pokok</Th>
+                  <Th className="w-[38px] px-1">Bng</Th>
+                  <Th className="w-[72px]">Per bln</Th>
+                  <Th className="w-[50px] px-1">Sdh/Hr</Th>
+                  <Th className="w-[28px] px-1 text-left whitespace-nowrap">Bln</Th>
+                  <Th className="w-[94px]">Nilai</Th>
+                  <Th className="w-[94px]">1-30 Hr</Th>
+                  <Th className="w-[94px]">31-60 Hr</Th>
+                  <Th className="w-[94px]">61-90 Hr</Th>
+                  <Th className="w-[94px]">{"> 90 Hr"}</Th>
                 </tr>
               </thead>
 
@@ -466,16 +466,16 @@ export default function DetailPinjamanReportTable({
                         key={`${row.noRekening}-${row.no}-${idx}`}
                         className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
                       >
-                        <Td className="w-[38px] max-w-[38px] px-1.5 text-center tabular-nums">
+                        <Td className="w-[36px] max-w-[36px] px-1 text-center tabular-nums">
                           {idx + 1}
                         </Td>
-                        <Td className="w-[96px] max-w-[96px] tabular-nums">
+                        <Td className="w-[90px] max-w-[90px] tabular-nums">
                           <div className="truncate" title={row.noRekening}>
                             {row.noRekening}
                           </div>
                         </Td>
                         {!hideCabangPembukaanRekening ? (
-                          <Td className="w-[120px] max-w-[120px]">
+                          <Td className="w-[112px] max-w-[112px]">
                             <div
                               className="truncate"
                               title={row.cabangPembukaanRekening}
@@ -484,46 +484,56 @@ export default function DetailPinjamanReportTable({
                             </div>
                           </Td>
                         ) : null}
-                        <Td className="w-[130px] max-w-[130px]">
+                        <Td className="w-[124px] max-w-[124px]">
                           <div className="truncate" title={cleanName}>
                             {cleanName}
                           </div>
                         </Td>
-                        <Td>
+                        <Td className="w-[112px] max-w-[112px]">
                           <div className="truncate" title={row.alamat}>
                             {row.alamat}
                           </div>
                         </Td>
-                        <Td>{row.aoId}</Td>
-                        <Td className="w-[30px] max-w-[30px] px-1 tabular-nums">
+                        <Td className="w-[52px] max-w-[52px]">{row.aoId}</Td>
+                        <Td className="w-[28px] max-w-[28px] px-1 tabular-nums">
                           {row.jwBln}
                         </Td>
-                        <Td className="whitespace-nowrap tabular-nums">
+                        <Td className="w-[120px] max-w-[120px] whitespace-nowrap tabular-nums">
                           {row.periode}
                         </Td>
-                        <Td className="w-[108px] max-w-[108px]" align="right">
+                        <Td className="w-[96px] max-w-[96px]" align="right">
                           {row.saldoPokok}
                         </Td>
-                        <Td className="w-[44px] max-w-[44px] px-1.5" align="right">
+                        <Td className="w-[38px] max-w-[38px] px-1" align="right">
                           {row.bunga}
                         </Td>
-                        <Td className="w-[82px] max-w-[82px]" align="right">
+                        <Td className="w-[72px] max-w-[72px]" align="right">
                           {row.angsuranPerBln}
                         </Td>
-                        <Td className="w-[58px] max-w-[58px] px-1.5" align="left">
+                        <Td className="w-[50px] max-w-[50px] px-1" align="left">
                           {row.angsuranSdhHr}
                         </Td>
                         <Td
-                          className="w-[30px] max-w-[30px] px-1 tabular-nums"
+                          className="w-[28px] max-w-[28px] px-1 tabular-nums"
                           align="left"
                         >
                           {row.tunggakanBln}
                         </Td>
-                        <Td align="right">{row.tunggakanNilai}</Td>
-                        <Td align="right">{row.tunggakan1_30}</Td>
-                        <Td align="right">{row.tunggakan31_60}</Td>
-                        <Td align="right">{row.tunggakan61_90}</Td>
-                        <Td align="right">{row.tunggakan90p}</Td>
+                        <Td className="w-[94px] max-w-[94px]" align="right">
+                          {row.tunggakanNilai}
+                        </Td>
+                        <Td className="w-[94px] max-w-[94px]" align="right">
+                          {row.tunggakan1_30}
+                        </Td>
+                        <Td className="w-[94px] max-w-[94px]" align="right">
+                          {row.tunggakan31_60}
+                        </Td>
+                        <Td className="w-[94px] max-w-[94px]" align="right">
+                          {row.tunggakan61_90}
+                        </Td>
+                        <Td className="w-[94px] max-w-[94px]" align="right">
+                          {row.tunggakan90p}
+                        </Td>
                       </tr>
                     );
                   })
