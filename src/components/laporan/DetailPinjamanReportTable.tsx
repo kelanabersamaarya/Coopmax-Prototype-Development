@@ -415,7 +415,7 @@ export default function DetailPinjamanReportTable({
                       key={`${row.noRekening}-${row.no}-${idx}`}
                       className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
                     >
-                      <Td className="tabular-nums">{row.no}</Td>
+                      <Td className="tabular-nums">{idx + 1}</Td>
                       <Td className="tabular-nums">{row.noRekening}</Td>
                       <Td>
                         <div className="truncate" title={cleanName}>
@@ -455,7 +455,7 @@ export default function DetailPinjamanReportTable({
 
         <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-[14px] text-slate-900">
-            Menampilkan 111 sampai 118 dari 118 entri
+            Menampilkan 1 sampai {rows.length} dari {rows.length} entri
           </div>
           <PaginationBar />
         </div>
