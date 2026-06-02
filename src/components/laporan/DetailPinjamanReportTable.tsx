@@ -433,13 +433,13 @@ export default function DetailPinjamanReportTable({
                 </tr>
 
                 <tr>
-                  <Th className="w-[30px] px-1 text-left">Bln</Th>
+                  <Th className="w-[30px] px-1 text-left whitespace-nowrap">Bln</Th>
                   <Th className="w-[132px]">Dari tgl. s/d tgl.</Th>
                   <Th className="w-[108px]">Sld. Pokok</Th>
                   <Th className="w-[44px] px-1.5">Bng</Th>
                   <Th className="w-[82px]">Per bln</Th>
                   <Th className="w-[58px] px-1.5">Sdh/Hr</Th>
-                  <Th className="w-[30px] px-1 text-left">Bln</Th>
+                  <Th className="w-[30px] px-1 text-left whitespace-nowrap">Bln</Th>
                   <Th className="w-[115px]">Nilai</Th>
                   <Th className="w-[115px]">1-30 Hr</Th>
                   <Th className="w-[115px]">31-60 Hr</Th>
@@ -514,7 +514,10 @@ export default function DetailPinjamanReportTable({
                         <Td className="w-[58px] max-w-[58px] px-1.5" align="left">
                           {row.angsuranSdhHr}
                         </Td>
-                        <Td className="w-[30px] max-w-[30px] px-1 tabular-nums" align="left">
+                        <Td
+                          className="w-[30px] max-w-[30px] px-1 tabular-nums"
+                          align="left"
+                        >
                           {row.tunggakanBln}
                         </Td>
                         <Td align="right">{row.tunggakanNilai}</Td>
