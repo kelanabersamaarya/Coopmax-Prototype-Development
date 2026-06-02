@@ -385,7 +385,7 @@ export default function DetailPinjamanReportTable({
   }, [selectedCabangPembukaanRekening]);
 
   const colSpan = hideCabangPembukaanRekening ? 17 : 18;
-  const minWidth = hideCabangPembukaanRekening ? "min-w-[1660px]" : "min-w-[1780px]";
+  const minWidth = hideCabangPembukaanRekening ? "min-w-[1636px]" : "min-w-[1756px]";
 
   return (
     <div className={cn("mt-6", className)}>
@@ -431,8 +431,8 @@ export default function DetailPinjamanReportTable({
                   <Th className="w-[132px]">Dari tgl. s/d tgl.</Th>
                   <Th className="w-[108px]">Sld. Pokok</Th>
                   <Th className="w-[44px] px-1.5">Bng</Th>
-                  <Th className="w-[98px]">Per bln</Th>
-                  <Th className="w-[74px]">Sdh/Hr</Th>
+                  <Th className="w-[82px]">Per bln</Th>
+                  <Th className="w-[58px] px-1.5">Sdh/Hr</Th>
                   <Th className="w-[52px]">Bln</Th>
                   <Th className="w-[115px]">Nilai</Th>
                   <Th className="w-[115px]">1-30 Hr</Th>
@@ -502,10 +502,12 @@ export default function DetailPinjamanReportTable({
                         <Td className="w-[44px] max-w-[44px] px-1.5" align="right">
                           {row.bunga}
                         </Td>
-                        <Td className="w-[98px] max-w-[98px]" align="left">
+                        <Td className="w-[82px] max-w-[82px]" align="left">
                           {row.angsuranPerBln}
                         </Td>
-                        <Td align="left">{row.angsuranSdhHr}</Td>
+                        <Td className="w-[58px] max-w-[58px] px-1.5" align="left">
+                          {row.angsuranSdhHr}
+                        </Td>
                         <Td align="right">{row.tunggakanBln}</Td>
                         <Td align="right">{row.tunggakanNilai}</Td>
                         <Td align="right">{row.tunggakan1_30}</Td>
