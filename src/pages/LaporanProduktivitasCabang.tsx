@@ -44,7 +44,7 @@ function FieldRow({
   return (
     <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
       <div className="text-[13px] font-normal text-black">{label}</div>
-      <div className="w-full md:max-w-[544px]">{children}</div>
+      <div className="w-full md:max-w-[440px]">{children}</div>
     </div>
   );
 }
@@ -157,7 +157,7 @@ export default function LaporanProduktivitasCabang() {
 
               <div className="grid gap-1 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
                 <div />
-                <div className="flex w-full justify-end md:max-w-[544px]">
+                <div className="flex w-full justify-end md:max-w-[440px]">
                   <button
                     type="button"
                     onClick={() => setShowReport(true)}
