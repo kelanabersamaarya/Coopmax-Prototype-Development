@@ -335,7 +335,6 @@ function TotalSummaryRow({
       <TotalCell />
       <TotalCell />
       <TotalCell />
-      <TotalCell />
       <TotalCell>{totalRows.tunggakanNilai}</TotalCell>
       <TotalCell>{totalRows.tunggakan1_30}</TotalCell>
       <TotalCell>{totalRows.tunggakan31_60}</TotalCell>
@@ -427,7 +426,7 @@ export default function DetailPinjamanReportTable({
                     AO ID
                   </GroupTh>
                   <GroupTh colSpan={2}>Jangka Waktu</GroupTh>
-                  <GroupTh colSpan={3}>Pinjaman</GroupTh>
+                  <GroupTh colSpan={2}>Pinjaman</GroupTh>
                   <GroupTh colSpan={2}>Angsuran</GroupTh>
                   <GroupTh colSpan={6}>Tunggakan</GroupTh>
                 </tr>
