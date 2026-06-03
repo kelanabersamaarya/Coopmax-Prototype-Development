@@ -80,7 +80,7 @@ export default function AccountSettingSelect({
               className={cn(
                 "absolute bottom-0 right-0 top-0",
                 "inline-flex h-full w-11 items-center justify-center",
-                "rounded-r-[8px] px-0 py-0",
+                "rounded-r-[8px] px-0 pb-0 pt-[3px]",
                 "text-[#002060] transition hover:bg-slate-100",
               )}
               aria-label="Clear"
