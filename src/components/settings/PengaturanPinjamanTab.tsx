@@ -103,7 +103,7 @@ const settings: SettingItem[] = [
   },
   {
     id: SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
-    label: "Atur COA Jenis Biaya pada Produk Pinjaman",
+    label: "Atur KP Jenis Biaya pada Produk Pinjaman",
     type: "toggle",
   },
   {
