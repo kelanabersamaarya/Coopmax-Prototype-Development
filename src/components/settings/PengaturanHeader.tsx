@@ -2,7 +2,14 @@
 
 import { cn } from "@/lib/utils";
 
-const tabs = [
+export type PengaturanTab =
+  | "Sinkronisasi"
+  | "Simpanan"
+  | "Pinjaman"
+  | "Mobile"
+  | "Pengaturan Tambahan";
+
+const tabs: PengaturanTab[] = [
   "Sinkronisasi",
   "Simpanan",
   "Pinjaman",
@@ -11,8 +18,12 @@ const tabs = [
 ];
 
 export default function PengaturanHeader({
+  activeTab = "Pinjaman",
+  onTabChange,
   className,
 }: {
+  activeTab?: PengaturanTab;
+  onTabChange?: (tab: PengaturanTab) => void;
   className?: string;
 }) {
   return (
@@ -29,12 +40,13 @@ export default function PengaturanHeader({
       <div className="mt-8 overflow-x-auto">
         <div className="flex min-w-max items-center gap-8 pb-1 pl-1 md:gap-9">
           {tabs.map((tab) => {
-            const active = tab === "Pinjaman";
+            const active = tab === activeTab;
 
             return (
               <button
                 key={tab}
                 type="button"
+                onClick={() => onTabChange?.(tab)}
                 className={cn(
                   "h-[49px] rounded-full px-5 text-[12px] font-semibold transition",
                   active
