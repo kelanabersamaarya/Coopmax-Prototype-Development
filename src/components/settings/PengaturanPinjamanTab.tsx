@@ -238,7 +238,7 @@ export default function PengaturanPinjamanTab() {
   );
 
   return (
-    <div className="mt-8 w-full">
+    <div className="mt-8 w-full rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
       <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
         <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
           <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F6BFF] text-white shadow-sm">
