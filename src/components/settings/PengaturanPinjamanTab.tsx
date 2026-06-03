@@ -209,9 +209,7 @@ export default function PengaturanPinjamanTab() {
   }
 
   function saveSettings() {
-    toast.success("Pengaturan berhasil disimpan", {
-      description: "Perubahan pengaturan pinjaman sudah tersimpan di prototype.",
-    });
+    // Prototype save action intentionally silent.
   }
 
   const selectTriggerClass = cn(
