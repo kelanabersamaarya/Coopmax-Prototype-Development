@@ -36,9 +36,9 @@ export default function PengaturanHeader({
                 key={tab}
                 type="button"
                 className={cn(
-                  "h-[49px] rounded-full px-5 text-[16px] font-semibold transition",
+                  "h-[49px] rounded-full px-5 text-[12px] font-semibold transition",
                   active
-                    ? "bg-[#635BFF] text-white shadow-[0_18px_38px_rgba(99,91,255,0.28)]"
+                    ? "bg-[#635BFF] text-white"
                     : "bg-transparent text-[#53657d] hover:bg-white/70 hover:text-[#002060]",
                 )}
               >
