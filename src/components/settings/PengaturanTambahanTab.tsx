@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import AccountSettingSelect from "@/components/settings/AccountSettingSelect";
 
 type ToggleAdditionalSetting = {
   id: string;
@@ -462,29 +463,38 @@ export default function PengaturanTambahanTab() {
                   ) : null}
 
                   {setting.type === "select" ? (
-                    <Select
-                      value={selectValues[setting.id] ?? setting.defaultValue}
-                      onValueChange={(value) => updateSelect(setting.id, value)}
-                    >
-                      <SelectTrigger className={selectTriggerClassName}>
-                        <SelectValue />
-                      </SelectTrigger>
+                    section.id === "akun" ? (
+                      <AccountSettingSelect
+                        value={selectValues[setting.id] ?? setting.defaultValue}
+                        onValueChange={(value) => updateSelect(setting.id, value)}
+                        options={setting.options}
+                        placeholder="Pilih Akun"
+                      />
+                    ) : (
+                      <Select
+                        value={selectValues[setting.id] ?? setting.defaultValue}
+                        onValueChange={(value) => updateSelect(setting.id, value)}
+                      >
+                        <SelectTrigger className={selectTriggerClassName}>
+                          <SelectValue />
+                        </SelectTrigger>
 
-                      <SelectContent className={selectContentClassName}>
-                        {setting.options.map((option) => (
-                          <SelectItem
-                            key={option}
-                            value={option}
-                            className={selectItemClassName}
-                            title={option}
-                          >
-                            <span className="block max-w-full truncate">
-                              {option}
-                            </span>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                        <SelectContent className={selectContentClassName}>
+                          {setting.options.map((option) => (
+                            <SelectItem
+                              key={option}
+                              value={option}
+                              className={selectItemClassName}
+                              title={option}
+                            >
+                              <span className="block max-w-full truncate">
+                                {option}
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )
                   ) : null}
 
                   {setting.type === "input" ? (
