@@ -6,6 +6,7 @@ import PengaturanPinjamanTab from "@/components/settings/PengaturanPinjamanTab";
 import PengaturanSimpananTab from "@/components/settings/PengaturanSimpananTab";
 import PengaturanSinkronisasiTab from "@/components/settings/PengaturanSinkronisasiTab";
 import PengaturanMobileTab from "@/components/settings/PengaturanMobileTab";
+import PengaturanTambahanTab from "@/components/settings/PengaturanTambahanTab";
 import "../styles/settings-spacing.css";
 
 export default function PengaturanUmum() {
@@ -21,14 +22,8 @@ export default function PengaturanUmum() {
           {activeTab === "Simpanan" ? <PengaturanSimpananTab /> : null}
           {activeTab === "Pinjaman" ? <PengaturanPinjamanTab /> : null}
           {activeTab === "Mobile" ? <PengaturanMobileTab /> : null}
-
-          {activeTab !== "Sinkronisasi" &&
-          activeTab !== "Simpanan" &&
-          activeTab !== "Pinjaman" &&
-          activeTab !== "Mobile" ? (
-            <div className="mt-8 rounded-[5px] bg-white p-[15px] text-[13px] font-normal text-slate-700 shadow-sm ring-1 ring-[#E4E9F2]">
-              Tab {activeTab} masih prototype.
-            </div>
+          {activeTab === "Pengaturan Tambahan" ? (
+            <PengaturanTambahanTab />
           ) : null}
         </div>
       </div>
