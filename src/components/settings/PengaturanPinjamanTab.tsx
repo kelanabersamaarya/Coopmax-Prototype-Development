@@ -1,12 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { ImagePlus, Save, UploadCloud } from "lucide-react";
+import { CheckSquare, ImagePlus, X } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -23,14 +20,14 @@ function FieldRow({
   return (
     <div
       className={cn(
-        "grid gap-3 md:grid-cols-[220px_minmax(0,1fr)]",
+        "grid gap-3 md:grid-cols-[260px_minmax(0,1fr)]",
         align === "top" ? "md:items-start" : "md:items-center",
       )}
     >
       <div
         className={cn(
-          "text-[14px] font-normal text-slate-900",
-          align === "top" ? "pt-2" : "",
+          "text-[14px] font-normal text-black",
+          align === "top" ? "pt-[6px]" : "",
         )}
       >
         {label}
@@ -41,133 +38,142 @@ function FieldRow({
 }
 
 export default function PengaturanPinjamanTab() {
-  const [loanEnabled, setLoanEnabled] = React.useState(true);
-  const [showProductOnline, setShowProductOnline] = React.useState(true);
-  const [autoNumbering, setAutoNumbering] = React.useState(true);
-  const [title, setTitle] = React.useState("Pinjaman Koperasi");
-  const [description, setDescription] = React.useState(
-    "Produk pinjaman untuk anggota koperasi dengan proses pengajuan yang mudah dan terarah.",
+  const [pinjamanAktif, setPinjamanAktif] = React.useState(true);
+  const [pendaftaranOnline, setPendaftaranOnline] = React.useState(true);
+  const [simulasiPinjaman, setSimulasiPinjaman] = React.useState(true);
+  const [judul, setJudul] = React.useState("Pinjaman Koperasi");
+  const [deskripsi, setDeskripsi] = React.useState(
+    "Ajukan pinjaman koperasi dengan proses mudah, cepat, dan transparan.",
   );
-  const [terms, setTerms] = React.useState(
-    "Lengkapi data diri, dokumen pendukung, dan pastikan informasi pengajuan sesuai kebutuhan.",
+  const [ketentuan, setKetentuan] = React.useState(
+    "Pastikan data pengajuan, dokumen pendukung, dan nominal pinjaman sudah sesuai.",
   );
 
-  const inputClass =
-    "h-[34px] rounded-[5px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0";
+  const inputClass = cn(
+    "h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
+    "text-[12.5px] font-normal text-black shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const textareaClass = cn(
+    "min-h-[92px] rounded-[5px] border-slate-300 bg-white px-3 py-2",
+    "text-[12.5px] font-normal text-black shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const actionButtonClass = cn(
+    "inline-flex h-[28px] w-[90px] items-center justify-center gap-1.5",
+    "rounded-[6px] px-2 text-[11px] font-bold tracking-tight text-white",
+    "ring-1 transition focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
 
   return (
-    <Card className="mt-8 rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
-      <div className="text-[16px] font-semibold tracking-tight text-slate-900">
-        Pengaturan Pinjaman
-      </div>
-
-      <Separator className="my-5 bg-slate-200/70" />
-
+    <div className="mt-8 w-full max-w-[980px]">
       <div className="grid gap-[15px]">
-        <FieldRow label="Status Pinjaman">
-          <div className="flex items-center gap-3">
-            <Switch checked={loanEnabled} onCheckedChange={setLoanEnabled} />
-            <span className="text-[13px] font-medium text-slate-700">
-              {loanEnabled ? "Aktif" : "Tidak Aktif"}
-            </span>
-          </div>
+        <FieldRow label="Pinjaman">
+          <Switch checked={pinjamanAktif} onCheckedChange={setPinjamanAktif} />
         </FieldRow>
 
-        <FieldRow label="Tampilkan Produk Online">
-          <div className="flex items-center gap-3">
-            <Switch
-              checked={showProductOnline}
-              onCheckedChange={setShowProductOnline}
-            />
-            <span className="text-[13px] font-medium text-slate-700">
-              {showProductOnline ? "Ditampilkan" : "Disembunyikan"}
-            </span>
-          </div>
+        <FieldRow label="Pendaftaran Pinjaman Online">
+          <Switch
+            checked={pendaftaranOnline}
+            onCheckedChange={setPendaftaranOnline}
+          />
         </FieldRow>
 
-        <FieldRow label="Nomor Rekening Otomatis">
-          <div className="flex items-center gap-3">
-            <Switch checked={autoNumbering} onCheckedChange={setAutoNumbering} />
-            <span className="text-[13px] font-medium text-slate-700">
-              {autoNumbering ? "Aktif" : "Manual"}
-            </span>
-          </div>
+        <FieldRow label="Simulasi Pinjaman">
+          <Switch
+            checked={simulasiPinjaman}
+            onCheckedChange={setSimulasiPinjaman}
+          />
         </FieldRow>
 
-        <FieldRow label="Judul Produk">
+        <FieldRow label="Judul Halaman Pinjaman">
           <Input
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            value={judul}
+            onChange={(event) => setJudul(event.target.value)}
             className={inputClass}
           />
         </FieldRow>
 
-        <FieldRow label="Gambar Produk" align="top">
+        <FieldRow label="Gambar Halaman Pinjaman" align="top">
           <button
             type="button"
             onClick={() =>
               toast("Upload gambar (prototype)", {
-                description: "Pemilihan file belum disimpan permanen.",
+                description: "Pemilihan gambar belum disimpan permanen.",
               })
             }
             className={cn(
-              "flex min-h-[118px] w-full items-center justify-center rounded-[5px]",
-              "border border-dashed border-slate-300 bg-slate-50/70",
-              "text-center transition hover:bg-slate-50",
+              "flex min-h-[96px] w-full items-center justify-center rounded-[5px]",
+              "border border-dashed border-slate-300 bg-white",
+              "transition hover:bg-slate-50",
             )}
           >
-            <div className="flex flex-col items-center gap-2 px-4 py-5">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-[5px] bg-white text-slate-700 ring-1 ring-slate-200">
+            <div className="flex flex-col items-center gap-2 px-4 py-4 text-center">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-[5px] bg-slate-100 text-slate-700">
                 <ImagePlus className="h-5 w-5" />
               </span>
-              <div className="text-[13px] font-semibold text-slate-900">
-                Upload Gambar Produk
-              </div>
-              <div className="text-[12px] font-normal text-slate-500">
-                JPG, PNG, atau JPEG.
+              <div className="text-[12.5px] font-normal text-slate-700">
+                Pilih gambar
               </div>
             </div>
           </button>
         </FieldRow>
 
-        <FieldRow label="Deskripsi" align="top">
+        <FieldRow label="Deskripsi Halaman Pinjaman" align="top">
           <Textarea
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            className="min-h-[100px] rounded-[5px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            value={deskripsi}
+            onChange={(event) => setDeskripsi(event.target.value)}
+            className={textareaClass}
           />
         </FieldRow>
 
-        <FieldRow label="Ketentuan" align="top">
+        <FieldRow label="Ketentuan Halaman Pinjaman" align="top">
           <Textarea
-            value={terms}
-            onChange={(event) => setTerms(event.target.value)}
-            className="min-h-[100px] rounded-[5px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            value={ketentuan}
+            onChange={(event) => setKetentuan(event.target.value)}
+            className={textareaClass}
           />
         </FieldRow>
 
-        <div className="grid gap-3 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
+        <div className="grid gap-3 md:grid-cols-[260px_minmax(0,1fr)] md:items-center">
           <div />
-          <div className="flex justify-end">
-            <Button
+          <div className="flex justify-end gap-4">
+            <button
+              type="button"
+              onClick={() =>
+                toast("Dibatalkan", {
+                  description: "Perubahan pengaturan pinjaman tidak disimpan.",
+                })
+              }
+              className={cn(
+                actionButtonClass,
+                "bg-[#77839A] ring-[#77839A]/25 hover:bg-[#6b768c]",
+              )}
+            >
+              <X className="h-4 w-4" strokeWidth={3} />
+              Batal
+            </button>
+
+            <button
               type="button"
               onClick={() =>
                 toast.success("Pengaturan pinjaman tersimpan (prototype)", {
-                  description: title,
+                  description: judul,
                 })
               }
-              className="h-[30px] rounded-[5px] bg-[#2fb300] px-4 text-[12px] font-bold text-white hover:bg-[#279800]"
+              className={cn(
+                actionButtonClass,
+                "bg-[#2fb300] ring-[#2fb300]/25 hover:bg-[#279800]",
+              )}
             >
-              <Save className="mr-2 h-4 w-4" />
+              <CheckSquare className="h-4 w-4" strokeWidth={3} />
               Simpan
-            </Button>
+            </button>
           </div>
         </div>
       </div>
-
-      <div className="sr-only">
-        <UploadCloud />
-      </div>
-    </Card>
+    </div>
   );
 }
