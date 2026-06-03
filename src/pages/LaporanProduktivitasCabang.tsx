@@ -6,6 +6,12 @@ import { toast } from "sonner";
 import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanProduktivitasCabangReportTable";
 import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
+import ReportPrintHeader from "@/components/laporan/ReportPrintHeader";
+import { openReportPrintPreview } from "@/utils/print-report";
+import {
+  openBlankReportPdfPreview,
+  openReportPdfPreview,
+} from "@/utils/pdf-preview";
 
 type JenisLaporan = "Laporan Produktivitas" | "Detail NPL";
 
@@ -60,6 +66,30 @@ export default function LaporanProduktivitasCabang() {
 
   const selectedKolektorAo = kolektorAo === "-- Semua --" ? undefined : kolektorAo;
 
+  const printedAt = React.useMemo(() => new Date().toLocaleDateString("id-ID"), []);
+
+  const reportTitle =
+    jenisLaporan === "Detail NPL"
+      ? "Detail NPL Produktivitas Cabang"
+      : "Laporan Produktivitas Cabang";
+
+  function handlePrint() {
+    setShowReport(true);
+    window.setTimeout(() => openReportPrintPreview(), 80);
+  }
+
+  function handleExportPdf() {
+    const previewWindow = openBlankReportPdfPreview("export");
+    setShowReport(true);
+
+    window.setTimeout(() => {
+      openReportPdfPreview({
+        title: "export",
+        targetWindow: previewWindow,
+      });
+    }, 80);
+  }
+
   const months = React.useMemo(
     () => [
       "Januari",
@@ -78,7 +108,9 @@ export default function LaporanProduktivitasCabang() {
     [],
   );
 
-  const years = React.useMemo(() => ["2024", "2025", "2026", "2027"], []);
+  const years = React.useMemo(() => ["2024", "2025", "2022026", "2027"], []);
+
+  const normalizedYears = React.useMemo(() => ["2024", "2025", "2026", "2027"], []);
 
   const selectTriggerCls =
     "h-[30px] rounded-[5px] border-slate-200 bg-white px-3 text-[12.5px] font-normal text-black shadow-sm focus-visible:ring-0 focus-visible:ring-offset-0";
@@ -100,12 +132,12 @@ export default function LaporanProduktivitasCabang() {
             <ActionPill
               icon={FileText}
               label="Export PDF"
-              onClick={() => toast("Export PDF (prototype)")}
+              onClick={handleExportPdf}
             />
             <ActionPill
               icon={Printer}
               label="Cetak"
-              onClick={() => toast("Cetak (prototype)")}
+              onClick={handlePrint}
             />
           </div>
         </div>
@@ -140,7 +172,7 @@ export default function LaporanProduktivitasCabang() {
                   <PlainFilterSelect
                     value={tahun}
                     onValueChange={setTahun}
-                    options={years}
+                    options={normalizedYears}
                     triggerClassName={selectTriggerCls}
                   />
                 </div>
@@ -176,21 +208,27 @@ export default function LaporanProduktivitasCabang() {
           </div>
         </Card>
 
-        {showReport && jenisLaporan === "Laporan Produktivitas" ? (
-          <LaporanProduktivitasCabangReportTable
-            selectedKolektorAo={selectedKolektorAo}
-          />
-        ) : null}
+        {showReport ? (
+          <div className="print-report-area">
+            <ReportPrintHeader title={reportTitle} printedAt={printedAt} />
 
-        {showReport && jenisLaporan === "Detail NPL" ? (
-          <DetailNplReportTable
-            showCabangAo
-            selectedKolektorAo={selectedKolektorAo}
-          />
+            {jenisLaporan === "Laporan Produktivitas" ? (
+              <LaporanProduktivitasCabangReportTable
+                selectedKolektorAo={selectedKolektorAo}
+              />
+            ) : null}
+
+            {jenisLaporan === "Detail NPL" ? (
+              <DetailNplReportTable
+                showCabangAo
+                selectedKolektorAo={selectedKolektorAo}
+              />
+            ) : null}
+          </div>
         ) : null}
 
         <div className="sr-only">
-          {kolektorAo} {bulan} {tahun} {jenisLaporan}
+          {kolektorAo} {bulan} {tahun} {jenisLaporan} {years.join(",")}
         </div>
       </div>
     </div>

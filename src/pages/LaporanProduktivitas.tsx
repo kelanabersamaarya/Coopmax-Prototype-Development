@@ -6,6 +6,12 @@ import { toast } from "sonner";
 import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProduktivitasReportTable";
 import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
+import ReportPrintHeader from "@/components/laporan/ReportPrintHeader";
+import { openReportPrintPreview } from "@/utils/print-report";
+import {
+  openBlankReportPdfPreview,
+  openReportPdfPreview,
+} from "@/utils/pdf-preview";
 
 function ActionPill({
   icon: Icon,
@@ -58,6 +64,30 @@ export default function LaporanProduktivitas() {
   const selectedCabangAo = cabangAo === "-- Semua --" ? undefined : cabangAo;
   const selectedKolektorAo = kolektorAo === "-- Semua --" ? undefined : kolektorAo;
 
+  const printedAt = React.useMemo(() => new Date().toLocaleDateString("id-ID"), []);
+
+  const reportTitle =
+    jenisLaporan === "Detail NPL"
+      ? "Detail NPL Produktivitas Konsolidasi"
+      : "Laporan Produktivitas Konsolidasi";
+
+  function handlePrint() {
+    setShowReport(true);
+    window.setTimeout(() => openReportPrintPreview(), 80);
+  }
+
+  function handleExportPdf() {
+    const previewWindow = openBlankReportPdfPreview("export");
+    setShowReport(true);
+
+    window.setTimeout(() => {
+      openReportPdfPreview({
+        title: "export",
+        targetWindow: previewWindow,
+      });
+    }, 80);
+  }
+
   const months = React.useMemo(
     () => [
       "Januari",
@@ -98,12 +128,12 @@ export default function LaporanProduktivitas() {
             <ActionPill
               icon={FileText}
               label="Export PDF"
-              onClick={() => toast("Export PDF (prototype)")}
+              onClick={handleExportPdf}
             />
             <ActionPill
               icon={Printer}
               label="Cetak"
-              onClick={() => toast("Cetak (prototype)")}
+              onClick={handlePrint}
             />
           </div>
         </div>
@@ -190,19 +220,25 @@ export default function LaporanProduktivitas() {
           </div>
         </Card>
 
-        {showReport && jenisLaporan === "Laporan Produktivitas" ? (
-          <LaporanProduktivitasReportTable
-            selectedCabangAo={selectedCabangAo}
-            selectedKolektorAo={selectedKolektorAo}
-          />
-        ) : null}
+        {showReport ? (
+          <div className="print-report-area">
+            <ReportPrintHeader title={reportTitle} printedAt={printedAt} />
 
-        {showReport && jenisLaporan === "Detail NPL" ? (
-          <DetailNplReportTable
-            showCabangAo
-            selectedCabangAo={selectedCabangAo}
-            selectedKolektorAo={selectedKolektorAo}
-          />
+            {jenisLaporan === "Laporan Produktivitas" ? (
+              <LaporanProduktivitasReportTable
+                selectedCabangAo={selectedCabangAo}
+                selectedKolektorAo={selectedKolektorAo}
+              />
+            ) : null}
+
+            {jenisLaporan === "Detail NPL" ? (
+              <DetailNplReportTable
+                showCabangAo
+                selectedCabangAo={selectedCabangAo}
+                selectedKolektorAo={selectedKolektorAo}
+              />
+            ) : null}
+          </div>
         ) : null}
 
         <div className="sr-only">
