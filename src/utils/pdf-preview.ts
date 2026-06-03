@@ -24,7 +24,7 @@ function writeLoadingPage(targetWindow: Window, title: string) {
         <style>
           body {
             margin: 0;
-            background: #202124;
+            background: #111111;
             color: #ffffff;
             font-family: Arial, Helvetica, sans-serif;
           }
@@ -90,7 +90,7 @@ export function openReportPdfPreview({
           body {
             margin: 0;
             min-height: 100%;
-            background: #202124;
+            background: #111111;
             color: #111827;
             font-family: Arial, Helvetica, sans-serif;
           }
@@ -102,35 +102,64 @@ export function openReportPdfPreview({
           .pdf-shell {
             height: 100vh;
             display: grid;
-            grid-template-rows: 56px minmax(0, 1fr);
-            background: #202124;
+            grid-template-rows: 50px minmax(0, 1fr);
+            background: #111111;
           }
 
           .pdf-toolbar {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 18px;
-            height: 56px;
-            padding: 0 18px;
-            background: #3c4043;
-            color: #f1f3f4;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-            font-size: 14px;
+            height: 50px;
+            padding: 0 14px;
+            background: #111111;
+            color: #f5f5f5;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+            font-size: 13px;
+          }
+
+          .toolbar-left,
+          .toolbar-center,
+          .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
+
+          .toolbar-left {
+            min-width: 260px;
+          }
+
+          .toolbar-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .toolbar-right {
+            margin-left: auto;
           }
 
           .toolbar-menu {
-            width: 26px;
-            height: 26px;
+            width: 30px;
+            height: 30px;
             display: grid;
             place-items: center;
-            border-radius: 6px;
-            color: #e8eaed;
+            border-radius: 50%;
+            color: #f5f5f5;
+            font-size: 18px;
+            line-height: 1;
           }
 
           .toolbar-title {
-            min-width: 220px;
-            font-size: 16px;
-            font-weight: 700;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 600;
             color: #ffffff;
           }
 
@@ -147,54 +176,52 @@ export function openReportPdfPreview({
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 32px;
-            height: 24px;
-            padding: 0 8px;
-            background: #202124;
+            min-width: 34px;
+            height: 26px;
+            padding: 0 9px;
+            border-radius: 2px;
+            background: #242424;
             color: #ffffff;
-            font-weight: 700;
+            font-weight: 600;
           }
 
           .toolbar-divider {
             width: 1px;
-            height: 26px;
-            background: rgba(255, 255, 255, 0.28);
+            height: 24px;
+            background: rgba(255, 255, 255, 0.22);
           }
 
           .toolbar-icon {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             display: inline-grid;
             place-items: center;
             border: 0;
-            border-radius: 6px;
+            border-radius: 50%;
             background: transparent;
-            color: #e8eaed;
+            color: #f5f5f5;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 17px;
             line-height: 1;
           }
 
-          .toolbar-icon:hover {
+          .toolbar-icon:hover,
+          .toolbar-menu:hover {
             background: rgba(255, 255, 255, 0.12);
-          }
-
-          .toolbar-spacer {
-            flex: 1;
           }
 
           .pdf-body {
             min-height: 0;
             display: grid;
             grid-template-columns: 292px minmax(0, 1fr);
-            background: #202124;
+            background: #111111;
           }
 
           .pdf-sidebar {
             min-height: 0;
             overflow: auto;
             padding: 24px 18px;
-            background: #252729;
+            background: #171717;
             border-right: 1px solid rgba(255, 255, 255, 0.08);
           }
 
@@ -239,7 +266,7 @@ export function openReportPdfPreview({
             min-height: 0;
             overflow: auto;
             padding: 24px 28px 40px;
-            background: #202124;
+            background: #111111;
           }
 
           .pdf-page {
@@ -434,38 +461,35 @@ export function openReportPdfPreview({
       <body>
         <div class="pdf-shell">
           <div class="pdf-toolbar">
-            <div class="toolbar-menu">☰</div>
-            <div class="toolbar-title">${safeTitle}</div>
-
-            <div class="toolbar-page">
-              <span class="page-box">1</span>
-              <span>/</span>
-              <span>2</span>
+            <div class="toolbar-left">
+              <div class="toolbar-menu">☰</div>
+              <div class="toolbar-title">${safeTitle}</div>
             </div>
 
-            <div class="toolbar-divider"></div>
+            <div class="toolbar-center">
+              <div class="toolbar-page">
+                <span class="page-box">1</span>
+                <span>/</span>
+                <span>2</span>
+              </div>
 
-            <button class="toolbar-icon" type="button" aria-label="Zoom out">−</button>
-            <span class="zoom-box">75%</span>
-            <button class="toolbar-icon" type="button" aria-label="Zoom in">+</button>
+              <div class="toolbar-divider"></div>
 
-            <div class="toolbar-divider"></div>
+              <button class="toolbar-icon" type="button" aria-label="Zoom out">−</button>
+              <span class="zoom-box">75%</span>
+              <button class="toolbar-icon" type="button" aria-label="Zoom in">+</button>
 
-            <button class="toolbar-icon" type="button" aria-label="Fit page">▣</button>
-            <button class="toolbar-icon" type="button" aria-label="Rotate">⟲</button>
-            <button class="toolbar-icon" type="button" aria-label="Draw">〰</button>
+              <div class="toolbar-divider"></div>
 
-            <div class="toolbar-divider"></div>
+              <button class="toolbar-icon" type="button" aria-label="Fit page">▣</button>
+              <button class="toolbar-icon" type="button" aria-label="Rotate">⟲</button>
+            </div>
 
-            <button class="toolbar-icon" type="button" aria-label="Undo">↶</button>
-            <button class="toolbar-icon" type="button" aria-label="Redo">↷</button>
-
-            <div class="toolbar-spacer"></div>
-
-            <button class="toolbar-icon" type="button" aria-label="Add">⊕</button>
-            <button class="toolbar-icon" type="button" aria-label="Download">⇩</button>
-            <button class="toolbar-icon" type="button" aria-label="Print" onclick="window.print()">⎙</button>
-            <button class="toolbar-icon" type="button" aria-label="More">⋮</button>
+            <div class="toolbar-right">
+              <button class="toolbar-icon" type="button" aria-label="Download">⇩</button>
+              <button class="toolbar-icon" type="button" aria-label="Print" onclick="window.print()">⎙</button>
+              <button class="toolbar-icon" type="button" aria-label="More">⋮</button>
+            </div>
           </div>
 
           <div class="pdf-body">
