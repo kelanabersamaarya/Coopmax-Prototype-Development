@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CheckSquare, HandCoins } from "lucide-react";
+import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
@@ -17,6 +17,7 @@ import {
   setGeneralSetting,
   SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
 } from "@/lib/generalSettingsStore";
+import PinjamanSettingsIcon from "@/components/settings/PinjamanSettingsIcon";
 
 type ToggleSetting = {
   id: string;
@@ -282,9 +283,7 @@ export default function PengaturanPinjamanTab() {
     <div className="mt-8 w-full rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
       <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
         <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
-          <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F6BFF] text-white shadow-sm">
-            <HandCoins className="h-[18px] w-[18px]" />
-          </span>
+          <PinjamanSettingsIcon />
 
           <div className="text-[15px] font-bold text-black">
             Pengaturan Pinjaman
