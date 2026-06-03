@@ -1,15 +1,22 @@
 "use client";
 
 import * as React from "react";
+import { HandCoins } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 type SettingItem = {
   id: string;
   label: string;
+  defaultValue?: boolean;
 };
 
 const settings: SettingItem[] = [
+  {
+    id: "transaksi-pendapatan-jasa-pinjaman-rc",
+    label: "Transaksi Pendapatan Jasa Pinjaman RC",
+    defaultValue: true,
+  },
   {
     id: "pinjaman",
     label: "Pinjaman",
@@ -108,7 +115,9 @@ function TogglePill({
 
 export default function PengaturanPinjamanTab() {
   const [values, setValues] = React.useState<Record<string, boolean>>(() =>
-    Object.fromEntries(settings.map((item) => [item.id, false])),
+    Object.fromEntries(
+      settings.map((item) => [item.id, item.defaultValue ?? false]),
+    ),
   );
 
   function updateValue(id: string, value: boolean) {
@@ -126,13 +135,23 @@ export default function PengaturanPinjamanTab() {
   return (
     <div className="mt-8 w-full">
       <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
+        <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
+          <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F6BFF] text-white shadow-sm">
+            <HandCoins className="h-[18px] w-[18px]" />
+          </span>
+
+          <div className="text-[13px] font-bold text-black">
+            Pengaturan Pinjaman
+          </div>
+        </div>
+
         {settings.map((item, index) => (
           <div
             key={item.id}
             className={cn(
               "grid min-h-[42px] grid-cols-[minmax(0,1fr)_72px] items-center",
               "px-[13px] text-[12px] font-normal text-black",
-              index > 0 ? "border-t border-[#D7DEE9]" : "",
+              index === 0 ? "border-t border-[#D7DEE9]" : "border-t border-[#D7DEE9]",
             )}
           >
             <div className="min-w-0 pr-4 leading-snug">{item.label}</div>
