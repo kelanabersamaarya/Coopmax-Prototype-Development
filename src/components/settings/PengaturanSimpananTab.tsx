@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CheckSquare, Landmark } from "lucide-react";
+import { CheckSquare, Wallet } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -130,8 +130,8 @@ export default function PengaturanSimpananTab() {
     <div className="mt-8 w-full rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
       <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
         <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
-          <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F6BFF] text-white shadow-sm">
-            <Landmark className="h-[18px] w-[18px]" strokeWidth={3} />
+          <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F7DF5] text-white shadow-sm">
+            <Wallet className="h-[20px] w-[20px]" strokeWidth={2.8} />
           </span>
 
           <div className="text-[15px] font-bold text-black">
