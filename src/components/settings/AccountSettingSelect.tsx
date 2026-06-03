@@ -39,7 +39,7 @@ export default function AccountSettingSelect({
     <Select value={hasValue ? value : undefined} onValueChange={onValueChange}>
       <SelectTrigger
         className={cn(
-          "relative h-[44px] w-full rounded-[8px] border-slate-300 bg-white px-3 pr-11 text-left shadow-none",
+          "relative h-[44px] w-full rounded-[8px] border-slate-300 bg-white px-3 pr-12 text-left shadow-none",
           "focus-visible:ring-0 focus-visible:ring-offset-0",
           "[&>svg]:hidden",
           triggerClassName,
@@ -47,7 +47,7 @@ export default function AccountSettingSelect({
       >
         {hasValue ? (
           <>
-            <span className="flex min-w-0 max-w-[calc(100%-2.5rem)] items-center">
+            <span className="flex min-w-0 max-w-[calc(100%-2.75rem)] items-center">
               <span
                 className={cn(
                   "inline-flex h-[28px] max-w-full items-center gap-2",
@@ -77,7 +77,12 @@ export default function AccountSettingSelect({
               tabIndex={-1}
               onPointerDown={clearValue}
               onClick={clearValue}
-              className="absolute right-3 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-[5px] text-[#002060] transition hover:bg-slate-100"
+              className={cn(
+                "absolute bottom-0 right-0 top-0",
+                "inline-flex h-full w-11 items-center justify-center",
+                "rounded-r-[8px] px-0 py-0",
+                "text-[#002060] transition hover:bg-slate-100",
+              )}
               aria-label="Clear"
               title="Clear"
             >
