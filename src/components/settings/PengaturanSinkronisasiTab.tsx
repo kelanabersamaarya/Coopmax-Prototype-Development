@@ -24,65 +24,26 @@ type SyncSetting = ToggleSyncSetting | NumberSyncSetting;
 
 const syncSettings: SyncSetting[] = [
   {
-    id: "sync-master-nasabah",
-    label: "Sinkronisasi Master Nasabah",
+    id: "sync-bank",
+    label: "Sync Bank",
     type: "toggle",
     defaultValue: true,
   },
   {
-    id: "sync-master-rekening-simpanan",
-    label: "Sinkronisasi Master Rekening Simpanan",
+    id: "sync-jenis-tagihan",
+    label: "Sync Jenis Tagihan",
     type: "toggle",
     defaultValue: true,
   },
   {
-    id: "sync-master-rekening-pinjaman",
-    label: "Sinkronisasi Master Rekening Pinjaman",
-    type: "toggle",
-    defaultValue: true,
+    id: "jumlah-hari-sync-transaksi-tabungan",
+    label: "Jumlah Hari Sync Transaksi Tabungan",
+    type: "number",
+    defaultValue: 30,
   },
   {
-    id: "sync-transaksi-simpanan",
-    label: "Sinkronisasi Transaksi Simpanan",
-    type: "toggle",
-    defaultValue: true,
-  },
-  {
-    id: "sync-transaksi-pinjaman",
-    label: "Sinkronisasi Transaksi Pinjaman",
-    type: "toggle",
-    defaultValue: true,
-  },
-  {
-    id: "sync-transaksi-deposito",
-    label: "Sinkronisasi Transaksi Deposito",
-    type: "toggle",
-  },
-  {
-    id: "sync-jurnal",
-    label: "Sinkronisasi Jurnal",
-    type: "toggle",
-  },
-  {
-    id: "sync-produk-simpanan",
-    label: "Sinkronisasi Produk Simpanan",
-    type: "toggle",
-    defaultValue: true,
-  },
-  {
-    id: "sync-produk-pinjaman",
-    label: "Sinkronisasi Produk Pinjaman",
-    type: "toggle",
-    defaultValue: true,
-  },
-  {
-    id: "sync-produk-deposito",
-    label: "Sinkronisasi Produk Deposito",
-    type: "toggle",
-  },
-  {
-    id: "jumlah-hari-sync-transaksi-simpanan",
-    label: "Jumlah Hari Sync Transaksi Simpanan",
+    id: "jumlah-hari-sync-transaksi-deposito",
+    label: "Jumlah Hari Sync Transaksi Deposito",
     type: "number",
     defaultValue: 30,
   },
@@ -93,10 +54,10 @@ const syncSettings: SyncSetting[] = [
     defaultValue: 30,
   },
   {
-    id: "jumlah-hari-sync-transaksi-deposito",
-    label: "Jumlah Hari Sync Transaksi Deposito",
+    id: "periode-tagihan-sync",
+    label: "Pengaturan berapa periode tagihan yang dapat di sync",
     type: "number",
-    defaultValue: 30,
+    defaultValue: 3,
   },
 ];
 
@@ -158,7 +119,7 @@ function NumberStepper({
           "bg-[#77839A] text-white transition hover:bg-[#6b768c]",
           "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
         )}
-        aria-label="Kurangi jumlah hari"
+        aria-label="Kurangi nilai"
         title="Kurangi"
       >
         <Minus className="h-4 w-4" strokeWidth={3} />
@@ -186,7 +147,7 @@ function NumberStepper({
           "bg-[#77839A] text-white transition hover:bg-[#6b768c]",
           "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
         )}
-        aria-label="Tambah jumlah hari"
+        aria-label="Tambah nilai"
         title="Tambah"
       >
         <Plus className="h-4 w-4" strokeWidth={3} />
