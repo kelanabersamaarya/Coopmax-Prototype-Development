@@ -97,6 +97,11 @@ const settings: SettingItem[] = [
     type: "toggle",
   },
   {
+    id: "atur-coa-jenis-biaya-produk-pinjaman",
+    label: "Atur COA Jenis Biaya pada Produk Pinjaman",
+    type: "toggle",
+  },
+  {
     id: "transaksi-pinjaman-periode-maju",
     label: "Transaksi Pinjaman Periode Maju",
     type: "toggle",
