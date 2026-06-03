@@ -57,6 +57,15 @@ type AdditionalSettingSection = {
   settings: AdditionalSetting[];
 };
 
+const accountOptions = [
+  "1.1.1.1 - Kas",
+  "1.1.1.3.2 - Simpanan Berjangka",
+  "5.1.1.1 - Beban Jasa Simpanan Sukarela/Tabungan Dari Anggota",
+  "1.3.1 - Tanah",
+  "1.1.2. - Giro",
+  "1.1.1.2.2 - Tabungan Bank",
+];
+
 const sections: AdditionalSettingSection[] = [
   {
     id: "deposito",
@@ -100,25 +109,15 @@ const sections: AdditionalSettingSection[] = [
         id: "akun-kas-operasional",
         label: "Akun Kas Operasional",
         type: "select",
-        defaultValue: "Pilih Akun Kas Operasional",
-        options: [
-          "Pilih Akun Kas Operasional",
-          "KAS OPERASIONAL",
-          "KAS TELLER",
-          "BANK OPERASIONAL",
-        ],
+        defaultValue: "1.1.1.1 - Kas",
+        options: accountOptions,
       },
       {
         id: "akun-kas-besar-skema-head-teller-teller",
         label: "Akun Kas Besar Skema Head Teller - Teller",
         type: "select",
-        defaultValue: "Pilih Akun Kas Besar",
-        options: [
-          "Pilih Akun Kas Besar",
-          "KAS BESAR",
-          "KAS HEAD TELLER",
-          "KAS TRANSIT TELLER",
-        ],
+        defaultValue: "1.1.1.1 - Kas",
+        options: accountOptions,
       },
     ],
   },
@@ -394,12 +393,12 @@ export default function PengaturanTambahanTab() {
     "text-left text-[12px] font-normal text-black shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&_[data-slot=select-value]]:min-w-0",
-    "[&_[data-slot=select-value]]:whitespace-nowrap",
+    "[&_[data-slot=select-value]]:truncate",
     "[&_[data-slot=select-value]]:text-left",
   );
 
   const selectContentClassName = cn(
-    "min-w-[320px] rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
+    "min-w-[520px] rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.left-2]:hidden",
@@ -410,6 +409,7 @@ export default function PengaturanTambahanTab() {
 
   const selectItemClassName = cn(
     "rounded-none px-4 py-2.5 text-[13px] font-normal text-black",
+    "transition-colors",
     "hover:bg-violet-600 hover:text-white",
     "focus:bg-violet-600 focus:text-white",
     "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
