@@ -46,6 +46,35 @@ export function openReportPrintPreview() {
           text-align: center !important;
         }
 
+        body.dyad-print-report .report-print-header {
+          display: block !important;
+          width: 100% !important;
+          border-bottom: 0 !important;
+          padding-bottom: 0 !important;
+          margin-bottom: 12px !important;
+          text-align: center !important;
+        }
+
+        body.dyad-print-report .report-print-header .report-header-line-thick {
+          display: block !important;
+          visibility: visible !important;
+          width: 100% !important;
+          height: 2px !important;
+          margin-top: 8px !important;
+          background: #111827 !important;
+          border: 0 !important;
+        }
+
+        body.dyad-print-report .report-print-header .report-header-line-thin {
+          display: block !important;
+          visibility: visible !important;
+          width: 100% !important;
+          height: 1px !important;
+          margin-top: 2px !important;
+          background: #111827 !important;
+          border: 0 !important;
+        }
+
         body.dyad-print-report .no-print,
         body.dyad-print-report .print-hide,
         body.dyad-print-report .print-hide * {

@@ -63,7 +63,9 @@ export default function ReportPrintHeader({
       </div>
 
       <div
+        className="report-header-line-thick"
         style={{
+          display: "block",
           width: "100%",
           height: "2px",
           background: "#111827",
@@ -71,7 +73,9 @@ export default function ReportPrintHeader({
         }}
       />
       <div
+        className="report-header-line-thin"
         style={{
+          display: "block",
           width: "100%",
           height: "1px",
           background: "#111827",

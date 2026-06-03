@@ -12,7 +12,7 @@ export default function ProductivityPrintStyles() {
           margin-bottom: 12px !important;
         }
 
-        .productivity-report-print-content .report-print-header > div:nth-last-child(2) {
+        .productivity-report-print-content .report-print-header .report-header-line-thick {
           display: block !important;
           height: 2px !important;
           width: 100% !important;
@@ -20,7 +20,7 @@ export default function ProductivityPrintStyles() {
           background: #111827 !important;
         }
 
-        .productivity-report-print-content .report-print-header > div:nth-last-child(1) {
+        .productivity-report-print-content .report-print-header .report-header-line-thin {
           display: block !important;
           height: 1px !important;
           width: 100% !important;
@@ -35,7 +35,7 @@ export default function ProductivityPrintStyles() {
             margin-bottom: 12px !important;
           }
 
-          .productivity-report-print-content .report-print-header > div:nth-last-child(2) {
+          .productivity-report-print-content .report-print-header .report-header-line-thick {
             display: block !important;
             height: 2px !important;
             width: 100% !important;
@@ -43,7 +43,7 @@ export default function ProductivityPrintStyles() {
             background: #111827 !important;
           }
 
-          .productivity-report-print-content .report-print-header > div:nth-last-child(1) {
+          .productivity-report-print-content .report-print-header .report-header-line-thin {
             display: block !important;
             height: 1px !important;
             width: 100% !important;
