@@ -238,12 +238,15 @@ export default function PengaturanPinjamanTab() {
 
   const selectTriggerClass = cn(
     "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
-    "text-[12px] font-normal text-black shadow-none",
+    "text-left text-[12px] font-normal text-black shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&_[data-slot=select-value]]:min-w-0",
+    "[&_[data-slot=select-value]]:whitespace-nowrap",
+    "[&_[data-slot=select-value]]:text-left",
   );
 
   const selectContentClass = cn(
-    "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
+    "min-w-[360px] rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.right-2]:hidden",
@@ -280,13 +283,13 @@ export default function PengaturanPinjamanTab() {
           <div
             key={item.id}
             className={cn(
-              "grid min-h-[42px] grid-cols-[minmax(0,1fr)_minmax(72px,220px)] items-center",
+              "grid min-h-[42px] grid-cols-[minmax(0,1fr)_minmax(300px,380px)] items-center",
               "border-t border-[#D7DEE9] px-[13px] text-[12px] font-normal text-black",
             )}
           >
             <div className="min-w-0 pr-4 leading-snug">{item.label}</div>
 
-            <div className="flex justify-end">
+            <div className="flex min-w-0 justify-end">
               {item.type === "toggle" ? (
                 <TogglePill
                   checked={toggleValues[item.id] ?? false}
