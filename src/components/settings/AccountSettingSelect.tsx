@@ -39,18 +39,18 @@ export default function AccountSettingSelect({
     <Select value={hasValue ? value : undefined} onValueChange={onValueChange}>
       <SelectTrigger
         className={cn(
-          "h-[44px] w-full rounded-[8px] border-slate-300 bg-white px-3 text-left shadow-none",
+          "relative h-[44px] w-full rounded-[8px] border-slate-300 bg-white px-3 pr-11 text-left shadow-none",
           "focus-visible:ring-0 focus-visible:ring-offset-0",
           "[&>svg]:hidden",
           triggerClassName,
         )}
       >
-        <span className="flex min-w-0 flex-1 items-center justify-between gap-3">
-          {hasValue ? (
-            <span className="flex min-w-0 flex-1 items-center">
+        {hasValue ? (
+          <>
+            <span className="flex min-w-0 max-w-[calc(100%-2.5rem)] items-center">
               <span
                 className={cn(
-                  "inline-flex h-[28px] max-w-[calc(100%-2.25rem)] items-center gap-2",
+                  "inline-flex h-[28px] max-w-full items-center gap-2",
                   "rounded-none bg-[#635BFF] px-3 text-white",
                 )}
               >
@@ -71,28 +71,28 @@ export default function AccountSettingSelect({
                 </span>
               </span>
             </span>
-          ) : (
-            <span className="truncate text-[12px] font-normal text-[#64748B]">
-              {placeholder}
-            </span>
-          )}
 
-          {hasValue ? (
             <span
               role="button"
               tabIndex={-1}
               onPointerDown={clearValue}
               onClick={clearValue}
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px] text-[#002060] transition hover:bg-slate-100"
+              className="absolute right-3 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-[5px] text-[#002060] transition hover:bg-slate-100"
               aria-label="Clear"
               title="Clear"
             >
               <X className="h-5 w-5" strokeWidth={3} />
             </span>
-          ) : (
-            <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
-          )}
-        </span>
+          </>
+        ) : (
+          <>
+            <span className="truncate text-[12px] font-normal text-[#64748B]">
+              {placeholder}
+            </span>
+
+            <ChevronDown className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 shrink-0 text-slate-500" />
+          </>
+        )}
       </SelectTrigger>
 
       <SelectContent
