@@ -72,6 +72,7 @@ const settings: SettingItem[] = [
     defaultValue: "Tanggal Pinjaman Realisasi / Pencairan",
     options: [
       "Tanggal Pinjaman Realisasi / Pencairan",
+      "Tanggal Pinjaman Realisasi",
       "Tanggal Pinjaman",
       "Tanggal Disetujui",
     ],
@@ -230,6 +231,11 @@ export default function PengaturanPinjamanTab() {
     // Prototype save action intentionally silent.
   }
 
+  function getSafeSelectValue(item: SelectSetting) {
+    const currentValue = selectValues[item.id] ?? item.defaultValue;
+    return item.options.includes(currentValue) ? currentValue : item.defaultValue;
+  }
+
   const selectTriggerClass = cn(
     "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
     "text-[12px] font-normal text-black shadow-none",
@@ -290,7 +296,7 @@ export default function PengaturanPinjamanTab() {
 
               {item.type === "select" ? (
                 <Select
-                  value={selectValues[item.id] ?? item.defaultValue}
+                  value={getSafeSelectValue(item)}
                   onValueChange={(value) => {
                     setSelectValues((current) => ({
                       ...current,
