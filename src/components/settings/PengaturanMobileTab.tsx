@@ -4,17 +4,28 @@ import * as React from "react";
 import { CheckSquare, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
-type MobileSetting = {
+type ToggleMobileSetting = {
   id: string;
   label: string;
+  type: "toggle";
   defaultValue?: boolean;
 };
+
+type FieldMobileSetting = {
+  id: string;
+  label: string;
+  type: "field";
+  defaultValue?: string;
+  placeholder?: string;
+};
+
+type MobileSetting = ToggleMobileSetting | FieldMobileSetting;
 
 type MobileSection = {
   id: string;
   title: string;
-  icon: React.ComponentType<{ className?: string }>;
   settings: MobileSetting[];
 };
 
@@ -22,26 +33,23 @@ const mobileSections: MobileSection[] = [
   {
     id: "mobile-banking",
     title: "Pengaturan Mobile Banking",
-    icon: Smartphone,
     settings: [
       {
-        id: "mobile-banking-active",
-        label: "Aktifkan Mobile Banking",
-        defaultValue: true,
+        id: "versi-m-banking",
+        label: "Versi m-Banking",
+        type: "field",
+        defaultValue: "3.3.0|3.4.0|3.5.0",
       },
       {
-        id: "mobile-banking-transfer",
-        label: "Transfer Antar Rekening",
-        defaultValue: true,
+        id: "versi-m-banking-ios",
+        label: "Versi m-Banking IOS",
+        type: "field",
+        defaultValue: "3.3.0|3.4.0|3.5.0",
       },
       {
-        id: "mobile-banking-pembayaran-pinjaman",
-        label: "Pembayaran Pinjaman via Mobile Banking",
-        defaultValue: true,
-      },
-      {
-        id: "mobile-banking-pendaftaran-online",
-        label: "Pendaftaran Nasabah Online",
+        id: "akumulasi-hutang-pokok-m-banking",
+        label: "Akumulasi Hutang Pokok M-Banking",
+        type: "toggle",
         defaultValue: false,
       },
     ],
@@ -49,26 +57,23 @@ const mobileSections: MobileSection[] = [
   {
     id: "e-kolektor",
     title: "Pengaturan E-Kolektor",
-    icon: Smartphone,
     settings: [
       {
-        id: "e-kolektor-active",
-        label: "Aktifkan E-Kolektor",
-        defaultValue: true,
+        id: "versi-e-collector",
+        label: "Versi e-Collector",
+        type: "field",
+        defaultValue: "3.3.0|3.4.0|3.5.0",
       },
       {
-        id: "e-kolektor-gps",
-        label: "Wajib Menggunakan Lokasi GPS Saat Transaksi",
-        defaultValue: true,
+        id: "versi-e-collector-ios",
+        label: "Versi e-Collector IOS",
+        type: "field",
+        defaultValue: "3.3.0|3.4.0|3.5.0",
       },
       {
-        id: "e-kolektor-riwayat",
-        label: "Tampilkan Riwayat Tagihan Nasabah",
-        defaultValue: true,
-      },
-      {
-        id: "e-kolektor-offline",
-        label: "Izinkan Transaksi Mode Offline",
+        id: "akumulasi-hutang-pokok-e-collector",
+        label: "Akumulasi Hutang Pokok E-Collector",
+        type: "toggle",
         defaultValue: false,
       },
     ],
@@ -76,27 +81,20 @@ const mobileSections: MobileSection[] = [
   {
     id: "mobile-mitra",
     title: "Pengaturan Mobile Mitra",
-    icon: Smartphone,
     settings: [
       {
-        id: "mobile-mitra-active",
-        label: "Aktifkan Mobile Mitra",
-        defaultValue: true,
+        id: "versi-mitra",
+        label: "Versi Mitra",
+        type: "field",
+        defaultValue: "",
+        placeholder: "Masukkan Nilai",
       },
       {
-        id: "mobile-mitra-pengajuan",
-        label: "Pengajuan Nasabah oleh Mitra",
-        defaultValue: true,
-      },
-      {
-        id: "mobile-mitra-verifikasi",
-        label: "Verifikasi Data Nasabah oleh Mitra",
-        defaultValue: false,
-      },
-      {
-        id: "mobile-mitra-monitoring",
-        label: "Monitoring Status Pengajuan Mitra",
-        defaultValue: true,
+        id: "versi-mitra-ios",
+        label: "Versi Mitra IOS",
+        type: "field",
+        defaultValue: "",
+        placeholder: "Masukkan Nilai",
       },
     ],
   },
@@ -140,19 +138,37 @@ function TogglePill({
 }
 
 export default function PengaturanMobileTab() {
-  const [values, setValues] = React.useState<Record<string, boolean>>(() =>
-    Object.fromEntries(
-      mobileSections.flatMap((section) =>
-        section.settings.map((setting) => [
-          setting.id,
-          setting.defaultValue ?? false,
-        ]),
+  const [toggleValues, setToggleValues] = React.useState<Record<string, boolean>>(
+    () =>
+      Object.fromEntries(
+        mobileSections.flatMap((section) =>
+          section.settings
+            .filter((setting): setting is ToggleMobileSetting => setting.type === "toggle")
+            .map((setting) => [setting.id, setting.defaultValue ?? false]),
+        ),
       ),
-    ),
   );
 
-  function updateValue(id: string, value: boolean) {
-    setValues((current) => ({
+  const [fieldValues, setFieldValues] = React.useState<Record<string, string>>(
+    () =>
+      Object.fromEntries(
+        mobileSections.flatMap((section) =>
+          section.settings
+            .filter((setting): setting is FieldMobileSetting => setting.type === "field")
+            .map((setting) => [setting.id, setting.defaultValue ?? ""]),
+        ),
+      ),
+  );
+
+  function updateToggle(id: string, value: boolean) {
+    setToggleValues((current) => ({
+      ...current,
+      [id]: value,
+    }));
+  }
+
+  function updateField(id: string, value: string) {
+    setFieldValues((current) => ({
       ...current,
       [id]: value,
     }));
@@ -165,50 +181,62 @@ export default function PengaturanMobileTab() {
     });
   }
 
+  const inputClassName = cn(
+    "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
+    "text-[12px] font-normal text-black shadow-none",
+    "placeholder:text-[#64748B]",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
   return (
     <div className="mt-8 w-full rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
       <div className="grid gap-[15px]">
-        {mobileSections.map((section) => {
-          const Icon = section.icon;
+        {mobileSections.map((section) => (
+          <div
+            key={section.id}
+            className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white"
+          >
+            <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
+              <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F7DF5] text-white shadow-sm">
+                <Smartphone className="h-[20px] w-[20px]" strokeWidth={2.8} />
+              </span>
 
-          return (
-            <div
-              key={section.id}
-              className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white"
-            >
-              <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
-                <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F7DF5] text-white shadow-sm">
-                  <Icon className="h-[20px] w-[20px]" strokeWidth={2.8} />
-                </span>
+              <div className="text-[15px] font-bold text-black">
+                {section.title}
+              </div>
+            </div>
 
-                <div className="text-[15px] font-bold text-black">
-                  {section.title}
+            {section.settings.map((setting) => (
+              <div
+                key={setting.id}
+                className={cn(
+                  "grid min-h-[42px] grid-cols-[minmax(0,1fr)_minmax(300px,380px)] items-center",
+                  "border-t border-[#D7DEE9] px-[13px] text-[12px] font-normal text-black",
+                )}
+              >
+                <div className="min-w-0 pr-4 leading-snug">{setting.label}</div>
+
+                <div className="flex min-w-0 justify-end">
+                  {setting.type === "toggle" ? (
+                    <TogglePill
+                      checked={toggleValues[setting.id] ?? false}
+                      onChange={(value) => updateToggle(setting.id, value)}
+                    />
+                  ) : (
+                    <Input
+                      value={fieldValues[setting.id] ?? ""}
+                      onChange={(event) =>
+                        updateField(setting.id, event.target.value)
+                      }
+                      placeholder={setting.placeholder}
+                      className={inputClassName}
+                    />
+                  )}
                 </div>
               </div>
-
-              {section.settings.map((setting) => (
-                <div
-                  key={setting.id}
-                  className={cn(
-                    "grid min-h-[42px] grid-cols-[minmax(0,1fr)_minmax(120px,180px)] items-center",
-                    "border-t border-[#D7DEE9] px-[13px] text-[12px] font-normal text-black",
-                  )}
-                >
-                  <div className="min-w-0 pr-4 leading-snug">
-                    {setting.label}
-                  </div>
-
-                  <div className="flex min-w-0 justify-end">
-                    <TogglePill
-                      checked={values[setting.id] ?? false}
-                      onChange={(value) => updateValue(setting.id, value)}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          );
-        })}
+            ))}
+          </div>
+        ))}
       </div>
 
       <div className="mt-[15px] flex justify-end">
