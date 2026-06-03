@@ -51,7 +51,7 @@ export default function PengaturanHeader({
                   "h-[49px] rounded-full px-5 text-[12px] font-semibold transition",
                   active
                     ? "bg-[#635BFF] text-white"
-                    : "bg-transparent text-[#53657d] hover:bg-white/70 hover:text-[#002060]",
+                    : "bg-transparent text-[#53657d] hover:bg-transparent hover:text-[#002060]",
                 )}
               >
                 {tab}
