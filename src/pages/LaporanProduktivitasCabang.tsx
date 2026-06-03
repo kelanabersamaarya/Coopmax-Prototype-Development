@@ -70,7 +70,7 @@ export default function LaporanProduktivitasCabang() {
 
   const reportTitle =
     jenisLaporan === "Detail NPL"
-      ? "Detail NPL Produktivitas Cabang"
+      ? "Detail NPL Cabang"
       : "Laporan Produktivitas Cabang";
 
   function handlePrint() {

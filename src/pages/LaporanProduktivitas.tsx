@@ -68,7 +68,7 @@ export default function LaporanProduktivitas() {
 
   const reportTitle =
     jenisLaporan === "Detail NPL"
-      ? "Detail NPL Produktivitas Konsolidasi"
+      ? "Detail NPL Konsolidasi"
       : "Laporan Produktivitas Konsolidasi";
 
   function handlePrint() {
