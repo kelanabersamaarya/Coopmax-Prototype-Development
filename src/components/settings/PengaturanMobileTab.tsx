@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CheckSquare, Smartphone, UsersRound, WalletCards } from "lucide-react";
+import { CheckSquare, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -49,7 +49,7 @@ const mobileSections: MobileSection[] = [
   {
     id: "e-kolektor",
     title: "Pengaturan E-Kolektor",
-    icon: WalletCards,
+    icon: Smartphone,
     settings: [
       {
         id: "e-kolektor-active",
@@ -76,7 +76,7 @@ const mobileSections: MobileSection[] = [
   {
     id: "mobile-mitra",
     title: "Pengaturan Mobile Mitra",
-    icon: UsersRound,
+    icon: Smartphone,
     settings: [
       {
         id: "mobile-mitra-active",
