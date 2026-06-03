@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import DetailPinjamanReportTable from "@/components/laporan/DetailPinjamanReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
+import ReportPrintHeader from "@/components/laporan/ReportPrintHeader";
 import { openReportPrintPreview } from "@/utils/print-report";
 import {
   openBlankReportPdfPreview,
@@ -69,6 +70,8 @@ export default function LaporanDetailPinjaman() {
   const [namaNoRek, setNamaNoRek] = React.useState("");
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [showReport, setShowReport] = React.useState(false);
+
+  const printedAt = React.useMemo(() => new Date().toLocaleDateString("id-ID"), []);
 
   function handlePrint() {
     setShowReport(true);
@@ -215,33 +218,10 @@ export default function LaporanDetailPinjaman() {
 
         {showReport ? (
           <div className="print-report-area">
-            <div
-              className="hidden print-only mb-4"
-              style={{
-                display: "none",
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              <div
-                className="text-[12px] font-semibold text-slate-900"
-                style={{ textAlign: "center" }}
-              >
-                KOPERASI COOPMAX
-              </div>
-              <div
-                className="mt-2 text-[16px] font-extrabold uppercase tracking-wide text-slate-900"
-                style={{ textAlign: "center" }}
-              >
-                Laporan Portofolio Pinjaman Konsolidasi
-              </div>
-              <div
-                className="mt-1 text-[11px] text-slate-600"
-                style={{ textAlign: "center" }}
-              >
-                Dicetak pada {new Date().toLocaleDateString("id-ID")}
-              </div>
-            </div>
+            <ReportPrintHeader
+              title="Laporan Portofolio Pinjaman Konsolidasi"
+              printedAt={printedAt}
+            />
 
             <DetailPinjamanReportTable
               selectedCabangPembukaanRekening={selectedCabang}
