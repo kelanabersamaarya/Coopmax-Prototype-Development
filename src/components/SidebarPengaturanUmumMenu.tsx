@@ -5,44 +5,80 @@ import { NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, Wrench } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+type SubItem = {
+  label: string;
+  to: string;
+};
+
+const items: SubItem[] = [{ label: "Pengaturan", to: "/pengaturan-umum" }];
+
 export default function SidebarPengaturanUmumMenu() {
   const location = useLocation();
   const isActive = location.pathname.startsWith("/pengaturan-umum");
+  const [open, setOpen] = React.useState<boolean>(isActive);
+
+  React.useEffect(() => {
+    if (isActive) setOpen(true);
+  }, [isActive]);
 
   return (
-    <NavLink
-      to="/pengaturan-umum"
-      className={cn(
-        "group relative flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left transition",
-        isActive
-          ? "bg-violet-50 text-violet-700 ring-1 ring-violet-100"
-          : "bg-white text-slate-900 hover:bg-slate-50",
-      )}
-      aria-current={isActive ? "page" : undefined}
-    >
-      {isActive ? (
-        <span className="absolute left-0 top-1/2 h-9 w-1 -translate-y-1/2 rounded-r-full bg-violet-600" />
-      ) : null}
-
-      <span
+    <div className="rounded-2xl bg-white">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-8 w-8 items-center justify-center rounded-2xl",
-          isActive ? "bg-violet-50 text-violet-700" : "bg-slate-100 text-slate-700",
+          "group flex w-full items-center gap-2.5 rounded-2xl px-2.5 py-2.5 text-left transition",
+          isActive
+            ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200"
+            : "bg-white text-slate-900 hover:bg-slate-50",
+        )}
+        aria-expanded={open}
+      >
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
+          <Wrench className="h-4.5 w-4.5" />
+        </span>
+
+        <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
+          Pengaturan Umum
+        </span>
+
+        <ChevronDown
+          className={cn(
+            "h-4.5 w-4.5 text-slate-400 transition",
+            open ? "rotate-180" : "rotate-0",
+          )}
+        />
+      </button>
+
+      <div
+        className={cn(
+          "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
         )}
       >
-        <Wrench className="h-4.5 w-4.5" />
-      </span>
-
-      <span className="min-w-0 flex-1 truncate text-[13px] font-semibold">
-        Pengaturan Umum
-      </span>
-
-      <ChevronDown
-        className={cn(
-          "h-4.5 w-4.5 transition",
-          isActive ? "text-violet-300" : "text-slate-400 group-hover:text-slate-500",
-        )}
-      />
-    </NavLink>
+        <div className="min-h-0">
+          <div className="px-2.5 pb-2 pt-2">
+            <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
+              {items.map((item) => (
+                <NavLink
+                  key={item.label}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    cn(
+                      "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                      isActive
+                        ? "bg-violet-600 text-white"
+                        : "text-slate-800 hover:bg-slate-50",
+                    )
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
