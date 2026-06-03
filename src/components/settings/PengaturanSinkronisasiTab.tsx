@@ -72,8 +72,19 @@ const syncSettings: SyncSetting[] = [
     id: "periode-tagihan-sync",
     label: "Pengaturan berapa periode tagihan yang dapat di sync",
     type: "select",
-    defaultValue: "3",
-    options: ["1", "2", "3", "4", "5", "6", "12"],
+    defaultValue: "3 Bulan",
+    options: [
+      "3 Bulan",
+      "4 Bulan",
+      "5 Bulan",
+      "6 Bulan",
+      "7 Bulan",
+      "8 Bulan",
+      "9 Bulan",
+      "10 Bulan",
+      "11 Bulan",
+      "12 Bulan",
+    ],
   },
 ];
 
