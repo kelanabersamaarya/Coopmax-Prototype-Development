@@ -145,9 +145,6 @@ export default function Index() {
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
 
-                          {/* Pengaturan Umum */}
-                          <SidebarPengaturanUmumMenu />
-
                           {/* Anggota (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarAnggotaMenu /> : null}
 
@@ -159,6 +156,9 @@ export default function Index() {
 
                           {/* Laporan (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarLaporanMenu /> : null}
+
+                          {/* Pengaturan Umum */}
+                          <SidebarPengaturanUmumMenu />
 
                           {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
                           {g.items
