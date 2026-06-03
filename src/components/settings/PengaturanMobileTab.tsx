@@ -143,7 +143,10 @@ export default function PengaturanMobileTab() {
       Object.fromEntries(
         mobileSections.flatMap((section) =>
           section.settings
-            .filter((setting): setting is ToggleMobileSetting => setting.type === "toggle")
+            .filter(
+              (setting): setting is ToggleMobileSetting =>
+                setting.type === "toggle",
+            )
             .map((setting) => [setting.id, setting.defaultValue ?? false]),
         ),
       ),
@@ -154,7 +157,10 @@ export default function PengaturanMobileTab() {
       Object.fromEntries(
         mobileSections.flatMap((section) =>
           section.settings
-            .filter((setting): setting is FieldMobileSetting => setting.type === "field")
+            .filter(
+              (setting): setting is FieldMobileSetting =>
+                setting.type === "field",
+            )
             .map((setting) => [setting.id, setting.defaultValue ?? ""]),
         ),
       ),
@@ -196,7 +202,7 @@ export default function PengaturanMobileTab() {
             key={section.id}
             className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white"
           >
-            <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
+            <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px] py-[10px]">
               <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F7DF5] text-white shadow-sm">
                 <Smartphone className="h-[20px] w-[20px]" strokeWidth={2.8} />
               </span>
@@ -210,11 +216,13 @@ export default function PengaturanMobileTab() {
               <div
                 key={setting.id}
                 className={cn(
-                  "grid min-h-[42px] grid-cols-[minmax(0,1fr)_minmax(300px,380px)] items-center",
-                  "border-t border-[#D7DEE9] px-[13px] text-[12px] font-normal text-black",
+                  "grid min-h-[50px] grid-cols-[minmax(0,1fr)_minmax(300px,380px)] items-center",
+                  "border-t border-[#D7DEE9] px-[13px] py-[8px] text-[12px] font-normal text-black",
                 )}
               >
-                <div className="min-w-0 pr-4 leading-snug">{setting.label}</div>
+                <div className="min-w-0 pr-4 leading-relaxed">
+                  {setting.label}
+                </div>
 
                 <div className="flex min-w-0 justify-end">
                   {setting.type === "toggle" ? (
