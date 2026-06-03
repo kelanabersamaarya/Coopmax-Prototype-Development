@@ -7,6 +7,7 @@ import LaporanProduktivitasReportTable from "@/components/laporan/LaporanProdukt
 import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
 import ReportPrintHeader from "@/components/laporan/ReportPrintHeader";
+import ProductivityPrintStyles from "@/components/laporan/ProductivityPrintStyles";
 import { openReportPrintPreview } from "@/utils/print-report";
 import {
   openBlankReportPdfPreview,
@@ -222,22 +223,26 @@ export default function LaporanProduktivitas() {
 
         {showReport ? (
           <div className="print-report-area">
-            <ReportPrintHeader title={reportTitle} printedAt={printedAt} />
+            <div className="productivity-report-print-content">
+              <ProductivityPrintStyles />
 
-            {jenisLaporan === "Laporan Produktivitas" ? (
-              <LaporanProduktivitasReportTable
-                selectedCabangAo={selectedCabangAo}
-                selectedKolektorAo={selectedKolektorAo}
-              />
-            ) : null}
+              <ReportPrintHeader title={reportTitle} printedAt={printedAt} />
 
-            {jenisLaporan === "Detail NPL" ? (
-              <DetailNplReportTable
-                showCabangAo
-                selectedCabangAo={selectedCabangAo}
-                selectedKolektorAo={selectedKolektorAo}
-              />
-            ) : null}
+              {jenisLaporan === "Laporan Produktivitas" ? (
+                <LaporanProduktivitasReportTable
+                  selectedCabangAo={selectedCabangAo}
+                  selectedKolektorAo={selectedKolektorAo}
+                />
+              ) : null}
+
+              {jenisLaporan === "Detail NPL" ? (
+                <DetailNplReportTable
+                  showCabangAo
+                  selectedCabangAo={selectedCabangAo}
+                  selectedKolektorAo={selectedKolektorAo}
+                />
+              ) : null}
+            </div>
           </div>
         ) : null}
 

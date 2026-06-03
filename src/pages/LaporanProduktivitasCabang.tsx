@@ -7,6 +7,7 @@ import LaporanProduktivitasCabangReportTable from "@/components/laporan/LaporanP
 import DetailNplReportTable from "@/components/laporan/DetailNplReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
 import ReportPrintHeader from "@/components/laporan/ReportPrintHeader";
+import ProductivityPrintStyles from "@/components/laporan/ProductivityPrintStyles";
 import { openReportPrintPreview } from "@/utils/print-report";
 import {
   openBlankReportPdfPreview,
@@ -210,20 +211,24 @@ export default function LaporanProduktivitasCabang() {
 
         {showReport ? (
           <div className="print-report-area">
-            <ReportPrintHeader title={reportTitle} printedAt={printedAt} />
+            <div className="productivity-report-print-content">
+              <ProductivityPrintStyles />
 
-            {jenisLaporan === "Laporan Produktivitas" ? (
-              <LaporanProduktivitasCabangReportTable
-                selectedKolektorAo={selectedKolektorAo}
-              />
-            ) : null}
+              <ReportPrintHeader title={reportTitle} printedAt={printedAt} />
 
-            {jenisLaporan === "Detail NPL" ? (
-              <DetailNplReportTable
-                showCabangAo
-                selectedKolektorAo={selectedKolektorAo}
-              />
-            ) : null}
+              {jenisLaporan === "Laporan Produktivitas" ? (
+                <LaporanProduktivitasCabangReportTable
+                  selectedKolektorAo={selectedKolektorAo}
+                />
+              ) : null}
+
+              {jenisLaporan === "Detail NPL" ? (
+                <DetailNplReportTable
+                  showCabangAo
+                  selectedKolektorAo={selectedKolektorAo}
+                />
+              ) : null}
+            </div>
           </div>
         ) : null}
 
