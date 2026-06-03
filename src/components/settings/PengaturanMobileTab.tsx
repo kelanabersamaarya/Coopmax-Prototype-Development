@@ -160,21 +160,22 @@ export default function PengaturanMobileTab() {
 
   function saveSettings() {
     toast.success("Pengaturan mobile tersimpan", {
-      description: "Pengaturan Mobile Banking, E-Kolektor, dan Mobile Mitra diperbarui.",
+      description:
+        "Pengaturan Mobile Banking, E-Kolektor, dan Mobile Mitra diperbarui.",
     });
   }
 
   return (
-    <div className="mt-8 grid gap-[15px]">
-      {mobileSections.map((section) => {
-        const Icon = section.icon;
+    <div className="mt-8 w-full rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
+      <div className="grid gap-[15px]">
+        {mobileSections.map((section) => {
+          const Icon = section.icon;
 
-        return (
-          <div
-            key={section.id}
-            className="w-full rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]"
-          >
-            <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
+          return (
+            <div
+              key={section.id}
+              className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white"
+            >
               <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
                 <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F7DF5] text-white shadow-sm">
                   <Icon className="h-[20px] w-[20px]" strokeWidth={2.8} />
@@ -193,7 +194,9 @@ export default function PengaturanMobileTab() {
                     "border-t border-[#D7DEE9] px-[13px] text-[12px] font-normal text-black",
                   )}
                 >
-                  <div className="min-w-0 pr-4 leading-snug">{setting.label}</div>
+                  <div className="min-w-0 pr-4 leading-snug">
+                    {setting.label}
+                  </div>
 
                   <div className="flex min-w-0 justify-end">
                     <TogglePill
@@ -204,11 +207,11 @@ export default function PengaturanMobileTab() {
                 </div>
               ))}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
 
-      <div className="flex justify-end">
+      <div className="mt-[15px] flex justify-end">
         <button
           type="button"
           onClick={saveSettings}
