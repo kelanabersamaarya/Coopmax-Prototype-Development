@@ -29,6 +29,7 @@ import LaporanDetailPinjaman from "./pages/LaporanDetailPinjaman";
 import LaporanPortofolioPinjamanCabang from "./pages/LaporanPortofolioPinjamanCabang";
 import LaporanProduktivitas from "./pages/LaporanProduktivitas";
 import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
+import PengaturanUmum from "./pages/PengaturanUmum";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/" element={<Index />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="pengaturan-umum" element={<PengaturanUmum />} />
             <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
             <Route path="obs-samudra-harta/:id" element={<ObsSamudraHartaDetail />} />
             <Route path="obs-web" element={<ObsWeb />} />

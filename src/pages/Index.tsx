@@ -6,6 +6,7 @@ import SidebarAnggotaMenu from "@/components/SidebarAnggotaMenu";
 import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
 import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
 import SidebarObsMenu from "@/components/SidebarObsMenu";
+import SidebarPengaturanUmumMenu from "@/components/SidebarPengaturanUmumMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -28,6 +29,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 const implementedRoutes = new Set([
   "/dashboard",
   "/obs-samudra-harta",
+  "/pengaturan-umum",
   "/loan-products",
   "/loan-products/new",
   "/loans/new",
@@ -142,6 +144,9 @@ export default function Index() {
                         <div className="space-y-1 px-2">
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
+
+                          {/* Pengaturan Umum */}
+                          <SidebarPengaturanUmumMenu />
 
                           {/* Anggota (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarAnggotaMenu /> : null}
