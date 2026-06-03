@@ -252,10 +252,6 @@ export function openReportPdfPreview({
             padding: 12px;
           }
 
-          .pdf-page + .pdf-page {
-            margin-top: 28px;
-          }
-
           .empty-state {
             min-height: 320px;
             display: grid;
@@ -296,13 +292,19 @@ export function openReportPdfPreview({
 
           .pdf-page .rounded-\\[5px\\],
           .pdf-page .rounded-2xl,
-          .pdf-page .rounded-3xl {
+          .pdf-page .rounded-3xl,
+          .thumb-page .rounded-\\[5px\\],
+          .thumb-page .rounded-2xl,
+          .thumb-page .rounded-3xl {
             border-radius: 0 !important;
           }
 
           .pdf-page .shadow-sm,
           .pdf-page .shadow,
-          .pdf-page .shadow-xl {
+          .pdf-page .shadow-xl,
+          .thumb-page .shadow-sm,
+          .thumb-page .shadow,
+          .thumb-page .shadow-xl {
             box-shadow: none !important;
           }
 
@@ -313,6 +315,18 @@ export function openReportPdfPreview({
             max-width: 100% !important;
             table-layout: fixed !important;
             border-collapse: collapse !important;
+            border: 1px solid #94a3b8 !important;
+          }
+
+          .pdf-page thead,
+          .thumb-page thead {
+            display: table-header-group !important;
+          }
+
+          .pdf-page tr,
+          .thumb-page tr {
+            break-inside: avoid;
+            break-after: auto;
           }
 
           .pdf-page th,
@@ -330,12 +344,16 @@ export function openReportPdfPreview({
             text-overflow: clip !important;
             word-break: normal !important;
             overflow-wrap: anywhere !important;
+            border: 1px solid #94a3b8 !important;
+            background-color: #ffffff !important;
+            color: #111827 !important;
           }
 
           .pdf-page th,
           .thumb-page th {
             font-weight: 700 !important;
             letter-spacing: 0 !important;
+            background-color: #f8fafc !important;
           }
 
           .pdf-page td,
