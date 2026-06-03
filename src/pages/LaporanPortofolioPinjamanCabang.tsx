@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import DetailPinjamanReportTable from "@/components/laporan/DetailPinjamanReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
+import { openReportPrintPreview } from "@/utils/print-report";
 
 function ActionPill({
   icon: Icon,
@@ -58,6 +59,11 @@ export default function LaporanPortofolioPinjamanCabang() {
   const [kolektor, setKolektor] = React.useState("-- Semua --");
   const [showReport, setShowReport] = React.useState(false);
 
+  function handlePrint() {
+    setShowReport(true);
+    window.setTimeout(() => openReportPrintPreview(), 80);
+  }
+
   const actions = [
     {
       label: "Export Excel",
@@ -72,7 +78,7 @@ export default function LaporanPortofolioPinjamanCabang() {
     {
       label: "Cetak",
       icon: Printer,
-      onClick: () => toast("Cetak (prototype)"),
+      onClick: handlePrint,
     },
   ] as const;
 
@@ -161,7 +167,23 @@ export default function LaporanPortofolioPinjamanCabang() {
           </Card>
         </div>
 
-        {showReport ? <DetailPinjamanReportTable hideCabangPembukaanRekening /> : null}
+        {showReport ? (
+          <div className="print-report-area">
+            <div className="hidden print-only mb-4 text-center">
+              <div className="text-[12px] font-semibold text-slate-900">
+                KOPERASI COOPMAX
+              </div>
+              <div className="mt-2 text-[16px] font-extrabold uppercase tracking-wide text-slate-900">
+                Laporan Portofolio Pinjaman Cabang
+              </div>
+              <div className="mt-1 text-[11px] text-slate-600">
+                Dicetak pada {new Date().toLocaleDateString("id-ID")}
+              </div>
+            </div>
+
+            <DetailPinjamanReportTable hideCabangPembukaanRekening />
+          </div>
+        ) : null}
 
         <div className="sr-only">
           {namaNoRek} {kolektor}
