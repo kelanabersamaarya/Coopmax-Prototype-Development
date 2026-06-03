@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { HandCoins } from "lucide-react";
+import { CheckSquare, HandCoins } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
@@ -210,6 +210,12 @@ export default function PengaturanPinjamanTab() {
     });
   }
 
+  function saveSettings() {
+    toast.success("Pengaturan berhasil disimpan", {
+      description: "Perubahan pengaturan pinjaman sudah tersimpan di prototype.",
+    });
+  }
+
   const selectTriggerClass = cn(
     "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
     "text-[12px] font-normal text-black shadow-none",
@@ -321,6 +327,22 @@ export default function PengaturanPinjamanTab() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-[15px] flex justify-end">
+        <button
+          type="button"
+          onClick={saveSettings}
+          className={cn(
+            "inline-flex h-[28px] w-[90px] items-center justify-center gap-1.5 rounded-[6px]",
+            "bg-[#2fb300] px-2 text-[11px] font-bold tracking-tight text-white",
+            "ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#2fb300]/25",
+          )}
+        >
+          <CheckSquare className="h-4 w-4" strokeWidth={3} />
+          Simpan
+        </button>
       </div>
     </div>
   );
