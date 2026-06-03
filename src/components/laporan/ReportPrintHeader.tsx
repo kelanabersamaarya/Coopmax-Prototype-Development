@@ -67,9 +67,10 @@ export default function ReportPrintHeader({
         style={{
           display: "block",
           width: "100%",
-          height: "2px",
-          background: "#111827",
+          height: "0",
           marginTop: "8px",
+          borderTop: "2px solid #111827",
+          background: "transparent",
         }}
       />
       <div
@@ -77,9 +78,10 @@ export default function ReportPrintHeader({
         style={{
           display: "block",
           width: "100%",
-          height: "1px",
-          background: "#111827",
+          height: "0",
           marginTop: "2px",
+          borderTop: "1px solid #111827",
+          background: "transparent",
         }}
       />
     </div>

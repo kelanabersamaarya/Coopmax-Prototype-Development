@@ -14,18 +14,20 @@ export default function ProductivityPrintStyles() {
 
         .productivity-report-print-content .report-print-header .report-header-line-thick {
           display: block !important;
-          height: 2px !important;
+          height: 0 !important;
           width: 100% !important;
           margin-top: 8px !important;
-          background: #111827 !important;
+          border-top: 2px solid #111827 !important;
+          background: transparent !important;
         }
 
         .productivity-report-print-content .report-print-header .report-header-line-thin {
           display: block !important;
-          height: 1px !important;
+          height: 0 !important;
           width: 100% !important;
           margin-top: 2px !important;
-          background: #111827 !important;
+          border-top: 1px solid #111827 !important;
+          background: transparent !important;
         }
 
         @media print {
@@ -37,18 +39,20 @@ export default function ProductivityPrintStyles() {
 
           .productivity-report-print-content .report-print-header .report-header-line-thick {
             display: block !important;
-            height: 2px !important;
+            height: 0 !important;
             width: 100% !important;
             margin-top: 8px !important;
-            background: #111827 !important;
+            border-top: 2px solid #111827 !important;
+            background: transparent !important;
           }
 
           .productivity-report-print-content .report-print-header .report-header-line-thin {
             display: block !important;
-            height: 1px !important;
+            height: 0 !important;
             width: 100% !important;
             margin-top: 2px !important;
-            background: #111827 !important;
+            border-top: 1px solid #111827 !important;
+            background: transparent !important;
           }
         }
       `}
