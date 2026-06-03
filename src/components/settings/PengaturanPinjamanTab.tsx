@@ -254,7 +254,10 @@ export default function PengaturanPinjamanTab() {
     "min-w-[360px] rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
+    "[&>span.absolute.left-2]:hidden",
     "[&>span.absolute.right-2]:hidden",
+    "[&_[data-radix-collection-item]]:pl-4",
+    "[&_[data-radix-collection-item]]:pr-4",
   );
 
   const selectItemClass = cn(
@@ -263,6 +266,10 @@ export default function PengaturanPinjamanTab() {
     "focus:bg-violet-600 focus:text-white",
     "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
     "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
+    "[&_[data-radix-select-item-indicator]]:hidden",
+    "[&_[data-slot=select-item-indicator]]:hidden",
+    "[&>span.absolute.left-2]:hidden",
+    "[&>span.absolute.right-2]:hidden",
   );
 
   const inputClass = cn(
