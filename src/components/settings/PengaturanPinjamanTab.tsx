@@ -251,7 +251,7 @@ export default function PengaturanPinjamanTab() {
             <HandCoins className="h-[18px] w-[18px]" />
           </span>
 
-          <div className="text-[13px] font-bold text-black">
+          <div className="text-[15px] font-bold text-black">
             Pengaturan Pinjaman
           </div>
         </div>
