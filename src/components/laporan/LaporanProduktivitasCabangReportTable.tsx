@@ -314,7 +314,7 @@ export default function LaporanProduktivitasCabangReportTable({
           </table>
         </div>
 
-        <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="print-hide mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-[12px] text-slate-700">
             Menampilkan 1 sampai {rows.length} dari {rows.length} entri
           </div>
