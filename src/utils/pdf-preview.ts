@@ -381,6 +381,14 @@ export function openReportPdfPreview({
             font-weight: 700 !important;
             letter-spacing: 0 !important;
             background-color: #f8fafc !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+          }
+
+          .pdf-page thead th,
+          .thumb-page thead th {
+            text-align: center !important;
+            vertical-align: middle !important;
           }
 
           .pdf-page td,
