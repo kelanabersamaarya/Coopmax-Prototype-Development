@@ -94,9 +94,7 @@ const settings: SettingItem[] = [
     id: "skema-pemotongan-biaya-admin",
     label:
       "Skema Pemotongan Biaya Admin Pada Pencairan Pinjaman Tunai dan Non-tunai",
-    type: "select",
-    defaultValue: "Potong dari Plafon",
-    options: ["Potong dari Plafon", "Bayar Terpisah", "Tidak Dipotong"],
+    type: "toggle",
   },
   {
     id: "transaksi-pinjaman-periode-maju",
