@@ -348,11 +348,11 @@ export default function PengaturanPinjamanTab() {
                       }));
                     }}
                     onBlur={() => notify(item.label)}
-                    className={cn(inputClass, item.suffix ? "pr-8 text-right" : "")}
+                    className={cn(inputClass, item.suffix ? "pl-8 text-left" : "")}
                     inputMode="decimal"
                   />
                   {item.suffix ? (
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[12px] font-normal text-slate-600">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[12px] font-normal text-slate-600">
                       {item.suffix}
                     </span>
                   ) : null}
