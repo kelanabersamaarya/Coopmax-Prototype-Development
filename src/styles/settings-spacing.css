@@ -1,0 +1,15 @@
+.settings-comfortable-spacing [class*="bg-[#F7F8FC]"][class*="items-center"] {
+  min-height: 66px !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+
+.settings-comfortable-spacing [class*="border-t"][class*="border-[#D7DEE9]"][class*="grid"] {
+  min-height: 64px !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+
+.settings-comfortable-spacing [class*="border-t"][class*="border-[#D7DEE9]"][class*="grid"] > div:first-child {
+  line-height: 1.55 !important;
+}
