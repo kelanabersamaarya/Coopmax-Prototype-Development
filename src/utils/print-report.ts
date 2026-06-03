@@ -38,6 +38,12 @@ export function openReportPrintPreview() {
 
         body.dyad-print-report .print-only {
           display: block !important;
+          width: 100% !important;
+          text-align: center !important;
+        }
+
+        body.dyad-print-report .print-only * {
+          text-align: center !important;
         }
 
         body.dyad-print-report .no-print,
@@ -109,6 +115,15 @@ export function openReportPrintPreview() {
         body.dyad-print-report .print-report-area th {
           font-weight: 700 !important;
           letter-spacing: 0 !important;
+          text-align: center !important;
+          vertical-align: middle !important;
+        }
+
+        body.dyad-print-report .print-report-area thead th,
+        body.dyad-print-report .print-report-area thead th * {
+          text-align: center !important;
+          justify-content: center !important;
+          vertical-align: middle !important;
         }
 
         body.dyad-print-report .print-report-area td {

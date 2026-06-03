@@ -215,14 +215,30 @@ export default function LaporanDetailPinjaman() {
 
         {showReport ? (
           <div className="print-report-area">
-            <div className="hidden print-only mb-4 text-center">
-              <div className="text-[12px] font-semibold text-slate-900">
+            <div
+              className="hidden print-only mb-4"
+              style={{
+                display: "none",
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              <div
+                className="text-[12px] font-semibold text-slate-900"
+                style={{ textAlign: "center" }}
+              >
                 KOPERASI COOPMAX
               </div>
-              <div className="mt-2 text-[16px] font-extrabold uppercase tracking-wide text-slate-900">
+              <div
+                className="mt-2 text-[16px] font-extrabold uppercase tracking-wide text-slate-900"
+                style={{ textAlign: "center" }}
+              >
                 Laporan Portofolio Pinjaman Konsolidasi
               </div>
-              <div className="mt-1 text-[11px] text-slate-600">
+              <div
+                className="mt-1 text-[11px] text-slate-600"
+                style={{ textAlign: "center" }}
+              >
                 Dicetak pada {new Date().toLocaleDateString("id-ID")}
               </div>
             </div>
