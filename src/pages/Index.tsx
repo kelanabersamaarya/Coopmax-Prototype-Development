@@ -105,7 +105,8 @@ export default function Index() {
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi") ||
-    location.pathname.startsWith("/laporan");
+    location.pathname.startsWith("/laporan") ||
+    location.pathname.startsWith("/pengaturan-umum");
 
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
