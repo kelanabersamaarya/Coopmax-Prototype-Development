@@ -5,6 +5,13 @@ import { CheckSquare, Minus, Plus, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type ToggleSyncSetting = {
   id: string;
@@ -20,7 +27,15 @@ type NumberSyncSetting = {
   defaultValue: number;
 };
 
-type SyncSetting = ToggleSyncSetting | NumberSyncSetting;
+type SelectSyncSetting = {
+  id: string;
+  label: string;
+  type: "select";
+  defaultValue: string;
+  options: string[];
+};
+
+type SyncSetting = ToggleSyncSetting | NumberSyncSetting | SelectSyncSetting;
 
 const syncSettings: SyncSetting[] = [
   {
@@ -56,8 +71,9 @@ const syncSettings: SyncSetting[] = [
   {
     id: "periode-tagihan-sync",
     label: "Pengaturan berapa periode tagihan yang dapat di sync",
-    type: "number",
-    defaultValue: 3,
+    type: "select",
+    defaultValue: "3",
+    options: ["1", "2", "3", "4", "5", "6", "12"],
   },
 ];
 
@@ -156,6 +172,60 @@ function NumberStepper({
   );
 }
 
+function PeriodSelect({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (next: string) => void;
+  options: string[];
+}) {
+  return (
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger
+        className={cn(
+          "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
+          "text-left text-[12px] font-normal text-black shadow-none",
+          "focus-visible:ring-0 focus-visible:ring-offset-0",
+        )}
+      >
+        <SelectValue />
+      </SelectTrigger>
+
+      <SelectContent
+        className={cn(
+          "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
+          "[&_[data-radix-select-item-indicator]]:hidden",
+          "[&_[data-slot=select-item-indicator]]:hidden",
+          "[&>span.absolute.right-2]:hidden",
+          "[&_[data-radix-collection-item]]:pl-4",
+          "[&_[data-radix-collection-item]]:pr-4",
+        )}
+      >
+        {options.map((option) => (
+          <SelectItem
+            key={option}
+            value={option}
+            className={cn(
+              "rounded-none px-4 py-2.5 text-[13px] font-normal text-black",
+              "hover:bg-violet-600 hover:text-white",
+              "focus:bg-violet-600 focus:text-white",
+              "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
+              "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
+              "[&_[data-radix-select-item-indicator]]:hidden",
+              "[&_[data-slot=select-item-indicator]]:hidden",
+              "[&>span.absolute.right-2]:hidden",
+            )}
+          >
+            {option}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
 export default function PengaturanSinkronisasiTab() {
   const [toggleValues, setToggleValues] = React.useState<Record<string, boolean>>(
     () =>
@@ -171,6 +241,15 @@ export default function PengaturanSinkronisasiTab() {
       Object.fromEntries(
         syncSettings
           .filter((item): item is NumberSyncSetting => item.type === "number")
+          .map((item) => [item.id, item.defaultValue]),
+      ),
+  );
+
+  const [selectValues, setSelectValues] = React.useState<Record<string, string>>(
+    () =>
+      Object.fromEntries(
+        syncSettings
+          .filter((item): item is SelectSyncSetting => item.type === "select")
           .map((item) => [item.id, item.defaultValue]),
       ),
   );
@@ -222,6 +301,19 @@ export default function PengaturanSinkronisasiTab() {
                   value={numberValues[item.id] ?? item.defaultValue}
                   onChange={(value) =>
                     setNumberValues((current) => ({
+                      ...current,
+                      [item.id]: value,
+                    }))
+                  }
+                />
+              ) : null}
+
+              {item.type === "select" ? (
+                <PeriodSelect
+                  value={selectValues[item.id] ?? item.defaultValue}
+                  options={item.options}
+                  onChange={(value) =>
+                    setSelectValues((current) => ({
                       ...current,
                       [item.id]: value,
                     }))
