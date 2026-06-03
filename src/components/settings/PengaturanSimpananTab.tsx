@@ -13,6 +13,31 @@ type SimpananSetting = {
 
 const simpananSettings: SimpananSetting[] = [
   {
+    id: "pengaktifan-fitur-auto-debet",
+    label: "Pengaktifan Fitur Auto Debet",
+    defaultValue: false,
+  },
+  {
+    id: "auto-debet-tabungan-berjangka",
+    label: "Auto Debet Tabungan Berjangka",
+    defaultValue: false,
+  },
+  {
+    id: "auto-process-biaya-admin-tabungan",
+    label: "Auto Process Biaya Admin Tabungan",
+    defaultValue: false,
+  },
+  {
+    id: "auto-process-bunga-tabungan",
+    label: "Auto Process Bunga Tabungan",
+    defaultValue: false,
+  },
+  {
+    id: "bunga-tabungan-berjangka-diproses-harian",
+    label: "Bunga Tabungan Berjangka Diproses Harian",
+    defaultValue: false,
+  },
+  {
     id: "disable-edit-nominal-setoran-berjangka",
     label: "Disable Edit Nominal Setoran Berjangka",
     defaultValue: false,
@@ -20,6 +45,32 @@ const simpananSettings: SimpananSetting[] = [
   {
     id: "validasi-setoran-nominal-kelipatan-berjangka",
     label: "Validasi Setoran Nominal Kelipatan (Berjangka)",
+    defaultValue: false,
+  },
+  {
+    id: "disable-kolom-pinalti-autodebet-penutupan-rekening",
+    label: "Disable Kolom Pinalti Autodebet Pada Saat Penutupan Rekening",
+    defaultValue: false,
+  },
+  {
+    id: "biaya-administrasi-penutupan-rekening-simpanan-anggota",
+    label: "Pengenaan Biaya Administrasi Penutupan Rekening Simpanan Anggota",
+    defaultValue: false,
+  },
+  {
+    id: "setoran-penarikan-simpanan-teller-terpisah",
+    label: "Setoran dan Penarikan Simpanan Pada Halaman Teller Terpisah",
+    defaultValue: false,
+  },
+  {
+    id: "import-transaksi-simpanan-kolektif",
+    label: "Import Transaksi Simpanan Kolektif",
+    defaultValue: false,
+  },
+  {
+    id: "print-cetak-buku-tabungan",
+    label:
+      "Pengaturan hasil print cetak buku tabungan yang digunakan (PrintJs = non aktif, DomPDF = aktif)",
     defaultValue: false,
   },
 ];
