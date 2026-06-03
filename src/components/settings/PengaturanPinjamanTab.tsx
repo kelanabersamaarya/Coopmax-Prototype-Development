@@ -4,75 +4,126 @@ import * as React from "react";
 import { HandCoins } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
-type SettingItem = {
+type ToggleSetting = {
   id: string;
   label: string;
+  type: "toggle";
   defaultValue?: boolean;
 };
 
+type SelectSetting = {
+  id: string;
+  label: string;
+  type: "select";
+  defaultValue: string;
+  options: string[];
+};
+
+type InputSetting = {
+  id: string;
+  label: string;
+  type: "input";
+  defaultValue: string;
+  suffix?: string;
+};
+
+type SettingItem = ToggleSetting | SelectSetting | InputSetting;
+
 const settings: SettingItem[] = [
+  {
+    id: "auto-process-bunga-pinjaman-rc",
+    label: "Auto Process Bunga Pinjaman RC",
+    type: "toggle",
+  },
   {
     id: "transaksi-pendapatan-jasa-pinjaman-rc",
     label: "Transaksi Pendapatan Jasa Pinjaman RC",
+    type: "toggle",
     defaultValue: true,
   },
   {
-    id: "pinjaman",
-    label: "Pinjaman",
+    id: "mitra-pada-produk-pinjaman",
+    label: "Mitra pada Produk Pinjaman",
+    type: "toggle",
   },
   {
-    id: "pendaftaran-online",
-    label: "Pendaftaran Pinjaman Online",
-  },
-  {
-    id: "simulasi-pinjaman",
-    label: "Simulasi Pinjaman",
-  },
-  {
-    id: "perpanjangan-pinjaman",
-    label: "Perpanjangan Pinjaman",
-  },
-  {
-    id: "restrukturisasi-pinjaman",
-    label: "Restrukturisasi Pinjaman",
-  },
-  {
-    id: "ubah-bunga-pinjaman",
-    label: "Ubah Bunga Pinjaman",
-  },
-  {
-    id: "ubah-jatuh-tempo",
-    label: "Ubah Jatuh Tempo Pinjaman",
-  },
-  {
-    id: "ubah-hutang",
-    label: "Ubah Hutang Pinjaman",
-  },
-  {
-    id: "pemutihan-pinjaman",
-    label: "Pemutihan Pinjaman",
-  },
-  {
-    id: "riwayat-angsuran",
-    label: "Riwayat Angsuran",
-  },
-  {
-    id: "riwayat-transaksi-autodebet",
-    label: "Riwayat Transaksi Autodebet",
-  },
-  {
-    id: "analisa-5c",
-    label: "Dapatkan Analisa 5C",
-  },
-  {
-    id: "pembayaran-melewati-jatuh-tempo",
+    id: "pembayaran-angsuran-melewati-jatuh-tempo",
     label: "Pembayaran angsuran tidak boleh melewati jatuh tempo",
+    type: "toggle",
   },
   {
-    id: "print-buku-pinjaman",
+    id: "tanggal-aktif-pinjaman",
+    label: "Tanggal Aktif pinjaman",
+    type: "select",
+    defaultValue: "Tanggal Pencairan",
+    options: ["Tanggal Pencairan", "Tanggal Persetujuan", "Tanggal Daftar"],
+  },
+  {
+    id: "acuan-perubahan-tanggal-jatuh-tempo",
+    label: "Acuan Perubahan Tanggal Jatuh Tempo Pinjaman",
+    type: "select",
+    defaultValue: "Tanggal Aktif Pinjaman",
+    options: ["Tanggal Aktif Pinjaman", "Tanggal Realisasi", "Tanggal Transaksi"],
+  },
+  {
+    id: "tampilkan-npl-kap-rekapitulasi-kolektibilitas",
+    label: "Tampilkan NPL dan KAP pada Rekapitulasi Kolektibilitas",
+    type: "toggle",
+  },
+  {
+    id: "tunggakan-pokok-minus",
+    label: "Tunggakan Pokok Minus",
+    type: "toggle",
+  },
+  {
+    id: "print-cetak-buku-pinjaman",
     label:
       "Pengaturan hasil print cetak buku pinjaman yang digunakan (PrintJs = non aktif, DomPDF = aktif)",
+    type: "toggle",
+  },
+  {
+    id: "skema-pemotongan-biaya-admin",
+    label:
+      "Skema Pemotongan Biaya Admin Pada Pencairan Pinjaman Tunai dan Non-tunai",
+    type: "select",
+    defaultValue: "Potong dari Plafon",
+    options: ["Potong dari Plafon", "Bayar Terpisah", "Tidak Dipotong"],
+  },
+  {
+    id: "transaksi-pinjaman-periode-maju",
+    label: "Transaksi Pinjaman Periode Maju",
+    type: "toggle",
+  },
+  {
+    id: "import-transaksi-pembayaran-angsuran-kolektif",
+    label: "Import Transaksi Pembayaran Angsuran Kolektif",
+    type: "toggle",
+  },
+  {
+    id: "import-pembukaan-rekening-pinjaman-kolektif",
+    label: "Import Pembukaan Rekening Pinjaman Kolektif",
+    type: "toggle",
+  },
+  {
+    id: "non-aktif-bunga-periode-0",
+    label: "Non Aktif Bunga pada Periode 0",
+    type: "toggle",
+  },
+  {
+    id: "persentase-pembagi-pendapatan-bunga",
+    label: "Persentase Pembagi Pendapatan Bunga",
+    type: "input",
+    defaultValue: "0",
+    suffix: "%",
   },
 ];
 
@@ -114,14 +165,41 @@ function TogglePill({
 }
 
 export default function PengaturanPinjamanTab() {
-  const [values, setValues] = React.useState<Record<string, boolean>>(() =>
-    Object.fromEntries(
-      settings.map((item) => [item.id, item.defaultValue ?? false]),
-    ),
+  const [toggleValues, setToggleValues] = React.useState<Record<string, boolean>>(
+    () =>
+      Object.fromEntries(
+        settings
+          .filter((item): item is ToggleSetting => item.type === "toggle")
+          .map((item) => [item.id, item.defaultValue ?? false]),
+      ),
   );
 
-  function updateValue(id: string, value: boolean) {
-    setValues((current) => ({
+  const [selectValues, setSelectValues] = React.useState<Record<string, string>>(
+    () =>
+      Object.fromEntries(
+        settings
+          .filter((item): item is SelectSetting => item.type === "select")
+          .map((item) => [item.id, item.defaultValue]),
+      ),
+  );
+
+  const [inputValues, setInputValues] = React.useState<Record<string, string>>(
+    () =>
+      Object.fromEntries(
+        settings
+          .filter((item): item is InputSetting => item.type === "input")
+          .map((item) => [item.id, item.defaultValue]),
+      ),
+  );
+
+  function notify(label: string) {
+    toast("Pengaturan diperbarui", {
+      description: label,
+    });
+  }
+
+  function updateToggle(id: string, value: boolean) {
+    setToggleValues((current) => ({
       ...current,
       [id]: value,
     }));
@@ -131,6 +209,33 @@ export default function PengaturanPinjamanTab() {
       description: setting?.label,
     });
   }
+
+  const selectTriggerClass = cn(
+    "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
+    "text-[12px] font-normal text-black shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const selectContentClass = cn(
+    "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
+    "[&_[data-radix-select-item-indicator]]:hidden",
+    "[&_[data-slot=select-item-indicator]]:hidden",
+    "[&>span.absolute.right-2]:hidden",
+  );
+
+  const selectItemClass = cn(
+    "rounded-none px-4 py-2.5 text-[13px] font-normal text-black",
+    "hover:bg-violet-600 hover:text-white",
+    "focus:bg-violet-600 focus:text-white",
+    "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
+    "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
+  );
+
+  const inputClass = cn(
+    "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
+    "text-[12px] font-normal text-black shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
 
   return (
     <div className="mt-8 w-full">
@@ -145,22 +250,74 @@ export default function PengaturanPinjamanTab() {
           </div>
         </div>
 
-        {settings.map((item, index) => (
+        {settings.map((item) => (
           <div
             key={item.id}
             className={cn(
-              "grid min-h-[42px] grid-cols-[minmax(0,1fr)_72px] items-center",
-              "px-[13px] text-[12px] font-normal text-black",
-              index === 0 ? "border-t border-[#D7DEE9]" : "border-t border-[#D7DEE9]",
+              "grid min-h-[42px] grid-cols-[minmax(0,1fr)_minmax(72px,220px)] items-center",
+              "border-t border-[#D7DEE9] px-[13px] text-[12px] font-normal text-black",
             )}
           >
             <div className="min-w-0 pr-4 leading-snug">{item.label}</div>
 
             <div className="flex justify-end">
-              <TogglePill
-                checked={values[item.id] ?? false}
-                onChange={(value) => updateValue(item.id, value)}
-              />
+              {item.type === "toggle" ? (
+                <TogglePill
+                  checked={toggleValues[item.id] ?? false}
+                  onChange={(value) => updateToggle(item.id, value)}
+                />
+              ) : null}
+
+              {item.type === "select" ? (
+                <Select
+                  value={selectValues[item.id] ?? item.defaultValue}
+                  onValueChange={(value) => {
+                    setSelectValues((current) => ({
+                      ...current,
+                      [item.id]: value,
+                    }));
+                    notify(item.label);
+                  }}
+                >
+                  <SelectTrigger className={selectTriggerClass}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={selectContentClass}>
+                    {item.options.map((option) => (
+                      <SelectItem
+                        key={option}
+                        value={option}
+                        className={selectItemClass}
+                      >
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : null}
+
+              {item.type === "input" ? (
+                <div className="relative w-full">
+                  <Input
+                    value={inputValues[item.id] ?? item.defaultValue}
+                    onChange={(event) => {
+                      const next = event.target.value.replace(/[^\d.,]/g, "");
+                      setInputValues((current) => ({
+                        ...current,
+                        [item.id]: next,
+                      }));
+                    }}
+                    onBlur={() => notify(item.label)}
+                    className={cn(inputClass, item.suffix ? "pr-8 text-right" : "")}
+                    inputMode="decimal"
+                  />
+                  {item.suffix ? (
+                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[12px] font-normal text-slate-600">
+                      {item.suffix}
+                    </span>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
         ))}
