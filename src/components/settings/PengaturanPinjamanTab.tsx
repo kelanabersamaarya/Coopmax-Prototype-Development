@@ -206,11 +206,6 @@ export default function PengaturanPinjamanTab() {
       ...current,
       [id]: value,
     }));
-
-    const setting = settings.find((item) => item.id === id);
-    toast(value ? "Pengaturan diaktifkan" : "Pengaturan dinonaktifkan", {
-      description: setting?.label,
-    });
   }
 
   function saveSettings() {
