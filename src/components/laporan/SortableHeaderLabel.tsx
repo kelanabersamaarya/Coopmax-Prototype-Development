@@ -1,13 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function SortableHeaderLabel({
   lines,
   className,
-  iconClassName,
   align = "left",
 }: {
   lines: string[];
@@ -18,8 +16,7 @@ export default function SortableHeaderLabel({
   return (
     <div
       className={cn(
-        "relative flex w-full items-center gap-2 pr-6",
-        // default mengikuti permintaan: rata kiri
+        "flex w-full items-center",
         align === "right"
           ? "justify-end"
           : align === "center"
@@ -47,17 +44,6 @@ export default function SortableHeaderLabel({
           </span>
         ))}
       </div>
-
-      <span
-        className={cn(
-          "absolute right-0 top-1/2 -translate-y-1/2",
-          "inline-flex flex-col leading-none text-slate-900/80",
-          iconClassName,
-        )}
-      >
-        <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
-        <ChevronDown className="h-3.5 w-3.5" />
-      </span>
     </div>
   );
 }
