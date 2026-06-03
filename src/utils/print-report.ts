@@ -38,8 +38,24 @@ export function openReportPrintPreview() {
           display: block !important;
         }
 
-        body.dyad-print-report .no-print {
+        body.dyad-print-report .no-print,
+        body.dyad-print-report .print-hide,
+        body.dyad-print-report .print-hide * {
           display: none !important;
+          visibility: hidden !important;
+        }
+
+        body.dyad-print-report .safe-x-scroll,
+        body.dyad-print-report .print-scroll-reset {
+          overflow: visible !important;
+          max-width: none !important;
+        }
+
+        body.dyad-print-report .safe-x-scroll::-webkit-scrollbar,
+        body.dyad-print-report .print-scroll-reset::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
         }
 
         body.dyad-print-report table {

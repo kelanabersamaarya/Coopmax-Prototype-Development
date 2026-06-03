@@ -321,12 +321,14 @@ function TotalCell({
 function TotalSummaryRow({
   label,
   hideCabangPembukaanRekening,
+  className,
 }: {
   label: string;
   hideCabangPembukaanRekening: boolean;
+  className?: string;
 }) {
   return (
-    <tr className="border-t border-slate-300/80 bg-white">
+    <tr className={cn("border-t border-slate-300/80 bg-white", className)}>
       <TotalCell colSpan={hideCabangPembukaanRekening ? 7 : 8} align="left">
         {label}
       </TotalCell>
@@ -391,7 +393,7 @@ export default function DetailPinjamanReportTable({
     <div className={cn("mt-6", className)}>
       <div className="rounded-[5px] border border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-4">
         <div className="overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
-          <div className="safe-x-scroll">
+          <div className="safe-x-scroll print-scroll-reset">
             <table
               className={cn(
                 "w-full border-collapse border-l border-t border-slate-300/80 bg-white",
@@ -544,6 +546,7 @@ export default function DetailPinjamanReportTable({
                     <TotalSummaryRow
                       label="Total per Halaman"
                       hideCabangPembukaanRekening={hideCabangPembukaanRekening}
+                      className="print-hide"
                     />
                     <TotalSummaryRow
                       label="Total"
@@ -556,7 +559,7 @@ export default function DetailPinjamanReportTable({
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="print-hide mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-[14px] text-slate-900">
             Menampilkan 1 sampai {visibleRows.length} dari {visibleRows.length} entri
           </div>
