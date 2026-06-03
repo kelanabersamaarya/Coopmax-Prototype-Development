@@ -74,6 +74,8 @@ const syncSettings: SyncSetting[] = [
     type: "select",
     defaultValue: "3 Bulan",
     options: [
+      "1 Bulan",
+      "2 Bulan",
       "3 Bulan",
       "4 Bulan",
       "5 Bulan",
