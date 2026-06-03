@@ -398,13 +398,16 @@ export default function PengaturanTambahanTab() {
   );
 
   const selectContentClassName = cn(
-    "min-w-[520px] rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
+    "w-[--radix-select-trigger-width] max-w-[--radix-select-trigger-width]",
+    "overflow-hidden rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
     "[&_[data-radix-select-item-indicator]]:hidden",
     "[&_[data-slot=select-item-indicator]]:hidden",
     "[&>span.absolute.left-2]:hidden",
     "[&>span.absolute.right-2]:hidden",
     "[&_[data-radix-collection-item]]:pl-4",
     "[&_[data-radix-collection-item]]:pr-4",
+    "[&_[data-radix-collection-item]]:max-w-full",
+    "[&_[data-radix-collection-item]]:overflow-hidden",
   );
 
   const selectItemClassName = cn(
@@ -473,8 +476,11 @@ export default function PengaturanTambahanTab() {
                             key={option}
                             value={option}
                             className={selectItemClassName}
+                            title={option}
                           >
-                            {option}
+                            <span className="block max-w-full truncate">
+                              {option}
+                            </span>
                           </SelectItem>
                         ))}
                       </SelectContent>
