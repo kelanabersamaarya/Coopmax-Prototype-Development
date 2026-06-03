@@ -3,6 +3,7 @@ import PengaturanHeader, {
   type PengaturanTab,
 } from "@/components/settings/PengaturanHeader";
 import PengaturanPinjamanTab from "@/components/settings/PengaturanPinjamanTab";
+import PengaturanSimpananTab from "@/components/settings/PengaturanSimpananTab";
 import PengaturanSinkronisasiTab from "@/components/settings/PengaturanSinkronisasiTab";
 
 export default function PengaturanUmum() {
@@ -14,9 +15,12 @@ export default function PengaturanUmum() {
         <PengaturanHeader activeTab={activeTab} onTabChange={setActiveTab} />
 
         {activeTab === "Sinkronisasi" ? <PengaturanSinkronisasiTab /> : null}
+        {activeTab === "Simpanan" ? <PengaturanSimpananTab /> : null}
         {activeTab === "Pinjaman" ? <PengaturanPinjamanTab /> : null}
 
-        {activeTab !== "Sinkronisasi" && activeTab !== "Pinjaman" ? (
+        {activeTab !== "Sinkronisasi" &&
+        activeTab !== "Simpanan" &&
+        activeTab !== "Pinjaman" ? (
           <div className="mt-8 rounded-[5px] bg-white p-[15px] text-[13px] font-normal text-slate-700 shadow-sm ring-1 ring-[#E4E9F2]">
             Tab {activeTab} masih prototype.
           </div>
