@@ -152,12 +152,8 @@ const sections: AdditionalSettingSection[] = [
         id: "metode-pembulatan-penyusutan-aset",
         label: "Metode Pembulatan Penyusutan Aset",
         type: "select",
-        defaultValue: "Tanpa Pembulatan",
-        options: [
-          "Tanpa Pembulatan",
-          "Pembulatan Keatas",
-          "Pembulatan Kebawah",
-        ],
+        defaultValue: "Round",
+        options: ["Round", "Ceil", "Floor"],
       },
       {
         id: "tampilkan-nomor-inventaris-pada-agunan",
@@ -394,7 +390,7 @@ export default function PengaturanTambahanTab() {
     "text-left text-[12px] font-normal text-black shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&_[data-slot=select-value]]:min-w-0",
-    "[&_[data-slot=select-value]]:truncate",
+    "[&_[data-slot=select-value]]:whitespace-nowrap",
     "[&_[data-slot=select-value]]:text-left",
   );
 
