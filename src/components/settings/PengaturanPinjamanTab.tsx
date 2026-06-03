@@ -69,8 +69,12 @@ const settings: SettingItem[] = [
     id: "tanggal-aktif-pinjaman",
     label: "Tanggal Aktif pinjaman",
     type: "select",
-    defaultValue: "Tanggal Pencairan",
-    options: ["Tanggal Pencairan", "Tanggal Persetujuan", "Tanggal Daftar"],
+    defaultValue: "Tanggal Pinjaman Realisasi / Pencairan",
+    options: [
+      "Tanggal Pinjaman Realisasi / Pencairan",
+      "Tanggal Pinjaman",
+      "Tanggal Disetujui",
+    ],
   },
   {
     id: "acuan-perubahan-tanggal-jatuh-tempo",
