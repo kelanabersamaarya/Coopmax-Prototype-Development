@@ -12,6 +12,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import {
+  getGeneralSetting,
+  setGeneralSetting,
+  SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
+} from "@/lib/generalSettingsStore";
 
 type ToggleSetting = {
   id: string;
@@ -97,7 +102,7 @@ const settings: SettingItem[] = [
     type: "toggle",
   },
   {
-    id: "atur-coa-jenis-biaya-produk-pinjaman",
+    id: SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
     label: "Atur COA Jenis Biaya pada Produk Pinjaman",
     type: "toggle",
   },
@@ -173,7 +178,12 @@ export default function PengaturanPinjamanTab() {
       Object.fromEntries(
         settings
           .filter((item): item is ToggleSetting => item.type === "toggle")
-          .map((item) => [item.id, item.defaultValue ?? false]),
+          .map((item) => [
+            item.id,
+            item.id === SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN
+              ? getGeneralSetting(item.id, item.defaultValue ?? false)
+              : item.defaultValue ?? false,
+          ]),
       ),
   );
 
@@ -206,6 +216,10 @@ export default function PengaturanPinjamanTab() {
       ...current,
       [id]: value,
     }));
+
+    if (id === SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN) {
+      setGeneralSetting(id, value);
+    }
   }
 
   function saveSettings() {

@@ -7,6 +7,10 @@ import { cn } from "@/lib/utils";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import SearchableFeeCoaSelect from "@/components/loans/SearchableFeeCoaSelect";
 import LoanProductFeeCoaFields from "@/components/loans/LoanProductFeeCoaFields";
+import {
+  SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
+  useGeneralSetting,
+} from "@/lib/generalSettingsStore";
 
 export type MainCoaOption =
   | "PINJAMAN YANG DIBERIKAN"
@@ -177,30 +181,49 @@ export default function LoanProductAccountingCoaFields({
   feeSelectContentClassName?: string;
   className?: string;
 }) {
+  const showFeeCoaSection = useGeneralSetting(
+    SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
+    false,
+  );
+
+  React.useEffect(() => {
+    if (!showFeeCoaSection && aturCoaJenisBiaya) {
+      onAturCoaJenisBiayaChange(false);
+    }
+  }, [aturCoaJenisBiaya, onAturCoaJenisBiayaChange, showFeeCoaSection]);
+
   return (
     <div className={cn("mt-6", className)}>
-      <SectionTitle>Konfigurasi KP Biaya Pinjaman</SectionTitle>
+      {showFeeCoaSection ? (
+        <>
+          <SectionTitle>Konfigurasi KP Biaya Pinjaman</SectionTitle>
 
-      <div className="mt-5 grid gap-5">
-        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-          <div className="pt-1 text-sm font-normal text-slate-900">
-            Atur KP Jenis Biaya pada Produk Pinjaman
+          <div className="mt-5 grid gap-5">
+            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+              <div className="pt-1 text-sm font-normal text-slate-900">
+                Atur KP Jenis Biaya pada Produk Pinjaman
+              </div>
+              <Switch
+                checked={aturCoaJenisBiaya}
+                onCheckedChange={onAturCoaJenisBiayaChange}
+              />
+            </div>
+
+            {aturCoaJenisBiaya ? (
+              <LoanProductFeeCoaFields
+                selectTriggerClassName={
+                  feeSelectTriggerClassName ?? selectTriggerClassName
+                }
+                selectContentClassName={
+                  feeSelectContentClassName ?? selectContentClassName
+                }
+              />
+            ) : null}
           </div>
-          <Switch
-            checked={aturCoaJenisBiaya}
-            onCheckedChange={onAturCoaJenisBiayaChange}
-          />
-        </div>
+        </>
+      ) : null}
 
-        {aturCoaJenisBiaya ? (
-          <LoanProductFeeCoaFields
-            selectTriggerClassName={feeSelectTriggerClassName ?? selectTriggerClassName}
-            selectContentClassName={feeSelectContentClassName ?? selectContentClassName}
-          />
-        ) : null}
-      </div>
-
-      <div className="mt-6">
+      <div className={showFeeCoaSection ? "mt-6" : ""}>
         <SectionTitle>Konfigurasi KP Pendapatan Pinjaman</SectionTitle>
 
         <div className="mt-5 grid gap-5">
