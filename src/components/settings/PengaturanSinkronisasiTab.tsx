@@ -276,7 +276,7 @@ export default function PengaturanSinkronisasiTab() {
   return (
     <div className="mt-8 w-full rounded-[5px] bg-white p-[15px] shadow-sm ring-1 ring-[#E4E9F2]">
       <div className="overflow-hidden rounded-[5px] border border-[#D7DEE9] bg-white">
-        <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px]">
+        <div className="flex min-h-[55px] items-center gap-4 bg-[#F7F8FC] px-[20px] py-[10px]">
           <span className="inline-flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#3F6BFF] text-white shadow-sm">
             <RefreshCw className="h-[18px] w-[18px]" strokeWidth={3} />
           </span>
@@ -290,11 +290,11 @@ export default function PengaturanSinkronisasiTab() {
           <div
             key={item.id}
             className={cn(
-              "grid min-h-[42px] grid-cols-[minmax(0,1fr)_minmax(300px,380px)] items-center",
-              "border-t border-[#D7DEE9] px-[13px] text-[12px] font-normal text-black",
+              "grid min-h-[50px] grid-cols-[minmax(0,1fr)_minmax(300px,380px)] items-center",
+              "border-t border-[#D7DEE9] px-[13px] py-[8px] text-[12px] font-normal text-black",
             )}
           >
-            <div className="min-w-0 pr-4 leading-snug">{item.label}</div>
+            <div className="min-w-0 pr-4 leading-relaxed">{item.label}</div>
 
             <div className="flex min-w-0 justify-end">
               {item.type === "toggle" ? (
