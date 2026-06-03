@@ -81,8 +81,13 @@ const settings: SettingItem[] = [
     id: "acuan-perubahan-tanggal-jatuh-tempo",
     label: "Acuan Perubahan Tanggal Jatuh Tempo Pinjaman",
     type: "select",
-    defaultValue: "Tanggal Aktif Pinjaman",
-    options: ["Tanggal Aktif Pinjaman", "Tanggal Realisasi", "Tanggal Transaksi"],
+    defaultValue: "Default",
+    options: [
+      "Default",
+      "Tanggal Pinjaman Realisasi / Pencairan",
+      "Tanggal Pinjaman Diajukan",
+      "Tanggal Pinjaman Disetujui",
+    ],
   },
   {
     id: "tampilkan-npl-kap-rekapitulasi-kolektibilitas",
