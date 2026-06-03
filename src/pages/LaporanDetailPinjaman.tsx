@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 import {
   FileSpreadsheet,
   FileText,
@@ -12,6 +11,11 @@ import { Input } from "@/components/ui/input";
 import DetailPinjamanReportTable from "@/components/laporan/DetailPinjamanReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
 import { openReportPrintPreview } from "@/utils/print-report";
+import {
+  openBlankReportPdfPreview,
+  openReportPdfPreview,
+} from "@/utils/pdf-preview";
+import { toast } from "sonner";
 
 function ActionPill({
   icon: Icon,
@@ -71,6 +75,18 @@ export default function LaporanDetailPinjaman() {
     window.setTimeout(() => openReportPrintPreview(), 80);
   }
 
+  function handleExportPdf() {
+    const previewWindow = openBlankReportPdfPreview("export");
+    setShowReport(true);
+
+    window.setTimeout(() => {
+      openReportPdfPreview({
+        title: "export",
+        targetWindow: previewWindow,
+      });
+    }, 80);
+  }
+
   const actions = [
     {
       label: "Export Excel",
@@ -80,7 +96,7 @@ export default function LaporanDetailPinjaman() {
     {
       label: "Export PDF",
       icon: FileText,
-      onClick: () => toast("Export PDF (prototype)"),
+      onClick: handleExportPdf,
     },
     {
       label: "Cetak",
