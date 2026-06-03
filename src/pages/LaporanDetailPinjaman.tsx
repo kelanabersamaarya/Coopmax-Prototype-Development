@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import DetailPinjamanReportTable from "@/components/laporan/DetailPinjamanReportTable";
 import PlainFilterSelect from "@/components/laporan/PlainFilterSelect";
 import ReportPrintHeader from "@/components/laporan/ReportPrintHeader";
+import ProductivityPrintStyles from "@/components/laporan/ProductivityPrintStyles";
 import { openReportPrintPreview } from "@/utils/print-report";
 import {
   openBlankReportPdfPreview,
@@ -218,14 +219,18 @@ export default function LaporanDetailPinjaman() {
 
         {showReport ? (
           <div className="print-report-area">
-            <ReportPrintHeader
-              title="Laporan Portofolio Pinjaman Konsolidasi"
-              printedAt={printedAt}
-            />
+            <div className="productivity-report-print-content">
+              <ProductivityPrintStyles />
 
-            <DetailPinjamanReportTable
-              selectedCabangPembukaanRekening={selectedCabang}
-            />
+              <ReportPrintHeader
+                title="Laporan Portofolio Pinjaman Konsolidasi"
+                printedAt={printedAt}
+              />
+
+              <DetailPinjamanReportTable
+                selectedCabangPembukaanRekening={selectedCabang}
+              />
+            </div>
           </div>
         ) : null}
 
