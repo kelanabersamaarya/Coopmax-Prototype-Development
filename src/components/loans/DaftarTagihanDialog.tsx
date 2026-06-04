@@ -110,6 +110,70 @@ type PaymentMethod =
   | "Pembayaran Khusus"
   | "Pelunasan";
 
+export type DaftarTagihanSavedTotals = {
+  pokok: string;
+  bunga: string;
+  denda: string;
+  total: string;
+};
+
+const PENALTY_ROWS = 3;
+const PENALTY_AMOUNT = 75000;
+
+function parseIdrLike(input: string) {
+  const s = (input ?? "").trim();
+  if (!s) return 0;
+
+  const normalized = s.replace(/\./g, "").replace(",", ".");
+  const cleaned = normalized.replace(/[^\d.-]/g, "");
+  const n = Number(cleaned);
+
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatIdr0(n: number) {
+  const rounded = Math.round(Number.isFinite(n) ? n : 0);
+  return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function calculateSelectedTotals({
+  rows,
+  selected,
+  includePenalty,
+  penaltyIndexOffset,
+  forceAll,
+}: {
+  rows: BillingRow[];
+  selected: boolean[];
+  includePenalty: boolean;
+  penaltyIndexOffset: number;
+  forceAll: boolean;
+}): DaftarTagihanSavedTotals {
+  let pokok = 0;
+  let bunga = 0;
+  let denda = 0;
+
+  rows.forEach((row, idx) => {
+    const checked = forceAll || selected[idx] === true;
+    if (!checked) return;
+
+    pokok += parseIdrLike(row.tagihanPokok);
+    bunga += parseIdrLike(row.tagihanBunga);
+
+    const globalIdx = penaltyIndexOffset + idx;
+    if (includePenalty && globalIdx < PENALTY_ROWS) {
+      denda += PENALTY_AMOUNT;
+    }
+  });
+
+  return {
+    pokok: formatIdr0(pokok),
+    bunga: formatIdr0(bunga),
+    denda: formatIdr0(denda),
+    total: formatIdr0(pokok + bunga + denda),
+  };
+}
+
 function NextBillInfoBannerLikeReference() {
   return (
     <div className="rounded-[5px] border border-slate-200 bg-white px-4 py-4">
@@ -135,12 +199,14 @@ export default function DaftarTagihanDialog({
   paymentMethod = "Pembayaran Reguler",
   accountNo,
   contextKey,
+  onSaveTotals,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   paymentMethod?: PaymentMethod;
   accountNo?: string;
   contextKey?: string;
+  onSaveTotals?: (totals: DaftarTagihanSavedTotals) => void;
 }) {
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isPelunasan = paymentMethod === "Pelunasan";
@@ -149,10 +215,7 @@ export default function DaftarTagihanDialog({
   const isSecondNasabah = normalizedAccountNo === "12260002";
   const isThirdNasabah = normalizedAccountNo === "12260001";
 
-  // ✅ Nasabah ketiga pakai daftar tagihan yang sama seperti nasabah kedua
   const useSecondStyle = isSecondNasabah || isThirdNasabah;
-
-  // ✅ untuk nasabah kedua & ketiga: checklist wajib (checked dan tidak bisa diubah)
   const lockChecklistForSecondStyle = useSecondStyle;
 
   const rowsAll = React.useMemo(
@@ -166,7 +229,7 @@ export default function DaftarTagihanDialog({
   const pageCount = Math.max(1, Math.ceil(rowsAll.length / pageSize));
 
   const rows = React.useMemo(() => {
-    if (useSecondStyle) return rowsAll; // tampil 1 baris seperti referensi
+    if (useSecondStyle) return rowsAll;
     const start = (page - 1) * pageSize;
     return rowsAll.slice(start, start + pageSize);
   }, [page, pageSize, rowsAll, useSecondStyle]);
@@ -181,14 +244,11 @@ export default function DaftarTagihanDialog({
   }, [open]);
 
   React.useEffect(() => {
-    // Default selection by mode:
-    // - Nasabah 2/3 (useSecondStyle): wajib dicentang semua + tidak bisa diubah
-    // - Baki Debet / Pelunasan: dianggap terpilih (tanpa checkbox)
-    // - Lainnya: kosong (user pilih manual)
     if (lockChecklistForSecondStyle) {
       setSelected(rows.map(() => true));
       return;
     }
+
     setSelected(rows.map(() => (isBakiDebet || isPelunasan ? true : false)));
   }, [isBakiDebet, isPelunasan, lockChecklistForSecondStyle, rows]);
 
@@ -214,12 +274,37 @@ export default function DaftarTagihanDialog({
 
   const hideSelection = isBakiDebet || isPelunasan;
   const showPenaltyColumn = !isBakiDebet;
-
   const isLocked = isBakiDebet || isPelunasan;
-
   const showGraceHighlight = page === 1;
-
   const title = useSecondStyle ? "INFORMASI TAGIHAN DAN DENDA" : "Daftar Tagihan";
+
+  function saveSelectedTotals() {
+    const forceAll = hideSelection || useSecondStyle;
+    const count = forceAll ? rows.length : selected.filter(Boolean).length;
+
+    if (!forceAll && count === 0) {
+      toast("Pilih minimal 1 tagihan", {
+        description: "Centang tagihan yang ingin dibayar sebelum menyimpan.",
+      });
+      return;
+    }
+
+    const totals = calculateSelectedTotals({
+      rows,
+      selected,
+      includePenalty: showPenaltyColumn,
+      penaltyIndexOffset: useSecondStyle ? 0 : (page - 1) * pageSize,
+      forceAll,
+    });
+
+    onSaveTotals?.(totals);
+
+    toast.success("Daftar tagihan disimpan", {
+      description: `${count} tagihan dipilih. Total: ${totals.total}`,
+    });
+
+    onOpenChange(false);
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -230,7 +315,6 @@ export default function DaftarTagihanDialog({
           "max-h-[85vh]",
           "overflow-hidden",
           "rounded-3xl border-slate-200 p-0 shadow-2xl",
-          // hide default close button
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -275,7 +359,6 @@ export default function DaftarTagihanDialog({
                       rows={rows}
                       selected={selected}
                       setSelected={setSelected}
-                      // ✅ untuk nasabah 2/3: checklist wajib (locked) tapi checkbox tetap terlihat
                       isLocked={lockChecklistForSecondStyle}
                       showNextBillInfo={false}
                       showGraceInfo={true}
@@ -322,8 +405,8 @@ export default function DaftarTagihanDialog({
 
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-[14px] text-slate-900">
-                    Menampilkan {showingStart} sampai {showingEnd} dari {rowsAll.length}{" "}
-                    entri
+                    Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+                    {rowsAll.length} entri
                   </div>
 
                   <div className="flex items-center gap-3">
@@ -390,28 +473,7 @@ export default function DaftarTagihanDialog({
 
                   <button
                     type="button"
-                    onClick={() => {
-                      if (!hideSelection && !useSecondStyle) {
-                        const count = selected.filter(Boolean).length;
-                        if (count === 0) {
-                          toast("Pilih minimal 1 tagihan", {
-                            description:
-                              "Centang tagihan yang ingin dibayar sebelum menyimpan.",
-                          });
-                          return;
-                        }
-                        toast.success("Daftar tagihan disimpan (prototype)", {
-                          description: `${count} tagihan dipilih (halaman ${page}).`,
-                        });
-                        onOpenChange(false);
-                        return;
-                      }
-
-                      toast.success("Daftar tagihan disimpan (prototype)", {
-                        description: `Mode: ${paymentMethod} • Halaman ${page}`,
-                      });
-                      onOpenChange(false);
-                    }}
+                    onClick={saveSelectedTotals}
                     className={cn(
                       actionBtnBase,
                       "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",

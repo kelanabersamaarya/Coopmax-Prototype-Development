@@ -901,6 +901,7 @@ type TransactionRowState = {
   paymentMethod: PaymentMethod;
 
   daftarTagihanOpen: boolean;
+  savedBillTotals: BillTotals | null;
 
   nominalReguler: string;
   tabunganReguler: "Tanpa Tabungan";
@@ -929,6 +930,7 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
     paymentMethod: seed?.paymentMethod ?? "Pembayaran Reguler",
 
     daftarTagihanOpen: false,
+    savedBillTotals: seed?.savedBillTotals ?? null,
 
     nominalReguler: seed?.nominalReguler ?? "0",
     tabunganReguler: "Tanpa Tabungan",
@@ -1199,6 +1201,7 @@ export default function LoanInstallmentPaymentV2Table({
         return {
           ...r,
           accountNo: nextAccountNo,
+          savedBillTotals: null,
           nominalReguler: shouldAutofill ? REGULER_AUTO_NOMINAL : r.nominalReguler,
         };
       }),
@@ -1326,7 +1329,7 @@ export default function LoanInstallmentPaymentV2Table({
 
             const isAutoReguler = isReguler && REGULER_AUTO_BILL_ACCOUNTS.has(accountNo);
 
-            const totals: BillTotals =
+            const fallbackTotals: BillTotals =
               isKhusus || isPelunasan
                 ? {
                     pokok: "5.333.334",
@@ -1342,6 +1345,8 @@ export default function LoanInstallmentPaymentV2Table({
                       denda: "0",
                       total: "0",
                     };
+
+            const totals: BillTotals = row.savedBillTotals ?? fallbackTotals;
 
             const sisaPinjamanBakiDebet = "9.116.000,00";
             const isLast = row.id === lastRowId;
@@ -1361,7 +1366,15 @@ export default function LoanInstallmentPaymentV2Table({
                     accountNo={row.accountNo}
                     onAccountNoChange={(v) =>
                       setRows((prev) =>
-                        prev.map((x) => (x.id === row.id ? { ...x, accountNo: v } : x)),
+                        prev.map((x) =>
+                          x.id === row.id
+                            ? {
+                                ...x,
+                                accountNo: v,
+                                savedBillTotals: null,
+                              }
+                            : x,
+                        ),
                       )
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
@@ -1395,6 +1408,31 @@ export default function LoanInstallmentPaymentV2Table({
                     paymentMethod={row.paymentMethod}
                     accountNo={row.accountNo}
                     contextKey={penaltyContextKey}
+                    onSaveTotals={(nextTotals) => {
+                      setRows((prev) =>
+                        prev.map((x) => {
+                          if (x.id !== row.id) return x;
+
+                          return {
+                            ...x,
+                            savedBillTotals: nextTotals,
+                            nominalReguler: isReguler ? nextTotals.total : x.nominalReguler,
+                            nominalPokokKhusus: isKhusus
+                              ? nextTotals.pokok
+                              : x.nominalPokokKhusus,
+                            nominalBungaKhusus: isKhusus
+                              ? nextTotals.bunga
+                              : x.nominalBungaKhusus,
+                            nominalDendaKhusus: isKhusus
+                              ? nextTotals.denda
+                              : x.nominalDendaKhusus,
+                            nominalPokokBakiDebet: isBakiDebet
+                              ? nextTotals.pokok
+                              : x.nominalPokokBakiDebet,
+                          };
+                        }),
+                      );
+                    }}
                   />
 
                   <DaftarTagihanTopButton
@@ -1429,7 +1467,10 @@ export default function LoanInstallmentPaymentV2Table({
                           return {
                             ...x,
                             paymentMethod: v,
-                            nominalReguler: shouldAutofill ? REGULER_AUTO_NOMINAL : x.nominalReguler,
+                            savedBillTotals: null,
+                            nominalReguler: shouldAutofill
+                              ? REGULER_AUTO_NOMINAL
+                              : x.nominalReguler,
                           };
                         }),
                       )
