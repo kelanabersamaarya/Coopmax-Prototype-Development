@@ -10,6 +10,13 @@ import { cn } from "@/lib/utils";
 export default function EKolektorMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
+  function handleLogin() {
+    setLoggedIn(true);
+    toast.success("Berhasil masuk", {
+      description: "Halaman riwayat transaksi ditampilkan.",
+    });
+  }
+
   return (
     <MobileMockupFrame edgeToEdge>
       {!loggedIn ? (
@@ -17,21 +24,16 @@ export default function EKolektorMockup() {
           <img
             src={eKolektorLogin}
             alt="Halaman login E-Kolektor"
-            className="block min-h-full w-full bg-white object-cover"
+            className="pointer-events-none block min-h-full w-full bg-white object-cover"
             draggable={false}
           />
 
           <button
             type="button"
-            onClick={() => {
-              setLoggedIn(true);
-              toast.success("Berhasil masuk", {
-                description: "Halaman riwayat transaksi ditampilkan.",
-              });
-            }}
+            onClick={handleLogin}
             className={cn(
-              "absolute left-[12%] right-[12%] bottom-[8%] h-[64px]",
-              "rounded-full bg-transparent text-transparent",
+              "absolute bottom-0 left-0 right-0 z-30 h-[38%]",
+              "cursor-pointer bg-transparent text-transparent",
               "focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/25",
             )}
             aria-label="Masuk"
