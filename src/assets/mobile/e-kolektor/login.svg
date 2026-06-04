@@ -1,0 +1,48 @@
+<svg width="750" height="1624" viewBox="0 0 750 1624" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="750" height="1624" fill="#ffffff"/>
+
+  <rect width="750" height="374" fill="#2DB4D5"/>
+  <circle cx="570" cy="-70" r="210" fill="#8EDBEA" opacity="0.36"/>
+  <circle cx="780" cy="140" r="200" fill="#BCECF4" opacity="0.32"/>
+
+  <circle cx="122" cy="187" r="82" fill="white"/>
+  <path d="M144 132C148 130 151 133 151 137V160C151 165 148 170 144 173L108 197C103 200 99 197 99 191V166C99 161 102 156 106 153L144 132Z" fill="#2DB4D5"/>
+  <path d="M107 197C100 201 99 211 106 216L135 238C140 242 147 239 149 233L155 215L128 195C122 191 114 191 107 197Z" fill="#11326E"/>
+  <path d="M120 183C126 179 134 178 140 182L154 191C158 194 158 200 154 203L124 226C119 230 112 230 107 226L94 217C88 213 88 204 94 200L120 183Z" fill="#F6F8FB"/>
+  <circle cx="123" cy="185" r="12" fill="#11326E"/>
+  <circle cx="123" cy="185" r="5" fill="#2DB4D5"/>
+
+  <text x="244" y="168" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">Sakti Collector (Test 2)</text>
+  <text x="244" y="236" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="700">Solusi Sakti</text>
+
+  <path d="M0 348C0 326 18 308 40 308H710C732 308 750 326 750 348V1624H0V348Z" fill="white"/>
+
+  <text x="36" y="386" fill="#14265B" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="700">
+    <tspan x="36" dy="0">Selamat Datang I Ketut Agus Pasek</tspan>
+    <tspan x="36" dy="45">Jaya Arta</tspan>
+  </text>
+
+  <text x="36" y="482" fill="#8A8A8A" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="400">Halo, silahkan masuk untuk melanjutkan</text>
+
+  <text x="36" y="552" fill="#8A8A8A" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="400">Username</text>
+  <rect x="35" y="573" width="680" height="94" rx="16" fill="#F0F0F0"/>
+  <text x="55" y="631" fill="#222222" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="400">christian</text>
+
+  <text x="36" y="725" fill="#8A8A8A" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="400">Password</text>
+  <rect x="35" y="746" width="680" height="92" rx="16" fill="#F0F0F0"/>
+  <text x="55" y="804" fill="#8A8A8A" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="400">Masukkan kata sandi anda</text>
+  <ellipse cx="668" cy="793" rx="22" ry="15" fill="#858585"/>
+  <circle cx="668" cy="793" r="7" fill="#F0F0F0"/>
+  <circle cx="668" cy="793" r="4" fill="#858585"/>
+
+  <rect x="36" y="871" width="48" height="48" rx="12" fill="#2DB4D5"/>
+  <path d="M47 895L58 906L78 882" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="103" y="904" fill="#14265B" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="400">Simpan Username</text>
+
+  <rect x="35" y="960" width="680" height="68" rx="34" fill="#2DB4D5"/>
+  <text x="374" y="1003" text-anchor="middle" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="400">Masuk</text>
+
+  <text x="375" y="1527" text-anchor="middle" fill="#8D8D8D" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Dengan masuk, anda telah menyetujui.</text>
+  <text x="375" y="1554" text-anchor="middle" fill="#14265B" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Syarat Ketentuan dan Kebijakan Privasi</text>
+  <text x="375" y="1581" text-anchor="middle" fill="#14265B" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Versi 1.5.9. 105</text>
+</svg>
