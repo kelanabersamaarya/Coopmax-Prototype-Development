@@ -78,7 +78,6 @@ const seed5: LoanAccountRow[] = [
   },
 ];
 
-// Tambah seed supaya bisa pilih banyak rekening (prototype)
 const seed: LoanAccountRow[] = [
   ...seed5,
   ...Array.from({ length: 20 }).map((_, i) => {
@@ -149,8 +148,6 @@ export default function LoanAccountPickerDialog({
 
   React.useEffect(() => {
     if (!open) return;
-    // IMPORTANT: selalu reset filter saat modal dibuka,
-    // supaya popup kedua dan seterusnya tetap menampilkan jumlah data yang sama.
     setQ("");
     setPageSize(20);
     setPage(1);
@@ -169,7 +166,7 @@ export default function LoanAccountPickerDialog({
     });
   }, [q]);
 
-  const totalEntries: number = 47; // sesuai contoh tampilan (prototype)
+  const totalEntries: number = 47;
   const pageCount = Math.max(1, Math.ceil(totalEntries / pageSize));
 
   React.useEffect(() => {
@@ -181,7 +178,6 @@ export default function LoanAccountPickerDialog({
   }, [page, pageCount]);
 
   const rows = React.useMemo(() => {
-    // Tampilkan semua hasil (prototype): tidak dibatasi 5 lagi.
     return filtered;
   }, [filtered]);
 
@@ -192,11 +188,8 @@ export default function LoanAccountPickerDialog({
   const td = "px-3 py-2.5";
   const filterCell = "px-3 py-2";
 
-  // Header tabel tetap bold
   const headerTextCls =
     "text-[12px] font-extrabold uppercase tracking-wide text-black";
-
-  // Selain header: jangan bold
   const bodyTextCls = "text-[12px] font-normal text-black";
 
   const filterInputCls =
@@ -281,9 +274,14 @@ export default function LoanAccountPickerDialog({
               <div>entri</div>
             </div>
 
-            <div className={cn("mt-4 overflow-hidden ring-1 ring-slate-200", R)}>
+            <div
+              className={cn(
+                "mt-4 overflow-hidden border border-slate-200 bg-white",
+                R,
+              )}
+            >
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[1050px] border-collapse">
+                <table className="w-full min-w-[1050px] border-collapse border-l border-slate-200">
                   <thead className="bg-white">
                     <tr
                       className={cn(
@@ -439,9 +437,8 @@ export default function LoanAccountPickerDialog({
                         <tr
                           key={r.noRekening}
                           className={cn(
-                            "border-b border-slate-200",
+                            "border-b border-slate-200 bg-white",
                             bodyTextCls,
-                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                             "cursor-pointer",
                             "hover:bg-slate-50",
                             "focus-within:bg-slate-50",
@@ -498,7 +495,6 @@ export default function LoanAccountPickerDialog({
               </div>
             </div>
 
-            {/* Pagination: above divider button tutup */}
             <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-[14px] text-black">
                 Menampilkan {showingStart} sampai {showingEnd} dari {totalEntries} entri
