@@ -7,8 +7,21 @@ import eKolektorLogin from "@/assets/mobile/e-kolektor/login.svg";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 import { cn } from "@/lib/utils";
 
+function isInsideLoginButton(
+  clientX: number,
+  clientY: number,
+  element: HTMLElement,
+) {
+  const rect = element.getBoundingClientRect();
+  const x = (clientX - rect.left) / rect.width;
+  const y = (clientY - rect.top) / rect.height;
+
+  return x >= 0.09 && x <= 0.91 && y >= 0.84 && y <= 0.94;
+}
+
 export default function EKolektorMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [isLoginHover, setIsLoginHover] = React.useState(false);
 
   function handleLogin() {
     setLoggedIn(true);
@@ -20,28 +33,29 @@ export default function EKolektorMockup() {
   return (
     <MobileMockupFrame edgeToEdge>
       {!loggedIn ? (
-        <div className="relative min-h-full bg-white">
+        <div
+          className={cn(
+            "relative min-h-full bg-white",
+            isLoginHover ? "cursor-pointer" : "cursor-default",
+          )}
+          onClick={(event) => {
+            if (isInsideLoginButton(event.clientX, event.clientY, event.currentTarget)) {
+              handleLogin();
+            }
+          }}
+          onPointerMove={(event) => {
+            setIsLoginHover(
+              isInsideLoginButton(event.clientX, event.clientY, event.currentTarget),
+            );
+          }}
+          onPointerLeave={() => setIsLoginHover(false)}
+        >
           <img
             src={eKolektorLogin}
             alt="Halaman login E-Kolektor"
-            className="pointer-events-none block min-h-full w-full bg-white object-cover"
+            className="block min-h-full w-full bg-white object-cover"
             draggable={false}
           />
-
-          <button
-            type="button"
-            onClick={handleLogin}
-            className={cn(
-              "absolute left-[9%] right-[9%] bottom-[7.2%] z-30 h-[56px]",
-              "cursor-pointer rounded-full bg-transparent",
-              "text-transparent outline-none",
-              "focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/25",
-            )}
-            aria-label="Masuk"
-            title="Masuk"
-          >
-            Masuk
-          </button>
         </div>
       ) : (
         <div className="min-h-[980px] bg-white">
