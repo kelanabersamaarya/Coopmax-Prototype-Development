@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 type MobileScreenshot = {
   src: string;
   alt: string;
@@ -6,16 +8,20 @@ type MobileScreenshot = {
 type MobileMockupFrameProps = {
   title?: string;
   subtitle?: string;
-  screenshots: MobileScreenshot[];
+  screenshots?: MobileScreenshot[];
+  children?: ReactNode;
   edgeToEdge?: boolean;
 };
 
 export default function MobileMockupFrame({
   title,
   subtitle,
-  screenshots,
+  screenshots = [],
+  children,
   edgeToEdge = false,
 }: MobileMockupFrameProps) {
+  const hasCustomContent = Boolean(children);
+
   return (
     <section className="flex h-full min-h-0 w-full items-center justify-center px-2 py-0 sm:px-4">
       <div className="sr-only">
@@ -45,7 +51,9 @@ export default function MobileMockupFrame({
                 : "h-full overflow-y-auto overscroll-contain bg-slate-100 px-3 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-3.5"
             }
           >
-            {screenshots.length > 0 ? (
+            {hasCustomContent ? (
+              children
+            ) : screenshots.length > 0 ? (
               <div className={edgeToEdge ? "space-y-0" : "space-y-3.5"}>
                 {screenshots.map((screenshot, index) => (
                   <img
