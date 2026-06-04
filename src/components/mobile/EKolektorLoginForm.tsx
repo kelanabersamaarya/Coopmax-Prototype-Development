@@ -4,6 +4,7 @@ import * as React from "react";
 import { Eye, EyeOff, Lock, UserRound } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import EKolektorLoginHeader from "@/components/mobile/EKolektorLoginHeader";
 
 export default function EKolektorLoginForm({
   onLogin,
@@ -52,15 +53,9 @@ export default function EKolektorLoginForm({
   return (
     <div className="min-h-full bg-white">
       <div className="flex min-h-[980px] flex-col bg-white">
-        <div className="relative h-[395px] shrink-0 overflow-hidden bg-white">
-          <div className="absolute left-1/2 top-[86px] h-[185px] w-[185px] -translate-x-1/2 rounded-full bg-[#F3F8FC]" />
-          <div className="absolute left-1/2 top-[115px] flex h-[128px] w-[128px] -translate-x-1/2 items-center justify-center rounded-[36px] bg-[#1c84c6] shadow-[0_18px_35px_rgba(28,132,198,0.22)]">
-            <UserRound className="h-16 w-16 text-white" strokeWidth={2.4} />
-          </div>
-          <div className="absolute inset-x-0 bottom-0 h-[96px] rounded-tr-[52px] bg-[#f4f4f4]" />
-        </div>
+        <EKolektorLoginHeader />
 
-        <div className="-mt-[1px] min-h-[585px] rounded-tr-[52px] bg-[#f4f4f4] px-8 pb-10 pt-10">
+        <div className="-mt-[52px] min-h-[642px] rounded-tr-[52px] bg-[#f4f4f4] px-8 pb-10 pt-[48px]">
           <div>
             <h1 className="text-[30px] font-extrabold leading-tight tracking-tight text-black">
               Masuk
@@ -115,7 +110,9 @@ export default function EKolektorLoginForm({
                   type="button"
                   onClick={() => setShowPassword((current) => !current)}
                   className="absolute right-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-[8px] text-[#8a8a8a] transition hover:bg-slate-100"
-                  aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+                  aria-label={
+                    showPassword ? "Sembunyikan password" : "Tampilkan password"
+                  }
                   title={showPassword ? "Sembunyikan password" : "Tampilkan password"}
                 >
                   {showPassword ? (
