@@ -30,6 +30,8 @@ import LaporanPortofolioPinjamanCabang from "./pages/LaporanPortofolioPinjamanCa
 import LaporanProduktivitas from "./pages/LaporanProduktivitas";
 import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 import PengaturanUmum from "./pages/PengaturanUmum";
+import MobileEKolektor from "./pages/MobileEKolektor";
+import MobileMBanking from "./pages/MobileMBanking";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,8 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="pengaturan-umum" element={<PengaturanUmum />} />
+            <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
+            <Route path="mobile/m-banking" element={<MobileMBanking />} />
             <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
             <Route path="obs-samudra-harta/:id" element={<ObsSamudraHartaDetail />} />
             <Route path="obs-web" element={<ObsWeb />} />

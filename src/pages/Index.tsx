@@ -7,6 +7,7 @@ import SidebarPinjamanMenu from "@/components/SidebarPinjamanMenu";
 import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
 import SidebarObsMenu from "@/components/SidebarObsMenu";
 import SidebarPengaturanUmumMenu from "@/components/SidebarPengaturanUmumMenu";
+import SidebarMobileMenu from "@/components/SidebarMobileMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -37,6 +38,8 @@ const implementedRoutes = new Set([
   "/loans/applications/new",
   "/anggota/transaksi",
   "/laporan/kolektibilitas",
+  "/mobile/e-kolektor",
+  "/mobile/m-banking",
 ]);
 
 function resolveNavTo(to: string) {
@@ -106,7 +109,8 @@ export default function Index() {
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi") ||
     location.pathname.startsWith("/laporan") ||
-    location.pathname.startsWith("/pengaturan-umum");
+    location.pathname.startsWith("/pengaturan-umum") ||
+    location.pathname.startsWith("/mobile");
 
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
@@ -151,6 +155,9 @@ export default function Index() {
 
                           {/* Pinjaman (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarPinjamanMenu /> : null}
+
+                          {/* Mobile (collapsible) */}
+                          <SidebarMobileMenu />
 
                           {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
                           {!isPinjamanArea ? <SidebarObsMenu /> : null}
