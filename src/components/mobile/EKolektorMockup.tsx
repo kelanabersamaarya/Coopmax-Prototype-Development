@@ -16,7 +16,10 @@ function isInsideLoginButton(
   const x = (clientX - rect.left) / rect.width;
   const y = (clientY - rect.top) / rect.height;
 
-  return x >= 0.09 && x <= 0.91 && y >= 0.84 && y <= 0.94;
+  const isHorizontallyOnButton = x >= 0.08 && x <= 0.92;
+  const isVerticallyOnButton = y >= 0.68 && y <= 0.94;
+
+  return isHorizontallyOnButton && isVerticallyOnButton;
 }
 
 export default function EKolektorMockup() {
@@ -39,13 +42,23 @@ export default function EKolektorMockup() {
             isLoginHover ? "cursor-pointer" : "cursor-default",
           )}
           onClick={(event) => {
-            if (isInsideLoginButton(event.clientX, event.clientY, event.currentTarget)) {
+            if (
+              isInsideLoginButton(
+                event.clientX,
+                event.clientY,
+                event.currentTarget,
+              )
+            ) {
               handleLogin();
             }
           }}
           onPointerMove={(event) => {
             setIsLoginHover(
-              isInsideLoginButton(event.clientX, event.clientY, event.currentTarget),
+              isInsideLoginButton(
+                event.clientX,
+                event.clientY,
+                event.currentTarget,
+              ),
             );
           }}
           onPointerLeave={() => setIsLoginHover(false)}
