@@ -7,24 +7,8 @@ import eKolektorLogin from "@/assets/mobile/e-kolektor/login.svg";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 import { cn } from "@/lib/utils";
 
-function isInsideLoginButton(
-  clientX: number,
-  clientY: number,
-  element: HTMLElement,
-) {
-  const rect = element.getBoundingClientRect();
-  const x = (clientX - rect.left) / rect.width;
-  const y = (clientY - rect.top) / rect.height;
-
-  const isHorizontallyOnButton = x >= 0.08 && x <= 0.92;
-  const isVerticallyOnButton = y >= 0.68 && y <= 0.94;
-
-  return isHorizontallyOnButton && isVerticallyOnButton;
-}
-
 export default function EKolektorMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [isLoginHover, setIsLoginHover] = React.useState(false);
 
   function handleLogin() {
     setLoggedIn(true);
@@ -36,39 +20,29 @@ export default function EKolektorMockup() {
   return (
     <MobileMockupFrame edgeToEdge>
       {!loggedIn ? (
-        <div
-          className={cn(
-            "relative min-h-full bg-white",
-            isLoginHover ? "cursor-pointer" : "cursor-default",
-          )}
-          onClick={(event) => {
-            if (
-              isInsideLoginButton(
-                event.clientX,
-                event.clientY,
-                event.currentTarget,
-              )
-            ) {
-              handleLogin();
-            }
-          }}
-          onPointerMove={(event) => {
-            setIsLoginHover(
-              isInsideLoginButton(
-                event.clientX,
-                event.clientY,
-                event.currentTarget,
-              ),
-            );
-          }}
-          onPointerLeave={() => setIsLoginHover(false)}
-        >
+        <div className="relative min-h-full bg-white">
           <img
             src={eKolektorLogin}
             alt="Halaman login E-Kolektor"
             className="block min-h-full w-full bg-white object-cover"
             draggable={false}
           />
+
+          <button
+            type="button"
+            onClick={handleLogin}
+            className={cn(
+              "absolute left-[8.5%] right-[8.5%] bottom-[7.4%] z-30",
+              "h-[46px] rounded-[8px]",
+              "bg-[#1c84c6] text-[15px] font-semibold text-white",
+              "shadow-[0_2px_4px_rgba(28,132,198,0.22)]",
+              "transition active:translate-y-px active:bg-[#1877b3]",
+              "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#1c84c6]/25",
+            )}
+            aria-label="Masuk"
+          >
+            Masuk
+          </button>
         </div>
       ) : (
         <div className="min-h-[980px] bg-white">
