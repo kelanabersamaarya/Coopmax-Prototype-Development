@@ -1,14 +1,14 @@
 <svg width="720" height="1280" viewBox="0 0 720 1280" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="720" height="1280" rx="42" fill="#F8FAFC"/>
   <rect width="720" height="176" rx="42" fill="#115E59"/>
-  <text x="48" y="78" fill="#CCFBF1" font-family="Arial, sans-serif" font-size="24" font-weight="700">Detail Nasabah</text>
-  <text x="48" y="126" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="40" font-weight="800">Budi Santoso</text>
+  <rect x="48" y="58" width="170" height="20" rx="10" fill="#CCFBF1" opacity="0.75"/>
+  <rect x="48" y="102" width="270" height="34" rx="17" fill="#FFFFFF" opacity="0.95"/>
   <rect x="48" y="218" width="624" height="190" rx="34" fill="#FFFFFF" stroke="#CBD5E1"/>
-  <text x="82" y="278" fill="#0F172A" font-family="Arial, sans-serif" font-size="28" font-weight="800">Tagihan Aktif</text>
-  <text x="82" y="336" fill="#0F766E" font-family="Arial, sans-serif" font-size="46" font-weight="900">Rp 2.450.000</text>
-  <text x="82" y="372" fill="#64748B" font-family="Arial, sans-serif" font-size="20" font-weight="600">Jatuh tempo: 04 Jun 2026</text>
+  <rect x="82" y="256" width="210" height="28" rx="14" fill="#0F172A"/>
+  <rect x="82" y="314" width="320" height="44" rx="22" fill="#0F766E"/>
+  <rect x="82" y="372" width="270" height="18" rx="9" fill="#94A3B8"/>
   <rect x="48" y="442" width="624" height="230" rx="34" fill="#FFFFFF" stroke="#CBD5E1"/>
-  <text x="82" y="504" fill="#0F172A" font-family="Arial, sans-serif" font-size="28" font-weight="800">Riwayat Interaksi</text>
+  <rect x="82" y="480" width="260" height="28" rx="14" fill="#0F172A"/>
   <circle cx="98" cy="562" r="14" fill="#14B8A6"/>
   <rect x="132" y="546" width="360" height="18" rx="9" fill="#334155"/>
   <rect x="132" y="580" width="430" height="14" rx="7" fill="#94A3B8"/>
@@ -16,13 +16,13 @@
   <rect x="132" y="608" width="300" height="18" rx="9" fill="#334155"/>
   <rect x="132" y="642" width="390" height="14" rx="7" fill="#94A3B8"/>
   <rect x="48" y="706" width="624" height="232" rx="34" fill="#FFFFFF" stroke="#CBD5E1"/>
-  <text x="82" y="768" fill="#0F172A" font-family="Arial, sans-serif" font-size="28" font-weight="800">Form Kunjungan</text>
+  <rect x="82" y="744" width="230" height="28" rx="14" fill="#0F172A"/>
   <rect x="82" y="810" width="556" height="58" rx="20" fill="#F1F5F9"/>
-  <text x="112" y="848" fill="#64748B" font-family="Arial, sans-serif" font-size="20" font-weight="700">Status pembayaran</text>
+  <rect x="112" y="831" width="190" height="16" rx="8" fill="#64748B" opacity="0.55"/>
   <rect x="82" y="888" width="556" height="58" rx="20" fill="#F1F5F9"/>
-  <text x="112" y="926" fill="#64748B" font-family="Arial, sans-serif" font-size="20" font-weight="700">Catatan kolektor</text>
+  <rect x="112" y="909" width="170" height="16" rx="8" fill="#64748B" opacity="0.55"/>
   <rect x="48" y="982" width="624" height="96" rx="30" fill="#0F766E"/>
-  <text x="232" y="1042" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="26" font-weight="900">Simpan Kunjungan</text>
+  <rect x="232" y="1022" width="260" height="20" rx="10" fill="#FFFFFF" opacity="0.85"/>
   <rect x="48" y="1112" width="624" height="86" rx="30" fill="#ECFEFF" stroke="#67E8F9"/>
-  <text x="96" y="1166" fill="#155E75" font-family="Arial, sans-serif" font-size="22" font-weight="800">Lokasi GPS dan foto bukti siap dilampirkan</text>
+  <rect x="96" y="1144" width="470" height="18" rx="9" fill="#155E75" opacity="0.65"/>
 </svg>

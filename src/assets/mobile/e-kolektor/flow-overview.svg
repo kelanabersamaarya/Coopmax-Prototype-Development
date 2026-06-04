@@ -1,34 +1,34 @@
 <svg width="720" height="1480" viewBox="0 0 720 1480" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="720" height="1480" rx="42" fill="#F8FAFC"/>
   <rect width="720" height="190" rx="42" fill="#0F766E"/>
-  <text x="48" y="82" fill="#CCFBF1" font-family="Arial, sans-serif" font-size="24" font-weight="700">E-Kolektor</text>
-  <text x="48" y="132" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="42" font-weight="800">Daftar Kunjungan</text>
+  <rect x="48" y="58" width="150" height="20" rx="10" fill="#CCFBF1" opacity="0.75"/>
+  <rect x="48" y="104" width="330" height="34" rx="17" fill="#FFFFFF" opacity="0.95"/>
   <rect x="48" y="226" width="624" height="92" rx="28" fill="#FFFFFF" stroke="#CBD5E1"/>
   <circle cx="94" cy="272" r="24" fill="#14B8A6"/>
   <rect x="136" y="248" width="260" height="18" rx="9" fill="#0F172A"/>
   <rect x="136" y="282" width="380" height="14" rx="7" fill="#94A3B8"/>
   <rect x="48" y="354" width="624" height="250" rx="34" fill="#FFFFFF" stroke="#CBD5E1"/>
-  <text x="82" y="415" fill="#0F172A" font-family="Arial, sans-serif" font-size="28" font-weight="800">Budi Santoso</text>
-  <text x="82" y="455" fill="#64748B" font-family="Arial, sans-serif" font-size="22" font-weight="600">Angsuran jatuh tempo hari ini</text>
+  <rect x="82" y="392" width="210" height="26" rx="13" fill="#0F172A"/>
+  <rect x="82" y="438" width="330" height="18" rx="9" fill="#94A3B8"/>
   <rect x="82" y="504" width="250" height="44" rx="22" fill="#DCFCE7"/>
-  <text x="108" y="534" fill="#166534" font-family="Arial, sans-serif" font-size="18" font-weight="800">Prioritas Tinggi</text>
+  <rect x="108" y="518" width="150" height="16" rx="8" fill="#166534" opacity="0.8"/>
   <rect x="382" y="500" width="244" height="54" rx="27" fill="#0F766E"/>
-  <text x="433" y="536" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="20" font-weight="800">Mulai Kunjungan</text>
+  <rect x="432" y="519" width="144" height="16" rx="8" fill="#FFFFFF" opacity="0.85"/>
   <rect x="48" y="638" width="624" height="250" rx="34" fill="#FFFFFF" stroke="#CBD5E1"/>
-  <text x="82" y="699" fill="#0F172A" font-family="Arial, sans-serif" font-size="28" font-weight="800">Siti Aminah</text>
-  <text x="82" y="739" fill="#64748B" font-family="Arial, sans-serif" font-size="22" font-weight="600">Janji bayar terjadwal</text>
+  <rect x="82" y="676" width="230" height="26" rx="13" fill="#0F172A"/>
+  <rect x="82" y="722" width="300" height="18" rx="9" fill="#94A3B8"/>
   <rect x="82" y="788" width="210" height="44" rx="22" fill="#FEF3C7"/>
-  <text x="108" y="818" fill="#92400E" font-family="Arial, sans-serif" font-size="18" font-weight="800">Follow Up</text>
+  <rect x="108" y="802" width="110" height="16" rx="8" fill="#92400E" opacity="0.8"/>
   <rect x="382" y="784" width="244" height="54" rx="27" fill="#0F766E"/>
-  <text x="433" y="820" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="20" font-weight="800">Lihat Detail</text>
+  <rect x="432" y="803" width="120" height="16" rx="8" fill="#FFFFFF" opacity="0.85"/>
   <rect x="48" y="922" width="624" height="250" rx="34" fill="#FFFFFF" stroke="#CBD5E1"/>
-  <text x="82" y="983" fill="#0F172A" font-family="Arial, sans-serif" font-size="28" font-weight="800">Ahmad Fauzi</text>
-  <text x="82" y="1023" fill="#64748B" font-family="Arial, sans-serif" font-size="22" font-weight="600">Lokasi sudah diverifikasi</text>
+  <rect x="82" y="960" width="220" height="26" rx="13" fill="#0F172A"/>
+  <rect x="82" y="1006" width="310" height="18" rx="9" fill="#94A3B8"/>
   <rect x="82" y="1072" width="226" height="44" rx="22" fill="#DBEAFE"/>
-  <text x="108" y="1102" fill="#1D4ED8" font-family="Arial, sans-serif" font-size="18" font-weight="800">Terverifikasi</text>
+  <rect x="108" y="1086" width="126" height="16" rx="8" fill="#1D4ED8" opacity="0.8"/>
   <rect x="382" y="1068" width="244" height="54" rx="27" fill="#0F766E"/>
-  <text x="433" y="1104" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="20" font-weight="800">Navigasi</text>
+  <rect x="432" y="1087" width="92" height="16" rx="8" fill="#FFFFFF" opacity="0.85"/>
   <rect x="48" y="1224" width="624" height="150" rx="34" fill="#ECFEFF" stroke="#67E8F9"/>
-  <text x="82" y="1288" fill="#155E75" font-family="Arial, sans-serif" font-size="28" font-weight="800">Ringkasan Hari Ini</text>
-  <text x="82" y="1332" fill="#0E7490" font-family="Arial, sans-serif" font-size="22" font-weight="700">12 kunjungan • 8 tertagih • 3 follow up</text>
+  <rect x="82" y="1262" width="240" height="28" rx="14" fill="#155E75" opacity="0.85"/>
+  <rect x="82" y="1316" width="430" height="18" rx="9" fill="#0E7490" opacity="0.65"/>
 </svg>
