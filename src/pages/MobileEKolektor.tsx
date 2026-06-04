@@ -1,16 +1,11 @@
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
 import eKolektorLogin from "@/assets/mobile/e-kolektor/login.svg";
 import eKolektorDetailFlow from "@/assets/mobile/e-kolektor/flow-detail.svg";
-import eKolektorOverviewFlow from "@/assets/mobile/e-kolektor/flow-overview.svg";
 
 const eKolektorScreenshots = [
   {
     src: eKolektorLogin,
     alt: "Halaman login E-Kolektor",
-  },
-  {
-    src: eKolektorOverviewFlow,
-    alt: "Flow daftar kunjungan E-Kolektor",
   },
   {
     src: eKolektorDetailFlow,
