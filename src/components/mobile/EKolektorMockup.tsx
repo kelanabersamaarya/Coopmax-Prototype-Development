@@ -3,9 +3,8 @@
 import * as React from "react";
 import { Check, Clock3 } from "lucide-react";
 import { toast } from "sonner";
-import eKolektorLogin from "@/assets/mobile/e-kolektor/login.svg";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
-import { cn } from "@/lib/utils";
+import EKolektorLoginForm from "@/components/mobile/EKolektorLoginForm";
 
 export default function EKolektorMockup() {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -20,30 +19,7 @@ export default function EKolektorMockup() {
   return (
     <MobileMockupFrame edgeToEdge>
       {!loggedIn ? (
-        <div className="relative min-h-full bg-white">
-          <img
-            src={eKolektorLogin}
-            alt="Halaman login E-Kolektor"
-            className="block min-h-full w-full bg-white object-cover"
-            draggable={false}
-          />
-
-          <button
-            type="button"
-            onClick={handleLogin}
-            className={cn(
-              "absolute left-[8.5%] right-[8.5%] top-[66.8%] z-30",
-              "h-[46px] rounded-[8px]",
-              "bg-[#1c84c6] text-[15px] font-semibold text-white",
-              "shadow-[0_2px_4px_rgba(28,132,198,0.22)]",
-              "transition active:translate-y-px active:bg-[#1877b3]",
-              "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#1c84c6]/25",
-            )}
-            aria-label="Masuk"
-          >
-            Masuk
-          </button>
-        </div>
+        <EKolektorLoginForm onLogin={handleLogin} />
       ) : (
         <div className="min-h-[980px] bg-white">
           <div className="flex h-[455px] items-end bg-white px-6 pb-8">
