@@ -32,8 +32,9 @@ export default function EKolektorMockup() {
             type="button"
             onClick={handleLogin}
             className={cn(
-              "absolute bottom-0 left-0 right-0 z-30 h-[38%]",
-              "cursor-pointer bg-transparent text-transparent",
+              "absolute left-[9%] right-[9%] bottom-[7.2%] z-30 h-[56px]",
+              "cursor-pointer rounded-full bg-transparent",
+              "text-transparent outline-none",
               "focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/25",
             )}
             aria-label="Masuk"
