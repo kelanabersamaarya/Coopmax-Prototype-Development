@@ -41,8 +41,8 @@ export default function MobileMockupFrame({
           <div
             className={
               edgeToEdge
-                ? "h-full overflow-y-auto overscroll-contain bg-white [scrollbar-width:thin] [scrollbar-color:#94a3b8_transparent]"
-                : "h-full overflow-y-auto overscroll-contain bg-slate-100 px-3 pb-6 pt-12 [scrollbar-width:thin] [scrollbar-color:#94a3b8_transparent] sm:px-3.5"
+                ? "h-full overflow-y-auto overscroll-contain bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                : "h-full overflow-y-auto overscroll-contain bg-slate-100 px-3 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-3.5"
             }
           >
             {screenshots.length > 0 ? (
