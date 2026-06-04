@@ -32,7 +32,7 @@ export default function EKolektorMockup() {
             type="button"
             onClick={handleLogin}
             className={cn(
-              "absolute left-[8.5%] right-[8.5%] bottom-[7.4%] z-30",
+              "absolute left-[8.5%] right-[8.5%] top-[66.8%] z-30",
               "h-[46px] rounded-[8px]",
               "bg-[#1c84c6] text-[15px] font-semibold text-white",
               "shadow-[0_2px_4px_rgba(28,132,198,0.22)]",
