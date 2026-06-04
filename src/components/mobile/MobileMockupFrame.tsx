@@ -4,7 +4,7 @@ type MobileScreenshot = {
 };
 
 type MobileMockupFrameProps = {
-  title: string;
+  title?: string;
   subtitle?: string;
   screenshots: MobileScreenshot[];
 };
@@ -15,19 +15,10 @@ export default function MobileMockupFrame({
   screenshots,
 }: MobileMockupFrameProps) {
   return (
-    <section className="mx-auto flex w-full max-w-5xl flex-col items-center gap-5 px-3 py-6 sm:px-6 md:py-8">
-      <div className="max-w-xl text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.28em] text-sky-600">
-          Mobile Preview
-        </p>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-          {title}
-        </h2>
-        {subtitle ? (
-          <p className="mt-2 text-sm font-medium leading-6 text-slate-600 sm:text-base">
-            {subtitle}
-          </p>
-        ) : null}
+    <section className="mx-auto flex w-full max-w-5xl flex-col items-center px-3 py-6 sm:px-6 md:py-8">
+      <div className="sr-only">
+        {title}
+        {subtitle ? ` ${subtitle}` : ""}
       </div>
 
       <div className="relative w-[min(100%,390px)] rounded-[3.1rem] bg-slate-950 p-3 shadow-[0_28px_70px_rgba(15,23,42,0.32)] ring-1 ring-slate-800/80 sm:p-3.5">
@@ -53,15 +44,8 @@ export default function MobileMockupFrame({
                 ))}
               </div>
             ) : (
-              <div className="flex h-full items-center justify-center px-5 text-center">
-                <div className="rounded-[2rem] border border-dashed border-slate-300 bg-white p-6 shadow-sm">
-                  <p className="text-sm font-bold text-slate-900">
-                    Screenshot belum tersedia
-                  </p>
-                  <p className="mt-2 text-xs font-medium leading-5 text-slate-500">
-                    Tambahkan gambar ke folder asset mobile, lalu masukkan ke daftar screenshot halaman ini.
-                  </p>
-                </div>
+              <div className="flex h-full items-center justify-center px-5">
+                <div className="h-40 w-full rounded-[2rem] border border-dashed border-slate-300 bg-white shadow-sm" />
               </div>
             )}
           </div>
