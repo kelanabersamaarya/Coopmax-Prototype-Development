@@ -273,7 +273,7 @@ function Td({
   return (
     <td
       className={cn(
-        "border-b border-r border-slate-200 px-1.5 py-1.5 align-top",
+        "border-b border-r border-slate-200 bg-white px-1.5 py-1.5 align-top",
         "text-[12px] font-medium text-slate-900",
         align === "right"
           ? "whitespace-nowrap text-right tabular-nums"
@@ -451,10 +451,10 @@ export default function DetailPinjamanReportTable({
 
               <tbody className="bg-white">
                 {visibleRows.length === 0 ? (
-                  <tr>
+                  <tr className="bg-white">
                     <td
                       colSpan={colSpan}
-                      className="px-4 py-10 text-center text-sm text-slate-600"
+                      className="bg-white px-4 py-10 text-center text-sm text-slate-600"
                     >
                       Tidak ada data.
                     </td>
@@ -464,10 +464,7 @@ export default function DetailPinjamanReportTable({
                     const cleanName = cleanNasabahName(row.namaNasabah);
 
                     return (
-                      <tr
-                        key={`${row.noRekening}-${row.no}-${idx}`}
-                        className={idx % 2 === 0 ? "bg-white" : "bg-slate-50/60"}
-                      >
+                      <tr key={`${row.noRekening}-${row.no}-${idx}`} className="bg-white">
                         <Td className="w-[36px] max-w-[36px] px-1 text-center tabular-nums">
                           {idx + 1}
                         </Td>
