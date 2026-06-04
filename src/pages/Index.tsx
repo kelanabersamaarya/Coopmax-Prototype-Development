@@ -103,6 +103,7 @@ export default function Index() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
+  const isMobileArea = location.pathname.startsWith("/mobile");
 
   const isPinjamanArea =
     location.pathname.startsWith("/loan-products") ||
@@ -117,23 +118,41 @@ export default function Index() {
     location.pathname.startsWith("/obs-web");
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="w-full px-[var(--shell-gutter)] py-6 md:py-8">
-        <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div />
-          <div className="hidden md:block" />
-        </header>
+    <div
+      className={cn(
+        "bg-[hsl(var(--app-bg))]",
+        isMobileArea ? "h-screen overflow-hidden" : "min-h-screen",
+      )}
+    >
+      <div
+        className={cn(
+          "w-full px-[var(--shell-gutter)]",
+          isMobileArea ? "h-full overflow-hidden py-0" : "py-6 md:py-8",
+        )}
+      >
+        {!isMobileArea ? (
+          <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div />
+            <div className="hidden md:block" />
+          </header>
+        ) : null}
 
         <div
           className={cn(
-            "mt-6 grid min-w-0 gap-[var(--shell-gap)]",
+            "grid min-w-0 gap-[var(--shell-gap)]",
+            isMobileArea ? "mt-0 h-full min-h-0" : "mt-6",
             isDashboard
               ? "grid-cols-1"
               : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
           {!isDashboard ? (
-            <aside className="min-w-0 space-y-4 px-0">
+            <aside
+              className={cn(
+                "min-w-0 space-y-4 px-0",
+                isMobileArea ? "min-h-0 overflow-hidden py-0" : "",
+              )}
+            >
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 {/* no scroll on sidebar */}
                 <div className="px-0 py-1">
@@ -187,7 +206,12 @@ export default function Index() {
           ) : null}
 
           {/* Konten: min-w-0 penting agar tidak "dorong" grid melebar saat zoom */}
-          <main className="min-w-0 overflow-x-hidden">
+          <main
+            className={cn(
+              "min-w-0 overflow-x-hidden",
+              isMobileArea ? "h-full min-h-0 overflow-hidden" : "",
+            )}
+          >
             {isHome ? <Outlet /> : <Outlet />}
           </main>
         </div>

@@ -15,22 +15,22 @@ export default function MobileMockupFrame({
   screenshots,
 }: MobileMockupFrameProps) {
   return (
-    <section className="mx-auto flex w-full max-w-5xl flex-col items-center px-2 py-0 sm:px-4">
+    <section className="flex h-full min-h-0 w-full items-center justify-center px-2 py-0 sm:px-4">
       <div className="sr-only">
         {title}
         {subtitle ? ` ${subtitle}` : ""}
       </div>
 
-      <div className="relative w-[min(100%,430px)] rounded-[3.35rem] bg-slate-950 p-3.5 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-4">
+      <div className="relative h-[calc(100vh-0.75rem)] max-h-full w-[min(100%,430px)] rounded-[3.35rem] bg-slate-950 p-3.5 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-4">
         <div className="pointer-events-none absolute left-1/2 top-3.5 z-20 h-6 w-32 -translate-x-1/2 rounded-b-2xl bg-slate-950 shadow-sm sm:top-4">
           <div className="mx-auto mt-2 h-1.5 w-14 rounded-full bg-slate-700" />
         </div>
 
-        <div className="relative overflow-hidden rounded-[2.65rem] bg-slate-100 ring-1 ring-white/10">
+        <div className="relative h-full overflow-hidden rounded-[2.65rem] bg-slate-100 ring-1 ring-white/10">
           <div className="absolute inset-x-0 top-0 z-10 h-12 bg-gradient-to-b from-slate-100 via-slate-100/95 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 z-10 h-10 bg-gradient-to-t from-slate-100 via-slate-100/90 to-transparent" />
 
-          <div className="h-[calc(100vh-2rem)] min-h-[760px] max-h-[1040px] overflow-y-auto overscroll-contain bg-slate-100 px-3 pb-6 pt-12 [scrollbar-width:thin] [scrollbar-color:#94a3b8_transparent] sm:px-3.5">
+          <div className="h-full overflow-y-auto overscroll-contain bg-slate-100 px-3 pb-6 pt-12 [scrollbar-width:thin] [scrollbar-color:#94a3b8_transparent] sm:px-3.5">
             {screenshots.length > 0 ? (
               <div className="space-y-3.5">
                 {screenshots.map((screenshot, index) => (
