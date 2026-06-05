@@ -40,7 +40,7 @@ export default function MBankingInfoList() {
         Daftar Informasi
       </h2>
 
-      <div className="mt-5 grid gap-0">
+      <div className="mt-3 grid gap-0">
         {informationItems.map((item) => (
           <button
             key={item.title}
