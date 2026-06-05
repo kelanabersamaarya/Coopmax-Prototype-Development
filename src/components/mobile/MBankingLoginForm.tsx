@@ -60,7 +60,7 @@ export default function MBankingLoginForm() {
   return (
     <div className="h-full min-h-0 overflow-hidden bg-[#0754c9]">
       <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#0754c9]">
-        <EKolektorLoginHeader />
+        <EKolektorLoginHeader appName="M-Banking" />
 
         <div className="relative z-30 -mt-[66px] flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[30px] bg-white px-7 pb-8 pt-[42px]">
           <div>

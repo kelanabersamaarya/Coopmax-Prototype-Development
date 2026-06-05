@@ -1,6 +1,12 @@
 "use client";
 
-export default function EKolektorLoginHeader() {
+export default function EKolektorLoginHeader({
+  appName = "Sakti Kolektor",
+  subtitle = "Solusi Sakti",
+}: {
+  appName?: string;
+  subtitle?: string;
+}) {
   return (
     <div className="relative h-[230px] shrink-0 overflow-hidden bg-[#0754c9]">
       <div className="relative z-20 h-full overflow-hidden bg-[#0754c9] px-6 pt-4 text-white">
@@ -28,10 +34,10 @@ export default function EKolektorLoginHeader() {
 
           <div className="min-w-0">
             <div className="text-[24px] font-extrabold leading-none tracking-tight text-white">
-              Sakti Kolektor
+              {appName}
             </div>
             <div className="mt-2 whitespace-nowrap text-[20px] font-bold leading-none tracking-tight text-white">
-              Solusi Sakti
+              {subtitle}
             </div>
           </div>
         </div>
