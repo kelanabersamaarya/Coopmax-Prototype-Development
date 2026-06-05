@@ -2,7 +2,7 @@
 
 export default function MBankingTransactionHistoryEmpty() {
   return (
-    <section className="px-6 pt-8">
+    <section className="mt-8 bg-[#F2F2F2] px-6 pb-8 pt-8">
       <div className="flex flex-col items-center text-center">
         <svg
           viewBox="0 0 220 170"
