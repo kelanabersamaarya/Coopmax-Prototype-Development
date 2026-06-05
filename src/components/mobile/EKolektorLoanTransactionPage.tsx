@@ -7,8 +7,12 @@ import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTrans
 
 const loanInfoItems = [
   {
+    title: "Nasabah",
+    subtitle: "Gaby",
+  },
+  {
     title: "No. Rekening Pinjaman",
-    subtitle: "SMG260004 - Gaby",
+    subtitle: "SMG260004",
   },
   {
     title: "Produk Pinjaman",
