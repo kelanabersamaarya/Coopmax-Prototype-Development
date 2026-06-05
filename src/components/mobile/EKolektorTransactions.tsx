@@ -3,6 +3,7 @@
 import { ArrowDownToLine, ArrowUpFromLine, BadgeDollarSign } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
 
 const transactionMenus = [
@@ -96,6 +97,8 @@ export default function EKolektorTransactions({
           </div>
         </div>
       </div>
+
+      <EKolektorAndroidNavBar onBack={onBackHome} />
     </div>
   );
 }
