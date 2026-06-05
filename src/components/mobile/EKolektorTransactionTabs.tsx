@@ -31,6 +31,7 @@ export default function EKolektorTransactionTabs({
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
+        const colorClass = isActive ? "text-[#004FC7]" : "text-black";
 
         return (
           <button
@@ -41,16 +42,21 @@ export default function EKolektorTransactionTabs({
             aria-current={isActive ? "page" : undefined}
           >
             <Icon
-              className="h-[18px] w-[18px] shrink-0 text-[#27B4DF]"
+              className={cn("h-[18px] w-[18px] shrink-0", colorClass)}
               strokeWidth={2.8}
             />
 
-            <span className="text-[12px] font-extrabold leading-none tracking-tight text-[#27B4DF]">
+            <span
+              className={cn(
+                "text-[12px] font-extrabold leading-none tracking-tight",
+                colorClass,
+              )}
+            >
               {tab.label}
             </span>
 
             {isActive ? (
-              <span className="absolute bottom-0 left-1/2 h-[3px] w-[24px] -translate-x-1/2 rounded-full bg-[#27B4DF]" />
+              <span className="absolute bottom-0 left-1/2 h-[3px] w-[24px] -translate-x-1/2 rounded-full bg-[#004FC7]" />
             ) : null}
           </button>
         );
