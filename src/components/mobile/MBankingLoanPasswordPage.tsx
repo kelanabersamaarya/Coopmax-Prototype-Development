@@ -37,30 +37,30 @@ export default function MBankingLoanPasswordPage({
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col bg-white">
-      <div className="flex min-h-0 flex-1 flex-col bg-white">
-        <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <header className="shrink-0 bg-white px-6 pb-5 pt-8">
+    <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
+      <div className="flex min-h-0 flex-1 flex-col bg-[#004FC7]">
+        <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <header className="shrink-0 bg-[#004FC7] px-6 pb-5 pt-8">
             <button
               type="button"
               onClick={onBack}
-              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.98]"
+              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.98]"
               aria-label="Kembali"
               title="Kembali"
             >
               <ArrowLeft className="h-[30px] w-[30px]" strokeWidth={2.4} />
             </button>
 
-            <h1 className="mt-6 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">
+            <h1 className="mt-6 text-[25px] font-extrabold leading-none tracking-tight text-white">
               Password
             </h1>
           </header>
 
-          <main className="bg-white px-6 pb-8 pt-3">
-            <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#203064]">
+          <main className="bg-[#004FC7] px-6 pb-8 pt-3">
+            <div className="text-[20px] font-extrabold leading-tight tracking-tight text-white">
               Masukkan Password
             </div>
-            <div className="mt-2 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
+            <div className="mt-2 text-[14px] font-normal leading-relaxed text-white/75">
               Silakan masukkan password untuk melanjutkan melihat informasi pinjaman.
             </div>
 
@@ -75,8 +75,8 @@ export default function MBankingLoanPasswordPage({
                       className={cn(
                         "h-[14px] w-[14px] rounded-full border-2 transition",
                         filled
-                          ? "border-[#004FC7] bg-[#004FC7]"
-                          : "border-[#D8DDEB] bg-white",
+                          ? "border-white bg-white"
+                          : "border-white/55 bg-transparent",
                       )}
                     />
                   );
