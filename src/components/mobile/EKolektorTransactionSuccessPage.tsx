@@ -41,7 +41,7 @@ export default function EKolektorTransactionSuccessPage({
               </div>
             </div>
 
-            <div className="mt-7 grid gap-5 text-left text-[14px] leading-tight">
+            <div className="mt-7 grid gap-5 text-left text-[16px] leading-tight">
               <div>
                 <div className="font-extrabold tracking-tight text-[#203064]">
                   No.Rekening:
