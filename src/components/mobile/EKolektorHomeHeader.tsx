@@ -14,7 +14,7 @@ export default function EKolektorHomeHeader() {
         </div>
 
         <div className="flex shrink-0 flex-col items-center">
-          <div className="grid h-[40px] w-[40px] place-items-center rounded-full bg-[#27b4df] text-[20px] font-extrabold leading-none text-white">
+          <div className="grid h-[40px] w-[40px] place-items-center rounded-full bg-[#004FC7] text-[20px] font-extrabold leading-none text-white">
             I
           </div>
 
