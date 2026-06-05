@@ -11,7 +11,7 @@ export default function MBankingTransactionHistoryEmpty() {
   const tabs: HistoryTab[] = ["Pembayaran", "Kolektor"];
 
   return (
-    <section className="mt-8 bg-[#F2F2F2] px-6 pb-8 pt-6">
+    <section className="mt-3 bg-[#F2F2F2] px-6 pb-8 pt-6">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
           Riwayat Transaksi
