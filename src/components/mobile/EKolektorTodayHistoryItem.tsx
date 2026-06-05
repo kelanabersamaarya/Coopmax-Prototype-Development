@@ -2,6 +2,21 @@
 
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
+const detailItems = [
+  {
+    label: "Pokok",
+    value: "Rp.30.000.000.000",
+  },
+  {
+    label: "Bunga",
+    value: "Rp.30.000.000.000",
+  },
+  {
+    label: "Denda",
+    value: "Rp. 300.000",
+  },
+];
+
 export default function EKolektorTodayHistoryItem({
   transaction,
 }: {
@@ -41,6 +56,22 @@ export default function EKolektorTodayHistoryItem({
             {transaction.time}
           </div>
         </div>
+      </div>
+
+      <div className="mt-[13px] grid gap-[7px] border-t border-[#E8E8E8] pt-[12px]">
+        {detailItems.map((item) => (
+          <div
+            key={item.label}
+            className="flex items-center justify-between gap-3 text-[12px] leading-tight"
+          >
+            <div className="font-semibold tracking-tight text-[#8E8E8E]">
+              {item.label}
+            </div>
+            <div className="text-right font-extrabold tracking-tight text-[#203064]">
+              {item.value}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
