@@ -40,6 +40,24 @@ export default function EKolektorRecipientInfo() {
             Rp. 50.000,00
           </div>
         </div>
+
+        <div>
+          <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+            Nominal bunga
+          </div>
+          <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+            Rp. 0,00
+          </div>
+        </div>
+
+        <div>
+          <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+            Nominal denda
+          </div>
+          <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+            Rp. 0,00
+          </div>
+        </div>
       </div>
     </div>
   );
