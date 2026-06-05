@@ -1,6 +1,7 @@
 "use client";
 
 import MBankingInfoHeader from "@/components/mobile/MBankingInfoHeader";
+import MBankingInfoList from "@/components/mobile/MBankingInfoList";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
 export default function MBankingInfoPage({
@@ -13,7 +14,9 @@ export default function MBankingInfoPage({
       <MBankingInfoHeader onBack={onBack} />
 
       <div className="relative z-20 -mt-5 min-h-0 flex-1 overflow-hidden rounded-t-[20px] bg-white">
-        <main className="h-full min-h-0 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" />
+        <main className="h-full min-h-0 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <MBankingInfoList />
+        </main>
       </div>
 
       <EKolektorAndroidNavBar onBack={onBack} />
