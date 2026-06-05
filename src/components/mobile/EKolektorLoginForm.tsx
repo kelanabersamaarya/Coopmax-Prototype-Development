@@ -51,11 +51,11 @@ export default function EKolektorLoginForm({
   }, []);
 
   return (
-    <div className="min-h-full bg-white">
-      <div className="flex min-h-[980px] flex-col bg-white">
+    <div className="min-h-full bg-[#0754c9]">
+      <div className="flex min-h-[980px] flex-col bg-[#0754c9]">
         <EKolektorLoginHeader />
 
-        <div className="relative z-30 min-h-[784px] rounded-t-[30px] bg-white px-8 pb-10 pt-[64px]">
+        <div className="relative z-30 -mt-[30px] min-h-[814px] rounded-t-[30px] bg-white px-8 pb-10 pt-[64px]">
           <div>
             <h1 className="text-[30px] font-extrabold leading-tight tracking-tight text-black">
               Masuk
