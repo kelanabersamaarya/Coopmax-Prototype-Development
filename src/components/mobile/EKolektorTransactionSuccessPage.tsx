@@ -12,9 +12,9 @@ function buildSuccessTransaction(): EKolektorTodayTransaction {
     customerName: "Laura Patel",
     accountNo: "7260175",
     transactionType: "Angsuran Pinjaman",
-    amount: "Rp. 50.000,00",
+    amount: "+Rp. 5.000,00",
     date: "5 Jun 2026",
-    time: "15:31",
+    time: "16:16",
   };
 }
 

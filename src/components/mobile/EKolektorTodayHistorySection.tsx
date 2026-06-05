@@ -12,9 +12,20 @@ export default function EKolektorTodayHistorySection({
 
   return (
     <section className="mt-[22px] flex min-h-[260px] w-full flex-1 flex-col rounded-t-[34px] bg-[#F4F4F4] px-5 pb-10 pt-7">
-      <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
-        Riwayat Transaksi Hari Ini
-      </h2>
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
+          Riwayat Transaksi Hari Ini
+        </h2>
+
+        {hasTransactions ? (
+          <button
+            type="button"
+            className="shrink-0 text-[13px] font-semibold leading-tight tracking-tight text-[#004FC7] transition active:scale-[0.98]"
+          >
+            Lihat Semua
+          </button>
+        ) : null}
+      </div>
 
       {hasTransactions ? (
         <div className="mt-5 grid gap-3">
