@@ -11,14 +11,14 @@ export default function EKolektorTransactionHeader({
       <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
 
       <div className="relative z-10 flex items-start justify-between gap-4">
-        <h1 className="text-[25px] font-extrabold leading-none tracking-tight text-white">
+        <h1 className="text-[24px] font-extrabold leading-none tracking-tight text-white">
           Tambah Transaksi
         </h1>
 
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-full px-1 text-[18px] font-semibold leading-none text-white/95 transition active:scale-[0.98]"
+          className="rounded-full px-1 text-[14px] font-semibold leading-none text-[#BFD3F5] transition active:scale-[0.98]"
         >
           Batal
         </button>
