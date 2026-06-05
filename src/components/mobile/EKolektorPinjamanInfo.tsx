@@ -12,13 +12,13 @@ export default function EKolektorPinjamanInfo() {
           </div>
 
           <div className="min-w-0 pt-[2px]">
-            <div className="text-[14px] font-extrabold leading-[1.08] tracking-tight text-[#172957]">
+            <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
               LP Denda RP
             </div>
-            <div className="mt-[12px] text-[14px] font-extrabold leading-[1.08] tracking-tight text-[#172957]">
+            <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
               KORMANI
             </div>
-            <div className="mt-[12px] text-[14px] font-extrabold leading-[1.08] tracking-tight text-[#172957]">
+            <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
               3259238260108
             </div>
           </div>
