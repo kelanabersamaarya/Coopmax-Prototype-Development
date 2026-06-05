@@ -33,7 +33,11 @@ const informationItems = [
   },
 ];
 
-export default function MBankingInfoList() {
+export default function MBankingInfoList({
+  onLoanClick,
+}: {
+  onLoanClick?: () => void;
+}) {
   return (
     <div className="px-6 pb-8 pt-7">
       <h2 className="text-[20px] font-extrabold leading-tight tracking-tight text-[#203064]">
@@ -45,6 +49,11 @@ export default function MBankingInfoList() {
           <button
             key={item.title}
             type="button"
+            onClick={() => {
+              if (item.title === "Pinjaman") {
+                onLoanClick?.();
+              }
+            }}
             className="flex w-full items-center justify-between gap-4 border-b border-[#E8E8E8] py-4 text-left transition active:scale-[0.99]"
           >
             <div className="min-w-0">
