@@ -3,7 +3,6 @@
 import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
-import MBankingLoanStatusChecklist from "@/components/mobile/MBankingLoanStatusChecklist";
 
 const loanInfoItems = [
   {
@@ -94,8 +93,6 @@ export default function MBankingLoanDetailPage({
           <div className="mt-6 h-px w-full bg-[#E8E8E8]" />
 
           <MBankingLoanInstallmentSummary />
-
-          <MBankingLoanStatusChecklist />
         </main>
       </div>
 
