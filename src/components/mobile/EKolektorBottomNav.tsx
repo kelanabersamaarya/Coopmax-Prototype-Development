@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Home } from "lucide-react";
+import { BarChart3, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorTransactionIcon from "@/components/mobile/EKolektorTransactionIcon";
 
@@ -19,7 +19,7 @@ const navItems = [
   },
   {
     label: "Laporan",
-    icon: FileText,
+    icon: BarChart3,
     active: false,
     hideLabel: false,
   },
