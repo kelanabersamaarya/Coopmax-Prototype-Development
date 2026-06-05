@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
 import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
+import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
 
 const loanInfoItems = [
   {
@@ -96,6 +97,8 @@ export default function MBankingLoanDetailPage({
           <MBankingLoanInstallmentSummary />
 
           <MBankingLoanAmountInfo />
+
+          <MBankingTransactionDateRange />
         </main>
       </div>
 
