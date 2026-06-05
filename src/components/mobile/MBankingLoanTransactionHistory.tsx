@@ -1,73 +1,42 @@
 "use client";
 
-import { ReceiptText } from "lucide-react";
-
-const historyRows = [
-  {
-    title: "Pembayaran Angsuran",
-    date: "25-03-2026",
-    amount: "Rp. 991.666",
-    status: "Berhasil",
-  },
-  {
-    title: "Pembayaran Angsuran",
-    date: "25-02-2026",
-    amount: "Rp. 916.666",
-    status: "Berhasil",
-  },
-  {
-    title: "Pembayaran Bunga",
-    date: "25-01-2026",
-    amount: "Rp. 83.333",
-    status: "Berhasil",
-  },
-];
-
 export default function MBankingLoanTransactionHistory() {
   return (
-    <section className="-mx-6 mt-7 bg-[#F2F2F2] px-6 pb-8 pt-6">
-      <div className="flex items-center justify-between gap-4">
-        <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
-          Riwayat Transaksi
-        </h2>
+    <section className="-mx-6 mt-7 bg-[#F2F2F2] px-6 pb-10 pt-6">
+      <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
+        Riwayat Transaksi
+      </h2>
 
-        <button
-          type="button"
-          className="shrink-0 text-[13px] font-semibold leading-tight tracking-tight text-[#004FC7] transition active:scale-[0.98]"
+      <div className="mt-7 flex flex-col items-center text-center">
+        <svg
+          viewBox="0 0 220 170"
+          fill="none"
+          className="h-[170px] w-[220px]"
+          aria-hidden="true"
         >
-          Lihat Semua
-        </button>
-      </div>
+          <path d="M48 74L82 46H169L196 74H48Z" fill="#A8A8A8" />
+          <path d="M82 46H169L194 72H105L82 46Z" fill="#BDBDBD" />
+          <path d="M79 70H170V140H79V70Z" fill="#B9B9B9" />
+          <path d="M79 70L105 95H194L170 70H79Z" fill="#6F6F6F" />
+          <path d="M105 86H194V96H105V86Z" fill="#9B9B9B" />
+          <path d="M82 46L105 70H194L170 46H82Z" fill="#B5B5B5" />
 
-      <div className="mt-4 grid gap-3">
-        {historyRows.map((row, index) => (
-          <div
-            key={`${row.title}-${row.date}-${index}`}
-            className="flex items-center gap-3 rounded-[14px] bg-white px-4 py-3 shadow-sm"
-          >
-            <span className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[13px] bg-[#004FC7] text-white">
-              <ReceiptText className="h-[22px] w-[22px]" strokeWidth={2.5} />
-            </span>
+          <circle cx="108" cy="101" r="3.2" fill="#203040" />
+          <circle cx="140" cy="101" r="3.2" fill="#203040" />
 
-            <div className="min-w-0 flex-1">
-              <div className="truncate text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
-                {row.title}
-              </div>
-              <div className="mt-1 text-[12px] font-normal leading-tight tracking-tight text-[#9A9A9A]">
-                {row.date}
-              </div>
-            </div>
+          <path
+            d="M110 124C116 113 132 113 138 124"
+            stroke="#7A7A7A"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
 
-            <div className="shrink-0 text-right">
-              <div className="text-[13px] font-extrabold leading-tight tracking-tight text-[#203064]">
-                {row.amount}
-              </div>
-              <div className="mt-1 text-[11px] font-semibold leading-tight tracking-tight text-[#39B54A]">
-                {row.status}
-              </div>
-            </div>
-          </div>
-        ))}
+          <rect x="164" y="121" width="14" height="18" fill="white" />
+        </svg>
+
+        <div className="mt-4 text-[20px] font-extrabold leading-tight tracking-tight text-[#23305A]">
+          Tidak Ada Riwayat Transaksi
+        </div>
       </div>
     </section>
   );
