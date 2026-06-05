@@ -20,7 +20,7 @@ export default function EKolektorHome({
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-white">
-      <div className="min-h-0 flex-1 overflow-y-auto bg-white pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <EKolektorHomeHeader />
         <EKolektorHomeSummaryCards />
         <EKolektorSyncInfoCard />
