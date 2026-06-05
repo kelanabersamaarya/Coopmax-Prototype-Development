@@ -51,7 +51,7 @@ export default function EKolektorLoginForm({
   }, []);
 
   const inputClassName = cn(
-    "h-[41px] w-[320px] max-w-full rounded-[9px] border-0 bg-[#F2F2F2] px-4",
+    "h-[41px] w-full rounded-[9px] border-0 bg-[#F2F2F2] px-4",
     "text-[14px] font-normal text-black shadow-none",
     "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#9A9A9A]",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -60,13 +60,13 @@ export default function EKolektorLoginForm({
   const labelClassName = "text-[14px] font-normal leading-none text-[#B8B8B8]";
 
   return (
-    <div className="min-h-full bg-[#0754c9]">
-      <div className="flex min-h-[980px] flex-col bg-[#0754c9]">
+    <div className="h-full min-h-0 overflow-hidden bg-[#0754c9]">
+      <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#0754c9]">
         <EKolektorLoginHeader />
 
-        <div className="relative z-30 -mt-[30px] flex min-h-[814px] flex-col rounded-t-[30px] bg-white px-7 pb-8 pt-[38px]">
+        <div className="relative z-30 -mt-[30px] flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[30px] bg-white px-7 pb-8 pt-[38px]">
           <div>
-            <h1 className="max-w-[330px] text-[25px] font-extrabold leading-[1.15] tracking-tight text-black">
+            <h1 className="max-w-[360px] text-[25px] font-extrabold leading-[1.15] tracking-tight text-black">
               Selamat Datang I Ketut Pasek Jaya Artha
             </h1>
             <p className="mt-3 text-[14px] font-normal leading-relaxed text-[#8a8a8a]">
@@ -74,8 +74,8 @@ export default function EKolektorLoginForm({
             </p>
           </div>
 
-          <form onSubmit={submit} className="mt-8 grid gap-4">
-            <div className="grid gap-2">
+          <form onSubmit={submit} className="mt-8 grid w-full gap-4">
+            <div className="grid w-full gap-2">
               <label className={labelClassName}>Username</label>
               <input
                 value={username}
@@ -86,9 +86,9 @@ export default function EKolektorLoginForm({
               />
             </div>
 
-            <div className="grid gap-2">
+            <div className="grid w-full gap-2">
               <label className={labelClassName}>Password</label>
-              <div className="relative w-[320px] max-w-full">
+              <div className="relative w-full">
                 <input
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
@@ -144,7 +144,7 @@ export default function EKolektorLoginForm({
             <button
               type="submit"
               className={cn(
-                "mt-2 h-[41px] w-[320px] max-w-full rounded-[9px]",
+                "mt-2 h-[41px] w-full rounded-[9px]",
                 "bg-[#004FC7] text-[14px] font-semibold text-white",
                 "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
                 "transition hover:bg-[#0046B3] active:translate-y-px",
@@ -155,7 +155,7 @@ export default function EKolektorLoginForm({
             </button>
           </form>
 
-          <div className="mt-auto pt-10 text-center">
+          <div className="mt-auto pt-6 text-center">
             <div className="text-[12px] font-normal leading-relaxed text-[#9A9A9A]">
               Powered by
             </div>
