@@ -9,7 +9,7 @@ export default function EKolektorHome() {
       <EKolektorHomeHeader />
       <EKolektorHomeSummaryCards />
 
-      <div className="min-h-[720px] rounded-t-[34px] bg-[#f4f4f4]" />
+      <div className="min-h-[720px] bg-[#f4f4f4]" />
     </div>
   );
 }
