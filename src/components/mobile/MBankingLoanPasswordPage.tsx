@@ -17,13 +17,6 @@ export default function MBankingLoanPasswordPage({
   const [password, setPassword] = React.useState("");
 
   function submit() {
-    if (!password.trim()) {
-      toast("PIN wajib diisi", {
-        description: "Masukkan PIN terlebih dahulu untuk melihat detail pinjaman.",
-      });
-      return;
-    }
-
     toast.success("PIN terverifikasi (prototype)");
     onSuccess();
   }
@@ -81,7 +74,7 @@ export default function MBankingLoanPasswordPage({
           onNumberPress={addNumber}
           onBackspace={backspace}
           onSubmit={submit}
-          submitDisabled={password.length === 0}
+          submitDisabled={false}
         />
       </div>
 
