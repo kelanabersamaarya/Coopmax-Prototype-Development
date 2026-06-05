@@ -12,12 +12,12 @@ export default function EKolektorTransactionSuccessPage({
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
       <main className="min-h-0 flex-1 overflow-hidden bg-[#004FC7]">
-        <div className="flex h-full flex-col items-center px-7 pb-8 pt-[92px] text-center">
-          <div className="grid h-[108px] w-[108px] place-items-center rounded-full bg-white/15 ring-1 ring-white/20">
-            <Check className="h-[58px] w-[58px] text-white" strokeWidth={3.2} />
+        <div className="flex h-full flex-col items-center px-7 pb-8 pt-[74px] text-center">
+          <div className="grid h-[100px] w-[100px] place-items-center rounded-full bg-white/15 ring-1 ring-white/20">
+            <Check className="h-[54px] w-[54px] text-white" strokeWidth={3.2} />
           </div>
 
-          <h1 className="mt-8 text-[25px] font-extrabold leading-tight tracking-tight text-white">
+          <h1 className="mt-7 text-[25px] font-extrabold leading-tight tracking-tight text-white">
             Transaksi Berhasil
           </h1>
 
@@ -26,45 +26,44 @@ export default function EKolektorTransactionSuccessPage({
             sinkronisasi.
           </p>
 
-          <div className="mt-9 w-full overflow-hidden rounded-[22px] bg-white text-left shadow-[0_12px_34px_rgba(15,23,42,0.18)] ring-1 ring-white/20">
-            <div className="bg-white px-5 py-4">
-              <div className="text-[12px] font-normal text-[#8A8A8A]">
-                Nomor Transaksi
-              </div>
-              <div className="mt-1 text-[16px] font-extrabold tracking-tight text-[#23305A]">
-                TRX-ANG-0001
-              </div>
-            </div>
-
-            <div className="grid gap-4 px-5 py-5">
-              <div className="flex items-start justify-between gap-4">
-                <div className="text-[13px] font-normal text-[#8A8A8A]">
-                  Jenis Transaksi
-                </div>
-                <div className="text-right text-[13px] font-extrabold text-[#23305A]">
-                  Angsuran Pinjaman
-                </div>
+          <div className="mt-9 w-full max-w-[340px] overflow-hidden rounded-[26px] bg-white px-6 pb-8 pt-7 text-left shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+            <div className="mb-7">
+              <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+                Rekening Tujuan
               </div>
 
-              <div className="h-px w-full bg-[#E8E8E8]" />
-
-              <div className="flex items-start justify-between gap-4">
-                <div className="text-[13px] font-normal text-[#8A8A8A]">
-                  Rekening Tujuan
+              <div className="mt-5 flex items-center gap-4">
+                <div className="grid h-[48px] w-[48px] shrink-0 place-items-center rounded-full bg-[#2CB4DC] text-[24px] font-normal leading-none text-white">
+                  L
                 </div>
-                <div className="text-right text-[13px] font-extrabold text-[#23305A]">
-                  7260175
+
+                <div className="min-w-0">
+                  <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+                    Laura Patel
+                  </div>
+                  <div className="mt-2 text-[14px] font-extrabold leading-none tracking-tight text-[#243464]">
+                    7260175
+                  </div>
                 </div>
               </div>
 
-              <div className="h-px w-full bg-[#E8E8E8]" />
-
-              <div className="flex items-start justify-between gap-4">
-                <div className="text-[13px] font-normal text-[#8A8A8A]">
-                  Nominal Transaksi
+              <div className="mt-7 grid gap-6">
+                <div>
+                  <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+                    Jenis transaksi
+                  </div>
+                  <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+                    Angsuran Pinjaman
+                  </div>
                 </div>
-                <div className="text-right text-[18px] font-extrabold text-[#EF135D]">
-                  Rp. 50.000,00
+
+                <div>
+                  <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+                    Nominal transaksi
+                  </div>
+                  <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+                    Rp. 50.000,00
+                  </div>
                 </div>
               </div>
             </div>
