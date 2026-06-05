@@ -41,7 +41,29 @@ export default function EKolektorTransactionSuccessPage({
               </div>
             </div>
 
-            <div className="mt-5 grid grid-cols-1 gap-3">
+            <div className="mt-9 text-left">
+              <div className="grid gap-6">
+                <div>
+                  <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+                    Jenis transaksi
+                  </div>
+                  <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+                    Angsuran Pinjaman
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+                    Nominal transaksi
+                  </div>
+                  <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+                    Rp. 50.000,00
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-7 grid grid-cols-1 gap-3">
               <button
                 type="button"
                 onClick={() =>
@@ -73,28 +95,6 @@ export default function EKolektorTransactionSuccessPage({
               >
                 Kembali
               </button>
-            </div>
-
-            <div className="mt-9 text-left">
-              <div className="grid gap-6">
-                <div>
-                  <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
-                    Jenis transaksi
-                  </div>
-                  <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
-                    Angsuran Pinjaman
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
-                    Nominal transaksi
-                  </div>
-                  <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
-                    Rp. 50.000,00
-                  </div>
-                </div>
-              </div>
             </div>
           </section>
         </div>
