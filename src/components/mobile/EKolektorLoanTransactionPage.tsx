@@ -31,7 +31,7 @@ export default function EKolektorLoanTransactionPage({
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
-      <header className="relative h-[96px] shrink-0 overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
+      <header className="relative h-[116px] shrink-0 overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
         <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
         <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
 
