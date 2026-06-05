@@ -27,8 +27,8 @@ const navItems = [
 
 function AndroidNavigationBar() {
   return (
-    <div className="h-[27px] bg-[#05070d] px-10">
-      <div className="flex h-full items-center justify-between">
+    <div className="h-[32px] bg-[#05070d] px-6">
+      <div className="flex h-full items-center justify-center gap-[54px]">
         <span
           className="block h-0 w-0 border-y-[5px] border-r-[9px] border-y-transparent border-r-[#f8fafc]"
           aria-hidden="true"
