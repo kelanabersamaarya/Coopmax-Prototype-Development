@@ -41,6 +41,32 @@ export default function EKolektorTransactionSuccessPage({
               </div>
             </div>
 
+            <div className="mt-7 grid gap-5 text-left text-[14px] leading-tight">
+              <div>
+                <div className="font-extrabold tracking-tight text-[#203064]">
+                  No.Rekening:
+                </div>
+                <div className="mt-2 font-extrabold tracking-tight text-[#203064]">
+                  Laura Patel
+                </div>
+                <div className="mt-2 font-extrabold tracking-tight text-[#828282]">
+                  7260175
+                </div>
+              </div>
+
+              <div>
+                <div className="font-extrabold tracking-tight text-[#203064]">
+                  Tanggal:
+                </div>
+                <div className="mt-2 font-extrabold tracking-tight text-[#203064]">
+                  5 Jun 2026
+                </div>
+                <div className="mt-2 font-extrabold tracking-tight text-[#828282]">
+                  15:31
+                </div>
+              </div>
+            </div>
+
             <div className="mt-7 grid grid-cols-1 gap-3">
               <button
                 type="button"
