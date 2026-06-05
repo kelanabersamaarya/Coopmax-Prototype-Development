@@ -3,6 +3,7 @@
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorSearchBar from "@/components/mobile/EKolektorSearchBar";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
+import EKolektorTransactionTabs from "@/components/mobile/EKolektorTransactionTabs";
 
 export default function EKolektorTransactions({
   onBackHome,
@@ -24,6 +25,8 @@ export default function EKolektorTransactions({
         </div>
 
         <EKolektorSearchBar className="mt-[22px]" />
+
+        <EKolektorTransactionTabs className="mt-[24px]" />
       </div>
 
       <EKolektorAndroidNavBar onBack={onBackHome} />
