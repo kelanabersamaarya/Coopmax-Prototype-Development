@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
@@ -12,21 +12,8 @@ export default function EKolektorTransactionSuccessPage({
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
       <main className="min-h-0 flex-1 overflow-hidden bg-[#004FC7]">
-        <div className="flex h-full flex-col items-center px-7 pb-8 pt-[74px] text-center">
-          <div className="grid h-[100px] w-[100px] place-items-center rounded-full bg-white/15 ring-1 ring-white/20">
-            <Check className="h-[54px] w-[54px] text-white" strokeWidth={3.2} />
-          </div>
-
-          <h1 className="mt-7 text-[25px] font-extrabold leading-tight tracking-tight text-white">
-            Transaksi Berhasil
-          </h1>
-
-          <p className="mt-3 max-w-[280px] text-[14px] font-normal leading-relaxed text-white/80">
-            Pembayaran angsuran pinjaman berhasil dikirim dan menunggu proses
-            sinkronisasi.
-          </p>
-
-          <div className="mt-9 w-full max-w-[340px] overflow-hidden rounded-[26px] bg-white px-6 pb-8 pt-7 text-left shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+        <div className="flex h-full flex-col items-center px-7 pb-8 pt-[112px] text-center">
+          <div className="w-full max-w-[340px] overflow-hidden rounded-[26px] bg-white px-6 pb-8 pt-7 text-left shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
             <div className="mb-7">
               <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
                 Rekening Tujuan
