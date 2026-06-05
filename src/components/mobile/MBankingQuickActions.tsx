@@ -42,7 +42,11 @@ const actions = [
   },
 ];
 
-export default function MBankingQuickActions() {
+export default function MBankingQuickActions({
+  onAccountInfoClick,
+}: {
+  onAccountInfoClick?: () => void;
+}) {
   return (
     <section className="px-6 pt-5">
       <div className="grid grid-cols-4 gap-x-1 gap-y-5">
@@ -53,11 +57,16 @@ export default function MBankingQuickActions() {
             <button
               key={action.label}
               type="button"
-              onClick={() =>
+              onClick={() => {
+                if (action.label === "Rekening Saya") {
+                  onAccountInfoClick?.();
+                  return;
+                }
+
                 toast(`${action.label} (prototype)`, {
                   description: "Menu ini belum dihubungkan.",
-                })
-              }
+                });
+              }}
               className="flex min-w-0 flex-col items-center gap-2 rounded-[14px] px-0 py-2 transition active:scale-[0.98]"
             >
               <span className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[14px] bg-[#004FC7] text-white">
