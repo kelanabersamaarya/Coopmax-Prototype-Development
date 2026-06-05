@@ -60,8 +60,8 @@ export default function MBankingQuickActions() {
               }
               className="flex min-w-0 flex-col items-center gap-2 rounded-[14px] px-1 py-2 transition active:scale-[0.98]"
             >
-              <span className="inline-flex h-[48px] w-[48px] items-center justify-center rounded-[14px] bg-[#004FC7] text-white">
-                <Icon className="h-[24px] w-[24px] text-white" strokeWidth={2.5} />
+              <span className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[14px] bg-[#004FC7] text-white">
+                <Icon className="h-[26px] w-[26px] text-white" strokeWidth={2.5} />
               </span>
 
               <span className="max-w-full text-center text-[10.5px] font-semibold leading-tight text-[#23305A]">
