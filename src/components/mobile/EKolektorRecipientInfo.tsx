@@ -21,6 +21,26 @@ export default function EKolektorRecipientInfo() {
           </div>
         </div>
       </div>
+
+      <div className="mt-7 grid gap-6">
+        <div>
+          <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+            Jenis transaksi
+          </div>
+          <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+            Angsuran Pinjaman
+          </div>
+        </div>
+
+        <div>
+          <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+            Nominal transaksi
+          </div>
+          <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+            Rp. 50.000,00
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
