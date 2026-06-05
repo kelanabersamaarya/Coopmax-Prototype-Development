@@ -2,7 +2,7 @@
 
 export default function EKolektorLoginHeader() {
   return (
-    <div className="relative h-[196px] shrink-0 overflow-hidden bg-[#0754c9]">
+    <div className="relative h-[230px] shrink-0 overflow-hidden bg-[#0754c9]">
       <div className="relative z-20 h-full overflow-hidden bg-[#0754c9] px-6 pt-4 text-white">
         <div className="flex h-5 items-center justify-between">
           <div className="text-[15px] font-bold leading-none tracking-tight">
