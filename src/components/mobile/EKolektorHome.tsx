@@ -4,6 +4,7 @@ import EKolektorBottomNav from "@/components/mobile/EKolektorBottomNav";
 import EKolektorHomeHeader from "@/components/mobile/EKolektorHomeHeader";
 import EKolektorHomeSummaryCards from "@/components/mobile/EKolektorHomeSummaryCards";
 import EKolektorSyncInfoCard from "@/components/mobile/EKolektorSyncInfoCard";
+import EKolektorTodayHistorySection from "@/components/mobile/EKolektorTodayHistorySection";
 
 export default function EKolektorHome() {
   return (
@@ -12,8 +13,7 @@ export default function EKolektorHome() {
         <EKolektorHomeHeader />
         <EKolektorHomeSummaryCards />
         <EKolektorSyncInfoCard />
-
-        <div className="min-h-[720px] bg-white" />
+        <EKolektorTodayHistorySection />
       </div>
 
       <EKolektorBottomNav />
