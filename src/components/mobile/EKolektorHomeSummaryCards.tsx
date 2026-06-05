@@ -17,7 +17,7 @@ const cards = [
 
 export default function EKolektorHomeSummaryCards() {
   return (
-    <div className="relative z-10 -mt-[18px] px-5">
+    <div className="relative z-10 mt-[10px] px-5">
       <div className="grid grid-cols-3 gap-[10px]">
         {cards.map((card) => (
           <div
