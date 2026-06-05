@@ -19,25 +19,15 @@ export default function EKolektorLoginForm({
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!username.trim()) {
-      toast("Username wajib diisi", {
-        description: "Masukkan username terlebih dahulu.",
-      });
-      return;
-    }
-
-    if (!password.trim()) {
-      toast("Password wajib diisi", {
-        description: "Masukkan kata sandi terlebih dahulu.",
-      });
-      return;
-    }
-
-    if (rememberUsername) {
+    if (rememberUsername && username.trim()) {
       localStorage.setItem("dyad.e-kolektor.username", username.trim());
-    } else {
+    } else if (!rememberUsername) {
       localStorage.removeItem("dyad.e-kolektor.username");
     }
+
+    toast.success("Masuk E-Kolektor (prototype)", {
+      description: "Login berhasil tanpa perlu username dan password.",
+    });
 
     onLogin();
   }
