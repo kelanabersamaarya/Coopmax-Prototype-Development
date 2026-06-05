@@ -86,7 +86,7 @@ export default function MBankingBottomNav({
                 {!item.hideLabel ? (
                   <span
                     className={cn(
-                      "truncate text-[10px] leading-none tracking-tight",
+                      "truncate text-[12px] leading-none tracking-tight",
                       isActive ? "font-extrabold" : "font-semibold",
                     )}
                   >

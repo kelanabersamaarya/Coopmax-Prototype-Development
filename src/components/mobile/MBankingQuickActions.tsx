@@ -64,7 +64,7 @@ export default function MBankingQuickActions() {
                 <Icon className="h-[26px] w-[26px] text-white" strokeWidth={2.5} />
               </span>
 
-              <span className="max-w-full text-center text-[10.5px] font-semibold leading-tight text-[#23305A]">
+              <span className="max-w-full text-center text-[12px] font-semibold leading-tight text-[#23305A]">
                 {action.label}
               </span>
             </button>
