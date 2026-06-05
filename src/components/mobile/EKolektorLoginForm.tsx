@@ -55,7 +55,7 @@ export default function EKolektorLoginForm({
       <div className="flex min-h-[980px] flex-col bg-white">
         <EKolektorLoginHeader />
 
-        <div className="relative z-30 -mt-[46px] min-h-[636px] rounded-tr-[52px] bg-[#f4f4f4] px-8 pb-10 pt-[48px]">
+        <div className="relative z-30 min-h-[784px] rounded-tr-[52px] bg-white px-8 pb-10 pt-[64px]">
           <div>
             <h1 className="text-[30px] font-extrabold leading-tight tracking-tight text-black">
               Masuk
