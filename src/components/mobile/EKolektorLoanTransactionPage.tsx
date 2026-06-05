@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, CalendarDays, CheckSquare, ChevronDown } from "lucide-react";
+import { CalendarDays, CheckSquare, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
@@ -36,14 +36,9 @@ export default function EKolektorLoanTransactionPage({
         <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
 
         <div className="relative z-10 flex items-start justify-between gap-4">
-          <button
-            type="button"
-            onClick={onBack}
-            className="inline-flex items-center gap-2 rounded-full text-[14px] font-semibold text-[#DDE9FF] transition active:scale-[0.98]"
-          >
-            <ArrowLeft className="h-5 w-5" />
-            Kembali
-          </button>
+          <h1 className="text-[25px] font-extrabold leading-none tracking-tight text-white">
+            Tambah Transaksi
+          </h1>
 
           <button
             type="button"
