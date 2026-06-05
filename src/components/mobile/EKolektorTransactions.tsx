@@ -10,7 +10,9 @@ export default function EKolektorTransactions({
 }) {
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
-      <EKolektorTransactionHeader onCancel={onBackHome} />
+      <div className="shrink-0 pb-[28px]">
+        <EKolektorTransactionHeader onCancel={onBackHome} />
+      </div>
 
       <div className="relative z-10 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white" />
 
