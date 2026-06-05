@@ -23,15 +23,15 @@ export default function EKolektorLoginHeader() {
           </div>
         </div>
 
-        <div className="relative mt-12 flex items-center gap-8">
+        <div className="relative mt-8 flex items-center gap-8">
           <div className="h-[82px] w-[82px] shrink-0 rounded-full bg-white shadow-sm" />
 
           <div className="min-w-0">
-            <div className="text-[27px] font-extrabold leading-none tracking-tight text-white">
-              E-Kolektor
+            <div className="text-[24px] font-extrabold leading-none tracking-tight text-white">
+              Sakti Kolektor
             </div>
-            <div className="mt-3 whitespace-nowrap text-[19px] font-bold leading-none tracking-tight text-white">
-              Koperasi Bina Sejahtera
+            <div className="mt-2 whitespace-nowrap text-[20px] font-bold leading-none tracking-tight text-white">
+              Solusi Sakti
             </div>
           </div>
         </div>
