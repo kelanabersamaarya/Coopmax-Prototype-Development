@@ -42,7 +42,7 @@ export default function EKolektorTodayHistorySection() {
             <rect x="160" y="129" width="14" height="18" fill="white" />
           </svg>
 
-          <div className="-mt-1 text-center text-[18px] font-normal leading-tight text-[#8E8E8E]">
+          <div className="-mt-1 text-center text-[12px] font-normal leading-tight text-[#8E8E8E]">
             Tidak Ada Riwayat Transaksi
           </div>
         </div>
