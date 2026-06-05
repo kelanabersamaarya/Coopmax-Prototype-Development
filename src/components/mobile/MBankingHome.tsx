@@ -1,5 +1,6 @@
 "use client";
 
+import MBankingBottomNav from "@/components/mobile/MBankingBottomNav";
 import MBankingHomeHeader from "@/components/mobile/MBankingHomeHeader";
 import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
@@ -7,14 +8,15 @@ import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransac
 
 export default function MBankingHome() {
   return (
-    <div className="min-h-full bg-white">
-      <MBankingHomeHeader />
-
-      <main className="bg-white pb-8">
+    <div className="flex min-h-full flex-col bg-white">
+      <main className="min-h-0 flex-1 bg-white">
+        <MBankingHomeHeader />
         <MBankingSavingsCard />
         <MBankingQuickActions />
         <MBankingTransactionHistoryEmpty />
       </main>
+
+      <MBankingBottomNav activeTab="home" />
     </div>
   );
 }
