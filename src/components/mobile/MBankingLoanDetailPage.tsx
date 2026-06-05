@@ -1,11 +1,13 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
 import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
 import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
 import MBankingLoanTransactionHistory from "@/components/mobile/MBankingLoanTransactionHistory";
+import MBankingStickyActionButton from "@/components/mobile/MBankingStickyActionButton";
 
 const loanInfoItems = [
   {
@@ -104,6 +106,15 @@ export default function MBankingLoanDetailPage({
           <MBankingLoanTransactionHistory />
         </main>
       </div>
+
+      <MBankingStickyActionButton
+        label="Bayar Angsuran"
+        onClick={() =>
+          toast.success("Bayar Angsuran (prototype)", {
+            description: "Aksi pembayaran belum dihubungkan.",
+          })
+        }
+      />
 
       <EKolektorAndroidNavBar onBack={onBack} />
     </div>
