@@ -36,7 +36,10 @@ export default function MobileMockupFrame({
           </div>
         ) : null}
 
-        <div className="relative h-full overflow-hidden rounded-[2.65rem] bg-slate-100 ring-1 ring-white/10">
+        <div
+          data-mobile-screen="true"
+          className="relative h-full overflow-hidden rounded-[2.65rem] bg-slate-100 ring-1 ring-white/10"
+        >
           {!edgeToEdge ? (
             <>
               <div className="absolute inset-x-0 top-0 z-10 h-12 bg-gradient-to-b from-slate-100 via-slate-100/95 to-transparent" />

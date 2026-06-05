@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -53,11 +54,22 @@ function DateInputField({
   placeholder: string;
   ariaLabel: string;
 }) {
+  const fieldRef = React.useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = React.useState(false);
+  const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const selectedDate = React.useMemo(() => parseDmyToDate(value), [value]);
 
+  function openCalendar() {
+    const screen = fieldRef.current?.closest(
+      '[data-mobile-screen="true"]',
+    ) as HTMLElement | null;
+
+    setMobileScreen(screen);
+    setOpen(true);
+  }
+
   return (
-    <div className="relative min-w-0 flex-1">
+    <div ref={fieldRef} className="relative min-w-0 flex-1">
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -74,7 +86,7 @@ function DateInputField({
 
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={openCalendar}
         className={cn(
           "absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center",
           "rounded-full text-[#7B7B7B] transition active:scale-[0.96]",
@@ -85,34 +97,37 @@ function DateInputField({
         <ChevronDown className="h-[18px] w-[18px]" strokeWidth={2.6} />
       </button>
 
-      {open ? (
-        <div
-          className={cn(
-            "fixed inset-0 z-[9999] flex items-center justify-center",
-            "bg-black/35 px-6",
-          )}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Kalender ${ariaLabel.toLowerCase()}`}
-          onClick={() => setOpen(false)}
-        >
-          <div
-            className="rounded-[18px] bg-white p-2 shadow-[0_18px_45px_rgba(0,0,0,0.28)]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={(date) => {
-                if (!date) return;
-                onChange(formatDmy(date));
-                setOpen(false);
-              }}
-              initialFocus
-            />
-          </div>
-        </div>
-      ) : null}
+      {open && mobileScreen
+        ? createPortal(
+            <div
+              className={cn(
+                "absolute inset-0 z-[80] flex items-center justify-center",
+                "bg-black/35 px-6",
+              )}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`Kalender ${ariaLabel.toLowerCase()}`}
+              onClick={() => setOpen(false)}
+            >
+              <div
+                className="rounded-[18px] bg-white p-2 shadow-[0_18px_45px_rgba(0,0,0,0.28)]"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={(date) => {
+                    if (!date) return;
+                    onChange(formatDmy(date));
+                    setOpen(false);
+                  }}
+                  initialFocus
+                />
+              </div>
+            </div>,
+            mobileScreen,
+          )
+        : null}
     </div>
   );
 }
