@@ -27,8 +27,10 @@ export default function EKolektorTodayHistorySection({
         ) : null}
       </div>
 
+      <div className="mt-4 h-px w-full bg-[#D9D9D9]" />
+
       {hasTransactions ? (
-        <div className="mt-5 grid gap-3">
+        <div className="mt-4 grid gap-3">
           {transactions.map((transaction) => (
             <EKolektorTodayHistoryItem
               key={transaction.id}
