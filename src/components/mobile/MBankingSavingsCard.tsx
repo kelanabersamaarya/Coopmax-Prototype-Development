@@ -1,5 +1,7 @@
 "use client";
 
+import { ChevronRight, Copy } from "lucide-react";
+
 export default function MBankingSavingsCard() {
   return (
     <section className="px-6 pt-1">
@@ -16,16 +18,18 @@ export default function MBankingSavingsCard() {
             <div className="mt-8 text-[10px] font-normal leading-none text-[#678DD8]">
               No Rekening
             </div>
-            <div className="mt-2 text-[12px] font-semibold leading-none text-white">
-              4260029
+            <div className="mt-2 flex items-center gap-2 text-[12px] font-semibold leading-none text-white">
+              <span>4260029</span>
+              <Copy className="h-[13px] w-[13px] text-white" strokeWidth={2.4} />
             </div>
           </div>
 
           <button
             type="button"
-            className="shrink-0 rounded-full px-1 text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]"
+            className="inline-flex shrink-0 items-center gap-1 rounded-full px-1 text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]"
           >
             Detail
+            <ChevronRight className="h-[13px] w-[13px] text-white" strokeWidth={2.6} />
           </button>
         </div>
       </div>
