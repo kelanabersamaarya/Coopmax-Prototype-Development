@@ -43,11 +43,11 @@ function LoanInfoRow({
 }) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-4">
-      <div className="text-[18px] font-extrabold leading-snug tracking-tight text-[#203064]">
+      <div className="text-[14px] font-extrabold leading-snug tracking-tight text-[#203064]">
         {label}
       </div>
 
-      <div className="text-right text-[18px] font-normal leading-snug tracking-tight text-black">
+      <div className="text-right text-[14px] font-normal leading-snug tracking-tight text-black">
         {value}
       </div>
     </div>
