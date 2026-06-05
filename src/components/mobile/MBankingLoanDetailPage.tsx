@@ -5,34 +5,54 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
 const loanInfoItems = [
   {
-    title: "Nasabah",
-    subtitle: "Gaby",
+    label: "Nasabah",
+    value: "Gaby",
   },
   {
-    title: "No. Rekening Pinjaman",
-    subtitle: "SMG260004",
+    label: "No. Rekening Pinjaman",
+    value: "SMG260004",
   },
   {
-    title: "Produk Pinjaman",
-    subtitle: "Pinjaman Billing",
+    label: "Produk Pinjaman",
+    value: "Pinjaman Billing",
   },
   {
-    title: "Skema Tagihan",
-    subtitle: "Tagihan Sesuai Jadwal Angsuran",
+    label: "Skema Tagihan",
+    value: "Tagihan Sesuai Jadwal Angsuran",
   },
   {
-    title: "Satuan Grace Period",
-    subtitle: "Bulan",
+    label: "Satuan Grace Period",
+    value: "Bulan",
   },
   {
-    title: "Durasi Grace Period",
-    subtitle: "3",
+    label: "Durasi Grace Period",
+    value: "3",
   },
   {
-    title: "Sisa Pokok Pinjaman",
-    subtitle: "10.000.000,00",
+    label: "Sisa Pokok Pinjaman",
+    value: "10.000.000,00",
   },
 ];
+
+function LoanInfoRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-4">
+      <div className="text-[18px] font-extrabold leading-snug tracking-tight text-[#203064]">
+        {label}
+      </div>
+
+      <div className="text-right text-[18px] font-normal leading-snug tracking-tight text-black">
+        {value}
+      </div>
+    </div>
+  );
+}
 
 export default function MBankingLoanDetailPage({
   onBack,
@@ -58,17 +78,14 @@ export default function MBankingLoanDetailPage({
           </h1>
         </header>
 
-        <main className="bg-white px-6 pb-10 pt-3">
-          <div className="grid gap-[22px]">
+        <main className="bg-white px-6 pb-10 pt-4">
+          <div className="grid gap-[27px]">
             {loanInfoItems.map((item) => (
-              <div key={item.title} className="min-w-0">
-                <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
-                  {item.title}
-                </div>
-                <div className="mt-[8px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A]">
-                  {item.subtitle}
-                </div>
-              </div>
+              <LoanInfoRow
+                key={item.label}
+                label={item.label}
+                value={item.value}
+              />
             ))}
           </div>
         </main>
