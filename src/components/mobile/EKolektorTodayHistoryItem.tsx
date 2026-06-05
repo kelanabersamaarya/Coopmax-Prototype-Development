@@ -38,21 +38,21 @@ export default function EKolektorTodayHistoryItem({
             {transaction.accountNo}
           </div>
 
-          <div className="mt-[8px] truncate text-[13px] font-semibold leading-tight tracking-tight text-[#8E8E8E]">
+          <div className="mt-[8px] truncate text-[13px] font-semibold leading-tight tracking-tight text-black">
             {transaction.transactionType}
           </div>
         </div>
 
         <div className="shrink-0 text-right">
-          <div className="text-[15px] font-extrabold leading-tight tracking-tight text-[#39B54A]">
+          <div className="text-[15px] font-extrabold leading-tight tracking-tight text-black">
             {displayAmount}
           </div>
 
-          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-[#8E8E8E]">
+          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-black">
             {transaction.date}
           </div>
 
-          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-[#2E2E2E]">
+          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-black">
             {transaction.time}
           </div>
         </div>
@@ -62,10 +62,10 @@ export default function EKolektorTodayHistoryItem({
         <div className="grid gap-[11px]">
           {detailItems.map((item) => (
             <div key={item.label} className="min-w-0">
-              <div className="text-[12px] font-semibold leading-tight tracking-tight text-[#8E8E8E]">
+              <div className="text-[12px] font-semibold leading-tight tracking-tight text-black">
                 {item.label}
               </div>
-              <div className="mt-[4px] text-[12px] font-extrabold leading-tight tracking-tight text-[#203064]">
+              <div className="mt-[4px] text-[12px] font-extrabold leading-tight tracking-tight text-black">
                 {item.value}
               </div>
             </div>
