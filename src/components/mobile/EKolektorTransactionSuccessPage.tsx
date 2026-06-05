@@ -31,7 +31,7 @@ export default function EKolektorTransactionSuccessPage({
               Berhasil Menambahkan Transaksi
             </div>
 
-            <div className="mt-7">
+            <div className="mt-7 flex h-[81px] w-full flex-col items-center justify-center rounded-[12px] bg-[#F6F6F6] px-4">
               <div className="text-[25px] font-extrabold leading-tight tracking-tight text-[#203064]">
                 Rp. 50.000,00
               </div>
