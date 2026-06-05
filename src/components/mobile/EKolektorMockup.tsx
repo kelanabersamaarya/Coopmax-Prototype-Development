@@ -6,6 +6,10 @@ import EKolektorHome from "@/components/mobile/EKolektorHome";
 import EKolektorLoginForm from "@/components/mobile/EKolektorLoginForm";
 import EKolektorTransactions from "@/components/mobile/EKolektorTransactions";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
+import {
+  getEKolektorTransactions,
+  saveEKolektorTransactions,
+} from "@/lib/eKolektorTransactionsStore";
 
 type EKolektorScreen = "home" | "transactions";
 
@@ -14,7 +18,11 @@ export default function EKolektorMockup() {
   const [screen, setScreen] = React.useState<EKolektorScreen>("home");
   const [transactions, setTransactions] = React.useState<
     EKolektorTodayTransaction[]
-  >([]);
+  >(() => getEKolektorTransactions());
+
+  React.useEffect(() => {
+    saveEKolektorTransactions(transactions);
+  }, [transactions]);
 
   function addTransaction(transaction: EKolektorTodayTransaction) {
     setTransactions((current) => {
