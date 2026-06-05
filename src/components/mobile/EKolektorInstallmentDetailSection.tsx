@@ -13,6 +13,10 @@ const leftItems = [
     title: "Tagihan Denda",
     subtitle: "75.000",
   },
+  {
+    title: "Total Tagihan",
+    subtitle: "991.666",
+  },
 ];
 
 const rightItems = [
@@ -61,20 +65,9 @@ function DetailInfoCard({
 
 export default function EKolektorInstallmentDetailSection() {
   return (
-    <div className="mt-[14px]">
-      <div className="grid grid-cols-2 gap-[14px]">
-        <DetailInfoCard items={leftItems} />
-        <DetailInfoCard items={rightItems} />
-      </div>
-
-      <div className="mt-[18px]">
-        <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
-          Total Tagihan
-        </div>
-        <div className="mt-[8px] overflow-hidden text-ellipsis whitespace-nowrap text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A]">
-          991.666
-        </div>
-      </div>
+    <div className="mt-[14px] grid grid-cols-2 gap-[14px]">
+      <DetailInfoCard items={leftItems} />
+      <DetailInfoCard items={rightItems} />
     </div>
   );
 }
