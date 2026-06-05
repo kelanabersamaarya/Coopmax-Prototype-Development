@@ -60,9 +60,6 @@ export default function MBankingLoanPasswordPage({
             <div className="text-[20px] font-extrabold leading-tight tracking-tight text-white">
               Masukkan Password
             </div>
-            <div className="mt-2 text-[14px] font-normal leading-relaxed text-white/75">
-              Silakan masukkan password untuk melanjutkan melihat informasi pinjaman.
-            </div>
 
             <div className="mt-9 flex justify-center">
               <div className="flex items-center gap-3">
