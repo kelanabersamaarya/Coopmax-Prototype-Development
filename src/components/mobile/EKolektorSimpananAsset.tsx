@@ -2,108 +2,43 @@
 
 export default function EKolektorSimpananAsset() {
   return (
-    <div className="mt-[18px] overflow-hidden rounded-[12px] bg-slate-100">
+    <div className="mt-[26px] flex flex-col items-center">
       <svg
-        viewBox="0 0 640 360"
-        className="block h-auto w-full"
-        role="img"
-        aria-label="Aset tab Simpanan"
+        viewBox="0 0 220 170"
+        fill="none"
+        className="h-[170px] w-[220px]"
+        aria-hidden="true"
       >
-        <defs>
-          <linearGradient id="floor" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#d5dae2" />
-            <stop offset="45%" stopColor="#aeb7c4" />
-            <stop offset="100%" stopColor="#7f8a99" />
-          </linearGradient>
-          <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#748299" />
-            <stop offset="55%" stopColor="#42506a" />
-            <stop offset="100%" stopColor="#26324a" />
-          </linearGradient>
-          <linearGradient id="step" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#c8ced8" />
-            <stop offset="100%" stopColor="#8d97a6" />
-          </linearGradient>
-        </defs>
+        <path
+          d="M112 28C93 40 100 62 120 61C143 60 141 33 119 38C95 43 88 75 112 88C138 102 153 72 127 66C98 60 75 91 91 118"
+          stroke="#AFAFAF"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
 
-        <rect width="640" height="360" fill="url(#floor)" />
+        <path d="M44 86L78 58H165L192 86H44Z" fill="#A8A8A8" />
+        <path d="M78 58H165L190 84H101L78 58Z" fill="#BDBDBD" />
+        <path d="M75 82H166V140H75V82Z" fill="#B9B9B9" />
+        <path d="M75 82L101 107H190L166 82H75Z" fill="#6F6F6F" />
+        <path d="M101 98H190V108H101V98Z" fill="#9B9B9B" />
+        <path d="M78 58L101 82H190L166 58H78Z" fill="#B5B5B5" />
 
-        <path d="M0 192 L318 110 L640 180 L640 360 L0 360 Z" fill="#aab2bf" opacity="0.72" />
-        <path d="M0 242 L342 150 L640 214 L640 360 L0 360 Z" fill="#8792a2" opacity="0.82" />
+        <circle cx="104" cy="111" r="3.2" fill="#203040" />
+        <circle cx="136" cy="111" r="3.2" fill="#203040" />
 
-        <g opacity="0.92">
-          <path d="M-80 105 L360 0 L720 120 L260 240 Z" fill="url(#metal)" />
-          <path d="M-80 105 L360 0 L720 120 L260 240 Z" fill="none" stroke="#cbd5e1" strokeWidth="2" />
+        <path
+          d="M106 132C112 121 128 121 134 132"
+          stroke="#7A7A7A"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
 
-          {Array.from({ length: 14 }).map((_, index) => {
-            const x = -45 + index * 54;
-            return (
-              <path
-                key={`left-grid-a-${index}`}
-                d={`M${x} 113 L${x + 405} 8`}
-                stroke="#cbd5e1"
-                strokeWidth="2"
-                opacity="0.88"
-              />
-            );
-          })}
-
-          {Array.from({ length: 11 }).map((_, index) => {
-            const x = -40 + index * 62;
-            return (
-              <path
-                key={`left-grid-b-${index}`}
-                d={`M${x} 116 L${x + 345} 226`}
-                stroke="#dbe4ef"
-                strokeWidth="2"
-                opacity="0.86"
-              />
-            );
-          })}
-        </g>
-
-        <g opacity="0.95">
-          <path d="M470 22 L700 0 L700 210 L435 236 Z" fill="url(#metal)" />
-          <path d="M470 22 L700 0 L700 210 L435 236 Z" fill="none" stroke="#cbd5e1" strokeWidth="2" />
-
-          {Array.from({ length: 8 }).map((_, index) => {
-            const x = 478 + index * 31;
-            return (
-              <path
-                key={`right-grid-a-${index}`}
-                d={`M${x} 24 L${x - 40} 236`}
-                stroke="#dbe4ef"
-                strokeWidth="2"
-                opacity="0.82"
-              />
-            );
-          })}
-
-          {Array.from({ length: 9 }).map((_, index) => {
-            const y = 20 + index * 24;
-            return (
-              <path
-                key={`right-grid-b-${index}`}
-                d={`M470 ${y} L700 ${y - 18}`}
-                stroke="#cbd5e1"
-                strokeWidth="2"
-                opacity="0.82"
-              />
-            );
-          })}
-        </g>
-
-        <path d="M226 198 L420 145 L580 182 L380 252 Z" fill="url(#step)" opacity="0.88" />
-        <path d="M268 250 L460 188 L640 224 L430 304 Z" fill="#778393" opacity="0.68" />
-
-        <g opacity="0.9">
-          <path d="M526 58 C548 72 562 98 560 132 L640 160 L640 360 L486 360 C454 320 445 265 462 220 C478 181 507 160 525 136 C540 114 534 86 526 58 Z" fill="#111827" />
-          <path d="M558 0 C574 18 584 52 579 85 C574 112 558 132 540 150 L636 184 L640 0 Z" fill="#0f172a" opacity="0.92" />
-          <path d="M574 92 C588 94 598 98 604 106 C593 112 579 111 566 105 Z" fill="#f3f4f6" opacity="0.92" />
-        </g>
-
-        <rect x="0" y="0" width="640" height="360" fill="#ffffff" opacity="0.08" />
+        <rect x="160" y="129" width="14" height="18" fill="white" />
       </svg>
+
+      <div className="-mt-1 text-center text-[12px] font-normal leading-tight text-[#8E8E8E]">
+        Tidak Ada Data Simpanan
+      </div>
     </div>
   );
 }
