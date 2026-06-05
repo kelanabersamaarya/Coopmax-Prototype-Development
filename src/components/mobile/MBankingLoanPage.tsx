@@ -4,12 +4,24 @@ import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanDetailPage from "@/components/mobile/MBankingLoanDetailPage";
+import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
+
+type LoanScreen = "list" | "password" | "detail";
 
 export default function MBankingLoanPage({ onBack }: { onBack: () => void }) {
-  const [showDetail, setShowDetail] = React.useState(false);
+  const [screen, setScreen] = React.useState<LoanScreen>("list");
 
-  if (showDetail) {
-    return <MBankingLoanDetailPage onBack={() => setShowDetail(false)} />;
+  if (screen === "detail") {
+    return <MBankingLoanDetailPage onBack={() => setScreen("list")} />;
+  }
+
+  if (screen === "password") {
+    return (
+      <MBankingLoanPasswordPage
+        onBack={() => setScreen("list")}
+        onSuccess={() => setScreen("detail")}
+      />
+    );
   }
 
   return (
@@ -32,10 +44,10 @@ export default function MBankingLoanPage({ onBack }: { onBack: () => void }) {
         <section className="pt-7">
           <button
             type="button"
-            onClick={() => setShowDetail(true)}
+            onClick={() => setScreen("password")}
             className="block w-full text-left transition active:scale-[0.99]"
-            aria-label="Buka detail Pinjaman Bulanan"
-            title="Buka detail Pinjaman Bulanan"
+            aria-label="Buka input password Pinjaman Bulanan"
+            title="Buka input password Pinjaman Bulanan"
           >
             <div className="relative h-[147px] w-full overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white shadow-[0_8px_22px_rgba(0,79,199,0.20)]">
               <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
