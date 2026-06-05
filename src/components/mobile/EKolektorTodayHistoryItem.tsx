@@ -38,21 +38,21 @@ export default function EKolektorTodayHistoryItem({
             {transaction.accountNo}
           </div>
 
-          <div className="mt-[8px] truncate text-[13px] font-semibold leading-tight tracking-tight text-black">
+          <div className="mt-[8px] truncate text-[13px] font-semibold leading-tight tracking-tight text-[#63809E]">
             {transaction.transactionType}
           </div>
         </div>
 
         <div className="shrink-0 text-right">
-          <div className="text-[15px] font-extrabold leading-tight tracking-tight text-black">
+          <div className="text-[15px] font-extrabold leading-tight tracking-tight text-[#34B27C]">
             {displayAmount}
           </div>
 
-          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-black">
+          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-[#63809E]">
             {transaction.date}
           </div>
 
-          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-black">
+          <div className="mt-[10px] text-[14px] font-semibold leading-tight tracking-tight text-[#63809E]">
             {transaction.time}
           </div>
         </div>
