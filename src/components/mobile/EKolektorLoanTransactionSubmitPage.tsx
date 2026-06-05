@@ -3,6 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import EKolektorRecipientInfo from "@/components/mobile/EKolektorRecipientInfo";
 import { cn } from "@/lib/utils";
 
 export default function EKolektorLoanTransactionSubmitPage({
@@ -34,6 +35,8 @@ export default function EKolektorLoanTransactionSubmitPage({
         </div>
 
         <div className="mt-8 overflow-hidden rounded-[26px] bg-white px-6 pb-8 pt-7 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+          <EKolektorRecipientInfo />
+
           <button
             type="button"
             onClick={submit}
