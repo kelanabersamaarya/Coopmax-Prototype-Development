@@ -3,6 +3,21 @@
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 import EKolektorTodayHistoryItem from "@/components/mobile/EKolektorTodayHistoryItem";
 
+const summaryItems = [
+  {
+    label: "Pokok",
+    value: "Rp.30.000.000.000",
+  },
+  {
+    label: "Bunga",
+    value: "Rp.30.000.000.000",
+  },
+  {
+    label: "Denda",
+    value: "Rp. 300.000",
+  },
+];
+
 export default function EKolektorTodayHistorySection({
   transactions = [],
 }: {
@@ -25,6 +40,22 @@ export default function EKolektorTodayHistorySection({
             Lihat Semua
           </button>
         ) : null}
+      </div>
+
+      <div className="mt-4 grid grid-cols-3 gap-[8px]">
+        {summaryItems.map((item) => (
+          <div
+            key={item.label}
+            className="min-w-0 rounded-[10px] bg-white px-[9px] py-[10px] shadow-[0_3px_12px_rgba(15,23,42,0.06)]"
+          >
+            <div className="truncate text-[12px] font-extrabold leading-tight tracking-tight text-[#8E8E8E]">
+              {item.label}
+            </div>
+            <div className="mt-[7px] break-words text-[11px] font-extrabold leading-tight tracking-tight text-[#203064]">
+              {item.value}
+            </div>
+          </div>
+        ))}
       </div>
 
       {hasTransactions ? (
