@@ -51,18 +51,20 @@ export default function EKolektorLoginForm({
   }, []);
 
   const inputClassName = cn(
-    "h-[58px] w-full rounded-[9px] border-0 bg-[#F2F2F2] px-5",
-    "text-[18px] font-normal text-black shadow-none",
-    "placeholder:text-[#9A9A9A]",
+    "h-[41px] w-[320px] max-w-full rounded-[9px] border-0 bg-[#F2F2F2] px-4",
+    "text-[14px] font-normal text-black shadow-none",
+    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#9A9A9A]",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
+
+  const labelClassName = "text-[14px] font-normal leading-none text-[#B8B8B8]";
 
   return (
     <div className="min-h-full bg-[#0754c9]">
       <div className="flex min-h-[980px] flex-col bg-[#0754c9]">
         <EKolektorLoginHeader />
 
-        <div className="relative z-30 -mt-[30px] flex min-h-[814px] flex-col rounded-t-[30px] bg-white px-7 pb-8 pt-[58px]">
+        <div className="relative z-30 -mt-[30px] flex min-h-[814px] flex-col rounded-t-[30px] bg-white px-7 pb-8 pt-[38px]">
           <div>
             <h1 className="max-w-[330px] text-[25px] font-extrabold leading-[1.15] tracking-tight text-black">
               Selamat Datang I Ketut Pasek Jaya Artha
@@ -72,39 +74,51 @@ export default function EKolektorLoginForm({
             </p>
           </div>
 
-          <form onSubmit={submit} className="mt-9 grid gap-5">
-            <input
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              className={inputClassName}
-              placeholder="Masukkan Username"
-              autoComplete="username"
-            />
-
-            <div className="relative">
+          <form onSubmit={submit} className="mt-8 grid gap-4">
+            <div className="grid gap-2">
+              <label className={labelClassName}>Username</label>
               <input
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                type={showPassword ? "text" : "password"}
-                className={cn(inputClassName, "pr-14")}
-                placeholder="Masukkan Kata Sandi Anda"
-                autoComplete="current-password"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                className={inputClassName}
+                placeholder="Masukkan Username"
+                autoComplete="username"
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword((current) => !current)}
-                className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[9px] text-[#7B7B7B] transition hover:bg-black/5"
-                aria-label={
-                  showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"
-                }
-                title={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-5 w-5" />
-                ) : (
-                  <Eye className="h-5 w-5" />
-                )}
-              </button>
+            </div>
+
+            <div className="grid gap-2">
+              <label className={labelClassName}>Password</label>
+              <div className="relative w-[320px] max-w-full">
+                <input
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  type={showPassword ? "text" : "password"}
+                  className={cn(inputClassName, "pr-12")}
+                  placeholder="Masukkan Kata Sandi Anda"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((current) => !current)}
+                  className="absolute right-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-[9px] text-[#7B7B7B] transition hover:bg-black/5"
+                  aria-label={
+                    showPassword
+                      ? "Sembunyikan kata sandi"
+                      : "Tampilkan kata sandi"
+                  }
+                  title={
+                    showPassword
+                      ? "Sembunyikan kata sandi"
+                      : "Tampilkan kata sandi"
+                  }
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <label className="mt-1 flex w-fit items-center gap-3 text-[14px] font-normal text-[#727272]">
@@ -130,8 +144,8 @@ export default function EKolektorLoginForm({
             <button
               type="submit"
               className={cn(
-                "mt-2 h-[48px] w-full rounded-[9px]",
-                "bg-[#004FC7] text-[16px] font-semibold text-white",
+                "mt-2 h-[41px] w-[320px] max-w-full rounded-[9px]",
+                "bg-[#004FC7] text-[14px] font-semibold text-white",
                 "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
                 "transition hover:bg-[#0046B3] active:translate-y-px",
                 "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
