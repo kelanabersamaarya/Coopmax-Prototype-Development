@@ -52,57 +52,10 @@ export default function EKolektorLoanTransactionPage({
 
       <main className="relative z-10 -mt-[30px] min-h-0 flex-1 overflow-y-auto rounded-t-[30px] bg-white px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
-          Transaksi Pinjaman
+          Angsuran Pinjaman
         </div>
         <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
-          Lengkapi pembayaran pinjaman nasabah
-        </div>
-
-        <div className="mt-[22px] overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)] ring-1 ring-slate-100">
-          <div className="px-[18px] py-[16px]">
-            <div className="flex items-start gap-[14px]">
-              <div className="grid h-[55px] w-[55px] shrink-0 place-items-center rounded-full bg-[#004FC7]">
-                <span className="text-[14px] font-normal leading-none text-white">
-                  K
-                </span>
-              </div>
-
-              <div className="min-w-0">
-                <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
-                  LP Denda RP
-                </div>
-                <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
-                  KORMANI
-                </div>
-                <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
-                  3259238260108
-                </div>
-                <div className="mt-[5px] text-[14px] font-normal leading-tight tracking-tight text-[#63809E]">
-                  Penatih
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-[9px] bg-[#F4F7FE] px-3 py-3">
-                <div className="text-[11px] font-normal text-[#8B9AB2]">
-                  Sisa Pokok
-                </div>
-                <div className="mt-1 text-[13px] font-extrabold text-[#172957]">
-                  Rp 10.684
-                </div>
-              </div>
-
-              <div className="rounded-[9px] bg-[#F4F7FE] px-3 py-3">
-                <div className="text-[11px] font-normal text-[#8B9AB2]">
-                  Denda
-                </div>
-                <div className="mt-1 text-[13px] font-extrabold text-[#172957]">
-                  Rp 31.52
-                </div>
-              </div>
-            </div>
-          </div>
+          Silakan lengkapi form berikut
         </div>
 
         <form
