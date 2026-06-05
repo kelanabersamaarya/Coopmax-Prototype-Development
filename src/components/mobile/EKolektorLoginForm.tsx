@@ -156,11 +156,10 @@ export default function EKolektorLoginForm({
           </form>
 
           <div className="mt-auto pt-6 text-center">
-            <div className="text-[12px] font-normal leading-relaxed text-[#9A9A9A]">
-              Powered by
-            </div>
-            <div className="mt-1 text-[13px] font-semibold leading-relaxed text-[#7A7A7A]">
-              Solusi Sakti
+            <div className="text-[11px] font-normal leading-relaxed text-[#9A9A9A]">
+              <div>Dengan masuk, anda telah menyetujui</div>
+              <div>Syarat Ketentuan dan Kebijakan Privasi</div>
+              <div>Versi 1.5.9.105</div>
             </div>
           </div>
         </div>
