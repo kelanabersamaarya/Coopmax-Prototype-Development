@@ -38,7 +38,7 @@ export default function EKolektorLoanTransactionSubmitPage({
             type="button"
             onClick={submit}
             className={cn(
-              "h-[55px] w-full rounded-full",
+              "h-[41px] w-full rounded-full",
               "bg-[#004FC7] text-[14px] font-normal text-white",
               "shadow-[0_8px_18px_rgba(0,79,199,0.28)]",
               "transition hover:bg-[#0046B3] active:translate-y-px",
