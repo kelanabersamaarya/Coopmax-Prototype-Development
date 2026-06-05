@@ -52,16 +52,12 @@ export default function MBankingLoanPasswordPage({
             </button>
 
             <h1 className="mt-6 text-[25px] font-extrabold leading-none tracking-tight text-white">
-              Password
+              Masukkan PIN Anda
             </h1>
           </header>
 
-          <main className="bg-[#004FC7] px-6 pb-8 pt-3">
-            <div className="text-[20px] font-extrabold leading-tight tracking-tight text-white">
-              Masukkan Password
-            </div>
-
-            <div className="mt-9 flex justify-center">
+          <main className="bg-[#004FC7] px-6 pb-8 pt-10">
+            <div className="flex justify-center">
               <div className="flex items-center gap-3">
                 {Array.from({ length: 6 }).map((_, index) => {
                   const filled = index < password.length;
