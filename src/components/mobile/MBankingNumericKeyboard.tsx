@@ -63,11 +63,13 @@ export default function MBankingNumericKeyboard({
         type="button"
         onClick={onSubmit}
         disabled={submitDisabled}
+        style={{ backgroundColor: "#004FC7" }}
         className={cn(
           "mt-[18px] h-[34px] w-full rounded-full",
-          "bg-[#004FC7] text-[12px] font-normal text-white",
+          "text-[12px] font-normal text-white",
           "transition active:scale-[0.99]",
-          submitDisabled ? "opacity-70" : "hover:bg-[#0046B3]",
+          "hover:brightness-95",
+          submitDisabled ? "cursor-not-allowed" : "",
         )}
       >
         Selanjutnya
