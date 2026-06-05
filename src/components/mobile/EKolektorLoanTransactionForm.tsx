@@ -34,13 +34,21 @@ export default function EKolektorLoanTransactionForm() {
 
       <div className="grid w-full gap-2">
         <label className={labelClassName}>Nominal Pembayaran</label>
-        <input
-          value={nominalTransaksi}
-          onChange={(event) => setNominalTransaksi(event.target.value)}
-          className={inputClassName}
-          placeholder="Masukkan Nominal Transaksi"
-          inputMode="numeric"
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[18px] font-normal text-[#23305A]">
+            Rp.
+          </span>
+          <input
+            value={nominalTransaksi}
+            onChange={(event) => setNominalTransaksi(event.target.value)}
+            className={cn(
+              inputClassName,
+              "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[18px] placeholder:text-[#23305A]",
+            )}
+            placeholder="0"
+            inputMode="numeric"
+          />
+        </div>
       </div>
     </div>
   );
