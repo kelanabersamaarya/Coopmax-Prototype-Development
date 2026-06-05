@@ -2,6 +2,33 @@
 
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
+const loanInfoItems = [
+  {
+    title: "No. Rekening Pinjaman",
+    subtitle: "SMG260004 - Gaby",
+  },
+  {
+    title: "Produk Pinjaman",
+    subtitle: "Pinjaman Billing",
+  },
+  {
+    title: "Skema Tagihan",
+    subtitle: "Tagihan Sesuai Jadwal Angsuran",
+  },
+  {
+    title: "Satuan Grace Period",
+    subtitle: "Bulan",
+  },
+  {
+    title: "Durasi Grace Period",
+    subtitle: "3",
+  },
+  {
+    title: "Sisa Pokok Pinjaman",
+    subtitle: "10.000.000,00",
+  },
+];
+
 export default function EKolektorLoanTransactionPage({
   onBack,
 }: {
@@ -34,6 +61,19 @@ export default function EKolektorLoanTransactionPage({
         </div>
         <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
           Silakan lengkapi form berikut
+        </div>
+
+        <div className="mt-[24px] grid gap-[22px]">
+          {loanInfoItems.map((item) => (
+            <div key={item.title} className="min-w-0">
+              <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
+                {item.title}
+              </div>
+              <div className="mt-[8px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A]">
+                {item.subtitle}
+              </div>
+            </div>
+          ))}
         </div>
       </main>
 
