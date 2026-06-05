@@ -16,13 +16,13 @@ export default function EKolektorExitConfirmModal({
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/35 px-7">
       <div className="w-full max-w-[315px] overflow-hidden rounded-[18px] bg-white shadow-[0_18px_45px_rgba(15,23,42,0.25)]">
-        <div className="px-6 pb-5 pt-6 text-center">
-          <div className="text-[18px] font-extrabold leading-tight tracking-tight text-black">
-            Keluar dari aplikasi?
+        <div className="px-6 pb-5 pt-6 text-left">
+          <div className="text-[18px] font-extrabold leading-tight tracking-tight text-[#000000]">
+            Info
           </div>
 
           <div className="mt-3 text-[13px] font-normal leading-relaxed text-[#7A7A7A]">
-            Apakah Anda yakin ingin keluar dari Sakti Kolektor?
+            Apakah yakin keluar dari aplikasi
           </div>
         </div>
 
