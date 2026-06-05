@@ -2,16 +2,16 @@
 
 const cards = [
   {
-    title: "Total Debitur",
-    value: "128",
+    title: "Penarikan",
+    value: "10",
   },
   {
-    title: "Total Tagihan",
-    value: "48,2 Jt",
+    title: "Setoran",
+    value: "10",
   },
   {
-    title: "Tertagih",
-    value: "12,5 Jt",
+    title: "Angsuran Pinjaman",
+    value: "10",
   },
 ];
 
@@ -22,17 +22,13 @@ export default function EKolektorHomeSummaryCards() {
         {cards.map((card) => (
           <div
             key={card.title}
-            className="h-[123px] min-w-0 overflow-hidden rounded-[11px] bg-white shadow-[0_4px_16px_rgba(15,23,42,0.10)]"
+            className="flex h-[123px] min-w-0 flex-col justify-center overflow-hidden rounded-[11px] bg-[#004FC7] px-[9px] text-center shadow-[0_4px_16px_rgba(15,23,42,0.10)]"
           >
-            <div className="h-[74px] rounded-t-[11px] bg-[#24b8df]" />
-
-            <div className="px-[9px] pb-2 pt-[9px]">
-              <div className="truncate text-[9px] font-normal leading-none text-[#707070]">
-                {card.title}
-              </div>
-              <div className="mt-[7px] truncate text-[12px] font-extrabold leading-none text-[#111d4a]">
-                {card.value}
-              </div>
+            <div className="text-[30px] font-extrabold leading-none tracking-tight text-white">
+              {card.value}
+            </div>
+            <div className="mt-3 text-[14px] font-semibold leading-tight text-white">
+              {card.title}
             </div>
           </div>
         ))}
