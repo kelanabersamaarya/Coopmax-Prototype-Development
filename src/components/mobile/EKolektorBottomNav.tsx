@@ -28,8 +28,8 @@ const navItems = [
 
 export default function EKolektorBottomNav() {
   return (
-    <nav className="sticky bottom-0 z-40 shrink-0 border-t border-[#E6EAF1] bg-white px-4 pb-3 pt-2 shadow-[0_-6px_18px_rgba(15,23,42,0.08)]">
-      <div className="grid grid-cols-4 items-end gap-1">
+    <nav className="sticky bottom-0 z-40 shrink-0 bg-white px-5 pb-[14px] pt-[10px] shadow-[0_-8px_22px_rgba(15,23,42,0.08)]">
+      <div className="grid grid-cols-4 items-end">
         {navItems.map((item) => {
           const Icon = item.icon;
 
@@ -38,21 +38,32 @@ export default function EKolektorBottomNav() {
               key={item.label}
               type="button"
               className={cn(
-                "flex min-w-0 flex-col items-center justify-center gap-1 rounded-[14px] px-1 py-1.5 transition",
-                item.active ? "text-[#004FC7]" : "text-[#9A9A9A]",
+                "flex min-w-0 flex-col items-center justify-end gap-[5px]",
+                "rounded-[14px] px-1 py-1 transition",
+                item.active ? "text-[#004FC7]" : "text-[#A5A5A5]",
               )}
               aria-current={item.active ? "page" : undefined}
             >
               <span
                 className={cn(
-                  "inline-flex h-[28px] w-[28px] items-center justify-center rounded-full transition",
-                  item.active ? "bg-[#EAF2FF]" : "bg-transparent",
+                  "inline-flex h-[34px] w-[34px] items-center justify-center rounded-full transition",
+                  item.active ? "bg-[#004FC7] text-white" : "bg-transparent",
                 )}
               >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={2.5} />
+                <Icon
+                  className={cn(
+                    item.active ? "h-[18px] w-[18px]" : "h-[21px] w-[21px]",
+                  )}
+                  strokeWidth={item.active ? 2.8 : 2.35}
+                />
               </span>
 
-              <span className="truncate text-[10px] font-semibold leading-none">
+              <span
+                className={cn(
+                  "truncate text-[10px] leading-none tracking-tight",
+                  item.active ? "font-extrabold" : "font-semibold",
+                )}
+              >
                 {item.label}
               </span>
             </button>
