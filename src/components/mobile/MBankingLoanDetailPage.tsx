@@ -88,6 +88,8 @@ export default function MBankingLoanDetailPage({
               />
             ))}
           </div>
+
+          <div className="mt-6 h-px w-full bg-[#E8E8E8]" />
         </main>
       </div>
 
