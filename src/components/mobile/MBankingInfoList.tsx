@@ -51,7 +51,7 @@ export default function MBankingInfoList() {
               <div className="text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
                 {item.title}
               </div>
-              <div className="mt-1 text-[12px] font-normal leading-tight tracking-tight text-[#A2A2A2]">
+              <div className="mt-0.5 text-[12px] font-normal leading-tight tracking-tight text-[#A2A2A2]">
                 {item.subtitle}
               </div>
             </div>
