@@ -64,7 +64,7 @@ export default function EKolektorLoginForm({
       <div className="flex h-full min-h-0 flex-col overflow-hidden bg-[#0754c9]">
         <EKolektorLoginHeader />
 
-        <div className="relative z-30 -mt-[30px] flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[30px] bg-white px-7 pb-8 pt-[38px]">
+        <div className="relative z-30 -mt-[66px] flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[30px] bg-white px-7 pb-8 pt-[42px]">
           <div>
             <h1 className="max-w-[360px] text-[25px] font-extrabold leading-[1.15] tracking-tight text-black">
               Selamat Datang I Ketut Pasek Jaya Artha
