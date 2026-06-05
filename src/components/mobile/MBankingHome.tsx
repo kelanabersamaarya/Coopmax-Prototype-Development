@@ -1,6 +1,7 @@
 "use client";
 
 import MBankingHomeHeader from "@/components/mobile/MBankingHomeHeader";
+import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
 
 export default function MBankingHome() {
@@ -10,6 +11,7 @@ export default function MBankingHome() {
 
       <main className="min-h-0 flex-1 bg-white">
         <MBankingSavingsCard />
+        <MBankingQuickActions />
       </main>
     </div>
   );
