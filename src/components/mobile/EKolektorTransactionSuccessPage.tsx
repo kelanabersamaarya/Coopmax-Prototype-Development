@@ -4,12 +4,32 @@ import { Check } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
+
+function buildSuccessTransaction(): EKolektorTodayTransaction {
+  return {
+    id: `angsuran-${Date.now()}`,
+    customerName: "Laura Patel",
+    accountNo: "7260175",
+    transactionType: "Angsuran Pinjaman",
+    amount: "Rp. 50.000,00",
+    date: "5 Jun 2026",
+    time: "15:31",
+  };
+}
 
 export default function EKolektorTransactionSuccessPage({
   onDone,
+  onTransactionSaved,
 }: {
   onDone: () => void;
+  onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
 }) {
+  function goHomeWithHistory() {
+    onTransactionSaved(buildSuccessTransaction());
+    onDone();
+  }
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
       <main className="min-h-0 flex-1 overflow-hidden bg-[#004FC7]">
@@ -88,7 +108,7 @@ export default function EKolektorTransactionSuccessPage({
 
               <button
                 type="button"
-                onClick={onDone}
+                onClick={goHomeWithHistory}
                 className={cn(
                   "h-[43px] w-full rounded-[9px]",
                   "bg-[#004FC7] text-[14px] font-semibold text-white",
@@ -104,7 +124,7 @@ export default function EKolektorTransactionSuccessPage({
         </div>
       </main>
 
-      <EKolektorAndroidNavBar onBack={onDone} />
+      <EKolektorAndroidNavBar onBack={goHomeWithHistory} />
     </div>
   );
 }

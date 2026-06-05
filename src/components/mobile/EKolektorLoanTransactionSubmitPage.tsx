@@ -6,18 +6,26 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorRecipientInfo from "@/components/mobile/EKolektorRecipientInfo";
 import EKolektorTransactionSuccessPage from "@/components/mobile/EKolektorTransactionSuccessPage";
 import { cn } from "@/lib/utils";
+import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
 export default function EKolektorLoanTransactionSubmitPage({
   onBack,
   onDone,
+  onTransactionSaved,
 }: {
   onBack: () => void;
   onDone: () => void;
+  onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
 }) {
   const [success, setSuccess] = React.useState(false);
 
   if (success) {
-    return <EKolektorTransactionSuccessPage onDone={onDone} />;
+    return (
+      <EKolektorTransactionSuccessPage
+        onDone={onDone}
+        onTransactionSaved={onTransactionSaved}
+      />
+    );
   }
 
   return (

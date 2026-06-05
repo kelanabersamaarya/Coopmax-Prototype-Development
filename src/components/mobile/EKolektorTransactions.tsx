@@ -6,13 +6,16 @@ import EKolektorSearchBar from "@/components/mobile/EKolektorSearchBar";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
 import EKolektorTransactionTabs from "@/components/mobile/EKolektorTransactionTabs";
 import EKolektorLoanTransactionPage from "@/components/mobile/EKolektorLoanTransactionPage";
+import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
 type TransactionScreen = "list" | "loan-transaction";
 
 export default function EKolektorTransactions({
   onBackHome,
+  onTransactionSaved,
 }: {
   onBackHome: () => void;
+  onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
 }) {
   const [screen, setScreen] = React.useState<TransactionScreen>("list");
 
@@ -21,6 +24,7 @@ export default function EKolektorTransactions({
       <EKolektorLoanTransactionPage
         onBack={() => setScreen("list")}
         onDoneHome={onBackHome}
+        onTransactionSaved={onTransactionSaved}
       />
     );
   }

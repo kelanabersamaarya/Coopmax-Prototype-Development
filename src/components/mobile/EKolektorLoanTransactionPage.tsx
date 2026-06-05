@@ -5,6 +5,7 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorInstallmentDetailSection from "@/components/mobile/EKolektorInstallmentDetailSection";
 import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTransactionForm";
 import EKolektorLoanTransactionSubmitPage from "@/components/mobile/EKolektorLoanTransactionSubmitPage";
+import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
 const loanInfoItems = [
   {
@@ -40,9 +41,11 @@ const loanInfoItems = [
 export default function EKolektorLoanTransactionPage({
   onBack,
   onDoneHome,
+  onTransactionSaved,
 }: {
   onBack: () => void;
   onDoneHome: () => void;
+  onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
 }) {
   const [showSubmitPage, setShowSubmitPage] = React.useState(false);
 
@@ -51,6 +54,7 @@ export default function EKolektorLoanTransactionPage({
       <EKolektorLoanTransactionSubmitPage
         onBack={() => setShowSubmitPage(false)}
         onDone={onDoneHome}
+        onTransactionSaved={onTransactionSaved}
       />
     );
   }

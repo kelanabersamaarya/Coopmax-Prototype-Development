@@ -8,13 +8,16 @@ import EKolektorHomeHeader from "@/components/mobile/EKolektorHomeHeader";
 import EKolektorHomeSummaryCards from "@/components/mobile/EKolektorHomeSummaryCards";
 import EKolektorSyncInfoCard from "@/components/mobile/EKolektorSyncInfoCard";
 import EKolektorTodayHistorySection from "@/components/mobile/EKolektorTodayHistorySection";
+import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
 export default function EKolektorHome({
   onLogout,
   onOpenTransactions,
+  transactions = [],
 }: {
   onLogout: () => void;
   onOpenTransactions: () => void;
+  transactions?: EKolektorTodayTransaction[];
 }) {
   const [exitOpen, setExitOpen] = React.useState(false);
 
@@ -24,7 +27,7 @@ export default function EKolektorHome({
         <EKolektorHomeHeader />
         <EKolektorHomeSummaryCards />
         <EKolektorSyncInfoCard />
-        <EKolektorTodayHistorySection />
+        <EKolektorTodayHistorySection transactions={transactions} />
       </div>
 
       <EKolektorBottomNav
