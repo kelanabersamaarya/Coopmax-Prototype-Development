@@ -26,14 +26,14 @@ export default function EKolektorExitConfirmModal({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 border-t border-[#E8E8E8]">
+        <div className="flex justify-end gap-3 px-5 pb-5">
           <button
             type="button"
             onClick={onCancel}
             className={cn(
-              "h-[48px] border-r border-[#E8E8E8]",
-              "text-[14px] font-semibold text-[#6B7280]",
-              "transition active:bg-slate-50",
+              "h-[40px] w-[100px] rounded-full",
+              "bg-[#828282] text-[14px] font-semibold text-white",
+              "transition active:scale-[0.98]",
             )}
           >
             Batal
@@ -43,9 +43,9 @@ export default function EKolektorExitConfirmModal({
             type="button"
             onClick={onExit}
             className={cn(
-              "h-[48px]",
-              "text-[14px] font-extrabold text-[#004FC7]",
-              "transition active:bg-blue-50",
+              "h-[40px] w-[100px] rounded-full",
+              "bg-[#EF135D] text-[14px] font-semibold text-white",
+              "transition active:scale-[0.98]",
             )}
           >
             Keluar
