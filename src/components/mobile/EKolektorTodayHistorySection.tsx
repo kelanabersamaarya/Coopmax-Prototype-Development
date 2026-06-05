@@ -2,9 +2,9 @@
 
 export default function EKolektorTodayHistorySection() {
   return (
-    <section className="mt-[22px] px-5">
-      <div className="rounded-t-[34px] bg-[#F4F4F4] px-5 pb-10 pt-7">
-        <h2 className="text-[26px] font-extrabold leading-tight tracking-tight text-black">
+    <section className="mt-[22px] w-full">
+      <div className="w-full rounded-t-[34px] bg-[#F4F4F4] px-5 pb-10 pt-7">
+        <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
           Riwayat Transaksi Hari Ini
         </h2>
 
