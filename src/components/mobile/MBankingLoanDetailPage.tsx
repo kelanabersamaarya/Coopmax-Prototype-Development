@@ -42,12 +42,12 @@ function LoanInfoRow({
   value: string;
 }) {
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-4">
-      <div className="text-[14px] font-extrabold leading-snug tracking-tight text-[#203064]">
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-3">
+      <div className="text-[14px] font-extrabold leading-[1.15] tracking-tight text-[#203064]">
         {label}
       </div>
 
-      <div className="text-right text-[14px] font-normal leading-snug tracking-tight text-black">
+      <div className="text-right text-[14px] font-normal leading-[1.15] tracking-tight text-black">
         {value}
       </div>
     </div>
@@ -62,7 +62,7 @@ export default function MBankingLoanDetailPage({
   return (
     <div className="flex h-full min-h-0 flex-col bg-white">
       <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <header className="shrink-0 bg-white px-6 pb-4 pt-8">
+        <header className="shrink-0 bg-white px-6 pb-3 pt-8">
           <button
             type="button"
             onClick={onBack}
@@ -78,8 +78,8 @@ export default function MBankingLoanDetailPage({
           </h1>
         </header>
 
-        <main className="bg-white px-6 pb-10 pt-4">
-          <div className="grid gap-[27px]">
+        <main className="bg-white px-6 pb-10 pt-3">
+          <div className="grid gap-[18px]">
             {loanInfoItems.map((item) => (
               <LoanInfoRow
                 key={item.label}
