@@ -16,15 +16,6 @@ export default function EKolektorTodayHistorySection({
         <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
           Riwayat Transaksi Hari Ini
         </h2>
-
-        {hasTransactions ? (
-          <button
-            type="button"
-            className="shrink-0 text-[13px] font-semibold leading-tight tracking-tight text-[#004FC7] transition active:scale-[0.98]"
-          >
-            Lihat Semua
-          </button>
-        ) : null}
       </div>
 
       {hasTransactions ? (
