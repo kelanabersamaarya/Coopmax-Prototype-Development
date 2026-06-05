@@ -3,7 +3,6 @@
 import { ArrowDownToLine, ArrowUpFromLine, BadgeDollarSign } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import EKolektorBottomNav from "@/components/mobile/EKolektorBottomNav";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
 
 const transactionMenus = [
@@ -97,18 +96,6 @@ export default function EKolektorTransactions({
           </div>
         </div>
       </div>
-
-      <EKolektorBottomNav
-        activeTab="transaction"
-        onHomeClick={onBackHome}
-        onTransactionClick={() => {}}
-        onReportClick={() =>
-          toast("Laporan (prototype)", {
-            description: "Menu laporan E-Kolektor belum dibuat.",
-          })
-        }
-        onAndroidBack={onBackHome}
-      />
     </div>
   );
 }
