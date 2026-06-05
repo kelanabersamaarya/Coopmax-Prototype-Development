@@ -42,7 +42,7 @@ export default function MBankingBottomNav({
   }
 
   return (
-    <div className="shrink-0">
+    <div className="sticky bottom-0 z-40 shrink-0">
       <nav className="bg-white px-5 pb-[7px] pt-[6px] shadow-[0_-8px_22px_rgba(15,23,42,0.08)]">
         <div className="grid grid-cols-3 items-end">
           {navItems.map((item) => {
