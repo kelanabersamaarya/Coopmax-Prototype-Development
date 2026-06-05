@@ -31,31 +31,25 @@ export default function MBankingLoanPasswordPage({
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
-      <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <header className="relative h-[116px] shrink-0 overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
-          <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
-          <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
-          <div className="pointer-events-none absolute right-[20px] top-[42px] h-[58px] w-[58px] rounded-full bg-white/8" />
+    <div className="flex h-full min-h-0 flex-col bg-white">
+      <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <header className="shrink-0 bg-white px-6 pb-5 pt-8">
+          <button
+            type="button"
+            onClick={onBack}
+            className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.98]"
+            aria-label="Kembali"
+            title="Kembali"
+          >
+            <ArrowLeft className="h-[30px] w-[30px]" strokeWidth={2.4} />
+          </button>
 
-          <div className="relative z-10 flex items-start gap-4">
-            <button
-              type="button"
-              onClick={onBack}
-              className="-ml-2 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white transition active:scale-[0.98]"
-              aria-label="Kembali"
-              title="Kembali"
-            >
-              <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.7} />
-            </button>
-
-            <h1 className="pt-1 text-[25px] font-extrabold leading-none tracking-tight text-white">
-              Password
-            </h1>
-          </div>
+          <h1 className="mt-6 text-[25px] font-extrabold leading-none tracking-tight text-[#004FC7]">
+            Password
+          </h1>
         </header>
 
-        <main className="relative z-10 -mt-[30px] min-h-[calc(100%-86px)] rounded-t-[30px] bg-white px-6 pb-8 pt-8">
+        <main className="bg-white px-6 pb-8 pt-3">
           <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Masukkan Password
           </div>
