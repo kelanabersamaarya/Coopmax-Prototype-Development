@@ -14,7 +14,7 @@ export default function EKolektorSearchBar({
 
   return (
     <div className={cn("flex w-full items-center gap-[14px]", className)}>
-      <div className="flex h-[41px] w-[262px] min-w-0 items-center rounded-[9px] bg-[#F1F1F1] px-[13px]">
+      <div className="flex h-[41px] min-w-0 flex-1 items-center rounded-[9px] bg-[#F1F1F1] px-[13px]">
         <Search
           className="h-[22px] w-[22px] shrink-0 text-[#8D8D8D]"
           strokeWidth={2.4}
