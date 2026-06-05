@@ -4,6 +4,7 @@ import * as React from "react";
 import { HandCoins, PiggyBank } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorSimpananAsset from "@/components/mobile/EKolektorSimpananAsset";
+import EKolektorPinjamanInfo from "@/components/mobile/EKolektorPinjamanInfo";
 
 type TransactionTab = "simpanan" | "pinjaman";
 
@@ -66,6 +67,7 @@ export default function EKolektorTransactionTabs({
       </div>
 
       {activeTab === "simpanan" ? <EKolektorSimpananAsset /> : null}
+      {activeTab === "pinjaman" ? <EKolektorPinjamanInfo /> : null}
     </div>
   );
 }
