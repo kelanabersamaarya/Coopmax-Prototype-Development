@@ -11,9 +11,9 @@ export default function EKolektorTodayHistorySection({
   const hasTransactions = transactions.length > 0;
 
   return (
-    <section className="mt-[22px] flex min-h-[260px] w-full flex-1 flex-col rounded-t-[34px] bg-[#F4F4F4] px-5 pb-10 pt-7">
+    <section className="mt-[22px] flex min-h-[260px] w-full flex-1 flex-col rounded-t-[34px] bg-[#004FC7] px-5 pb-10 pt-7">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
+        <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
           Riwayat Transaksi Hari Ini
         </h2>
       </div>
@@ -62,7 +62,7 @@ export default function EKolektorTodayHistorySection({
             <rect x="160" y="129" width="14" height="18" fill="white" />
           </svg>
 
-          <div className="-mt-1 text-center text-[12px] font-normal leading-tight text-[#8E8E8E]">
+          <div className="-mt-1 text-center text-[12px] font-normal leading-tight text-white/85">
             Tidak Ada Riwayat Transaksi
           </div>
         </div>
