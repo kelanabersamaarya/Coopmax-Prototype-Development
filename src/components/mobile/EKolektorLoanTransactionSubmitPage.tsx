@@ -48,6 +48,10 @@ export default function EKolektorLoanTransactionSubmitPage({
           <ArrowLeft className="h-[28px] w-[28px]" strokeWidth={2.6} />
         </button>
 
+        <div className="mt-3 text-[25px] font-extrabold leading-none tracking-tight text-white">
+          Review
+        </div>
+
         <div className="mt-8 overflow-hidden rounded-[26px] bg-white px-6 pb-8 pt-7 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
           <div className="flex flex-col items-center text-center">
             <div className="grid h-[72px] w-[72px] place-items-center rounded-full bg-[#EAF9F0] text-[#27B84A]">
