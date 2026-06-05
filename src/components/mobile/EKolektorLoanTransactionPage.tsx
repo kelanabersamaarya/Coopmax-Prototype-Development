@@ -1,9 +1,10 @@
 "use client";
 
-import { toast } from "sonner";
+import * as React from "react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorInstallmentDetailSection from "@/components/mobile/EKolektorInstallmentDetailSection";
 import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTransactionForm";
+import EKolektorLoanTransactionSubmitPage from "@/components/mobile/EKolektorLoanTransactionSubmitPage";
 
 const loanInfoItems = [
   {
@@ -41,6 +42,16 @@ export default function EKolektorLoanTransactionPage({
 }: {
   onBack: () => void;
 }) {
+  const [showSubmitPage, setShowSubmitPage] = React.useState(false);
+
+  if (showSubmitPage) {
+    return (
+      <EKolektorLoanTransactionSubmitPage
+        onBack={() => setShowSubmitPage(false)}
+      />
+    );
+  }
+
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -99,11 +110,7 @@ export default function EKolektorLoanTransactionPage({
           <div className="sticky bottom-0 -mx-6 mt-6 bg-white px-6 pb-5 pt-3">
             <button
               type="button"
-              onClick={() =>
-                toast.success("Lanjutkan (prototype)", {
-                  description: "Tahap berikutnya belum dihubungkan.",
-                })
-              }
+              onClick={() => setShowSubmitPage(true)}
               className="h-[43px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px"
             >
               Lanjutkan
