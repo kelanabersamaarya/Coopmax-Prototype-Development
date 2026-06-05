@@ -14,7 +14,14 @@ export default function EKolektorTransactions({
         <EKolektorTransactionHeader onCancel={onBackHome} />
       </div>
 
-      <div className="relative z-10 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white" />
+      <div className="relative z-10 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white px-6 pt-8">
+        <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
+          Cari Nasabah
+        </div>
+        <div className="mt-2 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
+          Pilih nasabah untuk melanjutkan
+        </div>
+      </div>
 
       <EKolektorAndroidNavBar onBack={onBackHome} />
     </div>
