@@ -10,10 +10,10 @@ export default function EKolektorSyncInfoCard() {
 
         <div className="flex items-center justify-between gap-4 pl-2">
           <div className="min-w-0">
-            <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#39b54a]">
+            <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#39b54a]">
               0 Transaksi Belum Tersinkron
             </div>
-            <div className="mt-0.5 text-[15px] font-normal leading-tight text-[#8a8a8a]">
+            <div className="mt-0.5 text-[10px] font-normal leading-tight text-[#8a8a8a]">
               Total transaksi hari ini yang sudah tersinkron
             </div>
           </div>
