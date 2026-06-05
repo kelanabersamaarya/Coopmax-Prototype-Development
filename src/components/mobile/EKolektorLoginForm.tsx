@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Eye, EyeOff, Lock, UserRound } from "lucide-react";
+import { Check, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorLoginHeader from "@/components/mobile/EKolektorLoginHeader";
@@ -28,7 +28,7 @@ export default function EKolektorLoginForm({
 
     if (!password.trim()) {
       toast("Password wajib diisi", {
-        description: "Masukkan password terlebih dahulu.",
+        description: "Masukkan kata sandi terlebih dahulu.",
       });
       return;
     }
@@ -50,103 +50,105 @@ export default function EKolektorLoginForm({
     }
   }, []);
 
+  const inputClassName = cn(
+    "h-[58px] w-full rounded-[9px] border-0 bg-[#F2F2F2] px-5",
+    "text-[18px] font-normal text-black shadow-none",
+    "placeholder:text-[#9A9A9A]",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
   return (
     <div className="min-h-full bg-[#0754c9]">
       <div className="flex min-h-[980px] flex-col bg-[#0754c9]">
         <EKolektorLoginHeader />
 
-        <div className="relative z-30 -mt-[30px] min-h-[814px] rounded-t-[30px] bg-white px-8 pb-10 pt-[64px]">
+        <div className="relative z-30 -mt-[30px] flex min-h-[814px] flex-col rounded-t-[30px] bg-white px-7 pb-8 pt-[58px]">
           <div>
-            <h1 className="text-[30px] font-extrabold leading-tight tracking-tight text-black">
-              Masuk
+            <h1 className="max-w-[330px] text-[25px] font-extrabold leading-[1.15] tracking-tight text-black">
+              Selamat Datang I Ketut Pasek Jaya Artha
             </h1>
-            <p className="mt-2 text-[14px] font-normal leading-relaxed text-[#8a8a8a]">
-              Silakan masuk untuk membuka halaman e-Kolektor.
+            <p className="mt-3 text-[14px] font-normal leading-relaxed text-[#8a8a8a]">
+              Halo, silakan masuk untuk melanjutkan
             </p>
           </div>
 
           <form onSubmit={submit} className="mt-9 grid gap-5">
-            <label className="grid gap-2">
-              <span className="text-[13px] font-semibold text-[#7c7c7c]">
-                Username
-              </span>
-              <span className="relative block">
-                <UserRound className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#9ca3af]" />
-                <input
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
-                  className={cn(
-                    "h-[52px] w-full rounded-[8px] border border-[#e2e8f0] bg-white pl-12 pr-4",
-                    "text-[15px] font-semibold text-slate-900 shadow-sm",
-                    "placeholder:text-[#b5b5b5]",
-                    "focus:border-[#1c84c6] focus:outline-none",
-                  )}
-                  placeholder="Masukkan username"
-                  autoComplete="username"
-                />
-              </span>
-            </label>
+            <input
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              className={inputClassName}
+              placeholder="Masukkan Username"
+              autoComplete="username"
+            />
 
-            <label className="grid gap-2">
-              <span className="text-[13px] font-semibold text-[#7c7c7c]">
-                Password
-              </span>
-              <span className="relative block">
-                <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#9ca3af]" />
-                <input
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  type={showPassword ? "text" : "password"}
-                  className={cn(
-                    "h-[52px] w-full rounded-[8px] border border-[#e2e8f0] bg-white pl-12 pr-12",
-                    "text-[15px] font-semibold text-slate-900 shadow-sm",
-                    "placeholder:text-[#b5b5b5]",
-                    "focus:border-[#1c84c6] focus:outline-none",
-                  )}
-                  placeholder="Masukkan password"
-                  autoComplete="current-password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((current) => !current)}
-                  className="absolute right-3 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-[8px] text-[#8a8a8a] transition hover:bg-slate-100"
-                  aria-label={
-                    showPassword ? "Sembunyikan password" : "Tampilkan password"
-                  }
-                  title={showPassword ? "Sembunyikan password" : "Tampilkan password"}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-              </span>
-            </label>
-
-            <label className="flex w-fit items-center gap-3 text-[14px] font-semibold text-[#777777]">
+            <div className="relative">
               <input
-                type="checkbox"
-                checked={rememberUsername}
-                onChange={(event) => setRememberUsername(event.target.checked)}
-                className="h-[18px] w-[18px] rounded-[4px] accent-[#1c84c6]"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                type={showPassword ? "text" : "password"}
+                className={cn(inputClassName, "pr-14")}
+                placeholder="Masukkan Kata Sandi Anda"
+                autoComplete="current-password"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword((current) => !current)}
+                className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[9px] text-[#7B7B7B] transition hover:bg-black/5"
+                aria-label={
+                  showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"
+                }
+                title={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
+              </button>
+            </div>
+
+            <label className="mt-1 flex w-fit items-center gap-3 text-[14px] font-normal text-[#727272]">
+              <button
+                type="button"
+                onClick={() => setRememberUsername((current) => !current)}
+                className={cn(
+                  "inline-flex h-[18px] w-[18px] items-center justify-center rounded-[4px] border",
+                  rememberUsername
+                    ? "border-[#004FC7] bg-white"
+                    : "border-[#C9C9C9] bg-white",
+                )}
+                aria-pressed={rememberUsername}
+                aria-label="Simpan Username"
+              >
+                {rememberUsername ? (
+                  <Check className="h-4 w-4 text-[#004FC7]" strokeWidth={3.4} />
+                ) : null}
+              </button>
               Simpan Username
             </label>
 
             <button
               type="submit"
               className={cn(
-                "mt-1 h-[46px] w-full rounded-[8px]",
-                "bg-[#1c84c6] text-[15px] font-semibold text-white",
-                "shadow-[0_2px_4px_rgba(28,132,198,0.22)]",
-                "transition hover:bg-[#1877b3] active:translate-y-px",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#1c84c6]/25",
+                "mt-2 h-[48px] w-full rounded-[9px]",
+                "bg-[#004FC7] text-[16px] font-semibold text-white",
+                "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
+                "transition hover:bg-[#0046B3] active:translate-y-px",
+                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
               )}
             >
               Masuk
             </button>
           </form>
+
+          <div className="mt-auto pt-10 text-center">
+            <div className="text-[12px] font-normal leading-relaxed text-[#9A9A9A]">
+              Powered by
+            </div>
+            <div className="mt-1 text-[13px] font-semibold leading-relaxed text-[#7A7A7A]">
+              Solusi Sakti
+            </div>
+          </div>
         </div>
       </div>
     </div>
