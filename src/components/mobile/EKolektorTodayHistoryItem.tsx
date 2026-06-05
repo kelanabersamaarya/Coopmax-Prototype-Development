@@ -58,20 +58,19 @@ export default function EKolektorTodayHistoryItem({
         </div>
       </div>
 
-      <div className="mt-[13px] grid gap-[7px] border-t border-[#E8E8E8] pt-[12px]">
-        {detailItems.map((item) => (
-          <div
-            key={item.label}
-            className="flex items-center justify-between gap-3 text-[12px] leading-tight"
-          >
-            <div className="font-semibold tracking-tight text-[#8E8E8E]">
-              {item.label}
+      <div className="mt-[13px] border-t border-[#E8E8E8] pt-[12px]">
+        <div className="grid gap-[11px]">
+          {detailItems.map((item) => (
+            <div key={item.label} className="min-w-0">
+              <div className="text-[12px] font-semibold leading-tight tracking-tight text-[#8E8E8E]">
+                {item.label}
+              </div>
+              <div className="mt-[4px] text-[12px] font-extrabold leading-tight tracking-tight text-[#203064]">
+                {item.value}
+              </div>
             </div>
-            <div className="text-right font-extrabold tracking-tight text-[#203064]">
-              {item.value}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
