@@ -30,8 +30,10 @@ const navItems = [
 
 export default function MBankingBottomNav({
   activeTab = "home",
+  onAndroidBack,
 }: {
   activeTab?: MBankingTab;
+  onAndroidBack?: () => void;
 }) {
   function handleClick(tab: MBankingTab) {
     if (tab === "home") return;
@@ -99,7 +101,7 @@ export default function MBankingBottomNav({
         </div>
       </nav>
 
-      <EKolektorAndroidNavBar />
+      <EKolektorAndroidNavBar onBack={onAndroidBack} />
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default function MBankingMockup() {
   return (
     <MobileMockupFrame edgeToEdge>
       {loggedIn ? (
-        <MBankingHome />
+        <MBankingHome onLogout={() => setLoggedIn(false)} />
       ) : (
         <MBankingLoginForm onLogin={() => setLoggedIn(true)} />
       )}

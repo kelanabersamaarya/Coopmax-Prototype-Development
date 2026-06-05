@@ -8,11 +8,13 @@ import MBankingLoanPage from "@/components/mobile/MBankingLoanPage";
 import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
+import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 
 type MBankingHomeScreen = "home" | "info" | "loan";
 
-export default function MBankingHome() {
+export default function MBankingHome({ onLogout }: { onLogout?: () => void }) {
   const [screen, setScreen] = React.useState<MBankingHomeScreen>("home");
+  const [exitOpen, setExitOpen] = React.useState(false);
 
   if (screen === "loan") {
     return <MBankingLoanPage onBack={() => setScreen("info")} />;
@@ -28,7 +30,7 @@ export default function MBankingHome() {
   }
 
   return (
-    <div className="flex min-h-full flex-col bg-white">
+    <div className="relative flex min-h-full flex-col bg-white">
       <main className="min-h-0 flex-1 bg-white">
         <MBankingHomeHeader />
         <MBankingSavingsCard />
@@ -36,7 +38,19 @@ export default function MBankingHome() {
         <MBankingTransactionHistoryEmpty />
       </main>
 
-      <MBankingBottomNav activeTab="home" />
+      <MBankingBottomNav
+        activeTab="home"
+        onAndroidBack={() => setExitOpen(true)}
+      />
+
+      <MBankingExitConfirmModal
+        open={exitOpen}
+        onCancel={() => setExitOpen(false)}
+        onExit={() => {
+          setExitOpen(false);
+          onLogout?.();
+        }}
+      />
     </div>
   );
 }
