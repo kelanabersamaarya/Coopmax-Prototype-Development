@@ -36,8 +36,8 @@ export default function EKolektorLoanTransactionSubmitPage({
   }
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col bg-[#28B8DC]">
-      <div className="min-h-0 flex-1 overflow-y-auto bg-[#28B8DC] px-5 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
+      <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] px-5 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button
           type="button"
           onClick={onBack}
@@ -84,10 +84,10 @@ export default function EKolektorLoanTransactionSubmitPage({
             onClick={submit}
             className={cn(
               "mt-8 h-[55px] w-full rounded-full",
-              "bg-[#28B8DC] text-[24px] font-normal text-white",
-              "shadow-[0_8px_18px_rgba(40,184,220,0.28)]",
-              "transition hover:bg-[#20A9CC] active:translate-y-px",
-              "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#28B8DC]/25",
+              "bg-[#004FC7] text-[24px] font-normal text-white",
+              "shadow-[0_8px_18px_rgba(0,79,199,0.28)]",
+              "transition hover:bg-[#0046B3] active:translate-y-px",
+              "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
             )}
           >
             Kirim
