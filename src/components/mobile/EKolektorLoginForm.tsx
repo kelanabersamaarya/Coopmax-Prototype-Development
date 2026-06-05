@@ -126,16 +126,16 @@ export default function EKolektorLoginForm({
                 type="button"
                 onClick={() => setRememberUsername((current) => !current)}
                 className={cn(
-                  "inline-flex h-[18px] w-[18px] items-center justify-center rounded-[4px] border",
+                  "inline-flex h-[18px] w-[18px] items-center justify-center rounded-[4px] border transition",
                   rememberUsername
-                    ? "border-[#004FC7] bg-white"
+                    ? "border-[#004FC7] bg-[#EAF2FF]"
                     : "border-[#C9C9C9] bg-white",
                 )}
                 aria-pressed={rememberUsername}
                 aria-label="Simpan Username"
               >
                 {rememberUsername ? (
-                  <Check className="h-4 w-4 text-[#004FC7]" strokeWidth={3.4} />
+                  <Check className="h-[15px] w-[15px] text-[#004FC7]" strokeWidth={3.4} />
                 ) : null}
               </button>
               Simpan Username
