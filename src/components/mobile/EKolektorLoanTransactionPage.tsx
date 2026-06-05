@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorInstallmentDetailSection from "@/components/mobile/EKolektorInstallmentDetailSection";
 import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTransactionForm";
@@ -57,7 +58,7 @@ export default function EKolektorLoanTransactionPage({
         </div>
       </header>
 
-      <main className="relative z-10 -mt-[30px] min-h-0 flex-1 overflow-y-auto rounded-t-[30px] bg-white px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="relative z-10 -mt-[30px] min-h-0 flex-1 overflow-y-auto rounded-t-[30px] bg-white px-6 pb-0 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
           Angsuran Pinjaman
         </div>
@@ -89,6 +90,20 @@ export default function EKolektorLoanTransactionPage({
         </div>
 
         <EKolektorLoanTransactionForm />
+
+        <div className="sticky bottom-0 -mx-6 mt-6 bg-white px-6 pb-5 pt-3">
+          <button
+            type="button"
+            onClick={() =>
+              toast.success("Lanjutkan (prototype)", {
+                description: "Tahap berikutnya belum dihubungkan.",
+              })
+            }
+            className="h-[43px] w-full rounded-[9px] bg-[#004FC7] text-[14px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px"
+          >
+            Lanjutkan
+          </button>
+        </div>
       </main>
 
       <EKolektorAndroidNavBar onBack={onBack} />
