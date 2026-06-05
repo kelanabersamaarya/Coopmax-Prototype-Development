@@ -18,7 +18,7 @@ export default function EKolektorTransactions({
         <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
           Cari Nasabah
         </div>
-        <div className="mt-2 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
+        <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
           Pilih nasabah untuk melanjutkan
         </div>
       </div>
