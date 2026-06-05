@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, HandCoins, Percent } from "lucide-react";
+import { CalendarDays, HandCoins } from "lucide-react";
 
 const loanAmountItems = [
   {
@@ -12,11 +12,6 @@ const loanAmountItems = [
     label: "Jangka Waktu",
     value: "12 Bulan",
     icon: CalendarDays,
-  },
-  {
-    label: "Bunga Per Tahun",
-    value: "12.00%",
-    icon: Percent,
   },
 ];
 
