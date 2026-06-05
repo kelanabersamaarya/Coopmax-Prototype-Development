@@ -1,6 +1,7 @@
 "use client";
 
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import EKolektorSearchBar from "@/components/mobile/EKolektorSearchBar";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
 
 export default function EKolektorTransactions({
@@ -21,6 +22,8 @@ export default function EKolektorTransactions({
         <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
           Pilih nasabah untuk melanjutkan
         </div>
+
+        <EKolektorSearchBar className="mt-[22px]" />
       </div>
 
       <EKolektorAndroidNavBar onBack={onBackHome} />
