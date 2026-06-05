@@ -4,32 +4,30 @@ import { BarChart3, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorTransactionIcon from "@/components/mobile/EKolektorTransactionIcon";
 
+type EKolektorTab = "home" | "transaction" | "report";
+
 const navItems = [
   {
+    id: "home" as const,
     label: "Beranda",
     icon: Home,
-    active: true,
     hideLabel: false,
   },
   {
+    id: "transaction" as const,
     label: "Transaksi",
     icon: EKolektorTransactionIcon,
-    active: false,
     hideLabel: true,
   },
   {
+    id: "report" as const,
     label: "Laporan",
     icon: BarChart3,
-    active: false,
     hideLabel: false,
   },
 ];
 
-function AndroidNavigationBar({
-  onBack,
-}: {
-  onBack?: () => void;
-}) {
+function AndroidNavigationBar({ onBack }: { onBack?: () => void }) {
   return (
     <div className="h-[32px] bg-[#05070d] px-6">
       <div className="flex h-full items-center justify-center gap-[54px]">
@@ -75,30 +73,46 @@ function AndroidNavigationBar({
 }
 
 export default function EKolektorBottomNav({
+  activeTab = "home",
+  onHomeClick,
+  onTransactionClick,
+  onReportClick,
   onAndroidBack,
 }: {
+  activeTab?: EKolektorTab;
+  onHomeClick?: () => void;
+  onTransactionClick?: () => void;
+  onReportClick?: () => void;
   onAndroidBack?: () => void;
 }) {
+  function handleClick(tab: EKolektorTab) {
+    if (tab === "home") onHomeClick?.();
+    if (tab === "transaction") onTransactionClick?.();
+    if (tab === "report") onReportClick?.();
+  }
+
   return (
     <div className="sticky bottom-0 z-40 shrink-0">
       <nav className="bg-white px-5 pb-[7px] pt-[6px] shadow-[0_-8px_22px_rgba(15,23,42,0.08)]">
         <div className="grid grid-cols-3 items-end">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isTransaction = item.label === "Transaksi";
+            const isActive = item.id === activeTab;
+            const isTransaction = item.id === "transaction";
 
             return (
               <button
                 key={item.label}
                 type="button"
+                onClick={() => handleClick(item.id)}
                 className={cn(
                   "flex min-w-0 flex-col items-center justify-end",
                   item.hideLabel ? "gap-0 pb-[2px]" : "gap-[3px]",
-                  "rounded-[14px] px-1 py-0.5 transition",
-                  item.active ? "text-[#004FC7]" : "text-[#A5A5A5]",
+                  "rounded-[14px] px-1 py-0.5 transition active:scale-[0.98]",
+                  isActive ? "text-[#004FC7]" : "text-[#A5A5A5]",
                 )}
                 aria-label={item.label}
-                aria-current={item.active ? "page" : undefined}
+                aria-current={isActive ? "page" : undefined}
               >
                 <span
                   className={cn(
@@ -112,7 +126,7 @@ export default function EKolektorBottomNav({
                     className={cn(
                       isTransaction
                         ? "h-[47px] w-[47px]"
-                        : item.active
+                        : isActive
                           ? "h-[20px] w-[20px] text-[#004FC7]"
                           : "h-[20px] w-[20px] text-[#A5A5A5]",
                     )}
@@ -123,7 +137,7 @@ export default function EKolektorBottomNav({
                   <span
                     className={cn(
                       "truncate text-[10px] leading-none tracking-tight",
-                      item.active ? "font-extrabold" : "font-semibold",
+                      isActive ? "font-extrabold" : "font-semibold",
                     )}
                   >
                     {item.label}

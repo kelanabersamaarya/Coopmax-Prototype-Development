@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { toast } from "sonner";
 import EKolektorBottomNav from "@/components/mobile/EKolektorBottomNav";
 import EKolektorExitConfirmModal from "@/components/mobile/EKolektorExitConfirmModal";
 import EKolektorHomeHeader from "@/components/mobile/EKolektorHomeHeader";
@@ -10,8 +11,10 @@ import EKolektorTodayHistorySection from "@/components/mobile/EKolektorTodayHist
 
 export default function EKolektorHome({
   onLogout,
+  onOpenTransactions,
 }: {
   onLogout: () => void;
+  onOpenTransactions: () => void;
 }) {
   const [exitOpen, setExitOpen] = React.useState(false);
 
@@ -24,7 +27,17 @@ export default function EKolektorHome({
         <EKolektorTodayHistorySection />
       </div>
 
-      <EKolektorBottomNav onAndroidBack={() => setExitOpen(true)} />
+      <EKolektorBottomNav
+        activeTab="home"
+        onHomeClick={() => {}}
+        onTransactionClick={onOpenTransactions}
+        onReportClick={() =>
+          toast("Laporan (prototype)", {
+            description: "Menu laporan E-Kolektor belum dibuat.",
+          })
+        }
+        onAndroidBack={() => setExitOpen(true)}
+      />
 
       <EKolektorExitConfirmModal
         open={exitOpen}
