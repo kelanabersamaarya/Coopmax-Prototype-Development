@@ -12,7 +12,9 @@ export default function MBankingInfoPage({
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
       <MBankingInfoHeader onBack={onBack} />
 
-      <main className="-mt-5 min-h-0 flex-1 overflow-y-auto rounded-t-[20px] bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" />
+      <div className="relative z-20 -mt-5 min-h-0 flex-1 overflow-hidden rounded-t-[20px] bg-white">
+        <main className="h-full min-h-0 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" />
+      </div>
 
       <EKolektorAndroidNavBar onBack={onBack} />
     </div>
