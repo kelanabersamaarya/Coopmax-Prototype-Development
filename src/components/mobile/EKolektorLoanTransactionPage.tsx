@@ -75,6 +75,10 @@ export default function EKolektorLoanTransactionPage({
             </div>
           ))}
         </div>
+
+        <div className="mt-[28px] text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
+          Detail Angsuran
+        </div>
       </main>
 
       <EKolektorAndroidNavBar onBack={onBack} />
