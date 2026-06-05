@@ -23,28 +23,14 @@ export default function MBankingLoginForm() {
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!username.trim()) {
-      toast("Username wajib diisi", {
-        description: "Masukkan username terlebih dahulu.",
-      });
-      return;
-    }
-
-    if (!password.trim()) {
-      toast("Password wajib diisi", {
-        description: "Masukkan kata sandi terlebih dahulu.",
-      });
-      return;
-    }
-
-    if (rememberUsername) {
+    if (rememberUsername && username.trim()) {
       localStorage.setItem("dyad.m-banking.username", username.trim());
     } else {
       localStorage.removeItem("dyad.m-banking.username");
     }
 
     toast.success("Masuk M-Banking (prototype)", {
-      description: "Halaman berikutnya belum dibuat.",
+      description: "Login berhasil tanpa perlu username dan password.",
     });
   }
 
