@@ -36,7 +36,7 @@ export default function EKolektorSimpananAsset() {
         <rect x="160" y="129" width="14" height="18" fill="white" />
       </svg>
 
-      <div className="-mt-1 text-center text-[12px] font-normal leading-tight text-[#8E8E8E]">
+      <div className="-mt-1 text-center text-[16px] font-normal leading-tight text-[#8E8E8E]">
         Tidak Ada Data Simpanan
       </div>
     </div>
