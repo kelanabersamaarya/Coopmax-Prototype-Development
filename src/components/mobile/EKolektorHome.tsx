@@ -5,11 +5,11 @@ import EKolektorHomeSummaryCards from "@/components/mobile/EKolektorHomeSummaryC
 
 export default function EKolektorHome() {
   return (
-    <div className="min-h-[980px] bg-[#f4f4f4]">
+    <div className="min-h-[980px] bg-white">
       <EKolektorHomeHeader />
       <EKolektorHomeSummaryCards />
 
-      <div className="min-h-[720px] bg-[#f4f4f4]" />
+      <div className="min-h-[720px] bg-white" />
     </div>
   );
 }
