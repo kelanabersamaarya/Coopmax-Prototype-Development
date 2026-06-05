@@ -1,9 +1,10 @@
 "use client";
 
+import * as React from "react";
 import { ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorRecipientInfo from "@/components/mobile/EKolektorRecipientInfo";
+import EKolektorTransactionSuccessPage from "@/components/mobile/EKolektorTransactionSuccessPage";
 import { cn } from "@/lib/utils";
 
 export default function EKolektorLoanTransactionSubmitPage({
@@ -11,10 +12,10 @@ export default function EKolektorLoanTransactionSubmitPage({
 }: {
   onBack: () => void;
 }) {
-  function submit() {
-    toast.success("Transaksi berhasil dikirim (prototype)", {
-      description: "Data pembayaran angsuran sudah masuk ke antrean sinkronisasi.",
-    });
+  const [success, setSuccess] = React.useState(false);
+
+  if (success) {
+    return <EKolektorTransactionSuccessPage onDone={onBack} />;
   }
 
   return (
@@ -42,7 +43,7 @@ export default function EKolektorLoanTransactionSubmitPage({
 
             <button
               type="button"
-              onClick={submit}
+              onClick={() => setSuccess(true)}
               className={cn(
                 "h-[43px] w-full rounded-full",
                 "bg-[#004FC7] text-[14px] font-normal text-white",
