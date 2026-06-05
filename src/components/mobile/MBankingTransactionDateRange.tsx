@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { CalendarDays } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 function getTodayDmy() {
@@ -11,6 +13,34 @@ function getTodayDmy() {
   const year = String(today.getFullYear());
 
   return `${day}-${month}-${year}`;
+}
+
+function formatDmy(date: Date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = String(date.getFullYear());
+
+  return `${day}-${month}-${year}`;
+}
+
+function parseDmyToDate(value: string): Date | undefined {
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec((value ?? "").trim());
+  if (!match) return undefined;
+
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return undefined;
+  }
+
+  return date;
 }
 
 function DateInputField({
@@ -24,6 +54,9 @@ function DateInputField({
   placeholder: string;
   ariaLabel: string;
 }) {
+  const [open, setOpen] = React.useState(false);
+  const selectedDate = React.useMemo(() => parseDmyToDate(value), [value]);
+
   return (
     <div className="relative min-w-0 flex-1">
       <input
@@ -40,9 +73,37 @@ function DateInputField({
         )}
       />
 
-      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#7B7B7B]">
-        <CalendarDays className="h-[18px] w-[18px]" />
-      </span>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            className={cn(
+              "absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center",
+              "rounded-full text-[#7B7B7B] transition active:scale-[0.96]",
+            )}
+            aria-label={`Pilih ${ariaLabel.toLowerCase()}`}
+            title="Pilih tanggal"
+          >
+            <ChevronDown className="h-[18px] w-[18px]" strokeWidth={2.6} />
+          </button>
+        </PopoverTrigger>
+
+        <PopoverContent
+          align="end"
+          className="w-auto rounded-[14px] border-slate-200 bg-white p-2 shadow-xl"
+        >
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={(date) => {
+              if (!date) return;
+              onChange(formatDmy(date));
+              setOpen(false);
+            }}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
