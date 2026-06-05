@@ -3,7 +3,6 @@
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 function getTodayDmy() {
@@ -73,37 +72,47 @@ function DateInputField({
         )}
       />
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            className={cn(
-              "absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center",
-              "rounded-full text-[#7B7B7B] transition active:scale-[0.96]",
-            )}
-            aria-label={`Pilih ${ariaLabel.toLowerCase()}`}
-            title="Pilih tanggal"
-          >
-            <ChevronDown className="h-[18px] w-[18px]" strokeWidth={2.6} />
-          </button>
-        </PopoverTrigger>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={cn(
+          "absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center",
+          "rounded-full text-[#7B7B7B] transition active:scale-[0.96]",
+        )}
+        aria-label={`Pilih ${ariaLabel.toLowerCase()}`}
+        title="Pilih tanggal"
+      >
+        <ChevronDown className="h-[18px] w-[18px]" strokeWidth={2.6} />
+      </button>
 
-        <PopoverContent
-          align="end"
-          className="w-auto rounded-[14px] border-slate-200 bg-white p-2 shadow-xl"
+      {open ? (
+        <div
+          className={cn(
+            "fixed inset-0 z-[9999] flex items-center justify-center",
+            "bg-black/35 px-6",
+          )}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Kalender ${ariaLabel.toLowerCase()}`}
+          onClick={() => setOpen(false)}
         >
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={(date) => {
-              if (!date) return;
-              onChange(formatDmy(date));
-              setOpen(false);
-            }}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
+          <div
+            className="rounded-[18px] bg-white p-2 shadow-[0_18px_45px_rgba(0,0,0,0.28)]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={(date) => {
+                if (!date) return;
+                onChange(formatDmy(date));
+                setOpen(false);
+              }}
+              initialFocus
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
