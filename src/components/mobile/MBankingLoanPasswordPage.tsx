@@ -18,13 +18,13 @@ export default function MBankingLoanPasswordPage({
 
   function submit() {
     if (!password.trim()) {
-      toast("Password wajib diisi", {
-        description: "Masukkan password terlebih dahulu untuk melihat detail pinjaman.",
+      toast("PIN wajib diisi", {
+        description: "Masukkan PIN terlebih dahulu untuk melihat detail pinjaman.",
       });
       return;
     }
 
-    toast.success("Password terverifikasi (prototype)");
+    toast.success("PIN terverifikasi (prototype)");
     onSuccess();
   }
 
@@ -39,7 +39,7 @@ export default function MBankingLoanPasswordPage({
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="flex min-h-0 flex-1 flex-col bg-[#004FC7]">
-        <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#004FC7]">
           <header className="shrink-0 bg-[#004FC7] px-6 pb-5 pt-8">
             <button
               type="button"
@@ -56,25 +56,23 @@ export default function MBankingLoanPasswordPage({
             </h1>
           </header>
 
-          <main className="bg-[#004FC7] px-6 pb-8 pt-10">
-            <div className="flex justify-center">
-              <div className="flex items-center gap-3">
-                {Array.from({ length: 6 }).map((_, index) => {
-                  const filled = index < password.length;
+          <main className="grid min-h-0 flex-1 place-items-center bg-[#004FC7] px-6 pb-10 pt-4">
+            <div className="flex items-center justify-center gap-3">
+              {Array.from({ length: 6 }).map((_, index) => {
+                const filled = index < password.length;
 
-                  return (
-                    <span
-                      key={index}
-                      className={cn(
-                        "h-[14px] w-[14px] rounded-full border-2 transition",
-                        filled
-                          ? "border-white bg-white"
-                          : "border-white/55 bg-transparent",
-                      )}
-                    />
-                  );
-                })}
-              </div>
+                return (
+                  <span
+                    key={index}
+                    className={cn(
+                      "h-[14px] w-[14px] rounded-full border-2 transition",
+                      filled
+                        ? "border-white bg-white"
+                        : "border-white/55 bg-transparent",
+                    )}
+                  />
+                );
+              })}
             </div>
           </main>
         </div>
