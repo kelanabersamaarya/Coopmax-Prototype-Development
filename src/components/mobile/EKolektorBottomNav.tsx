@@ -1,7 +1,8 @@
 "use client";
 
-import { FileText, Home, ReceiptText } from "lucide-react";
+import { FileText, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
+import EKolektorTransactionIcon from "@/components/mobile/EKolektorTransactionIcon";
 
 const navItems = [
   {
@@ -12,7 +13,7 @@ const navItems = [
   },
   {
     label: "Transaksi",
-    icon: ReceiptText,
+    icon: EKolektorTransactionIcon,
     active: false,
     hideLabel: true,
   },
@@ -52,9 +53,8 @@ export default function EKolektorBottomNav() {
               >
                 <Icon
                   className={cn(
-                    item.active ? "h-[18px] w-[18px]" : "h-[21px] w-[21px]",
+                    item.active ? "h-[18px] w-[18px]" : "h-[22px] w-[22px]",
                   )}
-                  strokeWidth={item.active ? 2.8 : 2.35}
                 />
               </span>
 
