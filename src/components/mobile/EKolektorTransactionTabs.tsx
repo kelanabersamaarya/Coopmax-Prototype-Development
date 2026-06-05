@@ -27,7 +27,7 @@ export default function EKolektorTransactionTabs({
   ];
 
   return (
-    <div className={cn("flex w-full items-start gap-[34px]", className)}>
+    <div className={cn("flex w-full items-start gap-[28px]", className)}>
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -37,28 +37,20 @@ export default function EKolektorTransactionTabs({
             key={tab.id}
             type="button"
             onClick={() => setActiveTab(tab.id)}
-            className="relative flex min-w-0 items-center gap-[9px] pb-[12px] transition active:scale-[0.98]"
+            className="relative flex min-w-0 items-center gap-[6px] pb-[8px] transition active:scale-[0.98]"
             aria-current={isActive ? "page" : undefined}
           >
             <Icon
-              className={cn(
-                "h-[28px] w-[28px] shrink-0",
-                isActive ? "text-[#27B4DF]" : "text-black",
-              )}
-              strokeWidth={3}
+              className="h-[18px] w-[18px] shrink-0 text-[#27B4DF]"
+              strokeWidth={2.8}
             />
 
-            <span
-              className={cn(
-                "text-[28px] font-extrabold leading-none tracking-tight",
-                isActive ? "text-[#27B4DF]" : "text-black",
-              )}
-            >
+            <span className="text-[12px] font-extrabold leading-none tracking-tight text-[#27B4DF]">
               {tab.label}
             </span>
 
             {isActive ? (
-              <span className="absolute bottom-0 left-[70px] h-[6px] w-[43px] rounded-full bg-[#27B4DF]" />
+              <span className="absolute bottom-0 left-1/2 h-[3px] w-[24px] -translate-x-1/2 rounded-full bg-[#27B4DF]" />
             ) : null}
           </button>
         );
