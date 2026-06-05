@@ -109,8 +109,6 @@ export default function LaporanProduktivitasCabang() {
     [],
   );
 
-  const years = React.useMemo(() => ["2024", "2025", "2022026", "2027"], []);
-
   const normalizedYears = React.useMemo(() => ["2024", "2025", "2026", "2027"], []);
 
   const selectTriggerCls =
@@ -224,7 +222,6 @@ export default function LaporanProduktivitasCabang() {
 
               {jenisLaporan === "Detail NPL" ? (
                 <DetailNplReportTable
-                  showCabangAo
                   selectedKolektorAo={selectedKolektorAo}
                 />
               ) : null}
@@ -233,7 +230,7 @@ export default function LaporanProduktivitasCabang() {
         ) : null}
 
         <div className="sr-only">
-          {kolektorAo} {bulan} {tahun} {jenisLaporan} {years.join(",")}
+          {kolektorAo} {bulan} {tahun} {jenisLaporan}
         </div>
       </div>
     </div>
