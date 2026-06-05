@@ -31,6 +31,7 @@ export default function EKolektorBottomNav() {
       <div className="grid grid-cols-3 items-end">
         {navItems.map((item) => {
           const Icon = item.icon;
+          const isTransaction = item.label === "Transaksi";
 
           return (
             <button
@@ -38,7 +39,7 @@ export default function EKolektorBottomNav() {
               type="button"
               className={cn(
                 "flex min-w-0 flex-col items-center justify-end",
-                item.hideLabel ? "gap-0 pb-[15px]" : "gap-[5px]",
+                item.hideLabel ? "gap-0 pb-[5px]" : "gap-[5px]",
                 "rounded-[14px] px-1 py-1 transition",
                 item.active ? "text-[#004FC7]" : "text-[#A5A5A5]",
               )}
@@ -47,13 +48,24 @@ export default function EKolektorBottomNav() {
             >
               <span
                 className={cn(
-                  "inline-flex h-[34px] w-[34px] items-center justify-center rounded-full transition",
-                  item.active ? "bg-[#004FC7] text-white" : "bg-transparent",
+                  "inline-flex items-center justify-center rounded-full transition",
+                  isTransaction
+                    ? "h-[55px] w-[55px] bg-transparent"
+                    : "h-[34px] w-[34px]",
+                  !isTransaction && item.active
+                    ? "bg-[#004FC7] text-white"
+                    : !isTransaction
+                      ? "bg-transparent"
+                      : "",
                 )}
               >
                 <Icon
                   className={cn(
-                    item.active ? "h-[18px] w-[18px]" : "h-[22px] w-[22px]",
+                    isTransaction
+                      ? "h-[55px] w-[55px]"
+                      : item.active
+                        ? "h-[18px] w-[18px]"
+                        : "h-[22px] w-[22px]",
                   )}
                 />
               </span>
