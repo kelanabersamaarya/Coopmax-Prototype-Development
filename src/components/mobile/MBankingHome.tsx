@@ -7,10 +7,10 @@ import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransac
 
 export default function MBankingHome() {
   return (
-    <div className="flex h-full min-h-0 flex-col bg-white">
+    <div className="min-h-full bg-white">
       <MBankingHomeHeader />
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="bg-white pb-8">
         <MBankingSavingsCard />
         <MBankingQuickActions />
         <MBankingTransactionHistoryEmpty />
