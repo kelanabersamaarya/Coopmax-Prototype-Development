@@ -25,7 +25,7 @@ const historyRows = [
 
 export default function MBankingLoanTransactionHistory() {
   return (
-    <section className="mt-7 pb-3">
+    <section className="-mx-6 mt-7 bg-[#F2F2F2] px-6 pb-8 pt-6">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
           Riwayat Transaksi
@@ -43,7 +43,7 @@ export default function MBankingLoanTransactionHistory() {
         {historyRows.map((row, index) => (
           <div
             key={`${row.title}-${row.date}-${index}`}
-            className="flex items-center gap-3 rounded-[14px] bg-[#F4F4F4] px-4 py-3"
+            className="flex items-center gap-3 rounded-[14px] bg-white px-4 py-3 shadow-sm"
           >
             <span className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[13px] bg-[#004FC7] text-white">
               <ReceiptText className="h-[22px] w-[22px]" strokeWidth={2.5} />
