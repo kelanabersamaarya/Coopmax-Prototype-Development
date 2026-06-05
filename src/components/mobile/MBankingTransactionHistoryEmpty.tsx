@@ -1,9 +1,54 @@
 "use client";
 
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+type HistoryTab = "Pembayaran" | "Kolektor";
+
 export default function MBankingTransactionHistoryEmpty() {
+  const [activeTab, setActiveTab] = React.useState<HistoryTab>("Pembayaran");
+
+  const tabs: HistoryTab[] = ["Pembayaran", "Kolektor"];
+
   return (
-    <section className="mt-8 bg-[#F2F2F2] px-6 pb-8 pt-8">
-      <div className="flex flex-col items-center text-center">
+    <section className="mt-8 bg-[#F2F2F2] px-6 pb-8 pt-6">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-[16px] font-extrabold leading-tight tracking-tight text-black">
+          Riwayat Transaksi
+        </h2>
+
+        <button
+          type="button"
+          className="shrink-0 text-[14px] font-semibold leading-tight tracking-tight text-[#004FC7] transition active:scale-[0.98]"
+        >
+          Lihat Semua
+        </button>
+      </div>
+
+      <div className="mt-5 flex items-center gap-3">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab;
+
+          return (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "h-[34px] rounded-full px-5 text-[14px] font-semibold leading-none transition active:scale-[0.98]",
+                isActive
+                  ? "bg-[#004FC7] text-white"
+                  : "bg-transparent text-[#004FC7]",
+              )}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {tab}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-7 flex flex-col items-center text-center">
         <svg
           viewBox="0 0 220 170"
           fill="none"
