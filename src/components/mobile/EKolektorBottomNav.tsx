@@ -8,16 +8,19 @@ const navItems = [
     label: "Beranda",
     icon: Home,
     active: true,
+    hideLabel: false,
   },
   {
     label: "Transaksi",
     icon: ReceiptText,
     active: false,
+    hideLabel: true,
   },
   {
     label: "Laporan",
     icon: FileText,
     active: false,
+    hideLabel: false,
   },
 ];
 
@@ -33,10 +36,12 @@ export default function EKolektorBottomNav() {
               key={item.label}
               type="button"
               className={cn(
-                "flex min-w-0 flex-col items-center justify-end gap-[5px]",
+                "flex min-w-0 flex-col items-center justify-end",
+                item.hideLabel ? "gap-0 pb-[15px]" : "gap-[5px]",
                 "rounded-[14px] px-1 py-1 transition",
                 item.active ? "text-[#004FC7]" : "text-[#A5A5A5]",
               )}
+              aria-label={item.label}
               aria-current={item.active ? "page" : undefined}
             >
               <span
@@ -53,14 +58,16 @@ export default function EKolektorBottomNav() {
                 />
               </span>
 
-              <span
-                className={cn(
-                  "truncate text-[10px] leading-none tracking-tight",
-                  item.active ? "font-extrabold" : "font-semibold",
-                )}
-              >
-                {item.label}
-              </span>
+              {!item.hideLabel ? (
+                <span
+                  className={cn(
+                    "truncate text-[10px] leading-none tracking-tight",
+                    item.active ? "font-extrabold" : "font-semibold",
+                  )}
+                >
+                  {item.label}
+                </span>
+              ) : null}
             </button>
           );
         })}
