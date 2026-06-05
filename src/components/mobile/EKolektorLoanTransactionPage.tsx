@@ -2,6 +2,7 @@
 
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorInstallmentDetailSection from "@/components/mobile/EKolektorInstallmentDetailSection";
+import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTransactionForm";
 
 const loanInfoItems = [
   {
@@ -86,6 +87,8 @@ export default function EKolektorLoanTransactionPage({
         <div className="mt-[22px] text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A]">
           Lihat Riwayat Angsuran
         </div>
+
+        <EKolektorLoanTransactionForm />
       </main>
 
       <EKolektorAndroidNavBar onBack={onBack} />
