@@ -1,15 +1,27 @@
 "use client";
 
+import * as React from "react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorSearchBar from "@/components/mobile/EKolektorSearchBar";
 import EKolektorTransactionHeader from "@/components/mobile/EKolektorTransactionHeader";
 import EKolektorTransactionTabs from "@/components/mobile/EKolektorTransactionTabs";
+import EKolektorLoanTransactionPage from "@/components/mobile/EKolektorLoanTransactionPage";
+
+type TransactionScreen = "list" | "loan-transaction";
 
 export default function EKolektorTransactions({
   onBackHome,
 }: {
   onBackHome: () => void;
 }) {
+  const [screen, setScreen] = React.useState<TransactionScreen>("list");
+
+  if (screen === "loan-transaction") {
+    return (
+      <EKolektorLoanTransactionPage onBack={() => setScreen("list")} />
+    );
+  }
+
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="shrink-0 pb-[28px]">
@@ -26,7 +38,10 @@ export default function EKolektorTransactions({
 
         <EKolektorSearchBar className="mt-[22px]" />
 
-        <EKolektorTransactionTabs className="mt-[24px]" />
+        <EKolektorTransactionTabs
+          className="mt-[24px]"
+          onSelectLoan={() => setScreen("loan-transaction")}
+        />
       </div>
 
       <EKolektorAndroidNavBar onBack={onBackHome} />

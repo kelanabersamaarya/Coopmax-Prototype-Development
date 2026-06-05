@@ -2,7 +2,11 @@
 
 import { toast } from "sonner";
 
-export default function EKolektorPinjamanInfo() {
+export default function EKolektorPinjamanInfo({
+  onSelect,
+}: {
+  onSelect?: () => void;
+}) {
   return (
     <div className="mt-[22px] w-full">
       <div className="relative h-[160px] w-full overflow-hidden rounded-[12px] bg-white shadow-[0_3px_12px_rgba(15,23,42,0.08)]">
@@ -31,11 +35,16 @@ export default function EKolektorPinjamanInfo() {
 
         <button
           type="button"
-          onClick={() =>
+          onClick={() => {
+            if (onSelect) {
+              onSelect();
+              return;
+            }
+
             toast("Pilih pinjaman (prototype)", {
               description: "Aksi tombol belum dihubungkan.",
-            })
-          }
+            });
+          }}
           className="absolute inset-x-0 bottom-0 h-[45px] bg-[#004FC7] text-[14px] font-semibold text-white transition active:bg-[#0046B3]"
         >
           Pilih

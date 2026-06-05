@@ -10,8 +10,10 @@ type TransactionTab = "simpanan" | "pinjaman";
 
 export default function EKolektorTransactionTabs({
   className,
+  onSelectLoan,
 }: {
   className?: string;
+  onSelectLoan?: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<TransactionTab>("simpanan");
 
@@ -67,7 +69,9 @@ export default function EKolektorTransactionTabs({
       </div>
 
       {activeTab === "simpanan" ? <EKolektorSimpananAsset /> : null}
-      {activeTab === "pinjaman" ? <EKolektorPinjamanInfo /> : null}
+      {activeTab === "pinjaman" ? (
+        <EKolektorPinjamanInfo onSelect={onSelectLoan} />
+      ) : null}
     </div>
   );
 }
