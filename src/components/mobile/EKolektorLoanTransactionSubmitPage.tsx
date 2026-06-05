@@ -9,13 +9,15 @@ import { cn } from "@/lib/utils";
 
 export default function EKolektorLoanTransactionSubmitPage({
   onBack,
+  onDone,
 }: {
   onBack: () => void;
+  onDone: () => void;
 }) {
   const [success, setSuccess] = React.useState(false);
 
   if (success) {
-    return <EKolektorTransactionSuccessPage onDone={onBack} />;
+    return <EKolektorTransactionSuccessPage onDone={onDone} />;
   }
 
   return (

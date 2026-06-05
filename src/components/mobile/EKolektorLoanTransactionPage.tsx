@@ -39,8 +39,10 @@ const loanInfoItems = [
 
 export default function EKolektorLoanTransactionPage({
   onBack,
+  onDoneHome,
 }: {
   onBack: () => void;
+  onDoneHome: () => void;
 }) {
   const [showSubmitPage, setShowSubmitPage] = React.useState(false);
 
@@ -48,6 +50,7 @@ export default function EKolektorLoanTransactionPage({
     return (
       <EKolektorLoanTransactionSubmitPage
         onBack={() => setShowSubmitPage(false)}
+        onDone={onDoneHome}
       />
     );
   }

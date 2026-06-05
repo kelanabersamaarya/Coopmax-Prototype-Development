@@ -18,7 +18,10 @@ export default function EKolektorTransactions({
 
   if (screen === "loan-transaction") {
     return (
-      <EKolektorLoanTransactionPage onBack={() => setScreen("list")} />
+      <EKolektorLoanTransactionPage
+        onBack={() => setScreen("list")}
+        onDoneHome={onBackHome}
+      />
     );
   }
 
