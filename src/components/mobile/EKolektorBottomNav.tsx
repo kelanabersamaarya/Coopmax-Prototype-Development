@@ -51,12 +51,7 @@ export default function EKolektorBottomNav() {
                   "inline-flex items-center justify-center rounded-full transition",
                   isTransaction
                     ? "h-[55px] w-[55px] bg-transparent"
-                    : "h-[34px] w-[34px]",
-                  !isTransaction && item.active
-                    ? "bg-[#004FC7] text-white"
-                    : !isTransaction
-                      ? "bg-transparent"
-                      : "",
+                    : "h-[34px] w-[34px] bg-transparent",
                 )}
               >
                 <Icon
@@ -64,8 +59,8 @@ export default function EKolektorBottomNav() {
                     isTransaction
                       ? "h-[55px] w-[55px]"
                       : item.active
-                        ? "h-[18px] w-[18px]"
-                        : "h-[22px] w-[22px]",
+                        ? "h-[22px] w-[22px] text-[#004FC7]"
+                        : "h-[22px] w-[22px] text-[#A5A5A5]",
                   )}
                 />
               </span>
