@@ -31,21 +31,27 @@ export default function EKolektorLoanTransactionSubmitPage({
         </button>
 
         <div className="flex h-full min-h-0 items-center justify-center">
-          <div className="w-full max-w-[360px] overflow-hidden rounded-[26px] bg-white px-6 pb-8 pt-7 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
-            <EKolektorRecipientInfo />
+          <div className="w-full max-w-[360px]">
+            <div className="mb-5 text-center text-[25px] font-extrabold leading-none tracking-tight text-white">
+              Review
+            </div>
 
-            <button
-              type="button"
-              onClick={submit}
-              className={cn(
-                "h-[43px] w-full rounded-full",
-                "bg-[#004FC7] text-[14px] font-normal text-white",
-                "transition hover:bg-[#0046B3] active:translate-y-px",
-                "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
-              )}
-            >
-              Kirim
-            </button>
+            <div className="overflow-hidden rounded-[26px] bg-white px-6 pb-8 pt-7 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+              <EKolektorRecipientInfo />
+
+              <button
+                type="button"
+                onClick={submit}
+                className={cn(
+                  "h-[43px] w-full rounded-full",
+                  "bg-[#004FC7] text-[14px] font-normal text-white",
+                  "transition hover:bg-[#0046B3] active:translate-y-px",
+                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
+                )}
+              >
+                Kirim
+              </button>
+            </div>
           </div>
         </div>
       </div>
