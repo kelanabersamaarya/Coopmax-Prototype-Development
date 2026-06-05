@@ -45,12 +45,16 @@ function SummaryBox({
         {items.map((item, index) => (
           <div
             key={item.label}
-            className={index === 0 ? "py-[14px]" : "border-t border-[#B8B8B8] py-[14px]"}
+            className={
+              index === 0
+                ? "py-[14px]"
+                : "border-t border-[#B8B8B8] py-[14px]"
+            }
           >
-            <div className="text-[12px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
+            <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
               {item.label}
             </div>
-            <div className="mt-[9px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px] font-extrabold leading-none tracking-tight text-[#203064]">
+            <div className="mt-[9px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
               {item.value}
             </div>
           </div>
