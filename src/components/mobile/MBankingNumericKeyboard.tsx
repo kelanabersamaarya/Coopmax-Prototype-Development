@@ -65,9 +65,9 @@ export default function MBankingNumericKeyboard({
         disabled={submitDisabled}
         className={cn(
           "mt-[18px] h-[34px] w-full rounded-full",
-          "bg-[#82A2E9] text-[12px] font-normal text-[#1f2f63]",
+          "bg-[#004FC7] text-[12px] font-normal text-white",
           "transition active:scale-[0.99]",
-          submitDisabled ? "opacity-70" : "hover:bg-[#7899e2]",
+          submitDisabled ? "opacity-70" : "hover:bg-[#0046B3]",
         )}
       >
         Selanjutnya
