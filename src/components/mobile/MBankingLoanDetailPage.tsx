@@ -5,6 +5,7 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
 import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
 import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
+import MBankingLoanTransactionHistory from "@/components/mobile/MBankingLoanTransactionHistory";
 
 const loanInfoItems = [
   {
@@ -99,6 +100,8 @@ export default function MBankingLoanDetailPage({
           <MBankingLoanAmountInfo />
 
           <MBankingTransactionDateRange />
+
+          <MBankingLoanTransactionHistory />
         </main>
       </div>
 
