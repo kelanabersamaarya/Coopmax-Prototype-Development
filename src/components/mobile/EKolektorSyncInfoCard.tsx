@@ -18,8 +18,8 @@ export default function EKolektorSyncInfoCard() {
             </div>
           </div>
 
-          <div className="grid h-[53px] w-[53px] shrink-0 place-items-center rounded-full bg-[#39b54a] text-white shadow-sm">
-            <Check className="h-[24px] w-[24px]" strokeWidth={2.6} />
+          <div className="grid h-[43px] w-[43px] shrink-0 place-items-center rounded-full bg-[#39b54a] text-white shadow-sm">
+            <Check className="h-[22px] w-[22px]" strokeWidth={2.6} />
           </div>
         </div>
       </div>
