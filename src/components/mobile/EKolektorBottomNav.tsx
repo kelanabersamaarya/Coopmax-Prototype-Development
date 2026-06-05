@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock3, Home, ReceiptText, UserRound } from "lucide-react";
+import { FileText, Home, ReceiptText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -15,13 +15,8 @@ const navItems = [
     active: false,
   },
   {
-    label: "Riwayat",
-    icon: Clock3,
-    active: false,
-  },
-  {
-    label: "Profil",
-    icon: UserRound,
+    label: "Laporan",
+    icon: FileText,
     active: false,
   },
 ];
@@ -29,7 +24,7 @@ const navItems = [
 export default function EKolektorBottomNav() {
   return (
     <nav className="sticky bottom-0 z-40 shrink-0 bg-white px-5 pb-[14px] pt-[10px] shadow-[0_-8px_22px_rgba(15,23,42,0.08)]">
-      <div className="grid grid-cols-4 items-end">
+      <div className="grid grid-cols-3 items-end">
         {navItems.map((item) => {
           const Icon = item.icon;
 
