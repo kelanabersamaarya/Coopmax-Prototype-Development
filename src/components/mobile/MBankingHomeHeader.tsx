@@ -15,17 +15,17 @@ export default function MBankingHomeHeader() {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-5">
+        <div className="flex shrink-0 items-center gap-2.5">
           <button
             type="button"
-            className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.98]"
+            className="inline-flex h-[38px] w-[38px] items-center justify-center rounded-full text-[#004FC7] transition active:scale-[0.98]"
             aria-label="Notifikasi"
             title="Notifikasi"
           >
-            <Bell className="h-[31px] w-[31px] fill-[#004FC7]" strokeWidth={2.4} />
+            <Bell className="h-[26px] w-[26px] fill-[#004FC7]" strokeWidth={2.4} />
           </button>
 
-          <div className="grid h-[58px] w-[58px] place-items-center rounded-full bg-[#004FC7] text-[20px] font-extrabold leading-none text-white">
+          <div className="grid h-[46px] w-[46px] place-items-center rounded-full bg-[#004FC7] text-[17px] font-extrabold leading-none text-white">
             L
           </div>
         </div>
