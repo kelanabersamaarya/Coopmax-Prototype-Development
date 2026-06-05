@@ -15,32 +15,32 @@ export default function EKolektorTransactionIcon({
       aria-hidden="true"
     >
       <path
-        d="M8.25 4.75H18.25C19.4926 4.75 20.5 5.75736 20.5 7V21.25C20.5 22.4926 19.4926 23.5 18.25 23.5H8.25C7.00736 23.5 6 22.4926 6 21.25V7C6 5.75736 7.00736 4.75 8.25 4.75Z"
+        d="M8.2 4.8H17.8C19.2912 4.8 20.5 6.00883 20.5 7.5V21.1C20.5 22.5912 19.2912 23.8 17.8 23.8H8.2C6.70883 23.8 5.5 22.5912 5.5 21.1V7.5C5.5 6.00883 6.70883 4.8 8.2 4.8Z"
         stroke="currentColor"
         strokeWidth="2.05"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M10 9.25H16.75"
+        d="M9.45 8.65H16.55"
         stroke="currentColor"
         strokeWidth="2.05"
         strokeLinecap="round"
       />
       <path
-        d="M10 13.25H17.25"
+        d="M9.45 12.35H17.1"
         stroke="currentColor"
         strokeWidth="2.05"
         strokeLinecap="round"
       />
       <path
-        d="M10 17.25H14.25"
+        d="M9.45 16.05H14.15"
         stroke="currentColor"
         strokeWidth="2.05"
         strokeLinecap="round"
       />
       <path
-        d="M20.25 15.5C22.7353 15.5 24.75 17.5147 24.75 20C24.75 22.4853 22.7353 24.5 20.25 24.5C17.7647 24.5 15.75 22.4853 15.75 20C15.75 17.5147 17.7647 15.5 20.25 15.5Z"
+        d="M18.75 16.35C20.9591 16.35 22.75 18.1409 22.75 20.35C22.75 22.5591 20.9591 24.35 18.75 24.35C16.5409 24.35 14.75 22.5591 14.75 20.35C14.75 18.1409 16.5409 16.35 18.75 16.35Z"
         fill="white"
         stroke="currentColor"
         strokeWidth="2.05"
@@ -48,7 +48,7 @@ export default function EKolektorTransactionIcon({
         strokeLinejoin="round"
       />
       <path
-        d="M18.35 20.1L19.55 21.3L22.25 18.55"
+        d="M17.05 20.25L18.2 21.4L20.65 18.85"
         stroke="currentColor"
         strokeWidth="2.05"
         strokeLinecap="round"
