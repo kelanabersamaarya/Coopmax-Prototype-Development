@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorLoginHeader from "@/components/mobile/EKolektorLoginHeader";
 
-export default function MBankingLoginForm() {
+export default function MBankingLoginForm({ onLogin }: { onLogin?: () => void }) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rememberUsername, setRememberUsername] = React.useState(true);
@@ -32,6 +32,8 @@ export default function MBankingLoginForm() {
     toast.success("Masuk M-Banking (prototype)", {
       description: "Login berhasil tanpa perlu username dan password.",
     });
+
+    onLogin?.();
   }
 
   const inputClassName = cn(
