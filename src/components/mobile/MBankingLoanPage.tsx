@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ChevronRight, Copy } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
 export default function MBankingLoanPage({ onBack }: { onBack: () => void }) {
@@ -27,30 +27,30 @@ export default function MBankingLoanPage({ onBack }: { onBack: () => void }) {
             <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
             <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
 
-            <div className="relative z-10 flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
-                  Pinjaman Bulanan
-                </div>
-                <div className="mt-8 text-[10px] font-normal leading-none text-[#678DD8]">
-                  No Rekening
-                </div>
-                <div className="mt-2 flex items-center gap-2 text-[12px] font-semibold leading-none text-white">
-                  <span>SMG260004</span>
-                  <Copy className="h-[13px] w-[13px] text-white" strokeWidth={2.4} />
-                </div>
+            <div className="relative z-10 flex h-full flex-col">
+              <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
+                Pinjaman Bulanan
               </div>
 
-              <button
-                type="button"
-                className="inline-flex shrink-0 items-center gap-1 rounded-full px-1 text-[12px] font-semibold leading-none text-white transition active:scale-[0.98]"
-              >
-                Detail
-                <ChevronRight
-                  className="h-[13px] w-[13px] text-white"
-                  strokeWidth={2.6}
-                />
-              </button>
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                <div className="min-w-0">
+                  <div className="text-[10px] font-normal leading-none text-[#678DD8]">
+                    No. Pinjaman
+                  </div>
+                  <div className="mt-2 truncate text-[12px] font-semibold leading-none text-white">
+                    SMG260004
+                  </div>
+                </div>
+
+                <div className="min-w-0 text-right">
+                  <div className="text-[10px] font-normal leading-none text-[#678DD8]">
+                    Jangka Waktu
+                  </div>
+                  <div className="mt-2 truncate text-[12px] font-semibold leading-none text-white">
+                    12 Bulan
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
