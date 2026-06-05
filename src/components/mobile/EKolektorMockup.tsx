@@ -14,7 +14,7 @@ import {
 type EKolektorScreen = "home" | "transactions";
 
 export default function EKolektorMockup() {
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [screen, setScreen] = React.useState<EKolektorScreen>("home");
   const [transactions, setTransactions] = React.useState<
     EKolektorTodayTransaction[]
