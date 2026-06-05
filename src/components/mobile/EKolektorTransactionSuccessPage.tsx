@@ -1,6 +1,7 @@
 "use client";
 
-import { Check, Home } from "lucide-react";
+import { Check } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
@@ -40,6 +41,40 @@ export default function EKolektorTransactionSuccessPage({
               </div>
             </div>
 
+            <div className="mt-5 grid grid-cols-1 gap-3">
+              <button
+                type="button"
+                onClick={() =>
+                  toast.success("Cetak Bukti (prototype)", {
+                    description: "Bukti transaksi siap dicetak.",
+                  })
+                }
+                className={cn(
+                  "h-[43px] w-full rounded-[9px]",
+                  "bg-[#004FC7] text-[14px] font-semibold text-white",
+                  "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
+                  "transition hover:bg-[#0046B3] active:translate-y-px",
+                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
+                )}
+              >
+                Cetak Bukti
+              </button>
+
+              <button
+                type="button"
+                onClick={onDone}
+                className={cn(
+                  "h-[43px] w-full rounded-[9px]",
+                  "bg-[#004FC7] text-[14px] font-semibold text-white",
+                  "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
+                  "transition hover:bg-[#0046B3] active:translate-y-px",
+                  "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#004FC7]/25",
+                )}
+              >
+                Kembali
+              </button>
+            </div>
+
             <div className="mt-9 text-left">
               <div className="grid gap-6">
                 <div>
@@ -62,21 +97,6 @@ export default function EKolektorTransactionSuccessPage({
               </div>
             </div>
           </section>
-
-          <button
-            type="button"
-            onClick={onDone}
-            className={cn(
-              "mt-auto inline-flex h-[43px] w-full items-center justify-center gap-2 rounded-[9px]",
-              "bg-white text-[14px] font-semibold text-[#004FC7]",
-              "shadow-[0_3px_8px_rgba(0,0,0,0.16)]",
-              "transition hover:bg-white/95 active:translate-y-px",
-              "focus:outline-none focus-visible:ring-4 focus-visible:ring-white/25",
-            )}
-          >
-            <Home className="h-4.5 w-4.5" />
-            Kembali ke Beranda
-          </button>
         </div>
       </main>
 
