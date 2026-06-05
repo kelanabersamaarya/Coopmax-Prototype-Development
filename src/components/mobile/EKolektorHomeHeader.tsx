@@ -5,10 +5,10 @@ export default function EKolektorHomeHeader() {
     <div className="bg-white px-5 pb-7 pt-8">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 pt-5">
-          <div className="text-[12px] font-normal leading-none tracking-tight text-[#7f7f7f]">
+          <div className="text-[14px] font-normal leading-none tracking-tight text-[#7f7f7f]">
             Selamat Sore,
           </div>
-          <div className="mt-2 max-w-[285px] text-[14px] font-extrabold leading-tight tracking-tight text-[#111d4a]">
+          <div className="mt-2 max-w-[285px] text-[18px] font-extrabold leading-tight tracking-tight text-[#111d4a]">
             I Ketut Agus Pasek Jaya Arta
           </div>
         </div>
