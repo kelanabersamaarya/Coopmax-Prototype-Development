@@ -21,6 +21,9 @@ export default function EKolektorPinjamanInfo() {
             <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-[#172957]">
               3259238260108
             </div>
+            <div className="mt-[5px] text-[14px] font-normal leading-tight tracking-tight text-[#63809E]">
+              Penatih
+            </div>
           </div>
         </div>
       </div>
