@@ -31,7 +31,7 @@ export default function EKolektorExitConfirmModal({
             type="button"
             onClick={onCancel}
             className={cn(
-              "h-[40px] w-[100px] rounded-full",
+              "h-[40px] w-[80px] rounded-full",
               "bg-[#828282] text-[14px] font-semibold text-white",
               "transition active:scale-[0.98]",
             )}
@@ -43,7 +43,7 @@ export default function EKolektorExitConfirmModal({
             type="button"
             onClick={onExit}
             className={cn(
-              "h-[40px] w-[100px] rounded-full",
+              "h-[40px] w-[80px] rounded-full",
               "bg-[#EF135D] text-[14px] font-semibold text-white",
               "transition active:scale-[0.98]",
             )}
