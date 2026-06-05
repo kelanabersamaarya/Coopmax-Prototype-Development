@@ -21,7 +21,7 @@ export default function MBankingLoanPage({ onBack }: { onBack: () => void }) {
           Pinjaman
         </h1>
 
-        <section className="pt-12">
+        <section className="pt-7">
           <div className="relative h-[147px] w-full overflow-hidden rounded-[14px] bg-[#004FC7] px-5 py-5 text-white shadow-[0_8px_22px_rgba(0,79,199,0.20)]">
             <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
             <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
