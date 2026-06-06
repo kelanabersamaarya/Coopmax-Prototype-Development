@@ -33,6 +33,7 @@ import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog"
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
 import PinjamanBulananTransactionFields from "@/components/loans/PinjamanBulananTransactionFields";
+import BorrowerMandatorySavingsInfo from "@/components/loans/BorrowerMandatorySavingsInfo";
 
 const PAYMENT_METHODS = [
   "Pembayaran Reguler",
@@ -403,6 +404,7 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
     <div className="mt-3 grid gap-4 bg-white">
       <InfoStack label="Nama" value={info.nama} />
       <InfoStack label="Alamat" value={info.alamat} />
+      <BorrowerMandatorySavingsInfo />
     </div>
   );
 }
