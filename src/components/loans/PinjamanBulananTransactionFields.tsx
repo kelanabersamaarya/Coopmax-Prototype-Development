@@ -35,9 +35,19 @@ function FieldBlock({
   );
 }
 
-function PeriodInfoButton() {
+function PeriodInfoButton({ periode }: { periode: string }) {
+  const displayPeriode = periode.trim() || "June 2026";
+
+  const rows = [
+    { label: "Periode", value: displayPeriode },
+    { label: "Tanggal Awal", value: "02-06-2026" },
+    { label: "Tanggal Akhir", value: "30-06-2026" },
+    { label: "Jatuh Tempo", value: "27-06-2026" },
+    { label: "Keterangan", value: "Periode pembayaran Pinjaman Bulanan" },
+  ];
+
   return (
-    <Tooltip delayDuration={150}>
+    <Tooltip delayDuration={120}>
       <TooltipTrigger asChild>
         <button
           type="button"
@@ -53,8 +63,35 @@ function PeriodInfoButton() {
         </button>
       </TooltipTrigger>
 
-      <TooltipContent className="rounded-[10px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-800 shadow-xl">
-        Periode transaksi pinjaman.
+      <TooltipContent
+        side="top"
+        align="end"
+        className={cn(
+          "w-[310px] rounded-[10px] border-slate-200 bg-white p-0 shadow-xl",
+          "text-[12px] font-normal text-slate-900",
+        )}
+      >
+        <div className="overflow-hidden rounded-[10px]">
+          <div className="bg-[#F7F8FC] px-4 py-3 text-[13px] font-bold text-slate-900">
+            Informasi Periode
+          </div>
+
+          <div className="divide-y divide-slate-200">
+            {rows.map((row) => (
+              <div
+                key={row.label}
+                className="grid grid-cols-[115px_minmax(0,1fr)] gap-3 px-4 py-2.5"
+              >
+                <div className="text-[12px] font-normal text-slate-500">
+                  {row.label}
+                </div>
+                <div className="text-[12px] font-semibold leading-snug text-slate-900">
+                  {row.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </TooltipContent>
     </Tooltip>
   );
@@ -227,7 +264,7 @@ export default function PinjamanBulananTransactionFields({
             className={cn(inputClassName, "min-w-0 flex-1 text-left")}
             disabled={disabled}
           />
-          <PeriodInfoButton />
+          <PeriodInfoButton periode={periode} />
         </div>
       </FieldBlock>
     </div>
