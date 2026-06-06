@@ -53,8 +53,6 @@ type NasabahInfo = {
   nama: string;
   alamat: string;
   produk: string;
-  noSimpananWajib: string;
-  saldoSimpananWajib: string;
   skemaTagihan?: string;
   satuanGracePeriod?: string;
   durasiGracePeriod?: string;
@@ -95,8 +93,6 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       nama: "Pangeran Sirait",
       alamat: "Gg. Basudewo No. 230, Gorontalo 27811, DIY",
       produk: "Pinjaman Bulanan",
-      noSimpananWajib: "87260001",
-      saldoSimpananWajib: "30.000,00",
       skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
@@ -105,8 +101,6 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       nama: "gaby",
       alamat: "Jl. Galang",
       produk: "Pinjaman Bulanan",
-      noSimpananWajib: "87260002",
-      saldoSimpananWajib: "30.000,00",
       skemaTagihan: "Jadwal Fleksibel dan Tagihan Berkala",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
@@ -115,8 +109,6 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       nama: "Rika Wastuti",
       alamat: "Jl. Kenanga No. 12",
       produk: "Pinjaman Bulanan",
-      noSimpananWajib: "87260003",
-      saldoSimpananWajib: "30.000,00",
       skemaTagihan: "Tagihan Dihitung dari Sisa Saldo Pokok",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
@@ -125,8 +117,6 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       nama: "Jenan Aditama",
       alamat: "Denpasar",
       produk: "Pinjaman RC",
-      noSimpananWajib: "87260004",
-      saldoSimpananWajib: "30.000,00",
       skemaTagihan: "Jadwal Fleksibel & Tagihan Berkala",
       satuanGracePeriod: "Hari",
       durasiGracePeriod: "7",
@@ -135,8 +125,6 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       nama: "Rika Wastuti",
       alamat: "Jl. Kenanga No. 12",
       produk: "Pinjaman Harian",
-      noSimpananWajib: "87260005",
-      saldoSimpananWajib: "30.000,00",
       skemaTagihan: "Tagihan Dihitung Dari Sisa Saldo Pokok",
       satuanGracePeriod: "Hari",
       durasiGracePeriod: "0",
@@ -317,8 +305,6 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
       <InfoStack label="Nama" value={info.nama} />
       <InfoStack label="Alamat" value={info.alamat} />
       <InfoStack label="Produk" value={info.produk} />
-      <InfoStack label="No Simpanan Wajib Peminjam" value={info.noSimpananWajib} />
-      <InfoStack label="Saldo Simpanan Wajib Peminjam" value={info.saldoSimpananWajib} />
     </div>
   );
 }
