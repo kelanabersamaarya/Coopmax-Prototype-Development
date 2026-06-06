@@ -49,6 +49,16 @@ type BillTotals = {
   total: string;
 };
 
+type LoanDetails = {
+  angsuranKe: string;
+  jangkaWaktu: string;
+  tanggalRealisasi: string;
+  tanggalJatuhTempo: string;
+  tanggalTransaksiTerakhir: string;
+  bungaPerTahun: string;
+  metodeBunga: string;
+};
+
 type NasabahInfo = {
   nama: string;
   alamat: string;
@@ -56,6 +66,7 @@ type NasabahInfo = {
   skemaTagihan?: string;
   satuanGracePeriod?: string;
   durasiGracePeriod?: string;
+  loanDetails?: LoanDetails;
 };
 
 type TransactionRowState = {
@@ -87,6 +98,26 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
+const DEFAULT_LOAN_DETAILS: LoanDetails = {
+  angsuranKe: "2",
+  jangkaWaktu: "12 Bulan",
+  tanggalRealisasi: "01-03-2026",
+  tanggalJatuhTempo: "16-03-2027",
+  tanggalTransaksiTerakhir: "25 Maret 2026",
+  bungaPerTahun: "10.00%",
+  metodeBunga: "Bunga Efektif",
+};
+
+const PINJAMAN_BULANAN_DETAILS: LoanDetails = {
+  angsuranKe: "1",
+  jangkaWaktu: "24 Bulan",
+  tanggalRealisasi: "02-06-2026",
+  tanggalJatuhTempo: "27-05-2028",
+  tanggalTransaksiTerakhir: "-",
+  bungaPerTahun: "24,00%",
+  metodeBunga: "Bunga Efektif",
+};
+
 function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
   const map: Record<string, NasabahInfo> = {
     "12260006": {
@@ -96,6 +127,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
+      loanDetails: DEFAULT_LOAN_DETAILS,
     },
     "12260002": {
       nama: "gaby",
@@ -104,6 +136,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       skemaTagihan: "Jadwal Fleksibel dan Tagihan Berkala",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
+      loanDetails: DEFAULT_LOAN_DETAILS,
     },
     "12260001": {
       nama: "Rika Wastuti",
@@ -112,14 +145,13 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       skemaTagihan: "Tagihan Dihitung dari Sisa Saldo Pokok",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
+      loanDetails: DEFAULT_LOAN_DETAILS,
     },
     "210260001": {
       nama: "Jenan Aditama",
       alamat: "Denpasar",
       produk: "Pinjaman Bulanan",
-      skemaTagihan: "Jadwal Fleksibel & Tagihan Berkala",
-      satuanGracePeriod: "Hari",
-      durasiGracePeriod: "7",
+      loanDetails: PINJAMAN_BULANAN_DETAILS,
     },
     "072260001": {
       nama: "Rika Wastuti",
@@ -128,6 +160,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
       skemaTagihan: "Tagihan Dihitung Dari Sisa Saldo Pokok",
       satuanGracePeriod: "Hari",
       durasiGracePeriod: "0",
+      loanDetails: DEFAULT_LOAN_DETAILS,
     },
   };
 
@@ -340,7 +373,6 @@ function LoanActionButton({
 function SelectedPinjamanInfo({
   accountNo,
   disabled,
-  hideInstallmentInfo = false,
   onOpenHistory,
 }: {
   accountNo: string;
@@ -350,48 +382,28 @@ function SelectedPinjamanInfo({
 }) {
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   const dash = <span className="font-semibold text-slate-400">-</span>;
-
-  const topItems = [
-    { label: "Produk", value: info?.produk ?? dash },
-    { label: "Skema Tagihan", value: info?.skemaTagihan ?? dash },
-    { label: "Satuan Grace Period", value: info?.satuanGracePeriod ?? dash },
-    { label: "Durasi Grace Period", value: info?.durasiGracePeriod ?? dash },
-  ];
-
-  const extraItems = [
-    { label: "Jangka Waktu", value: info ? "12 Bulan" : dash },
-    { label: "Tanggal Realisasi", value: info ? "01-03-2026" : dash },
-    { label: "Tanggal Jatuh Tempo", value: info ? "16-03-2027" : dash },
-    { label: "Tanggal Transaksi Terakhir", value: info ? "25 Maret 2026" : dash },
-    { label: "Bunga Per Tahun", value: info ? "10.00%" : dash },
-    { label: "Metode Bunga", value: info ? "Bunga Efektif" : dash },
-  ];
+  const details = info?.loanDetails ?? null;
 
   return (
     <div className="bg-white">
       <div className="grid gap-4">
-        {topItems.map((item) => (
-          <InfoStack key={item.label} label={item.label} value={item.value} />
-        ))}
-      </div>
-
-      {!hideInstallmentInfo ? (
-        <>
-          <BaseDivider />
-          <div className="grid gap-4">
-            <InfoStack label="Angsuran ke" value={info ? "2" : dash} />
-            <InfoStack label="Angsuran Lunas" value={info ? "1" : dash} />
-            <InfoStack label="Angsuran Seharusnya" value={info ? "1" : dash} />
-          </div>
-        </>
-      ) : null}
-
-      <BaseDivider />
-
-      <div className="grid gap-4">
-        {extraItems.map((item) => (
-          <InfoStack key={item.label} label={item.label} value={item.value} />
-        ))}
+        <InfoStack label="Produk" value={info?.produk ?? dash} />
+        <InfoStack label="Angsuran Ke" value={details?.angsuranKe ?? dash} />
+        <InfoStack label="Jangka Waktu" value={details?.jangkaWaktu ?? dash} />
+        <InfoStack
+          label="Tanggal Realisasi"
+          value={details?.tanggalRealisasi ?? dash}
+        />
+        <InfoStack
+          label="Tanggal Jatuh Tempo"
+          value={details?.tanggalJatuhTempo ?? dash}
+        />
+        <InfoStack
+          label="Tanggal Transaksi Terakhir"
+          value={details?.tanggalTransaksiTerakhir ?? dash}
+        />
+        <InfoStack label="Bunga Per Tahun" value={details?.bungaPerTahun ?? dash} />
+        <InfoStack label="Metode Bunga" value={details?.metodeBunga ?? dash} />
       </div>
 
       <BaseDivider />
@@ -574,6 +586,40 @@ function RemainingLoanTitlesOnly() {
   );
 }
 
+function PaymentTextInput({
+  label,
+  value,
+  onChange,
+  className,
+  placeholder,
+  inputMode,
+  disabled,
+}: {
+  label: React.ReactNode;
+  value: string;
+  onChange: (v: string) => void;
+  className: string;
+  placeholder?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  disabled?: boolean;
+}) {
+  return (
+    <div className="grid gap-1.5">
+      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
+        {label}
+      </div>
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={className}
+        placeholder={placeholder}
+        inputMode={inputMode}
+        disabled={disabled}
+      />
+    </div>
+  );
+}
+
 function PaymentInputBlock({
   row,
   disabled,
@@ -736,40 +782,6 @@ function PaymentInputBlock({
         value={row.keteranganReguler}
         onChange={(v) => onChange({ keteranganReguler: v })}
         className={inputCls}
-        disabled={disabled}
-      />
-    </div>
-  );
-}
-
-function PaymentTextInput({
-  label,
-  value,
-  onChange,
-  className,
-  placeholder,
-  inputMode,
-  disabled,
-}: {
-  label: React.ReactNode;
-  value: string;
-  onChange: (v: string) => void;
-  className: string;
-  placeholder?: string;
-  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
-  disabled?: boolean;
-}) {
-  return (
-    <div className="grid gap-1.5">
-      <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
-        {label}
-      </div>
-      <Input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={className}
-        placeholder={placeholder}
-        inputMode={inputMode}
         disabled={disabled}
       />
     </div>
