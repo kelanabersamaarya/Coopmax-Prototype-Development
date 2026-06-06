@@ -111,6 +111,7 @@ const BILLING_SECOND_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Tanggal Realisasi", value: "01-03-2026" },
   { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
   { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
+  { label: "Selisih Tanggal Transaksi", value: "4 Hari" },
   { label: "Bunga Per Tahun", value: "10.00%" },
   { label: "Metode Bunga", value: "Bunga Efektif" },
 ];
