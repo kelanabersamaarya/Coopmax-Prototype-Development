@@ -7,3 +7,28 @@ table.w-full.table-fixed.border-collapse.bg-white
   + div.grid.gap-4 {
   margin-top: 1rem;
 }
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(2)
+  > div.mt-3.grid.gap-4.bg-white::after {
+  content: "No Simpanan Wajib Peminjam\A 87260002\A Saldo Simpanan Wajib Peminjam\A 15.000,00";
+  display: block;
+  white-space: pre-line;
+  margin-top: 1rem;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(2)
+  > div.mt-3.grid.gap-4.bg-white::after:first-line {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+}
