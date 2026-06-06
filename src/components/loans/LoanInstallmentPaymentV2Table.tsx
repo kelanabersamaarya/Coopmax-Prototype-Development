@@ -304,7 +304,6 @@ function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
     <div className="mt-3 grid gap-4 bg-white">
       <InfoStack label="Nama" value={info.nama} />
       <InfoStack label="Alamat" value={info.alamat} />
-      <InfoStack label="Produk" value={info.produk} />
     </div>
   );
 }
@@ -353,6 +352,7 @@ function SelectedPinjamanInfo({
   const dash = <span className="font-semibold text-slate-400">-</span>;
 
   const topItems = [
+    { label: "Produk", value: info?.produk ?? dash },
     { label: "Skema Tagihan", value: info?.skemaTagihan ?? dash },
     { label: "Satuan Grace Period", value: info?.satuanGracePeriod ?? dash },
     { label: "Durasi Grace Period", value: info?.durasiGracePeriod ?? dash },
