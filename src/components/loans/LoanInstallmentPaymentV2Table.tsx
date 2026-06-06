@@ -5,9 +5,7 @@ import {
   Check,
   CheckSquare,
   Eye,
-  FileText,
   History,
-  Minus,
   Plus,
   Printer,
   Search,
@@ -112,16 +110,6 @@ const BILLING_FIRST_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Selisih Tanggal Transaksi", value: "0" },
 ];
 
-const BILLING_SECOND_DIVIDER_ITEMS: InfoItem[] = [
-  { label: "Plafond", value: "10.000.000,00" },
-  { label: "Sisa Total Pinjaman", value: "9.625.000" },
-  { label: "Sisa Pokok Pinjaman", value: "9.116.000" },
-  { label: "Pokok", value: "0" },
-  { label: "Bunga", value: "0" },
-  { label: "Denda", value: "0" },
-  { label: "Angsuran", value: "0" },
-];
-
 const MONTHLY_FIRST_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Angsuran Ke", value: "1" },
   { label: "Jangka Waktu", value: "24 Bulan" },
@@ -145,7 +133,7 @@ function getLoanInfoByAccountNo(accountNo: string): LoanInfo | null {
   const billingBase = {
     isBilling: true,
     firstDividerItems: BILLING_FIRST_DIVIDER_ITEMS,
-    secondDividerItems: BILLING_SECOND_DIVIDER_ITEMS,
+    secondDividerItems: [],
   };
 
   const map: Record<string, LoanInfo> = {
@@ -498,12 +486,15 @@ function SelectedPinjamanInfo({
         empty={isEmptyInitialLayout}
       />
 
-      <BaseDivider />
-
-      <InfoGroup
-        items={displayInfo.secondDividerItems}
-        empty={isEmptyInitialLayout}
-      />
+      {displayInfo.secondDividerItems.length > 0 ? (
+        <>
+          <BaseDivider />
+          <InfoGroup
+            items={displayInfo.secondDividerItems}
+            empty={isEmptyInitialLayout}
+          />
+        </>
+      ) : null}
 
       {displayInfo.showMonthlyInterestArrears ||
       (displayInfo.monthlySettlementItems?.length ?? 0) > 0 ? (
@@ -1441,11 +1432,6 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
-
-      <div className="sr-only">
-        <FileText />
-        <Minus />
-      </div>
     </div>
   );
 }
