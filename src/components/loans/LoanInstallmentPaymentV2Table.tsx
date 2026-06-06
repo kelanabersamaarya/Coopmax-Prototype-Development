@@ -110,6 +110,17 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
+const BILLING_ADDITIONAL_INFO: LoanInfoItem[] = [
+  { label: "Selisih Tanggal Transaksi", value: "0" },
+  { label: "Plafond", value: "10.000.000,00" },
+  { label: "Sisa Total Pinjaman", value: "9.625.000" },
+  { label: "Sisa Pokok Pinjaman", value: "9.116.000" },
+  { label: "Pokok", value: "0" },
+  { label: "Bunga", value: "0" },
+  { label: "Denda", value: "0" },
+  { label: "Angsuran", value: "0" },
+];
+
 const DEFAULT_LOAN_DETAILS: LoanDetails = {
   angsuranKe: "2",
   jangkaWaktu: "12 Bulan",
@@ -118,6 +129,7 @@ const DEFAULT_LOAN_DETAILS: LoanDetails = {
   tanggalTransaksiTerakhir: "25 Maret 2026",
   bungaPerTahun: "10.00%",
   metodeBunga: "Bunga Efektif",
+  additionalInfo: BILLING_ADDITIONAL_INFO,
 };
 
 const PINJAMAN_BULANAN_DETAILS: LoanDetails = {
