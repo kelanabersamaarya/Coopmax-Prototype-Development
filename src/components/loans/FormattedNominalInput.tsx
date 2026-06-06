@@ -36,12 +36,12 @@ function splitDecimalLike(value: string) {
 
 function formatDisplayValue(value: string) {
   const raw = (value ?? "").trim();
-  if (!raw) return "";
+  if (!raw) return "0,00";
 
   const { integerPart, decimalPart, hasDecimal } = splitDecimalLike(raw);
   const formattedInteger = formatThousands(integerPart);
 
-  if (!formattedInteger && !hasDecimal) return "";
+  if (!formattedInteger && !hasDecimal) return "0,00";
 
   return `${formattedInteger || "0"},${decimalPart.padEnd(2, "0")}`;
 }
@@ -100,6 +100,13 @@ export default function FormattedNominalInput({
     <input
       ref={inputRef}
       value={displayValue}
+      onFocus={(event) => {
+        if (event.currentTarget.value === "0,00") {
+          requestAnimationFrame(() => {
+            event.currentTarget.select();
+          });
+        }
+      }}
       onChange={(event) => {
         const raw = event.target.value ?? "";
         const caret = event.target.selectionStart ?? raw.length;
@@ -110,7 +117,7 @@ export default function FormattedNominalInput({
         const formattedInteger = formatThousands(integerPart);
 
         if (!formattedInteger && !hasDecimal) {
-          onChange("");
+          onChange("0,00");
           return;
         }
 
