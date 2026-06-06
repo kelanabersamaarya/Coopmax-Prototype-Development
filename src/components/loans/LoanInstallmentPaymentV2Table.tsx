@@ -92,7 +92,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
     "12260006": {
       nama: "Pangeran Sirait",
       alamat: "Gg. Basudewo No. 230, Gorontalo 27811, DIY",
-      produk: "Pinjaman Bulanan",
+      produk: "Pinjaman Billing",
       skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
@@ -100,7 +100,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
     "12260002": {
       nama: "gaby",
       alamat: "Jl. Galang",
-      produk: "Pinjaman Bulanan",
+      produk: "Pinjaman Billing",
       skemaTagihan: "Jadwal Fleksibel dan Tagihan Berkala",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
@@ -108,7 +108,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
     "12260001": {
       nama: "Rika Wastuti",
       alamat: "Jl. Kenanga No. 12",
-      produk: "Pinjaman Bulanan",
+      produk: "Pinjaman Billing",
       skemaTagihan: "Tagihan Dihitung dari Sisa Saldo Pokok",
       satuanGracePeriod: "Bulan",
       durasiGracePeriod: "3",
@@ -116,7 +116,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
     "210260001": {
       nama: "Jenan Aditama",
       alamat: "Denpasar",
-      produk: "Pinjaman RC",
+      produk: "Pinjaman Billing",
       skemaTagihan: "Jadwal Fleksibel & Tagihan Berkala",
       satuanGracePeriod: "Hari",
       durasiGracePeriod: "7",
@@ -124,7 +124,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
     "072260001": {
       nama: "Rika Wastuti",
       alamat: "Jl. Kenanga No. 12",
-      produk: "Pinjaman Harian",
+      produk: "Pinjaman Billing",
       skemaTagihan: "Tagihan Dihitung Dari Sisa Saldo Pokok",
       satuanGracePeriod: "Hari",
       durasiGracePeriod: "0",
