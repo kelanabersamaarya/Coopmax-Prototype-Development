@@ -49,6 +49,11 @@ type BillTotals = {
   total: string;
 };
 
+type LoanInfoItem = {
+  label: string;
+  value: string;
+};
+
 type LoanDetails = {
   angsuranKe: string;
   jangkaWaktu: string;
@@ -57,6 +62,7 @@ type LoanDetails = {
   tanggalTransaksiTerakhir: string;
   bungaPerTahun: string;
   metodeBunga: string;
+  additionalInfo?: LoanInfoItem[];
 };
 
 type NasabahInfo = {
@@ -116,6 +122,14 @@ const PINJAMAN_BULANAN_DETAILS: LoanDetails = {
   tanggalTransaksiTerakhir: "-",
   bungaPerTahun: "24,00%",
   metodeBunga: "Bunga Efektif",
+  additionalInfo: [
+    { label: "Total Pinjaman", value: "20.000.000,00" },
+    { label: "Sisa Pokok Pinjaman", value: "20.000.000,00" },
+    { label: "Pokok", value: "833.400,00" },
+    { label: "Selisih Tanggal Transaksi", value: "4 Hari" },
+    { label: "Bunga", value: "400.000,00" },
+    { label: "Angsuran", value: "1.233.400,00" },
+  ],
 };
 
 function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
@@ -383,6 +397,7 @@ function SelectedPinjamanInfo({
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   const dash = <span className="font-semibold text-slate-400">-</span>;
   const details = info?.loanDetails ?? null;
+  const additionalInfo = details?.additionalInfo ?? [];
 
   return (
     <div className="bg-white">
@@ -405,6 +420,17 @@ function SelectedPinjamanInfo({
         <InfoStack label="Bunga Per Tahun" value={details?.bungaPerTahun ?? dash} />
         <InfoStack label="Metode Bunga" value={details?.metodeBunga ?? dash} />
       </div>
+
+      {additionalInfo.length > 0 ? (
+        <>
+          <BaseDivider />
+          <div className="grid gap-4">
+            {additionalInfo.map((item) => (
+              <InfoStack key={item.label} label={item.label} value={item.value} />
+            ))}
+          </div>
+        </>
+      ) : null}
 
       <BaseDivider />
 
