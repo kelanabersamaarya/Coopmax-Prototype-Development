@@ -116,7 +116,7 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
     "210260001": {
       nama: "Jenan Aditama",
       alamat: "Denpasar",
-      produk: "Pinjaman RC",
+      produk: "Pinjaman Bulanan",
       skemaTagihan: "Jadwal Fleksibel & Tagihan Berkala",
       satuanGracePeriod: "Hari",
       durasiGracePeriod: "7",
