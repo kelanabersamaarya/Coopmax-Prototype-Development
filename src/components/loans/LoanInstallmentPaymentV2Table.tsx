@@ -489,7 +489,7 @@ function SelectedPinjamanInfo({
 
       {displayInfo.firstDividerItems.length > 0 ? (
         <>
-          <BaseDivider />
+          {displayInfo.isBilling ? <BaseDivider /> : null}
           <InfoGroup
             items={displayInfo.firstDividerItems}
             empty={isEmptyInitialLayout}
