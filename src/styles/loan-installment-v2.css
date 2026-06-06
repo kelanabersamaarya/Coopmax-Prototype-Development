@@ -19,6 +19,16 @@ table.w-full.table-fixed.border-collapse.bg-white
 table.w-full.table-fixed.border-collapse.bg-white
   > tbody
   > tr
+  > td:nth-child(3).bg-white
+  > div.bg-white
+  > div.grid.gap-2\.5 {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.75rem !important;
+}
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
   > td:nth-child(4).bg-white
   > div.pt-\[150px\] {
   margin-left: auto !important;
@@ -99,6 +109,15 @@ table.w-full.table-fixed.border-collapse.bg-white
 }
 
 @media (max-width: 768px) {
+  table.w-full.table-fixed.border-collapse.bg-white
+    > tbody
+    > tr
+    > td:nth-child(3).bg-white
+    > div.bg-white
+    > div.grid.gap-2\.5 {
+    grid-template-columns: 1fr !important;
+  }
+
   table.w-full.table-fixed.border-collapse.bg-white
     > tbody
     > tr
