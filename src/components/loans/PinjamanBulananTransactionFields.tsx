@@ -67,30 +67,24 @@ function PeriodInfoButton({ periode }: { periode: string }) {
         side="top"
         align="end"
         className={cn(
-          "w-[310px] rounded-[10px] border-slate-200 bg-white p-0 shadow-xl",
+          "w-[310px] rounded-[10px] border-slate-200 bg-white px-4 py-3 shadow-xl",
           "text-[12px] font-normal text-slate-900",
         )}
       >
-        <div className="overflow-hidden rounded-[10px]">
-          <div className="bg-[#F7F8FC] px-4 py-3 text-[13px] font-bold text-slate-900">
-            Informasi Periode
-          </div>
-
-          <div className="divide-y divide-slate-200">
-            {rows.map((row) => (
-              <div
-                key={row.label}
-                className="grid grid-cols-[115px_minmax(0,1fr)] gap-3 px-4 py-2.5"
-              >
-                <div className="text-[12px] font-normal text-slate-500">
-                  {row.label}
-                </div>
-                <div className="text-[12px] font-semibold leading-snug text-slate-900">
-                  {row.value}
-                </div>
+        <div className="grid gap-2.5">
+          {rows.map((row) => (
+            <div
+              key={row.label}
+              className="grid grid-cols-[115px_minmax(0,1fr)] gap-3"
+            >
+              <div className="text-[12px] font-normal text-slate-500">
+                {row.label}
               </div>
-            ))}
-          </div>
+              <div className="text-[12px] font-semibold leading-snug text-slate-900">
+                {row.value}
+              </div>
+            </div>
+          ))}
         </div>
       </TooltipContent>
     </Tooltip>
