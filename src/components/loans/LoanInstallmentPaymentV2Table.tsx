@@ -32,6 +32,7 @@ import KhususDendaFieldWithInfo from "@/components/loans/KhususDendaFieldWithInf
 import LoanAccountPickerDialog from "@/components/loans/LoanAccountPickerDialog";
 import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHistoryDialog";
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
+import PinjamanBulananTransactionFields from "@/components/loans/PinjamanBulananTransactionFields";
 
 const PAYMENT_METHODS = [
   "Pembayaran Reguler",
@@ -97,6 +98,7 @@ type TransactionRowState = {
   keteranganKhusus: string;
   tabunganPelunasan: "Tanpa Tabungan";
   keteranganPelunasan: string;
+  pinjamanBulananPeriode: string;
 };
 
 const REGULER_AUTO_BILL_ACCOUNTS = new Set(["12260002", "12260001"]);
@@ -208,12 +210,13 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
     tabunganBakiDebet: "Tanpa Tabungan",
     keteranganBakiDebet: seed?.keteranganBakiDebet ?? "",
     nominalPokokKhusus: seed?.nominalPokokKhusus ?? "0",
-    nominalBungaKhusus: seed?.nominalBungaKhusus ?? "0",
-    nominalDendaKhusus: seed?.nominalDendaKhusus ?? "0",
+    nominalBungaKhusus: seed?.nominalBungaKhusus ?? "0,00",
+    nominalDendaKhusus: seed?.nominalDendaKhusus ?? "0,00",
     tabunganKhusus: "Tanpa Tabungan",
     keteranganKhusus: seed?.keteranganKhusus ?? "",
     tabunganPelunasan: "Tanpa Tabungan",
     keteranganPelunasan: seed?.keteranganPelunasan ?? "",
+    pinjamanBulananPeriode: seed?.pinjamanBulananPeriode ?? "June 2026",
   };
 }
 
@@ -521,7 +524,7 @@ function DaftarTagihanTopButton({
         className={cn(
           "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
           "bg-[#0b5bd3] text-[14px] font-semibold text-white",
-          "ring-1 ring-[#0b5d3]/25 transition hover:bg-[#0a52bf]",
+          "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
           disabled ? "pointer-events-none opacity-60" : "",
         )}
       >
@@ -693,13 +696,35 @@ function PaymentTextInput({
 
 function PaymentInputBlock({
   row,
+  accountNo,
   disabled,
   onChange,
 }: {
   row: TransactionRowState;
+  accountNo: string;
   disabled: boolean;
   onChange: (next: Partial<TransactionRowState>) => void;
 }) {
+  if (accountNo === "210260001") {
+    return (
+      <PinjamanBulananTransactionFields
+        disabled={disabled}
+        nominal={row.nominalReguler || "0,00"}
+        onNominalChange={(value) => onChange({ nominalReguler: value })}
+        bayarBunga={row.nominalBungaKhusus || "0,00"}
+        onBayarBungaChange={(value) => onChange({ nominalBungaKhusus: value })}
+        denda={row.nominalDendaKhusus || "0,00"}
+        onDendaChange={(value) => onChange({ nominalDendaKhusus: value })}
+        tabungan={row.tabunganReguler}
+        onTabunganChange={(value) => onChange({ tabunganReguler: value })}
+        keterangan={row.keteranganReguler}
+        onKeteranganChange={(value) => onChange({ keteranganReguler: value })}
+        periode={row.pinjamanBulananPeriode}
+        onPeriodeChange={(value) => onChange({ pinjamanBulananPeriode: value })}
+      />
+    );
+  }
+
   const inputCls = cn(
     "h-[30px] w-full rounded-[5px] border border-slate-300 bg-white px-3",
     "text-[14px] font-medium text-slate-900 shadow-none",
@@ -1316,6 +1341,7 @@ export default function LoanInstallmentPaymentV2Table({
 
                   <PaymentInputBlock
                     row={row}
+                    accountNo={accountNo}
                     disabled={lockRowUi}
                     onChange={(patch) => patchRow(row.id, patch)}
                   />

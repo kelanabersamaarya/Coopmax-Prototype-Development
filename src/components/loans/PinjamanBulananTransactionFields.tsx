@@ -1,0 +1,200 @@
+"use client";
+
+import * as React from "react";
+import { ChevronDown, FileText, Minus } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+
+export default function PinjamanBulananTransactionFields({
+  disabled,
+  nominal,
+  onNominalChange,
+  bayarBunga,
+  onBayarBungaChange,
+  denda,
+  onDendaChange,
+  tabungan,
+  onTabunganChange,
+  keterangan,
+  onKeteranganChange,
+  periode,
+  onPeriodeChange,
+}: {
+  disabled: boolean;
+  nominal: string;
+  onNominalChange: (value: string) => void;
+  bayarBunga: string;
+  onBayarBungaChange: (value: string) => void;
+  denda: string;
+  onDendaChange: (value: string) => void;
+  tabungan: "Tanpa Tabungan";
+  onTabunganChange: (value: "Tanpa Tabungan") => void;
+  keterangan: string;
+  onKeteranganChange: (value: string) => void;
+  periode: string;
+  onPeriodeChange: (value: string) => void;
+}) {
+  const labelClassName =
+    "pt-[8px] text-[14px] font-normal leading-tight text-[#111f4d]";
+
+  const inputClassName = cn(
+    "h-[37px] rounded-[5px] border-slate-300 bg-white px-3",
+    "text-right text-[14px] font-normal text-[#2f4268] shadow-none",
+    "placeholder:text-[#64748B]",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    disabled ? "pointer-events-none opacity-60" : "",
+  );
+
+  const readonlyInputClassName = cn(
+    inputClassName,
+    "bg-slate-200/80 text-[#2f4268]",
+  );
+
+  const selectTriggerClassName = cn(
+    "h-[37px] w-full rounded-[5px] border-slate-300 bg-white px-3",
+    "text-[14px] font-normal text-[#2f4268] shadow-none",
+    "focus-visible:ring-0 focus-visible:ring-offset-0",
+    "[&>svg]:hidden",
+    disabled ? "pointer-events-none opacity-60" : "",
+  );
+
+  return (
+    <div className="grid gap-[6px]">
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className={labelClassName}>Nominal :</div>
+        <Input
+          value={nominal}
+          onChange={(event) => onNominalChange(event.target.value)}
+          className={inputClassName}
+          placeholder="0,00"
+          inputMode="decimal"
+          disabled={disabled}
+        />
+      </div>
+
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className={labelClassName}>Bayar Pokok :</div>
+        <Input
+          value="0,00"
+          readOnly
+          className={readonlyInputClassName}
+          disabled={disabled}
+        />
+      </div>
+
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className={labelClassName}>Bayar Bunga :</div>
+        <Input
+          value={bayarBunga}
+          onChange={(event) => onBayarBungaChange(event.target.value)}
+          className={inputClassName}
+          placeholder="0,00"
+          inputMode="decimal"
+          disabled={disabled}
+        />
+      </div>
+
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className={labelClassName}>Denda :</div>
+        <div className="flex min-w-0 items-stretch">
+          <button
+            type="button"
+            disabled={disabled}
+            className={cn(
+              "inline-flex h-[37px] w-[38px] shrink-0 items-center justify-center",
+              "rounded-l-[5px] rounded-r-none bg-[#E93445] text-white",
+              "ring-1 ring-[#E93445]/20 transition hover:bg-[#d82f3f]",
+              disabled ? "pointer-events-none opacity-60" : "",
+            )}
+            aria-label="Kurangi denda"
+            title="Kurangi denda"
+          >
+            <Minus className="h-5 w-5" strokeWidth={3} />
+          </button>
+          <Input
+            value={denda}
+            onChange={(event) => onDendaChange(event.target.value)}
+            className={cn(inputClassName, "rounded-l-none")}
+            placeholder="0,00"
+            inputMode="decimal"
+            disabled={disabled}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className="text-[14px] font-normal leading-tight text-[#111f4d]">
+          Sisa Pinjaman
+          <br />
+          Akhir
+        </div>
+        <Input
+          value="20.000.000,00"
+          readOnly
+          className={readonlyInputClassName}
+          disabled={disabled}
+        />
+      </div>
+
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className={labelClassName}>Tabungan :</div>
+        <Select
+          value={tabungan}
+          onValueChange={(value) => onTabunganChange(value as "Tanpa Tabungan")}
+          disabled={disabled}
+        >
+          <SelectTrigger className={selectTriggerClassName}>
+            <SelectValue />
+            <ChevronDown className="h-4 w-4 text-[#526685]" />
+          </SelectTrigger>
+          <SelectContent className="rounded-[8px] border-slate-200">
+            <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className={labelClassName}>Keterangan :</div>
+        <div className="flex min-w-0 items-stretch">
+          <Input
+            value={keterangan}
+            onChange={(event) => onKeteranganChange(event.target.value)}
+            className={cn(inputClassName, "rounded-r-none text-left")}
+            disabled={disabled}
+          />
+          <button
+            type="button"
+            disabled={disabled}
+            className={cn(
+              "inline-flex h-[37px] w-[38px] shrink-0 items-center justify-center",
+              "rounded-l-none rounded-r-[5px] bg-[#6B7A90] text-white",
+              "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
+              disabled ? "pointer-events-none opacity-60" : "",
+            )}
+            aria-label="Keterangan"
+            title="Keterangan"
+          >
+            <FileText className="h-4.5 w-4.5" />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
+        <div className={labelClassName}>Periode :</div>
+        <Input
+          value={periode}
+          onChange={(event) => onPeriodeChange(event.target.value)}
+          className={cn(inputClassName, "text-left")}
+          disabled={disabled}
+        />
+      </div>
+    </div>
+  );
+}
