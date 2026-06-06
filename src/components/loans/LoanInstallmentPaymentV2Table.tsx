@@ -99,16 +99,7 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
-const BILLING_FIRST_DIVIDER_ITEMS: InfoItem[] = [
-  { label: "Jangka Waktu", value: "12 Bulan" },
-  { label: "Angsuran Ke", value: "2" },
-  { label: "Tanggal Realisasi", value: "01-03-2026" },
-  { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
-  { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
-  { label: "Bunga Pertahun", value: "10,00%" },
-  { label: "Metode Bunga", value: "Bunga Efektif" },
-  { label: "Selisih Tanggal Transaksi", value: "0" },
-];
+const BILLING_FIRST_DIVIDER_ITEMS: InfoItem[] = [];
 
 const MONTHLY_FIRST_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Angsuran Ke", value: "1" },
@@ -479,12 +470,15 @@ function SelectedPinjamanInfo({
     <div className="bg-white">
       <InfoGroup items={displayInfo.topItems} empty={isEmptyInitialLayout} />
 
-      <BaseDivider />
-
-      <InfoGroup
-        items={displayInfo.firstDividerItems}
-        empty={isEmptyInitialLayout}
-      />
+      {displayInfo.firstDividerItems.length > 0 ? (
+        <>
+          <BaseDivider />
+          <InfoGroup
+            items={displayInfo.firstDividerItems}
+            empty={isEmptyInitialLayout}
+          />
+        </>
+      ) : null}
 
       {displayInfo.secondDividerItems.length > 0 ? (
         <>
