@@ -63,6 +63,9 @@ type LoanDetails = {
   bungaPerTahun: string;
   metodeBunga: string;
   additionalInfo?: LoanInfoItem[];
+  settlementInfo?: LoanInfoItem[];
+  showInterestArrearsField?: boolean;
+  interestArrearsDefault?: string;
 };
 
 type NasabahInfo = {
@@ -129,6 +132,12 @@ const PINJAMAN_BULANAN_DETAILS: LoanDetails = {
     { label: "Selisih Tanggal Transaksi", value: "4 Hari" },
     { label: "Bunga", value: "400.000,00" },
     { label: "Angsuran", value: "1.233.400,00" },
+  ],
+  showInterestArrearsField: true,
+  interestArrearsDefault: "0,00",
+  settlementInfo: [
+    { label: "Total Bayar Bunga", value: "400.000,00" },
+    { label: "Nominal Pelunasan", value: "20.400.000,00" },
   ],
 };
 
@@ -398,6 +407,12 @@ function SelectedPinjamanInfo({
   const dash = <span className="font-semibold text-slate-400">-</span>;
   const details = info?.loanDetails ?? null;
   const additionalInfo = details?.additionalInfo ?? [];
+  const settlementInfo = details?.settlementInfo ?? [];
+  const [interestArrears, setInterestArrears] = React.useState("0,00");
+
+  React.useEffect(() => {
+    setInterestArrears(details?.interestArrearsDefault ?? "0,00");
+  }, [accountNo, details?.interestArrearsDefault]);
 
   return (
     <div className="bg-white">
@@ -426,6 +441,36 @@ function SelectedPinjamanInfo({
           <BaseDivider />
           <div className="grid gap-4">
             {additionalInfo.map((item) => (
+              <InfoStack key={item.label} label={item.label} value={item.value} />
+            ))}
+          </div>
+        </>
+      ) : null}
+
+      {details?.showInterestArrearsField || settlementInfo.length > 0 ? (
+        <>
+          <BaseDivider />
+          <div className="grid gap-4">
+            {details?.showInterestArrearsField ? (
+              <div className="grid gap-1.5">
+                <div className="text-[12px] font-normal text-black">
+                  Tunggakan Bunga
+                </div>
+                <Input
+                  value={interestArrears}
+                  onChange={(e) => setInterestArrears(e.target.value)}
+                  className={cn(
+                    "h-[30px] w-full rounded-[5px] border border-slate-300 bg-white px-3",
+                    "text-right text-[14px] font-semibold text-slate-900 shadow-none",
+                    "placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                  inputMode="decimal"
+                  placeholder="0,00"
+                />
+              </div>
+            ) : null}
+
+            {settlementInfo.map((item) => (
               <InfoStack key={item.label} label={item.label} value={item.value} />
             ))}
           </div>
@@ -476,7 +521,7 @@ function DaftarTagihanTopButton({
         className={cn(
           "inline-flex h-10 w-full items-center justify-center gap-3 rounded-[5px] px-4",
           "bg-[#0b5bd3] text-[14px] font-semibold text-white",
-          "ring-1 ring-[#0b5bd3]/25 transition hover:bg-[#0a52bf]",
+          "ring-1 ring-[#0b5d3]/25 transition hover:bg-[#0a52bf]",
           disabled ? "pointer-events-none opacity-60" : "",
         )}
       >
