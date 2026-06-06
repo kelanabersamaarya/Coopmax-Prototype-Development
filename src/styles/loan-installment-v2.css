@@ -33,7 +33,7 @@ table.w-full.table-fixed.border-collapse.bg-white
   > td:nth-child(4).bg-white
   > div.grid.gap-4:first-child
   ~ div.pt-\[150px\] {
-  padding-top: 620px !important;
+  padding-top: 580px !important;
 }
 
 table.w-full.table-fixed.border-collapse.bg-white
