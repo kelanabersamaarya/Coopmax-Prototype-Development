@@ -1,0 +1,9 @@
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.bg-white
+  > div.grid.gap-4
+  + div.grid.gap-4 {
+  margin-top: 1rem;
+}
