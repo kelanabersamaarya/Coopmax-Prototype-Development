@@ -109,11 +109,13 @@ export default function PinjamanBulananTransactionFields({
     disabled ? "pointer-events-none opacity-60" : "",
   );
 
+  const emptyWhenDisabled = (value: string) => (disabled ? "" : value);
+
   return (
     <div className="grid gap-4">
       <FieldBlock label="Nominal">
         <Input
-          value={nominal}
+          value={emptyWhenDisabled(nominal)}
           onChange={(event) => onNominalChange(event.target.value)}
           className={inputClassName}
           placeholder="0,00"
@@ -124,7 +126,7 @@ export default function PinjamanBulananTransactionFields({
 
       <FieldBlock label="Bayar Pokok">
         <Input
-          value="0,00"
+          value={emptyWhenDisabled("0,00")}
           readOnly
           className={readonlyInputClassName}
           disabled={disabled}
@@ -133,7 +135,7 @@ export default function PinjamanBulananTransactionFields({
 
       <FieldBlock label="Bayar Bunga">
         <Input
-          value={bayarBunga}
+          value={emptyWhenDisabled(bayarBunga)}
           onChange={(event) => onBayarBungaChange(event.target.value)}
           className={inputClassName}
           placeholder="0,00"
@@ -159,7 +161,7 @@ export default function PinjamanBulananTransactionFields({
             <Minus className="h-5 w-5" strokeWidth={3} />
           </button>
           <Input
-            value={denda}
+            value={emptyWhenDisabled(denda)}
             onChange={(event) => onDendaChange(event.target.value)}
             className={cn(inputClassName, "rounded-l-none")}
             placeholder="0,00"
@@ -171,7 +173,7 @@ export default function PinjamanBulananTransactionFields({
 
       <FieldBlock label="Sisa Pinjaman Akhir">
         <Input
-          value="20.000.000,00"
+          value={emptyWhenDisabled("20.000.000,00")}
           readOnly
           className={readonlyInputClassName}
           disabled={disabled}
@@ -197,7 +199,7 @@ export default function PinjamanBulananTransactionFields({
       <FieldBlock label="Keterangan">
         <div className="flex min-w-0 items-stretch">
           <Input
-            value={keterangan}
+            value={emptyWhenDisabled(keterangan)}
             onChange={(event) => onKeteranganChange(event.target.value)}
             className={cn(inputClassName, "rounded-r-none text-left")}
             disabled={disabled}

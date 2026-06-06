@@ -401,37 +401,39 @@ function SelectedPinjamanInfo({
   disabled: boolean;
   onOpenHistory: () => void;
 }) {
+  const isEmptyInitialLayout = accountNo.trim().length === 0;
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
   const dash = <span className="font-semibold text-slate-400">-</span>;
-  const details = info?.loanDetails ?? null;
+  const details = info?.loanDetails ?? (isEmptyInitialLayout ? PINJAMAN_BULANAN_DETAILS : null);
+  const valueOrDash = (value?: string) => (isEmptyInitialLayout ? dash : value || dash);
   const additionalInfo = details?.additionalInfo ?? [];
   const settlementInfo = details?.settlementInfo ?? [];
   const [interestArrears, setInterestArrears] = React.useState("0,00");
 
   React.useEffect(() => {
-    setInterestArrears(details?.interestArrearsDefault ?? "0,00");
-  }, [accountNo, details?.interestArrearsDefault]);
+    setInterestArrears(isEmptyInitialLayout ? "" : details?.interestArrearsDefault ?? "0,00");
+  }, [accountNo, details?.interestArrearsDefault, isEmptyInitialLayout]);
 
   return (
     <div className="bg-white">
       <div className="grid gap-4">
-        <InfoStack label="Produk" value={info?.produk ?? dash} />
-        <InfoStack label="Angsuran Ke" value={details?.angsuranKe ?? dash} />
-        <InfoStack label="Jangka Waktu" value={details?.jangkaWaktu ?? dash} />
+        <InfoStack label="Produk" value={valueOrDash(info?.produk)} />
+        <InfoStack label="Angsuran Ke" value={valueOrDash(details?.angsuranKe)} />
+        <InfoStack label="Jangka Waktu" value={valueOrDash(details?.jangkaWaktu)} />
         <InfoStack
           label="Tanggal Realisasi"
-          value={details?.tanggalRealisasi ?? dash}
+          value={valueOrDash(details?.tanggalRealisasi)}
         />
         <InfoStack
           label="Tanggal Jatuh Tempo"
-          value={details?.tanggalJatuhTempo ?? dash}
+          value={valueOrDash(details?.tanggalJatuhTempo)}
         />
         <InfoStack
           label="Tanggal Transaksi Terakhir"
-          value={details?.tanggalTransaksiTerakhir ?? dash}
+          value={valueOrDash(details?.tanggalTransaksiTerakhir)}
         />
-        <InfoStack label="Bunga Per Tahun" value={details?.bungaPerTahun ?? dash} />
-        <InfoStack label="Metode Bunga" value={details?.metodeBunga ?? dash} />
+        <InfoStack label="Bunga Per Tahun" value={valueOrDash(details?.bungaPerTahun)} />
+        <InfoStack label="Metode Bunga" value={valueOrDash(details?.metodeBunga)} />
       </div>
 
       {additionalInfo.length > 0 ? (
@@ -439,7 +441,11 @@ function SelectedPinjamanInfo({
           <BaseDivider />
           <div className="grid gap-4">
             {additionalInfo.map((item) => (
-              <InfoStack key={item.label} label={item.label} value={item.value} />
+              <InfoStack
+                key={item.label}
+                label={item.label}
+                value={valueOrDash(item.value)}
+              />
             ))}
           </div>
         </>
@@ -461,15 +467,21 @@ function SelectedPinjamanInfo({
                     "h-[30px] w-full rounded-[5px] border border-slate-300 bg-white px-3",
                     "text-right text-[14px] font-semibold text-slate-900 shadow-none",
                     "placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0",
+                    disabled ? "pointer-events-none opacity-60" : "",
                   )}
                   inputMode="decimal"
                   placeholder="0,00"
+                  disabled={disabled}
                 />
               </div>
             ) : null}
 
             {settlementInfo.map((item) => (
-              <InfoStack key={item.label} label={item.label} value={item.value} />
+              <InfoStack
+                key={item.label}
+                label={item.label}
+                value={valueOrDash(item.value)}
+              />
             ))}
           </div>
         </>
@@ -700,7 +712,7 @@ function PaymentInputBlock({
   disabled: boolean;
   onChange: (next: Partial<TransactionRowState>) => void;
 }) {
-  if (accountNo === "210260001") {
+  if (!accountNo || accountNo === "210260001") {
     return (
       <PinjamanBulananTransactionFields
         disabled={disabled}
@@ -1203,7 +1215,7 @@ export default function LoanInstallmentPaymentV2Table({
             const accountNo = row.accountNo.trim();
             const hasPicked = accountNo.length > 0;
             const lockRowUi = !hasPicked;
-            const isPinjamanBulanan = accountNo === "210260001";
+            const isPinjamanBulanan = !hasPicked || accountNo === "210260001";
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
             const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
