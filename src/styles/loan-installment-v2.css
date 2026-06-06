@@ -31,6 +31,15 @@ table.w-full.table-fixed.border-collapse.bg-white
   > tbody
   > tr
   > td:nth-child(4).bg-white
+  > div.grid.gap-4:first-child
+  ~ div.pt-\[150px\] {
+  padding-top: 500px !important;
+}
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
   > div.pt-\[150px\]
   > div.grid.gap-4 {
   gap: 0.875rem !important;
@@ -96,6 +105,15 @@ table.w-full.table-fixed.border-collapse.bg-white
     > td:nth-child(4).bg-white
     > div.pt-\[150px\] {
     max-width: 100% !important;
+    padding-top: 2rem !important;
+  }
+
+  table.w-full.table-fixed.border-collapse.bg-white
+    > tbody
+    > tr
+    > td:nth-child(4).bg-white
+    > div.grid.gap-4:first-child
+    ~ div.pt-\[150px\] {
     padding-top: 2rem !important;
   }
 
