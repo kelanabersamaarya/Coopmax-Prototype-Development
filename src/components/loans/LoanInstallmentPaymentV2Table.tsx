@@ -102,6 +102,7 @@ type TransactionRowState = {
 };
 
 const REGULER_AUTO_BILL_ACCOUNTS = new Set(["12260002", "12260001"]);
+
 const REGULER_AUTO_BILL: BillTotals = {
   pokok: "833.333",
   bunga: "83.333",
@@ -192,10 +193,6 @@ function getNasabahInfoByAccountNo(accountNo: string): NasabahInfo | null {
   return map[accountNo] ?? null;
 }
 
-function deriveNasabahNameByAccountNo(accountNo: string) {
-  return getNasabahInfoByAccountNo(accountNo)?.nama ?? "Nasabah";
-}
-
 function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
   return {
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
@@ -234,9 +231,8 @@ function Th({
   return (
     <th
       className={cn(
-        "border-b border-slate-300/70",
-        compact ? "px-4 py-3" : "px-4 py-3",
-        "text-[12px] font-extrabold uppercase tracking-wide text-[#64748B]",
+        "border-b border-slate-300/70 px-4 py-3 text-[12px] font-extrabold uppercase tracking-wide text-[#64748B]",
+        compact ? "px-4 py-3" : "",
         align === "right"
           ? "text-right"
           : align === "center"
@@ -403,7 +399,6 @@ function SelectedPinjamanInfo({
 }: {
   accountNo: string;
   disabled: boolean;
-  hideInstallmentInfo?: boolean;
   onOpenHistory: () => void;
 }) {
   const info = React.useMemo(() => getNasabahInfoByAccountNo(accountNo), [accountNo]);
@@ -1208,6 +1203,7 @@ export default function LoanInstallmentPaymentV2Table({
             const accountNo = row.accountNo.trim();
             const hasPicked = accountNo.length > 0;
             const lockRowUi = !hasPicked;
+            const isPinjamanBulanan = accountNo === "210260001";
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
             const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
@@ -1261,7 +1257,6 @@ export default function LoanInstallmentPaymentV2Table({
                   <SelectedPinjamanInfo
                     accountNo={row.accountNo}
                     disabled={lockRowUi}
-                    hideInstallmentInfo={isBakiDebet || isPelunasan}
                     onOpenHistory={() => {
                       if (!accountNo) return;
                       setHistoryAccountNo(accountNo);
@@ -1271,73 +1266,79 @@ export default function LoanInstallmentPaymentV2Table({
                 </Td>
 
                 <Td className="bg-white">
-                  <DaftarTagihanDialog
-                    open={row.daftarTagihanOpen}
-                    onOpenChange={(open) => patchRow(row.id, { daftarTagihanOpen: open })}
-                    paymentMethod={row.paymentMethod}
-                    accountNo={row.accountNo}
-                    contextKey={penaltyContextKey}
-                    onSaveTotals={(nextTotals: DaftarTagihanSavedTotals) => {
-                      patchRow(row.id, {
-                        savedBillTotals: nextTotals,
-                        nominalPokokKhusus: isKhusus
-                          ? nextTotals.pokok
-                          : row.nominalPokokKhusus,
-                        nominalBungaKhusus: isKhusus
-                          ? nextTotals.bunga
-                          : row.nominalBungaKhusus,
-                        nominalDendaKhusus: isKhusus
-                          ? nextTotals.denda
-                          : row.nominalDendaKhusus,
-                        nominalPokokBakiDebet: isBakiDebet
-                          ? nextTotals.pokok
-                          : row.nominalPokokBakiDebet,
-                      });
-                    }}
-                  />
+                  {!isPinjamanBulanan ? (
+                    <>
+                      <DaftarTagihanDialog
+                        open={row.daftarTagihanOpen}
+                        onOpenChange={(open) =>
+                          patchRow(row.id, { daftarTagihanOpen: open })
+                        }
+                        paymentMethod={row.paymentMethod}
+                        accountNo={row.accountNo}
+                        contextKey={penaltyContextKey}
+                        onSaveTotals={(nextTotals: DaftarTagihanSavedTotals) => {
+                          patchRow(row.id, {
+                            savedBillTotals: nextTotals,
+                            nominalPokokKhusus: isKhusus
+                              ? nextTotals.pokok
+                              : row.nominalPokokKhusus,
+                            nominalBungaKhusus: isKhusus
+                              ? nextTotals.bunga
+                              : row.nominalBungaKhusus,
+                            nominalDendaKhusus: isKhusus
+                              ? nextTotals.denda
+                              : row.nominalDendaKhusus,
+                            nominalPokokBakiDebet: isBakiDebet
+                              ? nextTotals.pokok
+                              : row.nominalPokokBakiDebet,
+                          });
+                        }}
+                      />
 
-                  <DaftarTagihanTopButton
-                    disabled={!canOpenDaftarTagihan}
-                    onClick={() => {
-                      if (!canOpenDaftarTagihan) {
-                        toast("Rekening belum dipilih", {
-                          description: "Silakan pilih rekening terlebih dahulu.",
-                        });
-                        return;
-                      }
+                      <DaftarTagihanTopButton
+                        disabled={!canOpenDaftarTagihan}
+                        onClick={() => {
+                          if (!canOpenDaftarTagihan) {
+                            toast("Rekening belum dipilih", {
+                              description: "Silakan pilih rekening terlebih dahulu.",
+                            });
+                            return;
+                          }
 
-                      patchRow(row.id, { daftarTagihanOpen: true });
-                    }}
-                  />
+                          patchRow(row.id, { daftarTagihanOpen: true });
+                        }}
+                      />
 
-                  <BaseDivider />
+                      <BaseDivider />
 
-                  <TransactionPaymentMethodField
-                    value={row.paymentMethod}
-                    onChange={(paymentMethod) =>
-                      patchRow(row.id, {
-                        paymentMethod,
-                        savedBillTotals: null,
-                      })
-                    }
-                    disabled={lockRowUi}
-                  />
+                      <TransactionPaymentMethodField
+                        value={row.paymentMethod}
+                        onChange={(paymentMethod) =>
+                          patchRow(row.id, {
+                            paymentMethod,
+                            savedBillTotals: null,
+                          })
+                        }
+                        disabled={lockRowUi}
+                      />
 
-                  <BaseDivider />
+                      <BaseDivider />
 
-                  {lockRowUi ? (
-                    isBakiDebet ? (
-                      <RemainingLoanTitlesOnly />
-                    ) : (
-                      <BillTotalsTitlesOnly totalLabel={totalsLabel} />
-                    )
-                  ) : isBakiDebet ? (
-                    <RemainingLoanBlock sisaPinjaman="9.116.000,00" />
-                  ) : (
-                    <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
-                  )}
+                      {lockRowUi ? (
+                        isBakiDebet ? (
+                          <RemainingLoanTitlesOnly />
+                        ) : (
+                          <BillTotalsTitlesOnly totalLabel={totalsLabel} />
+                        )
+                      ) : isBakiDebet ? (
+                        <RemainingLoanBlock sisaPinjaman="9.116.000,00" />
+                      ) : (
+                        <BillTotalsBlock totals={totals} totalLabel={totalsLabel} />
+                      )}
 
-                  <BaseDivider />
+                      <BaseDivider />
+                    </>
+                  ) : null}
 
                   <PaymentInputBlock
                     row={row}
@@ -1381,8 +1382,6 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
-
-      <div className="sr-only">{deriveNasabahNameByAccountNo("12260006")}</div>
     </div>
   );
 }
