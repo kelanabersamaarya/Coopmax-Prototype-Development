@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { ChevronDown, FileText, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,6 +10,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+
+function FieldBlock({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-1.5">
+      <div className="text-[12px] font-normal leading-[18px] text-slate-900">
+        {label}
+      </div>
+      {children}
+    </div>
+  );
+}
 
 export default function PinjamanBulananTransactionFields({
   disabled,
@@ -41,12 +57,9 @@ export default function PinjamanBulananTransactionFields({
   periode: string;
   onPeriodeChange: (value: string) => void;
 }) {
-  const labelClassName =
-    "pt-[8px] text-[14px] font-normal leading-tight text-[#111f4d]";
-
   const inputClassName = cn(
-    "h-[37px] rounded-[5px] border-slate-300 bg-white px-3",
-    "text-right text-[14px] font-normal text-[#2f4268] shadow-none",
+    "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
+    "text-right text-[14px] font-medium text-slate-900 shadow-none",
     "placeholder:text-[#64748B]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     disabled ? "pointer-events-none opacity-60" : "",
@@ -54,21 +67,20 @@ export default function PinjamanBulananTransactionFields({
 
   const readonlyInputClassName = cn(
     inputClassName,
-    "bg-slate-200/80 text-[#2f4268]",
+    "bg-slate-200/80 text-slate-800",
   );
 
   const selectTriggerClassName = cn(
-    "h-[37px] w-full rounded-[5px] border-slate-300 bg-white px-3",
-    "text-[14px] font-normal text-[#2f4268] shadow-none",
+    "h-[30px] w-full rounded-[5px] border-slate-300 bg-white px-3",
+    "text-[14px] font-medium text-slate-900 shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:hidden",
     disabled ? "pointer-events-none opacity-60" : "",
   );
 
   return (
-    <div className="grid gap-[6px]">
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className={labelClassName}>Nominal :</div>
+    <div className="grid gap-4">
+      <FieldBlock label="Nominal">
         <Input
           value={nominal}
           onChange={(event) => onNominalChange(event.target.value)}
@@ -77,20 +89,18 @@ export default function PinjamanBulananTransactionFields({
           inputMode="decimal"
           disabled={disabled}
         />
-      </div>
+      </FieldBlock>
 
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className={labelClassName}>Bayar Pokok :</div>
+      <FieldBlock label="Bayar Pokok">
         <Input
           value="0,00"
           readOnly
           className={readonlyInputClassName}
           disabled={disabled}
         />
-      </div>
+      </FieldBlock>
 
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className={labelClassName}>Bayar Bunga :</div>
+      <FieldBlock label="Bayar Bunga">
         <Input
           value={bayarBunga}
           onChange={(event) => onBayarBungaChange(event.target.value)}
@@ -99,16 +109,15 @@ export default function PinjamanBulananTransactionFields({
           inputMode="decimal"
           disabled={disabled}
         />
-      </div>
+      </FieldBlock>
 
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className={labelClassName}>Denda :</div>
+      <FieldBlock label="Denda">
         <div className="flex min-w-0 items-stretch">
           <button
             type="button"
             disabled={disabled}
             className={cn(
-              "inline-flex h-[37px] w-[38px] shrink-0 items-center justify-center",
+              "inline-flex h-[30px] w-[38px] shrink-0 items-center justify-center",
               "rounded-l-[5px] rounded-r-none bg-[#E93445] text-white",
               "ring-1 ring-[#E93445]/20 transition hover:bg-[#d82f3f]",
               disabled ? "pointer-events-none opacity-60" : "",
@@ -127,24 +136,18 @@ export default function PinjamanBulananTransactionFields({
             disabled={disabled}
           />
         </div>
-      </div>
+      </FieldBlock>
 
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className="text-[14px] font-normal leading-tight text-[#111f4d]">
-          Sisa Pinjaman
-          <br />
-          Akhir
-        </div>
+      <FieldBlock label="Sisa Pinjaman Akhir">
         <Input
           value="20.000.000,00"
           readOnly
           className={readonlyInputClassName}
           disabled={disabled}
         />
-      </div>
+      </FieldBlock>
 
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className={labelClassName}>Tabungan :</div>
+      <FieldBlock label="Tabungan">
         <Select
           value={tabungan}
           onValueChange={(value) => onTabunganChange(value as "Tanpa Tabungan")}
@@ -158,10 +161,9 @@ export default function PinjamanBulananTransactionFields({
             <SelectItem value="Tanpa Tabungan">Tanpa Tabungan</SelectItem>
           </SelectContent>
         </Select>
-      </div>
+      </FieldBlock>
 
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className={labelClassName}>Keterangan :</div>
+      <FieldBlock label="Keterangan">
         <div className="flex min-w-0 items-stretch">
           <Input
             value={keterangan}
@@ -173,7 +175,7 @@ export default function PinjamanBulananTransactionFields({
             type="button"
             disabled={disabled}
             className={cn(
-              "inline-flex h-[37px] w-[38px] shrink-0 items-center justify-center",
+              "inline-flex h-[30px] w-[38px] shrink-0 items-center justify-center",
               "rounded-l-none rounded-r-[5px] bg-[#6B7A90] text-white",
               "ring-1 ring-[#6B7A90]/20 transition hover:bg-[#5f6d82]",
               disabled ? "pointer-events-none opacity-60" : "",
@@ -184,17 +186,16 @@ export default function PinjamanBulananTransactionFields({
             <FileText className="h-4.5 w-4.5" />
           </button>
         </div>
-      </div>
+      </FieldBlock>
 
-      <div className="grid grid-cols-[120px_minmax(0,1fr)] gap-3">
-        <div className={labelClassName}>Periode :</div>
+      <FieldBlock label="Periode">
         <Input
           value={periode}
           onChange={(event) => onPeriodeChange(event.target.value)}
           className={cn(inputClassName, "text-left")}
           disabled={disabled}
         />
-      </div>
+      </FieldBlock>
     </div>
   );
 }
