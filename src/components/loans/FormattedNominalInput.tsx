@@ -42,7 +42,6 @@ function formatDisplayValue(value: string) {
   const formattedInteger = formatThousands(integerPart);
 
   if (!formattedInteger && !hasDecimal) return "";
-  if (!hasDecimal) return formattedInteger;
 
   return `${formattedInteger || "0"},${decimalPart.padEnd(2, "0")}`;
 }
@@ -50,15 +49,18 @@ function formatDisplayValue(value: string) {
 function caretFromDigitsCount(formatted: string, digitsToLeft: number) {
   if (digitsToLeft <= 0) return 0;
 
+  const commaIndex = formatted.indexOf(",");
+  const integerEnd = commaIndex >= 0 ? commaIndex : formatted.length;
+
   let seen = 0;
-  for (let i = 0; i < formatted.length; i++) {
+  for (let i = 0; i < integerEnd; i++) {
     if (/\d/.test(formatted[i] ?? "")) {
       seen += 1;
       if (seen >= digitsToLeft) return i + 1;
     }
   }
 
-  return formatted.length;
+  return integerEnd;
 }
 
 export default function FormattedNominalInput({
@@ -66,7 +68,7 @@ export default function FormattedNominalInput({
   onChange,
   className,
   disabled = false,
-  placeholder = "0",
+  placeholder = "0,00",
   inputMode = "decimal",
   readOnly = false,
 }: {
@@ -101,7 +103,8 @@ export default function FormattedNominalInput({
       onChange={(event) => {
         const raw = event.target.value ?? "";
         const caret = event.target.selectionStart ?? raw.length;
-        caretDigitsRef.current = onlyDigits(raw.slice(0, caret)).length;
+        const rawBeforeCaret = raw.slice(0, caret).split(",")[0] ?? "";
+        caretDigitsRef.current = onlyDigits(rawBeforeCaret).length;
 
         const { integerPart, decimalPart, hasDecimal } = splitDecimalLike(raw);
         const formattedInteger = formatThousands(integerPart);
@@ -111,12 +114,7 @@ export default function FormattedNominalInput({
           return;
         }
 
-        if (hasDecimal) {
-          onChange(`${formattedInteger || "0"},${decimalPart}`);
-          return;
-        }
-
-        onChange(formattedInteger);
+        onChange(`${formattedInteger || "0"},${decimalPart.padEnd(2, "0")}`);
       }}
       disabled={disabled}
       readOnly={readOnly}
