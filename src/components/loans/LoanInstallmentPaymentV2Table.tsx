@@ -99,7 +99,11 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
-const BILLING_FIRST_DIVIDER_ITEMS: InfoItem[] = [];
+const BILLING_FIRST_DIVIDER_ITEMS: InfoItem[] = [
+  { label: "Angsuran ke", value: "2" },
+  { label: "Angsuran Lunas", value: "1" },
+  { label: "Angsuran Seharusnya", value: "1" },
+];
 
 const MONTHLY_FIRST_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Angsuran Ke", value: "1" },
