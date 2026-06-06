@@ -420,6 +420,7 @@ function SelectedPinjamanInfo({
   const valueOrDash = (value?: string) => (isEmptyInitialLayout ? dash : value || dash);
   const additionalInfo = details?.additionalInfo ?? [];
   const settlementInfo = details?.settlementInfo ?? [];
+  const isBillingLoan = info?.produk === "Pinjaman Billing";
   const [interestArrears, setInterestArrears] = React.useState("0,00");
 
   React.useEffect(() => {
@@ -430,6 +431,25 @@ function SelectedPinjamanInfo({
     <div className="bg-white">
       <div className="grid gap-4">
         <InfoStack label="Produk" value={valueOrDash(info?.produk)} />
+
+        {isBillingLoan ? (
+          <>
+            <InfoStack label="Skema Tagihan" value={valueOrDash(info?.skemaTagihan)} />
+            <InfoStack
+              label="Satuan Grace Period"
+              value={valueOrDash(info?.satuanGracePeriod)}
+            />
+            <InfoStack
+              label="Durasi Grace Period"
+              value={valueOrDash(info?.durasiGracePeriod)}
+            />
+          </>
+        ) : null}
+      </div>
+
+      {isBillingLoan ? <BaseDivider /> : null}
+
+      <div className={cn("grid gap-4", isBillingLoan ? "" : "mt-0")}>
         <InfoStack label="Angsuran Ke" value={valueOrDash(details?.angsuranKe)} />
         <InfoStack label="Jangka Waktu" value={valueOrDash(details?.jangkaWaktu)} />
         <InfoStack
