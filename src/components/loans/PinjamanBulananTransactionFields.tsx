@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronDown, FileText, Minus } from "lucide-react";
+import * as React from "react";
+import { ChevronDown, FileText, Info, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -9,6 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 function FieldBlock({
@@ -25,6 +31,31 @@ function FieldBlock({
       </div>
       {children}
     </div>
+  );
+}
+
+function PeriodInfoButton() {
+  return (
+    <Tooltip delayDuration={150}>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          className={cn(
+            "inline-flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full",
+            "bg-[#2563eb] text-white ring-2 ring-[#2563eb]/20 transition hover:bg-[#1d4ed8]",
+            "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+          )}
+          aria-label="Info periode"
+          title="Info periode"
+        >
+          <Info className="h-4 w-4" />
+        </button>
+      </TooltipTrigger>
+
+      <TooltipContent className="rounded-[10px] border-slate-200 bg-white px-3 py-2 text-[12px] font-medium text-slate-800 shadow-xl">
+        Periode transaksi pinjaman.
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -189,12 +220,15 @@ export default function PinjamanBulananTransactionFields({
       </FieldBlock>
 
       <FieldBlock label="Periode">
-        <Input
-          value={periode}
-          onChange={(event) => onPeriodeChange(event.target.value)}
-          className={cn(inputClassName, "text-left")}
-          disabled={disabled}
-        />
+        <div className="flex min-w-0 items-center gap-2">
+          <Input
+            value={periode}
+            onChange={(event) => onPeriodeChange(event.target.value)}
+            className={cn(inputClassName, "min-w-0 flex-1 text-left")}
+            disabled={disabled}
+          />
+          <PeriodInfoButton />
+        </div>
       </FieldBlock>
     </div>
   );
