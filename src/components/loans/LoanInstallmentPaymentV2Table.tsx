@@ -105,6 +105,15 @@ const BILLING_FIRST_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Angsuran Seharusnya", value: "1" },
 ];
 
+const BILLING_SECOND_DIVIDER_ITEMS: InfoItem[] = [
+  { label: "Jangka Waktu", value: "12 Bulan" },
+  { label: "Tanggal Realisasi", value: "01-03-2026" },
+  { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
+  { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
+  { label: "Bunga Per Tahun", value: "10.00%" },
+  { label: "Metode Bunga", value: "Bunga Efektif" },
+];
+
 const MONTHLY_FIRST_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Angsuran Ke", value: "1" },
   { label: "Jangka Waktu", value: "24 Bulan" },
@@ -128,7 +137,7 @@ function getLoanInfoByAccountNo(accountNo: string): LoanInfo | null {
   const billingBase = {
     isBilling: true,
     firstDividerItems: BILLING_FIRST_DIVIDER_ITEMS,
-    secondDividerItems: [],
+    secondDividerItems: BILLING_SECOND_DIVIDER_ITEMS,
   };
 
   const map: Record<string, LoanInfo> = {
@@ -456,6 +465,10 @@ function SelectedPinjamanInfo({
       ],
     } satisfies LoanInfo);
 
+  const visibleSecondDividerItems = displayInfo.isBilling
+    ? BILLING_SECOND_DIVIDER_ITEMS
+    : displayInfo.secondDividerItems;
+
   const [interestArrears, setInterestArrears] = React.useState("0,00");
 
   React.useEffect(() => {
@@ -484,11 +497,11 @@ function SelectedPinjamanInfo({
         </>
       ) : null}
 
-      {displayInfo.secondDividerItems.length > 0 ? (
+      {visibleSecondDividerItems.length > 0 ? (
         <>
           <BaseDivider />
           <InfoGroup
-            items={displayInfo.secondDividerItems}
+            items={visibleSecondDividerItems}
             empty={isEmptyInitialLayout}
           />
         </>
@@ -1124,7 +1137,9 @@ export default function LoanInstallmentPaymentV2Table({
   const transactionNo = "BA/050526/0001";
 
   function patchRow(rowId: string, patch: Partial<TransactionRowState>) {
-    setRows((prev) => prev.map((row) => (row.id === rowId ? { ...row, ...patch } : row)));
+    setRows((prev) =>
+      prev.map((row) => (row.id === rowId ? { ...row, ...patch } : row)),
+    );
   }
 
   function openPickerForRow(rowId: string) {
