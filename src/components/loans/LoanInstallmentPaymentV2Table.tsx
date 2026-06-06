@@ -34,6 +34,7 @@ import LoanTransactionHistoryDialog from "@/components/loans/LoanTransactionHist
 import LoanTransactionSuccessModal from "@/components/loans/LoanTransactionSuccessModal";
 import PinjamanBulananTransactionFields from "@/components/loans/PinjamanBulananTransactionFields";
 import BorrowerMandatorySavingsInfo from "@/components/loans/BorrowerMandatorySavingsInfo";
+import FormattedNominalInput from "@/components/loans/FormattedNominalInput";
 
 const PAYMENT_METHODS = [
   "Pembayaran Reguler",
@@ -525,16 +526,13 @@ function SelectedPinjamanInfo({
                 <div className="text-[12px] font-normal text-black">
                   Tunggakan Bunga
                 </div>
-                <Input
+                <FormattedNominalInput
                   value={interestArrears}
-                  onChange={(e) => setInterestArrears(e.target.value)}
+                  onChange={setInterestArrears}
                   className={cn(
-                    "h-[30px] w-full rounded-[5px] border border-slate-300 bg-white px-3",
-                    "text-right text-[14px] font-semibold text-slate-900 shadow-none",
-                    "placeholder:text-slate-500 focus-visible:ring-0 focus-visible:ring-offset-0",
+                    "text-right text-[14px] font-semibold",
                     disabled ? "pointer-events-none opacity-60" : "",
                   )}
-                  inputMode="decimal"
                   placeholder="0,00"
                   disabled={disabled}
                 />
@@ -746,6 +744,7 @@ function PaymentTextInput({
   placeholder,
   inputMode,
   disabled,
+  formatNominal = false,
 }: {
   label: React.ReactNode;
   value: string;
@@ -754,20 +753,33 @@ function PaymentTextInput({
   placeholder?: string;
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   disabled?: boolean;
+  formatNominal?: boolean;
 }) {
   return (
     <div className="grid gap-1.5">
       <div className="h-[18px] text-[12px] font-normal leading-[18px] text-slate-900">
         {label}
       </div>
-      <Input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={className}
-        placeholder={placeholder}
-        inputMode={inputMode}
-        disabled={disabled}
-      />
+
+      {formatNominal ? (
+        <FormattedNominalInput
+          value={value}
+          onChange={onChange}
+          className={className}
+          placeholder={placeholder}
+          inputMode={inputMode}
+          disabled={disabled}
+        />
+      ) : (
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={className}
+          placeholder={placeholder}
+          inputMode={inputMode}
+          disabled={disabled}
+        />
+      )}
     </div>
   );
 }
@@ -820,6 +832,7 @@ function PaymentInputBlock({
           onChange={() => {}}
           className={cn(inputCls, "bg-slate-100")}
           disabled={disabled}
+          formatNominal
         />
 
         <TabunganField
@@ -849,6 +862,7 @@ function PaymentInputBlock({
           className={cn(inputCls, "text-right tabular-nums")}
           inputMode="decimal"
           disabled={disabled}
+          formatNominal
         />
 
         <TabunganField
@@ -878,6 +892,7 @@ function PaymentInputBlock({
           className={cn(inputCls, "text-right tabular-nums")}
           inputMode="decimal"
           disabled={disabled}
+          formatNominal
         />
 
         <PaymentTextInput
@@ -887,6 +902,7 @@ function PaymentInputBlock({
           className={cn(inputCls, "text-right tabular-nums")}
           inputMode="decimal"
           disabled={disabled}
+          formatNominal
         />
 
         <div className="grid gap-1.5">
@@ -928,6 +944,7 @@ function PaymentInputBlock({
         placeholder="0"
         inputMode="decimal"
         disabled={disabled}
+        formatNominal
       />
 
       <TabunganField

@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import FormattedNominalInput from "@/components/loans/FormattedNominalInput";
 
 function FieldBlock({
   label,
@@ -114,12 +115,11 @@ export default function PinjamanBulananTransactionFields({
   return (
     <div className="grid gap-4">
       <FieldBlock label="Nominal">
-        <Input
+        <FormattedNominalInput
           value={emptyWhenDisabled(nominal)}
-          onChange={(event) => onNominalChange(event.target.value)}
+          onChange={onNominalChange}
           className={inputClassName}
           placeholder="0,00"
-          inputMode="decimal"
           disabled={disabled}
         />
       </FieldBlock>
@@ -134,12 +134,11 @@ export default function PinjamanBulananTransactionFields({
       </FieldBlock>
 
       <FieldBlock label="Bayar Bunga">
-        <Input
+        <FormattedNominalInput
           value={emptyWhenDisabled(bayarBunga)}
-          onChange={(event) => onBayarBungaChange(event.target.value)}
+          onChange={onBayarBungaChange}
           className={inputClassName}
           placeholder="0,00"
-          inputMode="decimal"
           disabled={disabled}
         />
       </FieldBlock>
@@ -160,12 +159,11 @@ export default function PinjamanBulananTransactionFields({
           >
             <Minus className="h-5 w-5" strokeWidth={3} />
           </button>
-          <Input
+          <FormattedNominalInput
             value={emptyWhenDisabled(denda)}
-            onChange={(event) => onDendaChange(event.target.value)}
+            onChange={onDendaChange}
             className={cn(inputClassName, "rounded-l-none")}
             placeholder="0,00"
-            inputMode="decimal"
             disabled={disabled}
           />
         </div>
