@@ -24,7 +24,7 @@ table.w-full.table-fixed.border-collapse.bg-white
   margin-left: auto !important;
   margin-top: 0 !important;
   max-width: 340px !important;
-  padding-top: 430px !important;
+  padding-top: 400px !important;
 }
 
 table.w-full.table-fixed.border-collapse.bg-white
@@ -33,7 +33,7 @@ table.w-full.table-fixed.border-collapse.bg-white
   > td:nth-child(4).bg-white
   > div.grid.gap-4:first-child
   ~ div.pt-\[150px\] {
-  padding-top: 580px !important;
+  padding-top: 550px !important;
 }
 
 table.w-full.table-fixed.border-collapse.bg-white
