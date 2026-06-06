@@ -1203,10 +1203,6 @@ export default function LoanInstallmentPaymentV2Table({
       if (idx < 0) return [...prev, next];
       return [...prev.slice(0, idx + 1), next, ...prev.slice(idx + 1)];
     });
-
-    toast.success("Transaksi ditambahkan", {
-      description: "Baris transaksi baru ditambahkan (belum pilih rekening).",
-    });
   }
 
   function deleteRow(rowId: string) {
@@ -1214,8 +1210,6 @@ export default function LoanInstallmentPaymentV2Table({
       if (prev.length <= 1) return prev;
       return prev.filter((row) => row.id !== rowId);
     });
-
-    toast("Transaksi dihapus", { description: "Baris transaksi dihapus." });
   }
 
   return (
