@@ -9,8 +9,8 @@ const loanAmountItems = [
     icon: HandCoins,
   },
   {
-    label: "Jangka Waktu",
-    value: "12 Bulan",
+    label: "Sisa Pinjaman",
+    value: "Rp. 12,000,000.00",
     icon: CalendarDays,
   },
 ];
@@ -31,10 +31,10 @@ export default function MBankingLoanAmountInfo() {
             </div>
 
             <div className="min-w-0">
-              <div className="text-[12px] font-extrabold leading-tight tracking-tight text-[#203064]">
+              <div className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
                 {item.label}
               </div>
-              <div className="mt-2 text-[14px] font-normal leading-tight tracking-tight text-[#9A9A9A]">
+              <div className="mt-2 text-[16px] font-normal leading-tight tracking-tight text-[#9A9A9A]">
                 {item.value}
               </div>
             </div>
