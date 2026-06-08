@@ -234,7 +234,7 @@ function StickyPagination({
 
   const navButtonClass = (disabled: boolean) =>
     cn(
-      "inline-flex h-[44px] items-center justify-center gap-2 rounded-[14px] px-4",
+      "inline-flex h-[44px] min-w-[128px] items-center justify-center gap-2 rounded-[14px] px-5",
       "bg-[#F4F7FB] text-[13px] font-extrabold tracking-tight text-[#53657D]",
       "ring-1 ring-[#E5ECF4] transition active:scale-[0.98]",
       disabled
