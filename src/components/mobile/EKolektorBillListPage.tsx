@@ -1,5 +1,8 @@
 "use client";
 
+import * as React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeriodInfoCard";
 
@@ -129,11 +132,76 @@ function BillInfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+function StickyPagination({
+  page,
+  pageCount,
+  onPageChange,
+}: {
+  page: number;
+  pageCount: number;
+  onPageChange: (page: number) => void;
+}) {
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= pageCount;
+
+  return (
+    <div className="shrink-0 bg-white px-6 py-3 shadow-[0_-8px_18px_rgba(15,23,42,0.08)]">
+      <div className="flex items-center justify-between gap-3">
+        <button
+          type="button"
+          disabled={prevDisabled}
+          onClick={() => onPageChange(Math.max(1, page - 1))}
+          className={cn(
+            "inline-flex h-[38px] items-center gap-1.5 rounded-full px-4",
+            "text-[12px] font-semibold transition active:scale-[0.98]",
+            prevDisabled
+              ? "bg-[#F1F1F1] text-[#A5A5A5]"
+              : "bg-[#004FC7] text-white",
+          )}
+        >
+          <ChevronLeft className="h-4 w-4" strokeWidth={2.6} />
+          Sebelumnya
+        </button>
+
+        <div className="inline-flex h-[38px] min-w-[38px] items-center justify-center rounded-full bg-[#004FC7] px-3 text-[13px] font-extrabold text-white">
+          {page}
+        </div>
+
+        <button
+          type="button"
+          disabled={nextDisabled}
+          onClick={() => onPageChange(Math.min(pageCount, page + 1))}
+          className={cn(
+            "inline-flex h-[38px] items-center gap-1.5 rounded-full px-4",
+            "text-[12px] font-semibold transition active:scale-[0.98]",
+            nextDisabled
+              ? "bg-[#F1F1F1] text-[#A5A5A5]"
+              : "bg-[#004FC7] text-white",
+          )}
+        >
+          Selanjutnya
+          <ChevronRight className="h-4 w-4" strokeWidth={2.6} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function EKolektorBillListPage({
   onBack,
 }: {
   onBack: () => void;
 }) {
+  const pageSize = 2;
+  const [page, setPage] = React.useState(1);
+
+  const pageCount = Math.max(1, Math.ceil(billGroups.length / pageSize));
+
+  const pagedBillGroups = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return billGroups.slice(start, start + pageSize);
+  }, [page]);
+
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -162,7 +230,7 @@ export default function EKolektorBillListPage({
           <EKolektorGracePeriodInfoCard />
 
           <div className="grid gap-4">
-            {billGroups.map((billItems) => (
+            {pagedBillGroups.map((billItems) => (
               <div
                 key={billItems[0].value}
                 className="rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[8px]"
@@ -179,6 +247,12 @@ export default function EKolektorBillListPage({
           </div>
         </main>
       </div>
+
+      <StickyPagination
+        page={page}
+        pageCount={pageCount}
+        onPageChange={setPage}
+      />
 
       <EKolektorAndroidNavBar onBack={onBack} />
     </div>
