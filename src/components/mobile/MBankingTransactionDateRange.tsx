@@ -132,15 +132,26 @@ function DateInputField({
   );
 }
 
-export default function MBankingTransactionDateRange() {
+export default function MBankingTransactionDateRange({
+  className,
+  containerClassName,
+}: {
+  className?: string;
+  containerClassName?: string;
+}) {
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
 
   const todayPlaceholder = React.useMemo(() => getTodayDmy(), []);
 
   return (
-    <section className="mt-4">
-      <div className="flex h-[41px] w-full items-center overflow-hidden rounded-[9px] bg-white shadow-sm">
+    <section className={cn("mt-4", className)}>
+      <div
+        className={cn(
+          "flex h-[41px] w-full items-center overflow-hidden rounded-[9px] bg-white shadow-sm",
+          containerClassName,
+        )}
+      >
         <DateInputField
           value={startDate}
           onChange={setStartDate}
