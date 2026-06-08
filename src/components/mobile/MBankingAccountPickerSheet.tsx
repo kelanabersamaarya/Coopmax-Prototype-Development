@@ -43,7 +43,7 @@ export default function MBankingAccountPickerSheet({
           "min-h-[58%]",
         )}
       >
-        <div className="text-[25px] font-extrabold leading-tight tracking-tight text-[#203064]">
+        <div className="text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
           Pilih Rekening
         </div>
 
@@ -54,8 +54,8 @@ export default function MBankingAccountPickerSheet({
             placeholder="Cari..."
             className={cn(
               "h-[73px] w-full rounded-[12px] border-0 bg-[#F1F1F1] px-5",
-              "text-[20px] font-normal text-black shadow-none outline-none",
-              "placeholder:text-[20px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+              "text-[16px] font-normal text-black shadow-none outline-none",
+              "placeholder:text-[16px] placeholder:font-normal placeholder:text-[#8F8F8F]",
             )}
           />
         </div>
@@ -69,7 +69,7 @@ export default function MBankingAccountPickerSheet({
                 onSelect(account);
                 onOpenChange(false);
               }}
-              className="w-full text-left text-[20px] font-normal leading-tight tracking-tight text-black transition active:scale-[0.99]"
+              className="w-full text-left text-[16px] font-normal leading-tight tracking-tight text-black transition active:scale-[0.99]"
             >
               {account}
             </button>
