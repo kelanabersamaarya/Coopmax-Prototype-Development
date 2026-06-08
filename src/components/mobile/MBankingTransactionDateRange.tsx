@@ -139,7 +139,7 @@ export default function MBankingTransactionDateRange() {
   const todayPlaceholder = React.useMemo(() => getTodayDmy(), []);
 
   return (
-    <section className="mt-7">
+    <section className="mt-4">
       <div className="flex h-[41px] w-full items-center overflow-hidden rounded-[9px] bg-white shadow-sm">
         <DateInputField
           value={startDate}

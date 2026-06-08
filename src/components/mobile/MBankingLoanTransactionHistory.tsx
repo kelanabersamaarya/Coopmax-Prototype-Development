@@ -11,7 +11,7 @@ export default function MBankingLoanTransactionHistory() {
 
       <MBankingTransactionDateRange />
 
-      <div className="mt-8 flex flex-col items-center text-center">
+      <div className="mt-6 flex flex-col items-center text-center">
         <svg
           viewBox="0 0 220 170"
           fill="none"
