@@ -6,6 +6,7 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
 import MBankingLoanTransactionHistory from "@/components/mobile/MBankingLoanTransactionHistory";
 import MBankingStickyActionButton from "@/components/mobile/MBankingStickyActionButton";
+import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
 
 const loanInfoItems = [
   {
@@ -102,6 +103,11 @@ export default function MBankingLoanDetailPage({
           </div>
 
           <MBankingLoanAmountInfo />
+
+          <MBankingTransactionDateRange
+            className="mt-5"
+            containerClassName="bg-[#F2F2F2] shadow-sm"
+          />
 
           <MBankingLoanTransactionHistory />
         </main>
