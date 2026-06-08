@@ -6,215 +6,170 @@ import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeriodInfoCard";
 
-const billGroups = [
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-01-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-02-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-03-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-04-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-05-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-06-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-07-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-08-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
-  [
-    {
-      label: "Jatuh Tempo",
-      value: "25-09-2026",
-    },
-    {
-      label: "Tagihan Pokok",
-      value: "833.333",
-    },
-    {
-      label: "Tagihan Bunga",
-      value: "83.333",
-    },
-    {
-      label: "Tagihan Denda",
-      value: "75.000",
-    },
-    {
-      label: "Total Tagihan",
-      value: "991.666",
-    },
-  ],
+type BillGroup = {
+  jatuhTempo: string;
+  tagihanPokok: string;
+  tagihanBunga: string;
+  hutangPokok: string;
+  hutangBunga: string;
+  denda: string;
+  sisaPinjaman: string;
+  totalTagihan: string;
+};
+
+const billGroups: BillGroup[] = [
+  {
+    jatuhTempo: "25-01-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 9,791,666.67",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-02-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 8,958,333.34",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-03-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 8,125,000.01",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-04-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 7,291,666.68",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-05-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 6,458,333.35",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-06-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 5,625,000.02",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-07-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 4,791,666.69",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-08-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 3,958,333.36",
+    totalTagihan: "991.666",
+  },
+  {
+    jatuhTempo: "25-09-2026",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    hutangPokok: "Rp. 0.00",
+    hutangBunga: "Rp. 0.00",
+    denda: "Rp. 0.00",
+    sisaPinjaman: "Rp. 3,125,000.03",
+    totalTagihan: "991.666",
+  },
 ];
 
-function BillInfoRow({ label, value }: { label: string; value: string }) {
+function BillAmountBlock({
+  label,
+  value,
+  align = "left",
+}: {
+  label: string;
+  value: string;
+  align?: "left" | "right";
+}) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-[#E8E8E8] py-[12px] last:border-b-0">
-      <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
+    <div className={align === "right" ? "text-right" : "text-left"}>
+      <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
         {label}
       </div>
-      <div className="text-right text-[14px] font-extrabold leading-tight tracking-tight text-[#23305A]">
+      <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-black">
         {value}
+      </div>
+    </div>
+  );
+}
+
+function BillCard({ bill }: { bill: BillGroup }) {
+  return (
+    <div className="rounded-[24px] bg-white px-6 py-5 shadow-[0_4px_14px_rgba(15,23,42,0.20)] ring-1 ring-slate-100">
+      <div className="grid grid-cols-2 gap-x-5">
+        <div className="min-w-0">
+          <BillAmountBlock label="Jatuh Tempo" value={bill.jatuhTempo} />
+
+          <div className="mt-[12px] grid gap-[12px]">
+            <BillAmountBlock label="Tagihan Pokok" value={bill.tagihanPokok} />
+            <BillAmountBlock label="Hutang Pokok" value={bill.hutangPokok} />
+            <BillAmountBlock label="Denda" value={bill.denda} />
+          </div>
+        </div>
+
+        <div className="min-w-0 text-right">
+          <BillAmountBlock
+            label="Total Tagihan"
+            value={bill.totalTagihan}
+            align="right"
+          />
+
+          <div className="mt-[12px] grid gap-[12px]">
+            <BillAmountBlock
+              label="Tagihan Bunga"
+              value={bill.tagihanBunga}
+              align="right"
+            />
+            <BillAmountBlock
+              label="Hutang Bunga"
+              value={bill.hutangBunga}
+              align="right"
+            />
+            <BillAmountBlock
+              label="Sisa Pinjaman"
+              value={bill.sisaPinjaman}
+              align="right"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -312,23 +267,12 @@ export default function EKolektorBillListPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
+        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-[#F2F2F2] px-6 pb-8 pt-7">
           <EKolektorGracePeriodInfoCard />
 
           <div className="grid gap-4">
-            {pagedBillGroups.map((billItems) => (
-              <div
-                key={billItems[0].value}
-                className="rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[8px]"
-              >
-                {billItems.map((item) => (
-                  <BillInfoRow
-                    key={`${billItems[0].value}-${item.label}`}
-                    label={item.label}
-                    value={item.value}
-                  />
-                ))}
-              </div>
+            {pagedBillGroups.map((bill) => (
+              <BillCard key={bill.jatuhTempo} bill={bill} />
             ))}
           </div>
         </main>
