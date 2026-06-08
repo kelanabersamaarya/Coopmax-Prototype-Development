@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, HandCoins } from "lucide-react";
+import { HandCoins } from "lucide-react";
 
 const loanAmountItems = [
   {
@@ -11,7 +11,7 @@ const loanAmountItems = [
   {
     label: "Sisa Pinjaman",
     value: "Rp. 12,000,000.00",
-    icon: CalendarDays,
+    icon: HandCoins,
   },
 ];
 
