@@ -2,35 +2,31 @@
 
 const leftItems = [
   {
-    title: "Tagihan Pokok",
+    title: "Angsuran Pokok",
     subtitle: "833.333",
   },
   {
-    title: "Tagihan Bunga",
-    subtitle: "83.333",
+    title: "Hutang Pokok",
+    subtitle: "0,00",
   },
   {
-    title: "Tagihan Denda",
-    subtitle: "75.000",
-  },
-  {
-    title: "Total Tagihan",
-    subtitle: "991.666",
+    title: "Total Pokok",
+    subtitle: "833.333",
   },
 ];
 
 const rightItems = [
   {
-    title: "Angsuran ke",
-    subtitle: "1",
+    title: "Angsuran Bunga",
+    subtitle: "83.333",
   },
   {
-    title: "Angsuran Lunas",
-    subtitle: "0",
+    title: "Hutang Bunga",
+    subtitle: "0,00",
   },
   {
-    title: "Angsuran Seharusnya",
-    subtitle: "0",
+    title: "Total Bunga",
+    subtitle: "83.333",
   },
 ];
 
