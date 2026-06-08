@@ -234,8 +234,8 @@ function StickyPagination({
 
   const navButtonClass = (disabled: boolean) =>
     cn(
-      "inline-flex h-[44px] min-w-[128px] items-center justify-center gap-2 rounded-[14px] px-5",
-      "bg-[#F4F7FB] text-[13px] font-extrabold tracking-tight text-[#53657D]",
+      "inline-flex h-[44px] flex-1 items-center justify-center gap-1 rounded-[14px] px-3",
+      "bg-[#F4F7FB] text-[12px] font-extrabold tracking-tight text-[#53657D]",
       "ring-1 ring-[#E5ECF4] transition active:scale-[0.98]",
       disabled
         ? "text-[#A7B1C2]"
@@ -243,19 +243,19 @@ function StickyPagination({
     );
 
   return (
-    <div className="shrink-0 bg-white px-4 py-3 shadow-[0_-8px_18px_rgba(15,23,42,0.08)]">
-      <div className="flex items-center justify-center gap-2">
+    <div className="shrink-0 bg-white px-3 py-3 shadow-[0_-8px_18px_rgba(15,23,42,0.08)]">
+      <div className="flex w-full items-center justify-between gap-2">
         <button
           type="button"
           disabled={prevDisabled}
           onClick={() => onPageChange(Math.max(1, page - 1))}
           className={navButtonClass(prevDisabled)}
         >
-          <ChevronLeft className="h-4 w-4" strokeWidth={3} />
-          Sebelumnya
+          <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={3} />
+          <span className="truncate">Sebelumnya</span>
         </button>
 
-        <div className="inline-flex h-[44px] min-w-[44px] items-center justify-center rounded-[14px] bg-[#004FC7] px-4 text-[15px] font-extrabold text-white shadow-sm">
+        <div className="inline-flex h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-[14px] bg-[#004FC7] px-4 text-[15px] font-extrabold text-white shadow-sm">
           {page}
         </div>
 
@@ -265,8 +265,8 @@ function StickyPagination({
           onClick={() => onPageChange(Math.min(pageCount, page + 1))}
           className={navButtonClass(nextDisabled)}
         >
-          Selanjutnya
-          <ChevronRight className="h-4 w-4" strokeWidth={3} />
+          <span className="truncate">Selanjutnya</span>
+          <ChevronRight className="h-4 w-4 shrink-0" strokeWidth={3} />
         </button>
       </div>
     </div>
