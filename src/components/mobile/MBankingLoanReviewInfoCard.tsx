@@ -5,6 +5,7 @@ import { ChevronDown, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import MBankingAccountPickerSheet from "@/components/mobile/MBankingAccountPickerSheet";
+import MBankingPaymentResultPage from "@/components/mobile/MBankingPaymentResultPage";
 
 const summaryRows = [
   {
@@ -49,8 +50,20 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 export default function MBankingLoanReviewInfoCard() {
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [selectedAccount, setSelectedAccount] = React.useState("");
+  const [showPaymentResult, setShowPaymentResult] = React.useState(false);
 
   const hasSelectedAccount = selectedAccount.trim().length > 0;
+
+  if (showPaymentResult) {
+    return (
+      <div className="fixed inset-0 z-[95] bg-white">
+        <MBankingPaymentResultPage
+          account={selectedAccount}
+          onBack={() => setShowPaymentResult(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -129,11 +142,16 @@ export default function MBankingLoanReviewInfoCard() {
 
         <button
           type="button"
-          onClick={() =>
-            toast.success("Pembayaran berhasil (prototype)", {
-              description: "Angsuran pinjaman berhasil diproses.",
-            })
-          }
+          onClick={() => {
+            if (!hasSelectedAccount) {
+              toast("Rekening wajib dipilih", {
+                description: "Silakan pilih rekening terlebih dahulu.",
+              });
+              return;
+            }
+
+            setShowPaymentResult(true);
+          }}
           className={cn(
             "mt-7 h-[40px] w-full rounded-full",
             "bg-[#0A4BD8] text-[14px] font-normal text-white",
