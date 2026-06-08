@@ -34,10 +34,10 @@ const summaryRows = [
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-3">
-      <div className="text-[18px] font-normal leading-tight tracking-tight text-black">
+      <div className="text-[16px] font-normal leading-tight tracking-tight text-black">
         {label}
       </div>
-      <div className="text-right text-[18px] font-normal leading-tight tracking-tight text-black">
+      <div className="text-right text-[16px] font-normal leading-tight tracking-tight text-black">
         {value}
       </div>
     </div>
