@@ -56,17 +56,17 @@ export default function MBankingLoanReviewInfoCard() {
         </div>
       </div>
 
-      <div className="mt-8 h-px w-full bg-[#E7E7E7]" />
+      <div className="mt-6 h-px w-full bg-[#E7E7E7]" />
 
-      <div className="mt-8 grid gap-6">
+      <div className="mt-6 grid gap-4">
         {summaryRows.map((row) => (
           <SummaryRow key={row.label} label={row.label} value={row.value} />
         ))}
       </div>
 
-      <div className="mt-8 h-px w-full bg-[#E7E7E7]" />
+      <div className="mt-6 h-px w-full bg-[#E7E7E7]" />
 
-      <div className="mt-7">
+      <div className="mt-6">
         <div className="text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
           No Rekening
         </div>
@@ -79,22 +79,22 @@ export default function MBankingLoanReviewInfoCard() {
             })
           }
           className={cn(
-            "mt-4 flex h-[82px] w-full items-center justify-between gap-3 rounded-[13px]",
+            "mt-3 flex h-[40px] w-full items-center justify-between gap-3 rounded-[13px]",
             "bg-[#F1F1F1] px-4 text-left transition active:scale-[0.99]",
           )}
           aria-label="Pilih nomor rekening"
           title="Pilih nomor rekening"
         >
-          <span className="min-w-0 flex-1 truncate text-[14px] font-normal leading-none tracking-tight text-[#273B74]">
-            SK01260002 - arya
+          <span className="min-w-0 flex-1 truncate text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+            Pilih Rekening
           </span>
 
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
-            <X className="h-[25px] w-[25px]" strokeWidth={2.4} />
+          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
+            <X className="h-[22px] w-[22px]" strokeWidth={2.4} />
           </span>
 
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
-            <ChevronDown className="h-[22px] w-[22px]" strokeWidth={2.8} />
+          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
+            <ChevronDown className="h-[20px] w-[20px]" strokeWidth={2.8} />
           </span>
         </button>
       </div>
@@ -107,7 +107,7 @@ export default function MBankingLoanReviewInfoCard() {
           })
         }
         className={cn(
-          "mt-9 h-[60px] w-full rounded-full",
+          "mt-7 h-[40px] w-full rounded-full",
           "bg-[#0A4BD8] text-[14px] font-normal text-white",
           "shadow-[0_5px_14px_rgba(10,75,216,0.22)]",
           "transition hover:bg-[#0844C3] active:translate-y-px",
