@@ -17,6 +17,18 @@ const loanInfoItems = [
     value: "Pinjaman Billing",
   },
   {
+    label: "Skema Tagihan",
+    value: "Tagihan Sesuai Jadwal Angsuran",
+  },
+  {
+    label: "Satuan Grace Period",
+    value: "Bulan",
+  },
+  {
+    label: "Durasi Grace Period",
+    value: "3",
+  },
+  {
     label: "Tanggal Pencairan",
     value: "01-03-2026",
   },
