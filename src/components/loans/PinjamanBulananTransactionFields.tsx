@@ -26,11 +26,11 @@ function FieldBlock({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid gap-1.5">
-      <div className="text-[12px] font-normal leading-[18px] text-slate-900">
-        {label}
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,190px)] items-center gap-3">
+      <div className="min-w-0 text-[14px] font-normal leading-snug text-[#002060]">
+        {label} :
       </div>
-      {children}
+      <div className="min-w-0">{children}</div>
     </div>
   );
 }
