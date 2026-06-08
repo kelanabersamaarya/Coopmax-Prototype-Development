@@ -214,19 +214,33 @@ function StickyPagination({
 }
 
 export default function EKolektorBillListPage({
+  accountNo,
   onBack,
 }: {
+  accountNo?: string;
   onBack: () => void;
 }) {
   const pageSize = 5;
   const [page, setPage] = React.useState(1);
 
-  const pageCount = Math.max(1, Math.ceil(billGroups.length / pageSize));
+  const billsForAccount = React.useMemo(() => {
+    if (accountNo === "7260175" || accountNo === "SMG260004") {
+      return billGroups.slice(0, 1);
+    }
+
+    return billGroups;
+  }, [accountNo]);
+
+  const pageCount = Math.max(1, Math.ceil(billsForAccount.length / pageSize));
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
 
   const pagedBillGroups = React.useMemo(() => {
     const start = (page - 1) * pageSize;
-    return billGroups.slice(start, start + pageSize);
-  }, [page]);
+    return billsForAccount.slice(start, start + pageSize);
+  }, [billsForAccount, page]);
 
   const gracePeriodBills = page === 1 ? pagedBillGroups.slice(0, 3) : [];
   const regularBills = page === 1 ? pagedBillGroups.slice(3) : pagedBillGroups;

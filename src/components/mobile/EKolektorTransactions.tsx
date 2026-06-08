@@ -18,10 +18,12 @@ export default function EKolektorTransactions({
   onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
 }) {
   const [screen, setScreen] = React.useState<TransactionScreen>("list");
+  const [selectedAccountNo, setSelectedAccountNo] = React.useState("");
 
   if (screen === "loan-transaction") {
     return (
       <EKolektorLoanTransactionPage
+        accountNo={selectedAccountNo}
         onBack={() => setScreen("list")}
         onDoneHome={onBackHome}
         onTransactionSaved={onTransactionSaved}
@@ -48,7 +50,10 @@ export default function EKolektorTransactions({
 
           <EKolektorTransactionTabs
             className="mt-[24px]"
-            onSelectLoan={() => setScreen("loan-transaction")}
+            onSelectLoan={(accountNo) => {
+              setSelectedAccountNo(accountNo);
+              setScreen("loan-transaction");
+            }}
           />
         </div>
       </div>

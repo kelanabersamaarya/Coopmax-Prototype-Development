@@ -13,7 +13,7 @@ export default function EKolektorTransactionTabs({
   onSelectLoan,
 }: {
   className?: string;
-  onSelectLoan?: () => void;
+  onSelectLoan?: (accountNo: string) => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<TransactionTab>("simpanan");
 

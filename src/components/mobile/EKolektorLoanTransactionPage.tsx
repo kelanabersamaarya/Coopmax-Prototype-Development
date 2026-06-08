@@ -35,10 +35,12 @@ const loanInfoItems = [
 ];
 
 export default function EKolektorLoanTransactionPage({
+  accountNo,
   onBack,
   onDoneHome,
   onTransactionSaved,
 }: {
+  accountNo?: string;
   onBack: () => void;
   onDoneHome: () => void;
   onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
@@ -48,7 +50,12 @@ export default function EKolektorLoanTransactionPage({
   const [showBillList, setShowBillList] = React.useState(false);
 
   if (showBillList) {
-    return <EKolektorBillListPage onBack={() => setShowBillList(false)} />;
+    return (
+      <EKolektorBillListPage
+        accountNo={accountNo}
+        onBack={() => setShowBillList(false)}
+      />
+    );
   }
 
   if (showInstallmentHistory) {
@@ -106,7 +113,9 @@ export default function EKolektorLoanTransactionPage({
                   {item.title}
                 </div>
                 <div className="mt-[8px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A]">
-                  {item.subtitle}
+                  {item.title === "No. Rekening" && accountNo
+                    ? `${accountNo} - KORMANI`
+                    : item.subtitle}
                 </div>
               </div>
             ))}

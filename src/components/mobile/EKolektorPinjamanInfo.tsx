@@ -26,7 +26,7 @@ const loanAccounts = [
 export default function EKolektorPinjamanInfo({
   onSelect,
 }: {
-  onSelect?: () => void;
+  onSelect?: (accountNo: string) => void;
 }) {
   return (
     <div className="mt-[22px] grid w-full gap-[14px]">
@@ -62,7 +62,7 @@ export default function EKolektorPinjamanInfo({
             type="button"
             onClick={() => {
               if (onSelect) {
-                onSelect();
+                onSelect(account.accountNo);
                 return;
               }
 
