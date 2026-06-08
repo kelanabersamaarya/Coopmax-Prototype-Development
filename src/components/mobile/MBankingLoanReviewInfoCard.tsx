@@ -34,10 +34,10 @@ const summaryRows = [
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-3">
-      <div className="text-[16px] font-normal leading-tight tracking-tight text-black">
+      <div className="text-[14px] font-normal leading-tight tracking-tight text-black">
         {label}
       </div>
-      <div className="text-right text-[16px] font-normal leading-tight tracking-tight text-black">
+      <div className="text-right text-[14px] font-normal leading-tight tracking-tight text-black">
         {value}
       </div>
     </div>
@@ -48,10 +48,10 @@ export default function MBankingLoanReviewInfoCard() {
   return (
     <section className="mt-8 overflow-hidden rounded-[26px] bg-white px-6 pb-7 pt-8 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
       <div className="flex items-center justify-between gap-4">
-        <div className="text-[16px] font-normal leading-none tracking-tight text-black">
+        <div className="text-[14px] font-normal leading-none tracking-tight text-black">
           Angsuran Pinjaman
         </div>
-        <div className="text-[16px] font-normal leading-none tracking-tight text-black">
+        <div className="text-[14px] font-normal leading-none tracking-tight text-black">
           Ke-1
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function MBankingLoanReviewInfoCard() {
       <div className="mt-8 h-px w-full bg-[#E7E7E7]" />
 
       <div className="mt-7">
-        <div className="text-[16px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+        <div className="text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
           No Rekening
         </div>
 
@@ -85,7 +85,7 @@ export default function MBankingLoanReviewInfoCard() {
           aria-label="Pilih nomor rekening"
           title="Pilih nomor rekening"
         >
-          <span className="min-w-0 flex-1 truncate text-[16px] font-normal leading-none tracking-tight text-[#273B74]">
+          <span className="min-w-0 flex-1 truncate text-[14px] font-normal leading-none tracking-tight text-[#273B74]">
             SK01260002 - arya
           </span>
 
@@ -108,7 +108,7 @@ export default function MBankingLoanReviewInfoCard() {
         }
         className={cn(
           "mt-9 h-[60px] w-full rounded-full",
-          "bg-[#0A4BD8] text-[16px] font-normal text-white",
+          "bg-[#0A4BD8] text-[14px] font-normal text-white",
           "shadow-[0_5px_14px_rgba(10,75,216,0.22)]",
           "transition hover:bg-[#0844C3] active:translate-y-px",
           "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#0A4BD8]/25",
