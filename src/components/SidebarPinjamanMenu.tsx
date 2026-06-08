@@ -7,16 +7,15 @@ import { cn } from "@/lib/utils";
 
 type SubItem = {
   label: string;
-  to?: string;
+  to: string;
   disabled?: boolean;
-  end?: boolean;
 };
 
 const items: SubItem[] = [
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
   { label: "Transaksi Pinjaman", to: "/loans/transactions" },
-  { label: "Produk Pinjaman", to: "/loan-products", end: true },
+  { label: "Produk Pinjaman", to: "/loan-products" },
   { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
 ];
 
@@ -32,6 +31,27 @@ export default function SidebarPinjamanMenu() {
   React.useEffect(() => {
     if (isActive) setOpen(true);
   }, [isActive]);
+
+  function isItemActive(item: SubItem) {
+    if (item.to === "/loan-products") {
+      return (
+        location.pathname === "/loan-products" ||
+        (location.pathname.startsWith("/loan-products/") &&
+          location.pathname !== "/loan-products/cabang" &&
+          location.search !== "?from=cabang")
+      );
+    }
+
+    if (item.to === "/loan-products/cabang") {
+      return (
+        location.pathname === "/loan-products/cabang" ||
+        (location.pathname.startsWith("/loan-products/") &&
+          location.search === "?from=cabang")
+      );
+    }
+
+    return location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
+  }
 
   return (
     <div className="rounded-2xl bg-white">
@@ -69,25 +89,21 @@ export default function SidebarPinjamanMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
-              {items.map((it) => {
-                const base =
-                  "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition";
+              {items.map((item) => {
+                const active = isItemActive(item);
 
                 return (
                   <NavLink
-                    key={it.label}
-                    to={it.to!}
-                    end={it.end}
-                    className={({ isActive }) =>
-                      cn(
-                        base,
-                        isActive
-                          ? "bg-violet-600 text-white"
-                          : "text-slate-800 hover:bg-slate-50",
-                      )
-                    }
+                    key={item.label}
+                    to={item.to}
+                    className={cn(
+                      "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
+                      active
+                        ? "bg-violet-600 text-white"
+                        : "text-slate-800 hover:bg-slate-50",
+                    )}
                   >
-                    {it.label}
+                    {item.label}
                   </NavLink>
                 );
               })}
