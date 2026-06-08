@@ -1,7 +1,6 @@
 "use client";
 
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
-import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
 
 const billItems = [
   {
@@ -56,9 +55,6 @@ export default function EKolektorBillListPage({
               <h1 className="text-[25px] font-extrabold leading-none tracking-tight text-white">
                 Daftar Tagihan
               </h1>
-              <div className="mt-2 text-[14px] font-semibold leading-tight tracking-tight text-white/85">
-                7260175 - I Ketut Agus Pasek Jaya Arta
-              </div>
             </div>
 
             <button
@@ -71,26 +67,15 @@ export default function EKolektorBillListPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[12px] min-h-[calc(100%-120px)] rounded-t-[30px] bg-white px-6 pb-8 pt-5">
-          <MBankingTransactionDateRange
-            className="mt-0"
-            containerClassName="bg-[#F2F2F2] shadow-none"
-          />
-
-          <div className="mt-7">
-            <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
-              Tagihan Angsuran
-            </h2>
-
-            <div className="mt-4 rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[8px]">
-              {billItems.map((item) => (
-                <BillInfoRow
-                  key={item.label}
-                  label={item.label}
-                  value={item.value}
-                />
-              ))}
-            </div>
+        <main className="relative z-10 -mt-[12px] min-h-[calc(100%-120px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
+          <div className="rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[8px]">
+            {billItems.map((item) => (
+              <BillInfoRow
+                key={item.label}
+                label={item.label}
+                value={item.value}
+              />
+            ))}
           </div>
         </main>
       </div>
