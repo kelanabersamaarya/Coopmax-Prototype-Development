@@ -13,6 +13,10 @@ const leftItems = [
     title: "Total Pokok",
     subtitle: "833.333",
   },
+  {
+    title: "Total Denda",
+    subtitle: "0,00",
+  },
 ];
 
 const rightItems = [
