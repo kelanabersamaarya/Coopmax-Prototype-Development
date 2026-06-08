@@ -43,7 +43,7 @@ function MoneyField({
           onChange={(event) => onChange(event.target.value)}
           className={cn(
             inputClassName,
-            "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[18px] placeholder:text-[#23305A]",
+            "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[14px] placeholder:text-[#9A9A9A]",
           )}
           placeholder="0"
           inputMode="numeric"
