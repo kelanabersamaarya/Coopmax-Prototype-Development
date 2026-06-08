@@ -99,6 +99,10 @@ export default function MBankingLoanDetailPage({
 
           <div className="mt-6 h-px w-full bg-[#E8E8E8]" />
 
+          <div className="mt-5 text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
+            Detail Angsuran
+          </div>
+
           <MBankingLoanInstallmentSummary />
 
           <MBankingLoanTransactionHistory />
