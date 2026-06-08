@@ -14,13 +14,23 @@ export default function EKolektorInstallmentHistoryPage({
           <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
           <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
 
-          <div className="relative z-10">
-            <h1 className="text-[25px] font-extrabold leading-none tracking-tight text-white">
-              Riwayat Angsuran
-            </h1>
-            <div className="mt-2 text-[14px] font-semibold leading-tight tracking-tight text-white/85">
-              7260175 - I Ketut Agus Pasek Jaya Arta
+          <div className="relative z-10 flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <h1 className="text-[25px] font-extrabold leading-none tracking-tight text-white">
+                Riwayat Angsuran
+              </h1>
+              <div className="mt-2 text-[14px] font-semibold leading-tight tracking-tight text-white/85">
+                7260175 - I Ketut Agus Pasek Jaya Arta
+              </div>
             </div>
+
+            <button
+              type="button"
+              onClick={onBack}
+              className="shrink-0 rounded-full px-1 text-[14px] font-semibold leading-none text-[#BFD3F5] transition active:scale-[0.98]"
+            >
+              Batal
+            </button>
           </div>
         </header>
 
