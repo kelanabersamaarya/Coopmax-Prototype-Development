@@ -4,6 +4,26 @@ import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 
 const billItems = [
   {
+    label: "No. Rekening",
+    value: "SMG260004 - KORMANI",
+  },
+  {
+    label: "Grace Period",
+    value: "3 Bulan",
+  },
+  {
+    label: "Sisa Pinjaman",
+    value: "10.000.000,00",
+  },
+  {
+    label: "Total Angsuran",
+    value: "991.666",
+  },
+  {
+    label: "Total Hutang",
+    value: "0,00",
+  },
+  {
     label: "Jatuh Tempo",
     value: "25-01-2026",
   },
