@@ -1,18 +1,43 @@
 "use client";
 
-function InfoRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+import { ChevronDown, X } from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
+const summaryRows = [
+  {
+    label: "Sisa Pinjaman",
+    value: "Rp.10.000.000,00",
+  },
+  {
+    label: "Pokok",
+    value: "Rp.208.333,33",
+  },
+  {
+    label: "Bunga",
+    value: "Rp.200.000,00",
+  },
+  {
+    label: "Hutang Bunga",
+    value: "Rp.0,00",
+  },
+  {
+    label: "Denda",
+    value: "Rp.0,00",
+  },
+  {
+    label: "Total Bayar",
+    value: "Rp.408.333,33",
+  },
+];
+
+function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-3">
+      <div className="text-[18px] font-normal leading-tight tracking-tight text-black">
         {label}
       </div>
-      <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
+      <div className="text-right text-[18px] font-normal leading-tight tracking-tight text-black">
         {value}
       </div>
     </div>
@@ -21,34 +46,76 @@ function InfoRow({
 
 export default function MBankingLoanReviewInfoCard() {
   return (
-    <section className="mt-8 rounded-[26px] bg-white px-6 py-7 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
-      <div>
-        <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
-          Rekening Tujuan
+    <section className="mt-8 overflow-hidden rounded-[26px] bg-white px-6 pb-7 pt-8 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+      <div className="flex items-center justify-between gap-4">
+        <div className="text-[16px] font-normal leading-none tracking-tight text-black">
+          Angsuran Pinjaman
         </div>
-
-        <div className="mt-5 flex items-center gap-4">
-          <div className="grid h-[48px] w-[48px] shrink-0 place-items-center rounded-full bg-[#2CB4DC] text-[24px] font-normal leading-none text-white">
-            L
-          </div>
-
-          <div className="min-w-0">
-            <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
-              Laura Patel
-            </div>
-            <div className="mt-2 text-[14px] font-extrabold leading-none tracking-tight text-[#243464]">
-              7260175
-            </div>
-          </div>
+        <div className="text-[16px] font-normal leading-none tracking-tight text-black">
+          Ke-1
         </div>
       </div>
 
-      <div className="mt-7 grid gap-6">
-        <InfoRow label="Jenis transaksi" value="Angsuran Pinjaman" />
-        <InfoRow label="Nominal transaksi" value="Rp. 50.000,00" />
-        <InfoRow label="Nominal bunga" value="Rp. 0,00" />
-        <InfoRow label="Nominal denda" value="Rp. 0,00" />
+      <div className="mt-8 h-px w-full bg-[#E7E7E7]" />
+
+      <div className="mt-8 grid gap-6">
+        {summaryRows.map((row) => (
+          <SummaryRow key={row.label} label={row.label} value={row.value} />
+        ))}
       </div>
+
+      <div className="mt-8 h-px w-full bg-[#E7E7E7]" />
+
+      <div className="mt-7">
+        <div className="text-[16px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+          No Rekening
+        </div>
+
+        <button
+          type="button"
+          onClick={() =>
+            toast("No Rekening (prototype)", {
+              description: "Pilihan rekening belum dihubungkan.",
+            })
+          }
+          className={cn(
+            "mt-4 flex h-[82px] w-full items-center justify-between gap-3 rounded-[13px]",
+            "bg-[#F1F1F1] px-4 text-left transition active:scale-[0.99]",
+          )}
+          aria-label="Pilih nomor rekening"
+          title="Pilih nomor rekening"
+        >
+          <span className="min-w-0 flex-1 truncate text-[16px] font-normal leading-none tracking-tight text-[#273B74]">
+            SK01260002 - arya
+          </span>
+
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
+            <X className="h-[25px] w-[25px]" strokeWidth={2.4} />
+          </span>
+
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
+            <ChevronDown className="h-[22px] w-[22px]" strokeWidth={2.8} />
+          </span>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        onClick={() =>
+          toast.success("Pembayaran berhasil (prototype)", {
+            description: "Angsuran pinjaman berhasil diproses.",
+          })
+        }
+        className={cn(
+          "mt-9 h-[60px] w-full rounded-full",
+          "bg-[#0A4BD8] text-[16px] font-normal text-white",
+          "shadow-[0_5px_14px_rgba(10,75,216,0.22)]",
+          "transition hover:bg-[#0844C3] active:translate-y-px",
+          "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#0A4BD8]/25",
+        )}
+      >
+        Bayar
+      </button>
     </section>
   );
 }
