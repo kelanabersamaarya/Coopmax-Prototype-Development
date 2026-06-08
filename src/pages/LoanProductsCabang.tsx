@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils";
 import {
   Eye,
   Pencil,
-  Plus,
   Trash2,
   XCircle,
   ChevronUp,
@@ -260,16 +259,6 @@ export default function LoanProductsCabang() {
               <div className="text-sm font-semibold text-slate-500">Daftar</div>
             </div>
           </div>
-
-          <Button
-            asChild
-            variant="outline"
-            className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
-          >
-            <Link to="/loan-products/new">
-              <Plus className="mr-2 h-4 w-4" /> Tambah
-            </Link>
-          </Button>
         </div>
 
         <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
