@@ -26,17 +26,17 @@ function InfoPair({
 
 export default function MBankingPaymentResultPage({
   account,
-  onBack,
+  onDone,
 }: {
   account: string;
-  onBack: () => void;
+  onDone: () => void;
 }) {
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button
           type="button"
-          onClick={onBack}
+          onClick={onDone}
           className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.98]"
           aria-label="Kembali"
           title="Kembali"
@@ -85,7 +85,7 @@ export default function MBankingPaymentResultPage({
 
           <button
             type="button"
-            onClick={onBack}
+            onClick={onDone}
             className="mt-8 h-[48px] w-full rounded-full bg-[#0A4BD8] text-[14px] font-normal text-white transition hover:bg-[#0844C3] active:translate-y-px"
           >
             Oke
@@ -93,7 +93,7 @@ export default function MBankingPaymentResultPage({
         </section>
       </main>
 
-      <EKolektorAndroidNavBar onBack={onBack} />
+      <EKolektorAndroidNavBar onBack={onDone} />
     </div>
   );
 }

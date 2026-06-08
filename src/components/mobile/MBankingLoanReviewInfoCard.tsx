@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import MBankingAccountPickerSheet from "@/components/mobile/MBankingAccountPickerSheet";
 import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
 import MBankingPaymentResultPage from "@/components/mobile/MBankingPaymentResultPage";
+import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 const summaryRows = [
   {
@@ -48,10 +49,30 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+function buildPaymentHistory(account: string): MBankingTransactionHistoryEntry {
+  return {
+    id: `mbanking-payment-${Date.now()}`,
+    title: "Angsuran Pinjaman",
+    accountNo: "SMG260004",
+    savingsAccount: account || "SK01260002 - arya",
+    amount: "+Rp.408.333,33",
+    date: "08 Jun 2026",
+    time: "10:34",
+    installmentLabel: "Ke-1",
+    status: "Berhasil",
+    principal: "Rp.208,333.33",
+    interest: "Rp.200,000.00",
+    principalDebt: "Rp. 0.00",
+    interestDebt: "Rp. 0.00",
+    penalty: "Rp. 0.00",
+    remainingLoan: "Rp. 9,583,333.34",
+  };
+}
+
 export default function MBankingLoanReviewInfoCard({
   onPaymentDone,
 }: {
-  onPaymentDone: () => void;
+  onPaymentDone?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [selectedAccount, setSelectedAccount] = React.useState("");
@@ -65,7 +86,7 @@ export default function MBankingLoanReviewInfoCard({
       <div className="absolute inset-0 z-[95] bg-white">
         <MBankingPaymentResultPage
           account={selectedAccount}
-          onBack={onPaymentDone}
+          onDone={() => onPaymentDone?.(buildPaymentHistory(selectedAccount))}
         />
       </div>
     );

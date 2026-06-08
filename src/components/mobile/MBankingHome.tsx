@@ -9,15 +9,32 @@ import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
+import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type MBankingHomeScreen = "home" | "info" | "loan";
 
-export default function MBankingHome({ onLogout }: { onLogout?: () => void }) {
+export default function MBankingHome({
+  onLogout,
+  transactions = [],
+  onTransactionSaved,
+}: {
+  onLogout?: () => void;
+  transactions?: MBankingTransactionHistoryEntry[];
+  onTransactionSaved?: (transaction: MBankingTransactionHistoryEntry) => void;
+}) {
   const [screen, setScreen] = React.useState<MBankingHomeScreen>("home");
   const [exitOpen, setExitOpen] = React.useState(false);
 
   if (screen === "loan") {
-    return <MBankingLoanPage onBack={() => setScreen("info")} />;
+    return (
+      <MBankingLoanPage
+        onBack={() => setScreen("info")}
+        onPaymentSuccess={(transaction) => {
+          onTransactionSaved?.(transaction);
+          setScreen("home");
+        }}
+      />
+    );
   }
 
   if (screen === "info") {
@@ -35,7 +52,7 @@ export default function MBankingHome({ onLogout }: { onLogout?: () => void }) {
         <MBankingHomeHeader />
         <MBankingSavingsCard />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
-        <MBankingTransactionHistoryEmpty />
+        <MBankingTransactionHistoryEmpty transactions={transactions} />
       </main>
 
       <MBankingBottomNav

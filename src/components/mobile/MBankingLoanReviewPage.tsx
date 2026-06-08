@@ -3,11 +3,14 @@
 import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanReviewInfoCard from "@/components/mobile/MBankingLoanReviewInfoCard";
+import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 export default function MBankingLoanReviewPage({
   onBack,
+  onPaymentSuccess,
 }: {
   onBack: () => void;
+  onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
@@ -26,7 +29,7 @@ export default function MBankingLoanReviewPage({
           Review
         </h1>
 
-        <MBankingLoanReviewInfoCard onPaymentDone={onBack} />
+        <MBankingLoanReviewInfoCard onPaymentDone={onPaymentSuccess} />
       </main>
 
       <EKolektorAndroidNavBar onBack={onBack} />

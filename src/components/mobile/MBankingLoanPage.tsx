@@ -5,14 +5,26 @@ import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanDetailPage from "@/components/mobile/MBankingLoanDetailPage";
 import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
+import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type LoanScreen = "list" | "password" | "detail";
 
-export default function MBankingLoanPage({ onBack }: { onBack: () => void }) {
+export default function MBankingLoanPage({
+  onBack,
+  onPaymentSuccess,
+}: {
+  onBack: () => void;
+  onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
+}) {
   const [screen, setScreen] = React.useState<LoanScreen>("list");
 
   if (screen === "detail") {
-    return <MBankingLoanDetailPage onBack={() => setScreen("list")} />;
+    return (
+      <MBankingLoanDetailPage
+        onBack={() => setScreen("list")}
+        onPaymentSuccess={onPaymentSuccess}
+      />
+    );
   }
 
   if (screen === "password") {

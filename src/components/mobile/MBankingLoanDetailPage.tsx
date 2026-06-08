@@ -9,6 +9,7 @@ import MBankingLoanReviewPage from "@/components/mobile/MBankingLoanReviewPage";
 import MBankingLoanTransactionHistory from "@/components/mobile/MBankingLoanTransactionHistory";
 import MBankingStickyActionButton from "@/components/mobile/MBankingStickyActionButton";
 import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
+import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 const loanInfoItems = [
   {
@@ -71,13 +72,20 @@ function LoanInfoRow({
 
 export default function MBankingLoanDetailPage({
   onBack,
+  onPaymentSuccess,
 }: {
   onBack: () => void;
+  onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   const [showReview, setShowReview] = React.useState(false);
 
   if (showReview) {
-    return <MBankingLoanReviewPage onBack={() => setShowReview(false)} />;
+    return (
+      <MBankingLoanReviewPage
+        onBack={() => setShowReview(false)}
+        onPaymentSuccess={onPaymentSuccess}
+      />
+    );
   }
 
   return (
