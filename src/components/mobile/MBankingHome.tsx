@@ -28,11 +28,9 @@ export default function MBankingHome({
   if (screen === "loan") {
     return (
       <MBankingLoanPage
+        transactions={transactions}
         onBack={() => setScreen("info")}
-        onPaymentSuccess={(transaction) => {
-          onTransactionSaved?.(transaction);
-          setScreen("home");
-        }}
+        onPaymentSuccess={onTransactionSaved}
       />
     );
   }
@@ -52,7 +50,7 @@ export default function MBankingHome({
         <MBankingHomeHeader />
         <MBankingSavingsCard />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
-        <MBankingTransactionHistoryEmpty transactions={transactions} />
+        <MBankingTransactionHistoryEmpty />
       </main>
 
       <MBankingBottomNav

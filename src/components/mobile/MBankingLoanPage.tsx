@@ -11,9 +11,11 @@ type LoanScreen = "list" | "password" | "detail";
 
 export default function MBankingLoanPage({
   onBack,
+  transactions = [],
   onPaymentSuccess,
 }: {
   onBack: () => void;
+  transactions?: MBankingTransactionHistoryEntry[];
   onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   const [screen, setScreen] = React.useState<LoanScreen>("list");
@@ -21,6 +23,7 @@ export default function MBankingLoanPage({
   if (screen === "detail") {
     return (
       <MBankingLoanDetailPage
+        transactions={transactions}
         onBack={() => setScreen("list")}
         onPaymentSuccess={onPaymentSuccess}
       />

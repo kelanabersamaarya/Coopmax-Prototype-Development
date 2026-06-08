@@ -72,9 +72,11 @@ function LoanInfoRow({
 
 export default function MBankingLoanDetailPage({
   onBack,
+  transactions = [],
   onPaymentSuccess,
 }: {
   onBack: () => void;
+  transactions?: MBankingTransactionHistoryEntry[];
   onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   const [showReview, setShowReview] = React.useState(false);
@@ -83,7 +85,10 @@ export default function MBankingLoanDetailPage({
     return (
       <MBankingLoanReviewPage
         onBack={() => setShowReview(false)}
-        onPaymentSuccess={onPaymentSuccess}
+        onPaymentSuccess={(transaction) => {
+          onPaymentSuccess?.(transaction);
+          setShowReview(false);
+        }}
       />
     );
   }
@@ -131,7 +136,7 @@ export default function MBankingLoanDetailPage({
 
           <MBankingLoanInstallmentSummary />
 
-          <MBankingLoanTransactionHistory />
+          <MBankingLoanTransactionHistory transactions={transactions} />
         </main>
       </div>
 
