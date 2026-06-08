@@ -192,7 +192,7 @@ export default function EKolektorBillListPage({
 }: {
   onBack: () => void;
 }) {
-  const pageSize = 2;
+  const pageSize = 5;
   const [page, setPage] = React.useState(1);
 
   const pageCount = Math.max(1, Math.ceil(billGroups.length / pageSize));
