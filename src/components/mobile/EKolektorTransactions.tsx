@@ -35,20 +35,22 @@ export default function EKolektorTransactions({
         <EKolektorTransactionHeader onCancel={onBackHome} />
       </div>
 
-      <div className="relative z-10 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white px-6 pt-8">
-        <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
-          Cari Nasabah
-        </div>
-        <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
-          Pilih nasabah untuk melanjutkan
-        </div>
+      <div className="relative z-10 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white">
+        <div className="h-full min-h-0 overflow-y-auto px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
+            Cari Nasabah
+          </div>
+          <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
+            Pilih nasabah untuk melanjutkan
+          </div>
 
-        <EKolektorSearchBar className="mt-[22px]" />
+          <EKolektorSearchBar className="mt-[22px]" />
 
-        <EKolektorTransactionTabs
-          className="mt-[24px]"
-          onSelectLoan={() => setScreen("loan-transaction")}
-        />
+          <EKolektorTransactionTabs
+            className="mt-[24px]"
+            onSelectLoan={() => setScreen("loan-transaction")}
+          />
+        </div>
       </div>
 
       <EKolektorAndroidNavBar onBack={onBackHome} />
