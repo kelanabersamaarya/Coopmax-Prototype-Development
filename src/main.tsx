@@ -4,5 +4,6 @@ import "./globals.css";
 import "./styles/placeholders.css";
 import "./styles/loan-installment-v2.css";
 import "./styles/loan-installment-v2-billing-values.css";
+import "./styles/loan-installment-v2-billing-nasabah.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

@@ -1,0 +1,27 @@
+/* Kolom Nasabah: alamat khusus untuk baris Pinjaman Billing */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr:has(td:nth-child(3) .loan-installment-v2-pinjaman-billing)
+  > td:nth-child(2)
+  > div.mt-3.grid.gap-4.bg-white
+  > div.grid.gap-1:nth-child(2)
+  > div:last-child {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr:has(td:nth-child(3) .loan-installment-v2-pinjaman-billing)
+  > td:nth-child(2)
+  > div.mt-3.grid.gap-4.bg-white
+  > div.grid.gap-1:nth-child(2)
+  > div:last-child::before {
+  content: "Denpasar";
+  display: block;
+  color: #334155 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+  text-align: right !important;
+}
