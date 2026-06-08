@@ -1,9 +1,9 @@
 /* Produk Pinjaman Cabang - halaman Ubah
-   Tampilkan informasi dasar awal + Konfigurasi KP Biaya/Pendapatan Pinjaman,
+   Tampilkan informasi dasar paling awal + Konfigurasi KP Biaya/Pendapatan Pinjaman,
    sembunyikan konfigurasi lanjutan lain seperti pada screenshot. */
 
-/* Sembunyikan field dalam section Konfigurasi Dasar mulai dari Maksimal Periode Pinjaman ke bawah. */
-.loan-product-cabang-edit-form > * > div.mt-5.grid > :nth-child(n + 6) {
+/* Sembunyikan field dalam section Konfigurasi Dasar mulai dari RC ke bawah. */
+.loan-product-cabang-edit-form > * > div.mt-5.grid > :nth-child(n + 3) {
   display: none !important;
 }
 
