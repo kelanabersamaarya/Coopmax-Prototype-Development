@@ -1,10 +1,11 @@
 "use client";
 
+import * as React from "react";
 import { ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
+import MBankingLoanReviewPage from "@/components/mobile/MBankingLoanReviewPage";
 import MBankingLoanTransactionHistory from "@/components/mobile/MBankingLoanTransactionHistory";
 import MBankingStickyActionButton from "@/components/mobile/MBankingStickyActionButton";
 import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
@@ -73,6 +74,12 @@ export default function MBankingLoanDetailPage({
 }: {
   onBack: () => void;
 }) {
+  const [showReview, setShowReview] = React.useState(false);
+
+  if (showReview) {
+    return <MBankingLoanReviewPage onBack={() => setShowReview(false)} />;
+  }
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-white">
       <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -122,11 +129,7 @@ export default function MBankingLoanDetailPage({
 
       <MBankingStickyActionButton
         label="Bayar Angsuran"
-        onClick={() =>
-          toast.success("Bayar Angsuran (prototype)", {
-            description: "Aksi pembayaran belum dihubungkan.",
-          })
-        }
+        onClick={() => setShowReview(true)}
       />
 
       <EKolektorAndroidNavBar onBack={onBack} />
