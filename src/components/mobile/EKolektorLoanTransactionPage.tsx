@@ -1,6 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { Eye } from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorInstallmentDetailSection from "@/components/mobile/EKolektorInstallmentDetailSection";
 import EKolektorInstallmentHistoryPage from "@/components/mobile/EKolektorInstallmentHistoryPage";
@@ -110,13 +113,36 @@ export default function EKolektorLoanTransactionPage({
 
           <EKolektorInstallmentDetailSection />
 
-          <button
-            type="button"
-            onClick={() => setShowInstallmentHistory(true)}
-            className="mt-[22px] text-left text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A] transition active:scale-[0.99]"
-          >
-            Lihat Riwayat Angsuran
-          </button>
+          <div className="mt-[18px] grid grid-cols-2 gap-[12px]">
+            <button
+              type="button"
+              onClick={() =>
+                toast("Lihat Tagihan (prototype)", {
+                  description: "Daftar tagihan belum dibuat di mockup mobile.",
+                })
+              }
+              className={cn(
+                "inline-flex h-[41px] items-center justify-center gap-2 rounded-[9px]",
+                "bg-[#004FC7] px-3 text-[12px] font-semibold text-white",
+                "shadow-[0_3px_8px_rgba(0,79,199,0.18)] transition active:scale-[0.98]",
+              )}
+            >
+              <Eye className="h-[16px] w-[16px]" strokeWidth={2.6} />
+              Lihat Tagihan
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowInstallmentHistory(true)}
+              className={cn(
+                "inline-flex h-[41px] items-center justify-center rounded-[9px]",
+                "border border-[#004FC7] bg-white px-3 text-[12px] font-semibold text-[#004FC7]",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Lihat Riwayat Angsuran
+            </button>
+          </div>
 
           <EKolektorLoanTransactionForm />
 
