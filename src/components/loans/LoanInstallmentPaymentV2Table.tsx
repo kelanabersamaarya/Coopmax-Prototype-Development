@@ -111,7 +111,7 @@ function makeBillingBeforeDividerItems({
   durasiGracePeriod: string;
 }): InfoItem[] {
   return [
-    { label: "Produk", value: "Pinjaman Billing" },
+    { label: "Produk Pinjaman", value: "Pinjaman Billing" },
     { label: "Skema Tagihan", value: skemaTagihan },
     { label: "Satuan Grace Period", value: satuanGracePeriod },
     { label: "Durasi Grace Period", value: durasiGracePeriod },
@@ -121,7 +121,7 @@ function makeBillingBeforeDividerItems({
     { label: "Tanggal Realisasi", value: "01-03-2026" },
     { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
     { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
-    { label: "Bunga Pertahun", value: "10.00%" },
+    { label: "Bunga Per Tahun", value: "10.00%" },
     { label: "Metode Bunga", value: "Bunga Efektif" },
   ];
 }
@@ -537,13 +537,30 @@ function SelectedPinjamanInfo({
     isEmptyInitialLayout,
   ]);
 
+  const beforeFirstDivider = (
+    <InfoGroup
+      items={displayInfo.beforeFirstDividerItems}
+      empty={isEmptyInitialLayout}
+      layout="inline"
+    />
+  );
+
   return (
-    <div className="bg-white">
-      <InfoGroup
-        items={displayInfo.beforeFirstDividerItems}
-        empty={isEmptyInitialLayout}
-        layout="inline"
-      />
+    <div
+      className={cn(
+        "bg-white",
+        displayInfo.isBilling
+          ? "loan-installment-v2-pinjaman-billing"
+          : "loan-installment-v2-pinjaman-monthly",
+      )}
+    >
+      {displayInfo.isBilling ? (
+        <div className="loan-installment-v2-billing-top">
+          {beforeFirstDivider}
+        </div>
+      ) : (
+        beforeFirstDivider
+      )}
 
       <BaseDivider />
 
