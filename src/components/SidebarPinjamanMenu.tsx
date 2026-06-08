@@ -9,13 +9,14 @@ type SubItem = {
   label: string;
   to?: string;
   disabled?: boolean;
+  end?: boolean;
 };
 
 const items: SubItem[] = [
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
   { label: "Transaksi Pinjaman", to: "/loans/transactions" },
-  { label: "Produk Pinjaman", to: "/loan-products" },
+  { label: "Produk Pinjaman", to: "/loan-products", end: true },
   { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
 ];
 
@@ -76,6 +77,7 @@ export default function SidebarPinjamanMenu() {
                   <NavLink
                     key={it.label}
                     to={it.to!}
+                    end={it.end}
                     className={({ isActive }) =>
                       cn(
                         base,
