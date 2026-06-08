@@ -142,6 +142,7 @@ export default function PinjamanBulananTransactionFields({
   );
 
   const emptyWhenDisabled = (value: string) => (disabled ? "" : value);
+  const nominalWhenDisabled = (value: string) => (disabled ? "0,00" : value);
 
   return (
     <div className="grid gap-4">
@@ -157,7 +158,7 @@ export default function PinjamanBulananTransactionFields({
 
       <FieldBlock label="Bayar Pokok">
         <Input
-          value={emptyWhenDisabled("0,00")}
+          value={nominalWhenDisabled("0,00")}
           readOnly
           className={readonlyInputClassName}
           disabled={disabled}
@@ -202,7 +203,7 @@ export default function PinjamanBulananTransactionFields({
 
       <FieldBlock label="Sisa Pinjaman Akhir">
         <Input
-          value={emptyWhenDisabled("20.000.000,00")}
+          value={nominalWhenDisabled("20.000.000,00")}
           readOnly
           className={readonlyInputClassName}
           disabled={disabled}

@@ -101,6 +101,65 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
+const nominalInfoLabels = [
+  "total pinjaman",
+  "jumlah pinjaman",
+  "sisa pinjaman",
+  "sisa pokok pinjaman",
+  "sisa bunga pinjaman",
+  "pokok",
+  "bunga",
+  "angsuran",
+  "tagihan",
+  "denda",
+  "hutang pokok",
+  "hutang bunga",
+  "total bayar",
+  "nominal",
+  "bayar",
+  "plafon",
+];
+
+const nonNominalInfoLabels = [
+  "bunga per tahun",
+  "bunga pertahun",
+  "metode bunga",
+  "angsuran ke",
+  "angsuran lunas",
+  "angsuran seharusnya",
+  "jangka waktu",
+  "periode",
+  "tanggal",
+  "selisih tanggal",
+  "skema",
+  "satuan",
+  "durasi",
+  "produk",
+  "status",
+];
+
+function normalizeLabel(label: string) {
+  return label.trim().toLowerCase();
+}
+
+function isNominalInfoLabel(label: string) {
+  const normalized = normalizeLabel(label);
+
+  if (nonNominalInfoLabels.some((item) => normalized.includes(item))) {
+    return false;
+  }
+
+  return nominalInfoLabels.some((item) => normalized.includes(item));
+}
+
+function EmptyInfoValue({ label }: { label: string }) {
+  if (isNominalInfoLabel(label)) {
+    return <span>0,00</span>;
+  }
+
+  return <span aria-hidden="true">&nbsp;</span>;
+}
+
 function makeBillingBeforeDividerItems({
   skemaTagihan,
   satuanGracePeriod,
@@ -277,8 +336,8 @@ function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
   };
 }
 
-function Dash() {
-  return <span className="font-semibold text-slate-400">-</span>;
+function EmptyNonNominal() {
+  return <span aria-hidden="true">&nbsp;</span>;
 }
 
 function Th({
@@ -398,7 +457,7 @@ function InfoGroup({
         <InfoStack
           key={item.label}
           label={item.label}
-          value={empty ? <Dash /> : item.value}
+          value={empty ? <EmptyInfoValue label={item.label} /> : item.value}
           layout={layout}
         />
       ))}
@@ -528,7 +587,7 @@ function SelectedPinjamanInfo({
   React.useEffect(() => {
     setInterestArrears(
       isEmptyInitialLayout
-        ? ""
+        ? "0,00"
         : displayInfo.monthlyInterestArrearsDefault ?? "0,00",
     );
   }, [
@@ -552,6 +611,7 @@ function SelectedPinjamanInfo({
         displayInfo.isBilling
           ? "loan-installment-v2-pinjaman-billing"
           : "loan-installment-v2-pinjaman-monthly",
+        isEmptyInitialLayout ? "loan-installment-v2-empty" : "",
       )}
     >
       {displayInfo.isBilling ? (
@@ -611,7 +671,13 @@ function SelectedPinjamanInfo({
               <InfoStack
                 key={item.label}
                 label={item.label}
-                value={isEmptyInitialLayout ? <Dash /> : item.value}
+                value={
+                  isEmptyInitialLayout ? (
+                    <EmptyInfoValue label={item.label} />
+                  ) : (
+                    item.value
+                  )
+                }
                 layout="inline"
               />
             ))}
@@ -634,7 +700,7 @@ function SelectedPinjamanInfo({
           disabled={disabled}
           onClick={() =>
             toast("Simulasi Tunggakan (prototype)", {
-              description: `Rekening: ${accountNo || "-"}`,
+              description: `Rekening: ${accountNo || ""}`,
             })
           }
         />
@@ -781,10 +847,10 @@ function BillTotalsTitlesOnly({
 }) {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Tagihan Pokok" value={<Dash />} />
-      <InfoStack label="Tagihan Bunga" value={<Dash />} />
-      <InfoStack label="Tagihan Denda" value={<Dash />} />
-      <InfoStack label={totalLabel} value={<Dash />} strong />
+      <InfoStack label="Tagihan Pokok" value="0,00" />
+      <InfoStack label="Tagihan Bunga" value="0,00" />
+      <InfoStack label="Tagihan Denda" value="0,00" />
+      <InfoStack label={totalLabel} value="0,00" strong />
     </div>
   );
 }
@@ -800,7 +866,7 @@ function RemainingLoanBlock({ sisaPinjaman }: { sisaPinjaman: string }) {
 function RemainingLoanTitlesOnly() {
   return (
     <div className="grid gap-4">
-      <InfoStack label="Sisa Pinjaman" value={<Dash />} strong />
+      <InfoStack label="Sisa Pinjaman" value="0,00" strong />
     </div>
   );
 }
@@ -1320,7 +1386,7 @@ export default function LoanInstallmentPaymentV2Table({
       <LoanTransactionHistoryDialog
         open={historyOpen}
         onOpenChange={setHistoryOpen}
-        accountNo={historyAccountNo || "-"}
+        accountNo={historyAccountNo || ""}
       />
 
       <table className="w-full table-fixed border-collapse bg-white">
@@ -1369,10 +1435,10 @@ export default function LoanInstallmentPaymentV2Table({
                 : isReguler && REGULER_AUTO_BILL_ACCOUNTS.has(accountNo)
                   ? REGULER_AUTO_BILL
                   : {
-                      pokok: "0",
-                      bunga: "0",
-                      denda: "0",
-                      total: "0",
+                      pokok: "0,00",
+                      bunga: "0,00",
+                      denda: "0,00",
+                      total: "0,00",
                     };
 
             const totals = row.savedBillTotals ?? fallbackTotals;
@@ -1529,6 +1595,10 @@ export default function LoanInstallmentPaymentV2Table({
           })}
         </tbody>
       </table>
+
+      <div className="sr-only">
+        <EmptyNonNominal />
+      </div>
     </div>
   );
 }
