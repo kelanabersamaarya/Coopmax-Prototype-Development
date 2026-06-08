@@ -56,7 +56,7 @@ export default function MBankingLoanReviewInfoCard() {
 
   if (showPaymentResult) {
     return (
-      <div className="fixed inset-0 z-[95] bg-white">
+      <div className="absolute inset-0 z-[95] bg-white">
         <MBankingPaymentResultPage
           account={selectedAccount}
           onBack={() => setShowPaymentResult(false)}
