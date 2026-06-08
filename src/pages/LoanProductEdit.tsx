@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
 
@@ -7,6 +8,20 @@ export default function LoanProductEdit() {
   const [searchParams] = useSearchParams();
   const id = params.id ?? "";
   const isCabangEdit = searchParams.get("from") === "cabang";
+  const formRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    if (!isCabangEdit) return;
+
+    const productInput = formRef.current?.querySelector<HTMLInputElement>(
+      ".loan-product-cabang-edit-form > * > div.mt-5.grid > :nth-child(2) input",
+    );
+
+    if (!productInput) return;
+
+    productInput.readOnly = true;
+    productInput.setAttribute("aria-readonly", "true");
+  }, [isCabangEdit]);
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -25,6 +40,7 @@ export default function LoanProductEdit() {
         </div>
 
         <div
+          ref={formRef}
           className={`mt-6 grid gap-4${
             isCabangEdit ? " loan-product-cabang-edit-form" : ""
           }`}
