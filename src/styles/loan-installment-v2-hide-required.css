@@ -141,7 +141,19 @@ table.w-full.table-fixed.border-collapse.bg-white
   content: "" !important;
 }
 
-/* State kosong: label Jangka Waktu tetap tampil, hanya nilai "24 Bulan" yang dikosongkan. */
+/* State kosong: label Jangka Waktu tetap tampil dengan titik dua, hanya nilai "24 Bulan" yang dikosongkan. */
+.loan-installment-v2-empty
+  > div.grid.gap-4:first-child
+  > div:nth-child(6)
+  > div:first-child::before,
+.loan-installment-v2-empty
+  > div.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(6)
+  > div:first-child::before {
+  content: "Jangka Waktu :" !important;
+}
+
 .loan-installment-v2-empty
   > div.grid.gap-4:first-child
   > div:nth-child(6)
