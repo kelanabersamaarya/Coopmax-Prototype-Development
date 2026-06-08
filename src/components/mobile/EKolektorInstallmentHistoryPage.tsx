@@ -2,6 +2,7 @@
 
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
+import MBankingTransactionEmptyState from "@/components/mobile/MBankingTransactionEmptyState";
 
 export default function EKolektorInstallmentHistoryPage({
   onBack,
@@ -40,6 +41,8 @@ export default function EKolektorInstallmentHistoryPage({
             className="mt-0"
             containerClassName="bg-[#F2F2F2] shadow-none"
           />
+
+          <MBankingTransactionEmptyState className="mt-10" />
         </main>
       </div>
 
