@@ -5,6 +5,7 @@ import { ChevronDown, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import MBankingAccountPickerSheet from "@/components/mobile/MBankingAccountPickerSheet";
+import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
 import MBankingPaymentResultPage from "@/components/mobile/MBankingPaymentResultPage";
 
 const summaryRows = [
@@ -54,6 +55,7 @@ export default function MBankingLoanReviewInfoCard({
 }) {
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [selectedAccount, setSelectedAccount] = React.useState("");
+  const [showPasswordInput, setShowPasswordInput] = React.useState(false);
   const [showPaymentResult, setShowPaymentResult] = React.useState(false);
 
   const hasSelectedAccount = selectedAccount.trim().length > 0;
@@ -64,6 +66,20 @@ export default function MBankingLoanReviewInfoCard({
         <MBankingPaymentResultPage
           account={selectedAccount}
           onBack={onPaymentDone}
+        />
+      </div>
+    );
+  }
+
+  if (showPasswordInput) {
+    return (
+      <div className="absolute inset-0 z-[95] bg-white">
+        <MBankingLoanPasswordPage
+          onBack={() => setShowPasswordInput(false)}
+          onSuccess={() => {
+            setShowPasswordInput(false);
+            setShowPaymentResult(true);
+          }}
         />
       </div>
     );
@@ -154,7 +170,7 @@ export default function MBankingLoanReviewInfoCard({
               return;
             }
 
-            setShowPaymentResult(true);
+            setShowPasswordInput(true);
           }}
           className={cn(
             "mt-7 h-[40px] w-full rounded-full",
