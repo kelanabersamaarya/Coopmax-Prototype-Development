@@ -3,27 +3,117 @@
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeriodInfoCard";
 
-const billItems = [
-  {
-    label: "Jatuh Tempo",
-    value: "25-01-2026",
-  },
-  {
-    label: "Tagihan Pokok",
-    value: "833.333",
-  },
-  {
-    label: "Tagihan Bunga",
-    value: "83.333",
-  },
-  {
-    label: "Tagihan Denda",
-    value: "75.000",
-  },
-  {
-    label: "Total Tagihan",
-    value: "991.666",
-  },
+const billGroups = [
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-01-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-02-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-03-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-04-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-05-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
 ];
 
 function BillInfoRow({ label, value }: { label: string; value: string }) {
@@ -71,13 +161,20 @@ export default function EKolektorBillListPage({
         <main className="relative z-10 -mt-[30px] min-h-[calc(100%-86px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
           <EKolektorGracePeriodInfoCard />
 
-          <div className="rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[8px]">
-            {billItems.map((item) => (
-              <BillInfoRow
-                key={item.label}
-                label={item.label}
-                value={item.value}
-              />
+          <div className="grid gap-4">
+            {billGroups.map((billItems) => (
+              <div
+                key={billItems[0].value}
+                className="rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[8px]"
+              >
+                {billItems.map((item) => (
+                  <BillInfoRow
+                    key={`${billItems[0].value}-${item.label}`}
+                    label={item.label}
+                    value={item.value}
+                  />
+                ))}
+              </div>
             ))}
           </div>
         </main>
