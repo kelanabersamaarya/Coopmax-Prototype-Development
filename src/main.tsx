@@ -5,6 +5,7 @@ import "./styles/placeholders.css";
 import "./styles/loan-installment-v2.css";
 import "./styles/loan-installment-v2-billing-values.css";
 import "./styles/loan-installment-v2-billing-nasabah.css";
+import "./styles/loan-installment-v2-billing-grace-period.css";
 import "./styles/loan-installment-v2-hide-required.css";
 import "./styles/loan-product-cabang-edit.css";
 

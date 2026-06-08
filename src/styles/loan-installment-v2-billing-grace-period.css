@@ -1,0 +1,64 @@
+/* Transaksi Pinjaman > Pembayaran > Pinjaman Billing
+   Gabungkan informasi Satuan Grace Period + Durasi Grace Period menjadi:
+   Grace Period : 3 Bulan
+*/
+
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:nth-child(3) {
+  display: none !important;
+}
+
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:nth-child(4)
+  > div:first-child {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:nth-child(4)
+  > div:first-child::before {
+  content: "Grace Period :";
+  display: block;
+  color: #002060 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+}
+
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:nth-child(4)
+  > div:first-child::after {
+  content: "" !important;
+}
+
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:nth-child(4)
+  > div:last-child {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:nth-child(4)
+  > div:last-child::before {
+  content: "3 Bulan";
+  display: block;
+  color: #334155 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+  text-align: right !important;
+}
