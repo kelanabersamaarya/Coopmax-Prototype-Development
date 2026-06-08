@@ -107,6 +107,7 @@
   > .grid.gap-4
   > div:first-child {
   grid-template-rows: auto auto;
+  row-gap: 1rem;
 }
 
 .loan-installment-v2-pinjaman-billing
@@ -134,7 +135,7 @@
   content: "Jangka Waktu :";
   grid-column: 1;
   grid-row: 2;
-  margin-top: 1rem;
+  margin-top: 0;
   color: #002060;
   font-size: 14px;
   font-weight: 400;
@@ -148,7 +149,7 @@
   content: "24 Bulan";
   grid-column: 2;
   grid-row: 2;
-  margin-top: 1rem;
+  margin-top: 0;
   color: #334155;
   font-size: 14px;
   font-weight: 400;
