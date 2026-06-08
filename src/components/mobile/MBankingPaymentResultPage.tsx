@@ -55,16 +55,16 @@ export default function MBankingPaymentResultPage({
             </div>
           </div>
 
-          <div className="mt-6 rounded-[26px] bg-[#F1F1F1] px-4 py-7 text-center">
+          <div className="mt-6 rounded-[26px] bg-[#F1F1F1] px-4 py-6 text-center">
             <div className="text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
               Pembayaran Berhasil
             </div>
 
-            <div className="mt-6 text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
+            <div className="mt-4 text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
               Rp.408,333.33
             </div>
 
-            <div className="mt-1.5 text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+            <div className="mt-1 text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
               Total Angsuran
             </div>
           </div>
