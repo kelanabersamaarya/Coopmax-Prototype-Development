@@ -232,26 +232,30 @@ function StickyPagination({
   const prevDisabled = page <= 1;
   const nextDisabled = page >= pageCount;
 
+  const navButtonClass = (disabled: boolean) =>
+    cn(
+      "inline-flex h-[44px] items-center justify-center gap-2 rounded-[14px] px-4",
+      "bg-[#F4F7FB] text-[13px] font-extrabold tracking-tight text-[#53657D]",
+      "ring-1 ring-[#E5ECF4] transition active:scale-[0.98]",
+      disabled
+        ? "text-[#A7B1C2]"
+        : "hover:bg-[#EEF3F8] hover:text-[#203064]",
+    );
+
   return (
-    <div className="shrink-0 bg-white px-6 py-3 shadow-[0_-8px_18px_rgba(15,23,42,0.08)]">
-      <div className="flex items-center justify-between gap-3">
+    <div className="shrink-0 bg-white px-4 py-3 shadow-[0_-8px_18px_rgba(15,23,42,0.08)]">
+      <div className="flex items-center justify-center gap-2">
         <button
           type="button"
           disabled={prevDisabled}
           onClick={() => onPageChange(Math.max(1, page - 1))}
-          className={cn(
-            "inline-flex h-[38px] items-center gap-1.5 rounded-full px-4",
-            "text-[12px] font-semibold transition active:scale-[0.98]",
-            prevDisabled
-              ? "bg-[#F1F1F1] text-[#A5A5A5]"
-              : "bg-[#004FC7] text-white",
-          )}
+          className={navButtonClass(prevDisabled)}
         >
-          <ChevronLeft className="h-4 w-4" strokeWidth={2.6} />
+          <ChevronLeft className="h-4 w-4" strokeWidth={3} />
           Sebelumnya
         </button>
 
-        <div className="inline-flex h-[38px] min-w-[38px] items-center justify-center rounded-full bg-[#004FC7] px-3 text-[13px] font-extrabold text-white">
+        <div className="inline-flex h-[44px] min-w-[44px] items-center justify-center rounded-[14px] bg-[#004FC7] px-4 text-[15px] font-extrabold text-white shadow-sm">
           {page}
         </div>
 
@@ -259,16 +263,10 @@ function StickyPagination({
           type="button"
           disabled={nextDisabled}
           onClick={() => onPageChange(Math.min(pageCount, page + 1))}
-          className={cn(
-            "inline-flex h-[38px] items-center gap-1.5 rounded-full px-4",
-            "text-[12px] font-semibold transition active:scale-[0.98]",
-            nextDisabled
-              ? "bg-[#F1F1F1] text-[#A5A5A5]"
-              : "bg-[#004FC7] text-white",
-          )}
+          className={navButtonClass(nextDisabled)}
         >
           Selanjutnya
-          <ChevronRight className="h-4 w-4" strokeWidth={2.6} />
+          <ChevronRight className="h-4 w-4" strokeWidth={3} />
         </button>
       </div>
     </div>
