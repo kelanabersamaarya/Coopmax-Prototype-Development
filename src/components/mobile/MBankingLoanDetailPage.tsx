@@ -35,6 +35,10 @@ const loanInfoItems = [
     value: "3",
   },
   {
+    label: "Jumlah Pinjaman",
+    value: "12.000.000,00",
+  },
+  {
     label: "Sisa Pokok Pinjaman",
     value: "10.000.000,00",
   },
