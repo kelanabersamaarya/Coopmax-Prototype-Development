@@ -337,11 +337,31 @@ function InfoStack({
   label,
   value,
   strong = false,
+  layout = "stack",
 }: {
   label: string;
   value: React.ReactNode;
   strong?: boolean;
+  layout?: "stack" | "inline";
 }) {
+  if (layout === "inline") {
+    return (
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(92px,auto)] items-start gap-3">
+        <div className="min-w-0 text-[14px] font-normal leading-snug text-[#002060]">
+          {label} :
+        </div>
+        <div
+          className={cn(
+            "min-w-0 text-right text-[14px] font-normal leading-snug text-slate-700",
+            strong ? "font-bold text-slate-900" : "",
+          )}
+        >
+          {value}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-1">
       <div className="text-[12px] font-normal leading-[18px] text-black">
@@ -366,9 +386,11 @@ function BaseDivider() {
 function InfoGroup({
   items,
   empty = false,
+  layout = "stack",
 }: {
   items: InfoItem[];
   empty?: boolean;
+  layout?: "stack" | "inline";
 }) {
   return (
     <div className="grid gap-4">
@@ -377,6 +399,7 @@ function InfoGroup({
           key={item.label}
           label={item.label}
           value={empty ? <Dash /> : item.value}
+          layout={layout}
         />
       ))}
     </div>
@@ -519,6 +542,7 @@ function SelectedPinjamanInfo({
       <InfoGroup
         items={displayInfo.beforeFirstDividerItems}
         empty={isEmptyInitialLayout}
+        layout="inline"
       />
 
       <BaseDivider />
@@ -527,6 +551,7 @@ function SelectedPinjamanInfo({
         <InfoGroup
           items={displayInfo.afterFirstDividerItems}
           empty={isEmptyInitialLayout}
+          layout="inline"
         />
       ) : null}
 
@@ -536,6 +561,7 @@ function SelectedPinjamanInfo({
           <InfoGroup
             items={displayInfo.afterSecondDividerItems}
             empty={isEmptyInitialLayout}
+            layout="inline"
           />
         </>
       ) : null}
@@ -547,15 +573,15 @@ function SelectedPinjamanInfo({
 
           <div className="grid gap-4">
             {displayInfo.showMonthlyInterestArrears ? (
-              <div className="grid gap-1.5">
-                <div className="text-[12px] font-normal text-black">
-                  Tunggakan Bunga
+              <div className="grid grid-cols-[minmax(0,1fr)_minmax(116px,150px)] items-center gap-3">
+                <div className="min-w-0 text-[14px] font-normal leading-snug text-[#002060]">
+                  Tunggakan Bunga :
                 </div>
                 <FormattedNominalInput
                   value={interestArrears}
                   onChange={setInterestArrears}
                   className={cn(
-                    "text-right text-[14px] font-semibold",
+                    "h-[30px] text-right text-[14px] font-normal",
                     disabled ? "pointer-events-none opacity-60" : "",
                   )}
                   placeholder="0,00"
@@ -569,6 +595,7 @@ function SelectedPinjamanInfo({
                 key={item.label}
                 label={item.label}
                 value={isEmptyInitialLayout ? <Dash /> : item.value}
+                layout="inline"
               />
             ))}
           </div>
