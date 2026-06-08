@@ -47,7 +47,11 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export default function MBankingLoanReviewInfoCard() {
+export default function MBankingLoanReviewInfoCard({
+  onPaymentDone,
+}: {
+  onPaymentDone: () => void;
+}) {
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [selectedAccount, setSelectedAccount] = React.useState("");
   const [showPaymentResult, setShowPaymentResult] = React.useState(false);
@@ -59,7 +63,7 @@ export default function MBankingLoanReviewInfoCard() {
       <div className="absolute inset-0 z-[95] bg-white">
         <MBankingPaymentResultPage
           account={selectedAccount}
-          onBack={() => setShowPaymentResult(false)}
+          onBack={onPaymentDone}
         />
       </div>
     );

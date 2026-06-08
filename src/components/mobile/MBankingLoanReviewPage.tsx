@@ -26,7 +26,7 @@ export default function MBankingLoanReviewPage({
           Review
         </h1>
 
-        <MBankingLoanReviewInfoCard />
+        <MBankingLoanReviewInfoCard onPaymentDone={onBack} />
       </main>
 
       <EKolektorAndroidNavBar onBack={onBack} />
