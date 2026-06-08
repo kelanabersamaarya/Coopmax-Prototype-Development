@@ -35,7 +35,7 @@ export default function EKolektorInstallmentHistoryPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[30px] min-h-[calc(100%-102px)] rounded-t-[30px] bg-[#F2F2F2] px-6 pb-8 pt-8">
+        <main className="relative z-10 -mt-[12px] min-h-[calc(100%-120px)] rounded-t-[30px] bg-[#F2F2F2] px-6 pb-8 pt-8">
           <MBankingTransactionDateRange />
         </main>
       </div>
