@@ -101,10 +101,20 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
-function makeBillingBeforeDividerItems(skemaTagihan: string): InfoItem[] {
+function makeBillingBeforeDividerItems({
+  skemaTagihan,
+  satuanGracePeriod,
+  durasiGracePeriod,
+}: {
+  skemaTagihan: string;
+  satuanGracePeriod: string;
+  durasiGracePeriod: string;
+}): InfoItem[] {
   return [
     { label: "Produk", value: "Pinjaman Billing" },
     { label: "Skema Tagihan", value: skemaTagihan },
+    { label: "Satuan Grace Period", value: satuanGracePeriod },
+    { label: "Durasi Grace Period", value: durasiGracePeriod },
     { label: "Angsuran ke", value: "2" },
     { label: "Angsuran Lunas", value: "1" },
     { label: "Angsuran Seharusnya", value: "1" },
@@ -119,6 +129,8 @@ function makeBillingBeforeDividerItems(skemaTagihan: string): InfoItem[] {
 const monthlyBeforeDividerItems: InfoItem[] = [
   { label: "Produk", value: "Pinjaman Bulanan" },
   { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
+  { label: "Satuan Grace Period", value: "Bulan" },
+  { label: "Durasi Grace Period", value: "3" },
   { label: "Angsuran ke", value: "1" },
   { label: "Angsuran Lunas", value: "0" },
   { label: "Angsuran Seharusnya", value: "0" },
@@ -160,10 +172,12 @@ function makeBillingInfo({
     alamat,
     produk: "Pinjaman Billing",
     isBilling: true,
-    beforeFirstDividerItems: makeBillingBeforeDividerItems(skemaTagihan),
+    beforeFirstDividerItems: makeBillingBeforeDividerItems({
+      skemaTagihan,
+      satuanGracePeriod,
+      durasiGracePeriod,
+    }),
     afterFirstDividerItems: [
-      { label: "Satuan Grace Period", value: satuanGracePeriod },
-      { label: "Durasi Grace Period", value: durasiGracePeriod },
       { label: "Total Pinjaman", value: totalPinjaman },
       { label: "Sisa Pokok Pinjaman", value: sisaPokok },
     ],
