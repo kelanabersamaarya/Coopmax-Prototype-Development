@@ -10,32 +10,20 @@ import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-t
 
 const loanInfoItems = [
   {
-    title: "Nasabah",
-    subtitle: "Gaby",
-  },
-  {
-    title: "No. Rekening Pinjaman",
+    title: "No. Rekening",
     subtitle: "SMG260004",
   },
   {
-    title: "Produk Pinjaman",
-    subtitle: "Pinjaman Billing",
-  },
-  {
-    title: "Skema Tagihan",
-    subtitle: "Tagihan Sesuai Jadwal Angsuran",
-  },
-  {
-    title: "Satuan Grace Period",
-    subtitle: "Bulan",
-  },
-  {
-    title: "Durasi Grace Period",
-    subtitle: "3",
-  },
-  {
-    title: "Sisa Pokok Pinjaman",
+    title: "Sisa Pinjaman",
     subtitle: "10.000.000,00",
+  },
+  {
+    title: "Total Angsuran",
+    subtitle: "991.666",
+  },
+  {
+    title: "Total Hutang",
+    subtitle: "0,00",
   },
 ];
 
