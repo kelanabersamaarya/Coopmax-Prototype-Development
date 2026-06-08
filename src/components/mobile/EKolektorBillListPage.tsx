@@ -117,6 +117,94 @@ const billGroups = [
       value: "991.666",
     },
   ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-06-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-07-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-08-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
+  [
+    {
+      label: "Jatuh Tempo",
+      value: "25-09-2026",
+    },
+    {
+      label: "Tagihan Pokok",
+      value: "833.333",
+    },
+    {
+      label: "Tagihan Bunga",
+      value: "83.333",
+    },
+    {
+      label: "Tagihan Denda",
+      value: "75.000",
+    },
+    {
+      label: "Total Tagihan",
+      value: "991.666",
+    },
+  ],
 ];
 
 function BillInfoRow({ label, value }: { label: string; value: string }) {
