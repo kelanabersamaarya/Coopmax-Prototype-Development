@@ -8,105 +8,95 @@ import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeri
 
 type BillGroup = {
   jatuhTempo: string;
+  totalBelumDibayar: string;
   tagihanPokok: string;
   tagihanBunga: string;
-  hutangPokok: string;
-  hutangBunga: string;
-  denda: string;
-  sisaPinjaman: string;
-  totalTagihan: string;
+  sisaPokok: string;
+  sisaBunga: string;
+  tagihanDenda: string;
 };
 
 const billGroups: BillGroup[] = [
   {
     jatuhTempo: "25-01-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 9,791,666.67",
-    totalTagihan: "991.666",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+    tagihanDenda: "75.000",
   },
   {
     jatuhTempo: "25-02-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 8,958,333.34",
-    totalTagihan: "991.666",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+    tagihanDenda: "75.000",
   },
   {
     jatuhTempo: "25-03-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 8,125,000.01",
-    totalTagihan: "991.666",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+    tagihanDenda: "75.000",
   },
   {
     jatuhTempo: "25-04-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 7,291,666.68",
-    totalTagihan: "991.666",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+    tagihanDenda: "0,00",
   },
   {
     jatuhTempo: "25-05-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 6,458,333.35",
-    totalTagihan: "991.666",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+    tagihanDenda: "0,00",
   },
   {
     jatuhTempo: "25-06-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 5,625,000.02",
-    totalTagihan: "991.666",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+    tagihanDenda: "0,00",
   },
   {
     jatuhTempo: "25-07-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 4,791,666.69",
-    totalTagihan: "991.666",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+    tagihanDenda: "0,00",
   },
   {
     jatuhTempo: "25-08-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 3,958,333.36",
-    totalTagihan: "991.666",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+    tagihanDenda: "0,00",
   },
   {
     jatuhTempo: "25-09-2026",
+    totalBelumDibayar: "916.667",
     tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    hutangPokok: "Rp. 0.00",
-    hutangBunga: "Rp. 0.00",
-    denda: "Rp. 0.00",
-    sisaPinjaman: "Rp. 3,125,000.03",
-    totalTagihan: "991.666",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+    tagihanDenda: "0,00",
   },
 ];
 
@@ -140,15 +130,15 @@ function BillCard({ bill }: { bill: BillGroup }) {
 
           <div className="mt-[12px] grid gap-[12px]">
             <BillAmountBlock label="Tagihan Pokok" value={bill.tagihanPokok} />
-            <BillAmountBlock label="Hutang Pokok" value={bill.hutangPokok} />
-            <BillAmountBlock label="Denda" value={bill.denda} />
+            <BillAmountBlock label="Sisa Tagihan Pokok" value={bill.sisaPokok} />
+            <BillAmountBlock label="Tagihan Denda" value={bill.tagihanDenda} />
           </div>
         </div>
 
         <div className="min-w-0 text-right">
           <BillAmountBlock
-            label="Total Tagihan"
-            value={bill.totalTagihan}
+            label="Total Tagihan Belum Dibayar"
+            value={bill.totalBelumDibayar}
             align="right"
           />
 
@@ -159,13 +149,8 @@ function BillCard({ bill }: { bill: BillGroup }) {
               align="right"
             />
             <BillAmountBlock
-              label="Hutang Bunga"
-              value={bill.hutangBunga}
-              align="right"
-            />
-            <BillAmountBlock
-              label="Sisa Pinjaman"
-              value={bill.sisaPinjaman}
+              label="Sisa Tagihan Bunga"
+              value={bill.sisaBunga}
               align="right"
             />
           </div>
