@@ -523,6 +523,9 @@ function SelectedPinjamanInfo({
       ],
     } satisfies LoanInfo);
 
+  const isBillingLayout = displayInfo.isBilling;
+  const infoLayout = isBillingLayout ? "inline" : "stack";
+
   const [interestArrears, setInterestArrears] = React.useState("0,00");
 
   React.useEffect(() => {
@@ -542,7 +545,7 @@ function SelectedPinjamanInfo({
       <InfoGroup
         items={displayInfo.beforeFirstDividerItems}
         empty={isEmptyInitialLayout}
-        layout="inline"
+        layout={infoLayout}
       />
 
       <BaseDivider />
@@ -551,7 +554,7 @@ function SelectedPinjamanInfo({
         <InfoGroup
           items={displayInfo.afterFirstDividerItems}
           empty={isEmptyInitialLayout}
-          layout="inline"
+          layout={infoLayout}
         />
       ) : null}
 
@@ -561,7 +564,7 @@ function SelectedPinjamanInfo({
           <InfoGroup
             items={displayInfo.afterSecondDividerItems}
             empty={isEmptyInitialLayout}
-            layout="inline"
+            layout={infoLayout}
           />
         </>
       ) : null}
@@ -573,21 +576,39 @@ function SelectedPinjamanInfo({
 
           <div className="grid gap-4">
             {displayInfo.showMonthlyInterestArrears ? (
-              <div className="grid grid-cols-[minmax(0,1fr)_minmax(116px,150px)] items-center gap-3">
-                <div className="min-w-0 text-[14px] font-normal leading-snug text-[#002060]">
-                  Tunggakan Bunga :
+              isBillingLayout ? (
+                <div className="grid grid-cols-[minmax(0,1fr)_minmax(116px,150px)] items-center gap-3">
+                  <div className="min-w-0 text-[14px] font-normal leading-snug text-[#002060]">
+                    Tunggakan Bunga :
+                  </div>
+                  <FormattedNominalInput
+                    value={interestArrears}
+                    onChange={setInterestArrears}
+                    className={cn(
+                      "h-[30px] text-right text-[14px] font-normal",
+                      disabled ? "pointer-events-none opacity-60" : "",
+                    )}
+                    placeholder="0,00"
+                    disabled={disabled}
+                  />
                 </div>
-                <FormattedNominalInput
-                  value={interestArrears}
-                  onChange={setInterestArrears}
-                  className={cn(
-                    "h-[30px] text-right text-[14px] font-normal",
-                    disabled ? "pointer-events-none opacity-60" : "",
-                  )}
-                  placeholder="0,00"
-                  disabled={disabled}
-                />
-              </div>
+              ) : (
+                <div className="grid gap-1.5">
+                  <div className="text-[12px] font-normal leading-[18px] text-black">
+                    Tunggakan Bunga
+                  </div>
+                  <FormattedNominalInput
+                    value={interestArrears}
+                    onChange={setInterestArrears}
+                    className={cn(
+                      "h-[30px] text-right text-[14px] font-semibold",
+                      disabled ? "pointer-events-none opacity-60" : "",
+                    )}
+                    placeholder="0,00"
+                    disabled={disabled}
+                  />
+                </div>
+              )
             ) : null}
 
             {(displayInfo.monthlySettlementItems ?? []).map((item) => (
@@ -595,7 +616,7 @@ function SelectedPinjamanInfo({
                 key={item.label}
                 label={item.label}
                 value={isEmptyInitialLayout ? <Dash /> : item.value}
-                layout="inline"
+                layout={infoLayout}
               />
             ))}
           </div>
