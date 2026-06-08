@@ -100,9 +100,7 @@ export default function EKolektorLoanTransactionPage({
             ))}
           </div>
 
-          <div className="mt-[28px] h-px w-full bg-[#E8E8E8]" />
-
-          <div className="mt-[18px] text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
+          <div className="mt-[28px] text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
             Detail Angsuran
           </div>
 
