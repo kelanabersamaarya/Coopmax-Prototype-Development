@@ -140,3 +140,33 @@ table.w-full.table-fixed.border-collapse.bg-white
   > div:last-child::before {
   content: "" !important;
 }
+
+/* State kosong: Jangka Waktu juga harus kosong, termasuk label/value yang dibuat via pseudo CSS. */
+.loan-installment-v2-empty
+  > div.grid.gap-4:first-child
+  > div:nth-child(6)
+  > div:first-child::before,
+.loan-installment-v2-empty
+  > div.grid.gap-4:first-child
+  > div:nth-child(6)
+  > div:last-child::before,
+.loan-installment-v2-empty
+  > div.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(6)
+  > div:first-child::before,
+.loan-installment-v2-empty
+  > div.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(6)
+  > div:last-child::before,
+.loan-installment-v2-empty
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:first-child::before,
+.loan-installment-v2-empty
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:first-child::after {
+  content: "" !important;
+}
