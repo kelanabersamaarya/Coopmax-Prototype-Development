@@ -109,6 +109,10 @@ export default function MBankingLoanDetailPage({
             containerClassName="bg-[#F2F2F2] shadow-sm"
           />
 
+          <h2 className="mt-6 text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
+            Tagihan Angsuran
+          </h2>
+
           <MBankingLoanTransactionHistory />
         </main>
       </div>
