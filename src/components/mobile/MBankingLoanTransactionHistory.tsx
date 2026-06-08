@@ -2,7 +2,7 @@
 
 export default function MBankingLoanTransactionHistory() {
   return (
-    <section className="-mx-6 -mb-10 mt-7 min-h-[640px] bg-[#F2F2F2] px-6 pb-32 pt-6">
+    <section className="-mx-6 -mb-10 mt-7 min-h-[500px] bg-[#F2F2F2] px-6 pb-24 pt-6">
       <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
         Riwayat Transaksi
       </h2>
