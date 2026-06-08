@@ -101,20 +101,24 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
-const billingBeforeDividerItems: InfoItem[] = [
-  { label: "Produk", value: "Pinjaman Billing" },
-  { label: "Angsuran ke", value: "2" },
-  { label: "Angsuran Lunas", value: "1" },
-  { label: "Angsuran Seharusnya", value: "1" },
-  { label: "Tanggal Realisasi", value: "01-03-2026" },
-  { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
-  { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
-  { label: "Bunga Pertahun", value: "10.00%" },
-  { label: "Metode Bunga", value: "Bunga Efektif" },
-];
+function makeBillingBeforeDividerItems(skemaTagihan: string): InfoItem[] {
+  return [
+    { label: "Produk", value: "Pinjaman Billing" },
+    { label: "Skema Tagihan", value: skemaTagihan },
+    { label: "Angsuran ke", value: "2" },
+    { label: "Angsuran Lunas", value: "1" },
+    { label: "Angsuran Seharusnya", value: "1" },
+    { label: "Tanggal Realisasi", value: "01-03-2026" },
+    { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
+    { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
+    { label: "Bunga Pertahun", value: "10.00%" },
+    { label: "Metode Bunga", value: "Bunga Efektif" },
+  ];
+}
 
 const monthlyBeforeDividerItems: InfoItem[] = [
   { label: "Produk", value: "Pinjaman Bulanan" },
+  { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
   { label: "Angsuran ke", value: "1" },
   { label: "Angsuran Lunas", value: "0" },
   { label: "Angsuran Seharusnya", value: "0" },
@@ -156,9 +160,8 @@ function makeBillingInfo({
     alamat,
     produk: "Pinjaman Billing",
     isBilling: true,
-    beforeFirstDividerItems: billingBeforeDividerItems,
+    beforeFirstDividerItems: makeBillingBeforeDividerItems(skemaTagihan),
     afterFirstDividerItems: [
-      { label: "Skema Tagihan", value: skemaTagihan },
       { label: "Satuan Grace Period", value: satuanGracePeriod },
       { label: "Durasi Grace Period", value: durasiGracePeriod },
       { label: "Total Pinjaman", value: totalPinjaman },
