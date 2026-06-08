@@ -25,7 +25,7 @@ function MoneyField({
   const inputClassName = cn(
     "h-[41px] w-full rounded-[9px] border-0 bg-[#F2F2F2] px-4",
     "text-[14px] font-normal text-black shadow-none",
-    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#9A9A9A]",
+    "placeholder:text-[12px] placeholder:font-normal placeholder:text-[#9A9A9A]",
     "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
@@ -43,7 +43,7 @@ function MoneyField({
           onChange={(event) => onChange(event.target.value)}
           className={cn(
             inputClassName,
-            "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[14px] placeholder:text-[#9A9A9A]",
+            "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[12px] placeholder:text-[#9A9A9A]",
           )}
           placeholder="0"
           inputMode="numeric"
