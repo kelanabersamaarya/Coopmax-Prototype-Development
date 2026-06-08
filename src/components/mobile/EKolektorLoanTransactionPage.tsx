@@ -3,6 +3,7 @@
 import * as React from "react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorInstallmentDetailSection from "@/components/mobile/EKolektorInstallmentDetailSection";
+import EKolektorInstallmentHistoryPage from "@/components/mobile/EKolektorInstallmentHistoryPage";
 import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTransactionForm";
 import EKolektorLoanTransactionSubmitPage from "@/components/mobile/EKolektorLoanTransactionSubmitPage";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
@@ -48,6 +49,15 @@ export default function EKolektorLoanTransactionPage({
   onTransactionSaved: (transaction: EKolektorTodayTransaction) => void;
 }) {
   const [showSubmitPage, setShowSubmitPage] = React.useState(false);
+  const [showInstallmentHistory, setShowInstallmentHistory] = React.useState(false);
+
+  if (showInstallmentHistory) {
+    return (
+      <EKolektorInstallmentHistoryPage
+        onBack={() => setShowInstallmentHistory(false)}
+      />
+    );
+  }
 
   if (showSubmitPage) {
     return (
@@ -110,9 +120,13 @@ export default function EKolektorLoanTransactionPage({
 
           <EKolektorInstallmentDetailSection />
 
-          <div className="mt-[22px] text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A]">
+          <button
+            type="button"
+            onClick={() => setShowInstallmentHistory(true)}
+            className="mt-[22px] text-left text-[16px] font-extrabold leading-tight tracking-tight text-[#23305A] transition active:scale-[0.99]"
+          >
             Lihat Riwayat Angsuran
-          </div>
+          </button>
 
           <EKolektorLoanTransactionForm />
 
