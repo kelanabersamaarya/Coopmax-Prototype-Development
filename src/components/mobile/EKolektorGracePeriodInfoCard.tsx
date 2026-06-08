@@ -11,10 +11,10 @@ export default function EKolektorGracePeriodInfoCard() {
         </span>
 
         <div className="min-w-0">
-          <div className="text-[12px] font-extrabold leading-tight tracking-tight text-[#23305A]">
+          <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#23305A]">
             Periode Grace Period
           </div>
-          <div className="mt-1 text-[10px] font-normal leading-snug tracking-tight text-[#63809E]">
+          <div className="mt-1 text-[12px] font-normal leading-snug tracking-tight text-[#63809E]">
             Berikut ini merupakan periode tagihan pinjaman yang termasuk ke dalam
             grace period. Selama periode grace period nasabah hanya membayar bunga
           </div>
