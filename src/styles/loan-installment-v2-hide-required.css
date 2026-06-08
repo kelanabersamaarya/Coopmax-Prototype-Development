@@ -33,6 +33,30 @@ table.w-full.table-fixed.border-collapse.bg-white
   grid-template-columns: minmax(0, 1fr) minmax(215px, 260px) !important;
 }
 
+/* Pembayaran Khusus: hilangkan icon info di samping kanan field Nominal Denda */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  div.grid.gap-4
+  > div.grid.gap-1\.5:nth-child(3)
+  > div.flex.items-stretch.gap-2
+  > button[aria-label="Rincian denda"] {
+  display: none !important;
+}
+
+/* Pembayaran Khusus: setelah icon info disembunyikan, input Nominal Denda tetap full width */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  div.grid.gap-4
+  > div.grid.gap-1\.5:nth-child(3)
+  > div.flex.items-stretch.gap-2
+  > input {
+  width: 100% !important;
+}
+
 /* Dropdown Radix: hilangkan icon centang/check indicator */
 [data-radix-popper-content-wrapper] [role="option"] [data-radix-select-item-indicator],
 [data-radix-popper-content-wrapper] [role="option"] [data-slot="select-item-indicator"],
