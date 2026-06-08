@@ -79,6 +79,7 @@ export default function MBankingLoanDetailPage({
     return (
       <EKolektorBillListPage
         accountNo="SMG260004"
+        showSpecialNextBillInfo={false}
         onBack={() => setShowBillList(false)}
       />
     );

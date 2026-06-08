@@ -217,14 +217,18 @@ function StickyPagination({
 export default function EKolektorBillListPage({
   accountNo,
   onBack,
+  showSpecialNextBillInfo = true,
 }: {
   accountNo?: string;
   onBack: () => void;
+  showSpecialNextBillInfo?: boolean;
 }) {
   const pageSize = 5;
   const [page, setPage] = React.useState(1);
 
-  const isSecondOrThirdAccount = accountNo === "7260175" || accountNo === "SMG260004";
+  const isSecondOrThirdAccount =
+    showSpecialNextBillInfo &&
+    (accountNo === "7260175" || accountNo === "SMG260004");
 
   const billsForAccount = React.useMemo(() => {
     if (isSecondOrThirdAccount) {
