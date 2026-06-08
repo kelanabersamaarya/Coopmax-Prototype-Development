@@ -1,0 +1,9 @@
+/* Transaksi Pinjaman > Pembayaran > Pinjaman Billing
+   Sembunyikan field/informasi Tunggakan Bunga pada kolom Pinjaman.
+*/
+
+.loan-installment-v2-pinjaman-billing
+  > div:nth-of-type(5)
+  > div:first-child {
+  display: none !important;
+}
