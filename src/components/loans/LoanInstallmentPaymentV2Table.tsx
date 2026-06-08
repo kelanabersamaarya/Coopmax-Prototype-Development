@@ -62,9 +62,9 @@ type LoanInfo = {
   alamat: string;
   produk: string;
   isBilling: boolean;
-  topItems: InfoItem[];
-  firstDividerItems: InfoItem[];
-  secondDividerItems: InfoItem[];
+  beforeFirstDividerItems: InfoItem[];
+  afterFirstDividerItems: InfoItem[];
+  afterSecondDividerItems: InfoItem[];
   showMonthlyInterestArrears?: boolean;
   monthlyInterestArrearsDefault?: string;
   monthlySettlementItems?: InfoItem[];
@@ -101,33 +101,31 @@ const REGULER_AUTO_BILL: BillTotals = {
   total: "991.666",
 };
 
-const BILLING_FIRST_DIVIDER_ITEMS: InfoItem[] = [
+const billingBeforeDividerItems: InfoItem[] = [
+  { label: "Produk", value: "Pinjaman Billing" },
   { label: "Angsuran ke", value: "2" },
   { label: "Angsuran Lunas", value: "1" },
   { label: "Angsuran Seharusnya", value: "1" },
-];
-
-const BILLING_SECOND_DIVIDER_ITEMS: InfoItem[] = [
-  { label: "Jangka Waktu", value: "12 Bulan" },
   { label: "Tanggal Realisasi", value: "01-03-2026" },
   { label: "Tanggal Jatuh Tempo", value: "16-03-2027" },
   { label: "Tanggal Transaksi Terakhir", value: "25 Maret 2026" },
-  { label: "Selisih Tanggal Transaksi", value: "4 Hari" },
-  { label: "Bunga Per Tahun", value: "10.00%" },
+  { label: "Bunga Pertahun", value: "10.00%" },
   { label: "Metode Bunga", value: "Bunga Efektif" },
 ];
 
-const MONTHLY_FIRST_DIVIDER_ITEMS: InfoItem[] = [
-  { label: "Angsuran Ke", value: "1" },
-  { label: "Jangka Waktu", value: "24 Bulan" },
+const monthlyBeforeDividerItems: InfoItem[] = [
+  { label: "Produk", value: "Pinjaman Bulanan" },
+  { label: "Angsuran ke", value: "1" },
+  { label: "Angsuran Lunas", value: "0" },
+  { label: "Angsuran Seharusnya", value: "0" },
   { label: "Tanggal Realisasi", value: "02-06-2026" },
   { label: "Tanggal Jatuh Tempo", value: "27-05-2028" },
   { label: "Tanggal Transaksi Terakhir", value: "-" },
-  { label: "Bunga Per Tahun", value: "24,00%" },
+  { label: "Bunga Pertahun", value: "24,00%" },
   { label: "Metode Bunga", value: "Bunga Efektif" },
 ];
 
-const MONTHLY_SECOND_DIVIDER_ITEMS: InfoItem[] = [
+const monthlyAfterDividerItems: InfoItem[] = [
   { label: "Total Pinjaman", value: "20.000.000,00" },
   { label: "Sisa Pokok Pinjaman", value: "20.000.000,00" },
   { label: "Pokok", value: "833.400,00" },
@@ -136,78 +134,86 @@ const MONTHLY_SECOND_DIVIDER_ITEMS: InfoItem[] = [
   { label: "Angsuran", value: "1.233.400,00" },
 ];
 
-function getLoanInfoByAccountNo(accountNo: string): LoanInfo | null {
-  const billingBase = {
+function makeBillingInfo({
+  nama,
+  alamat,
+  skemaTagihan,
+  satuanGracePeriod,
+  durasiGracePeriod,
+  totalPinjaman,
+  sisaPokok,
+}: {
+  nama: string;
+  alamat: string;
+  skemaTagihan: string;
+  satuanGracePeriod: string;
+  durasiGracePeriod: string;
+  totalPinjaman: string;
+  sisaPokok: string;
+}): LoanInfo {
+  return {
+    nama,
+    alamat,
+    produk: "Pinjaman Billing",
     isBilling: true,
-    firstDividerItems: BILLING_FIRST_DIVIDER_ITEMS,
-    secondDividerItems: BILLING_SECOND_DIVIDER_ITEMS,
+    beforeFirstDividerItems: billingBeforeDividerItems,
+    afterFirstDividerItems: [
+      { label: "Skema Tagihan", value: skemaTagihan },
+      { label: "Satuan Grace Period", value: satuanGracePeriod },
+      { label: "Durasi Grace Period", value: durasiGracePeriod },
+      { label: "Total Pinjaman", value: totalPinjaman },
+      { label: "Sisa Pokok Pinjaman", value: sisaPokok },
+    ],
+    afterSecondDividerItems: [],
   };
+}
 
+function getLoanInfoByAccountNo(accountNo: string): LoanInfo | null {
   const map: Record<string, LoanInfo> = {
-    "12260006": {
-      ...billingBase,
+    "12260006": makeBillingInfo({
       nama: "Pangeran Sirait",
       alamat: "Gg. Basudewo No. 230, Gorontalo 27811, DIY",
-      produk: "Pinjaman Billing",
-      topItems: [
-        { label: "Produk", value: "Pinjaman Billing" },
-        { label: "Skema Tagihan", value: "Tagihan Sesuai Jadwal Angsuran" },
-        { label: "Satuan Grace Period", value: "Bulan" },
-        { label: "Durasi Grace Period", value: "3" },
-        { label: "Total Pinjaman", value: "12.000.000,00" },
-        { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
-      ],
-    },
-    "12260002": {
-      ...billingBase,
+      skemaTagihan: "Tagihan Sesuai Jadwal Angsuran",
+      satuanGracePeriod: "Bulan",
+      durasiGracePeriod: "3",
+      totalPinjaman: "12.000.000,00",
+      sisaPokok: "10.000.000,00",
+    }),
+    "12260002": makeBillingInfo({
       nama: "gaby",
       alamat: "Jl. Galang",
-      produk: "Pinjaman Billing",
-      topItems: [
-        { label: "Produk", value: "Pinjaman Billing" },
-        { label: "Skema Tagihan", value: "Jadwal Fleksibel dan Tagihan Berkala" },
-        { label: "Satuan Grace Period", value: "Bulan" },
-        { label: "Durasi Grace Period", value: "3" },
-        { label: "Total Pinjaman", value: "12.000.000,00" },
-        { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
-      ],
-    },
-    "12260001": {
-      ...billingBase,
+      skemaTagihan: "Jadwal Fleksibel dan Tagihan Berkala",
+      satuanGracePeriod: "Bulan",
+      durasiGracePeriod: "3",
+      totalPinjaman: "12.000.000,00",
+      sisaPokok: "10.000.000,00",
+    }),
+    "12260001": makeBillingInfo({
       nama: "Rika Wastuti",
       alamat: "Jl. Kenanga No. 12",
-      produk: "Pinjaman Billing",
-      topItems: [
-        { label: "Produk", value: "Pinjaman Billing" },
-        { label: "Skema Tagihan", value: "Tagihan Dihitung dari Sisa Saldo Pokok" },
-        { label: "Satuan Grace Period", value: "Bulan" },
-        { label: "Durasi Grace Period", value: "3" },
-        { label: "Total Pinjaman", value: "12.000.000,00" },
-        { label: "Sisa Pokok Pinjaman", value: "10.000.000,00" },
-      ],
-    },
-    "072260001": {
-      ...billingBase,
+      skemaTagihan: "Tagihan Dihitung dari Sisa Saldo Pokok",
+      satuanGracePeriod: "Bulan",
+      durasiGracePeriod: "3",
+      totalPinjaman: "12.000.000,00",
+      sisaPokok: "10.000.000,00",
+    }),
+    "072260001": makeBillingInfo({
       nama: "Rika Wastuti",
       alamat: "Jl. Kenanga No. 12",
-      produk: "Pinjaman Billing",
-      topItems: [
-        { label: "Produk", value: "Pinjaman Billing" },
-        { label: "Skema Tagihan", value: "Tagihan Dihitung Dari Sisa Saldo Pokok" },
-        { label: "Satuan Grace Period", value: "Hari" },
-        { label: "Durasi Grace Period", value: "0" },
-        { label: "Total Pinjaman", value: "22.000.000,00" },
-        { label: "Sisa Pokok Pinjaman", value: "22.000.000,00" },
-      ],
-    },
+      skemaTagihan: "Tagihan Dihitung Dari Sisa Saldo Pokok",
+      satuanGracePeriod: "Hari",
+      durasiGracePeriod: "0",
+      totalPinjaman: "22.000.000,00",
+      sisaPokok: "22.000.000,00",
+    }),
     "210260001": {
       nama: "Jenan Aditama",
       alamat: "Denpasar",
       produk: "Pinjaman Bulanan",
       isBilling: false,
-      topItems: [{ label: "Produk", value: "Pinjaman Bulanan" }],
-      firstDividerItems: MONTHLY_FIRST_DIVIDER_ITEMS,
-      secondDividerItems: MONTHLY_SECOND_DIVIDER_ITEMS,
+      beforeFirstDividerItems: monthlyBeforeDividerItems,
+      afterFirstDividerItems: monthlyAfterDividerItems,
+      afterSecondDividerItems: [],
       showMonthlyInterestArrears: true,
       monthlyInterestArrearsDefault: "0,00",
       monthlySettlementItems: [
@@ -252,18 +258,15 @@ function Th({
   children,
   className,
   align = "left",
-  compact = false,
 }: {
   children: React.ReactNode;
   className?: string;
   align?: "left" | "right" | "center";
-  compact?: boolean;
 }) {
   return (
     <th
       className={cn(
         "border-b border-slate-300/70 px-4 py-3 text-[12px] font-extrabold uppercase tracking-wide text-[#64748B]",
-        compact ? "px-4 py-3" : "",
         align === "right"
           ? "text-right"
           : align === "center"
@@ -314,17 +317,12 @@ function InfoStack({
 }) {
   return (
     <div className="grid gap-1">
-      <div
-        className={cn(
-          "text-[12px] font-normal text-black",
-          strong ? "font-semibold" : "",
-        )}
-      >
+      <div className="text-[12px] font-normal leading-[18px] text-black">
         {label}
       </div>
       <div
         className={cn(
-          "break-words text-[14px] font-semibold leading-snug text-slate-900",
+          "break-words text-[14px] font-bold leading-snug text-slate-900",
           strong ? "font-extrabold" : "",
         )}
       >
@@ -404,6 +402,7 @@ function NasabahRow({
 
 function SelectedNasabahInfo({ accountNo }: { accountNo: string }) {
   const info = React.useMemo(() => getLoanInfoByAccountNo(accountNo), [accountNo]);
+
   if (!info) return null;
 
   return (
@@ -455,6 +454,7 @@ function SelectedPinjamanInfo({
 }) {
   const isEmptyInitialLayout = accountNo.trim().length === 0;
   const info = React.useMemo(() => getLoanInfoByAccountNo(accountNo), [accountNo]);
+
   const displayInfo =
     info ??
     ({
@@ -462,9 +462,9 @@ function SelectedPinjamanInfo({
       alamat: "",
       produk: "Pinjaman Bulanan",
       isBilling: false,
-      topItems: [{ label: "Produk", value: "Pinjaman Bulanan" }],
-      firstDividerItems: MONTHLY_FIRST_DIVIDER_ITEMS,
-      secondDividerItems: MONTHLY_SECOND_DIVIDER_ITEMS,
+      beforeFirstDividerItems: monthlyBeforeDividerItems,
+      afterFirstDividerItems: monthlyAfterDividerItems,
+      afterSecondDividerItems: [],
       showMonthlyInterestArrears: true,
       monthlyInterestArrearsDefault: "0,00",
       monthlySettlementItems: [
@@ -472,10 +472,6 @@ function SelectedPinjamanInfo({
         { label: "Nominal Pelunasan", value: "20.400.000,00" },
       ],
     } satisfies LoanInfo);
-
-  const visibleSecondDividerItems = displayInfo.isBilling
-    ? BILLING_SECOND_DIVIDER_ITEMS
-    : displayInfo.secondDividerItems;
 
   const [interestArrears, setInterestArrears] = React.useState("0,00");
 
@@ -493,23 +489,25 @@ function SelectedPinjamanInfo({
 
   return (
     <div className="bg-white">
-      <InfoGroup items={displayInfo.topItems} empty={isEmptyInitialLayout} />
+      <InfoGroup
+        items={displayInfo.beforeFirstDividerItems}
+        empty={isEmptyInitialLayout}
+      />
 
-      {displayInfo.firstDividerItems.length > 0 ? (
-        <>
-          {displayInfo.isBilling ? <BaseDivider /> : null}
-          <InfoGroup
-            items={displayInfo.firstDividerItems}
-            empty={isEmptyInitialLayout}
-          />
-        </>
+      <BaseDivider />
+
+      {displayInfo.afterFirstDividerItems.length > 0 ? (
+        <InfoGroup
+          items={displayInfo.afterFirstDividerItems}
+          empty={isEmptyInitialLayout}
+        />
       ) : null}
 
-      {visibleSecondDividerItems.length > 0 ? (
+      {displayInfo.afterSecondDividerItems.length > 0 ? (
         <>
           <BaseDivider />
           <InfoGroup
-            items={visibleSecondDividerItems}
+            items={displayInfo.afterSecondDividerItems}
             empty={isEmptyInitialLayout}
           />
         </>
@@ -1068,17 +1066,13 @@ function SummaryBlock({
 function InlineTableHeaderRow() {
   return (
     <tr className="bg-white">
-      <Th className="px-3" compact>
+      <Th className="px-3">
         <div className="text-left">NO</div>
       </Th>
-      <Th className="pl-3 pr-4" compact>
-        NASABAH
-      </Th>
-      <Th compact>PINJAMAN</Th>
-      <Th compact>TAGIHAN & TRANSAKSI</Th>
-      <Th align="center" compact>
-        AKSI
-      </Th>
+      <Th className="pl-3 pr-4">NASABAH</Th>
+      <Th>PINJAMAN</Th>
+      <Th>TAGIHAN & TRANSAKSI</Th>
+      <Th align="center">AKSI</Th>
     </tr>
   );
 }
@@ -1286,7 +1280,8 @@ export default function LoanInstallmentPaymentV2Table({
             const lockRowUi = !hasPicked;
             const isPinjamanBulanan = !hasPicked || accountNo === "210260001";
             const isReguler = row.paymentMethod === "Pembayaran Reguler";
-            const isBakiDebet = row.paymentMethod === "Pembayaran Penurunan Baki Debet";
+            const isBakiDebet =
+              row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
             const canOpenDaftarTagihan = hasPicked;
