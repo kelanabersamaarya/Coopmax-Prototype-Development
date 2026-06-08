@@ -134,12 +134,15 @@ export default function MBankingLoanDetailPage({
   const [showBillList, setShowBillList] = React.useState(false);
 
   const detail = React.useMemo(() => getLoanDetail(loan), [loan]);
+  const isSecondOrThirdLoan =
+    loan.accountNo === "12260006" || loan.accountNo === "072260001";
 
   if (showBillList) {
     return (
       <EKolektorBillListPage
         accountNo={loan.accountNo}
         showSpecialNextBillInfo={false}
+        singleBillWithNextInfo={isSecondOrThirdLoan}
         onBack={() => setShowBillList(false)}
       />
     );

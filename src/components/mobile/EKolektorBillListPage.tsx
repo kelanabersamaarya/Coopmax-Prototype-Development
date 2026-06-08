@@ -218,25 +218,28 @@ export default function EKolektorBillListPage({
   accountNo,
   onBack,
   showSpecialNextBillInfo = true,
+  singleBillWithNextInfo = false,
 }: {
   accountNo?: string;
   onBack: () => void;
   showSpecialNextBillInfo?: boolean;
+  singleBillWithNextInfo?: boolean;
 }) {
   const pageSize = 5;
   const [page, setPage] = React.useState(1);
 
-  const isSecondOrThirdAccount =
-    showSpecialNextBillInfo &&
-    (accountNo === "7260175" || accountNo === "SMG260004");
+  const shouldShowSingleBillWithNextInfo =
+    singleBillWithNextInfo ||
+    (showSpecialNextBillInfo &&
+      (accountNo === "7260175" || accountNo === "SMG260004"));
 
   const billsForAccount = React.useMemo(() => {
-    if (isSecondOrThirdAccount) {
+    if (shouldShowSingleBillWithNextInfo) {
       return billGroups.slice(0, 1);
     }
 
     return billGroups;
-  }, [isSecondOrThirdAccount]);
+  }, [shouldShowSingleBillWithNextInfo]);
 
   const pageCount = Math.max(1, Math.ceil(billsForAccount.length / pageSize));
 
@@ -279,7 +282,7 @@ export default function EKolektorBillListPage({
         <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-[#F2F2F2] px-6 pb-8 pt-7">
           {gracePeriodBills.length > 0 ? (
             <>
-              {isSecondOrThirdAccount ? <EKolektorNextBillInfoCard /> : null}
+              {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
 
               <div className="rounded-[28px] border-2 border-[#004FC7] p-3">
                 <EKolektorGracePeriodInfoCard />
