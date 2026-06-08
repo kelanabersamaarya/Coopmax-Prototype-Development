@@ -4,7 +4,6 @@ import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
-import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
 import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
 import MBankingLoanTransactionHistory from "@/components/mobile/MBankingLoanTransactionHistory";
 import MBankingStickyActionButton from "@/components/mobile/MBankingStickyActionButton";
@@ -102,8 +101,6 @@ export default function MBankingLoanDetailPage({
           <div className="mt-6 h-px w-full bg-[#E8E8E8]" />
 
           <MBankingLoanInstallmentSummary />
-
-          <MBankingLoanAmountInfo />
 
           <MBankingTransactionDateRange />
 
