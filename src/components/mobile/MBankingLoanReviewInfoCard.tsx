@@ -55,17 +55,17 @@ function buildPaymentHistory(account: string): MBankingTransactionHistoryEntry {
     title: "Angsuran Pinjaman",
     accountNo: "SMG260004",
     savingsAccount: account || "SK01260002 - arya",
-    amount: "+Rp.408.333,33",
-    date: "08 Jun 2026",
+    amount: "Rp. 408,333.33",
+    date: "8 Juni 2026",
     time: "10:34",
-    installmentLabel: "Ke-1",
+    installmentLabel: "Angsuran Ke-1",
     status: "Berhasil",
-    principal: "Rp.208,333.33",
-    interest: "Rp.200,000.00",
+    principal: "Rp. 208,333.33",
+    interest: "Rp. 200,000.00",
     principalDebt: "Rp. 0.00",
     interestDebt: "Rp. 0.00",
     penalty: "Rp. 0.00",
-    remainingLoan: "Rp. 9,583,333.34",
+    remainingLoan: "Rp. 9,791,666.67",
   };
 }
 
