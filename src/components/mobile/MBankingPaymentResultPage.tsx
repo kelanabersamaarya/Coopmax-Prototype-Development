@@ -44,27 +44,27 @@ export default function MBankingPaymentResultPage({
           <ArrowLeft className="h-[30px] w-[30px]" strokeWidth={2.4} />
         </button>
 
-        <section className="mt-6 overflow-hidden rounded-[26px] bg-white px-6 pb-9 pt-8 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+        <section className="mt-6 overflow-hidden rounded-[26px] bg-white px-6 pb-9 pt-7 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
           <div className="flex flex-col items-center text-center">
-            <div className="flex h-[104px] w-[104px] items-center justify-center rounded-full bg-[#EAF8FC]">
-              <Check className="h-[58px] w-[58px] text-[#45B9DE]" strokeWidth={3.4} />
+            <div className="flex h-[82px] w-[82px] items-center justify-center rounded-full bg-[#EAF8FC]">
+              <Check className="h-[42px] w-[42px] text-[#45B9DE]" strokeWidth={3.4} />
             </div>
 
-            <div className="mt-8 text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
+            <div className="mt-5 text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
               Sukses
             </div>
           </div>
 
-          <div className="mt-8 rounded-[26px] bg-[#F1F1F1] px-4 py-8 text-center">
+          <div className="mt-6 rounded-[26px] bg-[#F1F1F1] px-4 py-7 text-center">
             <div className="text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
               Pembayaran Berhasil
             </div>
 
-            <div className="mt-8 text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
+            <div className="mt-6 text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
               Rp.408,333.33
             </div>
 
-            <div className="mt-2 text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+            <div className="mt-1.5 text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
               Total Angsuran
             </div>
           </div>
