@@ -14,10 +14,10 @@ function InfoPair({
 }) {
   return (
     <div className={align === "right" ? "text-right" : "text-left"}>
-      <div className="text-[20px] font-normal leading-tight tracking-tight text-[#8F8F8F]">
+      <div className="text-[14px] font-normal leading-tight tracking-tight text-[#8F8F8F]">
         {label}
       </div>
-      <div className="mt-1 text-[22px] font-normal leading-tight tracking-tight text-black">
+      <div className="mt-1 text-[14px] font-normal leading-tight tracking-tight text-black">
         {value}
       </div>
     </div>
@@ -46,10 +46,10 @@ export default function MBankingPaymentResultPage({
 
         <section className="mt-10 overflow-hidden rounded-[26px] bg-white px-6 pb-9 pt-8 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
           <div className="rounded-b-[26px] rounded-t-[3px] bg-[#F1F1F1] px-4 py-5 text-center">
-            <div className="text-[27px] font-extrabold leading-none tracking-tight text-[#203064]">
+            <div className="text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
               Rp.408,333.33
             </div>
-            <div className="mt-2 text-[20px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+            <div className="mt-2 text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
               Total Angsuran
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function MBankingPaymentResultPage({
           <button
             type="button"
             onClick={onBack}
-            className="mt-10 h-[48px] w-full rounded-full bg-[#0A4BD8] text-[20px] font-normal text-white shadow-[0_5px_14px_rgba(10,75,216,0.22)] transition hover:bg-[#0844C3] active:translate-y-px"
+            className="mt-10 h-[48px] w-full rounded-full bg-[#0A4BD8] text-[14px] font-normal text-white transition hover:bg-[#0844C3] active:translate-y-px"
           >
             Oke
           </button>
