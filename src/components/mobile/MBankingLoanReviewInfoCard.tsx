@@ -1,8 +1,10 @@
 "use client";
 
+import * as React from "react";
 import { ChevronDown, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import MBankingAccountPickerSheet from "@/components/mobile/MBankingAccountPickerSheet";
 
 const summaryRows = [
   {
@@ -45,77 +47,104 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 }
 
 export default function MBankingLoanReviewInfoCard() {
+  const [pickerOpen, setPickerOpen] = React.useState(false);
+  const [selectedAccount, setSelectedAccount] = React.useState("");
+
+  const hasSelectedAccount = selectedAccount.trim().length > 0;
+
   return (
-    <section className="mt-8 overflow-hidden rounded-[26px] bg-white px-6 pb-7 pt-8 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
-      <div className="flex items-center justify-between gap-4">
-        <div className="text-[14px] font-normal leading-none tracking-tight text-black">
-          Angsuran Pinjaman
+    <>
+      <MBankingAccountPickerSheet
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        onSelect={setSelectedAccount}
+      />
+
+      <section className="mt-8 overflow-hidden rounded-[26px] bg-white px-6 pb-7 pt-8 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+        <div className="flex items-center justify-between gap-4">
+          <div className="text-[14px] font-normal leading-none tracking-tight text-black">
+            Angsuran Pinjaman
+          </div>
+          <div className="text-[14px] font-normal leading-none tracking-tight text-black">
+            Ke-1
+          </div>
         </div>
-        <div className="text-[14px] font-normal leading-none tracking-tight text-black">
-          Ke-1
+
+        <div className="mt-6 h-px w-full bg-[#E7E7E7]" />
+
+        <div className="mt-6 grid gap-4">
+          {summaryRows.map((row) => (
+            <SummaryRow key={row.label} label={row.label} value={row.value} />
+          ))}
         </div>
-      </div>
 
-      <div className="mt-6 h-px w-full bg-[#E7E7E7]" />
+        <div className="mt-6 h-px w-full bg-[#E7E7E7]" />
 
-      <div className="mt-6 grid gap-4">
-        {summaryRows.map((row) => (
-          <SummaryRow key={row.label} label={row.label} value={row.value} />
-        ))}
-      </div>
+        <div className="mt-6">
+          <div className="text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+            No Rekening
+          </div>
 
-      <div className="mt-6 h-px w-full bg-[#E7E7E7]" />
+          <button
+            type="button"
+            onClick={() => setPickerOpen(true)}
+            className={cn(
+              "mt-3 flex h-[40px] w-full items-center justify-between gap-3 rounded-[13px]",
+              "bg-[#F1F1F1] px-4 text-left transition active:scale-[0.99]",
+            )}
+            aria-label="Pilih nomor rekening"
+            title="Pilih nomor rekening"
+          >
+            <span
+              className={cn(
+                "min-w-0 flex-1 truncate text-[14px] font-normal leading-none tracking-tight",
+                hasSelectedAccount ? "text-[#273B74]" : "text-[#8F8F8F]",
+              )}
+            >
+              {hasSelectedAccount ? selectedAccount : "Pilih Rekening"}
+            </span>
 
-      <div className="mt-6">
-        <div className="text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
-          No Rekening
+            {hasSelectedAccount ? (
+              <span
+                role="button"
+                tabIndex={-1}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  setSelectedAccount("");
+                }}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]"
+                aria-label="Hapus rekening"
+                title="Hapus rekening"
+              >
+                <X className="h-[22px] w-[22px]" strokeWidth={2.4} />
+              </span>
+            ) : null}
+
+            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
+              <ChevronDown className="h-[20px] w-[20px]" strokeWidth={2.8} />
+            </span>
+          </button>
         </div>
 
         <button
           type="button"
           onClick={() =>
-            toast("No Rekening (prototype)", {
-              description: "Pilihan rekening belum dihubungkan.",
+            toast.success("Pembayaran berhasil (prototype)", {
+              description: "Angsuran pinjaman berhasil diproses.",
             })
           }
           className={cn(
-            "mt-3 flex h-[40px] w-full items-center justify-between gap-3 rounded-[13px]",
-            "bg-[#F1F1F1] px-4 text-left transition active:scale-[0.99]",
+            "mt-7 h-[40px] w-full rounded-full",
+            "bg-[#0A4BD8] text-[14px] font-normal text-white",
+            "shadow-[0_5px_14px_rgba(10,75,216,0.22)]",
+            "transition hover:bg-[#0844C3] active:translate-y-px",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#0A4BD8]/25",
           )}
-          aria-label="Pilih nomor rekening"
-          title="Pilih nomor rekening"
         >
-          <span className="min-w-0 flex-1 truncate text-[14px] font-normal leading-none tracking-tight text-[#8F8F8F]">
-            Pilih Rekening
-          </span>
-
-          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
-            <X className="h-[22px] w-[22px]" strokeWidth={2.4} />
-          </span>
-
-          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#8D8D8D]">
-            <ChevronDown className="h-[20px] w-[20px]" strokeWidth={2.8} />
-          </span>
+          Bayar
         </button>
-      </div>
-
-      <button
-        type="button"
-        onClick={() =>
-          toast.success("Pembayaran berhasil (prototype)", {
-            description: "Angsuran pinjaman berhasil diproses.",
-          })
-        }
-        className={cn(
-          "mt-7 h-[40px] w-full rounded-full",
-          "bg-[#0A4BD8] text-[14px] font-normal text-white",
-          "shadow-[0_5px_14px_rgba(10,75,216,0.22)]",
-          "transition hover:bg-[#0844C3] active:translate-y-px",
-          "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#0A4BD8]/25",
-        )}
-      >
-        Bayar
-      </button>
-    </section>
+      </section>
+    </>
   );
 }
