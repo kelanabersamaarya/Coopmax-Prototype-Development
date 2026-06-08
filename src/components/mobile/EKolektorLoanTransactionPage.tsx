@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { Eye } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
 import EKolektorInstallmentDetailSection from "@/components/mobile/EKolektorInstallmentDetailSection";
 import EKolektorInstallmentHistoryPage from "@/components/mobile/EKolektorInstallmentHistoryPage";
 import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTransactionForm";
@@ -45,6 +45,11 @@ export default function EKolektorLoanTransactionPage({
 }) {
   const [showSubmitPage, setShowSubmitPage] = React.useState(false);
   const [showInstallmentHistory, setShowInstallmentHistory] = React.useState(false);
+  const [showBillList, setShowBillList] = React.useState(false);
+
+  if (showBillList) {
+    return <EKolektorBillListPage onBack={() => setShowBillList(false)} />;
+  }
 
   if (showInstallmentHistory) {
     return (
@@ -116,11 +121,7 @@ export default function EKolektorLoanTransactionPage({
           <div className="mt-[18px] grid grid-cols-2 gap-[12px]">
             <button
               type="button"
-              onClick={() =>
-                toast("Lihat Tagihan (prototype)", {
-                  description: "Daftar tagihan belum dibuat di mockup mobile.",
-                })
-              }
+              onClick={() => setShowBillList(true)}
               className={cn(
                 "inline-flex h-[41px] items-center justify-center gap-2 rounded-[9px]",
                 "bg-[#004FC7] px-3 text-[12px] font-semibold text-white",
