@@ -17,7 +17,7 @@ function InfoPair({
       <div className="text-[14px] font-normal leading-tight tracking-tight text-[#8F8F8F]">
         {label}
       </div>
-      <div className="mt-1 text-[14px] font-normal leading-tight tracking-tight text-black">
+      <div className="mt-0.5 text-[14px] font-normal leading-tight tracking-tight text-black">
         {value}
       </div>
     </div>
@@ -69,11 +69,11 @@ export default function MBankingPaymentResultPage({
             </div>
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-8">
+          <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-5">
             <InfoPair label="No. Pinjaman" value="9.260.002" />
             <InfoPair label="Angsuran" value="Ke-1" align="right" />
 
-            <InfoPair label="No. Simpanan" value={account || "SK01260002"} />
+            <InfoPair label="No. Simpanan" value={account || "SK01260002 - arya"} />
             <InfoPair label="Status" value="Berhasil" align="right" />
 
             <InfoPair label="Pokok" value="Rp.208,333.33" />
@@ -86,7 +86,7 @@ export default function MBankingPaymentResultPage({
           <button
             type="button"
             onClick={onBack}
-            className="mt-10 h-[48px] w-full rounded-full bg-[#0A4BD8] text-[14px] font-normal text-white transition hover:bg-[#0844C3] active:translate-y-px"
+            className="mt-8 h-[48px] w-full rounded-full bg-[#0A4BD8] text-[14px] font-normal text-white transition hover:bg-[#0844C3] active:translate-y-px"
           >
             Oke
           </button>
