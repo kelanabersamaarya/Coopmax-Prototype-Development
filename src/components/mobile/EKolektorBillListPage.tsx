@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeriodInfoCard";
@@ -293,28 +293,28 @@ export default function EKolektorBillListPage({
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <header className="relative h-[116px] overflow-hidden bg-[#004FC7] px-6 pt-[42px] text-white">
+        <header className="relative h-[136px] overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
           <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
           <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
 
-          <div className="relative z-10 flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <h1 className="text-[25px] font-extrabold leading-none tracking-tight text-white">
-                Daftar Tagihan
-              </h1>
-            </div>
-
+          <div className="relative z-10">
             <button
               type="button"
               onClick={onBack}
-              className="shrink-0 rounded-full px-1 text-[14px] font-semibold leading-none text-[#BFD3F5] transition active:scale-[0.98]"
+              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition active:scale-[0.98]"
+              aria-label="Kembali"
+              title="Kembali"
             >
-              Batal
+              <ArrowLeft className="h-[28px] w-[28px]" strokeWidth={2.7} />
             </button>
+
+            <h1 className="mt-4 text-[25px] font-extrabold leading-none tracking-tight text-white">
+              Daftar Tagihan
+            </h1>
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[30px] min-h-[calc(100%-86px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
+        <main className="relative z-10 -mt-[30px] min-h-[calc(100%-106px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
           <EKolektorGracePeriodInfoCard />
 
           <div className="grid gap-4">
