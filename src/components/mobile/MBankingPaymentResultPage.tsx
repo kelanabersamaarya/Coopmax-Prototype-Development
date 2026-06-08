@@ -50,7 +50,7 @@ export default function MBankingPaymentResultPage({
               <Check className="h-[42px] w-[42px] text-[#45B9DE]" strokeWidth={3.4} />
             </div>
 
-            <div className="mt-5 text-[14px] font-extrabold leading-none tracking-tight text-[#203064]">
+            <div className="mt-5 text-[20px] font-extrabold leading-none tracking-tight text-[#203064]">
               Sukses
             </div>
           </div>
