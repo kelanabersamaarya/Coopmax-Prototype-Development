@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { ArrowLeft } from "lucide-react";
+import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
@@ -21,16 +22,8 @@ const loanInfoItems = [
     value: "Pinjaman Billing",
   },
   {
-    label: "Skema Tagihan",
-    value: "Tagihan Sesuai Jadwal Angsuran",
-  },
-  {
-    label: "Satuan Grace Period",
-    value: "Bulan",
-  },
-  {
-    label: "Durasi Grace Period",
-    value: "3",
+    label: "Grace Period",
+    value: "3 Bulan",
   },
   {
     label: "Tanggal Pencairan",
@@ -135,6 +128,18 @@ export default function MBankingLoanDetailPage({
           </h2>
 
           <MBankingLoanInstallmentSummary />
+
+          <button
+            type="button"
+            onClick={() =>
+              toast("Lihat Tagihan (prototype)", {
+                description: "Daftar tagihan belum dihubungkan di prototype M-Banking.",
+              })
+            }
+            className="mt-4 h-[41px] w-full rounded-[9px] bg-[#004FC7] text-[12px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px"
+          >
+            Lihat Tagihan
+          </button>
 
           <MBankingLoanTransactionHistory transactions={transactions} />
         </main>
