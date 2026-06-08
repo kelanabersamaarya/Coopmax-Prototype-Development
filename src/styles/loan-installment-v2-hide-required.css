@@ -1,0 +1,8 @@
+/* Sembunyikan tanda required (*) pada form pembayaran di kolom Tagihan & Transaksi */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  span.text-rose-600 {
+  display: none !important;
+}
