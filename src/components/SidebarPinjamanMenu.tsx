@@ -16,6 +16,7 @@ const items: SubItem[] = [
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
   { label: "Transaksi Pinjaman", to: "/loans/transactions" },
   { label: "Produk Pinjaman", to: "/loan-products" },
+  { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
 ];
 
 export default function SidebarPinjamanMenu() {
