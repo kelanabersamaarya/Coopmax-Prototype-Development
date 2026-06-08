@@ -60,7 +60,21 @@ export default function MBankingPaymentResultPage({
 
             <InfoPair label="No. Simpanan" value={account || "SK01260002"} />
             <InfoPair label="Status" value="Berhasil" align="right" />
+
+            <InfoPair label="Pokok" value="Rp.208,333.33" />
+            <InfoPair label="Bunga" value="Rp.200,000.00" align="right" />
+
+            <InfoPair label="Hutang Bunga" value="Rp.0" />
+            <InfoPair label="Denda" value="Rp.0" align="right" />
           </div>
+
+          <button
+            type="button"
+            onClick={onBack}
+            className="mt-10 h-[48px] w-full rounded-full bg-[#0A4BD8] text-[20px] font-normal text-white shadow-[0_5px_14px_rgba(10,75,216,0.22)] transition hover:bg-[#0844C3] active:translate-y-px"
+          >
+            Oke
+          </button>
         </section>
       </main>
 
