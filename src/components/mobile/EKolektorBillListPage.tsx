@@ -228,6 +228,9 @@ export default function EKolektorBillListPage({
     return billGroups.slice(start, start + pageSize);
   }, [page]);
 
+  const gracePeriodBills = page === 1 ? pagedBillGroups.slice(0, 3) : [];
+  const regularBills = page === 1 ? pagedBillGroups.slice(3) : pagedBillGroups;
+
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -253,13 +256,25 @@ export default function EKolektorBillListPage({
         </header>
 
         <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-[#F2F2F2] px-6 pb-8 pt-7">
-          <EKolektorGracePeriodInfoCard />
+          {gracePeriodBills.length > 0 ? (
+            <div className="rounded-[28px] border-2 border-[#004FC7] p-3">
+              <EKolektorGracePeriodInfoCard />
 
-          <div className="grid gap-4">
-            {pagedBillGroups.map((bill) => (
-              <BillCard key={bill.jatuhTempo} bill={bill} />
-            ))}
-          </div>
+              <div className="grid gap-4">
+                {gracePeriodBills.map((bill) => (
+                  <BillCard key={bill.jatuhTempo} bill={bill} />
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {regularBills.length > 0 ? (
+            <div className={cn("grid gap-4", gracePeriodBills.length > 0 ? "mt-4" : "")}>
+              {regularBills.map((bill) => (
+                <BillCard key={bill.jatuhTempo} bill={bill} />
+              ))}
+            </div>
+          ) : null}
         </main>
       </div>
 
