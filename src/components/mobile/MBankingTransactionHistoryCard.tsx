@@ -6,21 +6,17 @@ function AmountBlock({
   label,
   value,
   align = "left",
-  valueClassName = "",
 }: {
   label: string;
   value: string;
   align?: "left" | "right";
-  valueClassName?: string;
 }) {
   return (
     <div className={align === "right" ? "text-right" : "text-left"}>
-      <div className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
+      <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
         {label}
       </div>
-      <div
-        className={`mt-[9px] text-[18px] font-extrabold leading-tight tracking-tight text-black ${valueClassName}`}
-      >
+      <div className="mt-[9px] text-[14px] font-extrabold leading-tight tracking-tight text-black">
         {value}
       </div>
     </div>
@@ -39,7 +35,6 @@ export default function MBankingTransactionHistoryCard({
           <AmountBlock
             label="Total Bayar"
             value={transaction.amount.replace(/^\+/, "")}
-            valueClassName="text-[19px]"
           />
 
           <div className="mt-[18px] grid gap-[18px]">
@@ -50,10 +45,10 @@ export default function MBankingTransactionHistoryCard({
         </div>
 
         <div className="min-w-0 text-right">
-          <div className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
+          <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
             {transaction.installmentLabel}
           </div>
-          <div className="mt-[10px] text-[17px] font-normal leading-tight tracking-tight text-[#9A9A9A]">
+          <div className="mt-[10px] text-[14px] font-normal leading-tight tracking-tight text-[#9A9A9A]">
             {transaction.date}
           </div>
 
