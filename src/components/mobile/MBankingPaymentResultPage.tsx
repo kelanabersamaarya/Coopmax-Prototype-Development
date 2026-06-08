@@ -1,8 +1,28 @@
 "use client";
 
-import { ArrowLeft, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+
+function InfoPair({
+  label,
+  value,
+  align = "left",
+}: {
+  label: string;
+  value: string;
+  align?: "left" | "right";
+}) {
+  return (
+    <div className={align === "right" ? "text-right" : "text-left"}>
+      <div className="text-[20px] font-normal leading-tight tracking-tight text-[#8F8F8F]">
+        {label}
+      </div>
+      <div className="mt-1 text-[22px] font-normal leading-tight tracking-tight text-black">
+        {value}
+      </div>
+    </div>
+  );
+}
 
 export default function MBankingPaymentResultPage({
   account,
@@ -24,54 +44,24 @@ export default function MBankingPaymentResultPage({
           <ArrowLeft className="h-[30px] w-[30px]" strokeWidth={2.4} />
         </button>
 
-        <div className="mt-10 overflow-hidden rounded-[26px] bg-white px-6 pb-7 pt-8 text-center shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
-          <div className="flex justify-center">
-            <div className="flex h-[94px] w-[94px] items-center justify-center rounded-full bg-[#EAF7F1]">
-              <Check className="h-[54px] w-[54px] text-[#34B27C]" strokeWidth={3.2} />
+        <section className="mt-10 overflow-hidden rounded-[26px] bg-white px-6 pb-9 pt-8 shadow-[0_12px_34px_rgba(15,23,42,0.18)]">
+          <div className="rounded-b-[26px] rounded-t-[3px] bg-[#F1F1F1] px-4 py-5 text-center">
+            <div className="text-[27px] font-extrabold leading-none tracking-tight text-[#203064]">
+              Rp.408,333.33
+            </div>
+            <div className="mt-2 text-[20px] font-normal leading-none tracking-tight text-[#8F8F8F]">
+              Total Angsuran
             </div>
           </div>
 
-          <h1 className="mt-7 text-[24px] font-extrabold leading-tight tracking-tight text-[#203064]">
-            Pembayaran Berhasil
-          </h1>
+          <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-8">
+            <InfoPair label="No. Pinjaman" value="9.260.002" />
+            <InfoPair label="Angsuran" value="Ke-1" align="right" />
 
-          <p className="mt-3 text-[14px] font-normal leading-relaxed text-[#8F8F8F]">
-            Angsuran pinjaman berhasil diproses untuk rekening:
-          </p>
-
-          <div className="mt-5 w-full rounded-[18px] bg-[#F1F1F1] px-4 py-4 text-center">
-            <div className="text-[16px] font-semibold leading-tight tracking-tight text-[#203064]">
-              {account}
-            </div>
+            <InfoPair label="No. Simpanan" value={account || "SK01260002"} />
+            <InfoPair label="Status" value="Berhasil" align="right" />
           </div>
-
-          <div className="mt-7 w-full rounded-[18px] bg-white p-5 text-left shadow-[0_5px_18px_rgba(15,23,42,0.10)] ring-1 ring-slate-100">
-            <div className="grid gap-4">
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-[14px] font-normal text-black">
-                  Jenis Transaksi
-                </span>
-                <span className="text-right text-[14px] font-normal text-black">
-                  Angsuran Pinjaman
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-[14px] font-normal text-black">Total Bayar</span>
-                <span className="text-right text-[14px] font-normal text-black">
-                  Rp.408.333,33
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-[14px] font-normal text-black">Status</span>
-                <span className="text-right text-[14px] font-semibold text-[#34B27C]">
-                  Berhasil
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
       </main>
 
       <EKolektorAndroidNavBar onBack={onBack} />
