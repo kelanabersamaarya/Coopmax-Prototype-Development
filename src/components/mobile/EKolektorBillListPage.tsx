@@ -293,7 +293,7 @@ export default function EKolektorBillListPage({
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <header className="relative h-[136px] overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
+        <header className="relative h-[154px] overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
           <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
           <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
 
@@ -314,7 +314,7 @@ export default function EKolektorBillListPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[30px] min-h-[calc(100%-106px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
+        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
           <EKolektorGracePeriodInfoCard />
 
           <div className="grid gap-4">
