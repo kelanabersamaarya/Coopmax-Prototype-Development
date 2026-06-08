@@ -11,7 +11,7 @@ import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-t
 const loanInfoItems = [
   {
     title: "No. Rekening",
-    subtitle: "SMG260004",
+    subtitle: "SMG260004 - KORMANI",
   },
   {
     title: "Sisa Pinjaman",
