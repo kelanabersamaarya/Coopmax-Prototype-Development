@@ -17,6 +17,7 @@ export default function EKolektorLoanTransactionForm() {
   const [jenisTransaksi, setJenisTransaksi] = React.useState("Angsuran Pinjaman");
   const [tanggalEfektifBayar, setTanggalEfektifBayar] = React.useState("");
   const [nominalTransaksi, setNominalTransaksi] = React.useState("");
+  const [nominalDenda, setNominalDenda] = React.useState("");
 
   const todayPlaceholder = React.useMemo(() => getTodayDmy(), []);
 
@@ -62,7 +63,7 @@ export default function EKolektorLoanTransactionForm() {
       </div>
 
       <div className="grid w-full gap-2">
-        <label className={labelClassName}>Nominal Pembayaran</label>
+        <label className={labelClassName}>Nominal Transaksi</label>
         <div className="relative">
           <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[18px] font-normal text-[#23305A]">
             Rp.
@@ -70,6 +71,25 @@ export default function EKolektorLoanTransactionForm() {
           <input
             value={nominalTransaksi}
             onChange={(event) => setNominalTransaksi(event.target.value)}
+            className={cn(
+              inputClassName,
+              "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[18px] placeholder:text-[#23305A]",
+            )}
+            placeholder="0"
+            inputMode="numeric"
+          />
+        </div>
+      </div>
+
+      <div className="grid w-full gap-2">
+        <label className={labelClassName}>Nominal Denda</label>
+        <div className="relative">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[18px] font-normal text-[#23305A]">
+            Rp.
+          </span>
+          <input
+            value={nominalDenda}
+            onChange={(event) => setNominalDenda(event.target.value)}
             className={cn(
               inputClassName,
               "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[18px] placeholder:text-[#23305A]",
