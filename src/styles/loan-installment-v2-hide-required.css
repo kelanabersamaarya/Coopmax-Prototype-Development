@@ -32,3 +32,54 @@ table.w-full.table-fixed.border-collapse.bg-white
   > div.grid.gap-1\.5 {
   grid-template-columns: minmax(0, 1fr) minmax(215px, 260px) !important;
 }
+
+/* Dropdown di halaman transaksi pembayaran pinjaman: hilangkan centang dan gunakan hover biru */
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-select-item-indicator],
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-slot="select-item-indicator"],
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  span.absolute.left-2,
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  span.absolute.right-2 {
+  display: none !important;
+}
+
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-collection-item] {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-collection-item][data-highlighted],
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-collection-item]:hover,
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-collection-item][data-state="checked"] {
+  background-color: #1967D2 !important;
+  color: #ffffff !important;
+}
+
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-collection-item][data-highlighted]
+  *,
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-collection-item]:hover
+  *,
+body:has(table.w-full.table-fixed.border-collapse.bg-white)
+  [data-radix-select-content]
+  [data-radix-collection-item][data-state="checked"]
+  * {
+  color: #ffffff !important;
+}
