@@ -11,10 +11,10 @@ function AmountRow({
 }) {
   return (
     <div className={align === "right" ? "text-right" : "text-left"}>
-      <div className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
+      <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
         {label}
       </div>
-      <div className="mt-[6px] text-[18px] font-extrabold leading-tight tracking-tight text-black">
+      <div className="mt-[6px] text-[14px] font-extrabold leading-tight tracking-tight text-black">
         {value}
       </div>
     </div>
@@ -27,10 +27,10 @@ export default function MBankingLoanInstallmentSummary() {
       <div className="rounded-[24px] bg-white px-7 py-6 shadow-[0_4px_14px_rgba(15,23,42,0.20)] ring-1 ring-slate-100">
         <div className="grid grid-cols-2 gap-5">
           <div className="min-w-0">
-            <div className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
+            <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
               Total Bayar
             </div>
-            <div className="mt-[8px] text-[21px] font-extrabold leading-tight tracking-tight text-black">
+            <div className="mt-[8px] text-[14px] font-extrabold leading-tight tracking-tight text-black">
               Rp. 408.333,33
             </div>
 
@@ -42,10 +42,10 @@ export default function MBankingLoanInstallmentSummary() {
           </div>
 
           <div className="min-w-0 text-right">
-            <div className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
+            <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
               Angsuran Ke-1
             </div>
-            <div className="mt-[8px] text-[18px] font-extrabold leading-tight tracking-tight text-[#EF3E4A]">
+            <div className="mt-[8px] text-[14px] font-extrabold leading-tight tracking-tight text-[#EF3E4A]">
               Belum Dibayar
             </div>
 
