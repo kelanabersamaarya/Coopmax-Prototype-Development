@@ -1,6 +1,7 @@
 "use client";
 
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeriodInfoCard";
 
 const billItems = [
   {
@@ -68,6 +69,8 @@ export default function EKolektorBillListPage({
         </header>
 
         <main className="relative z-10 -mt-[30px] min-h-[calc(100%-86px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
+          <EKolektorGracePeriodInfoCard />
+
           <div className="rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[8px]">
             {billItems.map((item) => (
               <BillInfoRow
