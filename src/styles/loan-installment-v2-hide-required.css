@@ -33,82 +33,73 @@ table.w-full.table-fixed.border-collapse.bg-white
   grid-template-columns: minmax(0, 1fr) minmax(215px, 260px) !important;
 }
 
-/* Dropdown di halaman transaksi pembayaran pinjaman: hilangkan centang */
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [data-radix-select-item-indicator],
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [data-slot="select-item-indicator"],
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  span.absolute.left-2,
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  span.absolute.right-2,
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"]
-  > span:first-child,
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"]
-  svg {
+/* Dropdown Radix: hilangkan icon centang/check indicator */
+[data-radix-popper-content-wrapper] [role="option"] [data-radix-select-item-indicator],
+[data-radix-popper-content-wrapper] [role="option"] [data-slot="select-item-indicator"],
+[data-radix-popper-content-wrapper] [role="option"] > span.absolute.left-2,
+[data-radix-popper-content-wrapper] [role="option"] > span.absolute.right-2,
+[data-radix-popper-content-wrapper] [role="option"] svg,
+[data-radix-select-content] [role="option"] [data-radix-select-item-indicator],
+[data-radix-select-content] [role="option"] [data-slot="select-item-indicator"],
+[data-radix-select-content] [role="option"] > span.absolute.left-2,
+[data-radix-select-content] [role="option"] > span.absolute.right-2,
+[data-radix-select-content] [role="option"] svg,
+[data-slot="select-content"] [role="option"] [data-radix-select-item-indicator],
+[data-slot="select-content"] [role="option"] [data-slot="select-item-indicator"],
+[data-slot="select-content"] [role="option"] > span.absolute.left-2,
+[data-slot="select-content"] [role="option"] > span.absolute.right-2,
+[data-slot="select-content"] [role="option"] svg {
   display: none !important;
 }
 
-/* Dropdown di halaman transaksi pembayaran pinjaman: rapikan padding setelah centang dihapus */
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"],
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [data-slot="select-item"] {
+/* Dropdown Radix: rapikan padding item setelah icon centang dihilangkan */
+[data-radix-popper-content-wrapper] [role="option"],
+[data-radix-select-content] [role="option"],
+[data-slot="select-content"] [role="option"],
+[data-radix-popper-content-wrapper] [data-radix-collection-item],
+[data-radix-select-content] [data-radix-collection-item],
+[data-slot="select-content"] [data-radix-collection-item] {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
 
-/* Dropdown di halaman transaksi pembayaran pinjaman: selected default tetap putih */
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"][data-state="checked"]:not([data-highlighted]) {
+/* Dropdown Radix: item terpilih tetap putih saat tidak di-hover */
+[data-radix-popper-content-wrapper] [role="option"][data-state="checked"]:not([data-highlighted]),
+[data-radix-select-content] [role="option"][data-state="checked"]:not([data-highlighted]),
+[data-slot="select-content"] [role="option"][data-state="checked"]:not([data-highlighted]) {
   background-color: #ffffff !important;
   color: #0f172a !important;
 }
 
-/* Dropdown di halaman transaksi pembayaran pinjaman: hover/highlight biru */
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"][data-highlighted],
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"]:hover,
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [data-slot="select-item"][data-highlighted],
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [data-slot="select-item"]:hover {
+/* Dropdown Radix: hover/highlight menggunakan #1967D2 */
+[data-radix-popper-content-wrapper] [role="option"][data-highlighted],
+[data-radix-popper-content-wrapper] [role="option"]:hover,
+[data-radix-popper-content-wrapper] [data-radix-collection-item][data-highlighted],
+[data-radix-popper-content-wrapper] [data-radix-collection-item]:hover,
+[data-radix-select-content] [role="option"][data-highlighted],
+[data-radix-select-content] [role="option"]:hover,
+[data-radix-select-content] [data-radix-collection-item][data-highlighted],
+[data-radix-select-content] [data-radix-collection-item]:hover,
+[data-slot="select-content"] [role="option"][data-highlighted],
+[data-slot="select-content"] [role="option"]:hover,
+[data-slot="select-content"] [data-radix-collection-item][data-highlighted],
+[data-slot="select-content"] [data-radix-collection-item]:hover {
   background-color: #1967D2 !important;
   color: #ffffff !important;
 }
 
-/* Pastikan teks di dalam item ikut putih saat hover/highlight */
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"][data-highlighted]
-  *,
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [role="option"]:hover
-  *,
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [data-slot="select-item"][data-highlighted]
-  *,
-body:has(table.w-full.table-fixed.border-collapse.bg-white)
-  [data-radix-select-content]
-  [data-slot="select-item"]:hover
-  * {
+/* Dropdown Radix: pastikan teks ikut putih saat hover/highlight */
+[data-radix-popper-content-wrapper] [role="option"][data-highlighted] *,
+[data-radix-popper-content-wrapper] [role="option"]:hover *,
+[data-radix-popper-content-wrapper] [data-radix-collection-item][data-highlighted] *,
+[data-radix-popper-content-wrapper] [data-radix-collection-item]:hover *,
+[data-radix-select-content] [role="option"][data-highlighted] *,
+[data-radix-select-content] [role="option"]:hover *,
+[data-radix-select-content] [data-radix-collection-item][data-highlighted] *,
+[data-radix-select-content] [data-radix-collection-item]:hover *,
+[data-slot="select-content"] [role="option"][data-highlighted] *,
+[data-slot="select-content"] [role="option"]:hover *,
+[data-slot="select-content"] [data-radix-collection-item][data-highlighted] *,
+[data-slot="select-content"] [data-radix-collection-item]:hover * {
   color: #ffffff !important;
 }
