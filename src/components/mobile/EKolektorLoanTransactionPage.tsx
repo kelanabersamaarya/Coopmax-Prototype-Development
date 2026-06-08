@@ -14,16 +14,8 @@ const loanInfoItems = [
     subtitle: "SMG260004 - KORMANI",
   },
   {
-    title: "Skema Tagihan",
-    subtitle: "Tagihan Sesuai Jadwal Angsuran",
-  },
-  {
-    title: "Satuan Grace Period",
-    subtitle: "Bulan",
-  },
-  {
-    title: "Durasi Grace Period",
-    subtitle: "3",
+    title: "Grace Period",
+    subtitle: "3 Bulan",
   },
   {
     title: "Sisa Pinjaman",
