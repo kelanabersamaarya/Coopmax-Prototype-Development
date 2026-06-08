@@ -21,7 +21,27 @@ function AmountRow({
   );
 }
 
-export default function MBankingLoanInstallmentSummary() {
+export default function MBankingLoanInstallmentSummary({
+  totalBayar = "Rp. 408.333,33",
+  angsuranKe = "Angsuran Ke-1",
+  status = "Belum Dibayar",
+  pokok = "Rp. 208.333,33",
+  bunga = "Rp. 200.000,00",
+  hutangPokok = "Rp. 0,00",
+  hutangBunga = "Rp. 0,00",
+  denda = "Rp. 0,00",
+  sisaPinjaman = "Rp. 10.000.000,00",
+}: {
+  totalBayar?: string;
+  angsuranKe?: string;
+  status?: string;
+  pokok?: string;
+  bunga?: string;
+  hutangPokok?: string;
+  hutangBunga?: string;
+  denda?: string;
+  sisaPinjaman?: string;
+}) {
   return (
     <section className="mt-4">
       <div className="rounded-[24px] bg-white px-7 py-6 shadow-[0_4px_14px_rgba(15,23,42,0.20)] ring-1 ring-slate-100">
@@ -31,30 +51,30 @@ export default function MBankingLoanInstallmentSummary() {
               Total Bayar
             </div>
             <div className="mt-[8px] text-[14px] font-extrabold leading-tight tracking-tight text-black">
-              Rp. 408.333,33
+              {totalBayar}
             </div>
 
             <div className="mt-[10px] grid gap-[8px]">
-              <AmountRow label="Pokok" value="Rp. 208.333,33" />
-              <AmountRow label="Hutang Pokok" value="Rp. 0,00" />
-              <AmountRow label="Denda" value="Rp. 0,00" />
+              <AmountRow label="Pokok" value={pokok} />
+              <AmountRow label="Hutang Pokok" value={hutangPokok} />
+              <AmountRow label="Denda" value={denda} />
             </div>
           </div>
 
           <div className="min-w-0 text-right">
             <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
-              Angsuran Ke-1
+              {angsuranKe}
             </div>
             <div className="mt-[8px] text-[14px] font-extrabold leading-tight tracking-tight text-[#EF3E4A]">
-              Belum Dibayar
+              {status}
             </div>
 
             <div className="mt-[12px] grid gap-[8px]">
-              <AmountRow label="Bunga" value="Rp. 200.000,00" align="right" />
-              <AmountRow label="Hutang Bunga" value="Rp. 0,00" align="right" />
+              <AmountRow label="Bunga" value={bunga} align="right" />
+              <AmountRow label="Hutang Bunga" value={hutangBunga} align="right" />
               <AmountRow
                 label="Sisa Pinjaman"
-                value="Rp. 10.000.000,00"
+                value={sisaPinjaman}
                 align="right"
               />
             </div>

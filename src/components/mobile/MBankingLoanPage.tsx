@@ -4,13 +4,15 @@ import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingLoanCard from "@/components/mobile/MBankingLoanCard";
-import MBankingLoanDetailPage from "@/components/mobile/MBankingLoanDetailPage";
+import MBankingLoanDetailPage, {
+  type MBankingLoanItem,
+} from "@/components/mobile/MBankingLoanDetailPage";
 import MBankingLoanPasswordPage from "@/components/mobile/MBankingLoanPasswordPage";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
 type LoanScreen = "list" | "password" | "detail";
 
-const loans = [
+const loans: MBankingLoanItem[] = [
   {
     productName: "Pinjaman Bulanan",
     accountNo: "SMG260004",
@@ -38,10 +40,12 @@ export default function MBankingLoanPage({
   onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   const [screen, setScreen] = React.useState<LoanScreen>("list");
+  const [selectedLoan, setSelectedLoan] = React.useState<MBankingLoanItem>(loans[0]);
 
   if (screen === "detail") {
     return (
       <MBankingLoanDetailPage
+        loan={selectedLoan}
         transactions={transactions}
         onBack={() => setScreen("list")}
         onPaymentSuccess={onPaymentSuccess}
@@ -82,7 +86,10 @@ export default function MBankingLoanPage({
               productName={loan.productName}
               accountNo={loan.accountNo}
               tenor={loan.tenor}
-              onClick={() => setScreen("password")}
+              onClick={() => {
+                setSelectedLoan(loan);
+                setScreen("password");
+              }}
             />
           ))}
         </section>

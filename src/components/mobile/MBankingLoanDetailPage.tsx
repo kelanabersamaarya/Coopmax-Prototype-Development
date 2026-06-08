@@ -12,36 +12,92 @@ import MBankingStickyActionButton from "@/components/mobile/MBankingStickyAction
 import MBankingTransactionDateRange from "@/components/mobile/MBankingTransactionDateRange";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
-const loanInfoItems = [
-  {
-    label: "No. Pinjaman",
-    value: "SMG260004",
-  },
-  {
-    label: "Produk",
-    value: "Pinjaman Billing",
-  },
-  {
-    label: "Grace Period",
-    value: "3 Bulan",
-  },
-  {
-    label: "Tanggal Pencairan",
-    value: "01-03-2026",
-  },
-  {
-    label: "Jangka Waktu",
-    value: "12 Bulan",
-  },
-  {
-    label: "Jatuh Tempo",
-    value: "16-03-2027",
-  },
-  {
-    label: "Bunga",
-    value: "10,00%",
-  },
-];
+export type MBankingLoanItem = {
+  productName: string;
+  accountNo: string;
+  tenor: string;
+};
+
+const defaultLoan: MBankingLoanItem = {
+  productName: "Pinjaman Bulanan",
+  accountNo: "SMG260004",
+  tenor: "12 Bulan",
+};
+
+function getLoanDetail(loan: MBankingLoanItem) {
+  if (loan.accountNo === "12260006") {
+    return {
+      infoRows: [
+        { label: "No. Pinjaman", value: "12260006" },
+        { label: "Produk", value: "Pinjaman Billing" },
+        { label: "Grace Period", value: "3 Bulan" },
+        { label: "Tanggal Pencairan", value: "01-03-2026" },
+        { label: "Jangka Waktu", value: "12 Bulan" },
+        { label: "Jatuh Tempo", value: "16-03-2027" },
+        { label: "Bunga", value: "10,00%" },
+      ],
+      summary: {
+        totalBayar: "Rp. 991.666,00",
+        angsuranKe: "Angsuran Ke-1",
+        status: "Belum Dibayar",
+        pokok: "Rp. 833.333,00",
+        bunga: "Rp. 83.333,00",
+        hutangPokok: "Rp. 0,00",
+        hutangBunga: "Rp. 0,00",
+        denda: "Rp. 75.000,00",
+        sisaPinjaman: "Rp. 10.000.000,00",
+      },
+    };
+  }
+
+  if (loan.accountNo === "072260001") {
+    return {
+      infoRows: [
+        { label: "No. Pinjaman", value: "072260001" },
+        { label: "Produk", value: "Pinjaman Harian" },
+        { label: "Grace Period", value: "0 Hari" },
+        { label: "Tanggal Pencairan", value: "31-03-2026" },
+        { label: "Jangka Waktu", value: "18 Bulan" },
+        { label: "Jatuh Tempo", value: "30-09-2026" },
+        { label: "Bunga", value: "20,00%" },
+      ],
+      summary: {
+        totalBayar: "Rp. 916.667,00",
+        angsuranKe: "Angsuran Ke-1",
+        status: "Belum Dibayar",
+        pokok: "Rp. 833.333,00",
+        bunga: "Rp. 83.333,00",
+        hutangPokok: "Rp. 0,00",
+        hutangBunga: "Rp. 0,00",
+        denda: "Rp. 0,00",
+        sisaPinjaman: "Rp. 22.000.000,00",
+      },
+    };
+  }
+
+  return {
+    infoRows: [
+      { label: "No. Pinjaman", value: loan.accountNo },
+      { label: "Produk", value: loan.productName },
+      { label: "Grace Period", value: "3 Bulan" },
+      { label: "Tanggal Pencairan", value: "01-03-2026" },
+      { label: "Jangka Waktu", value: loan.tenor },
+      { label: "Jatuh Tempo", value: "16-03-2027" },
+      { label: "Bunga", value: "10,00%" },
+    ],
+    summary: {
+      totalBayar: "Rp. 408.333,33",
+      angsuranKe: "Angsuran Ke-1",
+      status: "Belum Dibayar",
+      pokok: "Rp. 208.333,33",
+      bunga: "Rp. 200.000,00",
+      hutangPokok: "Rp. 0,00",
+      hutangBunga: "Rp. 0,00",
+      denda: "Rp. 0,00",
+      sisaPinjaman: "Rp. 10.000.000,00",
+    },
+  };
+}
 
 function LoanInfoRow({
   label,
@@ -64,10 +120,12 @@ function LoanInfoRow({
 }
 
 export default function MBankingLoanDetailPage({
+  loan = defaultLoan,
   onBack,
   transactions = [],
   onPaymentSuccess,
 }: {
+  loan?: MBankingLoanItem;
   onBack: () => void;
   transactions?: MBankingTransactionHistoryEntry[];
   onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
@@ -75,10 +133,12 @@ export default function MBankingLoanDetailPage({
   const [showReview, setShowReview] = React.useState(false);
   const [showBillList, setShowBillList] = React.useState(false);
 
+  const detail = React.useMemo(() => getLoanDetail(loan), [loan]);
+
   if (showBillList) {
     return (
       <EKolektorBillListPage
-        accountNo="SMG260004"
+        accountNo={loan.accountNo}
         showSpecialNextBillInfo={false}
         onBack={() => setShowBillList(false)}
       />
@@ -118,7 +178,7 @@ export default function MBankingLoanDetailPage({
 
         <main className="bg-white px-6 pb-10 pt-3">
           <div className="grid gap-[18px]">
-            {loanInfoItems.map((item) => (
+            {detail.infoRows.map((item) => (
               <LoanInfoRow
                 key={item.label}
                 label={item.label}
@@ -138,7 +198,7 @@ export default function MBankingLoanDetailPage({
             Tagihan Angsuran
           </h2>
 
-          <MBankingLoanInstallmentSummary />
+          <MBankingLoanInstallmentSummary {...detail.summary} />
 
           <button
             type="button"
