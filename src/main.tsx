@@ -6,5 +6,6 @@ import "./styles/loan-installment-v2.css";
 import "./styles/loan-installment-v2-billing-values.css";
 import "./styles/loan-installment-v2-billing-nasabah.css";
 import "./styles/loan-installment-v2-hide-required.css";
+import "./styles/loan-product-cabang-edit.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

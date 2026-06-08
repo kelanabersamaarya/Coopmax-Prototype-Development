@@ -467,7 +467,7 @@ export default function LoanProductsCabang() {
                               </IconOnlyAction>
 
                               <Link
-                                to={`/loan-products/${p.id}/edit`}
+                                to={`/loan-products/${p.id}/edit?from=cabang`}
                                 className={cn(
                                   "inline-flex h-8 w-8 items-center justify-center rounded-full",
                                   "bg-transparent ring-0 shadow-none",

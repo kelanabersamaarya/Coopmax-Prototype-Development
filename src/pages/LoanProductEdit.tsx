@@ -1,10 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
 
 export default function LoanProductEdit() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const id = params.id ?? "";
+  const isCabangEdit = searchParams.get("from") === "cabang";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -22,7 +24,11 @@ export default function LoanProductEdit() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4">
+        <div
+          className={`mt-6 grid gap-4${
+            isCabangEdit ? " loan-product-cabang-edit-form" : ""
+          }`}
+        >
           <LoanProductForm
             mode="edit"
             productId={id}
