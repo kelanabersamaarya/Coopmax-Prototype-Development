@@ -13,10 +13,52 @@ function getTodayDmy() {
   return `${day}-${month}-${year}`;
 }
 
+function MoneyField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const inputClassName = cn(
+    "h-[41px] w-full rounded-[9px] border-0 bg-[#F2F2F2] px-4",
+    "text-[14px] font-normal text-black shadow-none",
+    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#9A9A9A]",
+    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  return (
+    <div className="grid w-full gap-2">
+      <label className="text-[14px] font-normal leading-none text-[#B8B8B8]">
+        {label}
+      </label>
+      <div className="relative">
+        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[18px] font-normal text-[#23305A]">
+          Rp.
+        </span>
+        <input
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          className={cn(
+            inputClassName,
+            "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[18px] placeholder:text-[#23305A]",
+          )}
+          placeholder="0"
+          inputMode="numeric"
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function EKolektorLoanTransactionForm() {
   const [jenisTransaksi, setJenisTransaksi] = React.useState("Angsuran Pinjaman");
   const [tanggalEfektifBayar, setTanggalEfektifBayar] = React.useState("");
   const [nominalTransaksi, setNominalTransaksi] = React.useState("");
+  const [nominalPokok, setNominalPokok] = React.useState("");
+  const [nominalBunga, setNominalBunga] = React.useState("");
   const [nominalDenda, setNominalDenda] = React.useState("");
 
   const todayPlaceholder = React.useMemo(() => getTodayDmy(), []);
@@ -62,43 +104,29 @@ export default function EKolektorLoanTransactionForm() {
         </div>
       </div>
 
-      <div className="grid w-full gap-2">
-        <label className={labelClassName}>Nominal Transaksi</label>
-        <div className="relative">
-          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[18px] font-normal text-[#23305A]">
-            Rp.
-          </span>
-          <input
-            value={nominalTransaksi}
-            onChange={(event) => setNominalTransaksi(event.target.value)}
-            className={cn(
-              inputClassName,
-              "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[18px] placeholder:text-[#23305A]",
-            )}
-            placeholder="0"
-            inputMode="numeric"
-          />
-        </div>
-      </div>
+      <MoneyField
+        label="Nominal Transaksi"
+        value={nominalTransaksi}
+        onChange={setNominalTransaksi}
+      />
 
-      <div className="grid w-full gap-2">
-        <label className={labelClassName}>Nominal Denda</label>
-        <div className="relative">
-          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[18px] font-normal text-[#23305A]">
-            Rp.
-          </span>
-          <input
-            value={nominalDenda}
-            onChange={(event) => setNominalDenda(event.target.value)}
-            className={cn(
-              inputClassName,
-              "pl-[58px] text-[18px] text-[#23305A] placeholder:text-[18px] placeholder:text-[#23305A]",
-            )}
-            placeholder="0"
-            inputMode="numeric"
-          />
-        </div>
-      </div>
+      <MoneyField
+        label="Nominal Pokok"
+        value={nominalPokok}
+        onChange={setNominalPokok}
+      />
+
+      <MoneyField
+        label="Nominal Bunga"
+        value={nominalBunga}
+        onChange={setNominalBunga}
+      />
+
+      <MoneyField
+        label="Nominal Denda"
+        value={nominalDenda}
+        onChange={setNominalDenda}
+      />
     </div>
   );
 }
