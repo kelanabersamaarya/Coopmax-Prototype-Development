@@ -49,6 +49,37 @@ const historyRows: InstallmentHistoryRow[] = [
   },
 ];
 
+const headerInfoItems = [
+  {
+    label: "Nasabah",
+    value: "Gaby",
+  },
+  {
+    label: "No. Rekening Pinjaman",
+    value: "SMG260004",
+  },
+  {
+    label: "Produk Pinjaman",
+    value: "Pinjaman Billing",
+  },
+  {
+    label: "Skema Tagihan",
+    value: "Tagihan Sesuai Jadwal Angsuran",
+  },
+  {
+    label: "Satuan Grace Period",
+    value: "Bulan",
+  },
+  {
+    label: "Durasi Grace Period",
+    value: "3",
+  },
+  {
+    label: "Sisa Pokok Pinjaman",
+    value: "10.000.000,00",
+  },
+];
+
 function DateField({
   value,
   onChange,
@@ -78,6 +109,32 @@ function DateField({
         strokeWidth={2.4}
       />
     </div>
+  );
+}
+
+function HeaderInfoCard() {
+  return (
+    <section className="rounded-[14px] bg-white px-[15px] py-[16px] shadow-[0_3px_12px_rgba(15,23,42,0.08)]">
+      <div className="text-[16px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
+        Pinjaman Billing
+      </div>
+
+      <div className="mt-[14px] grid gap-[13px]">
+        {headerInfoItems.map((item) => (
+          <div
+            key={item.label}
+            className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-3"
+          >
+            <div className="text-[12px] font-extrabold leading-tight tracking-tight text-[#9A9A9A]">
+              {item.label}
+            </div>
+            <div className="text-right text-[12px] font-extrabold leading-tight tracking-tight text-[#23305A]">
+              {item.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -184,12 +241,7 @@ export default function EKolektorInstallmentHistoryPage({
         </header>
 
         <main className="relative z-10 -mt-[30px] min-h-[calc(100%-86px)] rounded-t-[30px] bg-[#F2F2F2] px-6 pb-8 pt-8">
-          <div className="text-[20px] font-extrabold leading-tight tracking-tight text-[#004FC7]">
-            Pinjaman Billing
-          </div>
-          <div className="mt-1 text-[14px] font-normal leading-relaxed text-[#9B9B9B]">
-            SMG260004 • Gaby
-          </div>
+          <HeaderInfoCard />
 
           <div className="mt-[22px] flex items-center gap-3">
             <DateField
