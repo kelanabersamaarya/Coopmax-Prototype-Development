@@ -53,7 +53,7 @@ export default function MBankingAccountPickerSheet({
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Cari..."
             className={cn(
-              "h-[73px] w-full rounded-[12px] border-0 bg-[#F1F1F1] px-5",
+              "h-[40px] w-full rounded-[12px] border-0 bg-[#F1F1F1] px-5",
               "text-[16px] font-normal text-black shadow-none outline-none",
               "placeholder:text-[16px] placeholder:font-normal placeholder:text-[#8F8F8F]",
             )}
