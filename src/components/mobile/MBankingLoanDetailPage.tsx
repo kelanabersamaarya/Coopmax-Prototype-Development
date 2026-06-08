@@ -9,36 +9,28 @@ import MBankingStickyActionButton from "@/components/mobile/MBankingStickyAction
 
 const loanInfoItems = [
   {
-    label: "Nasabah",
-    value: "Gaby",
-  },
-  {
-    label: "No. Rekening Pinjaman",
+    label: "No. Pinjaman",
     value: "SMG260004",
   },
   {
-    label: "Produk Pinjaman",
+    label: "Produk",
     value: "Pinjaman Billing",
   },
   {
-    label: "Skema Tagihan",
-    value: "Tagihan Sesuai Jadwal Angsuran",
+    label: "Tanggal Pencairan",
+    value: "01-03-2026",
   },
   {
-    label: "Satuan Grace Period",
-    value: "Bulan",
+    label: "Jangka Waktu",
+    value: "12 Bulan",
   },
   {
-    label: "Durasi Grace Period",
-    value: "3",
+    label: "Jatuh Tempo",
+    value: "16-03-2027",
   },
   {
-    label: "Jumlah Pinjaman",
-    value: "12.000.000,00",
-  },
-  {
-    label: "Sisa Pokok Pinjaman",
-    value: "10.000.000,00",
+    label: "Bunga",
+    value: "10,00%",
   },
 ];
 
