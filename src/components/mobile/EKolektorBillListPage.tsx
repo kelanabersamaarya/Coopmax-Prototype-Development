@@ -5,6 +5,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeriodInfoCard";
+import EKolektorNextBillInfoCard from "@/components/mobile/EKolektorNextBillInfoCard";
 
 type BillGroup = {
   jatuhTempo: string;
@@ -223,13 +224,15 @@ export default function EKolektorBillListPage({
   const pageSize = 5;
   const [page, setPage] = React.useState(1);
 
+  const isSecondOrThirdAccount = accountNo === "7260175" || accountNo === "SMG260004";
+
   const billsForAccount = React.useMemo(() => {
-    if (accountNo === "7260175" || accountNo === "SMG260004") {
+    if (isSecondOrThirdAccount) {
       return billGroups.slice(0, 1);
     }
 
     return billGroups;
-  }, [accountNo]);
+  }, [isSecondOrThirdAccount]);
 
   const pageCount = Math.max(1, Math.ceil(billsForAccount.length / pageSize));
 
@@ -271,15 +274,19 @@ export default function EKolektorBillListPage({
 
         <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-[#F2F2F2] px-6 pb-8 pt-7">
           {gracePeriodBills.length > 0 ? (
-            <div className="rounded-[28px] border-2 border-[#004FC7] p-3">
-              <EKolektorGracePeriodInfoCard />
+            <>
+              {isSecondOrThirdAccount ? <EKolektorNextBillInfoCard /> : null}
 
-              <div className="grid gap-4">
-                {gracePeriodBills.map((bill) => (
-                  <BillCard key={bill.jatuhTempo} bill={bill} />
-                ))}
+              <div className="rounded-[28px] border-2 border-[#004FC7] p-3">
+                <EKolektorGracePeriodInfoCard />
+
+                <div className="grid gap-4">
+                  {gracePeriodBills.map((bill) => (
+                    <BillCard key={bill.jatuhTempo} bill={bill} />
+                  ))}
+                </div>
               </div>
-            </div>
+            </>
           ) : null}
 
           {regularBills.length > 0 ? (
