@@ -180,6 +180,10 @@ function makeBillingInfo({
     afterFirstDividerItems: [
       { label: "Total Pinjaman", value: totalPinjaman },
       { label: "Sisa Pokok Pinjaman", value: sisaPokok },
+      { label: "Pokok", value: "0" },
+      { label: "Selisih Tanggal Transaksi", value: "0" },
+      { label: "Bunga", value: "0" },
+      { label: "Angsuran", value: "0" },
     ],
     afterSecondDividerItems: [],
   };
