@@ -2,6 +2,7 @@
 
 import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import MBankingLoanReviewInfoCard from "@/components/mobile/MBankingLoanReviewInfoCard";
 
 export default function MBankingLoanReviewPage({
   onBack,
@@ -10,7 +11,7 @@ export default function MBankingLoanReviewPage({
 }) {
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#004FC7]">
-      <main className="min-h-0 flex-1 overflow-hidden bg-[#004FC7] px-6 pb-8 pt-8">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] px-6 pb-8 pt-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <button
           type="button"
           onClick={onBack}
@@ -24,6 +25,8 @@ export default function MBankingLoanReviewPage({
         <h1 className="mt-6 text-[25px] font-extrabold leading-none tracking-tight text-white">
           Review
         </h1>
+
+        <MBankingLoanReviewInfoCard />
       </main>
 
       <EKolektorAndroidNavBar onBack={onBack} />
