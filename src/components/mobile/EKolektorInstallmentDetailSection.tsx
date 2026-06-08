@@ -1,5 +1,7 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+
 const leftItems = [
   {
     title: "Angsuran Pokok",
@@ -36,11 +38,18 @@ const rightItems = [
 
 function DetailInfoCard({
   items,
+  className,
 }: {
   items: Array<{ title: string; subtitle: string }>;
+  className?: string;
 }) {
   return (
-    <div className="min-h-[210px] rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[18px]">
+    <div
+      className={cn(
+        "self-start rounded-[12px] border-[1.5px] border-[#8E8E8E] bg-white px-[14px] py-[18px]",
+        className,
+      )}
+    >
       <div className="grid">
         {items.map((item, index) => (
           <div key={item.title}>
@@ -65,7 +74,7 @@ function DetailInfoCard({
 
 export default function EKolektorInstallmentDetailSection() {
   return (
-    <div className="mt-[14px] grid grid-cols-2 gap-[14px]">
+    <div className="mt-[14px] grid grid-cols-2 items-start gap-[14px]">
       <DetailInfoCard items={leftItems} />
       <DetailInfoCard items={rightItems} />
     </div>
