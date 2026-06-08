@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
 import MBankingLoanAmountInfo from "@/components/mobile/MBankingLoanAmountInfo";
 import MBankingLoanInstallmentSummary from "@/components/mobile/MBankingLoanInstallmentSummary";
 import MBankingLoanReviewPage from "@/components/mobile/MBankingLoanReviewPage";
@@ -73,6 +73,16 @@ export default function MBankingLoanDetailPage({
   onPaymentSuccess?: (transaction: MBankingTransactionHistoryEntry) => void;
 }) {
   const [showReview, setShowReview] = React.useState(false);
+  const [showBillList, setShowBillList] = React.useState(false);
+
+  if (showBillList) {
+    return (
+      <EKolektorBillListPage
+        accountNo="SMG260004"
+        onBack={() => setShowBillList(false)}
+      />
+    );
+  }
 
   if (showReview) {
     return (
@@ -131,11 +141,7 @@ export default function MBankingLoanDetailPage({
 
           <button
             type="button"
-            onClick={() =>
-              toast("Lihat Tagihan (prototype)", {
-                description: "Daftar tagihan belum dihubungkan di prototype M-Banking.",
-              })
-            }
+            onClick={() => setShowBillList(true)}
             className="mt-4 h-[41px] w-full rounded-[9px] bg-[#004FC7] text-[12px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px"
           >
             Lihat Tagihan
