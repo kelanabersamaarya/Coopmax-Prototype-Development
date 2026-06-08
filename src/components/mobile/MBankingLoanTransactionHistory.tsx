@@ -2,12 +2,12 @@
 
 export default function MBankingLoanTransactionHistory() {
   return (
-    <section className="-mx-6 mt-7 bg-[#F2F2F2] px-6 pb-10 pt-6">
+    <section className="-mx-6 mt-7 min-h-[390px] bg-[#F2F2F2] px-6 pb-16 pt-6">
       <h2 className="text-[18px] font-extrabold leading-tight tracking-tight text-[#203064]">
         Riwayat Transaksi
       </h2>
 
-      <div className="mt-7 flex flex-col items-center text-center">
+      <div className="mt-8 flex flex-col items-center text-center">
         <svg
           viewBox="0 0 220 170"
           fill="none"
@@ -34,7 +34,7 @@ export default function MBankingLoanTransactionHistory() {
           <rect x="164" y="121" width="14" height="18" fill="white" />
         </svg>
 
-        <div className="mt-4 text-[20px] font-extrabold leading-tight tracking-tight text-[#23305A]">
+        <div className="mt-5 text-[20px] font-extrabold leading-tight tracking-tight text-[#23305A]">
           Tidak Ada Riwayat Transaksi
         </div>
       </div>
