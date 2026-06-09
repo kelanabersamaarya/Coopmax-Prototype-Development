@@ -106,6 +106,14 @@ export default function MBankingProfilePage({
             ))}
           </div>
 
+          <div className="border-b border-[#E8E8E8] px-[26px] py-[18px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+            Pengaturan
+          </div>
+
+          <div className="border-b border-[#E8E8E8] px-[26px] py-[18px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+            Version 3.5.14.160
+          </div>
+
           <div className="border-t border-[#E8E8E8] px-[26px] pb-[18px] pt-[28px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Keluar
           </div>
