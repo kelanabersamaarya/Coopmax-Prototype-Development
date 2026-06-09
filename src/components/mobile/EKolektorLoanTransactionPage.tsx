@@ -10,6 +10,8 @@ import EKolektorLoanTransactionForm from "@/components/mobile/EKolektorLoanTrans
 import EKolektorLoanTransactionSubmitPage from "@/components/mobile/EKolektorLoanTransactionSubmitPage";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
 
+const FOURTH_ACCOUNT_NO = "072260001";
+
 const loanInfoItems = [
   {
     title: "No. Rekening",
@@ -47,6 +49,13 @@ export default function EKolektorLoanTransactionPage({
   const [showSubmitPage, setShowSubmitPage] = React.useState(false);
   const [showInstallmentHistory, setShowInstallmentHistory] = React.useState(false);
   const [showBillList, setShowBillList] = React.useState(false);
+
+  const isFourthAccount = accountNo === FOURTH_ACCOUNT_NO;
+
+  const visibleLoanInfoItems = React.useMemo(() => {
+    if (!isFourthAccount) return loanInfoItems;
+    return loanInfoItems.filter((item) => item.title !== "Grace Period");
+  }, [isFourthAccount]);
 
   if (showBillList) {
     return (
@@ -106,7 +115,7 @@ export default function EKolektorLoanTransactionPage({
           </div>
 
           <div className="mt-[24px] grid gap-[22px]">
-            {loanInfoItems.map((item) => (
+            {visibleLoanInfoItems.map((item) => (
               <div key={item.title} className="min-w-0">
                 <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#B8B8B8]">
                   {item.title}
@@ -126,18 +135,25 @@ export default function EKolektorLoanTransactionPage({
 
           <EKolektorInstallmentDetailSection />
 
-          <div className="mt-[18px] grid grid-cols-2 gap-[12px]">
-            <button
-              type="button"
-              onClick={() => setShowBillList(true)}
-              className={cn(
-                "inline-flex h-[41px] items-center justify-center rounded-[9px]",
-                "bg-[#004FC7] px-3 text-[12px] font-semibold text-white",
-                "shadow-[0_3px_8px_rgba(0,79,199,0.18)] transition active:scale-[0.98]",
-              )}
-            >
-              Lihat Tagihan
-            </button>
+          <div
+            className={cn(
+              "mt-[18px] grid gap-[12px]",
+              isFourthAccount ? "grid-cols-1" : "grid-cols-2",
+            )}
+          >
+            {!isFourthAccount ? (
+              <button
+                type="button"
+                onClick={() => setShowBillList(true)}
+                className={cn(
+                  "inline-flex h-[41px] items-center justify-center rounded-[9px]",
+                  "bg-[#004FC7] px-3 text-[12px] font-semibold text-white",
+                  "shadow-[0_3px_8px_rgba(0,79,199,0.18)] transition active:scale-[0.98]",
+                )}
+              >
+                Lihat Tagihan
+              </button>
+            ) : null}
 
             <button
               type="button"
