@@ -18,6 +18,8 @@ const settingsItems = [
   "Has Push Notification ?",
   "Has Notification List ?",
   "Use Custom Report Filter ?",
+  "Enable Kocek Kolektor?",
+  "Reset Transaction Sync Staus?",
 ];
 
 export default function EKolektorSettingsPage({
