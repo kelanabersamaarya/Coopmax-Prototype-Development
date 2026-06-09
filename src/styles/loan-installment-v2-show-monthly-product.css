@@ -1,0 +1,55 @@
+/* Transaksi Pinjaman > Pembayaran > Pinjaman Bulanan
+   Tampilkan kembali informasi Produk Pinjaman pada kolom Pinjaman.
+*/
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.loan-installment-v2-pinjaman-monthly.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(1) {
+  display: grid !important;
+}
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.loan-installment-v2-pinjaman-monthly.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(1)
+  > div:first-child {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.loan-installment-v2-pinjaman-monthly.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(1)
+  > div:first-child::before {
+  content: "Produk Pinjaman";
+  color: #002060 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+}
+
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.loan-installment-v2-pinjaman-monthly.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(1)
+  > div:last-child {
+  color: #334155 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+  text-align: right !important;
+}
