@@ -59,27 +59,34 @@ export default function EKolektorSettingsPage({
         </header>
 
         <main className="relative z-20 -mt-[16px] h-[calc(100%-174px)] overflow-y-auto rounded-t-[18px] bg-white pt-[18px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="grid gap-[2px] bg-white">
-            {settingsItems.map((item) => (
-              <div
-                key={item}
-                className="flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px] py-[12px]"
-              >
-                <div className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-                  {item}
-                </div>
+          <div className="bg-white">
+            {settingsItems.map((item, index) => {
+              const isLast = index === settingsItems.length - 1;
 
-                <EKolektorFeatureToggle
-                  checked={settings[item] ?? false}
-                  onChange={(value) =>
-                    setSettings((current) => ({
-                      ...current,
-                      [item]: value,
-                    }))
-                  }
-                />
-              </div>
-            ))}
+              return (
+                <div
+                  key={item}
+                  className={cn(
+                    "flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px] py-[12px]",
+                    !isLast ? "border-b border-[#E8E8E8]" : "",
+                  )}
+                >
+                  <div className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+                    {item}
+                  </div>
+
+                  <EKolektorFeatureToggle
+                    checked={settings[item] ?? false}
+                    onChange={(value) =>
+                      setSettings((current) => ({
+                        ...current,
+                        [item]: value,
+                      }))
+                    }
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <div className="sticky bottom-0 z-30 mt-4 bg-white px-[26px] pb-6 pt-4 shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
