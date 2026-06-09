@@ -14,7 +14,7 @@ type LoanScreen = "list" | "password" | "detail";
 
 const loans: MBankingLoanItem[] = [
   {
-    productName: "Pinjaman Bulanan",
+    productName: "Pinjaman Billing",
     accountNo: "SMG260004",
     tenor: "12 Bulan",
   },
@@ -24,12 +24,12 @@ const loans: MBankingLoanItem[] = [
     tenor: "12 Bulan",
   },
   {
-    productName: "Pinjaman Harian",
+    productName: "Pinjaman Billing",
     accountNo: "072260001",
     tenor: "18 Bulan",
   },
   {
-    productName: "Pinjaman RC",
+    productName: "Pinjaman Bulanan",
     accountNo: "210260001",
     tenor: "24 Bulan",
   },
