@@ -136,6 +136,13 @@ export default function MBankingLoanDetailPage({
   const detail = React.useMemo(() => getLoanDetail(loan), [loan]);
   const isSecondOrThirdLoan =
     loan.accountNo === "12260006" || loan.accountNo === "072260001";
+  const isMonthlyLoan = loan.productName === "Pinjaman Bulanan";
+
+  const visibleInfoRows = React.useMemo(() => {
+    if (!isMonthlyLoan) return detail.infoRows;
+
+    return detail.infoRows.filter((row) => row.label !== "Grace Period");
+  }, [detail.infoRows, isMonthlyLoan]);
 
   if (showBillList) {
     return (
@@ -181,7 +188,7 @@ export default function MBankingLoanDetailPage({
 
         <main className="bg-white px-6 pb-10 pt-3">
           <div className="grid gap-[18px]">
-            {detail.infoRows.map((item) => (
+            {visibleInfoRows.map((item) => (
               <LoanInfoRow
                 key={item.label}
                 label={item.label}
@@ -203,13 +210,15 @@ export default function MBankingLoanDetailPage({
 
           <MBankingLoanInstallmentSummary {...detail.summary} />
 
-          <button
-            type="button"
-            onClick={() => setShowBillList(true)}
-            className="mt-4 h-[41px] w-full rounded-[9px] bg-[#004FC7] text-[12px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px"
-          >
-            Lihat Tagihan
-          </button>
+          {!isMonthlyLoan ? (
+            <button
+              type="button"
+              onClick={() => setShowBillList(true)}
+              className="mt-4 h-[41px] w-full rounded-[9px] bg-[#004FC7] text-[12px] font-semibold text-white shadow-[0_3px_8px_rgba(0,79,199,0.22)] transition hover:bg-[#0046B3] active:translate-y-px"
+            >
+              Lihat Tagihan
+            </button>
+          ) : null}
 
           <MBankingLoanTransactionHistory transactions={transactions} />
         </main>
