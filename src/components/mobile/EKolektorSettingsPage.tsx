@@ -54,7 +54,7 @@ export default function EKolektorSettingsPage({
             <ArrowLeft className="h-[26px] w-[26px]" strokeWidth={2.5} />
           </button>
 
-          <h1 className="relative z-10 mt-[31px] text-[16px] font-extrabold leading-none tracking-tight text-white">
+          <h1 className="relative z-10 mt-[31px] text-[25px] font-extrabold leading-none tracking-tight text-white">
             Pengaturan Fitur
           </h1>
         </header>
