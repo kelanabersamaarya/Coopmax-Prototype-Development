@@ -1,34 +1,22 @@
 "use client";
 
-import { ArrowLeft, Bell, Lock, Printer, RefreshCw, Smartphone } from "lucide-react";
+import * as React from "react";
+import { ArrowLeft } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
+import EKolektorFeatureToggle from "@/components/mobile/EKolektorFeatureToggle";
 
 const settingsItems = [
-  {
-    label: "Notifikasi",
-    description: "Atur pemberitahuan transaksi dan sinkronisasi",
-    icon: Bell,
-  },
-  {
-    label: "Keamanan",
-    description: "Ubah PIN, kata sandi, dan pengamanan akun",
-    icon: Lock,
-  },
-  {
-    label: "Printer",
-    description: "Kelola printer untuk cetak bukti transaksi",
-    icon: Printer,
-  },
-  {
-    label: "Sinkronisasi",
-    description: "Atur sinkronisasi data rekening dan transaksi",
-    icon: RefreshCw,
-  },
-  {
-    label: "Versi Aplikasi",
-    description: "Sakti Kolektor versi 1.5.9.105",
-    icon: Smartphone,
-  },
+  "Is Mode 2 ?",
+  "Has Ppob ?",
+  "Show Fee ?",
+  "Has Pin ?",
+  "Period Saving Has Multiple Input ?",
+  "Has Billing ?",
+  "Has Offline Mode ?",
+  "Has Online Deposit ?",
+  "Has Push Notification ?",
+  "Has Notification List ?",
+  "Use Custom Report Filter ?",
 ];
 
 export default function EKolektorSettingsPage({
@@ -36,6 +24,10 @@ export default function EKolektorSettingsPage({
 }: {
   onBack: () => void;
 }) {
+  const [settings, setSettings] = React.useState<Record<string, boolean>>(() =>
+    Object.fromEntries(settingsItems.map((item) => [item, false])),
+  );
+
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="min-h-0 flex-1 overflow-hidden bg-[#004FC7]">
@@ -65,33 +57,26 @@ export default function EKolektorSettingsPage({
           </div>
 
           <div className="border-t border-[#E8E8E8] bg-white">
-            {settingsItems.map((item) => {
-              const Icon = item.icon;
+            {settingsItems.map((item) => (
+              <div
+                key={item}
+                className="flex min-h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] py-[12px]"
+              >
+                <div className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+                  {item}
+                </div>
 
-              return (
-                <button
-                  key={item.label}
-                  type="button"
-                  className="flex min-h-[72px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] py-[12px] text-left transition active:scale-[0.99]"
-                  aria-label={item.label}
-                >
-                  <div className="flex min-w-0 items-center gap-4">
-                    <span className="inline-flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#004FC7] text-white">
-                      <Icon className="h-[20px] w-[20px]" strokeWidth={2.7} />
-                    </span>
-
-                    <span className="min-w-0">
-                      <span className="block text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-                        {item.label}
-                      </span>
-                      <span className="mt-[5px] block text-[12px] font-extrabold leading-tight tracking-tight text-[#8C8C8C]">
-                        {item.description}
-                      </span>
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
+                <EKolektorFeatureToggle
+                  checked={settings[item] ?? false}
+                  onChange={(value) =>
+                    setSettings((current) => ({
+                      ...current,
+                      [item]: value,
+                    }))
+                  }
+                />
+              </div>
+            ))}
           </div>
         </main>
       </div>
