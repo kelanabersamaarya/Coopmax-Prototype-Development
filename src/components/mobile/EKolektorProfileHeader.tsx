@@ -52,7 +52,7 @@ export default function EKolektorProfileHeader({
           className={cn(
             "mb-[-2px] h-[40px] shrink-0 rounded-full px-[16px]",
             "bg-[#004FC7] text-[14px] font-normal leading-none text-white",
-            "shadow-[0_4px_10px_rgba(0,79,199,0.20)] transition active:scale-[0.98]",
+            "transition active:scale-[0.98]",
           )}
         >
           Ubah Profil
