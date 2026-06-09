@@ -28,6 +28,11 @@ const loans: MBankingLoanItem[] = [
     accountNo: "072260001",
     tenor: "18 Bulan",
   },
+  {
+    productName: "Pinjaman RC",
+    accountNo: "210260001",
+    tenor: "24 Bulan",
+  },
 ];
 
 export default function MBankingLoanPage({
