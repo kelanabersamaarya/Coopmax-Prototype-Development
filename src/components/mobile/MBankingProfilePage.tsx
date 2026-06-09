@@ -3,24 +3,51 @@
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingProfileHeader from "@/components/mobile/MBankingProfileHeader";
 
-const profileItems = [
+const accountItems = [
   {
     label: "Ubah Kata Sandi",
-    helper: "Ganti kata sandi Anda di sini",
+    helper: "Ganti Kata Sandi Anda Disini",
+  },
+  {
+    label: "Ubah PIN",
+    helper: "Ganti PIN Anda Disini",
+  },
+  {
+    label: "Login Biometrik",
+    helper: "Aktifkan Login Biometrik Disini",
+  },
+  {
+    label: "Hapus Akun",
+    helper: "Hapus Akun Anda Disini",
+  },
+];
+
+const generalItems = [
+  {
+    label: "Petunjuk Penggunaan",
+    helper: "-",
   },
   {
     label: "Syarat dan Ketentuan",
-    helper: "Informasi penggunaan layanan M-Banking",
+    helper: "-",
   },
   {
     label: "Kebijakan Privasi",
-    helper: "Ketahui bagaimana data Anda dikelola",
+    helper: "-",
   },
   {
     label: "Kontak Kami",
-    helper: "Hubungi koperasi untuk bantuan",
+    helper: "-",
   },
 ];
+
+function SectionTitle({ children }: { children: string }) {
+  return (
+    <div className="px-[26px] pb-[10px] pt-[18px] text-[14px] font-extrabold uppercase leading-none tracking-tight text-[#8C8C8C]">
+      {children}
+    </div>
+  );
+}
 
 function ProfileMenuRow({
   label,
@@ -55,12 +82,20 @@ export default function MBankingProfilePage({
         <MBankingProfileHeader onBack={onBack} />
 
         <div className="bg-white pb-8 pt-[22px]">
-          <div className="px-[26px] pb-[10px] pt-[18px] text-[14px] font-extrabold uppercase leading-none tracking-tight text-[#8C8C8C]">
-            Akun
+          <SectionTitle>AKUN</SectionTitle>
+          <div className="bg-white">
+            {accountItems.map((item) => (
+              <ProfileMenuRow
+                key={item.label}
+                label={item.label}
+                helper={item.helper}
+              />
+            ))}
           </div>
 
+          <SectionTitle>UMUM</SectionTitle>
           <div className="bg-white">
-            {profileItems.map((item) => (
+            {generalItems.map((item) => (
               <ProfileMenuRow
                 key={item.label}
                 label={item.label}
