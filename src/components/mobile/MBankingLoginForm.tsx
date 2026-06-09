@@ -61,16 +61,18 @@ export default function MBankingLoginForm({ onLogin }: { onLogin?: () => void })
           </div>
 
           <form onSubmit={submit} className="mt-8 grid w-full gap-4">
-            <div className="grid w-full gap-2">
-              <label className={labelClassName}>Username</label>
-              <input
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                className={inputClassName}
-                placeholder="Masukkan Username"
-                autoComplete="username"
-              />
-            </div>
+            {!rememberUsername ? (
+              <div className="grid w-full gap-2">
+                <label className={labelClassName}>Username</label>
+                <input
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  className={inputClassName}
+                  placeholder="Masukkan Username"
+                  autoComplete="username"
+                />
+              </div>
+            ) : null}
 
             <div className="grid w-full gap-2">
               <label className={labelClassName}>Password</label>
