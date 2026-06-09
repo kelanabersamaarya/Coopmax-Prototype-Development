@@ -86,7 +86,7 @@ export default function EKolektorProfileMenu() {
   const [offlineMode, setOfflineMode] = React.useState(false);
 
   return (
-    <div className="bg-white pb-8">
+    <div className="bg-white pb-8 pt-[22px]">
       <div className="border-t border-[#E8E8E8]">
         <div className="flex h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px]">
           <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
