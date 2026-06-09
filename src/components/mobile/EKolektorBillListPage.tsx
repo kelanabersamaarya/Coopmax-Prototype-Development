@@ -244,7 +244,7 @@ export default function EKolektorBillListPage({
   }, [shouldShowSingleBillWithNextInfo]);
 
   const pageCount = Math.max(1, Math.ceil(billsForAccount.length / pageSize));
-  const showPagination = !isSecondOrThirdAccount && pageCount > 1;
+  const showPagination = pageCount > 1;
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
