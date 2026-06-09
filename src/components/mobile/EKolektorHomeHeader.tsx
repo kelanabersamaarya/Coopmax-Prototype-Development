@@ -1,6 +1,10 @@
 "use client";
 
-export default function EKolektorHomeHeader() {
+export default function EKolektorHomeHeader({
+  onProfileClick,
+}: {
+  onProfileClick?: () => void;
+}) {
   return (
     <div className="bg-white px-5 pb-7 pt-8">
       <div className="flex items-start justify-between gap-4">
@@ -13,7 +17,13 @@ export default function EKolektorHomeHeader() {
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-col items-center">
+        <button
+          type="button"
+          onClick={onProfileClick}
+          className="flex shrink-0 flex-col items-center rounded-[16px] px-1 py-1 transition active:scale-[0.98]"
+          aria-label="Buka profil kolektor"
+          title="Profil"
+        >
           <div className="grid h-[40px] w-[40px] place-items-center rounded-full bg-[#004FC7] text-[20px] font-extrabold leading-none text-white">
             I
           </div>
@@ -24,7 +34,7 @@ export default function EKolektorHomeHeader() {
               ONLINE
             </span>
           </div>
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import EKolektorBottomNav from "@/components/mobile/EKolektorBottomNav";
 import EKolektorExitConfirmModal from "@/components/mobile/EKolektorExitConfirmModal";
 import EKolektorHomeHeader from "@/components/mobile/EKolektorHomeHeader";
 import EKolektorHomeSummaryCards from "@/components/mobile/EKolektorHomeSummaryCards";
+import EKolektorProfilePage from "@/components/mobile/EKolektorProfilePage";
 import EKolektorSyncInfoCard from "@/components/mobile/EKolektorSyncInfoCard";
 import EKolektorTodayHistorySection from "@/components/mobile/EKolektorTodayHistorySection";
 import type { EKolektorTodayTransaction } from "@/components/mobile/e-kolektor-types";
@@ -20,11 +21,16 @@ export default function EKolektorHome({
   transactions?: EKolektorTodayTransaction[];
 }) {
   const [exitOpen, setExitOpen] = React.useState(false);
+  const [showProfile, setShowProfile] = React.useState(false);
+
+  if (showProfile) {
+    return <EKolektorProfilePage onBack={() => setShowProfile(false)} />;
+  }
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-white">
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <EKolektorHomeHeader />
+        <EKolektorHomeHeader onProfileClick={() => setShowProfile(true)} />
         <EKolektorHomeSummaryCards />
         <EKolektorSyncInfoCard />
         <EKolektorTodayHistorySection transactions={transactions} />
