@@ -30,7 +30,7 @@ const cooperativeDataItems = [
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="px-[26px] pb-[10px] pt-[18px] text-[14px] font-extrabold leading-none tracking-tight text-[#8C8C8C]">
+    <div className="px-[26px] pb-[10px] pt-[18px] text-[14px] font-extrabold uppercase leading-none tracking-tight text-[#8C8C8C]">
       {children}
     </div>
   );
