@@ -120,6 +120,13 @@ export type DaftarTagihanSavedTotals = {
 const PENALTY_ROWS = 3;
 const PENALTY_AMOUNT = 75000;
 
+const REGULAR_AUTO_FILL_ACCOUNTS = new Set([
+  "12260006",
+  "12260002",
+  "12260001",
+  "072260001",
+]);
+
 function parseIdrLike(input: string) {
   const s = (input ?? "").trim();
   if (!s) return 0;
@@ -225,6 +232,44 @@ export default function DaftarTagihanDialog({
     [useSecondStyle],
   );
 
+  const onSaveTotalsRef = React.useRef(onSaveTotals);
+  const lastAutoFillKeyRef = React.useRef("");
+
+  React.useEffect(() => {
+    onSaveTotalsRef.current = onSaveTotals;
+  }, [onSaveTotals]);
+
+  React.useEffect(() => {
+    if (!isReguler) {
+      lastAutoFillKeyRef.current = "";
+      return;
+    }
+
+    if (
+      !normalizedAccountNo ||
+      !REGULAR_AUTO_FILL_ACCOUNTS.has(normalizedAccountNo)
+    ) {
+      return;
+    }
+
+    const autoFillKey = `${normalizedAccountNo}:${paymentMethod}`;
+    if (lastAutoFillKeyRef.current === autoFillKey) return;
+
+    const currentDueRow = rowsAll[0];
+    if (!currentDueRow) return;
+
+    const totals = calculateSelectedTotals({
+      rows: [currentDueRow],
+      selected: [true],
+      includePenalty: true,
+      penaltyIndexOffset: 0,
+      forceAll: true,
+    });
+
+    onSaveTotalsRef.current?.(totals);
+    lastAutoFillKeyRef.current = autoFillKey;
+  }, [isReguler, normalizedAccountNo, paymentMethod, rowsAll]);
+
   const [pageSize] = React.useState<number>(6);
   const [page, setPage] = React.useState(1);
 
@@ -237,7 +282,7 @@ export default function DaftarTagihanDialog({
   }, [page, pageSize, rowsAll, useSecondStyle]);
 
   const [selected, setSelected] = React.useState<boolean[]>(() =>
-    rows.map(() => false),
+    rows.map((_row, idx) => idx === 0),
   );
 
   React.useEffect(() => {
@@ -251,8 +296,8 @@ export default function DaftarTagihanDialog({
       return;
     }
 
-    if (allowRegulerChecklistSave) {
-      setSelected(rows.map(() => true));
+    if (isReguler || allowRegulerChecklistSave) {
+      setSelected(rows.map((_row, idx) => page === 1 && idx === 0));
       return;
     }
 
@@ -261,7 +306,9 @@ export default function DaftarTagihanDialog({
     allowRegulerChecklistSave,
     isBakiDebet,
     isPelunasan,
+    isReguler,
     lockChecklistForSecondStyle,
+    page,
     rows,
   ]);
 
