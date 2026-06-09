@@ -97,9 +97,9 @@ const seedRowsFor12260002: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
     totalBelumDibayar: "916.667",
-    tagihanPokok: "0,00",
+    tagihanPokok: "833.333",
     tagihanBunga: "83.333",
-    sisaPokok: "0,00",
+    sisaPokok: "783.333",
     sisaBunga: "26.389",
   },
 ];
@@ -208,6 +208,7 @@ export default function DaftarTagihanDialog({
   contextKey?: string;
   onSaveTotals?: (totals: DaftarTagihanSavedTotals) => void;
 }) {
+  const isReguler = paymentMethod === "Pembayaran Reguler";
   const isBakiDebet = paymentMethod === "Pembayaran Penurunan Baki Debet";
   const isPelunasan = paymentMethod === "Pelunasan";
 
@@ -216,7 +217,8 @@ export default function DaftarTagihanDialog({
   const isThirdNasabah = normalizedAccountNo === "12260001";
 
   const useSecondStyle = isSecondNasabah || isThirdNasabah;
-  const lockChecklistForSecondStyle = useSecondStyle;
+  const allowRegulerChecklistSave = useSecondStyle && isReguler;
+  const lockChecklistForSecondStyle = useSecondStyle && !allowRegulerChecklistSave;
 
   const rowsAll = React.useMemo(
     () => (useSecondStyle ? seedRowsFor12260002 : seedRows),
@@ -249,8 +251,19 @@ export default function DaftarTagihanDialog({
       return;
     }
 
+    if (allowRegulerChecklistSave) {
+      setSelected(rows.map(() => true));
+      return;
+    }
+
     setSelected(rows.map(() => (isBakiDebet || isPelunasan ? true : false)));
-  }, [isBakiDebet, isPelunasan, lockChecklistForSecondStyle, rows]);
+  }, [
+    allowRegulerChecklistSave,
+    isBakiDebet,
+    isPelunasan,
+    lockChecklistForSecondStyle,
+    rows,
+  ]);
 
   const showingStart = rowsAll.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const showingEnd = Math.min(rowsAll.length, page * pageSize);
@@ -279,7 +292,7 @@ export default function DaftarTagihanDialog({
   const title = useSecondStyle ? "INFORMASI TAGIHAN DAN DENDA" : "Daftar Tagihan";
 
   function saveSelectedTotals() {
-    const forceAll = hideSelection || useSecondStyle;
+    const forceAll = hideSelection || lockChecklistForSecondStyle;
     const count = forceAll ? rows.length : selected.filter(Boolean).length;
 
     if (!forceAll && count === 0) {
@@ -305,6 +318,8 @@ export default function DaftarTagihanDialog({
 
     onOpenChange(false);
   }
+
+  const showSaveFooter = !useSecondStyle || allowRegulerChecklistSave;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -443,20 +458,7 @@ export default function DaftarTagihanDialog({
 
           <div className="px-6 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-              {useSecondStyle ? (
-                <button
-                  type="button"
-                  onClick={() => onOpenChange(false)}
-                  className={cn(
-                    actionBtnBase,
-                    "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
-                    "focus-visible:ring-[#77839A]/25",
-                  )}
-                >
-                  <X className={iconCls} strokeWidth={3} />
-                  Tutup
-                </button>
-              ) : (
+              {showSaveFooter ? (
                 <>
                   <button
                     type="button"
@@ -484,6 +486,19 @@ export default function DaftarTagihanDialog({
                     Simpan
                   </button>
                 </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    actionBtnBase,
+                    "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
+                    "focus-visible:ring-[#77839A]/25",
+                  )}
+                >
+                  <X className={iconCls} strokeWidth={3} />
+                  Tutup
+                </button>
               )}
             </div>
           </div>
