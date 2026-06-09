@@ -21,6 +21,9 @@ export default function EKolektorProfilePage({
     <div className="relative flex h-full min-h-0 flex-col bg-white">
       <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <EKolektorProfileHeader onBack={onBack} />
+
+        <div className="h-[10px] w-full bg-[#F2F2F2]" />
+
         <EKolektorProfileMenu onOpenSettings={() => setShowSettings(true)} />
       </div>
 
