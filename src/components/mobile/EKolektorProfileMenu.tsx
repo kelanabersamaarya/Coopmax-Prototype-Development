@@ -39,15 +39,15 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function MenuRow({
   label,
   onClick,
-  leadingIcon,
+  trailingIcon,
   iconTone = "blue",
 }: {
   label: string;
   onClick?: () => void;
-  leadingIcon?: React.ComponentType<{ className?: string }>;
+  trailingIcon?: React.ComponentType<{ className?: string }>;
   iconTone?: "blue" | "red";
 }) {
-  const LeadingIcon = leadingIcon;
+  const TrailingIcon = trailingIcon;
 
   return (
     <button
@@ -56,27 +56,25 @@ function MenuRow({
       className="flex h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] text-left transition active:scale-[0.99]"
       aria-label={label}
     >
-      <span className="flex min-w-0 items-center gap-[14px]">
-        {LeadingIcon ? (
-          <span
-            className={cn(
-              "inline-flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full text-white",
-              iconTone === "red" ? "bg-[#EF135D]" : "bg-[#004FC7]",
-            )}
-          >
-            <LeadingIcon className="h-[19px] w-[19px]" strokeWidth={2.8} />
-          </span>
-        ) : null}
-
-        <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-          {label}
-        </span>
+      <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+        {label}
       </span>
 
-      <ChevronRight
-        className="h-[22px] w-[22px] shrink-0 text-black"
-        strokeWidth={2.6}
-      />
+      {TrailingIcon ? (
+        <span
+          className={cn(
+            "inline-flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full text-white",
+            iconTone === "red" ? "bg-[#EF135D]" : "bg-[#004FC7]",
+          )}
+        >
+          <TrailingIcon className="h-[19px] w-[19px]" strokeWidth={2.8} />
+        </span>
+      ) : (
+        <ChevronRight
+          className="h-[22px] w-[22px] shrink-0 text-black"
+          strokeWidth={2.6}
+        />
+      )}
     </button>
   );
 }
@@ -144,7 +142,7 @@ export default function EKolektorProfileMenu() {
           <MenuRow
             key={item.label}
             label={item.label}
-            leadingIcon={item.icon}
+            trailingIcon={item.icon}
             iconTone={item.tone}
           />
         ))}
