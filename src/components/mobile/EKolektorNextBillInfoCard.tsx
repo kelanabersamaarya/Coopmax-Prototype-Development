@@ -4,7 +4,7 @@ import { Info } from "lucide-react";
 
 export default function EKolektorNextBillInfoCard() {
   return (
-    <div className="mb-4 rounded-[12px] border border-[#F2F2F2] bg-white px-4 py-3">
+    <div className="mb-4 rounded-[12px] border border-[#828282] bg-white px-4 py-3">
       <div className="flex items-start gap-3">
         <span className="mt-0.5 inline-flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#004FC7] text-white">
           <Info className="h-[15px] w-[15px]" strokeWidth={2.8} />
