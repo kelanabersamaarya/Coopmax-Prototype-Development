@@ -60,7 +60,7 @@ export default function EKolektorLoanTransactionForm() {
   const [nominalTransaksi, setNominalTransaksi] = React.useState("");
   const [nominalPokok, setNominalPokok] = React.useState("");
   const [nominalBunga, setNominalBunga] = React.useState("");
-  const [nominalDenda, setNominalDenda] = React.useState("75.000");
+  const [nominalDenda, setNominalDenda] = React.useState("");
 
   const inputClassName = cn(
     "h-[41px] w-full rounded-[9px] border-0 bg-[#F2F2F2] px-4",
