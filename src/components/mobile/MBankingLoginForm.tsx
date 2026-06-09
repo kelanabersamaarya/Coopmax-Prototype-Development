@@ -53,7 +53,7 @@ export default function MBankingLoginForm({ onLogin }: { onLogin?: () => void })
         <div className="relative z-30 -mt-[66px] flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[30px] bg-white px-7 pb-8 pt-[42px]">
           <div>
             <h1 className="max-w-[360px] text-[25px] font-extrabold leading-[1.15] tracking-tight text-black">
-              Selamat Datang I Ketut Pasek Jaya Artha
+              Selamat Datang Laura Patel
             </h1>
             <p className="mt-3 text-[14px] font-normal leading-relaxed text-[#8a8a8a]">
               Halo, silakan masuk untuk melanjutkan
