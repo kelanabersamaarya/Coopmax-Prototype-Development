@@ -37,9 +37,9 @@ export default function EKolektorSettingsPage({
   onBack: () => void;
 }) {
   return (
-    <div className="relative flex h-full min-h-0 flex-col bg-[#2cb4dc]">
-      <div className="min-h-0 flex-1 overflow-hidden bg-[#2cb4dc]">
-        <header className="relative h-[150px] shrink-0 overflow-hidden bg-[#2cb4dc] px-[26px] pt-[28px] text-white">
+    <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
+      <div className="min-h-0 flex-1 overflow-hidden bg-[#004FC7]">
+        <header className="relative h-[150px] shrink-0 overflow-hidden bg-[#004FC7] px-[26px] pt-[28px] text-white">
           <div className="pointer-events-none absolute -left-[48px] -top-[78px] h-[150px] w-[150px] rounded-full bg-white/18" />
           <div className="pointer-events-none absolute right-[18px] -top-[76px] h-[122px] w-[122px] rounded-full bg-white/20" />
           <div className="pointer-events-none absolute -right-[58px] -top-[20px] h-[142px] w-[142px] rounded-full bg-white/20" />
