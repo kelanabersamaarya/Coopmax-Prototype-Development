@@ -228,10 +228,12 @@ export default function EKolektorBillListPage({
   const pageSize = 5;
   const [page, setPage] = React.useState(1);
 
+  const isSecondOrThirdAccount =
+    accountNo === "7260175" || accountNo === "SMG260004";
+
   const shouldShowSingleBillWithNextInfo =
     singleBillWithNextInfo ||
-    (showSpecialNextBillInfo &&
-      (accountNo === "7260175" || accountNo === "SMG260004"));
+    (showSpecialNextBillInfo && isSecondOrThirdAccount);
 
   const billsForAccount = React.useMemo(() => {
     if (shouldShowSingleBillWithNextInfo) {
@@ -242,6 +244,7 @@ export default function EKolektorBillListPage({
   }, [shouldShowSingleBillWithNextInfo]);
 
   const pageCount = Math.max(1, Math.ceil(billsForAccount.length / pageSize));
+  const showPagination = !isSecondOrThirdAccount && pageCount > 1;
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
@@ -297,7 +300,12 @@ export default function EKolektorBillListPage({
           ) : null}
 
           {regularBills.length > 0 ? (
-            <div className={cn("grid gap-4", gracePeriodBills.length > 0 ? "mt-4" : "")}>
+            <div
+              className={cn(
+                "grid gap-4",
+                gracePeriodBills.length > 0 ? "mt-4" : "",
+              )}
+            >
               {regularBills.map((bill) => (
                 <BillCard key={bill.jatuhTempo} bill={bill} />
               ))}
@@ -306,11 +314,13 @@ export default function EKolektorBillListPage({
         </main>
       </div>
 
-      <StickyPagination
-        page={page}
-        pageCount={pageCount}
-        onPageChange={setPage}
-      />
+      {showPagination ? (
+        <StickyPagination
+          page={page}
+          pageCount={pageCount}
+          onPageChange={setPage}
+        />
+      ) : null}
 
       <EKolektorAndroidNavBar onBack={onBack} />
     </div>
