@@ -24,20 +24,20 @@ export default function MBankingProfileHeader({
         Profil
       </h1>
 
-      <div className="mt-[31px] flex items-center gap-[22px]">
-        <div className="grid h-[104px] w-[104px] shrink-0 place-items-center rounded-full bg-[#004FC7] text-[25px] font-extrabold leading-none text-white">
+      <div className="mt-[31px] flex items-center gap-[18px]">
+        <div className="grid h-[82px] w-[82px] shrink-0 place-items-center rounded-full bg-[#004FC7] text-[22px] font-extrabold leading-none text-white">
           L
         </div>
 
         <div className="flex min-w-0 items-center gap-[8px]">
-          <span className="h-[16px] w-[16px] shrink-0 rounded-full bg-[#39B54A]" />
-          <span className="text-[20px] font-extrabold leading-none tracking-tight text-[#39B54A]">
+          <span className="h-[12px] w-[12px] shrink-0 rounded-full bg-[#39B54A]" />
+          <span className="text-[16px] font-extrabold leading-none tracking-tight text-[#39B54A]">
             ONLINE
           </span>
         </div>
       </div>
 
-      <div className="mt-[30px] flex items-end justify-between gap-4">
+      <div className="mt-[28px] flex items-end justify-between gap-4">
         <div className="min-w-0">
           <div className="truncate text-[18px] font-extrabold leading-none tracking-tight text-[#1D2F63]">
             Laura Patel
