@@ -3,6 +3,18 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+function onlyDigits(value: string) {
+  return (value ?? "").replace(/[^\d]/g, "");
+}
+
+function formatThousands(value: string) {
+  const digits = onlyDigits(value);
+  if (!digits) return "";
+
+  const normalized = digits.replace(/^0+(?=\d)/, "");
+  return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 function MoneyField({
   label,
   value,
@@ -30,7 +42,7 @@ function MoneyField({
         </span>
         <input
           value={value}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event) => onChange(formatThousands(event.target.value))}
           className={cn(
             inputClassName,
             "pl-[50px] text-[14px] text-[#23305A] placeholder:text-[14px] placeholder:text-[#9A9A9A]",
