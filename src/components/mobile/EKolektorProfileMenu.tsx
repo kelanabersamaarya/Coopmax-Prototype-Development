@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, RefreshCw, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const accountItems = ["Ubah Kata Sandi"];
@@ -16,8 +16,16 @@ const generalItems = [
 ];
 
 const cooperativeDataItems = [
-  "Data Rekening & Transaksi",
-  "Hapus Data Rekening Offline",
+  {
+    label: "Data Rekening & Transaksi",
+    icon: RefreshCw,
+    tone: "blue" as const,
+  },
+  {
+    label: "Hapus Data Rekening Offline",
+    icon: Trash2,
+    tone: "red" as const,
+  },
 ];
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -31,10 +39,16 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function MenuRow({
   label,
   onClick,
+  leadingIcon,
+  iconTone = "blue",
 }: {
   label: string;
   onClick?: () => void;
+  leadingIcon?: React.ComponentType<{ className?: string }>;
+  iconTone?: "blue" | "red";
 }) {
+  const LeadingIcon = leadingIcon;
+
   return (
     <button
       type="button"
@@ -42,8 +56,21 @@ function MenuRow({
       className="flex h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] text-left transition active:scale-[0.99]"
       aria-label={label}
     >
-      <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-        {label}
+      <span className="flex min-w-0 items-center gap-[14px]">
+        {LeadingIcon ? (
+          <span
+            className={cn(
+              "inline-flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-full text-white",
+              iconTone === "red" ? "bg-[#EF135D]" : "bg-[#004FC7]",
+            )}
+          >
+            <LeadingIcon className="h-[19px] w-[19px]" strokeWidth={2.8} />
+          </span>
+        ) : null}
+
+        <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+          {label}
+        </span>
       </span>
 
       <ChevronRight
@@ -114,7 +141,12 @@ export default function EKolektorProfileMenu() {
       <SectionTitle>Data Koperasi</SectionTitle>
       <div className="bg-white">
         {cooperativeDataItems.map((item) => (
-          <MenuRow key={item} label={item} />
+          <MenuRow
+            key={item.label}
+            label={item.label}
+            leadingIcon={item.icon}
+            iconTone={item.tone}
+          />
         ))}
       </div>
     </div>
