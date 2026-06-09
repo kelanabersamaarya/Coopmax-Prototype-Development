@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import MBankingProfileHeader from "@/components/mobile/MBankingProfileHeader";
 import MBankingBiometricToggle from "@/components/mobile/MBankingBiometricToggle";
+import MBankingSettingsPage from "@/components/mobile/MBankingSettingsPage";
 
 const accountItems = [
   {
@@ -110,6 +111,11 @@ export default function MBankingProfilePage({
   onBack: () => void;
 }) {
   const [biometricEnabled, setBiometricEnabled] = React.useState(false);
+  const [showSettings, setShowSettings] = React.useState(false);
+
+  if (showSettings) {
+    return <MBankingSettingsPage onBack={() => setShowSettings(false)} />;
+  }
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-white">
@@ -143,13 +149,17 @@ export default function MBankingProfilePage({
             ))}
           </div>
 
-          <div className="flex items-center justify-between gap-4 border-b border-[#E8E8E8] px-[26px] py-[18px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+          <button
+            type="button"
+            onClick={() => setShowSettings(true)}
+            className="flex w-full items-center justify-between gap-4 border-b border-[#E8E8E8] px-[26px] py-[18px] text-left text-[16px] font-extrabold leading-tight tracking-tight text-[#203064] transition active:scale-[0.99]"
+          >
             <span>Pengaturan</span>
             <ChevronRight
               className="h-[22px] w-[22px] shrink-0 text-black"
               strokeWidth={2.6}
             />
-          </div>
+          </button>
 
           <div className="border-b border-[#E8E8E8] px-[26px] py-[18px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Version 3.5.14.160
