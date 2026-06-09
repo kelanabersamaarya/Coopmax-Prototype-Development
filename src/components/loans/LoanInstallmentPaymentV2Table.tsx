@@ -92,13 +92,25 @@ type TransactionRowState = {
   pinjamanBulananPeriode: string;
 };
 
-const REGULER_AUTO_BILL_ACCOUNTS = new Set(["12260002", "12260001"]);
+const REGULER_AUTO_BILL_ACCOUNTS = new Set([
+  "12260006",
+  "12260002",
+  "12260001",
+  "072260001",
+]);
 
 const REGULER_AUTO_BILL: BillTotals = {
   pokok: "833.333",
   bunga: "83.333",
   denda: "75.000",
   total: "991.666",
+};
+
+const EMPTY_TOTALS: BillTotals = {
+  pokok: "0,00",
+  bunga: "0,00",
+  denda: "0,00",
+  total: "0,00",
 };
 
 const nominalInfoLabels = [
@@ -310,6 +322,26 @@ function getLoanInfoByAccountNo(accountNo: string): LoanInfo | null {
   };
 
   return map[accountNo] ?? null;
+}
+
+function getDefaultTotalsForRow(accountNo: string, paymentMethod: PaymentMethod) {
+  if (
+    paymentMethod === "Pembayaran Reguler" &&
+    REGULER_AUTO_BILL_ACCOUNTS.has(accountNo)
+  ) {
+    return REGULER_AUTO_BILL;
+  }
+
+  if (paymentMethod === "Pembayaran Khusus" || paymentMethod === "Pelunasan") {
+    return {
+      pokok: "5.333.334",
+      bunga: "499.998",
+      denda: "225.000",
+      total: "6.058.332",
+    };
+  }
+
+  return EMPTY_TOTALS;
 }
 
 function makeRow(seed?: Partial<TransactionRowState>): TransactionRowState {
@@ -1315,7 +1347,7 @@ export default function LoanInstallmentPaymentV2Table({
         return {
           ...row,
           accountNo: nextAccountNo,
-          savedBillTotals: null,
+          savedBillTotals: getDefaultTotalsForRow(nextAccountNo, row.paymentMethod),
         };
       }),
     );
@@ -1416,32 +1448,14 @@ export default function LoanInstallmentPaymentV2Table({
             const hasPicked = accountNo.length > 0;
             const lockRowUi = !hasPicked;
             const isPinjamanBulanan = !hasPicked || accountNo === "210260001";
-            const isReguler = row.paymentMethod === "Pembayaran Reguler";
             const isBakiDebet =
               row.paymentMethod === "Pembayaran Penurunan Baki Debet";
             const isKhusus = row.paymentMethod === "Pembayaran Khusus";
             const isPelunasan = row.paymentMethod === "Pelunasan";
             const canOpenDaftarTagihan = hasPicked;
             const totalsLabel = isPelunasan ? "Total Pelunasan" : "Total Tagihan";
-
-            const fallbackTotals: BillTotals =
-              isKhusus || isPelunasan
-                ? {
-                    pokok: "5.333.334",
-                    bunga: "499.998",
-                    denda: "225.000",
-                    total: "6.058.332",
-                  }
-                : isReguler && REGULER_AUTO_BILL_ACCOUNTS.has(accountNo)
-                  ? REGULER_AUTO_BILL
-                  : {
-                      pokok: "0,00",
-                      bunga: "0,00",
-                      denda: "0,00",
-                      total: "0,00",
-                    };
-
-            const totals = row.savedBillTotals ?? fallbackTotals;
+            const totals =
+              row.savedBillTotals ?? getDefaultTotalsForRow(accountNo, row.paymentMethod);
             const penaltyContextKey = accountNo
               ? makePenaltyContextKeyForInstallmentV2(accountNo)
               : undefined;
@@ -1458,7 +1472,10 @@ export default function LoanInstallmentPaymentV2Table({
                     onAccountNoChange={(value) =>
                       patchRow(row.id, {
                         accountNo: value,
-                        savedBillTotals: null,
+                        savedBillTotals: getDefaultTotalsForRow(
+                          value.trim(),
+                          row.paymentMethod,
+                        ),
                       })
                     }
                     onSearchClick={() => openPickerForRow(row.id)}
@@ -1529,7 +1546,10 @@ export default function LoanInstallmentPaymentV2Table({
                         onChange={(paymentMethod) =>
                           patchRow(row.id, {
                             paymentMethod,
-                            savedBillTotals: null,
+                            savedBillTotals: getDefaultTotalsForRow(
+                              accountNo,
+                              paymentMethod,
+                            ),
                           })
                         }
                         disabled={lockRowUi}
