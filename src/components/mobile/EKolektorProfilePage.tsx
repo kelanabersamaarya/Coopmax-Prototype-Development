@@ -16,7 +16,7 @@ function ProfileInfoRow({
 }) {
   return (
     <div className="flex items-start gap-4 rounded-[16px] bg-[#F6F8FC] px-4 py-4">
-      <span className="inline-flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-[#2DB6DD] text-white">
+      <span className="inline-flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-[#004FC7] text-white">
         <Icon className="h-[21px] w-[21px]" strokeWidth={2.7} />
       </span>
 
@@ -71,8 +71,8 @@ export default function EKolektorProfilePage({
             />
           </div>
 
-          <div className="mt-6 rounded-[18px] bg-[#EEF8FC] px-4 py-4">
-            <div className="text-[13px] font-extrabold text-[#28B7DD]">
+          <div className="mt-6 rounded-[18px] bg-[#EEF5FF] px-4 py-4">
+            <div className="text-[13px] font-extrabold text-[#004FC7]">
               Status Sinkronisasi
             </div>
             <div className="mt-1 text-[12px] font-normal leading-relaxed text-[#63809E]">
@@ -85,9 +85,9 @@ export default function EKolektorProfilePage({
             onClick={onBack}
             className={cn(
               "mt-7 h-[43px] w-full rounded-[9px]",
-              "bg-[#2DB6DD] text-[14px] font-semibold text-white",
-              "shadow-[0_3px_8px_rgba(45,182,221,0.22)]",
-              "transition hover:bg-[#25a8cc] active:translate-y-px",
+              "bg-[#004FC7] text-[14px] font-semibold text-white",
+              "shadow-[0_3px_8px_rgba(0,79,199,0.22)]",
+              "transition hover:bg-[#0046B3] active:translate-y-px",
             )}
           >
             Kembali ke Beranda
