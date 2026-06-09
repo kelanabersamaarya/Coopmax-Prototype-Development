@@ -525,12 +525,13 @@ export default function DaftarTagihanDialog({
                     onClick={saveSelectedTotals}
                     className={cn(
                       actionBtnBase,
+                      "sm:w-[190px]",
                       "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
                       "focus-visible:ring-[#2fb300]/25",
                     )}
                   >
                     <CheckSquare className={iconCls} strokeWidth={3} />
-                    Simpan
+                    Lanjutkan Pembayaran
                   </button>
                 </>
               ) : (
