@@ -5,13 +5,14 @@ import MBankingBottomNav from "@/components/mobile/MBankingBottomNav";
 import MBankingHomeHeader from "@/components/mobile/MBankingHomeHeader";
 import MBankingInfoPage from "@/components/mobile/MBankingInfoPage";
 import MBankingLoanPage from "@/components/mobile/MBankingLoanPage";
+import MBankingProfilePage from "@/components/mobile/MBankingProfilePage";
 import MBankingQuickActions from "@/components/mobile/MBankingQuickActions";
 import MBankingSavingsCard from "@/components/mobile/MBankingSavingsCard";
 import MBankingTransactionHistoryEmpty from "@/components/mobile/MBankingTransactionHistoryEmpty";
 import MBankingExitConfirmModal from "@/components/mobile/MBankingExitConfirmModal";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 
-type MBankingHomeScreen = "home" | "info" | "loan";
+type MBankingHomeScreen = "home" | "info" | "loan" | "profile";
 
 export default function MBankingHome({
   onLogout,
@@ -24,6 +25,10 @@ export default function MBankingHome({
 }) {
   const [screen, setScreen] = React.useState<MBankingHomeScreen>("home");
   const [exitOpen, setExitOpen] = React.useState(false);
+
+  if (screen === "profile") {
+    return <MBankingProfilePage onBack={() => setScreen("home")} />;
+  }
 
   if (screen === "loan") {
     return (
@@ -47,7 +52,7 @@ export default function MBankingHome({
   return (
     <div className="relative flex min-h-full flex-col bg-white">
       <main className="min-h-0 flex-1 bg-white">
-        <MBankingHomeHeader />
+        <MBankingHomeHeader onProfileClick={() => setScreen("profile")} />
         <MBankingSavingsCard />
         <MBankingQuickActions onAccountInfoClick={() => setScreen("info")} />
         <MBankingTransactionHistoryEmpty />

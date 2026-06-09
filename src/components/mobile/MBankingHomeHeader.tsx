@@ -2,7 +2,11 @@
 
 import { Bell } from "lucide-react";
 
-export default function MBankingHomeHeader() {
+export default function MBankingHomeHeader({
+  onProfileClick,
+}: {
+  onProfileClick?: () => void;
+}) {
   return (
     <header className="shrink-0 bg-white px-6 pb-5 pt-6">
       <div className="flex items-center justify-between gap-4">
@@ -25,9 +29,15 @@ export default function MBankingHomeHeader() {
             <Bell className="h-[26px] w-[26px] fill-[#004FC7]" strokeWidth={2.4} />
           </button>
 
-          <div className="grid h-[46px] w-[46px] place-items-center rounded-full bg-[#004FC7] text-[17px] font-extrabold leading-none text-white">
+          <button
+            type="button"
+            onClick={onProfileClick}
+            className="grid h-[46px] w-[46px] place-items-center rounded-full bg-[#004FC7] text-[17px] font-extrabold leading-none text-white transition active:scale-[0.98]"
+            aria-label="Buka profil"
+            title="Profil"
+          >
             L
-          </div>
+          </button>
         </div>
       </div>
     </header>
