@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
 import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
@@ -132,12 +131,11 @@ export default function EKolektorLoanTransactionPage({
               type="button"
               onClick={() => setShowBillList(true)}
               className={cn(
-                "inline-flex h-[41px] items-center justify-center gap-2 rounded-[9px]",
+                "inline-flex h-[41px] items-center justify-center rounded-[9px]",
                 "bg-[#004FC7] px-3 text-[12px] font-semibold text-white",
                 "shadow-[0_3px_8px_rgba(0,79,199,0.18)] transition active:scale-[0.98]",
               )}
             >
-              <Eye className="h-[16px] w-[16px]" strokeWidth={2.6} />
               Lihat Tagihan
             </button>
 
