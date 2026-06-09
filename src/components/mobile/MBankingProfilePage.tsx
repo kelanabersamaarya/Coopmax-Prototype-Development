@@ -122,6 +122,8 @@ export default function MBankingProfilePage({
       <div className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <MBankingProfileHeader onBack={onBack} />
 
+        <div className="h-[10px] w-full bg-[#F2F2F2]" />
+
         <div className="bg-white pb-8 pt-[22px]">
           <SectionTitle>AKUN</SectionTitle>
           <div className="bg-white">
