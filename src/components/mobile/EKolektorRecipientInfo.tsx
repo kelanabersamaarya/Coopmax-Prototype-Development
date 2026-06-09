@@ -46,7 +46,7 @@ export default function EKolektorRecipientInfo() {
             Nominal bunga
           </div>
           <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
-            Rp. 0,00
+            Rp. 83.333,00
           </div>
         </div>
 
