@@ -4,7 +4,12 @@ import * as React from "react";
 import { ChevronRight, RefreshCw, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const accountItems = ["Ubah Kata Sandi"];
+const accountItems = [
+  {
+    label: "Ubah Kata Sandi",
+    helperText: "Ganti Kata Sandi Anda Disini",
+  },
+];
 
 const generalItems = [
   "Petunjuk Penggunaan",
@@ -38,11 +43,13 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 function MenuRow({
   label,
+  helperText,
   onClick,
   trailingIcon,
   iconTone = "blue",
 }: {
   label: string;
+  helperText?: string;
   onClick?: () => void;
   trailingIcon?: React.ComponentType<{ className?: string }>;
   iconTone?: "blue" | "red";
@@ -53,11 +60,19 @@ function MenuRow({
     <button
       type="button"
       onClick={onClick}
-      className="flex h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px] text-left transition active:scale-[0.99]"
+      className="flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px] py-[12px] text-left transition active:scale-[0.99]"
       aria-label={label}
     >
-      <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
-        {label}
+      <span className="min-w-0">
+        <span className="block text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+          {label}
+        </span>
+
+        {helperText ? (
+          <span className="mt-[5px] block text-[12px] font-extrabold leading-tight tracking-tight text-[#8C8C8C]">
+            {helperText}
+          </span>
+        ) : null}
       </span>
 
       {TrailingIcon ? (
@@ -116,8 +131,8 @@ export default function EKolektorProfileMenu({
 
   return (
     <div className="bg-white pb-8 pt-[22px]">
-      <div className="border-t border-[#E8E8E8]">
-        <div className="flex h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px]">
+      <div>
+        <div className="flex h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px]">
           <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Mode Offline
           </span>
@@ -129,7 +144,11 @@ export default function EKolektorProfileMenu({
       <SectionTitle>Akun</SectionTitle>
       <div className="bg-white">
         {accountItems.map((item) => (
-          <MenuRow key={item} label={item} />
+          <MenuRow
+            key={item.label}
+            label={item.label}
+            helperText={item.helperText}
+          />
         ))}
       </div>
 
