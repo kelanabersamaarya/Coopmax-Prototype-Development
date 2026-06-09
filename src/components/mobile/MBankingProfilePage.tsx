@@ -25,19 +25,19 @@ const accountItems = [
 const generalItems = [
   {
     label: "Petunjuk Penggunaan",
-    helper: "-",
+    helper: "",
   },
   {
     label: "Syarat dan Ketentuan",
-    helper: "-",
+    helper: "",
   },
   {
     label: "Kebijakan Privasi",
-    helper: "-",
+    helper: "",
   },
   {
     label: "Kontak Kami",
-    helper: "-",
+    helper: "",
   },
 ];
 
@@ -64,9 +64,11 @@ function ProfileMenuRow({
       <span className="text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
         {label}
       </span>
-      <span className="mt-[5px] text-[12px] font-extrabold leading-tight tracking-tight text-[#8C8C8C]">
-        {helper}
-      </span>
+      {helper ? (
+        <span className="mt-[5px] text-[12px] font-extrabold leading-tight tracking-tight text-[#8C8C8C]">
+          {helper}
+        </span>
+      ) : null}
     </button>
   );
 }
