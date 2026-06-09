@@ -124,7 +124,7 @@ function BillAmountBlock({
 
 function BillCard({ bill }: { bill: BillGroup }) {
   return (
-    <div className="rounded-[24px] border border-[#828282] bg-white px-6 py-5">
+    <div className="rounded-[24px] border border-[#F2F2F2] bg-white px-6 py-5">
       <div className="grid grid-cols-2 gap-x-5">
         <div className="min-w-0">
           <BillAmountBlock label="Jatuh Tempo" value={bill.jatuhTempo} />
