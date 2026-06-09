@@ -1,4 +1,3 @@
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -33,17 +32,15 @@ import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 import PengaturanUmum from "./pages/PengaturanUmum";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileMBanking from "./pages/MobileMBanking";
+import MobileAwareToaster from "./components/MobileAwareToaster";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Sonner
-        position="top-right"
-        offset={{ top: 20, right: 32, left: 16, bottom: 16 }}
-      />
       <BrowserRouter>
+        <MobileAwareToaster />
         <Routes>
           <Route path="/" element={<Index />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
