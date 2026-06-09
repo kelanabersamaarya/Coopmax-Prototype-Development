@@ -107,7 +107,11 @@ function OfflineToggle({
   );
 }
 
-export default function EKolektorProfileMenu() {
+export default function EKolektorProfileMenu({
+  onOpenSettings,
+}: {
+  onOpenSettings?: () => void;
+}) {
   const [offlineMode, setOfflineMode] = React.useState(false);
 
   return (
@@ -132,7 +136,11 @@ export default function EKolektorProfileMenu() {
       <SectionTitle>Umum</SectionTitle>
       <div className="bg-white">
         {generalItems.map((item) => (
-          <MenuRow key={item} label={item} />
+          <MenuRow
+            key={item}
+            label={item}
+            onClick={item === "Pengaturan" ? onOpenSettings : undefined}
+          />
         ))}
       </div>
 
