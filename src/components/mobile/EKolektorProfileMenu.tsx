@@ -147,6 +147,10 @@ export default function EKolektorProfileMenu() {
           />
         ))}
       </div>
+
+      <div className="px-[26px] pb-[18px] pt-[28px] text-[16px] font-extrabold leading-tight tracking-tight text-[#EF135D]">
+        Keluar
+      </div>
     </div>
   );
 }
