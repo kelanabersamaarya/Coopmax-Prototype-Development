@@ -21,6 +21,12 @@ const loanAccounts = [
     accountNo: "SMG260004",
     address: "Sidakarya",
   },
+  {
+    productName: "Pinjaman Harian",
+    customerName: "RIKA WASTUTI",
+    accountNo: "072260001",
+    address: "Jl. Kenanga No. 12",
+  },
 ];
 
 export default function EKolektorPinjamanInfo({
