@@ -55,7 +55,7 @@ function getLoanDetail(loan: MBankingLoanItem) {
       infoRows: [
         { label: "No. Pinjaman", value: "072260001" },
         { label: "Produk", value: "Pinjaman Harian" },
-        { label: "Grace Period", value: "0 Hari" },
+        { label: "Grace Period", value: "3 Bulan" },
         { label: "Tanggal Pencairan", value: "31-03-2026" },
         { label: "Jangka Waktu", value: "18 Bulan" },
         { label: "Jatuh Tempo", value: "30-09-2026" },

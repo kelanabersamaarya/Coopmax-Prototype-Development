@@ -14,6 +14,9 @@ export default function EKolektorGracePeriodInfoCard() {
           <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#23305A]">
             Periode Grace Period
           </div>
+          <div className="mt-1 text-[12px] font-extrabold leading-snug tracking-tight text-[#004FC7]">
+            Grace Period: 3 Bulan
+          </div>
           <div className="mt-1 text-[12px] font-normal leading-snug tracking-tight text-[#63809E]">
             Berikut ini merupakan periode tagihan pinjaman yang termasuk ke dalam
             grace period. Selama periode grace period nasabah hanya membayar bunga
