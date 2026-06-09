@@ -84,14 +84,12 @@ export default function MBankingSettingsPage({
           <div className="bg-white">
             {settingsItems.map((item, index) => {
               const key = `${index}-${item}`;
-              const isLast = index === settingsItems.length - 1;
 
               return (
                 <div
                   key={key}
                   className={cn(
                     "flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px] py-[12px]",
-                    !isLast ? "border-b border-[#E8E8E8]" : "",
                   )}
                 >
                   <div className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
