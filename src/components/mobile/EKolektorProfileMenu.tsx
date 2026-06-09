@@ -53,6 +53,7 @@ function MenuRow({
   onClick,
   trailingIcon,
   iconTone = "blue",
+  withDivider = false,
 }: {
   label: string;
   helperText?: string;
@@ -60,6 +61,7 @@ function MenuRow({
   onClick?: () => void;
   trailingIcon?: React.ComponentType<{ className?: string }>;
   iconTone?: "blue" | "red";
+  withDivider?: boolean;
 }) {
   const TrailingIcon = trailingIcon;
 
@@ -67,7 +69,10 @@ function MenuRow({
     <button
       type="button"
       onClick={onClick}
-      className="flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px] py-[12px] text-left transition active:scale-[0.99]"
+      className={cn(
+        "flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px] py-[12px] text-left transition active:scale-[0.99]",
+        withDivider ? "border-b border-[#E8E8E8]" : "",
+      )}
       aria-label={label}
     >
       <span className="min-w-0">
@@ -144,7 +149,7 @@ export default function EKolektorProfileMenu({
   return (
     <div className="bg-white pb-8 pt-[22px]">
       <div>
-        <div className="flex h-[58px] w-full items-center justify-between gap-4 bg-white px-[26px]">
+        <div className="flex h-[58px] w-full items-center justify-between gap-4 border-b border-[#E8E8E8] bg-white px-[26px]">
           <span className="min-w-0 text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
             Mode Offline
           </span>
@@ -155,30 +160,32 @@ export default function EKolektorProfileMenu({
 
       <SectionTitle>Akun</SectionTitle>
       <div className="bg-white">
-        {accountItems.map((item) => (
+        {accountItems.map((item, index) => (
           <MenuRow
             key={item.label}
             label={item.label}
             helperText={item.helperText}
             helperTone={item.helperTone}
+            withDivider={index < accountItems.length - 1}
           />
         ))}
       </div>
 
       <SectionTitle>Umum</SectionTitle>
       <div className="bg-white">
-        {generalItems.map((item) => (
+        {generalItems.map((item, index) => (
           <MenuRow
             key={item}
             label={item}
             onClick={item === "Pengaturan" ? onOpenSettings : undefined}
+            withDivider={index < generalItems.length - 1}
           />
         ))}
       </div>
 
       <SectionTitle>Data Koperasi</SectionTitle>
       <div className="bg-white">
-        {cooperativeDataItems.map((item) => (
+        {cooperativeDataItems.map((item, index) => (
           <MenuRow
             key={item.label}
             label={item.label}
@@ -186,11 +193,12 @@ export default function EKolektorProfileMenu({
             helperTone={item.helperTone}
             trailingIcon={item.icon}
             iconTone={item.tone}
+            withDivider={index < cooperativeDataItems.length - 1}
           />
         ))}
       </div>
 
-      <div className="px-[26px] pb-[18px] pt-[28px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
+      <div className="border-t border-[#E8E8E8] px-[26px] pb-[18px] pt-[28px] text-[16px] font-extrabold leading-tight tracking-tight text-[#203064]">
         Keluar
       </div>
     </div>
