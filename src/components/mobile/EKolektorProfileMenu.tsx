@@ -160,25 +160,25 @@ export default function EKolektorProfileMenu({
 
       <SectionTitle>Akun</SectionTitle>
       <div className="bg-white">
-        {accountItems.map((item, index) => (
+        {accountItems.map((item) => (
           <MenuRow
             key={item.label}
             label={item.label}
             helperText={item.helperText}
             helperTone={item.helperTone}
-            withDivider={index < accountItems.length - 1}
+            withDivider
           />
         ))}
       </div>
 
       <SectionTitle>Umum</SectionTitle>
       <div className="bg-white">
-        {generalItems.map((item, index) => (
+        {generalItems.map((item) => (
           <MenuRow
             key={item}
             label={item}
             onClick={item === "Pengaturan" ? onOpenSettings : undefined}
-            withDivider={index < generalItems.length - 1}
+            withDivider
           />
         ))}
       </div>
