@@ -8,6 +8,7 @@ const accountItems = [
   {
     label: "Ubah Kata Sandi",
     helperText: "Ganti Kata Sandi Anda Disini",
+    helperTone: "gray" as const,
   },
 ];
 
@@ -23,11 +24,15 @@ const generalItems = [
 const cooperativeDataItems = [
   {
     label: "Data Rekening & Transaksi",
+    helperText: "Sinkronisasi Belum Dilakuka",
+    helperTone: "green" as const,
     icon: RefreshCw,
     tone: "blue" as const,
   },
   {
     label: "Hapus Data Rekening Offline",
+    helperText: "Menghapus data rekening pada mode offline",
+    helperTone: "gray" as const,
     icon: Trash2,
     tone: "red" as const,
   },
@@ -44,12 +49,14 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function MenuRow({
   label,
   helperText,
+  helperTone = "gray",
   onClick,
   trailingIcon,
   iconTone = "blue",
 }: {
   label: string;
   helperText?: string;
+  helperTone?: "gray" | "green";
   onClick?: () => void;
   trailingIcon?: React.ComponentType<{ className?: string }>;
   iconTone?: "blue" | "red";
@@ -69,7 +76,12 @@ function MenuRow({
         </span>
 
         {helperText ? (
-          <span className="mt-[5px] block text-[12px] font-extrabold leading-tight tracking-tight text-[#8C8C8C]">
+          <span
+            className={cn(
+              "mt-[5px] block text-[12px] font-extrabold leading-tight tracking-tight",
+              helperTone === "green" ? "text-[#39B54A]" : "text-[#8C8C8C]",
+            )}
+          >
             {helperText}
           </span>
         ) : null}
@@ -148,6 +160,7 @@ export default function EKolektorProfileMenu({
             key={item.label}
             label={item.label}
             helperText={item.helperText}
+            helperTone={item.helperTone}
           />
         ))}
       </div>
@@ -169,6 +182,8 @@ export default function EKolektorProfileMenu({
           <MenuRow
             key={item.label}
             label={item.label}
+            helperText={item.helperText}
+            helperTone={item.helperTone}
             trailingIcon={item.icon}
             iconTone={item.tone}
           />
