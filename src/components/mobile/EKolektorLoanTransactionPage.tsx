@@ -21,15 +21,15 @@ const loanInfoItems = [
   },
   {
     title: "Sisa Pinjaman",
-    subtitle: "10.000.000,00",
+    subtitle: "Rp. 10.000.000,00",
   },
   {
     title: "Total Angsuran",
-    subtitle: "991.666",
+    subtitle: "Rp. 991.666",
   },
   {
     title: "Total Hutang",
-    subtitle: "0,00",
+    subtitle: "Rp. 0,00",
   },
 ];
 

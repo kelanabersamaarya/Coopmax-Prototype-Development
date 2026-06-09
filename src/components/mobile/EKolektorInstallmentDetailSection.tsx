@@ -5,34 +5,34 @@ import { cn } from "@/lib/utils";
 const leftItems = [
   {
     title: "Angsuran Pokok",
-    subtitle: "833.333",
+    subtitle: "Rp. 833.333",
   },
   {
     title: "Hutang Pokok",
-    subtitle: "0,00",
+    subtitle: "Rp. 0,00",
   },
   {
     title: "Total Pokok",
-    subtitle: "833.333",
+    subtitle: "Rp. 833.333",
   },
   {
     title: "Total Denda",
-    subtitle: "0,00",
+    subtitle: "Rp. 75.000",
   },
 ];
 
 const rightItems = [
   {
     title: "Angsuran Bunga",
-    subtitle: "83.333",
+    subtitle: "Rp. 83.333",
   },
   {
     title: "Hutang Bunga",
-    subtitle: "0,00",
+    subtitle: "Rp. 0,00",
   },
   {
     title: "Total Bunga",
-    subtitle: "83.333",
+    subtitle: "Rp. 83.333",
   },
 ];
 

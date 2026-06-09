@@ -55,7 +55,7 @@ export default function EKolektorRecipientInfo() {
             Nominal denda
           </div>
           <div className="mt-2 text-[14px] font-extrabold leading-tight tracking-tight text-[#243464]">
-            Rp. 0,00
+            Rp. 75.000,00
           </div>
         </div>
       </div>
