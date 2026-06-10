@@ -4,7 +4,7 @@ import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { CheckSquare, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
@@ -509,53 +509,27 @@ export default function DaftarTagihanDialog({
 
           <div className="px-6 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-              {showSaveFooter ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => onOpenChange(false)}
-                    className={cn(
-                      actionBtnBase,
-                      "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
-                      "focus-visible:ring-[#77839A]/25",
-                    )}
-                  >
-                    <X className={iconCls} strokeWidth={3} />
-                    Batalkan
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={saveSelectedTotals}
-                    className={cn(
-                      actionBtnBase,
-                      "sm:w-[190px]",
-                      "bg-[#2fb300] ring-1 ring-[#2fb300]/25 transition hover:bg-[#279800]",
-                      "focus-visible:ring-[#2fb300]/25",
-                    )}
-                  >
-                    <CheckSquare className={iconCls} strokeWidth={3} />
-                    Lanjutkan Pembayaran
-                  </button>
-                </>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => onOpenChange(false)}
-                  className={cn(
-                    actionBtnBase,
-                    "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
-                    "focus-visible:ring-[#77839A]/25",
-                  )}
-                >
-                  <X className={iconCls} strokeWidth={3} />
-                  Tutup
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  actionBtnBase,
+                  "bg-[#77839A] ring-1 ring-[#77839A]/25 transition hover:bg-[#6b768c]",
+                  "focus-visible:ring-[#77839A]/25",
+                )}
+              >
+                <X className={iconCls} strokeWidth={3} />
+                {showSaveFooter ? "Batalkan" : "Tutup"}
+              </button>
             </div>
           </div>
 
-          <div className="sr-only">{showGraceHighlight ? "grace" : "nograce"}</div>
+          <div className="sr-only">
+            {showGraceHighlight ? "grace" : "nograce"}
+            <button type="button" onClick={saveSelectedTotals}>
+              hidden save
+            </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
