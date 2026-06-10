@@ -220,6 +220,7 @@ export default function DaftarTagihanDialog({
   const isPelunasan = paymentMethod === "Pelunasan";
 
   const normalizedAccountNo = (accountNo ?? "").trim();
+  const isFirstNasabah = normalizedAccountNo === "12260006";
   const isSecondNasabah = normalizedAccountNo === "12260002";
   const isThirdNasabah = normalizedAccountNo === "12260001";
 
@@ -336,7 +337,10 @@ export default function DaftarTagihanDialog({
   const showPenaltyColumn = !isBakiDebet;
   const isLocked = isBakiDebet || isPelunasan;
   const showGraceHighlight = page === 1;
-  const title = useSecondStyle ? "INFORMASI TAGIHAN DAN DENDA" : "Daftar Tagihan";
+  const title =
+    isFirstNasabah || useSecondStyle
+      ? "INFORMASI TAGIHAN DAN DENDA"
+      : "Daftar Tagihan";
 
   function saveSelectedTotals() {
     const forceAll = hideSelection || lockChecklistForSecondStyle;
