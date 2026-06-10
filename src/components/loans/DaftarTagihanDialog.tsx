@@ -102,6 +102,22 @@ const seedRowsFor12260002: BillingRow[] = [
     sisaPokok: "783.333",
     sisaBunga: "26.389",
   },
+  {
+    jatuhTempo: "25-02-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
+  {
+    jatuhTempo: "25-03-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "783.333",
+    sisaBunga: "26.389",
+  },
 ];
 
 type PaymentMethod =
