@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import BillingTableView2, {
   type BillingRow,
 } from "@/components/anggota/BillingTableView2";
+import DaftarTagihanSecondStyleTable from "@/components/loans/DaftarTagihanSecondStyleTable";
 import { toast } from "sonner";
 
 const seedRows: BillingRow[] = [
@@ -429,31 +430,10 @@ export default function DaftarTagihanDialog({
                 <NextBillInfoBannerLikeReference />
 
                 <div className="mt-4">
-                  <div
-                    className={cn(
-                      "[&_.bg-white.px-3.py-3]:!py-1.5",
-                      "[&_.px-4.py-4]:!py-2",
-                    )}
-                  >
-                    <BillingTableView2
-                      rows={rows}
-                      selected={selected}
-                      setSelected={setSelected}
-                      isLocked={lockChecklistForSecondStyle}
-                      showNextBillInfo={false}
-                      showGraceInfo={true}
-                      highlightGraceBlock={true}
-                      keepGraceShellWithoutInfo={false}
-                      hideSelection={true}
-                      showPenaltyColumn={true}
-                      penaltyContentEnabled={true}
-                      disableRowRings={true}
-                      disableRowActiveRing={true}
-                      penaltyIndexOffset={0}
-                      className="hide-last-daftar-tagihan-penalty mt-0"
-                      contextKey={contextKey}
-                    />
-                  </div>
+                  <DaftarTagihanSecondStyleTable
+                    rows={rows}
+                    contextKey={contextKey}
+                  />
                 </div>
               </div>
             ) : (
