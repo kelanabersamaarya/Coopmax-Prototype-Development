@@ -1,63 +1,73 @@
-import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import { dyadComponentTagger } from "dyad-component-tagger";
 
-export default defineConfig({
+function manualChunks(id: string) {
+  if (!id.includes("node_modules")) return undefined;
+
+  const normalizedId = id.replace(/\\/g, "/");
+
+  if (
+    normalizedId.includes("/react/") ||
+    normalizedId.includes("/react-dom/") ||
+    normalizedId.includes("/react-router-dom/") ||
+    normalizedId.includes("/scheduler/")
+  ) {
+    return "vendor-react";
+  }
+
+  if (normalizedId.includes("/@tanstack/react-query/")) {
+    return "vendor-query";
+  }
+
+  if (normalizedId.includes("/@radix-ui/")) {
+    return "vendor-radix";
+  }
+
+  if (
+    normalizedId.includes("/recharts/") ||
+    normalizedId.includes("/d3-") ||
+    normalizedId.includes("/victory-vendor/")
+  ) {
+    return "vendor-charts";
+  }
+
+  if (
+    normalizedId.includes("/react-hook-form/") ||
+    normalizedId.includes("/@hookform/") ||
+    normalizedId.includes("/zod/")
+  ) {
+    return "vendor-forms";
+  }
+
+  if (
+    normalizedId.includes("/date-fns/") ||
+    normalizedId.includes("/lucide-react/") ||
+    normalizedId.includes("/sonner/")
+  ) {
+    return "vendor-ui-utils";
+  }
+
+  return "vendor";
+}
+
+export default defineConfig(() => ({
+  server: {
+    host: "::",
+    port: 8080,
+  },
+  plugins: [dyadComponentTagger(), react()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (!id.includes("node_modules")) return undefined;
-
-          if (
-            id.includes("react/") ||
-            id.includes("react-dom/") ||
-            id.includes("react-router-dom")
-          ) {
-            return "react-vendor";
-          }
-
-          if (id.includes("@tanstack/react-query")) {
-            return "query-vendor";
-          }
-
-          if (id.includes("@radix-ui")) {
-            return "radix-vendor";
-          }
-
-          if (
-            id.includes("recharts") ||
-            id.includes("d3-") ||
-            id.includes("victory")
-          ) {
-            return "charts-vendor";
-          }
-
-          if (
-            id.includes("react-hook-form") ||
-            id.includes("@hookform") ||
-            id.includes("zod")
-          ) {
-            return "forms-vendor";
-          }
-
-          if (
-            id.includes("lucide-react") ||
-            id.includes("sonner") ||
-            id.includes("clsx") ||
-            id.includes("tailwind-merge") ||
-            id.includes("class-variance-authority")
-          ) {
-            return "ui-utils-vendor";
-          }
-
-          return "vendor";
-        },
+        manualChunks,
       },
     },
   },
-});
+}));
