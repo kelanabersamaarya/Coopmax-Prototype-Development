@@ -267,6 +267,16 @@ export default function DaftarTagihanSecondStyleTable({
     setDetailOpen(true);
   }
 
+  function handleDetailOpenChange(open: boolean) {
+    setDetailOpen(open);
+
+    if (!open) {
+      setRefreshTick((value) => value + 1);
+      setDetailContext(null);
+      setDetailRows([]);
+    }
+  }
+
   const colCount = 7;
   const graceRows = rows.slice(0, 2);
   const restRows = rows.slice(2);
@@ -308,7 +318,7 @@ export default function DaftarTagihanSecondStyleTable({
 
       <PenaltyDetailDialog
         open={detailOpen}
-        onOpenChange={setDetailOpen}
+        onOpenChange={handleDetailOpenChange}
         rows={detailRows}
         contextKey={contextKey}
         dueDateDmy={detailContext?.dueDateDmy}
