@@ -204,6 +204,36 @@ export default function EKolektorBillListPage({
 
   const showGraceHighlight = page === 1;
 
+  const compactTableClassName = cn(
+    "mx-auto mt-0 w-full max-w-full",
+    "[&_.safe-x-scroll]:!overflow-hidden",
+    "[&_.safe-x-scroll]:!overscroll-auto",
+    "[&_table]:!w-full",
+    "[&_table]:!min-w-0",
+    "[&_table]:!max-w-full",
+    "[&_table]:!table-fixed",
+    "[&_th]:!w-auto",
+    "[&_th]:!min-w-0",
+    "[&_th]:!px-[2px]",
+    "[&_th]:!py-[6px]",
+    "[&_th]:!text-[6.5px]",
+    "[&_th]:!leading-[1.05]",
+    "[&_td]:!w-auto",
+    "[&_td]:!min-w-0",
+    "[&_td]:!px-[2px]",
+    "[&_td]:!py-[6px]",
+    "[&_td]:!text-[7px]",
+    "[&_td]:!leading-[1.1]",
+    "[&_td]:!whitespace-normal",
+    "[&_td_*]:!text-[7px]",
+    "[&_td_*]:!leading-[1.1]",
+    "[&_.num-sans-tabular]:!tracking-[-0.03em]",
+    "[&_button[aria-label='Lihat_Detail_Denda']]:!h-[14px]",
+    "[&_button[aria-label='Lihat_Detail_Denda']]:!w-[14px]",
+    "[&_button[aria-label='Lihat_Detail_Denda']_svg]:!h-[9px]",
+    "[&_button[aria-label='Lihat_Detail_Denda']_svg]:!w-[9px]",
+  );
+
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
       <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -228,18 +258,16 @@ export default function EKolektorBillListPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-4 pb-0 pt-7">
+        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-3 pb-0 pt-7">
           {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
 
-          <div className="rounded-[15px] border border-[#CDD4E0] bg-white p-2 shadow-sm">
-            <div className="max-w-full overflow-hidden">
-              <BillingTableWithStatus
-                rows={pagedRows}
-                showGraceHighlight={showGraceHighlight}
-                penaltyIndexOffset={(page - 1) * pageSize}
-                className="mt-0"
-              />
-            </div>
+          <div className="mx-auto w-full max-w-full rounded-[15px] border border-[#CDD4E0] bg-white p-1.5 shadow-sm">
+            <BillingTableWithStatus
+              rows={pagedRows}
+              showGraceHighlight={showGraceHighlight}
+              penaltyIndexOffset={(page - 1) * pageSize}
+              className={compactTableClassName}
+            />
           </div>
         </main>
       </div>
