@@ -4,162 +4,85 @@ import * as React from "react";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorAndroidNavBar from "@/components/mobile/EKolektorAndroidNavBar";
-import EKolektorGracePeriodInfoCard from "@/components/mobile/EKolektorGracePeriodInfoCard";
 import EKolektorNextBillInfoCard from "@/components/mobile/EKolektorNextBillInfoCard";
+import BillingTableWithStatus, {
+  type BillingRow,
+} from "@/components/loans/BillingTableWithStatus";
 
-type BillGroup = {
-  jatuhTempo: string;
-  totalBelumDibayar: string;
-  tagihanPokok: string;
-  tagihanBunga: string;
-  sisaPokok: string;
-  sisaBunga: string;
-  tagihanDenda: string;
-};
-
-const billGroups: BillGroup[] = [
+const billRows: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 0,00",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 0,00",
-    sisaBunga: "Rp. 26.389",
-    tagihanDenda: "Rp. 75.000",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "0,00",
+    tagihanBunga: "83.333",
+    sisaPokok: "0,00",
+    sisaBunga: "26.389",
   },
   {
     jatuhTempo: "25-02-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 0,00",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 0,00",
-    sisaBunga: "Rp. 26.389",
-    tagihanDenda: "Rp. 75.000",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "0,00",
+    tagihanBunga: "83.333",
+    sisaPokok: "0,00",
+    sisaBunga: "26.389",
   },
   {
     jatuhTempo: "25-03-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 0,00",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 0,00",
-    sisaBunga: "Rp. 26.389",
-    tagihanDenda: "Rp. 75.000",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "0,00",
+    tagihanBunga: "83.333",
+    sisaPokok: "0,00",
+    sisaBunga: "26.389",
   },
   {
     jatuhTempo: "25-04-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 833.333",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 833.333",
-    sisaBunga: "Rp. 33.333",
-    tagihanDenda: "Rp. 0,00",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
   },
   {
     jatuhTempo: "25-05-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 833.333",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 833.333",
-    sisaBunga: "Rp. 33.333",
-    tagihanDenda: "Rp. 0,00",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
   },
   {
     jatuhTempo: "25-06-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 833.333",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 833.333",
-    sisaBunga: "Rp. 33.333",
-    tagihanDenda: "Rp. 0,00",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
   },
   {
     jatuhTempo: "25-07-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 833.333",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 833.333",
-    sisaBunga: "Rp. 33.333",
-    tagihanDenda: "Rp. 0,00",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
   },
   {
     jatuhTempo: "25-08-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 833.333",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 833.333",
-    sisaBunga: "Rp. 33.333",
-    tagihanDenda: "Rp. 0,00",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
   },
   {
     jatuhTempo: "25-09-2026",
-    totalBelumDibayar: "Rp. 916.667",
-    tagihanPokok: "Rp. 833.333",
-    tagihanBunga: "Rp. 83.333",
-    sisaPokok: "Rp. 833.333",
-    sisaBunga: "Rp. 33.333",
-    tagihanDenda: "Rp. 0,00",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
   },
 ];
-
-function BillAmountBlock({
-  label,
-  value,
-  align = "left",
-}: {
-  label: string;
-  value: string;
-  align?: "left" | "right";
-}) {
-  return (
-    <div className={align === "right" ? "text-right" : "text-left"}>
-      <div className="text-[14px] font-extrabold leading-tight tracking-tight text-[#203064]">
-        {label}
-      </div>
-      <div className="mt-[5px] text-[14px] font-extrabold leading-tight tracking-tight text-black">
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function BillCard({ bill }: { bill: BillGroup }) {
-  return (
-    <div className="rounded-[15px] border border-[#CDD4E0] bg-white px-6 py-5">
-      <div className="grid grid-cols-2 gap-x-5">
-        <div className="min-w-0">
-          <BillAmountBlock label="Jatuh Tempo" value={bill.jatuhTempo} />
-
-          <div className="mt-[12px] grid gap-[12px]">
-            <BillAmountBlock label="Tagihan Pokok" value={bill.tagihanPokok} />
-            <BillAmountBlock label="Sisa Tagihan Pokok" value={bill.sisaPokok} />
-            <BillAmountBlock label="Tagihan Denda" value={bill.tagihanDenda} />
-          </div>
-        </div>
-
-        <div className="min-w-0 text-right">
-          <BillAmountBlock
-            label="Total Tagihan Belum Dibayar"
-            value={bill.totalBelumDibayar}
-            align="right"
-          />
-
-          <div className="mt-[12px] grid gap-[12px]">
-            <BillAmountBlock
-              label="Tagihan Bunga"
-              value={bill.tagihanBunga}
-              align="right"
-            />
-            <BillAmountBlock
-              label="Sisa Tagihan Bunga"
-              value={bill.sisaBunga}
-              align="right"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function StickyPagination({
   page,
@@ -235,28 +158,27 @@ export default function EKolektorBillListPage({
     singleBillWithNextInfo ||
     (showSpecialNextBillInfo && isSecondOrThirdAccount);
 
-  const billsForAccount = React.useMemo(() => {
+  const rowsForAccount = React.useMemo(() => {
     if (shouldShowSingleBillWithNextInfo) {
-      return billGroups.slice(0, 1);
+      return billRows.slice(0, 1);
     }
 
-    return billGroups;
+    return billRows;
   }, [shouldShowSingleBillWithNextInfo]);
 
-  const pageCount = Math.max(1, Math.ceil(billsForAccount.length / pageSize));
+  const pageCount = Math.max(1, Math.ceil(rowsForAccount.length / pageSize));
   const showPagination = pageCount > 1;
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
   }, [page, pageCount]);
 
-  const pagedBillGroups = React.useMemo(() => {
+  const pagedRows = React.useMemo(() => {
     const start = (page - 1) * pageSize;
-    return billsForAccount.slice(start, start + pageSize);
-  }, [billsForAccount, page]);
+    return rowsForAccount.slice(start, start + pageSize);
+  }, [page, rowsForAccount]);
 
-  const gracePeriodBills = page === 1 ? pagedBillGroups.slice(0, 3) : [];
-  const regularBills = page === 1 ? pagedBillGroups.slice(3) : pagedBillGroups;
+  const showGraceHighlight = page === 1;
 
   return (
     <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
@@ -282,35 +204,19 @@ export default function EKolektorBillListPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-6 pb-8 pt-7">
-          {gracePeriodBills.length > 0 ? (
-            <>
-              {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
+        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-4 pb-8 pt-7">
+          {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
 
-              <div className="rounded-[15px] border-2 border-[#004FC7] p-3">
-                <EKolektorGracePeriodInfoCard />
-
-                <div className="grid gap-4">
-                  {gracePeriodBills.map((bill) => (
-                    <BillCard key={bill.jatuhTempo} bill={bill} />
-                  ))}
-                </div>
-              </div>
-            </>
-          ) : null}
-
-          {regularBills.length > 0 ? (
-            <div
-              className={cn(
-                "grid gap-4",
-                gracePeriodBills.length > 0 ? "mt-4" : "",
-              )}
-            >
-              {regularBills.map((bill) => (
-                <BillCard key={bill.jatuhTempo} bill={bill} />
-              ))}
+          <div className="rounded-[15px] border border-[#CDD4E0] bg-white p-2 shadow-sm">
+            <div className="max-w-full overflow-hidden">
+              <BillingTableWithStatus
+                rows={pagedRows}
+                showGraceHighlight={showGraceHighlight}
+                penaltyIndexOffset={(page - 1) * pageSize}
+                className="mt-0"
+              />
             </div>
-          ) : null}
+          </div>
         </main>
       </div>
 
