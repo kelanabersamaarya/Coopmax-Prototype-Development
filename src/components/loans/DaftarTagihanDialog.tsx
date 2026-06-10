@@ -370,8 +370,6 @@ export default function DaftarTagihanDialog({
     onOpenChange(false);
   }
 
-  const showSaveFooter = !useSecondStyle;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -519,7 +517,7 @@ export default function DaftarTagihanDialog({
                 )}
               >
                 <X className={iconCls} strokeWidth={3} />
-                {showSaveFooter ? "Batalkan" : "Tutup"}
+                Tutup
               </button>
             </div>
           </div>
