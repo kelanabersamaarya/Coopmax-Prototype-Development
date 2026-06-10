@@ -220,9 +220,16 @@ function HideFirstChecklistWrapper({
 
       inputs.forEach((input, index) => {
         const shouldHide = enabled && index === 0;
+        const wrapper = input.parentElement;
 
+        input.style.display = shouldHide ? "none" : "";
         input.style.visibility = shouldHide ? "hidden" : "";
         input.style.pointerEvents = shouldHide ? "none" : "";
+
+        if (wrapper) {
+          wrapper.style.visibility = shouldHide ? "hidden" : "";
+          wrapper.style.pointerEvents = shouldHide ? "none" : "";
+        }
 
         if (shouldHide) {
           input.setAttribute("aria-hidden", "true");
