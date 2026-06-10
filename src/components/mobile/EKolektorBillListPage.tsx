@@ -124,7 +124,7 @@ function BillAmountBlock({
 
 function BillCard({ bill }: { bill: BillGroup }) {
   return (
-    <div className="rounded-[24px] border border-[#CDD4E0] bg-white px-6 py-5">
+    <div className="rounded-[15px] border border-[#CDD4E0] bg-white px-6 py-5">
       <div className="grid grid-cols-2 gap-x-5">
         <div className="min-w-0">
           <BillAmountBlock label="Jatuh Tempo" value={bill.jatuhTempo} />
@@ -287,7 +287,7 @@ export default function EKolektorBillListPage({
             <>
               {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
 
-              <div className="rounded-[28px] border-2 border-[#004FC7] p-3">
+              <div className="rounded-[15px] border-2 border-[#004FC7] p-3">
                 <EKolektorGracePeriodInfoCard />
 
                 <div className="grid gap-4">
