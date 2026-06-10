@@ -370,7 +370,7 @@ export default function DaftarTagihanDialog({
     onOpenChange(false);
   }
 
-  const showSaveFooter = !useSecondStyle || allowRegulerChecklistSave;
+  const showSaveFooter = !useSecondStyle;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
