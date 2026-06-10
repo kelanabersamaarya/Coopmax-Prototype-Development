@@ -450,7 +450,7 @@ export default function DaftarTagihanDialog({
                       disableRowRings={true}
                       disableRowActiveRing={true}
                       penaltyIndexOffset={0}
-                      className="mt-0"
+                      className="hide-last-daftar-tagihan-penalty mt-0"
                       contextKey={contextKey}
                     />
                   </div>

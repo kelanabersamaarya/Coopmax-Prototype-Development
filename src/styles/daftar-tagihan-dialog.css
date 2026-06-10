@@ -1,0 +1,14 @@
+.hide-last-daftar-tagihan-penalty
+  > div.overflow-hidden
+  > table
+  > tbody
+  > tr:nth-child(2)
+  > td
+  > div
+  > div
+  > div.grid
+  > div:last-child
+  > div
+  > * {
+  display: none !important;
+}
