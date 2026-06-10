@@ -200,6 +200,51 @@ function NextBillInfoBannerLikeReference() {
   );
 }
 
+function HideFirstChecklistWrapper({
+  children,
+  enabled = true,
+}: {
+  children: React.ReactNode;
+  enabled?: boolean;
+}) {
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    function apply() {
+      const inputs = Array.from(
+        root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'),
+      );
+
+      inputs.forEach((input, index) => {
+        const shouldHide = enabled && index === 0;
+
+        input.style.visibility = shouldHide ? "hidden" : "";
+        input.style.pointerEvents = shouldHide ? "none" : "";
+
+        if (shouldHide) {
+          input.setAttribute("aria-hidden", "true");
+          input.setAttribute("tabindex", "-1");
+        } else {
+          input.removeAttribute("aria-hidden");
+          input.removeAttribute("tabindex");
+        }
+      });
+    }
+
+    apply();
+
+    const observer = new MutationObserver(apply);
+    observer.observe(root, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [enabled]);
+
+  return <div ref={rootRef}>{children}</div>;
+}
+
 export default function DaftarTagihanDialog({
   open,
   onOpenChange,
@@ -415,6 +460,38 @@ export default function DaftarTagihanDialog({
                 <NextBillInfoBannerLikeReference />
 
                 <div className="mt-4">
+                  <HideFirstChecklistWrapper>
+                    <div
+                      className={cn(
+                        "[&_.bg-white.px-3.py-3]:!py-1.5",
+                        "[&_.px-4.py-4]:!py-2",
+                      )}
+                    >
+                      <BillingTableView2
+                        rows={rows}
+                        selected={selected}
+                        setSelected={setSelected}
+                        isLocked={lockChecklistForSecondStyle}
+                        showNextBillInfo={false}
+                        showGraceInfo={true}
+                        highlightGraceBlock={true}
+                        keepGraceShellWithoutInfo={false}
+                        hideSelection={false}
+                        showPenaltyColumn={true}
+                        penaltyContentEnabled={true}
+                        disableRowRings={true}
+                        disableRowActiveRing={true}
+                        penaltyIndexOffset={0}
+                        className="mt-0"
+                        contextKey={contextKey}
+                      />
+                    </div>
+                  </HideFirstChecklistWrapper>
+                </div>
+              </div>
+            ) : (
+              <>
+                <HideFirstChecklistWrapper enabled={!hideSelection}>
                   <div
                     className={cn(
                       "[&_.bg-white.px-3.py-3]:!py-1.5",
@@ -425,49 +502,21 @@ export default function DaftarTagihanDialog({
                       rows={rows}
                       selected={selected}
                       setSelected={setSelected}
-                      isLocked={lockChecklistForSecondStyle}
+                      isLocked={isLocked}
                       showNextBillInfo={false}
-                      showGraceInfo={true}
-                      highlightGraceBlock={true}
+                      showGraceInfo={page === 1}
+                      highlightGraceBlock={page === 1}
                       keepGraceShellWithoutInfo={false}
-                      hideSelection={false}
-                      showPenaltyColumn={true}
-                      penaltyContentEnabled={true}
-                      disableRowRings={true}
-                      disableRowActiveRing={true}
-                      penaltyIndexOffset={0}
+                      hideSelection={hideSelection}
+                      showPenaltyColumn={showPenaltyColumn}
+                      disableRowRings={hideSelection}
+                      disableRowActiveRing={hideSelection}
+                      penaltyIndexOffset={(page - 1) * pageSize}
                       className="mt-0"
                       contextKey={contextKey}
                     />
                   </div>
-                </div>
-              </div>
-            ) : (
-              <>
-                <div
-                  className={cn(
-                    "[&_.bg-white.px-3.py-3]:!py-1.5",
-                    "[&_.px-4.py-4]:!py-2",
-                  )}
-                >
-                  <BillingTableView2
-                    rows={rows}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isLocked={isLocked}
-                    showNextBillInfo={false}
-                    showGraceInfo={page === 1}
-                    highlightGraceBlock={page === 1}
-                    keepGraceShellWithoutInfo={false}
-                    hideSelection={hideSelection}
-                    showPenaltyColumn={showPenaltyColumn}
-                    disableRowRings={hideSelection}
-                    disableRowActiveRing={hideSelection}
-                    penaltyIndexOffset={(page - 1) * pageSize}
-                    className="mt-0"
-                    contextKey={contextKey}
-                  />
-                </div>
+                </HideFirstChecklistWrapper>
 
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-[14px] text-slate-900">
