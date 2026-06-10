@@ -161,11 +161,13 @@ function InnerGraceTable({
   startGlobalIndex,
   colCount,
   onOpenPenalty,
+  showPenaltyDetailAction,
 }: {
   rows: BillingRow[];
   startGlobalIndex: number;
   colCount: number;
   onOpenPenalty: (due: string) => void;
+  showPenaltyDetailAction: boolean;
 }) {
   return (
     <table className="w-full border-collapse text-[13px]">
@@ -211,7 +213,9 @@ function InnerGraceTable({
                     <span className="num-sans-tabular">
                       {formatIdrLike(PENALTY_AMOUNT)}
                     </span>
-                    <PenaltyInfoButton onClick={() => onOpenPenalty(r.jatuhTempo)} />
+                    {showPenaltyDetailAction ? (
+                      <PenaltyInfoButton onClick={() => onOpenPenalty(r.jatuhTempo)} />
+                    ) : null}
                   </div>
                 ) : null}
               </Td>
@@ -227,11 +231,13 @@ export default function BillingTableWithStatus({
   rows,
   showGraceHighlight,
   penaltyIndexOffset = 0,
+  showPenaltyDetailAction = true,
   className,
 }: {
   rows: BillingRow[];
   showGraceHighlight: boolean;
   penaltyIndexOffset?: number;
+  showPenaltyDetailAction?: boolean;
   className?: string;
 }) {
   const [penaltyOpen, setPenaltyOpen] = React.useState(false);
@@ -326,6 +332,7 @@ export default function BillingTableWithStatus({
                             startGlobalIndex={penaltyIndexOffset}
                             colCount={colCount}
                             onOpenPenalty={openPenalty}
+                            showPenaltyDetailAction={showPenaltyDetailAction}
                           />
                         </div>
                       </div>
@@ -369,9 +376,11 @@ export default function BillingTableWithStatus({
                               <span className="num-sans-tabular">
                                 {formatIdrLike(PENALTY_AMOUNT)}
                               </span>
-                              <PenaltyInfoButton
-                                onClick={() => openPenalty(r.jatuhTempo)}
-                              />
+                              {showPenaltyDetailAction ? (
+                                <PenaltyInfoButton
+                                  onClick={() => openPenalty(r.jatuhTempo)}
+                                />
+                              ) : null}
                             </div>
                           ) : null}
                         </Td>
@@ -419,9 +428,11 @@ export default function BillingTableWithStatus({
                               <span className="num-sans-tabular">
                                 {formatIdrLike(PENALTY_AMOUNT)}
                               </span>
-                              <PenaltyInfoButton
-                                onClick={() => openPenalty(r.jatuhTempo)}
-                              />
+                              {showPenaltyDetailAction ? (
+                                <PenaltyInfoButton
+                                  onClick={() => openPenalty(r.jatuhTempo)}
+                                />
+                              ) : null}
                             </div>
                           ) : null}
                         </Td>

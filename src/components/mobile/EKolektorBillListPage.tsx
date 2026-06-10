@@ -237,6 +237,7 @@ export default function EKolektorBillListPage({
                 rows={pagedRows}
                 showGraceHighlight={showGraceHighlight}
                 penaltyIndexOffset={(page - 1) * pageSize}
+                showPenaltyDetailAction={false}
                 className="mt-0"
               />
             </div>
