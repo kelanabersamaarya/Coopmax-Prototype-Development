@@ -205,9 +205,9 @@ export default function EKolektorBillListPage({
   const showGraceHighlight = page === 1;
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col bg-[#004FC7]">
-      <div className="min-h-0 flex-1 overflow-y-auto bg-[#004FC7] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <header className="relative h-[154px] overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
+    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#004FC7]">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#004FC7]">
+        <header className="relative h-[154px] shrink-0 overflow-hidden bg-[#004FC7] px-6 pt-[34px] text-white">
           <div className="pointer-events-none absolute -right-[18px] -top-[58px] h-[140px] w-[140px] rounded-full bg-white/16" />
           <div className="pointer-events-none absolute right-[62px] -top-[72px] h-[154px] w-[154px] rounded-full bg-white/10" />
 
@@ -228,10 +228,21 @@ export default function EKolektorBillListPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-4 pb-0 pt-7">
+        <main className="relative z-10 -mt-[14px] flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-[30px] bg-white px-4 pb-0 pt-7">
           {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
 
-          <div className="rounded-[15px] border border-[#CDD4E0] bg-white p-2 shadow-sm">
+          <div
+            className={cn(
+              "min-h-0 flex-1 overflow-hidden rounded-[15px] border border-[#CDD4E0] bg-white p-1.5 shadow-sm",
+              "[&_th]:!px-2 [&_th]:!py-2",
+              "[&_td]:!px-2 [&_td]:!py-2",
+              "[&_.p-2]:!p-1",
+              "[&_.px-4]:!px-2",
+              "[&_.py-3]:!py-2",
+              "[&_.pr-6]:!pr-3",
+              "[&_.rounded-[10px]]:!rounded-[8px]",
+            )}
+          >
             <div className="max-w-full overflow-hidden">
               <BillingTableWithStatus
                 rows={pagedRows}
