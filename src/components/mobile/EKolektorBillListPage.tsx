@@ -178,17 +178,17 @@ export default function EKolektorBillListPage({
   const isSecondOrThirdAccount =
     accountNo === "7260175" || accountNo === "SMG260004";
 
-  const shouldShowSingleBillWithNextInfo =
+  const shouldShowThreeBillsWithNextInfo =
     singleBillWithNextInfo ||
     (showSpecialNextBillInfo && isSecondOrThirdAccount);
 
   const rowsForAccount = React.useMemo(() => {
-    if (shouldShowSingleBillWithNextInfo) {
-      return billRows.slice(0, 1);
+    if (shouldShowThreeBillsWithNextInfo) {
+      return billRows.slice(0, 3);
     }
 
     return billRows;
-  }, [shouldShowSingleBillWithNextInfo]);
+  }, [shouldShowThreeBillsWithNextInfo]);
 
   const pageCount = Math.max(1, Math.ceil(rowsForAccount.length / pageSize));
   const showPagination = pageCount > 1;
@@ -229,7 +229,7 @@ export default function EKolektorBillListPage({
         </header>
 
         <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-4 pb-0 pt-7">
-          {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
+          {shouldShowThreeBillsWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
 
           <div className="rounded-[15px] border border-[#CDD4E0] bg-white p-2 shadow-sm">
             <div className="max-w-full overflow-hidden">
