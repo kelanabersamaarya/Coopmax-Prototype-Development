@@ -225,7 +225,7 @@ export default function DaftarTagihanDialog({
 
   const useSecondStyle = isSecondNasabah || isThirdNasabah;
   const allowRegulerChecklistSave = useSecondStyle && isReguler;
-  const lockChecklistForSecondStyle = useSecondStyle && !allowRegulerChecklistSave;
+  const lockChecklistForSecondStyle = useSecondStyle;
 
   const rowsAll = React.useMemo(
     () => (useSecondStyle ? seedRowsFor12260002 : seedRows),
