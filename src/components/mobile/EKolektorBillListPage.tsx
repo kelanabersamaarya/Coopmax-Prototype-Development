@@ -82,6 +82,30 @@ const billRows: BillingRow[] = [
     sisaPokok: "833.333",
     sisaBunga: "33.333",
   },
+  {
+    jatuhTempo: "25-10-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-11-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-12-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
 ];
 
 function StickyPagination({
@@ -148,7 +172,7 @@ export default function EKolektorBillListPage({
   showSpecialNextBillInfo?: boolean;
   singleBillWithNextInfo?: boolean;
 }) {
-  const pageSize = 8;
+  const pageSize = 9;
   const [page, setPage] = React.useState(1);
 
   const isSecondOrThirdAccount =
@@ -204,7 +228,7 @@ export default function EKolektorBillListPage({
           </div>
         </header>
 
-        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-4 pb-8 pt-7">
+        <main className="relative z-10 -mt-[14px] min-h-[calc(100%-140px)] rounded-t-[30px] bg-white px-4 pb-0 pt-7">
           {shouldShowSingleBillWithNextInfo ? <EKolektorNextBillInfoCard /> : null}
 
           <div className="rounded-[15px] border border-[#CDD4E0] bg-white p-2 shadow-sm">
