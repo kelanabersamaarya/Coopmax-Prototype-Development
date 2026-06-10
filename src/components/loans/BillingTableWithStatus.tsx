@@ -48,6 +48,7 @@ function parseDmyToDate(value: string): Date | undefined {
   const mm = Number(m[2]);
   const yyyy = Number(m[3]);
   const d = new Date(yyyy, mm - 1, dd);
+
   if (
     d.getFullYear() !== yyyy ||
     d.getMonth() !== mm - 1 ||
@@ -55,6 +56,7 @@ function parseDmyToDate(value: string): Date | undefined {
   ) {
     return undefined;
   }
+
   return d;
 }
 
@@ -65,6 +67,7 @@ function formatIdrLike(n: number) {
 
 function buildPenaltyDetailRows(dueDateDmy: string): PenaltyDetailRow[] {
   const due = parseDmyToDate(dueDateDmy) ?? new Date();
+
   return Array.from({ length: PENALTY_DETAIL_DAYS }).map((_v, i) => ({
     tanggalKeterlambatan: formatDmy(addDays(due, i + 1)),
     nominalDenda: formatIdrLike(PENALTY_PER_DAY),
@@ -214,7 +217,9 @@ function InnerGraceTable({
                       {formatIdrLike(PENALTY_AMOUNT)}
                     </span>
                     {showPenaltyDetailAction ? (
-                      <PenaltyInfoButton onClick={() => onOpenPenalty(r.jatuhTempo)} />
+                      <PenaltyInfoButton
+                        onClick={() => onOpenPenalty(r.jatuhTempo)}
+                      />
                     ) : null}
                   </div>
                 ) : null}
@@ -230,12 +235,14 @@ function InnerGraceTable({
 export default function BillingTableWithStatus({
   rows,
   showGraceHighlight,
+  showGraceInfo = true,
   penaltyIndexOffset = 0,
   showPenaltyDetailAction = true,
   className,
 }: {
   rows: BillingRow[];
   showGraceHighlight: boolean;
+  showGraceInfo?: boolean;
   penaltyIndexOffset?: number;
   showPenaltyDetailAction?: boolean;
   className?: string;
@@ -390,7 +397,7 @@ export default function BillingTableWithStatus({
                 </>
               ) : (
                 <>
-                  <GracePeriodInfoRow colSpan={colCount} />
+                  {showGraceInfo ? <GracePeriodInfoRow colSpan={colCount} /> : null}
 
                   {rows.map((r, idx) => {
                     const globalIdx = penaltyIndexOffset + idx;
