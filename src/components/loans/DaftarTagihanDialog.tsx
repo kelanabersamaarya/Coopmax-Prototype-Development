@@ -200,7 +200,7 @@ function NextBillInfoBannerLikeReference() {
   );
 }
 
-function HideFirstChecklistWrapper({
+function HideChecklistWrapper({
   children,
   enabled = true,
 }: {
@@ -218,20 +218,19 @@ function HideFirstChecklistWrapper({
         root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'),
       );
 
-      inputs.forEach((input, index) => {
-        const shouldHide = enabled && index === 0;
+      inputs.forEach((input) => {
         const wrapper = input.parentElement;
 
-        input.style.display = shouldHide ? "none" : "";
-        input.style.visibility = shouldHide ? "hidden" : "";
-        input.style.pointerEvents = shouldHide ? "none" : "";
+        input.style.display = enabled ? "none" : "";
+        input.style.visibility = enabled ? "hidden" : "";
+        input.style.pointerEvents = enabled ? "none" : "";
 
         if (wrapper) {
-          wrapper.style.visibility = shouldHide ? "hidden" : "";
-          wrapper.style.pointerEvents = shouldHide ? "none" : "";
+          wrapper.style.visibility = enabled ? "hidden" : "";
+          wrapper.style.pointerEvents = enabled ? "none" : "";
         }
 
-        if (shouldHide) {
+        if (enabled) {
           input.setAttribute("aria-hidden", "true");
           input.setAttribute("tabindex", "-1");
         } else {
@@ -467,7 +466,7 @@ export default function DaftarTagihanDialog({
                 <NextBillInfoBannerLikeReference />
 
                 <div className="mt-4">
-                  <HideFirstChecklistWrapper>
+                  <HideChecklistWrapper>
                     <div
                       className={cn(
                         "[&_.bg-white.px-3.py-3]:!py-1.5",
@@ -493,12 +492,12 @@ export default function DaftarTagihanDialog({
                         contextKey={contextKey}
                       />
                     </div>
-                  </HideFirstChecklistWrapper>
+                  </HideChecklistWrapper>
                 </div>
               </div>
             ) : (
               <>
-                <HideFirstChecklistWrapper enabled={!hideSelection}>
+                <HideChecklistWrapper enabled={!hideSelection}>
                   <div
                     className={cn(
                       "[&_.bg-white.px-3.py-3]:!py-1.5",
@@ -523,7 +522,7 @@ export default function DaftarTagihanDialog({
                       contextKey={contextKey}
                     />
                   </div>
-                </HideFirstChecklistWrapper>
+                </HideChecklistWrapper>
 
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-[14px] text-slate-900">
