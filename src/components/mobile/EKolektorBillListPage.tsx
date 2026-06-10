@@ -148,7 +148,7 @@ export default function EKolektorBillListPage({
   showSpecialNextBillInfo?: boolean;
   singleBillWithNextInfo?: boolean;
 }) {
-  const pageSize = 5;
+  const pageSize = 8;
   const [page, setPage] = React.useState(1);
 
   const isSecondOrThirdAccount =
