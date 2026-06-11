@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { getObsRegistrationStatus } from "@/lib/obsRegistrationsStore";
 
 type ProductType = "-- Semua --" | "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "-- Semua --" | "Diajukan" | "Diproses" | "Ditolak";
@@ -186,7 +187,28 @@ function StatusPill({ status }: { status: Row["status"] }) {
 
 export default function ObsSamudraHarta() {
   const navigate = useNavigate();
-  const rows = React.useMemo(() => seed, []);
+  const [statusTick, setStatusTick] = React.useState(0);
+
+  React.useEffect(() => {
+    const syncStatus = () => setStatusTick((current) => current + 1);
+
+    window.addEventListener("focus", syncStatus);
+    window.addEventListener("storage", syncStatus);
+    window.addEventListener("dyad.obsRegistrations.changed", syncStatus);
+
+    return () => {
+      window.removeEventListener("focus", syncStatus);
+      window.removeEventListener("storage", syncStatus);
+      window.removeEventListener("dyad.obsRegistrations.changed", syncStatus);
+    };
+  }, []);
+
+  const rows = React.useMemo(() => {
+    return seed.map((row) => ({
+      ...row,
+      status: getObsRegistrationStatus(row.id) ?? row.status,
+    }));
+  }, [statusTick]);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
@@ -527,6 +549,8 @@ export default function ObsSamudraHarta() {
             <PaginationBar page={page} pageCount={pageCount} onPage={setPage} />
           </div>
         </Card>
+
+        <div className="sr-only">{statusTick}</div>
       </div>
     </div>
   );
