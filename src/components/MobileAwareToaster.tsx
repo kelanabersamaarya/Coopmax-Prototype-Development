@@ -8,9 +8,14 @@ import { toast } from "sonner";
 export default function MobileAwareToaster() {
   const location = useLocation();
   const isMobilePrototype = location.pathname.startsWith("/mobile");
+  const isObsArea =
+    location.pathname.startsWith("/obs-samudra-harta") ||
+    location.pathname.startsWith("/obs-web");
+
+  const shouldHideToaster = isMobilePrototype || isObsArea;
 
   React.useEffect(() => {
-    if (!isMobilePrototype) return;
+    if (!shouldHideToaster) return;
 
     toast.dismiss();
 
@@ -19,9 +24,9 @@ export default function MobileAwareToaster() {
     }, 250);
 
     return () => window.clearInterval(intervalId);
-  }, [isMobilePrototype]);
+  }, [shouldHideToaster]);
 
-  if (isMobilePrototype) return null;
+  if (shouldHideToaster) return null;
 
   return (
     <Sonner
