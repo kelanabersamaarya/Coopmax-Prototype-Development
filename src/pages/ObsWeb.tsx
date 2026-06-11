@@ -397,7 +397,7 @@ export default function ObsWeb() {
                     label="KTP"
                     resetKey={uploadResetKey}
                     onFileCountChange={setKtpCount}
-                    uploadTitle="Upload Foto"
+                    uploadTitle="Upload KTP"
                     uploadButtonText="Unggah KTP"
                     helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
                     accept="image/*,.jpg,.jpeg,.png,.pdf"
@@ -407,7 +407,7 @@ export default function ObsWeb() {
                     label="Agunan"
                     resetKey={uploadResetKey}
                     onFileCountChange={setAgunanCount}
-                    uploadTitle="Upload Dokumen"
+                    uploadTitle="Upload Agunan"
                     uploadButtonText="Unggah Agunan"
                     helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
                     accept="image/*,.jpg,.jpeg,.png,.pdf"
