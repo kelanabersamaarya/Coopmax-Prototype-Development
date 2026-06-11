@@ -49,7 +49,30 @@ const App = () => (
             <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
             <Route path="mobile/m-banking" element={<MobileMBanking />} />
             <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
-            <Route path="obs-samudra-harta/:id" element={<ObsSamudraHartaDetail />} />
+            <Route
+              path="obs-samudra-harta/loan-products"
+              element={<LoanProducts />}
+            />
+            <Route
+              path="obs-samudra-harta/loan-products/cabang"
+              element={<LoanProductsCabang />}
+            />
+            <Route
+              path="obs-samudra-harta/loans/applications"
+              element={<LoanApplications />}
+            />
+            <Route
+              path="obs-samudra-harta/loans/accounts"
+              element={<RekeningPinjaman />}
+            />
+            <Route
+              path="obs-samudra-harta/loans/transactions"
+              element={<LoanTransactions />}
+            />
+            <Route
+              path="obs-samudra-harta/:id"
+              element={<ObsSamudraHartaDetail />}
+            />
             <Route path="obs-web" element={<ObsWeb />} />
             <Route path="loan-products" element={<LoanProducts />} />
             <Route path="loan-products/cabang" element={<LoanProductsCabang />} />

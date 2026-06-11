@@ -19,13 +19,28 @@ const items: SubItem[] = [
   { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
 ];
 
+function isObsPath(pathname: string) {
+  return (
+    pathname.startsWith("/obs-samudra-harta") ||
+    pathname.startsWith("/obs-web")
+  );
+}
+
+function getRouteForContext(to: string, pathname: string) {
+  if (!isObsPath(pathname)) return to;
+  return `/obs-samudra-harta${to}`;
+}
+
 export default function SidebarPinjamanMenu() {
   const location = useLocation();
+  const obsArea = isObsPath(location.pathname);
 
   const isActive =
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
-    location.pathname.startsWith("/anggota/transaksi");
+    location.pathname.startsWith("/anggota/transaksi") ||
+    location.pathname.startsWith("/obs-samudra-harta/loan-products") ||
+    location.pathname.startsWith("/obs-samudra-harta/loans");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {
@@ -33,7 +48,18 @@ export default function SidebarPinjamanMenu() {
   }, [isActive]);
 
   function isItemActive(item: SubItem) {
+    const itemTo = getRouteForContext(item.to, location.pathname);
+
     if (item.to === "/loan-products") {
+      if (obsArea) {
+        return (
+          location.pathname === itemTo ||
+          (location.pathname.startsWith(`${itemTo}/`) &&
+            location.pathname !== "/obs-samudra-harta/loan-products/cabang" &&
+            location.search !== "?from=cabang")
+        );
+      }
+
       return (
         location.pathname === "/loan-products" ||
         (location.pathname.startsWith("/loan-products/") &&
@@ -43,6 +69,14 @@ export default function SidebarPinjamanMenu() {
     }
 
     if (item.to === "/loan-products/cabang") {
+      if (obsArea) {
+        return (
+          location.pathname === itemTo ||
+          (location.pathname.startsWith("/obs-samudra-harta/loan-products/") &&
+            location.search === "?from=cabang")
+        );
+      }
+
       return (
         location.pathname === "/loan-products/cabang" ||
         (location.pathname.startsWith("/loan-products/") &&
@@ -50,7 +84,7 @@ export default function SidebarPinjamanMenu() {
       );
     }
 
-    return location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
+    return location.pathname === itemTo || location.pathname.startsWith(`${itemTo}/`);
   }
 
   return (
@@ -91,11 +125,12 @@ export default function SidebarPinjamanMenu() {
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
               {items.map((item) => {
                 const active = isItemActive(item);
+                const to = getRouteForContext(item.to, location.pathname);
 
                 return (
                   <NavLink
                     key={item.label}
-                    to={item.to}
+                    to={to}
                     className={cn(
                       "block w-full rounded-xl px-2.5 py-2 text-[13px] font-semibold transition",
                       active
