@@ -375,7 +375,7 @@ export default function ObsWeb() {
                 />
               </div>
 
-              <section className="rounded-3xl border border-slate-200 bg-slate-50/70 p-4 md:p-5">
+              <section className="rounded-3xl bg-transparent p-0">
                 <div className="text-[15px] font-extrabold tracking-tight text-slate-900">
                   Dokumen Pendukung
                 </div>
