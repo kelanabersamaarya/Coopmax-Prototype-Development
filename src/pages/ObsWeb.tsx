@@ -375,37 +375,45 @@ export default function ObsWeb() {
                 />
               </div>
 
-              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-[13px] font-semibold leading-relaxed text-blue-900">
-                <div className="flex items-start gap-3">
-                  <span className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
-                    <Info className="h-4 w-4" />
-                  </span>
-                  <div>
-                    Silakan Unggah Foto Maupun Dokumen Sesuai Kebutuhan dan
-                    Pastikan Dokumen atau Foto yang Anda Unggah Terlihat Jelas
-                  </div>
+              <section className="rounded-3xl border border-slate-200 bg-slate-50/70 p-4 md:p-5">
+                <div className="text-[15px] font-extrabold tracking-tight text-slate-900">
+                  Dokumen Pendukung
                 </div>
-              </div>
 
-              <ObsUploadSection
-                label="KTP"
-                resetKey={uploadResetKey}
-                onFileCountChange={setKtpCount}
-                uploadTitle="Upload Foto"
-                uploadButtonText="Unggah KTP"
-                helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
-                accept="image/*,.jpg,.jpeg,.png,.pdf"
-              />
+                <div className="mt-4 grid gap-5">
+                  <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-[13px] font-semibold leading-relaxed text-blue-900">
+                    <div className="flex items-start gap-3">
+                      <span className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                        <Info className="h-4 w-4" />
+                      </span>
+                      <div>
+                        Silakan Unggah Foto Maupun Dokumen Sesuai Kebutuhan dan
+                        Pastikan Dokumen atau Foto yang Anda Unggah Terlihat Jelas
+                      </div>
+                    </div>
+                  </div>
 
-              <ObsUploadSection
-                label="Agunan"
-                resetKey={uploadResetKey}
-                onFileCountChange={setAgunanCount}
-                uploadTitle="Upload Dokumen"
-                uploadButtonText="Unggah Agunan"
-                helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
-                accept="image/*,.jpg,.jpeg,.png,.pdf"
-              />
+                  <ObsUploadSection
+                    label="KTP"
+                    resetKey={uploadResetKey}
+                    onFileCountChange={setKtpCount}
+                    uploadTitle="Upload Foto"
+                    uploadButtonText="Unggah KTP"
+                    helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
+                    accept="image/*,.jpg,.jpeg,.png,.pdf"
+                  />
+
+                  <ObsUploadSection
+                    label="Agunan"
+                    resetKey={uploadResetKey}
+                    onFileCountChange={setAgunanCount}
+                    uploadTitle="Upload Dokumen"
+                    uploadButtonText="Unggah Agunan"
+                    helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
+                    accept="image/*,.jpg,.jpeg,.png,.pdf"
+                  />
+                </div>
+              </section>
 
               <Button
                 onClick={submit}
