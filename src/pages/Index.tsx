@@ -175,8 +175,8 @@ export default function Index() {
                           {/* Pinjaman (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarPinjamanMenu /> : null}
 
-                          {/* Mobile (collapsible) */}
-                          <SidebarMobileMenu />
+                          {/* Mobile (collapsible) - hide in OBS area */}
+                          {!isObsArea ? <SidebarMobileMenu /> : null}
 
                           {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
                           {!isPinjamanArea ? <SidebarObsMenu /> : null}
@@ -184,8 +184,8 @@ export default function Index() {
                           {/* Laporan (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarLaporanMenu /> : null}
 
-                          {/* Pengaturan Umum */}
-                          <SidebarPengaturanUmumMenu />
+                          {/* Pengaturan Umum - hide in OBS area */}
+                          {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
 
                           {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
                           {g.items
