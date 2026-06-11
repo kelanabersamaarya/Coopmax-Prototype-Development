@@ -194,7 +194,7 @@ function calculateSelectedTotals({
     pokok: formatIdr0(pokok),
     bunga: formatIdr0(bunga),
     denda: formatIdr0(denda),
-    total: formatIdr0(pokok + bunga + denda),
+    total: formatIdr0(pok + bunga + denda),
   };
 }
 
@@ -345,7 +345,7 @@ export default function DaftarTagihanDialog({
 
   const pagerBtn = (disabled: boolean) =>
     cn(
-      "inline-flex h-11 items-center gap-2 rounded-full px-5 text-[14px] font-semibold",
+      "inline-flex h-11 items-center gap-2 rounded-[5px] px-5 text-[14px] font-semibold",
       "bg-white text-slate-700 ring-1 ring-slate-200 shadow-sm transition",
       disabled ? "opacity-60 pointer-events-none" : "hover:bg-slate-50",
     );
@@ -480,7 +480,7 @@ export default function DaftarTagihanDialog({
                       Sebelumnya
                     </button>
 
-                    <div className="inline-flex h-11 min-w-11 items-center justify-center rounded-2xl bg-violet-600 px-5 text-[14px] font-extrabold text-white">
+                    <div className="inline-flex h-11 min-w-11 items-center justify-center rounded-[5px] bg-violet-600 px-5 text-[14px] font-extrabold text-white">
                       {page}
                     </div>
 
