@@ -381,13 +381,15 @@ export default function ObsWeb() {
                 </div>
 
                 <div className="mt-4 grid gap-5">
-                  <div className="relative flex min-h-[76px] items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 px-14 py-3 text-center text-[13px] font-semibold leading-relaxed text-blue-900">
-                    <span className="absolute left-4 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
-                      <Info className="h-4 w-4" />
-                    </span>
-                    <div className="mx-auto max-w-3xl">
-                      Silakan Unggah Foto Maupun Dokumen Sesuai Kebutuhan dan
-                      Pastikan Dokumen atau Foto yang Anda Unggah Terlihat Jelas
+                  <div className="flex min-h-[56px] items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2 text-center text-[13px] font-semibold leading-relaxed text-blue-900">
+                    <div className="inline-flex max-w-3xl items-center justify-center gap-2">
+                      <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                        <Info className="h-4 w-4" />
+                      </span>
+                      <span>
+                        Silakan Unggah Foto Maupun Dokumen Sesuai Kebutuhan dan
+                        Pastikan Dokumen atau Foto yang Anda Unggah Terlihat Jelas
+                      </span>
                     </div>
                   </div>
 
