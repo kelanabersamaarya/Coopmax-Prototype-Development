@@ -14,7 +14,6 @@ import {
   Building2,
   Image as ImageIcon,
   Upload,
-  FileText,
   Trash2,
 } from "lucide-react";
 import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
@@ -510,23 +509,7 @@ export default function ObsWeb() {
                                   draggable={false}
                                 />
                               </div>
-                            ) : (
-                              <div className="bg-white p-3">
-                                <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-3 ring-1 ring-slate-200">
-                                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white text-slate-700 ring-1 ring-slate-200">
-                                    <FileText className="h-5 w-5" />
-                                  </span>
-                                  <div className="min-w-0">
-                                    <div className="text-[12px] font-extrabold text-slate-900">
-                                      File terpilih
-                                    </div>
-                                    <div className="mt-1 text-[11px] font-semibold text-slate-600">
-                                      Preview hanya tersedia untuk gambar.
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
+                            ) : null}
                           </div>
                         ))}
                       </div>
