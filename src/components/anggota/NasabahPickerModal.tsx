@@ -413,7 +413,7 @@ export default function NasabahPickerModal({
 
           <div
             className="overflow-auto px-6 py-5"
-            style={{ maxHeight: "calc(85vh - 64px - 66px)" }}
+            style={{ maxHeight: "calc(85vh - 64px - 88px)" }}
           >
             <div className="flex items-center gap-2 text-[13px] font-normal text-black">
               <div>Show</div>
@@ -601,7 +601,7 @@ export default function NasabahPickerModal({
 
           <Separator className="bg-slate-200" />
 
-          <div className="px-6 py-6">
+          <div className="px-6 pb-9 pt-5">
             <div className="flex justify-end">
               <button
                 type="button"
