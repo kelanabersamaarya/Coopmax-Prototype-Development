@@ -381,8 +381,8 @@ export default function ObsWeb() {
                 </div>
 
                 <div className="mt-4 grid gap-5">
-                  <div className="flex min-h-[56px] items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2 text-center text-[13px] font-semibold leading-relaxed text-blue-900">
-                    <div className="inline-flex max-w-3xl items-center justify-center gap-2">
+                  <div className="flex min-h-[56px] items-center rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2 text-left text-[13px] font-semibold leading-relaxed text-blue-900">
+                    <div className="inline-flex items-center gap-2">
                       <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
                         <Info className="h-4 w-4" />
                       </span>
