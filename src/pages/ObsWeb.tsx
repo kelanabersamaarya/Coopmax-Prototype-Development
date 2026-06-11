@@ -159,6 +159,8 @@ export default function ObsWeb() {
     setUploadResetKey((current) => current + 1);
   }
 
+  const labelCls = "text-[14px] font-semibold text-[#334155]";
+
   const inputCls = cn(
     "h-11 rounded-2xl border-slate-200 bg-white",
     "text-[14px] font-medium text-slate-900",
@@ -254,9 +256,7 @@ export default function ObsWeb() {
           <div className="rounded-3xl bg-white p-5 ring-1 ring-slate-200/70 md:p-6">
             <div className="grid gap-5">
               <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Nama
-                </Label>
+                <Label className={labelCls}>Nama</Label>
                 <Input
                   value={nama}
                   onChange={(event) => setNama(event.target.value)}
@@ -267,9 +267,7 @@ export default function ObsWeb() {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="grid gap-2">
-                  <Label className="text-[13px] font-semibold text-slate-700">
-                    Nomor Telepon
-                  </Label>
+                  <Label className={labelCls}>Nomor Telepon</Label>
                   <Input
                     value={phone}
                     onChange={(event) => setPhone(event.target.value)}
@@ -280,9 +278,7 @@ export default function ObsWeb() {
                 </div>
 
                 <div className="grid gap-2">
-                  <Label className="text-[13px] font-semibold text-slate-700">
-                    Email
-                  </Label>
+                  <Label className={labelCls}>Email</Label>
                   <Input
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
@@ -294,9 +290,7 @@ export default function ObsWeb() {
               </div>
 
               <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Alamat
-                </Label>
+                <Label className={labelCls}>Alamat</Label>
                 <Input
                   value={alamat}
                   onChange={(event) => setAlamat(event.target.value)}
@@ -307,9 +301,7 @@ export default function ObsWeb() {
 
               <div className="grid gap-5">
                 <div className="grid gap-2">
-                  <Label className="text-[13px] font-semibold text-slate-700">
-                    Kolektor
-                  </Label>
+                  <Label className={labelCls}>Kolektor</Label>
                   <Input
                     value={kolektor}
                     onChange={(event) => setKolektor(event.target.value)}
@@ -319,9 +311,7 @@ export default function ObsWeb() {
                 </div>
 
                 <div className="grid gap-2">
-                  <Label className="text-[13px] font-semibold text-slate-700">
-                    Nominal Pengajuan
-                  </Label>
+                  <Label className={labelCls}>Nominal Pengajuan</Label>
                   <RupiahMoneyInput
                     value={nominalPengajuan}
                     onChange={setNominalPengajuan}
@@ -332,9 +322,7 @@ export default function ObsWeb() {
                 </div>
 
                 <div className="grid gap-2">
-                  <Label className="text-[13px] font-semibold text-slate-700">
-                    Jangka Waktu (bulan)
-                  </Label>
+                  <Label className={labelCls}>Jangka Waktu (bulan)</Label>
                   <Input
                     value={jangkaWaktuBulan}
                     onChange={(event) =>
@@ -349,9 +337,7 @@ export default function ObsWeb() {
                 </div>
 
                 <div className="grid gap-2">
-                  <Label className="text-[13px] font-semibold text-slate-700">
-                    Deskripsi
-                  </Label>
+                  <Label className={labelCls}>Deskripsi</Label>
                   <textarea
                     value={deskripsi}
                     onChange={(event) => setDeskripsi(event.target.value)}
@@ -362,9 +348,7 @@ export default function ObsWeb() {
               </div>
 
               <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Produk
-                </Label>
+                <Label className={labelCls}>Produk</Label>
 
                 <ObsProdukSelect
                   value={produk}
@@ -376,7 +360,7 @@ export default function ObsWeb() {
               </div>
 
               <section className="rounded-3xl border border-slate-200 bg-white p-4 md:p-5">
-                <div className="text-[15px] font-extrabold tracking-tight text-slate-900">
+                <div className="text-[14px] font-extrabold tracking-tight text-[#334155]">
                   Dokumen Pendukung
                 </div>
 
