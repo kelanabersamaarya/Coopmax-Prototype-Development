@@ -53,6 +53,7 @@ type CollectorKind = "Kolektor 1" | "Kolektor 2" | "Kolektor 3";
 type FeeMethod = "Plafon Pinjaman" | "Angsuran" | "Tenor";
 type AmountMode = "rp" | "percent";
 type LoanProductFormMode = "create" | "edit";
+type LoanProductFormContext = "consolidation" | "branch";
 
 type CollectorFeeRow = {
   id: string;
@@ -66,6 +67,7 @@ type CollectorFeeRow = {
 type LoanProductFormProps = {
   mode: LoanProductFormMode;
   productId?: string;
+  context?: LoanProductFormContext;
   onCancel: () => void;
   onSaved: () => void;
 };
@@ -336,11 +338,13 @@ function FeeRow({
 export default function LoanProductForm({
   mode,
   productId = "",
+  context = "consolidation",
   onCancel,
   onSaved,
 }: LoanProductFormProps) {
   const style = FORM_STYLE_BY_MODE[mode];
   const isCreate = mode === "create";
+  const isBranchEdit = mode === "edit" && context === "branch";
 
   const [code, setCode] = React.useState(isCreate ? "klp04.07" : "klpk04.07");
   const [name, setName] = React.useState("Pinjaman Emas");
@@ -609,7 +613,16 @@ export default function LoanProductForm({
         </FieldRow>
 
         <FieldRow label="Produk Pinjaman">
-          <Input value={name} onChange={(e) => setName(e.target.value)} className={style.inputClassName} />
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            readOnly={isBranchEdit}
+            aria-readonly={isBranchEdit}
+            className={cn(
+              style.inputClassName,
+              isBranchEdit && "bg-slate-100 text-slate-700 cursor-not-allowed",
+            )}
+          />
         </FieldRow>
 
         <FieldRow label="RC">
