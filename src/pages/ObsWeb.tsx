@@ -115,8 +115,8 @@ export default function ObsWeb() {
 
   const [produk, setProduk] = React.useState<Product>("Pinjaman Koperasi");
   const [uploadResetKey, setUploadResetKey] = React.useState(0);
-  const [fotoPendukungCount, setFotoPendukungCount] = React.useState(0);
-  const [dokumenTambahanCount, setDokumenTambahanCount] = React.useState(0);
+  const [ktpCount, setKtpCount] = React.useState(0);
+  const [agunanCount, setAgunanCount] = React.useState(0);
 
   function submit() {
     if (!nama.trim()) {
@@ -138,7 +138,7 @@ export default function ObsWeb() {
       return;
     }
 
-    const totalDokumen = fotoPendukungCount + dokumenTambahanCount;
+    const totalDokumen = ktpCount + agunanCount;
 
     toast.success("Pendaftaran terkirim (prototype)", {
       description: `Produk: ${produk}${totalDokumen > 0 ? ` • File: ${totalDokumen}` : ""}`,
@@ -375,19 +375,23 @@ export default function ObsWeb() {
               </div>
 
               <ObsUploadSection
-                label="Foto Pendukung (Opsional)"
+                label="KTP"
                 resetKey={uploadResetKey}
-                onFileCountChange={setFotoPendukungCount}
+                onFileCountChange={setKtpCount}
                 uploadTitle="Upload Foto"
-                uploadButtonText="Unggah Foto"
-                helperText="Klik Tombol Dibawah Untuk Mengunggah Foto Pendukung. (JPG, JPEG, PNG) — Anda Dapat Menggungah Lebih Dari Satu File."
-                accept="image/*,.jpg,.jpeg,.png"
+                uploadButtonText="Unggah KTP"
+                helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
+                accept="image/*,.jpg,.jpeg,.png,.pdf"
               />
 
               <ObsUploadSection
-                label="Dokumen Tambahan (Opsional)"
+                label="Agunan"
                 resetKey={uploadResetKey}
-                onFileCountChange={setDokumenTambahanCount}
+                onFileCountChange={setAgunanCount}
+                uploadTitle="Upload Dokumen"
+                uploadButtonText="Unggah Agunan"
+                helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
+                accept="image/*,.jpg,.jpeg,.png,.pdf"
               />
 
               <Button
