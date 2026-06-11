@@ -194,7 +194,7 @@ function calculateSelectedTotals({
     pokok: formatIdr0(pokok),
     bunga: formatIdr0(bunga),
     denda: formatIdr0(denda),
-    total: formatIdr0(pok + bunga + denda),
+    total: formatIdr0(pokok + bunga + denda),
   };
 }
 
