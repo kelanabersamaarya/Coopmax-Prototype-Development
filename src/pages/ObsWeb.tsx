@@ -12,12 +12,10 @@ import {
   Phone,
   Globe,
   Building2,
-  Image as ImageIcon,
-  Upload,
-  Trash2,
 } from "lucide-react";
 import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
 import ObsProdukSelect from "@/components/obs/ObsProdukSelect";
+import ObsUploadSection from "@/components/obs/ObsUploadSection";
 
 type Product = "Pinjaman Koperasi";
 
@@ -104,94 +102,21 @@ function MiniMapCard() {
   );
 }
 
-function isImageFile(file: File) {
-  return file.type.startsWith("image/");
-}
-
-function fileKey(file: File) {
-  return `${file.name}::${file.size}::${file.lastModified}`;
-}
-
-function uniqByKey<T>(items: T[], keyFn: (item: T) => string) {
-  const seen = new Set<string>();
-  const out: T[] = [];
-  for (const it of items) {
-    const k = keyFn(it);
-    if (seen.has(k)) continue;
-    seen.add(k);
-    out.push(it);
-  }
-  return out;
-}
-
-type PreviewItem = {
-  key: string;
-  name: string;
-  type: string;
-  url?: string;
-};
-
 export default function ObsWeb() {
   const [nama, setNama] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [alamat, setAlamat] = React.useState("");
 
-  // NEW fields (below Alamat)
   const [kolektor, setKolektor] = React.useState("");
   const [nominalPengajuan, setNominalPengajuan] = React.useState("0,00");
   const [jangkaWaktuBulan, setJangkaWaktuBulan] = React.useState("");
   const [deskripsi, setDeskripsi] = React.useState("");
 
   const [produk, setProduk] = React.useState<Product>("Pinjaman Koperasi");
-
-  // ✅ multi-file
-  const [files, setFiles] = React.useState<File[]>([]);
-  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-  const [dragActive, setDragActive] = React.useState(false);
-
-  // ✅ build preview URLs for ALL image files
-  const previews = React.useMemo<PreviewItem[]>(() => {
-    return files.map((f) => {
-      const key = fileKey(f);
-      const isImage = isImageFile(f);
-      return {
-        key,
-        name: f.name,
-        type: f.type,
-        url: isImage ? URL.createObjectURL(f) : undefined,
-      };
-    });
-  }, [files]);
-
-  React.useEffect(() => {
-    return () => {
-      previews.forEach((p) => {
-        if (p.url) URL.revokeObjectURL(p.url);
-      });
-    };
-  }, [previews]);
-
-  function addFiles(next: File[] | FileList | null | undefined) {
-    const list = next ? Array.from(next) : [];
-    if (list.length === 0) return;
-
-    setFiles((prev) => uniqByKey([...prev, ...list], fileKey));
-  }
-
-  function clearAllFiles() {
-    setFiles([]);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  }
-
-  function removeFileByKey(key: string) {
-    setFiles((prev) => prev.filter((f) => fileKey(f) !== key));
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  }
-
-  function openPicker() {
-    fileInputRef.current?.click();
-  }
+  const [uploadResetKey, setUploadResetKey] = React.useState(0);
+  const [dokumenPendukungCount, setDokumenPendukungCount] = React.useState(0);
+  const [dokumenTambahanCount, setDokumenTambahanCount] = React.useState(0);
 
   function submit() {
     if (!nama.trim()) {
@@ -213,8 +138,10 @@ export default function ObsWeb() {
       return;
     }
 
+    const totalDokumen = dokumenPendukungCount + dokumenTambahanCount;
+
     toast.success("Pendaftaran terkirim (prototype)", {
-      description: `Produk: ${produk}${files.length > 0 ? ` • Dokumen: ${files.length} file` : ""}`,
+      description: `Produk: ${produk}${totalDokumen > 0 ? ` • Dokumen: ${totalDokumen} file` : ""}`,
     });
 
     setNama("");
@@ -228,7 +155,7 @@ export default function ObsWeb() {
     setDeskripsi("");
 
     setProduk("Pinjaman Koperasi");
-    clearAllFiles();
+    setUploadResetKey((current) => current + 1);
   }
 
   const inputCls = cn(
@@ -254,7 +181,6 @@ export default function ObsWeb() {
 
   const produkSelectContentCls = cn(
     "rounded-[5px] border-slate-200 p-1 shadow-xl",
-    // highlight/selected like reference
     "[&_[data-radix-collection-item][data-highlighted]]:bg-[#275AA3]",
     "[&_[data-radix-collection-item][data-highlighted]]:text-white",
     "[&_[data-radix-collection-item][data-state=checked]]:bg-[#275AA3]",
@@ -269,7 +195,6 @@ export default function ObsWeb() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Top Header */}
       <div className="border-b border-slate-200/70 bg-[#dbeafe]">
         <div className="mx-auto w-full max-w-6xl px-4 py-4 md:px-8">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -280,10 +205,10 @@ export default function ObsWeb() {
                   alt="Samudra Harta"
                   className="h-7 w-7 rounded-full object-contain"
                   draggable={false}
-                  onError={(e) => {
-                    // fallback to Globe icon if logo not found
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                    const parent = (e.currentTarget as HTMLImageElement)
+                  onError={(event) => {
+                    (event.currentTarget as HTMLImageElement).style.display =
+                      "none";
+                    const parent = (event.currentTarget as HTMLImageElement)
                       .parentElement;
                     if (parent) {
                       const fallback = document.createElement("div");
@@ -316,7 +241,6 @@ export default function ObsWeb() {
         </div>
       </div>
 
-      {/* Page */}
       <div className="mx-auto w-full max-w-6xl px-4 py-10 md:px-8">
         <div className="text-center">
           <h1 className="text-[30px] font-extrabold tracking-tight text-slate-900 md:text-[34px]">
@@ -334,7 +258,7 @@ export default function ObsWeb() {
                 </Label>
                 <Input
                   value={nama}
-                  onChange={(e) => setNama(e.target.value)}
+                  onChange={(event) => setNama(event.target.value)}
                   className={inputCls}
                   placeholder=""
                 />
@@ -347,7 +271,7 @@ export default function ObsWeb() {
                   </Label>
                   <Input
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(event) => setPhone(event.target.value)}
                     className={inputCls}
                     placeholder=""
                     inputMode="tel"
@@ -360,7 +284,7 @@ export default function ObsWeb() {
                   </Label>
                   <Input
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(event) => setEmail(event.target.value)}
                     className={inputCls}
                     placeholder=""
                     inputMode="email"
@@ -374,13 +298,12 @@ export default function ObsWeb() {
                 </Label>
                 <Input
                   value={alamat}
-                  onChange={(e) => setAlamat(e.target.value)}
+                  onChange={(event) => setAlamat(event.target.value)}
                   className={inputCls}
                   placeholder=""
                 />
               </div>
 
-              {/* NEW fields below Alamat (✅ one column) */}
               <div className="grid gap-5">
                 <div className="grid gap-2">
                   <Label className="text-[13px] font-semibold text-slate-700">
@@ -388,7 +311,7 @@ export default function ObsWeb() {
                   </Label>
                   <Input
                     value={kolektor}
-                    onChange={(e) => setKolektor(e.target.value)}
+                    onChange={(event) => setKolektor(event.target.value)}
                     className={inputCls}
                     placeholder=""
                   />
@@ -413,8 +336,10 @@ export default function ObsWeb() {
                   </Label>
                   <Input
                     value={jangkaWaktuBulan}
-                    onChange={(e) =>
-                      setJangkaWaktuBulan((e.target.value ?? "").replace(/[^\d]/g, ""))
+                    onChange={(event) =>
+                      setJangkaWaktuBulan(
+                        (event.target.value ?? "").replace(/[^\d]/g, ""),
+                      )
                     }
                     className={inputCls}
                     placeholder="0"
@@ -428,13 +353,12 @@ export default function ObsWeb() {
                   </Label>
                   <textarea
                     value={deskripsi}
-                    onChange={(e) => setDeskripsi(e.target.value)}
+                    onChange={(event) => setDeskripsi(event.target.value)}
                     className={textareaCls}
                     placeholder=""
                   />
                 </div>
               </div>
-              {/* END new fields */}
 
               <div className="grid gap-2">
                 <Label className="text-[13px] font-semibold text-slate-700">
@@ -443,153 +367,24 @@ export default function ObsWeb() {
 
                 <ObsProdukSelect
                   value={produk}
-                  onValueChange={(v) => setProduk(v as Product)}
+                  onValueChange={(value) => setProduk(value as Product)}
                   options={["Pinjaman Koperasi"]}
                   triggerClassName={produkSelectTriggerCls}
                   contentClassName={produkSelectContentCls}
                 />
               </div>
 
-              <div className="grid gap-2">
-                <Label className="text-[13px] font-semibold text-slate-700">
-                  Dokumen Pendukung (Opsional)
-                </Label>
+              <ObsUploadSection
+                label="Dokumen Pendukung (Opsional)"
+                resetKey={uploadResetKey}
+                onFileCountChange={setDokumenPendukungCount}
+              />
 
-                {/* Hidden native input (tanpa tombol Choose File) */}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  multiple
-                  className="sr-only"
-                  accept="image/*,.jpg,.jpeg,.png,.pdf"
-                  onChange={(e) => addFiles(e.target.files)}
-                />
-
-                {/* ✅ Border luar solid */}
-                <div className="rounded-3xl border border-slate-200 bg-white p-2">
-                  {/* ✅ Preview semua file di atas dropzone (tanpa header box) */}
-                  {files.length > 0 ? (
-                    <div className="mb-2 bg-white">
-                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                        {previews.map((p) => (
-                          <div
-                            key={p.key}
-                            className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200"
-                          >
-                            <div className="flex items-center justify-between gap-2 px-3 py-2">
-                              <div className="min-w-0">
-                                <div
-                                  className="truncate text-[12px] font-extrabold text-slate-900"
-                                  title={p.name}
-                                >
-                                  {p.name}
-                                </div>
-                              </div>
-
-                              <button
-                                type="button"
-                                onClick={() => removeFileByKey(p.key)}
-                                className={cn(
-                                  "inline-flex h-8 w-8 items-center justify-center rounded-full",
-                                  "bg-slate-900/5 text-slate-700 transition hover:bg-slate-900/10",
-                                )}
-                                aria-label={`Hapus ${p.name}`}
-                                title="Hapus"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
-                            </div>
-
-                            {p.url ? (
-                              <div className="bg-white p-3">
-                                <img
-                                  src={p.url}
-                                  alt={p.name}
-                                  className="h-[160px] w-full rounded-xl object-cover ring-1 ring-slate-200"
-                                  draggable={false}
-                                />
-                              </div>
-                            ) : null}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-
-                  <button
-                    type="button"
-                    onClick={openPicker}
-                    onDragEnter={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setDragActive(true);
-                    }}
-                    onDragOver={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setDragActive(true);
-                    }}
-                    onDragLeave={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setDragActive(false);
-                    }}
-                    onDrop={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setDragActive(false);
-                      addFiles(e.dataTransfer.files);
-                    }}
-                    className={cn(
-                      "w-full rounded-[20px] border-2 border-dashed p-4 text-left transition",
-                      dragActive
-                        ? "border-[hsl(var(--app-accent))] bg-[hsl(var(--app-accent))]/5"
-                        : "border-slate-200 bg-white hover:bg-slate-50",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/15 focus-visible:ring-offset-0",
-                    )}
-                    aria-label="Unggah dokumen"
-                  >
-                    <div className="grid place-items-center gap-2 py-3">
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900/5 text-slate-700 ring-1 ring-slate-200">
-                        <ImageIcon className="h-5 w-5" />
-                      </span>
-
-                      <div className="text-center">
-                        <div className="text-[13px] font-extrabold text-slate-900">
-                          Upload Dokumen
-                        </div>
-                        <div className="mt-1 max-w-[520px] text-center text-[12px] font-semibold text-slate-600">
-                          Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG,
-                          JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File.
-                        </div>
-                      </div>
-
-                      <div
-                        className={cn(
-                          "mt-2 inline-flex items-center justify-center rounded-[8px] px-4 py-2",
-                          "text-[12.5px] font-semibold text-white",
-                          "ring-1 transition",
-                        )}
-                        style={{
-                          backgroundColor: "#275AA3",
-                          borderColor: "rgba(39,90,163,0.25)",
-                        }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLDivElement).style.backgroundColor =
-                            "#224f8f";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLDivElement).style.backgroundColor =
-                            "#275AA3";
-                        }}
-                      >
-                        <Upload className="mr-2 h-4 w-4" />
-                        Unggah Dokumen
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              <ObsUploadSection
+                label="Dokumen Tambahan (Opsional)"
+                resetKey={uploadResetKey}
+                onFileCountChange={setDokumenTambahanCount}
+              />
 
               <Button
                 onClick={submit}
@@ -598,12 +393,12 @@ export default function ObsWeb() {
                   "text-[14px] font-extrabold tracking-tight text-white",
                 )}
                 style={{ backgroundColor: "#275AA3" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                onMouseEnter={(event) => {
+                  (event.currentTarget as HTMLButtonElement).style.backgroundColor =
                     "#224f8f";
                 }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                onMouseLeave={(event) => {
+                  (event.currentTarget as HTMLButtonElement).style.backgroundColor =
                     "#275AA3";
                 }}
               >
@@ -619,7 +414,6 @@ export default function ObsWeb() {
         </div>
       </div>
 
-      {/* Footer */}
       <div className="mt-6 bg-[#0b1220]">
         <div className="mx-auto w-full max-w-6xl px-4 py-10 md:px-8">
           <div className="grid gap-8 lg:grid-cols-[1fr_1fr_1.1fr]">
