@@ -10,320 +10,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
   RotateCcw,
   Search,
   CheckSquare,
-  ChevronDown,
-  Check,
   ShieldCheck,
   XCircle,
   Plus,
   HelpCircle,
 } from "lucide-react";
-import PenaltyScheduleForm, {
-  type PenaltyScheduleDraft,
-  type PenaltyBase as PenaltyBaseFromForm,
-} from "@/components/loans/PenaltyScheduleForm";
+import PenaltyScheduleForm, { type PenaltyScheduleDraft } from "@/components/loans/PenaltyScheduleForm";
 import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import { Switch } from "@/components/ui/switch";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
-
-type TabId = "general" | "agunan" | "penanggung" | "upload" | "jadwal";
-
-const UI = {
-  radius: "rounded-[5px]",
-  h: "h-[30px]",
-  text: "text-[12.5px]",
-  gapY: "gap-[15px]",
-  input:
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] !placeholder:text-[#64748B]",
-  selectTrigger:
-    "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px] [&_[data-placeholder]]:text-slate-500",
-  btn: "h-[30px] rounded-[5px] text-[12.5px]",
-  sectionTitle: "text-[16px] font-semibold tracking-tight text-slate-900",
-} as const;
-
-function isPlaceholderValue(v: string) {
-  const s = (v ?? "").trim().toLowerCase();
-  return s.startsWith("pilih ") || s === "semua";
-}
-
-function isDefaultMoney(v: string) {
-  return (v ?? "").trim() === "0,00" || (v ?? "").trim() === "0";
-}
-
-function FieldRowInline({
-  label,
-  required,
-  children,
-  hint,
-}: {
-  label: string;
-  required?: boolean;
-  children: React.ReactNode;
-  hint?: React.ReactNode;
-}) {
-  return (
-    <div className="grid gap-2 md:grid-cols-[220px_minmax(0,1fr)] md:items-center">
-      <div className="text-left">
-        <div className="text-sm font-normal text-slate-900">
-          {label}
-          {required ? <span className="text-rose-600"> *</span> : null}
-        </div>
-        {hint ? <div className="mt-1 text-xs text-slate-500">{hint}</div> : null}
-      </div>
-      <div className="min-w-0">{children}</div>
-    </div>
-  );
-}
-
-function TabPill({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "h-10 rounded-full px-5 text-sm font-semibold transition",
-        active
-          ? "bg-violet-600 text-white shadow-sm"
-          : "bg-transparent text-slate-600 hover:bg-white/60",
-      )}
-      aria-current={active ? "page" : undefined}
-    >
-      {label}
-    </button>
-  );
-}
-
-function ActionIconButton({
-  label,
-  onClick,
-  icon,
-}: {
-  label: string;
-  onClick: () => void;
-  icon: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      onClick={onClick}
-      className={cn(
-        "inline-flex w-11 items-center justify-center rounded-r-[5px] bg-slate-600 text-white ring-1 ring-slate-600/20 transition hover:bg-slate-700",
-        UI.h,
-      )}
-    >
-      {icon}
-    </button>
-  );
-}
-
-const loanProductOptions = [
-  "Pinjaman Koperasi",
-  "Pinjaman RC",
-  "PINJAMAN EMAS",
-  "Pinjaman Billing",
-  "PINJAMAN BILLING - BARU",
-  "PINJAMAN BULANAN TETAP",
-] as const;
-
-type LoanProductOption = (typeof loanProductOptions)[number];
-
-function LoanProductCombobox({
-  value,
-  onChange,
-}: {
-  value: LoanProductOption | "Pilih Pinjaman";
-  onChange: (v: LoanProductOption) => void;
-}) {
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <button
-          type="button"
-          className={cn(
-            "flex w-full items-center justify-between border border-slate-200 bg-white px-3 text-left font-medium shadow-sm transition hover:bg-slate-50",
-            UI.h,
-            UI.radius,
-            UI.text,
-          )}
-        >
-          <span
-            className={cn(
-              value === "Pilih Pinjaman" ? "text-[#64748B]" : "text-slate-900",
-            )}
-          >
-            {value}
-          </span>
-          <ChevronDown className="h-4 w-4 text-slate-400" />
-        </button>
-      </PopoverTrigger>
-
-      <PopoverContent
-        align="start"
-        className={cn(
-          "w-[--radix-popover-trigger-width] border-slate-200 p-0",
-          UI.radius,
-        )}
-      >
-        <Command className={cn(UI.radius)}>
-          <CommandInput placeholder="Cari..." />
-          <CommandList>
-            <CommandEmpty>Tidak ada hasil.</CommandEmpty>
-            <CommandGroup>
-              {loanProductOptions.map((opt) => (
-                <CommandItem
-                  key={opt}
-                  value={opt}
-                  onSelect={() => {
-                    onChange(opt);
-                    setOpen(false);
-                  }}
-                  className={cn(UI.radius)}
-                >
-                  <span className="min-w-0 flex-1 truncate">{opt}</span>
-                  {value === opt ? (
-                    <Check className="h-4 w-4 text-[hsl(var(--app-accent-2))]" />
-                  ) : null}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-function getTodayDmy() {
-  const d = new Date();
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const yyyy = String(d.getFullYear());
-  return `${dd}-${mm}-${yyyy}`;
-}
-
-type PenaltyBase = PenaltyBaseFromForm;
-
-const RECURRING_TT =
-  "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi";
-
-type PrefillSeed = {
-  noRekening: string;
-  tanggalDaftar: string;
-  produkPinjaman: LoanProductOption;
-  idNasabah: string;
-  nik: string;
-  nama: string;
-  alamat: string;
-  unitAnggota: string;
-  kolektor: string;
-
-  bungaPerTahun: string;
-  metodeBunga: string;
-  besarPinjaman: string;
-  jangkaWaktu: string;
-
-  // Jadwal
-  jenisPerhitunganBunga: string;
-  metodePerhitunganBunga: string;
-  frekuensiBunga: string;
-  periode: string;
-  tanggalTagihanKe1: string;
-
-  // Jadwal Denda
-  penaltyVisible: boolean;
-  penaltyDraft: PenaltyScheduleDraft;
-  penaltyRecurring: boolean;
-};
-
-const seedByAccountNo: Record<string, PrefillSeed> = {
-  SMG260004: {
-    noRekening: "SMG260004",
-    tanggalDaftar: "07-04-2026",
-    produkPinjaman: "Pinjaman Billing",
-    idNasabah: "N2600006",
-    nik: "887878787878787",
-    nama: "Bapak Bagus",
-    alamat: "Sidakarya",
-    unitAnggota: "-",
-    kolektor: "Gina Farida M.M.",
-
-    bungaPerTahun: "12.00",
-    metodeBunga: "Flat",
-    besarPinjaman: "12.000.000,00",
-    jangkaWaktu: "12",
-
-    jenisPerhitunganBunga: "Jadwal Tetap",
-    metodePerhitunganBunga: "Bunga Efektif",
-    frekuensiBunga: "Bulanan",
-    periode: "1",
-    tanggalTagihanKe1: "07-04-2026",
-
-    penaltyVisible: true,
-    penaltyDraft: {
-      rateMode: "percent",
-      rateValue: "1%",
-      base: "Pokok",
-      lateDays: "3",
-    },
-    penaltyRecurring: true,
-  },
-  "klpk04.07260001": {
-    noRekening: "klpk04.07260001",
-    tanggalDaftar: "10-02-2026",
-    produkPinjaman: "Pinjaman Billing",
-    idNasabah: "N2500009",
-    nik: "1601095402960002",
-    nama: "Indah Sari",
-    alamat: "Denpasar",
-    unitAnggota: "-",
-    kolektor: "Kolektor A",
-
-    bungaPerTahun: "11.50",
-    metodeBunga: "Flat",
-    besarPinjaman: "10.000.000,00",
-    jangkaWaktu: "12",
-
-    jenisPerhitunganBunga: "Jadwal Tetap",
-    metodePerhitunganBunga: "Bunga Efektif",
-    frekuensiBunga: "Bulanan",
-    periode: "1",
-    tanggalTagihanKe1: "10-02-2026",
-
-    penaltyVisible: true,
-    penaltyDraft: {
-      rateMode: "rp",
-      rateValue: "25.000",
-      base: "Pokok",
-      lateDays: "5",
-    },
-    penaltyRecurring: false,
-  },
-};
+import { UI, RECURRING_TT } from "@/components/loans/accounts/edit/loan-account-edit-options";
+import { seedByAccountNo } from "@/components/loans/accounts/edit/loan-account-edit-seed";
+import { getTodayDmy, isDefaultMoney, isPlaceholderValue } from "@/components/loans/accounts/edit/loan-account-edit-utils";
+import type { LoanProductOption, TabId } from "@/components/loans/accounts/edit/loan-account-edit-types";
+import LoanAccountEditActionIconButton from "@/components/loans/accounts/edit/LoanAccountEditActionIconButton";
+import LoanAccountEditFieldRow from "@/components/loans/accounts/edit/LoanAccountEditFieldRow";
+import LoanAccountEditTabs from "@/components/loans/accounts/edit/LoanAccountEditTabs";
+import LoanAccountProductCombobox from "@/components/loans/accounts/edit/LoanAccountProductCombobox";
 
 export default function LoanAccountEdit() {
   const navigate = useNavigate();
@@ -516,22 +225,13 @@ export default function LoanAccountEdit() {
         </div>
 
         <div className="mt-5">
-          <div className="flex flex-wrap items-center gap-2">
-            {tabs.map((t) => (
-              <TabPill
-                key={t.id}
-                label={t.label}
-                active={tab === t.id}
-                onClick={() => setTab(t.id)}
-              />
-            ))}
-          </div>
+          <LoanAccountEditTabs tabs={tabs} activeTab={tab} onTabChange={setTab} />
 
           <Card className="mt-6 w-full rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
             {tab === "general" ? (
               <div className={cn("grid", UI.gapY)}>
                 <div className={cn("grid", UI.gapY)}>
-                  <FieldRowInline label="No Rekening" required>
+                  <LoanAccountEditFieldRow label="No Rekening" required>
                     <div className="flex items-center">
                       <Input
                         value={noRekening}
@@ -541,15 +241,15 @@ export default function LoanAccountEdit() {
                           "rounded-l-[5px] rounded-r-none bg-slate-200/70 text-slate-800",
                         )}
                       />
-                      <ActionIconButton
+                      <LoanAccountEditActionIconButton
                         label="Generate ulang"
                         onClick={() => toast("Generate (prototype)")}
                         icon={<RotateCcw className="h-4.5 w-4.5" />}
                       />
                     </div>
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline
+                  <LoanAccountEditFieldRow
                     label="ID Nasabah"
                     required
                     hint={
@@ -567,7 +267,7 @@ export default function LoanAccountEdit() {
                         onChange={(e) => setIdNasabah(e.target.value)}
                         className={cn(UI.input, "rounded-l-[5px] rounded-r-none")}
                       />
-                      <ActionIconButton
+                      <LoanAccountEditActionIconButton
                         label="Cari nasabah"
                         onClick={() =>
                           toast("Cari Nasabah (prototype)", {
@@ -578,9 +278,9 @@ export default function LoanAccountEdit() {
                         icon={<Search className="h-4.5 w-4.5" />}
                       />
                     </div>
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="NIK" required>
+                  <LoanAccountEditFieldRow label="NIK" required>
                     <div className="grid gap-2">
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                         <Input
@@ -621,33 +321,33 @@ export default function LoanAccountEdit() {
                         </div>
                       )}
                     </div>
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Nama" required>
+                  <LoanAccountEditFieldRow label="Nama" required>
                     <Input
                       value={nama}
                       onChange={(e) => setNama(e.target.value)}
                       className={cn(UI.input, "bg-slate-200/70 text-slate-800")}
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Alamat" required>
+                  <LoanAccountEditFieldRow label="Alamat" required>
                     <Input
                       value={alamat}
                       onChange={(e) => setAlamat(e.target.value)}
                       className={cn(UI.input, "bg-slate-200/70 text-slate-800")}
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Unit Anggota">
+                  <LoanAccountEditFieldRow label="Unit Anggota">
                     <Input
                       value={unitAnggota}
                       onChange={(e) => setUnitAnggota(e.target.value)}
                       className={cn(UI.input, "bg-slate-200/70 text-slate-700")}
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Kolektor" required>
+                  <LoanAccountEditFieldRow label="Kolektor" required>
                     <Select value={kolektor} onValueChange={setKolektor}>
                       <SelectTrigger
                         className={cn(
@@ -664,19 +364,19 @@ export default function LoanAccountEdit() {
                         <SelectItem value="Kolektor B">Kolektor B</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Tanggal Daftar" required>
+                  <LoanAccountEditFieldRow label="Tanggal Daftar" required>
                     <DatePickerDmyField
                       value={tanggal}
                       onChange={setTanggal}
                       inputClassName={UI.input}
                       popoverAlign="end"
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Produk Pinjaman" required>
-                    <LoanProductCombobox
+                  <LoanAccountEditFieldRow label="Produk Pinjaman" required>
+                    <LoanAccountProductCombobox
                       value={produkPinjaman}
                       onChange={(v) => {
                         setProdukPinjaman(v);
@@ -689,9 +389,9 @@ export default function LoanAccountEdit() {
                         }
                       }}
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Sektor Pinjaman" required>
+                  <LoanAccountEditFieldRow label="Sektor Pinjaman" required>
                     <Select value={sektorPinjaman} onValueChange={setSektorPinjaman}>
                       <SelectTrigger
                         className={cn(
@@ -710,9 +410,9 @@ export default function LoanAccountEdit() {
                         <SelectItem value="Jasa">Jasa</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Tujuan Peminjaman" required>
+                  <LoanAccountEditFieldRow label="Tujuan Peminjaman" required>
                     <Select value={tujuanPeminjaman} onValueChange={setTujuanPeminjaman}>
                       <SelectTrigger
                         className={cn(
@@ -730,18 +430,18 @@ export default function LoanAccountEdit() {
                         <SelectItem value="Konsumtif">Konsumtif</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Bunga Pertahun (%)" required>
+                  <LoanAccountEditFieldRow label="Bunga Pertahun (%)" required>
                     <Input
                       value={bungaPerTahun}
                       onChange={(e) => setBungaPerTahun(e.target.value)}
                       className={UI.input}
                       placeholder="0,00"
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Metode Bunga Pinjaman" required>
+                  <LoanAccountEditFieldRow label="Metode Bunga Pinjaman" required>
                     <Select value={metodeBunga} onValueChange={setMetodeBunga}>
                       <SelectTrigger
                         className={cn(
@@ -760,25 +460,25 @@ export default function LoanAccountEdit() {
                         <SelectItem value="Menurun">Menurun</SelectItem>
                       </SelectContent>
                     </Select>
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Besar Pinjaman" required>
+                  <LoanAccountEditFieldRow label="Besar Pinjaman" required>
                     <Input
                       value={besarPinjaman}
                       onChange={(e) => setBesarPinjaman(e.target.value)}
                       className={cn(UI.input, moneyLikeText(besarPinjaman))}
                       placeholder="0,00"
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
 
-                  <FieldRowInline label="Jangka Waktu" required>
+                  <LoanAccountEditFieldRow label="Jangka Waktu" required>
                     <Input
                       value={jangkaWaktu}
                       onChange={(e) => setJangkaWaktu(e.target.value)}
                       className={cn(UI.input, moneyLikeText(jangkaWaktu))}
                       placeholder="0,00"
                     />
-                  </FieldRowInline>
+                  </LoanAccountEditFieldRow>
                 </div>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
@@ -797,7 +497,7 @@ export default function LoanAccountEdit() {
                   <div className={UI.sectionTitle}>Jadwal Perhitungan Bunga</div>
 
                   <div className={cn("grid w-full max-w-none", UI.gapY)}>
-                    <FieldRowInline label="Jenis Perhitungan Bunga" required>
+                    <LoanAccountEditFieldRow label="Jenis Perhitungan Bunga" required>
                       <Select
                         value={jenisPerhitunganBunga}
                         onValueChange={setJenisPerhitunganBunga}
@@ -815,9 +515,9 @@ export default function LoanAccountEdit() {
                           </SelectItem>
                         </SelectContent>
                       </Select>
-                    </FieldRowInline>
+                    </LoanAccountEditFieldRow>
 
-                    <FieldRowInline label="Metode Perhitungan Bunga" required>
+                    <LoanAccountEditFieldRow label="Metode Perhitungan Bunga" required>
                       <Select
                         value={metodePerhitunganBunga}
                         onValueChange={setMetodePerhitunganBunga}
@@ -836,9 +536,9 @@ export default function LoanAccountEdit() {
                           <SelectItem value="Menurun">Menurun</SelectItem>
                         </SelectContent>
                       </Select>
-                    </FieldRowInline>
+                    </LoanAccountEditFieldRow>
 
-                    <FieldRowInline label="Frekuensi Bunga" required>
+                    <LoanAccountEditFieldRow label="Frekuensi Bunga" required>
                       <Select value={frekuensiBunga} onValueChange={setFrekuensiBunga}>
                         <SelectTrigger
                           className={cn(
@@ -854,25 +554,25 @@ export default function LoanAccountEdit() {
                           <SelectItem value="Harian">Harian</SelectItem>
                         </SelectContent>
                       </Select>
-                    </FieldRowInline>
+                    </LoanAccountEditFieldRow>
 
-                    <FieldRowInline label="Periode" required>
+                    <LoanAccountEditFieldRow label="Periode" required>
                       <Input
                         value={periode}
                         onChange={(e) => setPeriode(e.target.value)}
                         className={cn(UI.input, "bg-slate-200/70 text-slate-800")}
                         placeholder=""
                       />
-                    </FieldRowInline>
+                    </LoanAccountEditFieldRow>
 
-                    <FieldRowInline label="Tanggal Tagihan Ke-1" required>
+                    <LoanAccountEditFieldRow label="Tanggal Tagihan Ke-1" required>
                       <DatePickerDmyField
                         value={tanggalTagihanKe1}
                         onChange={setTanggalTagihanKe1}
                         inputClassName={UI.input}
                         popoverAlign="end"
                       />
-                    </FieldRowInline>
+                    </LoanAccountEditFieldRow>
                   </div>
                 </div>
 

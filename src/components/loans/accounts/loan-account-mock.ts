@@ -1,0 +1,40 @@
+import type { LoanAccountRow } from "./loan-account-types";
+
+export const loanAccountRowsSeed: LoanAccountRow[] = [
+  {
+    id: "RP-260001",
+    noRekening: "SMG260004",
+    tanggalDaftar: "07-04-2026",
+    produkPinjaman: "Pinjaman Bulanan 9",
+    idNasabah: "N2600006",
+    namaNasabah: "Bapak Bagus",
+    nominal: "12.000.000,00",
+    sisaPinjaman: "10.553.571,00",
+    bungaPerTahun: "12.00",
+    status: "Aktif / Sudah Dicairkan",
+  },
+  {
+    id: "RP-260002",
+    noRekening: "klpk04.07260001",
+    tanggalDaftar: "10-02-2026",
+    produkPinjaman: "Pinjaman Bulanan 1",
+    idNasabah: "N2500009",
+    namaNasabah: "indah sari",
+    nominal: "10.000.000,00",
+    sisaPinjaman: "8.645.833,33",
+    bungaPerTahun: "11.50",
+    status: "Aktif / Sudah Dicairkan",
+  },
+  {
+    id: "RP-260003",
+    noRekening: "SMG260021",
+    tanggalDaftar: "26-06-2024",
+    produkPinjaman: "Pinjaman Harian",
+    idNasabah: "N2400033",
+    namaNasabah: "Rika Wastuti",
+    nominal: "3.500.000,00",
+    sisaPinjaman: "3.250.000,00",
+    bungaPerTahun: "20.00",
+    status: "Macet",
+  },
+];
