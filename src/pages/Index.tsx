@@ -172,8 +172,8 @@ export default function Index() {
                           {/* Anggota (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarAnggotaMenu /> : null}
 
-                          {/* Pinjaman (collapsible) - hide in OBS area */}
-                          {!isObsArea ? <SidebarPinjamanMenu /> : null}
+                          {/* Pinjaman (collapsible) */}
+                          <SidebarPinjamanMenu />
 
                           {/* Mobile (collapsible) - hide in OBS area */}
                           {!isObsArea ? <SidebarMobileMenu /> : null}
