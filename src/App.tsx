@@ -62,6 +62,10 @@ const App = () => (
               element={<LoanApplications />}
             />
             <Route
+              path="obs-samudra-harta/loans/applications/new"
+              element={<LoanApplicationCreate />}
+            />
+            <Route
               path="obs-samudra-harta/loans/accounts"
               element={<RekeningPinjaman />}
             />

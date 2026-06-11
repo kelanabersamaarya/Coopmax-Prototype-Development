@@ -429,9 +429,10 @@ export default function ObsSamudraHartaDetail() {
                 label="Buat Pengajuan Pinjaman"
                 onClick={() => {
                   toast.success("Membuka form Pengajuan Pinjaman", {
-                    description: "Form akan dibuka dalam mode kosong (tanpa prefill).",
+                    description:
+                      "Form akan dibuka dalam modul OBS Samudra Harta.",
                   });
-                  navigate("/loans/applications/new?prefill=empty");
+                  navigate("/obs-samudra-harta/loans/applications/new?prefill=empty");
                 }}
                 className="w-[240px]"
               />
