@@ -59,7 +59,7 @@ function MenuRow({
   helperText?: string;
   helperTone?: "gray" | "green";
   onClick?: () => void;
-  trailingIcon?: React.ComponentType<{ className?: string }>;
+  trailingIcon?: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   iconTone?: "blue" | "red";
   withDivider?: boolean;
 }) {

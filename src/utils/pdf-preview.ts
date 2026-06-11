@@ -5,10 +5,10 @@ type PdfPreviewOptions = {
 
 function escapeHtml(value: string) {
   return value
-    .replaceAll("&", "&")
-    .replaceAll("<", "<")
-    .replaceAll(">", ">")
-    .replaceAll('"', "&quot;");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function writeLoadingPage(targetWindow: Window, title: string) {
