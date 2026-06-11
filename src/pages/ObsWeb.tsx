@@ -12,6 +12,7 @@ import {
   Phone,
   Globe,
   Building2,
+  Info,
 } from "lucide-react";
 import RupiahMoneyInput from "@/components/anggota/RupiahMoneyInput";
 import ObsProdukSelect from "@/components/obs/ObsProdukSelect";
@@ -372,6 +373,18 @@ export default function ObsWeb() {
                   triggerClassName={produkSelectTriggerCls}
                   contentClassName={produkSelectContentCls}
                 />
+              </div>
+
+              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-[13px] font-semibold leading-relaxed text-blue-900">
+                <div className="flex items-start gap-3">
+                  <span className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                    <Info className="h-4 w-4" />
+                  </span>
+                  <div>
+                    Silakan Unggah Foto Maupun Dokumen Sesuai Kebutuhan dan
+                    Pastikan Dokumen atau Foto yang Anda Unggah Terlihat Jelas
+                  </div>
+                </div>
               </div>
 
               <ObsUploadSection
