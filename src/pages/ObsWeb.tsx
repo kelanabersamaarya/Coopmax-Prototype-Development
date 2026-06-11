@@ -115,7 +115,7 @@ export default function ObsWeb() {
 
   const [produk, setProduk] = React.useState<Product>("Pinjaman Koperasi");
   const [uploadResetKey, setUploadResetKey] = React.useState(0);
-  const [dokumenPendukungCount, setDokumenPendukungCount] = React.useState(0);
+  const [fotoPendukungCount, setFotoPendukungCount] = React.useState(0);
   const [dokumenTambahanCount, setDokumenTambahanCount] = React.useState(0);
 
   function submit() {
@@ -138,10 +138,10 @@ export default function ObsWeb() {
       return;
     }
 
-    const totalDokumen = dokumenPendukungCount + dokumenTambahanCount;
+    const totalDokumen = fotoPendukungCount + dokumenTambahanCount;
 
     toast.success("Pendaftaran terkirim (prototype)", {
-      description: `Produk: ${produk}${totalDokumen > 0 ? ` • Dokumen: ${totalDokumen} file` : ""}`,
+      description: `Produk: ${produk}${totalDokumen > 0 ? ` • File: ${totalDokumen}` : ""}`,
     });
 
     setNama("");
@@ -375,9 +375,13 @@ export default function ObsWeb() {
               </div>
 
               <ObsUploadSection
-                label="Dokumen Pendukung (Opsional)"
+                label="Foto Pendukung (Opsional)"
                 resetKey={uploadResetKey}
-                onFileCountChange={setDokumenPendukungCount}
+                onFileCountChange={setFotoPendukungCount}
+                uploadTitle="Upload Foto"
+                uploadButtonText="Unggah Foto"
+                helperText="Klik Tombol Dibawah Untuk Mengunggah Foto Pendukung. (JPG, JPEG, PNG) — Anda Dapat Menggungah Lebih Dari Satu File."
+                accept="image/*,.jpg,.jpeg,.png"
               />
 
               <ObsUploadSection

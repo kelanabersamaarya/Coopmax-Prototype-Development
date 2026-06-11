@@ -37,10 +37,18 @@ export default function ObsUploadSection({
   label,
   resetKey,
   onFileCountChange,
+  uploadTitle = "Upload Dokumen",
+  uploadButtonText = "Unggah Dokumen",
+  helperText = "Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File.",
+  accept = "image/*,.jpg,.jpeg,.png,.pdf",
 }: {
   label: string;
   resetKey: number;
   onFileCountChange?: (count: number) => void;
+  uploadTitle?: string;
+  uploadButtonText?: string;
+  helperText?: string;
+  accept?: string;
 }) {
   const [files, setFiles] = React.useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -109,7 +117,7 @@ export default function ObsUploadSection({
         type="file"
         multiple
         className="sr-only"
-        accept="image/*,.jpg,.jpeg,.png,.pdf"
+        accept={accept}
         onChange={(event) => addFiles(event.target.files)}
       />
 
@@ -202,11 +210,10 @@ export default function ObsUploadSection({
 
             <div className="text-center">
               <div className="text-[13px] font-extrabold text-slate-900">
-                Upload Dokumen
+                {uploadTitle}
               </div>
               <div className="mt-1 max-w-[520px] text-center text-[12px] font-semibold text-slate-600">
-                Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG,
-                JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File.
+                {helperText}
               </div>
             </div>
 
@@ -230,7 +237,7 @@ export default function ObsUploadSection({
               }}
             >
               <Upload className="mr-2 h-4 w-4" />
-              Unggah Dokumen
+              {uploadButtonText}
             </div>
           </div>
         </button>
