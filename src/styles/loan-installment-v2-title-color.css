@@ -1,0 +1,103 @@
+/* Transaksi Pinjaman > Pembayaran
+   Samakan warna title/label informasi menjadi #3B4863. */
+
+.loan-installment-v2-pinjaman-billing [class*="text-[#002060]"],
+.loan-installment-v2-pinjaman-monthly [class*="text-[#002060]"],
+.loan-installment-v2-pinjaman-billing [class*="text-[#203064]"],
+.loan-installment-v2-pinjaman-monthly [class*="text-[#203064]"] {
+  color: #3b4863 !important;
+}
+
+/* Label kolom Nasabah */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(2)
+  > div.grid.gap-1\.5
+  > div:first-child,
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(2)
+  > div.mt-3.grid.gap-4.bg-white
+  > div.grid.gap-1
+  > div:first-child {
+  color: #3b4863 !important;
+}
+
+/* Label kolom Pinjaman */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.bg-white
+  div.grid.gap-4
+  > div.grid.gap-1
+  > div:first-child,
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.bg-white
+  div.grid.gap-4
+  > div.grid.gap-1\.5
+  > div:first-child,
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(3).bg-white
+  > div.loan-installment-v2-pinjaman-monthly.bg-white
+  > div.grid.gap-4:first-child
+  > div:nth-child(1)
+  > div:first-child::before,
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:first-child::before,
+.loan-installment-v2-pinjaman-billing:not(.loan-installment-v2-empty)
+  > div:nth-of-type(3)
+  > div:nth-child(5)::before,
+.loan-installment-v2-pinjaman-billing
+  > .loan-installment-v2-billing-top
+  > .grid.gap-4
+  > div:nth-child(4)
+  > div:first-child::before {
+  color: #3b4863 !important;
+}
+
+/* Label kolom Tagihan & Transaksi */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  > div.grid.gap-2
+  > div:first-child,
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  > div.grid.gap-1\.5
+  > div:first-child,
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  div.grid.gap-4
+  > div.grid.gap-1
+  > div:first-child,
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  div.grid.gap-4
+  > div.grid.gap-1\.5
+  > div:first-child,
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr
+  > td:nth-child(4).bg-white
+  > div.mt-4
+  + div
+  > div:first-child {
+  color: #3b4863 !important;
+}

@@ -12,5 +12,6 @@ import "./styles/loan-installment-v2-show-monthly-product.css";
 import "./styles/loan-installment-v2-regular-default-totals.css";
 import "./styles/loan-product-cabang-edit.css";
 import "./styles/daftar-tagihan-dialog.css";
+import "./styles/loan-installment-v2-title-color.css";
 
 createRoot(document.getElementById("root")!).render(<App />);
