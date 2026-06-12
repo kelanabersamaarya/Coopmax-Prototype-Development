@@ -422,7 +422,7 @@ export default function ObsSamudraHartaDetail() {
       return [
         ...baseItems,
         { label: "Tipe Produk", value: "Pinjaman" },
-        { label: "Produk", value: data.produk },
+        { label: "Produk", value: "Pinjaman Koperasi" },
         {
           label: "Nominal Pengajuan",
           value: loanMeta.nominalPengajuan,
@@ -710,7 +710,12 @@ export default function ObsSamudraHartaDetail() {
                                     {r.deskripsi}
                                   </td>
 
-                                  <td className={cn(historyTd, "text-center text-slate-400")}>
+                                  <td
+                                    className={cn(
+                                      historyTd,
+                                      "text-center text-slate-400",
+                                    )}
+                                  >
                                     {/* intentionally blank */}
                                   </td>
                                 </tr>
