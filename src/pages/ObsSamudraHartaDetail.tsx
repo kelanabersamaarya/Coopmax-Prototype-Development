@@ -174,19 +174,22 @@ function TealInfoPanel({
   title,
   items,
 }: {
-  title: string;
+  title?: string;
   items: Array<{ label: string; value: React.ReactNode }>;
 }) {
   return (
     <div className="overflow-hidden rounded-[8px] bg-[#1aa0b5] text-white shadow-sm ring-1 ring-white/10">
       <div className="px-6 py-6 sm:px-7 sm:py-7">
-        <div className="text-[14px] font-extrabold tracking-tight text-white">
-          {title}
-        </div>
+        {title ? (
+          <div className="text-[14px] font-extrabold tracking-tight text-white">
+            {title}
+          </div>
+        ) : null}
 
         <div
           className={cn(
-            "mt-5 grid gap-x-10 gap-y-5",
+            title ? "mt-5" : "",
+            "grid gap-x-10 gap-y-5",
             "sm:[grid-template-columns:repeat(2,minmax(0,1fr))]",
             "lg:[grid-template-columns:repeat(4,minmax(0,1fr))]",
           )}
@@ -531,11 +534,7 @@ export default function ObsSamudraHartaDetail() {
 
                 <div className="mt-5">
                   <TealInfoPanel
-                    title={
-                      data.produk === "Produk Pinjaman"
-                        ? "PINJAMAN KOPERASI"
-                        : "SIMPANAN"
-                    }
+                    title={data.produk === "Produk Tabungan" ? "SIMPANAN" : undefined}
                     items={pendaftarItems}
                   />
                 </div>
