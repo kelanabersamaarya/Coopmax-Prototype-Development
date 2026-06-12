@@ -15,6 +15,7 @@ import { getObsRegistrationStatus } from "@/lib/obsRegistrationsStore";
 
 type ProductType = "-- Semua --" | "Produk Pinjaman" | "Produk Tabungan";
 type StatusType = "-- Semua --" | "Diajukan" | "Diproses" | "Ditolak";
+type SavingsStatus = "Menunggu Verifikasi" | "Siap Dibuka" | "Ditolak";
 
 type Row = {
   id: string;
@@ -22,9 +23,13 @@ type Row = {
   phone: string;
   email: string;
   alamat: string;
-  tanggalRegistrasi: string; // yyyy-mm-dd hh:mm:ss (sesuai screenshot)
+  tanggalRegistrasi: string;
   produk: Exclude<ProductType, "-- Semua --">;
   status: Exclude<StatusType, "-- Semua --">;
+  jenisSimpanan?: string;
+  setoranAwal?: string;
+  tujuanPembukaan?: string;
+  statusSimpanan?: SavingsStatus;
 };
 
 const seed: Row[] = [
@@ -77,6 +82,52 @@ const seed: Row[] = [
     tanggalRegistrasi: "2026-04-06 15:56:04",
     produk: "Produk Tabungan",
     status: "Diproses",
+    jenisSimpanan: "Simpanan Sukarela",
+    setoranAwal: "100.000,00",
+    tujuanPembukaan: "Pembukaan rekening simpanan online",
+    statusSimpanan: "Menunggu Verifikasi",
+  },
+  {
+    id: "7",
+    nama: "Kadek Adi Pratama",
+    phone: "081239990001",
+    email: "kadek.adi@gmail.com",
+    alamat: "Jl. Raya Ubud, Gianyar",
+    tanggalRegistrasi: "2026-04-08 09:24:12",
+    produk: "Produk Tabungan",
+    status: "Diajukan",
+    jenisSimpanan: "Simpanan Harian",
+    setoranAwal: "250.000,00",
+    tujuanPembukaan: "Tabungan transaksi harian",
+    statusSimpanan: "Siap Dibuka",
+  },
+  {
+    id: "8",
+    nama: "Ni Made Ayu Lestari",
+    phone: "087861234500",
+    email: "ayu.lestari@gmail.com",
+    alamat: "Br. Denjalan, Batubulan",
+    tanggalRegistrasi: "2026-04-11 11:15:40",
+    produk: "Produk Tabungan",
+    status: "Diajukan",
+    jenisSimpanan: "Simpanan Berjangka",
+    setoranAwal: "1.000.000,00",
+    tujuanPembukaan: "Rencana simpanan pendidikan",
+    statusSimpanan: "Menunggu Verifikasi",
+  },
+  {
+    id: "9",
+    nama: "I Wayan Sutama",
+    phone: "082145678900",
+    email: "wayan.sutama@gmail.com",
+    alamat: "Jl. Cok Gede Rai, Peliatan",
+    tanggalRegistrasi: "2026-04-12 14:38:05",
+    produk: "Produk Tabungan",
+    status: "Ditolak",
+    jenisSimpanan: "Simpanan Sukarela",
+    setoranAwal: "50.000,00",
+    tujuanPembukaan: "Tabungan anggota baru",
+    statusSimpanan: "Ditolak",
   },
   {
     id: "6",
@@ -215,7 +266,28 @@ function StatusPill({ status }: { status: Row["status"] }) {
     <span
       className={cn(
         "inline-flex items-center justify-center rounded-[5px] px-2.5 py-1",
-        "text-[12px] font-semibold leading-none whitespace-nowrap",
+        "whitespace-nowrap text-[12px] font-semibold leading-none",
+        cls,
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
+function SavingsStatusPill({ status }: { status: SavingsStatus }) {
+  const cls =
+    status === "Ditolak"
+      ? "bg-rose-600 text-white ring-1 ring-rose-600/20"
+      : status === "Siap Dibuka"
+        ? "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25"
+        : "bg-amber-500 text-white ring-1 ring-amber-500/20";
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center justify-center rounded-[5px] px-2.5 py-1",
+        "whitespace-nowrap text-[12px] font-semibold leading-none",
         cls,
       )}
     >
@@ -245,7 +317,10 @@ export default function ObsSamudraHarta() {
   const rows = React.useMemo(() => {
     return seed.map((row) => ({
       ...row,
-      status: getObsRegistrationStatus(row.id) ?? row.status,
+      status:
+        row.produk === "Produk Pinjaman"
+          ? getObsRegistrationStatus(row.id) ?? row.status
+          : row.status,
     }));
   }, [statusTick]);
 
@@ -261,7 +336,7 @@ export default function ObsSamudraHarta() {
   const [qProduk, setQProduk] = React.useState<ProductType>("Produk Pinjaman");
   const [qStatus, setQStatus] = React.useState<StatusType>("-- Semua --");
 
-  const shouldShowStatusColumn = qProduk !== "Produk Tabungan";
+  const isSavingsTab = qProduk === "Produk Tabungan";
 
   const filtered = React.useMemo(() => {
     const namaQ = qNama.trim().toLowerCase();
@@ -281,12 +356,11 @@ export default function ObsSamudraHarta() {
 
       const okProduk = qProduk === "-- Semua --" ? true : r.produk === qProduk;
 
-      // Status filter hanya relevan untuk Produk Pinjaman (atau "-- Semua --" dengan row pinjaman).
       const okStatus =
         qStatus === "-- Semua --"
           ? true
           : r.produk === "Produk Tabungan"
-            ? false
+            ? true
             : r.status === qStatus;
 
       return okNama && okPhone && okEmail && okAlamat && okTgl && okProduk && okStatus;
@@ -338,7 +412,13 @@ export default function ObsSamudraHarta() {
             <div className="text-base font-semibold text-slate-600">Daftar</div>
           </div>
 
-          <ProductTabs value={qProduk} onChange={setQProduk} />
+          <ProductTabs
+            value={qProduk}
+            onChange={(next) => {
+              setQProduk(next);
+              setQStatus("-- Semua --");
+            }}
+          />
         </div>
 
         <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
@@ -364,7 +444,12 @@ export default function ObsSamudraHarta() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1120px] border-collapse">
+              <table
+                className={cn(
+                  "w-full border-collapse",
+                  isSavingsTab ? "min-w-[1360px]" : "min-w-[1120px]",
+                )}
+              >
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                     <th className={cn("w-[44px] whitespace-nowrap", th)}>
@@ -390,14 +475,31 @@ export default function ObsSamudraHarta() {
                     </th>
 
                     <th className={cn("w-[200px]", th)}>
-                      <ThLabel>PRODUK</ThLabel>
+                      <ThLabel>
+                        {isSavingsTab ? "PRODUK SIMPANAN" : "PRODUK"}
+                      </ThLabel>
                     </th>
 
-                    {shouldShowStatusColumn ? (
+                    {isSavingsTab ? (
+                      <>
+                        <th className={cn("w-[190px]", th)}>
+                          <ThLabel>JENIS SIMPANAN</ThLabel>
+                        </th>
+                        <th className={cn("w-[160px]", th)}>
+                          <ThLabel>SETORAN AWAL</ThLabel>
+                        </th>
+                        <th className={cn("w-[250px]", th)}>
+                          <ThLabel>TUJUAN PEMBUKAAN</ThLabel>
+                        </th>
+                        <th className={cn("w-[180px]", th)}>
+                          <ThLabel>STATUS PEMBUKAAN</ThLabel>
+                        </th>
+                      </>
+                    ) : (
                       <th className={cn("w-[140px]", th)}>
                         <ThLabel>STATUS</ThLabel>
                       </th>
-                    ) : null}
+                    )}
                   </tr>
 
                   <tr className="border-b border-slate-200 bg-white">
@@ -455,8 +557,7 @@ export default function ObsSamudraHarta() {
                             "h-9 w-10",
                             "rounded-r-[6px] rounded-l-none",
                             "bg-slate-600 text-white ring-1 ring-slate-600/20",
-                            "transition hover:bg-slate-700",
-                            "text-[16px] font-semibold leading-none",
+                            "text-[16px] font-semibold leading-none transition hover:bg-slate-700",
                           )}
                           aria-label="Clear tanggal"
                           title="Clear"
@@ -469,7 +570,10 @@ export default function ObsSamudraHarta() {
                     <th className={filterCell}>
                       <Select
                         value={qProduk}
-                        onValueChange={(v) => setQProduk(v as ProductType)}
+                        onValueChange={(v) => {
+                          setQProduk(v as ProductType);
+                          setQStatus("-- Semua --");
+                        }}
                       >
                         <SelectTrigger className={produkSelectTriggerCls}>
                           <SelectValue />
@@ -486,7 +590,26 @@ export default function ObsSamudraHarta() {
                       </Select>
                     </th>
 
-                    {shouldShowStatusColumn ? (
+                    {isSavingsTab ? (
+                      <>
+                        <th className={filterCell}>
+                          <Input className={filterInputCls} placeholder="" readOnly />
+                        </th>
+                        <th className={filterCell}>
+                          <Input
+                            className={cn(filterInputCls, "text-right tabular-nums")}
+                            placeholder="0,00"
+                            readOnly
+                          />
+                        </th>
+                        <th className={filterCell}>
+                          <Input className={filterInputCls} placeholder="" readOnly />
+                        </th>
+                        <th className={filterCell}>
+                          <Input className={filterInputCls} placeholder="" readOnly />
+                        </th>
+                      </>
+                    ) : (
                       <th className={filterCell}>
                         <Select
                           value={qStatus}
@@ -503,7 +626,7 @@ export default function ObsSamudraHarta() {
                           </SelectContent>
                         </Select>
                       </th>
-                    ) : null}
+                    )}
                   </tr>
                 </thead>
 
@@ -511,76 +634,90 @@ export default function ObsSamudraHarta() {
                   {paged.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={shouldShowStatusColumn ? 8 : 7}
+                        colSpan={isSavingsTab ? 11 : 8}
                         className="px-4 py-10 text-center text-sm text-slate-600"
                       >
                         Tidak ada data yang cocok dengan filter.
                       </td>
                     </tr>
                   ) : (
-                    paged.map((r, idx) => {
-                      const showStatusCell =
-                        shouldShowStatusColumn &&
-                        !(qProduk === "-- Semua --" && r.produk === "Produk Tabungan");
+                    paged.map((r, idx) => (
+                      <tr
+                        key={r.id}
+                        className={cn(
+                          "border-b border-slate-200 text-[13px]",
+                          idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
+                        )}
+                      >
+                        <td className={cn(td, "tabular-nums text-slate-900")}>
+                          {(page - 1) * pageSize + idx + 1}
+                        </td>
 
-                      return (
-                        <tr
-                          key={r.id}
-                          className={cn(
-                            "border-b border-slate-200 text-[13px]",
-                            idx % 2 === 0 ? "bg-white" : "bg-slate-50/60",
-                          )}
-                        >
-                          <td className={cn(td, "tabular-nums text-slate-900")}>
-                            {(page - 1) * pageSize + idx + 1}
-                          </td>
-
-                          <td className={cn(td)}>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                navigate(`/obs-samudra-harta/${encodeURIComponent(r.id)}`)
-                              }
-                              className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
-                              title={r.nama}
-                            >
-                              {r.nama}
-                            </button>
-                          </td>
-
-                          <td className={cn(td, "tabular-nums whitespace-nowrap")}>
-                            {r.phone}
-                          </td>
-
-                          <td className={cn(td, "truncate")} title={r.email}>
-                            {r.email}
-                          </td>
-
-                          <td
-                            className={cn(td, "w-[280px] max-w-[280px] truncate")}
-                            title={r.alamat}
+                        <td className={cn(td)}>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              navigate(`/obs-samudra-harta/${encodeURIComponent(r.id)}`)
+                            }
+                            className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
+                            title={r.nama}
                           >
-                            {r.alamat}
-                          </td>
+                            {r.nama}
+                          </button>
+                        </td>
 
-                          <td className={cn(td, "tabular-nums whitespace-nowrap")}>
-                            {r.tanggalRegistrasi}
-                          </td>
+                        <td className={cn(td, "tabular-nums whitespace-nowrap")}>
+                          {r.phone}
+                        </td>
 
-                          <td className={cn(td, "whitespace-nowrap")}>
-                            {r.produk === "Produk Tabungan"
-                              ? "Produk Simpanan"
-                              : r.produk}
-                          </td>
+                        <td className={cn(td, "truncate")} title={r.email}>
+                          {r.email}
+                        </td>
 
-                          {shouldShowStatusColumn ? (
-                            <td className={cn(td)}>
-                              {showStatusCell ? <StatusPill status={r.status} /> : null}
+                        <td
+                          className={cn(td, "w-[280px] max-w-[280px] truncate")}
+                          title={r.alamat}
+                        >
+                          {r.alamat}
+                        </td>
+
+                        <td className={cn(td, "tabular-nums whitespace-nowrap")}>
+                          {r.tanggalRegistrasi}
+                        </td>
+
+                        <td className={cn(td, "whitespace-nowrap")}>
+                          {r.produk === "Produk Tabungan"
+                            ? "Produk Simpanan"
+                            : r.produk}
+                        </td>
+
+                        {isSavingsTab ? (
+                          <>
+                            <td className={cn(td, "whitespace-nowrap")}>
+                              {r.jenisSimpanan ?? "-"}
                             </td>
-                          ) : null}
-                        </tr>
-                      );
-                    })
+                            <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
+                              {r.setoranAwal ?? "0,00"}
+                            </td>
+                            <td
+                              className={cn(td, "max-w-[250px] truncate")}
+                              title={r.tujuanPembukaan ?? "-"}
+                            >
+                              {r.tujuanPembukaan ?? "-"}
+                            </td>
+                            <td className={cn(td)}>
+                              <SavingsStatusPill
+                                status={r.statusSimpanan ?? "Menunggu Verifikasi"}
+                              />
+                            </td>
+                          </>
+                        ) : (
+                          <td className={cn(td)}>
+                            <StatusPill status={r.status} />
+                          </td>
+                        )}
+                      </tr>
+                    ))
                   )}
                 </tbody>
               </table>
