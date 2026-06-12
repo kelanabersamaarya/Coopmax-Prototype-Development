@@ -118,6 +118,7 @@ export default function ObsWeb() {
   const [uploadResetKey, setUploadResetKey] = React.useState(0);
   const [ktpCount, setKtpCount] = React.useState(0);
   const [agunanCount, setAgunanCount] = React.useState(0);
+  const [penghasilanCount, setPenghasilanCount] = React.useState(0);
 
   function submit() {
     if (!nama.trim()) {
@@ -139,7 +140,7 @@ export default function ObsWeb() {
       return;
     }
 
-    const totalDokumen = ktpCount + agunanCount;
+    const totalDokumen = ktpCount + agunanCount + penghasilanCount;
 
     toast.success("Pendaftaran terkirim (prototype)", {
       description: `Produk: ${produk}${totalDokumen > 0 ? ` • File: ${totalDokumen}` : ""}`,
@@ -393,6 +394,16 @@ export default function ObsWeb() {
                     onFileCountChange={setAgunanCount}
                     uploadTitle="Unggah Agunan"
                     uploadButtonText="Unggah Agunan"
+                    helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
+                    accept="image/*,.jpg,.jpeg,.png,.pdf"
+                  />
+
+                  <ObsUploadSection
+                    label="Penghasilan"
+                    resetKey={uploadResetKey}
+                    onFileCountChange={setPenghasilanCount}
+                    uploadTitle="Unggah Penghasilan"
+                    uploadButtonText="Unggah Penghasilan"
                     helperText="Klik Tombol Dibawah Untuk Mengunggah File Pendukung. (JPG, JPEG, PNG, PDF) — Anda Dapat Menggungah Lebih Dari Satu File."
                     accept="image/*,.jpg,.jpeg,.png,.pdf"
                   />
