@@ -275,27 +275,6 @@ function StatusPill({ status }: { status: Row["status"] }) {
   );
 }
 
-function SavingsStatusPill({ status }: { status: SavingsStatus }) {
-  const cls =
-    status === "Ditolak"
-      ? "bg-rose-600 text-white ring-1 ring-rose-600/20"
-      : status === "Siap Dibuka"
-        ? "bg-[#3BB001] text-white ring-1 ring-[#3BB001]/25"
-        : "bg-amber-500 text-white ring-1 ring-amber-500/20";
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center justify-center rounded-[5px] px-2.5 py-1",
-        "whitespace-nowrap text-[12px] font-semibold leading-none",
-        cls,
-      )}
-    >
-      {status}
-    </span>
-  );
-}
-
 export default function ObsSamudraHarta() {
   const navigate = useNavigate();
   const [statusTick, setStatusTick] = React.useState(0);
@@ -444,12 +423,7 @@ export default function ObsSamudraHarta() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table
-                className={cn(
-                  "w-full border-collapse",
-                  isSavingsTab ? "min-w-[1360px]" : "min-w-[1120px]",
-                )}
-              >
+              <table className="w-full min-w-[1120px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                     <th className={cn("w-[44px] whitespace-nowrap", th)}>
@@ -480,26 +454,11 @@ export default function ObsSamudraHarta() {
                       </ThLabel>
                     </th>
 
-                    {isSavingsTab ? (
-                      <>
-                        <th className={cn("w-[190px]", th)}>
-                          <ThLabel>JENIS SIMPANAN</ThLabel>
-                        </th>
-                        <th className={cn("w-[160px]", th)}>
-                          <ThLabel>SETORAN AWAL</ThLabel>
-                        </th>
-                        <th className={cn("w-[250px]", th)}>
-                          <ThLabel>TUJUAN PEMBUKAAN</ThLabel>
-                        </th>
-                        <th className={cn("w-[180px]", th)}>
-                          <ThLabel>STATUS PEMBUKAAN</ThLabel>
-                        </th>
-                      </>
-                    ) : (
+                    {!isSavingsTab ? (
                       <th className={cn("w-[140px]", th)}>
                         <ThLabel>STATUS</ThLabel>
                       </th>
-                    )}
+                    ) : null}
                   </tr>
 
                   <tr className="border-b border-slate-200 bg-white">
@@ -590,26 +549,7 @@ export default function ObsSamudraHarta() {
                       </Select>
                     </th>
 
-                    {isSavingsTab ? (
-                      <>
-                        <th className={filterCell}>
-                          <Input className={filterInputCls} placeholder="" readOnly />
-                        </th>
-                        <th className={filterCell}>
-                          <Input
-                            className={cn(filterInputCls, "text-right tabular-nums")}
-                            placeholder="0,00"
-                            readOnly
-                          />
-                        </th>
-                        <th className={filterCell}>
-                          <Input className={filterInputCls} placeholder="" readOnly />
-                        </th>
-                        <th className={filterCell}>
-                          <Input className={filterInputCls} placeholder="" readOnly />
-                        </th>
-                      </>
-                    ) : (
+                    {!isSavingsTab ? (
                       <th className={filterCell}>
                         <Select
                           value={qStatus}
@@ -626,7 +566,7 @@ export default function ObsSamudraHarta() {
                           </SelectContent>
                         </Select>
                       </th>
-                    )}
+                    ) : null}
                   </tr>
                 </thead>
 
@@ -634,7 +574,7 @@ export default function ObsSamudraHarta() {
                   {paged.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={isSavingsTab ? 11 : 8}
+                        colSpan={isSavingsTab ? 7 : 8}
                         className="px-4 py-10 text-center text-sm text-slate-600"
                       >
                         Tidak ada data yang cocok dengan filter.
@@ -691,31 +631,11 @@ export default function ObsSamudraHarta() {
                             : r.produk}
                         </td>
 
-                        {isSavingsTab ? (
-                          <>
-                            <td className={cn(td, "whitespace-nowrap")}>
-                              {r.jenisSimpanan ?? "-"}
-                            </td>
-                            <td className={cn(td, "text-right tabular-nums whitespace-nowrap")}>
-                              {r.setoranAwal ?? "0,00"}
-                            </td>
-                            <td
-                              className={cn(td, "max-w-[250px] truncate")}
-                              title={r.tujuanPembukaan ?? "-"}
-                            >
-                              {r.tujuanPembukaan ?? "-"}
-                            </td>
-                            <td className={cn(td)}>
-                              <SavingsStatusPill
-                                status={r.statusSimpanan ?? "Menunggu Verifikasi"}
-                              />
-                            </td>
-                          </>
-                        ) : (
+                        {!isSavingsTab ? (
                           <td className={cn(td)}>
                             <StatusPill status={r.status} />
                           </td>
-                        )}
+                        ) : null}
                       </tr>
                     ))
                   )}
