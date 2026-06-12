@@ -117,7 +117,7 @@ function ProductTabs({
               "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
               active
                 ? "bg-[#7C3AED] text-white shadow-sm"
-                : "bg-transparent text-[#24324B] hover:bg-white/70",
+                : "bg-transparent text-[#476659] hover:bg-white/70 hover:text-[#476659]",
             )}
             aria-current={active ? "page" : undefined}
           >
