@@ -103,7 +103,7 @@ function ProductTabs({
   ];
 
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-2">
+    <div className="mt-5 flex flex-wrap items-center gap-4">
       {tabs.map((tab) => {
         const active = value === tab.value;
 
@@ -113,10 +113,11 @@ function ProductTabs({
             type="button"
             onClick={() => onChange(tab.value)}
             className={cn(
-              "h-10 rounded-full px-5 text-[13px] font-semibold transition",
+              "h-[42px] rounded-full px-6 text-[14px] font-extrabold transition",
+              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
               active
-                ? "bg-violet-600 text-white shadow-sm"
-                : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
+                ? "bg-[#7C3AED] text-white shadow-sm"
+                : "bg-transparent text-[#24324B] hover:bg-white/70",
             )}
             aria-current={active ? "page" : undefined}
           >
