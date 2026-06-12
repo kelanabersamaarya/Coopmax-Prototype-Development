@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { List, Save, FilePlus2 } from "lucide-react";
+import { FilePlus2, List, Save } from "lucide-react";
 import { toast } from "sonner";
 import UpdateStatusDialog, {
   type UpdateStatusDialogPrefill,
@@ -28,6 +28,15 @@ type Row = {
   tanggalRegistrasi: string;
   produk: ProductType;
   status: StatusType;
+};
+
+type TableHistoryRow = {
+  rowId: string;
+  no: number;
+  status: string;
+  tanggal: string;
+  diubahOleh: string;
+  deskripsi: string;
 };
 
 const seed: Row[] = [
@@ -194,8 +203,12 @@ function TealInfoPanel({
             "lg:[grid-template-columns:repeat(4,minmax(0,1fr))]",
           )}
         >
-          {items.map((it) => (
-            <TealInfoItem key={it.label} label={it.label} value={it.value} />
+          {items.map((item) => (
+            <TealInfoItem
+              key={item.label}
+              label={item.label}
+              value={item.value}
+            />
           ))}
         </div>
       </div>
@@ -317,38 +330,28 @@ function defaultUpdateStatusPrefill(
   };
 }
 
-type TableHistoryRow = {
-  rowId: string;
-  no: number;
-  status: string;
-  tanggal: string;
-  diubahOleh: string;
-  deskripsi: string;
-};
-
 export default function ObsSamudraHartaDetail() {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
   const id = params.id ?? "";
 
-  const data = React.useMemo(() => seed.find((r) => r.id === id) ?? null, [id]);
+  const data = React.useMemo(() => seed.find((row) => row.id === id) ?? null, [id]);
   const isSavingsDetail = data?.produk === "Produk Tabungan";
   const isLoanDetail = data?.produk === "Produk Pinjaman";
-
   const idKey = id;
 
   const [status, setStatus] = React.useState<ObsStatus>(() => {
     const stored = getObsRegistrationStatus(idKey);
     return stored ?? (data?.status ?? "Diajukan");
   });
-
   const [historyTick, setHistoryTick] = React.useState(0);
+  const [updateOpen, setUpdateOpen] = React.useState(false);
 
   React.useEffect(() => {
     const stored = getObsRegistrationStatus(idKey);
     setStatus(stored ?? (data?.status ?? "Diajukan"));
-    setHistoryTick((t) => t + 1);
-  }, [data?.status, id, idKey]);
+    setHistoryTick((current) => current + 1);
+  }, [data?.status, idKey]);
 
   const historyRows = React.useMemo<TableHistoryRow[]>(() => {
     const stored: ObsStatusHistoryRow[] = getObsRegistrationHistory(idKey);
@@ -357,13 +360,13 @@ export default function ObsSamudraHartaDetail() {
       return stored
         .slice()
         .reverse()
-        .map((r, idx) => ({
-          rowId: r.id,
+        .map((row, idx) => ({
+          rowId: row.id,
           no: idx + 1,
-          status: r.status,
-          tanggal: r.tanggal,
-          diubahOleh: r.diubahOleh,
-          deskripsi: r.deskripsi,
+          status: row.status,
+          tanggal: row.tanggal,
+          diubahOleh: row.diubahOleh,
+          deskripsi: row.deskripsi,
         }));
     }
 
@@ -397,11 +400,9 @@ export default function ObsSamudraHartaDetail() {
 
   const loanMeta = React.useMemo(() => loanMetaById(id), [id]);
 
-  const [updateOpen, setUpdateOpen] = React.useState(false);
-
   const updatePrefill = React.useMemo(
     () => defaultUpdateStatusPrefill(data, loanMeta, status, idKey),
-    [data, loanMeta, status, idKey],
+    [data, idKey, loanMeta, status],
   );
 
   const showCreateLoanButton =
@@ -426,10 +427,7 @@ export default function ObsSamudraHartaDetail() {
         ...baseItems,
         { label: "Tipe Produk", value: "Pinjaman" },
         { label: "Produk", value: "Pinjaman Koperasi" },
-        {
-          label: "Nominal Pengajuan",
-          value: loanMeta.nominalPengajuan,
-        },
+        { label: "Nominal Pengajuan", value: loanMeta.nominalPengajuan },
         { label: "Jangka Waktu", value: loanMeta.jangkaWaktu },
         { label: "Kolektor", value: loanMeta.kolektor },
         { label: "Deskripsi", value: loanMeta.deskripsi },
@@ -455,7 +453,7 @@ export default function ObsSamudraHartaDetail() {
           prefill={updatePrefill}
           onSave={(next) => {
             setStatus(next.status);
-            setHistoryTick((t) => t + 1);
+            setHistoryTick((current) => current + 1);
 
             toast.success("Perbarui Status tersimpan (prototype)", {
               description: `Status: ${next.status}`,
@@ -533,10 +531,7 @@ export default function ObsSamudraHartaDetail() {
                 </div>
 
                 <div className="mt-5">
-                  <TealInfoPanel
-                    title={data.produk === "Produk Tabungan" ? "SIMPANAN" : undefined}
-                    items={pendaftarItems}
-                  />
+                  <TealInfoPanel items={pendaftarItems} />
                 </div>
               </div>
 
@@ -642,7 +637,6 @@ export default function ObsSamudraHartaDetail() {
                               >
                                 DESKRIPSI
                               </th>
-
                               <th className={cn("w-[110px]", historyTh)}>
                                 AKSI
                               </th>
@@ -660,9 +654,9 @@ export default function ObsSamudraHartaDetail() {
                                 </td>
                               </tr>
                             ) : (
-                              historyRows.map((r, idx) => (
+                              historyRows.map((row, idx) => (
                                 <tr
-                                  key={r.rowId}
+                                  key={row.rowId}
                                   className={cn(
                                     "border-t border-slate-200 text-[14px] font-normal text-slate-900",
                                     idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
@@ -674,7 +668,7 @@ export default function ObsSamudraHartaDetail() {
                                       "border-r border-slate-200 font-normal tabular-nums",
                                     )}
                                   >
-                                    {r.no}
+                                    {row.no}
                                   </td>
                                   <td
                                     className={cn(
@@ -682,7 +676,7 @@ export default function ObsSamudraHartaDetail() {
                                       "border-r border-slate-200 font-normal",
                                     )}
                                   >
-                                    {r.status}
+                                    {row.status}
                                   </td>
                                   <td
                                     className={cn(
@@ -690,7 +684,7 @@ export default function ObsSamudraHartaDetail() {
                                       "whitespace-nowrap border-r border-slate-200 font-normal tabular-nums",
                                     )}
                                   >
-                                    {r.tanggal}
+                                    {row.tanggal}
                                   </td>
                                   <td
                                     className={cn(
@@ -698,7 +692,7 @@ export default function ObsSamudraHartaDetail() {
                                       "border-r border-slate-200 font-normal",
                                     )}
                                   >
-                                    {r.diubahOleh}
+                                    {row.diubahOleh}
                                   </td>
                                   <td
                                     className={cn(
@@ -706,17 +700,14 @@ export default function ObsSamudraHartaDetail() {
                                       "border-r border-slate-200 font-normal",
                                     )}
                                   >
-                                    {r.deskripsi}
+                                    {row.deskripsi}
                                   </td>
-
                                   <td
                                     className={cn(
                                       historyTd,
                                       "text-center text-slate-400",
                                     )}
-                                  >
-                                    {/* intentionally blank */}
-                                  </td>
+                                  />
                                 </tr>
                               ))
                             )}
