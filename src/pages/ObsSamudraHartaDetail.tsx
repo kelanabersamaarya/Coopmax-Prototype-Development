@@ -410,29 +410,36 @@ export default function ObsSamudraHartaDetail() {
   const pendaftarItems = React.useMemo(() => {
     if (!data) return [];
 
-    return [
+    const baseItems: Array<{ label: string; value: React.ReactNode }> = [
       { label: "Nama Pendaftar", value: data.nama },
       { label: "Nomor Telepon", value: data.phone },
       { label: "Email", value: data.email },
       { label: "Alamat", value: data.alamat },
       { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
+    ];
+
+    if (data.produk === "Produk Pinjaman") {
+      return [
+        ...baseItems,
+        { label: "Tipe Produk", value: "Pinjaman" },
+        { label: "Produk", value: data.produk },
+        {
+          label: "Nominal Pengajuan",
+          value: loanMeta.nominalPengajuan,
+        },
+        { label: "Jangka Waktu", value: loanMeta.jangkaWaktu },
+        { label: "Kolektor", value: loanMeta.kolektor },
+        { label: "Deskripsi", value: loanMeta.deskripsi },
+        { label: "Status", value: <StatusPill status={status as StatusType} /> },
+      ];
+    }
+
+    return [
+      ...baseItems,
       {
         label: "Produk",
         value: data.produk === "Produk Tabungan" ? "Produk Simpanan" : data.produk,
       },
-      ...(data.produk === "Produk Pinjaman"
-        ? ([
-            { label: "Tipe Produk", value: "Pinjaman" },
-            {
-              label: "Nominal Pengajuan",
-              value: loanMeta.nominalPengajuan,
-            },
-            { label: "Jangka Waktu", value: loanMeta.jangkaWaktu },
-            { label: "Kolektor", value: loanMeta.kolektor },
-            { label: "Deskripsi", value: loanMeta.deskripsi },
-            { label: "Status", value: <StatusPill status={status as StatusType} /> },
-          ] as Array<{ label: string; value: React.ReactNode }>)
-        : []),
     ];
   }, [data, loanMeta, status]);
 
