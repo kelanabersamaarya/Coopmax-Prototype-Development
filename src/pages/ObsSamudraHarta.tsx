@@ -75,7 +75,7 @@ const seed: Row[] = [
   },
   {
     id: "5",
-    nama: "Uji Coba (mohon diabaikan)",
+    nama: "Made Adi",
     phone: "0812121212122",
     email: "uji@coba.com",
     alamat: "Indonesia",
