@@ -141,6 +141,25 @@ const seed: Row[] = [
   },
 ];
 
+const RETURN_TAB_STORAGE_KEY = "dyad.obs.returnProductTab";
+
+function getInitialProductTab(): ProductType {
+  if (typeof window === "undefined") return "Produk Pinjaman";
+
+  const saved = window.sessionStorage.getItem(RETURN_TAB_STORAGE_KEY);
+  if (saved === "Produk Pinjaman" || saved === "Produk Tabungan") {
+    window.sessionStorage.removeItem(RETURN_TAB_STORAGE_KEY);
+    return saved;
+  }
+
+  return "Produk Pinjaman";
+}
+
+function rememberReturnTab(product: Row["produk"]) {
+  if (typeof window === "undefined") return;
+  window.sessionStorage.setItem(RETURN_TAB_STORAGE_KEY, product);
+}
+
 function ProductTabs({
   value,
   onChange,
@@ -312,7 +331,9 @@ export default function ObsSamudraHarta() {
   const [qEmail, setQEmail] = React.useState("");
   const [qAlamat, setQAlamat] = React.useState("");
   const [qTanggal, setQTanggal] = React.useState("");
-  const [qProduk, setQProduk] = React.useState<ProductType>("Produk Pinjaman");
+  const [qProduk, setQProduk] = React.useState<ProductType>(() =>
+    getInitialProductTab(),
+  );
   const [qStatus, setQStatus] = React.useState<StatusType>("-- Semua --");
 
   const isSavingsTab = qProduk === "Produk Tabungan";
@@ -596,9 +617,10 @@ export default function ObsSamudraHarta() {
                         <td className={cn(td)}>
                           <button
                             type="button"
-                            onClick={() =>
-                              navigate(`/obs-samudra-harta/${encodeURIComponent(r.id)}`)
-                            }
+                            onClick={() => {
+                              rememberReturnTab(r.produk);
+                              navigate(`/obs-samudra-harta/${encodeURIComponent(r.id)}`);
+                            }}
                             className="block w-full truncate text-left font-semibold text-blue-600 hover:underline"
                             title={r.nama}
                           >
