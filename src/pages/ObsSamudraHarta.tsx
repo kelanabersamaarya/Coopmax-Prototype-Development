@@ -168,8 +168,8 @@ function ProductTabs({
   onChange: (value: ProductType) => void;
 }) {
   const tabs: Array<{ label: string; value: ProductType }> = [
-    { label: "Produk Pinjaman", value: "Produk Pinjaman" },
-    { label: "Produk Simpanan", value: "Produk Tabungan" },
+    { label: "Pinjaman", value: "Produk Pinjaman" },
+    { label: "Simpanan", value: "Produk Tabungan" },
   ];
 
   return (
