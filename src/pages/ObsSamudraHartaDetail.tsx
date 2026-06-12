@@ -422,6 +422,7 @@ export default function ObsSamudraHartaDetail() {
       },
       ...(data.produk === "Produk Pinjaman"
         ? ([
+            { label: "Tipe Produk", value: "Pinjaman" },
             {
               label: "Nominal Pengajuan",
               value: loanMeta.nominalPengajuan,
