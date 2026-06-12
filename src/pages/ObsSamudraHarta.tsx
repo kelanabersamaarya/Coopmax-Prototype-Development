@@ -90,6 +90,44 @@ const seed: Row[] = [
   },
 ];
 
+function ProductTabs({
+  value,
+  onChange,
+}: {
+  value: ProductType;
+  onChange: (value: ProductType) => void;
+}) {
+  const tabs: Array<{ label: string; value: ProductType }> = [
+    { label: "Produk Pinjaman", value: "Produk Pinjaman" },
+    { label: "Produk Simpanan", value: "Produk Tabungan" },
+  ];
+
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-2">
+      {tabs.map((tab) => {
+        const active = value === tab.value;
+
+        return (
+          <button
+            key={tab.value}
+            type="button"
+            onClick={() => onChange(tab.value)}
+            className={cn(
+              "h-10 rounded-full px-5 text-[13px] font-semibold transition",
+              active
+                ? "bg-violet-600 text-white shadow-sm"
+                : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50",
+            )}
+            aria-current={active ? "page" : undefined}
+          >
+            {tab.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 function ThLabel({
   children,
   className,
@@ -219,7 +257,7 @@ export default function ObsSamudraHarta() {
   const [qEmail, setQEmail] = React.useState("");
   const [qAlamat, setQAlamat] = React.useState("");
   const [qTanggal, setQTanggal] = React.useState("");
-  const [qProduk, setQProduk] = React.useState<ProductType>("-- Semua --");
+  const [qProduk, setQProduk] = React.useState<ProductType>("Produk Pinjaman");
   const [qStatus, setQStatus] = React.useState<StatusType>("-- Semua --");
 
   const shouldShowStatusColumn = qProduk !== "Produk Tabungan";
@@ -291,11 +329,15 @@ export default function ObsSamudraHarta() {
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex items-baseline gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-            Pendaftaran Online
-          </h1>
-          <div className="text-base font-semibold text-slate-600">Daftar</div>
+        <div>
+          <div className="flex items-baseline gap-2">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+              Pendaftaran Online
+            </h1>
+            <div className="text-base font-semibold text-slate-600">Daftar</div>
+          </div>
+
+          <ProductTabs value={qProduk} onChange={setQProduk} />
         </div>
 
         <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
@@ -437,7 +479,7 @@ export default function ObsSamudraHarta() {
                             Produk Pinjaman
                           </SelectItem>
                           <SelectItem value="Produk Tabungan">
-                            Produk Tabungan
+                            Produk Simpanan
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -524,7 +566,11 @@ export default function ObsSamudraHarta() {
                             {r.tanggalRegistrasi}
                           </td>
 
-                          <td className={cn(td, "whitespace-nowrap")}>{r.produk}</td>
+                          <td className={cn(td, "whitespace-nowrap")}>
+                            {r.produk === "Produk Tabungan"
+                              ? "Produk Simpanan"
+                              : r.produk}
+                          </td>
 
                           {shouldShowStatusColumn ? (
                             <td className={cn(td)}>
