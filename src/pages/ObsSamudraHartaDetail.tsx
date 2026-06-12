@@ -30,7 +30,6 @@ type Row = {
   status: StatusType;
 };
 
-// Seed harus konsisten dengan halaman daftar (prototype)
 const seed: Row[] = [
   {
     id: "1",
@@ -74,7 +73,7 @@ const seed: Row[] = [
   },
   {
     id: "5",
-    nama: "Uji Coba (mohon diabaikan)",
+    nama: "Made Adi",
     phone: "0812121212122",
     email: "uji@coba.com",
     alamat: "Indonesia",
@@ -92,6 +91,36 @@ const seed: Row[] = [
     produk: "Produk Pinjaman",
     status: "Diajukan",
   },
+  {
+    id: "7",
+    nama: "Kadek Adi Pratama",
+    phone: "081239990001",
+    email: "kadek.adi@gmail.com",
+    alamat: "Jl. Raya Ubud, Gianyar",
+    tanggalRegistrasi: "2026-04-08 09:24:12",
+    produk: "Produk Tabungan",
+    status: "Diajukan",
+  },
+  {
+    id: "8",
+    nama: "Ni Made Ayu Lestari",
+    phone: "087861234500",
+    email: "ayu.lestari@gmail.com",
+    alamat: "Br. Denjalan, Batubulan",
+    tanggalRegistrasi: "2026-04-11 11:15:40",
+    produk: "Produk Tabungan",
+    status: "Diajukan",
+  },
+  {
+    id: "9",
+    nama: "I Wayan Sutama",
+    phone: "082145678900",
+    email: "wayan.sutama@gmail.com",
+    alamat: "Jl. Cok Gede Rai, Peliatan",
+    tanggalRegistrasi: "2026-04-12 14:38:05",
+    produk: "Produk Tabungan",
+    status: "Ditolak",
+  },
 ];
 
 function StatusPill({ status }: { status: StatusType }) {
@@ -99,11 +128,9 @@ function StatusPill({ status }: { status: StatusType }) {
     return (
       <span
         className={cn(
-          "inline-flex items-center justify-center",
-          "rounded-[8px] px-4 py-2",
+          "inline-flex min-h-[34px] items-center justify-center rounded-[8px] px-4 py-2",
           "bg-[#3BB001] text-white",
           "text-[14px] font-extrabold leading-none",
-          "min-h-[34px]",
         )}
       >
         {status}
@@ -111,7 +138,6 @@ function StatusPill({ status }: { status: StatusType }) {
     );
   }
 
-  // Ditolak
   return (
     <span
       className={cn(
@@ -152,7 +178,7 @@ function TealInfoPanel({
   items: Array<{ label: string; value: React.ReactNode }>;
 }) {
   return (
-    <div className="overflow-hidden rounded-[8px] bg-[#1aa0b5] text-white ring-1 ring-white/10 shadow-sm">
+    <div className="overflow-hidden rounded-[8px] bg-[#1aa0b5] text-white shadow-sm ring-1 ring-white/10">
       <div className="px-6 py-6 sm:px-7 sm:py-7">
         <div className="text-[14px] font-extrabold tracking-tight text-white">
           {title}
@@ -198,10 +224,9 @@ function TopPillButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex items-center justify-center gap-3",
-        "h-10 rounded-full bg-white px-5",
+        "inline-flex h-10 items-center justify-center gap-3 rounded-full bg-white px-5",
         "text-[15px] font-semibold text-slate-800",
-        "ring-1 ring-slate-200 shadow-sm",
+        "shadow-sm ring-1 ring-slate-200",
         "transition hover:bg-slate-50",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
         className,
@@ -304,6 +329,8 @@ export default function ObsSamudraHartaDetail() {
   const id = params.id ?? "";
 
   const data = React.useMemo(() => seed.find((r) => r.id === id) ?? null, [id]);
+  const isSavingsDetail = data?.produk === "Produk Tabungan";
+  const isLoanDetail = data?.produk === "Produk Pinjaman";
 
   const idKey = id;
 
@@ -318,8 +345,7 @@ export default function ObsSamudraHartaDetail() {
     const stored = getObsRegistrationStatus(idKey);
     setStatus(stored ?? (data?.status ?? "Diajukan"));
     setHistoryTick((t) => t + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [data?.status, id, idKey]);
 
   const historyRows = React.useMemo<TableHistoryRow[]>(() => {
     const stored: ObsStatusHistoryRow[] = getObsRegistrationHistory(idKey);
@@ -381,21 +407,51 @@ export default function ObsSamudraHartaDetail() {
   const historyTh = "px-4 py-2.5";
   const historyTd = "px-4 py-1.5";
 
+  const pendaftarItems = React.useMemo(() => {
+    if (!data) return [];
+
+    return [
+      { label: "Nama Pendaftar", value: data.nama },
+      { label: "Nomor Telepon", value: data.phone },
+      { label: "Email", value: data.email },
+      { label: "Alamat", value: data.alamat },
+      { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
+      {
+        label: "Produk",
+        value: data.produk === "Produk Tabungan" ? "Produk Simpanan" : data.produk,
+      },
+      ...(data.produk === "Produk Pinjaman"
+        ? ([
+            {
+              label: "Nominal Pengajuan",
+              value: loanMeta.nominalPengajuan,
+            },
+            { label: "Jangka Waktu", value: loanMeta.jangkaWaktu },
+            { label: "Kolektor", value: loanMeta.kolektor },
+            { label: "Deskripsi", value: loanMeta.deskripsi },
+            { label: "Status", value: <StatusPill status={status as StatusType} /> },
+          ] as Array<{ label: string; value: React.ReactNode }>)
+        : []),
+    ];
+  }, [data, loanMeta, status]);
+
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <UpdateStatusDialog
-        open={updateOpen}
-        onOpenChange={setUpdateOpen}
-        prefill={updatePrefill}
-        onSave={(next) => {
-          setStatus(next.status);
-          setHistoryTick((t) => t + 1);
+      {isLoanDetail ? (
+        <UpdateStatusDialog
+          open={updateOpen}
+          onOpenChange={setUpdateOpen}
+          prefill={updatePrefill}
+          onSave={(next) => {
+            setStatus(next.status);
+            setHistoryTick((t) => t + 1);
 
-          toast.success("Perbarui Status tersimpan (prototype)", {
-            description: `Status: ${next.status}`,
-          });
-        }}
-      />
+            toast.success("Perbarui Status tersimpan (prototype)", {
+              description: `Status: ${next.status}`,
+            });
+          }}
+        />
+      ) : null}
 
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="mx-auto w-full max-w-[1680px]">
@@ -416,12 +472,14 @@ export default function ObsSamudraHartaDetail() {
               className="w-[194px]"
             />
 
-            <TopPillButton
-              icon={Save}
-              label="Perbarui Status"
-              onClick={() => setUpdateOpen(true)}
-              className="w-[194px]"
-            />
+            {isLoanDetail ? (
+              <TopPillButton
+                icon={Save}
+                label="Perbarui Status"
+                onClick={() => setUpdateOpen(true)}
+                className="w-[194px]"
+              />
+            ) : null}
 
             {showCreateLoanButton ? (
               <TopPillButton
@@ -468,28 +526,9 @@ export default function ObsSamudraHartaDetail() {
                     title={
                       data.produk === "Produk Pinjaman"
                         ? "PINJAMAN KOPERASI"
-                        : "TABUNGAN"
+                        : "SIMPANAN"
                     }
-                    items={[
-                      { label: "Nama Pendaftar", value: data.nama },
-                      { label: "Nomor Telepon", value: data.phone },
-                      { label: "Email", value: data.email },
-                      { label: "Alamat", value: data.alamat },
-                      { label: "Tanggal Registrasi", value: data.tanggalRegistrasi },
-                      { label: "Produk", value: data.produk },
-                      ...(data.produk === "Produk Pinjaman"
-                        ? ([
-                            {
-                              label: "Nominal Pengajuan",
-                              value: loanMeta.nominalPengajuan,
-                            },
-                            { label: "Jangka Waktu", value: loanMeta.jangkaWaktu },
-                            { label: "Kolektor", value: loanMeta.kolektor },
-                            { label: "Deskripsi", value: loanMeta.deskripsi },
-                          ] as const)
-                        : []),
-                      { label: "Status", value: <StatusPill status={status as any} /> },
-                    ]}
+                    items={pendaftarItems}
                   />
                 </div>
               </div>
@@ -525,153 +564,159 @@ export default function ObsSamudraHartaDetail() {
                 </div>
               </div>
 
-              <InsetDivider />
+              {isSavingsDetail ? null : (
+                <>
+                  <InsetDivider />
 
-              <div className="px-6 pb-6 pt-4 sm:px-10 sm:pb-8">
-                <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-                  INFORMASI FILE
-                </div>
+                  <div className="px-6 pb-6 pt-4 sm:px-10 sm:pb-8">
+                    <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                      INFORMASI FILE
+                    </div>
 
-                <div className="mt-4 text-[14px] font-medium text-slate-700">
-                  Tidak ada file yang diupload
-                </div>
-              </div>
-
-              <InsetDivider />
-
-              <div className="px-6 pb-7 pt-4 sm:px-10 sm:pb-9">
-                <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-                  RIWAYAT PERUBAHAN STATUS
-                </div>
-
-                <div className="mt-4 overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
-                  <div className="safe-x-scroll">
-                    <table className="w-full min-w-[980px] border-collapse bg-white">
-                      <thead className="bg-white">
-                        <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
-                          <th
-                            className={cn(
-                              "w-[80px]",
-                              historyTh,
-                              "border-r border-slate-200",
-                            )}
-                          >
-                            NO.
-                          </th>
-                          <th
-                            className={cn(
-                              "w-[320px]",
-                              historyTh,
-                              "border-r border-slate-200",
-                            )}
-                          >
-                            STATUS
-                          </th>
-                          <th
-                            className={cn(
-                              "w-[180px]",
-                              historyTh,
-                              "border-r border-slate-200",
-                            )}
-                          >
-                            TANGGAL
-                          </th>
-                          <th
-                            className={cn(
-                              "w-[180px]",
-                              historyTh,
-                              "border-r border-slate-200",
-                            )}
-                          >
-                            DIUBAH OLEH
-                          </th>
-                          <th
-                            className={cn(
-                              "min-w-[360px]",
-                              historyTh,
-                              "border-r border-slate-200",
-                            )}
-                          >
-                            DESKRIPSI
-                          </th>
-
-                          <th className={cn("w-[110px]", historyTh)}>AKSI</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {historyRows.length === 0 ? (
-                          <tr>
-                            <td
-                              colSpan={6}
-                              className="px-4 py-7 text-center text-sm text-slate-600"
-                            >
-                              Belum ada riwayat.
-                            </td>
-                          </tr>
-                        ) : (
-                          historyRows.map((r, idx) => (
-                            <tr
-                              key={r.rowId}
-                              className={cn(
-                                "border-t border-slate-200 text-[14px] font-normal text-slate-900",
-                                idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
-                              )}
-                            >
-                              <td
-                                className={cn(
-                                  historyTd,
-                                  "tabular-nums font-normal border-r border-slate-200",
-                                )}
-                              >
-                                {r.no}
-                              </td>
-                              <td
-                                className={cn(
-                                  historyTd,
-                                  "font-normal border-r border-slate-200",
-                                )}
-                              >
-                                {r.status}
-                              </td>
-                              <td
-                                className={cn(
-                                  historyTd,
-                                  "tabular-nums whitespace-nowrap font-normal border-r border-slate-200",
-                                )}
-                              >
-                                {r.tanggal}
-                              </td>
-                              <td
-                                className={cn(
-                                  historyTd,
-                                  "font-normal border-r border-slate-200",
-                                )}
-                              >
-                                {r.diubahOleh}
-                              </td>
-                              <td
-                                className={cn(
-                                  historyTd,
-                                  "font-normal border-r border-slate-200",
-                                )}
-                              >
-                                {r.deskripsi}
-                              </td>
-
-                              <td className={cn(historyTd, "text-center text-slate-400")}>
-                                {/* intentionally blank */}
-                              </td>
-                            </tr>
-                          ))
-                        )}
-                      </tbody>
-                    </table>
+                    <div className="mt-4 text-[14px] font-medium text-slate-700">
+                      Tidak ada file yang diupload
+                    </div>
                   </div>
-                </div>
 
-                <div className="sr-only">{historyTick}</div>
-              </div>
+                  <InsetDivider />
+
+                  <div className="px-6 pb-7 pt-4 sm:px-10 sm:pb-9">
+                    <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+                      RIWAYAT PERUBAHAN STATUS
+                    </div>
+
+                    <div className="mt-4 overflow-hidden rounded-[5px] bg-white ring-1 ring-slate-200">
+                      <div className="safe-x-scroll">
+                        <table className="w-full min-w-[980px] border-collapse bg-white">
+                          <thead className="bg-white">
+                            <tr className="border-b border-slate-200 text-left text-[12px] font-extrabold uppercase tracking-wide text-[#334155]">
+                              <th
+                                className={cn(
+                                  "w-[80px]",
+                                  historyTh,
+                                  "border-r border-slate-200",
+                                )}
+                              >
+                                NO.
+                              </th>
+                              <th
+                                className={cn(
+                                  "w-[320px]",
+                                  historyTh,
+                                  "border-r border-slate-200",
+                                )}
+                              >
+                                STATUS
+                              </th>
+                              <th
+                                className={cn(
+                                  "w-[180px]",
+                                  historyTh,
+                                  "border-r border-slate-200",
+                                )}
+                              >
+                                TANGGAL
+                              </th>
+                              <th
+                                className={cn(
+                                  "w-[180px]",
+                                  historyTh,
+                                  "border-r border-slate-200",
+                                )}
+                              >
+                                DIUBAH OLEH
+                              </th>
+                              <th
+                                className={cn(
+                                  "min-w-[360px]",
+                                  historyTh,
+                                  "border-r border-slate-200",
+                                )}
+                              >
+                                DESKRIPSI
+                              </th>
+
+                              <th className={cn("w-[110px]", historyTh)}>
+                                AKSI
+                              </th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {historyRows.length === 0 ? (
+                              <tr>
+                                <td
+                                  colSpan={6}
+                                  className="px-4 py-7 text-center text-sm text-slate-600"
+                                >
+                                  Belum ada riwayat.
+                                </td>
+                              </tr>
+                            ) : (
+                              historyRows.map((r, idx) => (
+                                <tr
+                                  key={r.rowId}
+                                  className={cn(
+                                    "border-t border-slate-200 text-[14px] font-normal text-slate-900",
+                                    idx % 2 === 0 ? "bg-white" : "bg-slate-50/40",
+                                  )}
+                                >
+                                  <td
+                                    className={cn(
+                                      historyTd,
+                                      "border-r border-slate-200 font-normal tabular-nums",
+                                    )}
+                                  >
+                                    {r.no}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      historyTd,
+                                      "border-r border-slate-200 font-normal",
+                                    )}
+                                  >
+                                    {r.status}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      historyTd,
+                                      "whitespace-nowrap border-r border-slate-200 font-normal tabular-nums",
+                                    )}
+                                  >
+                                    {r.tanggal}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      historyTd,
+                                      "border-r border-slate-200 font-normal",
+                                    )}
+                                  >
+                                    {r.diubahOleh}
+                                  </td>
+                                  <td
+                                    className={cn(
+                                      historyTd,
+                                      "border-r border-slate-200 font-normal",
+                                    )}
+                                  >
+                                    {r.deskripsi}
+                                  </td>
+
+                                  <td className={cn(historyTd, "text-center text-slate-400")}>
+                                    {/* intentionally blank */}
+                                  </td>
+                                </tr>
+                              ))
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div className="sr-only">{historyTick}</div>
+                  </div>
+                </>
+              )}
             </Card>
           )}
         </div>
