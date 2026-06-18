@@ -1,9 +1,14 @@
 /* Transaksi Pinjaman > Pembayaran > Pinjaman Billing
-   Sembunyikan field/informasi Tunggakan Bunga pada kolom Pinjaman.
+   Sembunyikan field/informasi Tunggakan Bunga, Total Bayar Bunga,
+   dan Nominal Pelunasan pada kolom Pinjaman.
 */
 
 .loan-installment-v2-pinjaman-billing
-  > div:nth-of-type(5)
-  > div:first-child {
+  > div:nth-of-type(4) {
+  display: none !important;
+}
+
+.loan-installment-v2-pinjaman-billing
+  > div:nth-of-type(5) {
   display: none !important;
 }
