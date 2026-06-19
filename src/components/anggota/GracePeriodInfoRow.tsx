@@ -47,7 +47,7 @@ export default function GracePeriodInfoRow({
                 </div>
                 <div className="mt-0.5 leading-snug text-slate-700">
                   Berikut ini merupakan periode tagihan pinjaman yang termasuk ke
-                  dalam grace period selama 3 bulan. Selama periode ini nasabah
+                  dalam grace period selama 2 bulan. Selama periode ini nasabah
                   hanya membayar bunga.
                 </div>
               </div>
