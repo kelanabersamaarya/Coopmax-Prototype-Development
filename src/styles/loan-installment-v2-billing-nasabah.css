@@ -25,3 +25,13 @@ table.w-full.table-fixed.border-collapse.bg-white
   line-height: 1.3 !important;
   text-align: right !important;
 }
+
+/* Kolom Nasabah: sembunyikan Saldo Simpanan Wajib Peminjam khusus Pinjaman Billing */
+table.w-full.table-fixed.border-collapse.bg-white
+  > tbody
+  > tr:has(td:nth-child(3) .loan-installment-v2-pinjaman-billing)
+  > td:nth-child(2)
+  > div.mt-3.grid.gap-4.bg-white
+  > div:nth-child(4) {
+  display: none !important;
+}
