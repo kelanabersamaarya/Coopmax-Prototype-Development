@@ -144,7 +144,7 @@ export default function Dashboard() {
             subtitle="Modul cabang untuk operasional SAK EP Coopmax (prototype)."
             icon={Building2}
             accent="emerald"
-            onClick={() => navigate("/sak-ep-cabang/dashboard")}
+            onClick={() => navigate("/sak-ep-cabang/loan-products")}
           />
         </div>
       </div>
