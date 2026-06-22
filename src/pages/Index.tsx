@@ -43,20 +43,15 @@ const implementedRoutes = new Set([
   "/mobile/m-banking",
 ]);
 
-function resolveNavTo(to: string, pathname: string) {
-  if (pathname.startsWith("/sak-ep-cabang") && to === "/dashboard") {
-    return "/sak-ep-cabang/dashboard";
-  }
-
+function resolveNavTo(to: string) {
   if (to === "/pinjaman") return "/loan-products";
   return to;
 }
 
 function SidebarNavItem({ item }: { item: NavItem }) {
   const Icon = item.icon;
-  const location = useLocation();
 
-  const resolvedTo = resolveNavTo(item.to, location.pathname);
+  const resolvedTo = resolveNavTo(item.to);
   const isReal = implementedRoutes.has(resolvedTo);
 
   const common =
