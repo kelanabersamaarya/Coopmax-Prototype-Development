@@ -1,8 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
 
 export default function LoanProductCreate() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+
+  const backPath = isSakCabangArea
+    ? "/sak-ep-cabang/loan-products"
+    : "/loan-products";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -17,8 +23,8 @@ export default function LoanProductCreate() {
         <div className="mt-6 grid gap-4">
           <LoanProductForm
             mode="create"
-            onCancel={() => navigate("/loan-products")}
-            onSaved={() => navigate("/loan-products")}
+            onCancel={() => navigate(backPath)}
+            onSaved={() => navigate(backPath)}
           />
         </div>
       </div>

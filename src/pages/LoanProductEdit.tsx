@@ -1,12 +1,22 @@
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
 
 export default function LoanProductEdit() {
   const navigate = useNavigate();
+  const location = useLocation();
   const params = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
   const id = params.id ?? "";
   const isCabangEdit = searchParams.get("from") === "cabang";
+  const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+
+  const backPath = isSakCabangArea
+    ? isCabangEdit
+      ? "/sak-ep-cabang/loan-products/cabang"
+      : "/sak-ep-cabang/loan-products"
+    : isCabangEdit
+      ? "/loan-products/cabang"
+      : "/loan-products";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -29,8 +39,8 @@ export default function LoanProductEdit() {
             mode="edit"
             productId={id}
             context={isCabangEdit ? "branch" : "consolidation"}
-            onCancel={() => navigate("/loan-products")}
-            onSaved={() => navigate("/loan-products")}
+            onCancel={() => navigate(backPath)}
+            onSaved={() => navigate(backPath)}
           />
         </div>
       </div>

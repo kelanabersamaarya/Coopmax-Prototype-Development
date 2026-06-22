@@ -55,6 +55,10 @@ const App = () => (
               element={<LoanProductsCabang />}
             />
             <Route
+              path="sak-ep-cabang/loan-products/new"
+              element={<LoanProductCreate />}
+            />
+            <Route
               path="sak-ep-cabang/loan-products/:id"
               element={<LoanProductDetail />}
             />
