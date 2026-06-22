@@ -2,7 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { ReceiptText, UsersRound, Landmark } from "lucide-react";
+import { ReceiptText, UsersRound, Landmark, Building2 } from "lucide-react";
 
 function DevMenuCard({
   title,
@@ -134,6 +134,18 @@ export default function Dashboard() {
             accent="violet"
             onClick={() =>
               toast("Pinjaman Tanggung Renteng (prototype)", {
+                description: "Shortcut ini masih menu pengembangan.",
+              })
+            }
+          />
+
+          <DevMenuCard
+            title="Coopmax - SAK EP Cabang"
+            subtitle="Modul cabang untuk operasional SAK EP Coopmax (prototype)."
+            icon={Building2}
+            accent="emerald"
+            onClick={() =>
+              toast("Coopmax - SAK EP Cabang (prototype)", {
                 description: "Shortcut ini masih menu pengembangan.",
               })
             }
