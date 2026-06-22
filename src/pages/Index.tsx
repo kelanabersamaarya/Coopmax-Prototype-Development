@@ -29,6 +29,7 @@ const nav: Array<{ group?: string; items: NavItem[] }> = [
 // Routes yang benar-benar ada saat ini
 const implementedRoutes = new Set([
   "/dashboard",
+  "/sak-ep-cabang/dashboard",
   "/obs-samudra-harta",
   "/pengaturan-umum",
   "/loan-products",
@@ -42,15 +43,20 @@ const implementedRoutes = new Set([
   "/mobile/m-banking",
 ]);
 
-function resolveNavTo(to: string) {
+function resolveNavTo(to: string, pathname: string) {
+  if (pathname.startsWith("/sak-ep-cabang") && to === "/dashboard") {
+    return "/sak-ep-cabang/dashboard";
+  }
+
   if (to === "/pinjaman") return "/loan-products";
   return to;
 }
 
 function SidebarNavItem({ item }: { item: NavItem }) {
   const Icon = item.icon;
+  const location = useLocation();
 
-  const resolvedTo = resolveNavTo(item.to);
+  const resolvedTo = resolveNavTo(item.to, location.pathname);
   const isReal = implementedRoutes.has(resolvedTo);
 
   const common =
@@ -104,6 +110,7 @@ export default function Index() {
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
   const isMobileArea = location.pathname.startsWith("/mobile");
+  const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
   const isPinjamanArea =
     location.pathname.startsWith("/loan-products") ||
@@ -111,7 +118,8 @@ export default function Index() {
     location.pathname.startsWith("/anggota/transaksi") ||
     location.pathname.startsWith("/laporan") ||
     location.pathname.startsWith("/pengaturan-umum") ||
-    location.pathname.startsWith("/mobile");
+    location.pathname.startsWith("/mobile") ||
+    location.pathname.startsWith("/sak-ep-cabang");
 
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
@@ -169,31 +177,38 @@ export default function Index() {
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
 
-                          {/* Anggota (collapsible) - hide in OBS area */}
-                          {!isObsArea ? <SidebarAnggotaMenu /> : null}
+                          {/* Area SAK EP Cabang hanya menampilkan Dashboard + Pinjaman */}
+                          {isSakCabangArea ? (
+                            <SidebarPinjamanMenu />
+                          ) : (
+                            <>
+                              {/* Anggota (collapsible) - hide in OBS area */}
+                              {!isObsArea ? <SidebarAnggotaMenu /> : null}
 
-                          {/* Pinjaman (collapsible) */}
-                          <SidebarPinjamanMenu />
+                              {/* Pinjaman (collapsible) */}
+                              <SidebarPinjamanMenu />
 
-                          {/* Mobile (collapsible) - hide in OBS area */}
-                          {!isObsArea ? <SidebarMobileMenu /> : null}
+                              {/* Mobile (collapsible) - hide in OBS area */}
+                              {!isObsArea ? <SidebarMobileMenu /> : null}
 
-                          {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
-                          {!isPinjamanArea ? <SidebarObsMenu /> : null}
+                              {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
+                              {!isPinjamanArea ? <SidebarObsMenu /> : null}
 
-                          {/* Laporan (collapsible) - hide in OBS area */}
-                          {!isObsArea ? <SidebarLaporanMenu /> : null}
+                              {/* Laporan (collapsible) - hide in OBS area */}
+                              {!isObsArea ? <SidebarLaporanMenu /> : null}
 
-                          {/* Pengaturan Umum - hide in OBS area */}
-                          {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
+                              {/* Pengaturan Umum - hide in OBS area */}
+                              {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
 
-                          {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
-                          {g.items
-                            .slice(1)
-                            .filter((it) => it.to !== "/pinjaman")
-                            .map((it) => (
-                              <SidebarNavItem key={it.to} item={it} />
-                            ))}
+                              {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
+                              {g.items
+                                .slice(1)
+                                .filter((it) => it.to !== "/pinjaman")
+                                .map((it) => (
+                                  <SidebarNavItem key={it.to} item={it} />
+                                ))}
+                            </>
+                          )}
                         </div>
                       </div>
                     ))}

@@ -19,6 +19,11 @@ const items: SubItem[] = [
   { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
 ];
 
+const sakItems: SubItem[] = [
+  { label: "Produk Pinjaman Konsolidasi", to: "/loan-products" },
+  { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
+];
+
 function isObsPath(pathname: string) {
   return (
     pathname.startsWith("/obs-samudra-harta") ||
@@ -26,7 +31,12 @@ function isObsPath(pathname: string) {
   );
 }
 
+function isSakCabangPath(pathname: string) {
+  return pathname.startsWith("/sak-ep-cabang");
+}
+
 function getRouteForContext(to: string, pathname: string) {
+  if (isSakCabangPath(pathname)) return `/sak-ep-cabang${to}`;
   if (!isObsPath(pathname)) return to;
   return `/obs-samudra-harta${to}`;
 }
@@ -34,13 +44,16 @@ function getRouteForContext(to: string, pathname: string) {
 export default function SidebarPinjamanMenu() {
   const location = useLocation();
   const obsArea = isObsPath(location.pathname);
+  const sakCabangArea = isSakCabangPath(location.pathname);
+  const menuItems = sakCabangArea ? sakItems : items;
 
   const isActive =
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi") ||
     location.pathname.startsWith("/obs-samudra-harta/loan-products") ||
-    location.pathname.startsWith("/obs-samudra-harta/loans");
+    location.pathname.startsWith("/obs-samudra-harta/loans") ||
+    location.pathname.startsWith("/sak-ep-cabang/loan-products");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
   React.useEffect(() => {
@@ -51,6 +64,15 @@ export default function SidebarPinjamanMenu() {
     const itemTo = getRouteForContext(item.to, location.pathname);
 
     if (item.to === "/loan-products") {
+      if (sakCabangArea) {
+        return (
+          location.pathname === itemTo ||
+          (location.pathname.startsWith(`${itemTo}/`) &&
+            location.pathname !== "/sak-ep-cabang/loan-products/cabang" &&
+            location.search !== "?from=cabang")
+        );
+      }
+
       if (obsArea) {
         return (
           location.pathname === itemTo ||
@@ -69,6 +91,14 @@ export default function SidebarPinjamanMenu() {
     }
 
     if (item.to === "/loan-products/cabang") {
+      if (sakCabangArea) {
+        return (
+          location.pathname === itemTo ||
+          (location.pathname.startsWith("/sak-ep-cabang/loan-products/") &&
+            location.search === "?from=cabang")
+        );
+      }
+
       if (obsArea) {
         return (
           location.pathname === itemTo ||
@@ -123,7 +153,7 @@ export default function SidebarPinjamanMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
-              {items.map((item) => {
+              {menuItems.map((item) => {
                 const active = isItemActive(item);
                 const to = getRouteForContext(item.to, location.pathname);
 

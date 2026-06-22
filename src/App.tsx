@@ -45,6 +45,23 @@ const App = () => (
           <Route path="/" element={<Index />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
+            <Route
+              path="sak-ep-cabang/loan-products"
+              element={<LoanProducts />}
+            />
+            <Route
+              path="sak-ep-cabang/loan-products/cabang"
+              element={<LoanProductsCabang />}
+            />
+            <Route
+              path="sak-ep-cabang/loan-products/:id"
+              element={<LoanProductDetail />}
+            />
+            <Route
+              path="sak-ep-cabang/loan-products/:id/edit"
+              element={<LoanProductEdit />}
+            />
             <Route path="pengaturan-umum" element={<PengaturanUmum />} />
             <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
             <Route path="mobile/m-banking" element={<MobileMBanking />} />

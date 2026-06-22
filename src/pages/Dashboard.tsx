@@ -144,11 +144,7 @@ export default function Dashboard() {
             subtitle="Modul cabang untuk operasional SAK EP Coopmax (prototype)."
             icon={Building2}
             accent="emerald"
-            onClick={() =>
-              toast("Coopmax - SAK EP Cabang (prototype)", {
-                description: "Shortcut ini masih menu pengembangan.",
-              })
-            }
+            onClick={() => navigate("/sak-ep-cabang/dashboard")}
           />
         </div>
       </div>
