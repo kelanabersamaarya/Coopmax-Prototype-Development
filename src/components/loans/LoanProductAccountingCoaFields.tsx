@@ -263,13 +263,6 @@ function isSakEpCabangLoanProductModule(pathname: string) {
   return pathname.startsWith("/sak-ep-cabang/loan-products");
 }
 
-function isSakEpCabangBranchProductModule(pathname: string, search: string) {
-  return (
-    isSakEpCabangLoanProductModule(pathname) &&
-    (pathname.includes("/loan-products/cabang") || search.includes("from=cabang"))
-  );
-}
-
 export default function LoanProductAccountingCoaFields({
   values,
   onChange,
@@ -296,9 +289,8 @@ export default function LoanProductAccountingCoaFields({
     location.pathname,
   );
   const showSakEpRevenueFields = !isPinjamanBillingModule(location.pathname);
-  const showSakEpRevenueSeparateSection = isSakEpCabangBranchProductModule(
+  const showSakEpRevenueSeparateSection = isSakEpCabangLoanProductModule(
     location.pathname,
-    location.search,
   );
   const showSakEpRevenueInsideMainSection =
     showSakEpRevenueFields && !showSakEpRevenueSeparateSection;
