@@ -26,7 +26,7 @@ const loanInfoItems = [
     subtitle: "1",
   },
   {
-    title: "Jatuh Tempo",
+    title: "Jatuh Tempo tagihan",
     subtitle: "25-01-2026",
   },
   {
