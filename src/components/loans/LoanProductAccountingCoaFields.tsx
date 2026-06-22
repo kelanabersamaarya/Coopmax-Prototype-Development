@@ -259,12 +259,8 @@ function isPinjamanBillingModule(pathname: string) {
   return pathname.startsWith("/loan-products");
 }
 
-function isSakEpCabangConsolidationProduct(pathname: string, search: string) {
-  return (
-    pathname.startsWith("/sak-ep-cabang/loan-products") &&
-    !pathname.includes("/loan-products/cabang") &&
-    !search.includes("from=cabang")
-  );
+function isSakEpCabangLoanProductModule(pathname: string) {
+  return pathname.startsWith("/sak-ep-cabang/loan-products");
 }
 
 export default function LoanProductAccountingCoaFields({
@@ -289,9 +285,8 @@ export default function LoanProductAccountingCoaFields({
   className?: string;
 }) {
   const location = useLocation();
-  const hideSakEpCabangSections = isSakEpCabangConsolidationProduct(
+  const hideSakEpCabangFeeCoaSection = isSakEpCabangLoanProductModule(
     location.pathname,
-    location.search,
   );
   const showSakEpRevenueFields = !isPinjamanBillingModule(location.pathname);
 
@@ -308,7 +303,7 @@ export default function LoanProductAccountingCoaFields({
   );
 
   const showFeeCoaSection =
-    settingShowFeeCoaSection && !hideSakEpCabangSections;
+    settingShowFeeCoaSection && !hideSakEpCabangFeeCoaSection;
 
   React.useEffect(() => {
     if (!showFeeCoaSection && aturCoaJenisBiaya) {
