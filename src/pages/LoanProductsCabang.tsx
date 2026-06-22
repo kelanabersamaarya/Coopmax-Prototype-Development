@@ -10,7 +10,12 @@ export default function LoanProductsCabang() {
       variant="branch"
       title="Produk Pinjaman Cabang"
       subtitle="Daftar"
-      showCreateButton={false}
+      showCreateButton
+      createPath={
+        isSakCabangArea
+          ? "/sak-ep-cabang/loan-products/new?from=cabang"
+          : "/loan-products/new?from=cabang"
+      }
       detailPath={(id) =>
         isSakCabangArea
           ? `/sak-ep-cabang/loan-products/${id}`
