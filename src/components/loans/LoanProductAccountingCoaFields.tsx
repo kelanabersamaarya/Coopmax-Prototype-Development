@@ -209,44 +209,47 @@ function SakEpRevenueFieldRow({
     <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
       <div className="pt-1">
         <div className="text-sm font-normal text-slate-900">{field.label}</div>
-        <div className="mt-1 text-xs text-slate-500">{field.hint}</div>
       </div>
 
-      <div className="relative min-w-0">
-        {hasSelected ? (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onChange(undefined);
-            }}
-            className={cn(
-              "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
-              "rounded-[5px] text-red-600 transition hover:bg-red-50",
-              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-            )}
-            aria-label={`Hapus ${field.label}`}
-            title="Hapus pilihan"
-          >
-            <X className="h-4.5 w-4.5" strokeWidth={3} />
-          </button>
-        ) : null}
+      <div className="min-w-0">
+        <div className="relative min-w-0">
+          {hasSelected ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onChange(undefined);
+              }}
+              className={cn(
+                "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
+                "rounded-[5px] text-red-600 transition hover:bg-red-50",
+                "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+              )}
+              aria-label={`Hapus ${field.label}`}
+              title="Hapus pilihan"
+            >
+              <X className="h-4.5 w-4.5" strokeWidth={3} />
+            </button>
+          ) : null}
 
-        <SearchableFeeCoaSelect
-          value={value}
-          placeholder={field.placeholder}
-          options={field.options}
-          onChange={onChange}
-          triggerClassName={cn(
-            hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
-            selectTriggerClassName,
-          )}
-          contentClassName={cn(
-            "rounded-[5px] border-slate-200 p-0 shadow-xl",
-            selectContentClassName,
-          )}
-        />
+          <SearchableFeeCoaSelect
+            value={value}
+            placeholder={field.placeholder}
+            options={field.options}
+            onChange={onChange}
+            triggerClassName={cn(
+              hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
+              selectTriggerClassName,
+            )}
+            contentClassName={cn(
+              "rounded-[5px] border-slate-200 p-0 shadow-xl",
+              selectContentClassName,
+            )}
+          />
+        </div>
+
+        <div className="mt-1 text-xs text-slate-500">{field.hint}</div>
       </div>
     </div>
   );
