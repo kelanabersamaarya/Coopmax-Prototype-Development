@@ -263,6 +263,13 @@ function isSakEpCabangLoanProductModule(pathname: string) {
   return pathname.startsWith("/sak-ep-cabang/loan-products");
 }
 
+function isSakEpCabangBranchProductModule(pathname: string, search: string) {
+  return (
+    isSakEpCabangLoanProductModule(pathname) &&
+    (pathname.includes("/loan-products/cabang") || search.includes("from=cabang"))
+  );
+}
+
 export default function LoanProductAccountingCoaFields({
   values,
   onChange,
@@ -289,6 +296,12 @@ export default function LoanProductAccountingCoaFields({
     location.pathname,
   );
   const showSakEpRevenueFields = !isPinjamanBillingModule(location.pathname);
+  const showSakEpRevenueSeparateSection = isSakEpCabangBranchProductModule(
+    location.pathname,
+    location.search,
+  );
+  const showSakEpRevenueInsideMainSection =
+    showSakEpRevenueFields && !showSakEpRevenueSeparateSection;
 
   const [sakEpRevenueValues, setSakEpRevenueValues] = React.useState<
     Record<SakEpRevenueFieldKey, string | undefined>
@@ -357,7 +370,7 @@ export default function LoanProductAccountingCoaFields({
             />
           ))}
 
-          {showSakEpRevenueFields
+          {showSakEpRevenueInsideMainSection
             ? sakEpRevenueFields.map((field) => (
                 <SakEpRevenueFieldRow
                   key={field.key}
@@ -376,6 +389,30 @@ export default function LoanProductAccountingCoaFields({
             : null}
         </div>
       </div>
+
+      {showSakEpRevenueSeparateSection ? (
+        <div className="mt-6">
+          <SectionTitle>Konfigurasi KP Pendapatan Pinjaman SAK EP</SectionTitle>
+
+          <div className="mt-5 grid gap-5">
+            {sakEpRevenueFields.map((field) => (
+              <SakEpRevenueFieldRow
+                key={field.key}
+                field={field}
+                value={sakEpRevenueValues[field.key]}
+                onChange={(value) =>
+                  setSakEpRevenueValues((current) => ({
+                    ...current,
+                    [field.key]: value,
+                  }))
+                }
+                selectTriggerClassName={selectTriggerClassName}
+                selectContentClassName={selectContentClassName}
+              />
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
