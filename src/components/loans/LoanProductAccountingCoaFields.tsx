@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,18 @@ type FieldConfig = {
   hint?: string;
   placeholder: string;
   options: Exclude<MainCoaOption, "PILIH">[];
+};
+
+type SakEpRevenueFieldKey =
+  | "coaInterestRecognitionRevenue"
+  | "coaDeferredAdminRevenue";
+
+type SakEpRevenueFieldConfig = {
+  key: SakEpRevenueFieldKey;
+  label: string;
+  hint: string;
+  placeholder: string;
+  options: string[];
 };
 
 const fields: FieldConfig[] = [
@@ -77,6 +90,23 @@ const fields: FieldConfig[] = [
     key: "coaAdminRevenue",
     label: "KP Pendapatan Admin",
     placeholder: "Pilih KP Biaya Admin",
+    options: ["PEN. ADMINISTRASI", "PENDAPATAN LAIN - LAIN"],
+  },
+];
+
+const sakEpRevenueFields: SakEpRevenueFieldConfig[] = [
+  {
+    key: "coaInterestRecognitionRevenue",
+    label: "KP Pengakuan Pendapatan Bunga",
+    hint: "Akun pengakuan pendapatan bunga sesuai kebijakan akuntansi pinjaman pada penerapan SAK EP",
+    placeholder: "Pilih KP Pengakuan Pendapatan Bunga",
+    options: ["PEND. BUNGA PINJAMAN", "PENDAPATAN LAIN - LAIN"],
+  },
+  {
+    key: "coaDeferredAdminRevenue",
+    label: "KP Penangguhan Pendapatan Admin",
+    hint: "Akun penangguhan pendapatan administrasi sesuai kebijakan akuntansi pinjaman pada penerapan SAK EP",
+    placeholder: "Pilih KP Penangguhan Pendapatan Admin",
     options: ["PEN. ADMINISTRASI", "PENDAPATAN LAIN - LAIN"],
   },
 ];
@@ -160,6 +190,75 @@ function CoaFieldRow({
   );
 }
 
+function SakEpRevenueFieldRow({
+  field,
+  value,
+  onChange,
+  selectTriggerClassName,
+  selectContentClassName,
+}: {
+  field: SakEpRevenueFieldConfig;
+  value?: string;
+  onChange: (value: string | undefined) => void;
+  selectTriggerClassName?: string;
+  selectContentClassName?: string;
+}) {
+  const hasSelected = !!value;
+
+  return (
+    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
+      <div className="pt-1">
+        <div className="text-sm font-normal text-slate-900">{field.label}</div>
+      </div>
+
+      <div className="min-w-0">
+        <div className="relative min-w-0">
+          {hasSelected ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onChange(undefined);
+              }}
+              className={cn(
+                "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
+                "rounded-[5px] text-red-600 transition hover:bg-red-50",
+                "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+              )}
+              aria-label={`Hapus ${field.label}`}
+              title="Hapus pilihan"
+            >
+              <X className="h-4.5 w-4.5" strokeWidth={3} />
+            </button>
+          ) : null}
+
+          <SearchableFeeCoaSelect
+            value={value}
+            placeholder={field.placeholder}
+            options={field.options}
+            onChange={onChange}
+            triggerClassName={cn(
+              hasSelected ? "pl-10 text-slate-900" : "text-slate-500",
+              selectTriggerClassName,
+            )}
+            contentClassName={cn(
+              "rounded-[5px] border-slate-200 p-0 shadow-xl",
+              selectContentClassName,
+            )}
+          />
+        </div>
+
+        <div className="mt-1 text-xs text-slate-500">{field.hint}</div>
+      </div>
+    </div>
+  );
+}
+
+function isPinjamanBillingModule(pathname: string) {
+  return pathname.startsWith("/loan-products");
+}
+
 export default function LoanProductAccountingCoaFields({
   values,
   onChange,
@@ -181,6 +280,16 @@ export default function LoanProductAccountingCoaFields({
   feeSelectContentClassName?: string;
   className?: string;
 }) {
+  const location = useLocation();
+  const showSakEpRevenueFields = !isPinjamanBillingModule(location.pathname);
+
+  const [sakEpRevenueValues, setSakEpRevenueValues] = React.useState<
+    Record<SakEpRevenueFieldKey, string | undefined>
+  >({
+    coaInterestRecognitionRevenue: undefined,
+    coaDeferredAdminRevenue: undefined,
+  });
+
   const showFeeCoaSection = useGeneralSetting(
     SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
     false,
@@ -237,6 +346,24 @@ export default function LoanProductAccountingCoaFields({
               selectContentClassName={selectContentClassName}
             />
           ))}
+
+          {showSakEpRevenueFields
+            ? sakEpRevenueFields.map((field) => (
+                <SakEpRevenueFieldRow
+                  key={field.key}
+                  field={field}
+                  value={sakEpRevenueValues[field.key]}
+                  onChange={(value) =>
+                    setSakEpRevenueValues((current) => ({
+                      ...current,
+                      [field.key]: value,
+                    }))
+                  }
+                  selectTriggerClassName={selectTriggerClassName}
+                  selectContentClassName={selectContentClassName}
+                />
+              ))
+            : null}
         </div>
       </div>
     </div>
