@@ -34,7 +34,7 @@ function getLoanDetail(loan: MBankingLoanItem) {
         { label: "Tanggal Pencairan", value: "01-03-2026" },
         { label: "Jangka Waktu", value: "12 Bulan" },
         { label: "Tagihan Ke-", value: "1" },
-        { label: "Jatuh Tempo tagihan", value: "16-03-2027" },
+        { label: "Jatuh Tempo Tagihan", value: "16-03-2027" },
         { label: "Bunga", value: "10,00%" },
       ],
       summary: {
@@ -60,7 +60,7 @@ function getLoanDetail(loan: MBankingLoanItem) {
         { label: "Tanggal Pencairan", value: "31-03-2026" },
         { label: "Jangka Waktu", value: "18 Bulan" },
         { label: "Tagihan Ke-", value: "1" },
-        { label: "Jatuh Tempo tagihan", value: "30-09-2026" },
+        { label: "Jatuh Tempo Tagihan", value: "30-09-2026" },
         { label: "Bunga", value: "20,00%" },
       ],
       summary: {
@@ -85,7 +85,7 @@ function getLoanDetail(loan: MBankingLoanItem) {
       { label: "Tanggal Pencairan", value: "01-03-2026" },
       { label: "Jangka Waktu", value: loan.tenor },
       { label: "Tagihan Ke-", value: "1" },
-      { label: "Jatuh Tempo tagihan", value: "16-03-2027" },
+      { label: "Jatuh Tempo Tagihan", value: "16-03-2027" },
       { label: "Bunga", value: "10,00%" },
     ],
     summary: {
