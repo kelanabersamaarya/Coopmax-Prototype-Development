@@ -22,16 +22,16 @@ const loanInfoItems = [
     subtitle: "3 Bulan",
   },
   {
-    title: "Sisa Pinjaman",
-    subtitle: "Rp. 10.000.000,00",
-  },
-  {
     title: "Tagihan Ke-",
     subtitle: "1",
   },
   {
     title: "Jatuh Tempo",
     subtitle: "25-01-2026",
+  },
+  {
+    title: "Sisa Pinjaman",
+    subtitle: "Rp. 10.000.000,00",
   },
   {
     title: "Total Angsuran",
