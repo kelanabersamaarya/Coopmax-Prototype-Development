@@ -1,0 +1,15 @@
+/* Coopmax - SAK EP Cabang > Produk Pinjaman Konsolidasi > Tambah/Ubah
+   Sembunyikan:
+   - Konfigurasi Tagihan Angsuran
+   - Konfigurasi Denda
+   - Konfigurasi Grace Period
+
+   Konfigurasi KP Biaya Pinjaman disembunyikan langsung dari komponen
+   LoanProductAccountingCoaFields agar tetap aman saat setting aktif.
+*/
+
+.sak-ep-cabang-loan-product-consolidation-form
+  > *
+  > :nth-child(n + 8):not(:nth-last-child(-n + 2)) {
+  display: none !important;
+}

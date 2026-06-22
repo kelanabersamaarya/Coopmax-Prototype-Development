@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
+import { cn } from "@/lib/utils";
 
 export default function LoanProductEdit() {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ export default function LoanProductEdit() {
   const id = params.id ?? "";
   const isCabangEdit = searchParams.get("from") === "cabang";
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+  const isSakCabangConsolidationEdit = isSakCabangArea && !isCabangEdit;
 
   const backPath = isSakCabangArea
     ? isCabangEdit
@@ -34,7 +36,15 @@ export default function LoanProductEdit() {
           </div>
         </div>
 
-        <div className={`mt-6 grid gap-4${isCabangEdit ? " loan-product-cabang-edit-form" : ""}`}>
+        <div
+          className={cn(
+            "mt-6 grid gap-4",
+            isCabangEdit ? "loan-product-cabang-edit-form" : "",
+            isSakCabangConsolidationEdit
+              ? "sak-ep-cabang-loan-product-consolidation-form"
+              : "",
+          )}
+        >
           <LoanProductForm
             mode="edit"
             productId={id}

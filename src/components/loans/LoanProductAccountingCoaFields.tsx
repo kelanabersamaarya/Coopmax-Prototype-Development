@@ -259,6 +259,14 @@ function isPinjamanBillingModule(pathname: string) {
   return pathname.startsWith("/loan-products");
 }
 
+function isSakEpCabangConsolidationProduct(pathname: string, search: string) {
+  return (
+    pathname.startsWith("/sak-ep-cabang/loan-products") &&
+    !pathname.includes("/loan-products/cabang") &&
+    !search.includes("from=cabang")
+  );
+}
+
 export default function LoanProductAccountingCoaFields({
   values,
   onChange,
@@ -281,6 +289,10 @@ export default function LoanProductAccountingCoaFields({
   className?: string;
 }) {
   const location = useLocation();
+  const hideSakEpCabangSections = isSakEpCabangConsolidationProduct(
+    location.pathname,
+    location.search,
+  );
   const showSakEpRevenueFields = !isPinjamanBillingModule(location.pathname);
 
   const [sakEpRevenueValues, setSakEpRevenueValues] = React.useState<
@@ -290,10 +302,13 @@ export default function LoanProductAccountingCoaFields({
     coaDeferredAdminRevenue: undefined,
   });
 
-  const showFeeCoaSection = useGeneralSetting(
+  const settingShowFeeCoaSection = useGeneralSetting(
     SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
     false,
   );
+
+  const showFeeCoaSection =
+    settingShowFeeCoaSection && !hideSakEpCabangSections;
 
   React.useEffect(() => {
     if (!showFeeCoaSection && aturCoaJenisBiaya) {

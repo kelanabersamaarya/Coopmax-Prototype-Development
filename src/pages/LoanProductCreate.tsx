@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
+import { cn } from "@/lib/utils";
 
 export default function LoanProductCreate() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ export default function LoanProductCreate() {
 
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isCabangCreate = searchParams.get("from") === "cabang";
+  const isSakCabangConsolidationCreate = isSakCabangArea && !isCabangCreate;
 
   const backPath = isSakCabangArea
     ? isCabangCreate
@@ -27,7 +29,14 @@ export default function LoanProductCreate() {
           <div className="text-sm font-semibold text-slate-500">Tambah</div>
         </div>
 
-        <div className="mt-6 grid gap-4">
+        <div
+          className={cn(
+            "mt-6 grid gap-4",
+            isSakCabangConsolidationCreate
+              ? "sak-ep-cabang-loan-product-consolidation-form"
+              : "",
+          )}
+        >
           <LoanProductForm
             mode="create"
             context={isCabangCreate ? "branch" : "consolidation"}
