@@ -122,76 +122,80 @@ export default function SavingsProductCoaDropdownFields({
       {coaFields.map((field) => {
         const selectedValue = values[field];
         const hasSelected = selectedValue.trim().length > 0;
+        const showSectionDivider = field === "KP Pengakuan Biaya Bunga";
 
         return (
-          <div
-            key={field}
-            className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start"
-          >
-            <label className={cn(labelClassName, "pt-[5px]")}>{field}</label>
+          <React.Fragment key={field}>
+            {showSectionDivider ? (
+              <div className="h-px w-full bg-slate-300/80" />
+            ) : null}
 
-            <div>
-              <div className="relative">
-                {hasSelected ? (
-                  <button
-                    type="button"
-                    onPointerDown={(event) => clearValue(field, event)}
-                    onClick={(event) => clearValue(field, event)}
-                    className={cn(
-                      "absolute left-[10px] top-[15px] z-20 inline-flex h-4 w-4 -translate-y-1/2 items-center justify-center p-0",
-                      "rounded-[3px] text-red-600 transition hover:bg-red-50",
-                      "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-                    )}
-                    aria-label={`Hapus ${field}`}
-                    title="Hapus pilihan"
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <label className={cn(labelClassName, "pt-[5px]")}>{field}</label>
+
+              <div>
+                <div className="relative">
+                  {hasSelected ? (
+                    <button
+                      type="button"
+                      onPointerDown={(event) => clearValue(field, event)}
+                      onClick={(event) => clearValue(field, event)}
+                      className={cn(
+                        "absolute left-[10px] top-[15px] z-20 inline-flex h-4 w-4 -translate-y-1/2 items-center justify-center p-0",
+                        "rounded-[3px] text-red-600 transition hover:bg-red-50",
+                        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                      )}
+                      aria-label={`Hapus ${field}`}
+                      title="Hapus pilihan"
+                    >
+                      <X className="block h-4 w-4" strokeWidth={3} />
+                    </button>
+                  ) : null}
+
+                  <Select
+                    value={values[field]}
+                    onValueChange={(value) =>
+                      setValues((current) => ({
+                        ...current,
+                        [field]: value,
+                      }))
+                    }
                   >
-                    <X className="block h-4 w-4" strokeWidth={3} />
-                  </button>
+                    <SelectTrigger
+                      className={cn(
+                        selectTriggerClassName,
+                        hasSelected ? "pl-9 text-black" : "text-[#64748B]",
+                      )}
+                    >
+                      {hasSelected ? (
+                        <span className="block min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
+                          {getCoaLabel(selectedValue)}
+                        </span>
+                      ) : (
+                        <SelectValue placeholder={placeholderByField[field]} />
+                      )}
+                    </SelectTrigger>
+
+                    <SelectContent className={selectContentClassName}>
+                      {coaOptions.map((option) => (
+                        <SelectItem
+                          key={option}
+                          value={option}
+                          className={selectItemClassName}
+                        >
+                          {getCoaLabel(option)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {helperTextByField[field] ? (
+                  <div className={helperClassName}>{helperTextByField[field]}</div>
                 ) : null}
-
-                <Select
-                  value={values[field]}
-                  onValueChange={(value) =>
-                    setValues((current) => ({
-                      ...current,
-                      [field]: value,
-                    }))
-                  }
-                >
-                  <SelectTrigger
-                    className={cn(
-                      selectTriggerClassName,
-                      hasSelected ? "pl-9 text-black" : "text-[#64748B]",
-                    )}
-                  >
-                    {hasSelected ? (
-                      <span className="block min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
-                        {getCoaLabel(selectedValue)}
-                      </span>
-                    ) : (
-                      <SelectValue placeholder={placeholderByField[field]} />
-                    )}
-                  </SelectTrigger>
-
-                  <SelectContent className={selectContentClassName}>
-                    {coaOptions.map((option) => (
-                      <SelectItem
-                        key={option}
-                        value={option}
-                        className={selectItemClassName}
-                      >
-                        {getCoaLabel(option)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
               </div>
-
-              {helperTextByField[field] ? (
-                <div className={helperClassName}>{helperTextByField[field]}</div>
-              ) : null}
             </div>
-          </div>
+          </React.Fragment>
         );
       })}
     </div>
