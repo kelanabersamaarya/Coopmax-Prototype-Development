@@ -1,0 +1,34 @@
+/* Global dropdown hover override
+   Diletakkan paling akhir agar warna hover Select/Command konsisten ungu.
+*/
+
+[data-radix-select-content] [data-radix-collection-item][data-highlighted],
+[data-radix-select-content] [data-radix-collection-item]:hover,
+[data-radix-popper-content-wrapper] [role="option"][data-highlighted],
+[data-radix-popper-content-wrapper] [role="option"]:hover,
+[data-radix-popper-content-wrapper] [data-radix-collection-item][data-highlighted],
+[data-radix-popper-content-wrapper] [data-radix-collection-item]:hover,
+[data-slot="select-content"] [role="option"][data-highlighted],
+[data-slot="select-content"] [role="option"]:hover,
+[data-slot="select-content"] [data-radix-collection-item][data-highlighted],
+[data-slot="select-content"] [data-radix-collection-item]:hover,
+[cmdk-list] [cmdk-item][data-selected="true"],
+[cmdk-list] [cmdk-item]:hover {
+  background-color: #7c3aed !important;
+  color: #ffffff !important;
+}
+
+[data-radix-select-content] [data-radix-collection-item][data-highlighted] *,
+[data-radix-select-content] [data-radix-collection-item]:hover *,
+[data-radix-popper-content-wrapper] [role="option"][data-highlighted] *,
+[data-radix-popper-content-wrapper] [role="option"]:hover *,
+[data-radix-popper-content-wrapper] [data-radix-collection-item][data-highlighted] *,
+[data-radix-popper-content-wrapper] [data-radix-collection-item]:hover *,
+[data-slot="select-content"] [role="option"][data-highlighted] *,
+[data-slot="select-content"] [role="option"]:hover *,
+[data-slot="select-content"] [data-radix-collection-item][data-highlighted] *,
+[data-slot="select-content"] [data-radix-collection-item]:hover *,
+[cmdk-list] [cmdk-item][data-selected="true"] *,
+[cmdk-list] [cmdk-item]:hover * {
+  color: #ffffff !important;
+}
