@@ -108,6 +108,69 @@
   display: flex !important;
 }
 
+/* Produk Simpanan Cabang Ubah: field Kode dan Nama Produk terisi + readonly secara visual/interaksi */
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1),
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4) {
+  position: relative !important;
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1) input,
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4) input {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+  background-color: #e2e8f0 !important;
+  color: transparent !important;
+  caret-color: transparent !important;
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1)::after,
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4)::after {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  display: flex !important;
+  h
+  eight: 30px !important;
+  align-items: center !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 5px !important;
+  background-color: #e2e8f0 !important;
+  padding: 0 12px !important;
+  color: #334155 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  pointer-events: none !important;
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1)::after {
+  content: "S001";
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4)::after {
+  content: "Simpanan Sukarela";
+}
+
+@media (min-width: 768px) {
+  .produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1)::after,
+  .produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4)::after {
+    left: 248px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1),
+  .produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4) {
+    padding-bottom: 30px !important;
+  }
+
+  .produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1)::after,
+  .produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4)::after {
+    left: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
+  }
+}
+
 /* Produk Tabungan Tambah: tombol Batal & Simpan seperti contoh */
 [class*="p-[40px]"] > .mt-8.flex button {
   display: inline-flex !important;
