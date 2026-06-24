@@ -2,6 +2,7 @@
    Tampilkan hanya:
    - Section Konfigurasi Dasar Produk Pinjaman: Kode + Produk Pinjaman
    - Section Konfigurasi KP Pendapatan Pinjaman
+   - Section Konfigurasi KP Pendapatan Pinjaman SAK EP jika berada di modul Coopmax - SAK EP
 
    Sembunyikan:
    - Field lanjutan di Konfigurasi Dasar Produk Pinjaman
@@ -13,90 +14,84 @@
 */
 
 /* Field Produk Pinjaman dibuat read-only secara visual. */
-.loan-product-cabang-edit-form
-  input[aria-readonly="true"],
-.loan-product-cabang-edit-form
-  input[readonly] {
+.loan-product-cabang-edit-form input[aria-readonly="true"],
+.loan-product-cabang-edit-form input[readonly] {
   background-color: #f1f5f9 !important;
   color: #334155 !important;
   cursor: not-allowed !important;
 }
 
-/* Konfigurasi Dasar Produk Pinjaman: sembunyikan field ke-3 dan seterusnya
-   (Kode dan Produk Pinjaman tetap tampil). */
-.loan-product-cabang-edit-form
-  div.mt-5.grid
-  > div:nth-child(n + 3) {
+/* Struktur setelah LoanProductSaveConfirmGate:
+   .loan-product-cabang-edit-form > gate-wrapper > form-card
+*/
+.loan-product-cabang-edit-form > div > [class*="rounded-"] > div.mt-5.grid > div:nth-child(n + 3) {
   display: none !important;
 }
 
 /* Sembunyikan blok konfigurasi dasar lanjutan setelah grid pertama. */
-.loan-product-cabang-edit-form
-  div.mt-6.grid {
+.loan-product-cabang-edit-form > div > [class*="rounded-"] > div.mt-6.grid {
   display: none !important;
 }
 
-/* Tampilkan kembali section KP yang memang diperlukan jika ikut terkena aturan umum. */
-.loan-product-cabang-edit-form
-  div.mt-6:has(> div > .h-px.w-full.bg-slate-200\/80),
-.loan-product-cabang-edit-form
-  div.mt-6:has(.text-base.font-semibold.text-slate-900) {
-  display: block !important;
-}
-
-/* Sembunyikan konfigurasi KP Biaya Pinjaman pada cabang jika muncul dari setting umum. */
-.loan-product-cabang-edit-form
-  div.mt-6
-  > div:has(+ div .grid.gap-2.md\:grid-cols-\[240px_1fr\].md\:items-center) {
-  display: none !important;
-}
-
-/* Sembunyikan section setelah Konfigurasi KP Pendapatan Pinjaman:
-   - Fee Kolektor
-   - Tagihan Angsuran
-   - Denda
+/* Sembunyikan mulai dari separator setelah konfigurasi KP sampai sebelum tombol aksi akhir.
+   Ini menghapus:
+   - Konfigurasi Fee Kolektor
+   - Konfigurasi Tagihan Angsuran
+   - Tagihan Angsuran Menggunakan Tabel Angsuran
+   - Skema Tagihan
+   - Metode Denda
+   - Jumlah Hari Keterlambatan
+   - Proses Denda Berulang (Recurring)
    - Grace Period
-   Tombol Batalkan/Simpan tetap tampil. */
+*/
 .loan-product-cabang-edit-form
-  .mt-6:has(+ .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end),
+  > div
+  > [class*="rounded-"]
+  > .my-6.bg-slate-200\/70,
 .loan-product-cabang-edit-form
-  .mt-6:has(+ div + .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end),
+  > div
+  > [class*="rounded-"]
+  > .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between,
 .loan-product-cabang-edit-form
-  .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between,
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3,
 .loan-product-cabang-edit-form
-  .text-base.font-semibold.text-slate-900:has(.inline-flex.items-center),
+  > div
+  > [class*="rounded-"]
+  > .text-base.font-semibold.text-slate-900,
 .loan-product-cabang-edit-form
-  .text-base.font-semibold.text-slate-900:has(+ .mt-4.grid),
-.loan-product-cabang-edit-form
-  .text-base.font-semibold.text-slate-900:has(+ .grid) {
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid {
   display: none !important;
 }
 
-/* Pastikan section judul Konfigurasi KP Pendapatan Pinjaman tetap terlihat. */
+/* Pastikan section Konfigurasi KP Pendapatan Pinjaman tetap terlihat. */
 .loan-product-cabang-edit-form
-  div:has(> .h-px.w-full.bg-slate-200\/80)
-  + .mt-6
-  .text-base.font-semibold.text-slate-900,
-.loan-product-cabang-edit-form
-  div.mt-6
-  .text-base.font-semibold.text-slate-900:first-child {
+  > div
+  > [class*="rounded-"]
+  > div.mt-6:has(.text-base.font-semibold.text-slate-900) {
   display: block !important;
 }
 
-/* Sembunyikan divider/section berulang setelah KP Pendapatan Pinjaman, tapi jangan sentuh tombol aksi akhir. */
+/* Sembunyikan konfigurasi KP Biaya Pinjaman pada cabang jika setting umum sedang aktif. */
 .loan-product-cabang-edit-form
-  .mt-6.grid.gap-3,
-.loan-product-cabang-edit-form
-  .mt-4.grid.gap-3,
-.loan-product-cabang-edit-form
-  .my-6.bg-slate-200\/70 {
+  > div
+  > [class*="rounded-"]
+  > div.mt-6
+  > div:has(+ div .grid.gap-2.md\:grid-cols-\[240px_1fr\].md\:items-center) {
   display: none !important;
 }
 
 /* Tombol aksi akhir tetap tampil. */
 .loan-product-cabang-edit-form
-  .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end,
+  > div
+  > [class*="rounded-"]
+  > .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end,
 .loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
   .flex.justify-end {
   display: flex !important;
 }

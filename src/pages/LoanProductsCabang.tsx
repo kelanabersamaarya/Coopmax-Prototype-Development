@@ -13,8 +13,8 @@ export default function LoanProductsCabang() {
       showCreateButton={false}
       detailPath={(id) =>
         isSakCabangArea
-          ? `/sak-ep-cabang/loan-products/${id}`
-          : `/loan-products/${id}`
+          ? `/sak-ep-cabang/loan-products/${id}?from=cabang`
+          : `/loan-products/${id}?from=cabang`
       }
       editPath={(id) =>
         isSakCabangArea

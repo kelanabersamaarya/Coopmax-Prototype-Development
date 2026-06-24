@@ -1,5 +1,11 @@
 import * as React from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import {
+  useNavigate,
+  useParams,
+  Link,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { getLoanProducts } from "@/lib/loanProductsStore";
@@ -96,8 +102,29 @@ function methodLabel(scheme: string) {
 
 export default function LoanProductDetail() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const params = useParams<{ id: string }>();
   const id = params.id ?? "";
+
+  const isCabangDetail = searchParams.get("from") === "cabang";
+  const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+
+  const listPath = isSakCabangArea
+    ? isCabangDetail
+      ? "/sak-ep-cabang/loan-products/cabang"
+      : "/sak-ep-cabang/loan-products"
+    : isCabangDetail
+      ? "/loan-products/cabang"
+      : "/loan-products";
+
+  const editPath = isSakCabangArea
+    ? `/sak-ep-cabang/loan-products/${encodeURIComponent(id)}/edit${
+        isCabangDetail ? "?from=cabang" : ""
+      }`
+    : `/loan-products/${encodeURIComponent(id)}/edit${
+        isCabangDetail ? "?from=cabang" : ""
+      }`;
 
   const product = React.useMemo(() => {
     const all = getLoanProducts();
@@ -139,7 +166,7 @@ export default function LoanProductDetail() {
           <div className="min-w-0">
             <div className="flex items-baseline gap-2">
               <h1 className="text-[28px] font-extrabold tracking-tight text-black md:text-[32px]">
-                Produk Pinjaman
+                {isCabangDetail ? "Produk Pinjaman Cabang" : "Produk Pinjaman"}
               </h1>
               <span className="text-[18px] font-normal tracking-tight text-black md:text-[20px]">
                 Detail
@@ -151,14 +178,12 @@ export default function LoanProductDetail() {
             <TopActionButton
               icon={ArrowLeft}
               label="Kembali ke Daftar"
-              onClick={() => navigate("/loan-products")}
+              onClick={() => navigate(listPath)}
             />
             <TopActionButton
               icon={Pencil}
               label="Ubah"
-              onClick={() =>
-                navigate(`/loan-products/${encodeURIComponent(id)}/edit`)
-              }
+              onClick={() => navigate(editPath)}
             />
             <TopActionButton
               icon={Trash2}
@@ -182,7 +207,7 @@ export default function LoanProductDetail() {
                 ID: <span className="font-semibold">{id}</span>
               </div>
               <div className="mt-4">
-                <Link to="/loan-products" className="text-blue-600 hover:underline">
+                <Link to={listPath} className="text-blue-600 hover:underline">
                   Kembali ke daftar
                 </Link>
               </div>
@@ -237,68 +262,77 @@ export default function LoanProductDetail() {
                   </div>
                 </Card>
 
-                <Card className={sectionCardCls}>
-                  <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
+                {!isCabangDetail ? (
+                  <>
+                    <Card className={sectionCardCls}>
+                      <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
 
-                  <div className={sectionFieldGrid2ColsCls}>
-                    <Field
-                      label="Tagihan Angsuran Menggunakan Tabel Angsuran"
-                      value={<StatusPill tone="green">Aktif</StatusPill>}
-                    />
-                    <Field
-                      label="Skema Tagihan"
-                      value="Tagihan Diterbitkan Penuh di Awal (Jadwal Tetap)"
-                    />
-                  </div>
-                </Card>
-
-                <Card className={sectionCardCls}>
-                  <SectionTitle>Konfigurasi Denda</SectionTitle>
-
-                  <div className={sectionFieldGridCls}>
-                    <Field label="Metode Denda" value={penaltyConfig.method} />
-                    <Field label="Nilai Denda" value={penaltyConfig.value} />
-                    <Field
-                      label="Jumlah Hari Keterlambatan"
-                      value={penaltyConfig.lateDays}
-                    />
-                    <Field
-                      label="Proses Denda Berulang"
-                      value={
-                        <StatusPill
-                          tone={penaltyConfig.recurringActive ? "green" : "red"}
-                        >
-                          {penaltyConfig.recurringActive ? "Aktif" : "Tidak Aktif"}
-                        </StatusPill>
-                      }
-                    />
-                  </div>
-
-                  {penaltyConfig.base ? (
-                    <div className="mt-10">
-                      <div className="grid gap-y-10 gap-x-4 md:grid-cols-4">
-                        <Field label="Dasar Perhitungan" value={penaltyConfig.base} />
-                        <div className="hidden md:block" />
-                        <div className="hidden md:block" />
-                        <div className="hidden md:block" />
+                      <div className={sectionFieldGrid2ColsCls}>
+                        <Field
+                          label="Tagihan Angsuran Menggunakan Tabel Angsuran"
+                          value={<StatusPill tone="green">Aktif</StatusPill>}
+                        />
+                        <Field
+                          label="Skema Tagihan"
+                          value="Tagihan Diterbitkan Penuh di Awal (Jadwal Tetap)"
+                        />
                       </div>
-                    </div>
-                  ) : null}
-                </Card>
+                    </Card>
 
-                <Card className={sectionCardCls}>
-                  <SectionTitle>Konfigurasi Grace Period</SectionTitle>
+                    <Card className={sectionCardCls}>
+                      <SectionTitle>Konfigurasi Denda</SectionTitle>
 
-                  <div className={sectionFieldGridCls}>
-                    <Field
-                      label="Grace Period"
-                      value={<StatusPill tone="green">Aktif</StatusPill>}
-                    />
-                    <Field label="Skema Grace Period" value="Hanya Bayar Bunga" />
-                    <Field label="Satuan Grace Period" value="Bulan" />
-                    <Field label="Durasi Grace Period" value="3" />
-                  </div>
-                </Card>
+                      <div className={sectionFieldGridCls}>
+                        <Field label="Metode Denda" value={penaltyConfig.method} />
+                        <Field label="Nilai Denda" value={penaltyConfig.value} />
+                        <Field
+                          label="Jumlah Hari Keterlambatan"
+                          value={penaltyConfig.lateDays}
+                        />
+                        <Field
+                          label="Proses Denda Berulang"
+                          value={
+                            <StatusPill
+                              tone={penaltyConfig.recurringActive ? "green" : "red"}
+                            >
+                              {penaltyConfig.recurringActive
+                                ? "Aktif"
+                                : "Tidak Aktif"}
+                            </StatusPill>
+                          }
+                        />
+                      </div>
+
+                      {penaltyConfig.base ? (
+                        <div className="mt-10">
+                          <div className="grid gap-y-10 gap-x-4 md:grid-cols-4">
+                            <Field
+                              label="Dasar Perhitungan"
+                              value={penaltyConfig.base}
+                            />
+                            <div className="hidden md:block" />
+                            <div className="hidden md:block" />
+                            <div className="hidden md:block" />
+                          </div>
+                        </div>
+                      ) : null}
+                    </Card>
+
+                    <Card className={sectionCardCls}>
+                      <SectionTitle>Konfigurasi Grace Period</SectionTitle>
+
+                      <div className={sectionFieldGridCls}>
+                        <Field
+                          label="Grace Period"
+                          value={<StatusPill tone="green">Aktif</StatusPill>}
+                        />
+                        <Field label="Skema Grace Period" value="Hanya Bayar Bunga" />
+                        <Field label="Satuan Grace Period" value="Bulan" />
+                        <Field label="Durasi Grace Period" value="3" />
+                      </div>
+                    </Card>
+                  </>
+                ) : null}
               </div>
             </Card>
           )}
