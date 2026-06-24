@@ -109,6 +109,7 @@ export default function LoanProductDetail() {
 
   const isCabangDetail = searchParams.get("from") === "cabang";
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+  const shouldShowAdvancedSections = !isCabangDetail && !isSakCabangArea;
 
   const listPath = isSakCabangArea
     ? isCabangDetail
@@ -262,7 +263,7 @@ export default function LoanProductDetail() {
                   </div>
                 </Card>
 
-                {!isCabangDetail ? (
+                {shouldShowAdvancedSections ? (
                   <>
                     <Card className={sectionCardCls}>
                       <SectionTitle>Konfigurasi Tagihan Angsuran</SectionTitle>
