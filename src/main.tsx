@@ -14,6 +14,7 @@ import "./styles/loan-product-cabang-edit.css";
 import "./styles/daftar-tagihan-dialog.css";
 import "./styles/loan-installment-v2-title-color.css";
 import "./styles/sak-ep-cabang-loan-product.css";
+import "./styles/produk-tabungan-spacing.css";
 import "./styles/select-hover-purple.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

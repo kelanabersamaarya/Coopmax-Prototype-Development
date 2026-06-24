@@ -1,0 +1,4 @@
+/* Produk Tabungan Tambah: jarak antar field form */
+[class*="p-[40px]"] [class*="gap-[10px]"] {
+  gap: 20px !important;
+}
