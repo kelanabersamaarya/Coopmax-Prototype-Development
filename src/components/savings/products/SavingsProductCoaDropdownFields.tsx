@@ -92,7 +92,7 @@ export default function SavingsProductCoaDropdownFields({
   const helperClassName = "mt-1 text-[13px] font-normal text-[#6479A6]";
 
   const selectTriggerClassName = cn(
-    "relative h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
+    "relative h-[30px] rounded-[5px] border-slate-300 bg-white px-3 py-0",
     "justify-start text-left text-[14px] font-normal shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:ml-auto [&>svg]:text-slate-500",
@@ -152,7 +152,7 @@ export default function SavingsProductCoaDropdownFields({
                         onPointerDown={(event) => clearValue(field, event)}
                         onClick={(event) => clearValue(field, event)}
                         className={cn(
-                          "absolute left-2 top-1/2 z-10 inline-flex h-5 w-5 -translate-y-1/2 items-center justify-center",
+                          "absolute inset-y-0 left-2 z-10 inline-flex w-5 items-center justify-center",
                           "rounded-[4px] text-red-600 transition hover:bg-red-50",
                         )}
                         aria-label={`Hapus ${field}`}
