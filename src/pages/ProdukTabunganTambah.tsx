@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
+import SavingsProductAdditionalTabs from "@/components/savings/products/SavingsProductAdditionalTabs";
 
 export default function ProdukTabunganTambah() {
   const navigate = useNavigate();
@@ -605,6 +606,14 @@ export default function ProdukTabunganTambah() {
               </div>
             </div>
           </div>
+
+          <SavingsProductAdditionalTabs
+            onAddAdminFee={() =>
+              toast("Tambah Biaya Admin (prototype)", {
+                description: "Form detail biaya admin akan ditambahkan berikutnya.",
+              })
+            }
+          />
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
             <button
