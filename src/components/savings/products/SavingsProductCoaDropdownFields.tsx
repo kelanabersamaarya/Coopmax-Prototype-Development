@@ -129,61 +129,61 @@ export default function SavingsProductCoaDropdownFields({
             <label className={cn(labelClassName, "pt-[5px]")}>{field}</label>
 
             <div>
-              <Select
-                value={values[field]}
-                onValueChange={(value) =>
-                  setValues((current) => ({
-                    ...current,
-                    [field]: value,
-                  }))
-                }
-              >
-                <SelectTrigger
-                  className={cn(
-                    selectTriggerClassName,
-                    hasSelected ? "text-black" : "text-[#64748B]",
-                  )}
+              <div className="relative">
+                {hasSelected ? (
+                  <button
+                    type="button"
+                    onPointerDown={(event) => clearValue(field, event)}
+                    onClick={(event) => clearValue(field, event)}
+                    className={cn(
+                      "absolute left-[10px] top-[15px] z-20 inline-flex h-4 w-4 -translate-y-1/2 items-center justify-center p-0",
+                      "rounded-[3px] text-red-600 transition hover:bg-red-50",
+                      "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                    )}
+                    aria-label={`Hapus ${field}`}
+                    title="Hapus pilihan"
+                  >
+                    <X className="block h-4 w-4" strokeWidth={3} />
+                  </button>
+                ) : null}
+
+                <Select
+                  value={values[field]}
+                  onValueChange={(value) =>
+                    setValues((current) => ({
+                      ...current,
+                      [field]: value,
+                    }))
+                  }
                 >
-                  {hasSelected ? (
-                    <>
-                      <span
-                        role="button"
-                        tabIndex={-1}
-                        onPointerDown={(event) => clearValue(field, event)}
-                        onClick={(event) => clearValue(field, event)}
-                        className={cn(
-                          "absolute inset-y-0 left-2 z-10 inline-flex w-5 items-center justify-center",
-                          "rounded-[4px] text-red-600 transition hover:bg-red-50",
-                        )}
-                        aria-label={`Hapus ${field}`}
-                        title="Hapus pilihan"
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerClassName,
+                      hasSelected ? "pl-9 text-black" : "text-[#64748B]",
+                    )}
+                  >
+                    {hasSelected ? (
+                      <span className="block min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
+                        {getCoaLabel(selectedValue)}
+                      </span>
+                    ) : (
+                      <SelectValue placeholder={placeholderByField[field]} />
+                    )}
+                  </SelectTrigger>
+
+                  <SelectContent className={selectContentClassName}>
+                    {coaOptions.map((option) => (
+                      <SelectItem
+                        key={option}
+                        value={option}
+                        className={selectItemClassName}
                       >
-                        <X className="h-4 w-4" strokeWidth={3} />
-                      </span>
-
-                      <span className="flex min-w-0 flex-1 items-center pr-2 pl-7 text-left">
-                        <span className="min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
-                          {getCoaLabel(selectedValue)}
-                        </span>
-                      </span>
-                    </>
-                  ) : (
-                    <SelectValue placeholder={placeholderByField[field]} />
-                  )}
-                </SelectTrigger>
-
-                <SelectContent className={selectContentClassName}>
-                  {coaOptions.map((option) => (
-                    <SelectItem
-                      key={option}
-                      value={option}
-                      className={selectItemClassName}
-                    >
-                      {getCoaLabel(option)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                        {getCoaLabel(option)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
               {helperTextByField[field] ? (
                 <div className={helperClassName}>{helperTextByField[field]}</div>
