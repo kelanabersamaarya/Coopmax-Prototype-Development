@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 import SavingsProductAdditionalTabs from "@/components/savings/products/SavingsProductAdditionalTabs";
+import SavingsProductCoaDropdownFields from "@/components/savings/products/SavingsProductCoaDropdownFields";
 
 export default function ProdukTabunganTambah() {
   const navigate = useNavigate();
@@ -605,6 +606,8 @@ export default function ProdukTabunganTambah() {
                 </div>
               </div>
             </div>
+
+            <SavingsProductCoaDropdownFields />
           </div>
 
           <SavingsProductAdditionalTabs
