@@ -23,7 +23,7 @@ export default function SavingsProductAdditionalTabs({
   const [activeTab, setActiveTab] = React.useState<TabId>("Biaya Admin");
 
   return (
-    <div className="mt-8 overflow-hidden rounded-[5px] border border-slate-200 bg-white">
+    <div className="savings-product-additional-tabs mt-8 overflow-hidden rounded-[5px] border border-slate-200 bg-white">
       <div className="safe-x-scroll bg-[#B8C4D8]">
         <div className="flex min-w-max">
           {tabs.map((tab) => {

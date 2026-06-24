@@ -100,13 +100,12 @@
   gap: 10px !important;
 }
 
-.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .mt-8.flex {
-  display: flex !important;
+.produk-tabungan-cabang-ubah-page .savings-product-additional-tabs {
+  display: none !important;
 }
 
-.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .mt-8.flex + *,
-.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid + div:not(.mt-8) {
-  display: none !important;
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .mt-8.flex {
+  display: flex !important;
 }
 
 /* Produk Tabungan Tambah: tombol Batal & Simpan seperti contoh */
