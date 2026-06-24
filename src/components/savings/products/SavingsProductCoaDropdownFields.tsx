@@ -57,6 +57,10 @@ const helperTextByField: Partial<Record<CoaField, string>> = {
     "Akun biaya bunga saat pengakuan sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
 };
 
+function getCoaLabel(option: string) {
+  return option.replace(/^[\d.]+\s*-\s*/, "");
+}
+
 export default function SavingsProductCoaDropdownFields({
   className,
 }: {
@@ -158,7 +162,7 @@ export default function SavingsProductCoaDropdownFields({
                       </span>
 
                       <span className="min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
-                        {selectedValue}
+                        {getCoaLabel(selectedValue)}
                       </span>
                     </span>
                   ) : (
@@ -173,7 +177,7 @@ export default function SavingsProductCoaDropdownFields({
                       value={option}
                       className={selectItemClassName}
                     >
-                      {option}
+                      {getCoaLabel(option)}
                     </SelectItem>
                   ))}
                 </SelectContent>
