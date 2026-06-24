@@ -18,6 +18,8 @@ const coaFields = [
   "KP Pendapatan Pengendapan",
   "KP Pajak Bunga",
   "KP Tunjangan Dana Pensiun",
+  "KP Pengakuan Biaya Bunga",
+  "KP Biaya Bunga",
 ] as const;
 
 const coaOptions = [
@@ -30,6 +32,7 @@ const coaOptions = [
   "4.1.1.4 - Pendapatan Pengendapan",
   "2.1.3.1 - Hutang Pajak Bunga",
   "5.1.1.1 - Tunjangan Dana Pensiun",
+  "5.1.1.1 - Beban Jasa Simpanan Sukarela/Tabungan Dari Anggota",
 ] as const;
 
 type CoaField = (typeof coaFields)[number];
