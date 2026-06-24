@@ -77,7 +77,7 @@ export default function LoanProductFeeCoaFields({
   });
 
   return (
-    <div className={cn("grid gap-5", className)}>
+    <div className={cn("loan-product-fee-coa-fields grid gap-5", className)}>
       {fields.map((field) => {
         const selectedValue = values[field.key];
         const hasSelected = !!selectedValue;
@@ -85,12 +85,10 @@ export default function LoanProductFeeCoaFields({
         return (
           <div
             key={field.key}
-            className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start"
+            className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center"
           >
-            <div className="pt-1">
-              <div className="text-sm font-normal text-slate-900">
-                {field.label}
-              </div>
+            <div className="text-sm font-normal text-slate-900">
+              {field.label}
             </div>
 
             <div className="relative min-w-0">

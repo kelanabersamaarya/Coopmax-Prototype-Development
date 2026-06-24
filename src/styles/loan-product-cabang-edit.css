@@ -1,6 +1,7 @@
 /* Produk Pinjaman Cabang - halaman Ubah
-   Tampilkan hanya:
+   Tampilkan:
    - Section Konfigurasi Dasar Produk Pinjaman: Kode + Produk Pinjaman
+   - Section Konfigurasi KP Biaya Pinjaman
    - Section Konfigurasi KP Pendapatan Pinjaman
    - Section Konfigurasi KP Pendapatan Pinjaman SAK EP jika berada di modul Coopmax - SAK EP
 
@@ -67,21 +68,35 @@
   display: none !important;
 }
 
-/* Pastikan section Konfigurasi KP Pendapatan Pinjaman tetap terlihat. */
+/* Pastikan section KP Biaya + KP Pendapatan tetap terlihat. */
 .loan-product-cabang-edit-form
   > div
   > [class*="rounded-"]
-  > div.mt-6:has(.text-base.font-semibold.text-slate-900) {
+  > div.mt-6:has(.text-base.font-semibold.text-slate-900),
+.loan-product-cabang-edit-form
+  .loan-product-fee-coa-section,
+.loan-product-cabang-edit-form
+  .loan-product-fee-coa-fields {
   display: block !important;
 }
 
-/* Sembunyikan konfigurasi KP Biaya Pinjaman pada cabang jika setting umum sedang aktif. */
 .loan-product-cabang-edit-form
-  > div
-  > [class*="rounded-"]
-  > div.mt-6
-  > div:has(+ div .grid.gap-2.md\:grid-cols-\[240px_1fr\].md\:items-center) {
-  display: none !important;
+  .loan-product-fee-coa-fields {
+  display: grid !important;
+}
+
+/* Samakan rasa visual section KP Biaya dengan contoh. */
+.loan-product-cabang-edit-form
+  .loan-product-fee-coa-section
+  .h-px {
+  background-color: rgb(226 232 240 / 0.9) !important;
+}
+
+.loan-product-cabang-edit-form
+  .loan-product-fee-coa-section
+  [role="combobox"] {
+  min-height: 30px !important;
+  border-radius: 5px !important;
 }
 
 /* Tombol aksi akhir tetap tampil. */

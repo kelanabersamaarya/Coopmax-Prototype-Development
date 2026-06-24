@@ -263,6 +263,10 @@ function isSakEpCabangLoanProductModule(pathname: string) {
   return pathname.startsWith("/sak-ep-cabang/loan-products");
 }
 
+function isBranchLoanProductForm(search: string) {
+  return new URLSearchParams(search).get("from") === "cabang";
+}
+
 export default function LoanProductAccountingCoaFields({
   values,
   onChange,
@@ -288,6 +292,8 @@ export default function LoanProductAccountingCoaFields({
   const hideSakEpCabangFeeCoaSection = isSakEpCabangLoanProductModule(
     location.pathname,
   );
+  const isBranchForm = isBranchLoanProductForm(location.search);
+
   const showSakEpRevenueFields = !isPinjamanBillingModule(location.pathname);
   const showSakEpRevenueSeparateSection = isSakEpCabangLoanProductModule(
     location.pathname,
@@ -302,13 +308,15 @@ export default function LoanProductAccountingCoaFields({
     coaDeferredAdminRevenue: undefined,
   });
 
+  const initializedBranchFeeCoaRef = React.useRef(false);
+
   const settingShowFeeCoaSection = useGeneralSetting(
     SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
     false,
   );
 
   const showFeeCoaSection =
-    settingShowFeeCoaSection && !hideSakEpCabangFeeCoaSection;
+    (settingShowFeeCoaSection || isBranchForm) && !hideSakEpCabangFeeCoaSection;
 
   React.useEffect(() => {
     if (!showFeeCoaSection && aturCoaJenisBiaya) {
@@ -316,21 +324,39 @@ export default function LoanProductAccountingCoaFields({
     }
   }, [aturCoaJenisBiaya, onAturCoaJenisBiayaChange, showFeeCoaSection]);
 
+  React.useEffect(() => {
+    if (!showFeeCoaSection || !isBranchForm) return;
+    if (initializedBranchFeeCoaRef.current) return;
+
+    initializedBranchFeeCoaRef.current = true;
+
+    if (!aturCoaJenisBiaya) {
+      onAturCoaJenisBiayaChange(true);
+    }
+  }, [
+    aturCoaJenisBiaya,
+    isBranchForm,
+    onAturCoaJenisBiayaChange,
+    showFeeCoaSection,
+  ]);
+
   return (
     <div className={cn("mt-6", className)}>
       {showFeeCoaSection ? (
-        <>
+        <div className="loan-product-fee-coa-section">
           <SectionTitle>Konfigurasi KP Biaya Pinjaman</SectionTitle>
 
           <div className="mt-5 grid gap-5">
-            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-              <div className="pt-1 text-sm font-normal text-slate-900">
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <div className="text-sm font-normal leading-relaxed text-slate-900">
                 Atur KP Jenis Biaya pada Produk Pinjaman
               </div>
-              <Switch
-                checked={aturCoaJenisBiaya}
-                onCheckedChange={onAturCoaJenisBiayaChange}
-              />
+              <div className="flex items-center justify-start">
+                <Switch
+                  checked={aturCoaJenisBiaya}
+                  onCheckedChange={onAturCoaJenisBiayaChange}
+                />
+              </div>
             </div>
 
             {aturCoaJenisBiaya ? (
@@ -344,7 +370,7 @@ export default function LoanProductAccountingCoaFields({
               />
             ) : null}
           </div>
-        </>
+        </div>
       ) : null}
 
       <div className={showFeeCoaSection ? "mt-6" : ""}>
