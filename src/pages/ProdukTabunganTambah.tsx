@@ -30,6 +30,33 @@ export default function ProdukTabunganTambah() {
   const [bulanTidakDihitung, setBulanTidakDihitung] = React.useState(false);
   const [bulanTerhitungBunga, setBulanTerhitungBunga] = React.useState(false);
 
+  const [jenisBunga, setJenisBunga] = React.useState("");
+  const [bungaTabungan, setBungaTabungan] = React.useState("");
+  const [jenisPembulatan, setJenisPembulatan] = React.useState("");
+  const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState("0");
+  const [pajakBunga, setPajakBunga] = React.useState("0%");
+  const [biayaAdminMode, setBiayaAdminMode] = React.useState("rp");
+  const [biayaAdmin, setBiayaAdmin] = React.useState("0,00");
+  const [minimalBulanTanpaTransaksi, setMinimalBulanTanpaTransaksi] =
+    React.useState("0");
+
+  const [biayaAdminMbankingSaja, setBiayaAdminMbankingSaja] =
+    React.useState(false);
+  const [tabunganBerjangka, setTabunganBerjangka] = React.useState(false);
+  const [aksesAntarNasabah, setAksesAntarNasabah] = React.useState(false);
+  const [aksesAntarBank, setAksesAntarBank] = React.useState(false);
+  const [simpananAsuransi, setSimpananAsuransi] = React.useState(false);
+  const [bungaCadanganTabungan, setBungaCadanganTabungan] =
+    React.useState(false);
+  const [penampungSplitBunga, setPenampungSplitBunga] = React.useState(false);
+  const [saldoDapatDitarik, setSaldoDapatDitarik] = React.useState(false);
+  const [transferMasuk, setTransferMasuk] = React.useState(false);
+  const [rekeningTanpaSetoranAwal, setRekeningTanpaSetoranAwal] =
+    React.useState(false);
+  const [status, setStatus] = React.useState(true);
+  const [jenisTransaksiBungaDefault, setJenisTransaksiBungaDefault] =
+    React.useState("");
+
   function save() {
     toast("Simpan produk tabungan (prototype)", {
       description:
@@ -42,6 +69,11 @@ export default function ProdukTabunganTambah() {
     "text-[14px] font-normal text-[#334155] shadow-none",
     "placeholder:text-[#64748B]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const disabledInputClassName = cn(
+    formInputClassName,
+    "bg-slate-200/80 text-[#64748B]",
   );
 
   const selectTriggerClassName = cn(
@@ -101,9 +133,7 @@ export default function ProdukTabunganTambah() {
         <Card className="mt-6 rounded-[5px] border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-3">
           <div className="grid gap-[10px]">
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
-                Kode{requiredMark}
-              </label>
+              <label className={labelClassName}>Kode{requiredMark}</label>
               <Input
                 value={kode}
                 onChange={(event) => setKode(event.target.value)}
@@ -148,9 +178,7 @@ export default function ProdukTabunganTambah() {
             <div className="h-[20px]" />
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
-                Nama Produk{requiredMark}
-              </label>
+              <label className={labelClassName}>Nama Produk{requiredMark}</label>
               <Input
                 value={namaProduk}
                 onChange={(event) => setNamaProduk(event.target.value)}
@@ -159,9 +187,7 @@ export default function ProdukTabunganTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
-                Setoran Awal{requiredMark}
-              </label>
+              <label className={labelClassName}>Setoran Awal{requiredMark}</label>
               <Input
                 value={setoranAwal}
                 onChange={(event) => setSetoranAwal(event.target.value)}
@@ -183,9 +209,7 @@ export default function ProdukTabunganTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
-                Saldo Minimal{requiredMark}
-              </label>
+              <label className={labelClassName}>Saldo Minimal{requiredMark}</label>
               <Input
                 value={saldoMinimal}
                 onChange={(event) => setSaldoMinimal(event.target.value)}
@@ -282,6 +306,302 @@ export default function ProdukTabunganTambah() {
                   checked={bulanTerhitungBunga}
                   onChange={setBulanTerhitungBunga}
                 />
+              </div>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <div />
+              <div className={helperClassName}>
+                Jika "on" mekanisme Jumlah Bulan Terhitung Bunga, jika aktif
+                akan mempengaruhi range saldo bulan. Hanya berlaku pada
+                perhitungan bunga saldo harian dan saldo rata-rata
+                <br />
+                Jika "off" mekanisme Jumlah Bulan Terhitung Bunga tidak aktif
+              </div>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Jenis Bunga{requiredMark}</label>
+              <Select value={jenisBunga} onValueChange={setJenisBunga}>
+                <SelectTrigger className={selectTriggerClassName}>
+                  <SelectValue placeholder="Pilih Jenis Bunga" />
+                </SelectTrigger>
+                <SelectContent className={selectContentClassName}>
+                  <SelectItem value="Bunga Harian" className={selectItemClassName}>
+                    Bunga Harian
+                  </SelectItem>
+                  <SelectItem value="Bunga Bulanan" className={selectItemClassName}>
+                    Bunga Bulanan
+                  </SelectItem>
+                  <SelectItem value="Bunga Rata-rata" className={selectItemClassName}>
+                    Bunga Rata-rata
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Bunga Tabungan{requiredMark}</label>
+              <Input
+                value={bungaTabungan}
+                onChange={(event) => setBungaTabungan(event.target.value)}
+                className={formInputClassName}
+                inputMode="decimal"
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Jenis Pembulatan</label>
+              <Select
+                value={jenisPembulatan}
+                onValueChange={setJenisPembulatan}
+              >
+                <SelectTrigger className={selectTriggerClassName}>
+                  <SelectValue placeholder="Pilih Jenis Pembulatan" />
+                </SelectTrigger>
+                <SelectContent className={selectContentClassName}>
+                  <SelectItem value="Pembulatan Keatas" className={selectItemClassName}>
+                    Pembulatan Keatas
+                  </SelectItem>
+                  <SelectItem value="Pembulatan Kebawah" className={selectItemClassName}>
+                    Pembulatan Kebawah
+                  </SelectItem>
+                  <SelectItem value="Tanpa Pembulatan" className={selectItemClassName}>
+                    Tanpa Pembulatan
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Kelipatan Pembulatan</label>
+              <Input
+                value={kelipatanPembulatan}
+                onChange={(event) => setKelipatanPembulatan(event.target.value)}
+                className={disabledInputClassName}
+                inputMode="numeric"
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Pajak Bunga{requiredMark}</label>
+              <Input
+                value={pajakBunga}
+                onChange={(event) => setPajakBunga(event.target.value)}
+                className={formInputClassName}
+                inputMode="decimal"
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Biaya Admin{requiredMark}</label>
+              <div className="flex items-stretch">
+                <Select value={biayaAdminMode} onValueChange={setBiayaAdminMode}>
+                  <SelectTrigger
+                    className={cn(
+                      selectTriggerClassName,
+                      "w-[72px] rounded-r-none border-r-0",
+                    )}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={selectContentClassName}>
+                    <SelectItem value="rp" className={selectItemClassName}>
+                      Rp.
+                    </SelectItem>
+                    <SelectItem value="percent" className={selectItemClassName}>
+                      %
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input
+                  value={biayaAdmin}
+                  onChange={(event) => setBiayaAdmin(event.target.value)}
+                  className={cn(formInputClassName, "rounded-l-none")}
+                  inputMode="decimal"
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Minimal Bulan tanpa Transaksi
+                <br />
+                dikenakan Biaya Admin{requiredMark}
+              </label>
+              <Input
+                value={minimalBulanTanpaTransaksi}
+                onChange={(event) =>
+                  setMinimalBulanTanpaTransaksi(event.target.value)
+                }
+                className={formInputClassName}
+                inputMode="numeric"
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Biaya Admin Untuk MBanking Saja{requiredMark}
+              </label>
+              <SavingsTogglePill
+                checked={biayaAdminMbankingSaja}
+                onChange={setBiayaAdminMbankingSaja}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Tabungan Berjangka{requiredMark}
+              </label>
+              <SavingsTogglePill
+                checked={tabunganBerjangka}
+                onChange={setTabunganBerjangka}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <label className={cn(labelClassName, "pt-[3px]")}>
+                Akses Transfer{requiredMark}
+              </label>
+              <div className="grid gap-5 md:grid-cols-2 md:gap-10">
+                <div className="grid gap-3">
+                  <div className={labelClassName}>Transfer Antar Nasabah</div>
+                  <div className="grid gap-2 md:grid-cols-[160px_minmax(0,1fr)] md:items-center">
+                    <div className={labelClassName}>
+                      Akses Antar Nasabah{requiredMark}
+                    </div>
+                    <SavingsTogglePill
+                      checked={aksesAntarNasabah}
+                      onChange={setAksesAntarNasabah}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-3">
+                  <div className={labelClassName}>Transfer Antar Bank</div>
+                  <div className="grid gap-2 md:grid-cols-[140px_minmax(0,1fr)] md:items-center">
+                    <div className={labelClassName}>
+                      Akses Antar Bank{requiredMark}
+                    </div>
+                    <SavingsTogglePill
+                      checked={aksesAntarBank}
+                      onChange={setAksesAntarBank}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <label className={cn(labelClassName, "pt-[3px]")}>
+                Simpanan Asuransi
+              </label>
+              <div>
+                <SavingsTogglePill
+                  checked={simpananAsuransi}
+                  onChange={setSimpananAsuransi}
+                />
+                <div className={helperClassName}>
+                  Jika "on" produk ini sebagai simpanan khusus untuk asuransi
+                  pinjaman
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Bunga Cadangan Tabungan{requiredMark}
+              </label>
+              <SavingsTogglePill
+                checked={bungaCadanganTabungan}
+                onChange={setBungaCadanganTabungan}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Penampung Hasil Split Bunga
+                <br />
+                Pinjaman{requiredMark}
+              </label>
+              <SavingsTogglePill
+                checked={penampungSplitBunga}
+                onChange={setPenampungSplitBunga}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <label className={cn(labelClassName, "pt-[3px]")}>
+                Saldo Dapat Ditarik
+              </label>
+              <div>
+                <SavingsTogglePill
+                  checked={saldoDapatDitarik}
+                  onChange={setSaldoDapatDitarik}
+                />
+                <div className={helperClassName}>
+                  Jika "on" maka saldo rekening dari produk ini dapat ditarik
+                  pada menu penarikan tabungan
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Transfer Masuk{requiredMark}</label>
+              <SavingsTogglePill
+                checked={transferMasuk}
+                onChange={setTransferMasuk}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Pembukaan Rekening Tanpa Setoran
+                <br />
+                Awal{requiredMark}
+              </label>
+              <SavingsTogglePill
+                checked={rekeningTanpaSetoranAwal}
+                onChange={setRekeningTanpaSetoranAwal}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Status{requiredMark}</label>
+              <SavingsTogglePill checked={status} onChange={setStatus} />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <label className={cn(labelClassName, "pt-[5px]")}>
+                Jenis Transaksi Bunga Default
+              </label>
+              <div>
+                <Select
+                  value={jenisTransaksiBungaDefault}
+                  onValueChange={setJenisTransaksiBungaDefault}
+                >
+                  <SelectTrigger className={selectTriggerClassName}>
+                    <SelectValue placeholder="Pilih Jenis Transaksi Bunga Default" />
+                  </SelectTrigger>
+                  <SelectContent className={selectContentClassName}>
+                    <SelectItem
+                      value="Bunga Tabungan"
+                      className={selectItemClassName}
+                    >
+                      Bunga Tabungan
+                    </SelectItem>
+                    <SelectItem
+                      value="Bunga Simpanan"
+                      className={selectItemClassName}
+                    >
+                      Bunga Simpanan
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className={helperClassName}>
+                  Jika memilih jenis transaksi bunga default, maka saat melakukan
+                  proses bunga jenis transaksi ini yang akan otomatis digunakan
+                </div>
               </div>
             </div>
           </div>
