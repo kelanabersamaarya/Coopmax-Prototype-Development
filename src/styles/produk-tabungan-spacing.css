@@ -14,3 +14,70 @@
   height: 30px !important;
   min-height: 30px !important;
 }
+
+/* Produk Tabungan Tambah: tombol Batal & Simpan seperti contoh */
+[class*="p-[40px]"] > .mt-8.flex button {
+  display: inline-flex !important;
+  height: 28px !important;
+  width: 90px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  border-radius: 6px !important;
+  padding: 0 8px !important;
+  font-size: 0 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:first-child {
+  background-color: #77839a !important;
+  border-color: #77839a !important;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:first-child:hover {
+  background-color: #6b768c !important;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:first-child::before {
+  content: "×";
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:first-child::after {
+  content: "Batalkan";
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:last-child {
+  background-color: #2fb300 !important;
+  border-color: #2fb300 !important;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:last-child:hover {
+  background-color: #279800 !important;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:last-child svg {
+  display: none !important;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:last-child::before {
+  content: "☑";
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+[class*="p-[40px]"] > .mt-8.flex button:last-child::after {
+  content: "Simpan";
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
