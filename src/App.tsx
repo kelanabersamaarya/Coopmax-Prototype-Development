@@ -34,6 +34,7 @@ import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileMBanking from "./pages/MobileMBanking";
 import MobileAwareToaster from "./components/MobileAwareToaster";
 import SakProductPlaceholder from "./pages/SakProductPlaceholder";
+import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
 
 const queryClient = new QueryClient();
 
@@ -49,12 +50,12 @@ const App = () => (
             <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-cabang"
-              element={<SakProductPlaceholder title="Produk Simpanan Cabang" />}
+              element={<SavingsProductsListPage title="Produk Simpanan Cabang" />}
             />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi"
               element={
-                <SakProductPlaceholder title="Produk Simpanan Konsolidasi" />
+                <SavingsProductsListPage title="Produk Simpanan Konsolidasi" />
               }
             />
             <Route
