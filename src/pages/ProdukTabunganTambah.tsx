@@ -131,7 +131,7 @@ export default function ProdukTabunganTambah() {
           </Button>
         </div>
 
-        <Card className="mt-6 rounded-[5px] border-slate-200/70 bg-white/90 p-3 shadow-sm backdrop-blur md:p-3">
+        <Card className="mt-6 rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
           <div className="grid gap-[10px]">
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Kode{requiredMark}</label>
