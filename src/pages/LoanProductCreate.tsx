@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
 import { cn } from "@/lib/utils";
+import LoanProductSaveConfirmGate from "@/components/loans/products/LoanProductSaveConfirmGate";
 
 export default function LoanProductCreate() {
   const navigate = useNavigate();
@@ -18,6 +19,15 @@ export default function LoanProductCreate() {
     : isCabangCreate
       ? "/loan-products/cabang"
       : "/loan-products";
+
+  const form = (
+    <LoanProductForm
+      mode="create"
+      context={isCabangCreate ? "branch" : "consolidation"}
+      onCancel={() => navigate(backPath)}
+      onSaved={() => navigate(backPath)}
+    />
+  );
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -37,12 +47,7 @@ export default function LoanProductCreate() {
               : "",
           )}
         >
-          <LoanProductForm
-            mode="create"
-            context={isCabangCreate ? "branch" : "consolidation"}
-            onCancel={() => navigate(backPath)}
-            onSaved={() => navigate(backPath)}
-          />
+          {isCabangCreate ? form : <LoanProductSaveConfirmGate>{form}</LoanProductSaveConfirmGate>}
         </div>
       </div>
     </div>

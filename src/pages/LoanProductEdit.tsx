@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
 import { cn } from "@/lib/utils";
+import LoanProductSaveConfirmGate from "@/components/loans/products/LoanProductSaveConfirmGate";
 
 export default function LoanProductEdit() {
   const navigate = useNavigate();
@@ -19,6 +20,16 @@ export default function LoanProductEdit() {
     : isCabangEdit
       ? "/loan-products/cabang"
       : "/loan-products";
+
+  const form = (
+    <LoanProductForm
+      mode="edit"
+      productId={id}
+      context={isCabangEdit ? "branch" : "consolidation"}
+      onCancel={() => navigate(backPath)}
+      onSaved={() => navigate(backPath)}
+    />
+  );
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -45,13 +56,7 @@ export default function LoanProductEdit() {
               : "",
           )}
         >
-          <LoanProductForm
-            mode="edit"
-            productId={id}
-            context={isCabangEdit ? "branch" : "consolidation"}
-            onCancel={() => navigate(backPath)}
-            onSaved={() => navigate(backPath)}
-          />
+          {isCabangEdit ? form : <LoanProductSaveConfirmGate>{form}</LoanProductSaveConfirmGate>}
         </div>
       </div>
     </div>
