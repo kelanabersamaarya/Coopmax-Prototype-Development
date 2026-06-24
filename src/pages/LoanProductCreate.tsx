@@ -47,7 +47,7 @@ export default function LoanProductCreate() {
               : "",
           )}
         >
-          {isCabangCreate ? form : <LoanProductSaveConfirmGate>{form}</LoanProductSaveConfirmGate>}
+          <LoanProductSaveConfirmGate>{form}</LoanProductSaveConfirmGate>
         </div>
       </div>
     </div>

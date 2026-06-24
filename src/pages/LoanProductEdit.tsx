@@ -56,7 +56,7 @@ export default function LoanProductEdit() {
               : "",
           )}
         >
-          {isCabangEdit ? form : <LoanProductSaveConfirmGate>{form}</LoanProductSaveConfirmGate>}
+          <LoanProductSaveConfirmGate>{form}</LoanProductSaveConfirmGate>
         </div>
       </div>
     </div>
