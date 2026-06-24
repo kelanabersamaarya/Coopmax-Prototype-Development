@@ -37,6 +37,13 @@ const coaOptions = [
 
 type CoaField = (typeof coaFields)[number];
 
+const helperTextByField: Partial<Record<CoaField, string>> = {
+  "KP Pengakuan Biaya Bunga":
+    "Akun pengakuan biaya bunga sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
+  "KP Biaya Bunga":
+    "Akun biaya bunga saat pengakuan sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
+};
+
 export default function SavingsProductCoaDropdownFields({
   className,
 }: {
@@ -51,6 +58,8 @@ export default function SavingsProductCoaDropdownFields({
 
   const labelClassName =
     "text-[14px] font-normal leading-snug text-[#002060]";
+
+  const helperClassName = "mt-1 text-[13px] font-normal text-[#6479A6]";
 
   const selectTriggerClassName = cn(
     "h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
@@ -81,35 +90,41 @@ export default function SavingsProductCoaDropdownFields({
       {coaFields.map((field) => (
         <div
           key={field}
-          className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center"
+          className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start"
         >
-          <label className={labelClassName}>{field}</label>
+          <label className={cn(labelClassName, "pt-[5px]")}>{field}</label>
 
-          <Select
-            value={values[field]}
-            onValueChange={(value) =>
-              setValues((current) => ({
-                ...current,
-                [field]: value,
-              }))
-            }
-          >
-            <SelectTrigger className={selectTriggerClassName}>
-              <SelectValue placeholder="Pilih Akun" />
-            </SelectTrigger>
+          <div>
+            <Select
+              value={values[field]}
+              onValueChange={(value) =>
+                setValues((current) => ({
+                  ...current,
+                  [field]: value,
+                }))
+              }
+            >
+              <SelectTrigger className={selectTriggerClassName}>
+                <SelectValue placeholder="Pilih Akun" />
+              </SelectTrigger>
 
-            <SelectContent className={selectContentClassName}>
-              {coaOptions.map((option) => (
-                <SelectItem
-                  key={option}
-                  value={option}
-                  className={selectItemClassName}
-                >
-                  {option}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              <SelectContent className={selectContentClassName}>
+                {coaOptions.map((option) => (
+                  <SelectItem
+                    key={option}
+                    value={option}
+                    className={selectItemClassName}
+                  >
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {helperTextByField[field] ? (
+              <div className={helperClassName}>{helperTextByField[field]}</div>
+            ) : null}
+          </div>
         </div>
       ))}
     </div>
