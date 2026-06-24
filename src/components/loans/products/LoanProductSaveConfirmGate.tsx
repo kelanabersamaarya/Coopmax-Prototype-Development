@@ -3,13 +3,15 @@
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
 
 export default function LoanProductSaveConfirmGate({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
   const targetButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const bypassRef = React.useRef(false);
 
@@ -30,11 +32,16 @@ export default function LoanProductSaveConfirmGate({
     event.stopPropagation();
 
     targetButtonRef.current = button;
-    setOpen(true);
+    setConfirmOpen(true);
   }
 
-  function confirmSave() {
-    setOpen(false);
+  function showSuccessModal() {
+    setConfirmOpen(false);
+    setSuccessOpen(true);
+  }
+
+  function finishSave() {
+    setSuccessOpen(false);
     bypassRef.current = true;
 
     window.requestAnimationFrame(() => {
@@ -51,7 +58,7 @@ export default function LoanProductSaveConfirmGate({
     <div onClickCapture={handleClickCapture}>
       {children}
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <DialogContent
           className={cn(
             "w-[calc(100vw-2rem)] sm:w-[528px]",
@@ -78,7 +85,7 @@ export default function LoanProductSaveConfirmGate({
             <div className="mt-8 flex items-center justify-center gap-2">
               <button
                 type="button"
-                onClick={confirmSave}
+                onClick={showSuccessModal}
                 className={cn(
                   "h-[48px] w-[104px] rounded-[5px]",
                   "bg-[#2f80ed] text-[16px] font-semibold text-white",
@@ -91,7 +98,7 @@ export default function LoanProductSaveConfirmGate({
 
               <button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={() => setConfirmOpen(false)}
                 className={cn(
                   "h-[48px] w-[126px] rounded-[5px]",
                   "bg-[#a6a6a6] text-[16px] font-semibold text-white",
@@ -105,6 +112,12 @@ export default function LoanProductSaveConfirmGate({
           </div>
         </DialogContent>
       </Dialog>
+
+      <LoanProductSaveSuccessModal
+        open={successOpen}
+        onOpenChange={setSuccessOpen}
+        onOk={finishSave}
+      />
     </div>
   );
 }
