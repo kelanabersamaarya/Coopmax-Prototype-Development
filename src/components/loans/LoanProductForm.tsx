@@ -368,6 +368,9 @@ export default function LoanProductForm({
   const [aturCoaJenisBiaya, setAturCoaJenisBiaya] = React.useState(false);
   const [propisiMode, setPropisiMode] = React.useState<AmountMode>("rp");
   const [adminMode, setAdminMode] = React.useState<AmountMode>("rp");
+  const [insuranceMode, setInsuranceMode] = React.useState<AmountMode>("rp");
+  const [mbankingActivationMode, setMbankingActivationMode] =
+    React.useState<AmountMode>("rp");
   const [propisi, setPropisi] = React.useState("0,00");
   const [admin, setAdmin] = React.useState("0,00");
   const [insurance, setInsurance] = React.useState("0,00");
@@ -722,27 +725,43 @@ export default function LoanProductForm({
         </FieldRow>
 
         <FieldRow label="Propisi">
-          {isCreate ? (
-            <Input value={propisi} onChange={(e) => setPropisi(e.target.value)} className={style.inputClassName} inputMode="decimal" />
-          ) : (
-            <AmountModeInput mode={propisiMode} onModeChange={setPropisiMode} value={propisi} onValueChange={setPropisi} style={style} />
-          )}
+          <AmountModeInput
+            mode={propisiMode}
+            onModeChange={setPropisiMode}
+            value={propisi}
+            onValueChange={setPropisi}
+            style={style}
+          />
         </FieldRow>
 
         <FieldRow label="Administrasi">
-          {isCreate ? (
-            <Input value={admin} onChange={(e) => setAdmin(e.target.value)} className={style.inputClassName} inputMode="decimal" />
-          ) : (
-            <AmountModeInput mode={adminMode} onModeChange={setAdminMode} value={admin} onValueChange={setAdmin} style={style} />
-          )}
+          <AmountModeInput
+            mode={adminMode}
+            onModeChange={setAdminMode}
+            value={admin}
+            onValueChange={setAdmin}
+            style={style}
+          />
         </FieldRow>
 
         <FieldRow label="Biaya Asuransi">
-          <Input value={insurance} onChange={(e) => setInsurance(e.target.value)} className={style.inputClassName} inputMode="decimal" />
+          <AmountModeInput
+            mode={insuranceMode}
+            onModeChange={setInsuranceMode}
+            value={insurance}
+            onValueChange={setInsurance}
+            style={style}
+          />
         </FieldRow>
 
         <FieldRow label="Biaya Aktivasi M-Banking">
-          <Input value={mbankingActivation} onChange={(e) => setMbankingActivation(e.target.value)} className={style.inputClassName} inputMode="decimal" />
+          <AmountModeInput
+            mode={mbankingActivationMode}
+            onModeChange={setMbankingActivationMode}
+            value={mbankingActivation}
+            onValueChange={setMbankingActivation}
+            style={style}
+          />
         </FieldRow>
 
         <FieldRow label="Tanpa Agunan">
