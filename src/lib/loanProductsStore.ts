@@ -2,6 +2,8 @@ import { nanoid } from "nanoid";
 
 export type BillingScheme = "Flat" | "Anuitas" | "Menurun";
 
+export type LoanProductFormConfig = Record<string, unknown>;
+
 export type LoanProduct = {
   id: string;
   name: string;
@@ -10,6 +12,8 @@ export type LoanProduct = {
   interestRateYearly: number;
   tenorMonths: number;
   createdAt: string;
+  updatedAt?: string;
+  formConfig?: LoanProductFormConfig;
 };
 
 const STORAGE_KEY = "dyad.loanProducts.v1";
@@ -59,6 +63,7 @@ export function createLoanProduct(input: Omit<LoanProduct, "id" | "createdAt">) 
     ...input,
     id: nanoid(),
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 
   const current = getLoanProducts();
@@ -73,4 +78,30 @@ export function createLoanProduct(input: Omit<LoanProduct, "id" | "createdAt">) 
   }
 
   return next;
+}
+
+export function updateLoanProduct(
+  id: string,
+  input: Partial<Omit<LoanProduct, "id" | "createdAt">>,
+) {
+  const key = (id ?? "").trim();
+  if (!key) return null;
+
+  const current = getLoanProducts();
+  let updated: LoanProduct | null = null;
+
+  const next = current.map((product) => {
+    if (product.id !== key) return product;
+
+    updated = {
+      ...product,
+      ...input,
+      updatedAt: new Date().toISOString(),
+    };
+
+    return updated;
+  });
+
+  saveLoanProducts(next);
+  return updated;
 }

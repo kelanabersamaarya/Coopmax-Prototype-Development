@@ -7,7 +7,9 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import SearchableFeeCoaSelect from "@/components/loans/SearchableFeeCoaSelect";
-import LoanProductFeeCoaFields from "@/components/loans/LoanProductFeeCoaFields";
+import LoanProductFeeCoaFields, {
+  type FeeCoaValues,
+} from "@/components/loans/LoanProductFeeCoaFields";
 import {
   SETTING_ATUR_COA_JENIS_BIAYA_PRODUK_PINJAMAN,
   useGeneralSetting,
@@ -272,6 +274,8 @@ export default function LoanProductAccountingCoaFields({
   onChange,
   aturCoaJenisBiaya,
   onAturCoaJenisBiayaChange,
+  feeCoaValues,
+  onFeeCoaValuesChange,
   selectTriggerClassName,
   selectContentClassName,
   feeSelectTriggerClassName,
@@ -282,6 +286,8 @@ export default function LoanProductAccountingCoaFields({
   onChange: (key: FieldKey, value: MainCoaOption) => void;
   aturCoaJenisBiaya: boolean;
   onAturCoaJenisBiayaChange: (checked: boolean) => void;
+  feeCoaValues?: FeeCoaValues;
+  onFeeCoaValuesChange?: (values: FeeCoaValues) => void;
   selectTriggerClassName?: string;
   selectContentClassName?: string;
   feeSelectTriggerClassName?: string;
@@ -361,6 +367,8 @@ export default function LoanProductAccountingCoaFields({
 
             {aturCoaJenisBiaya ? (
               <LoanProductFeeCoaFields
+                values={feeCoaValues}
+                onChange={onFeeCoaValuesChange}
                 selectTriggerClassName={
                   feeSelectTriggerClassName ?? selectTriggerClassName
                 }

@@ -19,6 +19,8 @@ type FieldConfig = {
   primaryOption: FeeCoaOption;
 };
 
+export type FeeCoaValues = Record<FieldConfig["key"], FeeCoaOption | undefined>;
+
 const fields: FieldConfig[] = [
   {
     key: "provisi",
@@ -54,32 +56,53 @@ const commonCoaOptions: FeeCoaOption[] = [
   "PENDAPATAN LAIN - LAIN",
 ];
 
+export const emptyFeeCoaValues: FeeCoaValues = {
+  provisi: undefined,
+  administrasi: undefined,
+  asuransi: undefined,
+  mbanking: undefined,
+};
+
 function uniqueOptions(primaryOption: FeeCoaOption) {
   return Array.from(new Set([primaryOption, ...commonCoaOptions]));
 }
 
 export default function LoanProductFeeCoaFields({
+  values,
+  onChange,
   selectTriggerClassName,
   selectContentClassName,
   className,
 }: {
+  values?: FeeCoaValues;
+  onChange?: (values: FeeCoaValues) => void;
   selectTriggerClassName?: string;
   selectContentClassName?: string;
   className?: string;
 }) {
-  const [values, setValues] = React.useState<
-    Record<FieldConfig["key"], FeeCoaOption | undefined>
-  >({
-    provisi: undefined,
-    administrasi: undefined,
-    asuransi: undefined,
-    mbanking: undefined,
-  });
+  const [internalValues, setInternalValues] =
+    React.useState<FeeCoaValues>(emptyFeeCoaValues);
+
+  const effectiveValues = values ?? internalValues;
+
+  function updateValue(key: FieldConfig["key"], value: FeeCoaOption | undefined) {
+    const next = {
+      ...effectiveValues,
+      [key]: value,
+    };
+
+    if (onChange) {
+      onChange(next);
+      return;
+    }
+
+    setInternalValues(next);
+  }
 
   return (
     <div className={cn("loan-product-fee-coa-fields grid gap-5", className)}>
       {fields.map((field) => {
-        const selectedValue = values[field.key];
+        const selectedValue = effectiveValues[field.key];
         const hasSelected = !!selectedValue;
 
         return (
@@ -98,10 +121,7 @@ export default function LoanProductFeeCoaFields({
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setValues((prev) => ({
-                      ...prev,
-                      [field.key]: undefined,
-                    }));
+                    updateValue(field.key, undefined);
                   }}
                   className={cn(
                     "absolute left-2 top-1/2 z-10 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center",
@@ -120,10 +140,7 @@ export default function LoanProductFeeCoaFields({
                 placeholder={field.placeholder}
                 options={uniqueOptions(field.primaryOption)}
                 onChange={(value) =>
-                  setValues((prev) => ({
-                    ...prev,
-                    [field.key]: value as FeeCoaOption,
-                  }))
+                  updateValue(field.key, value as FeeCoaOption)
                 }
                 triggerClassName={cn(
                   hasSelected ? "pl-10 text-slate-900" : "text-slate-500",

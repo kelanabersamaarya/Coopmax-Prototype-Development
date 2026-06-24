@@ -16,7 +16,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Info, Plus, Save, X, HelpCircle, Trash2 } from "lucide-react";
-import { createLoanProduct, BillingScheme } from "@/lib/loanProductsStore";
+import {
+  createLoanProduct,
+  getLoanProducts,
+  updateLoanProduct,
+  BillingScheme,
+  type LoanProductFormConfig,
+} from "@/lib/loanProductsStore";
 import PenaltyRateField, {
   type PenaltyRateMode,
 } from "@/components/loans/PenaltyRateField";
@@ -26,6 +32,10 @@ import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import LoanProductAccountingCoaFields, {
   type MainCoaOption,
 } from "@/components/loans/LoanProductAccountingCoaFields";
+import {
+  emptyFeeCoaValues,
+  type FeeCoaValues,
+} from "@/components/loans/LoanProductFeeCoaFields";
 
 type PeriodUnit = "Bulan" | "Hari";
 type RoundingType =
@@ -197,6 +207,44 @@ function InfoBadge() {
   );
 }
 
+function readString(config: LoanProductFormConfig, key: string, fallback: string) {
+  const value = config[key];
+  return typeof value === "string" ? value : fallback;
+}
+
+function readBool(config: LoanProductFormConfig, key: string, fallback: boolean) {
+  const value = config[key];
+  return typeof value === "boolean" ? value : fallback;
+}
+
+function readArray<T>(config: LoanProductFormConfig, key: string, fallback: T[]) {
+  const value = config[key];
+  return Array.isArray(value) ? (value as T[]) : fallback;
+}
+
+function readRecord<T extends Record<string, unknown>>(
+  config: LoanProductFormConfig,
+  key: string,
+  fallback: T,
+) {
+  const value = config[key];
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? ({ ...fallback, ...(value as Partial<T>) } as T)
+    : fallback;
+}
+
+function readOption<T extends string>(
+  config: LoanProductFormConfig,
+  key: string,
+  fallback: T,
+  options: readonly T[],
+) {
+  const value = config[key];
+  return typeof value === "string" && options.includes(value as T)
+    ? (value as T)
+    : fallback;
+}
+
 function AmountModeInput({
   mode,
   onModeChange,
@@ -346,55 +394,249 @@ export default function LoanProductForm({
   const isCreate = mode === "create";
   const isBranchEdit = mode === "edit" && context === "branch";
 
-  const [code, setCode] = React.useState(isCreate ? "klp04.07" : "klpk04.07");
-  const [name, setName] = React.useState("Pinjaman Emas");
-  const [rc, setRc] = React.useState(false);
-  const [periodUnit, setPeriodUnit] = React.useState<PeriodUnit>("Bulan");
-  const [minPeriod, setMinPeriod] = React.useState("12");
-  const [maxPeriod, setMaxPeriod] = React.useState("12");
-  const [billingScheme, setBillingScheme] = React.useState<BillingScheme>("Anuitas");
-  const [interestCountsOnInterestDebt, setInterestCountsOnInterestDebt] = React.useState(false);
-  const [interestYearly, setInterestYearly] = React.useState("24.00");
-  const [roundingType, setRoundingType] = React.useState<RoundingType>("Pembulatan Keatas");
-  const [roundingMultiple, setRoundingMultiple] = React.useState("100");
-  const [nominalStep, setNominalStep] = React.useState("100");
-  const [terms, setTerms] = React.useState("");
-  const [accInterest, setAccInterest] = React.useState(false);
-  const [ignorePrincipalDebt, setIgnorePrincipalDebt] = React.useState(false);
-  const [ignoreInterestDebt, setIgnoreInterestDebt] = React.useState(false);
-  const [minLoan, setMinLoan] = React.useState("1.000.000,00");
-  const [maxLoan, setMaxLoan] = React.useState("100.000.000,00");
-  const [specialEndDate, setSpecialEndDate] = React.useState(false);
-  const [aturCoaJenisBiaya, setAturCoaJenisBiaya] = React.useState(false);
-  const [propisiMode, setPropisiMode] = React.useState<AmountMode>("rp");
-  const [adminMode, setAdminMode] = React.useState<AmountMode>("rp");
-  const [insuranceMode, setInsuranceMode] = React.useState<AmountMode>("rp");
+  const existingProduct = React.useMemo(() => {
+    if (mode !== "edit" || !productId) return null;
+    return getLoanProducts().find((product) => product.id === productId) ?? null;
+  }, [mode, productId]);
+
+  const savedConfig = React.useMemo<LoanProductFormConfig>(
+    () => existingProduct?.formConfig ?? {},
+    [existingProduct],
+  );
+
+  const [code, setCode] = React.useState(() =>
+    readString(savedConfig, "code", isCreate ? "klp04.07" : "klpk04.07"),
+  );
+  const [name, setName] = React.useState(() => existingProduct?.name ?? "Pinjaman Emas");
+  const [rc, setRc] = React.useState(() => readBool(savedConfig, "rc", false));
+  const [periodUnit, setPeriodUnit] = React.useState<PeriodUnit>(() =>
+    readOption(savedConfig, "periodUnit", "Bulan", ["Bulan", "Hari"]),
+  );
+  const [minPeriod, setMinPeriod] = React.useState(() =>
+    readString(
+      savedConfig,
+      "minPeriod",
+      existingProduct ? String(existingProduct.tenorMonths) : "12",
+    ),
+  );
+  const [maxPeriod, setMaxPeriod] = React.useState(() =>
+    readString(
+      savedConfig,
+      "maxPeriod",
+      existingProduct ? String(existingProduct.tenorMonths) : "12",
+    ),
+  );
+  const [billingScheme, setBillingScheme] = React.useState<BillingScheme>(
+    () => existingProduct?.billingScheme ?? "Anuitas",
+  );
+  const [interestCountsOnInterestDebt, setInterestCountsOnInterestDebt] =
+    React.useState(() =>
+      readBool(savedConfig, "interestCountsOnInterestDebt", false),
+    );
+  const [interestYearly, setInterestYearly] = React.useState(() =>
+    readString(
+      savedConfig,
+      "interestYearly",
+      existingProduct ? existingProduct.interestRateYearly.toFixed(2) : "24.00",
+    ),
+  );
+  const [roundingType, setRoundingType] = React.useState<RoundingType>(() =>
+    readOption(savedConfig, "roundingType", "Pembulatan Keatas", [
+      "Pembulatan Keatas",
+      "Pembulatan Kebawah",
+      "Tanpa Pembulatan",
+    ]),
+  );
+  const [roundingMultiple, setRoundingMultiple] = React.useState(() =>
+    readString(savedConfig, "roundingMultiple", "100"),
+  );
+  const [nominalStep, setNominalStep] = React.useState(() =>
+    readString(savedConfig, "nominalStep", "100"),
+  );
+  const [terms, setTerms] = React.useState(() =>
+    readString(savedConfig, "terms", ""),
+  );
+  const [accInterest, setAccInterest] = React.useState(() =>
+    readBool(savedConfig, "accInterest", false),
+  );
+  const [ignorePrincipalDebt, setIgnorePrincipalDebt] = React.useState(() =>
+    readBool(savedConfig, "ignorePrincipalDebt", false),
+  );
+  const [ignoreInterestDebt, setIgnoreInterestDebt] = React.useState(() =>
+    readBool(savedConfig, "ignoreInterestDebt", false),
+  );
+  const [minLoan, setMinLoan] = React.useState(() =>
+    readString(savedConfig, "minLoan", "1.000.000,00"),
+  );
+  const [maxLoan, setMaxLoan] = React.useState(() =>
+    readString(savedConfig, "maxLoan", "100.000.000,00"),
+  );
+  const [specialEndDate, setSpecialEndDate] = React.useState(() =>
+    readBool(savedConfig, "specialEndDate", false),
+  );
+  const [aturCoaJenisBiaya, setAturCoaJenisBiaya] = React.useState(() =>
+    readBool(savedConfig, "aturCoaJenisBiaya", false),
+  );
+  const [propisiMode, setPropisiMode] = React.useState<AmountMode>(() =>
+    readOption(savedConfig, "propisiMode", "rp", ["rp", "percent"]),
+  );
+  const [adminMode, setAdminMode] = React.useState<AmountMode>(() =>
+    readOption(savedConfig, "adminMode", "rp", ["rp", "percent"]),
+  );
+  const [insuranceMode, setInsuranceMode] = React.useState<AmountMode>(() =>
+    readOption(savedConfig, "insuranceMode", "rp", ["rp", "percent"]),
+  );
   const [mbankingActivationMode, setMbankingActivationMode] =
-    React.useState<AmountMode>("rp");
-  const [propisi, setPropisi] = React.useState("0,00");
-  const [admin, setAdmin] = React.useState("0,00");
-  const [insurance, setInsurance] = React.useState("0,00");
-  const [mbankingActivation, setMbankingActivation] = React.useState("0,00");
-  const [withoutCollateral, setWithoutCollateral] = React.useState(false);
-  const [splitInterestRevenue, setSplitInterestRevenue] = React.useState(false);
-  const [coaLoan, setCoaLoan] = React.useState<MainCoaOption>("PINJAMAN YANG DIBERIKAN");
-  const [coaInterestRevenue, setCoaInterestRevenue] = React.useState<MainCoaOption>("PEND. BUNGA PINJAMAN");
-  const [coaSplitInterestRevenue, setCoaSplitInterestRevenue] = React.useState<MainCoaOption>("PILIH");
-  const [coaPenaltyRevenue, setCoaPenaltyRevenue] = React.useState<MainCoaOption>("PEND. DENDA");
-  const [coaRoundingRevenue, setCoaRoundingRevenue] = React.useState<MainCoaOption>("PENDAPATAN LAIN - LAIN");
-  const [coaAdminRevenue, setCoaAdminRevenue] = React.useState<MainCoaOption>("PEN. ADMINISTRASI");
-  const [collectorFees, setCollectorFees] = React.useState<CollectorFeeRow[]>([]);
-  const [useInstallmentTable, setUseInstallmentTable] = React.useState(!isCreate);
-  const [installmentMode, setInstallmentMode] = React.useState<InstallmentMode>("Jadwal Tetap (Diterbitkan Penuh di Awal)");
-  const [tarifDendaMode, setTarifDendaMode] = React.useState<PenaltyRateMode>("rp");
-  const [tarifDendaValue, setTarifDendaValue] = React.useState("0,00");
-  const [dasarPerhitungan, setDasarPerhitungan] = React.useState<PenaltyBase>("Pilih Dasar Perhitungan");
-  const [hariKeterlambatan, setHariKeterlambatan] = React.useState<string>("0");
-  const [dendaBerulang, setDendaBerulang] = React.useState(false);
-  const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(false);
-  const [graceScheme, setGraceScheme] = React.useState<GraceScheme>("Hanya Bayar Bunga");
-  const [graceUnit, setGraceUnit] = React.useState<GraceUnit>("Pilih Satuan Grace Period");
-  const [graceDuration, setGraceDuration] = React.useState("");
+    React.useState<AmountMode>(() =>
+      readOption(savedConfig, "mbankingActivationMode", "rp", ["rp", "percent"]),
+    );
+  const [propisi, setPropisi] = React.useState(() =>
+    readString(savedConfig, "propisi", "0,00"),
+  );
+  const [admin, setAdmin] = React.useState(() =>
+    readString(savedConfig, "admin", "0,00"),
+  );
+  const [insurance, setInsurance] = React.useState(() =>
+    readString(savedConfig, "insurance", "0,00"),
+  );
+  const [mbankingActivation, setMbankingActivation] = React.useState(() =>
+    readString(savedConfig, "mbankingActivation", "0,00"),
+  );
+  const [withoutCollateral, setWithoutCollateral] = React.useState(() =>
+    readBool(savedConfig, "withoutCollateral", false),
+  );
+  const [splitInterestRevenue, setSplitInterestRevenue] = React.useState(() =>
+    readBool(savedConfig, "splitInterestRevenue", false),
+  );
+  const [coaLoan, setCoaLoan] = React.useState<MainCoaOption>(() =>
+    readOption(savedConfig, "coaLoan", "PINJAMAN YANG DIBERIKAN", [
+      "PINJAMAN YANG DIBERIKAN",
+      "PEND. BUNGA PINJAMAN",
+      "PEND. DENDA",
+      "PENDAPATAN LAIN - LAIN",
+      "PEN. ADMINISTRASI",
+      "PILIH",
+    ]),
+  );
+  const [coaInterestRevenue, setCoaInterestRevenue] =
+    React.useState<MainCoaOption>(() =>
+      readOption(savedConfig, "coaInterestRevenue", "PEND. BUNGA PINJAMAN", [
+        "PINJAMAN YANG DIBERIKAN",
+        "PEND. BUNGA PINJAMAN",
+        "PEND. DENDA",
+        "PENDAPATAN LAIN - LAIN",
+        "PEN. ADMINISTRASI",
+        "PILIH",
+      ]),
+    );
+  const [coaSplitInterestRevenue, setCoaSplitInterestRevenue] =
+    React.useState<MainCoaOption>(() =>
+      readOption(savedConfig, "coaSplitInterestRevenue", "PILIH", [
+        "PINJAMAN YANG DIBERIKAN",
+        "PEND. BUNGA PINJAMAN",
+        "PEND. DENDA",
+        "PENDAPATAN LAIN - LAIN",
+        "PEN. ADMINISTRASI",
+        "PILIH",
+      ]),
+    );
+  const [coaPenaltyRevenue, setCoaPenaltyRevenue] =
+    React.useState<MainCoaOption>(() =>
+      readOption(savedConfig, "coaPenaltyRevenue", "PEND. DENDA", [
+        "PINJAMAN YANG DIBERIKAN",
+        "PEND. BUNGA PINJAMAN",
+        "PEND. DENDA",
+        "PENDAPATAN LAIN - LAIN",
+        "PEN. ADMINISTRASI",
+        "PILIH",
+      ]),
+    );
+  const [coaRoundingRevenue, setCoaRoundingRevenue] =
+    React.useState<MainCoaOption>(() =>
+      readOption(savedConfig, "coaRoundingRevenue", "PENDAPATAN LAIN - LAIN", [
+        "PINJAMAN YANG DIBERIKAN",
+        "PEND. BUNGA PINJAMAN",
+        "PEND. DENDA",
+        "PENDAPATAN LAIN - LAIN",
+        "PEN. ADMINISTRASI",
+        "PILIH",
+      ]),
+    );
+  const [coaAdminRevenue, setCoaAdminRevenue] =
+    React.useState<MainCoaOption>(() =>
+      readOption(savedConfig, "coaAdminRevenue", "PEN. ADMINISTRASI", [
+        "PINJAMAN YANG DIBERIKAN",
+        "PEND. BUNGA PINJAMAN",
+        "PEND. DENDA",
+        "PENDAPATAN LAIN - LAIN",
+        "PEN. ADMINISTRASI",
+        "PILIH",
+      ]),
+    );
+  const [feeCoaValues, setFeeCoaValues] = React.useState<FeeCoaValues>(() =>
+    readRecord(savedConfig, "feeCoaValues", emptyFeeCoaValues),
+  );
+  const [collectorFees, setCollectorFees] = React.useState<CollectorFeeRow[]>(
+    () => readArray<CollectorFeeRow>(savedConfig, "collectorFees", []),
+  );
+  const [useInstallmentTable, setUseInstallmentTable] = React.useState(() =>
+    readBool(savedConfig, "useInstallmentTable", !isCreate),
+  );
+  const [installmentMode, setInstallmentMode] =
+    React.useState<InstallmentMode>(() =>
+      readOption(
+        savedConfig,
+        "installmentMode",
+        "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+        [
+          "Jadwal Tetap (Diterbitkan Penuh di Awal)",
+          "Jadwal Fleksibel & Tagihan Berkala",
+          "Dihitung dari Sisa Saldo Pokok",
+        ],
+      ),
+    );
+  const [tarifDendaMode, setTarifDendaMode] =
+    React.useState<PenaltyRateMode>(() =>
+      readOption(savedConfig, "tarifDendaMode", "rp", ["rp", "percent"]),
+    );
+  const [tarifDendaValue, setTarifDendaValue] = React.useState(() =>
+    readString(savedConfig, "tarifDendaValue", "0,00"),
+  );
+  const [dasarPerhitungan, setDasarPerhitungan] =
+    React.useState<PenaltyBase>(() =>
+      readOption(savedConfig, "dasarPerhitungan", "Pilih Dasar Perhitungan", [
+        "Pokok",
+        "Bunga",
+        "Hutang Pokok",
+        "Hutang Bunga",
+        "Total Tagihan",
+        "Pilih Dasar Perhitungan",
+      ]),
+    );
+  const [hariKeterlambatan, setHariKeterlambatan] = React.useState<string>(() =>
+    readString(savedConfig, "hariKeterlambatan", "0"),
+  );
+  const [dendaBerulang, setDendaBerulang] = React.useState(() =>
+    readBool(savedConfig, "dendaBerulang", false),
+  );
+  const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(() =>
+    readBool(savedConfig, "gracePeriodEnabled", false),
+  );
+  const [graceScheme, setGraceScheme] = React.useState<GraceScheme>(() =>
+    readOption(savedConfig, "graceScheme", "Hanya Bayar Bunga", [
+      "Hanya Bayar Bunga",
+    ]),
+  );
+  const [graceUnit, setGraceUnit] = React.useState<GraceUnit>(() =>
+    readOption(savedConfig, "graceUnit", "Pilih Satuan Grace Period", [
+      "Pilih Satuan Grace Period",
+      "Hari",
+      "Bulan",
+    ]),
+  );
+  const [graceDuration, setGraceDuration] = React.useState(() =>
+    readString(savedConfig, "graceDuration", ""),
+  );
 
   const graceUnitSuffix = graceUnit === "Hari" ? "(Hari)" : graceUnit === "Bulan" ? "(Bulan)" : "";
   const graceDurationLabel = `Durasi Grace Period${graceUnitSuffix ? ` ${graceUnitSuffix}` : ""}`;
@@ -437,37 +679,102 @@ export default function LoanProductForm({
     });
   }
 
+  function buildFormConfig(): LoanProductFormConfig {
+    return {
+      code,
+      rc,
+      periodUnit,
+      minPeriod,
+      maxPeriod,
+      interestYearly,
+      interestCountsOnInterestDebt,
+      roundingType,
+      roundingMultiple,
+      nominalStep,
+      terms,
+      accInterest,
+      ignorePrincipalDebt,
+      ignoreInterestDebt,
+      minLoan,
+      maxLoan,
+      specialEndDate,
+      aturCoaJenisBiaya,
+      propisiMode,
+      adminMode,
+      insuranceMode,
+      mbankingActivationMode,
+      propisi,
+      admin,
+      insurance,
+      mbankingActivation,
+      withoutCollateral,
+      splitInterestRevenue,
+      coaLoan,
+      coaInterestRevenue,
+      coaSplitInterestRevenue,
+      coaPenaltyRevenue,
+      coaRoundingRevenue,
+      coaAdminRevenue,
+      feeCoaValues,
+      collectorFees,
+      useInstallmentTable,
+      installmentMode,
+      tarifDendaMode,
+      tarifDendaValue,
+      dasarPerhitungan,
+      hariKeterlambatan,
+      dendaBerulang,
+      gracePeriodEnabled,
+      graceScheme,
+      graceUnit,
+      graceDuration,
+    };
+  }
+
   function save() {
+    const tenorMonths = Math.max(1, Number.parseInt(minPeriod || "12", 10) || 12);
+    const rate = Number.parseFloat((interestYearly || "0").replace(",", ".")) || 0;
+
+    if (name.trim().length < 3) {
+      toast("Nama produk belum valid", { description: "Minimal 3 karakter." });
+      return;
+    }
+
+    if (rate <= 0) {
+      toast("Bunga belum valid", { description: "Isi bunga per tahun (> 0)." });
+      return;
+    }
+
+    const formConfig = buildFormConfig();
+
     if (isCreate) {
-      const tenorMonths = Math.max(1, Number.parseInt(minPeriod || "12", 10) || 12);
-      const rate = Number.parseFloat((interestYearly || "0").replace(",", ".")) || 0;
-
-      if (name.trim().length < 3) {
-        toast("Nama produk belum valid", { description: "Minimal 3 karakter." });
-        return;
-      }
-      if (rate <= 0) {
-        toast("Bunga belum valid", { description: "Isi bunga per tahun (> 0)." });
-        return;
-      }
-
       createLoanProduct({
         name: name.trim(),
         tenorMonths,
         interestRateYearly: rate,
         billingScheme,
         gracePeriodDays: gracePeriodEnabled ? 7 : 0,
+        formConfig,
       });
 
       toast.success("Produk pinjaman tersimpan", {
-        description: "Produk baru sudah masuk ke daftar.",
+        description: "Produk baru sudah masuk ke daftar beserta konfigurasi KP.",
       });
       onSaved();
       return;
     }
 
-    toast.success("Perubahan tersimpan (prototype)", {
-      description: `Produk: ${name} • ID: ${productId}`,
+    updateLoanProduct(productId, {
+      name: name.trim(),
+      tenorMonths,
+      interestRateYearly: rate,
+      billingScheme,
+      gracePeriodDays: gracePeriodEnabled ? 7 : 0,
+      formConfig,
+    });
+
+    toast.success("Perubahan tersimpan", {
+      description: `Produk: ${name} • konfigurasi KP dan field form ikut tersimpan.`,
     });
     onSaved();
   }
@@ -793,6 +1100,8 @@ export default function LoanProductForm({
         onChange={updateAccountingCoa}
         aturCoaJenisBiaya={aturCoaJenisBiaya}
         onAturCoaJenisBiayaChange={setAturCoaJenisBiaya}
+        feeCoaValues={feeCoaValues}
+        onFeeCoaValuesChange={setFeeCoaValues}
         selectTriggerClassName={style.selectTriggerClassName}
         selectContentClassName="rounded-[5px] border-slate-200 p-0 shadow-xl"
         feeSelectTriggerClassName={style.selectTriggerClassName}
