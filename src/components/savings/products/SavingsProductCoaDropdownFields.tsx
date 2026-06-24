@@ -117,6 +117,8 @@ export default function SavingsProductCoaDropdownFields({
 
   return (
     <div className={cn("grid gap-[20px]", className)}>
+      <div className="h-px w-full bg-slate-300/80" />
+
       {coaFields.map((field) => {
         const selectedValue = values[field];
         const hasSelected = selectedValue.trim().length > 0;
