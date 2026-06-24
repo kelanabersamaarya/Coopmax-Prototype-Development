@@ -60,11 +60,18 @@ const App = () => (
                   title="Produk Simpanan Konsolidasi"
                   showCreateButton
                   createPath="/sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/new"
+                  editPath={(id) =>
+                    `/sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/${id}/edit`
+                  }
                 />
               }
             />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/new"
+              element={<ProdukTabunganTambah />}
+            />
+            <Route
+              path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/:id/edit"
               element={<ProdukTabunganTambah />}
             />
             <Route

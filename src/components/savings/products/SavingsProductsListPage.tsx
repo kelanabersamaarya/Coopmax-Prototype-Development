@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, Pencil, Plus, Trash2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -47,12 +47,15 @@ export default function SavingsProductsListPage({
   subtitle = "Daftar",
   showCreateButton = false,
   createPath,
+  editPath,
 }: {
   title: string;
   subtitle?: string;
   showCreateButton?: boolean;
   createPath?: string;
+  editPath?: (id: string) => string;
 }) {
+  const navigate = useNavigate();
   const rows = React.useMemo(() => savingsProductRowsSeed, []);
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
@@ -377,11 +380,16 @@ export default function SavingsProductsListPage({
                             <SavingsProductActionButton
                               label="Ubah"
                               tone="sky"
-                              onClick={() =>
+                              onClick={() => {
+                                if (editPath) {
+                                  navigate(editPath(row.id));
+                                  return;
+                                }
+
                                 toast("Ubah produk simpanan (prototype)", {
                                   description: row.namaProduk,
-                                })
-                              }
+                                });
+                              }}
                             >
                               <Pencil className="h-5 w-5" />
                             </SavingsProductActionButton>
