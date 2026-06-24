@@ -24,6 +24,23 @@ import {
   type SavingsProductStatus,
 } from "@/components/savings/products/savings-product-list-utils";
 
+function TermSavingsBadge({ value }: { value: string }) {
+  const isActive = value === "Ya";
+
+  return (
+    <Badge
+      className={cn(
+        "rounded-md px-2.5 py-1 text-[11px] font-bold leading-none text-white",
+        isActive
+          ? "bg-blue-600 hover:bg-blue-600"
+          : "bg-rose-600 hover:bg-rose-600",
+      )}
+    >
+      {value}
+    </Badge>
+  );
+}
+
 export default function SavingsProductsListPage({
   title,
   subtitle = "Daftar",
@@ -300,8 +317,8 @@ export default function SavingsProductsListPage({
                         <td className={cn(td, "text-slate-900 tabular-nums")}>
                           {row.bungaTabungan}
                         </td>
-                        <td className={cn(td, "text-slate-900")}>
-                          {row.tabunganBerjangka}
+                        <td className={td}>
+                          <TermSavingsBadge value={row.tabunganBerjangka} />
                         </td>
                         <td className={td}>
                           <Badge
