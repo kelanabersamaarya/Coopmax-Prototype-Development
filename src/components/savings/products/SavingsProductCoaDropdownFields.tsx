@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -68,6 +69,19 @@ export default function SavingsProductCoaDropdownFields({
     >,
   );
 
+  function clearValue(
+    field: CoaField,
+    event: React.MouseEvent | React.PointerEvent,
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setValues((current) => ({
+      ...current,
+      [field]: "",
+    }));
+  }
+
   const labelClassName =
     "text-[14px] font-normal leading-snug text-[#002060]";
 
@@ -75,7 +89,7 @@ export default function SavingsProductCoaDropdownFields({
 
   const selectTriggerClassName = cn(
     "h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
-    "text-[14px] font-normal text-[#64748B] shadow-none",
+    "text-[14px] font-normal shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:text-slate-500",
   );
@@ -98,47 +112,84 @@ export default function SavingsProductCoaDropdownFields({
   );
 
   return (
-    <div className={cn("grid gap-[10px]", className)}>
-      {coaFields.map((field) => (
-        <div
-          key={field}
-          className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start"
-        >
-          <label className={cn(labelClassName, "pt-[5px]")}>{field}</label>
+    <div className={cn("grid gap-[20px]", className)}>
+      {coaFields.map((field) => {
+        const selectedValue = values[field];
+        const hasSelected = selectedValue.trim().length > 0;
 
-          <div>
-            <Select
-              value={values[field]}
-              onValueChange={(value) =>
-                setValues((current) => ({
-                  ...current,
-                  [field]: value,
-                }))
-              }
-            >
-              <SelectTrigger className={selectTriggerClassName}>
-                <SelectValue placeholder={placeholderByField[field]} />
-              </SelectTrigger>
+        return (
+          <div
+            key={field}
+            className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start"
+          >
+            <label className={cn(labelClassName, "pt-[5px]")}>{field}</label>
 
-              <SelectContent className={selectContentClassName}>
-                {coaOptions.map((option) => (
-                  <SelectItem
-                    key={option}
-                    value={option}
-                    className={selectItemClassName}
-                  >
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <Select
+                value={values[field]}
+                onValueChange={(value) =>
+                  setValues((current) => ({
+                    ...current,
+                    [field]: value,
+                  }))
+                }
+              >
+                <SelectTrigger
+                  className={cn(
+                    selectTriggerClassName,
+                    hasSelected ? "text-black" : "text-[#64748B]",
+                  )}
+                >
+                  {hasSelected ? (
+                    <span className="flex min-w-0 flex-1 items-center gap-2 pr-2">
+                      <span
+                        role="button"
+                        tabIndex={-1}
+                        onPointerDown={(event) => clearValue(field, event)}
+                        onClick={(event) => clearValue(field, event)}
+                        className={cn(
+                          "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px]",
+                          "text-red-600 transition hover:bg-red-50",
+                        )}
+                        aria-label={`Hapus ${field}`}
+                        title="Hapus pilihan"
+                      >
+                        <X className="h-4 w-4" strokeWidth={3} />
+                      </span>
 
-            {helperTextByField[field] ? (
-              <div className={helperClassName}>{helperTextByField[field]}</div>
-            ) : null}
+                      <span className="shrink-0 text-[14px] font-normal text-black">
+                        CL
+                      </span>
+
+                      <span className="min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
+                        {selectedValue}
+                      </span>
+                    </span>
+                  ) : (
+                    <SelectValue placeholder={placeholderByField[field]} />
+                  )}
+                </SelectTrigger>
+
+                <SelectContent className={selectContentClassName}>
+                  {coaOptions.map((option) => (
+                    <SelectItem
+                      key={option}
+                      value={option}
+                      className={selectItemClassName}
+                    >
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {helperTextByField[field] ? (
+                <div className={helperClassName}>{helperTextByField[field]}</div>
+              ) : null}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
