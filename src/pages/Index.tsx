@@ -8,6 +8,8 @@ import SidebarLaporanMenu from "@/components/SidebarLaporanMenu";
 import SidebarObsMenu from "@/components/SidebarObsMenu";
 import SidebarPengaturanUmumMenu from "@/components/SidebarPengaturanUmumMenu";
 import SidebarMobileMenu from "@/components/SidebarMobileMenu";
+import SidebarSakSimpananMenu from "@/components/SidebarSakSimpananMenu";
+import SidebarSakSimpananBerjangkaMenu from "@/components/SidebarSakSimpananBerjangkaMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -172,9 +174,13 @@ export default function Index() {
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
 
-                          {/* Area SAK EP Cabang hanya menampilkan Dashboard + Pinjaman */}
+                          {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka */}
                           {isSakCabangArea ? (
-                            <SidebarPinjamanMenu />
+                            <>
+                              <SidebarSakSimpananMenu />
+                              <SidebarPinjamanMenu />
+                              <SidebarSakSimpananBerjangkaMenu />
+                            </>
                           ) : (
                             <>
                               {/* Anggota (collapsible) - hide in OBS area */}

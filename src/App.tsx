@@ -33,6 +33,7 @@ import PengaturanUmum from "./pages/PengaturanUmum";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileMBanking from "./pages/MobileMBanking";
 import MobileAwareToaster from "./components/MobileAwareToaster";
+import SakProductPlaceholder from "./pages/SakProductPlaceholder";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,28 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
+            <Route
+              path="sak-ep-cabang/simpanan/produk-simpanan-cabang"
+              element={<SakProductPlaceholder title="Produk Simpanan Cabang" />}
+            />
+            <Route
+              path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi"
+              element={
+                <SakProductPlaceholder title="Produk Simpanan Konsolidasi" />
+              }
+            />
+            <Route
+              path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang"
+              element={
+                <SakProductPlaceholder title="Produk Simpanan Berjangka Cabang" />
+              }
+            />
+            <Route
+              path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi"
+              element={
+                <SakProductPlaceholder title="Produk Simpanan Berjangka Konsolidasi" />
+              }
+            />
             <Route
               path="sak-ep-cabang/loan-products"
               element={<LoanProducts />}
