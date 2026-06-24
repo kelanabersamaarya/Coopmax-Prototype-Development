@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -117,19 +116,6 @@ export default function ProdukTabunganTambah() {
             </h1>
             <div className="text-sm font-semibold text-slate-500">Tambah</div>
           </div>
-
-          <Button
-            variant="outline"
-            onClick={() =>
-              navigate(
-                "/sak-ep-cabang/simpanan/produk-simpanan-konsolidasi",
-              )
-            }
-            className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Kembali ke Daftar
-          </Button>
         </div>
 
         <Card className="mt-6 rounded-[5px] border-slate-200/70 bg-white/90 p-[40px] shadow-sm backdrop-blur">
