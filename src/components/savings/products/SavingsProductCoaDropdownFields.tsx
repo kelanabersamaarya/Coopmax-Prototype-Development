@@ -45,8 +45,8 @@ const placeholderByField: Record<CoaField, string> = {
   "KP Pendapatan Pengendapan": "Pilih CoA Pendapatan Pengendapan",
   "KP Pajak Bunga": "Pilih CoA Pajak Bunga",
   "KP Tunjangan Dana Pensiun": "Pilih CoA Tunjangan Dana Pensiun",
-  "KP Pengakuan Biaya Bunga": "Pilih Akun",
-  "KP Biaya Bunga": "Pilih Akun",
+  "KP Pengakuan Biaya Bunga": "Pilih CoA Pengakuan Biaya Bunga",
+  "KP Biaya Bunga": "Pilih CoA Biaya Bunga",
 };
 
 const helperTextByField: Partial<Record<CoaField, string>> = {
