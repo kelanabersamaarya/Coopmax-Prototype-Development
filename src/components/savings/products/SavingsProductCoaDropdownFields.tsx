@@ -37,6 +37,18 @@ const coaOptions = [
 
 type CoaField = (typeof coaFields)[number];
 
+const placeholderByField: Record<CoaField, string> = {
+  "KP Tabungan": "Pilih CoA Tabungan",
+  "KP Bunga": "Pilih CoA Bunga",
+  "KP Pendapatan Pinalty": "Pilih CoA Pinalty",
+  "KP Pendapatan Biaya Admin": "Pilih CoA Biaya Admin",
+  "KP Pendapatan Pengendapan": "Pilih CoA Pendapatan Pengendapan",
+  "KP Pajak Bunga": "Pilih CoA Pajak Bunga",
+  "KP Tunjangan Dana Pensiun": "Pilih CoA Tunjangan Dana Pensiun",
+  "KP Pengakuan Biaya Bunga": "Pilih Akun",
+  "KP Biaya Bunga": "Pilih Akun",
+};
+
 const helperTextByField: Partial<Record<CoaField, string>> = {
   "KP Pengakuan Biaya Bunga":
     "Akun pengakuan biaya bunga sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
@@ -105,7 +117,7 @@ export default function SavingsProductCoaDropdownFields({
               }
             >
               <SelectTrigger className={selectTriggerClassName}>
-                <SelectValue placeholder="Pilih Akun" />
+                <SelectValue placeholder={placeholderByField[field]} />
               </SelectTrigger>
 
               <SelectContent className={selectContentClassName}>
