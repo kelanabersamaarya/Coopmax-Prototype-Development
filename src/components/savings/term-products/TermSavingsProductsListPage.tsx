@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Eye, Pencil, Trash2, XCircle } from "lucide-react";
+import { Eye, Pencil, Plus, Trash2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -70,9 +71,11 @@ const statusOptions: TermSavingsStatus[] = ["Semua", "Aktif", "Nonaktif"];
 export default function TermSavingsProductsListPage({
   title,
   subtitle = "Daftar",
+  showCreateButton = false,
 }: {
   title: string;
   subtitle?: string;
+  showCreateButton?: boolean;
 }) {
   const rows = React.useMemo(() => rowsSeed, []);
 
@@ -140,6 +143,21 @@ export default function TermSavingsProductsListPage({
             </h1>
             <div className="text-sm font-semibold text-slate-500">{subtitle}</div>
           </div>
+
+          {showCreateButton ? (
+            <Button
+              variant="outline"
+              onClick={() =>
+                toast("Tambah produk simpanan berjangka (prototype)", {
+                  description: "Form tambah produk simpanan berjangka belum dibuat.",
+                })
+              }
+              className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Tambah
+            </Button>
+          ) : null}
         </div>
 
         <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">

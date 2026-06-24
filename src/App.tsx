@@ -70,7 +70,10 @@ const App = () => (
             <Route
               path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi"
               element={
-                <TermSavingsProductsListPage title="Produk Simpanan Berjangka Konsolidasi" />
+                <TermSavingsProductsListPage
+                  title="Produk Simpanan Berjangka Konsolidasi"
+                  showCreateButton
+                />
               }
             />
             <Route
