@@ -15,6 +15,41 @@
   min-height: 30px !important;
 }
 
+/* Produk Tabungan Ubah: header khusus untuk route edit */
+.produk-tabungan-ubah-page h1 {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.produk-tabungan-ubah-page h1::before {
+  content: "Produk Simpanan";
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  color: #0f172a !important;
+}
+
+.produk-tabungan-ubah-page h1 + div {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.produk-tabungan-ubah-page h1 + div::before {
+  content: "Ubah";
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+}
+
+@media (min-width: 768px) {
+  .produk-tabungan-ubah-page h1::before {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+  }
+}
+
 /* Produk Tabungan Tambah: tombol Batal & Simpan seperti contoh */
 [class*="p-[40px]"] > .mt-8.flex button {
   display: inline-flex !important;

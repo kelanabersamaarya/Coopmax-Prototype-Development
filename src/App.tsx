@@ -72,7 +72,11 @@ const App = () => (
             />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/:id/edit"
-              element={<ProdukTabunganTambah />}
+              element={
+                <div className="produk-tabungan-ubah-page">
+                  <ProdukTabunganTambah />
+                </div>
+              }
             />
             <Route
               path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang"
