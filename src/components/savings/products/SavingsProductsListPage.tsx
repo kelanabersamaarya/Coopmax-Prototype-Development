@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { Eye, Pencil, Plus, Trash2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -45,10 +46,12 @@ export default function SavingsProductsListPage({
   title,
   subtitle = "Daftar",
   showCreateButton = false,
+  createPath,
 }: {
   title: string;
   subtitle?: string;
   showCreateButton?: boolean;
+  createPath?: string;
 }) {
   const rows = React.useMemo(() => savingsProductRowsSeed, []);
   const [pageSize, setPageSize] = React.useState<number>(20);
@@ -123,18 +126,31 @@ export default function SavingsProductsListPage({
           </div>
 
           {showCreateButton ? (
-            <Button
-              variant="outline"
-              onClick={() =>
-                toast("Tambah produk simpanan (prototype)", {
-                  description: "Form tambah produk simpanan belum dibuat.",
-                })
-              }
-              className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Tambah
-            </Button>
+            createPath ? (
+              <Button
+                asChild
+                variant="outline"
+                className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
+              >
+                <Link to={createPath}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Tambah
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() =>
+                  toast("Tambah produk simpanan (prototype)", {
+                    description: "Form tambah produk simpanan belum dibuat.",
+                  })
+                }
+                className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Tambah
+              </Button>
+            )
           ) : null}
         </div>
 

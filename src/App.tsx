@@ -35,6 +35,7 @@ import MobileMBanking from "./pages/MobileMBanking";
 import MobileAwareToaster from "./components/MobileAwareToaster";
 import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
 import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
+import ProdukTabunganTambah from "./pages/ProdukTabunganTambah";
 
 const queryClient = new QueryClient();
 
@@ -58,8 +59,13 @@ const App = () => (
                 <SavingsProductsListPage
                   title="Produk Simpanan Konsolidasi"
                   showCreateButton
+                  createPath="/sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/new"
                 />
               }
+            />
+            <Route
+              path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/new"
+              element={<ProdukTabunganTambah />}
             />
             <Route
               path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang"
