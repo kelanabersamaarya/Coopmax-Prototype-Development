@@ -11,8 +11,9 @@ export default function MobileAwareToaster() {
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
     location.pathname.startsWith("/obs-web");
+  const isSakEpCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
-  const shouldHideToaster = isMobilePrototype || isObsArea;
+  const shouldHideToaster = isMobilePrototype || isObsArea || isSakEpCabangArea;
 
   React.useEffect(() => {
     if (!shouldHideToaster) return;
