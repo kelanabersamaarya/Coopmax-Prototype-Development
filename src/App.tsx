@@ -51,7 +51,22 @@ const App = () => (
             <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-cabang"
-              element={<SavingsProductsListPage title="Produk Simpanan Cabang" />}
+              element={
+                <SavingsProductsListPage
+                  title="Produk Simpanan Cabang"
+                  editPath={(id) =>
+                    `/sak-ep-cabang/simpanan/produk-simpanan-cabang/${id}/edit`
+                  }
+                />
+              }
+            />
+            <Route
+              path="sak-ep-cabang/simpanan/produk-simpanan-cabang/:id/edit"
+              element={
+                <div className="produk-tabungan-cabang-ubah-page">
+                  <ProdukTabunganTambah />
+                </div>
+              }
             />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi"

@@ -15,7 +15,7 @@
   min-height: 30px !important;
 }
 
-/* Produk Tabungan Ubah: header khusus untuk route edit */
+/* Produk Tabungan Ubah: header khusus untuk route edit konsolidasi */
 .produk-tabungan-ubah-page h1 {
   font-size: 0 !important;
   line-height: 0 !important;
@@ -48,6 +48,65 @@
     font-size: 1.5rem !important;
     line-height: 2rem !important;
   }
+}
+
+/* Produk Simpanan Cabang Ubah: header */
+.produk-tabungan-cabang-ubah-page h1 {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.produk-tabungan-cabang-ubah-page h1::before {
+  content: "Produk Simpanan Cabang";
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  color: #0f172a !important;
+}
+
+.produk-tabungan-cabang-ubah-page h1 + div {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.produk-tabungan-cabang-ubah-page h1 + div::before {
+  content: "Ubah";
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+}
+
+@media (min-width: 768px) {
+  .produk-tabungan-cabang-ubah-page h1::before {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+  }
+}
+
+/* Produk Simpanan Cabang Ubah: hanya tampilkan Kode, Nama Produk, dan field KP */
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > * {
+  display: none !important;
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1),
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(4),
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:last-child {
+  display: grid !important;
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid > div:last-child {
+  gap: 10px !important;
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .mt-8.flex {
+  display: flex !important;
+}
+
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .mt-8.flex + *,
+.produk-tabungan-cabang-ubah-page [class*="p-[40px]"] > .grid + div:not(.mt-8) {
+  display: none !important;
 }
 
 /* Produk Tabungan Tambah: tombol Batal & Simpan seperti contoh */
