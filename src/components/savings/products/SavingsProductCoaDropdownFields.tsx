@@ -92,7 +92,7 @@ export default function SavingsProductCoaDropdownFields({
   const helperClassName = "mt-1 text-[13px] font-normal text-[#6479A6]";
 
   const selectTriggerClassName = cn(
-    "h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
+    "relative h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
     "justify-start text-left text-[14px] font-normal shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
     "[&>svg]:ml-auto [&>svg]:text-slate-500",
@@ -145,15 +145,15 @@ export default function SavingsProductCoaDropdownFields({
                   )}
                 >
                   {hasSelected ? (
-                    <span className="flex min-w-0 flex-1 items-center gap-2 pr-2 text-left">
+                    <>
                       <span
                         role="button"
                         tabIndex={-1}
                         onPointerDown={(event) => clearValue(field, event)}
                         onClick={(event) => clearValue(field, event)}
                         className={cn(
-                          "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px]",
-                          "text-red-600 transition hover:bg-red-50",
+                          "absolute left-2 top-1/2 z-10 inline-flex h-5 w-5 -translate-y-1/2 items-center justify-center",
+                          "rounded-[4px] text-red-600 transition hover:bg-red-50",
                         )}
                         aria-label={`Hapus ${field}`}
                         title="Hapus pilihan"
@@ -161,10 +161,12 @@ export default function SavingsProductCoaDropdownFields({
                         <X className="h-4 w-4" strokeWidth={3} />
                       </span>
 
-                      <span className="min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
-                        {getCoaLabel(selectedValue)}
+                      <span className="flex min-w-0 flex-1 items-center pr-2 pl-7 text-left">
+                        <span className="min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
+                          {getCoaLabel(selectedValue)}
+                        </span>
                       </span>
-                    </span>
+                    </>
                   ) : (
                     <SelectValue placeholder={placeholderByField[field]} />
                   )}
