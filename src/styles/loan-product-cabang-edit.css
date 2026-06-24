@@ -1,26 +1,102 @@
 /* Produk Pinjaman Cabang - halaman Ubah
-   Tampilkan informasi dasar paling awal + Konfigurasi KP Biaya/Pendapatan Pinjaman,
-   sembunyikan konfigurasi lanjutan lain seperti pada screenshot. */
+   Tampilkan hanya:
+   - Section Konfigurasi Dasar Produk Pinjaman: Kode + Produk Pinjaman
+   - Section Konfigurasi KP Pendapatan Pinjaman
 
-/* Sembunyikan field dalam section Konfigurasi Dasar mulai dari RC ke bawah. */
-.loan-product-cabang-edit-form > * > div.mt-5.grid > :nth-child(n + 3) {
-  display: none !important;
-}
+   Sembunyikan:
+   - Field lanjutan di Konfigurasi Dasar Produk Pinjaman
+   - Konfigurasi lanjutan lain
+   - Konfigurasi Fee Kolektor
+   - Konfigurasi Tagihan Angsuran
+   - Konfigurasi Denda
+   - Konfigurasi Grace Period
+*/
 
 /* Field Produk Pinjaman dibuat read-only secara visual. */
-.loan-product-cabang-edit-form > * > div.mt-5.grid > :nth-child(2) input {
+.loan-product-cabang-edit-form
+  input[aria-readonly="true"],
+.loan-product-cabang-edit-form
+  input[readonly] {
   background-color: #f1f5f9 !important;
   color: #334155 !important;
   cursor: not-allowed !important;
 }
 
-/* Sembunyikan section lanjutan berisi Propisi, Administrasi, Biaya Asuransi, dan konfigurasi lain. */
-.loan-product-cabang-edit-form > * > div.mt-6.grid {
+/* Konfigurasi Dasar Produk Pinjaman: sembunyikan field ke-3 dan seterusnya
+   (Kode dan Produk Pinjaman tetap tampil). */
+.loan-product-cabang-edit-form
+  div.mt-5.grid
+  > div:nth-child(n + 3) {
   display: none !important;
 }
 
-/* Child #4 adalah LoanProductAccountingCoaFields, jadi tetap ditampilkan.
-   Sembunyikan section setelah KP sampai sebelum tombol aksi. */
-.loan-product-cabang-edit-form > * > :nth-child(n + 5):not(:nth-last-child(-n + 2)) {
+/* Sembunyikan blok konfigurasi dasar lanjutan setelah grid pertama. */
+.loan-product-cabang-edit-form
+  div.mt-6.grid {
   display: none !important;
+}
+
+/* Tampilkan kembali section KP yang memang diperlukan jika ikut terkena aturan umum. */
+.loan-product-cabang-edit-form
+  div.mt-6:has(> div > .h-px.w-full.bg-slate-200\/80),
+.loan-product-cabang-edit-form
+  div.mt-6:has(.text-base.font-semibold.text-slate-900) {
+  display: block !important;
+}
+
+/* Sembunyikan konfigurasi KP Biaya Pinjaman pada cabang jika muncul dari setting umum. */
+.loan-product-cabang-edit-form
+  div.mt-6
+  > div:has(+ div .grid.gap-2.md\:grid-cols-\[240px_1fr\].md\:items-center) {
+  display: none !important;
+}
+
+/* Sembunyikan section setelah Konfigurasi KP Pendapatan Pinjaman:
+   - Fee Kolektor
+   - Tagihan Angsuran
+   - Denda
+   - Grace Period
+   Tombol Batalkan/Simpan tetap tampil. */
+.loan-product-cabang-edit-form
+  .mt-6:has(+ .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end),
+.loan-product-cabang-edit-form
+  .mt-6:has(+ div + .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end),
+.loan-product-cabang-edit-form
+  .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between,
+.loan-product-cabang-edit-form
+  .text-base.font-semibold.text-slate-900:has(.inline-flex.items-center),
+.loan-product-cabang-edit-form
+  .text-base.font-semibold.text-slate-900:has(+ .mt-4.grid),
+.loan-product-cabang-edit-form
+  .text-base.font-semibold.text-slate-900:has(+ .grid) {
+  display: none !important;
+}
+
+/* Pastikan section judul Konfigurasi KP Pendapatan Pinjaman tetap terlihat. */
+.loan-product-cabang-edit-form
+  div:has(> .h-px.w-full.bg-slate-200\/80)
+  + .mt-6
+  .text-base.font-semibold.text-slate-900,
+.loan-product-cabang-edit-form
+  div.mt-6
+  .text-base.font-semibold.text-slate-900:first-child {
+  display: block !important;
+}
+
+/* Sembunyikan divider/section berulang setelah KP Pendapatan Pinjaman, tapi jangan sentuh tombol aksi akhir. */
+.loan-product-cabang-edit-form
+  .mt-6.grid.gap-3,
+.loan-product-cabang-edit-form
+  .mt-4.grid.gap-3,
+.loan-product-cabang-edit-form
+  .my-6.bg-slate-200\/70 {
+  display: none !important;
+}
+
+/* Tombol aksi akhir tetap tampil. */
+.loan-product-cabang-edit-form
+  .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end,
+.loan-product-cabang-edit-form
+  .flex.justify-end {
+  display: flex !important;
 }
