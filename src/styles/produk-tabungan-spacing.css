@@ -6,6 +6,6 @@
 /* Produk Tabungan Tambah: tinggi field input dan dropdown */
 [class*="p-[40px]"] input,
 [class*="p-[40px]"] button[role="combobox"] {
-  height: 27px !important;
-  min-height: 27px !important;
+  height: 30px !important;
+  min-height: 30px !important;
 }
