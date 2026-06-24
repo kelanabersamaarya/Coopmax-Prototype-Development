@@ -12,12 +12,12 @@ type SubItem = {
 
 const items: SubItem[] = [
   {
-    label: "Produk Simpanan Cabang",
-    to: "/sak-ep-cabang/simpanan/produk-simpanan-cabang",
-  },
-  {
     label: "Produk Simpanan Konsolidasi",
     to: "/sak-ep-cabang/simpanan/produk-simpanan-konsolidasi",
+  },
+  {
+    label: "Produk Simpanan Cabang",
+    to: "/sak-ep-cabang/simpanan/produk-simpanan-cabang",
   },
 ];
 
