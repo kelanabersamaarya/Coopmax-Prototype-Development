@@ -8,8 +8,79 @@
    LoanProductAccountingCoaFields agar tetap aman saat setting aktif.
 */
 
+/* Struktur sekarang:
+   .sak-ep-cabang-loan-product-consolidation-form
+     > LoanProductSaveConfirmGate wrapper
+       > LoanProductForm Card
+*/
+
+/* Sembunyikan separator dan header section setelah Konfigurasi KP Pendapatan Pinjaman. */
 .sak-ep-cabang-loan-product-consolidation-form
-  > *
-  > :nth-child(n + 8):not(:nth-last-child(-n + 2)) {
+  > div
+  > [class*="rounded-"]
+  > .my-6.bg-slate-200\/70,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .text-base.font-semibold.text-slate-900 {
   display: none !important;
+}
+
+/* Sembunyikan section Konfigurasi Fee Kolektor. */
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3 {
+  display: none !important;
+}
+
+/* Sembunyikan isi Konfigurasi Tagihan Angsuran, Konfigurasi Denda, dan Konfigurasi Grace Period. */
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-\[15px\],
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .grid.gap-\[15px\] {
+  display: none !important;
+}
+
+/* Pastikan blok konfigurasi dasar dan KP Pendapatan Pinjaman tetap tampil. */
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > div.mt-5.grid,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > div.mt-6:has(.text-base.font-semibold.text-slate-900) {
+  display: grid !important;
+}
+
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > div.mt-6:has(.text-base.font-semibold.text-slate-900) {
+  display: block !important;
+}
+
+/* Tombol aksi akhir tetap tampil. */
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .flex.justify-end,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  .flex.justify-end {
+  display: flex !important;
 }
