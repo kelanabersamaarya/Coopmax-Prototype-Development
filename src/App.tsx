@@ -33,8 +33,8 @@ import PengaturanUmum from "./pages/PengaturanUmum";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileMBanking from "./pages/MobileMBanking";
 import MobileAwareToaster from "./components/MobileAwareToaster";
-import SakProductPlaceholder from "./pages/SakProductPlaceholder";
 import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
+import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 
 const queryClient = new QueryClient();
 
@@ -64,13 +64,13 @@ const App = () => (
             <Route
               path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang"
               element={
-                <SakProductPlaceholder title="Produk Simpanan Berjangka Cabang" />
+                <TermSavingsProductsListPage title="Produk Simpanan Berjangka Cabang" />
               }
             />
             <Route
               path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi"
               element={
-                <SakProductPlaceholder title="Produk Simpanan Berjangka Konsolidasi" />
+                <TermSavingsProductsListPage title="Produk Simpanan Berjangka Konsolidasi" />
               }
             />
             <Route
