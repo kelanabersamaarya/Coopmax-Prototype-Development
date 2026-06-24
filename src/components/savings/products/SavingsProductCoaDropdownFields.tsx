@@ -89,9 +89,9 @@ export default function SavingsProductCoaDropdownFields({
 
   const selectTriggerClassName = cn(
     "h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
-    "text-[14px] font-normal shadow-none",
+    "justify-start text-left text-[14px] font-normal shadow-none",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
-    "[&>svg]:text-slate-500",
+    "[&>svg]:ml-auto [&>svg]:text-slate-500",
   );
 
   const selectContentClassName = cn(
@@ -141,7 +141,7 @@ export default function SavingsProductCoaDropdownFields({
                   )}
                 >
                   {hasSelected ? (
-                    <span className="flex min-w-0 flex-1 items-center gap-2 pr-2">
+                    <span className="flex min-w-0 flex-1 items-center gap-2 pr-2 text-left">
                       <span
                         role="button"
                         tabIndex={-1}
@@ -155,10 +155,6 @@ export default function SavingsProductCoaDropdownFields({
                         title="Hapus pilihan"
                       >
                         <X className="h-4 w-4" strokeWidth={3} />
-                      </span>
-
-                      <span className="shrink-0 text-[14px] font-normal text-black">
-                        CL
                       </span>
 
                       <span className="min-w-0 flex-1 truncate text-left text-[14px] font-normal text-black">
