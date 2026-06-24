@@ -3,6 +3,11 @@
   gap: 20px !important;
 }
 
+/* Produk Tabungan Tambah: perkecil spacer setelah Tabungan Khusus Anggota */
+[class*="p-[40px]"] [class*="gap-[10px]"] > .h-\[20px\] {
+  height: 4px !important;
+}
+
 /* Produk Tabungan Tambah: tinggi field input dan dropdown */
 [class*="p-[40px]"] input,
 [class*="p-[40px]"] button[role="combobox"] {
