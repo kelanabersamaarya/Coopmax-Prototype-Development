@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams, useSearchParams } from "react-rout
 import LoanProductForm from "@/components/loans/LoanProductForm";
 import { cn } from "@/lib/utils";
 import LoanProductSaveConfirmGate from "@/components/loans/products/LoanProductSaveConfirmGate";
+import LoanProductBranchEditForm from "@/components/loans/products/LoanProductBranchEditForm";
 
 export default function LoanProductEdit() {
   const navigate = useNavigate();
@@ -37,11 +38,17 @@ export default function LoanProductEdit() {
     codeInput.classList.add("cursor-not-allowed", "bg-slate-100", "text-slate-700");
   }, []);
 
-  const form = (
+  const form = isCabangEdit ? (
+    <LoanProductBranchEditForm
+      productId={id}
+      onCancel={() => navigate(backPath)}
+      onSaved={() => navigate(backPath)}
+    />
+  ) : (
     <LoanProductForm
       mode="edit"
       productId={id}
-      context={isCabangEdit ? "branch" : "consolidation"}
+      context="consolidation"
       onCancel={() => navigate(backPath)}
       onSaved={() => navigate(backPath)}
     />
@@ -68,8 +75,7 @@ export default function LoanProductEdit() {
           className={cn(
             "mt-6 grid gap-4",
             "loan-product-edit-form",
-            isCabangEdit ? "loan-product-cabang-edit-form" : "",
-            isSakCabangConsolidationEdit
+            !isCabangEdit && isSakCabangConsolidationEdit
               ? "sak-ep-cabang-loan-product-consolidation-form"
               : "",
           )}
