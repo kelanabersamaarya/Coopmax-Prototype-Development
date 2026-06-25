@@ -50,6 +50,8 @@ export default function ProdukDepositoTambah() {
   const [kpDeposito, setKpDeposito] = React.useState("");
   const [kpBunga, setKpBunga] = React.useState("");
   const [kpPendapatanPinalty, setKpPendapatanPinalty] = React.useState("");
+  const [kpPengakuanBiayaBunga, setKpPengakuanBiayaBunga] = React.useState("");
+  const [kpBiayaBunga, setKpBiayaBunga] = React.useState("");
 
   const listPath =
     "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi";
@@ -388,6 +390,30 @@ export default function ProdukDepositoTambah() {
                 value={kpPendapatanPinalty}
                 onValueChange={setKpPendapatanPinalty}
                 placeholder="Pilih CoA Pinalty"
+              />
+            </div>
+
+            <div className="h-px w-full bg-slate-300/80" />
+
+            <div className="text-[18px] font-bold leading-tight text-black">
+              Konfigurasi KP Deposito SAK EP
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>KP Pengakuan Biaya Bunga</label>
+              <TermProductCoaSelect
+                value={kpPengakuanBiayaBunga}
+                onValueChange={setKpPengakuanBiayaBunga}
+                placeholder="Pilih CoA Pengakuan Biaya Bunga"
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>KP Biaya Bunga</label>
+              <TermProductCoaSelect
+                value={kpBiayaBunga}
+                onValueChange={setKpBiayaBunga}
+                placeholder="Pilih CoA Biaya Bunga"
               />
             </div>
           </div>
