@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -64,6 +65,18 @@ const defaultValueByField: Record<CoaField, string> = {
     "5.1.1.1 - Beban Jasa Simpanan Sukarela/Tabungan Dari Anggota",
 };
 
+const emptyValueByField: Record<CoaField, string> = {
+  "KP Tabungan": "",
+  "KP Bunga": "",
+  "KP Pendapatan Pinalty": "",
+  "KP Pendapatan Biaya Admin": "",
+  "KP Pendapatan Pengendapan": "",
+  "KP Pajak Bunga": "",
+  "KP Tunjangan Dana Pensiun": "",
+  "KP Pengakuan Biaya Bunga": "",
+  "KP Biaya Bunga": "",
+};
+
 const helperTextByField: Partial<Record<CoaField, string>> = {
   "KP Pengakuan Biaya Bunga":
     "Akun pengakuan biaya bunga sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
@@ -83,14 +96,25 @@ function SectionHeader({ children }: { children: React.ReactNode }) {
   );
 }
 
+function isCreatePath(pathname: string) {
+  return pathname.endsWith("/new");
+}
+
 export default function SavingsProductCoaDropdownFields({
   className,
 }: {
   className?: string;
 }) {
-  const [values, setValues] = React.useState<Record<CoaField, string>>(() => ({
-    ...defaultValueByField,
-  }));
+  const location = useLocation();
+  const shouldStartEmpty = isCreatePath(location.pathname);
+
+  const [values, setValues] = React.useState<Record<CoaField, string>>(() =>
+    shouldStartEmpty ? { ...emptyValueByField } : { ...defaultValueByField },
+  );
+
+  React.useEffect(() => {
+    setValues(shouldStartEmpty ? { ...emptyValueByField } : { ...defaultValueByField });
+  }, [shouldStartEmpty]);
 
   function clearValue(
     field: CoaField,
@@ -177,7 +201,7 @@ export default function SavingsProductCoaDropdownFields({
                   ) : null}
 
                   <Select
-                    value={values[field]}
+                    value={hasSelected ? values[field] : undefined}
                     onValueChange={(value) =>
                       setValues((current) => ({
                         ...current,
