@@ -15,15 +15,21 @@ import { cn } from "@/lib/utils";
 import TermProductCoaSelect from "@/components/savings/term-products/TermProductCoaSelect";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 import ClearableSavingsSelect from "@/components/savings/products/ClearableSavingsSelect";
+import SavingsMonthSelect from "@/components/savings/products/SavingsMonthSelect";
 
 export default function ProdukDepositoTambah() {
   const navigate = useNavigate();
+
+  const tanggalMaksimalOptions = React.useMemo(
+    () => Array.from({ length: 32 }).map((_, index) => String(index)),
+    [],
+  );
 
   const [kode, setKode] = React.useState("");
   const [namaProduk, setNamaProduk] = React.useState("");
   const [minimalDeposito, setMinimalDeposito] = React.useState("");
   const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
-    React.useState("");
+    React.useState("0");
   const [jenisBunga, setJenisBunga] = React.useState("Metode Bunga Flat");
   const [bungaPerTahun, setBungaPerTahun] = React.useState("%");
   const [jenisPembulatan, setJenisPembulatan] = React.useState("");
@@ -166,16 +172,14 @@ export default function ProdukDepositoTambah() {
               <label className={labelClassName}>
                 Tanggal Maksimal dapat Bunga{requiredMark}
               </label>
-              <Input
+              <SavingsMonthSelect
                 value={tanggalMaksimalDapatBunga}
-                onChange={(event) =>
-                  setTanggalMaksimalDapatBunga(
-                    event.target.value.replace(/[^\d]/g, ""),
-                  )
-                }
-                className={formInputClassName}
-                placeholder="0"
-                inputMode="numeric"
+                onValueChange={setTanggalMaksimalDapatBunga}
+                placeholder="Pilih Tanggal Maksimal Dapat Bunga"
+                options={tanggalMaksimalOptions}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
               />
             </div>
 
