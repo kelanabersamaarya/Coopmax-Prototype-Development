@@ -25,10 +25,10 @@ export default function FieldTooltip({
           type="button"
           className={cn(
             "ml-2 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
-            "bg-[#2563eb] text-white",
-            "ring-1 ring-white shadow-sm",
-            "outline-none transition hover:bg-[#1d4ed8]",
-            "focus-visible:ring-4 focus-visible:ring-[#2563eb]/25",
+            "bg-black text-white",
+            "ring-1 ring-black/20 shadow-sm",
+            "outline-none transition hover:bg-slate-800",
+            "focus-visible:ring-4 focus-visible:ring-black/20",
             className,
           )}
           aria-label="Info"
