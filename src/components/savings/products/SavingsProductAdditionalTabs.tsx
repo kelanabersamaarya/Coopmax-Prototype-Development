@@ -24,7 +24,7 @@ export default function SavingsProductAdditionalTabs({
 
   return (
     <div className="savings-product-additional-tabs mt-8">
-      <div className="mb-5 text-[21px] font-bold leading-tight text-black">
+      <div className="mb-5 text-[18px] font-bold leading-tight text-black">
         Pengaturan
       </div>
 
@@ -38,7 +38,7 @@ export default function SavingsProductAdditionalTabs({
                 <button
                   key={tab}
                   type="button"
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => setTab(tab)}
                   className={cn(
                     "h-[54px] min-w-[120px] border-r border-[#9FABBF] px-5",
                     "text-[14px] font-normal transition",
