@@ -24,7 +24,7 @@ export default function SavingsProductAdditionalTabs({
 
   return (
     <div className="savings-product-additional-tabs mt-8">
-      <div className="mb-5 text-[16px] font-bold leading-tight text-black">
+      <div className="mb-5 text-[21px] font-bold leading-tight text-black">
         Pengaturan
       </div>
 
