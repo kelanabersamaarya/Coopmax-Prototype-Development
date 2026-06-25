@@ -1,14 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const monthOptions = Array.from({ length: 13 }).map((_, index) =>
   String(index),
@@ -29,7 +24,20 @@ export default function SavingsMonthSelect({
   contentClassName?: string;
   itemClassName?: string;
 }) {
+  const [open, setOpen] = React.useState(false);
+  const [search, setSearch] = React.useState("");
   const hasValue = value.trim().length > 0;
+
+  React.useEffect(() => {
+    if (!open) return;
+    setSearch("");
+  }, [open]);
+
+  const filteredOptions = React.useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return monthOptions;
+    return monthOptions.filter((option) => option.toLowerCase().includes(q));
+  }, [search]);
 
   function clearValue(event: React.MouseEvent | React.PointerEvent) {
     event.preventDefault();
@@ -37,8 +45,41 @@ export default function SavingsMonthSelect({
     onValueChange("");
   }
 
+  function chooseValue(next: string) {
+    onValueChange(next);
+    setOpen(false);
+  }
+
   return (
     <div className="relative">
+      <style>
+        {`
+          .savings-month-scroll::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          .savings-month-scroll::-webkit-scrollbar-track {
+            background: #e5edf7;
+            border-radius: 999px;
+          }
+
+          .savings-month-scroll::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 999px;
+            border: 2px solid #e5edf7;
+          }
+
+          .savings-month-scroll::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+          }
+
+          .savings-month-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #3b82f6 #e5edf7;
+          }
+        `}
+      </style>
+
       {hasValue ? (
         <button
           type="button"
@@ -56,62 +97,76 @@ export default function SavingsMonthSelect({
         </button>
       ) : null}
 
-      <Select
-        value={hasValue ? value : undefined}
-        onValueChange={onValueChange}
-      >
-        <SelectTrigger
-          className={cn(
-            "h-[30px] rounded-[5px] border-slate-300 bg-white px-3",
-            "text-[14px] font-normal shadow-none",
-            "focus-visible:ring-0 focus-visible:ring-offset-0",
-            "[&>svg]:text-slate-500",
-            triggerClassName,
-            hasValue ? "!pl-10 !text-black" : "text-[#64748B]",
-          )}
-        >
-          <span className="block min-w-0 flex-1 truncate text-left">
-            {hasValue ? value : placeholder}
-          </span>
-        </SelectTrigger>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            className={cn(
+              "flex h-[30px] w-full items-center justify-between rounded-[5px] border border-slate-300 bg-white px-3",
+              "text-left text-[14px] font-normal shadow-none",
+              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+              triggerClassName,
+              hasValue ? "!pl-10 !text-black" : "text-[#64748B]",
+            )}
+          >
+            <span className="block min-w-0 flex-1 truncate text-left">
+              {hasValue ? value : placeholder}
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
+          </button>
+        </PopoverTrigger>
 
-        <SelectContent
+        <PopoverContent
+          align="start"
           className={cn(
-            "rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
-            "[&_[data-radix-select-item-indicator]]:hidden",
-            "[&_[data-slot=select-item-indicator]]:hidden",
-            "[&>span.absolute.right-2]:hidden",
-            "[&_[data-radix-collection-item]]:pl-4",
-            "[&_[data-radix-collection-item]]:pr-4",
-            "[&_[data-radix-select-viewport]]:max-h-[170px]",
-            "[&_[data-radix-select-viewport]]:overflow-y-auto",
-            "[&_[data-radix-select-viewport]]:[scrollbar-gutter:stable]",
-            "[&_[data-radix-select-viewport]::-webkit-scrollbar]:w-2",
-            "[&_[data-radix-select-viewport]::-webkit-scrollbar-track]:bg-slate-100",
-            "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:rounded-full",
-            "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:bg-slate-400",
-            "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb:hover]:bg-slate-500",
+            "w-[--radix-popover-trigger-width] overflow-hidden rounded-[5px] border-slate-300 bg-white p-0 shadow-xl",
             contentClassName,
           )}
         >
-          {monthOptions.map((option) => (
-            <SelectItem
-              key={option}
-              value={option}
+          <div className="border-b border-slate-200 bg-white p-2">
+            <input
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Cari..."
               className={cn(
-                "rounded-none px-4 py-2.5 text-[14px] font-normal text-black",
-                "hover:bg-violet-600 hover:text-white",
-                "focus:bg-violet-600 focus:text-white",
-                "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
-                "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
-                itemClassName,
+                "h-[30px] w-full rounded-[5px] border border-slate-300 bg-white px-3",
+                "text-[14px] font-normal text-black shadow-none",
+                "placeholder:text-[#64748B]",
+                "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
               )}
-            >
-              {option}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+            />
+          </div>
+
+          <div className="savings-month-scroll max-h-[170px] overflow-y-auto bg-white py-1">
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option) => {
+                const active = option === value;
+
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => chooseValue(option)}
+                    className={cn(
+                      "block w-full px-4 py-2.5 text-left text-[14px] font-normal transition-colors",
+                      active
+                        ? "bg-violet-600 text-white"
+                        : "bg-white text-black hover:bg-violet-600 hover:text-white",
+                      itemClassName,
+                    )}
+                  >
+                    {option}
+                  </button>
+                );
+              })
+            ) : (
+              <div className="px-4 py-3 text-[13px] font-normal text-slate-500">
+                Tidak ada hasil.
+              </div>
+            )}
+          </div>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
