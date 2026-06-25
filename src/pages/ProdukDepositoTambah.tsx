@@ -31,7 +31,7 @@ export default function ProdukDepositoTambah() {
   const [pajakBunga, setPajakBunga] = React.useState("");
   const [pinaltyMode, setPinaltyMode] = React.useState("rp");
   const [pinalty, setPinalty] = React.useState("");
-  const [periodeWaktu, setPeriodeWaktu] = React.useState("Bulan");
+  const [periodeWaktu, setPeriodeWaktu] = React.useState("");
   const [metodeDapatBunga, setMetodeDapatBunga] = React.useState(
     "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
   );
@@ -247,15 +247,19 @@ export default function ProdukDepositoTambah() {
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Periode Waktu{requiredMark}</label>
-              <ClearableSavingsSelect
-                value={periodeWaktu}
-                onValueChange={setPeriodeWaktu}
-                placeholder="Bulan"
-                options={["Hari", "Bulan", "Tahun"]}
-                triggerClassName={selectTriggerClassName}
-                contentClassName={selectContentClassName}
-                itemClassName={selectItemClassName}
-              />
+              <div className="relative">
+                <Input
+                  value={periodeWaktu}
+                  onChange={(event) =>
+                    setPeriodeWaktu(event.target.value.replace(/[^\d]/g, ""))
+                  }
+                  className={cn(formInputClassName, "pr-16")}
+                  inputMode="numeric"
+                />
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[14px] font-normal text-[#334155]">
+                  Bulan
+                </span>
+              </div>
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
