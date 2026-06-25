@@ -8,10 +8,12 @@ export default function LoanProductSaveSuccessModal({
   open,
   onOk,
   onOpenChange,
+  message = "Berhasil menyimpan data",
 }: {
   open: boolean;
   onOk: () => void;
   onOpenChange?: (open: boolean) => void;
+  message?: string;
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -34,7 +36,7 @@ export default function LoanProductSaveSuccessModal({
           </div>
 
           <div className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
-            Berhasil menyimpan data
+            {message}
           </div>
 
           <div className="mt-7">

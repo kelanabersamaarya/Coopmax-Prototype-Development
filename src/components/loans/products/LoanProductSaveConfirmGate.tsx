@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import LoanProductSaveSuccessModal from "@/components/loans/products/LoanProductSaveSuccessModal";
@@ -10,10 +11,16 @@ export default function LoanProductSaveConfirmGate({
 }: {
   children: React.ReactNode;
 }) {
+  const location = useLocation();
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
   const targetButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const bypassRef = React.useRef(false);
+
+  const isLoanProductCreate =
+    location.pathname.endsWith("/loan-products/new") ||
+    location.pathname.endsWith("/obs-samudra-harta/loan-products/new") ||
+    location.pathname.endsWith("/sak-ep-cabang/loan-products/new");
 
   function handleClickCapture(event: React.MouseEvent<HTMLDivElement>) {
     if (bypassRef.current) return;
@@ -117,6 +124,7 @@ export default function LoanProductSaveConfirmGate({
         open={successOpen}
         onOpenChange={setSuccessOpen}
         onOk={finishSave}
+        message={isLoanProductCreate ? "Berhasil Menambahkan Data" : undefined}
       />
     </div>
   );
