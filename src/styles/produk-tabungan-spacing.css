@@ -259,3 +259,23 @@
   font-weight: 700;
   line-height: 1;
 }
+
+/* Produk Tabungan: Akses Transfer tetap 2 kolom agar toggle OFF tidak turun saat toggle sebelahnya ON */
+@media (min-width: 640px) {
+  [class*="p-[40px]"] > .grid > div:nth-child(26) > div > .grid.gap-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: start !important;
+    column-gap: 2.5rem !important;
+    row-gap: 1.25rem !important;
+  }
+
+  [class*="p-[40px]"] > .grid > div:nth-child(26) > div > .grid.gap-5 > div {
+    align-self: start !important;
+    min-width: 0 !important;
+  }
+
+  [class*="p-[40px]"] > .grid > div:nth-child(26) > div > .grid.gap-5 > div > .grid.gap-2 {
+    grid-template-columns: minmax(0, 160px) minmax(0, 1fr) !important;
+    align-items: center !important;
+  }
+}
