@@ -61,6 +61,14 @@ function getCoaLabel(option: string) {
   return option.replace(/^[\d.]+\s*-\s*/, "");
 }
 
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="text-[21px] font-bold leading-tight text-black">
+      {children}
+    </div>
+  );
+}
+
 export default function SavingsProductCoaDropdownFields({
   className,
 }: {
@@ -119,6 +127,8 @@ export default function SavingsProductCoaDropdownFields({
     <div className={cn("grid gap-[20px]", className)}>
       <div className="h-px w-full bg-slate-300/80" />
 
+      <SectionHeader>Konfigurasi KP Tabungan</SectionHeader>
+
       {coaFields.map((field) => {
         const selectedValue = values[field];
         const hasSelected = selectedValue.trim().length > 0;
@@ -128,7 +138,10 @@ export default function SavingsProductCoaDropdownFields({
         return (
           <React.Fragment key={field}>
             {showSectionDivider ? (
-              <div className="h-px w-full bg-slate-300/80" />
+              <>
+                <div className="h-px w-full bg-slate-300/80" />
+                <SectionHeader>Konfigurasi KP Tabungan SAK EP</SectionHeader>
+              </>
             ) : null}
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
