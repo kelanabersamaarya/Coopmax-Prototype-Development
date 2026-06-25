@@ -50,6 +50,20 @@ const placeholderByField: Record<CoaField, string> = {
   "KP Biaya Bunga": "Pilih CoA Biaya Bunga",
 };
 
+const defaultValueByField: Record<CoaField, string> = {
+  "KP Tabungan": "1.1.1.3.1 - Simpanan Sukarela",
+  "KP Bunga": "4.1.1.1 - Pendapatan Bunga",
+  "KP Pendapatan Pinalty": "4.1.1.2 - Pendapatan Pinalty",
+  "KP Pendapatan Biaya Admin": "4.1.1.3 - Pendapatan Biaya Admin",
+  "KP Pendapatan Pengendapan": "4.1.1.4 - Pendapatan Pengendapan",
+  "KP Pajak Bunga": "2.1.3.1 - Hutang Pajak Bunga",
+  "KP Tunjangan Dana Pensiun": "5.1.1.1 - Tunjangan Dana Pensiun",
+  "KP Pengakuan Biaya Bunga":
+    "5.1.1.1 - Beban Jasa Simpanan Sukarela/Tabungan Dari Anggota",
+  "KP Biaya Bunga":
+    "5.1.1.1 - Beban Jasa Simpanan Sukarela/Tabungan Dari Anggota",
+};
+
 const helperTextByField: Partial<Record<CoaField, string>> = {
   "KP Pengakuan Biaya Bunga":
     "Akun pengakuan biaya bunga sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
@@ -74,12 +88,9 @@ export default function SavingsProductCoaDropdownFields({
 }: {
   className?: string;
 }) {
-  const [values, setValues] = React.useState<Record<CoaField, string>>(() =>
-    Object.fromEntries(coaFields.map((field) => [field, ""])) as Record<
-      CoaField,
-      string
-    >,
-  );
+  const [values, setValues] = React.useState<Record<CoaField, string>>(() => ({
+    ...defaultValueByField,
+  }));
 
   function clearValue(
     field: CoaField,
