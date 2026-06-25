@@ -1,3 +1,13 @@
+/* Produk Tabungan Tambah: header konfigurasi dasar di atas field Kode */
+[class*="p-[40px]"] > .grid::before {
+  content: "Konfigurasi Dasar Produk Tabungan";
+  display: block;
+  color: #000000;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
 /* Produk Tabungan Tambah: jarak antar field form */
 [class*="p-[40px]"] [class*="gap-[10px]"] {
   gap: 20px !important;
