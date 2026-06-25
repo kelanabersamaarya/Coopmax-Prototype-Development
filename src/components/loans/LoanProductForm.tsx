@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,21 +16,19 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { Info, Plus, Save, X, HelpCircle, Trash2 } from "lucide-react";
 import {
   createLoanProduct,
   getLoanProducts,
   updateLoanProduct,
-  BillingScheme,
+  type BillingScheme,
   type LoanProductFormConfig,
 } from "@/lib/loanProductsStore";
+import { cn } from "@/lib/utils";
+import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import PenaltyRateField, {
   type PenaltyRateMode,
 } from "@/components/loans/PenaltyRateField";
 import FieldTooltip from "@/components/loans/FieldTooltip";
-import { cn } from "@/lib/utils";
-import LoanFormActionButtons from "@/components/loans/LoanFormActionButtons";
 import LoanProductAccountingCoaFields, {
   type MainCoaOption,
 } from "@/components/loans/LoanProductAccountingCoaFields";
@@ -37,20 +37,21 @@ import {
   type FeeCoaValues,
 } from "@/components/loans/LoanProductFeeCoaFields";
 
-type PeriodUnit = "Bulan" | "Hari";
+type LoanProductFormMode = "create" | "edit";
+type LoanProductFormContext = "consolidation" | "branch";
+
+type PeriodUnit = "Pilih Periode Pinjaman" | "Bulan" | "Hari";
+type BillingOption = "Pilih Metode Bunga Pinjaman" | BillingScheme;
 type RoundingType =
+  | "Pilih Jenis Pembulatan"
   | "Pembulatan Keatas"
   | "Pembulatan Kebawah"
   | "Tanpa Pembulatan";
-
 type InstallmentMode =
   | "Jadwal Tetap (Diterbitkan Penuh di Awal)"
   | "Jadwal Fleksibel & Tagihan Berkala"
   | "Dihitung dari Sisa Saldo Pokok";
-
-type GraceScheme = "Hanya Bayar Bunga";
 type GraceUnit = "Pilih Satuan Grace Period" | "Hari" | "Bulan";
-
 type PenaltyBase =
   | "Pokok"
   | "Bunga"
@@ -58,12 +59,9 @@ type PenaltyBase =
   | "Hutang Bunga"
   | "Total Tagihan"
   | "Pilih Dasar Perhitungan";
-
+type AmountMode = "rp" | "percent";
 type CollectorKind = "Kolektor 1" | "Kolektor 2" | "Kolektor 3";
 type FeeMethod = "Plafon Pinjaman" | "Angsuran" | "Tenor";
-type AmountMode = "rp" | "percent";
-type LoanProductFormMode = "create" | "edit";
-type LoanProductFormContext = "consolidation" | "branch";
 
 type CollectorFeeRow = {
   id: string;
@@ -156,56 +154,26 @@ const FORM_STYLE_BY_MODE: Record<LoanProductFormMode, FormStyle> = {
 };
 
 const TT = {
-  konfigurasiTagihanAngsuran:
-    "Atur bagaimana tagihan angsuran diterbitkan termasuk skema tagihans serta atur grace period (satuan & durasi)",
   tagihanMengikutiTabelAngsuran:
-    "Tagihan angsuran dibuat otomatis setiap bulan mengikuti tabel angsuran, meliputi angsuran pokok dan bunga.",
+    "Tagihan angsuran dibuat otomatis setiap bulan mengikuti tabel angsuran.",
   skemaTagihan:
-    "Skema tagihan menentukan bagaimana nominal dan komponen tagihan dihitung setiap periode (misalnya pokok, bunga, biaya, dan tunggakan).",
+    "Skema tagihan menentukan bagaimana nominal dan komponen tagihan dihitung setiap periode.",
+  denda:
+    "Atur metode, dasar perhitungan, dan parameter keterlambatan untuk denda pinjaman.",
   gracePeriod:
-    "Grace period adalah periode awal pinjaman yang memberi keringanan pembayaran untuk sementara waktu sesuai skema yang dipilih.",
-  tagihanSesuaiJadwalAngsuran:
-    "Tagihan diterbitkan mengikuti jadwal angsuran yang ditentukan sebelumnya. Setiap periode, angsuran akan ditagihkan sesuai jadwal jatuh tempo (misalnya pokok + bunga + biaya).",
-  jadwalFleksibelTagihanBerkala:
-    "Tagihan diterbitkan rutin setiap periode (misalnya bulanan), namun jenis tagihan bisa disesuaikan (misalnya hanya melakukan penagihan bunga atau hanya pokok pinjaman).",
-  tagihanDihitungDariSisaSaldoPokok:
-    "Tagihan yang diterbitkan mencakup seluruh pokok, bunga dan denda yang masih harus dibayarkan.",
-  gracePeriodBunga:
-    "Grace period bunga adalah periode awal pinjaman dimana nasabah hanya membayar bunga tanpa membayar pokok pinjaman",
+    "Grace period adalah periode awal pinjaman yang memberi keringanan pembayaran untuk sementara waktu.",
   recurringPenalty:
     "Aktifkan Agar Denda Dihitung Secara Berulang dan Terus Bertambah Hingga Tagihan Dilunasi",
-} as const;
+};
 
-function FieldRow({
-  label,
-  hint,
-  children,
-}: {
-  label: React.ReactNode;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
-      <div className="pt-1">
-        <div className="text-sm font-normal text-slate-900">{label}</div>
-        {hint ? <div className="mt-1 text-xs text-slate-500">{hint}</div> : null}
-      </div>
-      <div className="min-w-0">{children}</div>
-    </div>
-  );
-}
-
-function InfoBadge() {
-  return (
-    <span
-      className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#2563eb] text-white ring-1 ring-[#2563eb]/25"
-      aria-hidden="true"
-    >
-      <HelpCircle className="h-4 w-4" />
-    </span>
-  );
-}
+const mainCoaOptions = [
+  "PINJAMAN YANG DIBERIKAN",
+  "PEND. BUNGA PINJAMAN",
+  "PEND. DENDA",
+  "PENDAPATAN LAIN - LAIN",
+  "PEN. ADMINISTRASI",
+  "PILIH",
+] as const;
 
 function readString(config: LoanProductFormConfig, key: string, fallback: string) {
   const value = config[key];
@@ -245,6 +213,59 @@ function readOption<T extends string>(
     : fallback;
 }
 
+function buildBlankCreateConfig(): LoanProductFormConfig {
+  return {
+    code: "",
+    periodUnit: "Pilih Periode Pinjaman",
+    minPeriod: "",
+    maxPeriod: "",
+    billingScheme: "Pilih Metode Bunga Pinjaman",
+    interestYearly: "",
+    roundingType: "Pilih Jenis Pembulatan",
+    roundingMultiple: "",
+    nominalStep: "",
+    terms: "",
+    minLoan: "",
+    maxLoan: "",
+    propisi: "",
+    admin: "",
+    insurance: "",
+    mbankingActivation: "",
+    coaLoan: "PILIH",
+    coaInterestRevenue: "PILIH",
+    coaSplitInterestRevenue: "PILIH",
+    coaPenaltyRevenue: "PILIH",
+    coaRoundingRevenue: "PILIH",
+    coaAdminRevenue: "PILIH",
+    feeCoaValues: emptyFeeCoaValues,
+    collectorFees: [],
+    useInstallmentTable: false,
+    tarifDendaValue: "",
+    hariKeterlambatan: "",
+    graceDuration: "",
+  };
+}
+
+function FieldRow({
+  label,
+  hint,
+  children,
+}: {
+  label: React.ReactNode;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
+      <div className="pt-1">
+        <div className="text-sm font-normal text-slate-900">{label}</div>
+        {hint ? <div className="mt-1 text-xs text-slate-500">{hint}</div> : null}
+      </div>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
 function AmountModeInput({
   mode,
   onModeChange,
@@ -261,26 +282,24 @@ function AmountModeInput({
   placeholder?: string;
 }) {
   return (
-    <div className="grid gap-2">
-      <div className="flex w-full items-center gap-2">
-        <Select value={mode} onValueChange={(v) => onModeChange(v as AmountMode)}>
-          <SelectTrigger className={cn(style.selectTriggerClassName, "w-[84px] px-2.5")}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent className={style.selectContentClassName}>
-            <SelectItem value="rp">Rp.</SelectItem>
-            <SelectItem value="percent">%</SelectItem>
-          </SelectContent>
-        </Select>
+    <div className="flex w-full items-center gap-2">
+      <Select value={mode} onValueChange={(v) => onModeChange(v as AmountMode)}>
+        <SelectTrigger className={cn(style.selectTriggerClassName, "w-[84px] px-2.5")}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className={style.selectContentClassName}>
+          <SelectItem value="rp">Rp.</SelectItem>
+          <SelectItem value="percent">%</SelectItem>
+        </SelectContent>
+      </Select>
 
-        <Input
-          value={value}
-          onChange={(e) => onValueChange(e.target.value)}
-          className={style.inputClassName}
-          placeholder={placeholder}
-          inputMode="decimal"
-        />
-      </div>
+      <Input
+        value={value}
+        onChange={(event) => onValueChange(event.target.value)}
+        className={style.inputClassName}
+        placeholder={placeholder}
+        inputMode="decimal"
+      />
     </div>
   );
 }
@@ -302,7 +321,9 @@ function FeeRow({
         <Label className="text-xs font-semibold text-slate-700">Jenis Kolektor</Label>
         <Select
           value={row.collectorKind}
-          onValueChange={(v) => onChange({ ...row, collectorKind: v as CollectorKind })}
+          onValueChange={(value) =>
+            onChange({ ...row, collectorKind: value as CollectorKind })
+          }
         >
           <SelectTrigger className={style.feeSelectTriggerClassName}>
             <SelectValue />
@@ -316,10 +337,14 @@ function FeeRow({
       </div>
 
       <div className="grid gap-2">
-        <Label className="text-xs font-semibold text-slate-700">Metode Perhitungan Fee</Label>
+        <Label className="text-xs font-semibold text-slate-700">
+          Metode Perhitungan Fee
+        </Label>
         <Select
           value={row.feeMethod}
-          onValueChange={(v) => onChange({ ...row, feeMethod: v as FeeMethod })}
+          onValueChange={(value) =>
+            onChange({ ...row, feeMethod: value as FeeMethod })
+          }
         >
           <SelectTrigger className={style.feeSelectTriggerClassName}>
             <SelectValue />
@@ -333,41 +358,42 @@ function FeeRow({
       </div>
 
       <div className="grid gap-2">
-        <Label className="text-xs font-semibold text-slate-700">Minimal Jumlah Pinjaman</Label>
+        <Label className="text-xs font-semibold text-slate-700">
+          Minimal Jumlah Pinjaman
+        </Label>
         <Input
           value={row.minLoan}
-          onChange={(e) => onChange({ ...row, minLoan: e.target.value })}
+          onChange={(event) => onChange({ ...row, minLoan: event.target.value })}
           className={style.feeInputClassName}
-          placeholder="1.000.000,00"
+          placeholder="0,00"
           inputMode="decimal"
         />
       </div>
 
       <div className="grid gap-2">
-        <Label className="text-xs font-semibold text-slate-700">Maksimal Jumlah Pinjaman</Label>
+        <Label className="text-xs font-semibold text-slate-700">
+          Maksimal Jumlah Pinjaman
+        </Label>
         <Input
           value={row.maxLoan}
-          onChange={(e) => onChange({ ...row, maxLoan: e.target.value })}
+          onChange={(event) => onChange({ ...row, maxLoan: event.target.value })}
           className={style.feeInputClassName}
-          placeholder="50.000.000,00"
+          placeholder="0,00"
           inputMode="decimal"
         />
       </div>
 
       <div className="grid gap-2">
         <Label className="text-xs font-semibold text-slate-700">Jumlah Fee (%)</Label>
-        <div className="relative">
-          <Input
-            value={row.feePercent}
-            onChange={(e) => onChange({ ...row, feePercent: e.target.value })}
-            className={cn(style.feeInputClassName, "pr-10")}
-            placeholder="12"
-            inputMode="decimal"
-          />
-          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-500">
-            %
-          </div>
-        </div>
+        <Input
+          value={row.feePercent}
+          onChange={(event) =>
+            onChange({ ...row, feePercent: event.target.value })
+          }
+          className={style.feeInputClassName}
+          placeholder="0"
+          inputMode="decimal"
+        />
       </div>
 
       <button
@@ -393,24 +419,33 @@ export default function LoanProductForm({
   const style = FORM_STYLE_BY_MODE[mode];
   const isCreate = mode === "create";
   const isBranchEdit = mode === "edit" && context === "branch";
+  const useBlankCreateDefaults = isCreate && context === "consolidation";
 
   const existingProduct = React.useMemo(() => {
     if (mode !== "edit" || !productId) return null;
     return getLoanProducts().find((product) => product.id === productId) ?? null;
   }, [mode, productId]);
 
-  const savedConfig = React.useMemo<LoanProductFormConfig>(
-    () => existingProduct?.formConfig ?? {},
-    [existingProduct],
-  );
+  const savedConfig = React.useMemo<LoanProductFormConfig>(() => {
+    if (useBlankCreateDefaults) return buildBlankCreateConfig();
+    return existingProduct?.formConfig ?? {};
+  }, [existingProduct, useBlankCreateDefaults]);
+
+  const defaultName = useBlankCreateDefaults
+    ? ""
+    : existingProduct?.name ?? "Pinjaman Emas";
 
   const [code, setCode] = React.useState(() =>
     readString(savedConfig, "code", isCreate ? "klp04.07" : "klpk04.07"),
   );
-  const [name, setName] = React.useState(() => existingProduct?.name ?? "Pinjaman Emas");
+  const [name, setName] = React.useState(defaultName);
   const [rc, setRc] = React.useState(() => readBool(savedConfig, "rc", false));
   const [periodUnit, setPeriodUnit] = React.useState<PeriodUnit>(() =>
-    readOption(savedConfig, "periodUnit", "Bulan", ["Bulan", "Hari"]),
+    readOption(savedConfig, "periodUnit", "Bulan", [
+      "Pilih Periode Pinjaman",
+      "Bulan",
+      "Hari",
+    ]),
   );
   const [minPeriod, setMinPeriod] = React.useState(() =>
     readString(
@@ -426,13 +461,14 @@ export default function LoanProductForm({
       existingProduct ? String(existingProduct.tenorMonths) : "12",
     ),
   );
-  const [billingScheme, setBillingScheme] = React.useState<BillingScheme>(
-    () => existingProduct?.billingScheme ?? "Anuitas",
+  const [billingScheme, setBillingScheme] = React.useState<BillingOption>(() =>
+    readOption(savedConfig, "billingScheme", existingProduct?.billingScheme ?? "Anuitas", [
+      "Pilih Metode Bunga Pinjaman",
+      "Flat",
+      "Anuitas",
+      "Menurun",
+    ]),
   );
-  const [interestCountsOnInterestDebt, setInterestCountsOnInterestDebt] =
-    React.useState(() =>
-      readBool(savedConfig, "interestCountsOnInterestDebt", false),
-    );
   const [interestYearly, setInterestYearly] = React.useState(() =>
     readString(
       savedConfig,
@@ -440,8 +476,13 @@ export default function LoanProductForm({
       existingProduct ? existingProduct.interestRateYearly.toFixed(2) : "24.00",
     ),
   );
+  const [interestCountsOnInterestDebt, setInterestCountsOnInterestDebt] =
+    React.useState(() =>
+      readBool(savedConfig, "interestCountsOnInterestDebt", false),
+    );
   const [roundingType, setRoundingType] = React.useState<RoundingType>(() =>
     readOption(savedConfig, "roundingType", "Pembulatan Keatas", [
+      "Pilih Jenis Pembulatan",
       "Pembulatan Keatas",
       "Pembulatan Kebawah",
       "Tanpa Pembulatan",
@@ -456,6 +497,7 @@ export default function LoanProductForm({
   const [terms, setTerms] = React.useState(() =>
     readString(savedConfig, "terms", ""),
   );
+
   const [accInterest, setAccInterest] = React.useState(() =>
     readBool(savedConfig, "accInterest", false),
   );
@@ -474,9 +516,7 @@ export default function LoanProductForm({
   const [specialEndDate, setSpecialEndDate] = React.useState(() =>
     readBool(savedConfig, "specialEndDate", false),
   );
-  const [aturCoaJenisBiaya, setAturCoaJenisBiaya] = React.useState(() =>
-    readBool(savedConfig, "aturCoaJenisBiaya", false),
-  );
+
   const [propisiMode, setPropisiMode] = React.useState<AmountMode>(() =>
     readOption(savedConfig, "propisiMode", "rp", ["rp", "percent"]),
   );
@@ -490,6 +530,7 @@ export default function LoanProductForm({
     React.useState<AmountMode>(() =>
       readOption(savedConfig, "mbankingActivationMode", "rp", ["rp", "percent"]),
     );
+
   const [propisi, setPropisi] = React.useState(() =>
     readString(savedConfig, "propisi", "0,00"),
   );
@@ -508,77 +549,41 @@ export default function LoanProductForm({
   const [splitInterestRevenue, setSplitInterestRevenue] = React.useState(() =>
     readBool(savedConfig, "splitInterestRevenue", false),
   );
+
   const [coaLoan, setCoaLoan] = React.useState<MainCoaOption>(() =>
-    readOption(savedConfig, "coaLoan", "PINJAMAN YANG DIBERIKAN", [
-      "PINJAMAN YANG DIBERIKAN",
-      "PEND. BUNGA PINJAMAN",
-      "PEND. DENDA",
-      "PENDAPATAN LAIN - LAIN",
-      "PEN. ADMINISTRASI",
-      "PILIH",
-    ]),
+    readOption(savedConfig, "coaLoan", "PINJAMAN YANG DIBERIKAN", mainCoaOptions),
   );
   const [coaInterestRevenue, setCoaInterestRevenue] =
     React.useState<MainCoaOption>(() =>
-      readOption(savedConfig, "coaInterestRevenue", "PEND. BUNGA PINJAMAN", [
-        "PINJAMAN YANG DIBERIKAN",
-        "PEND. BUNGA PINJAMAN",
-        "PEND. DENDA",
-        "PENDAPATAN LAIN - LAIN",
-        "PEN. ADMINISTRASI",
-        "PILIH",
-      ]),
+      readOption(savedConfig, "coaInterestRevenue", "PEND. BUNGA PINJAMAN", mainCoaOptions),
     );
   const [coaSplitInterestRevenue, setCoaSplitInterestRevenue] =
     React.useState<MainCoaOption>(() =>
-      readOption(savedConfig, "coaSplitInterestRevenue", "PILIH", [
-        "PINJAMAN YANG DIBERIKAN",
-        "PEND. BUNGA PINJAMAN",
-        "PEND. DENDA",
-        "PENDAPATAN LAIN - LAIN",
-        "PEN. ADMINISTRASI",
-        "PILIH",
-      ]),
+      readOption(savedConfig, "coaSplitInterestRevenue", "PILIH", mainCoaOptions),
     );
   const [coaPenaltyRevenue, setCoaPenaltyRevenue] =
     React.useState<MainCoaOption>(() =>
-      readOption(savedConfig, "coaPenaltyRevenue", "PEND. DENDA", [
-        "PINJAMAN YANG DIBERIKAN",
-        "PEND. BUNGA PINJAMAN",
-        "PEND. DENDA",
-        "PENDAPATAN LAIN - LAIN",
-        "PEN. ADMINISTRASI",
-        "PILIH",
-      ]),
+      readOption(savedConfig, "coaPenaltyRevenue", "PEND. DENDA", mainCoaOptions),
     );
   const [coaRoundingRevenue, setCoaRoundingRevenue] =
     React.useState<MainCoaOption>(() =>
-      readOption(savedConfig, "coaRoundingRevenue", "PENDAPATAN LAIN - LAIN", [
-        "PINJAMAN YANG DIBERIKAN",
-        "PEND. BUNGA PINJAMAN",
-        "PEND. DENDA",
-        "PENDAPATAN LAIN - LAIN",
-        "PEN. ADMINISTRASI",
-        "PILIH",
-      ]),
+      readOption(savedConfig, "coaRoundingRevenue", "PENDAPATAN LAIN - LAIN", mainCoaOptions),
     );
   const [coaAdminRevenue, setCoaAdminRevenue] =
     React.useState<MainCoaOption>(() =>
-      readOption(savedConfig, "coaAdminRevenue", "PEN. ADMINISTRASI", [
-        "PINJAMAN YANG DIBERIKAN",
-        "PEND. BUNGA PINJAMAN",
-        "PEND. DENDA",
-        "PENDAPATAN LAIN - LAIN",
-        "PEN. ADMINISTRASI",
-        "PILIH",
-      ]),
+      readOption(savedConfig, "coaAdminRevenue", "PEN. ADMINISTRASI", mainCoaOptions),
     );
+
+  const [aturCoaJenisBiaya, setAturCoaJenisBiaya] = React.useState(() =>
+    readBool(savedConfig, "aturCoaJenisBiaya", false),
+  );
   const [feeCoaValues, setFeeCoaValues] = React.useState<FeeCoaValues>(() =>
     readRecord(savedConfig, "feeCoaValues", emptyFeeCoaValues),
   );
   const [collectorFees, setCollectorFees] = React.useState<CollectorFeeRow[]>(
     () => readArray<CollectorFeeRow>(savedConfig, "collectorFees", []),
   );
+
   const [useInstallmentTable, setUseInstallmentTable] = React.useState(() =>
     readBool(savedConfig, "useInstallmentTable", !isCreate),
   );
@@ -595,6 +600,7 @@ export default function LoanProductForm({
         ],
       ),
     );
+
   const [tarifDendaMode, setTarifDendaMode] =
     React.useState<PenaltyRateMode>(() =>
       readOption(savedConfig, "tarifDendaMode", "rp", ["rp", "percent"]),
@@ -613,19 +619,15 @@ export default function LoanProductForm({
         "Pilih Dasar Perhitungan",
       ]),
     );
-  const [hariKeterlambatan, setHariKeterlambatan] = React.useState<string>(() =>
+  const [hariKeterlambatan, setHariKeterlambatan] = React.useState(() =>
     readString(savedConfig, "hariKeterlambatan", "0"),
   );
   const [dendaBerulang, setDendaBerulang] = React.useState(() =>
     readBool(savedConfig, "dendaBerulang", false),
   );
+
   const [gracePeriodEnabled, setGracePeriodEnabled] = React.useState(() =>
     readBool(savedConfig, "gracePeriodEnabled", false),
-  );
-  const [graceScheme, setGraceScheme] = React.useState<GraceScheme>(() =>
-    readOption(savedConfig, "graceScheme", "Hanya Bayar Bunga", [
-      "Hanya Bayar Bunga",
-    ]),
   );
   const [graceUnit, setGraceUnit] = React.useState<GraceUnit>(() =>
     readOption(savedConfig, "graceUnit", "Pilih Satuan Grace Period", [
@@ -638,19 +640,18 @@ export default function LoanProductForm({
     readString(savedConfig, "graceDuration", ""),
   );
 
-  const graceUnitSuffix = graceUnit === "Hari" ? "(Hari)" : graceUnit === "Bulan" ? "(Bulan)" : "";
-  const graceDurationLabel = `Durasi Grace Period${graceUnitSuffix ? ` ${graceUnitSuffix}` : ""}`;
-  const graceDurationPlaceholder =
-    graceUnit === "Hari"
-      ? "Masukkan Jumlah Hari"
-      : graceUnit === "Bulan"
-        ? "Masukkan Jumlah Bulan"
-        : "Masukkan Durasi";
   const hideDasarPerhitungan = tarifDendaMode === "rp";
+  const graceDurationLabel =
+    graceUnit === "Hari"
+      ? "Durasi Grace Period (Hari)"
+      : graceUnit === "Bulan"
+        ? "Durasi Grace Period (Bulan)"
+        : "Durasi Grace Period";
 
   React.useEffect(() => {
-    if (!hideDasarPerhitungan) return;
-    setDasarPerhitungan("Pilih Dasar Perhitungan");
+    if (hideDasarPerhitungan) {
+      setDasarPerhitungan("Pilih Dasar Perhitungan");
+    }
   }, [hideDasarPerhitungan]);
 
   function updateAccountingCoa(key: string, value: MainCoaOption) {
@@ -663,15 +664,15 @@ export default function LoanProductForm({
   }
 
   function addCollectorFee() {
-    setCollectorFees((prev) => [
-      ...prev,
+    setCollectorFees((current) => [
+      ...current,
       {
         id: String(Date.now()),
         collectorKind: "Kolektor 1",
         feeMethod: "Plafon Pinjaman",
-        minLoan: "1.000.000,00",
-        maxLoan: "50.000.000,00",
-        feePercent: "12",
+        minLoan: "",
+        maxLoan: "",
+        feePercent: "",
       },
     ]);
     toast("Fee kolektor ditambahkan", {
@@ -686,6 +687,7 @@ export default function LoanProductForm({
       periodUnit,
       minPeriod,
       maxPeriod,
+      billingScheme,
       interestYearly,
       interestCountsOnInterestDebt,
       roundingType,
@@ -698,7 +700,6 @@ export default function LoanProductForm({
       minLoan,
       maxLoan,
       specialEndDate,
-      aturCoaJenisBiaya,
       propisiMode,
       adminMode,
       insuranceMode,
@@ -715,6 +716,7 @@ export default function LoanProductForm({
       coaPenaltyRevenue,
       coaRoundingRevenue,
       coaAdminRevenue,
+      aturCoaJenisBiaya,
       feeCoaValues,
       collectorFees,
       useInstallmentTable,
@@ -725,26 +727,33 @@ export default function LoanProductForm({
       hariKeterlambatan,
       dendaBerulang,
       gracePeriodEnabled,
-      graceScheme,
       graceUnit,
       graceDuration,
     };
   }
 
   function save() {
-    const tenorMonths = Math.max(1, Number.parseInt(minPeriod || "12", 10) || 12);
-    const rate = Number.parseFloat((interestYearly || "0").replace(",", ".")) || 0;
-
     if (name.trim().length < 3) {
-      toast("Nama produk belum valid", { description: "Minimal 3 karakter." });
+      toast("Nama produk belum valid", {
+        description: "Minimal 3 karakter.",
+      });
       return;
     }
 
-    if (rate <= 0) {
-      toast("Bunga belum valid", { description: "Isi bunga per tahun (> 0)." });
+    if (billingScheme === "Pilih Metode Bunga Pinjaman") {
+      toast("Metode bunga wajib dipilih");
       return;
     }
 
+    const rate = Number.parseFloat((interestYearly || "0").replace(",", "."));
+    if (!Number.isFinite(rate) || rate <= 0) {
+      toast("Bunga belum valid", {
+        description: "Isi bunga per tahun (> 0).",
+      });
+      return;
+    }
+
+    const tenorMonths = Math.max(1, Number.parseInt(minPeriod || "1", 10) || 1);
     const formConfig = buildFormConfig();
 
     if (isCreate) {
@@ -753,12 +762,12 @@ export default function LoanProductForm({
         tenorMonths,
         interestRateYearly: rate,
         billingScheme,
-        gracePeriodDays: gracePeriodEnabled ? 7 : 0,
+        gracePeriodDays: gracePeriodEnabled ? Number(graceDuration || 0) : 0,
         formConfig,
       });
 
       toast.success("Produk pinjaman tersimpan", {
-        description: "Produk baru sudah masuk ke daftar beserta konfigurasi KP.",
+        description: "Produk baru sudah masuk ke daftar.",
       });
       onSaved();
       return;
@@ -769,12 +778,12 @@ export default function LoanProductForm({
       tenorMonths,
       interestRateYearly: rate,
       billingScheme,
-      gracePeriodDays: gracePeriodEnabled ? 7 : 0,
+      gracePeriodDays: gracePeriodEnabled ? Number(graceDuration || 0) : 0,
       formConfig,
     });
 
     toast.success("Perubahan tersimpan", {
-      description: `Produk: ${name} • konfigurasi KP dan field form ikut tersimpan.`,
+      description: `Produk: ${name}`,
     });
     onSaved();
   }
@@ -786,11 +795,11 @@ export default function LoanProductForm({
       <div className="text-base font-semibold text-slate-900">
         <span className="inline-flex items-center">
           Konfigurasi Denda
-          <FieldTooltip content="Atur metode, dasar perhitungan, dan parameter keterlambatan untuk denda pinjaman." />
+          <FieldTooltip content={TT.denda} />
         </span>
       </div>
 
-      <div className={cn(isCreate ? "grid" : "mt-4 grid", style.gapClassName)}>
+      <div className={cn("mt-4 grid", style.gapClassName)}>
         <FieldRow label="Metode Denda">
           <PenaltyRateField
             mode={tarifDendaMode}
@@ -804,12 +813,19 @@ export default function LoanProductForm({
 
         {!hideDasarPerhitungan ? (
           <FieldRow label="Dasar Perhitungan">
-            <Select value={dasarPerhitungan} onValueChange={(v) => setDasarPerhitungan(v as PenaltyBase)}>
+            <Select
+              value={dasarPerhitungan}
+              onValueChange={(value) =>
+                setDasarPerhitungan(value as PenaltyBase)
+              }
+            >
               <SelectTrigger className={style.selectTriggerClassName}>
                 <SelectValue placeholder="Pilih Dasar Perhitungan" />
               </SelectTrigger>
               <SelectContent className={style.selectContentClassName}>
-                <SelectItem value="Pilih Dasar Perhitungan">Pilih Dasar Perhitungan</SelectItem>
+                <SelectItem value="Pilih Dasar Perhitungan">
+                  Pilih Dasar Perhitungan
+                </SelectItem>
                 <SelectItem value="Pokok">Pokok</SelectItem>
                 <SelectItem value="Bunga">Bunga</SelectItem>
                 <SelectItem value="Hutang Pokok">Hutang Pokok</SelectItem>
@@ -823,22 +839,23 @@ export default function LoanProductForm({
         <FieldRow label="Jumlah Hari Keterlambatan">
           <Input
             value={hariKeterlambatan}
-            onChange={(e) => setHariKeterlambatan(e.target.value)}
+            onChange={(event) => setHariKeterlambatan(event.target.value)}
             className={style.inputClassName}
             placeholder="Masukkan Jumlah Hari"
             inputMode="numeric"
           />
         </FieldRow>
 
-        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-          <div className="pt-1 text-sm font-normal text-slate-900">
-            <span className="inline-flex items-center gap-1.5">
+        <FieldRow
+          label={
+            <span className="inline-flex items-center">
               Proses Denda Berulang (Recurring)
-              <FieldTooltip content={TT.recurringPenalty} className="ml-0" />
+              <FieldTooltip content={TT.recurringPenalty} />
             </span>
-          </div>
+          }
+        >
           <Switch checked={dendaBerulang} onCheckedChange={setDendaBerulang} />
-        </div>
+        </FieldRow>
       </div>
     </>
   );
@@ -854,44 +871,40 @@ export default function LoanProductForm({
         </span>
       </div>
 
-      <div className={cn(isCreate ? "grid" : "mt-4 grid", style.gapClassName)}>
-        {isCreate ? (
-          <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-            <div className="pt-1 text-sm font-normal text-slate-900">Grace Period</div>
-            <Switch checked={gracePeriodEnabled} onCheckedChange={setGracePeriodEnabled} />
-          </div>
-        ) : (
-          <FieldRow label="Grace Period">
-            <Switch checked={gracePeriodEnabled} onCheckedChange={setGracePeriodEnabled} />
-          </FieldRow>
-        )}
+      <div className={cn("mt-4 grid", style.gapClassName)}>
+        <FieldRow label="Grace Period">
+          <Switch
+            checked={gracePeriodEnabled}
+            onCheckedChange={setGracePeriodEnabled}
+          />
+        </FieldRow>
 
         {gracePeriodEnabled ? (
           <>
             <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-              <div className="pt-1 text-sm font-normal text-slate-900">Skema Grace Period</div>
-              <RadioGroup
-                value={graceScheme}
-                onValueChange={(v) => setGraceScheme(v as GraceScheme)}
-                className="flex items-center gap-6"
-              >
+              <div className="pt-1 text-sm font-normal text-slate-900">
+                Skema Grace Period
+              </div>
+              <RadioGroup value="Hanya Bayar Bunga" className="flex items-center gap-6">
                 <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-900">
-                  <RadioGroupItem value="Hanya Bayar Bunga" id="grace-hanya-bayar-bunga" />
-                  <span className="inline-flex items-center">
-                    Hanya Bayar Bunga
-                    <FieldTooltip content={TT.gracePeriodBunga} />
-                  </span>
+                  <RadioGroupItem value="Hanya Bayar Bunga" id={`grace-${mode}`} />
+                  Hanya Bayar Bunga
                 </label>
               </RadioGroup>
             </div>
 
             <FieldRow label="Satuan Grace Period">
-              <Select value={graceUnit} onValueChange={(v) => setGraceUnit(v as GraceUnit)}>
+              <Select
+                value={graceUnit}
+                onValueChange={(value) => setGraceUnit(value as GraceUnit)}
+              >
                 <SelectTrigger className={style.selectTriggerClassName}>
                   <SelectValue placeholder="Pilih Satuan Grace Period" />
                 </SelectTrigger>
                 <SelectContent className={style.selectContentClassName}>
-                  <SelectItem value="Pilih Satuan Grace Period">Pilih Satuan Grace Period</SelectItem>
+                  <SelectItem value="Pilih Satuan Grace Period">
+                    Pilih Satuan Grace Period
+                  </SelectItem>
                   <SelectItem value="Hari">Hari</SelectItem>
                   <SelectItem value="Bulan">Bulan</SelectItem>
                 </SelectContent>
@@ -901,9 +914,9 @@ export default function LoanProductForm({
             <FieldRow label={graceDurationLabel}>
               <Input
                 value={graceDuration}
-                onChange={(e) => setGraceDuration(e.target.value)}
+                onChange={(event) => setGraceDuration(event.target.value)}
                 className={style.inputClassName}
-                placeholder={graceDurationPlaceholder}
+                placeholder="Masukkan Durasi"
                 inputMode="numeric"
               />
             </FieldRow>
@@ -915,23 +928,31 @@ export default function LoanProductForm({
 
   return (
     <Card className={style.cardClassName}>
-      <div className="text-[16px] font-semibold text-slate-900">Konfigurasi Dasar Produk Pinjaman</div>
+      <div className="text-[16px] font-semibold text-slate-900">
+        Konfigurasi Dasar Produk Pinjaman
+      </div>
 
       <div className={cn("mt-5 grid", style.gapClassName)}>
         <FieldRow label="Kode">
-          <Input value={code} onChange={(e) => setCode(e.target.value)} className={cn(style.inputClassName, "bg-slate-100")} />
+          <Input
+            value={code}
+            onChange={(event) => setCode(event.target.value)}
+            className={style.inputClassName}
+            placeholder="Masukkan Kode"
+          />
         </FieldRow>
 
         <FieldRow label="Produk Pinjaman">
           <Input
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(event) => setName(event.target.value)}
             readOnly={isBranchEdit}
             aria-readonly={isBranchEdit}
             className={cn(
               style.inputClassName,
-              isBranchEdit && "bg-slate-100 text-slate-700 cursor-not-allowed",
+              isBranchEdit && "cursor-not-allowed bg-slate-100 text-slate-700",
             )}
+            placeholder="Masukkan Produk Pinjaman"
           />
         </FieldRow>
 
@@ -940,11 +961,17 @@ export default function LoanProductForm({
         </FieldRow>
 
         <FieldRow label="Periode Pinjaman">
-          <Select value={periodUnit} onValueChange={(v) => setPeriodUnit(v as PeriodUnit)}>
+          <Select
+            value={periodUnit}
+            onValueChange={(value) => setPeriodUnit(value as PeriodUnit)}
+          >
             <SelectTrigger className={style.selectTriggerClassName}>
-              <SelectValue />
+              <SelectValue placeholder="Pilih Periode Pinjaman" />
             </SelectTrigger>
             <SelectContent className={style.selectContentClassName}>
+              <SelectItem value="Pilih Periode Pinjaman">
+                Pilih Periode Pinjaman
+              </SelectItem>
               <SelectItem value="Bulan">Bulan</SelectItem>
               <SelectItem value="Hari">Hari</SelectItem>
             </SelectContent>
@@ -952,19 +979,37 @@ export default function LoanProductForm({
         </FieldRow>
 
         <FieldRow label="Minimal Periode Pinjaman">
-          <Input value={minPeriod} onChange={(e) => setMinPeriod(e.target.value)} inputMode="numeric" className={style.inputClassName} />
+          <Input
+            value={minPeriod}
+            onChange={(event) => setMinPeriod(event.target.value)}
+            inputMode="numeric"
+            className={style.inputClassName}
+            placeholder="Masukkan Minimal Periode"
+          />
         </FieldRow>
 
         <FieldRow label="Maksimal Periode Pinjaman">
-          <Input value={maxPeriod} onChange={(e) => setMaxPeriod(e.target.value)} inputMode="numeric" className={style.inputClassName} />
+          <Input
+            value={maxPeriod}
+            onChange={(event) => setMaxPeriod(event.target.value)}
+            inputMode="numeric"
+            className={style.inputClassName}
+            placeholder="Masukkan Maksimal Periode"
+          />
         </FieldRow>
 
         <FieldRow label="Metode Bunga Pinjaman">
-          <Select value={billingScheme} onValueChange={(v) => setBillingScheme(v as BillingScheme)}>
+          <Select
+            value={billingScheme}
+            onValueChange={(value) => setBillingScheme(value as BillingOption)}
+          >
             <SelectTrigger className={style.selectTriggerClassName}>
-              <SelectValue />
+              <SelectValue placeholder="Pilih Metode Bunga Pinjaman" />
             </SelectTrigger>
             <SelectContent className={style.selectContentClassName}>
+              <SelectItem value="Pilih Metode Bunga Pinjaman">
+                Pilih Metode Bunga Pinjaman
+              </SelectItem>
               <SelectItem value="Anuitas">Bunga Efektif (Anuitas)</SelectItem>
               <SelectItem value="Flat">Bunga Flat</SelectItem>
               <SelectItem value="Menurun">Menurun</SelectItem>
@@ -973,36 +1018,70 @@ export default function LoanProductForm({
         </FieldRow>
 
         <FieldRow label="Bunga Pinjaman Memperhitungkan Hutang Bunga">
-          <Switch checked={interestCountsOnInterestDebt} onCheckedChange={setInterestCountsOnInterestDebt} />
+          <Switch
+            checked={interestCountsOnInterestDebt}
+            onCheckedChange={setInterestCountsOnInterestDebt}
+          />
         </FieldRow>
 
         <FieldRow label="Bunga Per Tahun (%)">
-          <Input value={interestYearly} onChange={(e) => setInterestYearly(e.target.value)} inputMode="decimal" className={style.inputClassName} />
+          <Input
+            value={interestYearly}
+            onChange={(event) => setInterestYearly(event.target.value)}
+            inputMode="decimal"
+            className={style.inputClassName}
+            placeholder="0,00"
+          />
         </FieldRow>
 
         <FieldRow label="Jenis Pembulatan">
-          <Select value={roundingType} onValueChange={(v) => setRoundingType(v as RoundingType)}>
+          <Select
+            value={roundingType}
+            onValueChange={(value) => setRoundingType(value as RoundingType)}
+          >
             <SelectTrigger className={style.selectTriggerClassName}>
-              <SelectValue />
+              <SelectValue placeholder="Pilih Jenis Pembulatan" />
             </SelectTrigger>
             <SelectContent className={style.selectContentClassName}>
+              <SelectItem value="Pilih Jenis Pembulatan">
+                Pilih Jenis Pembulatan
+              </SelectItem>
               <SelectItem value="Pembulatan Keatas">Pembulatan Keatas</SelectItem>
-              <SelectItem value="Pembulatan Kebawah">Pembulatan Kebawah</SelectItem>
+              <SelectItem value="Pembulatan Kebawah">
+                Pembulatan Kebawah
+              </SelectItem>
               <SelectItem value="Tanpa Pembulatan">Tanpa Pembulatan</SelectItem>
             </SelectContent>
           </Select>
         </FieldRow>
 
         <FieldRow label="Kelipatan Pembulatan">
-          <Input value={roundingMultiple} onChange={(e) => setRoundingMultiple(e.target.value)} inputMode="numeric" className={style.inputClassName} />
+          <Input
+            value={roundingMultiple}
+            onChange={(event) => setRoundingMultiple(event.target.value)}
+            inputMode="numeric"
+            className={style.inputClassName}
+            placeholder="0"
+          />
         </FieldRow>
 
         <FieldRow label="Nominal Kelipatan">
-          <Input value={nominalStep} onChange={(e) => setNominalStep(e.target.value)} inputMode="numeric" className={style.inputClassName} />
+          <Input
+            value={nominalStep}
+            onChange={(event) => setNominalStep(event.target.value)}
+            inputMode="numeric"
+            className={style.inputClassName}
+            placeholder="0"
+          />
         </FieldRow>
 
         <FieldRow label="Ketentuan Produk Pinjaman">
-          <Textarea value={terms} onChange={(e) => setTerms(e.target.value)} className={style.textareaClassName} />
+          <Textarea
+            value={terms}
+            onChange={(event) => setTerms(event.target.value)}
+            className={style.textareaClassName}
+            placeholder="Masukkan Ketentuan Produk Pinjaman"
+          />
         </FieldRow>
       </div>
 
@@ -1012,19 +1091,35 @@ export default function LoanProductForm({
         </FieldRow>
 
         <FieldRow label="Tidak Menghitung Hutang Pokok">
-          <Switch checked={ignorePrincipalDebt} onCheckedChange={setIgnorePrincipalDebt} />
+          <Switch
+            checked={ignorePrincipalDebt}
+            onCheckedChange={setIgnorePrincipalDebt}
+          />
         </FieldRow>
 
         <FieldRow label="Tidak Menghitung Hutang Bunga">
-          <Switch checked={ignoreInterestDebt} onCheckedChange={setIgnoreInterestDebt} />
+          <Switch
+            checked={ignoreInterestDebt}
+            onCheckedChange={setIgnoreInterestDebt}
+          />
         </FieldRow>
 
         <FieldRow label="Minimal Pinjaman">
-          <Input value={minLoan} onChange={(e) => setMinLoan(e.target.value)} className={style.inputClassName} />
+          <Input
+            value={minLoan}
+            onChange={(event) => setMinLoan(event.target.value)}
+            className={style.inputClassName}
+            placeholder="0,00"
+          />
         </FieldRow>
 
         <FieldRow label="Maksimal Pinjaman">
-          <Input value={maxLoan} onChange={(e) => setMaxLoan(e.target.value)} className={style.inputClassName} />
+          <Input
+            value={maxLoan}
+            onChange={(event) => setMaxLoan(event.target.value)}
+            className={style.inputClassName}
+            placeholder="0,00"
+          />
         </FieldRow>
 
         <FieldRow label="Menggunakan Tanggal Khusus untuk Akhir Periode">
@@ -1075,15 +1170,11 @@ export default function LoanProductForm({
           <Switch checked={withoutCollateral} onCheckedChange={setWithoutCollateral} />
         </FieldRow>
 
-        <FieldRow
-          label={
-            <span className="inline-flex items-center">
-              Split Pendapatan Bunga <InfoBadge />
-            </span>
-          }
-          hint={isCreate ? "Prototype UI." : undefined}
-        >
-          <Switch checked={splitInterestRevenue} onCheckedChange={setSplitInterestRevenue} />
+        <FieldRow label="Split Pendapatan Bunga">
+          <Switch
+            checked={splitInterestRevenue}
+            onCheckedChange={setSplitInterestRevenue}
+          />
         </FieldRow>
       </div>
 
@@ -1111,7 +1202,9 @@ export default function LoanProductForm({
       <Separator className="my-6 bg-slate-200/70" />
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="text-base font-semibold text-slate-900">Konfigurasi Fee Kolektor</div>
+        <div className="text-base font-semibold text-slate-900">
+          Konfigurasi Fee Kolektor
+        </div>
         <Button onClick={addCollectorFee} className={style.addFeeButtonClassName}>
           <Plus className={style.addFeeButtonIconClassName} />
           Tambah Fee Kolektor
@@ -1119,15 +1212,23 @@ export default function LoanProductForm({
       </div>
 
       <div className="mt-4 grid gap-3">
-        {collectorFees.map((f) => (
+        {collectorFees.map((fee) => (
           <FeeRow
-            key={f.id}
-            row={f}
+            key={fee.id}
+            row={fee}
             style={style}
-            onChange={(next) => setCollectorFees((prev) => prev.map((x) => (x.id === f.id ? next : x)))}
+            onChange={(next) =>
+              setCollectorFees((current) =>
+                current.map((item) => (item.id === fee.id ? next : item)),
+              )
+            }
             onRemove={() => {
-              setCollectorFees((prev) => prev.filter((x) => x.id !== f.id));
-              toast("Fee dihapus", { description: "Item fee kolektor dihapus." });
+              setCollectorFees((current) =>
+                current.filter((item) => item.id !== fee.id),
+              );
+              toast("Fee dihapus", {
+                description: "Item fee kolektor dihapus.",
+              });
             }}
           />
         ))}
@@ -1138,7 +1239,7 @@ export default function LoanProductForm({
       <div className="text-base font-semibold text-slate-900">
         <span className="inline-flex items-center">
           Konfigurasi Tagihan Angsuran
-          <FieldTooltip content={TT.konfigurasiTagihanAngsuran} />
+          <FieldTooltip content={TT.skemaTagihan} />
         </span>
       </div>
 
@@ -1151,67 +1252,53 @@ export default function LoanProductForm({
             </span>
           }
         >
-          <Switch checked={useInstallmentTable} onCheckedChange={setUseInstallmentTable} />
+          <Switch
+            checked={useInstallmentTable}
+            onCheckedChange={setUseInstallmentTable}
+          />
         </FieldRow>
 
         {useInstallmentTable ? (
-          <>
-            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-              <div className="pt-1 text-sm font-normal text-slate-900">
-                <span className="inline-flex items-center">
-                  Skema Tagihan <FieldTooltip content={TT.skemaTagihan} />
-                </span>
-              </div>
-
-              <RadioGroup
-                value={installmentMode}
-                onValueChange={(v) => setInstallmentMode(v as InstallmentMode)}
-                className="flex flex-wrap items-center gap-x-6 gap-y-2"
-              >
-                {(
-                  [
-                    "Jadwal Tetap (Diterbitkan Penuh di Awal)",
-                    "Jadwal Fleksibel & Tagihan Berkala",
-                    "Dihitung dari Sisa Saldo Pokok",
-                  ] as InstallmentMode[]
-                ).map((m) => {
-                  const labelText =
-                    m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
-                      ? "Tagihan Sesuai Jadwal Angsuran"
-                      : m === "Jadwal Fleksibel & Tagihan Berkala"
-                        ? "Jadwal Fleksibel & Tagihan Berkala"
-                        : "Tagihan Dihitung Dari Sisa Saldo Pokok";
-                  const tooltipText =
-                    m === "Jadwal Tetap (Diterbitkan Penuh di Awal)"
-                      ? TT.tagihanSesuaiJadwalAngsuran
-                      : m === "Jadwal Fleksibel & Tagihan Berkala"
-                        ? TT.jadwalFleksibelTagihanBerkala
-                        : TT.tagihanDihitungDariSisaSaldoPokok;
-
-                  return (
-                    <label key={m} className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
-                      <RadioGroupItem value={m} id={`mode-${mode}-${m}`} />
-                      <span className="inline-flex items-center">
-                        <span className="whitespace-nowrap">{labelText}</span>
-                        <FieldTooltip content={tooltipText} />
-                      </span>
-                    </label>
-                  );
-                })}
-              </RadioGroup>
+          <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+            <div className="pt-1 text-sm font-normal text-slate-900">
+              Skema Tagihan
             </div>
+            <RadioGroup
+              value={installmentMode}
+              onValueChange={(value) =>
+                setInstallmentMode(value as InstallmentMode)
+              }
+              className="flex flex-wrap items-center gap-x-6 gap-y-2"
+            >
+              <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
+                <RadioGroupItem
+                  value="Jadwal Tetap (Diterbitkan Penuh di Awal)"
+                  id={`mode-${mode}-fixed`}
+                />
+                Tagihan Sesuai Jadwal Angsuran
+              </label>
 
-            {isCreate ? (
-              <>
-                {dendaSection}
-                {graceSection}
-              </>
-            ) : null}
-          </>
+              <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
+                <RadioGroupItem
+                  value="Jadwal Fleksibel & Tagihan Berkala"
+                  id={`mode-${mode}-flex`}
+                />
+                Jadwal Fleksibel & Tagihan Berkala
+              </label>
+
+              <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-900">
+                <RadioGroupItem
+                  value="Dihitung dari Sisa Saldo Pokok"
+                  id={`mode-${mode}-balance`}
+                />
+                Tagihan Dihitung Dari Sisa Saldo Pokok
+              </label>
+            </RadioGroup>
+          </div>
         ) : null}
       </div>
 
-      {!isCreate && useInstallmentTable ? (
+      {useInstallmentTable ? (
         <>
           {dendaSection}
           {graceSection}
@@ -1219,17 +1306,6 @@ export default function LoanProductForm({
       ) : null}
 
       <LoanFormActionButtons onCancel={onCancel} onSave={save} />
-
-      <div className="sr-only">
-        {isCreate ? (
-          <>
-            <Info />
-            <Save />
-            <X />
-          </>
-        ) : null}
-        {aturCoaJenisBiaya ? "coa-biaya-active" : "coa-biaya-inactive"}
-      </div>
     </Card>
   );
 }
