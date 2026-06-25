@@ -127,7 +127,7 @@ export default function SavingsProductCoaDropdownFields({
     <div className={cn("grid gap-[20px]", className)}>
       <div className="h-px w-full bg-slate-300/80" />
 
-      <SectionHeader>Konfigurasi KP Tabungan</SectionHeader>
+      <SectionHeader>Konfigurasi KP Simpanan</SectionHeader>
 
       {coaFields.map((field) => {
         const selectedValue = values[field];
@@ -140,7 +140,7 @@ export default function SavingsProductCoaDropdownFields({
             {showSectionDivider ? (
               <>
                 <div className="h-px w-full bg-slate-300/80" />
-                <SectionHeader>Konfigurasi KP Tabungan SAK EP</SectionHeader>
+                <SectionHeader>Konfigurasi KP Simpanan SAK EP</SectionHeader>
               </>
             ) : null}
 

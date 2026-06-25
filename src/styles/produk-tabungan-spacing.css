@@ -1,6 +1,6 @@
 /* Produk Tabungan Tambah: header konfigurasi dasar di atas field Kode */
 [class*="p-[40px]"] > .grid::before {
-  content: "Konfigurasi Dasar Produk Tabungan";
+  content: "Konfigurasi Dasar Produk Simpanan";
   display: block;
   color: #000000;
   font-size: 18px;
