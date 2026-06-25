@@ -42,6 +42,30 @@ type DepositSeed = {
   kpBiayaBunga: string;
 };
 
+const emptyCreateSeed: DepositSeed = {
+  kode: "",
+  namaProduk: "",
+  minimalDeposito: "",
+  tanggalMaksimalDapatBunga: "",
+  jenisBunga: "",
+  bungaPerTahun: "0%",
+  jenisPembulatan: "",
+  kelipatanPembulatan: "",
+  pajakBunga: "0%",
+  pinaltyMode: "",
+  pinalty: "",
+  periodeWaktu: "",
+  metodeDapatBunga: "",
+  status: false,
+  transferBungaGross: false,
+  penampungBungaNasabahLain: false,
+  kpDeposito: "",
+  kpBunga: "",
+  kpPendapatanPinalty: "",
+  kpPengakuanBiayaBunga: "",
+  kpBiayaBunga: "",
+};
+
 const defaultEditSeed: DepositSeed = {
   kode: "TB001",
   namaProduk: "Simpanan Berjangka 1 Bulan",
@@ -112,60 +136,56 @@ export default function ProdukDepositoTambah() {
   const editSeed = isEditPage
     ? editSeedById[params.id ?? ""] ?? defaultEditSeed
     : null;
+  const initialSeed = editSeed ?? emptyCreateSeed;
 
   const tanggalMaksimalOptions = React.useMemo(
     () => Array.from({ length: 32 }).map((_, index) => String(index)),
     [],
   );
 
-  const [kode, setKode] = React.useState(editSeed?.kode ?? "");
-  const [namaProduk, setNamaProduk] = React.useState(editSeed?.namaProduk ?? "");
+  const [kode, setKode] = React.useState(initialSeed.kode);
+  const [namaProduk, setNamaProduk] = React.useState(initialSeed.namaProduk);
   const [minimalDeposito, setMinimalDeposito] = React.useState(
-    editSeed?.minimalDeposito ?? "",
+    initialSeed.minimalDeposito,
   );
   const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
-    React.useState(editSeed?.tanggalMaksimalDapatBunga ?? "0");
-  const [jenisBunga, setJenisBunga] = React.useState(
-    editSeed?.jenisBunga ?? "Metode Bunga Flat",
-  );
+    React.useState(initialSeed.tanggalMaksimalDapatBunga);
+  const [jenisBunga, setJenisBunga] = React.useState(initialSeed.jenisBunga);
   const [bungaPerTahun, setBungaPerTahun] = React.useState(
-    editSeed?.bungaPerTahun ?? "%",
+    initialSeed.bungaPerTahun,
   );
   const [jenisPembulatan, setJenisPembulatan] = React.useState(
-    editSeed?.jenisPembulatan ?? "",
+    initialSeed.jenisPembulatan,
   );
   const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState(
-    editSeed?.kelipatanPembulatan ?? "",
+    initialSeed.kelipatanPembulatan,
   );
-  const [pajakBunga, setPajakBunga] = React.useState(editSeed?.pajakBunga ?? "");
-  const [pinaltyMode, setPinaltyMode] = React.useState(
-    editSeed?.pinaltyMode ?? "rp",
-  );
-  const [pinalty, setPinalty] = React.useState(editSeed?.pinalty ?? "");
+  const [pajakBunga, setPajakBunga] = React.useState(initialSeed.pajakBunga);
+  const [pinaltyMode, setPinaltyMode] = React.useState(initialSeed.pinaltyMode);
+  const [pinalty, setPinalty] = React.useState(initialSeed.pinalty);
   const [periodeWaktu, setPeriodeWaktu] = React.useState(
-    editSeed?.periodeWaktu ?? "",
+    initialSeed.periodeWaktu,
   );
   const [metodeDapatBunga, setMetodeDapatBunga] = React.useState(
-    editSeed?.metodeDapatBunga ??
-      "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
+    initialSeed.metodeDapatBunga,
   );
-  const [status, setStatus] = React.useState(editSeed?.status ?? true);
+  const [status, setStatus] = React.useState(initialSeed.status);
   const [transferBungaGross, setTransferBungaGross] = React.useState(
-    editSeed?.transferBungaGross ?? false,
+    initialSeed.transferBungaGross,
   );
   const [penampungBungaNasabahLain, setPenampungBungaNasabahLain] =
-    React.useState(editSeed?.penampungBungaNasabahLain ?? false);
+    React.useState(initialSeed.penampungBungaNasabahLain);
 
-  const [kpDeposito, setKpDeposito] = React.useState(editSeed?.kpDeposito ?? "");
-  const [kpBunga, setKpBunga] = React.useState(editSeed?.kpBunga ?? "");
+  const [kpDeposito, setKpDeposito] = React.useState(initialSeed.kpDeposito);
+  const [kpBunga, setKpBunga] = React.useState(initialSeed.kpBunga);
   const [kpPendapatanPinalty, setKpPendapatanPinalty] = React.useState(
-    editSeed?.kpPendapatanPinalty ?? "",
+    initialSeed.kpPendapatanPinalty,
   );
   const [kpPengakuanBiayaBunga, setKpPengakuanBiayaBunga] = React.useState(
-    editSeed?.kpPengakuanBiayaBunga ?? "",
+    initialSeed.kpPengakuanBiayaBunga,
   );
   const [kpBiayaBunga, setKpBiayaBunga] = React.useState(
-    editSeed?.kpBiayaBunga ?? "",
+    initialSeed.kpBiayaBunga,
   );
 
   const listPath =
@@ -320,7 +340,7 @@ export default function ProdukDepositoTambah() {
               <ClearableSavingsSelect
                 value={jenisBunga}
                 onValueChange={setJenisBunga}
-                placeholder="Metode Bunga Flat"
+                placeholder="Pilih Jenis Bunga"
                 options={[
                   "Metode Bunga Flat",
                   "Metode Bunga Efektif",
@@ -390,14 +410,17 @@ export default function ProdukDepositoTambah() {
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Pinalty{requiredMark}</label>
               <div className="flex items-stretch">
-                <Select value={pinaltyMode} onValueChange={handlePinaltyModeChange}>
+                <Select
+                  value={pinaltyMode || undefined}
+                  onValueChange={handlePinaltyModeChange}
+                >
                   <SelectTrigger
                     className={cn(
                       selectTriggerClassName,
                       "w-[72px] rounded-r-none border-r-0 text-black",
                     )}
                   >
-                    <SelectValue />
+                    <SelectValue placeholder="" />
                   </SelectTrigger>
                   <SelectContent className={selectContentClassName}>
                     <SelectItem value="rp" className={selectItemClassName}>
@@ -440,7 +463,7 @@ export default function ProdukDepositoTambah() {
               <ClearableSavingsSelect
                 value={metodeDapatBunga}
                 onValueChange={setMetodeDapatBunga}
-                placeholder="Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga"
+                placeholder="Pilih Metode Dapat Bunga"
                 options={[
                   "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
                   "Pada Saat Jatuh Tempo Periode Berikutnya",
@@ -513,7 +536,7 @@ export default function ProdukDepositoTambah() {
               <label className={labelClassName}>KP Pendapatan Pinalty</label>
               <TermProductCoaSelect
                 value={kpPendapatanPinalty}
-                onValueChange={setKpPendapatanPinalty}
+                onValueChange={setKpPendPinalty}
                 placeholder="Pilih CoA Pinalty"
               />
             </div>
