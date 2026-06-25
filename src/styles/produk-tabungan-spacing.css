@@ -191,7 +191,7 @@
 /* Produk Tabungan Tambah: tombol Batal & Simpan seperti contoh */
 [class*="p-[40px]"] > .mt-8.flex button {
   display: inline-flex !important;
-  height: 28px !important;
+  height: 32px !important;
   width: 90px !important;
   align-items: center !important;
   justify-content: center !important;
