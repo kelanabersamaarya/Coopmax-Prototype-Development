@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -16,52 +16,212 @@ import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 import SavingsProductAdditionalTabs from "@/components/savings/products/SavingsProductAdditionalTabs";
 import SavingsProductCoaDropdownFields from "@/components/savings/products/SavingsProductCoaDropdownFields";
 
+type SavingsProductSeed = {
+  kode: string;
+  tabunganKhususAnggota: string;
+  namaProduk: string;
+  setoranAwal: string;
+  setoranMinimal: string;
+  saldoMinimal: string;
+  saldoMengendap: string;
+  bulanMengendap: string;
+  bungaTier: boolean;
+  bulanTidakDihitung: boolean;
+  bulanTerhitungBunga: boolean;
+  jenisBunga: string;
+  bungaTabungan: string;
+  jenisPembulatan: string;
+  kelipatanPembulatan: string;
+  pajakBunga: string;
+  biayaAdminMode: string;
+  biayaAdmin: string;
+  minimalBulanTanpaTransaksi: string;
+  biayaAdminMbankingSaja: boolean;
+  tabunganBerjangka: boolean;
+  aksesAntarNasabah: boolean;
+  aksesAntarBank: boolean;
+  simpananAsuransi: boolean;
+  bungaCadanganTabungan: boolean;
+  penampungSplitBunga: boolean;
+  saldoDapatDitarik: boolean;
+  transferMasuk: boolean;
+  rekeningTanpaSetoranAwal: boolean;
+  status: boolean;
+  jenisTransaksiBungaDefault: string;
+};
+
+const defaultEditSeed: SavingsProductSeed = {
+  kode: "S001",
+  tabunganKhususAnggota: "semua",
+  namaProduk: "Simpanan Sukarela",
+  setoranAwal: "100.000,00",
+  setoranMinimal: "10.000,00",
+  saldoMinimal: "25.000,00",
+  saldoMengendap: "50.000,00",
+  bulanMengendap: "1",
+  bungaTier: true,
+  bulanTidakDihitung: false,
+  bulanTerhitungBunga: true,
+  jenisBunga: "Bunga Harian",
+  bungaTabungan: "2.50%",
+  jenisPembulatan: "Pembulatan Keatas",
+  kelipatanPembulatan: "100",
+  pajakBunga: "10%",
+  biayaAdminMode: "rp",
+  biayaAdmin: "2.000,00",
+  minimalBulanTanpaTransaksi: "3",
+  biayaAdminMbankingSaja: false,
+  tabunganBerjangka: false,
+  aksesAntarNasabah: true,
+  aksesAntarBank: true,
+  simpananAsuransi: false,
+  bungaCadanganTabungan: true,
+  penampungSplitBunga: false,
+  saldoDapatDitarik: true,
+  transferMasuk: true,
+  rekeningTanpaSetoranAwal: false,
+  status: true,
+  jenisTransaksiBungaDefault: "Bunga Tabungan",
+};
+
+const editSeedById: Record<string, SavingsProductSeed> = {
+  "SP-001": defaultEditSeed,
+  "SP-002": {
+    ...defaultEditSeed,
+    kode: "S002",
+    namaProduk: "Simpanan Harian",
+    jenisBunga: "Bunga Bulanan",
+    bungaTabungan: "3.00%",
+    setoranAwal: "50.000,00",
+  },
+  "SP-003": {
+    ...defaultEditSeed,
+    kode: "S003",
+    namaProduk: "Simpanan Pendidikan",
+    bungaTabungan: "3.25%",
+    saldoMengendap: "100.000,00",
+  },
+  "SP-004": {
+    ...defaultEditSeed,
+    kode: "SB001",
+    namaProduk: "Simpanan Berjangka 6 Bulan",
+    jenisBunga: "Bunga Rata-rata",
+    bungaTabungan: "5.50%",
+    tabunganBerjangka: true,
+  },
+  "SP-005": {
+    ...defaultEditSeed,
+    kode: "SB002",
+    namaProduk: "Simpanan Berjangka 12 Bulan",
+    jenisBunga: "Bunga Rata-rata",
+    bungaTabungan: "6.00%",
+    tabunganBerjangka: true,
+    status: false,
+  },
+};
+
 export default function ProdukTabunganTambah() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams<{ id: string }>();
 
-  const [kode, setKode] = React.useState("");
-  const [tabunganKhususAnggota, setTabunganKhususAnggota] = React.useState("");
-  const [namaProduk, setNamaProduk] = React.useState("");
-  const [setoranAwal, setSetoranAwal] = React.useState("0,00");
-  const [setoranMinimal, setSetoranMinimal] = React.useState("0,00");
-  const [saldoMinimal, setSaldoMinimal] = React.useState("0,00");
-  const [saldoMengendap, setSaldoMengendap] = React.useState("0,00");
-  const [bulanMengendap, setBulanMengendap] = React.useState("");
-  const [bungaTier, setBungaTier] = React.useState(false);
-  const [bulanTidakDihitung, setBulanTidakDihitung] = React.useState(false);
-  const [bulanTerhitungBunga, setBulanTerhitungBunga] = React.useState(false);
+  const isEditPage = location.pathname.endsWith("/edit");
+  const editSeed = isEditPage
+    ? editSeedById[params.id ?? ""] ?? defaultEditSeed
+    : null;
 
-  const [jenisBunga, setJenisBunga] = React.useState("");
-  const [bungaTabungan, setBungaTabungan] = React.useState("");
-  const [jenisPembulatan, setJenisPembulatan] = React.useState("");
-  const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState("0");
-  const [pajakBunga, setPajakBunga] = React.useState("0%");
-  const [biayaAdminMode, setBiayaAdminMode] = React.useState("rp");
-  const [biayaAdmin, setBiayaAdmin] = React.useState("0,00");
+  const [kode, setKode] = React.useState(editSeed?.kode ?? "");
+  const [tabunganKhususAnggota, setTabunganKhususAnggota] = React.useState(
+    editSeed?.tabunganKhususAnggota ?? "",
+  );
+  const [namaProduk, setNamaProduk] = React.useState(
+    editSeed?.namaProduk ?? "",
+  );
+  const [setoranAwal, setSetoranAwal] = React.useState(
+    editSeed?.setoranAwal ?? "0,00",
+  );
+  const [setoranMinimal, setSetoranMinimal] = React.useState(
+    editSeed?.setoranMinimal ?? "0,00",
+  );
+  const [saldoMinimal, setSaldoMinimal] = React.useState(
+    editSeed?.saldoMinimal ?? "0,00",
+  );
+  const [saldoMengendap, setSaldoMengendap] = React.useState(
+    editSeed?.saldoMengendap ?? "0,00",
+  );
+  const [bulanMengendap, setBulanMengendap] = React.useState(
+    editSeed?.bulanMengendap ?? "",
+  );
+  const [bungaTier, setBungaTier] = React.useState(
+    editSeed?.bungaTier ?? false,
+  );
+  const [bulanTidakDihitung, setBulanTidakDihitung] = React.useState(
+    editSeed?.bulanTidakDihitung ?? false,
+  );
+  const [bulanTerhitungBunga, setBulanTerhitungBunga] = React.useState(
+    editSeed?.bulanTerhitungBunga ?? false,
+  );
+
+  const [jenisBunga, setJenisBunga] = React.useState(
+    editSeed?.jenisBunga ?? "",
+  );
+  const [bungaTabungan, setBungaTabungan] = React.useState(
+    editSeed?.bungaTabungan ?? "",
+  );
+  const [jenisPembulatan, setJenisPembulatan] = React.useState(
+    editSeed?.jenisPembulatan ?? "",
+  );
+  const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState(
+    editSeed?.kelipatanPembulatan ?? "0",
+  );
+  const [pajakBunga, setPajakBunga] = React.useState(
+    editSeed?.pajakBunga ?? "0%",
+  );
+  const [biayaAdminMode, setBiayaAdminMode] = React.useState(
+    editSeed?.biayaAdminMode ?? "rp",
+  );
+  const [biayaAdmin, setBiayaAdmin] = React.useState(
+    editSeed?.biayaAdmin ?? "0,00",
+  );
   const [minimalBulanTanpaTransaksi, setMinimalBulanTanpaTransaksi] =
-    React.useState("0");
+    React.useState(editSeed?.minimalBulanTanpaTransaksi ?? "0");
 
   const [biayaAdminMbankingSaja, setBiayaAdminMbankingSaja] =
-    React.useState(false);
-  const [tabunganBerjangka, setTabunganBerjangka] = React.useState(false);
-  const [aksesAntarNasabah, setAksesAntarNasabah] = React.useState(false);
-  const [aksesAntarBank, setAksesAntarBank] = React.useState(false);
-  const [simpananAsuransi, setSimpananAsuransi] = React.useState(false);
+    React.useState(editSeed?.biayaAdminMbankingSaja ?? false);
+  const [tabunganBerjangka, setTabunganBerjangka] = React.useState(
+    editSeed?.tabunganBerjangka ?? false,
+  );
+  const [aksesAntarNasabah, setAksesAntarNasabah] = React.useState(
+    editSeed?.aksesAntarNasabah ?? false,
+  );
+  const [aksesAntarBank, setAksesAntarBank] = React.useState(
+    editSeed?.aksesAntarBank ?? false,
+  );
+  const [simpananAsuransi, setSimpananAsuransi] = React.useState(
+    editSeed?.simpananAsuransi ?? false,
+  );
   const [bungaCadanganTabungan, setBungaCadanganTabungan] =
-    React.useState(false);
-  const [penampungSplitBunga, setPenampungSplitBunga] = React.useState(false);
-  const [saldoDapatDitarik, setSaldoDapatDitarik] = React.useState(false);
-  const [transferMasuk, setTransferMasuk] = React.useState(false);
+    React.useState(editSeed?.bungaCadanganTabungan ?? false);
+  const [penampungSplitBunga, setPenampungSplitBunga] = React.useState(
+    editSeed?.penampungSplitBunga ?? false,
+  );
+  const [saldoDapatDitarik, setSaldoDapatDitarik] = React.useState(
+    editSeed?.saldoDapatDitarik ?? false,
+  );
+  const [transferMasuk, setTransferMasuk] = React.useState(
+    editSeed?.transferMasuk ?? false,
+  );
   const [rekeningTanpaSetoranAwal, setRekeningTanpaSetoranAwal] =
-    React.useState(false);
-  const [status, setStatus] = React.useState(true);
+    React.useState(editSeed?.rekeningTanpaSetoranAwal ?? false);
+  const [status, setStatus] = React.useState(editSeed?.status ?? true);
   const [jenisTransaksiBungaDefault, setJenisTransaksiBungaDefault] =
-    React.useState("");
+    React.useState(editSeed?.jenisTransaksiBungaDefault ?? "");
 
   function save() {
-    toast("Simpan produk tabungan (prototype)", {
-      description:
-        "Detail lanjutan produk tabungan akan ditambahkan pada tahap berikutnya.",
+    toast(isEditPage ? "Perubahan produk simpanan tersimpan" : "Simpan produk tabungan (prototype)", {
+      description: isEditPage
+        ? `${kode} • ${namaProduk}`
+        : "Detail lanjutan produk tabungan akan ditambahkan pada tahap berikutnya.",
     });
   }
 
@@ -114,7 +274,9 @@ export default function ProdukTabunganTambah() {
             <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
               Produk Tabungan
             </h1>
-            <div className="text-sm font-semibold text-slate-500">Tambah</div>
+            <div className="text-sm font-semibold text-slate-500">
+              {isEditPage ? "Ubah" : "Tambah"}
+            </div>
           </div>
         </div>
 
