@@ -59,23 +59,23 @@ export default function SavingsMonthSelect({
           }
 
           .savings-month-scroll::-webkit-scrollbar-track {
-            background: #e5edf7;
+            background: #f1f5f9;
             border-radius: 999px;
           }
 
           .savings-month-scroll::-webkit-scrollbar-thumb {
-            background: #3b82f6;
+            background: #94a3b8;
             border-radius: 999px;
-            border: 2px solid #e5edf7;
+            border: 2px solid #f1f5f9;
           }
 
           .savings-month-scroll::-webkit-scrollbar-thumb:hover {
-            background: #2563eb;
+            background: #64748b;
           }
 
           .savings-month-scroll {
             scrollbar-width: thin;
-            scrollbar-color: #3b82f6 #e5edf7;
+            scrollbar-color: #94a3b8 #f1f5f9;
           }
         `}
       </style>
