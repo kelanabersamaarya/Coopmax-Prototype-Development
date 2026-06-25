@@ -54,6 +54,25 @@ export default function ProdukDepositoTambah() {
     setKelipatanPembulatan("");
   }, [hasJenisPembulatan]);
 
+  function handlePinaltyModeChange(nextMode: string) {
+    setPinaltyMode(nextMode);
+
+    const current = pinalty.trim();
+
+    if (nextMode === "percent") {
+      if (!current || current === "0" || current === "0,00" || current === "0.00") {
+        setPinalty("0%");
+      }
+      return;
+    }
+
+    if (nextMode === "rp") {
+      if (!current || current === "0" || current === "0%") {
+        setPinalty("0,00");
+      }
+    }
+  }
+
   function save() {
     toast("Simpan produk deposito (prototype)", {
       description: `${kode || "Kode"} • ${namaProduk || "Produk Deposito"}`,
@@ -136,7 +155,7 @@ export default function ProdukDepositoTambah() {
               <label className={labelClassName}>Minimal Deposito{requiredMark}</label>
               <Input
                 value={minimalDeposito}
-                onChange={(event) => setMinimalDepos(event.target.value)}
+                onChange={(event) => setMinimalDeposito(event.target.value)}
                 className={formInputClassName}
                 placeholder="0,00"
                 inputMode="decimal"
@@ -235,7 +254,7 @@ export default function ProdukDepositoTambah() {
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Pinalty{requiredMark}</label>
               <div className="flex items-stretch">
-                <Select value={pinaltyMode} onValueChange={setPinaltyMode}>
+                <Select value={pinaltyMode} onValueChange={handlePinaltyModeChange}>
                   <SelectTrigger
                     className={cn(
                       selectTriggerClassName,
@@ -257,7 +276,7 @@ export default function ProdukDepositoTambah() {
                   value={pinalty}
                   onChange={(event) => setPinalty(event.target.value)}
                   className={cn(formInputClassName, "rounded-l-none")}
-                  placeholder="0,00"
+                  placeholder={pinaltyMode === "percent" ? "0%" : "0,00"}
                   inputMode="decimal"
                 />
               </div>
