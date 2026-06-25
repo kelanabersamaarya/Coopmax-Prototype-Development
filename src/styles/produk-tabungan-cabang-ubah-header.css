@@ -1,0 +1,4 @@
+/* Produk Simpanan Cabang Ubah: samakan header dengan Produk Simpanan Ubah konsolidasi */
+.produk-tabungan-cabang-ubah-page h1::before {
+  content: "Produk Simpanan" !important;
+}
