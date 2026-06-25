@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Save } from "lucide-react";
+import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -443,7 +443,7 @@ export default function ProdukDepositoTambah() {
                 "sm:w-[90px]",
               )}
             >
-              <Save className="h-4 w-4" strokeWidth={3} />
+              <CheckSquare className="h-5 w-5" strokeWidth={3} />
               Simpan
             </button>
           </div>
