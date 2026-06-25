@@ -34,7 +34,7 @@ export default function SavingsProductSaveSuccessModal({
           </div>
 
           <div className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
-            Berhasil menyimpan data
+            Berhasil memperbaharui data
           </div>
 
           <div className="mt-7">
