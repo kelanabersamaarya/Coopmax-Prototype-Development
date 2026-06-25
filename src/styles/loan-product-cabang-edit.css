@@ -1,13 +1,13 @@
 /* Produk Pinjaman Cabang - halaman Ubah
    Tampilkan:
    - Section Konfigurasi Dasar Produk Pinjaman: Kode + Produk Pinjaman
-   - Section Konfigurasi KP Biaya Pinjaman
    - Section Konfigurasi KP Pendapatan Pinjaman
    - Section Konfigurasi KP Pendapatan Pinjaman SAK EP jika berada di modul Coopmax - SAK EP
 
    Sembunyikan:
    - Field lanjutan di Konfigurasi Dasar Produk Pinjaman
-   - Konfigurasi lanjutan lain
+   - Konfigurasi dasar lanjutan
+   - Konfigurasi KP Biaya Pinjaman
    - Konfigurasi Fee Kolektor
    - Konfigurasi Tagihan Angsuran
    - Konfigurasi Denda
@@ -23,6 +23,85 @@
   color: #334155 !important;
   cursor: not-allowed !important;
   pointer-events: none !important;
+}
+
+/* Produk Pinjaman Cabang: hanya tampilkan Kode dan Produk Pinjaman di section konfigurasi dasar. */
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .mt-5.grid
+  > * {
+  display: none !important;
+}
+
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .mt-5.grid
+  > div:nth-child(1),
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .mt-5.grid
+  > div:nth-child(2) {
+  display: grid !important;
+}
+
+/* Produk Pinjaman Cabang: sembunyikan field konfigurasi dasar lanjutan. */
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .mt-6.grid {
+  display: none !important;
+}
+
+/* Produk Pinjaman Cabang: sembunyikan section KP Biaya Pinjaman jika setting global aktif. */
+.loan-product-cabang-edit-form .loan-product-fee-coa-section {
+  display: none !important;
+}
+
+/* Produk Pinjaman Cabang: sembunyikan section setelah konfigurasi KP pendapatan. */
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .my-6.bg-slate-200\/70,
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between,
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3,
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .text-base.font-semibold.text-slate-900,
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid,
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .grid.gap-5,
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .grid.gap-\[15px\] {
+  display: none !important;
+}
+
+/* Produk Pinjaman Cabang: tombol aksi akhir tetap tampil. */
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  > .mt-6.flex.justify-end,
+.loan-product-cabang-edit-form
+  > div
+  > [class*="rounded-"]
+  .mt-6.flex.justify-end {
+  display: flex !important;
 }
 
 /* Konfigurasi KP Biaya Pinjaman disembunyikan langsung dari komponen
