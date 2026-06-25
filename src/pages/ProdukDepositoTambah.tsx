@@ -265,6 +265,7 @@ export default function ProdukDepositoTambah() {
   );
 
   const labelClassName = "text-[14px] font-normal leading-snug text-[#002060]";
+  const helperClassName = "mt-1 text-[13px] font-normal text-[#6479A6]";
   const requiredMark = <span className="text-rose-600">*</span>;
 
   return (
@@ -547,22 +548,38 @@ export default function ProdukDepositoTambah() {
               Konfigurasi KP Deposito SAK EP
             </div>
 
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>KP Pengakuan Biaya Bunga</label>
-              <TermProductCoaSelect
-                value={kpPengakuanBiayaBunga}
-                onValueChange={setKpPengakuanBiayaBunga}
-                placeholder="Pilih CoA Pengakuan Biaya Bunga"
-              />
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <label className={cn(labelClassName, "pt-[5px]")}>
+                KP Pengakuan Biaya Bunga
+              </label>
+              <div>
+                <TermProductCoaSelect
+                  value={kpPengakuanBiayaBunga}
+                  onValueChange={setKpPengakuanBiayaBunga}
+                  placeholder="Pilih CoA Pengakuan Biaya Bunga"
+                />
+                <div className={helperClassName}>
+                  Akun pengakuan biaya bunga sesuai kebijakan akuntasi deposito
+                  pada penerapan SAK EP
+                </div>
+              </div>
             </div>
 
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>KP Biaya Bunga</label>
-              <TermProductCoaSelect
-                value={kpBiayaBunga}
-                onValueChange={setKpBiayaBunga}
-                placeholder="Pilih CoA Biaya Bunga"
-              />
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
+              <label className={cn(labelClassName, "pt-[5px]")}>
+                KP Biaya Bunga
+              </label>
+              <div>
+                <TermProductCoaSelect
+                  value={kpBiayaBunga}
+                  onValueChange={setKpBiayaBunga}
+                  placeholder="Pilih CoA Biaya Bunga"
+                />
+                <div className={helperClassName}>
+                  Akun biaya bunga saat pengakuan biaya bunga sesuai kebijakan
+                  akuntansi deposito pada penerapan SAK EP
+                </div>
+              </div>
             </div>
           </div>
 
