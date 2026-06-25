@@ -49,13 +49,13 @@ export default function SavingsProductAdditionalTabs({
         </div>
       </div>
 
-      <div className="border-t border-slate-200 bg-white">
-        <div className="px-4 pt-5 text-[16px] font-bold leading-tight text-black">
-          Pengaturan
-        </div>
+      <div className="min-h-[92px] bg-white px-4 py-6">
+        {activeTab === "Biaya Admin" ? (
+          <div>
+            <div className="mb-5 text-[16px] font-bold leading-tight text-black">
+              Pengaturan
+            </div>
 
-        <div className="min-h-[92px] px-4 py-6">
-          {activeTab === "Biaya Admin" ? (
             <button
               type="button"
               onClick={onAddAdminFee}
@@ -69,12 +69,12 @@ export default function SavingsProductAdditionalTabs({
               <Plus className="h-4 w-4" strokeWidth={3} />
               Tambah Biaya Admin
             </button>
-          ) : (
-            <div className="text-[13px] font-normal text-slate-500">
-              Pengaturan {activeTab} belum diisi.
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="text-[13px] font-normal text-slate-500">
+            Pengaturan {activeTab} belum diisi.
+          </div>
+        )}
       </div>
     </div>
   );
