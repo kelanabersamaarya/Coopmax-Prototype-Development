@@ -51,19 +51,25 @@ export default function SavingsProductAdditionalTabs({
 
       <div className="min-h-[92px] bg-white px-4 py-6">
         {activeTab === "Biaya Admin" ? (
-          <button
-            type="button"
-            onClick={onAddAdminFee}
-            className={cn(
-              "inline-flex h-[35px] items-center justify-center gap-2 rounded-[5px] px-5",
-              "bg-[#3366FF] text-[14px] font-semibold text-white",
-              "ring-1 ring-[#3366FF]/25 transition hover:bg-[#2855d9]",
-              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-            )}
-          >
-            <Plus className="h-4 w-4" strokeWidth={3} />
-            Tambah Biaya Admin
-          </button>
+          <div>
+            <div className="mb-5 text-[16px] font-bold leading-tight text-black">
+              Pengaturan
+            </div>
+
+            <button
+              type="button"
+              onClick={onAddAdminFee}
+              className={cn(
+                "inline-flex h-[35px] items-center justify-center gap-2 rounded-[5px] px-5",
+                "bg-[#3366FF] text-[14px] font-semibold text-white",
+                "ring-1 ring-[#3366FF]/25 transition hover:bg-[#2855d9]",
+                "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+              )}
+            >
+              <Plus className="h-4 w-4" strokeWidth={3} />
+              Tambah Biaya Admin
+            </button>
+          </div>
         ) : (
           <div className="text-[13px] font-normal text-slate-500">
             Pengaturan {activeTab} belum diisi.
