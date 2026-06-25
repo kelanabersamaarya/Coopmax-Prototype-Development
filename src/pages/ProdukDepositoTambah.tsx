@@ -132,8 +132,11 @@ export default function ProdukDepositoTambah() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-            Produk Deposito Tambah
+            Produk Deposito
           </h1>
+          <div className="text-[16px] font-semibold tracking-tight text-[#64748B]">
+            Tambah
+          </div>
         </div>
 
         <Card className="mt-6 rounded-[5px] border-slate-200/70 bg-white/90 p-10 shadow-sm backdrop-blur">
