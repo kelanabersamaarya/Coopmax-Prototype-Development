@@ -16,6 +16,7 @@ import TermProductCoaSelect from "@/components/savings/term-products/TermProduct
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 import ClearableSavingsSelect from "@/components/savings/products/ClearableSavingsSelect";
 import SavingsMonthSelect from "@/components/savings/products/SavingsMonthSelect";
+import FieldTooltip from "@/components/loans/FieldTooltip";
 
 export default function ProdukDepositoTambah() {
   const navigate = useNavigate();
@@ -169,8 +170,12 @@ export default function ProdukDepositoTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
+              <label className={cn(labelClassName, "inline-flex items-center")}>
                 Tanggal Maksimal dapat Bunga{requiredMark}
+                <FieldTooltip
+                  content="Tanggal terakhir dalam bulan berjalan yang masih memenuhi syarat untuk mendapatkan perhitungan bunga deposito."
+                  className="ml-2"
+                />
               </label>
               <SavingsMonthSelect
                 value={tanggalMaksimalDapatBunga}
@@ -326,8 +331,12 @@ export default function ProdukDepositoTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
+              <label className={cn(labelClassName, "inline-flex items-center")}>
                 Transfer Bunga Gross{requiredMark}
+                <FieldTooltip
+                  content="Jika aktif, bunga akan ditransfer sebagai nilai gross sebelum pemotongan pajak atau biaya sesuai konfigurasi."
+                  className="ml-2"
+                />
               </label>
               <SavingsTogglePill
                 checked={transferBungaGross}
@@ -336,8 +345,12 @@ export default function ProdukDepositoTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
+              <label className={cn(labelClassName, "inline-flex items-center")}>
                 Penampung Bunga Milik Nasabah Lain{requiredMark}
+                <FieldTooltip
+                  content="Jika aktif, bunga deposito dapat ditampung atau ditransfer ke rekening milik nasabah lain."
+                  className="ml-2"
+                />
               </label>
               <SavingsTogglePill
                 checked={penampungBungaNasabahLain}
