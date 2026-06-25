@@ -117,7 +117,7 @@ function readConfigValue(
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <div className="mt-8">
       <div className="h-px w-full bg-slate-200/80" />
       <div className="mt-6 text-base font-semibold text-slate-900">
         {children}
