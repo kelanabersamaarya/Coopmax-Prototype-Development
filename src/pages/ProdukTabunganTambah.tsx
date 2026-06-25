@@ -144,9 +144,7 @@ export default function ProdukTabunganTambah() {
   const [tabunganKhususAnggota, setTabunganKhususAnggota] = React.useState(
     editSeed?.tabunganKhususAnggota ?? "",
   );
-  const [namaProduk, setNamaProduk] = React.useState(
-    editSeed?.namaProduk ?? "",
-  );
+  const [namaProduk, setNamaProduk] = React.useState(editSeed?.namaProduk ?? "");
   const [setoranAwal, setSetoranAwal] = React.useState(
     editSeed?.setoranAwal ?? "0,00",
   );
@@ -164,9 +162,7 @@ export default function ProdukTabunganTambah() {
   );
   const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
     React.useState(editSeed?.tanggalMaksimalDapatBunga ?? "");
-  const [bungaTier, setBungaTier] = React.useState(
-    editSeed?.bungaTier ?? false,
-  );
+  const [bungaTier, setBungaTier] = React.useState(editSeed?.bungaTier ?? false);
   const [bulanTidakDihitung, setBulanTidakDihitung] = React.useState(
     editSeed?.bulanTidakDihitung ?? false,
   );
@@ -174,9 +170,7 @@ export default function ProdukTabunganTambah() {
     editSeed?.bulanTerhitungBunga ?? false,
   );
 
-  const [jenisBunga, setJenisBunga] = React.useState(
-    editSeed?.jenisBunga ?? "",
-  );
+  const [jenisBunga, setJenisBunga] = React.useState(editSeed?.jenisBunga ?? "");
   const [bungaTabungan, setBungaTabungan] = React.useState(
     editSeed?.bungaTabungan ?? "",
   );
@@ -212,8 +206,9 @@ export default function ProdukTabunganTambah() {
   const [simpananAsuransi, setSimpananAsuransi] = React.useState(
     editSeed?.simpananAsuransi ?? false,
   );
-  const [bungaCadanganTabungan, setBungaCadanganTabungan] =
-    React.useState(editSeed?.bungaCadanganTabungan ?? false);
+  const [bungaCadanganTabungan, setBungaCadanganTabungan] = React.useState(
+    editSeed?.bungaCadanganTabungan ?? false,
+  );
   const [penampungSplitBunga, setPenampungSplitBunga] = React.useState(
     editSeed?.penampungSplitBunga ?? false,
   );
@@ -278,8 +273,7 @@ export default function ProdukTabunganTambah() {
     "data-[state=checked]:bg-violet-600 data-[state=checked]:text-white",
   );
 
-  const labelClassName =
-    "text-[14px] font-normal leading-snug text-[#002060]";
+  const labelClassName = "text-[14px] font-normal leading-snug text-[#002060]";
   const helperClassName = "mt-1 text-[13px] font-normal text-[#6479A6]";
   const requiredMark = <span className="text-rose-600">*</span>;
 
@@ -650,6 +644,10 @@ export default function ProdukTabunganTambah() {
                       onChange={setAksesAntarBank}
                     />
                   </div>
+
+                  {aksesAntarBank ? (
+                    <SavingsInterCustomerTransferFields />
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -688,7 +686,7 @@ export default function ProdukTabunganTambah() {
               </label>
               <SavingsTogglePill
                 checked={penampungSplitBunga}
-                onChange={setPenampungSplitBunga}
+                onChange={setPenampSplitBunga}
               />
             </div>
 
