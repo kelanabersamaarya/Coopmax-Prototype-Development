@@ -16,6 +16,7 @@ import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 import SavingsProductAdditionalTabs from "@/components/savings/products/SavingsProductAdditionalTabs";
 import SavingsProductCoaDropdownFields from "@/components/savings/products/SavingsProductCoaDropdownFields";
 import SavingsMonthSelect from "@/components/savings/products/SavingsMonthSelect";
+import ClearableSavingsSelect from "@/components/savings/products/ClearableSavingsSelect";
 
 type SavingsProductSeed = {
   kode: string;
@@ -404,6 +405,7 @@ export default function ProdukTabunganTambah() {
               <SavingsMonthSelect
                 value={bulanMengendap}
                 onValueChange={setBulanMengendap}
+                placeholder="Pilih Jumlah Bulan"
                 triggerClassName={selectTriggerClassName}
                 contentClassName={selectContentClassName}
                 itemClassName={selectItemClassName}
@@ -480,7 +482,7 @@ export default function ProdukTabunganTambah() {
               <SavingsMonthSelect
                 value={tanggalMaksimalDapatBunga}
                 onValueChange={setTanggalMaksimalDapatBunga}
-                placeholder="Pilih Tanggal"
+                placeholder="Pilih Tanggal Maksimal Dapat Bunga"
                 options={tanggalMaksimalOptions}
                 triggerClassName={selectTriggerClassName}
                 contentClassName={selectContentClassName}
@@ -490,22 +492,15 @@ export default function ProdukTabunganTambah() {
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Jenis Bunga{requiredMark}</label>
-              <Select value={jenisBunga} onValueChange={setJenisBunga}>
-                <SelectTrigger className={selectTriggerClassName}>
-                  <SelectValue placeholder="Pilih Jenis Bunga" />
-                </SelectTrigger>
-                <SelectContent className={selectContentClassName}>
-                  <SelectItem value="Bunga Harian" className={selectItemClassName}>
-                    Bunga Harian
-                  </SelectItem>
-                  <SelectItem value="Bunga Bulanan" className={selectItemClassName}>
-                    Bunga Bulanan
-                  </SelectItem>
-                  <SelectItem value="Bunga Rata-rata" className={selectItemClassName}>
-                    Bunga Rata-rata
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <ClearableSavingsSelect
+                value={jenisBunga}
+                onValueChange={setJenisBunga}
+                placeholder="Pilih Jenis Bunga"
+                options={["Bunga Harian", "Bunga Bulanan", "Bunga Rata-rata"]}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
@@ -520,25 +515,19 @@ export default function ProdukTabunganTambah() {
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Jenis Pembulatan</label>
-              <Select
+              <ClearableSavingsSelect
                 value={jenisPembulatan}
                 onValueChange={setJenisPembulatan}
-              >
-                <SelectTrigger className={selectTriggerClassName}>
-                  <SelectValue placeholder="Pilih Jenis Pembulatan" />
-                </SelectTrigger>
-                <SelectContent className={selectContentClassName}>
-                  <SelectItem value="Pembulatan Keatas" className={selectItemClassName}>
-                    Pembulatan Keatas
-                  </SelectItem>
-                  <SelectItem value="Pembulatan Kebawah" className={selectItemClassName}>
-                    Pembulatan Kebawah
-                  </SelectItem>
-                  <SelectItem value="Tanpa Pembulatan" className={selectItemClassName}>
-                    Tanpa Pembulatan
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                placeholder="Pilih Jenis Pembulatan"
+                options={[
+                  "Pembulatan Keatas",
+                  "Pembulatan Kebawah",
+                  "Tanpa Pembulatan",
+                ]}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
@@ -744,28 +733,15 @@ export default function ProdukTabunganTambah() {
                 Jenis Transaksi Bunga Default
               </label>
               <div>
-                <Select
+                <ClearableSavingsSelect
                   value={jenisTransaksiBungaDefault}
                   onValueChange={setJenisTransaksiBungaDefault}
-                >
-                  <SelectTrigger className={selectTriggerClassName}>
-                    <SelectValue placeholder="Pilih Jenis Transaksi Bunga Default" />
-                  </SelectTrigger>
-                  <SelectContent className={selectContentClassName}>
-                    <SelectItem
-                      value="Bunga Tabungan"
-                      className={selectItemClassName}
-                    >
-                      Bunga Tabungan
-                    </SelectItem>
-                    <SelectItem
-                      value="Bunga Simpanan"
-                      className={selectItemClassName}
-                    >
-                      Bunga Simpanan
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                  placeholder="Pilih Jenis Transaksi Bunga Default"
+                  options={["Bunga Tabungan", "Bunga Simpanan"]}
+                  triggerClassName={selectTriggerClassName}
+                  contentClassName={selectContentClassName}
+                  itemClassName={selectItemClassName}
+                />
                 <div className={helperClassName}>
                   Jika memilih jenis transaksi bunga default, maka saat melakukan
                   proses bunga jenis transaksi ini yang akan otomatis digunakan
