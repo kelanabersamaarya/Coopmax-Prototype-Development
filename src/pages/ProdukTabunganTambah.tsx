@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
 import SavingsProductAdditionalTabs from "@/components/savings/products/SavingsProductAdditionalTabs";
 import SavingsProductCoaDropdownFields from "@/components/savings/products/SavingsProductCoaDropdownFields";
+import SavingsMonthSelect from "@/components/savings/products/SavingsMonthSelect";
 
 type SavingsProductSeed = {
   kode: string;
@@ -386,25 +387,13 @@ export default function ProdukTabunganTambah() {
                 <br />
                 bunga{requiredMark}
               </label>
-              <Select value={bulanMengendap} onValueChange={setBulanMengendap}>
-                <SelectTrigger className={selectTriggerClassName}>
-                  <SelectValue placeholder="Pilih Jumlah Bulan" />
-                </SelectTrigger>
-                <SelectContent className={selectContentClassName}>
-                  {Array.from({ length: 12 }).map((_, index) => {
-                    const month = String(index + 1);
-                    return (
-                      <SelectItem
-                        key={month}
-                        value={month}
-                        className={selectItemClassName}
-                      >
-                        {month} Bulan
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
+              <SavingsMonthSelect
+                value={bulanMengendap}
+                onValueChange={setBulanMengendap}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
