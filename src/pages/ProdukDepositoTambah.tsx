@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -18,40 +18,155 @@ import ClearableSavingsSelect from "@/components/savings/products/ClearableSavin
 import SavingsMonthSelect from "@/components/savings/products/SavingsMonthSelect";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 
+type DepositSeed = {
+  kode: string;
+  namaProduk: string;
+  minimalDeposito: string;
+  tanggalMaksimalDapatBunga: string;
+  jenisBunga: string;
+  bungaPerTahun: string;
+  jenisPembulatan: string;
+  kelipatanPembulatan: string;
+  pajakBunga: string;
+  pinaltyMode: string;
+  pinalty: string;
+  periodeWaktu: string;
+  metodeDapatBunga: string;
+  status: boolean;
+  transferBungaGross: boolean;
+  penampungBungaNasabahLain: boolean;
+  kpDeposito: string;
+  kpBunga: string;
+  kpPendapatanPinalty: string;
+  kpPengakuanBiayaBunga: string;
+  kpBiayaBunga: string;
+};
+
+const defaultEditSeed: DepositSeed = {
+  kode: "TB001",
+  namaProduk: "Simpanan Berjangka 1 Bulan",
+  minimalDeposito: "1.000.000,00",
+  tanggalMaksimalDapatBunga: "0",
+  jenisBunga: "Metode Bunga Flat",
+  bungaPerTahun: "4.50%",
+  jenisPembulatan: "Pembulatan Keatas",
+  kelipatanPembulatan: "100",
+  pajakBunga: "10%",
+  pinaltyMode: "rp",
+  pinalty: "25.000,00",
+  periodeWaktu: "1",
+  metodeDapatBunga: "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
+  status: true,
+  transferBungaGross: true,
+  penampungBungaNasabahLain: false,
+  kpDeposito: "1.1.1.3.2 - Simpanan Berjangka",
+  kpBunga: "4.1.1.1 - Pendapatan Bunga",
+  kpPendapatanPinalty: "4.1.1.2 - Pendapatan Pinalty",
+  kpPengakuanBiayaBunga: "5.1.1.1 - Beban Jasa Simpanan",
+  kpBiayaBunga: "5.1.1.1 - Beban Jasa Simpanan",
+};
+
+const editSeedById: Record<string, DepositSeed> = {
+  "TS-001": defaultEditSeed,
+  "TS-002": {
+    ...defaultEditSeed,
+    kode: "TB003",
+    namaProduk: "Simpanan Berjangka 3 Bulan",
+    bungaPerTahun: "5.00%",
+    periodeWaktu: "3",
+    minimalDeposito: "2.000.000,00",
+  },
+  "TS-003": {
+    ...defaultEditSeed,
+    kode: "TB006",
+    namaProduk: "Simpanan Berjangka 6 Bulan",
+    bungaPerTahun: "5.50%",
+    periodeWaktu: "6",
+    minimalDeposito: "5.000.000,00",
+  },
+  "TS-004": {
+    ...defaultEditSeed,
+    kode: "TB012",
+    namaProduk: "Simpanan Berjangka 12 Bulan",
+    bungaPerTahun: "6.00%",
+    periodeWaktu: "12",
+    minimalDeposito: "10.000.000,00",
+  },
+  "TS-005": {
+    ...defaultEditSeed,
+    kode: "TB024",
+    namaProduk: "Simpanan Berjangka 24 Bulan",
+    bungaPerTahun: "6.25%",
+    periodeWaktu: "24",
+    status: false,
+    transferBungaGross: false,
+    pinalty: "50.000,00",
+  },
+};
+
 export default function ProdukDepositoTambah() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams<{ id: string }>();
+  const isEditPage = location.pathname.endsWith("/edit");
+  const editSeed = isEditPage
+    ? editSeedById[params.id ?? ""] ?? defaultEditSeed
+    : null;
 
   const tanggalMaksimalOptions = React.useMemo(
     () => Array.from({ length: 32 }).map((_, index) => String(index)),
     [],
   );
 
-  const [kode, setKode] = React.useState("");
-  const [namaProduk, setNamaProduk] = React.useState("");
-  const [minimalDeposito, setMinimalDeposito] = React.useState("");
-  const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
-    React.useState("0");
-  const [jenisBunga, setJenisBunga] = React.useState("Metode Bunga Flat");
-  const [bungaPerTahun, setBungaPerTahun] = React.useState("%");
-  const [jenisPembulatan, setJenisPembulatan] = React.useState("");
-  const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState("");
-  const [pajakBunga, setPajakBunga] = React.useState("");
-  const [pinaltyMode, setPinaltyMode] = React.useState("rp");
-  const [pinalty, setPinalty] = React.useState("");
-  const [periodeWaktu, setPeriodeWaktu] = React.useState("");
-  const [metodeDapatBunga, setMetodeDapatBunga] = React.useState(
-    "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
+  const [kode, setKode] = React.useState(editSeed?.kode ?? "");
+  const [namaProduk, setNamaProduk] = React.useState(editSeed?.namaProduk ?? "");
+  const [minimalDeposito, setMinimalDeposito] = React.useState(
+    editSeed?.minimalDeposito ?? "",
   );
-  const [status, setStatus] = React.useState(true);
-  const [transferBungaGross, setTransferBungaGross] = React.useState(false);
+  const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
+    React.useState(editSeed?.tanggalMaksimalDapatBunga ?? "0");
+  const [jenisBunga, setJenisBunga] = React.useState(
+    editSeed?.jenisBunga ?? "Metode Bunga Flat",
+  );
+  const [bungaPerTahun, setBungaPerTahun] = React.useState(
+    editSeed?.bungaPerTahun ?? "%",
+  );
+  const [jenisPembulatan, setJenisPembulatan] = React.useState(
+    editSeed?.jenisPembulatan ?? "",
+  );
+  const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState(
+    editSeed?.kelipatanPembulatan ?? "",
+  );
+  const [pajakBunga, setPajakBunga] = React.useState(editSeed?.pajakBunga ?? "");
+  const [pinaltyMode, setPinaltyMode] = React.useState(
+    editSeed?.pinaltyMode ?? "rp",
+  );
+  const [pinalty, setPinalty] = React.useState(editSeed?.pinalty ?? "");
+  const [periodeWaktu, setPeriodeWaktu] = React.useState(
+    editSeed?.periodeWaktu ?? "",
+  );
+  const [metodeDapatBunga, setMetodeDapatBunga] = React.useState(
+    editSeed?.metodeDapatBunga ??
+      "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
+  );
+  const [status, setStatus] = React.useState(editSeed?.status ?? true);
+  const [transferBungaGross, setTransferBungaGross] = React.useState(
+    editSeed?.transferBungaGross ?? false,
+  );
   const [penampungBungaNasabahLain, setPenampungBungaNasabahLain] =
-    React.useState(false);
+    React.useState(editSeed?.penampungBungaNasabahLain ?? false);
 
-  const [kpDeposito, setKpDeposito] = React.useState("");
-  const [kpBunga, setKpBunga] = React.useState("");
-  const [kpPendapatanPinalty, setKpPendapatanPinalty] = React.useState("");
-  const [kpPengakuanBiayaBunga, setKpPengakuanBiayaBunga] = React.useState("");
-  const [kpBiayaBunga, setKpBiayaBunga] = React.useState("");
+  const [kpDeposito, setKpDeposito] = React.useState(editSeed?.kpDeposito ?? "");
+  const [kpBunga, setKpBunga] = React.useState(editSeed?.kpBunga ?? "");
+  const [kpPendapatanPinalty, setKpPendapatanPinalty] = React.useState(
+    editSeed?.kpPendapatanPinalty ?? "",
+  );
+  const [kpPengakuanBiayaBunga, setKpPengakuanBiayaBunga] = React.useState(
+    editSeed?.kpPengakuanBiayaBunga ?? "",
+  );
+  const [kpBiayaBunga, setKpBiayaBunga] = React.useState(
+    editSeed?.kpBiayaBunga ?? "",
+  );
 
   const listPath =
     "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi";
@@ -83,9 +198,14 @@ export default function ProdukDepositoTambah() {
   }
 
   function save() {
-    toast("Simpan produk deposito (prototype)", {
-      description: `${kode || "Kode"} • ${namaProduk || "Produk Deposito"}`,
-    });
+    toast(
+      isEditPage
+        ? "Perubahan produk deposito tersimpan"
+        : "Simpan produk deposito (prototype)",
+      {
+        description: `${kode || "Kode"} • ${namaProduk || "Produk Deposito"}`,
+      },
+    );
   }
 
   const formInputClassName = cn(
@@ -135,7 +255,7 @@ export default function ProdukDepositoTambah() {
             Produk Deposito
           </h1>
           <div className="text-[16px] font-semibold tracking-tight text-[#64748B]">
-            Tambah
+            {isEditPage ? "Ubah" : "Tambah"}
           </div>
         </div>
 

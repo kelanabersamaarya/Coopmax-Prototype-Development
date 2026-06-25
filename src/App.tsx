@@ -119,11 +119,22 @@ const App = () => (
                   title="Produk Simpanan Berjangka Konsolidasi"
                   showCreateButton
                   createPath="/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi/new"
+                  editPath={(id) =>
+                    `/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi/${id}/edit`
+                  }
                 />
               }
             />
             <Route
               path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi/new"
+              element={
+                <SavingsProductSaveConfirmGate>
+                  <ProdukDepositoTambah />
+                </SavingsProductSaveConfirmGate>
+              }
+            />
+            <Route
+              path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi/:id/edit"
               element={
                 <SavingsProductSaveConfirmGate>
                   <ProdukDepositoTambah />
