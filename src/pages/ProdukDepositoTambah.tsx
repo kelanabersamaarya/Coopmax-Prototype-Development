@@ -173,7 +173,7 @@ export default function ProdukDepositoTambah() {
               <label className={cn(labelClassName, "inline-flex items-center")}>
                 Tanggal Maksimal dapat Bunga{requiredMark}
                 <FieldTooltip
-                  content="Tanggal terakhir dalam bulan berjalan yang masih memenuhi syarat untuk mendapatkan perhitungan bunga deposito."
+                  content="Jika pilih '0' maka proses bunga akan selalu dijalankan pada bulan selanjutnya."
                   className="ml-2"
                 />
               </label>
@@ -334,7 +334,7 @@ export default function ProdukDepositoTambah() {
               <label className={cn(labelClassName, "inline-flex items-center")}>
                 Transfer Bunga Gross{requiredMark}
                 <FieldTooltip
-                  content="Jika aktif, bunga akan ditransfer sebagai nilai gross sebelum pemotongan pajak atau biaya sesuai konfigurasi."
+                  content="Jika pilih 'on' maka penyerahantun bunga akan diberikan secara gross atau belum dipotong pajak. Nominal bunga yang diterima adalah nominal sebelum dipotong pajak. Pemotongan pajak bunga akan dilakukan secara terpisah pada rekening simpanan penampung bunga."
                   className="ml-2"
                 />
               </label>
@@ -348,7 +348,7 @@ export default function ProdukDepositoTambah() {
               <label className={cn(labelClassName, "inline-flex items-center")}>
                 Penampung Bunga Milik Nasabah Lain{requiredMark}
                 <FieldTooltip
-                  content="Jika aktif, bunga deposito dapat ditampung atau ditransfer ke rekening milik nasabah lain."
+                  content="Jika pilih 'on' maka rekening penampung bunga diperbolehkan memilih rekening milik nasabah lain"
                   className="ml-2"
                 />
               </label>
