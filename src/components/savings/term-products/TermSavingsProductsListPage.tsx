@@ -69,6 +69,10 @@ const rowsSeed: TermSavingsProductRow[] = [
 const pageSizeOptions = [10, 20, 50, 100] as const;
 const statusOptions: TermSavingsStatus[] = ["Semua", "Aktif", "Nonaktif"];
 
+function cleanProductListTitle(title: string) {
+  return title.replace(/\s+(Cabang|Konsolidasi)\b/gi, "").trim();
+}
+
 export default function TermSavingsProductsListPage({
   title,
   subtitle = "Daftar",
@@ -84,6 +88,7 @@ export default function TermSavingsProductsListPage({
 }) {
   const navigate = useNavigate();
   const rows = React.useMemo(() => rowsSeed, []);
+  const displayTitle = cleanProductListTitle(title);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
@@ -145,7 +150,7 @@ export default function TermSavingsProductsListPage({
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="flex items-baseline gap-3">
             <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-              {title}
+              {displayTitle}
             </h1>
             <div className="text-sm font-semibold text-slate-500">{subtitle}</div>
           </div>

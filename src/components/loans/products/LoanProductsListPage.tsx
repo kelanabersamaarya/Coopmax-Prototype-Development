@@ -39,6 +39,10 @@ type LoanProductsListPageProps = {
   detailPath: (id: string) => string;
 };
 
+function cleanProductListTitle(title: string) {
+  return title.replace(/\s+(Cabang|Konsolidasi)\b/gi, "").trim();
+}
+
 export default function LoanProductsListPage({
   variant,
   title,
@@ -50,6 +54,7 @@ export default function LoanProductsListPage({
 }: LoanProductsListPageProps) {
   const navigate = useNavigate();
   const products = React.useMemo(() => getLoanProducts(), []);
+  const displayTitle = cleanProductListTitle(title);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
@@ -122,7 +127,7 @@ export default function LoanProductsListPage({
           <div>
             <div className="flex items-baseline gap-3">
               <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-                {title}
+                {displayTitle}
               </h1>
               <div className="text-sm font-semibold text-slate-500">{subtitle}</div>
             </div>

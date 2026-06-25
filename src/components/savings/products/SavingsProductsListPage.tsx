@@ -25,6 +25,10 @@ import {
   type SavingsProductStatus,
 } from "@/components/savings/products/savings-product-list-utils";
 
+function cleanProductListTitle(title: string) {
+  return title.replace(/\s+(Cabang|Konsolidasi)\b/gi, "").trim();
+}
+
 function TermSavingsBadge({ value }: { value: string }) {
   const isActive = value === "Ya";
 
@@ -57,6 +61,7 @@ export default function SavingsProductsListPage({
 }) {
   const navigate = useNavigate();
   const rows = React.useMemo(() => savingsProductRowsSeed, []);
+  const displayTitle = cleanProductListTitle(title);
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
 
@@ -123,7 +128,7 @@ export default function SavingsProductsListPage({
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="flex items-baseline gap-3">
             <h1 className="text-xl font-semibold tracking-tight text-slate-900 md:text-2xl">
-              {title}
+              {displayTitle}
             </h1>
             <div className="text-sm font-semibold text-slate-500">{subtitle}</div>
           </div>
