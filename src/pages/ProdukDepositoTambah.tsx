@@ -20,14 +20,21 @@ import ClearableSavingsSelect from "@/components/savings/products/ClearableSavin
 export default function ProdukDepositoTambah() {
   const navigate = useNavigate();
 
+  const tanggalMaksimalOptions = React.useMemo(
+    () => Array.from({ length: 31 }).map((_, index) => String(index + 1)),
+    [],
+  );
+
   const [kode, setKode] = React.useState("");
   const [namaProduk, setNamaProduk] = React.useState("");
   const [minimalDeposito, setMinimalDeposito] = React.useState("0,00");
+  const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
+    React.useState("");
+  const [jenisBunga, setJenisBunga] = React.useState("");
+  const [bungaPerTahun, setBungaPerTahun] = React.useState("0%");
   const [jangkaWaktu, setJangkaWaktu] = React.useState("");
   const [satuanJangkaWaktu, setSatuanJangkaWaktu] = React.useState("");
-  const [bungaPerTahun, setBungaPerTahun] = React.useState("0%");
   const [pajakBunga, setPajakBunga] = React.useState("0%");
-  const [jenisBunga, setJenisBunga] = React.useState("");
   const [jenisPembulatan, setJenisPembulatan] = React.useState("");
   const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState("0");
   const [minimalBulan, setMinimalBulan] = React.useState("");
@@ -140,6 +147,44 @@ export default function ProdukDepositoTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Tanggal Maksimal Dapat Bunga{requiredMark}
+              </label>
+              <SavingsMonthSelect
+                value={tanggalMaksimalDapatBunga}
+                onValueChange={setTanggalMaksimalDapatBunga}
+                placeholder="Pilih Tanggal Maksimal Dapat Bunga"
+                options={tanggalMaksimalOptions}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Jenis Bunga{requiredMark}</label>
+              <ClearableSavingsSelect
+                value={jenisBunga}
+                onValueChange={setJenisBunga}
+                placeholder="Pilih Jenis Bunga"
+                options={["Bunga Harian", "Bunga Bulanan", "Bunga Rata-rata"]}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Bunga Pertahun{requiredMark}</label>
+              <Input
+                value={bungaPerTahun}
+                onChange={(event) => setBungaPerTahun(event.target.value)}
+                className={formInputClassName}
+                inputMode="decimal"
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Jangka Waktu{requiredMark}</label>
               <SavingsMonthSelect
                 value={jangkaWaktu}
@@ -161,29 +206,6 @@ export default function ProdukDepositoTambah() {
                 triggerClassName={selectTriggerClassName}
                 contentClassName={selectContentClassName}
                 itemClassName={selectItemClassName}
-              />
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>Jenis Bunga{requiredMark}</label>
-              <ClearableSavingsSelect
-                value={jenisBunga}
-                onValueChange={setJenisBunga}
-                placeholder="Pilih Jenis Bunga"
-                options={["Bunga Harian", "Bunga Bulanan", "Bunga Rata-rata"]}
-                triggerClassName={selectTriggerClassName}
-                contentClassName={selectContentClassName}
-                itemClassName={selectItemClassName}
-              />
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>Bunga Per Tahun{requiredMark}</label>
-              <Input
-                value={bungaPerTahun}
-                onChange={(event) => setBungaPerTahun(event.target.value)}
-                className={formInputClassName}
-                inputMode="decimal"
               />
             </div>
 
