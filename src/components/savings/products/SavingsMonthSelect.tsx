@@ -5,7 +5,7 @@ import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const monthOptions = Array.from({ length: 13 }).map((_, index) =>
+const defaultOptions = Array.from({ length: 13 }).map((_, index) =>
   String(index),
 );
 
@@ -16,6 +16,7 @@ export default function SavingsMonthSelect({
   triggerClassName,
   contentClassName,
   itemClassName,
+  options = defaultOptions,
 }: {
   value: string;
   onValueChange: (value: string) => void;
@@ -23,6 +24,7 @@ export default function SavingsMonthSelect({
   triggerClassName?: string;
   contentClassName?: string;
   itemClassName?: string;
+  options?: string[];
 }) {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
@@ -35,9 +37,9 @@ export default function SavingsMonthSelect({
 
   const filteredOptions = React.useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return monthOptions;
-    return monthOptions.filter((option) => option.toLowerCase().includes(q));
-  }, [search]);
+    if (!q) return options;
+    return options.filter((option) => option.toLowerCase().includes(q));
+  }, [options, search]);
 
   function clearValue(event: React.MouseEvent | React.PointerEvent) {
     event.preventDefault();
@@ -90,7 +92,7 @@ export default function SavingsMonthSelect({
             "rounded-[4px] text-red-600 transition hover:bg-red-50",
             "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
           )}
-          aria-label="Hapus pilihan jumlah bulan"
+          aria-label="Hapus pilihan"
           title="Hapus pilihan"
         >
           <X className="h-4 w-4" strokeWidth={3} />

@@ -26,6 +26,7 @@ type SavingsProductSeed = {
   saldoMinimal: string;
   saldoMengendap: string;
   bulanMengendap: string;
+  tanggalMaksimalDapatBunga: string;
   bungaTier: boolean;
   bulanTidakDihitung: boolean;
   bulanTerhitungBunga: boolean;
@@ -60,6 +61,7 @@ const defaultEditSeed: SavingsProductSeed = {
   saldoMinimal: "25.000,00",
   saldoMengendap: "50.000,00",
   bulanMengendap: "1",
+  tanggalMaksimalDapatBunga: "31",
   bungaTier: true,
   bulanTidakDihitung: false,
   bulanTerhitungBunga: true,
@@ -131,6 +133,11 @@ export default function ProdukTabunganTambah() {
     ? editSeedById[params.id ?? ""] ?? defaultEditSeed
     : null;
 
+  const tanggalMaksimalOptions = React.useMemo(
+    () => Array.from({ length: 31 }).map((_, index) => String(index + 1)),
+    [],
+  );
+
   const [kode, setKode] = React.useState(editSeed?.kode ?? "");
   const [tabunganKhususAnggota, setTabunganKhususAnggota] = React.useState(
     editSeed?.tabunganKhususAnggota ?? "",
@@ -153,6 +160,8 @@ export default function ProdukTabunganTambah() {
   const [bulanMengendap, setBulanMengendap] = React.useState(
     editSeed?.bulanMengendap ?? "",
   );
+  const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
+    React.useState(editSeed?.tanggalMaksimalDapatBunga ?? "");
   const [bungaTier, setBungaTier] = React.useState(
     editSeed?.bungaTier ?? false,
   );
@@ -219,11 +228,16 @@ export default function ProdukTabunganTambah() {
     React.useState(editSeed?.jenisTransaksiBungaDefault ?? "");
 
   function save() {
-    toast(isEditPage ? "Perubahan produk simpanan tersimpan" : "Simpan produk tabungan (prototype)", {
-      description: isEditPage
-        ? `${kode} • ${namaProduk}`
-        : "Detail lanjutan produk tabungan akan ditambahkan pada tahap berikutnya.",
-    });
+    toast(
+      isEditPage
+        ? "Perubahan produk simpanan tersimpan"
+        : "Simpan produk tabungan (prototype)",
+      {
+        description: isEditPage
+          ? `${kode} • ${namaProduk}`
+          : "Detail lanjutan produk tabungan akan ditambahkan pada tahap berikutnya.",
+      },
+    );
   }
 
   const formInputClassName = cn(
@@ -390,6 +404,21 @@ export default function ProdukTabunganTambah() {
               <SavingsMonthSelect
                 value={bulanMengendap}
                 onValueChange={setBulanMengendap}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Tanggal Maksimal dapat Bunga{requiredMark}
+              </label>
+              <SavingsMonthSelect
+                value={tanggalMaksimalDapatBunga}
+                onValueChange={setTanggalMaksimalDapatBunga}
+                placeholder="Pilih Tanggal"
+                options={tanggalMaksimalOptions}
                 triggerClassName={selectTriggerClassName}
                 contentClassName={selectContentClassName}
                 itemClassName={selectItemClassName}
