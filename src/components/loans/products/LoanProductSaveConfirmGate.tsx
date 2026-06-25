@@ -24,7 +24,7 @@ export default function LoanProductSaveConfirmGate({
 
   const successMessage = isLoanProductCreate
     ? "Berhasil Menambahkan Data"
-    : "Berhasil Memperbarui";
+    : "Berhasil Memperbarui Data";
 
   function handleClickCapture(event: React.MouseEvent<HTMLDivElement>) {
     if (bypassRef.current) return;
