@@ -645,9 +645,7 @@ export default function ProdukTabunganTambah() {
                     />
                   </div>
 
-                  {aksesAntarBank ? (
-                    <SavingsInterCustomerTransferFields />
-                  ) : null}
+                  {aksesAntarBank ? <SavingsInterCustomerTransferFields /> : null}
                 </div>
               </div>
             </div>
@@ -686,7 +684,7 @@ export default function ProdukTabunganTambah() {
               </label>
               <SavingsTogglePill
                 checked={penampungSplitBunga}
-                onChange={setPenampSplitBunga}
+                onChange={setPenampungSplitBunga}
               />
             </div>
 
