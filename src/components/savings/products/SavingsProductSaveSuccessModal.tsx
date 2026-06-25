@@ -8,10 +8,12 @@ export default function SavingsProductSaveSuccessModal({
   open,
   onOk,
   onOpenChange,
+  message = "Berhasil memperbaharui data",
 }: {
   open: boolean;
   onOk: () => void;
   onOpenChange?: (open: boolean) => void;
+  message?: string;
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -34,7 +36,7 @@ export default function SavingsProductSaveSuccessModal({
           </div>
 
           <div className="mt-6 text-[20px] font-semibold leading-tight tracking-tight text-slate-900">
-            Berhasil memperbaharui data
+            {message}
           </div>
 
           <div className="mt-7">

@@ -18,6 +18,11 @@ export default function SavingsProductSaveConfirmGate({
   const targetButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const bypassRef = React.useRef(false);
 
+  const isTermSavingsCreate =
+    location.pathname.includes(
+      "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi/new",
+    );
+
   function getListPath() {
     if (location.pathname.includes("/produk-simpanan-berjangka-cabang")) {
       return "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang";
@@ -137,6 +142,7 @@ export default function SavingsProductSaveConfirmGate({
         open={successOpen}
         onOpenChange={setSuccessOpen}
         onOk={finishSave}
+        message={isTermSavingsCreate ? "Berhasil Menambahkan Data" : undefined}
       />
     </div>
   );
