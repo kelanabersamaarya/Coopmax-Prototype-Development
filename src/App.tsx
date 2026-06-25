@@ -109,7 +109,24 @@ const App = () => (
             <Route
               path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang"
               element={
-                <TermSavingsProductsListPage title="Produk Simpanan Berjangka Cabang" />
+                <TermSavingsProductsListPage
+                  title="Produk Simpanan Berjangka Cabang"
+                  editPath={(id) =>
+                    `/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang/${id}/edit`
+                  }
+                />
+              }
+            />
+            <Route
+              path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang/:id/edit"
+              element={
+                <SavingsProductSaveConfirmGate>
+                  <SavingsProductCancelRouteGate to="/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang">
+                    <div className="produk-deposito-cabang-ubah-page">
+                      <ProdukDepositoTambah />
+                    </div>
+                  </SavingsProductCancelRouteGate>
+                </SavingsProductSaveConfirmGate>
               }
             />
             <Route

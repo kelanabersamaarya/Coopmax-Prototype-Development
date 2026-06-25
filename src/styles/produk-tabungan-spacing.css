@@ -188,6 +188,70 @@
   }
 }
 
+/* Produk Deposito Cabang Ubah: hanya tampilkan Kode, Nama Produk, KP Deposito, dan KP Deposito SAK EP */
+.produk-deposito-cabang-ubah-page h1 {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.produk-deposito-cabang-ubah-page h1::before {
+  content: "Produk Deposito Cabang";
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  color: #0f172a !important;
+}
+
+.produk-deposito-cabang-ubah-page h1 + div {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.produk-deposito-cabang-ubah-page h1 + div::before {
+  content: "Ubah";
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+}
+
+@media (min-width: 768px) {
+  .produk-deposito-cabang-ubah-page h1::before {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+  }
+}
+
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > * {
+  display: none !important;
+}
+
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(1),
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(2),
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(3),
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(n + 17) {
+  display: grid !important;
+}
+
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(1),
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(18),
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(23) {
+  display: block !important;
+}
+
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(2) input,
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .grid > div:nth-child(3) input {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+  background-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+.produk-deposito-cabang-ubah-page [class*="p-10"] > .mt-8.flex {
+  display: flex !important;
+}
+
 /* Produk Tabungan Tambah: tombol Batal & Simpan seperti contoh */
 [class*="p-[40px]"] > .mt-8.flex button {
   display: inline-flex !important;
