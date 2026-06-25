@@ -47,6 +47,13 @@ export default function ProdukDepositoTambah() {
   const listPath =
     "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi";
 
+  const hasJenisPembulatan = jenisPembulatan.trim().length > 0;
+
+  React.useEffect(() => {
+    if (hasJenisPembulatan) return;
+    setKelipatanPembulatan("");
+  }, [hasJenisPembulatan]);
+
   function save() {
     toast("Simpan produk deposito (prototype)", {
       description: `${kode || "Kode"} • ${namaProduk || "Produk Deposito"}`,
@@ -58,6 +65,11 @@ export default function ProdukDepositoTambah() {
     "text-[14px] font-normal text-[#334155] shadow-none",
     "placeholder:text-[#64748B]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
+  );
+
+  const readonlyInputClassName = cn(
+    formInputClassName,
+    "cursor-not-allowed bg-slate-200/80 text-[#64748B]",
   );
 
   const selectTriggerClassName = cn(
@@ -199,8 +211,14 @@ export default function ProdukDepositoTambah() {
               <Input
                 value={kelipatanPembulatan}
                 onChange={(event) => setKelipatanPembulatan(event.target.value)}
-                className={formInputClassName}
+                className={
+                  hasJenisPembulatan
+                    ? formInputClassName
+                    : readonlyInputClassName
+                }
                 inputMode="numeric"
+                readOnly={!hasJenisPembulatan}
+                disabled={!hasJenisPembulatan}
               />
             </div>
 
