@@ -19,6 +19,14 @@ export default function SavingsProductSaveConfirmGate({
   const bypassRef = React.useRef(false);
 
   function getListPath() {
+    if (location.pathname.includes("/produk-simpanan-berjangka-cabang")) {
+      return "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-cabang";
+    }
+
+    if (location.pathname.includes("/produk-simpanan-berjangka-konsolidasi")) {
+      return "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi";
+    }
+
     if (location.pathname.includes("/produk-simpanan-cabang")) {
       return "/sak-ep-cabang/simpanan/produk-simpanan-cabang";
     }

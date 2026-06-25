@@ -36,6 +36,7 @@ import MobileAwareToaster from "./components/MobileAwareToaster";
 import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
 import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 import ProdukTabunganTambah from "./pages/ProdukTabunganTambah";
+import ProdukDepositoTambah from "./pages/ProdukDepositoTambah";
 import SavingsProductSaveConfirmGate from "./components/savings/products/SavingsProductSaveConfirmGate";
 import SavingsProductCancelRouteGate from "./components/savings/products/SavingsProductCancelRouteGate";
 
@@ -117,7 +118,16 @@ const App = () => (
                 <TermSavingsProductsListPage
                   title="Produk Simpanan Berjangka Konsolidasi"
                   showCreateButton
+                  createPath="/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi/new"
                 />
+              }
+            />
+            <Route
+              path="sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi/new"
+              element={
+                <SavingsProductSaveConfirmGate>
+                  <ProdukDepositoTambah />
+                </SavingsProductSaveConfirmGate>
               }
             />
             <Route
