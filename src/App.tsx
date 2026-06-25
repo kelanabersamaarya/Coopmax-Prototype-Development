@@ -37,6 +37,7 @@ import SavingsProductsListPage from "./components/savings/products/SavingsProduc
 import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 import ProdukTabunganTambah from "./pages/ProdukTabunganTambah";
 import SavingsProductSaveConfirmGate from "./components/savings/products/SavingsProductSaveConfirmGate";
+import SavingsProductCancelRouteGate from "./components/savings/products/SavingsProductCancelRouteGate";
 
 const queryClient = new QueryClient();
 
@@ -65,9 +66,11 @@ const App = () => (
               path="sak-ep-cabang/simpanan/produk-simpanan-cabang/:id/edit"
               element={
                 <SavingsProductSaveConfirmGate>
-                  <div className="produk-tabungan-cabang-ubah-page">
-                    <ProdukTabunganTambah />
-                  </div>
+                  <SavingsProductCancelRouteGate to="/sak-ep-cabang/simpanan/produk-simpanan-cabang">
+                    <div className="produk-tabungan-cabang-ubah-page">
+                      <ProdukTabunganTambah />
+                    </div>
+                  </SavingsProductCancelRouteGate>
                 </SavingsProductSaveConfirmGate>
               }
             />
