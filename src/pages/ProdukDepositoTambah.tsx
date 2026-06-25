@@ -25,7 +25,7 @@ export default function ProdukDepositoTambah() {
   const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
     React.useState("");
   const [jenisBunga, setJenisBunga] = React.useState("Metode Bunga Flat");
-  const [bungaPerTahun, setBungaPerTahun] = React.useState("");
+  const [bungaPerTahun, setBungaPerTahun] = React.useState("%");
   const [jenisPembulatan, setJenisPembulatan] = React.useState("");
   const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState("");
   const [pajakBunga, setPajakBunga] = React.useState("");
@@ -350,7 +350,7 @@ export default function ProdukDepositoTambah() {
               <label className={labelClassName}>KP Pendapatan Pinalty</label>
               <TermProductCoaSelect
                 value={kpPendapatanPinalty}
-                onValueChange={setKpPendapatanPinalty}
+                onValueChange={setKpPendPinalty}
                 placeholder="Pilih CoA Pinalty"
               />
             </div>
