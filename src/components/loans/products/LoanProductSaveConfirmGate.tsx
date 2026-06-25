@@ -22,6 +22,10 @@ export default function LoanProductSaveConfirmGate({
     location.pathname.endsWith("/obs-samudra-harta/loan-products/new") ||
     location.pathname.endsWith("/sak-ep-cabang/loan-products/new");
 
+  const successMessage = isLoanProductCreate
+    ? "Berhasil Menambahkan Data"
+    : "Berhasil Memperbarui";
+
   function handleClickCapture(event: React.MouseEvent<HTMLDivElement>) {
     if (bypassRef.current) return;
 
@@ -124,7 +128,7 @@ export default function LoanProductSaveConfirmGate({
         open={successOpen}
         onOpenChange={setSuccessOpen}
         onOk={finishSave}
-        message={isLoanProductCreate ? "Berhasil Menambahkan Data" : undefined}
+        message={successMessage}
       />
     </div>
   );
