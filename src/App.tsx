@@ -36,6 +36,7 @@ import MobileAwareToaster from "./components/MobileAwareToaster";
 import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
 import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
 import ProdukTabunganTambah from "./pages/ProdukTabunganTambah";
+import SavingsProductSaveConfirmGate from "./components/savings/products/SavingsProductSaveConfirmGate";
 
 const queryClient = new QueryClient();
 
@@ -63,9 +64,11 @@ const App = () => (
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-cabang/:id/edit"
               element={
-                <div className="produk-tabungan-cabang-ubah-page">
-                  <ProdukTabunganTambah />
-                </div>
+                <SavingsProductSaveConfirmGate>
+                  <div className="produk-tabungan-cabang-ubah-page">
+                    <ProdukTabunganTambah />
+                  </div>
+                </SavingsProductSaveConfirmGate>
               }
             />
             <Route
@@ -83,14 +86,20 @@ const App = () => (
             />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/new"
-              element={<ProdukTabunganTambah />}
+              element={
+                <SavingsProductSaveConfirmGate>
+                  <ProdukTabunganTambah />
+                </SavingsProductSaveConfirmGate>
+              }
             />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-konsolidasi/:id/edit"
               element={
-                <div className="produk-tabungan-ubah-page">
-                  <ProdukTabunganTambah />
-                </div>
+                <SavingsProductSaveConfirmGate>
+                  <div className="produk-tabungan-ubah-page">
+                    <ProdukTabunganTambah />
+                  </div>
+                </SavingsProductSaveConfirmGate>
               }
             />
             <Route
