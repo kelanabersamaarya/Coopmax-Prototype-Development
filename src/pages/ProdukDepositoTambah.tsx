@@ -270,7 +270,9 @@ export default function ProdukDepositoTambah() {
               <Input
                 value={kode}
                 onChange={(event) => setKode(event.target.value)}
-                className={formInputClassName}
+                readOnly={isEditPage}
+                aria-readonly={isEditPage}
+                className={isEditPage ? readonlyInputClassName : formInputClassName}
               />
             </div>
 
