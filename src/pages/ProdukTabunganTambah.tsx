@@ -410,21 +410,6 @@ export default function ProdukTabunganTambah() {
               />
             </div>
 
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>
-                Tanggal Maksimal dapat Bunga{requiredMark}
-              </label>
-              <SavingsMonthSelect
-                value={tanggalMaksimalDapatBunga}
-                onValueChange={setTanggalMaksimalDapatBunga}
-                placeholder="Pilih Tanggal"
-                options={tanggalMaksimalOptions}
-                triggerClassName={selectTriggerClassName}
-                contentClassName={selectContentClassName}
-                itemClassName={selectItemClassName}
-              />
-            </div>
-
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
               <label className={cn(labelClassName, "pt-[3px]")}>
                 Bunga Tier{requiredMark}
@@ -486,6 +471,21 @@ export default function ProdukTabunganTambah() {
                 <br />
                 Jika "off" mekanisme Jumlah Bulan Terhitung Bunga tidak aktif
               </div>
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Tanggal Maksimal dapat Bunga{requiredMark}
+              </label>
+              <SavingsMonthSelect
+                value={tanggalMaksimalDapatBunga}
+                onValueChange={setTanggalMaksimalDapatBunga}
+                placeholder="Pilih Tanggal"
+                options={tanggalMaksimalOptions}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
