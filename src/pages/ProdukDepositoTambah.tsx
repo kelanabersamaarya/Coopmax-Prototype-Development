@@ -136,7 +136,7 @@ export default function ProdukDepositoTambah() {
               <label className={labelClassName}>Minimal Deposito{requiredMark}</label>
               <Input
                 value={minimalDeposito}
-                onChange={(event) => setMinimalDeposito(event.target.value)}
+                onChange={(event) => setMinimalDepos(event.target.value)}
                 className={formInputClassName}
                 placeholder="0,00"
                 inputMode="decimal"
@@ -350,7 +350,7 @@ export default function ProdukDepositoTambah() {
               <label className={labelClassName}>KP Pendapatan Pinalty</label>
               <TermProductCoaSelect
                 value={kpPendapatanPinalty}
-                onValueChange={setKpPendPinalty}
+                onValueChange={setKpPendapatanPinalty}
                 placeholder="Pilih CoA Pinalty"
               />
             </div>
