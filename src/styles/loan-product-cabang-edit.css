@@ -14,97 +14,97 @@
    - Konfigurasi Grace Period
 */
 
-/* Field Produk Pinjaman dibuat read-only secara visual. */
+/* Field Kode pada halaman ubah Produk Pinjaman konsolidasi & cabang dibuat read-only secara visual. */
+.loan-product-edit-form input[aria-readonly="true"],
+.loan-product-edit-form input[readonly],
 .loan-product-cabang-edit-form input[aria-readonly="true"],
 .loan-product-cabang-edit-form input[readonly] {
-  background-color: #f1f5f9 !important;
+  background-color: #e2e8f0 !important;
   color: #334155 !important;
   cursor: not-allowed !important;
+  pointer-events: none !important;
 }
 
-/* Struktur setelah LoanProductSaveConfirmGate:
-   .loan-product-cabang-edit-form > gate-wrapper > form-card
+/* Konfigurasi KP Biaya Pinjaman disembunyikan langsung dari komponen
+   LoanProductAccountingCoaFields agar tetap aman saat setting aktif. */
+
+/* Setelah section Konfigurasi Fee Kolektor, sembunyikan section lanjutan berikutnya:
+   - separator sebelum Konfigurasi Tagihan Angsuran
+   - header Konfigurasi Tagihan Angsuran / Denda / Grace Period
+   - isi field section tersebut
 */
-.loan-product-cabang-edit-form > div > [class*="rounded-"] > div.mt-5.grid > div:nth-child(n + 3) {
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3
+  ~ .my-6.bg-slate-200\/70,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3
+  ~ .text-base.font-semibold.text-slate-900,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3
+  ~ .mt-4.grid,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3
+  ~ .grid.gap-5,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3
+  ~ .grid.gap-\[15px\] {
   display: none !important;
 }
 
-/* Sembunyikan blok konfigurasi dasar lanjutan setelah grid pertama. */
-.loan-product-cabang-edit-form > div > [class*="rounded-"] > div.mt-6.grid {
-  display: none !important;
-}
-
-/* Sembunyikan mulai dari separator setelah konfigurasi KP sampai sebelum tombol aksi akhir.
-   Ini menghapus:
-   - Konfigurasi Fee Kolektor
-   - Konfigurasi Tagihan Angsuran
-   - Tagihan Angsuran Menggunakan Tabel Angsuran
-   - Skema Tagihan
-   - Metode Denda
-   - Jumlah Hari Keterlambatan
-   - Proses Denda Berulang (Recurring)
-   - Grace Period
-*/
-.loan-product-cabang-edit-form
+/* Pastikan section penting tetap tampil. */
+.sak-ep-cabang-loan-product-consolidation-form
   > div
   > [class*="rounded-"]
-  > .my-6.bg-slate-200\/70,
-.loan-product-cabang-edit-form
+  > div.mt-5.grid,
+.sak-ep-cabang-loan-product-consolidation-form
   > div
   > [class*="rounded-"]
-  > .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between,
-.loan-product-cabang-edit-form
-  > div
-  > [class*="rounded-"]
-  > .mt-4.grid.gap-3,
-.loan-product-cabang-edit-form
-  > div
-  > [class*="rounded-"]
-  > .text-base.font-semibold.text-slate-900,
-.loan-product-cabang-edit-form
-  > div
-  > [class*="rounded-"]
-  > .mt-4.grid {
-  display: none !important;
-}
-
-/* Pastikan section KP Biaya + KP Pendapatan tetap terlihat. */
-.loan-product-cabang-edit-form
+  > div.mt-6.grid,
+.sak-ep-cabang-loan-product-consolidation-form
   > div
   > [class*="rounded-"]
   > div.mt-6:has(.text-base.font-semibold.text-slate-900),
-.loan-product-cabang-edit-form
-  .loan-product-fee-coa-section,
-.loan-product-cabang-edit-form
-  .loan-product-fee-coa-fields {
-  display: block !important;
-}
-
-.loan-product-cabang-edit-form
-  .loan-product-fee-coa-fields {
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between,
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .mt-4.grid.gap-3 {
   display: grid !important;
 }
 
-/* Samakan rasa visual section KP Biaya dengan contoh. */
-.loan-product-cabang-edit-form
-  .loan-product-fee-coa-section
-  .h-px {
-  background-color: rgb(226 232 240 / 0.9) !important;
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > div.mt-6:has(.text-base.font-semibold.text-slate-900) {
+  display: block !important;
 }
 
-.loan-product-cabang-edit-form
-  .loan-product-fee-coa-section
-  [role="combobox"] {
-  min-height: 30px !important;
-  border-radius: 5px !important;
+.sak-ep-cabang-loan-product-consolidation-form
+  > div
+  > [class*="rounded-"]
+  > .flex.flex-col.gap-3.md\:flex-row.md\:items-center.md\:justify-between {
+  display: flex !important;
 }
 
 /* Tombol aksi akhir tetap tampil. */
-.loan-product-cabang-edit-form
+.sak-ep-cabang-loan-product-consolidation-form
   > div
   > [class*="rounded-"]
-  > .flex.flex-col.gap-3.sm\:flex-row.sm\:items-center.sm\:justify-end,
-.loan-product-cabang-edit-form
+  > .flex.justify-end,
+.sak-ep-cabang-loan-product-consolidation-form
   > div
   > [class*="rounded-"]
   .flex.justify-end {
