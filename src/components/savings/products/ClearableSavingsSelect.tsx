@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, X } from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -72,7 +72,6 @@ export default function ClearableSavingsSelect({
           >
             {hasValue ? value : placeholder}
           </span>
-          <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
         </SelectTrigger>
 
         <SelectContent className={contentClassName}>
