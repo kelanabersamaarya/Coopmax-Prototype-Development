@@ -63,7 +63,7 @@ function getCoaLabel(option: string) {
 
 function SectionHeader({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-[21px] font-bold leading-tight text-black">
+    <div className="text-[18px] font-bold leading-tight text-black">
       {children}
     </div>
   );
