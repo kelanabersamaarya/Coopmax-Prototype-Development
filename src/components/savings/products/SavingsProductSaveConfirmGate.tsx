@@ -1,17 +1,30 @@
 "use client";
 
 import * as React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import SavingsProductSaveSuccessModal from "@/components/savings/products/SavingsProductSaveSuccessModal";
 
 export default function SavingsProductSaveConfirmGate({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
   const targetButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const bypassRef = React.useRef(false);
+
+  function getListPath() {
+    if (location.pathname.includes("/produk-simpanan-cabang")) {
+      return "/sak-ep-cabang/simpanan/produk-simpanan-cabang";
+    }
+
+    return "/sak-ep-cabang/simpanan/produk-simpanan-konsolidasi";
+  }
 
   function handleClickCapture(event: React.MouseEvent<HTMLDivElement>) {
     if (bypassRef.current) return;
@@ -33,8 +46,13 @@ export default function SavingsProductSaveConfirmGate({
     setConfirmOpen(true);
   }
 
-  function confirmSave() {
+  function showSuccess() {
     setConfirmOpen(false);
+    setSuccessOpen(true);
+  }
+
+  function finishSave() {
+    setSuccessOpen(false);
     bypassRef.current = true;
 
     window.requestAnimationFrame(() => {
@@ -43,6 +61,7 @@ export default function SavingsProductSaveConfirmGate({
       window.setTimeout(() => {
         bypassRef.current = false;
         targetButtonRef.current = null;
+        navigate(getListPath());
       }, 0);
     });
   }
@@ -78,7 +97,7 @@ export default function SavingsProductSaveConfirmGate({
             <div className="mt-8 flex items-center justify-center gap-2">
               <button
                 type="button"
-                onClick={confirmSave}
+                onClick={showSuccess}
                 className={cn(
                   "h-[48px] w-[104px] rounded-[5px]",
                   "bg-[#2f80ed] text-[16px] font-semibold text-white",
@@ -105,6 +124,12 @@ export default function SavingsProductSaveConfirmGate({
           </div>
         </DialogContent>
       </Dialog>
+
+      <SavingsProductSaveSuccessModal
+        open={successOpen}
+        onOpenChange={setSuccessOpen}
+        onOk={finishSave}
+      />
     </div>
   );
 }
