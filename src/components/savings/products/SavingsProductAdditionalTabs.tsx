@@ -2,11 +2,12 @@
 
 import * as React from "react";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 const tabs = [
   "Biaya Admin",
-  "Bunga",
+  "Range Bunga",
   "Fee Kolektor",
   "Kupon",
   "Range Pajak Bunga",
@@ -15,12 +16,32 @@ const tabs = [
 
 type TabId = (typeof tabs)[number];
 
+const tabActions: Record<TabId, string[]> = {
+  "Biaya Admin": ["Tambah Biaya Admin", "Tambah Biaya Admin Mbanking"],
+  "Range Bunga": ["Tambah Range Bunga", "Tambah Tipe Transaksi Bunga"],
+  "Fee Kolektor": ["Tambah Fee Kolektor"],
+  Kupon: ["Tambah Kupon"],
+  "Range Pajak Bunga": ["Tambah Range Pajak"],
+  Label: ["Tambah Tabel"],
+};
+
 export default function SavingsProductAdditionalTabs({
   onAddAdminFee,
 }: {
   onAddAdminFee: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<TabId>("Biaya Admin");
+
+  function handleAction(label: string) {
+    if (label === "Tambah Biaya Admin") {
+      onAddAdminFee();
+      return;
+    }
+
+    toast(`${label} (prototype)`, {
+      description: "Form detail akan ditambahkan berikutnya.",
+    });
+  }
 
   return (
     <div className="savings-product-additional-tabs mt-8">
@@ -38,7 +59,7 @@ export default function SavingsProductAdditionalTabs({
                 <button
                   key={tab}
                   type="button"
-                  onClick={() => setTab(tab)}
+                  onClick={() => setActiveTab(tab)}
                   className={cn(
                     "h-[54px] min-w-[120px] border-r border-[#9FABBF] px-5",
                     "text-[14px] font-normal transition",
@@ -55,11 +76,12 @@ export default function SavingsProductAdditionalTabs({
         </div>
 
         <div className="min-h-[92px] bg-white px-4 py-6">
-          {activeTab === "Biaya Admin" ? (
-            <div>
+          <div className="flex flex-wrap items-center gap-3">
+            {tabActions[activeTab].map((label) => (
               <button
+                key={label}
                 type="button"
-                onClick={onAddAdminFee}
+                onClick={() => handleAction(label)}
                 className={cn(
                   "inline-flex h-[35px] items-center justify-center gap-2 rounded-[5px] px-5",
                   "bg-[#3366FF] text-[14px] font-semibold text-white",
@@ -68,14 +90,10 @@ export default function SavingsProductAdditionalTabs({
                 )}
               >
                 <Plus className="h-4 w-4" strokeWidth={3} />
-                Tambah Biaya Admin
+                {label}
               </button>
-            </div>
-          ) : (
-            <div className="text-[13px] font-normal text-slate-500">
-              Pengaturan {activeTab} belum diisi.
-            </div>
-          )}
+            ))}
+          </div>
         </div>
       </div>
     </div>
