@@ -33,7 +33,7 @@ export default function LoanProductEdit() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
+      <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
             <div className="mt-2 flex items-baseline gap-3">

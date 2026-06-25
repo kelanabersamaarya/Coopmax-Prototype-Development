@@ -31,7 +31,7 @@ export default function LoanProductCreate() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">
+      <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="mt-2 flex items-baseline gap-3">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
             {isCabangCreate ? "Produk Pinjaman Cabang" : "Produk Pinjaman"}
