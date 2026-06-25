@@ -141,26 +141,21 @@ export default function SavingsMonthSelect({
 
           <div className="savings-month-scroll max-h-[170px] overflow-y-auto bg-white py-1">
             {filteredOptions.length > 0 ? (
-              filteredOptions.map((option) => {
-                const active = option === value;
-
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => chooseValue(option)}
-                    className={cn(
-                      "block w-full px-4 py-2.5 text-left text-[14px] font-normal transition-colors",
-                      active
-                        ? "bg-violet-600 text-white"
-                        : "bg-white text-black hover:bg-violet-600 hover:text-white",
-                      itemClassName,
-                    )}
-                  >
-                    {option}
-                  </button>
-                );
-              })
+              filteredOptions.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => chooseValue(option)}
+                  className={cn(
+                    "block w-full bg-white px-4 py-2.5 text-left text-[14px] font-normal text-black transition-colors",
+                    "hover:bg-violet-600 hover:text-white",
+                    "focus:bg-violet-600 focus:text-white focus:outline-none",
+                    itemClassName,
+                  )}
+                >
+                  {option}
+                </button>
+              ))
             ) : (
               <div className="px-4 py-3 text-[13px] font-normal text-slate-500">
                 Tidak ada hasil.
