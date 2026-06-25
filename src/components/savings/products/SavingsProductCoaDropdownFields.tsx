@@ -123,6 +123,7 @@ export default function SavingsProductCoaDropdownFields({
         const selectedValue = values[field];
         const hasSelected = selectedValue.trim().length > 0;
         const showSectionDivider = field === "KP Pengakuan Biaya Bunga";
+        const showBottomDivider = field === "KP Biaya Bunga";
 
         return (
           <React.Fragment key={field}>
@@ -195,6 +196,10 @@ export default function SavingsProductCoaDropdownFields({
                 ) : null}
               </div>
             </div>
+
+            {showBottomDivider ? (
+              <div className="h-px w-full bg-slate-300/80" />
+            ) : null}
           </React.Fragment>
         );
       })}
