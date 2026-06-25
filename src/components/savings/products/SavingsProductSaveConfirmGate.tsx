@@ -31,7 +31,7 @@ export default function SavingsProductSaveConfirmGate({
   const successMessage =
     isSavingsCreate || isTermSavingsCreate
       ? "Berhasil Menambahkan Data"
-      : undefined;
+      : "Berhasil Memperbarui Data";
 
   function getListPath() {
     if (location.pathname.includes("/produk-simpanan-berjangka-cabang")) {

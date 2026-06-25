@@ -8,7 +8,7 @@ export default function SavingsProductSaveSuccessModal({
   open,
   onOk,
   onOpenChange,
-  message = "Berhasil memperbaharui data",
+  message = "Berhasil Memperbarui Data",
 }: {
   open: boolean;
   onOk: () => void;
