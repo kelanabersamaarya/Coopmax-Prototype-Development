@@ -536,7 +536,7 @@ export default function ProdukDepositoTambah() {
               <label className={labelClassName}>KP Pendapatan Pinalty</label>
               <TermProductCoaSelect
                 value={kpPendapatanPinalty}
-                onValueChange={setKpPendPinalty}
+                onValueChange={setKpPendapatanPinalty}
                 placeholder="Pilih CoA Pinalty"
               />
             </div>
