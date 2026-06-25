@@ -14,45 +14,35 @@ import {
 import { cn } from "@/lib/utils";
 import TermProductCoaSelect from "@/components/savings/term-products/TermProductCoaSelect";
 import SavingsTogglePill from "@/components/savings/products/SavingsTogglePill";
-import SavingsMonthSelect from "@/components/savings/products/SavingsMonthSelect";
 import ClearableSavingsSelect from "@/components/savings/products/ClearableSavingsSelect";
 
 export default function ProdukDepositoTambah() {
   const navigate = useNavigate();
 
-  const tanggalMaksimalOptions = React.useMemo(
-    () => Array.from({ length: 31 }).map((_, index) => String(index + 1)),
-    [],
-  );
-
   const [kode, setKode] = React.useState("");
   const [namaProduk, setNamaProduk] = React.useState("");
-  const [minimalDeposito, setMinimalDeposito] = React.useState("0,00");
+  const [minimalDeposito, setMinimalDeposito] = React.useState("");
   const [tanggalMaksimalDapatBunga, setTanggalMaksimalDapatBunga] =
     React.useState("");
-  const [jenisBunga, setJenisBunga] = React.useState("");
-  const [bungaPerTahun, setBungaPerTahun] = React.useState("0%");
-  const [jangkaWaktu, setJangkaWaktu] = React.useState("");
-  const [satuanJangkaWaktu, setSatuanJangkaWaktu] = React.useState("");
-  const [pajakBunga, setPajakBunga] = React.useState("0%");
+  const [jenisBunga, setJenisBunga] = React.useState("Metode Bunga Flat");
+  const [bungaPerTahun, setBungaPerTahun] = React.useState("");
   const [jenisPembulatan, setJenisPembulatan] = React.useState("");
-  const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState("0");
-  const [minimalBulan, setMinimalBulan] = React.useState("");
+  const [kelipatanPembulatan, setKelipatanPembulatan] = React.useState("");
+  const [pajakBunga, setPajakBunga] = React.useState("");
   const [pinaltyMode, setPinaltyMode] = React.useState("rp");
-  const [pinalty, setPinalty] = React.useState("0,00");
-  const [aro, setAro] = React.useState(false);
-  const [bisaDicairkanSebelumJatuhTempo, setBisaDicairkanSebelumJatuhTempo] =
-    React.useState(false);
-  const [pencairanKeTabungan, setPencairanKeTabungan] = React.useState(false);
-  const [produkTabunganTujuan, setProdukTabunganTujuan] = React.useState("");
+  const [pinalty, setPinalty] = React.useState("");
+  const [periodeWaktu, setPeriodeWaktu] = React.useState("Bulan");
+  const [metodeDapatBunga, setMetodeDapatBunga] = React.useState(
+    "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
+  );
   const [status, setStatus] = React.useState(true);
+  const [transferBungaGross, setTransferBungaGross] = React.useState(false);
+  const [penampungBungaNasabahLain, setPenampungBungaNasabahLain] =
+    React.useState(false);
 
   const [kpDeposito, setKpDeposito] = React.useState("");
   const [kpBunga, setKpBunga] = React.useState("");
-  const [kpPajakBunga, setKpPajakBunga] = React.useState("");
   const [kpPendapatanPinalty, setKpPendapatanPinalty] = React.useState("");
-  const [kpBiayaBunga, setKpBiayaBunga] = React.useState("");
-  const [kpPengakuanBiayaBunga, setKpPengakuanBiayaBunga] = React.useState("");
 
   const listPath =
     "/sak-ep-cabang/simpanan-berjangka/produk-simpanan-berjangka-konsolidasi";
@@ -68,11 +58,6 @@ export default function ProdukDepositoTambah() {
     "text-[14px] font-normal text-[#334155] shadow-none",
     "placeholder:text-[#64748B]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
-  const disabledInputClassName = cn(
-    formInputClassName,
-    "bg-slate-200/80 text-[#64748B]",
   );
 
   const selectTriggerClassName = cn(
@@ -100,7 +85,6 @@ export default function ProdukDepositoTambah() {
   );
 
   const labelClassName = "text-[14px] font-normal leading-snug text-[#002060]";
-  const helperClassName = "mt-1 text-[13px] font-normal text-[#6479A6]";
   const requiredMark = <span className="text-rose-600">*</span>;
 
   return (
@@ -142,22 +126,25 @@ export default function ProdukDepositoTambah() {
                 value={minimalDeposito}
                 onChange={(event) => setMinimalDeposito(event.target.value)}
                 className={formInputClassName}
+                placeholder="0,00"
                 inputMode="decimal"
               />
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>
-                Tanggal Maksimal Dapat Bunga{requiredMark}
+                Tanggal Maksimal dapat Bunga{requiredMark}
               </label>
-              <SavingsMonthSelect
+              <Input
                 value={tanggalMaksimalDapatBunga}
-                onValueChange={setTanggalMaksimalDapatBunga}
-                placeholder="Pilih Tanggal Maksimal Dapat Bunga"
-                options={tanggalMaksimalOptions}
-                triggerClassName={selectTriggerClassName}
-                contentClassName={selectContentClassName}
-                itemClassName={selectItemClassName}
+                onChange={(event) =>
+                  setTanggalMaksimalDapatBunga(
+                    event.target.value.replace(/[^\d]/g, ""),
+                  )
+                }
+                className={formInputClassName}
+                placeholder="0"
+                inputMode="numeric"
               />
             </div>
 
@@ -166,8 +153,12 @@ export default function ProdukDepositoTambah() {
               <ClearableSavingsSelect
                 value={jenisBunga}
                 onValueChange={setJenisBunga}
-                placeholder="Pilih Jenis Bunga"
-                options={["Bunga Harian", "Bunga Bulanan", "Bunga Rata-rata"]}
+                placeholder="Metode Bunga Flat"
+                options={[
+                  "Metode Bunga Flat",
+                  "Metode Bunga Efektif",
+                  "Metode Bunga Rata-rata",
+                ]}
                 triggerClassName={selectTriggerClassName}
                 contentClassName={selectContentClassName}
                 itemClassName={selectItemClassName}
@@ -175,45 +166,12 @@ export default function ProdukDepositoTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>Bunga Pertahun{requiredMark}</label>
+              <label className={labelClassName}>
+                Bunga Per Tahun (%){requiredMark}
+              </label>
               <Input
                 value={bungaPerTahun}
                 onChange={(event) => setBungaPerTahun(event.target.value)}
-                className={formInputClassName}
-                inputMode="decimal"
-              />
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>Jangka Waktu{requiredMark}</label>
-              <SavingsMonthSelect
-                value={jangkaWaktu}
-                onValueChange={setJangkaWaktu}
-                placeholder="Pilih Jumlah"
-                triggerClassName={selectTriggerClassName}
-                contentClassName={selectContentClassName}
-                itemClassName={selectItemClassName}
-              />
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>Satuan Jangka Waktu{requiredMark}</label>
-              <ClearableSavingsSelect
-                value={satuanJangkaWaktu}
-                onValueChange={setSatuanJangkaWaktu}
-                placeholder="Pilih Satuan Jangka Waktu"
-                options={["Hari", "Bulan", "Tahun"]}
-                triggerClassName={selectTriggerClassName}
-                contentClassName={selectContentClassName}
-                itemClassName={selectItemClassName}
-              />
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>Pajak Bunga{requiredMark}</label>
-              <Input
-                value={pajakBunga}
-                onChange={(event) => setPajakBunga(event.target.value)}
                 className={formInputClassName}
                 inputMode="decimal"
               />
@@ -241,20 +199,18 @@ export default function ProdukDepositoTambah() {
               <Input
                 value={kelipatanPembulatan}
                 onChange={(event) => setKelipatanPembulatan(event.target.value)}
-                className={disabledInputClassName}
+                className={formInputClassName}
                 inputMode="numeric"
               />
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>Minimal Bulan Deposito{requiredMark}</label>
-              <SavingsMonthSelect
-                value={minimalBulan}
-                onValueChange={setMinimalBulan}
-                placeholder="Pilih Jumlah Bulan"
-                triggerClassName={selectTriggerClassName}
-                contentClassName={selectContentClassName}
-                itemClassName={selectItemClassName}
+              <label className={labelClassName}>Pajak Bunga{requiredMark}</label>
+              <Input
+                value={pajakBunga}
+                onChange={(event) => setPajakBunga(event.target.value)}
+                className={formInputClassName}
+                inputMode="decimal"
               />
             </div>
 
@@ -265,7 +221,7 @@ export default function ProdukDepositoTambah() {
                   <SelectTrigger
                     className={cn(
                       selectTriggerClassName,
-                      "w-[72px] rounded-r-none border-r-0",
+                      "w-[72px] rounded-r-none border-r-0 text-black",
                     )}
                   >
                     <SelectValue />
@@ -283,73 +239,65 @@ export default function ProdukDepositoTambah() {
                   value={pinalty}
                   onChange={(event) => setPinalty(event.target.value)}
                   className={cn(formInputClassName, "rounded-l-none")}
+                  placeholder="0,00"
                   inputMode="decimal"
                 />
               </div>
             </div>
 
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
-              <label className={cn(labelClassName, "pt-[3px]")}>
-                Perpanjangan Otomatis
-              </label>
-              <div>
-                <SavingsTogglePill checked={aro} onChange={setAro} />
-                <div className={helperClassName}>
-                  Jika ON, deposito dapat diperpanjang otomatis setelah jatuh tempo.
-                </div>
-              </div>
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Periode Waktu{requiredMark}</label>
+              <ClearableSavingsSelect
+                value={periodeWaktu}
+                onValueChange={setPeriodeWaktu}
+                placeholder="Bulan"
+                options={["Hari", "Bulan", "Tahun"]}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
             </div>
 
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
-              <label className={cn(labelClassName, "pt-[3px]")}>
-                Dapat Dicairkan Sebelum Jatuh Tempo
-              </label>
-              <div>
-                <SavingsTogglePill
-                  checked={bisaDicairkanSebelumJatuhTempo}
-                  onChange={setBisaDicairkanSebelumJatuhTempo}
-                />
-                <div className={helperClassName}>
-                  Jika ON, deposito dapat dicairkan sebelum tanggal jatuh tempo
-                  dengan ketentuan pinalty.
-                </div>
-              </div>
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>Metode Dapat Bunga{requiredMark}</label>
+              <ClearableSavingsSelect
+                value={metodeDapatBunga}
+                onValueChange={setMetodeDapatBunga}
+                placeholder="Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga"
+                options={[
+                  "Pada Saat Jatuh Tempo Pada Periode Yang Sama Dapat Bunga",
+                  "Pada Saat Jatuh Tempo Periode Berikutnya",
+                  "Pada Saat Pencairan Deposito",
+                ]}
+                triggerClassName={selectTriggerClassName}
+                contentClassName={selectContentClassName}
+                itemClassName={selectItemClassName}
+              />
             </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
-              <label className={cn(labelClassName, "pt-[3px]")}>
-                Pencairan ke Rekening Tabungan
-              </label>
-              <div>
-                <SavingsTogglePill
-                  checked={pencairanKeTabungan}
-                  onChange={setPencairanKeTabungan}
-                />
-              </div>
-            </div>
-
-            {pencairanKeTabungan ? (
-              <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-                <label className={labelClassName}>Produk Tabungan Tujuan</label>
-                <ClearableSavingsSelect
-                  value={produkTabunganTujuan}
-                  onValueChange={setProdukTabunganTujuan}
-                  placeholder="Pilih Produk Tabungan"
-                  options={[
-                    "Simpanan Sukarela",
-                    "Simpanan Harian",
-                    "Simpanan Pendidikan",
-                  ]}
-                  triggerClassName={selectTriggerClassName}
-                  contentClassName={selectContentClassName}
-                  itemClassName={selectItemClassName}
-                />
-              </div>
-            ) : null}
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>Status{requiredMark}</label>
               <SavingsTogglePill checked={status} onChange={setStatus} />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Transfer Bunga Gross{requiredMark}
+              </label>
+              <SavingsTogglePill
+                checked={transferBungaGross}
+                onChange={setTransferBungaGross}
+              />
+            </div>
+
+            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
+              <label className={labelClassName}>
+                Penampung Bunga Milik Nasabah Lain{requiredMark}
+              </label>
+              <SavingsTogglePill
+                checked={penampungBungaNasabahLain}
+                onChange={setPenampungBungaNasabahLain}
+              />
             </div>
 
             <div className="h-px w-full bg-slate-300/80" />
@@ -377,61 +325,12 @@ export default function ProdukDepositoTambah() {
             </div>
 
             <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
-              <label className={labelClassName}>KP Pajak Bunga</label>
-              <TermProductCoaSelect
-                value={kpPajakBunga}
-                onValueChange={setKpPajakBunga}
-                placeholder="Pilih CoA Pajak Bunga"
-              />
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-center">
               <label className={labelClassName}>KP Pendapatan Pinalty</label>
               <TermProductCoaSelect
                 value={kpPendapatanPinalty}
                 onValueChange={setKpPendapatanPinalty}
                 placeholder="Pilih CoA Pinalty"
               />
-            </div>
-
-            <div className="h-px w-full bg-slate-300/80" />
-
-            <div className="text-[18px] font-bold leading-tight text-black">
-              Konfigurasi KP Deposito SAK EP
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
-              <label className={cn(labelClassName, "pt-[5px]")}>
-                KP Pengakuan Biaya Bunga
-              </label>
-              <div>
-                <TermProductCoaSelect
-                  value={kpPengakuanBiayaBunga}
-                  onValueChange={setKpPengakuanBiayaBunga}
-                  placeholder="Pilih CoA Pengakuan Biaya Bunga"
-                />
-                <div className={helperClassName}>
-                  Akun pengakuan biaya bunga sesuai kebijakan akuntansi deposito
-                  pada penerapan SAK EP.
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_minmax(0,1fr)] md:items-start">
-              <label className={cn(labelClassName, "pt-[5px]")}>
-                KP Biaya Bunga
-              </label>
-              <div>
-                <TermProductCoaSelect
-                  value={kpBiayaBunga}
-                  onValueChange={setKpBiayaBunga}
-                  placeholder="Pilih CoA Biaya Bunga"
-                />
-                <div className={helperClassName}>
-                  Akun biaya bunga saat pengakuan sesuai kebijakan akuntansi
-                  deposito pada penerapan SAK EP.
-                </div>
-              </div>
             </div>
           </div>
 
