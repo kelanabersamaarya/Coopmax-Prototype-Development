@@ -45,7 +45,7 @@ export default function SavingsMonthSelect({
           onPointerDown={clearValue}
           onClick={clearValue}
           className={cn(
-            "absolute left-2 top-1/2 z-20 inline-flex h-5 w-5 -translate-y-1/2 items-center justify-center",
+            "absolute left-3 top-1/2 z-20 inline-flex h-5 w-5 -translate-y-1/2 items-center justify-center",
             "rounded-[4px] text-red-600 transition hover:bg-red-50",
             "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
           )}
@@ -66,8 +66,8 @@ export default function SavingsMonthSelect({
             "text-[14px] font-normal shadow-none",
             "focus-visible:ring-0 focus-visible:ring-offset-0",
             "[&>svg]:text-slate-500",
-            hasValue ? "pl-9 text-black" : "text-[#64748B]",
             triggerClassName,
+            hasValue ? "!pl-10 !text-black" : "text-[#64748B]",
           )}
         >
           <span className="block min-w-0 flex-1 truncate text-left">
