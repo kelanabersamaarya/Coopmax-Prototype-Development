@@ -60,6 +60,14 @@
   }
 }
 
+/* Produk Tabungan Ubah: field Kode readonly secara visual */
+.produk-tabungan-ubah-page [class*="p-[40px]"] > .grid > div:nth-child(1) input {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+  background-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
 /* Produk Simpanan Cabang Ubah: header */
 .produk-tabungan-cabang-ubah-page h1 {
   font-size: 0 !important;
