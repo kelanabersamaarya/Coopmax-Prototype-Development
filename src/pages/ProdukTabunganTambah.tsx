@@ -17,6 +17,7 @@ import SavingsProductAdditionalTabs from "@/components/savings/products/SavingsP
 import SavingsProductCoaDropdownFields from "@/components/savings/products/SavingsProductCoaDropdownFields";
 import SavingsMonthSelect from "@/components/savings/products/SavingsMonthSelect";
 import ClearableSavingsSelect from "@/components/savings/products/ClearableSavingsSelect";
+import SavingsInterCustomerTransferFields from "@/components/savings/products/SavingsInterCustomerTransferFields";
 
 type SavingsProductSeed = {
   kode: string;
@@ -632,6 +633,10 @@ export default function ProdukTabunganTambah() {
                       onChange={setAksesAntarNasabah}
                     />
                   </div>
+
+                  {aksesAntarNasabah ? (
+                    <SavingsInterCustomerTransferFields />
+                  ) : null}
                 </div>
 
                 <div className="grid gap-3">
