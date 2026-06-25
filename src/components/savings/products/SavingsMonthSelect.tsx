@@ -83,6 +83,14 @@ export default function SavingsMonthSelect({
             "[&>span.absolute.right-2]:hidden",
             "[&_[data-radix-collection-item]]:pl-4",
             "[&_[data-radix-collection-item]]:pr-4",
+            "[&_[data-radix-select-viewport]]:max-h-[170px]",
+            "[&_[data-radix-select-viewport]]:overflow-y-auto",
+            "[&_[data-radix-select-viewport]]:[scrollbar-gutter:stable]",
+            "[&_[data-radix-select-viewport]::-webkit-scrollbar]:w-2",
+            "[&_[data-radix-select-viewport]::-webkit-scrollbar-track]:bg-slate-100",
+            "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:rounded-full",
+            "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb]:bg-slate-400",
+            "[&_[data-radix-select-viewport]::-webkit-scrollbar-thumb:hover]:bg-slate-500",
             contentClassName,
           )}
         >
