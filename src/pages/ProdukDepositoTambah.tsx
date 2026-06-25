@@ -253,10 +253,10 @@ export default function ProdukDepositoTambah() {
                   onChange={(event) =>
                     setPeriodeWaktu(event.target.value.replace(/[^\d]/g, ""))
                   }
-                  className={cn(formInputClassName, "pr-16")}
+                  className={cn(formInputClassName, "rounded-r-[5px] pr-20")}
                   inputMode="numeric"
                 />
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[14px] font-normal text-[#334155]">
+                <span className="pointer-events-none absolute right-0 top-0 inline-flex h-[30px] min-w-[68px] items-center justify-center rounded-r-[5px] bg-[#596882] px-3 text-[14px] font-normal text-white">
                   Bulan
                 </span>
               </div>
