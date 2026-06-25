@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import LoanProductForm from "@/components/loans/LoanProductForm";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,8 @@ export default function LoanProductEdit() {
   const location = useLocation();
   const params = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
+  const formWrapperRef = React.useRef<HTMLDivElement | null>(null);
+
   const id = params.id ?? "";
   const isCabangEdit = searchParams.get("from") === "cabang";
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
@@ -20,6 +23,19 @@ export default function LoanProductEdit() {
     : isCabangEdit
       ? "/loan-products/cabang"
       : "/loan-products";
+
+  React.useEffect(() => {
+    const codeInput =
+      formWrapperRef.current?.querySelector<HTMLInputElement>(
+        'input[placeholder="Masukkan Kode"]',
+      );
+
+    if (!codeInput) return;
+
+    codeInput.readOnly = true;
+    codeInput.setAttribute("aria-readonly", "true");
+    codeInput.classList.add("cursor-not-allowed", "bg-slate-100", "text-slate-700");
+  }, []);
 
   const form = (
     <LoanProductForm
@@ -48,8 +64,10 @@ export default function LoanProductEdit() {
         </div>
 
         <div
+          ref={formWrapperRef}
           className={cn(
             "mt-6 grid gap-4",
+            "loan-product-edit-form",
             isCabangEdit ? "loan-product-cabang-edit-form" : "",
             isSakCabangConsolidationEdit
               ? "sak-ep-cabang-loan-product-consolidation-form"
