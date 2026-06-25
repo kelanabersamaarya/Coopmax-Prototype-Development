@@ -31,6 +31,8 @@ export default function SavingsProductAdditionalTabs({
   onAddAdminFee: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<TabId>("Biaya Admin");
+  const actions = tabActions[activeTab];
+  const hasMultipleActions = actions.length > 1;
 
   function handleAction(label: string) {
     if (label === "Tambah Biaya Admin") {
@@ -76,8 +78,13 @@ export default function SavingsProductAdditionalTabs({
         </div>
 
         <div className="min-h-[92px] bg-white px-4 py-6">
-          <div className="flex flex-wrap items-center gap-3">
-            {tabActions[activeTab].map((label) => (
+          <div
+            className={cn(
+              "flex items-start gap-3",
+              hasMultipleActions ? "flex-col" : "flex-wrap",
+            )}
+          >
+            {actions.map((label) => (
               <button
                 key={label}
                 type="button"
