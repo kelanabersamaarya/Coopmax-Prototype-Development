@@ -70,7 +70,13 @@ const pageSizeOptions = [10, 20, 50, 100] as const;
 const statusOptions: TermSavingsStatus[] = ["Semua", "Aktif", "Nonaktif"];
 
 function cleanProductListTitle(title: string) {
-  return title.replace(/\s+(Cabang|Konsolidasi)\b/gi, "").trim();
+  const withoutScope = title.replace(/\s+(Cabang|Konsolidasi)\b/gi, "").trim();
+
+  if (/simpanan\s+berjangka/i.test(withoutScope)) {
+    return "Produk Deposito";
+  }
+
+  return withoutScope;
 }
 
 export default function TermSavingsProductsListPage({
@@ -171,8 +177,8 @@ export default function TermSavingsProductsListPage({
               <Button
                 variant="outline"
                 onClick={() =>
-                  toast("Tambah produk simpanan berjangka (prototype)", {
-                    description: "Form tambah produk simpanan berjangka belum dibuat.",
+                  toast("Tambah produk deposito (prototype)", {
+                    description: "Form tambah produk deposito belum dibuat.",
                   })
                 }
                 className="h-10 rounded-xl border-slate-200 bg-white px-4 text-slate-800 hover:bg-slate-50"
@@ -358,7 +364,7 @@ export default function TermSavingsProductsListPage({
                               label="Lihat"
                               tone="slate"
                               onClick={() =>
-                                toast("Lihat produk simpanan berjangka (prototype)", {
+                                toast("Lihat produk deposito (prototype)", {
                                   description: row.produk,
                                 })
                               }
@@ -387,7 +393,7 @@ export default function TermSavingsProductsListPage({
                                   return;
                                 }
 
-                                toast("Ubah produk simpanan berjangka (prototype)", {
+                                toast("Ubah produk deposito (prototype)", {
                                   description: row.produk,
                                 });
                               }}
