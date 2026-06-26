@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
-import { cashFlowOptions } from "@/components/accounting/cash-flow-options";
+import CashFlowSelect from "@/components/accounting/CashFlowSelect";
 
 const typeOptions = [
   "(kosong)",
@@ -141,11 +141,6 @@ export default function AddAccountDialog({
     onOpenChange(false);
   }
 
-  const cashFlowSelectOptions = React.useMemo(
-    () => ["(kosong)", ...cashFlowOptions],
-    [],
-  );
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -222,19 +217,17 @@ export default function AddAccountDialog({
                 <>
                   <div className="grid gap-[6px]">
                     <FieldLabel>ARUS KAS DEBIT</FieldLabel>
-                    <FormSelect
+                    <CashFlowSelect
                       value={arusKasDebit}
                       onChange={setArusKasDebit}
-                      options={cashFlowSelectOptions}
                     />
                   </div>
 
                   <div className="grid gap-[6px]">
                     <FieldLabel>ARUS KAS KREDIT</FieldLabel>
-                    <FormSelect
+                    <CashFlowSelect
                       value={arusKasKredit}
                       onChange={setArusKasKredit}
-                      options={cashFlowSelectOptions}
                     />
                   </div>
                 </>
