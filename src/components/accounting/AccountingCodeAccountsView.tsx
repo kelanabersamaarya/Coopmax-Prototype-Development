@@ -164,13 +164,13 @@ function AddTopButton({
       onClick={onClick}
       className={cn(
         "inline-flex h-[31px] items-center justify-center gap-2 rounded-[5px]",
-        "border border-[#006DFF] bg-white px-3",
+        "border-0 bg-white px-3",
         "text-[14px] font-normal text-black",
-        "transition hover:bg-blue-50",
+        "transition hover:bg-slate-50",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
     >
-      <span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[2px] border border-[#006DFF] text-[#006DFF]">
+      <span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[2px] border border-slate-400 text-slate-500">
         <Plus className="h-[13px] w-[13px]" strokeWidth={3} />
       </span>
       {children}
