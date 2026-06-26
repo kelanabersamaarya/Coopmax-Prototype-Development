@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Card } from "@/components/ui/card";
 import AccountingSidebar, {
   type AccountingMenuItem,
 } from "@/components/accounting/AccountingSidebar";
@@ -15,7 +16,8 @@ export default function SakAkunting() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
           <AccountingSidebar active={active} onChange={setActive} />
-          <div className="min-h-[560px]" />
+
+          <Card className="min-h-[560px] rounded-[5px] border-slate-200/70 bg-white shadow-sm" />
         </div>
       </div>
     </div>
