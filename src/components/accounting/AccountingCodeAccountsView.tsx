@@ -105,15 +105,15 @@ function AccountRow({
   onToggle: () => void;
 }) {
   return (
-    <div className="relative grid min-h-[42px] grid-cols-[minmax(96px,140px)_minmax(0,1fr)] items-center border-b border-slate-200 bg-white text-[14px] font-normal text-black">
+    <div className="relative min-h-[34px] border-b border-slate-200 bg-white text-[14px] font-normal text-black last:border-b-0">
       <div
-        className="relative flex min-w-0 items-center gap-2 px-3 py-2"
-        style={{ paddingLeft: `${12 + account.level * 28}px` }}
+        className="relative inline-grid max-w-full grid-cols-[18px_max-content_max-content] items-center gap-x-2 px-3 py-1.5"
+        style={{ marginLeft: `${account.level * 28}px` }}
       >
         {account.level > 0 ? (
           <span
             className="absolute bottom-0 top-0 w-px bg-[#2F7BFF]"
-            style={{ left: `${12 + (account.level - 1) * 28 + 8}px` }}
+            style={{ left: `${-20}px` }}
             aria-hidden="true"
           />
         ) : null}
@@ -123,9 +123,10 @@ function AccountRow({
             type="button"
             onClick={onToggle}
             className={cn(
-              "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[3px]",
-              "bg-[#6F42C1] text-[13px] font-bold leading-none text-white",
-              "transition hover:bg-[#643ab0]",
+              "inline-flex h-5 w-5 items-center justify-center",
+              "bg-transparent p-0 text-[16px] font-bold leading-none text-black",
+              "transition hover:text-slate-700",
+              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
             )}
             aria-label={expanded ? "Tutup akun" : "Buka akun"}
             title={expanded ? "Tutup" : "Buka"}
@@ -133,17 +134,15 @@ function AccountRow({
             {expanded ? "−" : "+"}
           </button>
         ) : (
-          <span className="h-5 w-5 shrink-0" />
+          <span className="h-5 w-5" />
         )}
 
-        <span className="truncate font-semibold tabular-nums text-[#334155]">
-          {account.code}
-        </span>
-      </div>
-
-      <div className="min-w-0 px-3 py-2">
-        <span className="block truncate text-[#334155]" title={account.name}>
+        <span className="whitespace-nowrap font-medium text-[#334155]">
           {account.name}
+        </span>
+
+        <span className="whitespace-nowrap font-medium tabular-nums text-[#334155]">
+          {account.code}
         </span>
       </div>
     </div>
@@ -203,21 +202,14 @@ export default function AccountingCodeAccountsView() {
       </div>
 
       <div className="mt-3 overflow-hidden rounded-[5px] border border-slate-200 bg-white">
-        <div className="grid grid-cols-[minmax(96px,140px)_minmax(0,1fr)] border-b border-slate-300 bg-slate-50 text-[12px] font-bold uppercase tracking-wide text-[#334155]">
-          <div className="px-3 py-2">Kode</div>
-          <div className="px-3 py-2">Nama Akun</div>
-        </div>
-
-        <div className="bg-white">
-          {rows.map((account) => (
-            <AccountRow
-              key={account.code}
-              account={account}
-              expanded={expanded.has(account.code)}
-              onToggle={() => toggle(account.code)}
-            />
-          ))}
-        </div>
+        {rows.map((account) => (
+          <AccountRow
+            key={account.code}
+            account={account}
+            expanded={expanded.has(account.code)}
+            onToggle={() => toggle(account.code)}
+          />
+        ))}
       </div>
     </div>
   );
