@@ -15,6 +15,29 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
 
+const typeOptions = [
+  "(kosong)",
+  "Aset",
+  "1.1 - KAS DAN SETARA KAS",
+  "1.3 - ASET TETAP",
+  "1.4 - ASET TIDAK BERWUJUD",
+  "1.5 - ASET LAIN-LAIN",
+  "1.1.2 - Bank",
+  "1.1.3 - Simpanan Pada Koperasi Lain",
+  "1.3 - PIUTANG USAHA",
+  "1.1.4 - Penyertaan",
+  "1.3.3 - PENDAPATAN LAINNYA",
+  "Liabilitas",
+  "2.1 - SIMPANAN ANGGOTA",
+  "2.2 - SIMPANAN KOPERASI LAIN",
+  "2.13 - LIABILITAS LAIN",
+  "2.12 - Dana Bagian SHU",
+  "2.5 - UTANG PINJAMAN",
+  "Ekuitas",
+  "3.1 - EKUITAS",
+  "3.1.7 - SHU Belum Dibagi",
+];
+
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <label className="text-[11px] font-extrabold uppercase leading-none tracking-wide text-[#72809B]">
@@ -48,7 +71,7 @@ function FormSelect({
         </span>
       </SelectTrigger>
 
-      <SelectContent className="rounded-[5px] border-slate-200">
+      <SelectContent className="max-h-[320px] rounded-[5px] border-slate-200">
         {options.map((option) => (
           <SelectItem key={option} value={option} className="rounded-[5px]">
             {option}
@@ -120,11 +143,7 @@ export default function AddAccountDialog({
             <div className="grid gap-[10px]">
               <div className="grid gap-[6px]">
                 <FieldLabel>Type</FieldLabel>
-                <FormSelect
-                  value={type}
-                  onChange={setType}
-                  options={["(kosong)", "Detail", "Header"]}
-                />
+                <FormSelect value={type} onChange={setType} options={typeOptions} />
               </div>
 
               <div className="grid gap-[6px]">
