@@ -15,6 +15,27 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
 
+const classOptions = [
+  "1 - Aset",
+  "2 - Kewajiban",
+  "3 - Ekuitas",
+  "4 - Pendapatan",
+  "5 - Beban",
+];
+
+const parentOptions = [
+  "Aset",
+  "1.1 - KAS DAN SETARA KAS",
+  "1.3 - ASET TETAP",
+  "1.4 - ASET TIDAK BERWUJUD",
+  "1.5 - ASET LAIN-LAIN",
+  "1.1.2 - Bank",
+  "1.1.3 - Simpanan Pada Koperasi Lain",
+  "1.3 - PIUTANG USAHA",
+  "1.1.4 - Penyertaan",
+  "1.3.3 - PENDAPATAN LAINNYA",
+];
+
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <label className="text-[11px] font-extrabold uppercase leading-none tracking-wide text-[#72809B]">
@@ -48,7 +69,7 @@ function FormSelect({
         </span>
       </SelectTrigger>
 
-      <SelectContent className="rounded-[5px] border-slate-200">
+      <SelectContent className="max-h-[320px] rounded-[5px] border-slate-200">
         {options.map((option) => (
           <SelectItem key={option} value={option} className="rounded-[5px]">
             {option}
@@ -67,7 +88,7 @@ export default function AddCategoryDialog({
   onOpenChange: (value: boolean) => void;
 }) {
   const [classValue, setClassValue] = React.useState("1 - Aset");
-  const [parent, setParent] = React.useState("(kosong)");
+  const [parent, setParent] = React.useState("Aset");
   const [codePrefix, setCodePrefix] = React.useState("1");
   const [code, setCode] = React.useState("");
   const [name, setName] = React.useState("");
@@ -83,7 +104,7 @@ export default function AddCategoryDialog({
     if (!open) return;
 
     setClassValue("1 - Aset");
-    setParent("(kosong)");
+    setParent("Aset");
     setCodePrefix("1");
     setCode("");
     setName("");
@@ -136,13 +157,7 @@ export default function AddCategoryDialog({
                 <FormSelect
                   value={classValue}
                   onChange={setClassValue}
-                  options={[
-                    "1 - Aset",
-                    "2 - Kewajiban",
-                    "3 - Ekuitas",
-                    "4 - Pendapatan",
-                    "5 - Beban",
-                  ]}
+                  options={classOptions}
                 />
               </div>
 
@@ -151,7 +166,7 @@ export default function AddCategoryDialog({
                 <FormSelect
                   value={parent}
                   onChange={setParent}
-                  options={["(kosong)", "1 - Aset", "1.1 - Kas dan Setara Kas"]}
+                  options={parentOptions}
                 />
               </div>
 
