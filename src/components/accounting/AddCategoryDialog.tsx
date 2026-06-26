@@ -221,10 +221,6 @@ export default function AddCategoryDialog({
                 <PurpleToggle checked={showDetail} onChange={setShowDetail} />
               </div>
 
-              <div className="mt-[22px] text-[22px] font-extrabold leading-tight text-black">
-                其他设置
-              </div>
-
               <div className="grid gap-[7px]">
                 <FieldLabel>Show Detail (Neraca Saldo)</FieldLabel>
                 <PurpleToggle
