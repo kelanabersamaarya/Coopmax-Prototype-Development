@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  BarChart3,
-  ChevronDown,
-  FileText,
-  ReceiptText,
-  Settings,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type AccountingMenuGroupId = "transaksi" | "laporan" | "pengaturan";
@@ -21,7 +15,6 @@ export type AccountingMenuItem = {
 type AccountingGroup = {
   id: AccountingMenuGroupId;
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
   items: string[];
 };
 
@@ -29,7 +22,6 @@ const groups: AccountingGroup[] = [
   {
     id: "transaksi",
     label: "TRANSAKSI",
-    icon: ReceiptText,
     items: [
       "Dashboard",
       "Jurnal Umum",
@@ -43,7 +35,6 @@ const groups: AccountingGroup[] = [
   {
     id: "laporan",
     label: "LAPORAN",
-    icon: BarChart3,
     items: [
       "Jurnal Umum",
       "Buku Kas Harian",
@@ -60,7 +51,6 @@ const groups: AccountingGroup[] = [
   {
     id: "pengaturan",
     label: "PENGATURAN",
-    icon: Settings,
     items: [
       "Kode Akun",
       "Urutan Akun",
@@ -112,7 +102,6 @@ export default function AccountingSidebar({
 
       <div className="space-y-2">
         {groups.map((group) => {
-          const Icon = group.icon;
           const isOpen = openGroups[group.id];
 
           return (
@@ -128,10 +117,6 @@ export default function AccountingSidebar({
                 )}
                 aria-expanded={isOpen}
               >
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] bg-slate-100 text-slate-700">
-                  <Icon className="h-4.5 w-4.5" />
-                </span>
-
                 <span className="min-w-0 flex-1 truncate text-[13px] font-extrabold">
                   {group.label}
                 </span>
@@ -169,18 +154,12 @@ export default function AccountingSidebar({
                             })
                           }
                           className={cn(
-                            "flex w-full items-center gap-2 rounded-[5px] px-2.5 py-2 text-left transition",
+                            "flex w-full items-center rounded-[5px] px-2.5 py-2 text-left transition",
                             isActive
                               ? "bg-violet-600 text-white"
                               : "text-slate-700 hover:bg-slate-50 hover:text-slate-900",
                           )}
                         >
-                          <FileText
-                            className={cn(
-                              "h-4 w-4 shrink-0",
-                              isActive ? "text-white" : "text-slate-400",
-                            )}
-                          />
                           <span className="min-w-0 truncate text-[13px] font-semibold">
                             {itemLabel}
                           </span>
