@@ -30,7 +30,7 @@ export default function SakAkunting() {
               </span>
             </div>
 
-            <div className="mt-6 grid gap-3 md:grid-cols-[220px_minmax(0,420px)_auto] md:items-center">
+            <div className="mt-6 grid max-w-[420px] gap-3">
               <label className="text-[14px] font-normal leading-tight text-[#002060]">
                 Tanggal
               </label>
