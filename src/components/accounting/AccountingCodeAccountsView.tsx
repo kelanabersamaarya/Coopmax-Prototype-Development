@@ -5,6 +5,7 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EditCategoryDialog from "@/components/accounting/EditCategoryDialog";
+import AddCategoryDialog from "@/components/accounting/AddCategoryDialog";
 
 type AccountNode = {
   code: string;
@@ -268,6 +269,7 @@ export default function AccountingCodeAccountsView() {
   );
   const [editOpen, setEditOpen] = React.useState(false);
   const [editAccount, setEditAccount] = React.useState<FlatAccount | null>(null);
+  const [addCategoryOpen, setAddCategoryOpen] = React.useState(false);
 
   const rows = React.useMemo(
     () => flattenAccounts(accounts, expanded),
@@ -295,6 +297,11 @@ export default function AccountingCodeAccountsView() {
 
   return (
     <div className="mt-5">
+      <AddCategoryDialog
+        open={addCategoryOpen}
+        onOpenChange={setAddCategoryOpen}
+      />
+
       <EditCategoryDialog
         open={editOpen}
         onOpenChange={setEditOpen}
@@ -302,13 +309,7 @@ export default function AccountingCodeAccountsView() {
       />
 
       <div className="mb-2 flex justify-end gap-2">
-        <AddTopButton
-          onClick={() =>
-            toast("Tambah Kategori (prototype)", {
-              description: "Form tambah kategori belum dihubungkan.",
-            })
-          }
-        >
+        <AddTopButton onClick={() => setAddCategoryOpen(true)}>
           Tambah Kategori
         </AddTopButton>
 
