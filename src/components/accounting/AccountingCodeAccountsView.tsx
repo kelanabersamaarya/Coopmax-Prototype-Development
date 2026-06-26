@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -151,7 +151,7 @@ function AccountActionButton({
   );
 }
 
-function OutlineTopButton({
+function AddTopButton({
   children,
   onClick,
 }: {
@@ -163,13 +163,16 @@ function OutlineTopButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-[31px] min-w-[84px] items-center justify-center rounded-[5px]",
-        "border border-[#006DFF] bg-white px-4",
+        "inline-flex h-[31px] items-center justify-center gap-2 rounded-[5px]",
+        "border border-[#006DFF] bg-white px-3",
         "text-[14px] font-normal text-black",
         "transition hover:bg-blue-50",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
     >
+      <span className="inline-flex h-[18px] w-[18px] items-center justify-center rounded-[2px] border border-[#006DFF] text-[#006DFF]">
+        <Plus className="h-[13px] w-[13px]" strokeWidth={3} />
+      </span>
       {children}
     </button>
   );
@@ -287,25 +290,25 @@ export default function AccountingCodeAccountsView() {
   return (
     <div className="mt-5">
       <div className="mb-2 flex justify-end gap-2">
-        <OutlineTopButton
+        <AddTopButton
           onClick={() =>
-            toast("Tombol aksi kiri (prototype)", {
-              description: "Aksi tombol belum dihubungkan.",
+            toast("Tambah Kategori (prototype)", {
+              description: "Form tambah kategori belum dihubungkan.",
             })
           }
         >
-          Batal
-        </OutlineTopButton>
+          Tambah Kategori
+        </AddTopButton>
 
-        <OutlineTopButton
+        <AddTopButton
           onClick={() =>
-            toast("OK (prototype)", {
-              description: "Aksi tombol belum dihubungkan.",
+            toast("Tambah Akun (prototype)", {
+              description: "Form tambah akun belum dihubungkan.",
             })
           }
         >
-          OK
-        </OutlineTopButton>
+          Tambah Akun
+        </AddTopButton>
       </div>
 
       <div className="flex items-center gap-1">
