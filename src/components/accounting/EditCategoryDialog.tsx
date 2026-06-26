@@ -14,6 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
+import { cashFlowOptions } from "@/components/accounting/cash-flow-options";
 
 type AccountOption = {
   code: string;
@@ -53,9 +54,31 @@ function FormSelect({
         </span>
       </SelectTrigger>
 
-      <SelectContent className="rounded-[5px] border-slate-200">
+      <SelectContent
+        className={cn(
+          "max-h-[320px] rounded-[5px] border-slate-200 bg-white p-0 shadow-xl",
+          "[&_[data-radix-select-item-indicator]]:hidden",
+          "[&_[data-slot=select-item-indicator]]:hidden",
+          "[&>span.absolute.right-2]:hidden",
+          "[&_[data-radix-collection-item]]:pl-4",
+          "[&_[data-radix-collection-item]]:pr-4",
+        )}
+      >
         {options.map((option) => (
-          <SelectItem key={option} value={option} className="rounded-[5px]">
+          <SelectItem
+            key={option}
+            value={option}
+            className={cn(
+              "rounded-none px-4 py-2.5 text-[14px] font-normal text-black",
+              "hover:bg-violet-600 hover:text-white",
+              "focus:bg-violet-600 focus:text-white",
+              "data-[highlighted]:bg-violet-600 data-[highlighted]:text-white",
+              "data-[state=checked]:bg-white data-[state=checked]:text-black",
+              "[&_[data-radix-select-item-indicator]]:hidden",
+              "[&_[data-slot=select-item-indicator]]:hidden",
+              "[&>span.absolute.right-2]:hidden",
+            )}
+          >
             {option}
           </SelectItem>
         ))}
@@ -110,6 +133,11 @@ export default function EditCategoryDialog({
     });
     onOpenChange(false);
   }
+
+  const cashFlowSelectOptions = React.useMemo(
+    () => ["(kosong)", ...cashFlowOptions],
+    [],
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -227,7 +255,7 @@ export default function EditCategoryDialog({
                     <FormSelect
                       value={arusKasDebit}
                       onChange={setArusKasDebit}
-                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
+                      options={cashFlowSelectOptions}
                     />
                   </div>
 
@@ -236,7 +264,7 @@ export default function EditCategoryDialog({
                     <FormSelect
                       value={arusKasKredit}
                       onChange={setArusKasKredit}
-                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
+                      options={cashFlowSelectOptions}
                     />
                   </div>
                 </>
