@@ -52,9 +52,10 @@ const accounts: AccountNode[] = [
                 children: [
                   { code: "1.1.1.2.1", name: "Giro" },
                   { code: "1.1.1.2.2", name: "Tabungan Bank" },
-                  { code: "1.1.1.2.3", name: "Deposito Bank" },
                 ],
               },
+              { code: "1.1.1.3", name: "Deposito Bank BRI" },
+              { code: "1.1.1.4", name: "Deposito Bank BNI" },
             ],
           },
           {
