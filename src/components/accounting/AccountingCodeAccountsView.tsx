@@ -4,6 +4,7 @@ import * as React from "react";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import EditCategoryDialog from "@/components/accounting/EditCategoryDialog";
 
 type AccountNode = {
   code: string;
@@ -182,10 +183,12 @@ function AccountRow({
   account,
   expanded,
   onToggle,
+  onEdit,
 }: {
   account: FlatAccount;
   expanded: boolean;
   onToggle: () => void;
+  onEdit: (account: FlatAccount) => void;
 }) {
   const showCode = account.level > 0;
   const indent = account.level * 30;
@@ -236,11 +239,7 @@ function AccountRow({
         <span className="ml-5 inline-flex shrink-0 items-center gap-4">
           <AccountActionButton
             label={`Ubah akun ${account.name}`}
-            onClick={() =>
-              toast("Ubah akun (prototype)", {
-                description: `${account.name} • ${account.code}`,
-              })
-            }
+            onClick={() => onEdit(account)}
           >
             <Pencil className="h-[15px] w-[15px]" strokeWidth={2.6} />
           </AccountActionButton>
@@ -267,6 +266,8 @@ export default function AccountingCodeAccountsView() {
   const [expanded, setExpanded] = React.useState<Set<string>>(
     () => new Set(allExpandableCodes),
   );
+  const [editOpen, setEditOpen] = React.useState(false);
+  const [editAccount, setEditAccount] = React.useState<FlatAccount | null>(null);
 
   const rows = React.useMemo(
     () => flattenAccounts(accounts, expanded),
@@ -287,8 +288,19 @@ export default function AccountingCodeAccountsView() {
     });
   }
 
+  function openEdit(account: FlatAccount) {
+    setEditAccount(account);
+    setEditOpen(true);
+  }
+
   return (
     <div className="mt-5">
+      <EditCategoryDialog
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        account={editAccount}
+      />
+
       <div className="mb-2 flex justify-end gap-2">
         <AddTopButton
           onClick={() =>
@@ -337,6 +349,7 @@ export default function AccountingCodeAccountsView() {
               account={account}
               expanded={expanded.has(account.code)}
               onToggle={() => toggle(account.code)}
+              onEdit={openEdit}
             />
           ))}
         </div>
