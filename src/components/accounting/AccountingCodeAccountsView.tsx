@@ -167,6 +167,8 @@ function AccountRow({
   expanded: boolean;
   onToggle: () => void;
 }) {
+  const showCode = account.level > 0;
+
   return (
     <div className="group relative min-h-[34px] border-b border-slate-200 bg-white text-[14px] font-bold text-black last:border-b-0">
       <div
@@ -204,9 +206,13 @@ function AccountRow({
           {account.name}
         </span>
 
-        <span className="whitespace-nowrap font-bold tabular-nums text-[#334155] transition-colors group-hover:text-[#006DFF]">
-          ({account.code})
-        </span>
+        {showCode ? (
+          <span className="whitespace-nowrap font-bold tabular-nums text-[#334155] transition-colors group-hover:text-[#006DFF]">
+            ({account.code})
+          </span>
+        ) : (
+          <span />
+        )}
 
         <span className="ml-8 inline-flex items-center gap-2">
           <AccountActionButton
