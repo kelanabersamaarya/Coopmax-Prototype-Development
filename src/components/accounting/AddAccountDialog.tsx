@@ -43,7 +43,9 @@ function FormSelect({
         )}
       >
         <SelectValue />
-        <ChevronDown className="ml-auto h-4 w-4 text-[#526685]" />
+        <span className="ml-auto inline-flex h-4 w-4 items-center justify-center text-[#526685]">
+          <ChevronDown className="h-4 w-4" />
+        </span>
       </SelectTrigger>
 
       <SelectContent className="rounded-[5px] border-slate-200">
@@ -64,42 +66,31 @@ export default function AddAccountDialog({
   open: boolean;
   onOpenChange: (value: boolean) => void;
 }) {
-  const [classValue, setClassValue] = React.useState("1 - Aset");
-  const [parent, setParent] = React.useState("1.1 - Kas dan Setara Kas");
-  const [codePrefix, setCodePrefix] = React.useState("1.1");
+  const [type, setType] = React.useState("(kosong)");
   const [code, setCode] = React.useState("");
   const [name, setName] = React.useState("");
-  const [normalBalance, setNormalBalance] = React.useState("Debit");
-  const [showDetail, setShowDetail] = React.useState(true);
+  const [nominalMinus, setNominalMinus] = React.useState(false);
   const [status, setStatus] = React.useState(true);
+  const [cash, setCash] = React.useState(true);
+  const [arusKasDebit, setArusKasDebit] = React.useState("(kosong)");
+  const [arusKasKredit, setArusKasKredit] = React.useState("(kosong)");
 
   React.useEffect(() => {
     if (!open) return;
 
-    setClassValue("1 - Aset");
-    setParent("1.1 - Kas dan Setara Kas");
-    setCodePrefix("1.1");
+    setType("(kosong)");
     setCode("");
     setName("");
-    setNormalBalance("Debit");
-    setShowDetail(true);
+    setNominalMinus(false);
     setStatus(true);
+    setCash(true);
+    setArusKasDebit("(kosong)");
+    setArusKasKredit("(kosong)");
   }, [open]);
 
-  React.useEffect(() => {
-    if (parent === "(kosong)") {
-      setCodePrefix(classValue.split(" ")[0] || "1");
-      return;
-    }
-
-    setCodePrefix(parent.split(" ")[0] || "1.1");
-  }, [classValue, parent]);
-
   function save() {
-    const fullCode = `${codePrefix}${code ? `.${code}` : ""}`;
-
     toast.success("Akun ditambahkan (prototype)", {
-      description: `${fullCode} • ${name || "Akun Baru"}`,
+      description: `${code || "Kode"} • ${name || "Akun Baru"}`,
     });
     onOpenChange(false);
   }
@@ -128,54 +119,25 @@ export default function AddAccountDialog({
           <div className="max-h-[calc(90vh-72px-72px)] overflow-auto px-[26px] py-[27px]">
             <div className="grid gap-[10px]">
               <div className="grid gap-[6px]">
-                <FieldLabel>Class</FieldLabel>
+                <FieldLabel>Type</FieldLabel>
                 <FormSelect
-                  value={classValue}
-                  onChange={setClassValue}
-                  options={[
-                    "1 - Aset",
-                    "2 - Kewajiban",
-                    "3 - Ekuitas",
-                    "4 - Pendapatan",
-                    "5 - Beban",
-                  ]}
-                />
-              </div>
-
-              <div className="grid gap-[6px]">
-                <FieldLabel>Parent</FieldLabel>
-                <FormSelect
-                  value={parent}
-                  onChange={setParent}
-                  options={[
-                    "(kosong)",
-                    "1 - Aset",
-                    "1.1 - Kas dan Setara Kas",
-                    "1.2 - Aset Tetap",
-                    "2 - Kewajiban",
-                    "3 - Ekuitas",
-                    "4 - Pendapatan",
-                    "5 - Beban",
-                  ]}
+                  value={type}
+                  onChange={setType}
+                  options={["(kosong)", "Detail", "Header"]}
                 />
               </div>
 
               <div className="grid gap-[6px]">
                 <FieldLabel>Code</FieldLabel>
-                <div className="flex h-[31px] overflow-hidden rounded-[5px] border border-[#CBD5E1] bg-white">
-                  <div className="inline-flex h-full min-w-[48px] items-center justify-center border-r border-[#CBD5E1] bg-[#E2E8F0] px-3 text-[14px] font-normal text-[#526685]">
-                    {codePrefix}
-                  </div>
-
-                  <input
-                    value={code}
-                    onChange={(event) => setCode(event.target.value)}
-                    className={cn(
-                      "h-full min-w-0 flex-1 border-0 bg-white px-3",
-                      "text-[14px] font-normal text-[#526685] outline-none",
-                    )}
-                  />
-                </div>
+                <Input
+                  value={code}
+                  onChange={(event) => setCode(event.target.value)}
+                  className={cn(
+                    "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3",
+                    "text-[14px] font-normal text-[#526685] shadow-none",
+                    "focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                />
               </div>
 
               <div className="mt-[8px] grid gap-[6px]">
@@ -191,24 +153,45 @@ export default function AddAccountDialog({
                 />
               </div>
 
-              <div className="grid gap-[6px]">
-                <FieldLabel>Normal Balance</FieldLabel>
-                <FormSelect
-                  value={normalBalance}
-                  onChange={setNormalBalance}
-                  options={["Debit", "Kredit"]}
-                />
-              </div>
-
               <div className="grid gap-[7px]">
-                <FieldLabel>Show Detail</FieldLabel>
-                <AccountingTogglePill checked={showDetail} onChange={setShowDetail} />
+                <FieldLabel>Nominal Minus</FieldLabel>
+                <AccountingTogglePill
+                  checked={nominalMinus}
+                  onChange={setNominalMinus}
+                />
               </div>
 
               <div className="grid gap-[7px]">
                 <FieldLabel>Status</FieldLabel>
                 <AccountingTogglePill checked={status} onChange={setStatus} />
               </div>
+
+              <div className="grid gap-[7px]">
+                <FieldLabel>Cash</FieldLabel>
+                <AccountingTogglePill checked={cash} onChange={setCash} />
+              </div>
+
+              {!cash ? (
+                <>
+                  <div className="grid gap-[6px]">
+                    <FieldLabel>ARUS KAS DEBIT</FieldLabel>
+                    <FormSelect
+                      value={arusKasDebit}
+                      onChange={setArusKasDebit}
+                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
+                    />
+                  </div>
+
+                  <div className="grid gap-[6px]">
+                    <FieldLabel>ARUS KAS KREDIT</FieldLabel>
+                    <FormSelect
+                      value={arusKasKredit}
+                      onChange={setArusKasKredit}
+                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
+                    />
+                  </div>
+                </>
+              ) : null}
             </div>
           </div>
 
