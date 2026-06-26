@@ -24,6 +24,7 @@ const classOptions = [
 ];
 
 const parentOptions = [
+  "(Kosong)",
   "Aset",
   "1.1 - KAS DAN SETARA KAS",
   "1.3 - ASET TETAP",
@@ -88,7 +89,7 @@ export default function AddCategoryDialog({
   onOpenChange: (value: boolean) => void;
 }) {
   const [classValue, setClassValue] = React.useState("1 - Aset");
-  const [parent, setParent] = React.useState("Aset");
+  const [parent, setParent] = React.useState("(Kosong)");
   const [codePrefix, setCodePrefix] = React.useState("1");
   const [code, setCode] = React.useState("");
   const [name, setName] = React.useState("");
@@ -104,7 +105,7 @@ export default function AddCategoryDialog({
     if (!open) return;
 
     setClassValue("1 - Aset");
-    setParent("Aset");
+    setParent("(Kosong)");
     setCodePrefix("1");
     setCode("");
     setName("");
