@@ -59,7 +59,7 @@ export default function CashFlowSelect({
 
         {cashFlowOptionGroups.map((group) => (
           <div key={group.title}>
-            <div className="px-4 pb-1.5 pt-3 text-[14px] font-extrabold leading-snug text-black">
+            <div className="px-4 pb-1.5 pt-3 text-[15.5px] font-extrabold leading-snug text-black">
               {group.title}
             </div>
 
