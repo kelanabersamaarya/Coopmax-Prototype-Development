@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CalendarDays, Search } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -54,13 +54,13 @@ export default function SakAkunting() {
               <button
                 type="button"
                 className={cn(
-                  "inline-flex h-[30px] w-[61px] items-center justify-center gap-1.5 rounded-[5px]",
-                  "bg-[#3BB001] text-[13px] font-normal text-white",
-                  "ring-1 ring-[#3BB001]/25 transition hover:bg-[#349d01]",
+                  "inline-flex h-[30px] w-fit items-center justify-center rounded-[5px] px-4",
+                  "text-[13px] font-normal text-white",
+                  "ring-1 ring-[#6F42C1]/25 transition hover:bg-[#643ab0]",
                 )}
+                style={{ backgroundColor: "#6F42C1" }}
               >
-                <Search className="h-3.5 w-3.5" />
-                Cari
+                Tampilkan Laporan
               </button>
             </div>
           </Card>
