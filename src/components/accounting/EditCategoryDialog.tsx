@@ -81,7 +81,8 @@ export default function EditCategoryDialog({
   const [showDetailSaldo, setShowDetailSaldo] = React.useState(true);
   const [status, setStatus] = React.useState(true);
   const [cash, setCash] = React.useState(true);
-  const [cashFlow, setCashFlow] = React.useState("Operasional");
+  const [arusKasDebit, setArusKasDebit] = React.useState("(kosong)");
+  const [arusKasKredit, setArusKasKredit] = React.useState("(kosong)");
 
   React.useEffect(() => {
     if (!open || !account) return;
@@ -97,7 +98,8 @@ export default function EditCategoryDialog({
     setShowDetailSaldo(true);
     setStatus(true);
     setCash(true);
-    setCashFlow("Operasional");
+    setArusKasDebit("(kosong)");
+    setArusKasKredit("(kosong)");
   }, [account, open]);
 
   function save() {
@@ -217,14 +219,25 @@ export default function EditCategoryDialog({
               </div>
 
               {!cash ? (
-                <div className="grid gap-[6px]">
-                  <FieldLabel>Cash Flow</FieldLabel>
-                  <FormSelect
-                    value={cashFlow}
-                    onChange={setCashFlow}
-                    options={["Operasional", "Investasi", "Pendanaan"]}
-                  />
-                </div>
+                <>
+                  <div className="grid gap-[6px]">
+                    <FieldLabel>ARUS KAS DEBIT</FieldLabel>
+                    <FormSelect
+                      value={arusKasDebit}
+                      onChange={setArusKasDebit}
+                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
+                    />
+                  </div>
+
+                  <div className="grid gap-[6px]">
+                    <FieldLabel>ARUS KAS KREDIT</FieldLabel>
+                    <FormSelect
+                      value={arusKasKredit}
+                      onChange={setArusKasKredit}
+                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
+                    />
+                  </div>
+                </>
               ) : null}
             </div>
           </div>
