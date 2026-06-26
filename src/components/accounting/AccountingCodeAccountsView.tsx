@@ -161,24 +161,21 @@ function AccountRow({
   onToggle: () => void;
 }) {
   const showCode = account.level > 0;
+  const indent = account.level * 30;
 
   return (
-    <div className="relative" style={{ paddingLeft: `${account.level * 30}px` }}>
-      {account.level > 0 ? (
-        <span
-          className="absolute bottom-0 top-0 w-px bg-[#2F7BFF]"
-          style={{ left: `${account.level * 30 - 16}px` }}
-          aria-hidden="true"
-        />
-      ) : null}
-
+    <div className="relative w-full">
       <div
         className={cn(
-          "group inline-flex min-h-[36px] max-w-full items-center gap-2",
+          "group flex min-h-[36px] items-center gap-2",
           "border border-slate-200 bg-white px-3 py-1.5",
           "text-[14px] font-bold text-black",
           "transition-colors hover:bg-white",
         )}
+        style={{
+          marginLeft: `${indent}px`,
+          width: `calc(100% - ${indent}px)`,
+        }}
       >
         {account.hasChildren ? (
           <button
@@ -284,7 +281,7 @@ export default function AccountingCodeAccountsView() {
       </div>
 
       <div className="mt-3 overflow-x-auto rounded-[5px] bg-white">
-        <div className="grid w-max gap-0">
+        <div className="min-w-[760px]">
           {rows.map((account) => (
             <AccountRow
               key={account.code}
