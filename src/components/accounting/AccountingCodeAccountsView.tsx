@@ -137,7 +137,7 @@ function AccountRow({
   onToggle: () => void;
 }) {
   return (
-    <div className="relative min-h-[34px] border-b border-slate-200 bg-white text-[14px] font-medium text-black last:border-b-0">
+    <div className="relative min-h-[34px] border-b border-slate-200 bg-white text-[14px] font-bold text-black last:border-b-0">
       <div
         className="relative inline-grid max-w-full grid-cols-[18px_max-content_max-content_auto] items-center gap-x-2 px-3 py-1.5"
         style={{ marginLeft: `${account.level * 28}px` }}
@@ -169,11 +169,11 @@ function AccountRow({
           <span className="h-5 w-5" />
         )}
 
-        <span className="whitespace-nowrap font-medium text-[#334155]">
+        <span className="whitespace-nowrap font-bold text-[#334155]">
           {account.name}
         </span>
 
-        <span className="whitespace-nowrap font-medium tabular-nums text-[#334155]">
+        <span className="whitespace-nowrap font-bold tabular-nums text-[#334155]">
           {account.code}
         </span>
 
