@@ -13,42 +13,12 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
 
 type AccountOption = {
   code: string;
   name: string;
 };
-
-function PurpleToggle({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: (value: boolean) => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={() => onChange(!checked)}
-      className={cn(
-        "relative inline-flex h-[26px] w-[62px] items-center rounded-full px-[3px]",
-        "bg-[#635BFF] transition focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-      )}
-      aria-pressed={checked}
-    >
-      <span className="absolute left-[10px] text-[10px] font-extrabold leading-none text-white">
-        ON
-      </span>
-
-      <span
-        className={cn(
-          "relative z-10 h-[20px] w-[20px] rounded-full bg-white shadow-sm transition-transform",
-          checked ? "translate-x-[36px]" : "translate-x-0",
-        )}
-      />
-    </button>
-  );
-}
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -213,7 +183,7 @@ export default function EditCategoryDialog({
 
               <div className="grid gap-[7px]">
                 <FieldLabel>Show Total</FieldLabel>
-                <PurpleToggle checked={showTotal} onChange={setShowTotal} />
+                <AccountingTogglePill checked={showTotal} onChange={setShowTotal} />
                 <div className="text-[11px] font-normal leading-tight text-[#72809B]">
                   Show Total hanya berlaku jika show detail on.
                 </div>
@@ -221,12 +191,12 @@ export default function EditCategoryDialog({
 
               <div className="grid gap-[7px]">
                 <FieldLabel>Show Detail</FieldLabel>
-                <PurpleToggle checked={showDetail} onChange={setShowDetail} />
+                <AccountingTogglePill checked={showDetail} onChange={setShowDetail} />
               </div>
 
               <div className="grid gap-[7px]">
                 <FieldLabel>Show Detail (Neraca Saldo)</FieldLabel>
-                <PurpleToggle
+                <AccountingTogglePill
                   checked={showDetailSaldo}
                   onChange={setShowDetailSaldo}
                 />
@@ -234,7 +204,7 @@ export default function EditCategoryDialog({
 
               <div className="grid gap-[7px]">
                 <FieldLabel>Status</FieldLabel>
-                <PurpleToggle checked={status} onChange={setStatus} />
+                <AccountingTogglePill checked={status} onChange={setStatus} />
               </div>
             </div>
           </div>
