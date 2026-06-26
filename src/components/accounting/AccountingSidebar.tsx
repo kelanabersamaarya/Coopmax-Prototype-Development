@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type AccountingMenuGroupId = "transaksi" | "laporan" | "pengaturan";
@@ -94,13 +93,7 @@ export default function AccountingSidebar({
         className,
       )}
     >
-      <div className="px-2 py-2">
-        <div className="text-[12px] font-extrabold uppercase tracking-wide text-slate-500">
-          Menu Akunting
-        </div>
-      </div>
-
-      <div className="space-y-2">
+      <div className="space-y-1">
         {groups.map((group) => {
           const isOpen = openGroups[group.id];
 
@@ -110,7 +103,7 @@ export default function AccountingSidebar({
                 type="button"
                 onClick={() => toggleGroup(group.id)}
                 className={cn(
-                  "flex w-full items-center gap-2.5 rounded-[5px] px-2.5 py-2.5 text-left transition",
+                  "flex w-full items-center rounded-[5px] px-2.5 py-2 text-left transition",
                   active.groupId === group.id
                     ? "bg-violet-50 text-slate-900 ring-1 ring-violet-200"
                     : "bg-white text-slate-900 hover:bg-slate-50",
@@ -120,13 +113,6 @@ export default function AccountingSidebar({
                 <span className="min-w-0 flex-1 truncate text-[13px] font-extrabold">
                   {group.label}
                 </span>
-
-                <ChevronDown
-                  className={cn(
-                    "h-4.5 w-4.5 text-slate-400 transition",
-                    isOpen ? "rotate-180" : "rotate-0",
-                  )}
-                />
               </button>
 
               <div
@@ -136,7 +122,7 @@ export default function AccountingSidebar({
                 )}
               >
                 <div className="min-h-0">
-                  <div className="space-y-1 px-2 py-2">
+                  <div className="space-y-0.5 px-2 py-1.5">
                     {group.items.map((itemLabel) => {
                       const isActive =
                         active.groupId === group.id &&
@@ -154,7 +140,7 @@ export default function AccountingSidebar({
                             })
                           }
                           className={cn(
-                            "flex w-full items-center rounded-[5px] px-2.5 py-2 text-left transition",
+                            "flex w-full items-center rounded-[5px] px-2.5 py-1.5 text-left transition",
                             isActive
                               ? "bg-violet-600 text-white"
                               : "text-slate-700 hover:bg-slate-50 hover:text-slate-900",
