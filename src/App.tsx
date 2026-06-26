@@ -39,6 +39,7 @@ import ProdukTabunganTambah from "./pages/ProdukTabunganTambah";
 import ProdukDepositoTambah from "./pages/ProdukDepositoTambah";
 import SavingsProductSaveConfirmGate from "./components/savings/products/SavingsProductSaveConfirmGate";
 import SavingsProductCancelRouteGate from "./components/savings/products/SavingsProductCancelRouteGate";
+import SakProductPlaceholder from "./pages/SakProductPlaceholder";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,10 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
+            <Route
+              path="sak-ep-cabang/akunting"
+              element={<SakProductPlaceholder title="Akunting" />}
+            />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-cabang"
               element={

@@ -10,6 +10,7 @@ import SidebarPengaturanUmumMenu from "@/components/SidebarPengaturanUmumMenu";
 import SidebarMobileMenu from "@/components/SidebarMobileMenu";
 import SidebarSakSimpananMenu from "@/components/SidebarSakSimpananMenu";
 import SidebarSakSimpananBerjangkaMenu from "@/components/SidebarSakSimpananBerjangkaMenu";
+import SidebarSakAkuntingMenu from "@/components/SidebarSakAkuntingMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -174,12 +175,13 @@ export default function Index() {
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
 
-                          {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka */}
+                          {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka + Akunting */}
                           {isSakCabangArea ? (
                             <>
                               <SidebarSakSimpananMenu />
                               <SidebarPinjamanMenu />
                               <SidebarSakSimpananBerjangkaMenu />
+                              <SidebarSakAkuntingMenu />
                             </>
                           ) : (
                             <>
