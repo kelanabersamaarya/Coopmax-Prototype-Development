@@ -93,7 +93,7 @@ function flattenAccounts(
       return [row];
     }
 
-    return [row, ...flattenAccounts(node.children ?? [], expanded, level + 1)];
+    return [row, ...flattenAccounts(node.children ?? [], level + 1)];
   });
 }
 
@@ -174,7 +174,7 @@ function AccountRow({
         </span>
 
         <span className="whitespace-nowrap font-bold tabular-nums text-[#334155] transition-colors group-hover:text-[#006DFF]">
-          {account.code}
+          ({account.code})
         </span>
 
         <span className="ml-6 inline-flex items-center gap-2">
