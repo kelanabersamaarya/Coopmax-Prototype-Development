@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { Pencil, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 type AccountNode = {
@@ -95,6 +97,36 @@ function flattenAccounts(
   });
 }
 
+function AccountActionButton({
+  label,
+  onClick,
+  children,
+}: {
+  label: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onClick();
+      }}
+      className={cn(
+        "inline-flex h-6 w-6 items-center justify-center rounded-[5px]",
+        "bg-transparent text-[#2563eb] transition hover:bg-blue-50 hover:text-[#1d4ed8]",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+      )}
+      aria-label={label}
+      title={label}
+    >
+      {children}
+    </button>
+  );
+}
+
 function AccountRow({
   account,
   expanded,
@@ -105,9 +137,9 @@ function AccountRow({
   onToggle: () => void;
 }) {
   return (
-    <div className="relative min-h-[34px] border-b border-slate-200 bg-white text-[14px] font-normal text-black last:border-b-0">
+    <div className="relative min-h-[34px] border-b border-slate-200 bg-white text-[14px] font-medium text-black last:border-b-0">
       <div
-        className="relative inline-grid max-w-full grid-cols-[18px_max-content_max-content] items-center gap-x-2 px-3 py-1.5"
+        className="relative inline-grid max-w-full grid-cols-[18px_max-content_max-content_auto] items-center gap-x-2 px-3 py-1.5"
         style={{ marginLeft: `${account.level * 28}px` }}
       >
         {account.level > 0 ? (
@@ -143,6 +175,30 @@ function AccountRow({
 
         <span className="whitespace-nowrap font-medium tabular-nums text-[#334155]">
           {account.code}
+        </span>
+
+        <span className="inline-flex items-center gap-1">
+          <AccountActionButton
+            label={`Ubah akun ${account.name}`}
+            onClick={() =>
+              toast("Ubah akun (prototype)", {
+                description: `${account.name} • ${account.code}`,
+              })
+            }
+          >
+            <Pencil className="h-4 w-4" strokeWidth={2.4} />
+          </AccountActionButton>
+
+          <AccountActionButton
+            label={`Hapus akun ${account.name}`}
+            onClick={() =>
+              toast("Hapus akun (prototype)", {
+                description: `${account.name} • ${account.code}`,
+              })
+            }
+          >
+            <Trash2 className="h-4 w-4" strokeWidth={2.4} />
+          </AccountActionButton>
         </span>
       </div>
     </div>
