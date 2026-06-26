@@ -11,6 +11,7 @@ import AddAccountDialog from "@/components/accounting/AddAccountDialog";
 type AccountNode = {
   code: string;
   name: string;
+  hideCode?: boolean;
   children?: AccountNode[];
 };
 
@@ -19,6 +20,7 @@ type FlatAccount = {
   name: string;
   level: number;
   hasChildren: boolean;
+  hideCode?: boolean;
 };
 
 const accounts: AccountNode[] = [
@@ -31,7 +33,12 @@ const accounts: AccountNode[] = [
         name: "Kas dan Setara Kas",
         children: [
           { code: "1.1.1", name: "Kas" },
-          { code: "1.1.2", name: "Bank" },
+          {
+            code: "1.1.1.2",
+            name: "Bank",
+            hideCode: true,
+            children: [{ code: "1.1.1.2.1", name: "Giro" }],
+          },
           { code: "1.1.3", name: "Simpanan Anggota" },
         ],
       },
@@ -114,6 +121,7 @@ function flattenAccounts(
       name: node.name,
       level,
       hasChildren,
+      hideCode: node.hideCode,
     });
 
     if (hasChildren && expanded.has(node.code)) {
@@ -143,7 +151,7 @@ function AccountActionButton({
       }}
       className={cn(
         "inline-flex h-5 w-5 items-center justify-center",
-        "bg-transparent p-0 text-[#006DFF] transition hover:text-[#0057cc]",
+        "bg-transparent p-0 text-[#245BFF] transition hover:text-[#0046d9]",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
       aria-label={label}
@@ -192,15 +200,15 @@ function AccountRow({
   onToggle: () => void;
   onEdit: (account: FlatAccount) => void;
 }) {
-  const showCode = account.level > 0;
+  const showCode = account.level > 0 && !account.hideCode;
   const indent = account.level * 30;
 
   return (
     <div className="relative w-full">
       <div
         className={cn(
-          "group flex min-h-[36px] items-center gap-2",
-          "border border-slate-200 bg-white px-3 py-1.5",
+          "group flex min-h-[48px] items-center",
+          "border border-[#D7DDE6] bg-white px-3 py-2",
           "text-[14px] font-bold text-black",
           "transition-colors hover:bg-white",
         )}
@@ -209,54 +217,60 @@ function AccountRow({
           width: `calc(100% - ${indent}px)`,
         }}
       >
-        {account.hasChildren ? (
-          <button
-            type="button"
-            onClick={onToggle}
-            className={cn(
-              "inline-flex h-5 w-5 shrink-0 items-center justify-center",
-              "bg-transparent p-0 text-[16px] font-bold leading-none text-black",
-              "transition hover:text-slate-700",
-              "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        <div className="flex w-full min-w-0 items-center">
+          <div className="flex w-[26px] shrink-0 items-center justify-start">
+            {account.hasChildren ? (
+              <button
+                type="button"
+                onClick={onToggle}
+                className={cn(
+                  "inline-flex h-5 w-5 shrink-0 items-center justify-center",
+                  "bg-transparent p-0 text-[16px] font-bold leading-none text-black",
+                  "transition hover:text-slate-700",
+                  "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                )}
+                aria-label={expanded ? "Tutup akun" : "Buka akun"}
+                title={expanded ? "Tutup" : "Buka"}
+              >
+                {expanded ? "-" : "+"}
+              </button>
+            ) : (
+              <span className="h-5 w-5 shrink-0" />
             )}
-            aria-label={expanded ? "Tutup akun" : "Buka akun"}
-            title={expanded ? "Tutup" : "Buka"}
-          >
-            {expanded ? "-" : "+"}
-          </button>
-        ) : (
-          <span className="h-5 w-5 shrink-0" />
-        )}
+          </div>
 
-        <span className="whitespace-nowrap font-bold text-[#334155] transition-colors group-hover:text-[#006DFF]">
-          {account.name}
-        </span>
+          <div className="flex min-w-0 items-center gap-1">
+            <span className="whitespace-nowrap font-bold text-[#0F172A] transition-colors group-hover:text-[#006DFF]">
+              {account.name}
+            </span>
 
-        {showCode ? (
-          <span className="whitespace-nowrap font-bold tabular-nums text-[#334155] transition-colors group-hover:text-[#006DFF]">
-            ({account.code})
+            {showCode ? (
+              <span className="whitespace-nowrap font-bold tabular-nums text-[#0F172A] transition-colors group-hover:text-[#006DFF]">
+                ({account.code})
+              </span>
+            ) : null}
+          </div>
+
+          <span className="ml-5 inline-flex shrink-0 items-center gap-5">
+            <AccountActionButton
+              label={`Ubah akun ${account.name}`}
+              onClick={() => onEdit(account)}
+            >
+              <Pencil className="h-[16px] w-[16px]" strokeWidth={2.6} />
+            </AccountActionButton>
+
+            <AccountActionButton
+              label={`Hapus akun ${account.name}`}
+              onClick={() =>
+                toast("Hapus akun (prototype)", {
+                  description: `${account.name} • ${account.code}`,
+                })
+              }
+            >
+              <Trash2 className="h-[16px] w-[16px]" strokeWidth={2.6} />
+            </AccountActionButton>
           </span>
-        ) : null}
-
-        <span className="ml-5 inline-flex shrink-0 items-center gap-4">
-          <AccountActionButton
-            label={`Ubah akun ${account.name}`}
-            onClick={() => onEdit(account)}
-          >
-            <Pencil className="h-[15px] w-[15px]" strokeWidth={2.6} />
-          </AccountActionButton>
-
-          <AccountActionButton
-            label={`Hapus akun ${account.name}`}
-            onClick={() =>
-              toast("Hapus akun (prototype)", {
-                description: `${account.name} • ${account.code}`,
-              })
-            }
-          >
-            <Trash2 className="h-[15px] w-[15px]" strokeWidth={2.6} />
-          </AccountActionButton>
-        </span>
+        </div>
       </div>
     </div>
   );
