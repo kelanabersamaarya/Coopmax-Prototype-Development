@@ -146,7 +146,7 @@ export default function AccountingSidebar({
                 )}
                 aria-expanded={isOpen}
               >
-                <span className="min-w-0 flex-1 truncate text-[12px] font-medium text-black">
+                <span className="min-w-0 flex-1 truncate text-[14px] font-bold text-black">
                   {group.label}
                 </span>
               </button>
@@ -180,7 +180,7 @@ export default function AccountingSidebar({
                             isActive ? "bg-violet-50" : "hover:bg-slate-50",
                           )}
                         >
-                          <span className="min-w-0 truncate text-[10px] font-medium text-[#596882]">
+                          <span className="min-w-0 truncate text-[12px] font-medium text-[#596882]">
                             {itemLabel}
                           </span>
                         </button>
