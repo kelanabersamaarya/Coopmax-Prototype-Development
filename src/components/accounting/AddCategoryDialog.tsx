@@ -74,6 +74,7 @@ export default function AddCategoryDialog({
   const [showDetailSaldo, setShowDetailSaldo] = React.useState(true);
   const [status, setStatus] = React.useState(true);
   const [cash, setCash] = React.useState(true);
+  const [cashFlow, setCashFlow] = React.useState("Operasional");
 
   React.useEffect(() => {
     if (!open) return;
@@ -88,6 +89,7 @@ export default function AddCategoryDialog({
     setShowDetailSaldo(true);
     setStatus(true);
     setCash(true);
+    setCashFlow("Operasional");
   }, [open]);
 
   React.useEffect(() => {
@@ -210,6 +212,17 @@ export default function AddCategoryDialog({
                 <FieldLabel>Cash</FieldLabel>
                 <AccountingTogglePill checked={cash} onChange={setCash} />
               </div>
+
+              {!cash ? (
+                <div className="grid gap-[6px]">
+                  <FieldLabel>Cash Flow</FieldLabel>
+                  <FormSelect
+                    value={cashFlow}
+                    onChange={setCashFlow}
+                    options={["Operasional", "Investasi", "Pendanaan"]}
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
 
