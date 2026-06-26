@@ -118,8 +118,6 @@ function AccountRow({
           />
         ) : null}
 
-        <span className="relative z-10 h-2.5 w-2.5 shrink-0 rounded-full bg-[#2F7BFF]" />
-
         {account.hasChildren ? (
           <button
             type="button"
