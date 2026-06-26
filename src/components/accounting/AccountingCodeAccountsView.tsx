@@ -11,6 +11,13 @@ type AccountNode = {
   children?: AccountNode[];
 };
 
+type FlatAccount = {
+  code: string;
+  name: string;
+  level: number;
+  hasChildren: boolean;
+};
+
 const accounts: AccountNode[] = [
   {
     code: "1",
@@ -80,21 +87,45 @@ const accounts: AccountNode[] = [
   },
 ];
 
+function getExpandableCodes(nodes: AccountNode[]) {
+  const codes: string[] = [];
+
+  function walk(items: AccountNode[]) {
+    items.forEach((item) => {
+      if (item.children?.length) {
+        codes.push(item.code);
+        walk(item.children);
+      }
+    });
+  }
+
+  walk(nodes);
+  return codes;
+}
+
 function flattenAccounts(
   nodes: AccountNode[],
   expanded: Set<string>,
   level = 0,
-): Array<AccountNode & { level: number; hasChildren: boolean }> {
-  return nodes.flatMap((node) => {
-    const hasChildren = !!node.children?.length;
-    const row = { ...node, level, hasChildren };
+): FlatAccount[] {
+  const result: FlatAccount[] = [];
 
-    if (!hasChildren || !expanded.has(node.code)) {
-      return [row];
+  nodes.forEach((node) => {
+    const hasChildren = Boolean(node.children?.length);
+
+    result.push({
+      code: node.code,
+      name: node.name,
+      level,
+      hasChildren,
+    });
+
+    if (hasChildren && expanded.has(node.code)) {
+      result.push(...flattenAccounts(node.children ?? [], expanded, level + 1));
     }
-
-    return [row, ...flattenAccounts(node.children ?? [], level + 1)];
   });
+
+  return result;
 }
 
 function AccountActionButton({
@@ -132,7 +163,7 @@ function AccountRow({
   expanded,
   onToggle,
 }: {
-  account: AccountNode & { level: number; hasChildren: boolean };
+  account: FlatAccount;
   expanded: boolean;
   onToggle: () => void;
 }) {
@@ -145,7 +176,7 @@ function AccountRow({
         {account.level > 0 ? (
           <span
             className="absolute bottom-0 top-0 w-px bg-[#2F7BFF]"
-            style={{ left: `${-20}px` }}
+            style={{ left: "-20px" }}
             aria-hidden="true"
           />
         ) : null}
@@ -177,7 +208,7 @@ function AccountRow({
           ({account.code})
         </span>
 
-        <span className="ml-6 inline-flex items-center gap-2">
+        <span className="ml-8 inline-flex items-center gap-2">
           <AccountActionButton
             label={`Ubah akun ${account.name}`}
             onClick={() =>
@@ -206,15 +237,7 @@ function AccountRow({
 }
 
 export default function AccountingCodeAccountsView() {
-  const allExpandableCodes = React.useMemo(() => {
-    const collect = (nodes: AccountNode[]): string[] =>
-      nodes.flatMap((node) => [
-        ...(node.children?.length ? [node.code] : []),
-        ...collect(node.children ?? []),
-      ]);
-
-    return collect(accounts);
-  }, []);
+  const allExpandableCodes = React.useMemo(() => getExpandableCodes(accounts), []);
 
   const [expanded, setExpanded] = React.useState<Set<string>>(
     () => new Set(allExpandableCodes),
@@ -228,11 +251,13 @@ export default function AccountingCodeAccountsView() {
   function toggle(code: string) {
     setExpanded((current) => {
       const next = new Set(current);
+
       if (next.has(code)) {
         next.delete(code);
       } else {
         next.add(code);
       }
+
       return next;
     });
   }
