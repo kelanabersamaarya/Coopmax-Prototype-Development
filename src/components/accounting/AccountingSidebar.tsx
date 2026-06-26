@@ -1,8 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { ChevronsUpDown, ClipboardList } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type AccountingMenuGroupId = "transaksi" | "laporan" | "pengaturan";
@@ -73,8 +71,6 @@ export default function AccountingSidebar({
   onChange: (item: AccountingMenuItem) => void;
   className?: string;
 }) {
-  const [sakEpStandard, setSakEpStandard] = React.useState(false);
-
   return (
     <aside
       className={cn(
@@ -83,35 +79,16 @@ export default function AccountingSidebar({
       )}
     >
       <div className="rounded-[5px] bg-white px-2 pb-4 pt-1">
-        <div className="flex items-start gap-4">
+        <div className="flex items-center gap-4">
           <div className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[2px] bg-[#f7b7df] text-black">
-            <ClipboardList className="h-6 w-6" strokeWidth={2.2} />
+            <Shield className="h-6 w-6" strokeWidth={2.2} />
           </div>
 
-          <div className="min-w-0 flex-1 pt-0.5">
+          <div className="min-w-0 flex-1">
             <div className="text-[18px] font-semibold leading-tight text-[#002060]">
-              ETAP
-            </div>
-            <div className="mt-2 text-[10px] font-normal leading-tight text-[#596882]">
-              Klik untuk mengubah
+              SAK EP
             </div>
           </div>
-
-          <button
-            type="button"
-            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px] text-[#002060] transition hover:bg-slate-50"
-            aria-label="Ubah standar"
-            title="Ubah standar"
-          >
-            <ChevronsUpDown className="h-4 w-4" strokeWidth={2.4} />
-          </button>
-        </div>
-
-        <div className="mt-7 flex items-center justify-between gap-3">
-          <div className="text-[10px] font-semibold leading-tight text-[#596882]">
-            Tetapkan SAK-EP Sebagai Standar
-          </div>
-          <Switch checked={sakEpStandard} onCheckedChange={setSakEpStandard} />
         </div>
       </div>
 
