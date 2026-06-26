@@ -208,7 +208,7 @@ export default function AccountingCodeAccountsView() {
           <div className="px-3 py-2">Nama Akun</div>
         </div>
 
-        <div className="max-h-[520px] overflow-auto bg-white">
+        <div className="bg-white">
           {rows.map((account) => (
             <AccountRow
               key={account.code}
