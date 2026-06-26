@@ -17,7 +17,16 @@ export default function SakAkunting() {
         <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
           <AccountingSidebar active={active} onChange={setActive} />
 
-          <Card className="min-h-[560px] rounded-[5px] border-slate-200/70 bg-white shadow-sm" />
+          <Card className="min-h-[560px] rounded-[5px] border-slate-200/70 bg-white p-5 shadow-sm md:p-6">
+            <div className="flex items-baseline gap-2">
+              <h1 className="text-[21px] font-bold leading-tight text-black">
+                Laporan
+              </h1>
+              <span className="text-[16px] font-normal leading-tight text-black">
+                Neraca Harian
+              </span>
+            </div>
+          </Card>
         </div>
       </div>
     </div>
