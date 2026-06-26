@@ -115,8 +115,8 @@ function AccountActionButton({
         onClick();
       }}
       className={cn(
-        "inline-flex h-6 w-6 items-center justify-center rounded-[5px]",
-        "bg-transparent text-[#2563eb] transition hover:bg-blue-50 hover:text-[#1d4ed8]",
+        "inline-flex h-5 w-5 items-center justify-center",
+        "bg-transparent p-0 text-[#006DFF] transition hover:text-[#0057cc]",
         "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
       aria-label={label}
@@ -177,7 +177,7 @@ function AccountRow({
           {account.code}
         </span>
 
-        <span className="inline-flex items-center gap-1">
+        <span className="ml-6 inline-flex items-center gap-2">
           <AccountActionButton
             label={`Ubah akun ${account.name}`}
             onClick={() =>
@@ -186,7 +186,7 @@ function AccountRow({
               })
             }
           >
-            <Pencil className="h-4 w-4" strokeWidth={2.4} />
+            <Pencil className="h-[15px] w-[15px]" strokeWidth={2.6} />
           </AccountActionButton>
 
           <AccountActionButton
@@ -197,7 +197,7 @@ function AccountRow({
               })
             }
           >
-            <Trash2 className="h-4 w-4" strokeWidth={2.4} />
+            <Trash2 className="h-[15px] w-[15px]" strokeWidth={2.6} />
           </AccountActionButton>
         </span>
       </div>
