@@ -129,7 +129,7 @@ export default function AccountingSidebar({
         </div>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-3">
         {groups.map((group) => {
           const isOpen = openGroups[group.id];
 
