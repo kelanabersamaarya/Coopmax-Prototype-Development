@@ -21,22 +21,15 @@ type FlatAccount = {
 const accounts: AccountNode[] = [
   {
     code: "1",
-    name: "ASET",
+    name: "Aset",
     children: [
       {
         code: "1.1",
-        name: "Aset Lancar",
+        name: "Kas dan Setara Kas",
         children: [
-          {
-            code: "1.1.1",
-            name: "Kas dan Setara Kas",
-            children: [
-              { code: "1.1.1.1", name: "Kas" },
-              { code: "1.1.1.2", name: "Bank" },
-              { code: "1.1.1.3", name: "Simpanan Anggota" },
-            ],
-          },
-          { code: "1.1.2", name: "Piutang Pinjaman" },
+          { code: "1.1.1", name: "Kas" },
+          { code: "1.1.2", name: "Bank" },
+          { code: "1.1.3", name: "Simpanan Anggota" },
         ],
       },
       {
@@ -51,7 +44,7 @@ const accounts: AccountNode[] = [
   },
   {
     code: "2",
-    name: "KEWAJIBAN",
+    name: "Kewajiban",
     children: [
       { code: "2.1", name: "Simpanan Sukarela" },
       { code: "2.2", name: "Simpanan Berjangka" },
@@ -60,7 +53,7 @@ const accounts: AccountNode[] = [
   },
   {
     code: "3",
-    name: "EKUITAS",
+    name: "Ekuitas",
     children: [
       { code: "3.1", name: "Simpanan Pokok" },
       { code: "3.2", name: "Simpanan Wajib" },
@@ -69,7 +62,7 @@ const accounts: AccountNode[] = [
   },
   {
     code: "4",
-    name: "PENDAPATAN",
+    name: "Pendapatan",
     children: [
       { code: "4.1", name: "Pendapatan Bunga Pinjaman" },
       { code: "4.2", name: "Pendapatan Administrasi" },
@@ -78,7 +71,7 @@ const accounts: AccountNode[] = [
   },
   {
     code: "5",
-    name: "BEBAN",
+    name: "Beban",
     children: [
       { code: "5.1", name: "Beban Bunga Simpanan" },
       { code: "5.2", name: "Beban Operasional" },
@@ -170,25 +163,29 @@ function AccountRow({
   const showCode = account.level > 0;
 
   return (
-    <div className="group relative min-h-[34px] border-b border-slate-200 bg-white text-[14px] font-bold text-black last:border-b-0">
-      <div
-        className="relative inline-grid max-w-full grid-cols-[18px_max-content_max-content_auto] items-center gap-x-2 px-3 py-1.5"
-        style={{ marginLeft: `${account.level * 28}px` }}
-      >
-        {account.level > 0 ? (
-          <span
-            className="absolute bottom-0 top-0 w-px bg-[#2F7BFF]"
-            style={{ left: "-20px" }}
-            aria-hidden="true"
-          />
-        ) : null}
+    <div className="relative" style={{ paddingLeft: `${account.level * 30}px` }}>
+      {account.level > 0 ? (
+        <span
+          className="absolute bottom-0 top-0 w-px bg-[#2F7BFF]"
+          style={{ left: `${account.level * 30 - 16}px` }}
+          aria-hidden="true"
+        />
+      ) : null}
 
+      <div
+        className={cn(
+          "group inline-flex min-h-[36px] max-w-full items-center gap-2",
+          "border border-slate-200 bg-white px-3 py-1.5",
+          "text-[14px] font-bold text-black",
+          "transition-colors hover:bg-white",
+        )}
+      >
         {account.hasChildren ? (
           <button
             type="button"
             onClick={onToggle}
             className={cn(
-              "inline-flex h-5 w-5 items-center justify-center",
+              "inline-flex h-5 w-5 shrink-0 items-center justify-center",
               "bg-transparent p-0 text-[16px] font-bold leading-none text-black",
               "transition hover:text-slate-700",
               "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -196,10 +193,10 @@ function AccountRow({
             aria-label={expanded ? "Tutup akun" : "Buka akun"}
             title={expanded ? "Tutup" : "Buka"}
           >
-            {expanded ? "−" : "+"}
+            {expanded ? "-" : "+"}
           </button>
         ) : (
-          <span className="h-5 w-5" />
+          <span className="h-5 w-5 shrink-0" />
         )}
 
         <span className="whitespace-nowrap font-bold text-[#334155] transition-colors group-hover:text-[#006DFF]">
@@ -210,11 +207,9 @@ function AccountRow({
           <span className="whitespace-nowrap font-bold tabular-nums text-[#334155] transition-colors group-hover:text-[#006DFF]">
             ({account.code})
           </span>
-        ) : (
-          <span />
-        )}
+        ) : null}
 
-        <span className="ml-8 inline-flex items-center gap-2">
+        <span className="ml-5 inline-flex shrink-0 items-center gap-4">
           <AccountActionButton
             label={`Ubah akun ${account.name}`}
             onClick={() =>
@@ -288,15 +283,17 @@ export default function AccountingCodeAccountsView() {
         </button>
       </div>
 
-      <div className="mt-3 overflow-hidden rounded-[5px] border border-slate-200 bg-white">
-        {rows.map((account) => (
-          <AccountRow
-            key={account.code}
-            account={account}
-            expanded={expanded.has(account.code)}
-            onToggle={() => toggle(account.code)}
-          />
-        ))}
+      <div className="mt-3 overflow-x-auto rounded-[5px] bg-white">
+        <div className="grid w-max gap-0">
+          {rows.map((account) => (
+            <AccountRow
+              key={account.code}
+              account={account}
+              expanded={expanded.has(account.code)}
+              onToggle={() => toggle(account.code)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
