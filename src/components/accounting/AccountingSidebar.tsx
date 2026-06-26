@@ -73,21 +73,7 @@ export default function AccountingSidebar({
   onChange: (item: AccountingMenuItem) => void;
   className?: string;
 }) {
-  const [openGroups, setOpenGroups] = React.useState<
-    Record<AccountingMenuGroupId, boolean>
-  >({
-    transaksi: true,
-    laporan: true,
-    pengaturan: true,
-  });
   const [sakEpStandard, setSakEpStandard] = React.useState(false);
-
-  function toggleGroup(groupId: AccountingMenuGroupId) {
-    setOpenGroups((current) => ({
-      ...current,
-      [groupId]: !current[groupId],
-    }));
-  }
 
   return (
     <aside
@@ -131,67 +117,45 @@ export default function AccountingSidebar({
 
       <div className="space-y-3">
         {groups.map((group) => {
-          const isOpen = openGroups[group.id];
-
           return (
             <div key={group.id} className="rounded-[5px] bg-white">
-              <button
-                type="button"
-                onClick={() => toggleGroup(group.id)}
-                className={cn(
-                  "flex w-full items-center rounded-[5px] px-2.5 py-2 text-left transition",
-                  active.groupId === group.id
-                    ? "bg-violet-50 ring-1 ring-violet-200"
-                    : "bg-white hover:bg-slate-50",
-                )}
-                aria-expanded={isOpen}
-              >
+              <div className="flex w-full items-center rounded-[5px] bg-white px-2.5 py-2 text-left">
                 <span className="min-w-0 flex-1 truncate text-[14px] font-bold text-black">
                   {group.label}
                 </span>
-              </button>
+              </div>
 
-              <div
-                className={cn(
-                  "grid overflow-hidden transition-[grid-template-rows,opacity] duration-200",
-                  isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-                )}
-              >
-                <div className="min-h-0">
-                  <div className="space-y-0.5 px-2 py-1">
-                    {group.items.map((itemLabel) => {
-                      const isActive =
-                        active.groupId === group.id &&
-                        active.itemLabel === itemLabel;
-
-                      return (
-                        <button
-                          key={`${group.id}-${itemLabel}`}
-                          type="button"
-                          onClick={() =>
-                            onChange({
-                              groupId: group.id,
-                              groupLabel: group.label,
-                              itemLabel,
-                            })
-                          }
-                          className={cn(
-                            "flex w-full items-center rounded-[5px] px-2.5 py-1 text-left transition",
-                            isActive ? "bg-violet-50" : "hover:bg-slate-50",
-                          )}
-                        >
-                          <span className="min-w-0 truncate text-[12px] font-medium text-[#596882]">
-                            {itemLabel}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
+              <div className="px-2 py-1">
+                <div className="space-y-0.5">
+                  {group.items.map((itemLabel) => {
+                    return (
+                      <button
+                        key={`${group.id}-${itemLabel}`}
+                        type="button"
+                        onClick={() =>
+                          onChange({
+                            groupId: group.id,
+                            groupLabel: group.label,
+                            itemLabel,
+                          })
+                        }
+                        className="flex w-full items-center rounded-[5px] px-2.5 py-1 text-left transition hover:bg-slate-50"
+                      >
+                        <span className="min-w-0 truncate text-[12px] font-medium text-[#596882]">
+                          {itemLabel}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
           );
         })}
+      </div>
+
+      <div className="sr-only">
+        {active.groupLabel} {active.itemLabel}
       </div>
     </aside>
   );
