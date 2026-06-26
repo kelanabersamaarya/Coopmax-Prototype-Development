@@ -80,6 +80,7 @@ export default function EditCategoryDialog({
   const [showDetail, setShowDetail] = React.useState(true);
   const [showDetailSaldo, setShowDetailSaldo] = React.useState(true);
   const [status, setStatus] = React.useState(true);
+  const [cash, setCash] = React.useState(true);
 
   React.useEffect(() => {
     if (!open || !account) return;
@@ -94,6 +95,7 @@ export default function EditCategoryDialog({
     setShowDetail(true);
     setShowDetailSaldo(true);
     setStatus(true);
+    setCash(true);
   }, [account, open]);
 
   function save() {
@@ -205,6 +207,11 @@ export default function EditCategoryDialog({
               <div className="grid gap-[7px]">
                 <FieldLabel>Status</FieldLabel>
                 <AccountingTogglePill checked={status} onChange={setStatus} />
+              </div>
+
+              <div className="grid gap-[7px]">
+                <FieldLabel>Cash</FieldLabel>
+                <AccountingTogglePill checked={cash} onChange={setCash} />
               </div>
             </div>
           </div>
