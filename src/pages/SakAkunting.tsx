@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import AccountingSidebar, {
   type AccountingMenuItem,
 } from "@/components/accounting/AccountingSidebar";
+import AccountingCodeAccountsView from "@/components/accounting/AccountingCodeAccountsView";
 
 export default function SakAkunting() {
   const [active, setActive] = React.useState<AccountingMenuItem>({
@@ -25,14 +26,18 @@ export default function SakAkunting() {
 
           <Card className="rounded-[5px] border-slate-200/70 bg-white p-5 shadow-sm md:p-6">
             {isKodeAkun ? (
-              <div className="flex items-baseline gap-2">
-                <h1 className="text-[21px] font-bold leading-tight text-black">
-                  Akuntansi Pengaturan
-                </h1>
-                <span className="text-[16px] font-normal leading-tight text-black">
-                  - Kode Akun
-                </span>
-              </div>
+              <>
+                <div className="flex items-baseline gap-2">
+                  <h1 className="text-[21px] font-bold leading-tight text-black">
+                    Akuntansi Pengaturan
+                  </h1>
+                  <span className="text-[16px] font-normal leading-tight text-black">
+                    - Kode Akun
+                  </span>
+                </div>
+
+                <AccountingCodeAccountsView />
+              </>
             ) : (
               <>
                 <div className="flex items-baseline gap-2">
