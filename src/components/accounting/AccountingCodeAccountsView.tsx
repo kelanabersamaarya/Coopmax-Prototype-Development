@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import EditCategoryDialog from "@/components/accounting/EditCategoryDialog";
 import AddCategoryDialog from "@/components/accounting/AddCategoryDialog";
+import AddAccountDialog from "@/components/accounting/AddAccountDialog";
 
 type AccountNode = {
   code: string;
@@ -270,6 +271,7 @@ export default function AccountingCodeAccountsView() {
   const [editOpen, setEditOpen] = React.useState(false);
   const [editAccount, setEditAccount] = React.useState<FlatAccount | null>(null);
   const [addCategoryOpen, setAddCategoryOpen] = React.useState(false);
+  const [addAccountOpen, setAddAccountOpen] = React.useState(false);
 
   const rows = React.useMemo(
     () => flattenAccounts(accounts, expanded),
@@ -302,6 +304,11 @@ export default function AccountingCodeAccountsView() {
         onOpenChange={setAddCategoryOpen}
       />
 
+      <AddAccountDialog
+        open={addAccountOpen}
+        onOpenChange={setAddAccountOpen}
+      />
+
       <EditCategoryDialog
         open={editOpen}
         onOpenChange={setEditOpen}
@@ -313,13 +320,7 @@ export default function AccountingCodeAccountsView() {
           Tambah Kategori
         </AddTopButton>
 
-        <AddTopButton
-          onClick={() =>
-            toast("Tambah Akun (prototype)", {
-              description: "Form tambah akun belum dihubungkan.",
-            })
-          }
-        >
+        <AddTopButton onClick={() => setAddAccountOpen(true)}>
           Tambah Akun
         </AddTopButton>
       </div>
