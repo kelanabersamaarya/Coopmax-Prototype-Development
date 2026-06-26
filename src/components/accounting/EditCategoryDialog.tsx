@@ -48,7 +48,9 @@ function FormSelect({
         )}
       >
         <SelectValue />
-        <ChevronDown className="ml-auto h-4 w-4 text-[#526685]" />
+        <span className="ml-auto inline-flex h-4 w-4 items-center justify-center text-[#526685]">
+          <ChevronDown className="h-4 w-4" />
+        </span>
       </SelectTrigger>
 
       <SelectContent className="rounded-[5px] border-slate-200">
