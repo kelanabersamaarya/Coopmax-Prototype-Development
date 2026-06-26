@@ -151,6 +151,30 @@ function AccountActionButton({
   );
 }
 
+function OutlineTopButton({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex h-[31px] min-w-[84px] items-center justify-center rounded-[5px]",
+        "border border-[#006DFF] bg-white px-4",
+        "text-[14px] font-normal text-black",
+        "transition hover:bg-blue-50",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
 function AccountRow({
   account,
   expanded,
@@ -262,6 +286,28 @@ export default function AccountingCodeAccountsView() {
 
   return (
     <div className="mt-5">
+      <div className="mb-2 flex justify-end gap-2">
+        <OutlineTopButton
+          onClick={() =>
+            toast("Tombol aksi kiri (prototype)", {
+              description: "Aksi tombol belum dihubungkan.",
+            })
+          }
+        >
+          Batal
+        </OutlineTopButton>
+
+        <OutlineTopButton
+          onClick={() =>
+            toast("OK (prototype)", {
+              description: "Aksi tombol belum dihubungkan.",
+            })
+          }
+        >
+          OK
+        </OutlineTopButton>
+      </div>
+
       <div className="flex items-center gap-1">
         <button
           type="button"
