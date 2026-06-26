@@ -98,8 +98,6 @@ export default function AddCategoryDialog({
   const [showDetailSaldo, setShowDetailSaldo] = React.useState(true);
   const [status, setStatus] = React.useState(true);
   const [cash, setCash] = React.useState(true);
-  const [arusKasDebit, setArusKasDebit] = React.useState("(kosong)");
-  const [arusKasKredit, setArusKasKredit] = React.useState("(kosong)");
 
   React.useEffect(() => {
     if (!open) return;
@@ -114,8 +112,6 @@ export default function AddCategoryDialog({
     setShowDetailSaldo(true);
     setStatus(true);
     setCash(true);
-    setArusKasDebit("(kosong)");
-    setArusKasKredit("(kosong)");
   }, [open]);
 
   React.useEffect(() => {
@@ -232,28 +228,6 @@ export default function AddCategoryDialog({
                 <FieldLabel>Cash</FieldLabel>
                 <AccountingTogglePill checked={cash} onChange={setCash} />
               </div>
-
-              {!cash ? (
-                <>
-                  <div className="grid gap-[6px]">
-                    <FieldLabel>ARUS KAS DEBIT</FieldLabel>
-                    <FormSelect
-                      value={arusKasDebit}
-                      onChange={setArusKasDebit}
-                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
-                    />
-                  </div>
-
-                  <div className="grid gap-[6px]">
-                    <FieldLabel>ARUS KAS KREDIT</FieldLabel>
-                    <FormSelect
-                      value={arusKasKredit}
-                      onChange={setArusKasKredit}
-                      options={["(kosong)", "Operasional", "Investasi", "Pendanaan"]}
-                    />
-                  </div>
-                </>
-              ) : null}
             </div>
           </div>
 
