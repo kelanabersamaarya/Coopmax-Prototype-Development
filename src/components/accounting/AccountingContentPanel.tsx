@@ -4,12 +4,20 @@ import { Calculator, FileText } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { AccountingMenuItem } from "@/components/accounting/AccountingSidebar";
+import AccountingDashboardLanding from "@/components/accounting/AccountingDashboardLanding";
 
 export default function AccountingContentPanel({
   active,
 }: {
   active: AccountingMenuItem;
 }) {
+  const isDashboard =
+    active.groupId === "transaksi" && active.itemLabel === "Dashboard";
+
+  if (isDashboard) {
+    return <AccountingDashboardLanding />;
+  }
+
   return (
     <Card className="min-h-[520px] rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -51,12 +59,7 @@ export default function AccountingContentPanel({
         </div>
       </div>
 
-      <div
-        className={cn(
-          "mt-6 grid gap-3",
-          "sm:grid-cols-2 lg:grid-cols-3",
-        )}
-      >
+      <div className={cn("mt-6 grid gap-3", "sm:grid-cols-2 lg:grid-cols-3")}>
         {["Status", "Periode", "Cabang"].map((label) => (
           <div
             key={label}
