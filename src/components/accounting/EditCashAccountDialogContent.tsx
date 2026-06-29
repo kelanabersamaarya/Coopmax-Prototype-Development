@@ -128,10 +128,12 @@ export default function EditCashAccountDialogContent({
     setNominalMinus(saved?.nominalMinus ?? false);
     setStatus(saved?.status ?? true);
     setCash(saved?.cash ?? true);
-    setCoaAccounts(saved?.coaAccounts ?? [
-      "BANK BRI KSBA CABANG RUTENG 1763-01-000063-56-0",
-      "",
-    ]);
+    setCoaAccounts(
+      saved?.coaAccounts ?? [
+        "BANK BRI KSBA CABANG RUTENG 1763-01-000063-56-0",
+        "",
+      ],
+    );
   }, [accountCode, accountName]);
 
   function save() {
@@ -210,10 +212,12 @@ export default function EditCashAccountDialogContent({
             <AccountingTogglePill checked={cash} onChange={setCash} />
           </div>
 
-          <AccountingCoaAccountRows
-            values={coaAccounts}
-            onChange={setCoaAccounts}
-          />
+          {cash ? (
+            <AccountingCoaAccountRows
+              values={coaAccounts}
+              onChange={setCoaAccounts}
+            />
+          ) : null}
         </div>
       </div>
 

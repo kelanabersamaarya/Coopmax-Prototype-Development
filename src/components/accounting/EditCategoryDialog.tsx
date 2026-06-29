@@ -14,7 +14,6 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
-import CashFlowSelect from "@/components/accounting/CashFlowSelect";
 import EditCashAccountDialogContent from "@/components/accounting/EditCashAccountDialogContent";
 import AccountingCoaAccountRows from "@/components/accounting/AccountingCoaAccountRows";
 import {
@@ -362,29 +361,11 @@ export default function EditCategoryDialog({
                   <AccountingTogglePill checked={cash} onChange={setCash} />
                 </div>
 
-                <AccountingCoaAccountRows
-                  values={coaAccounts}
-                  onChange={setCoaAccounts}
-                />
-
-                {!cash ? (
-                  <>
-                    <div className="grid gap-[6px]">
-                      <FieldLabel>ARUS KAS DEBIT</FieldLabel>
-                      <CashFlowSelect
-                        value={arusKasDebit}
-                        onChange={setArusKasDebit}
-                      />
-                    </div>
-
-                    <div className="grid gap-[6px]">
-                      <FieldLabel>ARUS KAS KREDIT</FieldLabel>
-                      <CashFlowSelect
-                        value={arusKasKredit}
-                        onChange={setArusKasKredit}
-                      />
-                    </div>
-                  </>
+                {cash ? (
+                  <AccountingCoaAccountRows
+                    values={coaAccounts}
+                    onChange={setCoaAccounts}
+                  />
                 ) : null}
               </div>
             </div>
