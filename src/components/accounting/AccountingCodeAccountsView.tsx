@@ -27,7 +27,6 @@ type FlatAccount = {
 const categoryAccountNames = new Set(
   [
     "Kas dan Setara Kas",
-    "Kas",
     "Bank",
     "Piutang",
     "Simpanan Anggota",
