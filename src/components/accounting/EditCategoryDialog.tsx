@@ -521,31 +521,6 @@ export default function EditCategoryDialog({
                 <FieldLabel>Status</FieldLabel>
                 <AccountingTogglePill checked={status} onChange={setStatus} />
               </div>
-
-              <div className="grid gap-[7px]">
-                <FieldLabel>Cash</FieldLabel>
-                <AccountingTogglePill checked={cash} onChange={setCash} />
-              </div>
-
-              {!cash ? (
-                <>
-                  <div className="grid gap-[6px]">
-                    <FieldLabel>ARUS KAS DEBIT</FieldLabel>
-                    <CashFlowSelect
-                      value={arusKasDebit}
-                      onChange={setArusKasDebit}
-                    />
-                  </div>
-
-                  <div className="grid gap-[6px]">
-                    <FieldLabel>ARUS KAS KREDIT</FieldLabel>
-                    <CashFlowSelect
-                      value={arusKasKredit}
-                      onChange={setArusKasKredit}
-                    />
-                  </div>
-                </>
-              ) : null}
             </div>
           </div>
 
