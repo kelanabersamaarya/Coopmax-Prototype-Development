@@ -327,6 +327,20 @@ function getExpandableCodes(nodes: AccountNode[]) {
   return codes;
 }
 
+function pushFlatAccount(
+  result: FlatAccount[],
+  node: AccountNode,
+  level: number,
+) {
+  result.push({
+    code: node.code,
+    name: node.name,
+    level,
+    hasChildren: Boolean(node.children?.length),
+    hideCode: node.hideCode,
+  });
+}
+
 function flattenAccounts(
   nodes: AccountNode[],
   expanded: Set<string>,
@@ -339,18 +353,36 @@ function flattenAccounts(
     const childLevel = node.hidden ? level : level + 1;
 
     if (!node.hidden) {
-      result.push({
-        code: node.code,
-        name: node.name,
-        level,
-        hasChildren,
-        hideCode: node.hideCode,
-      });
+      pushFlatAccount(result, node, level);
     }
 
-    if (hasChildren && expanded.has(node.code)) {
-      result.push(...flattenAccounts(node.children ?? [], expanded, childLevel));
+    if (!hasChildren || !expanded.has(node.code)) return;
+
+    if (node.code === "1.1.1") {
+      const children = node.children ?? [];
+      const kas = children.find((child) => child.code === "1.1.1.1");
+      const bank = children.find((child) => child.code === "1.1.1.2");
+      const otherChildren = children.filter(
+        (child) => child.code !== "1.1.1.1" && child.code !== "1.1.1.2",
+      );
+
+      if (kas) {
+        pushFlatAccount(result, kas, childLevel);
+      }
+
+      if (bank) {
+        pushFlatAccount(result, bank, childLevel);
+      }
+
+      if (kas?.children?.length && expanded.has(kas.code)) {
+        result.push(...flattenAccounts(kas.children, expanded, childLevel + 1));
+      }
+
+      result.push(...flattenAccounts(otherChildren, expanded, childLevel));
+      return;
     }
+
+    result.push(...flattenAccounts(node.children ?? [], expanded, childLevel));
   });
 
   return result;
