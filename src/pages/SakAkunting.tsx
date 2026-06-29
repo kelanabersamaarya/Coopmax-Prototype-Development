@@ -31,9 +31,6 @@ export default function SakAkunting() {
                   <h1 className="text-[21px] font-bold leading-tight text-black">
                     Akuntansi Pengaturan
                   </h1>
-                  <span className="text-[16px] font-normal leading-tight text-black">
-                    - Kode Akun
-                  </span>
                 </div>
 
                 <AccountingCodeAccountsView />
