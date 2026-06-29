@@ -12,6 +12,7 @@ type AccountNode = {
   code: string;
   name: string;
   hideCode?: boolean;
+  hidden?: boolean;
   children?: AccountNode[];
 };
 
@@ -31,6 +32,7 @@ const accounts: AccountNode[] = [
       {
         code: "1.1",
         name: "Aset Lancar",
+        hidden: true,
         children: [
           {
             code: "1.1.1",
@@ -121,7 +123,7 @@ const accounts: AccountNode[] = [
             code: "1.2.6",
             name: "Akumulasi Penyusutan",
             children: [
-              { code: "1.2.6.1", name: "Akumulasi Penyusutan Bangunan" },
+              { code: "1.2.6.1", name: "Akumulasi Penyusan Bangunan" },
               { code: "1.2.6.2", name: "Akumulasi Penyusutan Inventaris Kantor" },
               { code: "1.2.6.3", name: "Akumulasi Penyusutan Kendaraan" },
               { code: "1.2.6.4", name: "Akumulasi Penyusutan Peralatan Kantor" },
@@ -341,17 +343,20 @@ function flattenAccounts(
 
   nodes.forEach((node) => {
     const hasChildren = Boolean(node.children?.length);
+    const childLevel = node.hidden ? level : level + 1;
 
-    result.push({
-      code: node.code,
-      name: node.name,
-      level,
-      hasChildren,
-      hideCode: node.hideCode,
-    });
+    if (!node.hidden) {
+      result.push({
+        code: node.code,
+        name: node.name,
+        level,
+        hasChildren,
+        hideCode: node.hideCode,
+      });
+    }
 
     if (hasChildren && expanded.has(node.code)) {
-      result.push(...flattenAccounts(node.children ?? [], expanded, level + 1));
+      result.push(...flattenAccounts(node.children ?? [], expanded, childLevel));
     }
   });
 
