@@ -435,6 +435,10 @@ function shouldHideCode(account: FlatAccount) {
   return account.hideCode || categoryAccountNames.has(account.name.toLowerCase());
 }
 
+function shouldForceMinusIndicator(account: FlatAccount) {
+  return account.code === "1.1.1.2" && account.name.toLowerCase() === "bank";
+}
+
 function AccountActionButton({
   label,
   onClick,
@@ -505,6 +509,7 @@ function AccountRow({
 }) {
   const showCode = account.level > 0 && !shouldHideCode(account);
   const hideActions = account.code === "1";
+  const forceMinus = shouldForceMinusIndicator(account);
   const indent = account.level * 30;
 
   return (
@@ -538,6 +543,10 @@ function AccountRow({
               >
                 {expanded ? "-" : "+"}
               </button>
+            ) : forceMinus ? (
+              <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center bg-transparent p-0 text-[16px] font-bold leading-none text-black">
+                -
+              </span>
             ) : (
               <span className="h-5 w-5 shrink-0" />
             )}
