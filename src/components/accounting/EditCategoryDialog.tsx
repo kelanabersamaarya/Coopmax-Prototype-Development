@@ -22,6 +22,82 @@ type AccountOption = {
   name: string;
 };
 
+const categoryAccountNames = new Set(
+  [
+    "Kas dan Setara Kas",
+    "Bank",
+    "Piutang",
+    "Simpanan Anggota",
+    "Persediaan",
+    "Biaya Dibayar Dimuka",
+    "Aset Tetap",
+    "Aset Lain-lain",
+    "Kewajiban Lancar",
+    "Simpanan",
+    "Hutang",
+    "Pendapatan Diterima Dimuka",
+    "Kewajiban Jangka Panjang",
+    "Ekuitas",
+    "Modal Anggota",
+    "Cadangan",
+    "Sisa Hasil Usaha",
+    "Pendapatan",
+    "Pendapatan Pinjaman",
+    "Pendapatan Simpanan",
+    "Pendapatan Operasional Lainnya",
+    "Beban",
+    "Beban Jasa Simpanan",
+    "Beban Operasional",
+    "Beban Pinjaman",
+    "Beban Lain-lain",
+  ].map((name) => name.toLowerCase()),
+);
+
+const classOptions = [
+  "1 - Aset",
+  "2 - Kewajiban",
+  "3 - Ekuitas",
+  "4 - Pendapatan",
+  "5 - Beban",
+];
+
+const accountTypeOptions = [
+  "(kosong)",
+  "Aset",
+  "1.1 - KAS DAN SETARA KAS",
+  "1.3 - ASET TETAP",
+  "1.4 - ASET TIDAK BERWUJUD",
+  "1.5 - ASET LAIN-LAIN",
+  "1.1.2 - Bank",
+  "1.1.3 - Simpanan Pada Koperasi Lain",
+  "1.3 - PIUTANG USAHA",
+  "1.1.4 - Penyertaan",
+  "1.3.3 - PENDAPATAN LAINNYA",
+  "Liabilitas",
+  "2.1 - SIMPANAN ANGGOTA",
+  "2.2 - SIMPANAN KOPERASI LAIN",
+  "2.13 - LIABILITAS LAIN",
+  "2.12 - Dana Bagian SHU",
+  "2.5 - UTANG PINJAMAN",
+  "Ekuitas",
+  "3.1 - EKUITAS",
+  "3.1.7 - SHU Belum Dibagi",
+];
+
+const parentOptions = [
+  "(kosong)",
+  "Aset",
+  "1.1 - KAS DAN SETARA KAS",
+  "1.3 - ASET TETAP",
+  "1.4 - ASET TIDAK BERWUJUD",
+  "1.5 - ASET LAIN-LAIN",
+  "1.1.2 - Bank",
+  "1.1.3 - Simpanan Pada Koperasi Lain",
+  "1.3 - PIUTANG USAHA",
+  "1.1.4 - Penyertaan",
+  "1.3.3 - PENDAPATAN LAINNYA",
+];
+
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <label className="text-[11px] font-extrabold uppercase leading-none tracking-wide text-[#72809B]">
@@ -88,6 +164,20 @@ function FormSelect({
   );
 }
 
+function isChartAccount(account: AccountOption | null) {
+  if (!account) return false;
+  return !categoryAccountNames.has(account.name.toLowerCase());
+}
+
+function titleCaseClass(rootCode: string, fallbackName: string) {
+  if (rootCode === "1") return "1 - Aset";
+  if (rootCode === "2") return "2 - Kewajiban";
+  if (rootCode === "3") return "3 - Ekuitas";
+  if (rootCode === "4") return "4 - Pendapatan";
+  if (rootCode === "5") return "5 - Beban";
+  return `${rootCode} - ${fallbackName}`;
+}
+
 export default function EditCategoryDialog({
   open,
   onOpenChange,
@@ -107,6 +197,7 @@ export default function EditCategoryDialog({
   const [showDetailSaldo, setShowDetailSaldo] = React.useState(true);
   const [status, setStatus] = React.useState(true);
   const [cash, setCash] = React.useState(true);
+  const [nominalMinus, setNominalMinus] = React.useState(false);
   const [arusKasDebit, setArusKasDebit] = React.useState("(kosong)");
   const [arusKasKredit, setArusKasKredit] = React.useState("(kosong)");
 
@@ -114,7 +205,7 @@ export default function EditCategoryDialog({
     if (!open || !account) return;
 
     const rootCode = account.code.split(".")[0] || "1";
-    setClassValue(`${rootCode} - ${rootCode === "1" ? "Aset" : account.name}`);
+    setClassValue(titleCaseClass(rootCode, account.name));
     setParent("(kosong)");
     setCodePrefix(rootCode);
     setCode(account.code);
@@ -124,18 +215,27 @@ export default function EditCategoryDialog({
     setShowDetailSaldo(true);
     setStatus(true);
     setCash(true);
+    setNominalMinus(false);
     setArusKasDebit("(kosong)");
     setArusKasKredit("(kosong)");
   }, [account, open]);
 
-  function save() {
+  function saveCategory() {
     toast.success("Kategori diperbarui (prototype)", {
       description: `${code} • ${name}`,
     });
     onOpenChange(false);
   }
 
+  function saveChartAccount() {
+    toast.success("Akun diperbarui (prototype)", {
+      description: `${code} • ${name}`,
+    });
+    onOpenChange(false);
+  }
+
   const isCashAccount = account?.code === "1.1.1.1" || account?.name === "Kas";
+  const isRegularChartAccount = isChartAccount(account) && !isCashAccount;
 
   if (isCashAccount) {
     return (
@@ -153,6 +253,140 @@ export default function EditCategoryDialog({
           )}
         >
           <EditCashAccountDialogContent onClose={() => onOpenChange(false)} />
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  if (isRegularChartAccount) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1rem)] sm:w-[518px]",
+            "max-w-[518px]",
+            "max-h-[90vh] overflow-hidden",
+            "rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+            "[&_[data-radix-dialog-close]]:hidden",
+          )}
+        >
+          <div className="bg-white">
+            <div className="border-b border-[#CBD5E1] px-[26px] py-[18px]">
+              <div className="text-[18px] font-extrabold leading-tight text-[#1F2A3D]">
+                Edit Chart of Account
+              </div>
+            </div>
+
+            <div className="max-h-[calc(90vh-72px-72px)] overflow-auto px-[26px] py-[27px]">
+              <div className="grid gap-[10px]">
+                <div className="grid gap-[6px]">
+                  <FieldLabel>Type</FieldLabel>
+                  <FormSelect
+                    value={classValue}
+                    onChange={setClassValue}
+                    options={accountTypeOptions}
+                  />
+                </div>
+
+                <div className="grid gap-[6px]">
+                  <FieldLabel>Code</FieldLabel>
+                  <Input
+                    value={code}
+                    onChange={(event) => setCode(event.target.value)}
+                    className={cn(
+                      "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3",
+                      "text-[14px] font-normal text-[#526685] shadow-none",
+                      "focus-visible:ring-0 focus-visible:ring-offset-0",
+                    )}
+                  />
+                </div>
+
+                <div className="mt-[8px] grid gap-[6px]">
+                  <FieldLabel>Name</FieldLabel>
+                  <Input
+                    value={name}
+                    onChange={(event) => setName(event.target.value.toUpperCase())}
+                    className={cn(
+                      "h-[31px] rounded-[5px] border-[#CBD5E1] bg-white px-3",
+                      "text-[14px] font-normal uppercase text-[#526685] shadow-none",
+                      "focus-visible:ring-0 focus-visible:ring-offset-0",
+                    )}
+                  />
+                </div>
+
+                <div className="grid gap-[7px]">
+                  <FieldLabel>Nominal Minus</FieldLabel>
+                  <AccountingTogglePill
+                    checked={nominalMinus}
+                    onChange={setNominalMinus}
+                  />
+                </div>
+
+                <div className="grid gap-[7px]">
+                  <FieldLabel>Status</FieldLabel>
+                  <AccountingTogglePill checked={status} onChange={setStatus} />
+                </div>
+
+                <div className="grid gap-[7px]">
+                  <FieldLabel>Cash</FieldLabel>
+                  <AccountingTogglePill checked={cash} onChange={setCash} />
+                </div>
+
+                {!cash ? (
+                  <>
+                    <div className="grid gap-[6px]">
+                      <FieldLabel>ARUS KAS DEBIT</FieldLabel>
+                      <CashFlowSelect
+                        value={arusKasDebit}
+                        onChange={setArusKasDebit}
+                      />
+                    </div>
+
+                    <div className="grid gap-[6px]">
+                      <FieldLabel>ARUS KAS KREDIT</FieldLabel>
+                      <CashFlowSelect
+                        value={arusKasKredit}
+                        onChange={setArusKasKredit}
+                      />
+                    </div>
+                  </>
+                ) : null}
+              </div>
+            </div>
+
+            <div className="border-t border-[#CBD5E1] px-[16px] py-[19px]">
+              <div className="flex justify-end gap-[8px]">
+                <button
+                  type="button"
+                  onClick={saveChartAccount}
+                  className={cn(
+                    "h-[32px] min-w-[61px] rounded-[5px] px-4",
+                    "bg-[#635BFF] text-[14px] font-semibold text-white",
+                    "transition hover:bg-[#554cf0]",
+                    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                >
+                  Save
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenChange(false)}
+                  className={cn(
+                    "h-[32px] min-w-[70px] rounded-[5px] border border-[#9AA8C0] bg-white px-4",
+                    "text-[14px] font-normal text-[#72809B]",
+                    "transition hover:bg-slate-50",
+                    "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                  )}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     );
@@ -186,13 +420,7 @@ export default function EditCategoryDialog({
                 <FormSelect
                   value={classValue}
                   onChange={setClassValue}
-                  options={[
-                    "1 - Aset",
-                    "2 - Kewajiban",
-                    "3 - Ekuitas",
-                    "4 - Pendapatan",
-                    "5 - Beban",
-                  ]}
+                  options={classOptions}
                 />
               </div>
 
@@ -201,7 +429,7 @@ export default function EditCategoryDialog({
                 <FormSelect
                   value={parent}
                   onChange={setParent}
-                  options={["(kosong)", "1 - Aset", "1.1 - Kas dan Setara Kas"]}
+                  options={parentOptions}
                 />
               </div>
 
@@ -293,7 +521,7 @@ export default function EditCategoryDialog({
             <div className="flex justify-end gap-[8px]">
               <button
                 type="button"
-                onClick={save}
+                onClick={saveCategory}
                 className={cn(
                   "h-[32px] min-w-[61px] rounded-[5px] px-4",
                   "bg-[#635BFF] text-[14px] font-semibold text-white",
