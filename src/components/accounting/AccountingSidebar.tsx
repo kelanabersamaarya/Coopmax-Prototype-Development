@@ -1,6 +1,6 @@
 "use client";
 
-import { Shield } from "lucide-react";
+import { ChevronDown, ChevronUp, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SakEpStandardToggle from "@/components/accounting/SakEpStandardToggle";
 
@@ -100,10 +100,15 @@ export default function AccountingSidebar({
             <Shield className="h-6 w-6" strokeWidth={2.2} />
           </div>
 
-          <div className="min-w-0 flex-1">
-            <div className="text-[18px] font-semibold leading-tight text-[#002060]">
+          <div className="flex min-w-0 flex-1 items-center justify-between gap-3">
+            <div className="min-w-0 text-[18px] font-semibold leading-tight text-[#002060]">
               SAK EP
             </div>
+
+            <span className="inline-flex shrink-0 flex-col items-center justify-center leading-none text-[#3B4863]">
+              <ChevronUp className="h-5 w-5" strokeWidth={3} />
+              <ChevronDown className="-mt-1 h-5 w-5" strokeWidth={3} />
+            </span>
           </div>
         </div>
 
