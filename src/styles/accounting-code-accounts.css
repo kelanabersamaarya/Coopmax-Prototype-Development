@@ -7,3 +7,40 @@ div.min-w-\[980px\] > div:nth-child(3) > div[style*="margin-left: 60px"] button[
   visibility: hidden !important;
   pointer-events: none !important;
 }
+
+/* Tombol Tambah Kategori / Tambah Akun: ikon plus dibuat filled, bukan border saja. */
+div.mb-2.flex.justify-end.gap-2 button span.inline-flex.h-\[18px\].w-\[18px\] {
+  border-color: #635bff !important;
+  background-color: #635bff !important;
+  color: #ffffff !important;
+}
+
+/* Ikon aksi edit dan hapus di baris akun dibuat filled. */
+div.min-w-\[980px\] button[aria-label^="Ubah akun"],
+div.min-w-\[980px\] button[aria-label^="Hapus akun"] {
+  width: 27px !important;
+  height: 27px !important;
+  border-radius: 5px !important;
+  color: #ffffff !important;
+}
+
+div.min-w-\[980px\] button[aria-label^="Ubah akun"] {
+  background-color: #245bff !important;
+}
+
+div.min-w-\[980px\] button[aria-label^="Ubah akun"]:hover {
+  background-color: #0046d9 !important;
+}
+
+div.min-w-\[980px\] button[aria-label^="Hapus akun"] {
+  background-color: #dc3545 !important;
+}
+
+div.min-w-\[980px\] button[aria-label^="Hapus akun"]:hover {
+  background-color: #c72f3d !important;
+}
+
+div.min-w-\[980px\] button[aria-label^="Ubah akun"] svg,
+div.min-w-\[980px\] button[aria-label^="Hapus akun"] svg {
+  color: #ffffff !important;
+}
