@@ -334,6 +334,14 @@ function getExpandableCodes(nodes: AccountNode[]) {
   return codes;
 }
 
+function orderAccountsForDisplay(nodes: AccountNode[]) {
+  return [...nodes].sort((a, b) => {
+    if (a.code === "1.1.1.1" && b.code === "1.1.1.2") return 1;
+    if (a.code === "1.1.1.2" && b.code === "1.1.1.1") return -1;
+    return 0;
+  });
+}
+
 function flattenAccounts(
   nodes: AccountNode[],
   expanded: Set<string>,
@@ -341,7 +349,7 @@ function flattenAccounts(
 ): FlatAccount[] {
   const result: FlatAccount[] = [];
 
-  nodes.forEach((node) => {
+  orderAccountsForDisplay(nodes).forEach((node) => {
     const hasChildren = Boolean(node.children?.length);
     const childLevel = node.hidden ? level : level + 1;
 
