@@ -17,6 +17,10 @@ import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
 import CashFlowSelect from "@/components/accounting/CashFlowSelect";
 import EditCashAccountDialogContent from "@/components/accounting/EditCashAccountDialogContent";
 import AccountingCoaAccountRows from "@/components/accounting/AccountingCoaAccountRows";
+import {
+  getAccountingCoaAccountEdit,
+  saveAccountingCoaAccountEdit,
+} from "@/lib/accountingCoaAccountStore";
 
 type AccountOption = {
   code: string;
@@ -206,21 +210,23 @@ export default function EditCategoryDialog({
   React.useEffect(() => {
     if (!open || !account) return;
 
+    const saved = getAccountingCoaAccountEdit(account.code);
     const rootCode = account.code.split(".")[0] || "1";
-    setClassValue(titleCaseClass(rootCode, account.name));
+
+    setClassValue(saved?.type ?? titleCaseClass(rootCode, account.name));
     setParent("(kosong)");
     setCodePrefix(rootCode);
-    setCode(account.code);
-    setName(account.name.toUpperCase());
+    setCode(saved?.code ?? account.code);
+    setName((saved?.name ?? account.name).toUpperCase());
     setShowTotal(true);
     setShowDetail(true);
     setShowDetailSaldo(true);
-    setStatus(true);
-    setCash(true);
-    setNominalMinus(false);
-    setArusKasDebit("(kosong)");
-    setArusKasKredit("(kosong)");
-    setCoaAccounts([""]);
+    setStatus(saved?.status ?? true);
+    setCash(saved?.cash ?? true);
+    setNominalMinus(saved?.nominalMinus ?? false);
+    setArusKasDebit(saved?.arusKasDebit ?? "(kosong)");
+    setArusKasKredit(saved?.arusKasKredit ?? "(kosong)");
+    setCoaAccounts(saved?.coaAccounts ?? [""]);
   }, [account, open]);
 
   function saveCategory() {
@@ -231,7 +237,21 @@ export default function EditCategoryDialog({
   }
 
   function saveChartAccount() {
-    toast.success("Akun diperbarui (prototype)", {
+    if (!account) return;
+
+    saveAccountingCoaAccountEdit(account.code, {
+      type: classValue,
+      code,
+      name,
+      nominalMinus,
+      status,
+      cash,
+      coaAccounts,
+      arusKasDebit,
+      arusKasKredit,
+    });
+
+    toast.success("Akun diperbarui", {
       description: `${code} • ${name}`,
     });
     onOpenChange(false);
@@ -255,7 +275,11 @@ export default function EditCategoryDialog({
             "[&_[data-radix-dialog-close]]:hidden",
           )}
         >
-          <EditCashAccountDialogContent onClose={() => onOpenChange(false)} />
+          <EditCashAccountDialogContent
+            accountCode={account?.code ?? "1.1.1.1"}
+            accountName={account?.name ?? "KAS"}
+            onClose={() => onOpenChange(false)}
+          />
         </DialogContent>
       </Dialog>
     );
