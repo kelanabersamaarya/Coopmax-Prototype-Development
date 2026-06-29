@@ -24,6 +24,38 @@ type FlatAccount = {
   hideCode?: boolean;
 };
 
+const categoryAccountNames = new Set(
+  [
+    "Kas dan Setara Kas",
+    "Kas",
+    "Bank",
+    "Piutang",
+    "Simpanan Anggota",
+    "Persediaan",
+    "Biaya Dibayar Dimuka",
+    "Aset Tetap",
+    "Aset Lain-lain",
+    "Kewajiban Lancar",
+    "Simpanan",
+    "Hutang",
+    "Pendapatan Diterima Dimuka",
+    "Kewajiban Jangka Panjang",
+    "Ekuitas",
+    "Modal Anggota",
+    "Cadangan",
+    "Sisa Hasil Usaha",
+    "Pendapatan",
+    "Pendapatan Pinjaman",
+    "Pendapatan Simpanan",
+    "Pendapatan Operasional Lainnya",
+    "Beban",
+    "Beban Jasa Simpanan",
+    "Beban Operasional",
+    "Beban Pinjaman",
+    "Beban Lain-lain",
+  ].map((name) => name.toLowerCase()),
+);
+
 const accounts: AccountNode[] = [
   {
     code: "1",
@@ -400,6 +432,10 @@ function flattenAccounts(
   return result;
 }
 
+function shouldHideCode(account: FlatAccount) {
+  return account.hideCode || categoryAccountNames.has(account.name.toLowerCase());
+}
+
 function AccountActionButton({
   label,
   onClick,
@@ -468,7 +504,7 @@ function AccountRow({
   onToggle: () => void;
   onEdit: (account: FlatAccount) => void;
 }) {
-  const showCode = account.level > 0 && !account.hideCode;
+  const showCode = account.level > 0 && !shouldHideCode(account);
   const indent = account.level * 30;
 
   return (
