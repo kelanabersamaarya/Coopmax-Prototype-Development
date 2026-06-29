@@ -124,37 +124,22 @@ export default function Index() {
     location.pathname.startsWith("/obs-web");
 
   return (
-    <div
-      className={cn(
-        "bg-[hsl(var(--app-bg))]",
-        isMobileArea ? "h-screen overflow-hidden" : "min-h-screen",
-      )}
-    >
-      <div
-        className={cn(
-          "w-full px-[var(--shell-gutter)]",
-          isMobileArea ? "h-full overflow-hidden py-0" : "py-6 md:py-8",
-        )}
-      >
-        {!isMobileArea ? (
-          <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div />
-            <div className="hidden md:block" />
-          </header>
-        ) : null}
+    <div className="min-h-screen bg-[hsl(var(--app-bg))]">
+      <div className="w-full px-[var(--shell-gutter)] py-6 md:py-8">
+        <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div />
+          <div className="hidden md:block" />
+        </header>
 
         <div
           className={cn(
-            "grid min-w-0 gap-[var(--shell-gap)]",
-            isMobileArea ? "mt-0 h-full min-h-0 grid-cols-1" : "mt-6",
+            "mt-6 grid min-w-0 gap-[var(--shell-gap)]",
             isDashboard
               ? "grid-cols-1"
-              : isMobileArea
-                ? "grid-cols-1"
-                : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
+              : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          {!isDashboard && !isMobileArea ? (
+          {!isDashboard ? (
             <aside className="min-w-0 space-y-4 px-0">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 {/* no scroll on sidebar */}
@@ -224,7 +209,7 @@ export default function Index() {
           <main
             className={cn(
               "min-w-0 overflow-x-hidden",
-              isMobileArea ? "h-full min-h-0 overflow-hidden" : "",
+              isMobileArea ? "h-[calc(100vh-7rem)] min-h-[640px] overflow-hidden" : "",
             )}
           >
             {isHome ? <Outlet /> : <Outlet />}
