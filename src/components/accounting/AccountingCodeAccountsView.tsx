@@ -332,8 +332,8 @@ function getExpandableCodes(nodes: AccountNode[]) {
 
 function orderAccountsForDisplay(nodes: AccountNode[]) {
   return [...nodes].sort((a, b) => {
-    if (a.code === "1.1.1.1" && b.code === "1.1.1.2") return 1;
-    if (a.code === "1.1.1.2" && b.code === "1.1.1.1") return -1;
+    if (a.code === "1.1.1.1" && b.code === "1.1.1.2") return -1;
+    if (a.code === "1.1.1.2" && b.code === "1.1.1.1") return 1;
     return 0;
   });
 }
