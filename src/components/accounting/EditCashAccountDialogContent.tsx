@@ -123,7 +123,7 @@ export default function EditCashAccountDialogContent({
     <div className="bg-white">
       <div className="border-b border-[#CBD5E1] px-[26px] py-[18px]">
         <div className="text-[18px] font-extrabold leading-tight text-[#1F2A3D]">
-          Edit Category
+          Edit Chart of Account
         </div>
       </div>
 
