@@ -2,7 +2,13 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { ReceiptText, UsersRound, Landmark, Building2 } from "lucide-react";
+import {
+  ReceiptText,
+  UsersRound,
+  Landmark,
+  Building2,
+  Smartphone,
+} from "lucide-react";
 
 function DevMenuCard({
   title,
@@ -145,6 +151,14 @@ export default function Dashboard() {
             icon={Building2}
             accent="emerald"
             onClick={() => navigate("/sak-ep-cabang/loan-products")}
+          />
+
+          <DevMenuCard
+            title="New_Mbanking"
+            subtitle="Akses cepat ke prototype aplikasi M-Banking terbaru."
+            icon={Smartphone}
+            accent="sky"
+            onClick={() => navigate("/mobile/m-banking")}
           />
         </div>
       </div>
