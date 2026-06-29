@@ -63,6 +63,14 @@ div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
   line-height: 1.25 !important;
 }
 
+/* Mode Persempit: sembunyikan ikon edit dan hapus pada daftar root. */
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  button[aria-label^="Ubah akun"],
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  button[aria-label^="Hapus akun"] {
+  display: none !important;
+}
+
 /* Ikon aksi edit dan hapus dibuat filled seperti referensi, tanpa kotak background. */
 div.min-w-\[980px\] button[aria-label^="Ubah akun"],
 div.min-w-\[980px\] button[aria-label^="Hapus akun"] {
