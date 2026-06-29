@@ -504,6 +504,7 @@ function AccountRow({
   onEdit: (account: FlatAccount) => void;
 }) {
   const showCode = account.level > 0 && !shouldHideCode(account);
+  const hideActions = account.code === "1";
   const indent = account.level * 30;
 
   return (
@@ -554,25 +555,27 @@ function AccountRow({
             ) : null}
           </div>
 
-          <span className="ml-5 inline-flex shrink-0 items-center gap-5">
-            <AccountActionButton
-              label={`Ubah akun ${account.name}`}
-              onClick={() => onEdit(account)}
-            >
-              <Pencil className="h-[16px] w-[16px]" strokeWidth={2.6} />
-            </AccountActionButton>
+          {!hideActions ? (
+            <span className="ml-5 inline-flex shrink-0 items-center gap-5">
+              <AccountActionButton
+                label={`Ubah akun ${account.name}`}
+                onClick={() => onEdit(account)}
+              >
+                <Pencil className="h-[16px] w-[16px]" strokeWidth={2.6} />
+              </AccountActionButton>
 
-            <AccountActionButton
-              label={`Hapus akun ${account.name}`}
-              onClick={() =>
-                toast("Hapus akun (prototype)", {
-                  description: `${account.name} • ${account.code}`,
-                })
-              }
-            >
-              <Trash2 className="h-[16px] w-[16px]" strokeWidth={2.6} />
-            </AccountActionButton>
-          </span>
+              <AccountActionButton
+                label={`Hapus akun ${account.name}`}
+                onClick={() =>
+                  toast("Hapus akun (prototype)", {
+                    description: `${account.name} • ${account.code}`,
+                  })
+                }
+              >
+                <Trash2 className="h-[16px] w-[16px]" strokeWidth={2.6} />
+              </AccountActionButton>
+            </span>
+          ) : null}
         </div>
       </div>
     </div>
