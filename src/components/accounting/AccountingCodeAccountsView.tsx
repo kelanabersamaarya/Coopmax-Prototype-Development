@@ -362,8 +362,16 @@ function flattenAccounts(
       const children = node.children ?? [];
       const kas = children.find((child) => child.code === "1.1.1.1");
       const bank = children.find((child) => child.code === "1.1.1.2");
+      const depositoBankChildren = children.filter(
+        (child) =>
+          child.code === "1.1.1.3" || child.code === "1.1.1.4",
+      );
       const otherChildren = children.filter(
-        (child) => child.code !== "1.1.1.1" && child.code !== "1.1.1.2",
+        (child) =>
+          child.code !== "1.1.1.1" &&
+          child.code !== "1.1.1.2" &&
+          child.code !== "1.1.1.3" &&
+          child.code !== "1.1.1.4",
       );
 
       if (kas) {
@@ -377,6 +385,10 @@ function flattenAccounts(
       if (kas?.children?.length && expanded.has(kas.code)) {
         result.push(...flattenAccounts(kas.children, expanded, childLevel + 1));
       }
+
+      depositoBankChildren.forEach((child) => {
+        pushFlatAccount(result, child, childLevel + 1);
+      });
 
       result.push(...flattenAccounts(otherChildren, expanded, childLevel));
       return;
