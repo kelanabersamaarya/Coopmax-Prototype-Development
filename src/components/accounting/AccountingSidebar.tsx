@@ -2,6 +2,7 @@
 
 import { Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SakEpStandardToggle from "@/components/accounting/SakEpStandardToggle";
 
 export type AccountingMenuGroupId =
   | "transaksi"
@@ -104,6 +105,13 @@ export default function AccountingSidebar({
               SAK EP
             </div>
           </div>
+        </div>
+
+        <div className="mt-4 flex items-center justify-between gap-3 rounded-[5px] bg-white px-0 py-1">
+          <div className="min-w-0 text-[12px] font-semibold leading-snug text-[#002060]">
+            Tetapkan SAK-EP Sebagai Stander
+          </div>
+          <SakEpStandardToggle checked />
         </div>
       </div>
 
