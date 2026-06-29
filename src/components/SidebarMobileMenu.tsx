@@ -10,7 +10,7 @@ type SubItem = {
   to: string;
 };
 
-const items: SubItem[] = [
+const allItems: SubItem[] = [
   { label: "E-Kolektor", to: "/mobile/e-kolektor" },
   { label: "M-Banking", to: "/mobile/m-banking" },
 ];
@@ -18,7 +18,12 @@ const items: SubItem[] = [
 export default function SidebarMobileMenu() {
   const location = useLocation();
   const isActive = location.pathname.startsWith("/mobile");
+  const isMBankingArea = location.pathname.startsWith("/mobile/m-banking");
   const [open, setOpen] = React.useState<boolean>(isActive);
+
+  const items = isMBankingArea
+    ? allItems.filter((item) => item.to === "/mobile/m-banking")
+    : allItems;
 
   React.useEffect(() => {
     if (isActive) setOpen(true);

@@ -108,6 +108,7 @@ export default function Index() {
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
   const isMobileArea = location.pathname.startsWith("/mobile");
+  const isMBankingArea = location.pathname.startsWith("/mobile/m-banking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
   const isPinjamanArea =
@@ -145,58 +146,66 @@ export default function Index() {
                 {/* no scroll on sidebar */}
                 <div className="px-0 py-1">
                   <div className="space-y-1">
-                    {nav.map((g, idx) => (
-                      <div key={g.group ?? idx} className="px-0">
-                        {g.group ? (
-                          <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                            {g.group}
-                          </div>
-                        ) : null}
-
+                    {isMBankingArea ? (
+                      <div className="px-0">
                         <div className="space-y-1 px-2">
-                          {/* Dashboard */}
-                          <SidebarNavItem item={g.items[0]!} />
-
-                          {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka + Akunting */}
-                          {isSakCabangArea ? (
-                            <>
-                              <SidebarSakSimpananMenu />
-                              <SidebarPinjamanMenu />
-                              <SidebarSakSimpananBerjangkaMenu />
-                              <SidebarSakAkuntingMenu />
-                            </>
-                          ) : (
-                            <>
-                              {/* Anggota (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarAnggotaMenu /> : null}
-
-                              {/* Pinjaman (collapsible) */}
-                              <SidebarPinjamanMenu />
-
-                              {/* Mobile (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarMobileMenu /> : null}
-
-                              {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
-                              {!isPinjamanArea ? <SidebarObsMenu /> : null}
-
-                              {/* Laporan (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarLaporanMenu /> : null}
-
-                              {/* Pengaturan Umum - hide in OBS area */}
-                              {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
-
-                              {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
-                              {g.items
-                                .slice(1)
-                                .filter((it) => it.to !== "/pinjaman")
-                                .map((it) => (
-                                  <SidebarNavItem key={it.to} item={it} />
-                                ))}
-                            </>
-                          )}
+                          <SidebarMobileMenu />
                         </div>
                       </div>
-                    ))}
+                    ) : (
+                      nav.map((g, idx) => (
+                        <div key={g.group ?? idx} className="px-0">
+                          {g.group ? (
+                            <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                              {g.group}
+                            </div>
+                          ) : null}
+
+                          <div className="space-y-1 px-2">
+                            {/* Dashboard */}
+                            <SidebarNavItem item={g.items[0]!} />
+
+                            {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka + Akunting */}
+                            {isSakCabangArea ? (
+                              <>
+                                <SidebarSakSimpananMenu />
+                                <SidebarPinjamanMenu />
+                                <SidebarSakSimpananBerjangkaMenu />
+                                <SidebarSakAkuntingMenu />
+                              </>
+                            ) : (
+                              <>
+                                {/* Anggota (collapsible) - hide in OBS area */}
+                                {!isObsArea ? <SidebarAnggotaMenu /> : null}
+
+                                {/* Pinjaman (collapsible) */}
+                                <SidebarPinjamanMenu />
+
+                                {/* Mobile (collapsible) - hide in OBS area */}
+                                {!isObsArea ? <SidebarMobileMenu /> : null}
+
+                                {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
+                                {!isPinjamanArea ? <SidebarObsMenu /> : null}
+
+                                {/* Laporan (collapsible) - hide in OBS area */}
+                                {!isObsArea ? <SidebarLaporanMenu /> : null}
+
+                                {/* Pengaturan Umum - hide in OBS area */}
+                                {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
+
+                                {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
+                                {g.items
+                                  .slice(1)
+                                  .filter((it) => it.to !== "/pinjaman")
+                                  .map((it) => (
+                                    <SidebarNavItem key={it.to} item={it} />
+                                  ))}
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    )}
 
                     <Separator className="my-2 bg-slate-100" />
                   </div>
