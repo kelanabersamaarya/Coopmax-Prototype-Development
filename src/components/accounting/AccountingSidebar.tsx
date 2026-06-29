@@ -3,7 +3,11 @@
 import { Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type AccountingMenuGroupId = "transaksi" | "laporan" | "pengaturan";
+export type AccountingMenuGroupId =
+  | "transaksi"
+  | "laporan"
+  | "laporan-sakep"
+  | "pengaturan";
 
 export type AccountingMenuItem = {
   groupId: AccountingMenuGroupId;
@@ -45,6 +49,17 @@ const groups: AccountingGroup[] = [
       "Neraca Saldo",
       "Perubahan Ekuitas",
       "Neraca Lajur",
+    ],
+  },
+  {
+    id: "laporan-sakep",
+    label: "LAPORAN SAKEP",
+    items: [
+      "Posisi Keuangan",
+      "Perhitungan Hasil Usaha",
+      "Arus Kas",
+      "Perubahan Ekuitas",
+      "Catatan Atas Laporan Keuangan (CALK)",
     ],
   },
   {
