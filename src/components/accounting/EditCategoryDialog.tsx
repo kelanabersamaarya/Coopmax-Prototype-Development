@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
 import CashFlowSelect from "@/components/accounting/CashFlowSelect";
 import EditCashAccountDialogContent from "@/components/accounting/EditCashAccountDialogContent";
+import AccountingCoaAccountRows from "@/components/accounting/AccountingCoaAccountRows";
 
 type AccountOption = {
   code: string;
@@ -200,6 +201,7 @@ export default function EditCategoryDialog({
   const [nominalMinus, setNominalMinus] = React.useState(false);
   const [arusKasDebit, setArusKasDebit] = React.useState("(kosong)");
   const [arusKasKredit, setArusKasKredit] = React.useState("(kosong)");
+  const [coaAccounts, setCoaAccounts] = React.useState<string[]>([""]);
 
   React.useEffect(() => {
     if (!open || !account) return;
@@ -218,6 +220,7 @@ export default function EditCategoryDialog({
     setNominalMinus(false);
     setArusKasDebit("(kosong)");
     setArusKasKredit("(kosong)");
+    setCoaAccounts([""]);
   }, [account, open]);
 
   function saveCategory() {
@@ -334,6 +337,11 @@ export default function EditCategoryDialog({
                   <FieldLabel>Cash</FieldLabel>
                   <AccountingTogglePill checked={cash} onChange={setCash} />
                 </div>
+
+                <AccountingCoaAccountRows
+                  values={coaAccounts}
+                  onChange={setCoaAccounts}
+                />
 
                 {!cash ? (
                   <>
