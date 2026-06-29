@@ -146,19 +146,16 @@ export default function Index() {
         <div
           className={cn(
             "grid min-w-0 gap-[var(--shell-gap)]",
-            isMobileArea ? "mt-0 h-full min-h-0" : "mt-6",
+            isMobileArea ? "mt-0 h-full min-h-0 grid-cols-1" : "mt-6",
             isDashboard
               ? "grid-cols-1"
-              : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
+              : isMobileArea
+                ? "grid-cols-1"
+                : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          {!isDashboard ? (
-            <aside
-              className={cn(
-                "min-w-0 space-y-4 px-0",
-                isMobileArea ? "min-h-0 overflow-hidden py-0" : "",
-              )}
-            >
+          {!isDashboard && !isMobileArea ? (
+            <aside className="min-w-0 space-y-4 px-0">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 {/* no scroll on sidebar */}
                 <div className="px-0 py-1">
