@@ -15,6 +15,54 @@ div.mb-2.flex.justify-end.gap-2 button span.inline-flex.h-\[18px\].w-\[18px\] {
   color: #64748b !important;
 }
 
+/* Mode Persempit: tampilkan hanya level utama seperti referensi. */
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  > div
+  > div {
+  min-height: 39px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  > div
+  > div
+  span.whitespace-nowrap.font-bold {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  > div:nth-child(2)
+  > div
+  span.whitespace-nowrap.font-bold:first-of-type,
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  > div:nth-child(5)
+  > div
+  span.whitespace-nowrap.font-bold:first-of-type {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  > div:nth-child(2)
+  > div
+  span.whitespace-nowrap.font-bold:first-of-type::before {
+  content: "Liabilitas";
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+}
+
+div.min-w-\[980px\]:not(:has(div[style*="margin-left: 30px"]))
+  > div:nth-child(5)
+  > div
+  span.whitespace-nowrap.font-bold:first-of-type::before {
+  content: "Biaya";
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+}
+
 /* Ikon aksi edit dan hapus dibuat filled seperti referensi, tanpa kotak background. */
 div.min-w-\[980px\] button[aria-label^="Ubah akun"],
 div.min-w-\[980px\] button[aria-label^="Hapus akun"] {
