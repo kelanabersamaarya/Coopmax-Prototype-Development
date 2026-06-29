@@ -8,11 +8,11 @@ div.min-w-\[980px\] > div:nth-child(3) > div[style*="margin-left: 60px"] button[
   pointer-events: none !important;
 }
 
-/* Tombol Tambah Kategori / Tambah Akun: ikon plus dibuat filled, bukan border saja. */
+/* Tombol Tambah Kategori / Tambah Akun: ikon plus dikembalikan seperti semula. */
 div.mb-2.flex.justify-end.gap-2 button span.inline-flex.h-\[18px\].w-\[18px\] {
-  border-color: #3366ff !important;
-  background-color: #3366ff !important;
-  color: #ffffff !important;
+  border-color: #94a3b8 !important;
+  background-color: transparent !important;
+  color: #64748b !important;
 }
 
 /* Ikon aksi edit dan hapus dibuat filled seperti referensi, tanpa kotak background. */
