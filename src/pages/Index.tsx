@@ -44,6 +44,7 @@ const implementedRoutes = new Set([
   "/laporan/kolektibilitas",
   "/mobile/e-kolektor",
   "/mobile/m-banking",
+  "/mobile/new-mbanking",
 ]);
 
 function resolveNavTo(to: string) {
@@ -108,7 +109,7 @@ export default function Index() {
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
   const isMobileArea = location.pathname.startsWith("/mobile");
-  const isMBankingArea = location.pathname.startsWith("/mobile/m-banking");
+  const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
   const isPinjamanArea =
@@ -146,7 +147,7 @@ export default function Index() {
                 {/* no scroll on sidebar */}
                 <div className="px-0 py-1">
                   <div className="space-y-1">
-                    {isMBankingArea ? (
+                    {isNewMBankingArea ? (
                       <div className="px-0">
                         <div className="space-y-1 px-2">
                           <SidebarNavItem item={nav[0]!.items[0]!} />

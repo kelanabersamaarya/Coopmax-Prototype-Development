@@ -18,11 +18,11 @@ const allItems: SubItem[] = [
 export default function SidebarMobileMenu() {
   const location = useLocation();
   const isActive = location.pathname.startsWith("/mobile");
-  const isMBankingArea = location.pathname.startsWith("/mobile/m-banking");
+  const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const [open, setOpen] = React.useState<boolean>(isActive);
 
-  const items = isMBankingArea
-    ? allItems.filter((item) => item.to === "/mobile/m-banking")
+  const items = isNewMBankingArea
+    ? [{ label: "M-Banking", to: "/mobile/new-mbanking" }]
     : allItems;
 
   React.useEffect(() => {

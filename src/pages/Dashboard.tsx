@@ -158,7 +158,7 @@ export default function Dashboard() {
             subtitle="Akses cepat ke prototype aplikasi M-Banking terbaru."
             icon={Smartphone}
             accent="sky"
-            onClick={() => navigate("/mobile/m-banking")}
+            onClick={() => navigate("/mobile/new-mbanking")}
           />
         </div>
       </div>

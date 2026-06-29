@@ -32,6 +32,7 @@ import LaporanProduktivitasCabang from "./pages/LaporanProduktivitasCabang";
 import PengaturanUmum from "./pages/PengaturanUmum";
 import MobileEKolektor from "./pages/MobileEKolektor";
 import MobileMBanking from "./pages/MobileMBanking";
+import NewMBanking from "./pages/NewMBanking";
 import MobileAwareToaster from "./components/MobileAwareToaster";
 import SavingsProductsListPage from "./components/savings/products/SavingsProductsListPage";
 import TermSavingsProductsListPage from "./components/savings/term-products/TermSavingsProductsListPage";
@@ -186,6 +187,7 @@ const App = () => (
             <Route path="pengaturan-umum" element={<PengaturanUmum />} />
             <Route path="mobile/e-kolektor" element={<MobileEKolektor />} />
             <Route path="mobile/m-banking" element={<MobileMBanking />} />
+            <Route path="mobile/new-mbanking" element={<NewMBanking />} />
             <Route path="obs-samudra-harta" element={<ObsSamudraHarta />} />
             <Route
               path="obs-samudra-harta/loan-products"
