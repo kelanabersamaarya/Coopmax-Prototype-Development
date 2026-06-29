@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import AccountingTogglePill from "@/components/accounting/AccountingTogglePill";
 import CashFlowSelect from "@/components/accounting/CashFlowSelect";
+import EditCashAccountDialogContent from "@/components/accounting/EditCashAccountDialogContent";
 
 type AccountOption = {
   code: string;
@@ -132,6 +133,29 @@ export default function EditCategoryDialog({
       description: `${code} • ${name}`,
     });
     onOpenChange(false);
+  }
+
+  const isCashAccount = account?.code === "1.1.1.1" || account?.name === "Kas";
+
+  if (isCashAccount) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent
+          className={cn(
+            "w-[calc(100vw-1rem)] sm:w-[518px]",
+            "max-w-[518px]",
+            "max-h-[90vh] overflow-hidden",
+            "rounded-[14px] border-slate-200 bg-white p-0 shadow-2xl",
+            "[&>button[aria-label=Close]]:hidden",
+            "[&>button.absolute.right-4.top-4]:hidden",
+            "[&_[data-slot=dialog-close]]:hidden",
+            "[&_[data-radix-dialog-close]]:hidden",
+          )}
+        >
+          <EditCashAccountDialogContent onClose={() => onOpenChange(false)} />
+        </DialogContent>
+      </Dialog>
+    );
   }
 
   return (
