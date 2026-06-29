@@ -42,15 +42,12 @@ const accounts: AccountNode[] = [
                 code: "1.1.1.1",
                 name: "Kas",
                 children: [
+                  { code: "1.1.1.2", name: "Bank", hideCode: true },
                   { code: "1.1.1.1.1", name: "Kas Kecil" },
                   { code: "1.1.1.1.2", name: "Kas Teller" },
                   { code: "1.1.1.1.3", name: "Kas Besar" },
                   { code: "1.1.1.1.4", name: "Kas Operasional" },
                 ],
-              },
-              {
-                code: "1.1.1.2",
-                name: "Bank",
               },
               { code: "1.1.1.3", name: "Deposito Bank BRI" },
               { code: "1.1.1.4", name: "Deposito Bank BNI" },
@@ -330,14 +327,6 @@ function getExpandableCodes(nodes: AccountNode[]) {
   return codes;
 }
 
-function orderAccountsForDisplay(nodes: AccountNode[]) {
-  return [...nodes].sort((a, b) => {
-    if (a.code === "1.1.1.1" && b.code === "1.1.1.2") return -1;
-    if (a.code === "1.1.1.2" && b.code === "1.1.1.1") return 1;
-    return 0;
-  });
-}
-
 function flattenAccounts(
   nodes: AccountNode[],
   expanded: Set<string>,
@@ -345,7 +334,7 @@ function flattenAccounts(
 ): FlatAccount[] {
   const result: FlatAccount[] = [];
 
-  orderAccountsForDisplay(nodes).forEach((node) => {
+  nodes.forEach((node) => {
     const hasChildren = Boolean(node.children?.length);
     const childLevel = node.hidden ? level : level + 1;
 
