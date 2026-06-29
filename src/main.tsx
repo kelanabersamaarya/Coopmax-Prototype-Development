@@ -17,5 +17,6 @@ import "./styles/sak-ep-cabang-loan-product.css";
 import "./styles/produk-tabungan-spacing.css";
 import "./styles/produk-tabungan-cabang-ubah-header.css";
 import "./styles/select-hover-purple.css";
+import "./styles/accounting-code-accounts.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

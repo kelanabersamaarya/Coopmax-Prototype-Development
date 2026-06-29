@@ -1,0 +1,9 @@
+/* Akunting > Kode Akun
+   Sembunyikan tanda minus pada baris "Kas" saja.
+   Baris Bank tetap menampilkan tanda minus.
+*/
+div.min-w-\[980px\] > div:nth-child(3) > div[style*="margin-left: 60px"] button[aria-label="Tutup akun"],
+div.min-w-\[980px\] > div:nth-child(3) > div[style*="margin-left: 60px"] button[aria-label="Buka akun"] {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
