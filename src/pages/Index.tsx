@@ -149,6 +149,7 @@ export default function Index() {
                     {isMBankingArea ? (
                       <div className="px-0">
                         <div className="space-y-1 px-2">
+                          <SidebarNavItem item={nav[0]!.items[0]!} />
                           <SidebarMobileMenu />
                         </div>
                       </div>
