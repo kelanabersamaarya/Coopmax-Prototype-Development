@@ -10,37 +10,56 @@ div.min-w-\[980px\] > div:nth-child(3) > div[style*="margin-left: 60px"] button[
 
 /* Tombol Tambah Kategori / Tambah Akun: ikon plus dibuat filled, bukan border saja. */
 div.mb-2.flex.justify-end.gap-2 button span.inline-flex.h-\[18px\].w-\[18px\] {
-  border-color: #635bff !important;
-  background-color: #635bff !important;
+  border-color: #3366ff !important;
+  background-color: #3366ff !important;
   color: #ffffff !important;
 }
 
-/* Ikon aksi edit dan hapus di baris akun dibuat filled. */
+/* Ikon aksi edit dan hapus dibuat filled seperti referensi, tanpa kotak background. */
 div.min-w-\[980px\] button[aria-label^="Ubah akun"],
 div.min-w-\[980px\] button[aria-label^="Hapus akun"] {
+  position: relative !important;
   width: 27px !important;
   height: 27px !important;
   border-radius: 5px !important;
-  color: #ffffff !important;
+  background-color: transparent !important;
+  color: #3366ff !important;
 }
 
-div.min-w-\[980px\] button[aria-label^="Ubah akun"] {
-  background-color: #245bff !important;
-}
-
-div.min-w-\[980px\] button[aria-label^="Ubah akun"]:hover {
-  background-color: #0046d9 !important;
-}
-
-div.min-w-\[980px\] button[aria-label^="Hapus akun"] {
-  background-color: #dc3545 !important;
-}
-
+div.min-w-\[980px\] button[aria-label^="Ubah akun"]:hover,
 div.min-w-\[980px\] button[aria-label^="Hapus akun"]:hover {
-  background-color: #c72f3d !important;
+  background-color: transparent !important;
+  color: #245bff !important;
 }
 
 div.min-w-\[980px\] button[aria-label^="Ubah akun"] svg,
 div.min-w-\[980px\] button[aria-label^="Hapus akun"] svg {
-  color: #ffffff !important;
+  display: none !important;
+}
+
+div.min-w-\[980px\] button[aria-label^="Ubah akun"]::before,
+div.min-w-\[980px\] button[aria-label^="Hapus akun"]::before {
+  content: "";
+  display: block;
+  width: 21px;
+  height: 21px;
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+div.min-w-\[980px\] button[aria-label^="Ubah akun"]::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 17.25V20h2.75L17.81 8.94l-2.75-2.75L4 17.25Zm15.92-10.44a1.04 1.04 0 0 0 0-1.47l-1.26-1.26a1.04 1.04 0 0 0-1.47 0l-.98.98 2.75 2.75.96-1ZM3 4.75C3 3.78 3.78 3 4.75 3h8.5a1.25 1.25 0 1 1 0 2.5H5.5v13h13v-7.75a1.25 1.25 0 1 1 2.5 0v8.5c0 .97-.78 1.75-1.75 1.75H4.75C3.78 21 3 20.22 3 19.25V4.75Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 17.25V20h2.75L17.81 8.94l-2.75-2.75L4 17.25Zm15.92-10.44a1.04 1.04 0 0 0 0-1.47l-1.26-1.26a1.04 1.04 0 0 0-1.47 0l-.98.98 2.75 2.75.96-1ZM3 4.75C3 3.78 3.78 3 4.75 3h8.5a1.25 1.25 0 1 1 0 2.5H5.5v13h13v-7.75a1.25 1.25 0 1 1 2.5 0v8.5c0 .97-.78 1.75-1.75 1.75H4.75C3.78 21 3 20.22 3 19.25V4.75Z'/%3E%3C/svg%3E");
+}
+
+div.min-w-\[980px\] button[aria-label^="Hapus akun"]::before {
+  width: 22px;
+  height: 22px;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 3.5C8 2.67 8.67 2 9.5 2h5c.83 0 1.5.67 1.5 1.5V4h4a1.25 1.25 0 1 1 0 2.5H4A1.25 1.25 0 0 1 4 4h4v-.5ZM6 8h12l-.7 11.12A3.1 3.1 0 0 1 14.2 22H9.8a3.1 3.1 0 0 1-3.1-2.88L6 8Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 3.5C8 2.67 8.67 2 9.5 2h5c.83 0 1.5.67 1.5 1.5V4h4a1.25 1.25 0 1 1 0 2.5H4A1.25 1.25 0 0 1 4 4h4v-.5ZM6 8h12l-.7 11.12A3.1 3.1 0 0 1 14.2 22H9.8a3.1 3.1 0 0 1-3.1-2.88L6 8Z'/%3E%3C/svg%3E");
 }
