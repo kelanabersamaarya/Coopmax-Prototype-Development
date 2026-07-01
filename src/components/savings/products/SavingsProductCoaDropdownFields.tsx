@@ -81,7 +81,7 @@ const helperTextByField: Partial<Record<CoaField, string>> = {
   "KP Pengakuan Biaya Bunga":
     "Akun pengakuan biaya bunga sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
   "KP Biaya Bunga":
-    "Akun biaya bunga saat pengakuan sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
+    "Akun biaya bunga saat pengakuan biaya bunga sesuai kebijakan akuntansi simpanan pada penerapan SAK EP",
 };
 
 function getCoaLabel(option: string) {
