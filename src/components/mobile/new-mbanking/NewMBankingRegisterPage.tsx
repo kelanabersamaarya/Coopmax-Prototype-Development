@@ -31,13 +31,6 @@ export default function NewMBankingRegisterPage({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const phoneFieldClassName = cn(
-    "h-[50px] w-full rounded-[14px] border border-[#CDD4E0] bg-white px-5",
-    "text-[20px] font-normal text-black shadow-none",
-    "placeholder:text-[20px] placeholder:font-normal placeholder:text-[#828282]",
-    "focus-visible:ring-0 focus-visible:ring-offset-0",
-  );
-
   const labelClassName = "text-[14px] font-bold leading-none text-black";
 
   return (
@@ -114,17 +107,17 @@ export default function NewMBankingRegisterPage({
             </div>
 
             <div className="grid gap-[9px]">
-              <label className="text-[20px] font-bold leading-none text-black">
+              <label className={labelClassName}>
                 Nomor Telepon<span className="text-[#EF135D]">*</span>
               </label>
 
-              <div className="grid grid-cols-[84px_minmax(0,1fr)] gap-[12px]">
-                <div className="flex h-[50px] items-center justify-center gap-[10px] rounded-[14px] border border-[#CDD4E0] bg-white">
-                  <span className="relative h-[35px] w-[35px] overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-slate-100">
+              <div className="grid grid-cols-[74px_minmax(0,1fr)] gap-[9px]">
+                <div className="flex h-[41px] items-center justify-center gap-[7px] rounded-[9px] border border-[#CDD4E0] bg-white">
+                  <span className="relative h-[26px] w-[26px] overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-slate-100">
                     <span className="absolute inset-x-0 top-0 h-1/2 bg-[#EF1B2D]" />
                     <span className="absolute inset-x-0 bottom-0 h-1/2 bg-white" />
                   </span>
-                  <span className="text-[20px] font-normal leading-none text-[#111827]">
+                  <span className="text-[14px] font-normal leading-none text-[#111827]">
                     +62
                   </span>
                 </div>
@@ -132,7 +125,7 @@ export default function NewMBankingRegisterPage({
                 <Input
                   value={nomorTelepon}
                   onChange={(event) => setNomorTelepon(event.target.value)}
-                  className={phoneFieldClassName}
+                  className={fieldClassName}
                   placeholder="Contoh : 819997225252"
                   inputMode="tel"
                   autoComplete="tel"
