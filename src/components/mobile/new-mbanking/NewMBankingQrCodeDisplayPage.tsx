@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ArrowLeft, RefreshCcw, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingQrExpiredPage from "@/components/mobile/new-mbanking/NewMBankingQrExpiredPage";
 
 function formatTimer(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -64,15 +65,26 @@ export default function NewMBankingQrCodeDisplayPage({
   const [seconds, setSeconds] = React.useState(92);
 
   React.useEffect(() => {
+    if (seconds <= 0) return;
+
     const intervalId = window.setInterval(() => {
       setSeconds((current) => (current > 0 ? current - 1 : 0));
     }, 1000);
 
     return () => window.clearInterval(intervalId);
-  }, []);
+  }, [seconds]);
 
   function refreshCode() {
     setSeconds(92);
+  }
+
+  if (seconds <= 0) {
+    return (
+      <NewMBankingQrExpiredPage
+        onBack={onBack}
+        onRefresh={refreshCode}
+      />
+    );
   }
 
   return (
