@@ -1,6 +1,10 @@
-import { ShoppingCart } from "lucide-react";
+import * as React from "react";
+import { ChevronRight, ShoppingCart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function NewMBankingQrisMerchantItem() {
+  const [nominal, setNominal] = React.useState("");
+
   return (
     <section className="px-[31px] pt-[18px]">
       <div className="flex items-start gap-[12px]">
@@ -19,6 +23,62 @@ export default function NewMBankingQrisMerchantItem() {
             Merchant PAN : 2211122223333
           </div>
         </div>
+      </div>
+
+      <div className="mt-[34px]">
+        <label className="text-[18px] font-bold leading-tight text-[#2F3137]">
+          Nominal Pembayaran<span className="text-[#EF135D]">*</span>
+        </label>
+
+        <input
+          value={nominal}
+          onChange={(event) => setNominal(event.target.value)}
+          placeholder="Masukkan Nominal Pembayaran"
+          inputMode="decimal"
+          className={cn(
+            "mt-[11px] h-[72px] w-full rounded-[15px] border border-[#CDD4E0] bg-white px-[30px]",
+            "text-[18px] font-normal text-black shadow-none outline-none",
+            "placeholder:text-[18px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+            "focus:border-[#479DF4]",
+          )}
+        />
+
+        <div className="mt-[10px] text-[12px] font-normal leading-relaxed text-[#828282]">
+          Pastikan nominal yang akan memotong saldo Anda sudah sesuai
+        </div>
+      </div>
+
+      <div className="mt-[28px]">
+        <div className="text-[18px] font-bold leading-tight text-[#2F3137]">
+          Sumber Dana
+        </div>
+
+        <button
+          type="button"
+          className={cn(
+            "mt-[11px] flex min-h-[202px] w-full items-center justify-between gap-4 rounded-[15px]",
+            "border border-[#D8D8D8] bg-white px-[26px] py-[25px] text-left",
+            "transition active:scale-[0.99]",
+          )}
+        >
+          <div className="min-w-0">
+            <div className="text-[16px] font-normal leading-tight text-[#2F3137]">
+              Simpanan Kaya
+            </div>
+            <div className="mt-[6px] text-[18px] font-bold leading-tight text-[#2F3137]">
+              112233111
+            </div>
+
+            <div className="mt-[30px] text-[16px] font-normal leading-tight text-[#2F3137]">
+              Saldo
+            </div>
+            <div className="mt-[8px] text-[24px] font-bold leading-tight text-[#2F3137]">
+              Rp. 4.000.000,00
+            </div>
+          </div>
+
+          <ChevronRight className="h-[34px] w-[34px] shrink-0 text-black" strokeWidth={2.8} />
+        </button>
       </div>
     </section>
   );
