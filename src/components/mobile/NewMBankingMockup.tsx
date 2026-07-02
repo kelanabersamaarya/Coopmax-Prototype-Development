@@ -66,8 +66,8 @@ export default function NewMBankingMockup() {
     if (screen === "onboarding") {
       return (
         <NewMBankingOnboarding
-          onSkip={() => setScreen("login")}
-          onFinish={() => setScreen("login")}
+          onLogin={() => setScreen("login")}
+          onRegister={() => setScreen("register")}
         />
       );
     }
