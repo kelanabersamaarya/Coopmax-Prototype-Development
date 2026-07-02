@@ -80,11 +80,16 @@ export default function NewMBankingQrisConfirmModal({
 
         <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
 
-        <div className="mt-[28px] text-center text-[28px] font-bold leading-none tracking-[-0.02em] text-[#111827]">
-          {amount || "Rp. 50.000,00"}
+        <div className="flex min-h-[66px] items-center justify-between gap-4">
+          <div className="text-[14px] font-normal leading-tight text-[#8F8F8F]">
+            Nominal Transaksi
+          </div>
+          <div className="shrink-0 text-right text-[18px] font-bold leading-tight tracking-[-0.01em] text-[#111827]">
+            {amount || "Rp. 50.000,00"}
+          </div>
         </div>
 
-        <div className="mt-[28px] h-px w-full bg-[#D8D8D8]" />
+        <div className="h-px w-full bg-[#D8D8D8]" />
 
         <div className="mt-[20px] text-[12px] font-normal leading-tight text-[#8F8F8F]">
           Sumber Dana
