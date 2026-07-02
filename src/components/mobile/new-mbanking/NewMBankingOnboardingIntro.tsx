@@ -217,7 +217,7 @@ export default function NewMBankingOnboardingIntro({
           </div>
         </div>
 
-        <div className="mt-[8px]">
+        <div className="mt-[5px]">
           <DjoinLogo />
         </div>
       </div>
