@@ -11,6 +11,7 @@ type NewMBankingRegisterPageProps = {
 
 export default function NewMBankingRegisterPage({
   onBack,
+  onRegisterSuccess,
 }: NewMBankingRegisterPageProps) {
   const [noRekeningUtama, setNoRekeningUtama] = React.useState("");
   const [noIdentitas, setNoIdentitas] = React.useState("");
@@ -19,9 +20,14 @@ export default function NewMBankingRegisterPage({
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    toast.success("Informasi keanggotaan tersimpan", {
-      description: "Data halaman pertama berhasil disimpan di prototype.",
-    });
+    if (!nomorTelepon.trim()) {
+      toast("Nomor telepon wajib diisi", {
+        description: "Silakan lengkapi nomor telepon terlebih dahulu.",
+      });
+      return;
+    }
+
+    onRegisterSuccess();
   }
 
   const fieldClassName = cn(

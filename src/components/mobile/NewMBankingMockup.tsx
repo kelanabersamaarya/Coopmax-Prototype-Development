@@ -7,9 +7,16 @@ import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-bank
 import NewMBankingLoginPage from "@/components/mobile/new-mbanking/NewMBankingLoginPage";
 import NewMBankingOnboarding from "@/components/mobile/new-mbanking/NewMBankingOnboarding";
 import NewMBankingRegisterPage from "@/components/mobile/new-mbanking/NewMBankingRegisterPage";
+import NewMBankingRegisterAccountPage from "@/components/mobile/new-mbanking/NewMBankingRegisterAccountPage";
 import NewMBankingSplashScreen from "@/components/mobile/new-mbanking/NewMBankingSplashScreen";
 
-type NewMBankingScreen = "splash" | "onboarding" | "login" | "register" | "home";
+type NewMBankingScreen =
+  | "splash"
+  | "onboarding"
+  | "login"
+  | "register"
+  | "register-account"
+  | "home";
 
 export default function NewMBankingMockup() {
   const [screen, setScreen] = React.useState<NewMBankingScreen>("splash");
@@ -45,11 +52,20 @@ export default function NewMBankingMockup() {
       );
     }
 
+    if (screen === "register-account") {
+      return (
+        <NewMBankingRegisterAccountPage
+          onBack={() => setScreen("register")}
+          onSubmitSuccess={() => setScreen("login")}
+        />
+      );
+    }
+
     if (screen === "register") {
       return (
         <NewMBankingRegisterPage
           onBack={() => setScreen("onboarding")}
-          onRegisterSuccess={() => setScreen("login")}
+          onRegisterSuccess={() => setScreen("register-account")}
         />
       );
     }
