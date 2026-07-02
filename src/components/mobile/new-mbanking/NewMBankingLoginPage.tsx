@@ -4,6 +4,7 @@ import NewMBankingLoginIdentityStep from "@/components/mobile/new-mbanking/NewMB
 import NewMBankingLoginPasswordStep from "@/components/mobile/new-mbanking/NewMBankingLoginPasswordStep";
 
 type NewMBankingLoginPageProps = {
+  onBack: () => void;
   onLogin: () => void;
   onRegister: () => void;
 };
@@ -11,6 +12,7 @@ type NewMBankingLoginPageProps = {
 type LoginStep = "identity" | "password";
 
 export default function NewMBankingLoginPage({
+  onBack,
   onLogin,
   onRegister,
 }: NewMBankingLoginPageProps) {
@@ -46,7 +48,7 @@ export default function NewMBankingLoginPage({
     <NewMBankingLoginIdentityStep
       value={identity}
       onChange={setIdentity}
-      onBack={onRegister}
+      onBack={onBack}
       onNext={goToPassword}
       onRegister={onRegister}
     />

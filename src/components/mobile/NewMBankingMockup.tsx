@@ -28,7 +28,7 @@ export default function NewMBankingMockup() {
     if (screen !== "splash") return;
 
     const timer = window.setTimeout(() => {
-      setScreen("onboarding");
+      setScreen("login");
     }, 1800);
 
     return () => window.clearTimeout(timer);
@@ -64,7 +64,7 @@ export default function NewMBankingMockup() {
     if (screen === "register") {
       return (
         <NewMBankingRegisterPage
-          onBack={() => setScreen("onboarding")}
+          onBack={() => setScreen("login")}
           onRegisterSuccess={() => setScreen("register-account")}
         />
       );
@@ -73,6 +73,7 @@ export default function NewMBankingMockup() {
     if (screen === "login") {
       return (
         <NewMBankingLoginPage
+          onBack={() => setScreen("onboarding")}
           onLogin={() => setScreen("home")}
           onRegister={() => setScreen("register")}
         />
