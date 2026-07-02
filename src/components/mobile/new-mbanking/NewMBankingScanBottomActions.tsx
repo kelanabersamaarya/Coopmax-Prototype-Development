@@ -24,10 +24,10 @@ const actions = [
 ];
 
 export default function NewMBankingScanBottomActions({
-  active = "qr",
+  active = null,
   onChange,
 }: {
-  active?: ScanActionId;
+  active?: ScanActionId | null;
   onChange?: (value: ScanActionId) => void;
 }) {
   return (

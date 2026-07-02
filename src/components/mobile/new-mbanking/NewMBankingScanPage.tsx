@@ -38,7 +38,7 @@ export default function NewMBankingScanPage({
         </div>
 
         <section className="absolute inset-x-0 bottom-0 z-10 h-[132px] rounded-t-[30px] bg-white px-6 pt-[24px]">
-          <NewMBankingScanBottomActions active="qr" />
+          <NewMBankingScanBottomActions />
         </section>
       </main>
     </div>
