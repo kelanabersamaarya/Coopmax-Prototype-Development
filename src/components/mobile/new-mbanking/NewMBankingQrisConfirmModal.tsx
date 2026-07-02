@@ -78,7 +78,7 @@ export default function NewMBankingQrisConfirmModal({
           </div>
         </div>
 
-        <div className="mt-[18px] h-px w-full bg-[#D8D8D8]" />
+        <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
 
         <div className="mt-[28px] text-center text-[28px] font-bold leading-none tracking-[-0.02em] text-[#111827]">
           {amount || "Rp. 50.000,00"}
