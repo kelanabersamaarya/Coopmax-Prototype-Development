@@ -1,5 +1,6 @@
 import { FileText, Home, PieChart, ScanLine, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
 
 const menuItems = [
   {
@@ -58,8 +59,8 @@ export default function NewMBankingHomeMenuSection({
                 <span className="mb-[7px] grid h-[52px] w-[52px] place-items-center rounded-[16px] bg-[#479DF4] text-white">
                   <Icon className="h-[29px] w-[29px]" strokeWidth={2.7} />
                 </span>
-                <span className="text-[13px] font-extrabold leading-none tracking-[-0.03em] text-black">
-                  QRIS
+                <span className="flex h-[13px] items-center justify-center">
+                  <NewMBankingQrisLogo />
                 </span>
               </button>
             );
