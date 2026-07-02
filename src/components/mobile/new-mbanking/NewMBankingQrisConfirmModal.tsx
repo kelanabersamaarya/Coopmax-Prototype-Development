@@ -11,11 +11,13 @@ export default function NewMBankingQrisConfirmModal({
   onOpenChange,
   amount,
   sourceFund,
+  onContinuePayment,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   amount: string;
   sourceFund: SourceFundAccount;
+  onContinuePayment: () => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
 
@@ -113,12 +115,12 @@ export default function NewMBankingQrisConfirmModal({
           </div>
         </div>
 
-        <div className="mt-[24px] grid grid-cols-1 gap-[10px]">
+        <div className="mt-[24px] grid grid-cols-2 gap-[10px]">
           <button
             type="button"
             onClick={() => onOpenChange(false)}
             className={cn(
-              "h-[46px] w-full rounded-[10px] border border-[#D9D9D9] bg-white",
+              "h-[46px] rounded-[10px] border border-[#D9D9D9] bg-white",
               "text-[12px] font-normal leading-none text-[#828282]",
               "transition active:scale-[0.98]",
             )}
@@ -128,9 +130,12 @@ export default function NewMBankingQrisConfirmModal({
 
           <button
             type="button"
-            onClick={() => onOpenChange(false)}
+            onClick={() => {
+              onOpenChange(false);
+              onContinuePayment();
+            }}
             className={cn(
-              "h-[46px] w-full rounded-[10px] bg-[#479DF4]",
+              "h-[46px] rounded-[10px] bg-[#479DF4]",
               "text-[12px] font-normal leading-none text-white",
               "transition active:scale-[0.98]",
             )}

@@ -1,5 +1,7 @@
+import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import NewMBankingQrisMerchantItem from "@/components/mobile/new-mbanking/NewMBankingQrisMerchantItem";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 
 type NewMBankingScanResultPageProps = {
   onBack: () => void;
@@ -8,6 +10,17 @@ type NewMBankingScanResultPageProps = {
 export default function NewMBankingScanResultPage({
   onBack,
 }: NewMBankingScanResultPageProps) {
+  const [showPinInput, setShowPinInput] = React.useState(false);
+
+  if (showPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        onBack={() => setShowPinInput(false)}
+        onSubmit={onBack}
+      />
+    );
+  }
+
   return (
     <div className="h-full min-h-full bg-[#F9F9F9] text-black">
       <header className="flex h-[92px] items-center gap-3 px-[31px] pt-[22px]">
@@ -26,7 +39,9 @@ export default function NewMBankingScanResultPage({
         </h1>
       </header>
 
-      <NewMBankingQrisMerchantItem />
+      <NewMBankingQrisMerchantItem
+        onContinuePayment={() => setShowPinInput(true)}
+      />
     </div>
   );
 }

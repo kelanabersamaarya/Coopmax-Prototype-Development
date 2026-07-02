@@ -12,7 +12,11 @@ const defaultSourceFund: SourceFundAccount = {
   balance: "Rp. 4.000.000,00",
 };
 
-export default function NewMBankingQrisMerchantItem() {
+export default function NewMBankingQrisMerchantItem({
+  onContinuePayment,
+}: {
+  onContinuePayment: () => void;
+}) {
   const [nominal, setNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -32,6 +36,7 @@ export default function NewMBankingQrisMerchantItem() {
         onOpenChange={setConfirmOpen}
         amount={nominal.trim() ? nominal : "Rp. 50.000,00"}
         sourceFund={sourceFund}
+        onContinuePayment={onContinuePayment}
       />
 
       <div>
