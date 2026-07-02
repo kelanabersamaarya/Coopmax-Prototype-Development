@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { ChevronRight, X } from "lucide-react";
+import { Check, ChevronRight, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type SourceFundAccount = {
@@ -26,9 +26,11 @@ const sourceFundAccounts: SourceFundAccount[] = [
 
 function SourceFundCard({
   account,
+  selected,
   onClick,
 }: {
   account: SourceFundAccount;
+  selected: boolean;
   onClick: () => void;
 }) {
   return (
@@ -37,8 +39,9 @@ function SourceFundCard({
       onClick={onClick}
       className={cn(
         "flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px]",
-        "border border-[#D8D8D8] bg-white px-[26px] py-[16px] text-left",
+        "border bg-white px-[26px] py-[16px] text-left",
         "transition active:scale-[0.99]",
+        selected ? "border-[#479DF4]" : "border-[#D8D8D8]",
       )}
     >
       <div className="min-w-0">
@@ -57,7 +60,16 @@ function SourceFundCard({
         </div>
       </div>
 
-      <ChevronRight className="h-[28px] w-[28px] shrink-0 text-black" strokeWidth={2.8} />
+      {selected ? (
+        <span className="grid h-[28px] w-[28px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+          <Check className="h-[17px] w-[17px]" strokeWidth={3} />
+        </span>
+      ) : (
+        <ChevronRight
+          className="h-[28px] w-[28px] shrink-0 text-black"
+          strokeWidth={2.8}
+        />
+      )}
     </button>
   );
 }
@@ -72,6 +84,8 @@ export default function NewMBankingSourceFundModal({
   onSelect: (account: SourceFundAccount) => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const [selectedAccount, setSelectedAccount] =
+    React.useState<SourceFundAccount>(sourceFundAccounts[0]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -79,6 +93,7 @@ export default function NewMBankingSourceFundModal({
     setMobileScreen(
       document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null,
     );
+    setSelectedAccount(sourceFundAccounts[0]);
   }, [open]);
 
   if (!open || !mobileScreen) return null;
@@ -114,12 +129,39 @@ export default function NewMBankingSourceFundModal({
             <SourceFundCard
               key={account.accountNo}
               account={account}
-              onClick={() => {
-                onSelect(account);
-                onOpenChange(false);
-              }}
+              selected={selectedAccount.accountNo === account.accountNo}
+              onClick={() => setSelectedAccount(account)}
             />
           ))}
+        </div>
+
+        <div className="mt-[18px] grid grid-cols-2 gap-[10px]">
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            className={cn(
+              "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
+              "text-[12px] font-normal leading-none text-[#479DF4]",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Batal
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              onSelect(selectedAccount);
+              onOpenChange(false);
+            }}
+            className={cn(
+              "h-[46px] rounded-[10px] bg-[#479DF4]",
+              "text-[12px] font-normal leading-none text-white",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Simpan
+          </button>
         </div>
       </div>
     </div>,
