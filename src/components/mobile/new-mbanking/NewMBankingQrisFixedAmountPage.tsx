@@ -79,7 +79,7 @@ export default function NewMBankingQrisFixedAmountPage({
               readOnly
               aria-readonly="true"
               className={cn(
-                "mt-[8px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
+                "mt-[8px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-[#D9D9D9] px-4",
                 "cursor-not-allowed text-[14px] font-normal text-black shadow-none outline-none",
               )}
             />
