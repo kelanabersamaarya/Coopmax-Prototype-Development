@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Check, Image as ImageIcon, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type GalleryItem = {
@@ -139,21 +139,7 @@ export default function NewMBankingMediaPickerPopup({
         </div>
 
         <div className="px-5 pb-5 pt-4">
-          <div className="flex items-center gap-3 rounded-[14px] bg-[#F6F8FB] px-4 py-3">
-            <span className="grid h-10 w-10 place-items-center rounded-[12px] bg-white text-[#479DF4] shadow-sm">
-              <ImageIcon className="h-5 w-5" strokeWidth={2.6} />
-            </span>
-            <div className="min-w-0">
-              <div className="text-[13px] font-bold leading-tight text-black">
-                Galeri Foto
-              </div>
-              <div className="mt-1 text-[11px] font-normal text-[#828282]">
-                Terbaru • 6 gambar
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 grid grid-cols-3 gap-[10px]">
+          <div className="grid grid-cols-3 gap-[10px]">
             {galleryItems.map((item) => {
               const selected = selectedId === item.id;
 
