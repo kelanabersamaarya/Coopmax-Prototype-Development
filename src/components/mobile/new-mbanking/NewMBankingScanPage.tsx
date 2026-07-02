@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
+import NewMBankingScanBottomActions from "@/components/mobile/new-mbanking/NewMBankingScanBottomActions";
 
 type NewMBankingScanPageProps = {
   onBack: () => void;
@@ -41,18 +42,10 @@ export default function NewMBankingScanPage({
           </div>
         </div>
 
-        <section className="absolute inset-x-0 bottom-0 z-10 h-[266px] rounded-t-[30px] bg-white px-6 pt-[28px]">
-          <div className="flex justify-center">
-            <button
-              type="button"
-              className="relative pb-[10px] text-[16px] font-bold leading-none text-[#479DF4]"
-            >
-              Scan QRIS
-              <span className="absolute bottom-0 left-1/2 h-[3px] w-[76px] -translate-x-1/2 rounded-full bg-[#479DF4]" />
-            </button>
-          </div>
+        <section className="absolute inset-x-0 bottom-0 z-10 h-[302px] rounded-t-[30px] bg-white px-6 pt-[24px]">
+          <NewMBankingScanBottomActions active="scan" />
 
-          <div className="mt-[29px] grid gap-[9px]">
+          <div className="mt-[22px] grid gap-[9px]">
             <label className="text-[14px] font-bold leading-none text-black">
               ID Bayar
             </label>
@@ -74,7 +67,7 @@ export default function NewMBankingScanPage({
             type="button"
             disabled={!paymentId.trim()}
             className={cn(
-              "mt-[26px] h-[46px] w-full rounded-[10px]",
+              "mt-[20px] h-[46px] w-full rounded-[10px]",
               "text-[12px] font-normal leading-none text-white",
               "transition active:scale-[0.98]",
               paymentId.trim() ? "bg-[#479DF4]" : "bg-[#B8B8B8]",
