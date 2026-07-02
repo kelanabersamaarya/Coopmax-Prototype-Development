@@ -12,8 +12,10 @@ export default function NewMBankingRegisterSuccessPage({
     <div className="flex h-full min-h-full flex-col bg-[#F9F9F9] px-6 py-[30px] text-black">
       <main className="flex min-h-0 flex-1 items-center justify-center">
         <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center">
-          <div className="flex h-[96px] w-[96px] items-center justify-center rounded-full bg-[#479FFE]">
-            <Check className="h-[58px] w-[58px] text-white" strokeWidth={3.8} />
+          <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EEF6FF]">
+            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479FFE] text-white">
+              <Check className="h-[54px] w-[54px]" strokeWidth={3.8} />
+            </div>
           </div>
 
           <h1 className="mt-[30px] max-w-[300px] text-[18px] font-bold leading-[1.25] tracking-[-0.025em] text-black">
