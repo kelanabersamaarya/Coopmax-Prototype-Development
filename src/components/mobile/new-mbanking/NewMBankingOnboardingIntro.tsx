@@ -127,7 +127,7 @@ function OnboardingIllustration({
 
   if (showFallback) {
     return (
-      <div className="grid h-[245px] w-[380px] max-w-full place-items-center rounded-[26px] bg-white shadow-sm ring-1 ring-slate-200">
+      <div className="grid h-[285px] w-[420px] max-w-full place-items-center rounded-[26px] bg-white shadow-sm ring-1 ring-slate-200">
         <div className="text-center text-[13px] font-semibold text-slate-500">
           {title}
         </div>
@@ -139,7 +139,7 @@ function OnboardingIllustration({
     <img
       src={sources[sourceIndex]}
       alt={title}
-      className="h-[245px] w-[380px] max-w-full object-contain"
+      className="h-[285px] w-[420px] max-w-full object-contain"
       draggable={false}
       onError={() => {
         const nextIndex = sourceIndex + 1;
