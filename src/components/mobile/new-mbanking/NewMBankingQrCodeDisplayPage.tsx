@@ -1,7 +1,10 @@
 import * as React from "react";
 import { ArrowLeft, RefreshCcw, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingQrExpiredPage from "@/components/mobile/new-mbanking/NewMBankingQrExpiredPage";
+import NewMBankingQrisFixedAmountPage from "@/components/mobile/new-mbanking/NewMBankingQrisFixedAmountPage";
+import NewMBankingTransactionSuccessPage from "@/components/mobile/new-mbanking/NewMBankingTransactionSuccessPage";
 
 function formatTimer(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -63,6 +66,8 @@ export default function NewMBankingQrCodeDisplayPage({
   onBack: () => void;
 }) {
   const [seconds, setSeconds] = React.useState(92);
+  const [showPinInput, setShowPinInput] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
 
   React.useEffect(() => {
     if (seconds <= 0) return;
@@ -76,6 +81,21 @@ export default function NewMBankingQrCodeDisplayPage({
 
   function refreshCode() {
     setSeconds(92);
+    setShowPinInput(false);
+    setShowSuccess(false);
+  }
+
+  if (showSuccess) {
+    return <NewMBankingTransactionSuccessPage onDone={onBack} />;
+  }
+
+  if (showPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        onBack={() => setShowPinInput(false)}
+        onSubmit={() => setShowSuccess(true)}
+      />
+    );
   }
 
   if (seconds <= 0) {
@@ -83,6 +103,15 @@ export default function NewMBankingQrCodeDisplayPage({
       <NewMBankingQrExpiredPage
         onBack={onBack}
         onRefresh={refreshCode}
+      />
+    );
+  }
+
+  if (seconds <= 60) {
+    return (
+      <NewMBankingQrisFixedAmountPage
+        onBack={onBack}
+        onContinuePayment={() => setShowPinInput(true)}
       />
     );
   }
