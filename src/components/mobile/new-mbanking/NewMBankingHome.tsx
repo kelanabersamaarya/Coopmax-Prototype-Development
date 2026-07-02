@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
+import NewMBankingAccountDetailPage from "@/components/mobile/new-mbanking/NewMBankingAccountDetailPage";
 import NewMBankingAccountsSection from "@/components/mobile/new-mbanking/NewMBankingAccountsSection";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -18,6 +19,15 @@ export default function NewMBankingHome({
   onLogout?: () => void;
 }) {
   const [logoutOpen, setLogoutOpen] = React.useState(false);
+  const [showAccountDetail, setShowAccountDetail] = React.useState(false);
+
+  if (showAccountDetail) {
+    return (
+      <NewMBankingAccountDetailPage
+        onBack={() => setShowAccountDetail(false)}
+      />
+    );
+  }
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -32,7 +42,9 @@ export default function NewMBankingHome({
         </div>
 
         <section className="min-h-0 flex-1 bg-white px-6 pb-[160px] pt-[1px]">
-          <NewMBankingAccountsSection />
+          <NewMBankingAccountsSection
+            onSavingsDetailClick={() => setShowAccountDetail(true)}
+          />
 
           <NewMBankingQuickActionGrid />
         </section>

@@ -68,9 +68,11 @@ function AccountInfo({
 function AccountCardContent({
   activeTab,
   showBalance,
+  onSavingsDetailClick,
 }: {
   activeTab: AccountTabId;
   showBalance: boolean;
+  onSavingsDetailClick?: () => void;
 }) {
   if (activeTab === "pinjaman") {
     return (
@@ -154,6 +156,7 @@ function AccountCardContent({
 
         <button
           type="button"
+          onClick={onSavingsDetailClick}
           className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
         >
           Lihat Detail
@@ -180,8 +183,10 @@ function AccountCardContent({
 
 export default function NewMBankingAccountsSection({
   className,
+  onSavingsDetailClick,
 }: {
   className?: string;
+  onSavingsDetailClick?: () => void;
 }) {
   const [showBalance, setShowBalance] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<AccountTabId>("simpanan");
@@ -257,7 +262,11 @@ export default function NewMBankingAccountsSection({
         <div className="pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full bg-white/8" />
 
         <div className="relative z-10">
-          <AccountCardContent activeTab={activeTab} showBalance={showBalance} />
+          <AccountCardContent
+            activeTab={activeTab}
+            showBalance={showBalance}
+            onSavingsDetailClick={onSavingsDetailClick}
+          />
         </div>
       </div>
 
