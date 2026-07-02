@@ -28,15 +28,6 @@ export default function NewMBankingScanPage({
       </header>
 
       <main className="relative min-h-0 flex-1 overflow-hidden bg-[#101010]">
-        <div className="absolute inset-x-0 top-[34%] flex justify-center px-10">
-          <div className="relative h-[190px] w-[190px] rounded-[18px] border border-white/25">
-            <span className="absolute left-0 top-0 h-10 w-10 rounded-tl-[18px] border-l-[4px] border-t-[4px] border-white" />
-            <span className="absolute right-0 top-0 h-10 w-10 rounded-tr-[18px] border-r-[4px] border-t-[4px] border-white" />
-            <span className="absolute bottom-0 left-0 h-10 w-10 rounded-bl-[18px] border-b-[4px] border-l-[4px] border-white" />
-            <span className="absolute bottom-0 right-0 h-10 w-10 rounded-br-[18px] border-b-[4px] border-r-[4px] border-white" />
-          </div>
-        </div>
-
         <section className="absolute inset-x-0 bottom-0 z-10 h-[132px] rounded-t-[30px] bg-white px-6 pt-[24px]">
           <NewMBankingScanBottomActions />
         </section>
