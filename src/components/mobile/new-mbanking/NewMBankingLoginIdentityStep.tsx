@@ -33,7 +33,7 @@ function CooperativeLogo() {
   const [showFallback, setShowFallback] = React.useState(false);
 
   return (
-    <div className="relative h-[44px] w-[42px] shrink-0 overflow-hidden rounded-full bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] ring-1 ring-slate-100">
+    <div className="relative h-[44px] w-[42px] shrink-0 overflow-hidden rounded-full bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)]">
       {showFallback ? (
         <div className="grid h-full w-full place-items-center text-[9px] font-extrabold text-[#0B63CE]">
           KSP
@@ -98,37 +98,37 @@ export default function NewMBankingLoginIdentityStep({
   onScan,
 }: NewMBankingLoginIdentityStepProps) {
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#FBFDFF] text-black">
-      <div className="absolute -left-[112px] -top-[146px] h-[320px] w-[320px] rounded-full bg-[#EC4FC9]/80" />
-      <div className="absolute -left-[38px] -top-[132px] h-[205px] w-[205px] rounded-full bg-[#D81BB2]/35" />
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#4ba2f5] text-white">
+      <div className="absolute -left-[118px] -top-[190px] h-[400px] w-[400px] rounded-full bg-[#f56ac8]" />
+      <div className="absolute -left-[48px] -top-[215px] h-[300px] w-[300px] rounded-full bg-[#f044bd]" />
 
-      <div className="absolute -right-[64px] -top-[48px] h-[172px] w-[172px] rounded-full bg-[#7BBDF4]/80" />
-      <div className="absolute right-[16px] top-[-18px] h-[86px] w-[86px] rounded-full bg-[#2D93E8]/55" />
+      <div className="absolute -right-[90px] -top-[64px] h-[205px] w-[205px] rounded-full bg-[#8fc2f3]" />
+      <div className="absolute right-[-10px] top-[-25px] h-[104px] w-[104px] rounded-full bg-[#459cf0]" />
 
-      <div className="absolute -right-[112px] bottom-[92px] h-[210px] w-[210px] rounded-full bg-[#72DCEB]/28" />
-      <div className="absolute -left-[82px] bottom-[142px] h-[178px] w-[178px] rounded-full bg-[#A78BFA]/18" />
-      <div className="absolute left-[34px] bottom-[34px] h-[74px] w-[74px] rounded-full bg-[#FBBF24]/18" />
+      <div className="absolute -bottom-[194px] right-[-174px] h-[400px] w-[400px] rounded-full bg-[#8bdcec]" />
+      <div className="absolute -bottom-[171px] right-[-92px] h-[296px] w-[296px] rounded-full bg-[#65d0e8]" />
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.92)_34%,rgba(251,253,255,0.72)_100%)]" />
+      <div className="absolute -bottom-[112px] -left-[62px] h-[212px] w-[212px] rounded-full bg-[#a143ef]" />
+      <div className="absolute -bottom-[74px] -left-[31px] h-[126px] w-[126px] rounded-full bg-[#8c16ea]" />
 
-      <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[96px]">
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[112px]">
         <div className="flex animate-in items-center justify-center gap-[2px] fade-in-0 zoom-in-95 duration-700">
           <CooperativeLogo />
 
-          <div className="whitespace-nowrap text-[22px] font-extrabold leading-none tracking-[-0.055em] text-black">
+          <div className="whitespace-nowrap text-[22px] font-extrabold leading-none tracking-[-0.055em] text-white">
             M-Banking Koperasi
           </div>
         </div>
 
-        <div className="mt-[8px] flex h-[54px] animate-in items-center justify-center rounded-[16px] bg-white px-[24px] text-[#121826] shadow-[0_8px_22px_rgba(15,23,42,0.12)] ring-1 ring-slate-100 fade-in-0 slide-in-from-bottom-2 duration-700 [animation-delay:140ms] [animation-fill-mode:both]">
+        <div className="mt-[8px] flex h-[54px] animate-in items-center justify-center rounded-[16px] bg-white px-[24px] text-[#121826] shadow-[0_8px_22px_rgba(15,23,42,0.12)] fade-in-0 slide-in-from-bottom-2 duration-700 [animation-delay:140ms] [animation-fill-mode:both]">
           <DjoinLogo />
         </div>
-      </main>
+      </div>
 
       <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-[30px] pt-4">
         <div className="mb-[16px] flex flex-col items-center">
           <NewMBankingScanButton onClick={onScan} />
-          <div className="mt-[8px] flex justify-center">
+          <div className="mt-[8px] flex justify-center rounded-full bg-white/90 px-3 py-1.5 shadow-sm">
             <NewMBankingQrisLogo />
           </div>
         </div>
@@ -137,20 +137,21 @@ export default function NewMBankingLoginIdentityStep({
           type="button"
           onClick={onNext}
           className={cn(
-            "h-[46px] w-full rounded-[10px] bg-[#479DF4]",
-            "text-[12px] font-normal leading-none text-white",
+            "h-[46px] w-full rounded-[10px] bg-white",
+            "text-[12px] font-semibold leading-none text-[#479DF4]",
+            "shadow-[0_8px_22px_rgba(15,23,42,0.12)]",
             "transition active:scale-[0.98]",
           )}
         >
           Masuk
         </button>
 
-        <div className="mt-[14px] text-center text-[12px] font-normal leading-none text-[#828282]">
+        <div className="mt-[14px] text-center text-[12px] font-normal leading-none text-white/90">
           Belum Punya Akun?{" "}
           <button
             type="button"
             onClick={onRegister}
-            className="font-semibold text-[#479DF4] transition active:scale-[0.98]"
+            className="font-semibold text-white underline-offset-4 transition active:scale-[0.98]"
           >
             Daftar
           </button>
