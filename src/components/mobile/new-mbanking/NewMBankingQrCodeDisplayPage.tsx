@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ArrowLeft, RefreshCcw, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
-import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingQrExpiredPage from "@/components/mobile/new-mbanking/NewMBankingQrExpiredPage";
 import NewMBankingQrisFixedAmountPage from "@/components/mobile/new-mbanking/NewMBankingQrisFixedAmountPage";
 import NewMBankingTransactionSuccessPage from "@/components/mobile/new-mbanking/NewMBankingTransactionSuccessPage";
@@ -24,9 +23,9 @@ function QrCodeVisual() {
         (row > 21 && col < 7);
 
       const inFinderCenter =
-        ((row >= 2 && row <= 4 && col >= 2 && col <= 4) ||
-          (row >= 2 && row <= 4 && col >= 24 && col <= 26) ||
-          (row >= 24 && row <= 26 && col >= 2 && col <= 4));
+        (row >= 2 && row <= 4 && col >= 2 && col <= 4) ||
+        (row >= 2 && row <= 4 && col >= 24 && col <= 26) ||
+        (row >= 24 && row <= 26 && col >= 2 && col <= 4);
 
       const inFinderGap =
         ((row === 1 || row === 5) && (col < 7 || col > 21)) ||
@@ -66,7 +65,6 @@ export default function NewMBankingQrCodeDisplayPage({
   onBack: () => void;
 }) {
   const [seconds, setSeconds] = React.useState(92);
-  const [showPinInput, setShowPinInput] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   React.useEffect(() => {
@@ -81,21 +79,11 @@ export default function NewMBankingQrCodeDisplayPage({
 
   function refreshCode() {
     setSeconds(92);
-    setShowPinInput(false);
     setShowSuccess(false);
   }
 
   if (showSuccess) {
     return <NewMBankingTransactionSuccessPage onDone={onBack} />;
-  }
-
-  if (showPinInput) {
-    return (
-      <NewMBankingPinInputPage
-        onBack={() => setShowPinInput(false)}
-        onSubmit={() => setShowSuccess(true)}
-      />
-    );
   }
 
   if (seconds <= 0) {
@@ -111,7 +99,7 @@ export default function NewMBankingQrCodeDisplayPage({
     return (
       <NewMBankingQrisFixedAmountPage
         onBack={onBack}
-        onContinuePayment={() => setShowPinInput(true)}
+        onContinuePayment={() => setShowSuccess(true)}
       />
     );
   }
