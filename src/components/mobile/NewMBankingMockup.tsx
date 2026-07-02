@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
-import MBankingHome from "@/components/mobile/MBankingHome";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
+import NewMBankingHome from "@/components/mobile/new-mbanking/NewMBankingHome";
 import NewMBankingLoginPage from "@/components/mobile/new-mbanking/NewMBankingLoginPage";
 import NewMBankingOnboarding from "@/components/mobile/new-mbanking/NewMBankingOnboarding";
 import NewMBankingRegisterPage from "@/components/mobile/new-mbanking/NewMBankingRegisterPage";
@@ -44,7 +44,7 @@ export default function NewMBankingMockup() {
   function renderScreen() {
     if (screen === "home") {
       return (
-        <MBankingHome
+        <NewMBankingHome
           transactions={transactions}
           onTransactionSaved={addTransaction}
           onLogout={() => setScreen("login")}
