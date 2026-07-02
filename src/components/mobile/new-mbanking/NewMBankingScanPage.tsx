@@ -23,7 +23,7 @@ export default function NewMBankingScanPage({
   }, []);
 
   if (showResultPage) {
-    return <NewMBankingScanResultPage />;
+    return <NewMBankingScanResultPage onBack={onBack} />;
   }
 
   return (
