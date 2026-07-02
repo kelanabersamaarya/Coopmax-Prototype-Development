@@ -3,6 +3,7 @@ import { ArrowLeft, Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import NewMBankingRegisterConfirmModal from "@/components/mobile/new-mbanking/NewMBankingRegisterConfirmModal";
 
 type NewMBankingRegisterAccountPageProps = {
   onBack: () => void;
@@ -18,6 +19,7 @@ export default function NewMBankingRegisterAccountPage({
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -43,6 +45,12 @@ export default function NewMBankingRegisterAccountPage({
       return;
     }
 
+    setConfirmOpen(true);
+  }
+
+  function confirmRegistration() {
+    setConfirmOpen(false);
+
     toast.success("Pendaftaran berhasil", {
       description: "Akun M-Banking berhasil dibuat di prototype.",
     });
@@ -62,7 +70,13 @@ export default function NewMBankingRegisterAccountPage({
   const labelClassName = "text-[14px] font-bold leading-none text-black";
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingRegisterConfirmModal
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={confirmRegistration}
+      />
+
       <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#F9F9F9] px-6 pt-8">
         <div className="flex h-10 items-center gap-3">
           <button
