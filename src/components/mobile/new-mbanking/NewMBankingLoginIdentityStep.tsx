@@ -49,23 +49,23 @@ export default function NewMBankingLoginIdentityStep({
           </h1>
         </div>
 
-        <div className="mt-[26px] text-center">
+        <div className="mt-[20px] text-center">
           <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EEF6FF]">
             <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white">
               <UserRound className="h-[43px] w-[43px]" strokeWidth={2.6} />
             </div>
           </div>
 
-          <h2 className="mx-auto max-w-[310px] text-[18px] font-bold leading-tight text-black">
-            Masuk ke M-Banking Koperasi
+          <h2 className="text-[16px] font-bold leading-tight text-black">
+            Informasi Akun
           </h2>
 
-          <p className="mx-auto mt-[12px] max-w-[345px] text-[12px] font-normal leading-[1.4] text-[#828282]">
-            Masukkan nomor rekening utama, username, atau nomor telepon yang
-            terdaftar untuk melanjutkan.
+          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-[#828282]">
+            Untuk masuk ke M-Banking, mohon masukkan username atau nomor telepon
+            yang sudah terdaftar.
           </p>
 
-          <div className="mt-[24px] h-[14px] w-full overflow-hidden rounded-full bg-[#D8D8D8]">
+          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-[#D8D8D8]">
             <div className="h-full w-1/2 rounded-full bg-[#479DF4]" />
           </div>
 
