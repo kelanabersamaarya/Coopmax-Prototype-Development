@@ -12,41 +12,57 @@ export default function NewMBankingLogoutConfirmModal({
   if (!open) return null;
 
   return (
-    <div className="absolute inset-0 z-[120] flex items-center justify-center bg-black/45 px-7">
-      <div className="w-full max-w-[315px] overflow-hidden rounded-[18px] bg-white shadow-[0_18px_45px_rgba(15,23,42,0.25)]">
-        <div className="px-6 pb-5 pt-6 text-left">
-          <div className="text-[18px] font-extrabold leading-tight tracking-tight text-black">
-            Info
-          </div>
+    <div className="absolute inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5">
+      <button
+        type="button"
+        className="absolute inset-0 cursor-default"
+        aria-label="Tutup konfirmasi keluar"
+        onClick={onCancel}
+      />
 
-          <div className="mt-3 text-[13px] font-normal leading-relaxed text-[#7A7A7A]">
-            Apakah yakin keluar dari aplikasi
-          </div>
+      <div
+        className={cn(
+          "relative z-10 w-full max-w-[360px]",
+          "rounded-[26px] bg-[#FAFAFA] px-6 pb-6 pt-7",
+          "shadow-[0_20px_55px_rgba(15,23,42,0.24)]",
+          "ring-1 ring-black/5",
+        )}
+      >
+        <div className="text-left">
+          <h2 className="text-[20px] font-bold leading-tight tracking-[-0.025em] text-[#111827]">
+            Anda akan keluar dari aplikasi
+          </h2>
+
+          <p className="mt-2 max-w-[310px] text-[14px] font-normal leading-relaxed tracking-[-0.01em] text-[#7A7A7A]">
+            Terimakasih sudah memakai M-Banking. Sampai jumpa lagi ya!
+          </p>
         </div>
 
-        <div className="flex justify-end gap-3 px-5 pb-5">
-          <button
-            type="button"
-            onClick={onCancel}
-            className={cn(
-              "h-[40px] w-[80px] rounded-full",
-              "bg-[#828282] text-[14px] font-semibold text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Batal
-          </button>
-
+        <div className="mt-7 grid gap-3">
           <button
             type="button"
             onClick={onExit}
             className={cn(
-              "h-[40px] w-[80px] rounded-full",
-              "bg-[#EF135D] text-[14px] font-semibold text-white",
+              "h-[50px] w-full rounded-full",
+              "bg-[#479DF4] text-[14px] font-semibold text-white",
+              "shadow-[0_6px_16px_rgba(71,157,244,0.24)]",
               "transition active:scale-[0.98]",
             )}
           >
             Keluar
+          </button>
+
+          <button
+            type="button"
+            onClick={onCancel}
+            className={cn(
+              "h-[50px] w-full rounded-full",
+              "border border-[#D8D8D8] bg-white",
+              "text-[14px] font-semibold text-[#828282]",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Batal
           </button>
         </div>
       </div>
