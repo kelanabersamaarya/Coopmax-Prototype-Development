@@ -157,28 +157,28 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[245px] pt-[16px]">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[266px] pt-[16px]">
         <OnboardingIllustration />
         <OnboardingSlider />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 bg-white px-6 pb-[29px] pt-[25px]">
-        <div className="mb-[24px] text-center">
-          <h1 className="mx-auto max-w-[330px] text-[24px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[266px] bg-white px-6 pb-[29px] pt-[25px]">
+        <div className="text-center">
+          <h1 className="mx-auto max-w-[330px] text-[20px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
             Kemudahan Transaksi Dalam Satu Genggaman
           </h1>
-          <p className="mx-auto mt-[12px] max-w-[325px] text-[14px] font-normal leading-[1.45] tracking-[-0.01em] text-[#8F8F8F]">
+          <p className="mx-auto mt-[25px] max-w-[325px] text-[14px] font-normal leading-[1.45] tracking-[-0.01em] text-[#8F8F8F]">
             Akses layanan koperasi, cek informasi rekening, dan lakukan transaksi
             kapan saja dengan lebih mudah.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-[10px]">
+        <div className="mt-[25px] flex items-center justify-center gap-[10px]">
           <button
             type="button"
             onClick={onRegister}
             className={cn(
-              "h-[58px] rounded-[10px] border-2 border-[#3D98FF] bg-white",
+              "h-[46px] w-[170px] rounded-[10px] border-2 border-[#3D98FF] bg-white",
               "text-[20px] font-semibold leading-none text-[#3D98FF]",
               "transition active:scale-[0.98]",
             )}
@@ -190,7 +190,7 @@ export default function NewMBankingOnboardingIntro({
             type="button"
             onClick={onLogin}
             className={cn(
-              "h-[58px] rounded-[10px] bg-[#479DF4]",
+              "h-[46px] w-[170px] rounded-[10px] bg-[#479DF4]",
               "text-[20px] font-semibold leading-none text-white",
               "shadow-[0_10px_22px_rgba(71,157,244,0.24)]",
               "transition active:scale-[0.98]",
