@@ -49,7 +49,7 @@ function DjoinLogo() {
 
 export default function NewMBankingHomeBrandHeader() {
   return (
-    <div className="flex flex-col items-end text-right">
+    <div className="flex flex-col items-start text-left">
       <div className="whitespace-nowrap text-[16px] font-normal leading-tight tracking-[-0.04em] text-black">
         M-Banking Koperasi
       </div>

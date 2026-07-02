@@ -12,7 +12,7 @@ export default function NewMBankingHome({
 }) {
   return (
     <div className="h-full min-h-full bg-white px-6 pt-[30px] text-black">
-      <div className="flex justify-end">
+      <div className="flex justify-start">
         <NewMBankingHomeBrandHeader />
       </div>
 
