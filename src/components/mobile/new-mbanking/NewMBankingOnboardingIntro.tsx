@@ -162,7 +162,7 @@ export default function NewMBankingOnboardingIntro({
         <OnboardingSlider />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 h-[266px] bg-white px-6 pt-[41px]">
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[266px] rounded-t-[30px] bg-white px-6 pt-[41px]">
         <div className="text-center">
           <h1 className="mx-auto max-w-[330px] text-[20px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
             Kemudahan Transaksi Dalam Satu Genggaman
