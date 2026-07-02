@@ -99,6 +99,17 @@ export default function NewMBankingQrisMerchantItem() {
           <ChevronRight className="h-[28px] w-[28px] shrink-0 text-black" strokeWidth={2.8} />
         </button>
       </div>
+
+      <button
+        type="button"
+        className={cn(
+          "mt-[28px] h-[46px] w-full rounded-[10px] bg-[#479DF4]",
+          "text-[12px] font-normal leading-none text-white",
+          "transition active:scale-[0.98]",
+        )}
+      >
+        Lanjutkan
+      </button>
     </section>
   );
 }
