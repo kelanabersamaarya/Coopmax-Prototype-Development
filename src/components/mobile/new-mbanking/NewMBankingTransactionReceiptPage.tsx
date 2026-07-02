@@ -44,8 +44,8 @@ export default function NewMBankingTransactionReceiptPage({
   onBack: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
-      <header className="flex h-[82px] shrink-0 items-center gap-3 px-[31px] pt-[18px]">
+    <div className="h-full min-h-full overflow-y-auto bg-[#F9F9F9] text-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <header className="flex h-[82px] items-center gap-3 px-[31px] pt-[18px]">
         <button
           type="button"
           onClick={onBack}
@@ -61,7 +61,7 @@ export default function NewMBankingTransactionReceiptPage({
         </h1>
       </header>
 
-      <main className="min-h-0 flex-1 overflow-y-auto px-6 pb-[30px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="px-6 pb-[30px]">
         <section className="min-h-full rounded-[30px] bg-white px-[22px] pb-[28px] pt-[32px] shadow-sm">
           <NewMBankingReceiptBrand />
 
