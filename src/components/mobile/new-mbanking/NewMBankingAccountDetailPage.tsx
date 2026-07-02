@@ -235,7 +235,7 @@ export default function NewMBankingAccountDetailPage({
                 <div className="text-[11px] font-normal leading-none text-white/70">
                   Simpanan Harian
                 </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[17px] font-bold leading-tight tracking-[-0.025em] text-white">
+                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white">
                   <span>112233111</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.5} />
                 </div>
@@ -245,7 +245,7 @@ export default function NewMBankingAccountDetailPage({
                 <div className="text-[11px] font-normal leading-none text-white/70">
                   Nomor VA
                 </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[17px] font-bold leading-tight tracking-[-0.025em] text-white">
+                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white">
                   <span>88810 112233111</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.5} />
                 </div>
@@ -255,7 +255,7 @@ export default function NewMBankingAccountDetailPage({
                 <div className="text-[11px] font-normal leading-none text-white/70">
                   Saldo
                 </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[20px] font-bold leading-tight tracking-[-0.04em] text-white">
+                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.04em] text-white">
                   <span>{showBalance ? "Rp. 4.000.000,00" : "••••••••••"}</span>
                   <button
                     type="button"
