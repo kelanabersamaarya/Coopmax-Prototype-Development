@@ -48,7 +48,7 @@ export default function NewMBankingMockup() {
     if (screen === "register") {
       return (
         <NewMBankingRegisterPage
-          onBack={() => setScreen("login")}
+          onBack={() => setScreen("onboarding")}
           onRegisterSuccess={() => setScreen("login")}
         />
       );
