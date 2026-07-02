@@ -69,7 +69,7 @@ export default function NewMBankingQrisMerchantItem() {
               112233111
             </div>
 
-            <div className="mt-[20px] text-[12px] font-normal leading-tight text-[#2F3137]">
+            <div className="mt-[15px] text-[12px] font-normal leading-tight text-[#2F3137]">
               Saldo
             </div>
             <div className="mt-[6px] text-[16px] font-bold leading-tight text-[#2F3137]">
