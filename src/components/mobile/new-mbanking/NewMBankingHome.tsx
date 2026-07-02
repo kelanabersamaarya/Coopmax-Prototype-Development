@@ -16,9 +16,9 @@ export default function NewMBankingHome({
   onLogout?: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto pt-[30px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="shrink-0 px-6">
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white pt-[30px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="shrink-0 bg-[#F9F9F9] px-6 pb-[18px]">
           <div className="flex items-start justify-between gap-4">
             <NewMBankingHomeBrandHeader />
             <NewMBankingLogoutButton onClick={onLogout} />
@@ -27,7 +27,7 @@ export default function NewMBankingHome({
           <NewMBankingWelcomeItem />
         </div>
 
-        <section className="mt-[18px] min-h-0 flex-1 bg-[#FFFF] px-6 pb-[34px] pt-[1px]">
+        <section className="min-h-0 flex-1 bg-white px-6 pb-[34px] pt-[1px]">
           <NewMBankingAccountsSection />
 
           <NewMBankingQuickActionGrid />
