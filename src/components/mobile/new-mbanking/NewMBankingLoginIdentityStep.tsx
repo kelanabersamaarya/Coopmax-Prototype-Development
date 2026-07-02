@@ -98,12 +98,18 @@ export default function NewMBankingLoginIdentityStep({
   onScan,
 }: NewMBankingLoginIdentityStepProps) {
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#FFFFFF] text-black">
-      <div className="absolute -left-[98px] -top-[160px] h-[340px] w-[340px] rounded-full bg-[#f56ac8]" />
-      <div className="absolute -left-[40px] -top-[180px] h-[255px] w-[255px] rounded-full bg-[#f044bd]" />
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#FBFDFF] text-black">
+      <div className="absolute -left-[112px] -top-[146px] h-[320px] w-[320px] rounded-full bg-[#EC4FC9]/80" />
+      <div className="absolute -left-[38px] -top-[132px] h-[205px] w-[205px] rounded-full bg-[#D81BB2]/35" />
 
-      <div className="absolute -right-[76px] -top-[54px] h-[175px] w-[175px] rounded-full bg-[#8fc2f3]" />
-      <div className="absolute right-[-8px] top-[-20px] h-[88px] w-[88px] rounded-full bg-[#459cf0]" />
+      <div className="absolute -right-[64px] -top-[48px] h-[172px] w-[172px] rounded-full bg-[#7BBDF4]/80" />
+      <div className="absolute right-[16px] top-[-18px] h-[86px] w-[86px] rounded-full bg-[#2D93E8]/55" />
+
+      <div className="absolute -right-[112px] bottom-[92px] h-[210px] w-[210px] rounded-full bg-[#72DCEB]/28" />
+      <div className="absolute -left-[82px] bottom-[142px] h-[178px] w-[178px] rounded-full bg-[#A78BFA]/18" />
+      <div className="absolute left-[34px] bottom-[34px] h-[74px] w-[74px] rounded-full bg-[#FBBF24]/18" />
+
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.92)_34%,rgba(251,253,255,0.72)_100%)]" />
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[96px]">
         <div className="flex animate-in items-center justify-center gap-[2px] fade-in-0 zoom-in-95 duration-700">
