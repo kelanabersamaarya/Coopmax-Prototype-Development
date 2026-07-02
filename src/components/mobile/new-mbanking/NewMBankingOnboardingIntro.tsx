@@ -173,13 +173,13 @@ export default function NewMBankingOnboardingIntro({
           </p>
         </div>
 
-        <div className="mt-[61px] flex items-center justify-center gap-[10px]">
+        <div className="mt-[28px] flex items-center justify-center gap-[10px]">
           <button
             type="button"
             onClick={onRegister}
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] border-2 border-[#3D98FF] bg-white",
-              "text-[20px] font-semibold leading-none text-[#3D98FF]",
+              "text-[20px] font-normal leading-none text-[#3D98FF]",
               "transition active:scale-[0.98]",
             )}
           >
@@ -191,8 +191,7 @@ export default function NewMBankingOnboardingIntro({
             onClick={onLogin}
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] bg-[#479DF4]",
-              "text-[20px] font-semibold leading-none text-white",
-              "shadow-[0_10px_22px_rgba(71,157,244,0.24)]",
+              "text-[20px] font-normal leading-none text-white",
               "transition active:scale-[0.98]",
             )}
           >
