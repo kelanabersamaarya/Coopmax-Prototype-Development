@@ -1,7 +1,4 @@
-import * as React from "react";
 import { ArrowLeft } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
 import NewMBankingScanBottomActions from "@/components/mobile/new-mbanking/NewMBankingScanBottomActions";
 
@@ -12,8 +9,6 @@ type NewMBankingScanPageProps = {
 export default function NewMBankingScanPage({
   onBack,
 }: NewMBankingScanPageProps) {
-  const [paymentId, setPaymentId] = React.useState("");
-
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#101010] text-black">
       <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[20px] bg-[#F9F9F9] px-[31px]">
@@ -42,39 +37,8 @@ export default function NewMBankingScanPage({
           </div>
         </div>
 
-        <section className="absolute inset-x-0 bottom-0 z-10 h-[302px] rounded-t-[30px] bg-white px-6 pt-[24px]">
+        <section className="absolute inset-x-0 bottom-0 z-10 h-[132px] rounded-t-[30px] bg-white px-6 pt-[24px]">
           <NewMBankingScanBottomActions active="scan" />
-
-          <div className="mt-[22px] grid gap-[9px]">
-            <label className="text-[14px] font-bold leading-none text-black">
-              ID Bayar
-            </label>
-
-            <Input
-              value={paymentId}
-              onChange={(event) => setPaymentId(event.target.value)}
-              placeholder="Masukkan ID Bayar"
-              className={cn(
-                "h-[41px] w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
-                "text-[14px] font-normal text-black shadow-none",
-                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#828282]",
-                "focus-visible:ring-0 focus-visible:ring-offset-0",
-              )}
-            />
-          </div>
-
-          <button
-            type="button"
-            disabled={!paymentId.trim()}
-            className={cn(
-              "mt-[20px] h-[46px] w-full rounded-[10px]",
-              "text-[12px] font-normal leading-none text-white",
-              "transition active:scale-[0.98]",
-              paymentId.trim() ? "bg-[#479DF4]" : "bg-[#B8B8B8]",
-            )}
-          >
-            Cek ID Bayar
-          </button>
         </section>
       </main>
     </div>
