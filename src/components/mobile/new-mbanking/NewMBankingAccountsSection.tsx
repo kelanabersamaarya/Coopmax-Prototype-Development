@@ -161,7 +161,7 @@ export default function NewMBankingAccountsSection({
 
           <div className="mt-[24px]">
             <AccountInfo label="Saldo Simpanan">
-              <span className="text-[22px] tracking-[-0.04em]">
+              <span className="text-[16px] tracking-[-0.025em]">
                 {showBalance ? "Rp. 4.000.000,00" : "••••••••••"}
               </span>
             </AccountInfo>
