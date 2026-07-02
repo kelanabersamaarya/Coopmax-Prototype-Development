@@ -1,6 +1,5 @@
 import * as React from "react";
 import { ArrowLeft, UserRound } from "lucide-react";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
@@ -19,14 +18,6 @@ export default function NewMBankingRegisterPage({
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (!nomorTelepon.trim()) {
-      toast("Nomor telepon wajib diisi", {
-        description: "Silakan lengkapi nomor telepon terlebih dahulu.",
-      });
-      return;
-    }
-
     onRegisterSuccess();
   }
 
