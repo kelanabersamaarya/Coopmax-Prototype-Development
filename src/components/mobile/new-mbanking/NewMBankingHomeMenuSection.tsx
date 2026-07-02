@@ -39,8 +39,7 @@ export default function NewMBankingHomeMenuSection({
   return (
     <nav
       className={cn(
-        "shrink-0 rounded-t-[24px] bg-white px-[14px] pb-[14px] pt-[13px]",
-        "shadow-[0_-10px_24px_rgba(15,23,42,0.08)] ring-1 ring-slate-100",
+        "shrink-0 rounded-t-[24px] bg-[#F9F9F9] px-[14px] pb-[14px] pt-[13px]",
         className,
       )}
     >
