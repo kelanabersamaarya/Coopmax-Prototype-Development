@@ -72,7 +72,7 @@ export default function NewMBankingAccountsSection({
   return (
     <section
       className={cn(
-        "mt-[24px] rounded-[24px] border border-[#D9D9D9] p-[16px]",
+        "mx-[-8px] mt-[24px] rounded-[24px] border border-[#D9D9D9] p-[16px]",
         className,
       )}
     >
