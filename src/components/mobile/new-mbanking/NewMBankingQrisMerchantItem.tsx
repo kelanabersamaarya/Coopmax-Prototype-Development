@@ -57,22 +57,22 @@ export default function NewMBankingQrisMerchantItem() {
           type="button"
           className={cn(
             "mt-[11px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px]",
-            "border border-[#D8D8D8] bg-white px-[26px] py-[18px] text-left",
+            "border border-[#D8D8D8] bg-white px-[26px] py-[16px] text-left",
             "transition active:scale-[0.99]",
           )}
         >
           <div className="min-w-0">
-            <div className="text-[12px] font-normal leading-tight text-[#2F3137]">
+            <div className="text-[12px] font-normal leading-none text-[#2F3137]">
               Simpanan Kaya
             </div>
-            <div className="mt-[6px] text-[16px] font-bold leading-tight text-[#2F3137]">
+            <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
               112233111
             </div>
 
-            <div className="mt-[15px] text-[12px] font-normal leading-tight text-[#2F3137]">
+            <div className="mt-[15px] text-[12px] font-normal leading-none text-[#2F3137]">
               Saldo
             </div>
-            <div className="mt-[6px] text-[16px] font-bold leading-tight text-[#2F3137]">
+            <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
               Rp. 4.000.000,00
             </div>
           </div>
