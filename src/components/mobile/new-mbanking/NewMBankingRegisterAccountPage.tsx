@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import NewMBankingRegisterConfirmModal from "@/components/mobile/new-mbanking/NewMBankingRegisterConfirmModal";
@@ -55,69 +55,56 @@ export default function NewMBankingRegisterAccountPage({
         onConfirm={confirmRegistration}
       />
 
-      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#4ba2f5] px-6 pt-8">
-        <div className="pointer-events-none absolute -left-[118px] -top-[190px] h-[400px] w-[400px] rounded-full bg-[#f56ac8]" />
-        <div className="pointer-events-none absolute -left-[48px] -top-[215px] h-[300px] w-[300px] rounded-full bg-[#f044bd]" />
+      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[linear-gradient(145deg,#DFF1FF_0%,#EEF7FF_42%,#F4EDFF_100%)] px-6 pt-8">
+        <div className="pointer-events-none absolute -right-[64px] top-[42px] h-[188px] w-[188px] rounded-full bg-[#479DF4]/18" />
+        <div className="pointer-events-none absolute -left-[58px] bottom-[74px] h-[160px] w-[160px] rounded-full bg-[#A143EF]/12" />
+        <div className="pointer-events-none absolute bottom-[82px] right-[62px] h-[72px] w-[72px] rounded-full bg-[#65D0E8]/20" />
 
-        <div className="pointer-events-none absolute -right-[90px] -top-[64px] h-[205px] w-[205px] rounded-full bg-[#8fc2f3]" />
-        <div className="pointer-events-none absolute right-[-10px] top-[-25px] h-[104px] w-[104px] rounded-full bg-[#459cf0]" />
-
-        <div className="pointer-events-none absolute -bottom-[194px] right-[-174px] h-[400px] w-[400px] rounded-full bg-[#8bdcec]" />
-        <div className="pointer-events-none absolute -bottom-[171px] right-[-92px] h-[296px] w-[296px] rounded-full bg-[#65d0e8]" />
-
-        <div className="pointer-events-none absolute -bottom-[112px] -left-[62px] h-[212px] w-[212px] rounded-full bg-[#a143ef]" />
-        <div className="pointer-events-none absolute -bottom-[74px] -left-[31px] h-[126px] w-[126px] rounded-full bg-[#8c16ea]" />
-
-        <div className="pointer-events-none absolute inset-0 bg-white/12" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[120px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.68))]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[104px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.78))]" />
 
         <div className="relative z-10 flex h-10 items-center gap-3">
           <button
             type="button"
             onClick={onBack}
-            className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/18 text-white backdrop-blur transition active:scale-[0.98]"
+            className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/55 text-black shadow-sm ring-1 ring-white/70 transition active:scale-[0.98]"
             aria-label="Kembali"
             title="Kembali"
           >
             <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
           </button>
 
-          <h1 className="text-[16px] font-bold leading-tight text-white">
+          <h1 className="text-[16px] font-bold leading-tight text-black">
             Daftar
           </h1>
         </div>
 
         <div className="relative z-10 mt-[20px] text-center">
-          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-white/80 shadow-[0_12px_32px_rgba(15,23,42,0.16)] ring-1 ring-white">
-            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_22px_rgba(71,157,244,0.28)]">
+          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-white/82 shadow-sm ring-1 ring-white/80">
+            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_22px_rgba(71,157,244,0.22)]">
               <LockKeyhole className="h-[42px] w-[42px]" strokeWidth={2.6} />
             </div>
           </div>
 
-          <h2 className="text-[16px] font-bold leading-tight text-white">
+          <h2 className="text-[16px] font-bold leading-tight text-black">
             Informasi Akun M-Banking
           </h2>
 
-          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-white/86">
+          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-[#5F6B7A]">
             Untuk melakukan pendaftaran, mohon melengkapi informasi akun
             dibawah ini, pastikan data yang anda masukan sesuai
           </p>
 
-          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-white/35 ring-1 ring-white/45">
-            <div className="h-full w-full rounded-full bg-white" />
+          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-white/75 ring-1 ring-[#D8D8D8]/70">
+            <div className="h-full w-full rounded-full bg-[#479DF4]" />
           </div>
 
-          <div className="mt-[10px] text-[10px] font-normal leading-none text-white/90">
+          <div className="mt-[10px] text-[10px] font-normal leading-none text-[#2F3137]">
             Langkah 2 dari 2
           </div>
         </div>
-
-        <div className="sr-only">
-          <UserRound />
-        </div>
       </div>
 
-      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px] shadow-[0_-14px_34px_rgba(15,23,42,0.08)]">
+      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px] shadow-[0_-14px_34px_rgba(15,23,42,0.06)]">
         <form
           onSubmit={submit}
           className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-between"
