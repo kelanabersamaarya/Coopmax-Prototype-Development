@@ -9,6 +9,7 @@ type NewMBankingLoginIdentityStepProps = {
   onBack: () => void;
   onNext: () => void;
   onRegister: () => void;
+  onScan: () => void;
 };
 
 const cooperativeLogoSources = [
@@ -93,6 +94,7 @@ function DjoinLogo() {
 
 export default function NewMBankingLoginIdentityStep({
   onNext,
+  onScan,
 }: NewMBankingLoginIdentityStepProps) {
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#FFFFFF] text-black">
@@ -124,7 +126,7 @@ export default function NewMBankingLoginIdentityStep({
 
       <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-[30px] pt-4">
         <div className="mb-[16px] flex flex-col items-center">
-          <NewMBankingScanButton />
+          <NewMBankingScanButton onClick={onScan} />
           <div className="mt-[8px] flex justify-center">
             <NewMBankingQrisLogo />
           </div>

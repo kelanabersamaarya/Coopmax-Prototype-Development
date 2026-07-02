@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import NewMBankingLoginDetailPage from "@/components/mobile/new-mbanking/NewMBankingLoginDetailPage";
 import NewMBankingLoginIdentityStep from "@/components/mobile/new-mbanking/NewMBankingLoginIdentityStep";
 import NewMBankingLoginPasswordStep from "@/components/mobile/new-mbanking/NewMBankingLoginPasswordStep";
+import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 
 type NewMBankingLoginPageProps = {
   onBack: () => void;
@@ -10,7 +11,7 @@ type NewMBankingLoginPageProps = {
   onRegister: () => void;
 };
 
-type LoginStep = "identity" | "password" | "detail";
+type LoginStep = "identity" | "password" | "detail" | "scan";
 
 export default function NewMBankingLoginPage({
   onBack,
@@ -31,6 +32,10 @@ export default function NewMBankingLoginPage({
     });
 
     onLogin();
+  }
+
+  if (step === "scan") {
+    return <NewMBankingScanPage onBack={() => setStep("identity")} />;
   }
 
   if (step === "detail") {
@@ -61,6 +66,7 @@ export default function NewMBankingLoginPage({
       onBack={onBack}
       onNext={goToDetail}
       onRegister={onRegister}
+      onScan={() => setStep("scan")}
     />
   );
 }
