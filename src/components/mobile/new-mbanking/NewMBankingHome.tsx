@@ -2,7 +2,6 @@ import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-bank
 import NewMBankingAccountSummaryCard from "@/components/mobile/new-mbanking/NewMBankingAccountSummaryCard";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
-import NewMBankingHomeRecentTransactions from "@/components/mobile/new-mbanking/NewMBankingHomeRecentTransactions";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
 import NewMBankingWelcomeItem from "@/components/mobile/new-mbanking/NewMBankingWelcomeItem";
@@ -29,8 +28,6 @@ export default function NewMBankingHome({
         <NewMBankingAccountSummaryCard />
 
         <NewMBankingQuickActionGrid />
-
-        <NewMBankingHomeRecentTransactions transactions={transactions} />
 
         <div className="sr-only">
           {transactions.length}
