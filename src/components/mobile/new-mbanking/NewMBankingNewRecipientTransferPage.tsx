@@ -75,7 +75,7 @@ export default function NewMBankingNewRecipientTransferPage({
         <div className="h-px w-full bg-[#EEF0F4]" />
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-[118px] pt-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-6 pb-[30px] pt-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="grid gap-[20px]">
           <TransferField label="Nama Bank">
             <button
@@ -124,20 +124,18 @@ export default function NewMBankingNewRecipientTransferPage({
             />
           </TransferField>
         </div>
-      </main>
 
-      <div className="sticky bottom-0 shrink-0 bg-white px-6 pb-[30px] pt-4 shadow-[0_-8px_22px_rgba(15,23,42,0.08)]">
         <button
           type="button"
           className={cn(
-            "h-[48px] w-full rounded-full bg-[#479DF4]",
+            "mt-auto h-[48px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
         >
           Lanjutkan
         </button>
-      </div>
+      </main>
     </div>
   );
 }
