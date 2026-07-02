@@ -37,15 +37,21 @@ export default function NewMBankingRegisterPage({
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="relative h-[330px] shrink-0 overflow-hidden bg-[#F9F9F9]">
-        <button
-          type="button"
-          onClick={onBack}
-          className="absolute left-5 top-8 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-black shadow-sm transition active:scale-[0.98]"
-          aria-label="Kembali"
-          title="Kembali"
-        >
-          <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
-        </button>
+        <div className="absolute left-5 top-8 flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-black shadow-sm transition active:scale-[0.98]"
+            aria-label="Kembali"
+            title="Kembali"
+          >
+            <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
+          </button>
+
+          <h1 className="text-[16px] font-bold leading-tight text-black">
+            Daftar
+          </h1>
+        </div>
       </div>
 
       <div className="relative z-10 -mt-[55px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-7 pt-[66px]">
@@ -55,20 +61,14 @@ export default function NewMBankingRegisterPage({
           </div>
         </div>
 
-        <div className="text-center">
-          <h1 className="text-[16px] font-bold leading-tight text-black">
-            Daftar
-          </h1>
-
-          <div className="mt-[26px] text-left">
-            <h2 className="text-[16px] font-bold leading-tight text-black">
-              Informasi Keanggotaan
-            </h2>
-            <p className="mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.45] text-[#828282]">
-              Untuk melakukan pendaftaran, mohon melengkapi informasi keanggotaan
-              dibawah ini, pastikan data yang anda masukan sesuai
-            </p>
-          </div>
+        <div className="text-left">
+          <h2 className="text-[16px] font-bold leading-tight text-black">
+            Informasi Keanggotaan
+          </h2>
+          <p className="mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.45] text-[#828282]">
+            Untuk melakukan pendaftaran, mohon melengkapi informasi keanggotaan
+            dibawah ini, pastikan data yang anda masukan sesuai
+          </p>
         </div>
 
         <form onSubmit={submit} className="mt-[24px] grid gap-[15px]">
