@@ -78,46 +78,48 @@ export default function NewMBankingRegisterPage({
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-7 pt-[42px]">
+      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px]">
         <form
           onSubmit={submit}
-          className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-center gap-[15px]"
+          className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-between"
         >
-          <div className="grid gap-[9px]">
-            <label className={labelClassName}>No. Rekening Utama</label>
-            <Input
-              value={noRekeningUtama}
-              onChange={(event) => setNoRekeningUtama(event.target.value)}
-              className={fieldClassName}
-              placeholder="Masukkan No. Rekening Utama"
-              inputMode="numeric"
-            />
+          <div className="grid gap-[15px]">
+            <div className="grid gap-[9px]">
+              <label className={labelClassName}>No. Rekening Utama</label>
+              <Input
+                value={noRekeningUtama}
+                onChange={(event) => setNoRekeningUtama(event.target.value)}
+                className={fieldClassName}
+                placeholder="Masukkan No. Rekening Utama"
+                inputMode="numeric"
+              />
+            </div>
+
+            <div className="grid gap-[9px]">
+              <label className={labelClassName}>No. Identitas</label>
+              <Input
+                value={noIdentitas}
+                onChange={(event) => setNoIdentitas(event.target.value)}
+                className={fieldClassName}
+                placeholder="Masukkan No. Identitas"
+                inputMode="numeric"
+              />
+            </div>
+
+            <div className="grid gap-[9px]">
+              <label className={labelClassName}>Nomor Telepon</label>
+              <Input
+                value={nomorTelepon}
+                onChange={(event) => setNomorTelepon(event.target.value)}
+                className={fieldClassName}
+                placeholder="Masukkan Nomor Telepon"
+                inputMode="tel"
+                autoComplete="tel"
+              />
+            </div>
           </div>
 
-          <div className="grid gap-[9px]">
-            <label className={labelClassName}>No. Identitas</label>
-            <Input
-              value={noIdentitas}
-              onChange={(event) => setNoIdentitas(event.target.value)}
-              className={fieldClassName}
-              placeholder="Masukkan No. Identitas"
-              inputMode="numeric"
-            />
-          </div>
-
-          <div className="grid gap-[9px]">
-            <label className={labelClassName}>Nomor Telepon</label>
-            <Input
-              value={nomorTelepon}
-              onChange={(event) => setNomorTelepon(event.target.value)}
-              className={fieldClassName}
-              placeholder="Masukkan Nomor Telepon"
-              inputMode="tel"
-              autoComplete="tel"
-            />
-          </div>
-
-          <div className="mt-[10px] grid grid-cols-2 gap-[10px]">
+          <div className="grid grid-cols-2 gap-[10px]">
             <button
               type="button"
               onClick={onBack}
