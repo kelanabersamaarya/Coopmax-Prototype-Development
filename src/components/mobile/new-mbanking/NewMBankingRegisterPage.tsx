@@ -36,16 +36,7 @@ export default function NewMBankingRegisterPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <div className="relative h-[330px] shrink-0 overflow-hidden bg-[#F4F4F4]">
-        <img
-          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80"
-          alt="Keanggotaan"
-          className="h-full w-full object-cover"
-          draggable={false}
-        />
-
-        <div className="absolute inset-0 bg-white/10" />
-
+      <div className="relative h-[330px] shrink-0 overflow-hidden bg-[#F9F9F9]">
         <button
           type="button"
           onClick={onBack}
