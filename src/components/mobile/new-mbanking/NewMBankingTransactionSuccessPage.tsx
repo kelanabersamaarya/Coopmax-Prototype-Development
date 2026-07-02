@@ -58,7 +58,7 @@ export default function NewMBankingTransactionSuccessPage({
             </div>
           </div>
 
-          <div className="mt-[30px] grid w-full grid-cols-2 gap-[10px]">
+          <div className="mt-[30px] grid w-full grid-cols-1 gap-[10px]">
             <button
               type="button"
               onClick={onDone}
