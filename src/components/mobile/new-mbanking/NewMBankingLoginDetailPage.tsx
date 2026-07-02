@@ -31,8 +31,8 @@ export default function NewMBankingLoginDetailPage({
   const labelClassName = "text-[14px] font-bold leading-none text-black";
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <section className="shrink-0 bg-[#F9F9F9] px-[31px] pb-[34px] pt-[30px]">
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
+      <section className="shrink-0 bg-[#F9F9F9] px-[31px] pb-[102px] pt-[30px]">
         <div className="flex h-10 items-center gap-3">
           <button
             type="button"
@@ -50,7 +50,7 @@ export default function NewMBankingLoginDetailPage({
         </div>
       </section>
 
-      <section className="relative z-10 flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px]">
+      <section className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px]">
         <form
           onSubmit={submit}
           className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-between"
