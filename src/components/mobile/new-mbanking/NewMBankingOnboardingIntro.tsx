@@ -17,12 +17,31 @@ const djoinLogoSources = [
   "/logo djoin_splash",
 ];
 
-const onboardingImageSources = [
-  "/onboarding_1.png",
-  "/onboarding_1.jpg",
-  "/onboarding_1.jpeg",
-  "/onboarding_1.webp",
-  "/onboarding_1",
+const onboardingSlides = [
+  {
+    title: "Transfer Jadi Lebih Praktis",
+    description:
+      "Kirim dana ke sesama rekening koperasi atau ke bank lain dengan cepat, praktis, dan aman langsung dari aplikasi.",
+    imageSources: [
+      "/onboarding_1.png",
+      "/onboarding_1.jpg",
+      "/onboarding_1.jpeg",
+      "/onboarding_1.webp",
+      "/onboarding_1",
+    ],
+  },
+  {
+    title: "Bayar dan Beli Apa Saja Lebih Cepat",
+    description:
+      "Mulai dari tagihan rutin, paket data, token PLN,top up e-wallet, hingga pembayaran dengan QRIS semua bisa dilakukan dari satu aplikasi.",
+    imageSources: [
+      "/onboarding_2.png",
+      "/onboarding_2.jpg",
+      "/onboarding_2.jpeg",
+      "/onboarding_2.webp",
+      "/onboarding_2",
+    ],
+  },
 ];
 
 function FallbackCooperativeLogo() {
@@ -91,15 +110,26 @@ function DjoinLogo() {
   );
 }
 
-function OnboardingIllustration() {
+function OnboardingIllustration({
+  sources,
+  title,
+}: {
+  sources: string[];
+  title: string;
+}) {
   const [sourceIndex, setSourceIndex] = React.useState(0);
   const [showFallback, setShowFallback] = React.useState(false);
+
+  React.useEffect(() => {
+    setSourceIndex(0);
+    setShowFallback(false);
+  }, [sources]);
 
   if (showFallback) {
     return (
       <div className="grid h-[208px] w-[345px] max-w-full place-items-center rounded-[26px] bg-white shadow-sm ring-1 ring-slate-200">
         <div className="text-center text-[13px] font-semibold text-slate-500">
-          Onboarding 1
+          {title}
         </div>
       </div>
     );
@@ -107,14 +137,14 @@ function OnboardingIllustration() {
 
   return (
     <img
-      src={onboardingImageSources[sourceIndex]}
-      alt="Ilustrasi onboarding"
+      src={sources[sourceIndex]}
+      alt={title}
       className="h-[208px] w-[345px] max-w-full object-contain"
       draggable={false}
       onError={() => {
         const nextIndex = sourceIndex + 1;
 
-        if (nextIndex < onboardingImageSources.length) {
+        if (nextIndex < sources.length) {
           setSourceIndex(nextIndex);
           return;
         }
@@ -125,12 +155,32 @@ function OnboardingIllustration() {
   );
 }
 
-function OnboardingSlider() {
+function OnboardingSlider({
+  activeIndex,
+  onChange,
+}: {
+  activeIndex: number;
+  onChange: (index: number) => void;
+}) {
   return (
     <div className="flex h-[10px] items-center justify-center gap-[6px]">
-      <span className="h-[10px] w-[31px] rounded-full bg-[#479DF4]" />
-      <span className="h-[10px] w-[10px] rounded-full bg-[#D8D8D8]" />
-      <span className="h-[10px] w-[10px] rounded-full bg-[#D8D8D8]" />
+      {onboardingSlides.map((slide, index) => {
+        const active = index === activeIndex;
+
+        return (
+          <button
+            key={slide.title}
+            type="button"
+            onClick={() => onChange(index)}
+            className={cn(
+              "h-[10px] rounded-full transition-all",
+              active ? "w-[31px] bg-[#479DF4]" : "w-[10px] bg-[#D8D8D8]",
+            )}
+            aria-label={`Buka slide ${index + 1}`}
+            aria-current={active ? "true" : undefined}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -142,6 +192,9 @@ export default function NewMBankingOnboardingIntro({
   onLogin: () => void;
   onRegister: () => void;
 }) {
+  const [activeSlide, setActiveSlide] = React.useState(0);
+  const slide = onboardingSlides[activeSlide];
+
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9]">
       <div className="flex shrink-0 flex-col items-center px-6 pt-[40px]">
@@ -158,21 +211,23 @@ export default function NewMBankingOnboardingIntro({
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[266px] pt-[16px]">
-        <OnboardingIllustration />
+        <OnboardingIllustration
+          sources={slide.imageSources}
+          title={slide.title}
+        />
       </div>
 
       <div className="absolute inset-x-0 bottom-[282px] z-20 flex justify-center">
-        <OnboardingSlider />
+        <OnboardingSlider activeIndex={activeSlide} onChange={setActiveSlide} />
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-10 h-[266px] rounded-t-[30px] bg-white px-6 pt-[41px]">
         <div className="text-center">
           <h1 className="mx-auto max-w-[330px] text-[20px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
-            Kemudahan Transaksi Dalam Satu Genggaman
+            {slide.title}
           </h1>
           <p className="mx-auto mt-[25px] max-w-[325px] text-[14px] font-normal leading-[1.45] tracking-[-0.01em] text-[#8F8F8F]">
-            Akses layanan koperasi, cek informasi rekening, dan lakukan transaksi
-            kapan saja dengan lebih mudah.
+            {slide.description}
           </p>
         </div>
 
