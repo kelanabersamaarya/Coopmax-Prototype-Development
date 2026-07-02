@@ -127,10 +127,10 @@ function OnboardingIllustration() {
 
 function OnboardingSlider() {
   return (
-    <div className="mt-[24px] flex items-center justify-center gap-[7px]">
-      <span className="h-[6px] w-[24px] rounded-full bg-[#479DF4]" />
-      <span className="h-[6px] w-[6px] rounded-full bg-[#D8D8D8]" />
-      <span className="h-[6px] w-[6px] rounded-full bg-[#D8D8D8]" />
+    <div className="flex h-[10px] items-center justify-center gap-[6px]">
+      <span className="h-[10px] w-[31px] rounded-full bg-[#479DF4]" />
+      <span className="h-[10px] w-[10px] rounded-full bg-[#D8D8D8]" />
+      <span className="h-[10px] w-[10px] rounded-full bg-[#D8D8D8]" />
     </div>
   );
 }
@@ -159,6 +159,9 @@ export default function NewMBankingOnboardingIntro({
 
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[266px] pt-[16px]">
         <OnboardingIllustration />
+      </div>
+
+      <div className="absolute inset-x-0 bottom-[282px] z-20 flex justify-center">
         <OnboardingSlider />
       </div>
 
