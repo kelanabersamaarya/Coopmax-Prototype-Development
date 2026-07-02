@@ -1,9 +1,8 @@
 import * as React from "react";
-import { ArrowLeft, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function MockQrImage({
-  title,
   color,
 }: {
   title: string;
@@ -12,12 +11,12 @@ function MockQrImage({
   return (
     <div
       className={cn(
-        "relative h-[320px] w-full overflow-hidden rounded-[24px] bg-gradient-to-br",
+        "relative h-[430px] w-full overflow-hidden rounded-[24px] bg-gradient-to-br",
         color,
       )}
     >
       <div className="absolute inset-0 grid place-items-center">
-        <div className="grid h-[210px] w-[210px] grid-cols-[repeat(11,minmax(0,1fr))] gap-[4px] rounded-[18px] bg-white p-[18px] shadow-[0_12px_30px_rgba(15,23,42,0.12)]">
+        <div className="grid h-[310px] w-[310px] grid-cols-[repeat(11,minmax(0,1fr))] gap-[5px] rounded-[22px] bg-white p-[24px] shadow-[0_14px_34px_rgba(15,23,42,0.14)]">
           {Array.from({ length: 121 }).map((_, index) => {
             const row = Math.floor(index / 11);
             const col = index % 11;
@@ -42,23 +41,9 @@ function MockQrImage({
         </div>
       </div>
 
-      <div className="absolute inset-x-5 bottom-5 flex items-center gap-3 rounded-[16px] bg-white/90 px-4 py-3 shadow-sm">
-        <span className="grid h-10 w-10 place-items-center rounded-[12px] bg-[#EEF6FF] text-[#479DF4]">
-          <ImageIcon className="h-5 w-5" strokeWidth={2.6} />
-        </span>
-        <div className="min-w-0">
-          <div className="truncate text-[14px] font-bold leading-tight text-black">
-            {title}
-          </div>
-          <div className="mt-1 text-[11px] font-normal text-[#828282]">
-            Gambar dari galeri
-          </div>
-        </div>
-      </div>
-
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[90px] animate-[media-qr-scan_2.2s_ease-in-out_infinite]">
-        <div className="mx-auto h-[3px] w-[86%] rounded-full bg-[#479DF4] shadow-[0_0_22px_rgba(71,157,244,0.95)]" />
-        <div className="mx-auto h-[84px] w-[86%] bg-[linear-gradient(to_bottom,rgba(71,157,244,0.30),rgba(71,157,244,0.10),rgba(71,157,244,0))]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[120px] animate-[media-qr-scan_2.2s_ease-in-out_infinite]">
+        <div className="mx-auto h-[3px] w-[88%] rounded-full bg-[#479DF4] shadow-[0_0_22px_rgba(71,157,244,0.95)]" />
+        <div className="mx-auto h-[112px] w-[88%] bg-[linear-gradient(to_bottom,rgba(71,157,244,0.30),rgba(71,157,244,0.10),rgba(71,157,244,0))]" />
       </div>
     </div>
   );
@@ -101,17 +86,8 @@ export default function NewMBankingMediaScanPreviewPage({
         </h1>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[30px] pt-[18px]">
-        <section className="text-center">
-          <h2 className="text-[20px] font-bold leading-tight text-black">
-            Memindai Gambar QR
-          </h2>
-          <p className="mx-auto mt-[12px] max-w-[330px] text-[14px] font-normal leading-[1.4] text-[#828282]">
-            Sistem sedang membaca kode QR dari gambar yang Anda pilih.
-          </p>
-        </section>
-
-        <div className="mt-[34px]">
+      <main className="flex min-h-0 flex-1 flex-col px-5 pb-[30px] pt-[16px]">
+        <div className="mt-[18px]">
           <MockQrImage title={title} color={color} />
         </div>
 
@@ -129,21 +105,21 @@ export default function NewMBankingMediaScanPreviewPage({
         {`
           @keyframes media-qr-scan {
             0% {
-              transform: translateY(8px);
+              transform: translateY(12px);
               opacity: 0.2;
             }
             15% {
               opacity: 1;
             }
             50% {
-              transform: translateY(220px);
+              transform: translateY(300px);
               opacity: 1;
             }
             85% {
               opacity: 1;
             }
             100% {
-              transform: translateY(8px);
+              transform: translateY(12px);
               opacity: 0.2;
             }
           }
