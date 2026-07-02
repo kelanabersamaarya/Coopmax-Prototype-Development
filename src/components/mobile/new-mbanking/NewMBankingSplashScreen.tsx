@@ -1,37 +1,99 @@
-import logoUrl from "@/assets/mobile/new-mbanking/logo.svg";
+import { Wifi } from "lucide-react";
+
+function SignalIcon() {
+  return (
+    <div className="flex h-5 items-end gap-[3px]" aria-hidden="true">
+      <span className="h-[7px] w-[4px] rounded-full bg-white" />
+      <span className="h-[10px] w-[4px] rounded-full bg-white" />
+      <span className="h-[14px] w-[4px] rounded-full bg-white" />
+      <span className="h-[18px] w-[4px] rounded-full bg-white" />
+    </div>
+  );
+}
+
+function BatteryIcon() {
+  return (
+    <div className="relative h-[22px] w-[44px]" aria-hidden="true">
+      <div className="absolute inset-y-[2px] left-0 w-[39px] rounded-[6px] border-[2px] border-white/90 bg-white/10">
+        <div className="m-[2px] h-[12px] rounded-[3px] bg-white" />
+      </div>
+      <div className="absolute right-0 top-[7px] h-[8px] w-[3px] rounded-r-full bg-white/70" />
+    </div>
+  );
+}
+
+function CooperativeLogo() {
+  return (
+    <div
+      className="relative h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] ring-[3px] ring-[#ffd21f]"
+      aria-label="Logo koperasi"
+    >
+      <div className="absolute inset-[5px] rounded-full bg-gradient-to-b from-[#f01818] via-[#f8f8f8] to-[#24b24a]" />
+      <div className="absolute left-[10px] top-[11px] h-[15px] w-[15px] rounded-full bg-[#111827]">
+        <div className="mx-auto mt-[3px] h-[7px] w-[7px] rounded-full bg-[#ffd21f]" />
+      </div>
+      <div className="absolute bottom-[11px] left-[11px] h-[16px] w-[13px] rounded-b-full bg-[#e11d48]" />
+      <div className="absolute bottom-[10px] right-[11px] h-[20px] w-[19px] rounded-t-full bg-[#16a34a]" />
+      <div className="absolute left-[20px] top-[25px] h-[12px] w-[14px] rounded-full bg-white" />
+      <div className="absolute inset-0 rounded-full border border-white/70" />
+    </div>
+  );
+}
+
+function DjoinMark() {
+  return (
+    <div className="relative h-8 w-8 shrink-0" aria-hidden="true">
+      <span className="absolute bottom-0 left-0 h-[19px] w-[19px] rounded-full bg-[#d935d2]" />
+      <span className="absolute bottom-[4px] left-[6px] h-[19px] w-[19px] rounded-full bg-[#4aa3ff]" />
+      <span className="absolute right-[2px] top-0 h-[25px] w-[8px] rounded-full bg-[#6d62ff]" />
+      <span className="absolute bottom-[7px] left-[8px] h-[11px] w-[11px] rounded-full bg-white" />
+    </div>
+  );
+}
 
 export default function NewMBankingSplashScreen() {
   return (
-    <div className="relative flex h-full min-h-full overflow-hidden bg-[#EEF6FF] px-8 py-10 text-[#102A43]">
-      <div className="absolute -right-14 top-16 h-44 w-44 rounded-full bg-[#0B63CE]/12" />
-      <div className="absolute -left-20 bottom-20 h-56 w-56 rounded-full bg-[#18B7A1]/14" />
-      <div className="absolute bottom-10 right-8 h-20 w-20 rounded-[2rem] bg-[#F59E0B]/16 rotate-12" />
+    <div className="relative h-full min-h-full overflow-hidden bg-[#4ba2f5] text-white">
+      <div className="absolute -left-[154px] -top-[250px] h-[520px] w-[520px] rounded-full bg-[#f56ac8]" />
+      <div className="absolute -left-[63px] -top-[280px] h-[390px] w-[390px] rounded-full bg-[#f044bd]" />
 
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center text-center">
-        <div className="mb-8 flex h-28 w-28 items-center justify-center rounded-[2.2rem] bg-white shadow-[0_22px_55px_rgba(11,99,206,0.18)] ring-1 ring-[#0B63CE]/10 animate-[fade-in_0.7s_ease-out_both]">
-          <img src={logoUrl} alt="New Mbanking" className="h-14 w-14 object-contain object-left" />
-        </div>
+      <div className="absolute -right-[118px] -top-[84px] h-[265px] w-[265px] rounded-full bg-[#8fc2f3]" />
+      <div className="absolute right-[-13px] top-[-32px] h-[135px] w-[135px] rounded-full bg-[#459cf0]" />
 
-        <img
-          src={logoUrl}
-          alt="New Mbanking"
-          className="h-[42px] w-auto animate-[fade-in_0.8s_ease-out_0.12s_both]"
-        />
+      <div className="absolute -bottom-[252px] right-[-226px] h-[520px] w-[520px] rounded-full bg-[#8bdcec]" />
+      <div className="absolute -bottom-[222px] right-[-120px] h-[385px] w-[385px] rounded-full bg-[#65d0e8]" />
 
-        <p className="mt-5 max-w-[250px] text-[14px] font-medium leading-relaxed text-[#486581] animate-[fade-in_0.8s_ease-out_0.24s_both]">
-          Mobile banking koperasi yang lebih cepat, aman, dan nyaman.
-        </p>
-      </div>
+      <div className="absolute -bottom-[145px] -left-[81px] h-[275px] w-[275px] rounded-full bg-[#a143ef]" />
+      <div className="absolute -bottom-[96px] -left-[40px] h-[165px] w-[165px] rounded-full bg-[#8c16ea]" />
 
-      <div className="absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-3 text-center">
-        <div className="flex gap-1.5">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-[#0B63CE]" />
-          <span className="h-2 w-2 animate-pulse rounded-full bg-[#18B7A1] [animation-delay:120ms]" />
-          <span className="h-2 w-2 animate-pulse rounded-full bg-[#F59E0B] [animation-delay:240ms]" />
-        </div>
-        <p className="text-[11px] font-semibold tracking-[0.22em] text-[#829AB1]">
-          NEW_MBANKING
-        </p>
+      <div className="relative z-10 flex h-full min-h-full flex-col">
+        <header className="flex h-[76px] shrink-0 items-start justify-between px-[34px] pt-[29px]">
+          <div className="text-[28px] font-extrabold leading-none tracking-[-0.03em] text-white">
+            11:30
+          </div>
+
+          <div className="flex items-center gap-[13px]">
+            <SignalIcon />
+            <Wifi className="h-[23px] w-[23px] text-white" strokeWidth={3.2} />
+            <BatteryIcon />
+          </div>
+        </header>
+
+        <main className="flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[86px]">
+          <div className="flex animate-in items-center justify-center gap-[12px] fade-in-0 zoom-in-95 duration-700">
+            <CooperativeLogo />
+            <div className="whitespace-nowrap text-[31px] font-extrabold leading-none tracking-[-0.055em] text-white">
+              M-Banking Koperasi
+            </div>
+          </div>
+
+          <div className="mt-[35px] flex h-[54px] animate-in items-center justify-center gap-[8px] rounded-[16px] bg-white px-[24px] text-[#121826] shadow-[0_8px_22px_rgba(15,23,42,0.12)] fade-in-0 slide-in-from-bottom-2 duration-700 [animation-delay:140ms] [animation-fill-mode:both]">
+            <DjoinMark />
+            <span className="text-[19px] font-semibold leading-none tracking-[-0.02em]">
+              By Djoin
+            </span>
+          </div>
+        </main>
       </div>
     </div>
   );
