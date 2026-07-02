@@ -49,16 +49,7 @@ export default function NewMBankingLoginDetailPage({
       </section>
 
       <section className="relative z-10 flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-[31px] pb-[32px] pt-[38px]">
-        <div>
-          <h2 className="text-[30px] font-bold leading-tight tracking-[-0.04em] text-black">
-            Masuk
-          </h2>
-          <p className="mt-[9px] text-[15px] font-normal leading-relaxed tracking-[-0.02em] text-black/70">
-            Silakan masuk menggunakan akun M-Banking Anda.
-          </p>
-        </div>
-
-        <form onSubmit={submit} className="mt-[34px] grid gap-[18px]">
+        <form onSubmit={submit} className="grid gap-[18px]">
           <div className="grid gap-[8px]">
             <label className="text-[15px] font-semibold leading-none text-black">
               Username
