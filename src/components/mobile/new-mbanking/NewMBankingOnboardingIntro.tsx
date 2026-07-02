@@ -151,7 +151,7 @@ function OnboardingIllustration({
     <img
       src={sources[sourceIndex]}
       alt={title}
-      className="h-[285px] w-[420px] max-w-full object-contain"
+      className="h-[285px] w-[420px] max-w-full object-contain transition-opacity duration-300"
       draggable={false}
       onError={() => {
         const nextIndex = sourceIndex + 1;
@@ -206,6 +206,14 @@ export default function NewMBankingOnboardingIntro({
 }) {
   const [activeSlide, setActiveSlide] = React.useState(0);
   const slide = onboardingSlides[activeSlide];
+
+  React.useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % onboardingSlides.length);
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9]">
