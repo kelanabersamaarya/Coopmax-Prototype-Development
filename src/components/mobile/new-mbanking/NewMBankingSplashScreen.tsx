@@ -1,4 +1,13 @@
+import * as React from "react";
 import { Wifi } from "lucide-react";
+
+const logoSources = [
+  "/logo koperasi_splash.png",
+  "/logo koperasi_splash.jpg",
+  "/logo koperasi_splash.jpeg",
+  "/logo koperasi_splash.webp",
+  "/logo koperasi_splash",
+];
 
 function SignalIcon() {
   return (
@@ -22,12 +31,9 @@ function BatteryIcon() {
   );
 }
 
-function CooperativeLogo() {
+function FallbackLogo() {
   return (
-    <div
-      className="relative h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] ring-[3px] ring-[#ffd21f]"
-      aria-label="Logo koperasi"
-    >
+    <>
       <div className="absolute inset-[5px] rounded-full bg-gradient-to-b from-[#f01818] via-[#f8f8f8] to-[#24b24a]" />
       <div className="absolute left-[10px] top-[11px] h-[15px] w-[15px] rounded-full bg-[#111827]">
         <div className="mx-auto mt-[3px] h-[7px] w-[7px] rounded-full bg-[#ffd21f]" />
@@ -36,6 +42,39 @@ function CooperativeLogo() {
       <div className="absolute bottom-[10px] right-[11px] h-[20px] w-[19px] rounded-t-full bg-[#16a34a]" />
       <div className="absolute left-[20px] top-[25px] h-[12px] w-[14px] rounded-full bg-white" />
       <div className="absolute inset-0 rounded-full border border-white/70" />
+    </>
+  );
+}
+
+function CooperativeLogo() {
+  const [sourceIndex, setSourceIndex] = React.useState(0);
+  const [showFallback, setShowFallback] = React.useState(false);
+
+  return (
+    <div
+      className="relative h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] ring-[3px] ring-[#ffd21f]"
+      aria-label="Logo koperasi"
+    >
+      {showFallback ? (
+        <FallbackLogo />
+      ) : (
+        <img
+          src={logoSources[sourceIndex]}
+          alt="Logo Koperasi"
+          className="h-full w-full object-cover"
+          draggable={false}
+          onError={() => {
+            const nextIndex = sourceIndex + 1;
+
+            if (nextIndex < logoSources.length) {
+              setSourceIndex(nextIndex);
+              return;
+            }
+
+            setShowFallback(true);
+          }}
+        />
+      )}
     </div>
   );
 }
