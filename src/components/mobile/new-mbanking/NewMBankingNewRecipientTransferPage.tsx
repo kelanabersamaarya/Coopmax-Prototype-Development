@@ -3,6 +3,7 @@ import { ArrowLeft, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingBankSelectionPage from "@/components/mobile/new-mbanking/NewMBankingBankSelectionPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingTransferConfirmModal from "@/components/mobile/new-mbanking/NewMBankingTransferConfirmModal";
 
 function TransferField({
   label,
@@ -27,6 +28,7 @@ export default function NewMBankingNewRecipientTransferPage({
   onBack: () => void;
 }) {
   const [showBankSelection, setShowBankSelection] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [bank, setBank] = React.useState("");
   const [accountNo, setAccountNo] = React.useState("");
   const [amount, setAmount] = React.useState("");
@@ -53,6 +55,15 @@ export default function NewMBankingNewRecipientTransferPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingTransferConfirmModal
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        recipientAccountNo={accountNo}
+        description={description}
+        nominal={amount}
+        onContinue={() => setConfirmOpen(false)}
+      />
+
       <div className="shrink-0 bg-white">
         <NewMBankingStatusBar />
 
@@ -127,6 +138,7 @@ export default function NewMBankingNewRecipientTransferPage({
 
         <button
           type="button"
+          onClick={() => setConfirmOpen(true)}
           className={cn(
             "mt-auto h-[48px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
