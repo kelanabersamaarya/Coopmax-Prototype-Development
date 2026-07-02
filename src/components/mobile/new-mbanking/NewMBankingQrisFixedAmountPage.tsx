@@ -89,7 +89,7 @@ export default function NewMBankingQrisFixedAmountPage({
             </div>
           </div>
 
-          <div className="mt-[32px]">
+          <div className="mt-[20px]">
             <div className="text-[14px] font-bold leading-tight text-[#2F3137]">
               Sumber Dana
             </div>
