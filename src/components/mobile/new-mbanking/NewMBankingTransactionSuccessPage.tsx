@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check } from "lucide-react";
+import { Check, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -73,12 +73,21 @@ export default function NewMBankingTransactionSuccessPage({
             />
           </div>
 
-          <div className="mt-[12px] flex h-[68px] w-[302px] max-w-full flex-col justify-center rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
-            <div className="text-[12px] font-normal leading-none text-[#828282]">
-              Penerima
-            </div>
-            <div className="mt-[8px] text-[14px] font-normal leading-none text-black">
-              Mini Mart
+          <div className="mt-[12px] flex h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
+            <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
+              <ShoppingCart
+                className="h-[20px] w-[20px] text-white"
+                strokeWidth={2.6}
+              />
+            </span>
+
+            <div className="min-w-0">
+              <div className="text-[12px] font-normal leading-none text-[#828282]">
+                Penerima
+              </div>
+              <div className="mt-[8px] truncate text-[14px] font-normal leading-none text-black">
+                Mini Mart
+              </div>
             </div>
           </div>
 
