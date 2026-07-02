@@ -1,12 +1,30 @@
 import * as React from "react";
 import { ChevronRight, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingSourceFundModal, {
+  type SourceFundAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+
+const defaultSourceFund: SourceFundAccount = {
+  productName: "Simpanan Kaya",
+  accountNo: "112233111",
+  balance: "Rp. 4.000.000,00",
+};
 
 export default function NewMBankingQrisMerchantItem() {
   const [nominal, setNominal] = React.useState("");
+  const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [sourceFund, setSourceFund] =
+    React.useState<SourceFundAccount>(defaultSourceFund);
 
   return (
     <section className="px-[31px] pt-[18px]">
+      <NewMBankingSourceFundModal
+        open={sourceFundOpen}
+        onOpenChange={setSourceFundOpen}
+        onSelect={setSourceFund}
+      />
+
       <div className="flex items-start gap-[12px]">
         <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#ECEEF1] text-black">
           <ShoppingCart className="h-[20px] w-[20px] text-black" strokeWidth={2.4} />
@@ -55,6 +73,7 @@ export default function NewMBankingQrisMerchantItem() {
 
         <button
           type="button"
+          onClick={() => setSourceFundOpen(true)}
           className={cn(
             "mt-[5px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px]",
             "border border-[#D8D8D8] bg-white px-[26px] py-[16px] text-left",
@@ -63,17 +82,17 @@ export default function NewMBankingQrisMerchantItem() {
         >
           <div className="min-w-0">
             <div className="text-[12px] font-normal leading-none text-[#2F3137]">
-              Simpanan Kaya
+              {sourceFund.productName}
             </div>
             <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-              112233111
+              {sourceFund.accountNo}
             </div>
 
             <div className="mt-[15px] text-[12px] font-normal leading-none text-[#2F3137]">
               Saldo
             </div>
             <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-              Rp. 4.000.000,00
+              {sourceFund.balance}
             </div>
           </div>
 
