@@ -1,5 +1,6 @@
 import * as React from "react";
 import { toast } from "sonner";
+import NewMBankingLoginDetailPage from "@/components/mobile/new-mbanking/NewMBankingLoginDetailPage";
 import NewMBankingLoginIdentityStep from "@/components/mobile/new-mbanking/NewMBankingLoginIdentityStep";
 import NewMBankingLoginPasswordStep from "@/components/mobile/new-mbanking/NewMBankingLoginPasswordStep";
 
@@ -9,7 +10,7 @@ type NewMBankingLoginPageProps = {
   onRegister: () => void;
 };
 
-type LoginStep = "identity" | "password";
+type LoginStep = "identity" | "password" | "detail";
 
 export default function NewMBankingLoginPage({
   onBack,
@@ -20,8 +21,8 @@ export default function NewMBankingLoginPage({
   const [identity, setIdentity] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  function goToPassword() {
-    setStep("password");
+  function goToDetail() {
+    setStep("detail");
   }
 
   function submitLogin() {
@@ -30,6 +31,10 @@ export default function NewMBankingLoginPage({
     });
 
     onLogin();
+  }
+
+  if (step === "detail") {
+    return <NewMBankingLoginDetailPage onBack={() => setStep("identity")} />;
   }
 
   if (step === "password") {
@@ -49,7 +54,7 @@ export default function NewMBankingLoginPage({
       value={identity}
       onChange={setIdentity}
       onBack={onBack}
-      onNext={goToPassword}
+      onNext={goToDetail}
       onRegister={onRegister}
     />
   );
