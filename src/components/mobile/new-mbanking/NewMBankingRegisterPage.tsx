@@ -32,54 +32,65 @@ export default function NewMBankingRegisterPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[linear-gradient(145deg,#EAF5FF_0%,#F8FBFF_48%,#F7F3FF_100%)] px-6 pt-8">
-        <div className="pointer-events-none absolute -right-[76px] top-[28px] h-[178px] w-[178px] rounded-full bg-[#479DF4]/12" />
-        <div className="pointer-events-none absolute -left-[80px] top-[118px] h-[176px] w-[176px] rounded-full bg-[#A143EF]/10" />
-        <div className="pointer-events-none absolute bottom-[38px] right-[32px] h-[86px] w-[86px] rounded-full bg-[#65D0E8]/16" />
+      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#4ba2f5] px-6 pt-8">
+        <div className="pointer-events-none absolute -left-[118px] -top-[190px] h-[400px] w-[400px] rounded-full bg-[#f56ac8]" />
+        <div className="pointer-events-none absolute -left-[48px] -top-[215px] h-[300px] w-[300px] rounded-full bg-[#f044bd]" />
+
+        <div className="pointer-events-none absolute -right-[90px] -top-[64px] h-[205px] w-[205px] rounded-full bg-[#8fc2f3]" />
+        <div className="pointer-events-none absolute right-[-10px] top-[-25px] h-[104px] w-[104px] rounded-full bg-[#459cf0]" />
+
+        <div className="pointer-events-none absolute -bottom-[194px] right-[-174px] h-[400px] w-[400px] rounded-full bg-[#8bdcec]" />
+        <div className="pointer-events-none absolute -bottom-[171px] right-[-92px] h-[296px] w-[296px] rounded-full bg-[#65d0e8]" />
+
+        <div className="pointer-events-none absolute -bottom-[112px] -left-[62px] h-[212px] w-[212px] rounded-full bg-[#a143ef]" />
+        <div className="pointer-events-none absolute -bottom-[74px] -left-[31px] h-[126px] w-[126px] rounded-full bg-[#8c16ea]" />
+
+        <div className="pointer-events-none absolute inset-0 bg-white/12" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[120px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.68))]" />
 
         <div className="relative z-10 flex h-10 items-center gap-3">
           <button
             type="button"
             onClick={onBack}
-            className="-ml-1 inline-flex h-10 w-10 items-center justify-center bg-transparent text-black transition active:scale-[0.98]"
+            className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/18 text-white backdrop-blur transition active:scale-[0.98]"
             aria-label="Kembali"
             title="Kembali"
           >
             <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
           </button>
 
-          <h1 className="text-[16px] font-bold leading-tight text-black">
+          <h1 className="text-[16px] font-bold leading-tight text-white">
             Daftar
           </h1>
         </div>
 
         <div className="relative z-10 mt-[20px] text-center">
-          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-white/80 shadow-sm ring-1 ring-white">
-            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_22px_rgba(71,157,244,0.22)]">
+          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-white/80 shadow-[0_12px_32px_rgba(15,23,42,0.16)] ring-1 ring-white">
+            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_22px_rgba(71,157,244,0.28)]">
               <UserRound className="h-[43px] w-[43px]" strokeWidth={2.6} />
             </div>
           </div>
 
-          <h2 className="text-[16px] font-bold leading-tight text-black">
+          <h2 className="text-[16px] font-bold leading-tight text-white">
             Informasi Keanggotaan
           </h2>
 
-          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-[#6B7280]">
+          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-white/86">
             Untuk melakukan pendaftaran, mohon melengkapi informasi keanggotaan
             dibawah ini, pastikan data yang anda masukan sesuai
           </p>
 
-          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-white/80 ring-1 ring-[#D8D8D8]/80">
-            <div className="h-full w-1/2 rounded-full bg-[#479DF4]" />
+          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-white/35 ring-1 ring-white/45">
+            <div className="h-full w-1/2 rounded-full bg-white" />
           </div>
 
-          <div className="mt-[10px] text-[10px] font-normal leading-none text-black">
+          <div className="mt-[10px] text-[10px] font-normal leading-none text-white/90">
             Langkah 1 dari 2
           </div>
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px] shadow-[0_-14px_34px_rgba(15,23,42,0.06)]">
+      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px] shadow-[0_-14px_34px_rgba(15,23,42,0.08)]">
         <form
           onSubmit={submit}
           className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-between"
