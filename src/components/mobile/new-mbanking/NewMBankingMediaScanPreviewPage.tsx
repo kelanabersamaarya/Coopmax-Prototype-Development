@@ -2,7 +2,16 @@ import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-function MockQrImage({ color }: { color: string }) {
+const qrCodeSources = [
+  "/qr_code.png",
+  "/qr_code.jpg",
+  "/qr_code.jpeg",
+  "/qr_code.webp",
+  "/qr_code.svg",
+  "/qr_code",
+];
+
+function FallbackQrImage({ color }: { color: string }) {
   return (
     <div
       className={cn(
@@ -35,11 +44,36 @@ function MockQrImage({ color }: { color: string }) {
           })}
         </div>
       </div>
+    </div>
+  );
+}
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[120px] animate-[media-qr-scan_2.2s_ease-in-out_infinite]">
-        <div className="mx-auto h-[3px] w-[88%] rounded-full bg-[#479DF4] shadow-[0_0_22px_rgba(71,157,244,0.95)]" />
-        <div className="mx-auto h-[112px] w-[88%] bg-[linear-gradient(to_bottom,rgba(71,157,244,0.30),rgba(71,157,244,0.10),rgba(71,157,244,0))]" />
-      </div>
+function PublicQrImage({ color }: { color: string }) {
+  const [sourceIndex, setSourceIndex] = React.useState(0);
+  const [showFallback, setShowFallback] = React.useState(false);
+
+  if (showFallback) {
+    return <FallbackQrImage color={color} />;
+  }
+
+  return (
+    <div className="relative h-[430px] w-full overflow-hidden rounded-[24px] bg-[#101010]">
+      <img
+        src={qrCodeSources[sourceIndex]}
+        alt="QR Code"
+        className="h-full w-full object-cover object-center"
+        draggable={false}
+        onError={() => {
+          const nextIndex = sourceIndex + 1;
+
+          if (nextIndex < qrCodeSources.length) {
+            setSourceIndex(nextIndex);
+            return;
+          }
+
+          setShowFallback(true);
+        }}
+      />
     </div>
   );
 }
@@ -83,7 +117,12 @@ export default function NewMBankingMediaScanPreviewPage({
 
       <main className="relative flex min-h-0 flex-1 items-center justify-center px-5 pb-[74px] pt-0">
         <div className="w-full">
-          <MockQrImage color={color} />
+          <PublicQrImage color={color} />
+        </div>
+
+        <div className="pointer-events-none absolute inset-x-5 top-[120px] h-[120px] animate-[media-qr-scan_2.2s_ease-in-out_infinite] overflow-hidden rounded-[24px]">
+          <div className="mx-auto h-[3px] w-[88%] rounded-full bg-[#479DF4] shadow-[0_0_22px_rgba(71,157,244,0.95)]" />
+          <div className="mx-auto h-[112px] w-[88%] bg-[linear-gradient(to_bottom,rgba(71,157,244,0.30),rgba(71,157,244,0.10),rgba(71,157,244,0))]" />
         </div>
 
         <div className="absolute bottom-[26px] left-0 right-0 flex justify-center">
