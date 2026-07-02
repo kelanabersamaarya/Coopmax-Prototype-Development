@@ -12,10 +12,9 @@ type NewMBankingRegisterPageProps = {
 export default function NewMBankingRegisterPage({
   onBack,
 }: NewMBankingRegisterPageProps) {
-  const [noAnggota, setNoAnggota] = React.useState("");
-  const [namaLengkap, setNamaLengkap] = React.useState("");
-  const [noHandphone, setNoHandphone] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [noRekeningUtama, setNoRekeningUtama] = React.useState("");
+  const [noIdentitas, setNoIdentitas] = React.useState("");
+  const [nomorTelepon, setNomorTelepon] = React.useState("");
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,7 +25,7 @@ export default function NewMBankingRegisterPage({
   }
 
   const fieldClassName = cn(
-    "h-[41px] w-[345px] max-w-full rounded-[9px] border-0 bg-[#F2F2F2] px-4",
+    "h-[41px] w-full rounded-[9px] border border-[#CDD4E0] bg-[#FFFFFF] px-4",
     "text-[14px] font-normal text-black shadow-none",
     "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#828282]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
@@ -80,63 +79,68 @@ export default function NewMBankingRegisterPage({
       </div>
 
       <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-7 pt-[42px]">
-        <form onSubmit={submit} className="mt-[24px] grid gap-[15px]">
+        <form
+          onSubmit={submit}
+          className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-center gap-[15px]"
+        >
           <div className="grid gap-[9px]">
-            <label className={labelClassName}>No. Anggota</label>
+            <label className={labelClassName}>No. Rekening Utama</label>
             <Input
-              value={noAnggota}
-              onChange={(event) => setNoAnggota(event.target.value)}
+              value={noRekeningUtama}
+              onChange={(event) => setNoRekeningUtama(event.target.value)}
               className={fieldClassName}
-              placeholder="Masukkan No. Anggota"
+              placeholder="Masukkan No. Rekening Utama"
+              inputMode="numeric"
             />
           </div>
 
           <div className="grid gap-[9px]">
-            <label className={labelClassName}>Nama Lengkap</label>
+            <label className={labelClassName}>No. Identitas</label>
             <Input
-              value={namaLengkap}
-              onChange={(event) => setNamaLengkap(event.target.value)}
+              value={noIdentitas}
+              onChange={(event) => setNoIdentitas(event.target.value)}
               className={fieldClassName}
-              placeholder="Masukkan Nama Lengkap"
-              autoComplete="name"
+              placeholder="Masukkan No. Identitas"
+              inputMode="numeric"
             />
           </div>
 
           <div className="grid gap-[9px]">
-            <label className={labelClassName}>No. Handphone</label>
+            <label className={labelClassName}>Nomor Telepon</label>
             <Input
-              value={noHandphone}
-              onChange={(event) => setNoHandphone(event.target.value)}
+              value={nomorTelepon}
+              onChange={(event) => setNomorTelepon(event.target.value)}
               className={fieldClassName}
-              placeholder="Masukkan No. Handphone"
+              placeholder="Masukkan Nomor Telepon"
               inputMode="tel"
               autoComplete="tel"
             />
           </div>
 
-          <div className="grid gap-[9px]">
-            <label className={labelClassName}>Email</label>
-            <Input
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              type="email"
-              className={fieldClassName}
-              placeholder="Masukkan Email"
-              inputMode="email"
-              autoComplete="email"
-            />
-          </div>
+          <div className="mt-[10px] grid grid-cols-2 gap-[10px]">
+            <button
+              type="button"
+              onClick={onBack}
+              className={cn(
+                "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
+                "text-[12px] font-normal leading-none text-[#479DF4]",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Kembali
+            </button>
 
-          <button
-            type="submit"
-            className={cn(
-              "mt-[10px] h-[46px] w-[345px] max-w-full rounded-[10px] bg-[#479DF4]",
-              "text-[12px] font-normal leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Selanjutnya
-          </button>
+            <button
+              type="submit"
+              className={cn(
+                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "text-[12px] font-normal leading-none text-white",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Lanjut
+            </button>
+          </div>
         </form>
       </div>
     </div>
