@@ -7,7 +7,7 @@ export default function NewMBankingWelcomeItem({
   className?: string;
 }) {
   return (
-    <section className={cn("mt-[32px]", className)}>
+    <section className={cn("mt-[22px]", className)}>
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="text-[14px] font-normal leading-none tracking-[-0.01em] text-white/85">
