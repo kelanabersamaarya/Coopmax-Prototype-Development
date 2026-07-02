@@ -239,37 +239,45 @@ export default function NewMBankingAccountDetailPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="bg-[#F9F9F9] px-6 pb-[26px] pt-[10px]">
-          <div className="relative overflow-hidden rounded-[24px] bg-[#479DF4] px-5 pb-5 pt-5 text-white">
-            <div className="pointer-events-none absolute -right-[44px] -top-[42px] h-[138px] w-[138px] rounded-full bg-white/12" />
-            <div className="pointer-events-none absolute right-[18px] top-[42px] h-[90px] w-[90px] rounded-full bg-white/10" />
-            <div className="pointer-events-none absolute -bottom-[34px] right-[96px] h-[104px] w-[104px] rounded-full bg-white/8" />
+          <div
+            className={cn(
+              "relative overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white",
+              "bg-[linear-gradient(135deg,#4BA2F5_0%,#2563EB_46%,#7C3AED_100%)]",
+              "shadow-[0_18px_38px_rgba(37,99,235,0.28)] ring-1 ring-white/25",
+            )}
+          >
+            <div className="pointer-events-none absolute -right-[48px] -top-[44px] h-[144px] w-[144px] rounded-full bg-white/18" />
+            <div className="pointer-events-none absolute right-[18px] top-[42px] h-[92px] w-[92px] rounded-full bg-cyan-200/18" />
+            <div className="pointer-events-none absolute -bottom-[38px] right-[88px] h-[112px] w-[112px] rounded-full bg-violet-950/12" />
+            <div className="pointer-events-none absolute -left-[34px] bottom-[22px] h-[94px] w-[94px] rounded-full bg-white/10" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.16),rgba(15,23,42,0.10))]" />
 
             <div className="relative z-10 grid gap-[23px]">
               <div>
-                <div className="text-[11px] font-normal leading-none text-white/70">
+                <div className="text-[11px] font-normal leading-none text-white/80">
                   Simpanan Harian
                 </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white">
+                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
                   <span>112233111</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.5} />
                 </div>
               </div>
 
               <div>
-                <div className="text-[11px] font-normal leading-none text-white/70">
+                <div className="text-[11px] font-normal leading-none text-white/80">
                   Nomor VA
                 </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white">
+                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
                   <span>88810 112233111</span>
                   <Copy className="h-[15px] w-[15px]" strokeWidth={2.5} />
                 </div>
               </div>
 
               <div>
-                <div className="text-[11px] font-normal leading-none text-white/70">
+                <div className="text-[11px] font-normal leading-none text-white/80">
                   Saldo
                 </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.04em] text-white">
+                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.04em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
                   <span>{showBalance ? "Rp. 4.000.000,00" : "••••••••••"}</span>
                   <button
                     type="button"
