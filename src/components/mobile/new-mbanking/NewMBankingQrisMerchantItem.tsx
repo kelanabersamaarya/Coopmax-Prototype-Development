@@ -4,8 +4,8 @@ export default function NewMBankingQrisMerchantItem() {
   return (
     <section className="px-[31px] pt-[18px]">
       <div className="flex items-start gap-[12px]">
-        <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white">
-          <ShoppingCart className="h-[20px] w-[20px]" strokeWidth={2.4} />
+        <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#ECEEF1] text-black">
+          <ShoppingCart className="h-[20px] w-[20px] text-black" strokeWidth={2.4} />
         </div>
 
         <div className="min-w-0">
