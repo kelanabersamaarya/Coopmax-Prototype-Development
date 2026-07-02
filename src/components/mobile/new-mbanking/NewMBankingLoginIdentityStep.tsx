@@ -94,6 +94,7 @@ function DjoinLogo() {
 
 export default function NewMBankingLoginIdentityStep({
   onNext,
+  onRegister,
   onScan,
 }: NewMBankingLoginIdentityStepProps) {
   return (
@@ -103,12 +104,6 @@ export default function NewMBankingLoginIdentityStep({
 
       <div className="absolute -right-[76px] -top-[54px] h-[175px] w-[175px] rounded-full bg-[#8fc2f3]" />
       <div className="absolute right-[-8px] top-[-20px] h-[88px] w-[88px] rounded-full bg-[#459cf0]" />
-
-      <div className="absolute -bottom-[164px] right-[-148px] h-[340px] w-[340px] rounded-full bg-[#8bdcec]" />
-      <div className="absolute -bottom-[145px] right-[-78px] h-[252px] w-[252px] rounded-full bg-[#65d0e8]" />
-
-      <div className="absolute -bottom-[94px] -left-[52px] h-[180px] w-[180px] rounded-full bg-[#a143ef]" />
-      <div className="absolute -bottom-[62px] -left-[26px] h-[108px] w-[108px] rounded-full bg-[#8c16ea]" />
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[96px]">
         <div className="flex animate-in items-center justify-center gap-[2px] fade-in-0 zoom-in-95 duration-700">
@@ -143,6 +138,17 @@ export default function NewMBankingLoginIdentityStep({
         >
           Masuk
         </button>
+
+        <div className="mt-[14px] text-center text-[12px] font-normal leading-none text-[#828282]">
+          Belum Punya Akun?{" "}
+          <button
+            type="button"
+            onClick={onRegister}
+            className="font-semibold text-[#479DF4] transition active:scale-[0.98]"
+          >
+            Daftar
+          </button>
+        </div>
       </div>
     </div>
   );
