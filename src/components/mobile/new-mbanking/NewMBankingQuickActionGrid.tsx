@@ -10,12 +10,38 @@ import {
 import { cn } from "@/lib/utils";
 
 const actions = [
-  { label: "Setor", icon: WalletCards, withPlus: true },
-  { label: "Transfer", icon: Send },
-  { label: "Bayar Angsuran", icon: CircleDollarSign },
-  { label: "Keanggotan", icon: UserRound },
-  { label: "Bayar", icon: HandCoins },
-  { label: "Beli", icon: ShoppingBasket },
+  {
+    label: "Setor",
+    icon: WalletCards,
+    withPlus: true,
+    frameClassName: "bg-[#479DF4]",
+    plusClassName: "bg-[#1D4ED8]",
+  },
+  {
+    label: "Transfer",
+    icon: Send,
+    frameClassName: "bg-[#18B7A1]",
+  },
+  {
+    label: "Bayar Angsuran",
+    icon: CircleDollarSign,
+    frameClassName: "bg-[#F59E0B]",
+  },
+  {
+    label: "Keanggotan",
+    icon: UserRound,
+    frameClassName: "bg-[#8B5CF6]",
+  },
+  {
+    label: "Bayar",
+    icon: HandCoins,
+    frameClassName: "bg-[#EF4444]",
+  },
+  {
+    label: "Beli",
+    icon: ShoppingBasket,
+    frameClassName: "bg-[#06B6D4]",
+  },
 ];
 
 export default function NewMBankingQuickActionGrid({
@@ -39,14 +65,20 @@ export default function NewMBankingQuickActionGrid({
               <span
                 className={cn(
                   "relative grid h-[64px] w-[64px] place-items-center rounded-[18px]",
-                  "bg-[#EEF4FF] text-[#3B82F6]",
+                  "text-white shadow-[0_8px_18px_rgba(15,23,42,0.12)]",
+                  action.frameClassName,
                 )}
               >
-                <Icon className="h-[38px] w-[38px]" strokeWidth={2.15} />
+                <Icon className="h-[38px] w-[38px] text-white" strokeWidth={2.15} />
 
                 {action.withPlus ? (
-                  <span className="absolute right-[11px] top-[11px] grid h-[17px] w-[17px] place-items-center rounded-full bg-[#3B82F6] text-white">
-                    <Plus className="h-[11px] w-[11px]" strokeWidth={3} />
+                  <span
+                    className={cn(
+                      "absolute right-[11px] top-[11px] grid h-[17px] w-[17px] place-items-center rounded-full text-white ring-2 ring-white/70",
+                      action.plusClassName,
+                    )}
+                  >
+                    <Plus className="h-[11px] w-[11px] text-white" strokeWidth={3} />
                   </span>
                 ) : null}
               </span>
