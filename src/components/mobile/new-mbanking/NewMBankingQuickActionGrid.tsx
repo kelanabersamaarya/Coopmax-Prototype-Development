@@ -26,19 +26,6 @@ export default function NewMBankingQuickActionGrid({
 }) {
   return (
     <section className={cn("mt-[22px]", className)}>
-      <div className="mb-[14px] flex items-center justify-between gap-4">
-        <h2 className="text-[16px] font-bold leading-tight tracking-[-0.03em] text-black">
-          Menu Cepat
-        </h2>
-
-        <button
-          type="button"
-          className="text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
-        >
-          Lihat Semua
-        </button>
-      </div>
-
       <div className="grid grid-cols-4 gap-x-[10px] gap-y-[16px]">
         {actions.map((action) => {
           const Icon = action.icon;
