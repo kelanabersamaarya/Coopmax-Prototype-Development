@@ -55,8 +55,12 @@ export default function NewMBankingRegisterAccountPage({
         onConfirm={confirmRegistration}
       />
 
-      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#F9F9F9] px-6 pt-8">
-        <div className="flex h-10 items-center gap-3">
+      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[linear-gradient(145deg,#EAF5FF_0%,#F8FBFF_48%,#F7F3FF_100%)] px-6 pt-8">
+        <div className="pointer-events-none absolute -right-[76px] top-[28px] h-[178px] w-[178px] rounded-full bg-[#479DF4]/12" />
+        <div className="pointer-events-none absolute -left-[80px] top-[118px] h-[176px] w-[176px] rounded-full bg-[#A143EF]/10" />
+        <div className="pointer-events-none absolute bottom-[38px] right-[32px] h-[86px] w-[86px] rounded-full bg-[#65D0E8]/16" />
+
+        <div className="relative z-10 flex h-10 items-center gap-3">
           <button
             type="button"
             onClick={onBack}
@@ -72,9 +76,9 @@ export default function NewMBankingRegisterAccountPage({
           </h1>
         </div>
 
-        <div className="mt-[20px] text-center">
-          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EEF6FF]">
-            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white">
+        <div className="relative z-10 mt-[20px] text-center">
+          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-white/80 shadow-sm ring-1 ring-white">
+            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_22px_rgba(71,157,244,0.22)]">
               <LockKeyhole className="h-[42px] w-[42px]" strokeWidth={2.6} />
             </div>
           </div>
@@ -83,12 +87,12 @@ export default function NewMBankingRegisterAccountPage({
             Informasi Akun M-Banking
           </h2>
 
-          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-[#828282]">
+          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-[#6B7280]">
             Untuk melakukan pendaftaran, mohon melengkapi informasi akun
             dibawah ini, pastikan data yang anda masukan sesuai
           </p>
 
-          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-[#D8D8D8]">
+          <div className="mt-[20px] h-[14px] w-full overflow-hidden rounded-full bg-white/80 ring-1 ring-[#D8D8D8]/80">
             <div className="h-full w-full rounded-full bg-[#479DF4]" />
           </div>
 
@@ -102,7 +106,7 @@ export default function NewMBankingRegisterAccountPage({
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px]">
+      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px] shadow-[0_-14px_34px_rgba(15,23,42,0.06)]">
         <form
           onSubmit={submit}
           className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-between"
