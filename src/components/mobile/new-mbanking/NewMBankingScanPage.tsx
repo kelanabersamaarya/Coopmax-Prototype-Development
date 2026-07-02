@@ -1,7 +1,9 @@
+import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
 import NewMBankingScanBottomActions from "@/components/mobile/new-mbanking/NewMBankingScanBottomActions";
 import NewMBankingScanningAnimation from "@/components/mobile/new-mbanking/NewMBankingScanningAnimation";
+import NewMBankingScanResultPage from "@/components/mobile/new-mbanking/NewMBankingScanResultPage";
 
 type NewMBankingScanPageProps = {
   onBack: () => void;
@@ -10,6 +12,20 @@ type NewMBankingScanPageProps = {
 export default function NewMBankingScanPage({
   onBack,
 }: NewMBankingScanPageProps) {
+  const [showResultPage, setShowResultPage] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowResultPage(true);
+    }, 5000);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  if (showResultPage) {
+    return <NewMBankingScanResultPage />;
+  }
+
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#101010] text-black">
       <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[20px] bg-[#F9F9F9] px-[31px]">
