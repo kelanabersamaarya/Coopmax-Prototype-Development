@@ -3,6 +3,7 @@ import { ArrowLeft, Delete } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const pinLength = 6;
+const correctPin = "123456";
 
 export default function NewMBankingPinInputPage({
   onBack,
@@ -12,19 +13,31 @@ export default function NewMBankingPinInputPage({
   onSubmit: () => void;
 }) {
   const [pin, setPin] = React.useState("");
+  const [isWrongPin, setIsWrongPin] = React.useState(false);
 
   function addDigit(digit: string) {
-    setPin((current) =>
-      current.length >= pinLength ? current : `${current}${digit}`,
-    );
+    setPin((current) => {
+      if (current.length >= pinLength) return current;
+      return `${current}${digit}`;
+    });
+    setIsWrongPin(false);
   }
 
   function removeDigit() {
     setPin((current) => current.slice(0, -1));
+    setIsWrongPin(false);
   }
 
   function submit() {
     if (pin.length < pinLength) return;
+
+    if (pin !== correctPin) {
+      setIsWrongPin(true);
+      setPin("");
+      return;
+    }
+
+    setIsWrongPin(false);
     onSubmit();
   }
 
@@ -72,14 +85,22 @@ export default function NewMBankingPinInputPage({
                   key={index}
                   className={cn(
                     "h-[24px] w-[24px] rounded-full border-2 transition",
-                    filled
-                      ? "border-[#479DF4] bg-[#479DF4]"
-                      : "border-[#CDD4E0] bg-white",
+                    isWrongPin
+                      ? "border-[#EF135D] bg-white"
+                      : filled
+                        ? "border-[#479DF4] bg-[#479DF4]"
+                        : "border-[#CDD4E0] bg-white",
                   )}
                 />
               );
             })}
           </div>
+
+          {isWrongPin ? (
+            <div className="mt-[18px] text-[12px] font-normal leading-relaxed text-[#EF135D]">
+              PIN yang Anda masukkan salah. Silakan coba lagi.
+            </div>
+          ) : null}
         </div>
 
         <div className="mt-auto">
