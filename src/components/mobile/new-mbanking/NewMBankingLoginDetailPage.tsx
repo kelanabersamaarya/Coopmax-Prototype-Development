@@ -21,33 +21,38 @@ export default function NewMBankingLoginDetailPage({
     onLogin();
   }
 
+  const fieldClassName = cn(
+    "h-[54px] w-full rounded-[10px] border border-[#CDD4E0] bg-white px-4",
+    "text-[15px] font-normal text-black shadow-none",
+    "placeholder:text-[15px] placeholder:font-normal placeholder:text-[#828282]",
+    "outline-none focus:border-[#479DF4]",
+  );
+
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <img
-        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80"
-        alt="Background login"
-        className="absolute inset-0 h-full w-full object-cover"
-        draggable={false}
-      />
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <section className="shrink-0 bg-[#F9F9F9] px-[31px] pb-[34px] pt-[30px]">
+        <div className="flex h-10 items-center gap-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
+            aria-label="Kembali"
+            title="Kembali"
+          >
+            <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
+          </button>
 
-      <div className="absolute inset-0 bg-white/22 backdrop-blur-[1px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.92)_0_18%,transparent_34%),radial-gradient(circle_at_74%_42%,rgba(255,255,255,0.94)_0_18%,transparent_34%),radial-gradient(circle_at_42%_72%,rgba(255,255,255,0.92)_0_20%,transparent_38%)]" />
-
-      <div className="relative z-10 flex h-full min-h-full flex-col px-[31px] pb-[32px] pt-[30px]">
-        <button
-          type="button"
-          onClick={onBack}
-          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/60 text-black backdrop-blur-sm transition active:scale-[0.98]"
-          aria-label="Kembali"
-          title="Kembali"
-        >
-          <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
-        </button>
-
-        <div className="mt-[86px]">
-          <h1 className="text-[30px] font-bold leading-tight tracking-[-0.04em] text-black">
+          <h1 className="text-[16px] font-bold leading-tight text-black">
             Masuk
           </h1>
+        </div>
+      </section>
+
+      <section className="relative z-10 flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-[31px] pb-[32px] pt-[38px]">
+        <div>
+          <h2 className="text-[30px] font-bold leading-tight tracking-[-0.04em] text-black">
+            Masuk
+          </h2>
           <p className="mt-[9px] text-[15px] font-normal leading-relaxed tracking-[-0.02em] text-black/70">
             Silakan masuk menggunakan akun M-Banking Anda.
           </p>
@@ -63,12 +68,7 @@ export default function NewMBankingLoginDetailPage({
               onChange={(event) => setUsername(event.target.value)}
               placeholder="Masukkan Username"
               autoComplete="username"
-              className={cn(
-                "h-[54px] w-full rounded-[10px] border border-[#CDD4E0] bg-white/90 px-4",
-                "text-[15px] font-normal text-black shadow-none backdrop-blur-sm",
-                "placeholder:text-[15px] placeholder:font-normal placeholder:text-[#828282]",
-                "outline-none focus:border-[#479DF4]",
-              )}
+              className={fieldClassName}
             />
           </div>
 
@@ -76,6 +76,7 @@ export default function NewMBankingLoginDetailPage({
             <label className="text-[15px] font-semibold leading-none text-black">
               Password
             </label>
+
             <div className="relative">
               <input
                 value={password}
@@ -83,12 +84,7 @@ export default function NewMBankingLoginDetailPage({
                 type={showPassword ? "text" : "password"}
                 placeholder="Masukkan Kata Sandi"
                 autoComplete="current-password"
-                className={cn(
-                  "h-[54px] w-full rounded-[10px] border border-[#CDD4E0] bg-white/90 px-4 pr-[52px]",
-                  "text-[15px] font-normal text-black shadow-none backdrop-blur-sm",
-                  "placeholder:text-[15px] placeholder:font-normal placeholder:text-[#828282]",
-                  "outline-none focus:border-[#479DF4]",
-                )}
+                className={cn(fieldClassName, "pr-[52px]")}
               />
 
               <button
@@ -121,8 +117,8 @@ export default function NewMBankingLoginDetailPage({
               className={cn(
                 "inline-flex h-[26px] w-[26px] items-center justify-center border-2",
                 rememberUsername
-                  ? "border-[#479DF4] bg-white/80 text-[#479DF4]"
-                  : "border-[#CDD4E0] bg-white/80 text-transparent",
+                  ? "border-[#479DF4] bg-white text-[#479DF4]"
+                  : "border-[#CDD4E0] bg-white text-transparent",
               )}
             >
               <Check className="h-[20px] w-[20px]" strokeWidth={2.2} />
@@ -143,7 +139,7 @@ export default function NewMBankingLoginDetailPage({
             Masuk
           </button>
         </form>
-      </div>
+      </section>
     </div>
   );
 }
