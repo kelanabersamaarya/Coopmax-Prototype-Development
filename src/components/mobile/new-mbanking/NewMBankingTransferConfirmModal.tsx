@@ -178,7 +178,7 @@ export default function NewMBankingTransferConfirmModal({
             type="button"
             onClick={onContinue}
             className={cn(
-              "flex h-[56px] w-full items-center justify-between gap-3 rounded-full bg-[#479DF4] px-5",
+              "flex h-[56px] w-full items-center justify-between gap-3 rounded-[8px] bg-[#479DF4] px-5",
               "text-white transition active:scale-[0.98]",
             )}
           >
@@ -197,7 +197,7 @@ export default function NewMBankingTransferConfirmModal({
             type="button"
             onClick={() => onOpenChange(false)}
             className={cn(
-              "h-[56px] w-full rounded-full border border-[#D8D8D8] bg-white",
+              "h-[56px] w-full rounded-[8px] border border-[#D8D8D8] bg-white",
               "text-[14px] font-semibold leading-none text-[#828282]",
               "transition active:scale-[0.98]",
             )}
