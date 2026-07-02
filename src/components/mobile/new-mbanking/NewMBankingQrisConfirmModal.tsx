@@ -57,7 +57,7 @@ export default function NewMBankingQrisConfirmModal({
           </button>
         </div>
 
-        <div className="mt-[22px] flex items-start gap-[12px]">
+        <div className="mt-[10px] flex items-start gap-[12px]">
           <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#ECEEF1] text-black">
             <ShoppingCart
               className="h-[20px] w-[20px] text-black"
