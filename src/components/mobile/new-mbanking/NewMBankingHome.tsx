@@ -2,6 +2,7 @@ import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-bank
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingWelcomeItem from "@/components/mobile/new-mbanking/NewMBankingWelcomeItem";
+import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 
 export default function NewMBankingHome({
   transactions = [],
@@ -20,6 +21,8 @@ export default function NewMBankingHome({
       </div>
 
       <NewMBankingWelcomeItem />
+
+      <NewMBankingHomeMenuSection />
 
       <div className="sr-only">
         Home New M-Banking dikosongkan sementara.
