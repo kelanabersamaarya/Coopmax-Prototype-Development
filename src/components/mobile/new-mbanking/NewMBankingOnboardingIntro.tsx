@@ -157,12 +157,22 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[120px] pt-[46px]">
+      <div className="flex min-h-0 flex-1 flex-col items-center px-5 pb-[245px] pt-[46px]">
         <OnboardingIllustration />
         <OnboardingSlider />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 bg-white px-6 pb-[29px] pt-[27px]">
+      <div className="absolute inset-x-0 bottom-0 z-10 bg-white px-6 pb-[29px] pt-[25px]">
+        <div className="mb-[24px] text-center">
+          <h1 className="mx-auto max-w-[330px] text-[24px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
+            Kemudahan Transaksi Dalam Satu Genggaman
+          </h1>
+          <p className="mx-auto mt-[12px] max-w-[325px] text-[14px] font-normal leading-[1.45] tracking-[-0.01em] text-[#8F8F8F]">
+            Akses layanan koperasi, cek informasi rekening, dan lakukan transaksi
+            kapan saja dengan lebih mudah.
+          </p>
+        </div>
+
         <div className="grid grid-cols-2 gap-[10px]">
           <button
             type="button"
