@@ -38,7 +38,7 @@ export default function NewMBankingHomeMenuSection({
 }) {
   return (
     <div className={cn("shrink-0 bg-[#F9F9F9] px-6 pb-[22px] pt-[10px]", className)}>
-      <nav className="mx-auto h-[59px] w-[345px] max-w-full rounded-[24px] bg-[#F9F9F9] px-[14px]">
+      <nav className="mx-auto h-[59px] w-[344px] max-w-full rounded-[24px] bg-[#F9F9F9] px-[14px]">
         <div className="grid h-full grid-cols-5 items-center gap-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
