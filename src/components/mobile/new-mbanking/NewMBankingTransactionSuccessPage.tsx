@@ -1,7 +1,15 @@
 import * as React from "react";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingTransactionReceiptPage from "@/components/mobile/new-mbanking/NewMBankingTransactionReceiptPage";
+
+const successSourceFund: SourceFundAccount = {
+  productName: "Simpanan Kaya",
+  accountNo: "112233111",
+  balance: "Rp. 4.000.000,00",
+};
 
 export default function NewMBankingTransactionSuccessPage({
   onDone,
@@ -53,13 +61,15 @@ export default function NewMBankingTransactionSuccessPage({
             Ref ID : 112221111222
           </div>
 
-          <div className="mt-[18px] flex h-[68px] w-[302px] max-w-full flex-col justify-center rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
-            <div className="text-[12px] font-normal leading-none text-[#828282]">
+          <div className="mt-[18px] w-full text-left">
+            <div className="mb-[8px] text-[12px] font-normal leading-none text-[#828282]">
               Sumber Dana
             </div>
-            <div className="mt-[8px] text-[14px] font-normal leading-none text-black">
-              Simpanan Kaya - 112233111
-            </div>
+            <NewMBankingSourceFundGradientCard
+              account={successSourceFund}
+              showChevron={false}
+              className="min-h-[108px]"
+            />
           </div>
 
           <div className="mt-[12px] flex h-[68px] w-[302px] max-w-full flex-col justify-center rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
