@@ -107,7 +107,7 @@ export default function NewMBankingLoginIdentityStep({
       <div className="absolute -bottom-[62px] -left-[26px] h-[108px] w-[108px] rounded-full bg-[#8c16ea]" />
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[96px]">
-        <div className="flex animate-in items-center justify-center gap-[8px] fade-in-0 zoom-in-95 duration-700">
+        <div className="flex animate-in items-center justify-center gap-[2px] fade-in-0 zoom-in-95 duration-700">
           <CooperativeLogo />
 
           <div className="whitespace-nowrap text-[22px] font-extrabold leading-none tracking-[-0.055em] text-black">
