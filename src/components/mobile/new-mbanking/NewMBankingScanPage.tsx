@@ -15,15 +15,22 @@ export default function NewMBankingScanPage({
   const [showResultPage, setShowResultPage] = React.useState(false);
 
   React.useEffect(() => {
+    if (showResultPage) return;
+
     const timer = window.setTimeout(() => {
       setShowResultPage(true);
     }, 5000);
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [showResultPage]);
 
   if (showResultPage) {
-    return <NewMBankingScanResultPage onBack={onBack} />;
+    return (
+      <NewMBankingScanResultPage
+        onBack={onBack}
+        onDone={() => setShowResultPage(false)}
+      />
+    );
   }
 
   return (

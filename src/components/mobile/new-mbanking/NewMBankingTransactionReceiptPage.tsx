@@ -1,4 +1,6 @@
-import { ArrowLeft } from "lucide-react";
+import * as React from "react";
+import { ArrowLeft, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import NewMBankingReceiptBrand from "@/components/mobile/new-mbanking/NewMBankingReceiptBrand";
 
 function DetailRow({
@@ -40,9 +42,13 @@ function InfoSection({
 
 export default function NewMBankingTransactionReceiptPage({
   onBack,
+  onDone,
 }: {
   onBack: () => void;
+  onDone: () => void;
 }) {
+  const [saved, setSaved] = React.useState(false);
+
   return (
     <div className="h-full min-h-full overflow-y-auto bg-[#F9F9F9] text-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <header className="flex h-[82px] items-center gap-3 px-[31px] pt-[18px]">
@@ -123,6 +129,41 @@ export default function NewMBankingTransactionReceiptPage({
             <DetailRow label="Tipe Transaksi" value="QRIS" />
             <DetailRow label="Kode IRR" value="RCA221112222" />
           </InfoSection>
+
+          <div className="mt-[30px] grid gap-[10px]">
+            <button
+              type="button"
+              onClick={() => setSaved(true)}
+              className={cn(
+                "h-[46px] w-full rounded-[10px] border-2",
+                saved
+                  ? "border-[#33AA00] bg-white text-[#33AA00]"
+                  : "border-[#479DF4] bg-white text-[#479DF4]",
+                "text-[12px] font-normal leading-none transition active:scale-[0.98]",
+              )}
+            >
+              {saved ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <Check className="h-4 w-4" strokeWidth={3} />
+                  Bukti Tersimpan
+                </span>
+              ) : (
+                "Simpan Bukti Transaksi"
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={onDone}
+              className={cn(
+                "h-[46px] w-full rounded-[10px] bg-[#479DF4]",
+                "text-[12px] font-normal leading-none text-white",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Selesai
+            </button>
+          </div>
         </section>
       </main>
     </div>

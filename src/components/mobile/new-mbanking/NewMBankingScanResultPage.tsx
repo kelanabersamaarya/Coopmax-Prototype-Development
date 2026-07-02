@@ -6,16 +6,18 @@ import NewMBankingTransactionSuccessPage from "@/components/mobile/new-mbanking/
 
 type NewMBankingScanResultPageProps = {
   onBack: () => void;
+  onDone: () => void;
 };
 
 export default function NewMBankingScanResultPage({
   onBack,
+  onDone,
 }: NewMBankingScanResultPageProps) {
   const [showPinInput, setShowPinInput] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   if (showSuccess) {
-    return <NewMBankingTransactionSuccessPage onDone={onBack} />;
+    return <NewMBankingTransactionSuccessPage onDone={onDone} />;
   }
 
   if (showPinInput) {

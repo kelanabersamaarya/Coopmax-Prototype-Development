@@ -11,7 +11,12 @@ export default function NewMBankingTransactionSuccessPage({
   const [showReceipt, setShowReceipt] = React.useState(false);
 
   if (showReceipt) {
-    return <NewMBankingTransactionReceiptPage onBack={() => setShowReceipt(false)} />;
+    return (
+      <NewMBankingTransactionReceiptPage
+        onBack={() => setShowReceipt(false)}
+        onDone={onDone}
+      />
+    );
   }
 
   return (
