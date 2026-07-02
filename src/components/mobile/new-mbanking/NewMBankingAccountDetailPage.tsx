@@ -134,11 +134,19 @@ function QuickActionButton({
 }
 
 function TransactionIcon({ type }: { type: TransactionItem["type"] }) {
-  const Icon = type === "out" ? Send : Banknote;
+  const isTransferOut = type === "out";
+  const Icon = isTransferOut ? Send : Banknote;
 
   return (
-    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F1F3F6] text-[#53657D]">
-      <Icon className="h-[20px] w-[20px]" strokeWidth={2.4} />
+    <span
+      className={cn(
+        "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full",
+        isTransferOut
+          ? "bg-[#EAF3FF] text-[#2F80ED]"
+          : "bg-[#EAF8EF] text-[#33AA00]",
+      )}
+    >
+      <Icon className="h-[20px] w-[20px]" strokeWidth={2.6} />
     </span>
   );
 }
