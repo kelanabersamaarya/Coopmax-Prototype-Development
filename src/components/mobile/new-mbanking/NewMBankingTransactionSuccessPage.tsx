@@ -1,11 +1,19 @@
+import * as React from "react";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingTransactionReceiptPage from "@/components/mobile/new-mbanking/NewMBankingTransactionReceiptPage";
 
 export default function NewMBankingTransactionSuccessPage({
   onDone,
 }: {
   onDone: () => void;
 }) {
+  const [showReceipt, setShowReceipt] = React.useState(false);
+
+  if (showReceipt) {
+    return <NewMBankingTransactionReceiptPage onBack={() => setShowReceipt(false)} />;
+  }
+
   return (
     <div className="flex h-full min-h-full flex-col bg-[#F9F9F9] px-6 py-[30px] text-black">
       <main className="flex min-h-0 flex-1 items-center justify-center">
@@ -73,6 +81,7 @@ export default function NewMBankingTransactionSuccessPage({
 
             <button
               type="button"
+              onClick={() => setShowReceipt(true)}
               className={cn(
                 "h-[46px] rounded-[10px] bg-[#479DF4]",
                 "text-[12px] font-normal leading-none text-white",
