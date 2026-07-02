@@ -12,8 +12,7 @@ export default function NewMBankingLogoutButton({
       onClick={onClick}
       className={cn(
         "inline-flex h-[44px] w-[44px] items-center justify-center rounded-[13px]",
-        "bg-white text-black shadow-[0_8px_22px_rgba(15,23,42,0.10)]",
-        "ring-1 ring-slate-100 transition active:scale-[0.96]",
+        "bg-white text-black ring-1 ring-slate-100 transition active:scale-[0.96]",
       )}
       aria-label="Logout"
       title="Logout"

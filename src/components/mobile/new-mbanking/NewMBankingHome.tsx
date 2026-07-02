@@ -12,7 +12,7 @@ export default function NewMBankingHome({
   onLogout?: () => void;
 }) {
   return (
-    <div className="h-full min-h-full bg-white px-6 pt-[30px] text-black">
+    <div className="h-full min-h-full bg-[#F9F9F9] px-6 pt-[30px] text-black">
       <div className="flex items-start justify-between gap-4">
         <NewMBankingHomeBrandHeader />
         <NewMBankingLogoutButton onClick={onLogout} />
