@@ -42,19 +42,19 @@ export default function NewMBankingTransactionSuccessPage({
 
           <div className="mt-[18px] flex h-[68px] w-[302px] max-w-full flex-col justify-center rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
             <div className="text-[12px] font-normal leading-none text-[#828282]">
-              Penerima
+              Sumber Dana
             </div>
             <div className="mt-[8px] text-[14px] font-normal leading-none text-black">
-              Mini Mart
+              Simpanan Kaya - 112233111
             </div>
           </div>
 
           <div className="mt-[12px] flex h-[68px] w-[302px] max-w-full flex-col justify-center rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
             <div className="text-[12px] font-normal leading-none text-[#828282]">
-              Sumber Dana
+              Penerima
             </div>
             <div className="mt-[8px] text-[14px] font-normal leading-none text-black">
-              Simpanan Kaya - 112233111
+              Mini Mart
             </div>
           </div>
 
