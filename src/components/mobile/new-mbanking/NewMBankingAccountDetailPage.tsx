@@ -11,6 +11,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
 
 type TransactionItem = {
   id: string;
@@ -108,13 +109,16 @@ function StatusBar() {
 function QuickActionButton({
   icon: Icon,
   label,
+  onClick,
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   label: string;
+  onClick?: () => void;
 }) {
   return (
     <button
       type="button"
+      onClick={onClick}
       className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
       aria-label={label}
     >
@@ -201,6 +205,15 @@ export default function NewMBankingAccountDetailPage({
 }) {
   const [showBalance, setShowBalance] = React.useState(true);
   const [activeMonth, setActiveMonth] = React.useState("Jun");
+  const [showInterbankTransfer, setShowInterbankTransfer] = React.useState(false);
+
+  if (showInterbankTransfer) {
+    return (
+      <NewMBankingInterbankTransferPage
+        onBack={() => setShowInterbankTransfer(false)}
+      />
+    );
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -279,7 +292,11 @@ export default function NewMBankingAccountDetailPage({
           <div className="mt-[22px] grid grid-cols-3 justify-items-center gap-3">
             <QuickActionButton icon={Send} label="Transfer" />
             <QuickActionButton icon={Banknote} label="Setor" />
-            <QuickActionButton icon={Landmark} label="Transfer Antar Bank" />
+            <QuickActionButton
+              icon={Landmark}
+              label="Transfer Antar Bank"
+              onClick={() => setShowInterbankTransfer(true)}
+            />
           </div>
         </section>
 
