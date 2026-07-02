@@ -80,7 +80,7 @@ export default function NewMBankingQrisConfirmModal({
 
         <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
 
-        <div className="flex min-h-[66px] items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 py-[10px]">
           <div className="text-[14px] font-normal leading-tight text-[#8F8F8F]">
             Nominal Transaksi
           </div>
