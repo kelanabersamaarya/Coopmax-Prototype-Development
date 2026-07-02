@@ -94,17 +94,17 @@ export default function NewMBankingLoginIdentityStep({
 }: NewMBankingLoginIdentityStepProps) {
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#FFFFFF] text-black">
-      <div className="absolute -left-[118px] -top-[190px] h-[400px] w-[400px] rounded-full bg-[#f56ac8]" />
-      <div className="absolute -left-[48px] -top-[215px] h-[300px] w-[300px] rounded-full bg-[#f044bd]" />
+      <div className="absolute -left-[98px] -top-[160px] h-[340px] w-[340px] rounded-full bg-[#f56ac8]" />
+      <div className="absolute -left-[40px] -top-[180px] h-[255px] w-[255px] rounded-full bg-[#f044bd]" />
 
-      <div className="absolute -right-[90px] -top-[64px] h-[205px] w-[205px] rounded-full bg-[#8fc2f3]" />
-      <div className="absolute right-[-10px] top-[-25px] h-[104px] w-[104px] rounded-full bg-[#459cf0]" />
+      <div className="absolute -right-[76px] -top-[54px] h-[175px] w-[175px] rounded-full bg-[#8fc2f3]" />
+      <div className="absolute right-[-8px] top-[-20px] h-[88px] w-[88px] rounded-full bg-[#459cf0]" />
 
-      <div className="absolute -bottom-[194px] right-[-174px] h-[400px] w-[400px] rounded-full bg-[#8bdcec]" />
-      <div className="absolute -bottom-[171px] right-[-92px] h-[296px] w-[296px] rounded-full bg-[#65d0e8]" />
+      <div className="absolute -bottom-[164px] right-[-148px] h-[340px] w-[340px] rounded-full bg-[#8bdcec]" />
+      <div className="absolute -bottom-[145px] right-[-78px] h-[252px] w-[252px] rounded-full bg-[#65d0e8]" />
 
-      <div className="absolute -bottom-[112px] -left-[62px] h-[212px] w-[212px] rounded-full bg-[#a143ef]" />
-      <div className="absolute -bottom-[74px] -left-[31px] h-[126px] w-[126px] rounded-full bg-[#8c16ea]" />
+      <div className="absolute -bottom-[94px] -left-[52px] h-[180px] w-[180px] rounded-full bg-[#a143ef]" />
+      <div className="absolute -bottom-[62px] -left-[26px] h-[108px] w-[108px] rounded-full bg-[#8c16ea]" />
 
       <main className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[96px]">
         <div className="flex animate-in items-center justify-center gap-[12px] fade-in-0 zoom-in-95 duration-700">
