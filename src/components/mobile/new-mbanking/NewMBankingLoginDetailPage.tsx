@@ -1,58 +1,148 @@
-import { ArrowLeft } from "lucide-react";
+import * as React from "react";
+import { ArrowLeft, Check, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type NewMBankingLoginDetailPageProps = {
   onBack: () => void;
+  onLogin: () => void;
 };
 
 export default function NewMBankingLoginDetailPage({
   onBack,
+  onLogin,
 }: NewMBankingLoginDetailPageProps) {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [rememberUsername, setRememberUsername] = React.useState(true);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    onLogin();
+  }
+
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <div className="relative h-full min-h-full overflow-hidden bg-[#F7FAFF]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,#EC3BBE_0_24%,transparent_25%),radial-gradient(circle_at_92%_5%,#479DF4_0_12%,transparent_13%)]" />
+      <img
+        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80"
+        alt="Background login"
+        className="absolute inset-0 h-full w-full object-cover"
+        draggable={false}
+      />
 
-        <div className="absolute inset-x-0 top-[64px] h-[390px] overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_42%,#cbd5e1_43%,#f1f5f9_100%)]" />
-          <div className="absolute left-[-40px] top-[110px] h-[170px] w-[310px] rotate-[-18deg] rounded-[28px] bg-slate-900/10" />
-          <div className="absolute right-[-35px] top-[70px] h-[260px] w-[190px] rotate-[14deg] rounded-[34px] bg-[#93C5FD]/45" />
-          <div className="absolute bottom-[30px] left-[36px] h-[46px] w-[178px] rounded-[12px] bg-white/70 shadow-sm" />
-          <div className="absolute bottom-[70px] right-[52px] h-[54px] w-[132px] rounded-[14px] bg-white/80 shadow-sm" />
+      <div className="absolute inset-0 bg-white/22 backdrop-blur-[1px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.92)_0_18%,transparent_34%),radial-gradient(circle_at_74%_42%,rgba(255,255,255,0.94)_0_18%,transparent_34%),radial-gradient(circle_at_42%_72%,rgba(255,255,255,0.92)_0_20%,transparent_38%)]" />
+
+      <div className="relative z-10 flex h-full min-h-full flex-col px-[31px] pb-[32px] pt-[30px]">
+        <button
+          type="button"
+          onClick={onBack}
+          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/60 text-black backdrop-blur-sm transition active:scale-[0.98]"
+          aria-label="Kembali"
+          title="Kembali"
+        >
+          <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
+        </button>
+
+        <div className="mt-[86px]">
+          <h1 className="text-[30px] font-bold leading-tight tracking-[-0.04em] text-black">
+            Masuk
+          </h1>
+          <p className="mt-[9px] text-[15px] font-normal leading-relaxed tracking-[-0.02em] text-black/70">
+            Silakan masuk menggunakan akun M-Banking Anda.
+          </p>
         </div>
 
-        <div className="relative z-10 flex h-full min-h-full flex-col px-6 pb-[34px] pt-[32px]">
+        <form onSubmit={submit} className="mt-[34px] grid gap-[18px]">
+          <div className="grid gap-[8px]">
+            <label className="text-[15px] font-semibold leading-none text-black">
+              Username
+            </label>
+            <input
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder="Masukkan Username"
+              autoComplete="username"
+              className={cn(
+                "h-[54px] w-full rounded-[10px] border border-[#CDD4E0] bg-white/90 px-4",
+                "text-[15px] font-normal text-black shadow-none backdrop-blur-sm",
+                "placeholder:text-[15px] placeholder:font-normal placeholder:text-[#828282]",
+                "outline-none focus:border-[#479DF4]",
+              )}
+            />
+          </div>
+
+          <div className="grid gap-[8px]">
+            <label className="text-[15px] font-semibold leading-none text-black">
+              Password
+            </label>
+            <div className="relative">
+              <input
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Masukkan Kata Sandi"
+                autoComplete="current-password"
+                className={cn(
+                  "h-[54px] w-full rounded-[10px] border border-[#CDD4E0] bg-white/90 px-4 pr-[52px]",
+                  "text-[15px] font-normal text-black shadow-none backdrop-blur-sm",
+                  "placeholder:text-[15px] placeholder:font-normal placeholder:text-[#828282]",
+                  "outline-none focus:border-[#479DF4]",
+                )}
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((value) => !value)}
+                className="absolute right-[9px] top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+                aria-label={
+                  showPassword ? "Sembunyikan password" : "Tampilkan password"
+                }
+                title={
+                  showPassword ? "Sembunyikan password" : "Tampilkan password"
+                }
+              >
+                {showPassword ? (
+                  <Eye className="h-[23px] w-[23px]" strokeWidth={2.7} />
+                ) : (
+                  <EyeOff className="h-[23px] w-[23px]" strokeWidth={2.7} />
+                )}
+              </button>
+            </div>
+          </div>
+
           <button
             type="button"
-            onClick={onBack}
-            className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/75 text-black backdrop-blur transition active:scale-[0.98]"
-            aria-label="Kembali"
-            title="Kembali"
+            onClick={() => setRememberUsername((value) => !value)}
+            className="mt-[2px] flex w-fit items-center gap-[12px] text-left"
+            aria-pressed={rememberUsername}
           >
-            <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
-          </button>
-
-          <div className="mt-auto rounded-[24px] bg-white/92 px-6 py-6 shadow-[0_16px_45px_rgba(15,23,42,0.12)] ring-1 ring-white/70 backdrop-blur">
-            <div className="text-[20px] font-bold leading-tight tracking-[-0.035em] text-black">
-              Halaman Baru
-            </div>
-            <div className="mt-3 text-[14px] font-normal leading-relaxed text-[#828282]">
-              Detail halaman ini siap dilanjutkan sesuai arahan berikutnya.
-            </div>
-
-            <button
-              type="button"
-              onClick={onBack}
+            <span
               className={cn(
-                "mt-6 h-[46px] w-full rounded-[10px] bg-[#479DF4]",
-                "text-[12px] font-normal leading-none text-white",
-                "transition active:scale-[0.98]",
+                "inline-flex h-[26px] w-[26px] items-center justify-center border-2",
+                rememberUsername
+                  ? "border-[#479DF4] bg-white/80 text-[#479DF4]"
+                  : "border-[#CDD4E0] bg-white/80 text-transparent",
               )}
             >
-              Kembali
-            </button>
-          </div>
-        </div>
+              <Check className="h-[20px] w-[20px]" strokeWidth={2.2} />
+            </span>
+            <span className="text-[18px] font-normal leading-none text-black">
+              Simpan Username
+            </span>
+          </button>
+
+          <button
+            type="submit"
+            className={cn(
+              "mt-[26px] h-[48px] w-full rounded-[10px] bg-[#479DF4]",
+              "text-[13px] font-normal leading-none text-white",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Masuk
+          </button>
+        </form>
       </div>
     </div>
   );

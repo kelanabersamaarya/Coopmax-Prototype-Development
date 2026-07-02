@@ -34,7 +34,12 @@ export default function NewMBankingLoginPage({
   }
 
   if (step === "detail") {
-    return <NewMBankingLoginDetailPage onBack={() => setStep("identity")} />;
+    return (
+      <NewMBankingLoginDetailPage
+        onBack={() => setStep("identity")}
+        onLogin={submitLogin}
+      />
+    );
   }
 
   if (step === "password") {
