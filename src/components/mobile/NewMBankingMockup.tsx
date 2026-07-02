@@ -2,15 +2,30 @@
 
 import * as React from "react";
 import MobileMockupFrame from "@/components/mobile/MobileMockupFrame";
-import MBankingLoginForm from "@/components/mobile/MBankingLoginForm";
 import MBankingHome from "@/components/mobile/MBankingHome";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
+import NewMBankingLoginPage from "@/components/mobile/new-mbanking/NewMBankingLoginPage";
+import NewMBankingOnboarding from "@/components/mobile/new-mbanking/NewMBankingOnboarding";
+import NewMBankingRegisterPage from "@/components/mobile/new-mbanking/NewMBankingRegisterPage";
+import NewMBankingSplashScreen from "@/components/mobile/new-mbanking/NewMBankingSplashScreen";
+
+type NewMBankingScreen = "splash" | "onboarding" | "login" | "register" | "home";
 
 export default function NewMBankingMockup() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [screen, setScreen] = React.useState<NewMBankingScreen>("splash");
   const [transactions, setTransactions] = React.useState<
     MBankingTransactionHistoryEntry[]
   >([]);
+
+  React.useEffect(() => {
+    if (screen !== "splash") return;
+
+    const timer = window.setTimeout(() => {
+      setScreen("onboarding");
+    }, 1800);
+
+    return () => window.clearTimeout(timer);
+  }, [screen]);
 
   function addTransaction(transaction: MBankingTransactionHistoryEntry) {
     setTransactions((current) => {
@@ -19,17 +34,46 @@ export default function NewMBankingMockup() {
     });
   }
 
-  return (
-    <MobileMockupFrame edgeToEdge>
-      {loggedIn ? (
+  function renderScreen() {
+    if (screen === "home") {
+      return (
         <MBankingHome
           transactions={transactions}
           onTransactionSaved={addTransaction}
-          onLogout={() => setLoggedIn(false)}
+          onLogout={() => setScreen("login")}
         />
-      ) : (
-        <MBankingLoginForm onLogin={() => setLoggedIn(true)} />
-      )}
-    </MobileMockupFrame>
-  );
+      );
+    }
+
+    if (screen === "register") {
+      return (
+        <NewMBankingRegisterPage
+          onBack={() => setScreen("login")}
+          onRegisterSuccess={() => setScreen("login")}
+        />
+      );
+    }
+
+    if (screen === "login") {
+      return (
+        <NewMBankingLoginPage
+          onLogin={() => setScreen("home")}
+          onRegister={() => setScreen("register")}
+        />
+      );
+    }
+
+    if (screen === "onboarding") {
+      return (
+        <NewMBankingOnboarding
+          onSkip={() => setScreen("login")}
+          onFinish={() => setScreen("login")}
+        />
+      );
+    }
+
+    return <NewMBankingSplashScreen />;
+  }
+
+  return <MobileMockupFrame edgeToEdge>{renderScreen()}</MobileMockupFrame>;
 }
