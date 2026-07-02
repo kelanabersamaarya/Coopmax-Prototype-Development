@@ -37,38 +37,27 @@ export default function NewMBankingScanBottomActions({
         const isActive = active === action.id;
 
         return (
-          <button
-            key={action.id}
-            type="button"
-            onClick={() => onChange?.(action.id)}
-            className={cn(
-              "flex h-[64px] flex-col items-center justify-center rounded-[16px]",
-              "border transition active:scale-[0.97]",
-              isActive
-                ? "border-[#479DF4] bg-[#EEF6FF]"
-                : "border-[#E6EAF0] bg-white",
-            )}
-            aria-label={action.label}
-            aria-current={isActive ? "true" : undefined}
-          >
-            <span
+          <div key={action.id} className="flex flex-col items-center">
+            <button
+              type="button"
+              onClick={() => onChange?.(action.id)}
               className={cn(
-                "grid h-[30px] w-[30px] place-items-center rounded-[10px]",
-                isActive ? "bg-[#479DF4] text-white" : "bg-[#F2F4F7] text-[#6B7280]",
+                "grid h-[44px] w-[44px] place-items-center rounded-[14px]",
+                "border transition active:scale-[0.97]",
+                isActive
+                  ? "border-[#479DF4] bg-[#EEF6FF] text-[#479DF4]"
+                  : "border-[#E6EAF0] bg-white text-[#6B7280]",
               )}
+              aria-label={action.label}
+              aria-current={isActive ? "true" : undefined}
             >
-              <Icon className="h-[18px] w-[18px]" strokeWidth={2.7} />
-            </span>
+              <Icon className="h-[22px] w-[22px]" strokeWidth={2.7} />
+            </button>
 
-            <span
-              className={cn(
-                "mt-[6px] text-[10px] font-normal leading-none",
-                isActive ? "text-[#479DF4]" : "text-[#8F8F8F]",
-              )}
-            >
+            <div className="mt-[8px] text-center text-[12px] font-normal leading-tight text-black">
               {action.label}
-            </span>
-          </button>
+            </div>
+          </div>
         );
       })}
     </div>
