@@ -31,12 +31,13 @@ export default function NewMBankingTransactionSuccessPage({
             <div className="mt-[8px] text-[22px] font-bold leading-tight text-black">
               Rp. 50.000,00
             </div>
-            <div className="mt-[12px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              30 Juni 2026, 22:15 WIB
-            </div>
-            <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              Ref ID : 112221111222
-            </div>
+          </div>
+
+          <div className="mt-[12px] text-[12px] font-normal leading-relaxed text-[#828282]">
+            30 Juni 2026, 22:15 WIB
+          </div>
+          <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
+            Ref ID : 112221111222
           </div>
 
           <button
