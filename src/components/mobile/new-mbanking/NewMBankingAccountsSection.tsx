@@ -33,6 +33,35 @@ const tabs: Array<{
   },
 ];
 
+const accountCardStyles: Record<
+  AccountTabId,
+  {
+    background: string;
+    glowOne: string;
+    glowTwo: string;
+    glowThree: string;
+  }
+> = {
+  simpanan: {
+    background: "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]",
+    glowOne: "bg-white/16",
+    glowTwo: "bg-cyan-200/18",
+    glowThree: "bg-blue-950/10",
+  },
+  pinjaman: {
+    background: "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]",
+    glowOne: "bg-white/18",
+    glowTwo: "bg-emerald-200/18",
+    glowThree: "bg-teal-950/14",
+  },
+  deposito: {
+    background: "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
+    glowOne: "bg-white/18",
+    glowTwo: "bg-amber-100/22",
+    glowThree: "bg-orange-950/14",
+  },
+};
+
 function CopyButton({ label }: { label: string }) {
   return (
     <button
@@ -55,10 +84,10 @@ function AccountInfo({
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[11px] font-normal leading-none text-white/70">
+      <div className="text-[11px] font-normal leading-none text-white/78">
         {label}
       </div>
-      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white">
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
         {children}
       </div>
     </div>
@@ -85,7 +114,7 @@ function AccountCardContent({
 
           <button
             type="button"
-            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
+            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#0F766E] shadow-sm transition active:scale-[0.98]"
           >
             Lihat Detail
           </button>
@@ -121,7 +150,7 @@ function AccountCardContent({
 
           <button
             type="button"
-            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
+            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#C2410C] shadow-sm transition active:scale-[0.98]"
           >
             Lihat Detail
           </button>
@@ -157,7 +186,7 @@ function AccountCardContent({
         <button
           type="button"
           onClick={onSavingsDetailClick}
-          className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
+          className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#2563EB] shadow-sm transition active:scale-[0.98]"
         >
           Lihat Detail
         </button>
@@ -190,6 +219,7 @@ export default function NewMBankingAccountsSection({
 }) {
   const [showBalance, setShowBalance] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<AccountTabId>("simpanan");
+  const cardStyle = accountCardStyles[activeTab];
 
   return (
     <section
@@ -256,10 +286,16 @@ export default function NewMBankingAccountsSection({
         <div className="h-px w-full bg-[#E5E7EB]" />
       </div>
 
-      <div className="relative mt-[18px] overflow-hidden rounded-[24px] bg-[#479DF4] px-5 pb-5 pt-5 text-white">
-        <div className="pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full bg-white/12" />
-        <div className="pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full bg-white/8" />
+      <div
+        className={cn(
+          "relative mt-[18px] overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
+          cardStyle.background,
+        )}
+      >
+        <div className={cn("pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full", cardStyle.glowOne)} />
+        <div className={cn("pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full", cardStyle.glowTwo)} />
+        <div className={cn("pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full", cardStyle.glowThree)} />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
         <div className="relative z-10">
           <AccountCardContent
