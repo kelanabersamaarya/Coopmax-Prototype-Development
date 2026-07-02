@@ -157,7 +157,7 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col items-center px-5 pb-[245px] pt-[46px]">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[245px] pt-[16px]">
         <OnboardingIllustration />
         <OnboardingSlider />
       </div>
