@@ -115,9 +115,7 @@ export default function NewMBankingQrCodeDisplayPage({
               Kode akan kadaluarsa dalam
             </span>
 
-            <span className="inline-flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 border-[#479DF4] text-[#479DF4]">
-              <Timer className="h-[16px] w-[16px]" strokeWidth={2.5} />
-            </span>
+            <Timer className="h-[20px] w-[20px] text-[#479DF4]" strokeWidth={2.5} />
 
             <span className="text-[14px] font-normal leading-none text-[#479DF4]">
               {formatTimer(seconds)}
