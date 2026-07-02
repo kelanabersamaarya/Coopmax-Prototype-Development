@@ -36,10 +36,10 @@ export default function NewMBankingHomeMenuSection({
   className?: string;
 }) {
   return (
-    <section
+    <nav
       className={cn(
-        "mt-[28px] rounded-[20px] bg-white px-[14px] py-[14px]",
-        "shadow-none ring-1 ring-slate-100",
+        "shrink-0 rounded-t-[24px] bg-white px-[14px] pb-[14px] pt-[13px]",
+        "shadow-[0_-10px_24px_rgba(15,23,42,0.08)] ring-1 ring-slate-100",
         className,
       )}
     >
@@ -93,6 +93,6 @@ export default function NewMBankingHomeMenuSection({
           );
         })}
       </div>
-    </section>
+    </nav>
   );
 }
