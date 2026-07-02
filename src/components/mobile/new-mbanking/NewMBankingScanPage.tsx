@@ -6,6 +6,7 @@ import NewMBankingQrCodeDisplayPage from "@/components/mobile/new-mbanking/NewMB
 import NewMBankingScanBottomActions from "@/components/mobile/new-mbanking/NewMBankingScanBottomActions";
 import NewMBankingScanningAnimation from "@/components/mobile/new-mbanking/NewMBankingScanningAnimation";
 import NewMBankingScanResultPage from "@/components/mobile/new-mbanking/NewMBankingScanResultPage";
+import NewMBankingMediaPickerPopup from "@/components/mobile/new-mbanking/NewMBankingMediaPickerPopup";
 
 type NewMBankingScanPageProps = {
   onBack: () => void;
@@ -17,16 +18,17 @@ export default function NewMBankingScanPage({
   const [showResultPage, setShowResultPage] = React.useState(false);
   const [showPinInput, setShowPinInput] = React.useState(false);
   const [showQrCode, setShowQrCode] = React.useState(false);
+  const [mediaPickerOpen, setMediaPickerOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (showResultPage || showPinInput || showQrCode) return;
+    if (showResultPage || showPinInput || showQrCode || mediaPickerOpen) return;
 
     const timer = window.setTimeout(() => {
       setShowResultPage(true);
     }, 5000);
 
     return () => window.clearTimeout(timer);
-  }, [showPinInput, showQrCode, showResultPage]);
+  }, [mediaPickerOpen, showPinInput, showQrCode, showResultPage]);
 
   if (showQrCode) {
     return <NewMBankingQrCodeDisplayPage onBack={() => setShowQrCode(false)} />;
@@ -55,6 +57,12 @@ export default function NewMBankingScanPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#101010] text-black">
+      <NewMBankingMediaPickerPopup
+        open={mediaPickerOpen}
+        onOpenChange={setMediaPickerOpen}
+        onChoose={() => setShowResultPage(true)}
+      />
+
       <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[20px] bg-[#F9F9F9] px-[31px]">
         <button
           type="button"
@@ -79,6 +87,11 @@ export default function NewMBankingScanPage({
             onChange={(value) => {
               if (value === "qr") {
                 setShowPinInput(true);
+                return;
+              }
+
+              if (value === "media") {
+                setMediaPickerOpen(true);
               }
             }}
           />
