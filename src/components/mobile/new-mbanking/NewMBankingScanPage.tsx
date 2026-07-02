@@ -2,6 +2,7 @@ import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
+import NewMBankingQrCodeDisplayPage from "@/components/mobile/new-mbanking/NewMBankingQrCodeDisplayPage";
 import NewMBankingScanBottomActions from "@/components/mobile/new-mbanking/NewMBankingScanBottomActions";
 import NewMBankingScanningAnimation from "@/components/mobile/new-mbanking/NewMBankingScanningAnimation";
 import NewMBankingScanResultPage from "@/components/mobile/new-mbanking/NewMBankingScanResultPage";
@@ -15,22 +16,30 @@ export default function NewMBankingScanPage({
 }: NewMBankingScanPageProps) {
   const [showResultPage, setShowResultPage] = React.useState(false);
   const [showPinInput, setShowPinInput] = React.useState(false);
+  const [showQrCode, setShowQrCode] = React.useState(false);
 
   React.useEffect(() => {
-    if (showResultPage || showPinInput) return;
+    if (showResultPage || showPinInput || showQrCode) return;
 
     const timer = window.setTimeout(() => {
       setShowResultPage(true);
     }, 5000);
 
     return () => window.clearTimeout(timer);
-  }, [showPinInput, showResultPage]);
+  }, [showPinInput, showQrCode, showResultPage]);
+
+  if (showQrCode) {
+    return <NewMBankingQrCodeDisplayPage onBack={() => setShowQrCode(false)} />;
+  }
 
   if (showPinInput) {
     return (
       <NewMBankingPinInputPage
         onBack={() => setShowPinInput(false)}
-        onSubmit={() => setShowPinInput(false)}
+        onSubmit={() => {
+          setShowPinInput(false);
+          setShowQrCode(true);
+        }}
       />
     );
   }
