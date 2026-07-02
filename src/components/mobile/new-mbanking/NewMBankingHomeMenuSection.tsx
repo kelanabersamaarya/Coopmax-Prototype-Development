@@ -37,9 +37,14 @@ export default function NewMBankingHomeMenuSection({
   className?: string;
 }) {
   return (
-    <div className={cn("shrink-0 bg-[#F9F9F9] px-6 pb-[22px] pt-[10px]", className)}>
-      <nav className="mx-auto h-[59px] w-[344px] max-w-full rounded-[24px] bg-[#F9F9F9] px-[14px]">
-        <div className="grid h-full grid-cols-5 items-center gap-[21px]">
+    <div
+      className={cn(
+        "pointer-events-none absolute inset-x-0 bottom-[18px] z-40 px-5",
+        className,
+      )}
+    >
+      <nav className="pointer-events-auto mx-auto h-[72px] w-full max-w-[354px] rounded-[28px] border border-white/80 bg-white px-[18px] shadow-[0_16px_38px_rgba(15,23,42,0.18)]">
+        <div className="grid h-full grid-cols-5 items-center gap-[16px]">
           {menuItems.map((item) => {
             const Icon = item.icon;
 
@@ -48,11 +53,11 @@ export default function NewMBankingHomeMenuSection({
                 <button
                   key={item.label}
                   type="button"
-                  className="flex min-w-0 -translate-y-[10px] flex-col items-center justify-end rounded-[14px] transition active:scale-[0.97]"
+                  className="flex min-w-0 -translate-y-[16px] flex-col items-center justify-end rounded-[14px] transition active:scale-[0.97]"
                   aria-label={item.label}
                 >
-                  <span className="mb-[4px] grid h-[52px] w-[52px] place-items-center rounded-[16px] bg-[#479DF4] text-white">
-                    <Icon className="h-[29px] w-[29px]" strokeWidth={2.7} />
+                  <span className="mb-[4px] grid h-[56px] w-[56px] place-items-center rounded-[18px] bg-[#479DF4] text-white shadow-[0_10px_22px_rgba(71,157,244,0.36)]">
+                    <Icon className="h-[30px] w-[30px]" strokeWidth={2.7} />
                   </span>
                   <span className="flex h-[13px] items-center justify-center">
                     <NewMBankingQrisLogo />
