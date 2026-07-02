@@ -4,6 +4,8 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { ArrowRight, UserRound, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
 function SectionBlock({
   title,
@@ -76,6 +78,18 @@ function TransactionRow({
   );
 }
 
+function buildSourceFundAccount(sourceInfo: string): SourceFundAccount {
+  const parts = sourceInfo.split(" - ").map((part) => part.trim());
+  const accountNo = parts[0] || "11122333311";
+  const productName = parts[1] || "Simpanan Kaya";
+
+  return {
+    productName,
+    accountNo,
+    balance: "Rp. 4.000.000,00",
+  };
+}
+
 export default function NewMBankingTransferConfirmModal({
   open,
   onOpenChange,
@@ -114,6 +128,7 @@ export default function NewMBankingTransferConfirmModal({
   const displayedRecipientAccount = recipientAccountNo.trim() || "22111122333";
   const displayedDescription = description.trim() || "Bayar UKT";
   const displayedNominal = nominal.trim() || "50.000,00";
+  const sourceFundAccount = buildSourceFundAccount(sourceInfo);
 
   return createPortal(
     <div className="absolute inset-0 z-[120] flex items-end bg-black/35 px-5 pb-5 pt-8">
@@ -147,7 +162,12 @@ export default function NewMBankingTransferConfirmModal({
         </div>
 
         <SectionBlock title="Sumber Dana">
-          <AccountInfoItem name={sourceName} subtitle={sourceInfo} />
+          <NewMBankingSourceFundGradientCard
+            account={sourceFundAccount}
+            showChevron={false}
+            className="min-h-[112px]"
+          />
+          <div className="sr-only">{sourceName}</div>
         </SectionBlock>
 
         <SectionBlock title="Tujuan">
