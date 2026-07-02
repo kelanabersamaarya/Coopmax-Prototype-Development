@@ -33,7 +33,7 @@ export default function NewMBankingRegisterConfirmModal({
             onClick={onConfirm}
             className={cn(
               "h-[56px] w-full rounded-[14px] bg-[#479DF4]",
-              "text-[15px] font-semibold text-white",
+              "text-[12px] font-semibold text-white",
               "transition active:scale-[0.98]",
             )}
           >
@@ -45,7 +45,7 @@ export default function NewMBankingRegisterConfirmModal({
             onClick={onCancel}
             className={cn(
               "h-[56px] w-full rounded-[14px] border border-[#D8D8D8] bg-white",
-              "text-[15px] font-semibold text-[#828282]",
+              "text-[12px] font-semibold text-[#828282]",
               "transition active:scale-[0.98]",
             )}
           >
