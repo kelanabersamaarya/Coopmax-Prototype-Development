@@ -36,12 +36,12 @@ export default function NewMBankingRegisterPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#F9F9F9]">
-        <div className="absolute left-5 top-8 flex items-center gap-3">
+      <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#F9F9F9] px-6 pt-8">
+        <div className="flex h-10 items-center gap-3">
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex h-10 w-10 items-center justify-center bg-transparent text-black transition active:scale-[0.98]"
+            className="-ml-1 inline-flex h-10 w-10 items-center justify-center bg-transparent text-black transition active:scale-[0.98]"
             aria-label="Kembali"
             title="Kembali"
           >
@@ -53,7 +53,7 @@ export default function NewMBankingRegisterPage({
           </h1>
         </div>
 
-        <div className="absolute inset-x-0 bottom-[36px] px-6 text-center">
+        <div className="mt-[20px] text-center">
           <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EEF6FF]">
             <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white">
               <UserRound className="h-[43px] w-[43px]" strokeWidth={2.6} />
