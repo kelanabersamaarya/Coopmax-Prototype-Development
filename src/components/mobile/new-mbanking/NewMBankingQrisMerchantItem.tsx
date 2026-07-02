@@ -56,28 +56,28 @@ export default function NewMBankingQrisMerchantItem() {
         <button
           type="button"
           className={cn(
-            "mt-[11px] flex min-h-[202px] w-full items-center justify-between gap-4 rounded-[15px]",
-            "border border-[#D8D8D8] bg-white px-[26px] py-[25px] text-left",
+            "mt-[11px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px]",
+            "border border-[#D8D8D8] bg-white px-[26px] py-[18px] text-left",
             "transition active:scale-[0.99]",
           )}
         >
           <div className="min-w-0">
-            <div className="text-[16px] font-normal leading-tight text-[#2F3137]">
+            <div className="text-[12px] font-normal leading-tight text-[#2F3137]">
               Simpanan Kaya
             </div>
-            <div className="mt-[6px] text-[18px] font-bold leading-tight text-[#2F3137]">
+            <div className="mt-[6px] text-[16px] font-bold leading-tight text-[#2F3137]">
               112233111
             </div>
 
-            <div className="mt-[30px] text-[16px] font-normal leading-tight text-[#2F3137]">
+            <div className="mt-[20px] text-[12px] font-normal leading-tight text-[#2F3137]">
               Saldo
             </div>
-            <div className="mt-[8px] text-[24px] font-bold leading-tight text-[#2F3137]">
+            <div className="mt-[6px] text-[16px] font-bold leading-tight text-[#2F3137]">
               Rp. 4.000.000,00
             </div>
           </div>
 
-          <ChevronRight className="h-[34px] w-[34px] shrink-0 text-black" strokeWidth={2.8} />
+          <ChevronRight className="h-[28px] w-[28px] shrink-0 text-black" strokeWidth={2.8} />
         </button>
       </div>
     </section>
