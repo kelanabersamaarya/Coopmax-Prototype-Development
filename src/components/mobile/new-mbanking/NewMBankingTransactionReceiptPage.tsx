@@ -5,23 +5,16 @@ import NewMBankingReceiptBrand from "@/components/mobile/new-mbanking/NewMBankin
 function DetailRow({
   label,
   value,
-  strong = false,
 }: {
   label: string;
   value: string;
-  strong?: boolean;
 }) {
   return (
     <div className="flex items-start justify-between gap-4 py-[10px]">
       <div className="min-w-0 text-left text-[14px] font-normal leading-tight text-[#8F8F8F]">
         {label}
       </div>
-      <div
-        className={cn(
-          "max-w-[178px] text-right text-[14px] leading-tight text-black",
-          strong ? "font-bold" : "font-normal",
-        )}
-      >
+      <div className="max-w-[178px] text-right text-[14px] font-normal leading-tight text-black">
         {value}
       </div>
     </div>
@@ -73,10 +66,10 @@ export default function NewMBankingTransactionReceiptPage({
             </div>
           </div>
 
-          <div className="mt-[30px]">
+          <div className="mt-[34px]">
             <div className="flex items-center justify-between gap-4">
               <div className="text-[14px] font-normal leading-tight text-[#8F8F8F]">
-                Nama Acquirer
+                Nama Accuirer
               </div>
               <div className="text-right text-[14px] font-normal leading-tight text-black">
                 Djoin
@@ -84,7 +77,7 @@ export default function NewMBankingTransactionReceiptPage({
             </div>
           </div>
 
-          <div className="mt-[24px]">
+          <div className="mt-[28px]">
             <div className="text-left text-[16px] font-bold leading-tight text-black">
               Detail Transaksi
             </div>
@@ -95,14 +88,6 @@ export default function NewMBankingTransactionReceiptPage({
               <DetailRow label="Nama Merchant" value="Mini Mart" />
               <DetailRow label="Merchant PAN" value="2211122223333" />
               <DetailRow label="Lokasi" value="Bali, Indonesia" />
-              <DetailRow label="Sumber Dana" value="Simpanan Kaya - 112233111" />
-              <DetailRow label="Status" value="Berhasil" strong />
-            </div>
-          </div>
-
-          <div className="mt-[24px] rounded-[18px] border border-[#D8D8D8] bg-white px-4 py-4">
-            <div className="text-left text-[12px] font-normal leading-relaxed text-[#828282]">
-              Simpan bukti transaksi ini sebagai referensi pembayaran QRIS Anda.
             </div>
           </div>
         </section>
