@@ -73,7 +73,7 @@ export default function NewMBankingRegisterPage({
             <div className="h-full w-1/2 rounded-full bg-[#479DF4]" />
           </div>
 
-          <div className="mt-[10px] text-[16px] font-normal leading-none text-black">
+          <div className="mt-[10px] text-[10px] font-normal leading-none text-black">
             Langkah 1 dari 2
           </div>
         </div>
