@@ -41,11 +41,8 @@ export default function NewMBankingQrisConfirmModal({
       <div className="relative z-10 w-full overflow-hidden rounded-t-[30px] bg-white px-[31px] pb-[30px] pt-[26px] shadow-[0_-18px_45px_rgba(15,23,42,0.22)]">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <div className="text-[12px] font-normal leading-none text-[#828282]">
-              Pembayaran QRIS
-            </div>
-            <div className="mt-[8px] text-[18px] font-bold leading-tight text-black">
-              Mini Mart
+            <div className="text-[14px] font-bold leading-tight text-black">
+              Konfirmasi Transaksi Pembayaran
             </div>
           </div>
 
