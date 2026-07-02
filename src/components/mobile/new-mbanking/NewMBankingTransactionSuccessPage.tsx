@@ -58,17 +58,30 @@ export default function NewMBankingTransactionSuccessPage({
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={onDone}
-            className={cn(
-              "mt-[30px] h-[46px] w-full rounded-[10px] bg-[#479DF4]",
-              "text-[12px] font-normal leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Selesai
-          </button>
+          <div className="mt-[30px] grid w-full grid-cols-2 gap-[10px]">
+            <button
+              type="button"
+              onClick={onDone}
+              className={cn(
+                "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
+                "text-[12px] font-normal leading-none text-[#479DF4]",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Selesai
+            </button>
+
+            <button
+              type="button"
+              className={cn(
+                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "text-[12px] font-normal leading-none text-white",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Lihat Bukti Transaksi
+            </button>
+          </div>
         </section>
       </main>
     </div>
