@@ -70,7 +70,12 @@ export default function NewMBankingAccountsSection({
   const [showBalance, setShowBalance] = React.useState(true);
 
   return (
-    <section className={cn("mt-[24px]", className)}>
+    <section
+      className={cn(
+        "mt-[24px] rounded-[24px] border border-[#D9D9D9] p-[16px]",
+        className,
+      )}
+    >
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-[18px] font-bold leading-tight tracking-[-0.035em] text-[#111827]">
           Rekening Anda
@@ -127,7 +132,7 @@ export default function NewMBankingAccountsSection({
         <div className="h-px w-full bg-[#E5E7EB]" />
       </div>
 
-      <div className="relative mt-[18px] overflow-hidden rounded-[24px] bg-[#479DF4] px-5 pb-5 pt-5 text-white shadow-[0_12px_30px_rgba(71,157,244,0.20)]">
+      <div className="relative mt-[18px] overflow-hidden rounded-[24px] bg-[#479DF4] px-5 pb-5 pt-5 text-white">
         <div className="pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full bg-white/12" />
         <div className="pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full bg-white/8" />
@@ -141,7 +146,7 @@ export default function NewMBankingAccountsSection({
 
             <button
               type="button"
-              className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] shadow-sm transition active:scale-[0.98]"
+              className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
             >
               Lihat Detail
             </button>
