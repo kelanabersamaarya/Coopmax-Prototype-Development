@@ -10,6 +10,7 @@ import NewMBankingMediaPickerPopup, {
   type GalleryItem,
 } from "@/components/mobile/new-mbanking/NewMBankingMediaPickerPopup";
 import NewMBankingMediaScanPreviewPage from "@/components/mobile/new-mbanking/NewMBankingMediaScanPreviewPage";
+import NewMBankingScanQrImage from "@/components/mobile/new-mbanking/NewMBankingScanQrImage";
 
 type NewMBankingScanPageProps = {
   onBack: () => void;
@@ -108,9 +109,10 @@ export default function NewMBankingScanPage({
       </header>
 
       <main className="relative min-h-0 flex-1 overflow-hidden bg-[#101010]">
+        <NewMBankingScanQrImage />
         <NewMBankingScanningAnimation />
 
-        <section className="absolute inset-x-0 bottom-0 z-10 h-[132px] rounded-t-[30px] bg-white px-6 pt-[24px]">
+        <section className="absolute inset-x-0 bottom-0 z-20 h-[132px] rounded-t-[30px] bg-white px-6 pt-[24px]">
           <NewMBankingScanBottomActions
             onChange={(value) => {
               if (value === "qr") {
