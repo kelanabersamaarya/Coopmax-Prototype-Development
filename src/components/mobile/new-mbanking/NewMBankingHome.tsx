@@ -29,6 +29,8 @@ export default function NewMBankingHome({
 
         <NewMBankingQuickActionGrid />
 
+        <section className="-mx-6 mt-[24px] min-h-[220px] bg-[#FFFF]" />
+
         <div className="sr-only">
           {transactions.length}
           <button type="button" onClick={() => onTransactionSaved?.(transactions[0])}>
