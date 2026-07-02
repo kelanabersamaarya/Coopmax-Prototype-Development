@@ -1,30 +1,30 @@
 "use client";
 
-import { Image, Keyboard, ScanLine } from "lucide-react";
+import { Image, QrCode, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type ScanActionId = "scan" | "image" | "manual";
+type ScanActionId = "flash" | "qr" | "media";
 
 const actions = [
   {
-    id: "scan" as const,
-    label: "Scan QRIS",
-    icon: ScanLine,
+    id: "flash" as const,
+    label: "Nyalakan Flash",
+    icon: Zap,
   },
   {
-    id: "image" as const,
-    label: "Galeri",
+    id: "qr" as const,
+    label: "Kode QR",
+    icon: QrCode,
+  },
+  {
+    id: "media" as const,
+    label: "Pilih Dari Media",
     icon: Image,
-  },
-  {
-    id: "manual" as const,
-    label: "ID Bayar",
-    icon: Keyboard,
   },
 ];
 
 export default function NewMBankingScanBottomActions({
-  active = "scan",
+  active = "qr",
   onChange,
 }: {
   active?: ScanActionId;
