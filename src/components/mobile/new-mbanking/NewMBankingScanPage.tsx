@@ -14,8 +14,8 @@ export default function NewMBankingScanPage({
   const [paymentId, setPaymentId] = React.useState("");
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <header className="relative z-20 h-[70px] shrink-0 rounded-b-[30px] bg-[#F9F9F9] px-[31px]">
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#101010] text-black">
+      <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[30px] bg-[#F9F9F9] px-[31px]">
         <button
           type="button"
           onClick={onBack}
