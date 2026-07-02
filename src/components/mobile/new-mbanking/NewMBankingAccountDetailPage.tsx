@@ -24,7 +24,20 @@ type TransactionGroup = {
   items: TransactionItem[];
 };
 
-const monthChips = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun"];
+const monthChips = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "Mei",
+  "Jun",
+  "Jul",
+  "Agu",
+  "Sep",
+  "Okt",
+  "Nov",
+  "Des",
+];
 
 const transactionGroups: TransactionGroup[] = [
   {
