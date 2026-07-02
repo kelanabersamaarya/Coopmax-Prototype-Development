@@ -9,24 +9,27 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const tabs = [
+type AccountTabId = "simpanan" | "pinjaman" | "deposito";
+
+const tabs: Array<{
+  id: AccountTabId;
+  label: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+}> = [
   {
     id: "simpanan",
     label: "Simpanan",
     icon: CreditCard,
-    active: true,
   },
   {
     id: "pinjaman",
     label: "Pinjaman",
     icon: Banknote,
-    active: false,
   },
   {
     id: "deposito",
     label: "Deposito",
     icon: TrendingUp,
-    active: false,
   },
 ];
 
@@ -62,12 +65,126 @@ function AccountInfo({
   );
 }
 
+function AccountCardContent({
+  activeTab,
+  showBalance,
+}: {
+  activeTab: AccountTabId;
+  showBalance: boolean;
+}) {
+  if (activeTab === "pinjaman") {
+    return (
+      <>
+        <div className="flex items-start justify-between gap-4">
+          <AccountInfo label="Pinjaman Billing">
+            <span className="truncate">SMG260004</span>
+            <CopyButton label="Salin nomor pinjaman" />
+          </AccountInfo>
+
+          <button
+            type="button"
+            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
+          >
+            Lihat Detail
+          </button>
+        </div>
+
+        <div className="mt-[24px]">
+          <AccountInfo label="Total Pinjaman">
+            <span className="text-[16px] tracking-[-0.025em]">
+              {showBalance ? "Rp. 12.000.000,00" : "••••••••••"}
+            </span>
+          </AccountInfo>
+        </div>
+
+        <div className="mt-[24px]">
+          <AccountInfo label="Sisa Pinjaman">
+            <span className="text-[16px] tracking-[-0.025em]">
+              {showBalance ? "Rp. 10.000.000,00" : "••••••••••"}
+            </span>
+          </AccountInfo>
+        </div>
+      </>
+    );
+  }
+
+  if (activeTab === "deposito") {
+    return (
+      <>
+        <div className="flex items-start justify-between gap-4">
+          <AccountInfo label="Deposito Berjangka">
+            <span className="truncate">DEP112233</span>
+            <CopyButton label="Salin nomor deposito" />
+          </AccountInfo>
+
+          <button
+            type="button"
+            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
+          >
+            Lihat Detail
+          </button>
+        </div>
+
+        <div className="mt-[24px]">
+          <AccountInfo label="Nominal Deposito">
+            <span className="text-[16px] tracking-[-0.025em]">
+              {showBalance ? "Rp. 5.000.000,00" : "••••••••••"}
+            </span>
+          </AccountInfo>
+        </div>
+
+        <div className="mt-[24px]">
+          <AccountInfo label="Bunga per Tahun">
+            <span className="text-[16px] tracking-[-0.025em]">
+              {showBalance ? "6,00%" : "••••••"}
+            </span>
+          </AccountInfo>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="flex items-start justify-between gap-4">
+        <AccountInfo label="Simpanan Harian">
+          <span className="truncate">112233111</span>
+          <CopyButton label="Salin nomor rekening" />
+        </AccountInfo>
+
+        <button
+          type="button"
+          className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
+        >
+          Lihat Detail
+        </button>
+      </div>
+
+      <div className="mt-[24px]">
+        <AccountInfo label="Nomor VA">
+          <span className="truncate">88810 112233111</span>
+          <CopyButton label="Salin nomor VA" />
+        </AccountInfo>
+      </div>
+
+      <div className="mt-[24px]">
+        <AccountInfo label="Saldo Simpanan">
+          <span className="text-[16px] tracking-[-0.025em]">
+            {showBalance ? "Rp. 4.000.000,00" : "••••••••••"}
+          </span>
+        </AccountInfo>
+      </div>
+    </>
+  );
+}
+
 export default function NewMBankingAccountsSection({
   className,
 }: {
   className?: string;
 }) {
   const [showBalance, setShowBalance] = React.useState(true);
+  const [activeTab, setActiveTab] = React.useState<AccountTabId>("simpanan");
 
   return (
     <section
@@ -101,18 +218,20 @@ export default function NewMBankingAccountsSection({
         <div className="grid grid-cols-3 items-end gap-3">
           {tabs.map((tab) => {
             const Icon = tab.icon;
+            const isActive = tab.id === activeTab;
 
             return (
               <button
                 key={tab.id}
                 type="button"
+                onClick={() => setActiveTab(tab.id)}
                 className="relative flex min-w-0 flex-col items-center pb-[12px] transition active:scale-[0.98]"
-                aria-current={tab.active ? "page" : undefined}
+                aria-current={isActive ? "page" : undefined}
               >
                 <div
                   className={cn(
                     "flex items-center justify-center gap-[6px]",
-                    tab.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
+                    isActive ? "text-[#479DF4]" : "text-[#8F8F8F]",
                   )}
                 >
                   <Icon className="h-[19px] w-[19px]" strokeWidth={2.5} />
@@ -121,7 +240,7 @@ export default function NewMBankingAccountsSection({
                   </span>
                 </div>
 
-                {tab.active ? (
+                {isActive ? (
                   <span className="absolute bottom-0 left-1/2 h-[3px] w-[42px] -translate-x-1/2 rounded-full bg-[#479DF4]" />
                 ) : null}
               </button>
@@ -138,34 +257,7 @@ export default function NewMBankingAccountsSection({
         <div className="pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full bg-white/8" />
 
         <div className="relative z-10">
-          <div className="flex items-start justify-between gap-4">
-            <AccountInfo label="Simpanan Harian">
-              <span className="truncate">112233111</span>
-              <CopyButton label="Salin nomor rekening" />
-            </AccountInfo>
-
-            <button
-              type="button"
-              className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#479DF4] transition active:scale-[0.98]"
-            >
-              Lihat Detail
-            </button>
-          </div>
-
-          <div className="mt-[24px]">
-            <AccountInfo label="Nomor VA">
-              <span className="truncate">88810 112233111</span>
-              <CopyButton label="Salin nomor VA" />
-            </AccountInfo>
-          </div>
-
-          <div className="mt-[24px]">
-            <AccountInfo label="Saldo Simpanan">
-              <span className="text-[16px] tracking-[-0.025em]">
-                {showBalance ? "Rp. 4.000.000,00" : "••••••••••"}
-              </span>
-            </AccountInfo>
-          </div>
+          <AccountCardContent activeTab={activeTab} showBalance={showBalance} />
         </div>
       </div>
 
