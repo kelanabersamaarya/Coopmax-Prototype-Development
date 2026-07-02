@@ -10,11 +10,11 @@ export default function NewMBankingScanPage({
 }: NewMBankingScanPageProps) {
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#FFFFFF] text-black">
-      <header className="relative h-[50px] shrink-0 rounded-b-[30px] bg-[#F9F9F9] px-[31px]">
+      <header className="relative h-[70px] shrink-0 rounded-b-[30px] bg-[#F9F9F9] px-[31px]">
         <button
           type="button"
           onClick={onBack}
-          className="-ml-2 inline-flex h-[50px] w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
+          className="-ml-2 inline-flex h-[70px] w-10 items-center justify-center rounded-full bg-transparent text-black transition active:scale-[0.98]"
           aria-label="Kembali"
           title="Kembali"
         >
