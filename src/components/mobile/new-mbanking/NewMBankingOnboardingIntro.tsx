@@ -42,6 +42,18 @@ const onboardingSlides = [
       "/onboarding_2",
     ],
   },
+  {
+    title: "Semua Aset Anda dalam Genggaman",
+    description:
+      "Akses informasi simpanan, pinjaman, dan deposito Anda secara praktis untuk membantu Anda tetap terhubung dengan kondisi keuangan.",
+    imageSources: [
+      "/onboarding_3.png",
+      "/onboarding_3.jpg",
+      "/onboarding_3.jpeg",
+      "/onboarding_3.webp",
+      "/onboarding_3",
+    ],
+  },
 ];
 
 function FallbackCooperativeLogo() {
