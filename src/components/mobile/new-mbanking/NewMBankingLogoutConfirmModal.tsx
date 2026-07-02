@@ -23,7 +23,7 @@ export default function NewMBankingLogoutConfirmModal({
       <div
         className={cn(
           "relative z-10 w-full max-w-[360px]",
-          "rounded-[26px] bg-[#FAFAFA] px-6 pb-6 pt-7",
+          "rounded-[8px] bg-[#FAFAFA] px-6 pb-6 pt-7",
           "shadow-[0_20px_55px_rgba(15,23,42,0.24)]",
           "ring-1 ring-black/5",
         )}

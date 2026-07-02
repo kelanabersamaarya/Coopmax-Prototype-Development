@@ -40,7 +40,7 @@ export default function NewMBankingQrisConfirmModal({
         onClick={() => onOpenChange(false)}
       />
 
-      <div className="relative z-10 w-full max-w-[365px] overflow-hidden rounded-[24px] bg-white px-5 pb-6 pt-5 shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
+      <div className="relative z-10 w-full max-w-[365px] overflow-hidden rounded-[8px] bg-white px-5 pb-6 pt-5 shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <div className="text-[14px] font-bold leading-tight text-black">
@@ -51,7 +51,7 @@ export default function NewMBankingQrisConfirmModal({
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] text-black transition active:scale-[0.98]"
             aria-label="Tutup"
             title="Tutup"
           >
@@ -97,7 +97,7 @@ export default function NewMBankingQrisConfirmModal({
           Sumber Dana
         </div>
 
-        <div className="mt-[14px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px] border border-[#D8D8D8] bg-white px-[26px] py-[16px]">
+        <div className="mt-[14px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[8px] border border-[#D8D8D8] bg-white px-[26px] py-[16px]">
           <div className="min-w-0">
             <div className="text-[12px] font-normal leading-none text-[#2F3137]">
               {sourceFund.productName}
@@ -120,7 +120,7 @@ export default function NewMBankingQrisConfirmModal({
             type="button"
             onClick={() => onOpenChange(false)}
             className={cn(
-              "h-[46px] rounded-[10px] border border-[#D9D9D9] bg-white",
+              "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
               "text-[12px] font-normal leading-none text-[#828282]",
               "transition active:scale-[0.98]",
             )}
@@ -135,7 +135,7 @@ export default function NewMBankingQrisConfirmModal({
               onContinuePayment();
             }}
             className={cn(
-              "h-[46px] rounded-[10px] bg-[#479DF4]",
+              "h-[46px] rounded-[8px] bg-[#479DF4]",
               "text-[12px] font-normal leading-none text-white",
               "transition active:scale-[0.98]",
             )}

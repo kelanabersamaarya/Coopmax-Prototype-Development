@@ -48,7 +48,7 @@ function MockQrPreview({ item }: { item: GalleryItem }) {
   return (
     <div
       className={cn(
-        "relative h-full w-full overflow-hidden rounded-[13px] bg-gradient-to-br",
+        "relative h-full w-full overflow-hidden rounded-[8px] bg-gradient-to-br",
         item.color,
       )}
     >
@@ -77,7 +77,7 @@ function MockQrPreview({ item }: { item: GalleryItem }) {
         </div>
       </div>
 
-      <div className="absolute inset-x-2 bottom-2 truncate rounded-full bg-white/85 px-2 py-1 text-center text-[9px] font-semibold text-slate-700">
+      <div className="absolute inset-x-2 bottom-2 truncate rounded-[8px] bg-white/85 px-2 py-1 text-center text-[9px] font-semibold text-slate-700">
         {item.title}
       </div>
     </div>
@@ -119,7 +119,7 @@ export default function NewMBankingMediaPickerPopup({
         onClick={() => onOpenChange(false)}
       />
 
-      <div className="relative z-10 w-full overflow-hidden rounded-[24px] bg-white shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
+      <div className="relative z-10 w-full overflow-hidden rounded-[8px] bg-white shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
         <div className="flex items-center justify-between gap-3 border-b border-[#EEF0F4] px-5 py-4">
           <div className="min-w-0">
             <div className="text-[16px] font-bold leading-tight text-black">
@@ -133,7 +133,7 @@ export default function NewMBankingMediaPickerPopup({
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] text-black transition active:scale-[0.98]"
             aria-label="Tutup"
             title="Tutup"
           >
@@ -152,7 +152,7 @@ export default function NewMBankingMediaPickerPopup({
                   type="button"
                   onClick={() => setSelectedId(item.id)}
                   className={cn(
-                    "relative h-[92px] overflow-hidden rounded-[14px] border transition active:scale-[0.98]",
+                    "relative h-[92px] overflow-hidden rounded-[8px] border transition active:scale-[0.98]",
                     selected ? "border-[#479DF4]" : "border-[#E5E7EB]",
                   )}
                   aria-label={`Pilih ${item.title}`}
@@ -174,7 +174,7 @@ export default function NewMBankingMediaPickerPopup({
               type="button"
               onClick={() => onOpenChange(false)}
               className={cn(
-                "h-[46px] rounded-[10px] border border-[#D9D9D9] bg-white",
+                "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
                 "text-[12px] font-normal leading-none text-[#828282]",
                 "transition active:scale-[0.98]",
               )}
@@ -189,7 +189,7 @@ export default function NewMBankingMediaPickerPopup({
                 onChoose(selectedItem);
               }}
               className={cn(
-                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "h-[46px] rounded-[8px] bg-[#479DF4]",
                 "text-[12px] font-normal leading-none text-white",
                 "transition active:scale-[0.98]",
               )}
