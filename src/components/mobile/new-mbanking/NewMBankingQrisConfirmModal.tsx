@@ -105,19 +105,7 @@ export default function NewMBankingQrisConfirmModal({
           />
         </div>
 
-        <div className="mt-[24px] grid grid-cols-2 gap-[10px]">
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className={cn(
-              "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
-              "text-[12px] font-normal leading-none text-[#828282]",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Batal
-          </button>
-
+        <div className="mt-[24px] grid grid-cols-1 gap-[10px]">
           <button
             type="button"
             onClick={() => {
@@ -131,6 +119,18 @@ export default function NewMBankingQrisConfirmModal({
             )}
           >
             Lanjutkan Pembayaran
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            className={cn(
+              "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
+              "text-[12px] font-normal leading-none text-[#828282]",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Batal
           </button>
         </div>
       </div>
