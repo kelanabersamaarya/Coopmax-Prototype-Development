@@ -14,7 +14,7 @@ export default function NewMBankingScanButton({
       onClick={onClick}
       className={cn(
         "grid h-[64px] w-[64px] place-items-center rounded-[15px]",
-        "bg-[#479DF4] text-white shadow-[0_8px_20px_rgba(71,157,244,0.26)]",
+        "bg-[#479DF4] text-white",
         "transition active:scale-[0.96]",
       )}
       aria-label="Scan"
