@@ -43,9 +43,8 @@ export default function NewMBankingLogoutConfirmModal({
             type="button"
             onClick={onExit}
             className={cn(
-              "h-[50px] w-full rounded-full",
+              "h-[50px] w-full rounded-[8px]",
               "bg-[#479DF4] text-[14px] font-semibold text-white",
-              "shadow-[0_6px_16px_rgba(71,157,244,0.24)]",
               "transition active:scale-[0.98]",
             )}
           >
@@ -56,7 +55,7 @@ export default function NewMBankingLogoutConfirmModal({
             type="button"
             onClick={onCancel}
             className={cn(
-              "h-[50px] w-full rounded-full",
+              "h-[50px] w-full rounded-[8px]",
               "border border-[#D8D8D8] bg-white",
               "text-[14px] font-semibold text-[#828282]",
               "transition active:scale-[0.98]",
