@@ -36,14 +36,14 @@ export default function NewMBankingQrisMerchantItem() {
           placeholder="Masukkan Nominal Pembayaran"
           inputMode="decimal"
           className={cn(
-            "mt-[11px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
+            "mt-[5px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
             "text-[14px] font-normal text-black shadow-none outline-none",
             "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
             "focus:border-[#479DF4]",
           )}
         />
 
-        <div className="mt-[10px] text-[12px] font-normal leading-relaxed text-[#828282]">
+        <div className="mt-[5px] text-[12px] font-normal leading-relaxed text-[#828282]">
           Pastikan nominal yang akan memotong saldo Anda sudah sesuai
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function NewMBankingQrisMerchantItem() {
         <button
           type="button"
           className={cn(
-            "mt-[11px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px]",
+            "mt-[5px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px]",
             "border border-[#D8D8D8] bg-white px-[26px] py-[16px] text-left",
             "transition active:scale-[0.99]",
           )}
