@@ -82,7 +82,9 @@ export default function NewMBankingRegisterPage({
         >
           <div className="grid gap-[15px]">
             <div className="grid gap-[9px]">
-              <label className={labelClassName}>No. Rekening Utama</label>
+              <label className={labelClassName}>
+                No. Rekening Utama<span className="text-[#EF135D]">*</span>
+              </label>
               <Input
                 value={noRekeningUtama}
                 onChange={(event) => setNoRekeningUtama(event.target.value)}
@@ -93,7 +95,9 @@ export default function NewMBankingRegisterPage({
             </div>
 
             <div className="grid gap-[9px]">
-              <label className={labelClassName}>No. Identitas</label>
+              <label className={labelClassName}>
+                No. Identitas<span className="text-[#EF135D]">*</span>
+              </label>
               <Input
                 value={noIdentitas}
                 onChange={(event) => setNoIdentitas(event.target.value)}
