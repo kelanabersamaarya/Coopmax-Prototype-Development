@@ -86,7 +86,7 @@ export default function NewMBankingQrisConfirmModal({
 
         <div className="mt-[28px] h-px w-full bg-[#D8D8D8]" />
 
-        <div className="mt-[20px] text-[20px] font-normal leading-tight text-[#8F8F8F]">
+        <div className="mt-[20px] text-[12px] font-normal leading-tight text-[#8F8F8F]">
           Sumber Dana
         </div>
 
