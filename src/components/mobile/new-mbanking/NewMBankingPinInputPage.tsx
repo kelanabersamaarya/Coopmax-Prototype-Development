@@ -29,8 +29,8 @@ export default function NewMBankingPinInputPage({
   }
 
   const keyClassName = cn(
-    "flex h-[80px] w-[80px] items-center justify-center rounded-full",
-    "bg-[#EEF0F4] text-[30px] font-bold leading-none text-black",
+    "flex h-[72px] w-[72px] items-center justify-center rounded-full",
+    "bg-[#EEF0F4] text-[28px] font-bold leading-none text-black",
     "transition active:scale-[0.94] active:bg-[#E3E7ED]",
   );
 
@@ -83,7 +83,7 @@ export default function NewMBankingPinInputPage({
         </div>
 
         <div className="mt-auto">
-          <div className="mx-auto grid max-w-[332px] grid-cols-3 justify-items-center gap-x-[31px] gap-y-[26px]">
+          <div className="mx-auto grid max-w-[300px] grid-cols-3 justify-items-center gap-x-[24px] gap-y-[20px]">
             {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
               <button
                 key={digit}
@@ -114,7 +114,7 @@ export default function NewMBankingPinInputPage({
               aria-label="Hapus"
               title="Hapus"
             >
-              <Delete className="h-[23px] w-[23px] text-black" strokeWidth={2.7} />
+              <Delete className="h-[22px] w-[22px] text-black" strokeWidth={2.7} />
             </button>
           </div>
 
