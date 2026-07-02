@@ -209,7 +209,7 @@ export default function NewMBankingOnboardingIntro({
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9]">
-      <div className="flex shrink-0 flex-col items-center px-6 pt-[40px]">
+      <div className="flex shrink-0 flex-col items-center px-6 pt-[20px]">
         <div className="flex items-center justify-center gap-[10px]">
           <CooperativeLogo />
           <div className="whitespace-nowrap text-[18px] font-semibold leading-none tracking-[-0.035em] text-black">
@@ -217,7 +217,7 @@ export default function NewMBankingOnboardingIntro({
           </div>
         </div>
 
-        <div className="mt-[18px]">
+        <div className="mt-[8px]">
           <DjoinLogo />
         </div>
       </div>
