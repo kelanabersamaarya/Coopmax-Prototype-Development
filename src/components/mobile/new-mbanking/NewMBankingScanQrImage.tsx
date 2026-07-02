@@ -4,12 +4,12 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const qrCodeSources = [
-  "/qr_code_.png",
-  "/qr_code_.jpg",
-  "/qr_code_.jpeg",
-  "/qr_code_.webp",
-  "/qr_code_.svg",
-  "/qr_code_",
+  "/qr_code.png",
+  "/qr_code.jpg",
+  "/qr_code.jpeg",
+  "/qr_code.webp",
+  "/qr_code.svg",
+  "/qr_code",
 ];
 
 function FallbackQrCode() {
