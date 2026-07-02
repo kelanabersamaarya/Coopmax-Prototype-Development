@@ -1,5 +1,4 @@
 import { ArrowLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
 import NewMBankingReceiptBrand from "@/components/mobile/new-mbanking/NewMBankingReceiptBrand";
 
 function DetailRow({
@@ -10,13 +9,31 @@ function DetailRow({
   value: string;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 py-[10px]">
+    <div className="flex items-start justify-between gap-4 py-[7px]">
       <div className="min-w-0 text-left text-[14px] font-normal leading-tight text-[#8F8F8F]">
         {label}
       </div>
-      <div className="max-w-[178px] text-right text-[14px] font-normal leading-tight text-black">
+      <div className="max-w-[190px] text-right text-[14px] font-normal leading-tight text-black">
         {value}
       </div>
+    </div>
+  );
+}
+
+function InfoSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="mt-[24px]">
+      <div className="text-left text-[16px] font-bold leading-tight text-black">
+        {title}
+      </div>
+      <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
+      <div className="mt-[8px]">{children}</div>
     </div>
   );
 }
@@ -66,30 +83,46 @@ export default function NewMBankingTransactionReceiptPage({
             </div>
           </div>
 
-          <div className="mt-[34px]">
-            <div className="flex items-center justify-between gap-4">
-              <div className="text-[14px] font-normal leading-tight text-[#8F8F8F]">
-                Nama Accuirer
+          <InfoSection title="Sumber Dana">
+            <div className="py-[7px]">
+              <div className="text-[14px] font-normal leading-tight text-black">
+                Arya Dharma
               </div>
-              <div className="text-right text-[14px] font-normal leading-tight text-black">
-                Djoin
+              <div className="mt-[7px] text-[14px] font-normal leading-tight text-[#8F8F8F]">
+                Simpanan Kaya - 1122334444
               </div>
             </div>
-          </div>
+          </InfoSection>
 
-          <div className="mt-[28px]">
-            <div className="text-left text-[16px] font-bold leading-tight text-black">
-              Detail Transaksi
+          <InfoSection title="Penerima">
+            <div className="py-[7px]">
+              <div className="text-[14px] font-normal leading-tight text-black">
+                QRIS Indomaret
+              </div>
+              <div className="mt-[7px] text-[14px] font-normal leading-tight text-[#8F8F8F]">
+                Tangerang ID
+              </div>
             </div>
-            <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
+          </InfoSection>
 
-            <div className="mt-[8px]">
-              <DetailRow label="Customer PAN" value="11222333344" />
-              <DetailRow label="Nama Merchant" value="Mini Mart" />
-              <DetailRow label="Merchant PAN" value="2211122223333" />
-              <DetailRow label="Lokasi" value="Bali, Indonesia" />
-            </div>
-          </div>
+          <InfoSection title="Detail Pembayaran">
+            <DetailRow label="Nominal" value="50.000,00" />
+            <DetailRow label="Total" value="50.000,00" />
+          </InfoSection>
+
+          <InfoSection title="Detail Merchant">
+            <DetailRow label="Merchant ID" value="11222333344" />
+            <DetailRow label="Merchant PAN" value="11222333344" />
+            <DetailRow label="Terminal ID" value="-" />
+            <DetailRow label="Nama Acquirer" value="Djoin" />
+          </InfoSection>
+
+          <InfoSection title="Detail Transaksi">
+            <DetailRow label="Customer PAN" value="11222333344" />
+            <DetailRow label="Nama Issuer" value="Djoin" />
+            <DetailRow label="Tipe Transaksi" value="QRIS" />
+            <DetailRow label="Kode IRR" value="RCA221112222" />
+          </InfoSection>
         </section>
       </main>
     </div>
