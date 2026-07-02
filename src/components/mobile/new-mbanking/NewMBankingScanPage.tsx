@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingScanBottomActions from "@/components/mobile/new-mbanking/NewMBankingScanBottomActions";
 import NewMBankingScanningAnimation from "@/components/mobile/new-mbanking/NewMBankingScanningAnimation";
 import NewMBankingScanResultPage from "@/components/mobile/new-mbanking/NewMBankingScanResultPage";
@@ -13,16 +14,26 @@ export default function NewMBankingScanPage({
   onBack,
 }: NewMBankingScanPageProps) {
   const [showResultPage, setShowResultPage] = React.useState(false);
+  const [showPinInput, setShowPinInput] = React.useState(false);
 
   React.useEffect(() => {
-    if (showResultPage) return;
+    if (showResultPage || showPinInput) return;
 
     const timer = window.setTimeout(() => {
       setShowResultPage(true);
     }, 5000);
 
     return () => window.clearTimeout(timer);
-  }, [showResultPage]);
+  }, [showPinInput, showResultPage]);
+
+  if (showPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        onBack={() => setShowPinInput(false)}
+        onSubmit={() => setShowPinInput(false)}
+      />
+    );
+  }
 
   if (showResultPage) {
     return (
@@ -55,7 +66,13 @@ export default function NewMBankingScanPage({
         <NewMBankingScanningAnimation />
 
         <section className="absolute inset-x-0 bottom-0 z-10 h-[132px] rounded-t-[30px] bg-white px-6 pt-[24px]">
-          <NewMBankingScanBottomActions />
+          <NewMBankingScanBottomActions
+            onChange={(value) => {
+              if (value === "qr") {
+                setShowPinInput(true);
+              }
+            }}
+          />
         </section>
       </main>
     </div>
