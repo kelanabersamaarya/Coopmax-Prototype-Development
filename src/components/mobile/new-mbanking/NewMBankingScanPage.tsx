@@ -20,10 +20,6 @@ export default function NewMBankingScanPage({
           >
             <ArrowLeft className="h-5 w-5" strokeWidth={2.6} />
           </button>
-
-          <h1 className="text-[16px] font-bold leading-tight text-black">
-            Scan
-          </h1>
         </div>
       </header>
 
