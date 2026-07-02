@@ -26,7 +26,7 @@ export default function NewMBankingQrisMerchantItem() {
       </div>
 
       <div className="mt-[34px]">
-        <label className="text-[18px] font-bold leading-tight text-[#2F3137]">
+        <label className="text-[14px] font-bold leading-tight text-[#2F3137]">
           Nominal Pembayaran<span className="text-[#EF135D]">*</span>
         </label>
 
@@ -36,9 +36,9 @@ export default function NewMBankingQrisMerchantItem() {
           placeholder="Masukkan Nominal Pembayaran"
           inputMode="decimal"
           className={cn(
-            "mt-[11px] h-[72px] w-full rounded-[15px] border border-[#CDD4E0] bg-white px-[30px]",
-            "text-[18px] font-normal text-black shadow-none outline-none",
-            "placeholder:text-[18px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+            "mt-[11px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
+            "text-[14px] font-normal text-black shadow-none outline-none",
+            "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
             "focus:border-[#479DF4]",
           )}
         />
