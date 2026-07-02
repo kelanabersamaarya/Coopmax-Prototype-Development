@@ -52,7 +52,7 @@ function CooperativeLogo() {
 
   return (
     <div
-      className="relative h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)] ring-[3px] ring-[#ffd21f]"
+      className="relative h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full bg-white shadow-[0_4px_12px_rgba(15,23,42,0.16)]"
       aria-label="Logo koperasi"
     >
       {showFallback ? (
