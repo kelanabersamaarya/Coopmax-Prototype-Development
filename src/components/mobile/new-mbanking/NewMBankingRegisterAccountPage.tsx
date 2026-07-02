@@ -1,9 +1,9 @@
 import * as React from "react";
 import { ArrowLeft, Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import NewMBankingRegisterConfirmModal from "@/components/mobile/new-mbanking/NewMBankingRegisterConfirmModal";
+import NewMBankingRegisterSuccessPage from "@/components/mobile/new-mbanking/NewMBankingRegisterSuccessPage";
 
 type NewMBankingRegisterAccountPageProps = {
   onBack: () => void;
@@ -20,6 +20,7 @@ export default function NewMBankingRegisterAccountPage({
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showSuccessPage, setShowSuccessPage] = React.useState(false);
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,37 +28,12 @@ export default function NewMBankingRegisterAccountPage({
   }
 
   function confirmRegistration() {
-    if (!username.trim()) {
-      toast("Username wajib diisi", {
-        description: "Silakan isi username terlebih dahulu.",
-      });
-      setConfirmOpen(false);
-      return;
-    }
-
-    if (!password.trim()) {
-      toast("Kata sandi wajib diisi", {
-        description: "Silakan isi kata sandi terlebih dahulu.",
-      });
-      setConfirmOpen(false);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      toast("Konfirmasi kata sandi tidak sesuai", {
-        description: "Pastikan kata sandi dan konfirmasi kata sandi sama.",
-      });
-      setConfirmOpen(false);
-      return;
-    }
-
     setConfirmOpen(false);
+    setShowSuccessPage(true);
+  }
 
-    toast.success("Pendaftaran berhasil", {
-      description: "Akun M-Banking berhasil dibuat di prototype.",
-    });
-
-    onSubmitSuccess();
+  if (showSuccessPage) {
+    return <NewMBankingRegisterSuccessPage onContinue={onSubmitSuccess} />;
   }
 
   const fieldClassName = cn(

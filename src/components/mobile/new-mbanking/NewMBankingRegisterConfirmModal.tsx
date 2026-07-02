@@ -37,7 +37,7 @@ export default function NewMBankingRegisterConfirmModal({
               "transition active:scale-[0.98]",
             )}
           >
-            Ya, Daftar Sekarang
+            Ya, Lanjutkan Pendaftaran
           </button>
 
           <button
