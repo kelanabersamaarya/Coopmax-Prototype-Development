@@ -173,7 +173,7 @@ export default function NewMBankingOnboardingIntro({
           </p>
         </div>
 
-        <div className="mt-[25px] flex items-center justify-center gap-[10px]">
+        <div className="mt-[61px] flex items-center justify-center gap-[10px]">
           <button
             type="button"
             onClick={onRegister}
