@@ -8,6 +8,7 @@ export default function NewMBankingSourceFundGradientCard({
   onClick,
   showChevron = true,
   showBalance = true,
+  sectionLabel,
   className,
 }: {
   account: SourceFundAccount;
@@ -15,6 +16,7 @@ export default function NewMBankingSourceFundGradientCard({
   onClick?: () => void;
   showChevron?: boolean;
   showBalance?: boolean;
+  sectionLabel?: string;
   className?: string;
 }) {
   const content = (
@@ -33,29 +35,37 @@ export default function NewMBankingSourceFundGradientCard({
       <div className="pointer-events-none absolute right-[50px] top-[54px] h-[58px] w-[58px] rounded-full bg-cyan-200/16" />
       <div className="pointer-events-none absolute -bottom-[34px] left-[72px] h-[92px] w-[92px] rounded-full bg-violet-950/12" />
 
-      <div className="relative z-10 flex min-w-0 items-center gap-[13px]">
-        <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-[14px] bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
-          <WalletCards className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
-        </span>
-
-        <div className="min-w-0">
-          <div className="text-[12px] font-normal leading-none text-white/82">
-            {account.productName}
+      <div className="relative z-10 min-w-0 flex-1">
+        {sectionLabel ? (
+          <div className="mb-[12px] text-[12px] font-normal leading-none text-white/82">
+            {sectionLabel}
           </div>
-          <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
-            {account.accountNo}
-          </div>
+        ) : null}
 
-          {showBalance ? (
-            <>
-              <div className="mt-[14px] text-[12px] font-normal leading-none text-white/82">
-                Saldo
-              </div>
-              <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
-                {account.balance}
-              </div>
-            </>
-          ) : null}
+        <div className="flex min-w-0 items-center gap-[13px]">
+          <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-[14px] bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
+            <WalletCards className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
+          </span>
+
+          <div className="min-w-0">
+            <div className="text-[12px] font-normal leading-none text-white/82">
+              {account.productName}
+            </div>
+            <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
+              {account.accountNo}
+            </div>
+
+            {showBalance ? (
+              <>
+                <div className="mt-[14px] text-[12px] font-normal leading-none text-white/82">
+                  Saldo
+                </div>
+                <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
+                  {account.balance}
+                </div>
+              </>
+            ) : null}
+          </div>
         </div>
       </div>
 
