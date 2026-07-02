@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ChevronRight, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingQrisConfirmModal from "@/components/mobile/new-mbanking/NewMBankingQrisConfirmModal";
 import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -14,6 +15,7 @@ const defaultSourceFund: SourceFundAccount = {
 export default function NewMBankingQrisMerchantItem() {
   const [nominal, setNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
 
@@ -23,6 +25,13 @@ export default function NewMBankingQrisMerchantItem() {
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+      />
+
+      <NewMBankingQrisConfirmModal
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        amount={nominal.trim() ? nominal : "Rp. 50.000,00"}
+        sourceFund={sourceFund}
       />
 
       <div>
@@ -110,6 +119,7 @@ export default function NewMBankingQrisMerchantItem() {
 
       <button
         type="button"
+        onClick={() => setConfirmOpen(true)}
         className={cn(
           "mt-auto h-[46px] w-full rounded-[10px] bg-[#479DF4]",
           "text-[12px] font-normal leading-none text-white",
