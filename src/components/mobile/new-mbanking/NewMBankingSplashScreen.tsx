@@ -9,6 +9,14 @@ const logoSources = [
   "/logo koperasi_splash",
 ];
 
+const djoinLogoSources = [
+  "/logo djoin_splash.png",
+  "/logo djoin_splash.jpg",
+  "/logo djoin_splash.jpeg",
+  "/logo djoin_splash.webp",
+  "/logo djoin_splash",
+];
+
 function SignalIcon() {
   return (
     <div className="flex h-5 items-end gap-[3px]" aria-hidden="true">
@@ -79,14 +87,35 @@ function CooperativeLogo() {
   );
 }
 
-function DjoinMark() {
+function DjoinLogo() {
+  const [sourceIndex, setSourceIndex] = React.useState(0);
+  const [showFallback, setShowFallback] = React.useState(false);
+
+  if (showFallback) {
+    return (
+      <span className="text-[19px] font-semibold leading-none tracking-[-0.02em]">
+        By Djoin
+      </span>
+    );
+  }
+
   return (
-    <div className="relative h-8 w-8 shrink-0" aria-hidden="true">
-      <span className="absolute bottom-0 left-0 h-[19px] w-[19px] rounded-full bg-[#d935d2]" />
-      <span className="absolute bottom-[4px] left-[6px] h-[19px] w-[19px] rounded-full bg-[#4aa3ff]" />
-      <span className="absolute right-[2px] top-0 h-[25px] w-[8px] rounded-full bg-[#6d62ff]" />
-      <span className="absolute bottom-[7px] left-[8px] h-[11px] w-[11px] rounded-full bg-white" />
-    </div>
+    <img
+      src={djoinLogoSources[sourceIndex]}
+      alt="By Djoin"
+      className="h-[27px] w-[92px] object-contain"
+      draggable={false}
+      onError={() => {
+        const nextIndex = sourceIndex + 1;
+
+        if (nextIndex < djoinLogoSources.length) {
+          setSourceIndex(nextIndex);
+          return;
+        }
+
+        setShowFallback(true);
+      }}
+    />
   );
 }
 
@@ -126,11 +155,8 @@ export default function NewMBankingSplashScreen() {
             </div>
           </div>
 
-          <div className="mt-[35px] flex h-[54px] animate-in items-center justify-center gap-[8px] rounded-[16px] bg-white px-[24px] text-[#121826] shadow-[0_8px_22px_rgba(15,23,42,0.12)] fade-in-0 slide-in-from-bottom-2 duration-700 [animation-delay:140ms] [animation-fill-mode:both]">
-            <DjoinMark />
-            <span className="text-[19px] font-semibold leading-none tracking-[-0.02em]">
-              By Djoin
-            </span>
+          <div className="mt-[35px] flex h-[54px] animate-in items-center justify-center rounded-[16px] bg-white px-[24px] text-[#121826] shadow-[0_8px_22px_rgba(15,23,42,0.12)] fade-in-0 slide-in-from-bottom-2 duration-700 [animation-delay:140ms] [animation-fill-mode:both]">
+            <DjoinLogo />
           </div>
         </main>
       </div>
