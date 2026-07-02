@@ -10,16 +10,22 @@ const actions = [
     id: "flash" as const,
     label: "Nyalakan Flash",
     icon: Zap,
+    frameClassName: "bg-[#F59E0B]",
+    activeFrameClassName: "bg-[#D97706]",
   },
   {
     id: "qr" as const,
     label: "Kode QR",
     icon: QrCode,
+    frameClassName: "bg-[#479DF4]",
+    activeFrameClassName: "bg-[#2563EB]",
   },
   {
     id: "media" as const,
     label: "Pilih Dari Media",
     icon: Image,
+    frameClassName: "bg-[#8B5CF6]",
+    activeFrameClassName: "bg-[#7C3AED]",
   },
 ];
 
@@ -43,15 +49,14 @@ export default function NewMBankingScanBottomActions({
               onClick={() => onChange?.(action.id)}
               className={cn(
                 "grid h-[44px] w-[44px] place-items-center rounded-[14px]",
-                "border transition active:scale-[0.97]",
-                isActive
-                  ? "border-[#479DF4] bg-[#EEF6FF] text-[#479DF4]"
-                  : "border-[#E6EAF0] bg-white text-[#6B7280]",
+                "border border-white/30 text-white shadow-[0_8px_18px_rgba(15,23,42,0.12)]",
+                "transition active:scale-[0.97]",
+                isActive ? action.activeFrameClassName : action.frameClassName,
               )}
               aria-label={action.label}
               aria-current={isActive ? "true" : undefined}
             >
-              <Icon className="h-[22px] w-[22px]" strokeWidth={2.7} />
+              <Icon className="h-[22px] w-[22px] text-white" strokeWidth={2.7} />
             </button>
 
             <div className="mt-[8px] text-center text-[12px] font-normal leading-tight text-black">
