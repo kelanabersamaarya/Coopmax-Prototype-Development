@@ -14,13 +14,13 @@ function DjoinLogo() {
 
   if (showFallback) {
     return (
-      <div className="flex items-center gap-[6px]">
+      <div className="flex h-[30px] items-center gap-[6px] rounded-[10px] bg-white/90 px-[10px] shadow-sm">
         <span className="relative inline-flex h-[20px] w-[20px] overflow-hidden rounded-[6px]">
           <span className="absolute left-0 top-0 h-[14px] w-[8px] rounded-full bg-[#72D2FF]" />
           <span className="absolute bottom-0 left-[2px] h-[11px] w-[11px] rounded-full bg-[#D726D7]" />
           <span className="absolute bottom-0 right-0 h-[15px] w-[8px] rounded-full bg-[#536DFE]" />
         </span>
-        <span className="text-[16px] font-normal leading-none tracking-[-0.04em] text-white">
+        <span className="text-[16px] font-normal leading-none tracking-[-0.04em] text-black">
           By Djoin
         </span>
       </div>
@@ -28,22 +28,24 @@ function DjoinLogo() {
   }
 
   return (
-    <img
-      src={djoinLogoSources[sourceIndex]}
-      alt="By Djoin"
-      className="h-[24px] w-auto object-contain brightness-0 invert"
-      draggable={false}
-      onError={() => {
-        const nextIndex = sourceIndex + 1;
+    <div className="inline-flex h-[30px] items-center rounded-[10px] bg-white/90 px-[10px] shadow-sm">
+      <img
+        src={djoinLogoSources[sourceIndex]}
+        alt="By Djoin"
+        className="h-[24px] w-auto object-contain"
+        draggable={false}
+        onError={() => {
+          const nextIndex = sourceIndex + 1;
 
-        if (nextIndex < djoinLogoSources.length) {
-          setSourceIndex(nextIndex);
-          return;
-        }
+          if (nextIndex < djoinLogoSources.length) {
+            setSourceIndex(nextIndex);
+            return;
+          }
 
-        setShowFallback(true);
-      }}
-    />
+          setShowFallback(true);
+        }}
+      />
+    </div>
   );
 }
 
