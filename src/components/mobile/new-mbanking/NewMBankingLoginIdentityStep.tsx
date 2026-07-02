@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
 import NewMBankingScanButton from "@/components/mobile/new-mbanking/NewMBankingScanButton";
 
 type NewMBankingLoginIdentityStepProps = {
@@ -122,8 +123,11 @@ export default function NewMBankingLoginIdentityStep({
       </main>
 
       <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-[30px] pt-4">
-        <div className="mb-[16px] flex justify-center">
+        <div className="mb-[16px] flex flex-col items-center">
           <NewMBankingScanButton />
+          <div className="mt-[8px] flex justify-center">
+            <NewMBankingQrisLogo />
+          </div>
         </div>
 
         <button
