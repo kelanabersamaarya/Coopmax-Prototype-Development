@@ -6,6 +6,7 @@ import {
   Copy,
   Eye,
   EyeOff,
+  Landmark,
   Send,
   Wifi,
 } from "lucide-react";
@@ -121,7 +122,7 @@ function QuickActionButton({
         <Icon className="h-[31px] w-[31px]" strokeWidth={2.35} />
       </span>
 
-      <span className="mt-[9px] text-[14px] font-normal leading-none tracking-[-0.02em] text-black">
+      <span className="mt-[9px] max-w-[86px] text-[14px] font-normal leading-tight tracking-[-0.02em] text-black">
         {label}
       </span>
     </button>
@@ -275,9 +276,10 @@ export default function NewMBankingAccountDetailPage({
             </div>
           </div>
 
-          <div className="mt-[22px] flex items-start justify-center gap-[58px]">
+          <div className="mt-[22px] grid grid-cols-3 justify-items-center gap-3">
             <QuickActionButton icon={Send} label="Transfer" />
             <QuickActionButton icon={Banknote} label="Setor" />
+            <QuickActionButton icon={Landmark} label="Transfer Antar Bank" />
           </div>
         </section>
 
