@@ -32,7 +32,7 @@ export default function NewMBankingHome({
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white pt-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="relative shrink-0 overflow-hidden bg-[#4ba2f5] px-6 pb-[26px] pt-[30px]">
+        <div className="relative shrink-0 overflow-hidden bg-[#4ba2f5] px-6 pb-[58px] pt-[30px]">
           <div className="pointer-events-none absolute -left-[98px] -top-[150px] h-[300px] w-[300px] rounded-full bg-[#f56ac8]" />
           <div className="pointer-events-none absolute -left-[36px] -top-[162px] h-[220px] w-[220px] rounded-full bg-[#f044bd]" />
 
