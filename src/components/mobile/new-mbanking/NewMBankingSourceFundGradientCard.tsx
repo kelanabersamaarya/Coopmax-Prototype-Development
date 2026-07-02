@@ -7,12 +7,14 @@ export default function NewMBankingSourceFundGradientCard({
   selected = false,
   onClick,
   showChevron = true,
+  showBalance = true,
   className,
 }: {
   account: SourceFundAccount;
   selected?: boolean;
   onClick?: () => void;
   showChevron?: boolean;
+  showBalance?: boolean;
   className?: string;
 }) {
   const content = (
@@ -44,12 +46,16 @@ export default function NewMBankingSourceFundGradientCard({
             {account.accountNo}
           </div>
 
-          <div className="mt-[14px] text-[12px] font-normal leading-none text-white/82">
-            Saldo
-          </div>
-          <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
-            {account.balance}
-          </div>
+          {showBalance ? (
+            <>
+              <div className="mt-[14px] text-[12px] font-normal leading-none text-white/82">
+                Saldo
+              </div>
+              <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
+                {account.balance}
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
 

@@ -68,7 +68,8 @@ export default function NewMBankingTransactionSuccessPage({
             <NewMBankingSourceFundGradientCard
               account={successSourceFund}
               showChevron={false}
-              className="min-h-[108px]"
+              showBalance={false}
+              className="min-h-[86px]"
             />
           </div>
 
