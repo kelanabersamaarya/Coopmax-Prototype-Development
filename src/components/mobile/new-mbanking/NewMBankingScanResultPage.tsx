@@ -1,4 +1,5 @@
 import { ArrowLeft } from "lucide-react";
+import NewMBankingQrisMerchantItem from "@/components/mobile/new-mbanking/NewMBankingQrisMerchantItem";
 
 type NewMBankingScanResultPageProps = {
   onBack: () => void;
@@ -24,6 +25,8 @@ export default function NewMBankingScanResultPage({
           Pembayaran QRIS
         </h1>
       </header>
+
+      <NewMBankingQrisMerchantItem />
     </div>
   );
 }
