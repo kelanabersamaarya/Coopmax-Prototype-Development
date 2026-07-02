@@ -49,7 +49,7 @@ export default function NewMBankingQrisMerchantItem() {
       </div>
 
       <div className="mt-[28px]">
-        <div className="text-[18px] font-bold leading-tight text-[#2F3137]">
+        <div className="text-[14px] font-bold leading-tight text-[#2F3137]">
           Sumber Dana
         </div>
 
