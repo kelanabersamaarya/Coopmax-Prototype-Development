@@ -98,7 +98,7 @@ export default function NewMBankingPinInputPage({
 
           {isWrongPin ? (
             <div className="mt-[18px] text-[12px] font-normal leading-relaxed text-[#EF135D]">
-              PIN yang Anda masukkan salah. Silakan coba lagi.
+              PIN Belum Sesuai. Silakan Coba Lagi
             </div>
           ) : null}
         </div>
