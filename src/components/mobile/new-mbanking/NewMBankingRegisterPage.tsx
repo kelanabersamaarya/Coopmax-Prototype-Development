@@ -79,7 +79,7 @@ export default function NewMBankingRegisterPage({
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[24px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-7 pt-[42px]">
+      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-7 pt-[42px]">
         <form onSubmit={submit} className="mt-[24px] grid gap-[15px]">
           <div className="grid gap-[9px]">
             <label className={labelClassName}>No. Anggota</label>
