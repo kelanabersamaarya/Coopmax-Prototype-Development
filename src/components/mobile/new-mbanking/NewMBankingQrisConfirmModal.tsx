@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { ShoppingCart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
@@ -55,6 +55,27 @@ export default function NewMBankingQrisConfirmModal({
           >
             <X className="h-[22px] w-[22px]" strokeWidth={2.6} />
           </button>
+        </div>
+
+        <div className="mt-[22px] flex items-start gap-[12px]">
+          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#ECEEF1] text-black">
+            <ShoppingCart
+              className="h-[20px] w-[20px] text-black"
+              strokeWidth={2.4}
+            />
+          </div>
+
+          <div className="min-w-0">
+            <div className="text-[18px] font-bold leading-tight text-black">
+              Mini Mart
+            </div>
+            <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#828282]">
+              Bali, Indonesia
+            </div>
+            <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
+              Merchant PAN : 2211122223333
+            </div>
+          </div>
         </div>
 
         <div className="mt-[30px] text-center text-[28px] font-bold leading-none tracking-[-0.02em] text-[#111827]">
