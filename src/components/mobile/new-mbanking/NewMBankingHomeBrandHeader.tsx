@@ -20,7 +20,7 @@ function DjoinLogo() {
           <span className="absolute bottom-0 left-[2px] h-[11px] w-[11px] rounded-full bg-[#D726D7]" />
           <span className="absolute bottom-0 right-0 h-[15px] w-[8px] rounded-full bg-[#536DFE]" />
         </span>
-        <span className="text-[16px] font-normal leading-none tracking-[-0.04em] text-[#111827]">
+        <span className="text-[16px] font-normal leading-none tracking-[-0.04em] text-white">
           By Djoin
         </span>
       </div>
@@ -31,7 +31,7 @@ function DjoinLogo() {
     <img
       src={djoinLogoSources[sourceIndex]}
       alt="By Djoin"
-      className="h-[24px] w-auto object-contain"
+      className="h-[24px] w-auto object-contain brightness-0 invert"
       draggable={false}
       onError={() => {
         const nextIndex = sourceIndex + 1;
@@ -50,7 +50,7 @@ function DjoinLogo() {
 export default function NewMBankingHomeBrandHeader() {
   return (
     <div className="flex flex-col items-start text-left">
-      <div className="whitespace-nowrap text-[16px] font-normal leading-tight tracking-[-0.04em] text-black">
+      <div className="whitespace-nowrap text-[16px] font-normal leading-tight tracking-[-0.04em] text-white">
         M-Banking Koperasi
       </div>
 
