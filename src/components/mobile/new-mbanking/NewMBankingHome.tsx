@@ -58,8 +58,9 @@ export default function NewMBankingHome({
           </div>
         </div>
 
-        <section className="relative z-20 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white px-6 pb-[160px] pt-[31px]">
+        <section className="relative z-20 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white px-6 pb-[160px] pt-[20px]">
           <NewMBankingAccountsSection
+            className="mt-0"
             onSavingsDetailClick={() => setShowAccountDetail(true)}
           />
 
