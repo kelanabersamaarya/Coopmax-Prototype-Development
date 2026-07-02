@@ -9,7 +9,7 @@ export default function NewMBankingScanResultPage({
 }: NewMBankingScanResultPageProps) {
   return (
     <div className="h-full min-h-full bg-[#F9F9F9] text-black">
-      <header className="flex h-[70px] items-center gap-3 px-[31px]">
+      <header className="flex h-[92px] items-center gap-3 px-[31px] pt-[22px]">
         <button
           type="button"
           onClick={onBack}
