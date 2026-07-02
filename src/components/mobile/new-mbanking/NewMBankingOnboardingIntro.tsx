@@ -151,7 +151,7 @@ function OnboardingIllustration({
     <img
       src={sources[sourceIndex]}
       alt={title}
-      className="h-[285px] w-[420px] max-w-full object-contain transition-opacity duration-300"
+      className="h-[285px] w-[420px] max-w-full object-contain"
       draggable={false}
       onError={() => {
         const nextIndex = sourceIndex + 1;
@@ -185,7 +185,7 @@ function OnboardingSlider({
             type="button"
             onClick={() => onChange(index)}
             className={cn(
-              "h-[10px] rounded-full transition-all",
+              "h-[10px] rounded-full transition-all duration-500 ease-out",
               active ? "w-[31px] bg-[#479DF4]" : "w-[10px] bg-[#D8D8D8]",
             )}
             aria-label={`Buka slide ${index + 1}`}
@@ -231,10 +231,15 @@ export default function NewMBankingOnboardingIntro({
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[266px] pt-[16px]">
-        <OnboardingIllustration
-          sources={slide.imageSources}
-          title={slide.title}
-        />
+        <div
+          key={`image-${activeSlide}`}
+          className="animate-in fade-in-0 slide-in-from-right-4 duration-700 ease-out"
+        >
+          <OnboardingIllustration
+            sources={slide.imageSources}
+            title={slide.title}
+          />
+        </div>
       </div>
 
       <div className="absolute inset-x-0 bottom-[282px] z-20 flex justify-center">
@@ -242,13 +247,18 @@ export default function NewMBankingOnboardingIntro({
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-10 h-[266px] rounded-t-[30px] bg-white px-6 pt-[41px]">
-        <div className="text-center">
-          <h1 className="mx-auto max-w-[330px] text-[20px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
-            {slide.title}
-          </h1>
-          <p className="mx-auto mt-[25px] max-w-[325px] text-[14px] font-normal leading-[1.45] tracking-[-0.01em] text-[#8F8F8F]">
-            {slide.description}
-          </p>
+        <div
+          key={`text-${activeSlide}`}
+          className="animate-in fade-in-0 slide-in-from-bottom-3 duration-700 ease-out"
+        >
+          <div className="text-center">
+            <h1 className="mx-auto max-w-[330px] text-[20px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
+              {slide.title}
+            </h1>
+            <p className="mx-auto mt-[25px] max-w-[325px] text-[14px] font-normal leading-[1.45] tracking-[-0.01em] text-[#8F8F8F]">
+              {slide.description}
+            </p>
+          </div>
         </div>
 
         <div className="mt-[28px] flex items-center justify-center gap-[10px]">
