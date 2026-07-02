@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type NewMBankingRegisterSuccessPageProps = {
@@ -10,13 +11,20 @@ export default function NewMBankingRegisterSuccessPage({
   return (
     <div className="flex h-full min-h-full flex-col bg-[#F9F9F9] px-6 pb-[30px] pt-[42px] text-black">
       <main className="flex min-h-0 flex-1 items-center justify-center">
-        <section className="flex min-h-[315px] w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-6 py-8 text-center">
-          <h1 className="max-w-[300px] text-[30px] font-bold leading-[1.18] tracking-[-0.04em] text-black">
+        <section className="flex min-h-[365px] w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center">
+          <div className="flex h-[86px] w-[86px] items-center justify-center rounded-full bg-[#EAF7EF]">
+            <div className="flex h-[62px] w-[62px] items-center justify-center rounded-full bg-[#33AA00]">
+              <Check className="h-[36px] w-[36px] text-white" strokeWidth={3.5} />
+            </div>
+          </div>
+
+          <h1 className="mt-[34px] max-w-[300px] text-[28px] font-bold leading-[1.18] tracking-[-0.04em] text-black">
             Pendaftaran M-Banking Berhasil Dilakukan
           </h1>
 
-          <p className="mt-[45px] max-w-[305px] text-[24px] font-normal leading-[1.35] tracking-[-0.03em] text-black">
-            Selamat, pendaftaran M-Banking Anda berhasil dilakukan.
+          <p className="mt-[25px] max-w-[305px] text-[18px] font-normal leading-[1.45] tracking-[-0.02em] text-[#828282]">
+            Selamat, pendaftaran M-Banking Anda berhasil dilakukan. Silakan masuk
+            untuk mulai menggunakan layanan M-Banking.
           </p>
         </section>
       </main>
