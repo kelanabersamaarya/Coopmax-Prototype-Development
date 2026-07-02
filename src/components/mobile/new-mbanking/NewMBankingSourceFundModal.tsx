@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Check, ChevronRight, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type SourceFundAccount = {
@@ -65,10 +65,7 @@ function SourceFundCard({
           <Check className="h-[17px] w-[17px]" strokeWidth={3} />
         </span>
       ) : (
-        <ChevronRight
-          className="h-[28px] w-[28px] shrink-0 text-black"
-          strokeWidth={2.8}
-        />
+        <span className="h-[28px] w-[28px] shrink-0 rounded-full border-2 border-[#CDD4E0] bg-white" />
       )}
     </button>
   );
