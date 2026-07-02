@@ -122,7 +122,7 @@ export default function NewMBankingOnboarding({
         <Button
           type="button"
           onClick={goNext}
-          className="h-[52px] min-w-[132px] rounded-[1.15rem] bg-[#0B63CE] px-6 text-[15px] font-extrabold text-white shadow-[0_14px_30px_rgba(11,99,206,0.26)] transition hover:bg-[#0958B8] active:translate-y-px"
+          className="h-13 min-w-[132px] rounded-[1.15rem] bg-[#0B63CE] px-6 text-[15px] font-extrabold text-white shadow-[0_14px_30px_rgba(11,99,206,0.26)] transition hover:bg-[#0958B8] active:translate-y-px"
         >
           {isLastSlide ? "Mulai" : "Lanjut"}
           <ArrowRight className="h-4 w-4" strokeWidth={2.8} />

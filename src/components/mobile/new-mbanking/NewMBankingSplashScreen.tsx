@@ -8,17 +8,17 @@ export default function NewMBankingSplashScreen() {
       <div className="absolute bottom-10 right-8 h-20 w-20 rounded-[2rem] bg-[#F59E0B]/16 rotate-12" />
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center text-center">
-        <div className="mb-8 flex h-28 w-28 animate-in items-center justify-center rounded-[2.2rem] bg-white shadow-[0_22px_55px_rgba(11,99,206,0.18)] ring-1 ring-[#0B63CE]/10 fade-in-0 zoom-in-95 duration-700">
+        <div className="mb-8 flex h-28 w-28 items-center justify-center rounded-[2.2rem] bg-white shadow-[0_22px_55px_rgba(11,99,206,0.18)] ring-1 ring-[#0B63CE]/10 animate-[fade-in_0.7s_ease-out_both]">
           <img src={logoUrl} alt="New Mbanking" className="h-14 w-14 object-contain object-left" />
         </div>
 
         <img
           src={logoUrl}
           alt="New Mbanking"
-          className="h-[42px] w-auto animate-in fade-in-0 slide-in-from-bottom-2 duration-700 [animation-delay:120ms] [animation-fill-mode:both]"
+          className="h-[42px] w-auto animate-[fade-in_0.8s_ease-out_0.12s_both]"
         />
 
-        <p className="mt-5 max-w-[250px] animate-in text-[14px] font-medium leading-relaxed text-[#486581] fade-in-0 slide-in-from-bottom-2 duration-700 [animation-delay:240ms] [animation-fill-mode:both]">
+        <p className="mt-5 max-w-[250px] text-[14px] font-medium leading-relaxed text-[#486581] animate-[fade-in_0.8s_ease-out_0.24s_both]">
           Mobile banking koperasi yang lebih cepat, aman, dan nyaman.
         </p>
       </div>
