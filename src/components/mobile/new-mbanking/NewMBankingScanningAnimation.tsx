@@ -5,7 +5,7 @@ export default function NewMBankingScanningAnimation() {
     <div className="pointer-events-none absolute inset-x-0 bottom-[132px] top-0 z-10 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(71,157,244,0.10),transparent_58%)]" />
 
-      <div className="absolute inset-x-0 top-0 h-[120px] animate-[scan-full-screen_2s_ease-in-out_infinite]">
+      <div className="absolute inset-x-0 top-0 h-[120px] animate-[scan-full-screen_3.8s_ease-in-out_infinite]">
         <div className="mx-auto h-[3px] w-[88%] rounded-full bg-[#479DF4] shadow-[0_0_22px_rgba(71,157,244,1)]" />
         <div className="mx-auto h-[96px] w-[88%] bg-[linear-gradient(to_bottom,rgba(71,157,244,0.34),rgba(71,157,244,0.12),rgba(71,157,244,0))]" />
       </div>
@@ -22,13 +22,13 @@ export default function NewMBankingScanningAnimation() {
               transform: translateY(-110px);
               opacity: 0.18;
             }
-            12% {
+            15% {
               opacity: 1;
             }
             50% {
               opacity: 1;
             }
-            88% {
+            85% {
               opacity: 1;
             }
             100% {
