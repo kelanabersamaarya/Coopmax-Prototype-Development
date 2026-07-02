@@ -1,12 +1,8 @@
 import * as React from "react";
-import {
-  ArrowLeft,
-  BatteryMedium,
-  Send,
-  UserPlus,
-  Wifi,
-} from "lucide-react";
+import { ArrowLeft, Send, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
+import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
 type TransferTab = "saved" | "history";
 
@@ -80,34 +76,11 @@ const transferHistories: TransferHistory[] = [
   },
 ];
 
-function StatusBar() {
-  return (
-    <div className="flex h-[30px] shrink-0 items-center justify-between px-6 pt-2 text-black">
-      <div className="text-[14px] font-bold leading-none tracking-[-0.02em]">
-        11:30
-      </div>
-
-      <div className="flex items-center gap-[8px]">
-        <div className="flex h-4 items-end gap-[2px]" aria-hidden="true">
-          <span className="h-[5px] w-[3px] rounded-full bg-black" />
-          <span className="h-[8px] w-[3px] rounded-full bg-black" />
-          <span className="h-[11px] w-[3px] rounded-full bg-black" />
-          <span className="h-[14px] w-[3px] rounded-full bg-black" />
-        </div>
-        <Wifi className="h-[17px] w-[17px] text-black" strokeWidth={2.6} />
-        <BatteryMedium
-          className="h-[19px] w-[19px] text-black"
-          strokeWidth={2.5}
-        />
-      </div>
-    </div>
-  );
-}
-
-function NewRecipientCard() {
+function NewRecipientCard({ onClick }: { onClick: () => void }) {
   return (
     <button
       type="button"
+      onClick={onClick}
       className={cn(
         "mt-[22px] flex h-[132px] w-full flex-col items-center justify-center",
         "rounded-[24px] border border-[#E5E7EB] bg-white",
@@ -231,11 +204,20 @@ export default function NewMBankingInterbankTransferPage({
   onBack: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
+  const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
+
+  if (showNewRecipientForm) {
+    return (
+      <NewMBankingNewRecipientTransferPage
+        onBack={() => setShowNewRecipientForm(false)}
+      />
+    );
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
-        <StatusBar />
+        <NewMBankingStatusBar />
 
         <header className="flex h-[62px] items-center gap-3 px-6">
           <button
@@ -255,7 +237,7 @@ export default function NewMBankingInterbankTransferPage({
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-[34px] pt-[4px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <NewRecipientCard />
+        <NewRecipientCard onClick={() => setShowNewRecipientForm(true)} />
 
         <TransferTabs active={activeTab} onChange={setActiveTab} />
 
