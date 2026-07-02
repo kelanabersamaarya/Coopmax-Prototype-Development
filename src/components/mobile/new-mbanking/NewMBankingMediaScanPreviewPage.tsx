@@ -2,12 +2,7 @@ import * as React from "react";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-function MockQrImage({
-  color,
-}: {
-  title: string;
-  color: string;
-}) {
+function MockQrImage({ color }: { color: string }) {
   return (
     <div
       className={cn(
@@ -86,12 +81,12 @@ export default function NewMBankingMediaScanPreviewPage({
         </h1>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-5 pb-[30px] pt-[16px]">
-        <div className="mt-[18px]">
-          <MockQrImage title={title} color={color} />
+      <main className="relative flex min-h-0 flex-1 items-center justify-center px-5 pb-[74px] pt-0">
+        <div className="w-full">
+          <MockQrImage color={color} />
         </div>
 
-        <div className="mt-[28px] flex justify-center">
+        <div className="absolute bottom-[26px] left-0 right-0 flex justify-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm ring-1 ring-[#E5E7EB]">
             <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#479DF4]" />
             <span className="text-[12px] font-normal text-[#828282]">
@@ -99,6 +94,8 @@ export default function NewMBankingMediaScanPreviewPage({
             </span>
           </div>
         </div>
+
+        <div className="sr-only">{title}</div>
       </main>
 
       <style>
