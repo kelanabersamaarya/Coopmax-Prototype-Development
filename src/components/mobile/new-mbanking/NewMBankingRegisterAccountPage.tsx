@@ -23,11 +23,15 @@ export default function NewMBankingRegisterAccountPage({
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setConfirmOpen(true);
+  }
 
+  function confirmRegistration() {
     if (!username.trim()) {
       toast("Username wajib diisi", {
         description: "Silakan isi username terlebih dahulu.",
       });
+      setConfirmOpen(false);
       return;
     }
 
@@ -35,6 +39,7 @@ export default function NewMBankingRegisterAccountPage({
       toast("Kata sandi wajib diisi", {
         description: "Silakan isi kata sandi terlebih dahulu.",
       });
+      setConfirmOpen(false);
       return;
     }
 
@@ -42,13 +47,10 @@ export default function NewMBankingRegisterAccountPage({
       toast("Konfirmasi kata sandi tidak sesuai", {
         description: "Pastikan kata sandi dan konfirmasi kata sandi sama.",
       });
+      setConfirmOpen(false);
       return;
     }
 
-    setConfirmOpen(true);
-  }
-
-  function confirmRegistration() {
     setConfirmOpen(false);
 
     toast.success("Pendaftaran berhasil", {
