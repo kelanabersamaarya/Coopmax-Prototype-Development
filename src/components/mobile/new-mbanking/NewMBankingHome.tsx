@@ -17,19 +17,21 @@ export default function NewMBankingHome({
 }) {
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
-      <main className="min-h-0 flex-1 overflow-y-auto px-6 pt-[30px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="flex items-start justify-between gap-4">
-          <NewMBankingHomeBrandHeader />
-          <NewMBankingLogoutButton onClick={onLogout} />
+      <main className="min-h-0 flex-1 overflow-y-auto pt-[30px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="px-6">
+          <div className="flex items-start justify-between gap-4">
+            <NewMBankingHomeBrandHeader />
+            <NewMBankingLogoutButton onClick={onLogout} />
+          </div>
+
+          <NewMBankingWelcomeItem />
         </div>
 
-        <NewMBankingWelcomeItem />
+        <section className="mt-[18px] min-h-[420px] bg-[#FFFF] px-6 pb-[34px] pt-[1px]">
+          <NewMBankingAccountSummaryCard />
 
-        <NewMBankingAccountSummaryCard />
-
-        <NewMBankingQuickActionGrid />
-
-        <section className="-mx-6 mt-[24px] min-h-[220px] bg-[#FFFF]" />
+          <NewMBankingQuickActionGrid />
+        </section>
 
         <div className="sr-only">
           {transactions.length}
