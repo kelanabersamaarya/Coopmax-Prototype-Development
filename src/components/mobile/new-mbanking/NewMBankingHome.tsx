@@ -30,8 +30,8 @@ export default function NewMBankingHome({
   }
 
   return (
-    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white pt-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-white text-black">
+      <main className="relative z-0 min-h-0 flex-1 overflow-y-auto overscroll-contain bg-white pt-0 [scrollbar-width:none] [touch-action:pan-y] [&::-webkit-scrollbar]:hidden">
         <div className="relative shrink-0 overflow-hidden bg-[#4ba2f5] px-6 pb-[58px] pt-[30px]">
           <div className="pointer-events-none absolute -left-[98px] -top-[150px] h-[300px] w-[300px] rounded-full bg-[#f56ac8]" />
           <div className="pointer-events-none absolute -left-[36px] -top-[162px] h-[220px] w-[220px] rounded-full bg-[#f044bd]" />
@@ -58,7 +58,7 @@ export default function NewMBankingHome({
           </div>
         </div>
 
-        <section className="relative z-20 -mt-[30px] min-h-0 flex-1 rounded-t-[30px] bg-white px-6 pb-[160px] pt-[20px]">
+        <section className="relative z-20 -mt-[30px] rounded-t-[30px] bg-white px-6 pb-[160px] pt-[20px]">
           <NewMBankingAccountsSection
             className="mt-0"
             onSavingsDetailClick={() => setShowAccountDetail(true)}
@@ -69,9 +69,14 @@ export default function NewMBankingHome({
 
         <div className="sr-only">
           {transactions.length}
-          <button type="button" onClick={() => onTransactionSaved?.(transactions[0])}>
-            sinkron transaksi
-          </button>
+          {transactions[0] ? (
+            <button
+              type="button"
+              onClick={() => onTransactionSaved?.(transactions[0])}
+            >
+              sinkron transaksi
+            </button>
+          ) : null}
         </div>
       </main>
 
