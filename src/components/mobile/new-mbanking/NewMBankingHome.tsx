@@ -1,5 +1,5 @@
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
-import NewMBankingAccountSummaryCard from "@/components/mobile/new-mbanking/NewMBankingAccountSummaryCard";
+import NewMBankingAccountsSection from "@/components/mobile/new-mbanking/NewMBankingAccountsSection";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
@@ -28,7 +28,7 @@ export default function NewMBankingHome({
         </div>
 
         <section className="mt-[18px] min-h-0 flex-1 bg-[#FFFF] px-6 pb-[34px] pt-[1px]">
-          <NewMBankingAccountSummaryCard />
+          <NewMBankingAccountsSection />
 
           <NewMBankingQuickActionGrid />
         </section>
