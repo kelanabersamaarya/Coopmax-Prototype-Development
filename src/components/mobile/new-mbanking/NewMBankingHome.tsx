@@ -45,8 +45,8 @@ export default function NewMBankingHome({
           <div className="pointer-events-none absolute -bottom-[92px] -left-[48px] h-[168px] w-[168px] rounded-full bg-[#a143ef]" />
           <div className="pointer-events-none absolute -bottom-[58px] -left-[22px] h-[98px] w-[98px] rounded-full bg-[#8c16ea]" />
 
-          <div className="pointer-events-none absolute inset-0 bg-white/22" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[76px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.98))]" />
+          <div className="pointer-events-none absolute inset-0 bg-white/10" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[42px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.68))]" />
 
           <div className="relative z-10">
             <div className="flex items-start justify-between gap-4">
