@@ -27,7 +27,7 @@ export default function NewMBankingHome({
           <NewMBankingWelcomeItem />
         </div>
 
-        <section className="min-h-0 flex-1 bg-white px-6 pb-[34px] pt-[1px]">
+        <section className="min-h-0 flex-1 bg-white px-6 pb-[96px] pt-[1px]">
           <NewMBankingAccountsSection />
 
           <NewMBankingQuickActionGrid />
