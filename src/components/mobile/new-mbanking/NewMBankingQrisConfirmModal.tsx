@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { ShoppingCart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 
 export default function NewMBankingQrisConfirmModal({
   open,
@@ -60,10 +61,10 @@ export default function NewMBankingQrisConfirmModal({
         </div>
 
         <div className="mt-[10px] flex items-start gap-[12px]">
-          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#ECEEF1] text-black">
+          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
             <ShoppingCart
-              className="h-[20px] w-[20px] text-black"
-              strokeWidth={2.4}
+              className="h-[20px] w-[20px] text-white"
+              strokeWidth={2.6}
             />
           </div>
 
@@ -97,22 +98,11 @@ export default function NewMBankingQrisConfirmModal({
           Sumber Dana
         </div>
 
-        <div className="mt-[14px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[8px] border border-[#D8D8D8] bg-white px-[26px] py-[16px]">
-          <div className="min-w-0">
-            <div className="text-[12px] font-normal leading-none text-[#2F3137]">
-              {sourceFund.productName}
-            </div>
-            <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-              {sourceFund.accountNo}
-            </div>
-
-            <div className="mt-[15px] text-[12px] font-normal leading-none text-[#2F3137]">
-              Saldo
-            </div>
-            <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-              {sourceFund.balance}
-            </div>
-          </div>
+        <div className="mt-[14px]">
+          <NewMBankingSourceFundGradientCard
+            account={sourceFund}
+            showChevron={false}
+          />
         </div>
 
         <div className="mt-[24px] grid grid-cols-2 gap-[10px]">

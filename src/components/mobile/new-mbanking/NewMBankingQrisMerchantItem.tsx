@@ -1,10 +1,11 @@
 import * as React from "react";
-import { ChevronRight, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingQrisConfirmModal from "@/components/mobile/new-mbanking/NewMBankingQrisConfirmModal";
 import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -41,10 +42,10 @@ export default function NewMBankingQrisMerchantItem({
 
       <div>
         <div className="flex items-start gap-[12px]">
-          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#ECEEF1] text-black">
+          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#F59E0B] text-white shadow-sm">
             <ShoppingCart
-              className="h-[20px] w-[20px] text-black"
-              strokeWidth={2.4}
+              className="h-[20px] w-[20px] text-white"
+              strokeWidth={2.6}
             />
           </div>
 
@@ -89,36 +90,12 @@ export default function NewMBankingQrisMerchantItem({
             Sumber Dana
           </div>
 
-          <button
-            type="button"
-            onClick={() => setSourceFundOpen(true)}
-            className={cn(
-              "mt-[5px] flex h-[115px] w-full items-center justify-between gap-4 rounded-[15px]",
-              "border border-[#D8D8D8] bg-white px-[26px] py-[16px] text-left",
-              "transition active:scale-[0.99]",
-            )}
-          >
-            <div className="min-w-0">
-              <div className="text-[12px] font-normal leading-none text-[#2F3137]">
-                {sourceFund.productName}
-              </div>
-              <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-                {sourceFund.accountNo}
-              </div>
-
-              <div className="mt-[15px] text-[12px] font-normal leading-none text-[#2F3137]">
-                Saldo
-              </div>
-              <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-                {sourceFund.balance}
-              </div>
-            </div>
-
-            <ChevronRight
-              className="h-[28px] w-[28px] shrink-0 text-black"
-              strokeWidth={2.8}
+          <div className="mt-[8px]">
+            <NewMBankingSourceFundGradientCard
+              account={sourceFund}
+              onClick={() => setSourceFundOpen(true)}
             />
-          </button>
+          </div>
         </div>
       </div>
 

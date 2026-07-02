@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 
 export type SourceFundAccount = {
   productName: string;
@@ -23,53 +24,6 @@ const sourceFundAccounts: SourceFundAccount[] = [
     balance: "Rp. 2.750.000,00",
   },
 ];
-
-function SourceFundCard({
-  account,
-  selected,
-  onClick,
-}: {
-  account: SourceFundAccount;
-  selected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "flex h-[115px] w-full items-center justify-between gap-4 rounded-[8px]",
-        "border bg-white px-[26px] py-[16px] text-left",
-        "transition active:scale-[0.99]",
-        selected ? "border-[#479DF4]" : "border-[#D8D8D8]",
-      )}
-    >
-      <div className="min-w-0">
-        <div className="text-[12px] font-normal leading-none text-[#2F3137]">
-          {account.productName}
-        </div>
-        <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-          {account.accountNo}
-        </div>
-
-        <div className="mt-[15px] text-[12px] font-normal leading-none text-[#2F3137]">
-          Saldo
-        </div>
-        <div className="mt-[6px] text-[16px] font-bold leading-none text-[#2F3137]">
-          {account.balance}
-        </div>
-      </div>
-
-      {selected ? (
-        <span className="grid h-[28px] w-[28px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-          <Check className="h-[17px] w-[17px]" strokeWidth={3} />
-        </span>
-      ) : (
-        <span className="h-[28px] w-[28px] shrink-0 rounded-full border-2 border-[#CDD4E0] bg-white" />
-      )}
-    </button>
-  );
-}
 
 export default function NewMBankingSourceFundModal({
   open,
@@ -128,10 +82,11 @@ export default function NewMBankingSourceFundModal({
 
         <div className="mt-[18px] grid gap-[10px]">
           {sourceFundAccounts.map((account) => (
-            <SourceFundCard
+            <NewMBankingSourceFundGradientCard
               key={account.accountNo}
               account={account}
               selected={selectedAccount.accountNo === account.accountNo}
+              showChevron={false}
               onClick={() => setSelectedAccount(account)}
             />
           ))}
