@@ -51,16 +51,15 @@ export default function NewMBankingRegisterAccountPage({
   }
 
   const fieldClassName = cn(
-    "h-[67px] w-full rounded-[14px] border border-[#CDD4E0] bg-white px-[29px]",
-    "text-[20px] font-normal text-black shadow-none",
-    "placeholder:text-[20px] placeholder:font-normal placeholder:text-[#828282]",
+    "h-[41px] w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
+    "text-[14px] font-normal text-black shadow-none",
+    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#828282]",
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
-  const passwordFieldClassName = cn(fieldClassName, "pr-[58px]");
+  const passwordFieldClassName = cn(fieldClassName, "pr-[48px]");
 
-  const labelClassName =
-    "text-[22px] font-bold leading-none tracking-[-0.025em] text-[#2E2E2E]";
+  const labelClassName = "text-[14px] font-bold leading-none text-black";
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -111,11 +110,14 @@ export default function NewMBankingRegisterAccountPage({
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-0 pb-[15px] pt-[30px]">
-        <form onSubmit={submit} className="flex min-h-full flex-col">
-          <div className="grid gap-[33px]">
-            <div className="grid gap-[14px]">
-              <label className={cn(labelClassName, "px-0")}>
+      <div className="relative z-10 -mt-[68px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-[30px] pt-[30px]">
+        <form
+          onSubmit={submit}
+          className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-between"
+        >
+          <div className="grid gap-[15px]">
+            <div className="grid gap-[9px]">
+              <label className={labelClassName}>
                 Username<span className="text-[#EF135D]">*</span>
               </label>
               <Input
@@ -127,7 +129,7 @@ export default function NewMBankingRegisterAccountPage({
               />
             </div>
 
-            <div className="grid gap-[14px]">
+            <div className="grid gap-[9px]">
               <label className={labelClassName}>
                 Kata Sandi<span className="text-[#EF135D]">*</span>
               </label>
@@ -145,7 +147,7 @@ export default function NewMBankingRegisterAccountPage({
                 <button
                   type="button"
                   onClick={() => setShowPassword((current) => !current)}
-                  className="absolute right-[17px] top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
                   aria-label={
                     showPassword
                       ? "Sembunyikan kata sandi"
@@ -158,15 +160,15 @@ export default function NewMBankingRegisterAccountPage({
                   }
                 >
                   {showPassword ? (
-                    <Eye className="h-[30px] w-[30px]" strokeWidth={2.8} />
+                    <Eye className="h-[22px] w-[22px]" strokeWidth={2.8} />
                   ) : (
-                    <EyeOff className="h-[30px] w-[30px]" strokeWidth={2.8} />
+                    <EyeOff className="h-[22px] w-[22px]" strokeWidth={2.8} />
                   )}
                 </button>
               </div>
             </div>
 
-            <div className="grid gap-[14px]">
+            <div className="grid gap-[9px]">
               <label className={labelClassName}>
                 Konfirmasi Kata Sandi<span className="text-[#EF135D]">*</span>
               </label>
@@ -184,7 +186,7 @@ export default function NewMBankingRegisterAccountPage({
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword((current) => !current)}
-                  className="absolute right-[17px] top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
                   aria-label={
                     showConfirmPassword
                       ? "Sembunyikan konfirmasi kata sandi"
@@ -197,22 +199,22 @@ export default function NewMBankingRegisterAccountPage({
                   }
                 >
                   {showConfirmPassword ? (
-                    <Eye className="h-[30px] w-[30px]" strokeWidth={2.8} />
+                    <Eye className="h-[22px] w-[22px]" strokeWidth={2.8} />
                   ) : (
-                    <EyeOff className="h-[30px] w-[30px]" strokeWidth={2.8} />
+                    <EyeOff className="h-[22px] w-[22px]" strokeWidth={2.8} />
                   )}
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="mt-auto grid grid-cols-2 gap-[10px] px-1 pt-8">
+          <div className="grid grid-cols-2 gap-[10px]">
             <button
               type="button"
               onClick={onBack}
               className={cn(
-                "h-[76px] rounded-[10px] border-2 border-[#479DF4] bg-white",
-                "text-[20px] font-normal leading-none text-[#479DF4]",
+                "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
+                "text-[12px] font-normal leading-none text-[#479DF4]",
                 "transition active:scale-[0.98]",
               )}
             >
@@ -222,8 +224,8 @@ export default function NewMBankingRegisterAccountPage({
             <button
               type="submit"
               className={cn(
-                "h-[76px] rounded-[10px] bg-[#479DF4]",
-                "text-[20px] font-normal leading-none text-white",
+                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "text-[12px] font-normal leading-none text-white",
                 "transition active:scale-[0.98]",
               )}
             >
