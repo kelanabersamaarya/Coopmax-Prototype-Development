@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type GalleryItem = {
+export type GalleryItem = {
   id: string;
   title: string;
   color: string;
@@ -91,7 +91,7 @@ export default function NewMBankingMediaPickerPopup({
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onChoose: () => void;
+  onChoose: (item: GalleryItem) => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const [selectedId, setSelectedId] = React.useState(galleryItems[0].id);
@@ -106,6 +106,9 @@ export default function NewMBankingMediaPickerPopup({
   }, [open]);
 
   if (!open || !mobileScreen) return null;
+
+  const selectedItem =
+    galleryItems.find((item) => item.id === selectedId) ?? galleryItems[0];
 
   return createPortal(
     <div className="absolute inset-0 z-[130] flex items-end bg-black/45 px-4 pb-4">
@@ -183,7 +186,7 @@ export default function NewMBankingMediaPickerPopup({
               type="button"
               onClick={() => {
                 onOpenChange(false);
-                onChoose();
+                onChoose(selectedItem);
               }}
               className={cn(
                 "h-[46px] rounded-[10px] bg-[#479DF4]",

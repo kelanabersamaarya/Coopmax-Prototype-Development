@@ -6,7 +6,10 @@ import NewMBankingQrCodeDisplayPage from "@/components/mobile/new-mbanking/NewMB
 import NewMBankingScanBottomActions from "@/components/mobile/new-mbanking/NewMBankingScanBottomActions";
 import NewMBankingScanningAnimation from "@/components/mobile/new-mbanking/NewMBankingScanningAnimation";
 import NewMBankingScanResultPage from "@/components/mobile/new-mbanking/NewMBankingScanResultPage";
-import NewMBankingMediaPickerPopup from "@/components/mobile/new-mbanking/NewMBankingMediaPickerPopup";
+import NewMBankingMediaPickerPopup, {
+  type GalleryItem,
+} from "@/components/mobile/new-mbanking/NewMBankingMediaPickerPopup";
+import NewMBankingMediaScanPreviewPage from "@/components/mobile/new-mbanking/NewMBankingMediaScanPreviewPage";
 
 type NewMBankingScanPageProps = {
   onBack: () => void;
@@ -19,16 +22,27 @@ export default function NewMBankingScanPage({
   const [showPinInput, setShowPinInput] = React.useState(false);
   const [showQrCode, setShowQrCode] = React.useState(false);
   const [mediaPickerOpen, setMediaPickerOpen] = React.useState(false);
+  const [mediaScanItem, setMediaScanItem] = React.useState<GalleryItem | null>(
+    null,
+  );
 
   React.useEffect(() => {
-    if (showResultPage || showPinInput || showQrCode || mediaPickerOpen) return;
+    if (
+      showResultPage ||
+      showPinInput ||
+      showQrCode ||
+      mediaPickerOpen ||
+      mediaScanItem
+    ) {
+      return;
+    }
 
     const timer = window.setTimeout(() => {
       setShowResultPage(true);
     }, 5000);
 
     return () => window.clearTimeout(timer);
-  }, [mediaPickerOpen, showPinInput, showQrCode, showResultPage]);
+  }, [mediaPickerOpen, mediaScanItem, showPinInput, showQrCode, showResultPage]);
 
   if (showQrCode) {
     return <NewMBankingQrCodeDisplayPage onBack={() => setShowQrCode(false)} />;
@@ -41,6 +55,20 @@ export default function NewMBankingScanPage({
         onSubmit={() => {
           setShowPinInput(false);
           setShowQrCode(true);
+        }}
+      />
+    );
+  }
+
+  if (mediaScanItem) {
+    return (
+      <NewMBankingMediaScanPreviewPage
+        title={mediaScanItem.title}
+        color={mediaScanItem.color}
+        onBack={() => setMediaScanItem(null)}
+        onComplete={() => {
+          setMediaScanItem(null);
+          setShowResultPage(true);
         }}
       />
     );
@@ -60,7 +88,7 @@ export default function NewMBankingScanPage({
       <NewMBankingMediaPickerPopup
         open={mediaPickerOpen}
         onOpenChange={setMediaPickerOpen}
-        onChoose={() => setShowResultPage(true)}
+        onChoose={(item) => setMediaScanItem(item)}
       />
 
       <header className="relative z-20 h-[70px] shrink-0 overflow-hidden rounded-b-[20px] bg-[#F9F9F9] px-[31px]">
