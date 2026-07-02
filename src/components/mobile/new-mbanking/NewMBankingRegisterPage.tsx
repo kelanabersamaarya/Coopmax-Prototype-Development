@@ -54,11 +54,17 @@ export default function NewMBankingRegisterPage({
         </div>
 
         <div className="absolute inset-x-0 bottom-[36px] px-6 text-center">
-          <h2 className="text-[20px] font-bold leading-tight text-black">
+          <div className="mx-auto mb-[18px] flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EEF6FF]">
+            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white">
+              <UserRound className="h-[43px] w-[43px]" strokeWidth={2.6} />
+            </div>
+          </div>
+
+          <h2 className="text-[16px] font-bold leading-tight text-black">
             Informasi Keanggotaan
           </h2>
 
-          <p className="mx-auto mt-[10px] max-w-[345px] text-[20px] font-normal leading-[1.2] text-[#828282]">
+          <p className="mx-auto mt-[10px] max-w-[345px] text-[12px] font-normal leading-[1.35] text-[#828282]">
             Untuk melakukan pendaftaran, mohon melengkapi informasi keanggotaan
             dibawah ini, pastikan data yang anda masukan sesuai
           </p>
@@ -73,13 +79,7 @@ export default function NewMBankingRegisterPage({
         </div>
       </div>
 
-      <div className="relative z-10 -mt-[24px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-7 pt-[66px]">
-        <div className="absolute left-1/2 top-0 flex h-[110px] w-[110px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#EEF6FF]">
-          <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479DF4] text-white">
-            <UserRound className="h-[43px] w-[43px]" strokeWidth={2.6} />
-          </div>
-        </div>
-
+      <div className="relative z-10 -mt-[24px] flex min-h-0 flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-7 pt-[42px]">
         <form onSubmit={submit} className="mt-[24px] grid gap-[15px]">
           <div className="grid gap-[9px]">
             <label className={labelClassName}>No. Anggota</label>
