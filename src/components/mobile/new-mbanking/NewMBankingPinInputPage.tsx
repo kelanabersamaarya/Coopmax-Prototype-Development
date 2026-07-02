@@ -29,9 +29,9 @@ export default function NewMBankingPinInputPage({
   }
 
   const keyClassName = cn(
-    "flex h-[52px] items-center justify-center rounded-[14px]",
-    "text-[30px] font-bold leading-none text-black",
-    "transition active:scale-[0.94] active:bg-slate-100",
+    "flex h-[80px] w-[80px] items-center justify-center rounded-full",
+    "bg-[#EEF0F4] text-[30px] font-bold leading-none text-black",
+    "transition active:scale-[0.94] active:bg-[#E3E7ED]",
   );
 
   return (
@@ -49,15 +49,15 @@ export default function NewMBankingPinInputPage({
           </button>
 
           <h1 className="text-[16px] font-bold leading-tight text-black">
-            Input PIN
+            Pembayaran QRIS
           </h1>
         </div>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[30px] pt-[80px]">
+      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[30px] pt-[72px]">
         <div className="text-center">
           <h2 className="text-[20px] font-bold leading-tight text-black">
-            Masukkan PIN Anda
+            Masukkan PIN M-Banking Anda
           </h2>
           <p className="mx-auto mt-[12px] max-w-[310px] text-[12px] font-normal leading-relaxed text-[#828282]">
             Masukkan 6 digit PIN M-Banking untuk melanjutkan pembayaran QRIS.
@@ -71,7 +71,7 @@ export default function NewMBankingPinInputPage({
                 <span
                   key={index}
                   className={cn(
-                    "h-[14px] w-[14px] rounded-full border-2 transition",
+                    "h-[24px] w-[24px] rounded-full border-2 transition",
                     filled
                       ? "border-[#479DF4] bg-[#479DF4]"
                       : "border-[#CDD4E0] bg-white",
@@ -83,7 +83,7 @@ export default function NewMBankingPinInputPage({
         </div>
 
         <div className="mt-auto">
-          <div className="mx-auto grid max-w-[320px] grid-cols-3 gap-x-[34px] gap-y-[6px]">
+          <div className="mx-auto grid max-w-[332px] grid-cols-3 justify-items-center gap-x-[31px] gap-y-[26px]">
             {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
               <button
                 key={digit}
@@ -110,13 +110,11 @@ export default function NewMBankingPinInputPage({
             <button
               type="button"
               onClick={removeDigit}
-              className="flex h-[52px] items-center justify-center rounded-[14px] transition active:scale-[0.94] active:bg-slate-100"
+              className={keyClassName}
               aria-label="Hapus"
               title="Hapus"
             >
-              <span className="inline-flex h-[22px] w-[30px] items-center justify-center rounded-[6px] bg-[#479DF4] text-white">
-                <Delete className="h-[18px] w-[18px]" strokeWidth={3} />
-              </span>
+              <Delete className="h-[23px] w-[23px] text-black" strokeWidth={2.7} />
             </button>
           </div>
 
@@ -125,7 +123,7 @@ export default function NewMBankingPinInputPage({
             onClick={submit}
             disabled={pin.length < pinLength}
             className={cn(
-              "mt-[20px] h-[46px] w-full rounded-[10px]",
+              "mt-[28px] h-[46px] w-full rounded-[10px]",
               "text-[12px] font-normal leading-none text-white",
               "transition active:scale-[0.98]",
               pin.length < pinLength
