@@ -99,6 +99,7 @@ export default function NewMBankingTransferConfirmModal({
   sourceInfo = "11122333311 - Simpanan Kaya",
   recipientName = "Suyatna",
   recipientAccountNo,
+  recipientBankName,
   description,
   nominal,
   totalWithFee = "Rp. 52.500,00",
@@ -111,6 +112,7 @@ export default function NewMBankingTransferConfirmModal({
   sourceInfo?: string;
   recipientName?: string;
   recipientAccountNo: string;
+  recipientBankName?: string;
   description: string;
   nominal: string;
   totalWithFee?: string;
@@ -130,6 +132,10 @@ export default function NewMBankingTransferConfirmModal({
   if (!open || !mobileScreen) return null;
 
   const displayedRecipientAccount = recipientAccountNo.trim() || "22111122333";
+  const displayedRecipientBank = recipientBankName?.trim();
+  const displayedRecipientSubtitle = displayedRecipientBank
+    ? `${displayedRecipientBank} • ${displayedRecipientAccount}`
+    : displayedRecipientAccount;
   const displayedDescription = description.trim() || "Bayar UKT";
   const displayedNominal = nominal.trim() || "50.000,00";
   const displayedAdminFee = "2.500,00";
@@ -181,7 +187,7 @@ export default function NewMBankingTransferConfirmModal({
         <SectionBlock title="Tujuan">
           <AccountInfoItem
             name={recipientName}
-            subtitle={displayedRecipientAccount}
+            subtitle={displayedRecipientSubtitle}
           />
         </SectionBlock>
 

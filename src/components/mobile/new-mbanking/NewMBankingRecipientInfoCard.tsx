@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 export type NewMBankingRecipientInfo = {
   name: string;
   accountNo: string;
+  bank?: string;
 };
 
 export default function NewMBankingRecipientInfoCard({
@@ -13,6 +14,10 @@ export default function NewMBankingRecipientInfoCard({
   recipient: NewMBankingRecipientInfo;
   className?: string;
 }) {
+  const subtitle = recipient.bank
+    ? `${recipient.bank} • ${recipient.accountNo}`
+    : recipient.accountNo;
+
   return (
     <div
       className={cn(
@@ -44,7 +49,7 @@ export default function NewMBankingRecipientInfoCard({
 
             <div className="mt-[10px] flex min-w-0 items-center gap-2">
               <span className="truncate text-[14px] font-normal leading-none text-white/88">
-                {recipient.accountNo}
+                {subtitle}
               </span>
               <button
                 type="button"

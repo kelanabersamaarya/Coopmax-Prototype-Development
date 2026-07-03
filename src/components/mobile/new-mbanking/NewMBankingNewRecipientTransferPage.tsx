@@ -54,7 +54,7 @@ export default function NewMBankingNewRecipientTransferPage({
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [showPinInput, setShowPinInput] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
-  const [bank, setBank] = React.useState("");
+  const [bank, setBank] = React.useState(recipient?.bank ?? "");
   const [accountNo, setAccountNo] = React.useState(recipient?.accountNo ?? "");
   const [amount, setAmount] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -62,6 +62,7 @@ export default function NewMBankingNewRecipientTransferPage({
   React.useEffect(() => {
     if (!recipient) return;
     setAccountNo(recipient.accountNo);
+    setBank(recipient.bank ?? "");
   }, [recipient]);
 
   if (showSuccess) {
@@ -122,6 +123,7 @@ export default function NewMBankingNewRecipientTransferPage({
         onOpenChange={setConfirmOpen}
         recipientName={recipient?.name ?? "Suyatna"}
         recipientAccountNo={accountNo}
+        recipientBankName={hideBankSelection ? undefined : bank}
         description={description}
         nominal={amount}
         hideAdminFee={hideBankSelection}
