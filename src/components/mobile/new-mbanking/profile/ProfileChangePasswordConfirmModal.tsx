@@ -7,10 +7,16 @@ import { cn } from "@/lib/utils";
 
 export default function ProfileChangePasswordConfirmModal({
   open,
+  title = "Yakin Merubah Kata Sandi?",
+  description = "Pastikan kata sandi baru sudah benar sebelum melanjutkan.",
+  confirmLabel = "Ya, Ubah Kata Sandi",
   onCancel,
   onConfirm,
 }: {
   open: boolean;
+  title?: string;
+  description?: string;
+  confirmLabel?: string;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
@@ -31,7 +37,7 @@ export default function ProfileChangePasswordConfirmModal({
       <button
         type="button"
         className="absolute inset-0 cursor-default"
-        aria-label="Tutup konfirmasi ubah kata sandi"
+        aria-label="Tutup konfirmasi"
         onClick={onCancel}
       />
 
@@ -39,10 +45,10 @@ export default function ProfileChangePasswordConfirmModal({
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <div className="text-[16px] font-bold leading-tight text-black">
-              Yakin Merubah Kata Sandi?
+              {title}
             </div>
             <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#828282]">
-              Pastikan kata sandi baru sudah benar sebelum melanjutkan.
+              {description}
             </p>
           </div>
 
@@ -67,7 +73,7 @@ export default function ProfileChangePasswordConfirmModal({
               "transition active:scale-[0.98]",
             )}
           >
-            Ya, Ubah Kata Sandi
+            {confirmLabel}
           </button>
 
           <button

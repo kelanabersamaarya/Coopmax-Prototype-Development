@@ -170,12 +170,7 @@ export default function ProfileCredentialChangePage({
     if (isSubmitDisabled) return;
     if (!validateForm()) return;
 
-    if (!isPin) {
-      setConfirmOpen(true);
-      return;
-    }
-
-    setSuccess(true);
+    setConfirmOpen(true);
   }
 
   if (success) {
@@ -197,6 +192,13 @@ export default function ProfileCredentialChangePage({
 
       <ProfileChangePasswordConfirmModal
         open={confirmOpen}
+        title={isPin ? "Yakin Merubah PIN?" : "Yakin Merubah Kata Sandi?"}
+        description={
+          isPin
+            ? "Pastikan PIN baru sudah benar sebelum melanjutkan."
+            : "Pastikan kata sandi baru sudah benar sebelum melanjutkan."
+        }
+        confirmLabel={isPin ? "Ya, Ubah PIN" : "Ya, Ubah Kata Sandi"}
         onCancel={() => setConfirmOpen(false)}
         onConfirm={() => {
           setConfirmOpen(false);
