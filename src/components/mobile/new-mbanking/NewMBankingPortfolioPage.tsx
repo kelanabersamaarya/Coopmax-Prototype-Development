@@ -326,8 +326,8 @@ export default function NewMBankingPortfolioPage({
         </header>
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[150px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[28px] pt-[22px]">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-white pb-[150px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full bg-white px-6 pb-[28px] pt-[22px]">
           <SegmentedTabs />
           <TotalAssetCard />
           <PortfolioDonutChart />
