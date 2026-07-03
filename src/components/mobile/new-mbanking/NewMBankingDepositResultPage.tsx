@@ -237,7 +237,7 @@ export default function NewMBankingDepositResultPage({
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pt-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[28px] pt-[28px] shadow-[0_-8px_28px_rgba(15,23,42,0.06)]">
+        <section className="relative min-h-full rounded-t-[30px] bg-white px-6 pb-[118px] pt-[28px] shadow-[0_-8px_28px_rgba(15,23,42,0.06)]">
           <div>
             <SectionTitle>Rekening Tujuan</SectionTitle>
             <NewMBankingDepositDestinationCard />
@@ -283,17 +283,19 @@ export default function NewMBankingDepositResultPage({
             </div>
           </section>
 
-          <button
-            type="button"
-            onClick={onDone}
-            className={cn(
-              "mt-[30px] h-[52px] w-full rounded-full bg-[#479DF4]",
-              "text-[14px] font-semibold leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Selesai
-          </button>
+          <div className="sticky bottom-0 z-20 -mx-6 mt-[30px] bg-white px-6 pb-0 pt-[14px]">
+            <button
+              type="button"
+              onClick={onDone}
+              className={cn(
+                "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+                "text-[14px] font-semibold leading-none text-white",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Selesai
+            </button>
+          </div>
         </section>
       </main>
     </div>
