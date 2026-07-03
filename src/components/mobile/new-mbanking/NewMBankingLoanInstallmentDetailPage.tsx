@@ -6,6 +6,7 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingInstallmentConfirmModal from "@/components/mobile/new-mbanking/NewMBankingInstallmentConfirmModal";
 import NewMBankingInstallmentPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingInstallmentPaymentSuccessPage";
 import NewMBankingLoanInstallmentHistoryPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentHistoryPage";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
 export type NewMBankingLoanInstallmentAccount = {
@@ -99,6 +100,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
   const [showBillList, setShowBillList] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showPinInput, setShowPinInput] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
   const [successSourceFund, setSuccessSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
@@ -116,6 +118,20 @@ export default function NewMBankingLoanInstallmentDetailPage({
         sourceFund={successSourceFund}
         onBack={() => setShowSuccess(false)}
         onDone={onBack}
+      />
+    );
+  }
+
+  if (showPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        title="Bayar Angsuran"
+        description="Masukkan 6 digit PIN M-Banking untuk melanjutkan pembayaran angsuran."
+        onBack={() => setShowPinInput(false)}
+        onSubmit={() => {
+          setShowPinInput(false);
+          setShowSuccess(true);
+        }}
       />
     );
   }
@@ -156,7 +172,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
         totalPay={account.installmentBill.totalPay}
         onConfirm={(sourceFund) => {
           setSuccessSourceFund(sourceFund);
-          setShowSuccess(true);
+          setShowPinInput(true);
         }}
       />
 
