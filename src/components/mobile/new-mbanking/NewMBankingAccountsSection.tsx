@@ -11,6 +11,30 @@ import { cn } from "@/lib/utils";
 
 type AccountTabId = "simpanan" | "pinjaman" | "deposito";
 
+type SimpananCard = {
+  id: string;
+  productName: string;
+  accountNo: string;
+  vaNumber: string;
+  balance: string;
+};
+
+type PinjamanCard = {
+  id: string;
+  productName: string;
+  accountNo: string;
+  totalLoan: string;
+  remainingLoan: string;
+};
+
+type DepositoCard = {
+  id: string;
+  productName: string;
+  accountNo: string;
+  amount: string;
+  interestRate: string;
+};
+
 const tabs: Array<{
   id: AccountTabId;
   label: string;
@@ -33,6 +57,78 @@ const tabs: Array<{
   },
 ];
 
+const simpananCards: SimpananCard[] = [
+  {
+    id: "simpanan-1",
+    productName: "Simpanan Harian",
+    accountNo: "112233111",
+    vaNumber: "88810 112233111",
+    balance: "Rp. 4.000.000,00",
+  },
+  {
+    id: "simpanan-2",
+    productName: "Simpanan Sukarela",
+    accountNo: "4260029",
+    vaNumber: "88810 4260029",
+    balance: "Rp. 2.750.000,00",
+  },
+  {
+    id: "simpanan-3",
+    productName: "Simpanan Mapan",
+    accountNo: "112233222",
+    vaNumber: "88810 112233222",
+    balance: "Rp. 20.000.000,00",
+  },
+];
+
+const pinjamanCards: PinjamanCard[] = [
+  {
+    id: "pinjaman-1",
+    productName: "Pinjaman Billing",
+    accountNo: "SMG260004",
+    totalLoan: "Rp. 12.000.000,00",
+    remainingLoan: "Rp. 10.000.000,00",
+  },
+  {
+    id: "pinjaman-2",
+    productName: "Pinjaman Billing",
+    accountNo: "12260006",
+    totalLoan: "Rp. 12.000.000,00",
+    remainingLoan: "Rp. 10.553.571,00",
+  },
+  {
+    id: "pinjaman-3",
+    productName: "Pinjaman Harian",
+    accountNo: "072260001",
+    totalLoan: "Rp. 22.000.000,00",
+    remainingLoan: "Rp. 22.000.000,00",
+  },
+];
+
+const depositoCards: DepositoCard[] = [
+  {
+    id: "deposito-1",
+    productName: "Deposito Berjangka",
+    accountNo: "DEP112233",
+    amount: "Rp. 5.000.000,00",
+    interestRate: "6,00%",
+  },
+  {
+    id: "deposito-2",
+    productName: "Deposito 6 Bulan",
+    accountNo: "DEP445566",
+    amount: "Rp. 10.000.000,00",
+    interestRate: "5,50%",
+  },
+  {
+    id: "deposito-3",
+    productName: "Deposito 12 Bulan",
+    accountNo: "DEP778899",
+    amount: "Rp. 15.000.000,00",
+    interestRate: "6,25%",
+  },
+];
+
 const accountCardStyles: Record<
   AccountTabId,
   {
@@ -43,19 +139,22 @@ const accountCardStyles: Record<
   }
 > = {
   simpanan: {
-    background: "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]",
+    background:
+      "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]",
     glowOne: "bg-white/16",
     glowTwo: "bg-cyan-200/18",
     glowThree: "bg-blue-950/10",
   },
   pinjaman: {
-    background: "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]",
+    background:
+      "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]",
     glowOne: "bg-white/18",
     glowTwo: "bg-emerald-200/18",
     glowThree: "bg-teal-950/14",
   },
   deposito: {
-    background: "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
+    background:
+      "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
     glowOne: "bg-white/18",
     glowTwo: "bg-amber-100/22",
     glowThree: "bg-orange-950/14",
@@ -94,132 +193,65 @@ function AccountInfo({
   );
 }
 
-function AccountCardContent({
+function maskValue(short = false) {
+  return short ? "••••••" : "••••••••••";
+}
+
+function AccountCardShell({
   activeTab,
-  showBalance,
-  onToggleBalance,
-  onSavingsDetailClick,
-  onLoanDetailClick,
-  onDepositDetailClick,
+  children,
 }: {
   activeTab: AccountTabId;
-  showBalance: boolean;
-  onToggleBalance: () => void;
-  onSavingsDetailClick?: () => void;
-  onLoanDetailClick?: () => void;
-  onDepositDetailClick?: () => void;
+  children: React.ReactNode;
 }) {
-  if (activeTab === "pinjaman") {
-    return (
-      <>
-        <div className="flex items-start justify-between gap-4">
-          <AccountInfo label="Pinjaman Billing">
-            <span className="truncate">SMG260004</span>
-            <CopyButton label="Salin nomor pinjaman" />
-          </AccountInfo>
+  const cardStyle = accountCardStyles[activeTab];
 
-          <button
-            type="button"
-            onClick={onLoanDetailClick}
-            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#0F766E] shadow-sm transition active:scale-[0.98]"
-          >
-            Lihat Detail
-          </button>
-        </div>
+  return (
+    <div
+      className={cn(
+        "relative min-h-[245px] w-full shrink-0 snap-start overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
+        cardStyle.background,
+      )}
+    >
+      <div
+        className={cn(
+          "pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full",
+          cardStyle.glowOne,
+        )}
+      />
+      <div
+        className={cn(
+          "pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full",
+          cardStyle.glowTwo,
+        )}
+      />
+      <div
+        className={cn(
+          "pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full",
+          cardStyle.glowThree,
+        )}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
-        <div className="mt-[24px]">
-          <AccountInfo label="Total Pinjaman">
-            <span className="text-[16px] tracking-[-0.025em]">
-              {showBalance ? "Rp. 12.000.000,00" : "••••••••••"}
-            </span>
-          </AccountInfo>
-        </div>
+      <div className="relative z-10">{children}</div>
+    </div>
+  );
+}
 
-        <div className="mt-[24px]">
-          <AccountInfo label="Sisa Pinjaman">
-            <span className="text-[16px] tracking-[-0.025em]">
-              {showBalance ? "Rp. 10.000.000,00" : "••••••••••"}
-            </span>
-          </AccountInfo>
-        </div>
-      </>
-    );
-  }
-
-  if (activeTab === "deposito") {
-    return (
-      <>
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <div className="text-[11px] font-normal leading-none text-white/78">
-              Produk Deposito
-            </div>
-            <div className="mt-[7px] truncate text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
-              Deposito Berjangka
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={onDepositDetailClick}
-            className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#C2410C] shadow-sm transition active:scale-[0.98]"
-          >
-            Lihat Detail
-          </button>
-        </div>
-
-        <div className="mt-[24px]">
-          <AccountInfo label="Nomor Rekening Deposito">
-            <span className="truncate">DEP112233</span>
-            <CopyButton label="Salin nomor rekening deposito" />
-          </AccountInfo>
-        </div>
-
-        <div className="mt-[24px]">
-          <AccountInfo label="Nominal Deposito">
-            <span className="text-[16px] tracking-[-0.025em]">
-              {showBalance ? "Rp. 5.000.000,00" : "••••••••••"}
-            </span>
-            <button
-              type="button"
-              onClick={onToggleBalance}
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
-              aria-label={
-                showBalance
-                  ? "Sembunyikan nominal deposito"
-                  : "Tampilkan nominal deposito"
-              }
-              title={
-                showBalance
-                  ? "Sembunyikan nominal deposito"
-                  : "Tampilkan nominal deposito"
-              }
-            >
-              {showBalance ? (
-                <Eye className="h-[16px] w-[16px]" strokeWidth={2.4} />
-              ) : (
-                <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
-              )}
-            </button>
-          </AccountInfo>
-        </div>
-
-        <div className="mt-[24px]">
-          <AccountInfo label="Bunga per Tahun">
-            <span className="text-[16px] tracking-[-0.025em]">
-              {showBalance ? "6,00%" : "••••••"}
-            </span>
-          </AccountInfo>
-        </div>
-      </>
-    );
-  }
-
+function SimpananCardContent({
+  card,
+  showBalance,
+  onSavingsDetailClick,
+}: {
+  card: SimpananCard;
+  showBalance: boolean;
+  onSavingsDetailClick?: () => void;
+}) {
   return (
     <>
       <div className="flex items-start justify-between gap-4">
-        <AccountInfo label="Simpanan Harian">
-          <span className="truncate">112233111</span>
+        <AccountInfo label={card.productName}>
+          <span className="truncate">{card.accountNo}</span>
           <CopyButton label="Salin nomor rekening" />
         </AccountInfo>
 
@@ -234,7 +266,7 @@ function AccountCardContent({
 
       <div className="mt-[24px]">
         <AccountInfo label="Nomor VA">
-          <span className="truncate">88810 112233111</span>
+          <span className="truncate">{card.vaNumber}</span>
           <CopyButton label="Salin nomor VA" />
         </AccountInfo>
       </div>
@@ -242,7 +274,131 @@ function AccountCardContent({
       <div className="mt-[24px]">
         <AccountInfo label="Saldo Simpanan">
           <span className="text-[16px] tracking-[-0.025em]">
-            {showBalance ? "Rp. 4.000.000,00" : "••••••••••"}
+            {showBalance ? card.balance : maskValue()}
+          </span>
+        </AccountInfo>
+      </div>
+    </>
+  );
+}
+
+function PinjamanCardContent({
+  card,
+  showBalance,
+  onLoanDetailClick,
+}: {
+  card: PinjamanCard;
+  showBalance: boolean;
+  onLoanDetailClick?: () => void;
+}) {
+  return (
+    <>
+      <div className="flex items-start justify-between gap-4">
+        <AccountInfo label={card.productName}>
+          <span className="truncate">{card.accountNo}</span>
+          <CopyButton label="Salin nomor pinjaman" />
+        </AccountInfo>
+
+        <button
+          type="button"
+          onClick={onLoanDetailClick}
+          className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#0F766E] shadow-sm transition active:scale-[0.98]"
+        >
+          Lihat Detail
+        </button>
+      </div>
+
+      <div className="mt-[24px]">
+        <AccountInfo label="Total Pinjaman">
+          <span className="text-[16px] tracking-[-0.025em]">
+            {showBalance ? card.totalLoan : maskValue()}
+          </span>
+        </AccountInfo>
+      </div>
+
+      <div className="mt-[24px]">
+        <AccountInfo label="Sisa Pinjaman">
+          <span className="text-[16px] tracking-[-0.025em]">
+            {showBalance ? card.remainingLoan : maskValue()}
+          </span>
+        </AccountInfo>
+      </div>
+    </>
+  );
+}
+
+function DepositoCardContent({
+  card,
+  showBalance,
+  onToggleBalance,
+  onDepositDetailClick,
+}: {
+  card: DepositoCard;
+  showBalance: boolean;
+  onToggleBalance: () => void;
+  onDepositDetailClick?: () => void;
+}) {
+  return (
+    <>
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <div className="text-[11px] font-normal leading-none text-white/78">
+            Produk Deposito
+          </div>
+          <div className="mt-[7px] truncate text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
+            {card.productName}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={onDepositDetailClick}
+          className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#C2410C] shadow-sm transition active:scale-[0.98]"
+        >
+          Lihat Detail
+        </button>
+      </div>
+
+      <div className="mt-[24px]">
+        <AccountInfo label="Nomor Rekening Deposito">
+          <span className="truncate">{card.accountNo}</span>
+          <CopyButton label="Salin nomor rekening deposito" />
+        </AccountInfo>
+      </div>
+
+      <div className="mt-[24px]">
+        <AccountInfo label="Nominal Deposito">
+          <span className="text-[16px] tracking-[-0.025em]">
+            {showBalance ? card.amount : maskValue()}
+          </span>
+          <button
+            type="button"
+            onClick={onToggleBalance}
+            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+            aria-label={
+              showBalance
+                ? "Sembunyikan nominal deposito"
+                : "Tampilkan nominal deposito"
+            }
+            title={
+              showBalance
+                ? "Sembunyikan nominal deposito"
+                : "Tampilkan nominal deposito"
+            }
+          >
+            {showBalance ? (
+              <Eye className="h-[16px] w-[16px]" strokeWidth={2.4} />
+            ) : (
+              <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
+            )}
+          </button>
+        </AccountInfo>
+      </div>
+
+      <div className="mt-[24px]">
+        <AccountInfo label="Bunga per Tahun">
+          <span className="text-[16px] tracking-[-0.025em]">
+            {showBalance ? card.interestRate : maskValue(true)}
           </span>
         </AccountInfo>
       </div>
@@ -263,7 +419,43 @@ export default function NewMBankingAccountsSection({
 }) {
   const [showBalance, setShowBalance] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<AccountTabId>("simpanan");
-  const cardStyle = accountCardStyles[activeTab];
+  const [activeCardIndex, setActiveCardIndex] = React.useState(0);
+  const scrollRef = React.useRef<HTMLDivElement | null>(null);
+
+  const cards = React.useMemo(() => {
+    if (activeTab === "pinjaman") return pinjamanCards;
+    if (activeTab === "deposito") return depositoCards;
+    return simpananCards;
+  }, [activeTab]);
+
+  React.useEffect(() => {
+    setActiveCardIndex(0);
+    scrollRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+  }, [activeTab]);
+
+  function handleScroll() {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const firstCard = container.firstElementChild as HTMLElement | null;
+    if (!firstCard) return;
+
+    const gap = 12;
+    const step = firstCard.offsetWidth + gap;
+    const nextIndex = Math.round(container.scrollLeft / step);
+    setActiveCardIndex(Math.min(Math.max(0, nextIndex), cards.length - 1));
+  }
+
+  function goToCard(index: number) {
+    const container = scrollRef.current;
+    const firstCard = container?.firstElementChild as HTMLElement | null;
+    if (!container || !firstCard) return;
+
+    const gap = 12;
+    const step = firstCard.offsetWidth + gap;
+    container.scrollTo({ left: index * step, behavior: "smooth" });
+    setActiveCardIndex(index);
+  }
 
   return (
     <section
@@ -331,38 +523,62 @@ export default function NewMBankingAccountsSection({
       </div>
 
       <div
-        className={cn(
-          "relative mt-[18px] overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
-          cardStyle.background,
-        )}
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="mt-[18px] flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        <div className={cn("pointer-events-none absolute -right-[46px] -top-[42px] h-[142px] w-[142px] rounded-full", cardStyle.glowOne)} />
-        <div className={cn("pointer-events-none absolute right-[28px] top-[54px] h-[72px] w-[72px] rounded-full", cardStyle.glowTwo)} />
-        <div className={cn("pointer-events-none absolute -bottom-[34px] right-[84px] h-[96px] w-[96px] rounded-full", cardStyle.glowThree)} />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
+        {activeTab === "simpanan"
+          ? simpananCards.map((card) => (
+              <AccountCardShell key={card.id} activeTab={activeTab}>
+                <SimpananCardContent
+                  card={card}
+                  showBalance={showBalance}
+                  onSavingsDetailClick={onSavingsDetailClick}
+                />
+              </AccountCardShell>
+            ))
+          : null}
 
-        <div className="relative z-10">
-          <AccountCardContent
-            activeTab={activeTab}
-            showBalance={showBalance}
-            onToggleBalance={() => setShowBalance((value) => !value)}
-            onSavingsDetailClick={onSavingsDetailClick}
-            onLoanDetailClick={onLoanDetailClick}
-            onDepositDetailClick={onDepositDetailClick}
-          />
-        </div>
+        {activeTab === "pinjaman"
+          ? pinjamanCards.map((card) => (
+              <AccountCardShell key={card.id} activeTab={activeTab}>
+                <PinjamanCardContent
+                  card={card}
+                  showBalance={showBalance}
+                  onLoanDetailClick={onLoanDetailClick}
+                />
+              </AccountCardShell>
+            ))
+          : null}
+
+        {activeTab === "deposito"
+          ? depositoCards.map((card) => (
+              <AccountCardShell key={card.id} activeTab={activeTab}>
+                <DepositoCardContent
+                  card={card}
+                  showBalance={showBalance}
+                  onToggleBalance={() => setShowBalance((value) => !value)}
+                  onDepositDetailClick={onDepositDetailClick}
+                />
+              </AccountCardShell>
+            ))
+          : null}
       </div>
 
       <div className="mt-[14px] flex items-center justify-center gap-[7px]">
-        {[0, 1, 2, 3].map((item) => (
-          <span
-            key={item}
+        {cards.map((card, index) => (
+          <button
+            key={card.id}
+            type="button"
+            onClick={() => goToCard(index)}
             className={cn(
               "rounded-full transition-all",
-              item === 0
+              index === activeCardIndex
                 ? "h-[8px] w-[22px] bg-[#111827]"
                 : "h-[8px] w-[8px] bg-[#D8D8D8]",
             )}
+            aria-label={`Lihat card ${index + 1}`}
+            aria-current={index === activeCardIndex ? "true" : undefined}
           />
         ))}
       </div>
