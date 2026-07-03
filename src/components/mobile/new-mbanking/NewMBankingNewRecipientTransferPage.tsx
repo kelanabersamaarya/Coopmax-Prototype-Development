@@ -22,6 +22,18 @@ function TransferField({
   );
 }
 
+function onlyDigits(value: string) {
+  return (value ?? "").replace(/[^\d]/g, "");
+}
+
+function formatThousands(value: string) {
+  const digits = onlyDigits(value);
+  if (!digits) return "";
+
+  const normalized = digits.replace(/^0+(?=\d)/, "");
+  return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export default function NewMBankingNewRecipientTransferPage({
   onBack,
 }: {
@@ -119,9 +131,9 @@ export default function NewMBankingNewRecipientTransferPage({
           <TransferField label="Nominal Transfer">
             <input
               value={amount}
-              onChange={(event) => setAmount(event.target.value)}
+              onChange={(event) => setAmount(formatThousands(event.target.value))}
               placeholder="0,00"
-              inputMode="decimal"
+              inputMode="numeric"
               className={fieldClassName}
             />
           </TransferField>
