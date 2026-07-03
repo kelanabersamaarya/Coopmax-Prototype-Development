@@ -68,7 +68,9 @@ export default function NewMBankingNewRecipientTransferPage({
   if (showSuccess) {
     return (
       <NewMBankingTransferSuccessPage
+        recipientName={recipient?.name ?? "Suyatna"}
         recipientAccountNo={accountNo}
+        recipientBankName={hideBankSelection ? undefined : bank}
         nominal={amount}
         description={description}
         onDone={onDone ?? onBack}

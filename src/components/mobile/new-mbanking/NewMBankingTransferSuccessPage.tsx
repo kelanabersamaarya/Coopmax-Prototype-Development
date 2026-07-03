@@ -3,12 +3,16 @@ import { Check, Send, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function NewMBankingTransferSuccessPage({
+  recipientName = "Suyatna",
   recipientAccountNo,
+  recipientBankName,
   nominal,
   description,
   onDone,
 }: {
+  recipientName?: string;
   recipientAccountNo: string;
+  recipientBankName?: string;
   nominal: string;
   description: string;
   onDone: () => void;
@@ -16,6 +20,9 @@ export default function NewMBankingTransferSuccessPage({
   const [saved, setSaved] = React.useState(false);
 
   const displayedRecipientAccount = recipientAccountNo.trim() || "22111122333";
+  const displayedRecipientSubtitle = recipientBankName?.trim()
+    ? `${recipientName} • ${recipientBankName} • ${displayedRecipientAccount}`
+    : `${recipientName} • ${displayedRecipientAccount}`;
   const displayedNominal = nominal.trim() || "50.000,00";
   const displayedDescription = description.trim() || "Bayar UKT";
 
@@ -34,7 +41,7 @@ export default function NewMBankingTransferSuccessPage({
           </h1>
 
           <p className="mt-[8px] max-w-[305px] text-[12px] font-normal leading-[1.35] tracking-[-0.01em] text-[#828282]">
-            Transfer antar bank Anda telah berhasil diproses.
+            Transfer Anda telah berhasil diproses.
           </p>
 
           <div className="mt-[14px] w-full rounded-[16px] bg-[#F6F8FB] px-4 py-3">
@@ -87,7 +94,7 @@ export default function NewMBankingTransferSuccessPage({
                 Tujuan
               </div>
               <div className="mt-[6px] truncate text-[13px] font-normal leading-none text-black">
-                Suyatna • {displayedRecipientAccount}
+                {displayedRecipientSubtitle}
               </div>
             </div>
           </div>

@@ -180,7 +180,7 @@ function SavedRecipientRow({
           {recipient.name}
         </div>
         <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          {recipient.accountNo}
+          {recipient.bank} • {recipient.accountNo}
         </div>
       </div>
     </button>
@@ -207,7 +207,7 @@ function TransferHistoryRow({
           {history.name}
         </div>
         <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          {history.accountNo}
+          {history.bank} • {history.accountNo}
         </div>
         <div className="mt-[4px] truncate text-[11px] font-normal leading-tight text-[#A0A0A0]">
           {history.dateTime}
@@ -328,6 +328,7 @@ export default function NewMBankingInterbankTransferPage({
                     openRecipientInput({
                       name: recipient.name,
                       accountNo: recipient.accountNo,
+                      bank: recipient.bank,
                     })
                   }
                 />
@@ -343,6 +344,7 @@ export default function NewMBankingInterbankTransferPage({
                     openRecipientInput({
                       name: history.name,
                       accountNo: history.accountNo,
+                      bank: history.bank,
                     })
                   }
                 />
