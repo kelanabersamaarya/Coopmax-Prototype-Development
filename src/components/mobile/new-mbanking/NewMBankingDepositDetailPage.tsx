@@ -4,7 +4,7 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingDepositSpecialAccountInfo from "@/components/mobile/new-mbanking/NewMBankingDepositSpecialAccountInfo";
 
 const depositoInfo = [
-  { label: "No. Deposito", value: "DEP112233" },
+  { label: "Nomor Rekening Deposito", value: "DEP112233" },
   { label: "Produk Deposito", value: "Deposito Koperasi" },
   { label: "Nominal Deposito", value: "Rp. 5.000.000,00" },
   { label: "Bunga per Tahun", value: "6,00%" },
@@ -84,10 +84,6 @@ export default function NewMBankingDepositDetailPage({
                   <div className="mt-[8px] text-[20px] font-bold leading-tight tracking-[-0.03em] text-white">
                     Deposito Koperasi
                   </div>
-                  <div className="mt-[8px] flex items-center gap-2 text-[14px] font-normal leading-tight text-white/88">
-                    <span>DEP112233</span>
-                    <Copy className="h-[14px] w-[14px]" strokeWidth={2.4} />
-                  </div>
                 </div>
 
                 <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[14px] bg-white/18 text-white ring-1 ring-white/20">
@@ -95,12 +91,24 @@ export default function NewMBankingDepositDetailPage({
                 </span>
               </div>
 
-              <div className="mt-[26px]">
-                <div className="text-[12px] font-normal leading-none text-white/78">
-                  Nominal Deposito
+              <div className="mt-[24px] grid gap-[18px]">
+                <div>
+                  <div className="text-[12px] font-normal leading-none text-white/78">
+                    Nomor Rekening Deposito
+                  </div>
+                  <div className="mt-[8px] flex items-center gap-2 text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
+                    <span>DEP112233</span>
+                    <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
+                  </div>
                 </div>
-                <div className="mt-[8px] text-[24px] font-bold leading-tight tracking-[-0.04em] text-white">
-                  Rp. 5.000.000,00
+
+                <div>
+                  <div className="text-[12px] font-normal leading-none text-white/78">
+                    Nominal Deposito
+                  </div>
+                  <div className="mt-[8px] text-[24px] font-bold leading-tight tracking-[-0.04em] text-white">
+                    Rp. 5.000.000,00
+                  </div>
                 </div>
               </div>
             </div>
