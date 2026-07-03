@@ -3,36 +3,8 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-
-function formatDmy(date: Date) {
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = String(date.getFullYear());
-
-  return `${day}-${month}-${year}`;
-}
-
-function parseDmyToDate(value: string): Date | undefined {
-  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec((value ?? "").trim());
-  if (!match) return undefined;
-
-  const day = Number(match[1]);
-  const month = Number(match[2]);
-  const year = Number(match[3]);
-  const date = new Date(year, month - 1, day);
-
-  if (
-    date.getFullYear() !== year ||
-    date.getMonth() !== month - 1 ||
-    date.getDate() !== day
-  ) {
-    return undefined;
-  }
-
-  return date;
-}
+import NewMBankingCalendarPicker from "@/components/mobile/new-mbanking/NewMBankingCalendarPicker";
 
 export default function NewMBankingCalendarModal({
   open,
@@ -48,7 +20,6 @@ export default function NewMBankingCalendarModal({
   onSelect: (value: string) => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
-  const selectedDate = React.useMemo(() => parseDmyToDate(value), [value]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -91,16 +62,13 @@ export default function NewMBankingCalendarModal({
           </button>
         </div>
 
-        <div className="flex justify-center px-3 py-4">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={(date) => {
-              if (!date) return;
-              onSelect(formatDmy(date));
+        <div className="px-5 py-5">
+          <NewMBankingCalendarPicker
+            value={value}
+            onSave={(nextValue) => {
+              onSelect(nextValue);
               onClose();
             }}
-            initialFocus
           />
         </div>
       </div>
