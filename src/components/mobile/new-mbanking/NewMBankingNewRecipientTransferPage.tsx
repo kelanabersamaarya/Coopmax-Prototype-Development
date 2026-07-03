@@ -65,6 +65,10 @@ export default function NewMBankingNewRecipientTransferPage({
     setBank(recipient.bank ?? "");
   }, [recipient]);
 
+  const pageTitle = hideBankSelection
+    ? "Transfer Antar Rekening"
+    : "Transfer Antar Bank";
+
   if (showSuccess) {
     return (
       <NewMBankingTransferSuccessPage
@@ -81,7 +85,7 @@ export default function NewMBankingNewRecipientTransferPage({
   if (showPinInput) {
     return (
       <NewMBankingPinInputPage
-        title={hideBankSelection ? "Transfer Antar Rekening" : "Transfer Antar Bank"}
+        title={pageTitle}
         description="Masukkan 6 digit PIN M-Banking untuk melanjutkan transaksi transfer."
         onBack={() => setShowPinInput(false)}
         onSubmit={() => {
@@ -150,7 +154,7 @@ export default function NewMBankingNewRecipientTransferPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Transfer ke Penerima Baru
+            {pageTitle}
           </h1>
         </header>
       </div>
