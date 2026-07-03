@@ -2,13 +2,12 @@ import * as React from "react";
 import {
   ArrowLeft,
   BatteryMedium,
-  ChevronDown,
-  ChevronUp,
   Copy,
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositDestinationCard from "@/components/mobile/new-mbanking/NewMBankingDepositDestinationCard";
+import NewMBankingDepositInstructionsCard from "@/components/mobile/new-mbanking/NewMBankingDepositInstructionsCard";
 
 function StatusBar() {
   return (
@@ -67,113 +66,6 @@ function DetailRow({
       >
         {value}
       </div>
-    </div>
-  );
-}
-
-function InstructionAccordionItem({
-  title,
-  open,
-  onToggle,
-  children,
-}: {
-  title: string;
-  open: boolean;
-  onToggle: () => void;
-  children?: React.ReactNode;
-}) {
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={onToggle}
-        className="flex min-h-[52px] w-full items-center justify-between gap-4 px-4 py-3 text-left transition active:scale-[0.99]"
-        aria-expanded={open}
-      >
-        <span className="text-[14px] font-bold leading-tight text-black">
-          {title}
-        </span>
-        {open ? (
-          <ChevronUp className="h-[20px] w-[20px] text-black" strokeWidth={2.6} />
-        ) : (
-          <ChevronDown
-            className="h-[20px] w-[20px] text-black"
-            strokeWidth={2.6}
-          />
-        )}
-      </button>
-
-      {open ? (
-        <div className="px-4 pb-4">
-          <div className="rounded-[12px] bg-[#F9FAFB] px-4 py-4">
-            {children}
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function DepositInstructions() {
-  const [openItem, setOpenItem] = React.useState<
-    "mbanking" | "internet" | "atm" | null
-  >("mbanking");
-
-  const steps = [
-    "Buka aplikasi mobile banking atau e-wallet pilihan Anda.",
-    "Pilih menu Transfer atau Virtual Account.",
-    "Masukkan nomor Virtual Account 111222334455.",
-    "Pastikan nama penerima adalah Arya dan produk rekening adalah Simpanan Kaya.",
-    "Masukkan nominal setoran sesuai total transaksi.",
-    "Periksa kembali detail transaksi sebelum melanjutkan.",
-    "Konfirmasi pembayaran dan simpan bukti transaksi.",
-  ];
-
-  function toggleItem(item: "mbanking" | "internet" | "atm") {
-    setOpenItem((current) => (current === item ? null : item));
-  }
-
-  return (
-    <div className="overflow-hidden rounded-[16px] border border-[#D8D8D8] bg-white">
-      <InstructionAccordionItem
-        title="M-Banking"
-        open={openItem === "mbanking"}
-        onToggle={() => toggleItem("mbanking")}
-      >
-        <ol className="list-decimal space-y-[8px] pl-5 text-[13px] font-normal leading-relaxed text-black">
-          {steps.map((step) => (
-            <li key={step} className="pl-1">
-              {step}
-            </li>
-          ))}
-        </ol>
-      </InstructionAccordionItem>
-
-      <div className="h-px w-full bg-[#E5E7EB]" />
-
-      <InstructionAccordionItem
-        title="Internet Banking"
-        open={openItem === "internet"}
-        onToggle={() => toggleItem("internet")}
-      >
-        <div className="text-[13px] font-normal leading-relaxed text-black">
-          Gunakan menu transfer Virtual Account pada internet banking, lalu masukkan
-          nomor VA dan nominal sesuai detail setoran.
-        </div>
-      </InstructionAccordionItem>
-
-      <div className="h-px w-full bg-[#E5E7EB]" />
-
-      <InstructionAccordionItem
-        title="ATM"
-        open={openItem === "atm"}
-        onToggle={() => toggleItem("atm")}
-      >
-        <div className="text-[13px] font-normal leading-relaxed text-black">
-          Pilih menu transfer Virtual Account di ATM, masukkan nomor VA, cek detail,
-          lalu lanjutkan pembayaran.
-        </div>
-      </InstructionAccordionItem>
     </div>
   );
 }
@@ -277,7 +169,7 @@ export default function NewMBankingDepositResultPage({
             <SectionTitle>Cara Melakukan Setoran</SectionTitle>
 
             <div className="mt-[18px]">
-              <DepositInstructions />
+              <NewMBankingDepositInstructionsCard />
             </div>
           </section>
 
