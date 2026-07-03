@@ -1,26 +1,12 @@
 import * as React from "react";
-import {
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  Info,
-  ReceiptText,
-} from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Info, ReceiptText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import BillingTableWithStatus, {
+  type BillingRow,
+} from "@/components/loans/BillingTableWithStatus";
 
-type BillRow = {
-  jatuhTempo: string;
-  totalBelumDibayar: string;
-  tagihanPokok: string;
-  tagihanBunga: string;
-  sisaPokok: string;
-  sisaBunga: string;
-  denda: string;
-  grace?: boolean;
-};
-
-const allBillRows: BillRow[] = [
+const billRows: BillingRow[] = [
   {
     jatuhTempo: "25-01-2026",
     totalBelumDibayar: "916.667",
@@ -28,8 +14,6 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "0,00",
     sisaBunga: "26.389",
-    denda: "75.000",
-    grace: true,
   },
   {
     jatuhTempo: "25-02-2026",
@@ -38,8 +22,6 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "0,00",
     sisaBunga: "26.389",
-    denda: "75.000",
-    grace: true,
   },
   {
     jatuhTempo: "25-03-2026",
@@ -48,8 +30,6 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "0,00",
     sisaBunga: "26.389",
-    denda: "75.000",
-    grace: true,
   },
   {
     jatuhTempo: "25-04-2026",
@@ -58,7 +38,6 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-    denda: "0,00",
   },
   {
     jatuhTempo: "25-05-2026",
@@ -67,7 +46,6 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-    denda: "0,00",
   },
   {
     jatuhTempo: "25-06-2026",
@@ -76,7 +54,6 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-    denda: "0,00",
   },
   {
     jatuhTempo: "25-07-2026",
@@ -85,7 +62,6 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-    denda: "0,00",
   },
   {
     jatuhTempo: "25-08-2026",
@@ -94,7 +70,38 @@ const allBillRows: BillRow[] = [
     tagihanBunga: "83.333",
     sisaPokok: "833.333",
     sisaBunga: "33.333",
-    denda: "0,00",
+  },
+  {
+    jatuhTempo: "25-09-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-10-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-11-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
+  },
+  {
+    jatuhTempo: "25-12-2026",
+    totalBelumDibayar: "916.667",
+    tagihanPokok: "833.333",
+    tagihanBunga: "83.333",
+    sisaPokok: "833.333",
+    sisaBunga: "33.333",
   },
 ];
 
@@ -137,156 +144,6 @@ function InfoCard({
   );
 }
 
-function TableHeadCell({
-  children,
-  align = "left",
-  className,
-}: {
-  children: React.ReactNode;
-  align?: "left" | "right" | "center";
-  className?: string;
-}) {
-  return (
-    <th
-      className={cn(
-        "border-b border-[#DCE8F5] bg-[#F6FAFF] px-3 py-3 align-middle",
-        "text-[10px] font-bold uppercase leading-[1.1] tracking-wide text-[#53657D]",
-        align === "right"
-          ? "text-right"
-          : align === "center"
-            ? "text-center"
-            : "text-left",
-        className,
-      )}
-    >
-      {children}
-    </th>
-  );
-}
-
-function TableCell({
-  children,
-  align = "left",
-  className,
-}: {
-  children: React.ReactNode;
-  align?: "left" | "right" | "center";
-  className?: string;
-}) {
-  return (
-    <td
-      className={cn(
-        "border-b border-[#EEF0F4] px-3 py-3 align-middle",
-        "text-[12px] font-semibold leading-tight text-black",
-        align === "right"
-          ? "text-right tabular-nums"
-          : align === "center"
-            ? "text-center"
-            : "text-left",
-        className,
-      )}
-    >
-      {children}
-    </td>
-  );
-}
-
-function StatusBadge({ grace }: { grace?: boolean }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex h-[24px] items-center rounded-full px-2.5",
-        "text-[10px] font-bold leading-none",
-        grace
-          ? "bg-[#EEF6FF] text-[#2563EB]"
-          : "bg-[#EAF8EF] text-[#15965A]",
-      )}
-    >
-      {grace ? "Grace" : "Aktif"}
-    </span>
-  );
-}
-
-function BillsTable({ rows }: { rows: BillRow[] }) {
-  return (
-    <div className="overflow-hidden rounded-[20px] bg-white shadow-[0_8px_24px_rgba(15,23,42,0.08)] ring-1 ring-[#E5E7EB]">
-      <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <table className="w-full min-w-[760px] border-collapse bg-white">
-          <thead>
-            <tr>
-              <TableHeadCell className="w-[98px]">
-                Jatuh
-                <br />
-                Tempo
-              </TableHeadCell>
-              <TableHeadCell align="right" className="w-[130px]">
-                Total
-                <br />
-                Belum Dibayar
-              </TableHeadCell>
-              <TableHeadCell align="right" className="w-[116px]">
-                Tagihan
-                <br />
-                Pokok
-              </TableHeadCell>
-              <TableHeadCell align="right" className="w-[116px]">
-                Tagihan
-                <br />
-                Bunga
-              </TableHeadCell>
-              <TableHeadCell align="right" className="w-[116px]">
-                Sisa
-                <br />
-                Pokok
-              </TableHeadCell>
-              <TableHeadCell align="right" className="w-[116px]">
-                Sisa
-                <br />
-                Bunga
-              </TableHeadCell>
-              <TableHeadCell align="right" className="w-[96px]">
-                Denda
-              </TableHeadCell>
-              <TableHeadCell align="center" className="w-[86px]">
-                Status
-              </TableHeadCell>
-            </tr>
-          </thead>
-
-          <tbody>
-            {rows.map((bill, index) => (
-              <tr
-                key={`${bill.jatuhTempo}-${index}`}
-                className={cn(index % 2 === 0 ? "bg-white" : "bg-[#FBFCFE]")}
-              >
-                <TableCell className="whitespace-nowrap font-bold text-[#203064]">
-                  {bill.jatuhTempo}
-                </TableCell>
-                <TableCell align="right" className="text-[#15965A]">
-                  {bill.totalBelumDibayar}
-                </TableCell>
-                <TableCell align="right">{bill.tagihanPokok}</TableCell>
-                <TableCell align="right">{bill.tagihanBunga}</TableCell>
-                <TableCell align="right">{bill.sisaPokok}</TableCell>
-                <TableCell align="right">{bill.sisaBunga}</TableCell>
-                <TableCell
-                  align="right"
-                  className={bill.denda !== "0,00" ? "text-[#DC3545]" : ""}
-                >
-                  {bill.denda}
-                </TableCell>
-                <TableCell align="center">
-                  <StatusBadge grace={bill.grace} />
-                </TableCell>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
 function PaginationBar({
   page,
   pageCount,
@@ -313,8 +170,8 @@ function PaginationBar({
             "transition active:scale-[0.98]",
           )}
         >
-          <ChevronLeft className="h-4 w-4" strokeWidth={2.8} />
-          Sebelumnya
+          <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={2.8} />
+          <span className="truncate">Sebelumnya</span>
         </button>
 
         <div className="grid h-[46px] min-w-[46px] place-items-center rounded-[10px] bg-[#479DF4] px-4 text-[14px] font-bold text-white">
@@ -332,8 +189,8 @@ function PaginationBar({
             "transition active:scale-[0.98]",
           )}
         >
-          Selanjutnya
-          <ChevronRight className="h-4 w-4" strokeWidth={2.8} />
+          <span className="truncate">Selanjutnya</span>
+          <ChevronRight className="h-4 w-4 shrink-0" strokeWidth={2.8} />
         </button>
       </div>
     </div>
@@ -351,19 +208,24 @@ export default function NewMBankingBillListPage({
   showSpecialNextBillInfo?: boolean;
   singleBillWithNextInfo?: boolean;
 }) {
-  const pageSize = 6;
+  const pageSize = 9;
   const [page, setPage] = React.useState(1);
 
   const isSpecialAccount = accountNo === "12260006" || accountNo === "072260001";
-  const shouldShowNextBillInfo =
+
+  const shouldShowThreeBillsWithNextInfo =
     singleBillWithNextInfo || (showSpecialNextBillInfo && isSpecialAccount);
 
-  const rows = React.useMemo(() => {
-    if (shouldShowNextBillInfo) return allBillRows.slice(0, 3);
-    return allBillRows;
-  }, [shouldShowNextBillInfo]);
+  const rowsForAccount = React.useMemo(() => {
+    if (shouldShowThreeBillsWithNextInfo) {
+      return billRows.slice(0, 3);
+    }
 
-  const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+    return billRows;
+  }, [shouldShowThreeBillsWithNextInfo]);
+
+  const pageCount = Math.max(1, Math.ceil(rowsForAccount.length / pageSize));
+  const showPagination = pageCount > 1 || shouldShowThreeBillsWithNextInfo;
 
   React.useEffect(() => {
     if (page > pageCount) setPage(pageCount);
@@ -371,8 +233,10 @@ export default function NewMBankingBillListPage({
 
   const pagedRows = React.useMemo(() => {
     const start = (page - 1) * pageSize;
-    return rows.slice(start, start + pageSize);
-  }, [page, rows]);
+    return rowsForAccount.slice(start, start + pageSize);
+  }, [page, rowsForAccount]);
+
+  const showGraceHighlight = page === 1;
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -397,7 +261,7 @@ export default function NewMBankingBillListPage({
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[118px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[24px]">
+        <section className="min-h-full rounded-t-[30px] bg-white px-4 pb-[34px] pt-[24px]">
           <div className="relative overflow-hidden rounded-[20px] bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_52%,#115E59_100%)] px-5 py-5 text-white">
             <div className="pointer-events-none absolute -right-[42px] -top-[42px] h-[136px] w-[136px] rounded-full bg-white/16" />
             <div className="pointer-events-none absolute right-[48px] top-[58px] h-[64px] w-[64px] rounded-full bg-emerald-200/16" />
@@ -419,7 +283,7 @@ export default function NewMBankingBillListPage({
             </div>
           </div>
 
-          {page === 1 ? (
+          {showGraceHighlight ? (
             <div className="mt-[16px]">
               <InfoCard
                 title="Periode Grace Period"
@@ -428,7 +292,7 @@ export default function NewMBankingBillListPage({
             </div>
           ) : null}
 
-          {shouldShowNextBillInfo ? (
+          {shouldShowThreeBillsWithNextInfo ? (
             <div className="mt-[12px]">
               <InfoCard
                 title="Tagihan Berikutnya"
@@ -438,13 +302,24 @@ export default function NewMBankingBillListPage({
             </div>
           ) : null}
 
-          <div className="mt-[18px]">
-            <BillsTable rows={pagedRows} />
+          <div className="mt-[18px] rounded-[15px] border border-[#CDD4E0] bg-white p-2 shadow-sm">
+            <div className="max-w-full overflow-hidden">
+              <BillingTableWithStatus
+                rows={pagedRows}
+                showGraceHighlight={showGraceHighlight}
+                showGraceInfo={showGraceHighlight}
+                penaltyIndexOffset={(page - 1) * pageSize}
+                showPenaltyDetailAction={false}
+                className="mt-0"
+              />
+            </div>
           </div>
         </section>
       </main>
 
-      <PaginationBar page={page} pageCount={pageCount} onPageChange={setPage} />
+      {showPagination ? (
+        <PaginationBar page={page} pageCount={pageCount} onPageChange={setPage} />
+      ) : null}
     </div>
   );
 }
