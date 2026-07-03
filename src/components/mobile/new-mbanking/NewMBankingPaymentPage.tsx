@@ -170,9 +170,7 @@ export default function NewMBankingPaymentPage({
           </div>
         </section>
 
-        <div className="h-px w-full bg-[#D8D8D8]" />
-
-        <section className="min-h-[calc(100%-270px)] rounded-t-[24px] bg-white px-6 pb-[34px] pt-[22px]">
+        <section className="min-h-[calc(100%-270px)] rounded-t-[30px] border-0 bg-white px-6 pb-[34px] pt-[22px]">
           <div className="rounded-full bg-[#F1F3F6] p-[4px]">
             <div className="grid grid-cols-2 gap-[4px]">
               <button
