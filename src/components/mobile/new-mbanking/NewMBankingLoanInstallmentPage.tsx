@@ -6,15 +6,9 @@ import NewMBankingLoanInstallmentTabs, {
   type LoanInstallmentTab,
 } from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentTabs";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
-
-type LoanAccount = {
-  id: string;
-  productName: string;
-  accountNo: string;
-  totalLoan: string;
-  remainingLoan: string;
-  dueDate: string;
-};
+import NewMBankingLoanInstallmentDetailPage, {
+  type NewMBankingLoanInstallmentAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentDetailPage";
 
 type InstallmentHistory = {
   id: string;
@@ -26,7 +20,7 @@ type InstallmentHistory = {
   status: "Berhasil";
 };
 
-const loanAccounts: LoanAccount[] = [
+const loanAccounts: NewMBankingLoanInstallmentAccount[] = [
   {
     id: "loan-1",
     productName: "Pinjaman Billing",
@@ -34,6 +28,20 @@ const loanAccounts: LoanAccount[] = [
     totalLoan: "Rp. 12.000.000,00",
     remainingLoan: "Rp. 10.000.000,00",
     dueDate: "25-01-2026",
+    gracePeriod: "3 Bulan",
+    disbursementDate: "01-03-2026",
+    tenor: "12 Bulan",
+    installmentNo: "1",
+    installmentBill: {
+      totalPay: "Rp. 991.666,00",
+      installmentNo: "1",
+      principal: "Rp. 833.333,00",
+      interest: "Rp. 83.333,00",
+      principalDebt: "Rp. 0,00",
+      interestDebt: "Rp. 0,00",
+      penalty: "Rp. 75.000,00",
+      remainingLoan: "Rp. 10.000.000,00",
+    },
   },
   {
     id: "loan-2",
@@ -42,6 +50,20 @@ const loanAccounts: LoanAccount[] = [
     totalLoan: "Rp. 12.000.000,00",
     remainingLoan: "Rp. 10.553.571,00",
     dueDate: "16-03-2027",
+    gracePeriod: "3 Bulan",
+    disbursementDate: "01-03-2026",
+    tenor: "12 Bulan",
+    installmentNo: "1",
+    installmentBill: {
+      totalPay: "Rp. 991.666,00",
+      installmentNo: "1",
+      principal: "Rp. 833.333,00",
+      interest: "Rp. 83.333,00",
+      principalDebt: "Rp. 0,00",
+      interestDebt: "Rp. 0,00",
+      penalty: "Rp. 75.000,00",
+      remainingLoan: "Rp. 10.553.571,00",
+    },
   },
   {
     id: "loan-3",
@@ -50,6 +72,20 @@ const loanAccounts: LoanAccount[] = [
     totalLoan: "Rp. 22.000.000,00",
     remainingLoan: "Rp. 22.000.000,00",
     dueDate: "30-09-2026",
+    gracePeriod: "0 Bulan",
+    disbursementDate: "31-03-2026",
+    tenor: "18 Bulan",
+    installmentNo: "1",
+    installmentBill: {
+      totalPay: "Rp. 916.667,00",
+      installmentNo: "1",
+      principal: "Rp. 833.333,00",
+      interest: "Rp. 83.333,00",
+      principalDebt: "Rp. 0,00",
+      interestDebt: "Rp. 0,00",
+      penalty: "Rp. 0,00",
+      remainingLoan: "Rp. 22.000.000,00",
+    },
   },
   {
     id: "loan-4",
@@ -58,6 +94,20 @@ const loanAccounts: LoanAccount[] = [
     totalLoan: "Rp. 20.000.000,00",
     remainingLoan: "Rp. 20.000.000,00",
     dueDate: "27-06-2026",
+    gracePeriod: "0 Bulan",
+    disbursementDate: "02-06-2026",
+    tenor: "24 Bulan",
+    installmentNo: "1",
+    installmentBill: {
+      totalPay: "Rp. 1.233.400,00",
+      installmentNo: "1",
+      principal: "Rp. 833.400,00",
+      interest: "Rp. 400.000,00",
+      principalDebt: "Rp. 0,00",
+      interestDebt: "Rp. 0,00",
+      penalty: "Rp. 0,00",
+      remainingLoan: "Rp. 20.000.000,00",
+    },
   },
 ];
 
@@ -115,10 +165,17 @@ function LoanInfoBlock({
   );
 }
 
-function LoanAccountCard({ account }: { account: LoanAccount }) {
+function LoanAccountCard({
+  account,
+  onClick,
+}: {
+  account: NewMBankingLoanInstallmentAccount;
+  onClick: () => void;
+}) {
   return (
     <button
       type="button"
+      onClick={onClick}
       className="block w-full text-left transition active:scale-[0.99]"
       aria-label={`Pilih ${account.productName} ${account.accountNo}`}
     >
@@ -247,6 +304,17 @@ export default function NewMBankingLoanInstallmentPage({
   const [activeTab, setActiveTab] =
     React.useState<LoanInstallmentTab>("rekening");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
+  const [selectedAccount, setSelectedAccount] =
+    React.useState<NewMBankingLoanInstallmentAccount | null>(null);
+
+  if (selectedAccount) {
+    return (
+      <NewMBankingLoanInstallmentDetailPage
+        account={selectedAccount}
+        onBack={() => setSelectedAccount(null)}
+      />
+    );
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -280,7 +348,11 @@ export default function NewMBankingLoanInstallmentPage({
           {activeTab === "rekening" ? (
             <div className="mt-[22px] grid gap-[14px]">
               {loanAccounts.map((account) => (
-                <LoanAccountCard key={account.id} account={account} />
+                <LoanAccountCard
+                  key={account.id}
+                  account={account}
+                  onClick={() => setSelectedAccount(account)}
+                />
               ))}
             </div>
           ) : (
