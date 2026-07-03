@@ -77,12 +77,12 @@ function ProfileMenuRow({
   onClick?: () => void;
   tone?: "blue" | "green" | "red";
 }) {
-  const iconClassName =
+  const iconFrameClassName =
     tone === "green"
-      ? "bg-[#E8F8EF] text-[#15965A]"
+      ? "bg-[#15965A]"
       : tone === "red"
-        ? "bg-[#FCE4E7] text-[#DC3545]"
-        : "bg-[#EEF6FF] text-[#479DF4]";
+        ? "bg-[#DC3545]"
+        : "bg-[#479DF4]";
 
   return (
     <button
@@ -92,11 +92,11 @@ function ProfileMenuRow({
     >
       <span
         className={cn(
-          "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full",
-          iconClassName,
+          "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full text-white",
+          iconFrameClassName,
         )}
       >
-        <Icon className="h-[23px] w-[23px]" strokeWidth={2.6} />
+        <Icon className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
       </span>
 
       <span className="min-w-0 flex-1">
