@@ -162,11 +162,17 @@ function TransferIcon() {
 
 function SavedRecipientRow({
   recipient,
+  showBankName,
   onClick,
 }: {
   recipient: SavedRecipient;
+  showBankName: boolean;
   onClick: () => void;
 }) {
+  const subtitle = showBankName
+    ? `${recipient.bank} • ${recipient.accountNo}`
+    : recipient.accountNo;
+
   return (
     <button
       type="button"
@@ -180,7 +186,7 @@ function SavedRecipientRow({
           {recipient.name}
         </div>
         <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          {recipient.bank} • {recipient.accountNo}
+          {subtitle}
         </div>
       </div>
     </button>
@@ -189,11 +195,17 @@ function SavedRecipientRow({
 
 function TransferHistoryRow({
   history,
+  showBankName,
   onClick,
 }: {
   history: TransferHistory;
+  showBankName: boolean;
   onClick: () => void;
 }) {
+  const subtitle = showBankName
+    ? `${history.bank} • ${history.accountNo}`
+    : history.accountNo;
+
   return (
     <button
       type="button"
@@ -207,7 +219,7 @@ function TransferHistoryRow({
           {history.name}
         </div>
         <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          {history.bank} • {history.accountNo}
+          {subtitle}
         </div>
         <div className="mt-[4px] truncate text-[11px] font-normal leading-tight text-[#A0A0A0]">
           {history.dateTime}
@@ -242,6 +254,15 @@ export default function NewMBankingInterbankTransferPage({
     React.useState<NewMBankingRecipientInfo | null>(null);
 
   const isTransferAntarRekening = title === "Transfer Antar Rekening";
+  const showBankName = !isTransferAntarRekening;
+
+  function buildRecipientInfo(recipient: SavedRecipient): NewMBankingRecipientInfo {
+    return {
+      name: recipient.name,
+      accountNo: recipient.accountNo,
+      bank: showBankName ? recipient.bank : undefined,
+    };
+  }
 
   function openRecipientInput(recipient: NewMBankingRecipientInfo) {
     setSelectedRecipient(recipient);
@@ -324,13 +345,8 @@ export default function NewMBankingInterbankTransferPage({
                 <SavedRecipientRow
                   key={recipient.id}
                   recipient={recipient}
-                  onClick={() =>
-                    openRecipientInput({
-                      name: recipient.name,
-                      accountNo: recipient.accountNo,
-                      bank: recipient.bank,
-                    })
-                  }
+                  showBankName={showBankName}
+                  onClick={() => openRecipientInput(buildRecipientInfo(recipient))}
                 />
               ))}
             </div>
@@ -340,13 +356,8 @@ export default function NewMBankingInterbankTransferPage({
                 <TransferHistoryRow
                   key={history.id}
                   history={history}
-                  onClick={() =>
-                    openRecipientInput({
-                      name: history.name,
-                      accountNo: history.accountNo,
-                      bank: history.bank,
-                    })
-                  }
+                  showBankName={showBankName}
+                  onClick={() => openRecipientInput(buildRecipientInfo(history))}
                 />
               ))}
             </div>
