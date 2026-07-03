@@ -4,10 +4,10 @@ import * as React from "react";
 import {
   ChevronDown,
   ChevronUp,
+  Globe2,
   Info,
   Landmark,
-  MonitorSmartphone,
-  ShieldCheck,
+  Smartphone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ const instructionItems: Array<{
     id: "mbanking",
     title: "M-Banking",
     subtitle: "Gunakan aplikasi mobile banking atau e-wallet.",
-    icon: MonitorSmartphone,
+    icon: Smartphone,
     steps: [
       "Buka aplikasi mobile banking atau e-wallet pilihan Anda.",
       "Pilih menu Transfer atau Virtual Account.",
@@ -39,7 +39,7 @@ const instructionItems: Array<{
     id: "internet",
     title: "Internet Banking",
     subtitle: "Bayar melalui layanan internet banking bank Anda.",
-    icon: ShieldCheck,
+    icon: Globe2,
     steps: [
       "Masuk ke internet banking bank Anda.",
       "Pilih menu Transfer atau Pembayaran Virtual Account.",
