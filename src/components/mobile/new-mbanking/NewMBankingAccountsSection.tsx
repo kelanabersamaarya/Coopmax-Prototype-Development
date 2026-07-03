@@ -145,10 +145,14 @@ function AccountCardContent({
     return (
       <>
         <div className="flex items-start justify-between gap-4">
-          <AccountInfo label="Deposito Berjangka">
-            <span className="truncate">DEP112233</span>
-            <CopyButton label="Salin nomor deposito" />
-          </AccountInfo>
+          <div className="min-w-0">
+            <div className="text-[11px] font-normal leading-none text-white/78">
+              Produk Deposito
+            </div>
+            <div className="mt-[7px] truncate text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
+              Deposito Berjangka
+            </div>
+          </div>
 
           <button
             type="button"
@@ -157,6 +161,13 @@ function AccountCardContent({
           >
             Lihat Detail
           </button>
+        </div>
+
+        <div className="mt-[24px]">
+          <AccountInfo label="Nomor Rekening Deposito">
+            <span className="truncate">DEP112233</span>
+            <CopyButton label="Salin nomor rekening deposito" />
+          </AccountInfo>
         </div>
 
         <div className="mt-[24px]">
