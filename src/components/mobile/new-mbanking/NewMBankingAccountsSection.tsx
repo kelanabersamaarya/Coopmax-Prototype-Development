@@ -193,8 +193,8 @@ function AccountInfo({
   );
 }
 
-function maskValue(short = false) {
-  return short ? "••••••" : "••••••••••";
+function maskValue() {
+  return "••••••••••";
 }
 
 function AccountCardShell({
@@ -395,13 +395,7 @@ function DepositoCardContent({
         </AccountInfo>
       </div>
 
-      <div className="mt-[24px]">
-        <AccountInfo label="Bunga per Tahun">
-          <span className="text-[16px] tracking-[-0.025em]">
-            {showBalance ? card.interestRate : maskValue(true)}
-          </span>
-        </AccountInfo>
-      </div>
+      <div className="sr-only">{card.interestRate}</div>
     </>
   );
 }
