@@ -5,7 +5,9 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
-import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import NewMBankingSourceFundModal, {
+  type SourceFundAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -67,6 +69,9 @@ export default function NewMBankingInstallmentConfirmModal({
   onConfirm?: () => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [sourceFund, setSourceFund] =
+    React.useState<SourceFundAccount>(defaultSourceFund);
 
   React.useEffect(() => {
     if (!open) return;
@@ -80,6 +85,12 @@ export default function NewMBankingInstallmentConfirmModal({
 
   return createPortal(
     <div className="absolute inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5 pt-8">
+      <NewMBankingSourceFundModal
+        open={sourceFundOpen}
+        onOpenChange={setSourceFundOpen}
+        onSelect={setSourceFund}
+      />
+
       <button
         type="button"
         className="absolute inset-0 cursor-default"
@@ -141,10 +152,10 @@ export default function NewMBankingInstallmentConfirmModal({
 
         <div className="mt-[10px]">
           <NewMBankingSourceFundGradientCard
-            account={defaultSourceFund}
-            showChevron={false}
+            account={sourceFund}
             textSize="compact"
             className="min-h-[104px]"
+            onClick={() => setSourceFundOpen(true)}
           />
         </div>
 
