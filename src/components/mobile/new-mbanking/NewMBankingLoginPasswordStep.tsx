@@ -32,6 +32,8 @@ export default function NewMBankingLoginPasswordStep({
     "focus-visible:ring-0 focus-visible:ring-offset-0",
   );
 
+  const passwordIconClassName = "h-[22px] w-[22px] text-[#828282]";
+
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#F9F9F9] px-6 pt-8">
@@ -101,7 +103,7 @@ export default function NewMBankingLoginPasswordStep({
                 <button
                   type="button"
                   onClick={() => setShowPassword((current) => !current)}
-                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
                   aria-label={
                     showPassword
                       ? "Sembunyikan kata sandi"
@@ -114,9 +116,9 @@ export default function NewMBankingLoginPasswordStep({
                   }
                 >
                   {showPassword ? (
-                    <Eye className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <Eye className={passwordIconClassName} strokeWidth={2.8} />
                   ) : (
-                    <EyeOff className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <EyeOff className={passwordIconClassName} strokeWidth={2.8} />
                   )}
                 </button>
               </div>

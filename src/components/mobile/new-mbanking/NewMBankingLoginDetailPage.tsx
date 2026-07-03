@@ -29,6 +29,7 @@ export default function NewMBankingLoginDetailPage({
   );
 
   const labelClassName = "text-[14px] font-bold leading-none text-black";
+  const passwordIconClassName = "h-[22px] w-[22px] text-[#828282]";
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
@@ -83,7 +84,7 @@ export default function NewMBankingLoginDetailPage({
                 <button
                   type="button"
                   onClick={() => setShowPassword((value) => !value)}
-                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
                   aria-label={
                     showPassword
                       ? "Sembunyikan password"
@@ -96,9 +97,9 @@ export default function NewMBankingLoginDetailPage({
                   }
                 >
                   {showPassword ? (
-                    <Eye className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <Eye className={passwordIconClassName} strokeWidth={2.8} />
                   ) : (
-                    <EyeOff className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <EyeOff className={passwordIconClassName} strokeWidth={2.8} />
                   )}
                 </button>
               </div>

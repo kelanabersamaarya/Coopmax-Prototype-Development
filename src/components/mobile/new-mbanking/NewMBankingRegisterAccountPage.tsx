@@ -44,8 +44,8 @@ export default function NewMBankingRegisterAccountPage({
   );
 
   const passwordFieldClassName = cn(fieldClassName, "pr-[48px]");
-
   const labelClassName = "text-[14px] font-bold leading-none text-black";
+  const passwordIconClassName = "h-[22px] w-[22px] text-[#828282]";
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -141,7 +141,7 @@ export default function NewMBankingRegisterAccountPage({
                 <button
                   type="button"
                   onClick={() => setShowPassword((current) => !current)}
-                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
                   aria-label={
                     showPassword
                       ? "Sembunyikan kata sandi"
@@ -154,9 +154,9 @@ export default function NewMBankingRegisterAccountPage({
                   }
                 >
                   {showPassword ? (
-                    <Eye className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <Eye className={passwordIconClassName} strokeWidth={2.8} />
                   ) : (
-                    <EyeOff className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <EyeOff className={passwordIconClassName} strokeWidth={2.8} />
                   )}
                 </button>
               </div>
@@ -180,7 +180,7 @@ export default function NewMBankingRegisterAccountPage({
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword((current) => !current)}
-                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
+                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
                   aria-label={
                     showConfirmPassword
                       ? "Sembunyikan konfirmasi kata sandi"
@@ -193,9 +193,9 @@ export default function NewMBankingRegisterAccountPage({
                   }
                 >
                   {showConfirmPassword ? (
-                    <Eye className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <Eye className={passwordIconClassName} strokeWidth={2.8} />
                   ) : (
-                    <EyeOff className="h-[22px] w-[22px]" strokeWidth={2.8} />
+                    <EyeOff className={passwordIconClassName} strokeWidth={2.8} />
                   )}
                 </button>
               </div>
