@@ -177,7 +177,6 @@ export default function NewMBankingDepositDetailPage({
             className={cn(
               "relative overflow-hidden rounded-[24px] px-5 py-5 text-white",
               "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]",
-              "shadow-[0_12px_28px_rgba(234,88,12,0.18)]",
             )}
           >
             <div className="pointer-events-none absolute -right-[42px] -top-[42px] h-[136px] w-[136px] rounded-full bg-white/16" />
@@ -205,7 +204,7 @@ export default function NewMBankingDepositDetailPage({
                   <div className="text-[12px] font-normal leading-none text-white/78">
                     Nomor Rekening Deposito
                   </div>
-                  <div className="mt-[8px] flex items-center gap-2 text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
+                  <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
                     <span>DEP112233</span>
                     <Copy className="h-[15px] w-[15px]" strokeWidth={2.4} />
                   </div>
@@ -215,7 +214,7 @@ export default function NewMBankingDepositDetailPage({
                   <div className="text-[12px] font-normal leading-none text-white/78">
                     Nominal Deposito
                   </div>
-                  <div className="mt-[8px] text-[24px] font-bold leading-tight tracking-[-0.04em] text-white">
+                  <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
                     Rp. 5.000.000,00
                   </div>
                 </div>
