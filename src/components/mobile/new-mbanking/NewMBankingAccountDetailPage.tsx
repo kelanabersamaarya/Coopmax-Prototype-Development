@@ -129,7 +129,8 @@ function QuickActionButton({
     >
       <span
         className={cn(
-          "grid h-[64px] w-[64px] place-items-center rounded-[16px] text-white shadow-[0_8px_18px_rgba(15,23,42,0.12)]",
+          "grid h-[64px] w-[64px] place-items-center rounded-[16px] text-white",
+          "border-0 shadow-none ring-0 outline-none",
           frameClassName,
         )}
       >

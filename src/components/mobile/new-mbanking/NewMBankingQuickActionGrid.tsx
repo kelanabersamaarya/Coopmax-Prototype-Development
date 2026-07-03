@@ -65,7 +65,7 @@ export default function NewMBankingQuickActionGrid({
               <span
                 className={cn(
                   "relative grid h-[64px] w-[64px] place-items-center rounded-[18px]",
-                  "text-white shadow-[0_8px_18px_rgba(15,23,42,0.12)]",
+                  "border-0 text-white shadow-none ring-0 outline-none",
                   action.frameClassName,
                 )}
               >
@@ -74,7 +74,8 @@ export default function NewMBankingQuickActionGrid({
                 {action.withPlus ? (
                   <span
                     className={cn(
-                      "absolute right-[11px] top-[11px] grid h-[17px] w-[17px] place-items-center rounded-full text-white ring-2 ring-white/70",
+                      "absolute right-[11px] top-[11px] grid h-[17px] w-[17px] place-items-center rounded-full text-white",
+                      "border-0 ring-0 outline-none",
                       action.plusClassName,
                     )}
                   >
