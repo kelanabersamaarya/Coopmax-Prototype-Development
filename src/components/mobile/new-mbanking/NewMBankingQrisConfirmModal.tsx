@@ -102,6 +102,7 @@ export default function NewMBankingQrisConfirmModal({
           <NewMBankingSourceFundGradientCard
             account={sourceFund}
             showChevron={false}
+            textSize="compact"
           />
         </div>
 

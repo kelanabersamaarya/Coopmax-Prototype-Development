@@ -167,6 +167,7 @@ export default function NewMBankingTransferConfirmModal({
             account={sourceFundAccount}
             showChevron={false}
             iconShape="circle"
+            textSize="compact"
             className="min-h-[112px] shadow-none"
           />
           <div className="sr-only">{sourceName}</div>

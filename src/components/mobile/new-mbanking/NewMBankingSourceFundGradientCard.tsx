@@ -10,6 +10,7 @@ export default function NewMBankingSourceFundGradientCard({
   showBalance = true,
   sectionLabel,
   iconShape = "rounded",
+  textSize = "default",
   className,
 }: {
   account: SourceFundAccount;
@@ -19,8 +20,11 @@ export default function NewMBankingSourceFundGradientCard({
   showBalance?: boolean;
   sectionLabel?: string;
   iconShape?: "rounded" | "circle";
+  textSize?: "default" | "compact";
   className?: string;
 }) {
+  const isCompact = textSize === "compact";
+
   const content = (
     <div
       className={cn(
@@ -39,7 +43,12 @@ export default function NewMBankingSourceFundGradientCard({
 
       <div className="relative z-10 min-w-0 flex-1">
         {sectionLabel ? (
-          <div className="mb-[12px] text-[12px] font-normal leading-none text-white/82">
+          <div
+            className={cn(
+              "mb-[12px] font-normal leading-none text-white/82",
+              isCompact ? "text-[10px]" : "text-[12px]",
+            )}
+          >
             {sectionLabel}
           </div>
         ) : null}
@@ -55,19 +64,39 @@ export default function NewMBankingSourceFundGradientCard({
           </span>
 
           <div className="min-w-0">
-            <div className="text-[12px] font-normal leading-none text-white/82">
+            <div
+              className={cn(
+                "font-normal leading-none text-white/82",
+                isCompact ? "text-[10px]" : "text-[12px]",
+              )}
+            >
               {account.productName}
             </div>
-            <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
+            <div
+              className={cn(
+                "mt-[7px] truncate font-bold leading-tight text-white",
+                isCompact ? "text-[14px]" : "text-[17px]",
+              )}
+            >
               {account.accountNo}
             </div>
 
             {showBalance ? (
               <>
-                <div className="mt-[14px] text-[12px] font-normal leading-none text-white/82">
+                <div
+                  className={cn(
+                    "mt-[14px] font-normal leading-none text-white/82",
+                    isCompact ? "text-[10px]" : "text-[12px]",
+                  )}
+                >
                   Saldo
                 </div>
-                <div className="mt-[7px] truncate text-[17px] font-bold leading-tight text-white">
+                <div
+                  className={cn(
+                    "mt-[7px] truncate font-bold leading-tight text-white",
+                    isCompact ? "text-[14px]" : "text-[17px]",
+                  )}
+                >
                   {account.balance}
                 </div>
               </>
