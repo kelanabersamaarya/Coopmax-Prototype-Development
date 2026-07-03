@@ -209,7 +209,7 @@ function AccountCardShell({
   return (
     <div
       className={cn(
-        "relative min-h-[245px] w-full shrink-0 snap-start overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
+        "relative min-h-[205px] w-full shrink-0 snap-start overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white shadow-[0_12px_30px_rgba(15,23,42,0.16)]",
         cardStyle.background,
       )}
     >
@@ -264,14 +264,14 @@ function SimpananCardContent({
         </button>
       </div>
 
-      <div className="mt-[24px]">
+      <div className="mt-[22px]">
         <AccountInfo label="Nomor VA">
           <span className="truncate">{card.vaNumber}</span>
           <CopyButton label="Salin nomor VA" />
         </AccountInfo>
       </div>
 
-      <div className="mt-[24px]">
+      <div className="mt-[22px]">
         <AccountInfo label="Saldo Simpanan">
           <span className="text-[16px] tracking-[-0.025em]">
             {showBalance ? card.balance : maskValue()}
@@ -308,7 +308,7 @@ function PinjamanCardContent({
         </button>
       </div>
 
-      <div className="mt-[24px]">
+      <div className="mt-[22px]">
         <AccountInfo label="Total Pinjaman">
           <span className="text-[16px] tracking-[-0.025em]">
             {showBalance ? card.totalLoan : maskValue()}
@@ -316,7 +316,7 @@ function PinjamanCardContent({
         </AccountInfo>
       </div>
 
-      <div className="mt-[24px]">
+      <div className="mt-[22px]">
         <AccountInfo label="Sisa Pinjaman">
           <span className="text-[16px] tracking-[-0.025em]">
             {showBalance ? card.remainingLoan : maskValue()}
@@ -359,14 +359,14 @@ function DepositoCardContent({
         </button>
       </div>
 
-      <div className="mt-[24px]">
+      <div className="mt-[22px]">
         <AccountInfo label="Nomor Rekening Deposito">
           <span className="truncate">{card.accountNo}</span>
           <CopyButton label="Salin nomor rekening deposito" />
         </AccountInfo>
       </div>
 
-      <div className="mt-[24px]">
+      <div className="mt-[22px]">
         <AccountInfo label="Nominal Deposito">
           <span className="text-[16px] tracking-[-0.025em]">
             {showBalance ? card.amount : maskValue()}
