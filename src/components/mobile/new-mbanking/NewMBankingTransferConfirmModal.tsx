@@ -10,12 +10,14 @@ import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBan
 function SectionBlock({
   title,
   children,
+  className,
 }: {
   title: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <section className="mt-[24px]">
+    <section className={cn("mt-[24px]", className)}>
       <div className="text-[14px] font-bold leading-tight text-black">
         {title}
       </div>
@@ -162,13 +164,13 @@ export default function NewMBankingTransferConfirmModal({
           </button>
         </div>
 
-        <SectionBlock title="Sumber Dana">
+        <SectionBlock title="Sumber Dana" className="mt-[14px]">
           <NewMBankingSourceFundGradientCard
             account={sourceFundAccount}
             showChevron={false}
             iconShape="circle"
             textSize="compact"
-            className="min-h-[112px] shadow-none"
+            className="min-h-[104px] shadow-none"
           />
           <div className="sr-only">{sourceName}</div>
         </SectionBlock>

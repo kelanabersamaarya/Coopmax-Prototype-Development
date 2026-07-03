@@ -98,11 +98,12 @@ export default function NewMBankingQrisConfirmModal({
           Sumber Dana
         </div>
 
-        <div className="mt-[14px]">
+        <div className="mt-[10px]">
           <NewMBankingSourceFundGradientCard
             account={sourceFund}
             showChevron={false}
             textSize="compact"
+            className="min-h-[104px]"
           />
         </div>
 
