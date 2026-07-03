@@ -20,6 +20,7 @@ const transactionMethods = [
   "Setoran",
   "QRIS",
   "Pembayaran",
+  "Pembelian",
   "Angsuran",
 ];
 
