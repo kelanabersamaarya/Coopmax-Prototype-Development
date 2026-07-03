@@ -46,8 +46,10 @@ const actions = [
 
 export default function NewMBankingQuickActionGrid({
   className,
+  onDepositClick,
 }: {
   className?: string;
+  onDepositClick?: () => void;
 }) {
   return (
     <section className={cn("mt-[24px]", className)}>
@@ -59,6 +61,11 @@ export default function NewMBankingQuickActionGrid({
             <button
               key={action.label}
               type="button"
+              onClick={() => {
+                if (action.label === "Setor") {
+                  onDepositClick?.();
+                }
+              }}
               className="flex min-w-0 flex-col items-center transition active:scale-[0.97]"
               aria-label={action.label}
             >

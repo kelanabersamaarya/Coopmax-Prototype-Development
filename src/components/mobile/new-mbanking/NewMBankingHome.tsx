@@ -2,6 +2,7 @@ import * as React from "react";
 import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-banking-types";
 import NewMBankingAccountDetailPage from "@/components/mobile/new-mbanking/NewMBankingAccountDetailPage";
 import NewMBankingAccountsSection from "@/components/mobile/new-mbanking/NewMBankingAccountsSection";
+import NewMBankingDepositAccountsPage from "@/components/mobile/new-mbanking/NewMBankingDepositAccountsPage";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
@@ -24,6 +25,15 @@ export default function NewMBankingHome({
   const [showAccountDetail, setShowAccountDetail] = React.useState(false);
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
   const [showPortfolio, setShowPortfolio] = React.useState(false);
+  const [showDepositAccounts, setShowDepositAccounts] = React.useState(false);
+
+  if (showDepositAccounts) {
+    return (
+      <NewMBankingDepositAccountsPage
+        onBack={() => setShowDepositAccounts(false)}
+      />
+    );
+  }
 
   if (showQrisFlow) {
     return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
@@ -82,7 +92,9 @@ export default function NewMBankingHome({
             onSavingsDetailClick={() => setShowAccountDetail(true)}
           />
 
-          <NewMBankingQuickActionGrid />
+          <NewMBankingQuickActionGrid
+            onDepositClick={() => setShowDepositAccounts(true)}
+          />
         </section>
 
         <div className="sr-only">
