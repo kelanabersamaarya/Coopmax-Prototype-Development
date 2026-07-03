@@ -5,6 +5,7 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingLoanInstallmentTabs, {
   type LoanInstallmentTab,
 } from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentTabs";
+import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 
 type LoanAccount = {
   id: string;
@@ -21,6 +22,7 @@ type InstallmentHistory = {
   subtitle: string;
   amount: string;
   date: string;
+  month: string;
   status: "Berhasil";
 };
 
@@ -66,6 +68,7 @@ const installmentHistories: InstallmentHistory[] = [
     subtitle: "SMG260004 • Angsuran Ke-1",
     amount: "-Rp. 991.666,00",
     date: "20 Juni 2026",
+    month: "Jun",
     status: "Berhasil",
   },
   {
@@ -74,6 +77,16 @@ const installmentHistories: InstallmentHistory[] = [
     subtitle: "12260006 • Angsuran Ke-1",
     amount: "-Rp. 991.666,00",
     date: "18 Juni 2026",
+    month: "Jun",
+    status: "Berhasil",
+  },
+  {
+    id: "history-3",
+    title: "Angsuran Pinjaman",
+    subtitle: "072260001 • Angsuran Ke-1",
+    amount: "-Rp. 916.667,00",
+    date: "24 Mei 2026",
+    month: "Mei",
     status: "Berhasil",
   },
 ];
@@ -149,8 +162,8 @@ function LoanAccountCard({ account }: { account: LoanAccount }) {
 
 function HistoryIcon() {
   return (
-    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#EAF3FF] text-[#2563EB]">
-      <HandCoins className="h-[22px] w-[22px]" strokeWidth={2.6} />
+    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+      <HandCoins className="h-[22px] w-[22px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
@@ -184,19 +197,27 @@ function InstallmentHistoryRow({ item }: { item: InstallmentHistory }) {
   );
 }
 
-function InstallmentHistoryList() {
+function InstallmentHistoryList({ activeMonth }: { activeMonth: string }) {
+  const filteredHistories = installmentHistories.filter(
+    (item) => item.month === activeMonth,
+  );
+
+  if (filteredHistories.length === 0) {
+    return <EmptyHistory />;
+  }
+
   return (
     <div className="mt-[22px]">
       <section>
         <div className="flex items-center gap-3">
           <div className="shrink-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
-            Juni 2026
+            {activeMonth === "Jun" ? "Juni 2026" : `${activeMonth} 2026`}
           </div>
           <div className="h-px min-w-0 flex-1 bg-[#E5E7EB]" />
         </div>
 
         <div className="mt-[8px] divide-y divide-[#EEF0F4]">
-          {installmentHistories.map((item) => (
+          {filteredHistories.map((item) => (
             <InstallmentHistoryRow key={item.id} item={item} />
           ))}
         </div>
@@ -225,6 +246,7 @@ export default function NewMBankingLoanInstallmentPage({
 }) {
   const [activeTab, setActiveTab] =
     React.useState<LoanInstallmentTab>("rekening");
+  const [activeMonth, setActiveMonth] = React.useState("Jun");
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -261,10 +283,15 @@ export default function NewMBankingLoanInstallmentPage({
                 <LoanAccountCard key={account.id} account={account} />
               ))}
             </div>
-          ) : installmentHistories.length > 0 ? (
-            <InstallmentHistoryList />
           ) : (
-            <EmptyHistory />
+            <>
+              <NewMBankingPaymentMonthSelector
+                activeMonth={activeMonth}
+                onChange={setActiveMonth}
+                className="mt-[18px]"
+              />
+              <InstallmentHistoryList activeMonth={activeMonth} />
+            </>
           )}
         </section>
       </main>

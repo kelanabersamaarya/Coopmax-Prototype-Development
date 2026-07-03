@@ -148,8 +148,8 @@ function SavingsAccountCard({
 
 function HistoryIcon() {
   return (
-    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#EAF8EF] text-[#33AA00]">
-      <Banknote className="h-[21px] w-[21px]" strokeWidth={2.6} />
+    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+      <Banknote className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
