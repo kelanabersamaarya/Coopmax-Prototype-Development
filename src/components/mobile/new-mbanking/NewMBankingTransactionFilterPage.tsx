@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   CalendarDays,
   Check,
-  ChevronDown,
   RotateCcw,
   Search,
 } from "lucide-react";
@@ -11,7 +10,6 @@ import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
 const sourceFundOptions = [
-  "Semua Sumber Dana",
   "Simpanan Kaya - 112233111",
   "Simpanan Sukarela - 4260029",
   "Simpanan Mapan - 112233222",
@@ -30,16 +28,24 @@ export default function NewMBankingTransactionFilterPage({
 }: {
   onBack: () => void;
 }) {
-  const [sourceFund, setSourceFund] = React.useState("Semua Sumber Dana");
+  const [sourceFunds, setSourceFunds] = React.useState<string[]>([]);
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
   const [methods, setMethods] = React.useState<string[]>([]);
 
   function resetFilters() {
-    setSourceFund("Semua Sumber Dana");
+    setSourceFunds([]);
     setStartDate("");
     setEndDate("");
     setMethods([]);
+  }
+
+  function toggleSourceFund(sourceFund: string) {
+    setSourceFunds((current) =>
+      current.includes(sourceFund)
+        ? current.filter((item) => item !== sourceFund)
+        : [...current, sourceFund],
+    );
   }
 
   function toggleMethod(method: string) {
@@ -81,27 +87,40 @@ export default function NewMBankingTransactionFilterPage({
               </div>
               <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
-              <div className="relative mt-[16px]">
-                <select
-                  value={sourceFund}
-                  onChange={(event) => setSourceFund(event.target.value)}
-                  className={cn(
-                    "h-[46px] w-full appearance-none rounded-[12px] border border-[#CDD4E0] bg-white px-4 pr-11",
-                    "text-[14px] font-normal text-black shadow-none outline-none",
-                    "focus:border-[#479DF4]",
-                  )}
-                >
-                  {sourceFundOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+              <div className="mt-[16px] grid grid-cols-1 gap-[10px]">
+                {sourceFundOptions.map((item) => {
+                  const checked = sourceFunds.includes(item);
 
-                <ChevronDown
-                  className="pointer-events-none absolute right-4 top-1/2 h-[19px] w-[19px] -translate-y-1/2 text-[#8F8F8F]"
-                  strokeWidth={2.6}
-                />
+                  return (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => toggleSourceFund(item)}
+                      className={cn(
+                        "flex min-h-[48px] w-full items-center gap-3 rounded-[12px] border px-4 py-3 text-left transition active:scale-[0.99]",
+                        checked
+                          ? "border-[#479DF4] bg-[#EEF6FF]"
+                          : "border-[#CDD4E0] bg-white",
+                      )}
+                      aria-pressed={checked}
+                    >
+                      <span
+                        className={cn(
+                          "inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-[6px] border transition",
+                          checked
+                            ? "border-[#479DF4] bg-[#479DF4] text-white"
+                            : "border-[#CDD4E0] bg-white text-transparent",
+                        )}
+                      >
+                        <Check className="h-[15px] w-[15px]" strokeWidth={3} />
+                      </span>
+
+                      <span className="min-w-0 flex-1 text-[14px] font-normal leading-tight text-black">
+                        {item}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </section>
 
