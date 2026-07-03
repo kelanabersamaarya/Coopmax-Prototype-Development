@@ -7,6 +7,7 @@ import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBan
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
+import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 import NewMBankingWelcomeItem from "@/components/mobile/new-mbanking/NewMBankingWelcomeItem";
 
 export default function NewMBankingHome({
@@ -20,6 +21,11 @@ export default function NewMBankingHome({
 }) {
   const [logoutOpen, setLogoutOpen] = React.useState(false);
   const [showAccountDetail, setShowAccountDetail] = React.useState(false);
+  const [showQrisFlow, setShowQrisFlow] = React.useState(false);
+
+  if (showQrisFlow) {
+    return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
+  }
 
   if (showAccountDetail) {
     return (
@@ -80,7 +86,7 @@ export default function NewMBankingHome({
         </div>
       </main>
 
-      <NewMBankingHomeMenuSection />
+      <NewMBankingHomeMenuSection onQrisClick={() => setShowQrisFlow(true)} />
 
       <NewMBankingLogoutConfirmModal
         open={logoutOpen}

@@ -33,8 +33,10 @@ const menuItems = [
 
 export default function NewMBankingHomeMenuSection({
   className,
+  onQrisClick,
 }: {
   className?: string;
+  onQrisClick?: () => void;
 }) {
   return (
     <div
@@ -53,6 +55,7 @@ export default function NewMBankingHomeMenuSection({
                 <button
                   key={item.label}
                   type="button"
+                  onClick={onQrisClick}
                   className="flex min-w-0 -translate-y-[18px] flex-col items-center justify-end rounded-[14px] transition active:scale-[0.97]"
                   aria-label={item.label}
                 >

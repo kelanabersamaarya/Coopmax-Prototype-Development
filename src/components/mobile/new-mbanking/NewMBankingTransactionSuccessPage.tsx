@@ -94,8 +94,8 @@ export default function NewMBankingTransactionSuccessPage({
               type="button"
               onClick={onDone}
               className={cn(
-                "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
-                "text-[12px] font-normal leading-none text-[#479DF4]",
+                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "text-[12px] font-normal leading-none text-white",
                 "transition active:scale-[0.98]",
               )}
             >
@@ -106,8 +106,8 @@ export default function NewMBankingTransactionSuccessPage({
               type="button"
               onClick={() => setShowReceipt(true)}
               className={cn(
-                "h-[46px] rounded-[10px] bg-[#479DF4]",
-                "text-[12px] font-normal leading-none text-white",
+                "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
+                "text-[12px] font-normal leading-none text-[#479DF4]",
                 "transition active:scale-[0.98]",
               )}
             >
