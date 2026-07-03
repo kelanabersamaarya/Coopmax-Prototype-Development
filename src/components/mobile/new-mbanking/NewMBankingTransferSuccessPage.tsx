@@ -1,14 +1,6 @@
 import * as React from "react";
-import { Check, Send } from "lucide-react";
+import { Check, Send, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
-import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
-import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
-
-const transferSourceFund: SourceFundAccount = {
-  productName: "Simpanan Kaya",
-  accountNo: "112233111",
-  balance: "Rp. 4.000.000,00",
-};
 
 export default function NewMBankingTransferSuccessPage({
   recipientAccountNo,
@@ -61,14 +53,25 @@ export default function NewMBankingTransferSuccessPage({
             Ref ID : TRF221112222
           </div>
 
-          <div className="mt-[10px] w-full text-left">
-            <NewMBankingSourceFundGradientCard
-              account={transferSourceFund}
-              showChevron={false}
-              showBalance={false}
-              sectionLabel="Sumber Dana"
-              className="min-h-[82px] rounded-[14px] px-[14px] py-[12px] shadow-none"
-            />
+          <div className="mt-[10px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
+            <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
+              <WalletCards
+                className="h-[18px] w-[18px] text-white"
+                strokeWidth={2.6}
+              />
+            </span>
+
+            <div className="min-w-0">
+              <div className="text-[11px] font-normal leading-none text-[#828282]">
+                Sumber Dana
+              </div>
+              <div className="mt-[6px] truncate text-[13px] font-normal leading-none text-black">
+                Simpanan Kaya
+              </div>
+              <div className="mt-[5px] truncate text-[13px] font-normal leading-none text-[#8F8F8F]">
+                112233111
+              </div>
+            </div>
           </div>
 
           <div className="mt-[8px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
