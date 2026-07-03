@@ -66,7 +66,7 @@ export default function NewMBankingRegisterAccountPage({
           <button
             type="button"
             onClick={onBack}
-            className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/55 text-black shadow-sm ring-1 ring-white/70 transition active:scale-[0.98]"
+            className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-black shadow-none ring-0 transition active:scale-[0.98]"
             aria-label="Kembali"
             title="Kembali"
           >
