@@ -1,21 +1,79 @@
 import * as React from "react";
-import { ArrowLeft, ChevronRight, IdCard, LogOut, ShieldCheck, UserRound } from "lucide-react";
+import {
+  ArrowLeft,
+  Bell,
+  BookOpen,
+  Building2,
+  ChevronRight,
+  FileText,
+  MessageSquareText,
+  Phone,
+  Settings,
+  ShieldCheck,
+  UserCog,
+  UserRound,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
-import NewMBankingMembershipPage from "@/components/mobile/new-mbanking/NewMBankingMembershipPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingMemberCard from "@/components/mobile/new-mbanking/NewMBankingMemberCard";
+
+const profileMenus = [
+  {
+    title: "Pengumuman",
+    icon: Bell,
+    tone: "blue" as const,
+  },
+  {
+    title: "Struktur Organisasi",
+    icon: Building2,
+    tone: "green" as const,
+  },
+  {
+    title: "Kritik dan Saran",
+    icon: MessageSquareText,
+    tone: "blue" as const,
+  },
+  {
+    title: "Akun",
+    icon: UserCog,
+    tone: "blue" as const,
+  },
+  {
+    title: "Petunjuk Penggunaan",
+    icon: BookOpen,
+    tone: "green" as const,
+  },
+  {
+    title: "Syarat dan Ketentuan",
+    icon: FileText,
+    tone: "blue" as const,
+  },
+  {
+    title: "Kebijakan Privasi",
+    icon: ShieldCheck,
+    tone: "green" as const,
+  },
+  {
+    title: "Kontak Kami",
+    icon: Phone,
+    tone: "blue" as const,
+  },
+  {
+    title: "Pengaturan",
+    icon: Settings,
+    tone: "red" as const,
+  },
+];
 
 function ProfileMenuRow({
   icon: Icon,
   title,
-  subtitle,
   onClick,
   tone = "blue",
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   title: string;
-  subtitle: string;
   onClick?: () => void;
   tone?: "blue" | "green" | "red";
 }) {
@@ -32,7 +90,12 @@ function ProfileMenuRow({
       onClick={onClick}
       className="flex w-full items-center gap-4 border-b border-[#EEF0F4] py-[16px] text-left transition active:scale-[0.99] last:border-b-0"
     >
-      <span className={cn("grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full", iconClassName)}>
+      <span
+        className={cn(
+          "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full",
+          iconClassName,
+        )}
+      >
         <Icon className="h-[23px] w-[23px]" strokeWidth={2.6} />
       </span>
 
@@ -40,12 +103,12 @@ function ProfileMenuRow({
         <span className="block truncate text-[15px] font-bold leading-tight text-black">
           {title}
         </span>
-        <span className="mt-[5px] block truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          {subtitle}
-        </span>
       </span>
 
-      <ChevronRight className="h-[22px] w-[22px] shrink-0 text-black" strokeWidth={2.6} />
+      <ChevronRight
+        className="h-[22px] w-[22px] shrink-0 text-black"
+        strokeWidth={2.6}
+      />
     </button>
   );
 }
@@ -55,12 +118,6 @@ export default function NewMBankingProfilePage({
 }: {
   onBack: () => void;
 }) {
-  const [showMembership, setShowMembership] = React.useState(false);
-
-  if (showMembership) {
-    return <NewMBankingMembershipPage onBack={() => setShowMembership(false)} />;
-  }
-
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -94,36 +151,20 @@ export default function NewMBankingProfilePage({
               <div className="truncate text-[20px] font-bold leading-tight tracking-[-0.03em] text-black">
                 Laura Patel
               </div>
-              <div className="mt-[6px] truncate text-[13px] font-normal leading-tight text-[#8F8F8F]">
-                Anggota Koperasi
-              </div>
-              <div className="mt-[10px] inline-flex h-[26px] items-center rounded-full bg-[#E8F8EF] px-3 text-[11px] font-semibold text-[#15965A]">
-                Terverifikasi
-              </div>
             </div>
           </div>
 
           <NewMBankingMemberCard className="mt-[28px]" />
 
           <div className="mt-[24px] rounded-[22px] bg-white px-1 ring-1 ring-[#EEF0F4]">
-            <ProfileMenuRow
-              icon={IdCard}
-              title="Keanggotaan"
-              subtitle="Lihat kartu anggota versi penuh"
-              onClick={() => setShowMembership(true)}
-            />
-            <ProfileMenuRow
-              icon={ShieldCheck}
-              title="Keamanan Akun"
-              subtitle="Kelola keamanan akun M-Banking"
-              tone="green"
-            />
-            <ProfileMenuRow
-              icon={LogOut}
-              title="Keluar"
-              subtitle="Keluar dari aplikasi"
-              tone="red"
-            />
+            {profileMenus.map((menu) => (
+              <ProfileMenuRow
+                key={menu.title}
+                icon={menu.icon}
+                title={menu.title}
+                tone={menu.tone}
+              />
+            ))}
           </div>
         </section>
       </main>
