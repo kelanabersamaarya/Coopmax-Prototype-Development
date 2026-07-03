@@ -35,7 +35,7 @@ function DeleteSuccessPage({ onGoOnboarding }: { onGoOnboarding?: () => void }) 
             "transition active:scale-[0.98]",
           )}
         >
-          Kembali ke Onboarding
+          Selesai
         </button>
       </div>
     </div>
