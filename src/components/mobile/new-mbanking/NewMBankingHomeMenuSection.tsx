@@ -43,7 +43,7 @@ export default function NewMBankingHomeMenuSection({
         className,
       )}
     >
-      <nav className="pointer-events-auto mx-auto h-[72px] w-full max-w-[354px] rounded-[28px] border border-white/80 bg-white px-[18px]">
+      <nav className="pointer-events-auto mx-auto h-[72px] w-full max-w-[354px] rounded-[28px] border border-[#BFE0FF] bg-[#EAF4FF] px-[18px]">
         <div className="grid h-full grid-cols-5 items-center gap-[16px]">
           {menuItems.map((item) => {
             const Icon = item.icon;
@@ -56,7 +56,7 @@ export default function NewMBankingHomeMenuSection({
                   className="flex min-w-0 -translate-y-[18px] flex-col items-center justify-end rounded-[14px] transition active:scale-[0.97]"
                   aria-label={item.label}
                 >
-                  <span className="mb-[10px] grid h-[56px] w-[56px] place-items-center rounded-[18px] bg-[#479DF4] text-white">
+                  <span className="mb-[14px] grid h-[56px] w-[56px] place-items-center rounded-[18px] bg-[#479DF4] text-white">
                     <Icon className="h-[30px] w-[30px]" strokeWidth={2.7} />
                   </span>
                   <span className="flex h-[13px] items-center justify-center">
