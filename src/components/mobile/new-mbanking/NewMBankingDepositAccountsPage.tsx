@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Banknote, Copy, Send } from "lucide-react";
+import { ArrowLeft, Banknote, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -17,7 +17,6 @@ type SavingsAccount = {
 
 type DepositHistory = {
   id: string;
-  type: "out" | "in";
   title: string;
   subtitle: string;
   amount: string;
@@ -52,19 +51,17 @@ const savingsAccounts: SavingsAccount[] = [
 const depositHistories: DepositHistory[] = [
   {
     id: "history-1",
-    type: "out",
-    title: "Transfer Keluar",
-    subtitle: "Bank BCA • 8890123441",
-    amount: "-Rp. 250.000,00",
+    title: "Setoran",
+    subtitle: "Simpanan Kaya • Teller Koperasi",
+    amount: "+Rp. 500.000,00",
     date: "20 Juni 2026",
     status: "Berhasil",
   },
   {
     id: "history-2",
-    type: "in",
     title: "Setoran",
-    subtitle: "Simpanan Kaya • Teller Koperasi",
-    amount: "+Rp. 500.000,00",
+    subtitle: "Simpanan Sukarela • Mobile Banking",
+    amount: "+Rp. 100.000,00",
     date: "20 Juni 2026",
     status: "Berhasil",
   },
@@ -149,29 +146,19 @@ function SavingsAccountCard({
   );
 }
 
-function HistoryIcon({ type }: { type: DepositHistory["type"] }) {
-  const isOut = type === "out";
-  const Icon = isOut ? Send : Banknote;
-
+function HistoryIcon() {
   return (
-    <span
-      className={cn(
-        "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full",
-        isOut ? "bg-[#EAF3FF] text-[#2F80ED]" : "bg-[#EAF8EF] text-[#33AA00]",
-      )}
-    >
-      <Icon className="h-[21px] w-[21px]" strokeWidth={2.6} />
+    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#EAF8EF] text-[#33AA00]">
+      <Banknote className="h-[21px] w-[21px]" strokeWidth={2.6} />
     </span>
   );
 }
 
 function DepositHistoryRow({ item }: { item: DepositHistory }) {
-  const isIncome = item.type === "in";
-
   return (
     <div className="flex items-start justify-between gap-4 py-[14px]">
       <div className="flex min-w-0 flex-1 items-start gap-3">
-        <HistoryIcon type={item.type} />
+        <HistoryIcon />
 
         <div className="min-w-0 pt-[2px]">
           <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
@@ -184,12 +171,7 @@ function DepositHistoryRow({ item }: { item: DepositHistory }) {
       </div>
 
       <div className="shrink-0 pt-[2px] text-right">
-        <div
-          className={cn(
-            "text-[14px] font-bold leading-tight tracking-[-0.02em]",
-            isIncome ? "text-[#00965A]" : "text-[#E11D48]",
-          )}
-        >
+        <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-[#00965A]">
           {item.amount}
         </div>
 
