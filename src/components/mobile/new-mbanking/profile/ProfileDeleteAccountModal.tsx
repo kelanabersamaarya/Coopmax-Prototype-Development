@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 function DeleteSuccessPage({ onGoOnboarding }: { onGoOnboarding?: () => void }) {
   return (
     <div className="absolute inset-0 z-[140] flex flex-col bg-[#F9F9F9] px-6 py-[30px] text-black">
-      <main className="flex min-h-0 flex-1 items-center justify-center">
+      <main className="flex min-h-0 flex-1 items-center justify-center pb-[92px]">
         <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
           <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EAF8EF]">
             <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#33AA00] text-white">
@@ -21,20 +21,22 @@ function DeleteSuccessPage({ onGoOnboarding }: { onGoOnboarding?: () => void }) 
           <p className="mt-[14px] max-w-[305px] text-[14px] font-normal leading-relaxed text-[#828282]">
             Akun M-Banking Anda telah dihapus. Silakan kembali ke halaman awal aplikasi.
           </p>
-
-          <button
-            type="button"
-            onClick={onGoOnboarding}
-            className={cn(
-              "mt-[34px] h-[52px] w-full rounded-[8px] bg-[#479DF4]",
-              "text-[14px] font-semibold leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Kembali ke Onboarding
-          </button>
         </section>
       </main>
+
+      <div className="absolute inset-x-6 bottom-[30px] z-10">
+        <button
+          type="button"
+          onClick={onGoOnboarding}
+          className={cn(
+            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+            "text-[14px] font-semibold leading-none text-white",
+            "transition active:scale-[0.98]",
+          )}
+        >
+          Kembali ke Onboarding
+        </button>
+      </div>
     </div>
   );
 }
