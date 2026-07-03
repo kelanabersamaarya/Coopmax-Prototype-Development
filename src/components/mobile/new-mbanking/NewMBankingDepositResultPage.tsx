@@ -215,7 +215,7 @@ export default function NewMBankingDepositResultPage({
   }
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] text-black">
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
         <StatusBar />
 
@@ -236,8 +236,8 @@ export default function NewMBankingDepositResultPage({
         </header>
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pt-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="relative min-h-full rounded-t-[30px] bg-white px-6 pb-[118px] pt-[28px] shadow-[0_-8px_28px_rgba(15,23,42,0.06)]">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-0 pt-[24px]">
           <div>
             <SectionTitle>Rekening Tujuan</SectionTitle>
             <NewMBankingDepositDestinationCard />
@@ -283,7 +283,7 @@ export default function NewMBankingDepositResultPage({
             </div>
           </section>
 
-          <div className="sticky bottom-0 z-20 -mx-6 mt-[30px] bg-white px-6 pb-0 pt-[14px]">
+          <div className="sticky bottom-0 z-20 -mx-6 mt-[30px] bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
             <button
               type="button"
               onClick={onDone}
