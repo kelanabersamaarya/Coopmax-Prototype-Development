@@ -3,6 +3,7 @@ import { Check, Eye, EyeOff, KeyRound, LockKeyhole } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileChangePasswordConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileChangePasswordConfirmModal";
+import ProfileTopToast from "@/components/mobile/new-mbanking/profile/ProfileTopToast";
 
 type CredentialVariant = "password" | "pin";
 
@@ -125,7 +126,7 @@ export default function ProfileCredentialChangePage({
   const [oldValue, setOldValue] = React.useState("");
   const [newValue, setNewValue] = React.useState("");
   const [confirmValue, setConfirmValue] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [toastMessage, setToastMessage] = React.useState("");
   const [success, setSuccess] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
 
@@ -137,14 +138,19 @@ export default function ProfileCredentialChangePage({
     return value.replace(/[^\d]/g, "").slice(0, 6);
   }
 
+  function showWarning(message: string) {
+    setToastMessage("");
+    window.setTimeout(() => setToastMessage(message), 0);
+  }
+
   function validateForm() {
     if (!oldValue.trim() || !newValue.trim() || !confirmValue.trim()) {
-      setError("Semua field wajib diisi.");
+      showWarning("Semua field wajib diisi.");
       return false;
     }
 
     if (newValue !== confirmValue) {
-      setError(
+      showWarning(
         isPin
           ? "Konfirmasi PIN baru belum sama."
           : "Konfirmasi kata sandi baru belum sama.",
@@ -153,11 +159,10 @@ export default function ProfileCredentialChangePage({
     }
 
     if (isPin && newValue.length < 6) {
-      setError("PIN baru minimal 6 digit.");
+      showWarning("PIN baru minimal 6 digit.");
       return false;
     }
 
-    setError("");
     return true;
   }
 
@@ -185,6 +190,11 @@ export default function ProfileCredentialChangePage({
       onBack={onBack}
       className="relative flex min-h-full flex-col pb-[124px]"
     >
+      <ProfileTopToast
+        message={toastMessage}
+        onClose={() => setToastMessage("")}
+      />
+
       <ProfileChangePasswordConfirmModal
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
@@ -219,7 +229,7 @@ export default function ProfileCredentialChangePage({
           value={oldValue}
           onChange={(value) => {
             setOldValue(normalizeInput(value));
-            setError("");
+            setToastMessage("");
           }}
           placeholder={isPin ? "Masukkan PIN lama" : "Masukkan kata sandi lama"}
           inputMode={isPin ? "numeric" : "text"}
@@ -231,7 +241,7 @@ export default function ProfileCredentialChangePage({
           value={newValue}
           onChange={(value) => {
             setNewValue(normalizeInput(value));
-            setError("");
+            setToastMessage("");
           }}
           placeholder={isPin ? "Masukkan PIN baru" : "Masukkan kata sandi baru"}
           inputMode={isPin ? "numeric" : "text"}
@@ -243,19 +253,13 @@ export default function ProfileCredentialChangePage({
           value={confirmValue}
           onChange={(value) => {
             setConfirmValue(normalizeInput(value));
-            setError("");
+            setToastMessage("");
           }}
           placeholder={isPin ? "Ulangi PIN baru" : "Konfirmasi Kata Sandi Baru"}
           inputMode={isPin ? "numeric" : "text"}
           maxLength={isPin ? 6 : undefined}
         />
       </div>
-
-      {error ? (
-        <div className="mt-[14px] rounded-[14px] bg-[#FCE4E7] px-4 py-3 text-[13px] font-semibold text-[#DC3545]">
-          {error}
-        </div>
-      ) : null}
 
       <div className="absolute inset-x-6 bottom-[26px] bg-white">
         <button
