@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Check, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
@@ -20,6 +21,8 @@ export default function NewMBankingTransferSuccessPage({
   description: string;
   onDone: () => void;
 }) {
+  const [saved, setSaved] = React.useState(false);
+
   const displayedRecipientAccount = recipientAccountNo.trim() || "22111122333";
   const displayedNominal = nominal.trim() || "50.000,00";
   const displayedDescription = description.trim() || "Bayar UKT";
@@ -46,7 +49,7 @@ export default function NewMBankingTransferSuccessPage({
             <div className="text-[12px] font-normal text-[#828282]">
               Nominal Transaksi
             </div>
-            <div class="mt-[8px] text-[22px] font-bold leading-tight text-black">
+            <div className="mt-[8px] text-[22px] font-bold leading-tight text-black">
               Rp. {displayedNominal}
             </div>
           </div>
@@ -93,6 +96,27 @@ export default function NewMBankingTransferSuccessPage({
           </div>
 
           <div className="mt-[30px] grid w-full grid-cols-1 gap-[10px]">
+            <button
+              type="button"
+              onClick={() => setSaved(true)}
+              className={cn(
+                "h-[46px] rounded-[10px] border-2 bg-white",
+                saved
+                  ? "border-[#33AA00] text-[#33AA00]"
+                  : "border-[#479DF4] text-[#479DF4]",
+                "text-[12px] font-normal leading-none transition active:scale-[0.98]",
+              )}
+            >
+              {saved ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <Check className="h-4 w-4" strokeWidth={3} />
+                  Bukti Tersimpan
+                </span>
+              ) : (
+                "Simpan Bukti Transaksi"
+              )}
+            </button>
+
             <button
               type="button"
               onClick={onDone}
