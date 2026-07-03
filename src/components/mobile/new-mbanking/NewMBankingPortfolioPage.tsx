@@ -101,31 +101,36 @@ function TotalAssetCard() {
   const [visible, setVisible] = React.useState(true);
 
   return (
-    <section
-      className={cn(
-        "relative mt-[22px] overflow-hidden rounded-[24px]",
-        "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_54%,#1D4ED8_100%)]",
-        "px-5 py-[26px] text-center text-white shadow-[0_12px_30px_rgba(37,99,235,0.18)]",
-      )}
-    >
-      <div className="pointer-events-none absolute -left-[34px] top-[24px] h-[108px] w-[108px] rounded-full border-[18px] border-white/14" />
-      <div className="pointer-events-none absolute -right-[36px] -top-[28px] h-[126px] w-[126px] rounded-full border-[20px] border-white/14" />
-      <div className="pointer-events-none absolute right-[56px] bottom-[-34px] h-[92px] w-[92px] rounded-full border-[16px] border-cyan-100/12" />
+    <section className="relative mt-[22px] overflow-hidden rounded-[24px] bg-[#4ba2f5] px-5 py-[28px] text-center text-white shadow-[0_12px_30px_rgba(71,157,244,0.22)]">
+      <div className="pointer-events-none absolute -left-[98px] -top-[150px] h-[300px] w-[300px] rounded-full bg-[#f56ac8]" />
+      <div className="pointer-events-none absolute -left-[36px] -top-[162px] h-[220px] w-[220px] rounded-full bg-[#f044bd]" />
+
+      <div className="pointer-events-none absolute -right-[76px] -top-[54px] h-[178px] w-[178px] rounded-full bg-[#8fc2f3]" />
+      <div className="pointer-events-none absolute right-[-8px] top-[-18px] h-[88px] w-[88px] rounded-full bg-[#459cf0]" />
+
+      <div className="pointer-events-none absolute -bottom-[118px] right-[-116px] h-[260px] w-[260px] rounded-full bg-[#8bdcec]" />
+      <div className="pointer-events-none absolute -bottom-[88px] right-[-52px] h-[188px] w-[188px] rounded-full bg-[#65d0e8]" />
+
+      <div className="pointer-events-none absolute -bottom-[92px] -left-[48px] h-[168px] w-[168px] rounded-full bg-[#a143ef]" />
+      <div className="pointer-events-none absolute -bottom-[58px] -left-[22px] h-[98px] w-[98px] rounded-full bg-[#8c16ea]" />
+
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(15,23,42,0.28)_0%,rgba(37,99,235,0.12)_45%,rgba(15,23,42,0.26)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-white/10" />
 
       <div className="relative z-10">
-        <div className="text-[13px] font-normal leading-none text-white/82">
+        <div className="text-[13px] font-normal leading-none text-white/90 drop-shadow-[0_1px_1px_rgba(15,23,42,0.22)]">
           Total Aset
         </div>
 
         <div className="mt-[12px] flex items-center justify-center gap-[10px]">
-          <div className="text-[24px] font-bold leading-tight tracking-[-0.04em] text-white">
+          <div className="text-[24px] font-bold leading-tight tracking-[-0.04em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.28)]">
             {visible ? "Rp. 50.000.000,00" : "••••••••••••"}
           </div>
 
           <button
             type="button"
             onClick={() => setVisible((current) => !current)}
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/14 text-white transition active:scale-[0.96]"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/18 text-white ring-1 ring-white/20 backdrop-blur transition active:scale-[0.96]"
             aria-label={visible ? "Sembunyikan total aset" : "Tampilkan total aset"}
             title={visible ? "Sembunyikan total aset" : "Tampilkan total aset"}
           >
@@ -195,10 +200,10 @@ function ProductInfoCell({
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[12px] font-normal leading-none text-white/80">
+      <div className="text-[12px] font-normal leading-none text-white/70">
         {label}
       </div>
-      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[14px] font-bold leading-tight text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.22)]">
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[14px] font-semibold leading-tight text-white">
         <span className="truncate">{value}</span>
         {isAccountNumber ? (
           <Copy className="h-[13px] w-[13px] shrink-0 text-white" strokeWidth={2.4} />
@@ -209,32 +214,28 @@ function ProductInfoCell({
 }
 
 function ProductCard({ product }: { product: PortfolioProduct }) {
+  const gradientClass =
+    product.type === "deposito"
+      ? "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]"
+      : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]";
+
   return (
     <article
       className={cn(
-        "relative min-h-[178px] overflow-hidden rounded-[14px] bg-[#4ba2f5] px-5 py-5 text-white",
-        "shadow-[0_8px_22px_rgba(15,23,42,0.14)]",
+        "relative min-h-[170px] overflow-hidden rounded-[14px] px-5 py-5 text-white",
+        "shadow-[0_8px_22px_rgba(15,23,42,0.12)]",
+        gradientClass,
       )}
     >
-      <div className="pointer-events-none absolute -left-[90px] -top-[138px] h-[260px] w-[260px] rounded-full bg-[#f56ac8]" />
-      <div className="pointer-events-none absolute -left-[24px] -top-[148px] h-[190px] w-[190px] rounded-full bg-[#f044bd]" />
-
-      <div className="pointer-events-none absolute -right-[58px] -top-[42px] h-[160px] w-[160px] rounded-full bg-[#8fc2f3]" />
-      <div className="pointer-events-none absolute right-[-4px] top-[-16px] h-[86px] w-[86px] rounded-full bg-[#459cf0]" />
-
-      <div className="pointer-events-none absolute -bottom-[126px] right-[-106px] h-[260px] w-[260px] rounded-full bg-[#8bdcec]" />
-      <div className="pointer-events-none absolute -bottom-[102px] right-[-42px] h-[190px] w-[190px] rounded-full bg-[#65d0e8]" />
-
-      <div className="pointer-events-none absolute -bottom-[74px] -left-[42px] h-[150px] w-[150px] rounded-full bg-[#a143ef]" />
-      <div className="pointer-events-none absolute -bottom-[48px] -left-[18px] h-[90px] w-[90px] rounded-full bg-[#8c16ea]" />
-
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(15,23,42,0.36)_0%,rgba(37,99,235,0.24)_42%,rgba(15,23,42,0.42)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-white/5" />
+      <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
+      <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
+      <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
+      <div className="pointer-events-none absolute -bottom-[34px] left-[58px] h-[92px] w-[92px] rounded-full bg-white/8" />
 
       <div className="relative z-10">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.24)]">
+            <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
               {product.name}
             </div>
           </div>
@@ -243,7 +244,8 @@ function ProductCard({ product }: { product: PortfolioProduct }) {
             type="button"
             className={cn(
               "inline-flex shrink-0 items-center gap-1 rounded-full bg-white/95 px-3 py-2",
-              "text-[11px] font-semibold leading-none text-[#2563EB]",
+              "text-[11px] font-semibold leading-none",
+              product.type === "deposito" ? "text-[#C2410C]" : "text-[#2563EB]",
               "shadow-sm transition active:scale-[0.98]",
             )}
           >
