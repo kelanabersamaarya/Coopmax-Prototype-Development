@@ -1,0 +1,26 @@
+/* New M-Banking: hapus shadow pada card/frame ikon menu seperti Setor, Transfer, Bayar, dan sejenisnya. */
+[data-mobile-screen="true"] button[aria-label="Setor"],
+[data-mobile-screen="true"] button[aria-label="Transfer"],
+[data-mobile-screen="true"] button[aria-label="Bayar Angsuran"],
+[data-mobile-screen="true"] button[aria-label="Keanggotan"],
+[data-mobile-screen="true"] button[aria-label="Bayar"],
+[data-mobile-screen="true"] button[aria-label="Beli"],
+[data-mobile-screen="true"] button[aria-label="Transfer Antar Rekening"],
+[data-mobile-screen="true"] button[aria-label="Transfer Antar Bank"] {
+  box-shadow: none !important;
+}
+
+[data-mobile-screen="true"] button[aria-label="Setor"] > span,
+[data-mobile-screen="true"] button[aria-label="Transfer"] > span,
+[data-mobile-screen="true"] button[aria-label="Bayar Angsuran"] > span,
+[data-mobile-screen="true"] button[aria-label="Keanggotan"] > span,
+[data-mobile-screen="true"] button[aria-label="Bayar"] > span,
+[data-mobile-screen="true"] button[aria-label="Beli"] > span,
+[data-mobile-screen="true"] button[aria-label="Transfer Antar Rekening"] > span,
+[data-mobile-screen="true"] button[aria-label="Transfer Antar Bank"] > span {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-shadow: 0 0 #0000 !important;
+}
