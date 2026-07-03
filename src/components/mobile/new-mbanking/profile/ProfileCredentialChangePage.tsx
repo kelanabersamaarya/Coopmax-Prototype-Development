@@ -36,7 +36,7 @@ function SuccessState({
         </p>
       </div>
 
-      <div className="absolute inset-x-0 bottom-[26px] bg-white">
+      <div className="absolute inset-x-6 bottom-[26px] bg-white">
         <button
           type="button"
           onClick={onRequireLogin}
@@ -231,7 +231,7 @@ export default function ProfileCredentialChangePage({
         </div>
       ) : null}
 
-      <div className="absolute inset-x-0 bottom-[26px] bg-white">
+      <div className="absolute inset-x-6 bottom-[26px] bg-white">
         <button
           type="button"
           onClick={submit}
