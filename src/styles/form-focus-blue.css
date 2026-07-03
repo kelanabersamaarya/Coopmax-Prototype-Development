@@ -1,0 +1,42 @@
+/* Global form focus color */
+:where(input, textarea, select):focus,
+:where(input, textarea, select):focus-visible {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18) !important;
+}
+
+:where(
+    button[role="combobox"],
+    [data-slot="select-trigger"],
+    [role="combobox"],
+    [data-slot="popover-trigger"],
+    [data-slot="dropdown-menu-trigger"]
+  ):focus,
+:where(
+    button[role="combobox"],
+    [data-slot="select-trigger"],
+    [role="combobox"],
+    [data-slot="popover-trigger"],
+    [data-slot="dropdown-menu-trigger"]
+  ):focus-visible,
+:where(
+    button[role="combobox"],
+    [data-slot="select-trigger"],
+    [role="combobox"],
+    [data-slot="popover-trigger"],
+    [data-slot="dropdown-menu-trigger"]
+  )[data-state="open"] {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18) !important;
+}
+
+.no-purple-select :where(input, textarea):focus,
+.no-purple-select :where(input, textarea):focus-visible,
+.no-purple-select :where([data-slot="select-trigger"], [role="combobox"]):focus,
+.no-purple-select
+  :where([data-slot="select-trigger"], [role="combobox"]):focus-visible,
+.no-purple-select
+  :where([data-slot="select-trigger"], [role="combobox"])[data-state="open"] {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18) !important;
+}
