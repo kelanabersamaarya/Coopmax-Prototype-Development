@@ -195,10 +195,10 @@ function ProductInfoCell({
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[12px] font-normal leading-none text-white/70">
+      <div className="text-[12px] font-normal leading-none text-white/80">
         {label}
       </div>
-      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[14px] font-semibold leading-tight text-white">
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[14px] font-bold leading-tight text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.22)]">
         <span className="truncate">{value}</span>
         {isAccountNumber ? (
           <Copy className="h-[13px] w-[13px] shrink-0 text-white" strokeWidth={2.4} />
@@ -209,28 +209,32 @@ function ProductInfoCell({
 }
 
 function ProductCard({ product }: { product: PortfolioProduct }) {
-  const gradientClass =
-    product.type === "deposito"
-      ? "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]"
-      : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]";
-
   return (
     <article
       className={cn(
-        "relative min-h-[170px] overflow-hidden rounded-[14px] px-5 py-5 text-white",
-        "shadow-[0_8px_22px_rgba(15,23,42,0.12)]",
-        gradientClass,
+        "relative min-h-[178px] overflow-hidden rounded-[14px] bg-[#4ba2f5] px-5 py-5 text-white",
+        "shadow-[0_8px_22px_rgba(15,23,42,0.14)]",
       )}
     >
-      <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
-      <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
-      <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
-      <div className="pointer-events-none absolute -bottom-[34px] left-[58px] h-[92px] w-[92px] rounded-full bg-white/8" />
+      <div className="pointer-events-none absolute -left-[90px] -top-[138px] h-[260px] w-[260px] rounded-full bg-[#f56ac8]" />
+      <div className="pointer-events-none absolute -left-[24px] -top-[148px] h-[190px] w-[190px] rounded-full bg-[#f044bd]" />
+
+      <div className="pointer-events-none absolute -right-[58px] -top-[42px] h-[160px] w-[160px] rounded-full bg-[#8fc2f3]" />
+      <div className="pointer-events-none absolute right-[-4px] top-[-16px] h-[86px] w-[86px] rounded-full bg-[#459cf0]" />
+
+      <div className="pointer-events-none absolute -bottom-[126px] right-[-106px] h-[260px] w-[260px] rounded-full bg-[#8bdcec]" />
+      <div className="pointer-events-none absolute -bottom-[102px] right-[-42px] h-[190px] w-[190px] rounded-full bg-[#65d0e8]" />
+
+      <div className="pointer-events-none absolute -bottom-[74px] -left-[42px] h-[150px] w-[150px] rounded-full bg-[#a143ef]" />
+      <div className="pointer-events-none absolute -bottom-[48px] -left-[18px] h-[90px] w-[90px] rounded-full bg-[#8c16ea]" />
+
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(15,23,42,0.36)_0%,rgba(37,99,235,0.24)_42%,rgba(15,23,42,0.42)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-white/5" />
 
       <div className="relative z-10">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
+            <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.24)]">
               {product.name}
             </div>
           </div>
@@ -239,8 +243,7 @@ function ProductCard({ product }: { product: PortfolioProduct }) {
             type="button"
             className={cn(
               "inline-flex shrink-0 items-center gap-1 rounded-full bg-white/95 px-3 py-2",
-              "text-[11px] font-semibold leading-none",
-              product.type === "deposito" ? "text-[#C2410C]" : "text-[#2563EB]",
+              "text-[11px] font-semibold leading-none text-[#2563EB]",
               "shadow-sm transition active:scale-[0.98]",
             )}
           >
