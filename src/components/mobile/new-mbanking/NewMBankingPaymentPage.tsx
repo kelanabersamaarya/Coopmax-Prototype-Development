@@ -194,21 +194,21 @@ export default function NewMBankingPaymentPage({
                 items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex min-h-[72px] items-center justify-between gap-4 py-[12px]"
+                    className="flex min-h-[64px] items-center justify-between gap-4 py-[10px]"
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-3">
-                      <span className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-full bg-[#EEF0F4] text-[#111827]">
+                      <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
                         <Smartphone
-                          className="h-[27px] w-[27px] text-[#111827]"
-                          strokeWidth={2.25}
+                          className="h-[23px] w-[23px] text-white"
+                          strokeWidth={2.35}
                         />
                       </span>
 
                       <div className="min-w-0">
-                        <div className="truncate text-[18px] font-bold leading-tight tracking-[-0.025em] text-black">
+                        <div className="truncate text-[14px] font-bold leading-tight tracking-[-0.015em] text-black">
                           {item.name}
                         </div>
-                        <div className="mt-[5px] truncate text-[13px] font-normal leading-tight text-[#8F8F8F]">
+                        <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
                           {item.info}
                         </div>
                       </div>
@@ -221,12 +221,12 @@ export default function NewMBankingPaymentPage({
                           current.filter((savedItem) => savedItem.id !== item.id),
                         )
                       }
-                      className="grid h-[48px] w-[48px] shrink-0 place-items-center rounded-[10px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
+                      className="grid h-[36px] w-[36px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
                       aria-label={`Hapus ${item.name}`}
                       title="Hapus"
                     >
                       <Trash2
-                        className="h-[24px] w-[24px] text-[#DC3545]"
+                        className="h-[18px] w-[18px] text-[#DC3545]"
                         strokeWidth={2.7}
                       />
                     </button>
