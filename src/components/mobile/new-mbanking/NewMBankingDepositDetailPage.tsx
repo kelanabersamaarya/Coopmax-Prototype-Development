@@ -51,7 +51,7 @@ const historyGroups: DepositHistoryGroup[] = [
       {
         id: "deposit-interest",
         title: "Bunga Deposito",
-        subtitle: "Deposito Koperasi • Bunga Bulanan",
+        subtitle: "Depos Koperasi • Bunga Bulanan",
         amount: "Rp. 25.000,00",
         status: "Terjadwal",
       },
@@ -172,7 +172,7 @@ export default function NewMBankingDepositDetailPage({
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="min-h-full rounded-t-[30px] bg-white px-6 pt-[24px]">
+        <section className="min-h-full rounded-t-[30px] bg-[#F9F9F9] px-6 pt-[24px]">
           <article
             className={cn(
               "relative overflow-hidden rounded-[24px] px-5 py-5 text-white",
@@ -245,7 +245,7 @@ export default function NewMBankingDepositDetailPage({
             </div>
           </section>
 
-          <section className="-mx-6 mt-[28px] min-h-[520px] bg-white px-6 pb-[34px] pt-[24px]">
+          <section className="-mx-6 mt-[28px] min-h-[520px] bg-[#FFFFFF] px-6 pb-[34px] pt-[24px]">
             <div className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
               Riwayat Deposito
             </div>
