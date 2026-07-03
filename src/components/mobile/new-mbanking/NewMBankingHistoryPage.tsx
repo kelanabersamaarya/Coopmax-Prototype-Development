@@ -187,11 +187,7 @@ export default function NewMBankingHistoryPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-white pb-[150px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="bg-white px-6 pb-[34px] pt-[22px]">
-          <h2 className="text-[20px] font-bold leading-tight tracking-[-0.035em] text-black">
-            Riwayat Transaksi
-          </h2>
-
-          <div className="mt-[18px] flex gap-[9px] overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-[9px] overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {monthChips.map((month) => {
               const active = month === activeMonth;
 
