@@ -2,6 +2,7 @@ import * as React from "react";
 import { ArrowLeft, Copy, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingDepositResultPage from "@/components/mobile/new-mbanking/NewMBankingDepositResultPage";
 
 const quickAmounts = [
   "Rp. 5.000",
@@ -15,6 +16,19 @@ const quickAmounts = [
   "Rp. 500.000",
   "Rp. 1.000.000",
 ];
+
+function onlyDigits(value: string) {
+  return (value ?? "").replace(/[^\d]/g, "");
+}
+
+function formatDepositAmount(value: string) {
+  const digits = onlyDigits(value);
+
+  if (!digits) return "Rp. 50.000,00";
+
+  const formatted = Number(digits).toLocaleString("id-ID");
+  return `Rp. ${formatted},00`;
+}
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -79,6 +93,18 @@ export default function NewMBankingDepositPage({
 }) {
   const [selectedAmount, setSelectedAmount] = React.useState("");
   const [customAmount, setCustomAmount] = React.useState("");
+  const [showResult, setShowResult] = React.useState(false);
+  const selectedDepositAmount = formatDepositAmount(customAmount || selectedAmount);
+
+  if (showResult) {
+    return (
+      <NewMBankingDepositResultPage
+        amount={selectedDepositAmount}
+        onBack={() => setShowResult(false)}
+        onDone={onBack}
+      />
+    );
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -165,6 +191,7 @@ export default function NewMBankingDepositPage({
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
+          onClick={() => setShowResult(true)}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
