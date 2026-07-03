@@ -17,52 +17,85 @@ import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingMemberCard from "@/components/mobile/new-mbanking/NewMBankingMemberCard";
+import ProfileAccountPage from "@/components/mobile/new-mbanking/profile/ProfileAccountPage";
+import ProfileAnnouncementPage from "@/components/mobile/new-mbanking/profile/ProfileAnnouncementPage";
+import ProfileContactPage from "@/components/mobile/new-mbanking/profile/ProfileContactPage";
+import ProfileFeedbackPage from "@/components/mobile/new-mbanking/profile/ProfileFeedbackPage";
+import ProfileGuidePage from "@/components/mobile/new-mbanking/profile/ProfileGuidePage";
+import ProfileOrganizationPage from "@/components/mobile/new-mbanking/profile/ProfileOrganizationPage";
+import ProfilePrivacyPage from "@/components/mobile/new-mbanking/profile/ProfilePrivacyPage";
+import ProfileTermsPage from "@/components/mobile/new-mbanking/profile/ProfileTermsPage";
 
-const profileMenus = [
+type ProfileScreen =
+  | "main"
+  | "announcement"
+  | "organization"
+  | "feedback"
+  | "account"
+  | "guide"
+  | "terms"
+  | "privacy"
+  | "contact";
+
+const profileMenus: Array<{
+  title: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  tone: "blue" | "green" | "red";
+  screen: ProfileScreen;
+}> = [
   {
     title: "Pengumuman",
     icon: Bell,
-    tone: "blue" as const,
+    tone: "blue",
+    screen: "announcement",
   },
   {
     title: "Struktur Organisasi",
     icon: Building2,
-    tone: "green" as const,
+    tone: "green",
+    screen: "organization",
   },
   {
     title: "Kritik dan Saran",
     icon: MessageSquareText,
-    tone: "blue" as const,
+    tone: "blue",
+    screen: "feedback",
   },
   {
     title: "Akun",
     icon: UserCog,
-    tone: "blue" as const,
+    tone: "blue",
+    screen: "account",
   },
   {
     title: "Petunjuk Penggunaan",
     icon: BookOpen,
-    tone: "green" as const,
+    tone: "green",
+    screen: "guide",
   },
   {
     title: "Syarat dan Ketentuan",
     icon: FileText,
-    tone: "blue" as const,
+    tone: "blue",
+    screen: "terms",
   },
   {
     title: "Kebijakan Privasi",
     icon: ShieldCheck,
-    tone: "green" as const,
+    tone: "green",
+    screen: "privacy",
   },
   {
     title: "Kontak Kami",
     icon: Phone,
-    tone: "blue" as const,
+    tone: "blue",
+    screen: "contact",
   },
   {
     title: "Pengaturan",
     icon: Settings,
-    tone: "red" as const,
+    tone: "red",
+    screen: "main",
   },
 ];
 
@@ -118,6 +151,40 @@ export default function NewMBankingProfilePage({
 }: {
   onBack: () => void;
 }) {
+  const [screen, setScreen] = React.useState<ProfileScreen>("main");
+
+  if (screen === "announcement") {
+    return <ProfileAnnouncementPage onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "organization") {
+    return <ProfileOrganizationPage onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "feedback") {
+    return <ProfileFeedbackPage onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "account") {
+    return <ProfileAccountPage onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "guide") {
+    return <ProfileGuidePage onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "terms") {
+    return <ProfileTermsPage onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "privacy") {
+    return <ProfilePrivacyPage onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "contact") {
+    return <ProfileContactPage onBack={() => setScreen("main")} />;
+  }
+
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -163,6 +230,11 @@ export default function NewMBankingProfilePage({
                 icon={menu.icon}
                 title={menu.title}
                 tone={menu.tone}
+                onClick={() => {
+                  if (menu.screen !== "main") {
+                    setScreen(menu.screen);
+                  }
+                }}
               />
             ))}
           </div>
