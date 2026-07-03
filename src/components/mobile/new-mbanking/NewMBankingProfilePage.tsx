@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingMembershipPage from "@/components/mobile/new-mbanking/NewMBankingMembershipPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingMemberCard from "@/components/mobile/new-mbanking/NewMBankingMemberCard";
 
 function ProfileMenuRow({
   icon: Icon,
@@ -102,11 +103,13 @@ export default function NewMBankingProfilePage({
             </div>
           </div>
 
-          <div className="mt-[28px] rounded-[22px] bg-white px-1 ring-1 ring-[#EEF0F4]">
+          <NewMBankingMemberCard className="mt-[28px]" />
+
+          <div className="mt-[24px] rounded-[22px] bg-white px-1 ring-1 ring-[#EEF0F4]">
             <ProfileMenuRow
               icon={IdCard}
               title="Keanggotaan"
-              subtitle="Lihat nomor anggota dan QR code"
+              subtitle="Lihat kartu anggota versi penuh"
               onClick={() => setShowMembership(true)}
             />
             <ProfileMenuRow
