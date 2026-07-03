@@ -190,7 +190,7 @@ export default function NewMBankingDepositDetailPage({
                   <div className="text-[12px] font-normal leading-none text-white/78">
                     Produk Deposito
                   </div>
-                  <div className="mt-[8px] text-[20px] font-bold leading-tight tracking-[-0.03em] text-white">
+                  <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
                     Deposito Koperasi
                   </div>
                 </div>
