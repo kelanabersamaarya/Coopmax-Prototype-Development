@@ -46,7 +46,7 @@ export type NewMBankingTransactionFilters = {
 type DatePickerTarget = "start" | "end" | null;
 
 const defaultFilters: NewMBankingTransactionFilters = {
-  sourceFunds: [sourceFundOptions[0]],
+  sourceFunds: [],
   period: "Hari Ini",
   startDate: "",
   endDate: "",
@@ -81,7 +81,7 @@ export default function NewMBankingTransactionFilterPage({
   );
 
   function resetFilters() {
-    setSourceFunds(defaultFilters.sourceFunds);
+    setSourceFunds([]);
     setPeriod("Hari Ini");
     setStartDate("");
     setEndDate("");
