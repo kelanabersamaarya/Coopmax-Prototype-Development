@@ -33,7 +33,7 @@ export default function NewMBankingLoginDetailPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <section className="relative h-[302px] shrink-0 overflow-hidden bg-[#4ba2f5] px-[31px] pt-[30px] text-white">
+      <section className="relative h-[252px] shrink-0 overflow-hidden bg-[#4ba2f5] px-[31px] pt-[30px] text-white">
         <div className="pointer-events-none absolute -left-[98px] -top-[150px] h-[300px] w-[300px] rounded-full bg-[#f56ac8]" />
         <div className="pointer-events-none absolute -left-[36px] -top-[162px] h-[220px] w-[220px] rounded-full bg-[#f044bd]" />
 
