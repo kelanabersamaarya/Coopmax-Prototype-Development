@@ -7,6 +7,7 @@ import {
   Search,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingCalendarModal from "@/components/mobile/new-mbanking/NewMBankingCalendarModal";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
 const sourceFundOptions = [
@@ -33,6 +34,7 @@ const transactionMethods = [
 ];
 
 type PeriodOption = (typeof periodOptions)[number];
+type DatePickerTarget = "start" | "end" | null;
 
 export default function NewMBankingTransactionFilterPage({
   onBack,
@@ -43,6 +45,8 @@ export default function NewMBankingTransactionFilterPage({
   const [period, setPeriod] = React.useState<PeriodOption>("Hari Ini");
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
+  const [datePickerTarget, setDatePickerTarget] =
+    React.useState<DatePickerTarget>(null);
   const [methods, setMethods] = React.useState<string[]>([]);
 
   function resetFilters() {
@@ -50,6 +54,7 @@ export default function NewMBankingTransactionFilterPage({
     setPeriod("Hari Ini");
     setStartDate("");
     setEndDate("");
+    setDatePickerTarget(null);
     setMethods([]);
   }
 
@@ -75,11 +80,29 @@ export default function NewMBankingTransactionFilterPage({
     if (nextPeriod !== "Pilih Tanggal") {
       setStartDate("");
       setEndDate("");
+      setDatePickerTarget(null);
     }
   }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingCalendarModal
+        open={datePickerTarget !== null}
+        title={datePickerTarget === "start" ? "Pilih Tanggal Awal" : "Pilih Tanggal Akhir"}
+        value={datePickerTarget === "start" ? startDate : endDate}
+        onClose={() => setDatePickerTarget(null)}
+        onSelect={(value) => {
+          if (datePickerTarget === "start") {
+            setStartDate(value);
+            return;
+          }
+
+          if (datePickerTarget === "end") {
+            setEndDate(value);
+          }
+        }}
+      />
+
       <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
 
@@ -206,16 +229,21 @@ export default function NewMBankingTransactionFilterPage({
                         placeholder="DD-MM-YYYY"
                         inputMode="numeric"
                         className={cn(
-                          "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-9",
+                          "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-10",
                           "text-[13px] font-normal text-black shadow-none outline-none",
                           "placeholder:text-[13px] placeholder:font-normal placeholder:text-[#8F8F8F]",
                           "focus:border-[#479DF4]",
                         )}
                       />
-                      <CalendarDays
-                        className="pointer-events-none absolute right-3 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-[#8F8F8F]"
-                        strokeWidth={2.4}
-                      />
+                      <button
+                        type="button"
+                        onClick={() => setDatePickerTarget("start")}
+                        className="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[#8F8F8F] transition active:scale-[0.96]"
+                        aria-label="Buka kalender tanggal awal"
+                        title="Pilih tanggal awal"
+                      >
+                        <CalendarDays className="h-[17px] w-[17px]" strokeWidth={2.4} />
+                      </button>
                     </div>
                   </div>
 
@@ -230,16 +258,21 @@ export default function NewMBankingTransactionFilterPage({
                         placeholder="DD-MM-YYYY"
                         inputMode="numeric"
                         className={cn(
-                          "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-9",
+                          "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-10",
                           "text-[13px] font-normal text-black shadow-none outline-none",
                           "placeholder:text-[13px] placeholder:font-normal placeholder:text-[#8F8F8F]",
                           "focus:border-[#479DF4]",
                         )}
                       />
-                      <CalendarDays
-                        className="pointer-events-none absolute right-3 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-[#8F8F8F]"
-                        strokeWidth={2.4}
-                      />
+                      <button
+                        type="button"
+                        onClick={() => setDatePickerTarget("end")}
+                        className="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[#8F8F8F] transition active:scale-[0.96]"
+                        aria-label="Buka kalender tanggal akhir"
+                        title="Pilih tanggal akhir"
+                      >
+                        <CalendarDays className="h-[17px] w-[17px]" strokeWidth={2.4} />
+                      </button>
                     </div>
                   </div>
                 </div>
