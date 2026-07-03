@@ -200,8 +200,10 @@ function TransferHistoryRow({ history }: { history: TransferHistory }) {
 
 export default function NewMBankingInterbankTransferPage({
   onBack,
+  onTransferDone,
 }: {
   onBack: () => void;
+  onTransferDone?: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
@@ -210,6 +212,7 @@ export default function NewMBankingInterbankTransferPage({
     return (
       <NewMBankingNewRecipientTransferPage
         onBack={() => setShowNewRecipientForm(false)}
+        onDone={onTransferDone ?? onBack}
       />
     );
   }

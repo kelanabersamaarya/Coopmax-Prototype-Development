@@ -38,8 +38,10 @@ function formatThousands(value: string) {
 
 export default function NewMBankingNewRecipientTransferPage({
   onBack,
+  onDone,
 }: {
   onBack: () => void;
+  onDone?: () => void;
 }) {
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -56,7 +58,7 @@ export default function NewMBankingNewRecipientTransferPage({
         recipientAccountNo={accountNo}
         nominal={amount}
         description={description}
-        onDone={onBack}
+        onDone={onDone ?? onBack}
       />
     );
   }

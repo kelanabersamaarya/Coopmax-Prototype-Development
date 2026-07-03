@@ -226,6 +226,7 @@ export default function NewMBankingAccountDetailPage({
     return (
       <NewMBankingInterbankTransferPage
         onBack={() => setShowInterbankTransfer(false)}
+        onTransferDone={() => setShowInterbankTransfer(false)}
       />
     );
   }
