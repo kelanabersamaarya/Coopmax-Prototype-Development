@@ -452,12 +452,7 @@ export default function NewMBankingAccountsSection({
   }
 
   return (
-    <section
-      className={cn(
-        "mx-[-8px] mt-[24px] rounded-[24px] border border-[#D9D9D9] p-[16px]",
-        className,
-      )}
-    >
+    <section className={cn("mt-[24px]", className)}>
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-[18px] font-bold leading-tight tracking-[-0.035em] text-[#111827]">
           Rekening Anda
