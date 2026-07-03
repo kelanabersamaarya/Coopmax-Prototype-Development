@@ -88,7 +88,7 @@ function ProfileMenuRow({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-4 border-b border-[#EEF0F4] py-[16px] text-left transition active:scale-[0.99] last:border-b-0"
+      className="flex w-full items-center gap-4 border-b border-[#EEF0F4] px-[15px] py-[16px] text-left transition active:scale-[0.99] last:border-b-0"
     >
       <span
         className={cn(
@@ -156,7 +156,7 @@ export default function NewMBankingProfilePage({
 
           <NewMBankingMemberCard className="mt-[28px]" />
 
-          <div className="mt-[24px] rounded-[22px] bg-white px-1 ring-1 ring-[#EEF0F4]">
+          <div className="mt-[24px] rounded-[22px] bg-white ring-1 ring-[#EEF0F4]">
             {profileMenus.map((menu) => (
               <ProfileMenuRow
                 key={menu.title}
