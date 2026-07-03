@@ -145,8 +145,8 @@ function TransferTabs({
 
 function TransferIcon() {
   return (
-    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F1F3F6] text-[#53657D]">
-      <Send className="h-[21px] w-[21px]" strokeWidth={2.45} />
+    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_8px_18px_rgba(71,157,244,0.18)]">
+      <Send className="h-[21px] w-[21px] text-white" strokeWidth={2.45} />
     </span>
   );
 }
