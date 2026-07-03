@@ -8,7 +8,9 @@ import {
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
-import NewMBankingTransactionFilterPage from "@/components/mobile/new-mbanking/NewMBankingTransactionFilterPage";
+import NewMBankingTransactionFilterPage, {
+  type NewMBankingTransactionFilters,
+} from "@/components/mobile/new-mbanking/NewMBankingTransactionFilterPage";
 
 type TransactionItem = {
   id: string;
@@ -16,6 +18,9 @@ type TransactionItem = {
   title: string;
   subtitle: string;
   amount: string;
+  sourceFund: string;
+  method: string;
+  dateDmy: string;
 };
 
 type TransactionGroup = {
@@ -33,6 +38,9 @@ const transactionGroups: TransactionGroup[] = [
         title: "Transfer Keluar",
         subtitle: "Bank BCA • 8890123441",
         amount: "-Rp. 250.000,00",
+        sourceFund: "Simpanan Kaya - 112233111",
+        method: "Transfer",
+        dateDmy: "20-06-2026",
       },
       {
         id: "trx-2",
@@ -40,6 +48,9 @@ const transactionGroups: TransactionGroup[] = [
         title: "Setoran",
         subtitle: "Simpanan Kaya • Teller Koperasi",
         amount: "+Rp. 500.000,00",
+        sourceFund: "Simpanan Kaya - 112233111",
+        method: "Setoran",
+        dateDmy: "20-06-2026",
       },
     ],
   },
@@ -52,6 +63,9 @@ const transactionGroups: TransactionGroup[] = [
         title: "Transfer Keluar",
         subtitle: "Bank Mandiri • 7001234567",
         amount: "-Rp. 125.000,00",
+        sourceFund: "Simpanan Sukarela - 4260029",
+        method: "Transfer",
+        dateDmy: "19-06-2026",
       },
       {
         id: "trx-4",
@@ -59,6 +73,9 @@ const transactionGroups: TransactionGroup[] = [
         title: "Setoran",
         subtitle: "Simpanan Harian • Mobile Banking",
         amount: "+Rp. 300.000,00",
+        sourceFund: "Simpanan Mapan - 112233222",
+        method: "Setoran",
+        dateDmy: "19-06-2026",
       },
     ],
   },
@@ -78,6 +95,104 @@ const monthChips = [
   "Nov",
   "Des",
 ];
+
+function parseDmyToDate(value: string): Date | null {
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec((value ?? "").trim());
+  if (!match) return null;
+
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date;
+}
+
+function isSameDay(a: Date, b: Date) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function isWithinPeriod(date: Date, filters: NewMBankingTransactionFilters) {
+  const today = startOfDay(new Date());
+  const target = startOfDay(date);
+
+  if (filters.period === "Hari Ini") {
+    return isSameDay(target, today);
+  }
+
+  if (filters.period === "7 Hari Terakhir") {
+    const start = new Date(today);
+    start.setDate(start.getDate() - 6);
+    return target >= start && target <= today;
+  }
+
+  if (filters.period === "30 Hari Terakhir") {
+    const start = new Date(today);
+    start.setDate(start.getDate() - 29);
+    return target >= start && target <= today;
+  }
+
+  if (filters.period === "3 Bulan Terakhir") {
+    const start = new Date(today);
+    start.setMonth(start.getMonth() - 3);
+    return target >= start && target <= today;
+  }
+
+  const start = parseDmyToDate(filters.startDate);
+  const end = parseDmyToDate(filters.endDate);
+  const safeStart = start ? startOfDay(start) : null;
+  const safeEnd = end ? startOfDay(end) : null;
+
+  if (safeStart && target < safeStart) return false;
+  if (safeEnd && target > safeEnd) return false;
+
+  return true;
+}
+
+function filterTransactionGroups(
+  groups: TransactionGroup[],
+  filters: NewMBankingTransactionFilters | null,
+) {
+  if (!filters) return groups;
+
+  return groups
+    .map((group) => {
+      const items = group.items.filter((item) => {
+        const transactionDate = parseDmyToDate(item.dateDmy);
+        if (!transactionDate) return false;
+
+        const matchesSource =
+          filters.sourceFunds.length === 0 ||
+          filters.sourceFunds.includes(item.sourceFund);
+
+        const matchesMethod =
+          filters.methods.length === 0 || filters.methods.includes(item.method);
+
+        const matchesPeriod = isWithinPeriod(transactionDate, filters);
+
+        return matchesSource && matchesMethod && matchesPeriod;
+      });
+
+      return { ...group, items };
+    })
+    .filter((group) => group.items.length > 0);
+}
 
 function TransactionIcon({ type }: { type: TransactionItem["type"] }) {
   const isTransferOut = type === "out";
@@ -152,6 +267,19 @@ function TransactionGroupCard({ group }: { group: TransactionGroup }) {
   );
 }
 
+function EmptyFilterResult() {
+  return (
+    <div className="mt-[48px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
+      <div className="text-[15px] font-bold text-black">
+        Tidak Ada Transaksi
+      </div>
+      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+        Tidak ada riwayat transaksi yang cocok dengan filter yang dipilih.
+      </div>
+    </div>
+  );
+}
+
 export default function NewMBankingHistoryPage({
   onBack,
   onHomeClick,
@@ -165,10 +293,21 @@ export default function NewMBankingHistoryPage({
 }) {
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [showFilterPage, setShowFilterPage] = React.useState(false);
+  const [filters, setFilters] =
+    React.useState<NewMBankingTransactionFilters | null>(null);
+
+  const visibleGroups = React.useMemo(
+    () => filterTransactionGroups(transactionGroups, filters),
+    [filters],
+  );
+
+  const filterIsActive = !!filters;
 
   if (showFilterPage) {
     return (
       <NewMBankingTransactionFilterPage
+        initialFilters={filters}
+        onApply={setFilters}
         onBack={() => setShowFilterPage(false)}
       />
     );
@@ -197,11 +336,17 @@ export default function NewMBankingHistoryPage({
           <button
             type="button"
             onClick={() => setShowFilterPage(true)}
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]"
+            className={cn(
+              "relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]",
+              filterIsActive ? "text-[#479DF4]" : "text-black",
+            )}
             aria-label="Filter riwayat transaksi"
             title="Filter"
           >
             <Filter className="h-[22px] w-[22px]" strokeWidth={2.6} />
+            {filterIsActive ? (
+              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#479DF4]" />
+            ) : null}
           </button>
         </header>
       </div>
@@ -233,9 +378,13 @@ export default function NewMBankingHistoryPage({
           </div>
 
           <div className="mt-[6px]">
-            {transactionGroups.map((group) => (
-              <TransactionGroupCard key={group.date} group={group} />
-            ))}
+            {visibleGroups.length > 0 ? (
+              visibleGroups.map((group) => (
+                <TransactionGroupCard key={group.date} group={group} />
+              ))
+            ) : (
+              <EmptyFilterResult />
+            )}
           </div>
         </section>
       </main>

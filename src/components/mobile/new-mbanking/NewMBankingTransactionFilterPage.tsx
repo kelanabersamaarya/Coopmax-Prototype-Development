@@ -33,21 +33,52 @@ const transactionMethods = [
   "Angsuran",
 ];
 
-type PeriodOption = (typeof periodOptions)[number];
+export type PeriodOption = (typeof periodOptions)[number];
+
+export type NewMBankingTransactionFilters = {
+  sourceFunds: string[];
+  period: PeriodOption;
+  startDate: string;
+  endDate: string;
+  methods: string[];
+};
+
 type DatePickerTarget = "start" | "end" | null;
+
+const defaultFilters: NewMBankingTransactionFilters = {
+  sourceFunds: [],
+  period: "Hari Ini",
+  startDate: "",
+  endDate: "",
+  methods: [],
+};
 
 export default function NewMBankingTransactionFilterPage({
   onBack,
+  initialFilters,
+  onApply,
 }: {
   onBack: () => void;
+  initialFilters?: NewMBankingTransactionFilters | null;
+  onApply?: (filters: NewMBankingTransactionFilters) => void;
 }) {
-  const [sourceFunds, setSourceFunds] = React.useState<string[]>([]);
-  const [period, setPeriod] = React.useState<PeriodOption>("Hari Ini");
-  const [startDate, setStartDate] = React.useState("");
-  const [endDate, setEndDate] = React.useState("");
+  const [sourceFunds, setSourceFunds] = React.useState<string[]>(
+    initialFilters?.sourceFunds ?? defaultFilters.sourceFunds,
+  );
+  const [period, setPeriod] = React.useState<PeriodOption>(
+    initialFilters?.period ?? defaultFilters.period,
+  );
+  const [startDate, setStartDate] = React.useState(
+    initialFilters?.startDate ?? defaultFilters.startDate,
+  );
+  const [endDate, setEndDate] = React.useState(
+    initialFilters?.endDate ?? defaultFilters.endDate,
+  );
   const [datePickerTarget, setDatePickerTarget] =
     React.useState<DatePickerTarget>(null);
-  const [methods, setMethods] = React.useState<string[]>([]);
+  const [methods, setMethods] = React.useState<string[]>(
+    initialFilters?.methods ?? defaultFilters.methods,
+  );
 
   function resetFilters() {
     setSourceFunds([]);
@@ -56,6 +87,18 @@ export default function NewMBankingTransactionFilterPage({
     setEndDate("");
     setDatePickerTarget(null);
     setMethods([]);
+  }
+
+  function applyFilters() {
+    onApply?.({
+      sourceFunds,
+      period,
+      startDate,
+      endDate,
+      methods,
+    });
+
+    onBack();
   }
 
   function toggleSourceFund(sourceFund: string) {
@@ -344,7 +387,7 @@ export default function NewMBankingTransactionFilterPage({
 
           <button
             type="button"
-            onClick={onBack}
+            onClick={applyFilters}
             className={cn(
               "h-[52px] rounded-[8px] bg-[#479DF4]",
               "text-[14px] font-semibold leading-none text-white",
