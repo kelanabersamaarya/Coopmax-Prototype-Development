@@ -1,7 +1,6 @@
 import { ArrowLeft, CalendarDays, Copy, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
-import NewMBankingDepositSpecialAccountInfo from "@/components/mobile/new-mbanking/NewMBankingDepositSpecialAccountInfo";
 
 const depositoInfo = [
   { label: "Nomor Rekening Deposito", value: "DEP112233" },
@@ -113,8 +112,6 @@ export default function NewMBankingDepositDetailPage({
               </div>
             </div>
           </article>
-
-          <NewMBankingDepositSpecialAccountInfo />
 
           <section className="mt-[26px]">
             <div className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
