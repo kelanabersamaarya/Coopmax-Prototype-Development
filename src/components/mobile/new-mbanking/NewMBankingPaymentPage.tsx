@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewMBankingPaymentHistoryList";
 
 type PaymentTab = "saved" | "history";
 
@@ -262,14 +263,7 @@ export default function NewMBankingPaymentPage({
               )}
             </div>
           ) : (
-            <div className="py-[44px] text-center">
-              <div className="text-[15px] font-bold text-black">
-                Belum Ada Riwayat Pembayaran
-              </div>
-              <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-                Riwayat transaksi pembayaran akan muncul di sini.
-              </div>
-            </div>
+            <NewMBankingPaymentHistoryList />
           )}
         </section>
       </main>
