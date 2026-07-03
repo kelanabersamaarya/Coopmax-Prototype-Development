@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import type { NewMBankingRecipientInfo } from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
 
 type TransferTab = "saved" | "history";
 
@@ -159,9 +160,19 @@ function TransferIcon() {
   );
 }
 
-function SavedRecipientRow({ recipient }: { recipient: SavedRecipient }) {
+function SavedRecipientRow({
+  recipient,
+  onClick,
+}: {
+  recipient: SavedRecipient;
+  onClick: () => void;
+}) {
   return (
-    <div className="flex items-center gap-3 border-b border-[#EEF0F4] py-[15px] last:border-b-0">
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-center gap-3 border-b border-[#EEF0F4] py-[15px] text-left transition active:scale-[0.99] last:border-b-0"
+    >
       <TransferIcon />
 
       <div className="min-w-0 flex-1">
@@ -172,13 +183,23 @@ function SavedRecipientRow({ recipient }: { recipient: SavedRecipient }) {
           {recipient.accountNo}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
-function TransferHistoryRow({ history }: { history: TransferHistory }) {
+function TransferHistoryRow({
+  history,
+  onClick,
+}: {
+  history: TransferHistory;
+  onClick: () => void;
+}) {
   return (
-    <div className="flex items-start gap-3 border-b border-[#EEF0F4] py-[15px] last:border-b-0">
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-start gap-3 border-b border-[#EEF0F4] py-[15px] text-left transition active:scale-[0.99] last:border-b-0"
+    >
       <TransferIcon />
 
       <div className="min-w-0 flex-1 pt-[1px]">
@@ -202,7 +223,7 @@ function TransferHistoryRow({ history }: { history: TransferHistory }) {
           {history.status}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -217,14 +238,25 @@ export default function NewMBankingInterbankTransferPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
+  const [selectedRecipient, setSelectedRecipient] =
+    React.useState<NewMBankingRecipientInfo | null>(null);
 
   const isTransferAntarRekening = title === "Transfer Antar Rekening";
+
+  function openRecipientInput(recipient: NewMBankingRecipientInfo) {
+    setSelectedRecipient(recipient);
+    setShowNewRecipientForm(true);
+  }
 
   if (showNewRecipientForm) {
     return (
       <NewMBankingNewRecipientTransferPage
         hideBankSelection={isTransferAntarRekening}
-        onBack={() => setShowNewRecipientForm(false)}
+        recipient={selectedRecipient ?? undefined}
+        onBack={() => {
+          setSelectedRecipient(null);
+          setShowNewRecipientForm(false);
+        }}
         onDone={onTransferDone ?? onBack}
       />
     );
@@ -263,7 +295,10 @@ export default function NewMBankingInterbankTransferPage({
             <TransferOptionCard
               icon={UserPlus}
               label="Penerima Baru"
-              onClick={() => setShowNewRecipientForm(true)}
+              onClick={() => {
+                setSelectedRecipient(null);
+                setShowNewRecipientForm(true);
+              }}
             />
 
             {isTransferAntarRekening ? (
@@ -286,13 +321,31 @@ export default function NewMBankingInterbankTransferPage({
           {activeTab === "saved" ? (
             <div>
               {savedRecipients.map((recipient) => (
-                <SavedRecipientRow key={recipient.id} recipient={recipient} />
+                <SavedRecipientRow
+                  key={recipient.id}
+                  recipient={recipient}
+                  onClick={() =>
+                    openRecipientInput({
+                      name: recipient.name,
+                      accountNo: recipient.accountNo,
+                    })
+                  }
+                />
               ))}
             </div>
           ) : (
             <div>
               {transferHistories.map((history) => (
-                <TransferHistoryRow key={history.id} history={history} />
+                <TransferHistoryRow
+                  key={history.id}
+                  history={history}
+                  onClick={() =>
+                    openRecipientInput({
+                      name: history.name,
+                      accountNo: history.accountNo,
+                    })
+                  }
+                />
               ))}
             </div>
           )}

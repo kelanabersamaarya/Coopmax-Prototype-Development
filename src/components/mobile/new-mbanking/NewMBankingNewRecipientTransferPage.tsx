@@ -6,6 +6,9 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingTransferConfirmModal from "@/components/mobile/new-mbanking/NewMBankingTransferConfirmModal";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingTransferSuccessPage from "@/components/mobile/new-mbanking/NewMBankingTransferSuccessPage";
+import NewMBankingRecipientInfoCard, {
+  type NewMBankingRecipientInfo,
+} from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
 
 function TransferField({
   label,
@@ -40,19 +43,26 @@ export default function NewMBankingNewRecipientTransferPage({
   onBack,
   onDone,
   hideBankSelection = false,
+  recipient,
 }: {
   onBack: () => void;
   onDone?: () => void;
   hideBankSelection?: boolean;
+  recipient?: NewMBankingRecipientInfo;
 }) {
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [showPinInput, setShowPinInput] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
   const [bank, setBank] = React.useState("");
-  const [accountNo, setAccountNo] = React.useState("");
+  const [accountNo, setAccountNo] = React.useState(recipient?.accountNo ?? "");
   const [amount, setAmount] = React.useState("");
   const [description, setDescription] = React.useState("");
+
+  React.useEffect(() => {
+    if (!recipient) return;
+    setAccountNo(recipient.accountNo);
+  }, [recipient]);
 
   if (showSuccess) {
     return (
@@ -110,6 +120,7 @@ export default function NewMBankingNewRecipientTransferPage({
       <NewMBankingTransferConfirmModal
         open={confirmOpen}
         onOpenChange={setConfirmOpen}
+        recipientName={recipient?.name ?? "Suyatna"}
         recipientAccountNo={accountNo}
         description={description}
         nominal={amount}
@@ -143,35 +154,41 @@ export default function NewMBankingNewRecipientTransferPage({
 
       <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-6 pb-[30px] pt-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="grid gap-[20px]">
-          {!hideBankSelection ? (
-            <TransferField label="Nama Bank">
-              <button
-                type="button"
-                onClick={() => setShowBankSelection(true)}
-                className={cn(
-                  fieldClassName,
-                  "flex items-center justify-between gap-3 text-left",
-                  bank ? "text-black" : "text-[#8F8F8F]",
-                )}
-                aria-label="Pilih Bank Penerima"
-              >
-                <span className="min-w-0 flex-1 truncate">
-                  {bank || "Pilih Bank Penerima"}
-                </span>
-                <ChevronDown className="h-[19px] w-[19px] shrink-0 text-[#8F8F8F]" />
-              </button>
-            </TransferField>
-          ) : null}
+          {recipient ? (
+            <NewMBankingRecipientInfoCard recipient={recipient} />
+          ) : (
+            <>
+              {!hideBankSelection ? (
+                <TransferField label="Nama Bank">
+                  <button
+                    type="button"
+                    onClick={() => setShowBankSelection(true)}
+                    className={cn(
+                      fieldClassName,
+                      "flex items-center justify-between gap-3 text-left",
+                      bank ? "text-black" : "text-[#8F8F8F]",
+                    )}
+                    aria-label="Pilih Bank Penerima"
+                  >
+                    <span className="min-w-0 flex-1 truncate">
+                      {bank || "Pilih Bank Penerima"}
+                    </span>
+                    <ChevronDown className="h-[19px] w-[19px] shrink-0 text-[#8F8F8F]" />
+                  </button>
+                </TransferField>
+              ) : null}
 
-          <TransferField label="Nomor Rekening Penerima">
-            <input
-              value={accountNo}
-              onChange={(event) => setAccountNo(event.target.value)}
-              placeholder="Masukkan Nomor Rekening Penerima"
-              inputMode="numeric"
-              className={fieldClassName}
-            />
-          </TransferField>
+              <TransferField label="Nomor Rekening Penerima">
+                <input
+                  value={accountNo}
+                  onChange={(event) => setAccountNo(event.target.value)}
+                  placeholder="Masukkan Nomor Rekening Penerima"
+                  inputMode="numeric"
+                  className={fieldClassName}
+                />
+              </TransferField>
+            </>
+          )}
 
           <TransferField label="Nominal Transfer">
             <input
