@@ -227,7 +227,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
             >
               <span className="inline-flex items-center justify-center gap-2">
                 <Eye className="h-[17px] w-[17px]" strokeWidth={2.6} />
-                Lihat Tagihan
+                Lihat Daftar Tagihan
               </span>
             </button>
 
