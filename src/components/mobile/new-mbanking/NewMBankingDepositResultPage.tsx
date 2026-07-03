@@ -234,8 +234,6 @@ export default function NewMBankingDepositResultPage({
             Setoran
           </h1>
         </header>
-
-        <div className="h-px w-full bg-[#EEF0F4]" />
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pt-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
