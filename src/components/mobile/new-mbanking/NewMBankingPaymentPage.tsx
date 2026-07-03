@@ -70,21 +70,25 @@ const savedPayments = [
     id: "xl-postpaid",
     name: "XL Pascabayar",
     info: "Pulsa Pascabayar - 0819987262",
+    icon: Smartphone,
   },
   {
     id: "pln-home",
     name: "PLN Rumah",
     info: "Listrik - 530000112233",
+    icon: Bolt,
   },
   {
     id: "indihome",
     name: "IndiHome",
     info: "Internet - 122334455667",
+    icon: Wifi,
   },
   {
     id: "bpjs-family",
     name: "BPJS Keluarga",
     info: "BPJS Kesehatan - 0001234567890",
+    icon: HeartPulse,
   },
 ];
 
@@ -191,47 +195,51 @@ export default function NewMBankingPaymentPage({
           {activeTab === "saved" ? (
             <div className="mt-[22px] divide-y divide-[#EEF0F4]">
               {items.length > 0 ? (
-                items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex min-h-[64px] items-center justify-between gap-4 py-[10px]"
-                  >
-                    <div className="flex min-w-0 flex-1 items-center gap-3">
-                      <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-                        <Smartphone
-                          className="h-[23px] w-[23px] text-white"
-                          strokeWidth={2.35}
-                        />
-                      </span>
+                items.map((item) => {
+                  const Icon = item.icon;
 
-                      <div className="min-w-0">
-                        <div className="truncate text-[14px] font-bold leading-tight tracking-[-0.015em] text-black">
-                          {item.name}
-                        </div>
-                        <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-                          {item.info}
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex min-h-[64px] items-center justify-between gap-4 py-[10px]"
+                    >
+                      <div className="flex min-w-0 flex-1 items-center gap-3">
+                        <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+                          <Icon
+                            className="h-[23px] w-[23px] text-white"
+                            strokeWidth={2.35}
+                          />
+                        </span>
+
+                        <div className="min-w-0">
+                          <div className="truncate text-[14px] font-bold leading-tight tracking-[-0.015em] text-black">
+                            {item.name}
+                          </div>
+                          <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
+                            {item.info}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setItems((current) =>
-                          current.filter((savedItem) => savedItem.id !== item.id),
-                        )
-                      }
-                      className="grid h-[36px] w-[36px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
-                      aria-label={`Hapus ${item.name}`}
-                      title="Hapus"
-                    >
-                      <Trash2
-                        className="h-[18px] w-[18px] text-[#DC3545]"
-                        strokeWidth={2.7}
-                      />
-                    </button>
-                  </div>
-                ))
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setItems((current) =>
+                            current.filter((savedItem) => savedItem.id !== item.id),
+                          )
+                        }
+                        className="grid h-[36px] w-[36px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
+                        aria-label={`Hapus ${item.name}`}
+                        title="Hapus"
+                      >
+                        <Trash2
+                          className="h-[18px] w-[18px] text-[#DC3545]"
+                          strokeWidth={2.7}
+                        />
+                      </button>
+                    </div>
+                  );
+                })
               ) : (
                 <div className="py-[44px] text-center">
                   <div className="text-[15px] font-bold text-black">
