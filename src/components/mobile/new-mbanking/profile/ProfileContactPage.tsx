@@ -1,26 +1,11 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail } from "lucide-react";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 
 const contacts = [
   {
-    icon: Phone,
-    label: "Telepon",
-    value: "(0361) 974213",
-  },
-  {
-    icon: Phone,
-    label: "WhatsApp",
-    value: "081338263322",
-  },
-  {
     icon: Mail,
     label: "Email",
     value: "support@koperasi.co.id",
-  },
-  {
-    icon: MapPin,
-    label: "Alamat",
-    value: "Jl. Koperasi Digital No. 1, Bali",
   },
 ];
 
