@@ -14,7 +14,7 @@ const defaultSourceFund: SourceFundAccount = {
 };
 
 function SectionDivider() {
-  return <div className="my-[24px] h-px w-full bg-[#D8D8D8]" />;
+  return <div className="my-[10px] h-px w-full bg-[#D8D8D8]" />;
 }
 
 export default function NewMBankingQrisMerchantItem({
