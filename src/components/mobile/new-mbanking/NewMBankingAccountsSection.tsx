@@ -98,10 +98,12 @@ function AccountCardContent({
   activeTab,
   showBalance,
   onSavingsDetailClick,
+  onDepositDetailClick,
 }: {
   activeTab: AccountTabId;
   showBalance: boolean;
   onSavingsDetailClick?: () => void;
+  onDepositDetailClick?: () => void;
 }) {
   if (activeTab === "pinjaman") {
     return (
@@ -150,6 +152,7 @@ function AccountCardContent({
 
           <button
             type="button"
+            onClick={onDepositDetailClick}
             className="shrink-0 rounded-full bg-white/95 px-[14px] py-[9px] text-[12px] font-normal leading-none text-[#C2410C] shadow-sm transition active:scale-[0.98]"
           >
             Lihat Detail
@@ -213,9 +216,11 @@ function AccountCardContent({
 export default function NewMBankingAccountsSection({
   className,
   onSavingsDetailClick,
+  onDepositDetailClick,
 }: {
   className?: string;
   onSavingsDetailClick?: () => void;
+  onDepositDetailClick?: () => void;
 }) {
   const [showBalance, setShowBalance] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<AccountTabId>("simpanan");
@@ -302,6 +307,7 @@ export default function NewMBankingAccountsSection({
             activeTab={activeTab}
             showBalance={showBalance}
             onSavingsDetailClick={onSavingsDetailClick}
+            onDepositDetailClick={onDepositDetailClick}
           />
         </div>
       </div>

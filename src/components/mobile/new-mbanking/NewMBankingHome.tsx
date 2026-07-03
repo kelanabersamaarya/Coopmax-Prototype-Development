@@ -3,6 +3,7 @@ import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-bank
 import NewMBankingAccountDetailPage from "@/components/mobile/new-mbanking/NewMBankingAccountDetailPage";
 import NewMBankingAccountsSection from "@/components/mobile/new-mbanking/NewMBankingAccountsSection";
 import NewMBankingDepositAccountsPage from "@/components/mobile/new-mbanking/NewMBankingDepositAccountsPage";
+import NewMBankingDepositDetailPage from "@/components/mobile/new-mbanking/NewMBankingDepositDetailPage";
 import NewMBankingHistoryPage from "@/components/mobile/new-mbanking/NewMBankingHistoryPage";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -34,6 +35,7 @@ export default function NewMBankingHome({
 }) {
   const [logoutOpen, setLogoutOpen] = React.useState(false);
   const [showAccountDetail, setShowAccountDetail] = React.useState(false);
+  const [showDepositDetail, setShowDepositDetail] = React.useState(false);
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
   const [showPortfolio, setShowPortfolio] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
@@ -51,6 +53,14 @@ export default function NewMBankingHome({
     setShowPortfolio(false);
     setShowHistory(false);
     setShowProfile(true);
+  }
+
+  if (showDepositDetail) {
+    return (
+      <NewMBankingDepositDetailPage
+        onBack={() => setShowDepositDetail(false)}
+      />
+    );
   }
 
   if (showLoanInstallment) {
@@ -175,6 +185,7 @@ export default function NewMBankingHome({
           <NewMBankingAccountsSection
             className="mt-0"
             onSavingsDetailClick={() => setShowAccountDetail(true)}
+            onDepositDetailClick={() => setShowDepositDetail(true)}
           />
 
           <NewMBankingQuickActionGrid
