@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { ArrowLeft, Zap } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
@@ -10,6 +9,7 @@ import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingElectricityConfirmModal from "@/components/mobile/new-mbanking/NewMBankingElectricityConfirmModal";
+import NewMBankingElectricityPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingElectricityPaymentSuccessPage";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -19,6 +19,17 @@ const defaultSourceFund: SourceFundAccount = {
 
 const customerName = "I Made Wirata";
 const billAmount = "Rp. 350.000,00";
+const adminFee = "Rp. 2.500,00";
+
+function parseIdrLike(value: string) {
+  const digits = value.replace(/[^\d]/g, "");
+  const parsed = Number(digits);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
 
 function DetailRow({
   label,
@@ -57,8 +68,28 @@ export default function NewMBankingElectricityBillReviewPage({
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
+
+  const totalTransaction = formatIdr(
+    parseIdrLike(billAmount) + parseIdrLike(adminFee),
+  );
+
+  if (showSuccess) {
+    return (
+      <NewMBankingElectricityPaymentSuccessPage
+        providerName={providerName}
+        customerName={customerName}
+        customerNo={customerNo}
+        amount={billAmount}
+        adminFee={adminFee}
+        totalTransaction={totalTransaction}
+        sourceFund={sourceFund}
+        onDone={onBack}
+      />
+    );
+  }
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -78,9 +109,7 @@ export default function NewMBankingElectricityBillReviewPage({
         sourceFund={sourceFund}
         onConfirm={() => {
           setConfirmOpen(false);
-          toast.success("Pembayaran listrik berhasil (prototype)", {
-            description: `${providerName} • ${customerNo}`,
-          });
+          setShowSuccess(true);
         }}
       />
 
