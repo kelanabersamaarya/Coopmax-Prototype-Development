@@ -108,26 +108,14 @@ const billRows: BillingRow[] = [
 function InfoCard({
   title,
   description,
-  accent = "blue",
 }: {
   title: string;
   description: string;
-  accent?: "blue" | "green";
 }) {
   return (
-    <div
-      className={cn(
-        "rounded-[18px] px-4 py-4",
-        accent === "green" ? "bg-[#EAF8EF]" : "bg-[#EEF6FF]",
-      )}
-    >
+    <div className="rounded-[18px] bg-[#EEF6FF] px-4 py-4 ring-1 ring-[#CFE4FF]">
       <div className="flex items-start gap-3">
-        <span
-          className={cn(
-            "grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full text-white",
-            accent === "green" ? "bg-[#33AA00]" : "bg-[#479DF4]",
-          )}
-        >
+        <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
           <Info className="h-[18px] w-[18px]" strokeWidth={2.6} />
         </span>
 
@@ -135,7 +123,7 @@ function InfoCard({
           <div className="text-[14px] font-bold leading-tight text-black">
             {title}
           </div>
-          <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#5F6B7A]">
+          <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#315E8F]">
             {description}
           </div>
         </div>
@@ -288,7 +276,6 @@ export default function NewMBankingBillListPage({
               <InfoCard
                 title="Tagihan Berikutnya"
                 description="Tagihan berikutnya akan diterbitkan pada 20 April 2025 dan jatuh tempo pada 5 Mei 2025."
-                accent="green"
               />
             </div>
           ) : null}
