@@ -169,7 +169,7 @@ function SavedRecipientRow({ recipient }: { recipient: SavedRecipient }) {
           {recipient.name}
         </div>
         <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          {recipient.bank} - {recipient.accountNo}
+          {recipient.accountNo}
         </div>
       </div>
     </div>
@@ -186,7 +186,7 @@ function TransferHistoryRow({ history }: { history: TransferHistory }) {
           {history.name}
         </div>
         <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          {history.bank} - {history.accountNo}
+          {history.accountNo}
         </div>
         <div className="mt-[4px] truncate text-[11px] font-normal leading-tight text-[#A0A0A0]">
           {history.dateTime}
