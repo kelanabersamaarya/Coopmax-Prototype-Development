@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarDays, Copy, TrendingUp } from "lucide-react";
+import { ArrowLeft, Copy, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
@@ -11,12 +11,6 @@ const depositoInfo = [
   { label: "Tanggal Pembukaan", value: "30-06-2026" },
   { label: "Tanggal Jatuh Tempo", value: "30-06-2027" },
   { label: "Rekening Penampung", value: "112233111" },
-];
-
-const bungaInfo = [
-  { label: "Estimasi Bunga", value: "Rp. 300.000,00" },
-  { label: "Pajak Bunga", value: "Rp. 30.000,00" },
-  { label: "Bunga Bersih", value: "Rp. 270.000,00" },
 ];
 
 const historyItems = [
@@ -129,39 +123,6 @@ export default function NewMBankingDepositDetailPage({
                     {item.label}
                   </div>
                   <div className="max-w-[180px] text-right text-[14px] font-normal leading-tight tracking-[-0.01em] text-black">
-                    {item.value}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="mt-[28px] rounded-[24px] bg-white px-5 py-5 shadow-[0_4px_14px_rgba(15,23,42,0.12)] ring-1 ring-slate-100">
-            <div className="flex items-center gap-3">
-              <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#FFF7E6] text-[#F59E0B]">
-                <CalendarDays className="h-[22px] w-[22px]" strokeWidth={2.6} />
-              </span>
-
-              <div className="min-w-0">
-                <div className="text-[16px] font-bold leading-tight text-black">
-                  Ringkasan Bunga
-                </div>
-                <div className="mt-[5px] text-[12px] font-normal leading-snug text-[#8F8F8F]">
-                  Estimasi sampai jatuh tempo
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-[16px] grid">
-              {bungaInfo.map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between gap-4 py-[7px]"
-                >
-                  <div className="text-[13px] font-normal leading-tight text-[#8F8F8F]">
-                    {item.label}
-                  </div>
-                  <div className="text-right text-[13px] font-bold leading-tight text-black">
                     {item.value}
                   </div>
                 </div>
