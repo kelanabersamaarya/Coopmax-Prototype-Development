@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export default function NewMBankingFilterAccordionSection({
   title,
   children,
-  defaultOpen = true,
+  defaultOpen = false,
 }: {
   title: string;
   children: React.ReactNode;
