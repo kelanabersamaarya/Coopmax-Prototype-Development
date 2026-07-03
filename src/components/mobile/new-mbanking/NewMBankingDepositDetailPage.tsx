@@ -1,5 +1,12 @@
 import * as React from "react";
-import { ArrowLeft, Banknote, Copy, TrendingUp } from "lucide-react";
+import {
+  ArrowLeft,
+  Banknote,
+  Copy,
+  Eye,
+  EyeOff,
+  TrendingUp,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
@@ -141,6 +148,7 @@ export default function NewMBankingDepositDetailPage({
   onBack: () => void;
 }) {
   const [activeMonth, setActiveMonth] = React.useState("Jun");
+  const [showNominalDeposito, setShowNominalDeposito] = React.useState(true);
 
   const filteredHistoryGroups = React.useMemo(() => {
     return historyGroups.filter((group) => group.month === activeMonth);
@@ -211,8 +219,33 @@ export default function NewMBankingDepositDetailPage({
                   <div className="text-[12px] font-normal leading-none text-white/78">
                     Nominal Deposito
                   </div>
-                  <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
-                    Rp. 5.000.000,00
+                  <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
+                    <span>
+                      {showNominalDeposito ? "Rp. 5.000.000,00" : "••••••••••"}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowNominalDeposito((current) => !current)
+                      }
+                      className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+                      aria-label={
+                        showNominalDeposito
+                          ? "Sembunyikan nominal deposito"
+                          : "Tampilkan nominal deposito"
+                      }
+                      title={
+                        showNominalDeposito
+                          ? "Sembunyikan nominal deposito"
+                          : "Tampilkan nominal deposito"
+                      }
+                    >
+                      {showNominalDeposito ? (
+                        <Eye className="h-[16px] w-[16px]" strokeWidth={2.4} />
+                      ) : (
+                        <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
