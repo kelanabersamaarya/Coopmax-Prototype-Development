@@ -18,7 +18,7 @@ export default function NewMBankingRecipientInfoCard({
       className={cn(
         "relative min-h-[128px] overflow-hidden rounded-[15px]",
         "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
-        "px-[18px] py-[16px] text-white shadow-[0_12px_26px_rgba(37,99,235,0.22)]",
+        "px-[18px] py-[16px] text-white",
         "ring-1 ring-white/25",
         className,
       )}
@@ -33,7 +33,7 @@ export default function NewMBankingRecipientInfoCard({
         </div>
 
         <div className="mt-[15px] flex items-center gap-[13px]">
-          <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
+          <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white ring-1 ring-white/20">
             <UserRound className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
           </span>
 
