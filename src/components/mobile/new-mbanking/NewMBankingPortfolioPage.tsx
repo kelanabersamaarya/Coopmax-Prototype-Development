@@ -10,6 +10,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingAccountDetailPage from "@/components/mobile/new-mbanking/NewMBankingAccountDetailPage";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 
 type PortfolioProduct = {
@@ -385,9 +386,11 @@ function ProductInfoCell({
 function ProductCard({
   product,
   isLoan = false,
+  onDetailClick,
 }: {
   product: PortfolioProduct;
   isLoan?: boolean;
+  onDetailClick?: () => void;
 }) {
   const gradientClass = isLoan
     ? "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]"
@@ -418,6 +421,7 @@ function ProductCard({
 
           <button
             type="button"
+            onClick={onDetailClick}
             className={cn(
               "inline-flex shrink-0 items-center gap-1 rounded-full bg-white/95 px-3 py-2",
               "text-[11px] font-semibold leading-none",
@@ -457,10 +461,12 @@ function ProductSection({
   title,
   products,
   isLoan = false,
+  onProductDetailClick,
 }: {
   title: string;
   products: PortfolioProduct[];
   isLoan?: boolean;
+  onProductDetailClick?: (product: PortfolioProduct) => void;
 }) {
   return (
     <section className="grid gap-[14px]">
@@ -473,7 +479,12 @@ function ProductSection({
 
       <div className="grid gap-[14px]">
         {products.map((product) => (
-          <ProductCard key={product.name} product={product} isLoan={isLoan} />
+          <ProductCard
+            key={product.name}
+            product={product}
+            isLoan={isLoan}
+            onDetailClick={() => onProductDetailClick?.(product)}
+          />
         ))}
       </div>
     </section>
@@ -490,8 +501,17 @@ export default function NewMBankingPortfolioPage({
   onQrisClick: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<PortfolioTab>("aset");
+  const [showSavingsDetail, setShowSavingsDetail] = React.useState(false);
   const savingsProducts = products.filter((product) => product.type === "simpanan");
   const depositProducts = products.filter((product) => product.type === "deposito");
+
+  if (showSavingsDetail) {
+    return (
+      <NewMBankingAccountDetailPage
+        onBack={() => setShowSavingsDetail(false)}
+      />
+    );
+  }
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -525,7 +545,11 @@ export default function NewMBankingPortfolioPage({
           <div className="mt-[28px] grid gap-[24px]">
             {activeTab === "aset" ? (
               <>
-                <ProductSection title="Simpanan" products={savingsProducts} />
+                <ProductSection
+                  title="Simpanan"
+                  products={savingsProducts}
+                  onProductDetailClick={() => setShowSavingsDetail(true)}
+                />
                 <ProductSection title="Deposito" products={depositProducts} />
               </>
             ) : (
