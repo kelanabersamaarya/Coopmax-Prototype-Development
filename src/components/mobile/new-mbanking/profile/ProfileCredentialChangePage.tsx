@@ -2,6 +2,7 @@ import * as React from "react";
 import { Check, Eye, EyeOff, KeyRound, LockKeyhole } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
+import ProfileChangePasswordConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileChangePasswordConfirmModal";
 
 type CredentialVariant = "password" | "pin";
 
@@ -15,28 +16,28 @@ function SuccessState({
   const isPin = variant === "pin";
 
   return (
-    <ProfileSubPageShell
-      title={isPin ? "Ubah PIN" : "Ubah Kata Sandi"}
-      onBack={() => {}}
-      className="relative flex min-h-full flex-col pb-[124px]"
-    >
-      <div className="flex min-h-[520px] flex-1 flex-col items-center justify-center text-center">
-        <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EAF8EF]">
-          <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#33AA00] text-white">
-            <Check className="h-[54px] w-[54px]" strokeWidth={3.8} />
+    <div className="flex h-full min-h-full flex-col bg-[#F9F9F9] px-6 py-[30px] text-black">
+      <main className="flex min-h-0 flex-1 items-center justify-center pb-[124px]">
+        <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
+          <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EAF8EF]">
+            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#33AA00] text-white">
+              <Check className="h-[54px] w-[54px]" strokeWidth={3.8} />
+            </div>
           </div>
-        </div>
 
-        <h1 className="mt-[30px] max-w-[310px] text-[20px] font-bold leading-tight tracking-[-0.025em] text-black">
-          {isPin ? "PIN Berhasil Diubah" : "Kata Sandi Berhasil Diubah"}
-        </h1>
+          <h1 className="mt-[30px] max-w-[310px] text-[20px] font-bold leading-tight tracking-[-0.025em] text-black">
+            {isPin ? "PIN Berhasil Diubah" : "Kata Sandi Berhasil Diubah"}
+          </h1>
 
-        <p className="mt-[14px] max-w-[310px] text-[14px] font-normal leading-relaxed text-[#828282]">
-          Demi keamanan akun, silakan login ulang untuk melanjutkan penggunaan M-Banking.
-        </p>
-      </div>
+          <p className="mt-[14px] max-w-[310px] text-[14px] font-normal leading-relaxed text-[#828282]">
+            {isPin
+              ? "Perubahan PIN berhasil dilakukan, silakan masuk kembali untuk melanjutkan penggunaan M-Banking"
+              : "Perubahan kata sandi berhasil dilakukan, silakan masuk kembali untuk melanjutkan penggunaan M-Banking"}
+          </p>
+        </section>
+      </main>
 
-      <div className="absolute inset-x-6 bottom-[26px] bg-white">
+      <div className="absolute inset-x-6 bottom-[30px] z-10">
         <button
           type="button"
           onClick={onRequireLogin}
@@ -46,10 +47,10 @@ function SuccessState({
             "transition active:scale-[0.98]",
           )}
         >
-          Login Ulang
+          Masuk
         </button>
       </div>
-    </ProfileSubPageShell>
+    </div>
   );
 }
 
@@ -126,16 +127,20 @@ export default function ProfileCredentialChangePage({
   const [confirmValue, setConfirmValue] = React.useState("");
   const [error, setError] = React.useState("");
   const [success, setSuccess] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+
+  const isSubmitDisabled =
+    !oldValue.trim() || !newValue.trim() || !confirmValue.trim();
 
   function normalizeInput(value: string) {
     if (!isPin) return value;
     return value.replace(/[^\d]/g, "").slice(0, 6);
   }
 
-  function submit() {
+  function validateForm() {
     if (!oldValue.trim() || !newValue.trim() || !confirmValue.trim()) {
       setError("Semua field wajib diisi.");
-      return;
+      return false;
     }
 
     if (newValue !== confirmValue) {
@@ -144,15 +149,27 @@ export default function ProfileCredentialChangePage({
           ? "Konfirmasi PIN baru belum sama."
           : "Konfirmasi kata sandi baru belum sama.",
       );
-      return;
+      return false;
     }
 
     if (isPin && newValue.length < 6) {
       setError("PIN baru minimal 6 digit.");
-      return;
+      return false;
     }
 
     setError("");
+    return true;
+  }
+
+  function submit() {
+    if (isSubmitDisabled) return;
+    if (!validateForm()) return;
+
+    if (!isPin) {
+      setConfirmOpen(true);
+      return;
+    }
+
     setSuccess(true);
   }
 
@@ -168,6 +185,15 @@ export default function ProfileCredentialChangePage({
       onBack={onBack}
       className="relative flex min-h-full flex-col pb-[124px]"
     >
+      <ProfileChangePasswordConfirmModal
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setSuccess(true);
+        }}
+      />
+
       <div className="rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
         <div className="flex items-start gap-3">
           <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
@@ -219,7 +245,7 @@ export default function ProfileCredentialChangePage({
             setConfirmValue(normalizeInput(value));
             setError("");
           }}
-          placeholder={isPin ? "Ulangi PIN baru" : "Ulangi kata sandi baru"}
+          placeholder={isPin ? "Ulangi PIN baru" : "Konfirmasi Kata Sandi Baru"}
           inputMode={isPin ? "numeric" : "text"}
           maxLength={isPin ? 6 : undefined}
         />
@@ -235,10 +261,12 @@ export default function ProfileCredentialChangePage({
         <button
           type="button"
           onClick={submit}
+          disabled={isSubmitDisabled}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
             "transition active:scale-[0.98]",
+            isSubmitDisabled ? "cursor-not-allowed opacity-60" : "",
           )}
         >
           {isPin ? "Ubah PIN" : "Ubah Kata Sandi"}
