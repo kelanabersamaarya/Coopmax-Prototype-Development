@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import {
-  AlertCircle,
   ChevronDown,
   ChevronUp,
+  Info,
   Landmark,
   MonitorSmartphone,
   ShieldCheck,
@@ -138,12 +138,12 @@ export default function NewMBankingDepositInstructionsCard() {
     <div className="overflow-hidden rounded-[20px] border border-[#CFE4FF] bg-[#F7FBFF] p-4">
       <div className="flex items-start gap-3">
         <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-[14px] bg-[#479DF4] text-white shadow-sm">
-          <AlertCircle className="h-[22px] w-[22px]" strokeWidth={2.7} />
+          <Info className="h-[22px] w-[22px]" strokeWidth={2.7} />
         </span>
 
         <div className="min-w-0">
           <div className="text-[15px] font-bold leading-tight text-black">
-            Perhatikan sebelum melakukan setoran
+            Cara Melakukan Setoran
           </div>
           <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#5F6B7A]">
             Gunakan nomor Virtual Account yang tertera, pastikan nama penerima dan
