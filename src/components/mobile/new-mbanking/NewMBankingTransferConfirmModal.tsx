@@ -164,7 +164,7 @@ export default function NewMBankingTransferConfirmModal({
           </button>
         </div>
 
-        <SectionBlock title="Sumber Dana" className="mt-[14px]">
+        <SectionBlock title="Sumber Dana" className="mt-[6px]">
           <NewMBankingSourceFundGradientCard
             account={sourceFundAccount}
             showChevron={false}
