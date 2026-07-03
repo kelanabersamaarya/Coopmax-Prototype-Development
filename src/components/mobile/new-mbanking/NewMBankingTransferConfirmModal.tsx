@@ -34,8 +34,8 @@ function AccountInfoItem({
 }) {
   return (
     <div className="flex items-center gap-[12px]">
-      <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F1F3F6] text-[#53657D]">
-        <UserRound className="h-[22px] w-[22px]" strokeWidth={2.45} />
+      <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+        <UserRound className="h-[22px] w-[22px] text-white" strokeWidth={2.45} />
       </span>
 
       <div className="min-w-0">
