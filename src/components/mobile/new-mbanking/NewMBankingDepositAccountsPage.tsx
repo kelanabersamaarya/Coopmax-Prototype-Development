@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Copy } from "lucide-react";
+import { ArrowLeft, Banknote, Copy, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -17,8 +17,9 @@ type SavingsAccount = {
 
 type DepositHistory = {
   id: string;
-  productName: string;
-  accountNo: string;
+  type: "out" | "in";
+  title: string;
+  subtitle: string;
   amount: string;
   date: string;
   status: string;
@@ -51,18 +52,20 @@ const savingsAccounts: SavingsAccount[] = [
 const depositHistories: DepositHistory[] = [
   {
     id: "history-1",
-    productName: "Simpanan Kaya",
-    accountNo: "112233111",
-    amount: "+Rp. 50.000,00",
-    date: "30 Juni 2026, 22:15",
-    status: "Menunggu Pembayaran",
+    type: "out",
+    title: "Transfer Keluar",
+    subtitle: "Bank BCA • 8890123441",
+    amount: "-Rp. 250.000,00",
+    date: "20 Juni 2026",
+    status: "Berhasil",
   },
   {
     id: "history-2",
-    productName: "Simpanan Sukarela",
-    accountNo: "4260029",
-    amount: "+Rp. 100.000,00",
-    date: "28 Juni 2026, 09:30",
+    type: "in",
+    title: "Setoran",
+    subtitle: "Simpanan Kaya • Teller Koperasi",
+    amount: "+Rp. 500.000,00",
+    date: "20 Juni 2026",
     status: "Berhasil",
   },
 ];
@@ -146,6 +149,88 @@ function SavingsAccountCard({
   );
 }
 
+function HistoryIcon({ type }: { type: DepositHistory["type"] }) {
+  const isOut = type === "out";
+  const Icon = isOut ? Send : Banknote;
+
+  return (
+    <span
+      className={cn(
+        "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full",
+        isOut ? "bg-[#EAF3FF] text-[#2F80ED]" : "bg-[#EAF8EF] text-[#33AA00]",
+      )}
+    >
+      <Icon className="h-[21px] w-[21px]" strokeWidth={2.6} />
+    </span>
+  );
+}
+
+function DepositHistoryRow({ item }: { item: DepositHistory }) {
+  const isIncome = item.type === "in";
+
+  return (
+    <div className="flex items-start justify-between gap-4 py-[14px]">
+      <div className="flex min-w-0 flex-1 items-start gap-3">
+        <HistoryIcon type={item.type} />
+
+        <div className="min-w-0 pt-[2px]">
+          <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
+            {item.title}
+          </div>
+          <div className="mt-[6px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
+            {item.subtitle}
+          </div>
+        </div>
+      </div>
+
+      <div className="shrink-0 pt-[2px] text-right">
+        <div
+          className={cn(
+            "text-[14px] font-bold leading-tight tracking-[-0.02em]",
+            isIncome ? "text-[#00965A]" : "text-[#E11D48]",
+          )}
+        >
+          {item.amount}
+        </div>
+
+        <div className="mt-[9px] inline-flex h-[24px] items-center rounded-full bg-[#E8F8EF] px-[11px] text-[11px] font-semibold leading-none text-[#15965A]">
+          {item.status}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DepositHistoryList() {
+  const grouped = React.useMemo(() => {
+    return depositHistories.reduce<Record<string, DepositHistory[]>>((acc, item) => {
+      acc[item.date] = [...(acc[item.date] ?? []), item];
+      return acc;
+    }, {});
+  }, []);
+
+  return (
+    <div className="mt-[22px]">
+      {Object.entries(grouped).map(([date, items]) => (
+        <section key={date}>
+          <div className="flex items-center gap-3">
+            <div className="shrink-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+              {date}
+            </div>
+            <div className="h-px min-w-0 flex-1 bg-[#E5E7EB]" />
+          </div>
+
+          <div className="mt-[8px] divide-y divide-[#EEF0F4]">
+            {items.map((item) => (
+              <DepositHistoryRow key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 export default function NewMBankingDepositAccountsPage({
   onBack,
 }: {
@@ -199,45 +284,7 @@ export default function NewMBankingDepositAccountsPage({
               ))}
             </div>
           ) : (
-            <div className="mt-[22px] grid gap-[14px]">
-              {depositHistories.map((history) => (
-                <div
-                  key={history.id}
-                  className="rounded-[18px] border border-[#EEF0F4] bg-white px-4 py-4 shadow-sm"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      <div className="truncate text-[15px] font-bold leading-tight text-black">
-                        {history.productName}
-                      </div>
-                      <div className="mt-[6px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-                        {history.accountNo}
-                      </div>
-                      <div className="mt-[8px] text-[11px] font-normal leading-tight text-[#A0A0A0]">
-                        {history.date}
-                      </div>
-                    </div>
-
-                    <div className="shrink-0 text-right">
-                      <div className="text-[14px] font-bold leading-tight text-[#15965A]">
-                        {history.amount}
-                      </div>
-                      <div
-                        className={cn(
-                          "mt-[7px] inline-flex h-[22px] items-center rounded-full px-[10px]",
-                          "text-[11px] font-semibold leading-none",
-                          history.status === "Berhasil"
-                            ? "bg-[#E8F8EF] text-[#15965A]"
-                            : "bg-[#FFF7E6] text-[#B7791F]",
-                        )}
-                      >
-                        {history.status}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <DepositHistoryList />
           )}
         </section>
       </main>
