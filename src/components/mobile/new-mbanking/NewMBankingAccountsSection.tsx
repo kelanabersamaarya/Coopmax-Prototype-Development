@@ -568,7 +568,7 @@ export default function NewMBankingAccountsSection({
             className={cn(
               "rounded-full transition-all",
               index === activeCardIndex
-                ? "h-[8px] w-[22px] bg-[#111827]"
+                ? "h-[8px] w-[22px] bg-[#479DF4]"
                 : "h-[8px] w-[8px] bg-[#D8D8D8]",
             )}
             aria-label={`Lihat card ${index + 1}`}
