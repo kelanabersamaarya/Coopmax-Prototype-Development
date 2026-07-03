@@ -147,7 +147,7 @@ export default function NewMBankingTransferConfirmModal({
         )}
       >
         <div className="flex items-start justify-between gap-4">
-          <h2 className="min-w-0 text-[20px] font-bold leading-tight tracking-[-0.03em] text-black">
+          <h2 className="min-w-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
             Konfirmasi Transaksi Transfer
           </h2>
 

@@ -17,7 +17,7 @@ export default function NewMBankingRegisterConfirmModal({
     <div className="absolute inset-0 z-[120] flex items-end bg-black/35 px-5 pb-5">
       <div className="w-full overflow-hidden rounded-[8px] bg-white px-5 pb-6 pt-7 shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
         <div className="text-center">
-          <div className="text-[18px] font-bold leading-tight text-black">
+          <div className="text-[14px] font-bold leading-tight text-black">
             Konfirmasi Pendaftaran
           </div>
 

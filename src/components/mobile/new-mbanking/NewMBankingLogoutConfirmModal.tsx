@@ -29,7 +29,7 @@ export default function NewMBankingLogoutConfirmModal({
         )}
       >
         <div className="text-left">
-          <h2 className="text-[20px] font-bold leading-tight tracking-[-0.025em] text-[#111827]">
+          <h2 className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-[#111827]">
             Anda akan keluar dari aplikasi
           </h2>
 
