@@ -8,6 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingTransactionFilterPage from "@/components/mobile/new-mbanking/NewMBankingTransactionFilterPage";
 
 type TransactionItem = {
   id: string;
@@ -163,6 +164,15 @@ export default function NewMBankingHistoryPage({
   onQrisClick: () => void;
 }) {
   const [activeMonth, setActiveMonth] = React.useState("Jun");
+  const [showFilterPage, setShowFilterPage] = React.useState(false);
+
+  if (showFilterPage) {
+    return (
+      <NewMBankingTransactionFilterPage
+        onBack={() => setShowFilterPage(false)}
+      />
+    );
+  }
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -186,6 +196,7 @@ export default function NewMBankingHistoryPage({
 
           <button
             type="button"
+            onClick={() => setShowFilterPage(true)}
             className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]"
             aria-label="Filter riwayat transaksi"
             title="Filter"
