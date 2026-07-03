@@ -24,6 +24,7 @@ import ProfileFeedbackPage from "@/components/mobile/new-mbanking/profile/Profil
 import ProfileGuidePage from "@/components/mobile/new-mbanking/profile/ProfileGuidePage";
 import ProfileOrganizationPage from "@/components/mobile/new-mbanking/profile/ProfileOrganizationPage";
 import ProfilePrivacyPage from "@/components/mobile/new-mbanking/profile/ProfilePrivacyPage";
+import ProfileSettingsPage from "@/components/mobile/new-mbanking/profile/ProfileSettingsPage";
 import ProfileTermsPage from "@/components/mobile/new-mbanking/profile/ProfileTermsPage";
 
 type ProfileScreen =
@@ -35,7 +36,8 @@ type ProfileScreen =
   | "guide"
   | "terms"
   | "privacy"
-  | "contact";
+  | "contact"
+  | "settings";
 
 const profileMenus: Array<{
   title: string;
@@ -95,7 +97,7 @@ const profileMenus: Array<{
     title: "Pengaturan",
     icon: Settings,
     tone: "red",
-    screen: "main",
+    screen: "settings",
   },
 ];
 
@@ -195,6 +197,10 @@ export default function NewMBankingProfilePage({
     return <ProfileContactPage onBack={() => setScreen("main")} />;
   }
 
+  if (screen === "settings") {
+    return <ProfileSettingsPage onBack={() => setScreen("main")} />;
+  }
+
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -240,11 +246,7 @@ export default function NewMBankingProfilePage({
                 icon={menu.icon}
                 title={menu.title}
                 tone={menu.tone}
-                onClick={() => {
-                  if (menu.screen !== "main") {
-                    setScreen(menu.screen);
-                  }
-                }}
+                onClick={() => setScreen(menu.screen)}
               />
             ))}
           </div>
