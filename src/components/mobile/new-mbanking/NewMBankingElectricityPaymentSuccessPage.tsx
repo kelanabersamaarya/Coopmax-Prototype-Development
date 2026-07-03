@@ -7,16 +7,23 @@ import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBan
 function DetailRow({
   label,
   value,
+  strong = false,
 }: {
   label: string;
   value: string;
+  strong?: boolean;
 }) {
   return (
     <div className="flex items-start justify-between gap-4 py-[6px]">
       <div className="min-w-0 text-[13px] font-normal leading-tight text-[#8F8F8F]">
         {label}
       </div>
-      <div className="max-w-[180px] text-right text-[13px] font-normal leading-tight text-black">
+      <div
+        className={cn(
+          "max-w-[180px] text-right leading-tight text-black",
+          strong ? "text-[14px] font-bold" : "text-[13px] font-normal",
+        )}
+      >
         {value}
       </div>
     </div>
@@ -98,6 +105,14 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             <DetailRow label="No. Pelanggan" value={customerNo} />
             <DetailRow label="Nominal Tagihan" value={amount} />
             <DetailRow label="Biaya Admin" value={adminFee} />
+
+            <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
+
+            <DetailRow
+              label="Total Transaksi"
+              value={totalTransaction}
+              strong
+            />
           </div>
 
           <div className="mt-[12px] w-full text-left">
