@@ -91,9 +91,8 @@ function TransferOptionCard({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex h-[132px] w-full flex-col items-center justify-center",
-        "rounded-[24px] border border-[#E5E7EB] bg-white",
-        "shadow-[0_5px_18px_rgba(15,23,42,0.06)]",
+        "flex h-[112px] w-full flex-col items-center justify-center",
+        "rounded-[18px] bg-white",
         "transition active:scale-[0.99]",
       )}
       aria-label={label}
@@ -253,24 +252,31 @@ export default function NewMBankingInterbankTransferPage({
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-[34px] pt-[4px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className={cn("mt-[22px] grid gap-[12px]", isTransferAntarRekening ? "grid-cols-2" : "grid-cols-1")}>
-          <TransferOptionCard
-            icon={UserPlus}
-            label="Penerima Baru"
-            onClick={() => setShowNewRecipientForm(true)}
-          />
-
-          {isTransferAntarRekening ? (
+        <div className="mt-[22px] rounded-[24px] border border-[#E5E7EB] bg-white p-[10px]">
+          <div
+            className={cn(
+              "grid gap-[12px]",
+              isTransferAntarRekening ? "grid-cols-2" : "grid-cols-1",
+            )}
+          >
             <TransferOptionCard
-              icon={QrCode}
-              label="QR Transfer"
-              onClick={() =>
-                toast("QR Transfer (prototype)", {
-                  description: "Detail QR Transfer akan ditambahkan menyusul.",
-                })
-              }
+              icon={UserPlus}
+              label="Penerima Baru"
+              onClick={() => setShowNewRecipientForm(true)}
             />
-          ) : null}
+
+            {isTransferAntarRekening ? (
+              <TransferOptionCard
+                icon={QrCode}
+                label="QR Transfer"
+                onClick={() =>
+                  toast("QR Transfer (prototype)", {
+                    description: "Detail QR Transfer akan ditambahkan menyusul.",
+                  })
+                }
+              />
+            ) : null}
+          </div>
         </div>
 
         <TransferTabs active={activeTab} onChange={setActiveTab} />
