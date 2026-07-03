@@ -56,11 +56,7 @@ export default function ProfileSettingsPage({ onBack }: { onBack: () => void }) 
   }
 
   return (
-    <ProfileSubPageShell
-      title="Pengaturan"
-      onBack={onBack}
-      className="pb-[120px]"
-    >
+    <ProfileSubPageShell title="Pengaturan" onBack={onBack}>
       <div className="rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
         <div className="flex items-start gap-3">
           <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
@@ -81,15 +77,11 @@ export default function ProfileSettingsPage({ onBack }: { onBack: () => void }) 
       <div className="mt-[18px] overflow-hidden rounded-[22px] bg-white ring-1 ring-[#EEF0F4]">
         {settingsItems.map((item, index) => {
           const key = `${index}-${item}`;
-          const isLast = index === settingsItems.length - 1;
 
           return (
             <div
               key={key}
-              className={cn(
-                "flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-4 py-[13px]",
-                !isLast ? "border-b border-[#EEF0F4]" : "",
-              )}
+              className="flex min-h-[58px] w-full items-center justify-between gap-4 border-b border-[#EEF0F4] bg-white px-4 py-[13px]"
             >
               <div className="min-w-0 text-[15px] font-bold leading-tight tracking-[-0.015em] text-black">
                 {item}
@@ -107,22 +99,25 @@ export default function ProfileSettingsPage({ onBack }: { onBack: () => void }) 
             </div>
           );
         })}
-      </div>
 
-      <div className="absolute inset-x-6 bottom-[26px] z-20 bg-white">
         <button
           type="button"
           onClick={resetSettings}
-          className={cn(
-            "h-[52px] w-full rounded-[8px] bg-[#EF135D]",
-            "text-[14px] font-semibold leading-none text-white",
-            "shadow-[0_8px_18px_rgba(239,19,93,0.18)]",
-            "transition active:scale-[0.98]",
-          )}
+          className="flex min-h-[58px] w-full items-center justify-between gap-4 bg-white px-4 py-[13px] text-left transition active:scale-[0.99]"
         >
-          <span className="inline-flex items-center justify-center gap-2">
-            <RotateCcw className="h-[18px] w-[18px]" strokeWidth={2.6} />
-            Reset
+          <span className="flex min-w-0 items-center gap-4">
+            <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#EF135D] text-white">
+              <RotateCcw className="h-[23px] w-[23px]" strokeWidth={2.6} />
+            </span>
+
+            <span className="min-w-0">
+              <span className="block text-[15px] font-bold leading-tight text-black">
+                Reset
+              </span>
+              <span className="mt-[5px] block text-[12px] font-normal leading-snug text-[#8F8F8F]">
+                Kembalikan semua pengaturan fitur ke posisi awal.
+              </span>
+            </span>
           </span>
         </button>
       </div>
