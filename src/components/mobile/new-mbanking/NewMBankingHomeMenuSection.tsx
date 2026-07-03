@@ -74,21 +74,23 @@ export default function NewMBankingHomeMenuSection({
                 aria-label={item.label}
                 aria-current={item.active ? "page" : undefined}
               >
-                <Icon
-                  className={cn(
-                    "absolute left-1/2 top-[25px] h-[24px] w-[24px] -translate-x-1/2 -translate-y-1/2",
-                    item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
-                  )}
-                  strokeWidth={2.3}
-                />
+                <span className="absolute left-1/2 top-[14px] flex -translate-x-1/2 flex-col items-center">
+                  <Icon
+                    className={cn(
+                      "h-[24px] w-[24px] shrink-0",
+                      item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
+                    )}
+                    strokeWidth={2.3}
+                  />
 
-                <span
-                  className={cn(
-                    "absolute inset-x-0 bottom-[9px] truncate text-center text-[11px] font-normal leading-none tracking-[-0.02em]",
-                    item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
-                  )}
-                >
-                  {item.label}
+                  <span
+                    className={cn(
+                      "mt-[6px] max-w-[62px] truncate text-center text-[11px] font-normal leading-none tracking-[-0.02em]",
+                      item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
+                    )}
+                  >
+                    {item.label}
+                  </span>
                 </span>
               </button>
             );
