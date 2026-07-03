@@ -48,12 +48,14 @@ export default function NewMBankingQuickActionGrid({
   className,
   onDepositClick,
   onTransferClick,
+  onInstallmentClick,
   onPaymentClick,
   onPurchaseClick,
 }: {
   className?: string;
   onDepositClick?: () => void;
   onTransferClick?: () => void;
+  onInstallmentClick?: () => void;
   onPaymentClick?: () => void;
   onPurchaseClick?: () => void;
 }) {
@@ -75,6 +77,11 @@ export default function NewMBankingQuickActionGrid({
 
                 if (action.label === "Transfer") {
                   onTransferClick?.();
+                  return;
+                }
+
+                if (action.label === "Bayar Angsuran") {
+                  onInstallmentClick?.();
                   return;
                 }
 

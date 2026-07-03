@@ -7,6 +7,7 @@ import NewMBankingHistoryPage from "@/components/mobile/new-mbanking/NewMBanking
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
+import NewMBankingLoanInstallmentPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentPage";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
 import NewMBankingPaymentPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPage";
@@ -33,6 +34,7 @@ export default function NewMBankingHome({
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
   const [showPortfolio, setShowPortfolio] = React.useState(false);
   const [showDepositAccounts, setShowDepositAccounts] = React.useState(false);
+  const [showLoanInstallment, setShowLoanInstallment] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
   const [showPayment, setShowPayment] = React.useState(false);
   const [showPurchase, setShowPurchase] = React.useState(false);
@@ -40,6 +42,14 @@ export default function NewMBankingHome({
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(
     null,
   );
+
+  if (showLoanInstallment) {
+    return (
+      <NewMBankingLoanInstallmentPage
+        onBack={() => setShowLoanInstallment(false)}
+      />
+    );
+  }
 
   if (showPurchase) {
     return <NewMBankingPurchasePage onBack={() => setShowPurchase(false)} />;
@@ -148,6 +158,7 @@ export default function NewMBankingHome({
           <NewMBankingQuickActionGrid
             onDepositClick={() => setShowDepositAccounts(true)}
             onTransferClick={() => setTransferTypeOpen(true)}
+            onInstallmentClick={() => setShowLoanInstallment(true)}
             onPaymentClick={() => setShowPayment(true)}
             onPurchaseClick={() => setShowPurchase(true)}
           />
