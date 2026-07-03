@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   ArrowLeft,
   CalendarDays,
+  Check,
   ChevronDown,
   RotateCcw,
   Search,
@@ -17,7 +18,6 @@ const sourceFundOptions = [
 ];
 
 const transactionMethods = [
-  "Semua",
   "Transfer",
   "Setoran",
   "QRIS",
@@ -33,13 +33,21 @@ export default function NewMBankingTransactionFilterPage({
   const [sourceFund, setSourceFund] = React.useState("Semua Sumber Dana");
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
-  const [method, setMethod] = React.useState("Semua");
+  const [methods, setMethods] = React.useState<string[]>([]);
 
   function resetFilters() {
     setSourceFund("Semua Sumber Dana");
     setStartDate("");
     setEndDate("");
-    setMethod("Semua");
+    setMethods([]);
+  }
+
+  function toggleMethod(method: string) {
+    setMethods((current) =>
+      current.includes(method)
+        ? current.filter((item) => item !== method)
+        : [...current, method],
+    );
   }
 
   return (
@@ -160,24 +168,37 @@ export default function NewMBankingTransactionFilterPage({
               </div>
               <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
-              <div className="mt-[16px] flex flex-wrap gap-[10px]">
+              <div className="mt-[16px] grid grid-cols-1 gap-[10px]">
                 {transactionMethods.map((item) => {
-                  const active = method === item;
+                  const checked = methods.includes(item);
 
                   return (
                     <button
                       key={item}
                       type="button"
-                      onClick={() => setMethod(item)}
+                      onClick={() => toggleMethod(item)}
                       className={cn(
-                        "h-[38px] rounded-full px-[16px] text-[13px] font-semibold leading-none transition active:scale-[0.98]",
-                        active
-                          ? "bg-[#479DF4] text-white"
-                          : "bg-[#F1F3F6] text-black",
+                        "flex min-h-[48px] w-full items-center gap-3 rounded-[12px] border px-4 py-3 text-left transition active:scale-[0.99]",
+                        checked
+                          ? "border-[#479DF4] bg-[#EEF6FF]"
+                          : "border-[#CDD4E0] bg-white",
                       )}
-                      aria-current={active ? "page" : undefined}
+                      aria-pressed={checked}
                     >
-                      {item}
+                      <span
+                        className={cn(
+                          "inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-[6px] border transition",
+                          checked
+                            ? "border-[#479DF4] bg-[#479DF4] text-white"
+                            : "border-[#CDD4E0] bg-white text-transparent",
+                        )}
+                      >
+                        <Check className="h-[15px] w-[15px]" strokeWidth={3} />
+                      </span>
+
+                      <span className="min-w-0 flex-1 text-[14px] font-normal leading-tight text-black">
+                        {item}
+                      </span>
                     </button>
                   );
                 })}
