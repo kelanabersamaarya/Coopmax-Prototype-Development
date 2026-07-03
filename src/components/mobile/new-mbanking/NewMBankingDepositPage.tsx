@@ -84,78 +84,82 @@ export default function NewMBankingDepositPage({
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
-
-        <header className="flex h-[62px] items-center gap-3 px-6">
-          <button
-            type="button"
-            onClick={onBack}
-            className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]"
-            aria-label="Kembali"
-            title="Kembali"
-          >
-            <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
-          </button>
-
-          <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Setoran
-          </h1>
-        </header>
-
-        <div className="h-px w-full bg-[#EEF0F4]" />
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-[118px] pt-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section>
-          <SectionTitle>Rekening Tujuan</SectionTitle>
-          <DestinationAccountCard />
-        </section>
+      <main className="min-h-0 flex-1 overflow-y-auto bg-white pb-[118px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="bg-[#F9F9F9]">
+          <header className="flex h-[62px] items-center gap-3 px-6">
+            <button
+              type="button"
+              onClick={onBack}
+              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]"
+              aria-label="Kembali"
+              title="Kembali"
+            >
+              <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
+            </button>
 
-        <section className="mt-[34px]">
-          <SectionTitle>Nominal Setoran</SectionTitle>
+            <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
+              Setoran
+            </h1>
+          </header>
 
-          <div className="mt-[18px] grid grid-cols-2 gap-x-[18px] gap-y-[15px]">
-            {quickAmounts.map((amount) => {
-              const isSelected = selectedAmount === amount;
+          <div className="h-px w-full bg-[#EEF0F4]" />
+        </div>
 
-              return (
-                <button
-                  key={amount}
-                  type="button"
-                  onClick={() => {
-                    setSelectedAmount(amount);
-                    setCustomAmount("");
-                  }}
-                  className={cn(
-                    "h-[58px] rounded-[8px] border bg-white px-3 text-center",
-                    "text-[17px] font-bold leading-none tracking-[-0.02em]",
-                    "transition active:scale-[0.98]",
-                    isSelected
-                      ? "border-[#479DF4] bg-[#EEF6FF] text-[#2563EB]"
-                      : "border-[#D8D8D8] text-black",
-                  )}
-                >
-                  {amount}
-                </button>
-              );
-            })}
-          </div>
+        <div className="px-6 pt-[24px]">
+          <section>
+            <SectionTitle>Rekening Tujuan</SectionTitle>
+            <DestinationAccountCard />
+          </section>
 
-          <input
-            value={customAmount}
-            onChange={(event) => {
-              setCustomAmount(event.target.value);
-              setSelectedAmount("");
-            }}
-            placeholder="Masukkan Nominal Setoran"
-            inputMode="numeric"
-            className={cn(
-              "mt-[20px] h-[46px] w-full rounded-[10px] border border-[#CDD4E0] bg-white px-4",
-              "text-[14px] font-normal text-black shadow-none outline-none",
-              "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-              "focus:border-[#479DF4]",
-            )}
-          />
-        </section>
+          <section className="mt-[34px]">
+            <SectionTitle>Nominal Setoran</SectionTitle>
+
+            <div className="mt-[18px] grid grid-cols-2 gap-x-[18px] gap-y-[15px]">
+              {quickAmounts.map((amount) => {
+                const isSelected = selectedAmount === amount;
+
+                return (
+                  <button
+                    key={amount}
+                    type="button"
+                    onClick={() => {
+                      setSelectedAmount(amount);
+                      setCustomAmount("");
+                    }}
+                    className={cn(
+                      "h-[58px] rounded-[8px] border bg-white px-3 text-center",
+                      "text-[17px] font-bold leading-none tracking-[-0.02em]",
+                      "transition active:scale-[0.98]",
+                      isSelected
+                        ? "border-[#479DF4] bg-[#EEF6FF] text-[#2563EB]"
+                        : "border-[#D8D8D8] text-black",
+                    )}
+                  >
+                    {amount}
+                  </button>
+                );
+              })}
+            </div>
+
+            <input
+              value={customAmount}
+              onChange={(event) => {
+                setCustomAmount(event.target.value);
+                setSelectedAmount("");
+              }}
+              placeholder="Masukkan Nominal Setoran"
+              inputMode="numeric"
+              className={cn(
+                "mt-[20px] h-[46px] w-full rounded-[10px] border border-[#CDD4E0] bg-white px-4",
+                "text-[14px] font-normal text-black shadow-none outline-none",
+                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                "focus:border-[#479DF4]",
+              )}
+            />
+          </section>
+        </div>
       </main>
 
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
