@@ -43,17 +43,20 @@ export default function NewMBankingHomeMenuSection({
   onHomeClick,
   onPortfolioClick,
   onQrisClick,
+  onHistoryClick,
 }: {
   className?: string;
   activeTab?: NewMBankingHomeNavTab;
   onHomeClick?: () => void;
   onPortfolioClick?: () => void;
   onQrisClick?: () => void;
+  onHistoryClick?: () => void;
 }) {
   function handleClick(id: (typeof menuItems)[number]["id"]) {
     if (id === "home") onHomeClick?.();
     if (id === "portfolio") onPortfolioClick?.();
     if (id === "qris") onQrisClick?.();
+    if (id === "history") onHistoryClick?.();
   }
 
   return (

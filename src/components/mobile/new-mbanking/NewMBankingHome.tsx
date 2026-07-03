@@ -3,6 +3,7 @@ import type { MBankingTransactionHistoryEntry } from "@/components/mobile/m-bank
 import NewMBankingAccountDetailPage from "@/components/mobile/new-mbanking/NewMBankingAccountDetailPage";
 import NewMBankingAccountsSection from "@/components/mobile/new-mbanking/NewMBankingAccountsSection";
 import NewMBankingDepositAccountsPage from "@/components/mobile/new-mbanking/NewMBankingDepositAccountsPage";
+import NewMBankingHistoryPage from "@/components/mobile/new-mbanking/NewMBankingHistoryPage";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
@@ -26,6 +27,7 @@ export default function NewMBankingHome({
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
   const [showPortfolio, setShowPortfolio] = React.useState(false);
   const [showDepositAccounts, setShowDepositAccounts] = React.useState(false);
+  const [showHistory, setShowHistory] = React.useState(false);
 
   if (showDepositAccounts) {
     return (
@@ -45,6 +47,23 @@ export default function NewMBankingHome({
         onBack={() => setShowPortfolio(false)}
         onHomeClick={() => setShowPortfolio(false)}
         onQrisClick={() => setShowQrisFlow(true)}
+      />
+    );
+  }
+
+  if (showHistory) {
+    return (
+      <NewMBankingHistoryPage
+        onBack={() => setShowHistory(false)}
+        onHomeClick={() => setShowHistory(false)}
+        onPortfolioClick={() => {
+          setShowHistory(false);
+          setShowPortfolio(true);
+        }}
+        onQrisClick={() => {
+          setShowHistory(false);
+          setShowQrisFlow(true);
+        }}
       />
     );
   }
@@ -115,6 +134,7 @@ export default function NewMBankingHome({
         onHomeClick={() => {}}
         onPortfolioClick={() => setShowPortfolio(true)}
         onQrisClick={() => setShowQrisFlow(true)}
+        onHistoryClick={() => setShowHistory(true)}
       />
 
       <NewMBankingLogoutConfirmModal
