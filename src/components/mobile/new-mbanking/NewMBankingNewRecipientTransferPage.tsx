@@ -124,6 +124,7 @@ export default function NewMBankingNewRecipientTransferPage({
         recipientAccountNo={accountNo}
         description={description}
         nominal={amount}
+        hideAdminFee={hideBankSelection}
         onContinue={() => {
           setConfirmOpen(false);
           setShowPinInput(true);

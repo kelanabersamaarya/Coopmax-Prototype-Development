@@ -102,6 +102,7 @@ export default function NewMBankingTransferConfirmModal({
   description,
   nominal,
   totalWithFee = "Rp. 52.500,00",
+  hideAdminFee = false,
   onContinue,
 }: {
   open: boolean;
@@ -113,6 +114,7 @@ export default function NewMBankingTransferConfirmModal({
   description: string;
   nominal: string;
   totalWithFee?: string;
+  hideAdminFee?: boolean;
   onContinue?: () => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
@@ -131,6 +133,7 @@ export default function NewMBankingTransferConfirmModal({
   const displayedDescription = description.trim() || "Bayar UKT";
   const displayedNominal = nominal.trim() || "50.000,00";
   const displayedAdminFee = "2.500,00";
+  const displayedTotal = hideAdminFee ? `Rp. ${displayedNominal}` : totalWithFee;
   const sourceFundAccount = buildSourceFundAccount(sourceInfo);
 
   return createPortal(
@@ -191,11 +194,14 @@ export default function NewMBankingTransferConfirmModal({
         <SectionBlock title="Transaksi">
           <div className="grid gap-[14px]">
             <TransactionRow label="Nominal" value={displayedNominal} />
-            <TransactionRow label="Biaya Admin" value={displayedAdminFee} />
+
+            {!hideAdminFee ? (
+              <TransactionRow label="Biaya Admin" value={displayedAdminFee} />
+            ) : null}
 
             <div className="border-t border-dashed border-[#D8D8D8]" />
 
-            <TransactionRow label="Total" value={totalWithFee} strong />
+            <TransactionRow label="Total" value={displayedTotal} strong />
           </div>
         </SectionBlock>
 
@@ -213,7 +219,7 @@ export default function NewMBankingTransferConfirmModal({
             </span>
 
             <span className="ml-auto whitespace-nowrap text-right text-[14px] font-semibold leading-none">
-              {totalWithFee}
+              {displayedTotal}
             </span>
 
             <ArrowRight className="h-[24px] w-[24px] shrink-0 text-white" strokeWidth={2.6} />
