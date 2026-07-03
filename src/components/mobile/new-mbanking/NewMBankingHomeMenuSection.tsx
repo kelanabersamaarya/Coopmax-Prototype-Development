@@ -76,7 +76,7 @@ export default function NewMBankingHomeMenuSection({
               >
                 <Icon
                   className={cn(
-                    "absolute left-1/2 top-1/2 h-[24px] w-[24px] -translate-x-1/2 -translate-y-1/2",
+                    "absolute left-1/2 top-[25px] h-[24px] w-[24px] -translate-x-1/2 -translate-y-1/2",
                     item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
                   )}
                   strokeWidth={2.3}
@@ -84,7 +84,7 @@ export default function NewMBankingHomeMenuSection({
 
                 <span
                   className={cn(
-                    "absolute inset-x-0 bottom-[8px] truncate text-center text-[11px] font-normal leading-none tracking-[-0.02em]",
+                    "absolute inset-x-0 bottom-[9px] truncate text-center text-[11px] font-normal leading-none tracking-[-0.02em]",
                     item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
                   )}
                 >
