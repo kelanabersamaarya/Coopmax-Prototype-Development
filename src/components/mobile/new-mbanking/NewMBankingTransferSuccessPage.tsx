@@ -77,7 +77,7 @@ export default function NewMBankingTransferSuccessPage({
             </div>
           </div>
 
-          <div className="mt-[20px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
+          <div className="mt-[15px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
             <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
               <Send className="h-[18px] w-[18px] text-white" strokeWidth={2.6} />
             </span>
@@ -92,7 +92,7 @@ export default function NewMBankingTransferSuccessPage({
             </div>
           </div>
 
-          <div className="mt-[20px] w-[302px] max-w-full rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
+          <div className="mt-[15px] w-[302px] max-w-full rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
             <div className="text-[11px] font-normal leading-none text-[#828282]">
               Deskripsi
             </div>
