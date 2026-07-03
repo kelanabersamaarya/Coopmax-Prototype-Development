@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   ArrowLeft,
-  Bell,
   BookOpen,
   Building2,
   ChevronRight,
@@ -12,6 +11,7 @@ import {
   ShieldCheck,
   UserCog,
   UserRound,
+  Volume2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -45,7 +45,7 @@ const profileMenus: Array<{
 }> = [
   {
     title: "Pengumuman",
-    icon: Bell,
+    icon: Volume2,
     tone: "blue",
     screen: "announcement",
   },

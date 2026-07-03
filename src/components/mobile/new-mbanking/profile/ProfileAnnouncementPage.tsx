@@ -1,4 +1,4 @@
-import { Bell } from "lucide-react";
+import { Volume2 } from "lucide-react";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 
 const announcements = [
@@ -30,7 +30,7 @@ export default function ProfileAnnouncementPage({ onBack }: { onBack: () => void
           >
             <div className="flex items-start gap-3">
               <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-                <Bell className="h-[21px] w-[21px]" strokeWidth={2.6} />
+                <Volume2 className="h-[23px] w-[23px]" strokeWidth={2.8} />
               </span>
 
               <div className="min-w-0">
