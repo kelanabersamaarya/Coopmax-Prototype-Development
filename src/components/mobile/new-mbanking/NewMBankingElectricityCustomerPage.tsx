@@ -5,6 +5,7 @@ import { ArrowLeft, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingElectricityBillReviewPage from "@/components/mobile/new-mbanking/NewMBankingElectricityBillReviewPage";
 
 export default function NewMBankingElectricityCustomerPage({
   providerName,
@@ -14,6 +15,7 @@ export default function NewMBankingElectricityCustomerPage({
   onBack: () => void;
 }) {
   const [customerNo, setCustomerNo] = React.useState("");
+  const [showReview, setShowReview] = React.useState(false);
 
   function continuePayment() {
     if (!customerNo.trim()) {
@@ -23,9 +25,17 @@ export default function NewMBankingElectricityCustomerPage({
       return;
     }
 
-    toast.success("Lanjutkan pembayaran listrik (prototype)", {
-      description: `${providerName} • ${customerNo}`,
-    });
+    setShowReview(true);
+  }
+
+  if (showReview) {
+    return (
+      <NewMBankingElectricityBillReviewPage
+        providerName={providerName}
+        customerNo={customerNo}
+        onBack={() => setShowReview(false)}
+      />
+    );
   }
 
   return (
