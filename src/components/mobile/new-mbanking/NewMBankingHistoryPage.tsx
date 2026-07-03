@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   Banknote,
   Send,
+  SlidersHorizontal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -179,9 +180,18 @@ export default function NewMBankingHistoryPage({
             <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
           </button>
 
-          <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
+          <h1 className="min-w-0 flex-1 truncate text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
             Riwayat Transaksi
           </h1>
+
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]"
+            aria-label="Filter riwayat transaksi"
+            title="Filter"
+          >
+            <SlidersHorizontal className="h-[22px] w-[22px]" strokeWidth={2.6} />
+          </button>
         </header>
       </div>
 
