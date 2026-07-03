@@ -2,18 +2,23 @@
 
 import * as React from "react";
 import { ArrowLeft, Zap } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import NewMBankingElectricityConfirmModal from "@/components/mobile/new-mbanking/NewMBankingElectricityConfirmModal";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
   accountNo: "112233111",
   balance: "Rp. 4.000.000,00",
 };
+
+const customerName = "I Made Wirata";
+const billAmount = "Rp. 350.000,00";
 
 function DetailRow({
   label,
@@ -51,6 +56,7 @@ export default function NewMBankingElectricityBillReviewPage({
   onBack: () => void;
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
 
@@ -60,6 +66,22 @@ export default function NewMBankingElectricityBillReviewPage({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+      />
+
+      <NewMBankingElectricityConfirmModal
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        providerName={providerName}
+        customerName={customerName}
+        customerNo={customerNo}
+        amount={billAmount}
+        sourceFund={sourceFund}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          toast.success("Pembayaran listrik berhasil (prototype)", {
+            description: `${providerName} • ${customerNo}`,
+          });
+        }}
       />
 
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -95,10 +117,10 @@ export default function NewMBankingElectricityBillReviewPage({
           </div>
 
           <div className="mt-[34px] rounded-[20px] border border-[#E5E7EB] bg-white px-5 py-4">
-            <DetailRow label="Nama Pelanggan" value="I Made Wirata" />
+            <DetailRow label="Nama Pelanggan" value={customerName} />
             <DetailRow label="No. Pelanggan" value={customerNo} />
             <div className="my-[8px] h-px w-full bg-[#E5E7EB]" />
-            <DetailRow label="Nominal Tagihan" value="Rp. 350.000,00" strong />
+            <DetailRow label="Nominal Tagihan" value={billAmount} strong />
           </div>
 
           <section className="mt-[30px]">
@@ -119,6 +141,7 @@ export default function NewMBankingElectricityBillReviewPage({
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
+          onClick={() => setConfirmOpen(true)}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
