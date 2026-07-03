@@ -231,7 +231,7 @@ export default function NewMBankingInterbankTransferPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Transfer Antar Rekening
+            Transfer Antar Bank
           </h1>
         </header>
       </div>
