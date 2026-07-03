@@ -11,6 +11,7 @@ import {
   Smartphone,
   Trash2,
   Wifi,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -20,7 +21,7 @@ type PaymentTab = "saved" | "history";
 const paymentCategories = [
   {
     label: "Listrik",
-    icon: Bolt,
+    icon: Zap,
     frameClassName: "bg-[#F59E0B]",
   },
   {
@@ -70,27 +71,36 @@ const savedPayments = [
     id: "xl-postpaid",
     name: "XL Pascabayar",
     info: "Pulsa Pascabayar - 0819987262",
-    icon: Smartphone,
   },
   {
     id: "pln-home",
     name: "PLN Rumah",
     info: "Listrik - 530000112233",
-    icon: Bolt,
   },
   {
     id: "indihome",
     name: "IndiHome",
     info: "Internet - 122334455667",
-    icon: Wifi,
   },
   {
     id: "bpjs-family",
     name: "BPJS Keluarga",
     info: "BPJS Kesehatan - 0001234567890",
-    icon: HeartPulse,
   },
 ];
+
+function getSavedPaymentIcon(item: { name: string; info: string }) {
+  const text = `${item.name} ${item.info}`.toLowerCase();
+
+  if (text.includes("pln") || text.includes("listrik")) return Zap;
+  if (text.includes("internet") || text.includes("indihome")) return Wifi;
+  if (text.includes("bpjs") || text.includes("kesehatan")) return HeartPulse;
+  if (text.includes("pulsa") || text.includes("pascabayar") || text.includes("xl")) {
+    return Smartphone;
+  }
+
+  return Bolt;
+}
 
 export default function NewMBankingPaymentPage({
   onBack,
@@ -196,7 +206,7 @@ export default function NewMBankingPaymentPage({
             <div className="mt-[22px] divide-y divide-[#EEF0F4]">
               {items.length > 0 ? (
                 items.map((item) => {
-                  const Icon = item.icon;
+                  const Icon = getSavedPaymentIcon(item);
 
                   return (
                     <div
@@ -228,12 +238,12 @@ export default function NewMBankingPaymentPage({
                             current.filter((savedItem) => savedItem.id !== item.id),
                           )
                         }
-                        className="grid h-[36px] w-[36px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
+                        className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
                         aria-label={`Hapus ${item.name}`}
                         title="Hapus"
                       >
                         <Trash2
-                          className="h-[18px] w-[18px] text-[#DC3545]"
+                          className="h-[16px] w-[16px] text-[#DC3545]"
                           strokeWidth={2.7}
                         />
                       </button>
