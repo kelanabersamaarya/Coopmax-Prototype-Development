@@ -180,7 +180,7 @@ export default function NewMBankingHistoryPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Riwayat
+            Riwayat Transaksi
           </h1>
         </header>
       </div>
