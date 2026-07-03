@@ -5,10 +5,10 @@ import {
   ChevronDown,
   ChevronUp,
   Copy,
-  UserRound,
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingDepositDestinationCard from "@/components/mobile/new-mbanking/NewMBankingDepositDestinationCard";
 
 function StatusBar() {
   return (
@@ -242,24 +242,7 @@ export default function NewMBankingDepositResultPage({
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[28px] pt-[28px] shadow-[0_-8px_28px_rgba(15,23,42,0.06)]">
           <div>
             <SectionTitle>Rekening Tujuan</SectionTitle>
-
-            <div className="mt-[18px] flex items-center gap-[12px]">
-              <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#EEF0F4] text-[#53657D]">
-                <UserRound
-                  className="h-[22px] w-[22px] text-[#53657D]"
-                  strokeWidth={2.45}
-                />
-              </span>
-
-              <div className="min-w-0">
-                <div className="truncate text-[18px] font-bold leading-tight tracking-[-0.025em] text-black">
-                  Arya
-                </div>
-                <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-                  11122333311 - Simpanan Kaya
-                </div>
-              </div>
-            </div>
+            <NewMBankingDepositDestinationCard />
           </div>
 
           <section className="mt-[30px]">
