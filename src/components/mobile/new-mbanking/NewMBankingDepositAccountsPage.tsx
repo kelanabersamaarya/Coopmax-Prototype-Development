@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Copy, WalletCards } from "lucide-react";
+import { ArrowLeft, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -36,6 +36,30 @@ const savingsAccounts: SavingsAccount[] = [
   },
 ];
 
+function SavingsInfoBlock({
+  label,
+  value,
+  withCopy = false,
+}: {
+  label: string;
+  value: string;
+  withCopy?: boolean;
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[11px] font-normal leading-none text-white/75">
+        {label}
+      </div>
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[14px] font-semibold leading-tight text-white">
+        <span className="truncate">{value}</span>
+        {withCopy ? (
+          <Copy className="h-[13px] w-[13px] shrink-0" strokeWidth={2.4} />
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function SavingsAccountCard({
   account,
   onClick,
@@ -52,7 +76,7 @@ function SavingsAccountCard({
     >
       <div
         className={cn(
-          "relative min-h-[150px] overflow-hidden rounded-[20px]",
+          "relative min-h-[190px] overflow-hidden rounded-[20px]",
           "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
           "px-5 py-5 text-white shadow-[0_12px_28px_rgba(37,99,235,0.20)]",
         )}
@@ -62,52 +86,29 @@ function SavingsAccountCard({
         <div className="pointer-events-none absolute -bottom-[36px] left-[72px] h-[96px] w-[96px] rounded-full bg-violet-950/12" />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
-        <div className="relative z-10">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <div className="text-[12px] font-normal leading-none text-white/78">
-                Rekening Simpanan
-              </div>
-              <div className="mt-[8px] truncate text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
-                {account.productName}
-              </div>
+        <div className="relative z-10 grid gap-[18px]">
+          <div>
+            <div className="text-[12px] font-normal leading-none text-white/78">
+              Produk Simpanan
             </div>
-
-            <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[14px] bg-white/18 text-white ring-1 ring-white/20">
-              <WalletCards className="h-[23px] w-[23px]" strokeWidth={2.6} />
-            </span>
-          </div>
-
-          <div className="mt-[22px] grid grid-cols-2 gap-4">
-            <div className="min-w-0">
-              <div className="text-[11px] font-normal leading-none text-white/75">
-                No. Rekening
-              </div>
-              <div className="mt-[7px] flex items-center gap-2 text-[14px] font-semibold leading-tight text-white">
-                <span className="truncate">{account.accountNo}</span>
-                <Copy className="h-[13px] w-[13px] shrink-0" strokeWidth={2.4} />
-              </div>
-            </div>
-
-            <div className="min-w-0 text-right">
-              <div className="text-[11px] font-normal leading-none text-white/75">
-                Saldo
-              </div>
-              <div className="mt-[7px] truncate text-[14px] font-semibold leading-tight text-white">
-                {account.balance}
-              </div>
-            </div>
-
-            <div className="col-span-2 min-w-0">
-              <div className="text-[11px] font-normal leading-none text-white/75">
-                Nomor Virtual Account
-              </div>
-              <div className="mt-[7px] flex items-center gap-2 text-[14px] font-semibold leading-tight text-white">
-                <span className="truncate">{account.vaNumber}</span>
-                <Copy className="h-[13px] w-[13px] shrink-0" strokeWidth={2.4} />
-              </div>
+            <div className="mt-[8px] truncate text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
+              {account.productName}
             </div>
           </div>
+
+          <SavingsInfoBlock
+            label="No. Rekening"
+            value={account.accountNo}
+            withCopy
+          />
+
+          <SavingsInfoBlock label="Saldo" value={account.balance} />
+
+          <SavingsInfoBlock
+            label="Nomor Virtual Account"
+            value={account.vaNumber}
+            withCopy
+          />
         </div>
       </div>
     </button>
