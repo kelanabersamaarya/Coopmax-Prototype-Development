@@ -195,10 +195,10 @@ function ProductInfoCell({
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[10px] font-normal leading-none text-white/70">
+      <div className="text-[12px] font-normal leading-none text-white/70">
         {label}
       </div>
-      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[12px] font-semibold leading-tight text-white">
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[14px] font-semibold leading-tight text-white">
         <span className="truncate">{value}</span>
         {isAccountNumber ? (
           <Copy className="h-[13px] w-[13px] shrink-0 text-white" strokeWidth={2.4} />
