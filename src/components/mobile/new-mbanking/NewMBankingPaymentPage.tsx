@@ -71,6 +71,21 @@ const savedPayments = [
     name: "XL Pascabayar",
     info: "Pulsa Pascabayar - 0819987262",
   },
+  {
+    id: "pln-home",
+    name: "PLN Rumah",
+    info: "Listrik - 530000112233",
+  },
+  {
+    id: "indihome",
+    name: "IndiHome",
+    info: "Internet - 122334455667",
+  },
+  {
+    id: "bpjs-family",
+    name: "BPJS Keluarga",
+    info: "BPJS Kesehatan - 0001234567890",
+  },
 ];
 
 export default function NewMBankingPaymentPage({
