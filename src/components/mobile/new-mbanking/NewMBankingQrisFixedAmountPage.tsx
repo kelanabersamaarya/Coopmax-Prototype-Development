@@ -12,6 +12,10 @@ const defaultSourceFund: SourceFundAccount = {
   balance: "Rp. 4.000.000,00",
 };
 
+function SectionDivider() {
+  return <div className="my-[24px] h-px w-full bg-[#D8D8D8]" />;
+}
+
 export default function NewMBankingQrisFixedAmountPage({
   onBack,
   onContinuePayment,
@@ -70,7 +74,9 @@ export default function NewMBankingQrisFixedAmountPage({
             </div>
           </div>
 
-          <div className="mt-[34px]">
+          <SectionDivider />
+
+          <div>
             <label className="text-[14px] font-bold leading-tight text-[#2F3137]">
               Nominal Pembayaran<span className="text-[#EF135D]">*</span>
             </label>
@@ -90,7 +96,9 @@ export default function NewMBankingQrisFixedAmountPage({
             </div>
           </div>
 
-          <div className="mt-[20px]">
+          <SectionDivider />
+
+          <div>
             <div className="text-[14px] font-bold leading-tight text-[#2F3137]">
               Sumber Dana
             </div>
