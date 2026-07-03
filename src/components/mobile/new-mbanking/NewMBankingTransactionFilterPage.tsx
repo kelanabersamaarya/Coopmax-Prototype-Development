@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingCalendarModal from "@/components/mobile/new-mbanking/NewMBankingCalendarModal";
+import NewMBankingFilterAccordionSection from "@/components/mobile/new-mbanking/NewMBankingFilterAccordionSection";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
 const sourceFundOptions = [
@@ -169,12 +170,7 @@ export default function NewMBankingTransactionFilterPage({
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[118px] pt-[24px]">
           <div className="grid gap-[26px]">
-            <section>
-              <div className="text-[16px] font-bold leading-tight tracking-[-0.02em] text-black">
-                Sumber Dana
-              </div>
-              <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
-
+            <NewMBankingFilterAccordionSection title="Sumber Dana">
               <div className="mt-[16px] grid grid-cols-1 gap-[10px]">
                 {sourceFundOptions.map((item) => {
                   const checked = sourceFunds.includes(item);
@@ -210,14 +206,9 @@ export default function NewMBankingTransactionFilterPage({
                   );
                 })}
               </div>
-            </section>
+            </NewMBankingFilterAccordionSection>
 
-            <section>
-              <div className="text-[16px] font-bold leading-tight tracking-[-0.02em] text-black">
-                Periode Transaksi
-              </div>
-              <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
-
+            <NewMBankingFilterAccordionSection title="Periode Transaksi">
               <div className="mt-[16px] grid grid-cols-1 gap-[10px]">
                 {periodOptions.map((item) => {
                   const checked = period === item;
@@ -320,14 +311,9 @@ export default function NewMBankingTransactionFilterPage({
                   </div>
                 </div>
               ) : null}
-            </section>
+            </NewMBankingFilterAccordionSection>
 
-            <section>
-              <div className="text-[16px] font-bold leading-tight tracking-[-0.02em] text-black">
-                Metode Transaksi
-              </div>
-              <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
-
+            <NewMBankingFilterAccordionSection title="Metode Transaksi">
               <div className="mt-[16px] grid grid-cols-1 gap-[10px]">
                 {transactionMethods.map((item) => {
                   const checked = methods.includes(item);
@@ -363,7 +349,7 @@ export default function NewMBankingTransactionFilterPage({
                   );
                 })}
               </div>
-            </section>
+            </NewMBankingFilterAccordionSection>
           </div>
         </section>
       </main>
