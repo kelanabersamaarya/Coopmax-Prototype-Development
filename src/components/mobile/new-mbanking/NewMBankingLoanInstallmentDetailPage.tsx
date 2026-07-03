@@ -205,17 +205,9 @@ export default function NewMBankingLoanInstallmentDetailPage({
 
             <div className="mt-[14px] rounded-[24px] bg-white px-5 py-5 shadow-[0_4px_14px_rgba(15,23,42,0.14)] ring-1 ring-slate-100">
               <BillInfoRow
-                label="Total Bayar"
-                value={account.installmentBill.totalPay}
-                highlight
-              />
-              <BillInfoRow
                 label="Angsuran Ke"
                 value={account.installmentBill.installmentNo}
               />
-
-              <div className="my-[8px] h-px w-full bg-[#E7E7E7]" />
-
               <BillInfoRow label="Pokok" value={account.installmentBill.principal} />
               <BillInfoRow label="Bunga" value={account.installmentBill.interest} />
               <BillInfoRow
@@ -231,8 +223,8 @@ export default function NewMBankingLoanInstallmentDetailPage({
               <div className="my-[8px] h-px w-full bg-[#E7E7E7]" />
 
               <BillInfoRow
-                label="Sisa Pinjaman"
-                value={account.installmentBill.remainingLoan}
+                label="Total Bayar"
+                value={account.installmentBill.totalPay}
                 highlight
               />
             </div>
