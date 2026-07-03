@@ -90,7 +90,7 @@ function NewRecipientCard({ onClick }: { onClick: () => void }) {
       aria-label="Penerima Baru"
       title="Penerima Baru"
     >
-      <span className="grid h-[58px] w-[58px] place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_8px_18px_rgba(71,157,244,0.16)]">
+      <span className="grid h-[58px] w-[58px] place-items-center rounded-full bg-[#479DF4] text-white">
         <UserPlus className="h-[29px] w-[29px] text-white" strokeWidth={2.35} />
       </span>
 
@@ -145,7 +145,7 @@ function TransferTabs({
 
 function TransferIcon() {
   return (
-    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_8px_18px_rgba(71,157,244,0.16)]">
+    <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
       <Send className="h-[23px] w-[23px] text-white" strokeWidth={2.45} />
     </span>
   );
