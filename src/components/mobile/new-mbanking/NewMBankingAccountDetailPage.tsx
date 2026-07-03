@@ -110,10 +110,12 @@ function QuickActionButton({
   icon: Icon,
   label,
   onClick,
+  frameClassName,
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   label: string;
   onClick?: () => void;
+  frameClassName: string;
 }) {
   return (
     <button
@@ -122,11 +124,16 @@ function QuickActionButton({
       className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
       aria-label={label}
     >
-      <span className="grid h-[64px] w-[64px] place-items-center rounded-[16px] bg-[#EEF4FF] text-[#479DF4]">
-        <Icon className="h-[31px] w-[31px]" strokeWidth={2.35} />
+      <span
+        className={cn(
+          "grid h-[64px] w-[64px] place-items-center rounded-[16px] text-white shadow-[0_8px_18px_rgba(15,23,42,0.12)]",
+          frameClassName,
+        )}
+      >
+        <Icon className="h-[31px] w-[31px] text-white" strokeWidth={2.35} />
       </span>
 
-      <span className="mt-[9px] max-w-[86px] text-[14px] font-normal leading-tight tracking-[-0.02em] text-black">
+      <span className="mt-[9px] max-w-[94px] text-center text-[14px] font-normal leading-tight tracking-[-0.02em] text-black">
         {label}
       </span>
     </button>
@@ -251,7 +258,7 @@ export default function NewMBankingAccountDetailPage({
             className={cn(
               "relative overflow-hidden rounded-[24px] px-5 pb-5 pt-5 text-white",
               "bg-[linear-gradient(135deg,#4BA2F5_0%,#2563EB_46%,#7C3AED_100%)]",
-              "shadow-[0_18px_38px_rgba(37,99,235,0.28)] ring-1 ring-white/25",
+              "ring-1 ring-white/25",
             )}
           >
             <div className="pointer-events-none absolute -right-[48px] -top-[44px] h-[144px] w-[144px] rounded-full bg-white/18" />
@@ -306,11 +313,20 @@ export default function NewMBankingAccountDetailPage({
           </div>
 
           <div className="mt-[22px] grid grid-cols-3 justify-items-center gap-3">
-            <QuickActionButton icon={Send} label="Transfer" />
-            <QuickActionButton icon={Banknote} label="Setor" />
+            <QuickActionButton
+              icon={Send}
+              label="Transfer Antar Rekening"
+              frameClassName="bg-[#18B7A1]"
+            />
+            <QuickActionButton
+              icon={Banknote}
+              label="Setor"
+              frameClassName="bg-[#479DF4]"
+            />
             <QuickActionButton
               icon={Landmark}
               label="Transfer Antar Bank"
+              frameClassName="bg-[#F59E0B]"
               onClick={() => setShowInterbankTransfer(true)}
             />
           </div>
