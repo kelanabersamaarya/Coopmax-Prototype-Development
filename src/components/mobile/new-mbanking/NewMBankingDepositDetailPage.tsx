@@ -127,7 +127,7 @@ function DepositHistoryGroupCard({ group }: { group: DepositHistoryGroup }) {
 
 function EmptyDepositHistory() {
   return (
-    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
+    <div className="mt-[22px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
       <div className="text-[15px] font-bold text-black">
         Tidak Ada Riwayat Deposito
       </div>
@@ -246,7 +246,7 @@ export default function NewMBankingDepositDetailPage({
             </div>
           </section>
 
-          <section className="mt-[28px]">
+          <section className="mt-[28px] rounded-[24px] bg-white px-5 py-5 shadow-[0_4px_14px_rgba(15,23,42,0.12)] ring-1 ring-slate-100">
             <div className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
               Riwayat Deposito
             </div>
