@@ -19,12 +19,14 @@ type PaymentHistoryItem = {
 
 type PaymentHistoryGroup = {
   date: string;
+  month: string;
   items: PaymentHistoryItem[];
 };
 
 const paymentHistoryGroups: PaymentHistoryGroup[] = [
   {
     date: "20 Juni 2026",
+    month: "Jun",
     items: [
       {
         id: "history-pln-1",
@@ -46,6 +48,7 @@ const paymentHistoryGroups: PaymentHistoryGroup[] = [
   },
   {
     date: "19 Juni 2026",
+    month: "Jun",
     items: [
       {
         id: "history-xl-1",
@@ -62,6 +65,28 @@ const paymentHistoryGroups: PaymentHistoryGroup[] = [
         amount: "-Rp. 210.000,00",
         status: "Berhasil",
         type: "bpjs",
+      },
+    ],
+  },
+  {
+    date: "24 Mei 2026",
+    month: "Mei",
+    items: [
+      {
+        id: "history-pln-2",
+        title: "PLN Rumah",
+        subtitle: "Listrik • 530000112233",
+        amount: "-Rp. 145.000,00",
+        status: "Berhasil",
+        type: "listrik",
+      },
+      {
+        id: "history-internet-2",
+        title: "IndiHome",
+        subtitle: "Internet • 122334455667",
+        amount: "-Rp. 315.000,00",
+        status: "Berhasil",
+        type: "internet",
       },
     ],
   },
@@ -144,10 +169,35 @@ function PaymentHistoryGroupCard({ group }: { group: PaymentHistoryGroup }) {
   );
 }
 
-export default function NewMBankingPaymentHistoryList() {
+function EmptyHistoryMonth() {
+  return (
+    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
+      <div className="text-[15px] font-bold text-black">
+        Tidak Ada Riwayat Pembayaran
+      </div>
+      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+        Belum ada pembayaran pada bulan yang dipilih.
+      </div>
+    </div>
+  );
+}
+
+export default function NewMBankingPaymentHistoryList({
+  activeMonth = "Jun",
+}: {
+  activeMonth?: string;
+}) {
+  const filteredGroups = paymentHistoryGroups.filter(
+    (group) => group.month === activeMonth,
+  );
+
+  if (filteredGroups.length === 0) {
+    return <EmptyHistoryMonth />;
+  }
+
   return (
     <div className="mt-[6px]">
-      {paymentHistoryGroups.map((group) => (
+      {filteredGroups.map((group) => (
         <PaymentHistoryGroupCard key={group.date} group={group} />
       ))}
     </div>

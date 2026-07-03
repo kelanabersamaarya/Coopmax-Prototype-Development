@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewMBankingPaymentHistoryList";
+import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 
 type PaymentTab = "saved" | "history";
 
@@ -109,6 +110,7 @@ export default function NewMBankingPaymentPage({
   onBack: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<PaymentTab>("saved");
+  const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [items, setItems] = React.useState(savedPayments);
 
   return (
@@ -263,7 +265,14 @@ export default function NewMBankingPaymentPage({
               )}
             </div>
           ) : (
-            <NewMBankingPaymentHistoryList />
+            <>
+              <NewMBankingPaymentMonthSelector
+                activeMonth={activeMonth}
+                onChange={setActiveMonth}
+                className="mt-[18px]"
+              />
+              <NewMBankingPaymentHistoryList activeMonth={activeMonth} />
+            </>
           )}
         </section>
       </main>
