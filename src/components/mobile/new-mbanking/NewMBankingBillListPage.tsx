@@ -283,15 +283,6 @@ export default function NewMBankingBillListPage({
             </div>
           </div>
 
-          {showGraceHighlight ? (
-            <div className="mt-[16px]">
-              <InfoCard
-                title="Periode Grace Period"
-                description="Beberapa tagihan awal masuk dalam grace period, sehingga nasabah hanya membayar bunga pada periode tersebut."
-              />
-            </div>
-          ) : null}
-
           {shouldShowThreeBillsWithNextInfo ? (
             <div className="mt-[12px]">
               <InfoCard
@@ -307,7 +298,7 @@ export default function NewMBankingBillListPage({
               <BillingTableWithStatus
                 rows={pagedRows}
                 showGraceHighlight={showGraceHighlight}
-                showGraceInfo={showGraceHighlight}
+                showGraceInfo={false}
                 penaltyIndexOffset={(page - 1) * pageSize}
                 showPenaltyDetailAction={false}
                 className="mt-0"
