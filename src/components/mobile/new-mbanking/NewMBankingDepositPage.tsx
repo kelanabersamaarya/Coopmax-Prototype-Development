@@ -166,7 +166,7 @@ export default function NewMBankingDepositPage({
         <button
           type="button"
           className={cn(
-            "h-[52px] w-full rounded-full bg-[#479DF4]",
+            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
