@@ -8,9 +8,13 @@ const correctPin = "123456";
 export default function NewMBankingPinInputPage({
   onBack,
   onSubmit,
+  title = "Pembayaran QRIS",
+  description = "Masukkan 6 digit PIN M-Banking untuk melanjutkan pembayaran QRIS.",
 }: {
   onBack: () => void;
   onSubmit: () => void;
+  title?: string;
+  description?: string;
 }) {
   const [pin, setPin] = React.useState("");
   const [isWrongPin, setIsWrongPin] = React.useState(false);
@@ -62,7 +66,7 @@ export default function NewMBankingPinInputPage({
           </button>
 
           <h1 className="text-[16px] font-bold leading-tight text-black">
-            Pembayaran QRIS
+            {title}
           </h1>
         </div>
       </header>
@@ -73,7 +77,7 @@ export default function NewMBankingPinInputPage({
             Masukkan PIN M-Banking Anda
           </h2>
           <p className="mx-auto mt-[12px] max-w-[310px] text-[12px] font-normal leading-relaxed text-[#828282]">
-            Masukkan 6 digit PIN M-Banking untuk melanjutkan pembayaran QRIS.
+            {description}
           </p>
 
           <div className="mt-[38px] flex items-center justify-center gap-[12px]">

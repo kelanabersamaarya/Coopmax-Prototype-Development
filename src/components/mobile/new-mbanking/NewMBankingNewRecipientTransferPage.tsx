@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import NewMBankingBankSelectionPage from "@/components/mobile/new-mbanking/NewMBankingBankSelectionPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingTransferConfirmModal from "@/components/mobile/new-mbanking/NewMBankingTransferConfirmModal";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
+import NewMBankingTransferSuccessPage from "@/components/mobile/new-mbanking/NewMBankingTransferSuccessPage";
 
 function TransferField({
   label,
@@ -41,10 +43,36 @@ export default function NewMBankingNewRecipientTransferPage({
 }) {
   const [showBankSelection, setShowBankSelection] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showPinInput, setShowPinInput] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
   const [bank, setBank] = React.useState("");
   const [accountNo, setAccountNo] = React.useState("");
   const [amount, setAmount] = React.useState("");
   const [description, setDescription] = React.useState("");
+
+  if (showSuccess) {
+    return (
+      <NewMBankingTransferSuccessPage
+        recipientAccountNo={accountNo}
+        nominal={amount}
+        onDone={onBack}
+      />
+    );
+  }
+
+  if (showPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        title="Transfer Antar Bank"
+        description="Masukkan 6 digit PIN M-Banking untuk melanjutkan transaksi transfer."
+        onBack={() => setShowPinInput(false)}
+        onSubmit={() => {
+          setShowPinInput(false);
+          setShowSuccess(true);
+        }}
+      />
+    );
+  }
 
   if (showBankSelection) {
     return (
@@ -80,7 +108,10 @@ export default function NewMBankingNewRecipientTransferPage({
         recipientAccountNo={accountNo}
         description={description}
         nominal={amount}
-        onContinue={() => setConfirmOpen(false)}
+        onContinue={() => {
+          setConfirmOpen(false);
+          setShowPinInput(true);
+        }}
       />
 
       <div className="shrink-0 bg-white">
