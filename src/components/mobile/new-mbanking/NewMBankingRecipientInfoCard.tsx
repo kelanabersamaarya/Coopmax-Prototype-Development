@@ -33,7 +33,7 @@ export default function NewMBankingRecipientInfoCard({
         </div>
 
         <div className="mt-[15px] flex items-center gap-[13px]">
-          <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-[14px] bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
+          <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
             <UserRound className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
           </span>
 
