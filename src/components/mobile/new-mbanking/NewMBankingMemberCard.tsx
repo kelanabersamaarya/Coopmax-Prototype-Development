@@ -18,7 +18,7 @@ function MemberInfo({
         {label}
       </div>
 
-      <div className="mt-[7px] flex min-w-0 items-center gap-2">
+      <div className="mt-[5px] flex min-w-0 items-center gap-2">
         <div className="truncate text-[15px] font-bold leading-tight text-white">
           {value}
         </div>
@@ -90,7 +90,7 @@ export default function NewMBankingMemberCard({
             </button>
           </div>
 
-          <div className="mt-[28px] grid gap-[18px]">
+          <div className="mt-[18px] grid gap-[12px]">
             <MemberInfo label="Nama" value={memberName} />
             <div className="h-px w-full bg-white/14" />
             <MemberInfo label="Nomor Anggota" value={memberNo} copyable />
