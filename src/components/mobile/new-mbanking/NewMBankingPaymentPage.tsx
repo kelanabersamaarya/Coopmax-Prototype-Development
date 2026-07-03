@@ -17,6 +17,8 @@ import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewMBankingPaymentHistoryList";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
+import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
+import { toast } from "sonner";
 
 type PaymentTab = "saved" | "history";
 
@@ -112,6 +114,20 @@ export default function NewMBankingPaymentPage({
   const [activeTab, setActiveTab] = React.useState<PaymentTab>("saved");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [items, setItems] = React.useState(savedPayments);
+  const [showElectricityProviders, setShowElectricityProviders] = React.useState(false);
+
+  if (showElectricityProviders) {
+    return (
+      <NewMBankingElectricityProviderPage
+        onBack={() => setShowElectricityProviders(false)}
+        onSelectProvider={(provider) =>
+          toast("Input nomor pelanggan (prototype)", {
+            description: provider,
+          })
+        }
+      />
+    );
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -145,6 +161,11 @@ export default function NewMBankingPaymentPage({
                 <button
                   key={category.label}
                   type="button"
+                  onClick={() => {
+                    if (category.label === "Listrik") {
+                      setShowElectricityProviders(true);
+                    }
+                  }}
                   className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
                   aria-label={category.label}
                 >
