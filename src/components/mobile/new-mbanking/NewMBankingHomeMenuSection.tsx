@@ -70,13 +70,13 @@ export default function NewMBankingHomeMenuSection({
               <button
                 key={item.label}
                 type="button"
-                className="flex h-full min-w-0 flex-col items-center justify-center rounded-[14px] transition active:scale-[0.97]"
+                className="relative h-full min-w-0 rounded-[14px] transition active:scale-[0.97]"
                 aria-label={item.label}
                 aria-current={item.active ? "page" : undefined}
               >
                 <Icon
                   className={cn(
-                    "h-[24px] w-[24px] shrink-0",
+                    "absolute left-1/2 top-1/2 h-[24px] w-[24px] -translate-x-1/2 -translate-y-1/2",
                     item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
                   )}
                   strokeWidth={2.3}
@@ -84,7 +84,7 @@ export default function NewMBankingHomeMenuSection({
 
                 <span
                   className={cn(
-                    "mt-[7px] truncate text-[11px] font-normal leading-none tracking-[-0.02em]",
+                    "absolute inset-x-0 bottom-[8px] truncate text-center text-[11px] font-normal leading-none tracking-[-0.02em]",
                     item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
                   )}
                 >
