@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Copy, IdCard, QrCode } from "lucide-react";
+import { Copy, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingMemberQrModal from "@/components/mobile/new-mbanking/NewMBankingMemberQrModal";
 
@@ -74,13 +74,8 @@ export default function NewMBankingMemberCard({
         <div className="relative z-10">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/16 px-3 py-1.5 text-[11px] font-semibold text-white ring-1 ring-white/18">
-                <IdCard className="h-[14px] w-[14px]" strokeWidth={2.6} />
-                Kartu Anggota
-              </div>
-
-              <h2 className="mt-[16px] text-[21px] font-bold leading-tight tracking-[-0.04em] text-white">
-                M-Banking Koperasi
+              <h2 className="text-[21px] font-bold leading-tight tracking-[-0.04em] text-white">
+                Koperasi Bukit Indah
               </h2>
             </div>
 
@@ -95,14 +90,10 @@ export default function NewMBankingMemberCard({
             </button>
           </div>
 
-          <div className="mt-[24px] grid gap-[18px] rounded-[20px] bg-white/12 px-4 py-4 ring-1 ring-white/14">
-            <MemberInfo label="Nomor Anggota" value={memberNo} copyable />
-            <div className="h-px w-full bg-white/14" />
+          <div className="mt-[28px] grid gap-[18px]">
             <MemberInfo label="Nama" value={memberName} />
-          </div>
-
-          <div className="mt-[18px] text-[12px] font-normal leading-relaxed text-white/78">
-            Tekan ikon QR di pojok kanan atas untuk menampilkan kode QR anggota.
+            <div className="h-px w-full bg-white/14" />
+            <MemberInfo label="Nomor Anggota" value={memberNo} copyable />
           </div>
         </div>
       </article>
