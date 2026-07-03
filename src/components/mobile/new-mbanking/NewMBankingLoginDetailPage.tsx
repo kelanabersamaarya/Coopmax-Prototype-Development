@@ -66,7 +66,7 @@ export default function NewMBankingLoginDetailPage({
             </h1>
           </div>
 
-          <div className="mt-[58px] max-w-[340px]">
+          <div className="mt-[30px] max-w-[340px]">
             <h2 className="text-[28px] font-bold leading-[1.12] tracking-[-0.04em] text-white">
               Selamat Datang Kembali
             </h2>
