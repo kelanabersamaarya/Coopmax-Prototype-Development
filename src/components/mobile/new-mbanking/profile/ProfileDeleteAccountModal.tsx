@@ -2,6 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { Check, Eye, EyeOff, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ProfileDeleteAccountConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileDeleteAccountConfirmModal";
 
 function DeleteSuccessPage({ onGoOnboarding }: { onGoOnboarding?: () => void }) {
   return (
@@ -53,6 +54,7 @@ export default function ProfileDeleteAccountModal({
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
 
   React.useEffect(() => {
@@ -63,6 +65,7 @@ export default function ProfileDeleteAccountModal({
     );
     setPassword("");
     setShowPassword(false);
+    setConfirmOpen(false);
     setSuccess(false);
   }, [open]);
 
@@ -76,106 +79,117 @@ export default function ProfileDeleteAccountModal({
   }
 
   return createPortal(
-    <div className="absolute inset-0 z-[130] flex items-end bg-black/35 px-5 pb-5">
-      <button
-        type="button"
-        className="absolute inset-0 cursor-default"
-        aria-label="Tutup hapus akun"
-        onClick={() => onOpenChange(false)}
+    <>
+      <ProfileDeleteAccountConfirmModal
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setSuccess(true);
+        }}
       />
 
-      <div className="relative z-10 w-full overflow-hidden rounded-[8px] bg-white px-5 pb-6 pt-5 shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <div className="text-[16px] font-bold leading-tight text-black">
-              Hapus Akun
+      <div className="absolute inset-0 z-[130] flex items-end bg-black/35 px-5 pb-5">
+        <button
+          type="button"
+          className="absolute inset-0 cursor-default"
+          aria-label="Tutup hapus akun"
+          onClick={() => onOpenChange(false)}
+        />
+
+        <div className="relative z-10 w-full overflow-hidden rounded-[8px] bg-white px-5 pb-6 pt-5 shadow-[0_20px_55px_rgba(15,23,42,0.28)]">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <div className="text-[16px] font-bold leading-tight text-black">
+                Hapus Akun
+              </div>
+              <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#828282]">
+                Masukkan kata sandi untuk mengonfirmasi penghapusan akun M-Banking.
+              </p>
             </div>
-            <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#828282]">
-              Masukkan kata sandi untuk mengonfirmasi penghapusan akun M-Banking.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] text-black transition active:scale-[0.98]"
-            aria-label="Tutup"
-            title="Tutup"
-          >
-            <X className="h-[22px] w-[22px]" strokeWidth={2.6} />
-          </button>
-        </div>
-
-        <div className="mt-[22px] grid gap-[9px]">
-          <label className="text-[14px] font-bold leading-none text-black">
-            Kata Sandi<span className="text-[#EF135D]">*</span>
-          </label>
-
-          <div className="relative">
-            <input
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              type={showPassword ? "text" : "password"}
-              placeholder="Masukkan kata sandi"
-              className={cn(
-                "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4 pr-[48px]",
-                "text-[14px] font-normal text-black shadow-none outline-none",
-                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                "focus:border-[#479DF4]",
-              )}
-            />
 
             <button
               type="button"
-              onClick={() => setShowPassword((current) => !current)}
-              className="absolute right-[7px] top-1/2 inline-flex h-[32px] w-[32px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
-              aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
-              title={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+              onClick={() => onOpenChange(false)}
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] text-black transition active:scale-[0.98]"
+              aria-label="Tutup"
+              title="Tutup"
             >
-              {showPassword ? (
-                <Eye className="h-[21px] w-[21px]" strokeWidth={2.6} />
-              ) : (
-                <EyeOff className="h-[21px] w-[21px]" strokeWidth={2.6} />
+              <X className="h-[22px] w-[22px]" strokeWidth={2.6} />
+            </button>
+          </div>
+
+          <div className="mt-[22px] grid gap-[9px]">
+            <label className="text-[14px] font-bold leading-none text-black">
+              Kata Sandi<span className="text-[#EF135D]">*</span>
+            </label>
+
+            <div className="relative">
+              <input
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Masukkan kata sandi"
+                className={cn(
+                  "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4 pr-[48px]",
+                  "text-[14px] font-normal text-black shadow-none outline-none",
+                  "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                  "focus:border-[#479DF4]",
+                )}
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((current) => !current)}
+                className="absolute right-[7px] top-1/2 inline-flex h-[32px] w-[32px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
+                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                title={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+              >
+                {showPassword ? (
+                  <Eye className="h-[21px] w-[21px]" strokeWidth={2.6} />
+                ) : (
+                  <EyeOff className="h-[21px] w-[21px]" strokeWidth={2.6} />
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-[24px] grid gap-[10px]">
+            <button
+              type="button"
+              onClick={() => {
+                if (!password.trim()) return;
+                setConfirmOpen(true);
+              }}
+              disabled={!password.trim()}
+              className={cn(
+                "h-[46px] rounded-[8px] bg-[#DC3545]",
+                "text-[12px] font-semibold leading-none text-white",
+                "transition active:scale-[0.98]",
+                !password.trim() ? "cursor-not-allowed opacity-60" : "",
               )}
+            >
+              <span className="inline-flex items-center justify-center gap-2">
+                <Trash2 className="h-4 w-4" strokeWidth={2.7} />
+                Hapus Akun
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className={cn(
+                "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
+                "text-[12px] font-semibold leading-none text-[#828282]",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              Batal
             </button>
           </div>
         </div>
-
-        <div className="mt-[24px] grid gap-[10px]">
-          <button
-            type="button"
-            onClick={() => {
-              if (!password.trim()) return;
-              setSuccess(true);
-            }}
-            disabled={!password.trim()}
-            className={cn(
-              "h-[46px] rounded-[8px] bg-[#DC3545]",
-              "text-[12px] font-semibold leading-none text-white",
-              "transition active:scale-[0.98]",
-              !password.trim() ? "cursor-not-allowed opacity-60" : "",
-            )}
-          >
-            <span className="inline-flex items-center justify-center gap-2">
-              <Trash2 className="h-4 w-4" strokeWidth={2.7} />
-              Hapus Akun
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            className={cn(
-              "h-[46px] rounded-[8px] border border-[#D9D9D9] bg-white",
-              "text-[12px] font-semibold leading-none text-[#828282]",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            Batal
-          </button>
-        </div>
       </div>
-    </div>,
+    </>,
     mobileScreen,
   );
 }
