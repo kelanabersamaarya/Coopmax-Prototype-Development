@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   ArrowLeft,
-  CalendarDays,
   ChevronLeft,
   ChevronRight,
   Info,
@@ -99,136 +98,6 @@ const allBillRows: BillRow[] = [
   },
 ];
 
-function SummaryPill({
-  label,
-  value,
-  tone = "default",
-}: {
-  label: string;
-  value: string;
-  tone?: "default" | "danger" | "success";
-}) {
-  return (
-    <div
-      className={cn(
-        "rounded-[14px] px-3 py-3",
-        tone === "danger"
-          ? "bg-[#FFF1F2]"
-          : tone === "success"
-            ? "bg-[#EAF8EF]"
-            : "bg-[#F6F8FB]",
-      )}
-    >
-      <div
-        className={cn(
-          "text-[11px] font-normal leading-none",
-          tone === "danger"
-            ? "text-[#DC3545]"
-            : tone === "success"
-              ? "text-[#15965A]"
-              : "text-[#8F8F8F]",
-        )}
-      >
-        {label}
-      </div>
-      <div
-        className={cn(
-          "mt-[7px] truncate text-[14px] font-bold leading-tight",
-          tone === "danger"
-            ? "text-[#DC3545]"
-            : tone === "success"
-              ? "text-[#15965A]"
-              : "text-black",
-        )}
-      >
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function DetailAmountRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4 py-[5px]">
-      <div className="min-w-0 text-[12px] font-normal leading-tight text-[#8F8F8F]">
-        {label}
-      </div>
-      <div className="shrink-0 text-right text-[12px] font-semibold leading-tight text-black">
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function BillCard({
-  bill,
-  index,
-}: {
-  bill: BillRow;
-  index: number;
-}) {
-  const hasPenalty = bill.denda !== "0,00";
-
-  return (
-    <article className="overflow-hidden rounded-[22px] bg-white shadow-[0_8px_24px_rgba(15,23,42,0.08)] ring-1 ring-[#EEF0F4]">
-      <div className="flex items-start justify-between gap-4 px-5 pt-5">
-        <div className="flex min-w-0 items-start gap-3">
-          <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[14px] bg-[#EEF6FF] text-[#479DF4]">
-            <CalendarDays className="h-[22px] w-[22px]" strokeWidth={2.5} />
-          </span>
-
-          <div className="min-w-0">
-            <div className="text-[12px] font-normal leading-none text-[#8F8F8F]">
-              Tagihan #{index + 1}
-            </div>
-            <div className="mt-[7px] text-[17px] font-bold leading-tight tracking-[-0.02em] text-black">
-              {bill.jatuhTempo}
-            </div>
-          </div>
-        </div>
-
-        {bill.grace ? (
-          <span className="shrink-0 rounded-full bg-[#EEF6FF] px-3 py-1.5 text-[11px] font-semibold leading-none text-[#2563EB]">
-            Grace
-          </span>
-        ) : (
-          <span className="shrink-0 rounded-full bg-[#EAF8EF] px-3 py-1.5 text-[11px] font-semibold leading-none text-[#15965A]">
-            Aktif
-          </span>
-        )}
-      </div>
-
-      <div className="mt-4 grid grid-cols-2 gap-3 px-5">
-        <SummaryPill
-          label="Total Belum Dibayar"
-          value={bill.totalBelumDibayar}
-          tone="success"
-        />
-        <SummaryPill
-          label="Denda"
-          value={bill.denda}
-          tone={hasPenalty ? "danger" : "default"}
-        />
-      </div>
-
-      <div className="mx-5 my-4 h-px bg-[#EEF0F4]" />
-
-      <div className="grid gap-1 px-5 pb-5">
-        <DetailAmountRow label="Tagihan Pokok" value={bill.tagihanPokok} />
-        <DetailAmountRow label="Tagihan Bunga" value={bill.tagihanBunga} />
-        <DetailAmountRow label="Sisa Tagihan Pokok" value={bill.sisaPokok} />
-        <DetailAmountRow label="Sisa Tagihan Bunga" value={bill.sisaBunga} />
-      </div>
-    </article>
-  );
-}
-
 function InfoCard({
   title,
   description,
@@ -263,6 +132,156 @@ function InfoCard({
             {description}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function TableHeadCell({
+  children,
+  align = "left",
+  className,
+}: {
+  children: React.ReactNode;
+  align?: "left" | "right" | "center";
+  className?: string;
+}) {
+  return (
+    <th
+      className={cn(
+        "border-b border-[#DCE8F5] bg-[#F6FAFF] px-3 py-3 align-middle",
+        "text-[10px] font-bold uppercase leading-[1.1] tracking-wide text-[#53657D]",
+        align === "right"
+          ? "text-right"
+          : align === "center"
+            ? "text-center"
+            : "text-left",
+        className,
+      )}
+    >
+      {children}
+    </th>
+  );
+}
+
+function TableCell({
+  children,
+  align = "left",
+  className,
+}: {
+  children: React.ReactNode;
+  align?: "left" | "right" | "center";
+  className?: string;
+}) {
+  return (
+    <td
+      className={cn(
+        "border-b border-[#EEF0F4] px-3 py-3 align-middle",
+        "text-[12px] font-semibold leading-tight text-black",
+        align === "right"
+          ? "text-right tabular-nums"
+          : align === "center"
+            ? "text-center"
+            : "text-left",
+        className,
+      )}
+    >
+      {children}
+    </td>
+  );
+}
+
+function StatusBadge({ grace }: { grace?: boolean }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex h-[24px] items-center rounded-full px-2.5",
+        "text-[10px] font-bold leading-none",
+        grace
+          ? "bg-[#EEF6FF] text-[#2563EB]"
+          : "bg-[#EAF8EF] text-[#15965A]",
+      )}
+    >
+      {grace ? "Grace" : "Aktif"}
+    </span>
+  );
+}
+
+function BillsTable({ rows }: { rows: BillRow[] }) {
+  return (
+    <div className="overflow-hidden rounded-[20px] bg-white shadow-[0_8px_24px_rgba(15,23,42,0.08)] ring-1 ring-[#E5E7EB]">
+      <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <table className="w-full min-w-[760px] border-collapse bg-white">
+          <thead>
+            <tr>
+              <TableHeadCell className="w-[98px]">
+                Jatuh
+                <br />
+                Tempo
+              </TableHeadCell>
+              <TableHeadCell align="right" className="w-[130px]">
+                Total
+                <br />
+                Belum Dibayar
+              </TableHeadCell>
+              <TableHeadCell align="right" className="w-[116px]">
+                Tagihan
+                <br />
+                Pokok
+              </TableHeadCell>
+              <TableHeadCell align="right" className="w-[116px]">
+                Tagihan
+                <br />
+                Bunga
+              </TableHeadCell>
+              <TableHeadCell align="right" className="w-[116px]">
+                Sisa
+                <br />
+                Pokok
+              </TableHeadCell>
+              <TableHeadCell align="right" className="w-[116px]">
+                Sisa
+                <br />
+                Bunga
+              </TableHeadCell>
+              <TableHeadCell align="right" className="w-[96px]">
+                Denda
+              </TableHeadCell>
+              <TableHeadCell align="center" className="w-[86px]">
+                Status
+              </TableHeadCell>
+            </tr>
+          </thead>
+
+          <tbody>
+            {rows.map((bill, index) => (
+              <tr
+                key={`${bill.jatuhTempo}-${index}`}
+                className={cn(index % 2 === 0 ? "bg-white" : "bg-[#FBFCFE]")}
+              >
+                <TableCell className="whitespace-nowrap font-bold text-[#203064]">
+                  {bill.jatuhTempo}
+                </TableCell>
+                <TableCell align="right" className="text-[#15965A]">
+                  {bill.totalBelumDibayar}
+                </TableCell>
+                <TableCell align="right">{bill.tagihanPokok}</TableCell>
+                <TableCell align="right">{bill.tagihanBunga}</TableCell>
+                <TableCell align="right">{bill.sisaPokok}</TableCell>
+                <TableCell align="right">{bill.sisaBunga}</TableCell>
+                <TableCell
+                  align="right"
+                  className={bill.denda !== "0,00" ? "text-[#DC3545]" : ""}
+                >
+                  {bill.denda}
+                </TableCell>
+                <TableCell align="center">
+                  <StatusBadge grace={bill.grace} />
+                </TableCell>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -332,7 +351,7 @@ export default function NewMBankingBillListPage({
   showSpecialNextBillInfo?: boolean;
   singleBillWithNextInfo?: boolean;
 }) {
-  const pageSize = 4;
+  const pageSize = 6;
   const [page, setPage] = React.useState(1);
 
   const isSpecialAccount = accountNo === "12260006" || accountNo === "072260001";
@@ -419,14 +438,8 @@ export default function NewMBankingBillListPage({
             </div>
           ) : null}
 
-          <div className="mt-[18px] grid gap-[14px]">
-            {pagedRows.map((bill, index) => (
-              <BillCard
-                key={`${bill.jatuhTempo}-${index}`}
-                bill={bill}
-                index={(page - 1) * pageSize + index}
-              />
-            ))}
+          <div className="mt-[18px]">
+            <BillsTable rows={pagedRows} />
           </div>
         </section>
       </main>
