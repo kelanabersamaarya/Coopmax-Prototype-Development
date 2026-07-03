@@ -11,6 +11,7 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingTransactionFilterPage, {
   type NewMBankingTransactionFilters,
 } from "@/components/mobile/new-mbanking/NewMBankingTransactionFilterPage";
+import NewMBankingActiveFilterSummary from "@/components/mobile/new-mbanking/NewMBankingActiveFilterSummary";
 
 type TransactionItem = {
   id: string;
@@ -473,6 +474,11 @@ export default function NewMBankingHistoryPage({
               );
             })}
           </div>
+
+          <NewMBankingActiveFilterSummary
+            filters={filters}
+            onClear={() => setFilters(null)}
+          />
 
           <div className="mt-[6px]">
             {visibleGroups.length > 0 ? (
