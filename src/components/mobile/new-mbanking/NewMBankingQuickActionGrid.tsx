@@ -49,11 +49,13 @@ export default function NewMBankingQuickActionGrid({
   onDepositClick,
   onTransferClick,
   onPaymentClick,
+  onPurchaseClick,
 }: {
   className?: string;
   onDepositClick?: () => void;
   onTransferClick?: () => void;
   onPaymentClick?: () => void;
+  onPurchaseClick?: () => void;
 }) {
   return (
     <section className={cn("mt-[24px]", className)}>
@@ -78,6 +80,11 @@ export default function NewMBankingQuickActionGrid({
 
                 if (action.label === "Bayar") {
                   onPaymentClick?.();
+                  return;
+                }
+
+                if (action.label === "Beli") {
+                  onPurchaseClick?.();
                 }
               }}
               className="flex min-w-0 flex-col items-center transition active:scale-[0.97]"
