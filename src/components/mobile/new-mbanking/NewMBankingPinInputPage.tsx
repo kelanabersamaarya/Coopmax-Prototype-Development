@@ -52,7 +52,7 @@ export default function NewMBankingPinInputPage({
   );
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <header className="shrink-0 px-[31px] pt-[30px]">
         <div className="flex h-10 items-center gap-3">
           <button
@@ -71,7 +71,7 @@ export default function NewMBankingPinInputPage({
         </div>
       </header>
 
-      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[30px] pt-[72px]">
+      <main className="flex min-h-0 flex-1 flex-col px-6 pb-[112px] pt-[72px]">
         <div className="text-center">
           <h2 className="text-[20px] font-bold leading-tight text-black">
             Masukkan PIN M-Banking Anda
@@ -142,24 +142,26 @@ export default function NewMBankingPinInputPage({
               <Delete className="h-[22px] w-[22px] text-black" strokeWidth={2.7} />
             </button>
           </div>
-
-          <button
-            type="button"
-            onClick={submit}
-            disabled={pin.length < pinLength}
-            className={cn(
-              "mt-[28px] h-[46px] w-full rounded-[10px]",
-              "text-[12px] font-normal leading-none text-white",
-              "transition active:scale-[0.98]",
-              pin.length < pinLength
-                ? "cursor-not-allowed bg-[#A9D0FA]"
-                : "bg-[#479DF4]",
-            )}
-          >
-            Lanjutkan
-          </button>
         </div>
       </main>
+
+      <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
+        <button
+          type="button"
+          onClick={submit}
+          disabled={pin.length < pinLength}
+          className={cn(
+            "h-[52px] w-full rounded-[8px]",
+            "text-[14px] font-semibold leading-none text-white",
+            "transition active:scale-[0.98]",
+            pin.length < pinLength
+              ? "cursor-not-allowed bg-[#A9D0FA]"
+              : "bg-[#479DF4]",
+          )}
+        >
+          Lanjutkan
+        </button>
+      </div>
     </div>
   );
 }

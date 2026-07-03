@@ -119,7 +119,7 @@ export default function NewMBankingNewRecipientTransferPage({
   );
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <NewMBankingTransferConfirmModal
         open={confirmOpen}
         onOpenChange={setConfirmOpen}
@@ -157,7 +157,7 @@ export default function NewMBankingNewRecipientTransferPage({
         <div className="h-px w-full bg-[#EEF0F4]" />
       </div>
 
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-6 pb-[30px] pt-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-6 pb-[112px] pt-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="grid gap-[20px]">
           {recipient ? (
             <NewMBankingRecipientInfoCard recipient={recipient} />
@@ -214,19 +214,21 @@ export default function NewMBankingNewRecipientTransferPage({
             />
           </TransferField>
         </div>
+      </main>
 
+      <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
           onClick={() => setConfirmOpen(true)}
           className={cn(
-            "mt-auto h-[48px] w-full rounded-[8px] bg-[#479DF4]",
+            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
         >
           Lanjutkan
         </button>
-      </main>
+      </div>
     </div>
   );
 }

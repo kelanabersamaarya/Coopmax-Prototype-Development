@@ -25,7 +25,7 @@ export default function NewMBankingQrisMerchantItem({
     React.useState<SourceFundAccount>(defaultSourceFund);
 
   return (
-    <section className="flex min-h-[calc(100%-92px)] flex-col px-[31px] pb-[30px] pt-[18px]">
+    <section className="relative flex min-h-[calc(100%-92px)] flex-col px-[31px] pb-[112px] pt-[18px]">
       <NewMBankingSourceFundModal
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
@@ -99,17 +99,19 @@ export default function NewMBankingQrisMerchantItem({
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={() => setConfirmOpen(true)}
-        className={cn(
-          "mt-auto h-[46px] w-full rounded-[10px] bg-[#479DF4]",
-          "text-[12px] font-normal leading-none text-white",
-          "transition active:scale-[0.98]",
-        )}
-      >
-        Lanjutkan
-      </button>
+      <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
+        <button
+          type="button"
+          onClick={() => setConfirmOpen(true)}
+          className={cn(
+            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+            "text-[14px] font-semibold leading-none text-white",
+            "transition active:scale-[0.98]",
+          )}
+        >
+          Lanjutkan
+        </button>
+      </div>
     </section>
   );
 }
