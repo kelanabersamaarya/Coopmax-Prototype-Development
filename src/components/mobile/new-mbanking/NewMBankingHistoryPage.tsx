@@ -81,7 +81,7 @@ const transactionGroups: TransactionGroup[] = [
   },
 ];
 
-const monthChips = [
+const allMonthChips = [
   "Jan",
   "Feb",
   "Mar",
@@ -116,6 +116,15 @@ function parseDmyToDate(value: string): Date | null {
   return date;
 }
 
+function monthLabelFromDate(date: Date) {
+  return allMonthChips[date.getMonth()] ?? "";
+}
+
+function monthLabelFromDmy(value: string) {
+  const date = parseDmyToDate(value);
+  return date ? monthLabelFromDate(date) : "";
+}
+
 function isSameDay(a: Date, b: Date) {
   return (
     a.getFullYear() === b.getFullYear() &&
@@ -126,6 +135,64 @@ function isSameDay(a: Date, b: Date) {
 
 function startOfDay(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function addMonths(date: Date, amount: number) {
+  return new Date(date.getFullYear(), date.getMonth() + amount, 1);
+}
+
+function uniqueMonths(months: string[]) {
+  return months.filter((month, index) => month && months.indexOf(month) === index);
+}
+
+function buildMonthRange(start: Date, end: Date) {
+  const startMonth = new Date(start.getFullYear(), start.getMonth(), 1);
+  const endMonth = new Date(end.getFullYear(), end.getMonth(), 1);
+  const months: string[] = [];
+
+  let cursor = startMonth;
+  while (cursor <= endMonth && months.length < 12) {
+    months.push(monthLabelFromDate(cursor));
+    cursor = addMonths(cursor, 1);
+  }
+
+  return uniqueMonths(months);
+}
+
+function getVisibleMonthChips(filters: NewMBankingTransactionFilters | null) {
+  if (!filters) return allMonthChips;
+
+  const today = startOfDay(new Date());
+
+  if (filters.period === "Hari Ini") {
+    return [monthLabelFromDate(today)];
+  }
+
+  if (filters.period === "7 Hari Terakhir") {
+    const start = new Date(today);
+    start.setDate(start.getDate() - 6);
+    return buildMonthRange(start, today);
+  }
+
+  if (filters.period === "30 Hari Terakhir") {
+    const start = new Date(today);
+    start.setDate(start.getDate() - 29);
+    return buildMonthRange(start, today);
+  }
+
+  if (filters.period === "3 Bulan Terakhir") {
+    const start = addMonths(today, -2);
+    return buildMonthRange(start, today);
+  }
+
+  const start = parseDmyToDate(filters.startDate);
+  const end = parseDmyToDate(filters.endDate);
+
+  if (start && end) return buildMonthRange(start, end);
+  if (start) return [monthLabelFromDate(start)];
+  if (end) return [monthLabelFromDate(end)];
+
+  return allMonthChips;
 }
 
 function isWithinPeriod(date: Date, filters: NewMBankingTransactionFilters) {
@@ -149,8 +216,7 @@ function isWithinPeriod(date: Date, filters: NewMBankingTransactionFilters) {
   }
 
   if (filters.period === "3 Bulan Terakhir") {
-    const start = new Date(today);
-    start.setMonth(start.getMonth() - 3);
+    const start = addMonths(today, -2);
     return target >= start && target <= today;
   }
 
@@ -188,6 +254,18 @@ function filterTransactionGroups(
 
         return matchesSource && matchesMethod && matchesPeriod;
       });
+
+      return { ...group, items };
+    })
+    .filter((group) => group.items.length > 0);
+}
+
+function filterGroupsByMonth(groups: TransactionGroup[], activeMonth: string) {
+  return groups
+    .map((group) => {
+      const items = group.items.filter(
+        (item) => monthLabelFromDmy(item.dateDmy) === activeMonth,
+      );
 
       return { ...group, items };
     })
@@ -296,9 +374,28 @@ export default function NewMBankingHistoryPage({
   const [filters, setFilters] =
     React.useState<NewMBankingTransactionFilters | null>(null);
 
-  const visibleGroups = React.useMemo(
+  const monthChips = React.useMemo(() => getVisibleMonthChips(filters), [filters]);
+
+  const filteredGroups = React.useMemo(
     () => filterTransactionGroups(transactionGroups, filters),
     [filters],
+  );
+
+  React.useEffect(() => {
+    if (monthChips.includes(activeMonth)) return;
+
+    const monthWithData = monthChips.find((month) =>
+      filteredGroups.some((group) =>
+        group.items.some((item) => monthLabelFromDmy(item.dateDmy) === month),
+      ),
+    );
+
+    setActiveMonth(monthWithData ?? monthChips[0] ?? "Jun");
+  }, [activeMonth, filteredGroups, monthChips]);
+
+  const visibleGroups = React.useMemo(
+    () => filterGroupsByMonth(filteredGroups, activeMonth),
+    [activeMonth, filteredGroups],
   );
 
   const filterIsActive = !!filters;
