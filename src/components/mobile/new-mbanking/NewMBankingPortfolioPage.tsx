@@ -18,6 +18,8 @@ type PortfolioProduct = {
   fields: Array<{ label: string; value: string }>;
 };
 
+type PortfolioTab = "aset" | "pinjaman";
+
 const products: PortfolioProduct[] = [
   {
     name: "Simpanan Kaya",
@@ -51,6 +53,18 @@ const products: PortfolioProduct[] = [
   },
 ];
 
+const loanProducts: PortfolioProduct[] = [
+  {
+    name: "Pinjaman Billing",
+    type: "simpanan",
+    fields: [
+      { label: "No. Pinjaman", value: "SMG260004" },
+      { label: "Total Pinjaman", value: "Rp. 12.000.000,00" },
+      { label: "Sisa Pinjaman", value: "Rp. 10.000.000,00" },
+    ],
+  },
+];
+
 function PortfolioStatusBar() {
   return (
     <div className="flex h-[30px] shrink-0 items-center justify-between px-6 pt-2 text-black">
@@ -75,20 +89,40 @@ function PortfolioStatusBar() {
   );
 }
 
-function SegmentedTabs() {
+function SegmentedTabs({
+  activeTab,
+  onChange,
+}: {
+  activeTab: PortfolioTab;
+  onChange: (tab: PortfolioTab) => void;
+}) {
   return (
     <div className="mt-[18px] rounded-full bg-white p-[4px] shadow-sm ring-1 ring-[#E5E7EB]">
       <div className="grid grid-cols-2 gap-[4px]">
         <button
           type="button"
-          className="h-[42px] rounded-full bg-[#479DF4] text-[14px] font-bold leading-none text-white shadow-sm"
+          onClick={() => onChange("aset")}
+          className={cn(
+            "h-[42px] rounded-full text-[14px] font-bold leading-none transition active:scale-[0.98]",
+            activeTab === "aset"
+              ? "bg-[#479DF4] text-white shadow-sm"
+              : "bg-transparent text-[#4B5563]",
+          )}
+          aria-current={activeTab === "aset" ? "page" : undefined}
         >
           Aset
         </button>
 
         <button
           type="button"
-          className="h-[42px] rounded-full bg-transparent text-[14px] font-bold leading-none text-[#4B5563] transition active:scale-[0.98]"
+          onClick={() => onChange("pinjaman")}
+          className={cn(
+            "h-[42px] rounded-full text-[14px] font-bold leading-none transition active:scale-[0.98]",
+            activeTab === "pinjaman"
+              ? "bg-[#479DF4] text-white shadow-sm"
+              : "bg-transparent text-[#4B5563]",
+          )}
+          aria-current={activeTab === "pinjaman" ? "page" : undefined}
         >
           Pinjaman
         </button>
@@ -97,8 +131,9 @@ function SegmentedTabs() {
   );
 }
 
-function TotalAssetCard() {
+function TotalAssetCard({ activeTab }: { activeTab: PortfolioTab }) {
   const [visible, setVisible] = React.useState(true);
+  const isLoan = activeTab === "pinjaman";
 
   return (
     <section className="relative mt-[22px] overflow-hidden rounded-[24px] bg-[#4ba2f5] px-5 py-[28px] text-center text-white shadow-[0_12px_30px_rgba(71,157,244,0.22)]">
@@ -119,20 +154,24 @@ function TotalAssetCard() {
 
       <div className="relative z-10">
         <div className="text-[13px] font-normal leading-none text-white/90 drop-shadow-[0_1px_1px_rgba(15,23,42,0.22)]">
-          Total Aset
+          {isLoan ? "Total Pinjaman" : "Total Aset"}
         </div>
 
         <div className="mt-[12px] flex items-center justify-center gap-[10px]">
           <div className="text-[24px] font-bold leading-tight tracking-[-0.04em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.28)]">
-            {visible ? "Rp. 50.000.000,00" : "••••••••••••"}
+            {visible
+              ? isLoan
+                ? "Rp. 12.000.000,00"
+                : "Rp. 50.000.000,00"
+              : "••••••••••••"}
           </div>
 
           <button
             type="button"
             onClick={() => setVisible((current) => !current)}
             className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/18 text-white ring-1 ring-white/20 backdrop-blur transition active:scale-[0.96]"
-            aria-label={visible ? "Sembunyikan total aset" : "Tampilkan total aset"}
-            title={visible ? "Sembunyikan total aset" : "Tampilkan total aset"}
+            aria-label={visible ? "Sembunyikan total" : "Tampilkan total"}
+            title={visible ? "Sembunyikan total" : "Tampilkan total"}
           >
             {visible ? (
               <Eye className="h-[18px] w-[18px]" strokeWidth={2.5} />
@@ -343,9 +382,16 @@ function ProductInfoCell({
   );
 }
 
-function ProductCard({ product }: { product: PortfolioProduct }) {
-  const gradientClass =
-    product.type === "deposito"
+function ProductCard({
+  product,
+  isLoan = false,
+}: {
+  product: PortfolioProduct;
+  isLoan?: boolean;
+}) {
+  const gradientClass = isLoan
+    ? "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]"
+    : product.type === "deposito"
       ? "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]"
       : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]";
 
@@ -375,7 +421,11 @@ function ProductCard({ product }: { product: PortfolioProduct }) {
             className={cn(
               "inline-flex shrink-0 items-center gap-1 rounded-full bg-white/95 px-3 py-2",
               "text-[11px] font-semibold leading-none",
-              product.type === "deposito" ? "text-[#C2410C]" : "text-[#2563EB]",
+              isLoan
+                ? "text-[#0F766E]"
+                : product.type === "deposito"
+                  ? "text-[#C2410C]"
+                  : "text-[#2563EB]",
               "shadow-sm transition active:scale-[0.98]",
             )}
           >
@@ -392,7 +442,8 @@ function ProductCard({ product }: { product: PortfolioProduct }) {
               value={field.value}
               isAccountNumber={
                 field.label === "No. Rekening" ||
-                field.label === "No. Rek. Tabungan"
+                field.label === "No. Rek. Tabungan" ||
+                field.label === "No. Pinjaman"
               }
             />
           ))}
@@ -405,9 +456,11 @@ function ProductCard({ product }: { product: PortfolioProduct }) {
 function ProductSection({
   title,
   products,
+  isLoan = false,
 }: {
   title: string;
   products: PortfolioProduct[];
+  isLoan?: boolean;
 }) {
   return (
     <section className="grid gap-[14px]">
@@ -420,7 +473,7 @@ function ProductSection({
 
       <div className="grid gap-[14px]">
         {products.map((product) => (
-          <ProductCard key={product.name} product={product} />
+          <ProductCard key={product.name} product={product} isLoan={isLoan} />
         ))}
       </div>
     </section>
@@ -436,6 +489,7 @@ export default function NewMBankingPortfolioPage({
   onHomeClick: () => void;
   onQrisClick: () => void;
 }) {
+  const [activeTab, setActiveTab] = React.useState<PortfolioTab>("aset");
   const savingsProducts = products.filter((product) => product.type === "simpanan");
   const depositProducts = products.filter((product) => product.type === "deposito");
 
@@ -463,13 +517,20 @@ export default function NewMBankingPortfolioPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-white pb-[150px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full bg-white px-6 pb-[28px] pt-[22px]">
-          <SegmentedTabs />
-          <TotalAssetCard />
-          <PortfolioDonutChart />
+          <SegmentedTabs activeTab={activeTab} onChange={setActiveTab} />
+          <TotalAssetCard activeTab={activeTab} />
+
+          {activeTab === "aset" ? <PortfolioDonutChart /> : null}
 
           <div className="mt-[28px] grid gap-[24px]">
-            <ProductSection title="Simpanan" products={savingsProducts} />
-            <ProductSection title="Deposito" products={depositProducts} />
+            {activeTab === "aset" ? (
+              <>
+                <ProductSection title="Simpanan" products={savingsProducts} />
+                <ProductSection title="Deposito" products={depositProducts} />
+              </>
+            ) : (
+              <ProductSection title="Pinjaman" products={loanProducts} isLoan />
+            )}
           </div>
         </section>
       </main>
