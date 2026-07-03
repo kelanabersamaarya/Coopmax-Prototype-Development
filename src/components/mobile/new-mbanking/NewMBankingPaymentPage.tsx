@@ -118,11 +118,18 @@ export default function NewMBankingPaymentPage({
   const [selectedElectricityProvider, setSelectedElectricityProvider] =
     React.useState<string | null>(null);
 
+  function returnToPaymentHome() {
+    setSelectedElectricityProvider(null);
+    setShowElectricityProviders(false);
+    setActiveTab("saved");
+  }
+
   if (selectedElectricityProvider) {
     return (
       <NewMBankingElectricityCustomerPage
         providerName={selectedElectricityProvider}
         onBack={() => setSelectedElectricityProvider(null)}
+        onDone={returnToPaymentHome}
       />
     );
   }

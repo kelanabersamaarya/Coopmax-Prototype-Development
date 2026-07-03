@@ -10,9 +10,11 @@ import NewMBankingElectricityBillReviewPage from "@/components/mobile/new-mbanki
 export default function NewMBankingElectricityCustomerPage({
   providerName,
   onBack,
+  onDone,
 }: {
   providerName: string;
   onBack: () => void;
+  onDone: () => void;
 }) {
   const [customerNo, setCustomerNo] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
@@ -34,6 +36,7 @@ export default function NewMBankingElectricityCustomerPage({
         providerName={providerName}
         customerNo={customerNo}
         onBack={() => setShowReview(false)}
+        onDone={onDone}
       />
     );
   }

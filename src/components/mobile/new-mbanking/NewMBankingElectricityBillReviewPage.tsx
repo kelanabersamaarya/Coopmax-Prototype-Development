@@ -61,10 +61,12 @@ export default function NewMBankingElectricityBillReviewPage({
   providerName,
   customerNo,
   onBack,
+  onDone,
 }: {
   providerName: string;
   customerNo: string;
   onBack: () => void;
+  onDone: () => void;
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -86,7 +88,7 @@ export default function NewMBankingElectricityBillReviewPage({
         adminFee={adminFee}
         totalTransaction={totalTransaction}
         sourceFund={sourceFund}
-        onDone={onBack}
+        onDone={onDone}
       />
     );
   }
