@@ -185,8 +185,8 @@ function PieLabel({
   percent,
   lineOne,
   lineTwo,
-  percentSize = 28,
-  labelSize = 16,
+  percentSize = 21,
+  labelSize = 13,
 }: {
   x: number;
   y: number;
@@ -217,7 +217,7 @@ function PieLabel({
       </tspan>
       <tspan
         x={x}
-        dy={labelSize + 8}
+        dy={labelSize + 7}
         fontSize={labelSize}
         fontWeight={500}
         letterSpacing="-0.03em"
@@ -226,7 +226,7 @@ function PieLabel({
       </tspan>
       <tspan
         x={x}
-        dy={labelSize + 3}
+        dy={labelSize + 2}
         fontSize={labelSize}
         fontWeight={500}
         letterSpacing="-0.03em"
@@ -285,26 +285,26 @@ function PortfolioDonutChart() {
           />
 
           <PieLabel
-            x={210}
-            y={80}
+            x={190}
+            y={72}
             percent="40%"
             lineOne="Simpanan"
             lineTwo="Kaya"
           />
 
           <PieLabel
-            x={212}
-            y={185}
+            x={216}
+            y={183}
             percent="20%"
             lineOne="Deposito"
             lineTwo="Koperasi"
-            percentSize={25}
-            labelSize={15}
+            percentSize={19}
+            labelSize={12}
           />
 
           <PieLabel
-            x={82}
-            y={150}
+            x={84}
+            y={179}
             percent="40%"
             lineOne="Simpanan"
             lineTwo="Mapan"
