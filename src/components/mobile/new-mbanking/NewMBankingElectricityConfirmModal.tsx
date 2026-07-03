@@ -53,6 +53,7 @@ export default function NewMBankingElectricityConfirmModal({
   onConfirm: () => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const adminFee = "Rp. 2.500,00";
 
   React.useEffect(() => {
     if (!open) return;
@@ -116,7 +117,8 @@ export default function NewMBankingElectricityConfirmModal({
         <div className="mt-[8px]">
           <DetailRow label="Nama Pelanggan" value={customerName} />
           <DetailRow label="No. Pelanggan" value={customerNo} />
-          <DetailRow label="Nominal Tagihan" value={amount} strong />
+          <DetailRow label="Nominal Tagihan" value={amount} />
+          <DetailRow label="Biaya Admin" value={adminFee} strong />
         </div>
 
         <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
