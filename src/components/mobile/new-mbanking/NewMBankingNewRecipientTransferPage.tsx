@@ -65,6 +65,13 @@ export default function NewMBankingNewRecipientTransferPage({
     "focus:border-[#479DF4]",
   );
 
+  const descriptionFieldClassName = cn(
+    "min-h-[86px] w-full resize-none rounded-[12px] border border-[#CDD4E0] bg-white px-4 py-3",
+    "text-[14px] font-normal text-black shadow-none outline-none",
+    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+    "focus:border-[#479DF4]",
+  );
+
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <NewMBankingTransferConfirmModal
@@ -139,11 +146,11 @@ export default function NewMBankingNewRecipientTransferPage({
           </TransferField>
 
           <TransferField label="Deskripsi">
-            <input
+            <textarea
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              placeholder="0,00"
-              className={fieldClassName}
+              placeholder="Masukkan Deskripsi Transfer"
+              className={descriptionFieldClassName}
             />
           </TransferField>
         </div>
