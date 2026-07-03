@@ -238,7 +238,7 @@ export default function NewMBankingDepositResultPage({
         <div className="h-px w-full bg-[#EEF0F4]" />
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pt-[18px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pt-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[28px] pt-[28px] shadow-[0_-8px_28px_rgba(15,23,42,0.06)]">
           <div>
             <SectionTitle>Rekening Tujuan</SectionTitle>
