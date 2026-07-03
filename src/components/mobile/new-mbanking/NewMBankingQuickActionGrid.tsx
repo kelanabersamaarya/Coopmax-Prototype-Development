@@ -4,7 +4,6 @@ import {
   Plus,
   Send,
   ShoppingBasket,
-  UserRound,
   WalletCards,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,11 +25,6 @@ const actions = [
     label: "Bayar Angsuran",
     icon: CircleDollarSign,
     frameClassName: "bg-[#F59E0B]",
-  },
-  {
-    label: "Keanggotan",
-    icon: UserRound,
-    frameClassName: "bg-[#8B5CF6]",
   },
   {
     label: "Bayar",
