@@ -127,7 +127,7 @@ function DepositHistoryGroupCard({ group }: { group: DepositHistoryGroup }) {
 
 function EmptyDepositHistory() {
   return (
-    <div className="mt-[22px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
+    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
       <div className="text-[15px] font-bold text-black">
         Tidak Ada Riwayat Deposito
       </div>
@@ -172,7 +172,7 @@ export default function NewMBankingDepositDetailPage({
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[24px]">
+        <section className="min-h-full rounded-t-[30px] bg-white px-6 pt-[24px]">
           <article
             className={cn(
               "relative overflow-hidden rounded-[24px] px-5 py-5 text-white",
@@ -246,7 +246,7 @@ export default function NewMBankingDepositDetailPage({
             </div>
           </section>
 
-          <section className="mt-[28px] rounded-[24px] bg-white px-5 py-5 shadow-[0_4px_14px_rgba(15,23,42,0.12)] ring-1 ring-slate-100">
+          <section className="-mx-6 mt-[28px] min-h-[520px] bg-white px-6 pb-[34px] pt-[24px]">
             <div className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-[#203064]">
               Riwayat Deposito
             </div>
