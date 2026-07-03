@@ -57,10 +57,10 @@ export default function NewMBankingElectricityProviderPage({
                 <span
                   className={cn(
                     "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full",
-                    "bg-[#F1F3F6] text-[#53657D]",
+                    "bg-[#479DF4] text-white",
                   )}
                 >
-                  <Zap className="h-[23px] w-[23px]" strokeWidth={2.6} />
+                  <Zap className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
                 </span>
 
                 <span className="min-w-0 flex-1 truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
