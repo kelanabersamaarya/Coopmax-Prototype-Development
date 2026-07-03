@@ -28,79 +28,79 @@ export default function NewMBankingTransferSuccessPage({
   const displayedDescription = description.trim() || "Bayar UKT";
 
   return (
-    <div className="flex h-full min-h-full flex-col bg-[#F9F9F9] px-6 py-[30px] text-black">
+    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 py-[18px] text-black">
       <main className="flex min-h-0 flex-1 items-center justify-center">
-        <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
-          <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EEF6FF]">
-            <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#479FFE] text-white">
-              <Check className="h-[54px] w-[54px]" strokeWidth={3.8} />
+        <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-6 py-6 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
+          <div className="flex h-[78px] w-[78px] items-center justify-center rounded-full bg-[#EEF6FF]">
+            <div className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-[#479FFE] text-white">
+              <Check className="h-[38px] w-[38px]" strokeWidth={3.8} />
             </div>
           </div>
 
-          <h1 className="mt-[30px] max-w-[300px] text-[18px] font-bold leading-[1.25] tracking-[-0.025em] text-black">
+          <h1 className="mt-[16px] max-w-[300px] text-[17px] font-bold leading-[1.2] tracking-[-0.025em] text-black">
             Berhasil Melakukan Transaksi
           </h1>
 
-          <p className="mt-[18px] max-w-[305px] text-[14px] font-normal leading-[1.45] tracking-[-0.01em] text-[#828282]">
+          <p className="mt-[8px] max-w-[305px] text-[12px] font-normal leading-[1.35] tracking-[-0.01em] text-[#828282]">
             Transfer antar bank Anda telah berhasil diproses.
           </p>
 
-          <div className="mt-[26px] w-full rounded-[18px] bg-[#F6F8FB] px-5 py-5">
-            <div className="text-[12px] font-normal text-[#828282]">
+          <div className="mt-[14px] w-full rounded-[16px] bg-[#F6F8FB] px-4 py-3">
+            <div className="text-[11px] font-normal text-[#828282]">
               Nominal Transaksi
             </div>
-            <div className="mt-[8px] text-[22px] font-bold leading-tight text-black">
+            <div className="mt-[5px] text-[20px] font-bold leading-tight text-black">
               Rp. {displayedNominal}
             </div>
           </div>
 
-          <div className="mt-[12px] text-[12px] font-normal leading-relaxed text-[#828282]">
+          <div className="mt-[8px] text-[11px] font-normal leading-relaxed text-[#828282]">
             30 Juni 2026, 22:15 WIB
           </div>
-          <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
+          <div className="mt-[2px] text-[11px] font-normal leading-relaxed text-[#828282]">
             Ref ID : TRF221112222
           </div>
 
-          <div className="mt-[18px] w-full text-left">
+          <div className="mt-[10px] w-full text-left">
             <NewMBankingSourceFundGradientCard
               account={transferSourceFund}
               showChevron={false}
               showBalance={false}
               sectionLabel="Sumber Dana"
-              className="min-h-[98px] shadow-none"
+              className="min-h-[82px] rounded-[14px] px-[14px] py-[12px] shadow-none"
             />
           </div>
 
-          <div className="mt-[12px] flex h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
-            <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
-              <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
+          <div className="mt-[8px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
+            <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
+              <Send className="h-[18px] w-[18px] text-white" strokeWidth={2.6} />
             </span>
 
             <div className="min-w-0">
-              <div className="text-[12px] font-normal leading-none text-[#828282]">
+              <div className="text-[11px] font-normal leading-none text-[#828282]">
                 Tujuan
               </div>
-              <div className="mt-[8px] truncate text-[14px] font-normal leading-none text-black">
+              <div className="mt-[6px] truncate text-[13px] font-normal leading-none text-black">
                 Suyatna • {displayedRecipientAccount}
               </div>
             </div>
           </div>
 
-          <div className="mt-[12px] w-[302px] max-w-full rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] py-[14px] text-left">
-            <div className="text-[12px] font-normal leading-none text-[#828282]">
+          <div className="mt-[8px] w-[302px] max-w-full rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
+            <div className="text-[11px] font-normal leading-none text-[#828282]">
               Deskripsi
             </div>
-            <div className="mt-[8px] break-words text-[14px] font-normal leading-snug text-black">
+            <div className="mt-[6px] line-clamp-2 break-words text-[13px] font-normal leading-snug text-black">
               {displayedDescription}
             </div>
           </div>
 
-          <div className="mt-[30px] grid w-full grid-cols-1 gap-[10px]">
+          <div className="mt-[14px] grid w-full grid-cols-1 gap-[8px]">
             <button
               type="button"
               onClick={() => setSaved(true)}
               className={cn(
-                "h-[46px] rounded-[10px] border-2 bg-white",
+                "h-[42px] rounded-[10px] border-2 bg-white",
                 saved
                   ? "border-[#33AA00] text-[#33AA00]"
                   : "border-[#479DF4] text-[#479DF4]",
@@ -121,7 +121,7 @@ export default function NewMBankingTransferSuccessPage({
               type="button"
               onClick={onDone}
               className={cn(
-                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "h-[42px] rounded-[10px] bg-[#479DF4]",
                 "text-[12px] font-normal leading-none text-white",
                 "transition active:scale-[0.98]",
               )}
