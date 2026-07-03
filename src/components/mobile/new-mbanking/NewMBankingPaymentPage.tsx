@@ -18,7 +18,7 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewMBankingPaymentHistoryList";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
-import { toast } from "sonner";
+import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking/NewMBankingElectricityCustomerPage";
 
 type PaymentTab = "saved" | "history";
 
@@ -115,16 +115,23 @@ export default function NewMBankingPaymentPage({
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [items, setItems] = React.useState(savedPayments);
   const [showElectricityProviders, setShowElectricityProviders] = React.useState(false);
+  const [selectedElectricityProvider, setSelectedElectricityProvider] =
+    React.useState<string | null>(null);
+
+  if (selectedElectricityProvider) {
+    return (
+      <NewMBankingElectricityCustomerPage
+        providerName={selectedElectricityProvider}
+        onBack={() => setSelectedElectricityProvider(null)}
+      />
+    );
+  }
 
   if (showElectricityProviders) {
     return (
       <NewMBankingElectricityProviderPage
         onBack={() => setShowElectricityProviders(false)}
-        onSelectProvider={(provider) =>
-          toast("Input nomor pelanggan (prototype)", {
-            description: provider,
-          })
-        }
+        onSelectProvider={(provider) => setSelectedElectricityProvider(provider)}
       />
     );
   }
