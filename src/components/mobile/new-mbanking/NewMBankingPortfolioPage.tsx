@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   ArrowUpRight,
   BatteryMedium,
+  Copy,
   Eye,
   EyeOff,
   PieChart,
@@ -13,12 +14,14 @@ import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBan
 
 type PortfolioProduct = {
   name: string;
+  type: "simpanan" | "deposito";
   fields: Array<{ label: string; value: string }>;
 };
 
 const products: PortfolioProduct[] = [
   {
     name: "Simpanan Kaya",
+    type: "simpanan",
     fields: [
       { label: "No. Rekening", value: "112233111" },
       { label: "Saldo", value: "Rp. 20.000.000,00" },
@@ -27,6 +30,7 @@ const products: PortfolioProduct[] = [
   },
   {
     name: "Simpanan Mapan",
+    type: "simpanan",
     fields: [
       { label: "No. Rekening", value: "112233222" },
       { label: "Saldo", value: "Rp. 20.000.000,00" },
@@ -35,6 +39,7 @@ const products: PortfolioProduct[] = [
   },
   {
     name: "Deposito Koperasi",
+    type: "deposito",
     fields: [
       { label: "No. Rekening", value: "DEP112233" },
       { label: "Saldo", value: "Rp. 10.000.000,00" },
@@ -182,51 +187,108 @@ function PortfolioDonutChart() {
 function ProductInfoCell({
   label,
   value,
+  isAccountNumber = false,
 }: {
   label: string;
   value: string;
+  isAccountNumber?: boolean;
 }) {
   return (
     <div className="min-w-0">
-      <div className="text-[11px] font-normal leading-none text-[#8F8F8F]">
+      <div className="text-[10px] font-normal leading-none text-white/70">
         {label}
       </div>
-      <div className="mt-[7px] break-words text-[14px] font-bold leading-snug text-black">
-        {value}
+      <div className="mt-[7px] flex min-w-0 items-center gap-2 text-[12px] font-semibold leading-tight text-white">
+        <span className="truncate">{value}</span>
+        {isAccountNumber ? (
+          <Copy className="h-[13px] w-[13px] shrink-0 text-white" strokeWidth={2.4} />
+        ) : null}
       </div>
     </div>
   );
 }
 
 function ProductCard({ product }: { product: PortfolioProduct }) {
+  const gradientClass =
+    product.type === "deposito"
+      ? "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_54%,#C2410C_100%)]"
+      : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]";
+
   return (
-    <article className="overflow-hidden rounded-[18px] border border-[#E5E7EB] bg-white">
-      <div className="flex items-center justify-between gap-4 bg-[#F7F8FC] px-4 py-[14px]">
-        <h3 className="min-w-0 truncate text-[17px] font-bold leading-tight tracking-[-0.025em] text-black">
-          {product.name}
-        </h3>
+    <article
+      className={cn(
+        "relative min-h-[170px] overflow-hidden rounded-[14px] px-5 py-5 text-white",
+        "shadow-[0_8px_22px_rgba(15,23,42,0.12)]",
+        gradientClass,
+      )}
+    >
+      <div className="pointer-events-none absolute -right-[36px] -top-[48px] h-[120px] w-[120px] rounded-full bg-white/12" />
+      <div className="pointer-events-none absolute right-[22px] -top-[62px] h-[112px] w-[112px] rounded-full bg-white/10" />
+      <div className="pointer-events-none absolute right-[72px] top-[18px] h-[44px] w-[44px] rounded-full bg-white/8" />
+      <div className="pointer-events-none absolute -bottom-[34px] left-[58px] h-[92px] w-[92px] rounded-full bg-white/8" />
 
-        <button
-          type="button"
-          className="inline-flex h-[30px] shrink-0 items-center justify-center gap-[6px] rounded-full bg-[#479DF4] px-[12px] text-[11px] font-semibold leading-none text-white transition active:scale-[0.98]"
-        >
-          Lihat Detail
-          <ArrowUpRight className="h-[14px] w-[14px]" strokeWidth={2.6} />
-        </button>
-      </div>
+      <div className="relative z-10">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="text-[16px] font-extrabold leading-tight tracking-tight text-white">
+              {product.name}
+            </div>
+          </div>
 
-      <div className="h-px w-full bg-[#E5E7EB]" />
+          <button
+            type="button"
+            className={cn(
+              "inline-flex shrink-0 items-center gap-1 rounded-full bg-white/95 px-3 py-2",
+              "text-[11px] font-semibold leading-none",
+              product.type === "deposito" ? "text-[#C2410C]" : "text-[#2563EB]",
+              "shadow-sm transition active:scale-[0.98]",
+            )}
+          >
+            Lihat Detail
+            <ArrowUpRight className="h-[13px] w-[13px]" strokeWidth={2.6} />
+          </button>
+        </div>
 
-      <div className="grid grid-cols-2 gap-x-5 gap-y-[18px] px-4 py-[16px]">
-        {product.fields.map((field) => (
-          <ProductInfoCell
-            key={`${product.name}-${field.label}`}
-            label={field.label}
-            value={field.value}
-          />
-        ))}
+        <div className="mt-[22px] grid grid-cols-2 gap-x-4 gap-y-[18px]">
+          {product.fields.map((field) => (
+            <ProductInfoCell
+              key={`${product.name}-${field.label}`}
+              label={field.label}
+              value={field.value}
+              isAccountNumber={
+                field.label === "No. Rekening" ||
+                field.label === "No. Rek. Tabungan"
+              }
+            />
+          ))}
+        </div>
       </div>
     </article>
+  );
+}
+
+function ProductSection({
+  title,
+  products,
+}: {
+  title: string;
+  products: PortfolioProduct[];
+}) {
+  return (
+    <section className="grid gap-[14px]">
+      <div>
+        <div className="text-[16px] font-bold leading-tight tracking-[-0.025em] text-black">
+          {title}
+        </div>
+        <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
+      </div>
+
+      <div className="grid gap-[14px]">
+        {products.map((product) => (
+          <ProductCard key={product.name} product={product} />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -239,6 +301,9 @@ export default function NewMBankingPortfolioPage({
   onHomeClick: () => void;
   onQrisClick: () => void;
 }) {
+  const savingsProducts = products.filter((product) => product.type === "simpanan");
+  const depositProducts = products.filter((product) => product.type === "deposito");
+
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -267,11 +332,10 @@ export default function NewMBankingPortfolioPage({
           <TotalAssetCard />
           <PortfolioDonutChart />
 
-          <section className="mt-[28px] grid gap-[16px]">
-            {products.map((product) => (
-              <ProductCard key={product.name} product={product} />
-            ))}
-          </section>
+          <div className="mt-[28px] grid gap-[24px]">
+            <ProductSection title="Simpanan" products={savingsProducts} />
+            <ProductSection title="Deposito" products={depositProducts} />
+          </div>
         </section>
       </main>
 
