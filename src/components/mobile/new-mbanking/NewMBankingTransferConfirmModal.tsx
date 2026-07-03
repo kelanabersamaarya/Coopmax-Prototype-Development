@@ -166,6 +166,7 @@ export default function NewMBankingTransferConfirmModal({
           <NewMBankingSourceFundGradientCard
             account={sourceFundAccount}
             showChevron={false}
+            iconShape="circle"
             className="min-h-[112px] shadow-none"
           />
           <div className="sr-only">{sourceName}</div>

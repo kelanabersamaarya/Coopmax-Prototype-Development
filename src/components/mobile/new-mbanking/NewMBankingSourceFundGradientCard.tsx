@@ -9,6 +9,7 @@ export default function NewMBankingSourceFundGradientCard({
   showChevron = true,
   showBalance = true,
   sectionLabel,
+  iconShape = "rounded",
   className,
 }: {
   account: SourceFundAccount;
@@ -17,6 +18,7 @@ export default function NewMBankingSourceFundGradientCard({
   showChevron?: boolean;
   showBalance?: boolean;
   sectionLabel?: string;
+  iconShape?: "rounded" | "circle";
   className?: string;
 }) {
   const content = (
@@ -43,7 +45,12 @@ export default function NewMBankingSourceFundGradientCard({
         ) : null}
 
         <div className="flex min-w-0 items-center gap-[13px]">
-          <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-[14px] bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
+          <span
+            className={cn(
+              "grid h-[46px] w-[46px] shrink-0 place-items-center bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20",
+              iconShape === "circle" ? "rounded-full" : "rounded-[14px]",
+            )}
+          >
             <WalletCards className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
           </span>
 
