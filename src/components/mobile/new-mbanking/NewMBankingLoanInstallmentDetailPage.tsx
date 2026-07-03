@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils";
 import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingInstallmentConfirmModal from "@/components/mobile/new-mbanking/NewMBankingInstallmentConfirmModal";
+import NewMBankingInstallmentPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingInstallmentPaymentSuccessPage";
 import NewMBankingLoanInstallmentHistoryPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentHistoryPage";
+import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
 export type NewMBankingLoanInstallmentAccount = {
   id: string;
@@ -27,6 +29,12 @@ export type NewMBankingLoanInstallmentAccount = {
     penalty: string;
     remainingLoan: string;
   };
+};
+
+const defaultSourceFund: SourceFundAccount = {
+  productName: "Simpanan Kaya",
+  accountNo: "112233111",
+  balance: "Rp. 4.000.000,00",
 };
 
 function InfoRow({ label, value }: { label: string; value: string }) {
@@ -91,6 +99,26 @@ export default function NewMBankingLoanInstallmentDetailPage({
   const [showBillList, setShowBillList] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
+  const [successSourceFund, setSuccessSourceFund] =
+    React.useState<SourceFundAccount>(defaultSourceFund);
+
+  if (showSuccess) {
+    return (
+      <NewMBankingInstallmentPaymentSuccessPage
+        productName={account.productName}
+        accountNo={account.accountNo}
+        installmentNo={account.installmentBill.installmentNo}
+        principal={account.installmentBill.principal}
+        interest={account.installmentBill.interest}
+        penalty={account.installmentBill.penalty}
+        totalPay={account.installmentBill.totalPay}
+        sourceFund={successSourceFund}
+        onBack={() => setShowSuccess(false)}
+        onDone={onBack}
+      />
+    );
+  }
 
   if (showBillList) {
     return (
@@ -126,6 +154,10 @@ export default function NewMBankingLoanInstallmentDetailPage({
         interestDebt={account.installmentBill.interestDebt}
         penalty={account.installmentBill.penalty}
         totalPay={account.installmentBill.totalPay}
+        onConfirm={(sourceFund) => {
+          setSuccessSourceFund(sourceFund);
+          setShowSuccess(true);
+        }}
       />
 
       <div className="shrink-0 bg-[#F9F9F9]">

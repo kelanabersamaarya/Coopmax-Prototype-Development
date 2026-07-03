@@ -66,7 +66,7 @@ export default function NewMBankingInstallmentConfirmModal({
   interestDebt: string;
   penalty: string;
   totalPay: string;
-  onConfirm?: () => void;
+  onConfirm?: (sourceFund: SourceFundAccount) => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
@@ -164,7 +164,7 @@ export default function NewMBankingInstallmentConfirmModal({
             type="button"
             onClick={() => {
               onOpenChange(false);
-              onConfirm?.();
+              onConfirm?.(sourceFund);
             }}
             className={cn(
               "h-[46px] rounded-[8px] bg-[#479DF4]",
