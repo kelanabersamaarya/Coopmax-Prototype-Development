@@ -257,7 +257,7 @@ export default function ProfileCredentialChangePage({
             setConfirmValue(normalizeInput(value));
             setToastMessage("");
           }}
-          placeholder={isPin ? "Ulangi PIN baru" : "Konfirmasi Kata Sandi Baru"}
+          placeholder={isPin ? "Konfirmasi PIN baru" : "Konfirmasi Kata Sandi Baru"}
           inputMode={isPin ? "numeric" : "text"}
           maxLength={isPin ? 6 : undefined}
         />
