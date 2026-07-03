@@ -7,6 +7,16 @@ import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 
+function parseIdrLike(value: string) {
+  const digits = value.replace(/[^\d]/g, "");
+  const parsed = Number(digits);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
 function DetailRow({
   label,
   value,
@@ -54,6 +64,7 @@ export default function NewMBankingElectricityConfirmModal({
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const adminFee = "Rp. 2.500,00";
+  const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
 
   React.useEffect(() => {
     if (!open) return;
@@ -118,7 +129,11 @@ export default function NewMBankingElectricityConfirmModal({
           <DetailRow label="Nama Pelanggan" value={customerName} />
           <DetailRow label="No. Pelanggan" value={customerNo} />
           <DetailRow label="Nominal Tagihan" value={amount} />
-          <DetailRow label="Biaya Admin" value={adminFee} strong />
+          <DetailRow label="Biaya Admin" value={adminFee} />
+
+          <div className="my-[10px] border-t border-dashed border-[#D8D8D8]" />
+
+          <DetailRow label="Total Transaksi" value={totalTransaction} strong />
         </div>
 
         <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
