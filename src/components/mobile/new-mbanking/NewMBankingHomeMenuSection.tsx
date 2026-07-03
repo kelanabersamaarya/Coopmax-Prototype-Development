@@ -70,13 +70,13 @@ export default function NewMBankingHomeMenuSection({
               <button
                 key={item.label}
                 type="button"
-                className="flex min-w-0 flex-col items-center justify-center rounded-[14px] transition active:scale-[0.97]"
+                className="flex h-full min-w-0 flex-col items-center justify-center rounded-[14px] transition active:scale-[0.97]"
                 aria-label={item.label}
                 aria-current={item.active ? "page" : undefined}
               >
                 <Icon
                   className={cn(
-                    "h-[24px] w-[24px]",
+                    "h-[24px] w-[24px] shrink-0",
                     item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
                   )}
                   strokeWidth={2.3}
