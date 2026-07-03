@@ -5,9 +5,6 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 
 const depositoInfo = [
-  { label: "Nomor Rekening Deposito", value: "DEP112233" },
-  { label: "Produk Deposito", value: "Deposito Koperasi" },
-  { label: "Nominal Deposito", value: "Rp. 5.000.000,00" },
   { label: "Bunga per Tahun", value: "6,00%" },
   { label: "Saldo Bunga", value: "Rp. 600.000,00" },
   { label: "Periode Waktu", value: "12 Bulan" },
