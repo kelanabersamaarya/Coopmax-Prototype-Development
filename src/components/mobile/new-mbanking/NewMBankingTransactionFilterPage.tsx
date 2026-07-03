@@ -15,6 +15,14 @@ const sourceFundOptions = [
   "Simpanan Mapan - 112233222",
 ];
 
+const periodOptions = [
+  "Hari Ini",
+  "7 Hari Terakhir",
+  "30 Hari Terakhir",
+  "3 Bulan Terakhir",
+  "Pilih Tanggal",
+] as const;
+
 const transactionMethods = [
   "Transfer",
   "Setoran",
@@ -24,18 +32,22 @@ const transactionMethods = [
   "Angsuran",
 ];
 
+type PeriodOption = (typeof periodOptions)[number];
+
 export default function NewMBankingTransactionFilterPage({
   onBack,
 }: {
   onBack: () => void;
 }) {
   const [sourceFunds, setSourceFunds] = React.useState<string[]>([]);
+  const [period, setPeriod] = React.useState<PeriodOption>("Hari Ini");
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
   const [methods, setMethods] = React.useState<string[]>([]);
 
   function resetFilters() {
     setSourceFunds([]);
+    setPeriod("Hari Ini");
     setStartDate("");
     setEndDate("");
     setMethods([]);
@@ -55,6 +67,15 @@ export default function NewMBankingTransactionFilterPage({
         ? current.filter((item) => item !== method)
         : [...current, method],
     );
+  }
+
+  function choosePeriod(nextPeriod: PeriodOption) {
+    setPeriod(nextPeriod);
+
+    if (nextPeriod !== "Pilih Tanggal") {
+      setStartDate("");
+      setEndDate("");
+    }
   }
 
   return (
@@ -131,55 +152,98 @@ export default function NewMBankingTransactionFilterPage({
               </div>
               <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
-              <div className="mt-[16px] grid grid-cols-2 gap-[10px]">
-                <div>
-                  <label className="text-[12px] font-normal leading-none text-[#8F8F8F]">
-                    Tanggal Awal
-                  </label>
-                  <div className="relative mt-[8px]">
-                    <input
-                      value={startDate}
-                      onChange={(event) => setStartDate(event.target.value)}
-                      placeholder="DD-MM-YYYY"
-                      inputMode="numeric"
-                      className={cn(
-                        "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-9",
-                        "text-[13px] font-normal text-black shadow-none outline-none",
-                        "placeholder:text-[13px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                        "focus:border-[#479DF4]",
-                      )}
-                    />
-                    <CalendarDays
-                      className="pointer-events-none absolute right-3 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-[#8F8F8F]"
-                      strokeWidth={2.4}
-                    />
-                  </div>
-                </div>
+              <div className="mt-[16px] grid grid-cols-1 gap-[10px]">
+                {periodOptions.map((item) => {
+                  const checked = period === item;
 
-                <div>
-                  <label className="text-[12px] font-normal leading-none text-[#8F8F8F]">
-                    Tanggal Akhir
-                  </label>
-                  <div className="relative mt-[8px]">
-                    <input
-                      value={endDate}
-                      onChange={(event) => setEndDate(event.target.value)}
-                      placeholder="DD-MM-YYYY"
-                      inputMode="numeric"
+                  return (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => choosePeriod(item)}
                       className={cn(
-                        "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-9",
-                        "text-[13px] font-normal text-black shadow-none outline-none",
-                        "placeholder:text-[13px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                        "focus:border-[#479DF4]",
+                        "flex min-h-[48px] w-full items-center gap-3 rounded-[12px] border px-4 py-3 text-left transition active:scale-[0.99]",
+                        checked
+                          ? "border-[#479DF4] bg-[#EEF6FF]"
+                          : "border-[#CDD4E0] bg-white",
                       )}
-                    />
-                    <CalendarDays
-                      className="pointer-events-none absolute right-3 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-[#8F8F8F]"
-                      strokeWidth={2.4}
-                    />
+                      aria-pressed={checked}
+                    >
+                      <span
+                        className={cn(
+                          "inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border transition",
+                          checked
+                            ? "border-[#479DF4] bg-[#479DF4]"
+                            : "border-[#CDD4E0] bg-white",
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "h-[8px] w-[8px] rounded-full bg-white transition",
+                            checked ? "opacity-100" : "opacity-0",
+                          )}
+                        />
+                      </span>
+
+                      <span className="min-w-0 flex-1 text-[14px] font-normal leading-tight text-black">
+                        {item}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {period === "Pilih Tanggal" ? (
+                <div className="mt-[16px] grid grid-cols-2 gap-[10px]">
+                  <div>
+                    <label className="text-[12px] font-normal leading-none text-[#8F8F8F]">
+                      Tanggal Awal
+                    </label>
+                    <div className="relative mt-[8px]">
+                      <input
+                        value={startDate}
+                        onChange={(event) => setStartDate(event.target.value)}
+                        placeholder="DD-MM-YYYY"
+                        inputMode="numeric"
+                        className={cn(
+                          "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-9",
+                          "text-[13px] font-normal text-black shadow-none outline-none",
+                          "placeholder:text-[13px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                          "focus:border-[#479DF4]",
+                        )}
+                      />
+                      <CalendarDays
+                        className="pointer-events-none absolute right-3 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-[#8F8F8F]"
+                        strokeWidth={2.4}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[12px] font-normal leading-none text-[#8F8F8F]">
+                      Tanggal Akhir
+                    </label>
+                    <div className="relative mt-[8px]">
+                      <input
+                        value={endDate}
+                        onChange={(event) => setEndDate(event.target.value)}
+                        placeholder="DD-MM-YYYY"
+                        inputMode="numeric"
+                        className={cn(
+                          "h-[46px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-3 pr-9",
+                          "text-[13px] font-normal text-black shadow-none outline-none",
+                          "placeholder:text-[13px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                          "focus:border-[#479DF4]",
+                        )}
+                      />
+                      <CalendarDays
+                        className="pointer-events-none absolute right-3 top-1/2 h-[17px] w-[17px] -translate-y-1/2 text-[#8F8F8F]"
+                        strokeWidth={2.4}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
             </section>
 
             <section>
