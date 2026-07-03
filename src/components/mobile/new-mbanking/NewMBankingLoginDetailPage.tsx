@@ -56,75 +56,86 @@ export default function NewMBankingLoginDetailPage({
           onSubmit={submit}
           className="mx-auto flex min-h-full w-[345px] max-w-full flex-col justify-between"
         >
-          <div className="grid gap-[15px]">
-            <div className="grid gap-[9px]">
-              <label className={labelClassName}>Username</label>
-              <input
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                placeholder="Masukkan Username"
-                autoComplete="username"
-                className={fieldClassName}
-              />
+          <div>
+            <div className="mb-[26px]">
+              <h2 className="text-[22px] font-bold leading-tight tracking-[-0.035em] text-black">
+                Selamat Datang Kembali
+              </h2>
+              <p className="mt-[10px] text-[14px] font-normal leading-relaxed tracking-[-0.01em] text-[#828282]">
+                Silakan masuk untuk menikmati seluruh layananan M-Banking
+              </p>
             </div>
 
-            <div className="grid gap-[9px]">
-              <label className={labelClassName}>Password</label>
-
-              <div className="relative">
+            <div className="grid gap-[15px]">
+              <div className="grid gap-[9px]">
+                <label className={labelClassName}>Username</label>
                 <input
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Masukkan Kata Sandi"
-                  autoComplete="current-password"
-                  className={cn(fieldClassName, "pr-[48px]")}
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  placeholder="Masukkan Username"
+                  autoComplete="username"
+                  className={fieldClassName}
                 />
-
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((value) => !value)}
-                  className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
-                  aria-label={
-                    showPassword
-                      ? "Sembunyikan password"
-                      : "Tampilkan password"
-                  }
-                  title={
-                    showPassword
-                      ? "Sembunyikan password"
-                      : "Tampilkan password"
-                  }
-                >
-                  {showPassword ? (
-                    <Eye className={passwordIconClassName} strokeWidth={2.8} />
-                  ) : (
-                    <EyeOff className={passwordIconClassName} strokeWidth={2.8} />
-                  )}
-                </button>
               </div>
-            </div>
 
-            <button
-              type="button"
-              onClick={() => setRememberUsername((value) => !value)}
-              className="mt-[1px] flex w-fit items-center gap-[10px] text-left"
-              aria-pressed={rememberUsername}
-            >
-              <span
-                className={cn(
-                  "inline-flex h-[19px] w-[19px] items-center justify-center border-2",
-                  rememberUsername
-                    ? "border-[#479DF4] bg-white text-[#479DF4]"
-                    : "border-[#CDD4E0] bg-white text-transparent",
-                )}
+              <div className="grid gap-[9px]">
+                <label className={labelClassName}>Password</label>
+
+                <div className="relative">
+                  <input
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Masukkan Kata Sandi"
+                    autoComplete="current-password"
+                    className={cn(fieldClassName, "pr-[48px]")}
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((value) => !value)}
+                    className="absolute right-[6px] top-1/2 inline-flex h-[30px] w-[30px] -translate-y-1/2 items-center justify-center rounded-full text-[#828282] transition active:scale-[0.98]"
+                    aria-label={
+                      showPassword
+                        ? "Sembunyikan password"
+                        : "Tampilkan password"
+                    }
+                    title={
+                      showPassword
+                        ? "Sembunyikan password"
+                        : "Tampilkan password"
+                    }
+                  >
+                    {showPassword ? (
+                      <Eye className={passwordIconClassName} strokeWidth={2.8} />
+                    ) : (
+                      <EyeOff className={passwordIconClassName} strokeWidth={2.8} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setRememberUsername((value) => !value)}
+                className="mt-[1px] flex w-fit items-center gap-[10px] text-left"
+                aria-pressed={rememberUsername}
               >
-                <Check className="h-[15px] w-[15px]" strokeWidth={2.5} />
-              </span>
-              <span className="text-[12px] font-normal leading-none text-black">
-                Simpan Username
-              </span>
-            </button>
+                <span
+                  className={cn(
+                    "inline-flex h-[19px] w-[19px] items-center justify-center border-2",
+                    rememberUsername
+                      ? "border-[#479DF4] bg-white text-[#479DF4]"
+                      : "border-[#CDD4E0] bg-white text-transparent",
+                  )}
+                >
+                  <Check className="h-[15px] w-[15px]" strokeWidth={2.5} />
+                </span>
+                <span className="text-[12px] font-normal leading-none text-black">
+                  Simpan Username
+                </span>
+              </button>
+            </div>
           </div>
 
           <button
