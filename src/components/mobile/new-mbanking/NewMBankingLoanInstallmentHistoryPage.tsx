@@ -4,45 +4,49 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 
 type InstallmentHistoryItem = {
   id: string;
+  installmentLabel: string;
   tanggalTransaksi: string;
   waktuTransaksi: string;
   nominalPembayaran: string;
   nominalPokok: string;
   nominalBunga: string;
   nominalDenda: string;
-  status: "Berhasil";
+  sisaPinjaman: string;
 };
 
 const histories: InstallmentHistoryItem[] = [
   {
     id: "history-1",
+    installmentLabel: "Angsuran ke-1",
     tanggalTransaksi: "20 Juni 2026",
     waktuTransaksi: "10:34 WIB",
     nominalPembayaran: "Rp. 991.666,00",
     nominalPokok: "Rp. 833.333,00",
     nominalBunga: "Rp. 83.333,00",
     nominalDenda: "Rp. 75.000,00",
-    status: "Berhasil",
+    sisaPinjaman: "Rp. 10.000.000,00",
   },
   {
     id: "history-2",
+    installmentLabel: "Angsuran ke-2",
     tanggalTransaksi: "18 Juli 2026",
     waktuTransaksi: "14:18 WIB",
     nominalPembayaran: "Rp. 916.667,00",
     nominalPokok: "Rp. 833.333,00",
     nominalBunga: "Rp. 83.333,00",
     nominalDenda: "Rp. 0,00",
-    status: "Berhasil",
+    sisaPinjaman: "Rp. 9.166.667,00",
   },
   {
     id: "history-3",
+    installmentLabel: "Angsuran ke-3",
     tanggalTransaksi: "22 Agustus 2026",
     waktuTransaksi: "09:42 WIB",
     nominalPembayaran: "Rp. 916.667,00",
     nominalPokok: "Rp. 833.333,00",
     nominalBunga: "Rp. 83.333,00",
     nominalDenda: "Rp. 0,00",
-    status: "Berhasil",
+    sisaPinjaman: "Rp. 8.333.334,00",
   },
 ];
 
@@ -64,18 +68,16 @@ function MetaItem({
   value: string;
 }) {
   return (
-    <div className="flex min-w-0 items-center gap-2">
-      <span className="grid h-[28px] w-[28px] shrink-0 place-items-center rounded-full bg-[#EEF6FF] text-[#479DF4]">
-        <Icon className="h-[15px] w-[15px]" strokeWidth={2.5} />
+    <div className="flex min-w-0 flex-col items-center text-center">
+      <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full bg-[#EEF6FF] text-[#479DF4]">
+        <Icon className="h-[16px] w-[16px]" strokeWidth={2.5} />
       </span>
 
-      <div className="min-w-0">
-        <div className="text-[10px] font-normal leading-none text-[#8F8F8F]">
-          {label}
-        </div>
-        <div className="mt-[4px] truncate text-[12px] font-semibold leading-tight text-black">
-          {value}
-        </div>
+      <div className="mt-[8px] text-[10px] font-normal leading-none text-[#8F8F8F]">
+        {label}
+      </div>
+      <div className="mt-[5px] max-w-full truncate text-[12px] font-semibold leading-tight text-black">
+        {value}
       </div>
     </div>
   );
@@ -94,8 +96,8 @@ function AmountRow({
     <div className="flex items-center justify-between gap-4 py-[7px]">
       <div
         className={cn(
-          "text-[13px] font-normal leading-tight",
-          highlight ? "text-black" : "text-[#8F8F8F]",
+          "text-[13px] leading-tight",
+          highlight ? "font-bold text-black" : "font-normal text-[#8F8F8F]",
         )}
       >
         {label}
@@ -118,49 +120,49 @@ function AmountRow({
 function HistoryCard({ item }: { item: InstallmentHistoryItem }) {
   return (
     <article className="rounded-[22px] bg-white px-5 py-5 shadow-[0_4px_14px_rgba(15,23,42,0.12)] ring-1 ring-slate-100">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex min-w-0 flex-1 items-start gap-3">
-          <HistoryIcon />
+      <div className="flex items-start gap-3">
+        <HistoryIcon />
 
-          <div className="min-w-0 pt-[2px]">
-            <div className="text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
-              Pembayaran Angsuran
-            </div>
-            <div className="mt-[6px] text-[12px] font-normal leading-tight text-[#8F8F8F]">
-              Transaksi angsuran pinjaman
-            </div>
+        <div className="min-w-0 pt-[2px]">
+          <div className="text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
+            Pembayaran Angsuran
+          </div>
+          <div className="mt-[6px] text-[12px] font-normal leading-tight text-[#8F8F8F]">
+            {item.installmentLabel}
           </div>
         </div>
-
-        <span className="inline-flex h-[24px] shrink-0 items-center rounded-full bg-[#E8F8EF] px-[11px] text-[11px] font-semibold leading-none text-[#15965A]">
-          {item.status}
-        </span>
       </div>
 
-      <div className="mt-[16px] grid grid-cols-2 gap-3">
-        <MetaItem
-          icon={CalendarDays}
-          label="Tanggal Transaksi"
-          value={item.tanggalTransaksi}
-        />
-        <MetaItem
-          icon={Clock3}
-          label="Waktu Transaksi"
-          value={item.waktuTransaksi}
-        />
+      <div className="mt-[18px] rounded-[18px] bg-[#F8FAFC] px-4 py-4 ring-1 ring-[#EEF0F4]">
+        <div className="grid grid-cols-2 gap-4">
+          <MetaItem
+            icon={CalendarDays}
+            label="Tanggal Transaksi"
+            value={item.tanggalTransaksi}
+          />
+          <MetaItem
+            icon={Clock3}
+            label="Waktu Transaksi"
+            value={item.waktuTransaksi}
+          />
+        </div>
       </div>
 
       <div className="my-[15px] h-px w-full bg-[#EEF0F4]" />
 
       <div className="grid">
+        <AmountRow label="Nominal Pokok" value={item.nominalPokok} />
+        <AmountRow label="Nominal Bunga" value={item.nominalBunga} />
+        <AmountRow label="Nominal Denda" value={item.nominalDenda} />
+
+        <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />
+
         <AmountRow
           label="Nominal Pembayaran"
           value={item.nominalPembayaran}
           highlight
         />
-        <AmountRow label="Nominal Pokok" value={item.nominalPokok} />
-        <AmountRow label="Nominal Bunga" value={item.nominalBunga} />
-        <AmountRow label="Nominal Denda" value={item.nominalDenda} />
+        <AmountRow label="Sisa Pinjaman" value={item.sisaPinjaman} />
       </div>
     </article>
   );
