@@ -28,7 +28,9 @@ export default function NewMBankingTransactionFilterPage({
         </header>
       </div>
 
-      <main className="min-h-0 flex-1 bg-white" />
+      <main className="min-h-0 flex-1 overflow-hidden bg-[#F9F9F9]">
+        <section className="min-h-full rounded-t-[30px] bg-white" />
+      </main>
     </div>
   );
 }

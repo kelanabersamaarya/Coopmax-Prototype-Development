@@ -206,8 +206,8 @@ export default function NewMBankingHistoryPage({
         </header>
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white pb-[150px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <section className="bg-white px-6 pb-[34px] pt-[22px]">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[150px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[22px]">
           <div className="flex gap-[9px] overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {monthChips.map((month) => {
               const active = month === activeMonth;
