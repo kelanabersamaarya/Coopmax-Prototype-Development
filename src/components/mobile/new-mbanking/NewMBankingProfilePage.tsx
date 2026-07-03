@@ -148,8 +148,12 @@ function ProfileMenuRow({
 
 export default function NewMBankingProfilePage({
   onBack,
+  onRequireLogin,
+  onAccountDeleted,
 }: {
   onBack: () => void;
+  onRequireLogin?: () => void;
+  onAccountDeleted?: () => void;
 }) {
   const [screen, setScreen] = React.useState<ProfileScreen>("main");
 
@@ -166,7 +170,13 @@ export default function NewMBankingProfilePage({
   }
 
   if (screen === "account") {
-    return <ProfileAccountPage onBack={() => setScreen("main")} />;
+    return (
+      <ProfileAccountPage
+        onBack={() => setScreen("main")}
+        onRequireLogin={onRequireLogin}
+        onAccountDeleted={onAccountDeleted}
+      />
+    );
   }
 
   if (screen === "guide") {

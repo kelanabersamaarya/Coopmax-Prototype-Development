@@ -48,6 +48,7 @@ export default function NewMBankingMockup() {
           transactions={transactions}
           onTransactionSaved={addTransaction}
           onLogout={() => setScreen("login")}
+          onReturnToOnboarding={() => setScreen("onboarding")}
         />
       );
     }

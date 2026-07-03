@@ -25,10 +25,12 @@ export default function NewMBankingHome({
   transactions = [],
   onTransactionSaved,
   onLogout,
+  onReturnToOnboarding,
 }: {
   transactions?: MBankingTransactionHistoryEntry[];
   onTransactionSaved?: (transaction: MBankingTransactionHistoryEntry) => void;
   onLogout?: () => void;
+  onReturnToOnboarding?: () => void;
 }) {
   const [logoutOpen, setLogoutOpen] = React.useState(false);
   const [showAccountDetail, setShowAccountDetail] = React.useState(false);
@@ -94,7 +96,13 @@ export default function NewMBankingHome({
   }
 
   if (showProfile) {
-    return <NewMBankingProfilePage onBack={() => setShowProfile(false)} />;
+    return (
+      <NewMBankingProfilePage
+        onBack={() => setShowProfile(false)}
+        onRequireLogin={onLogout}
+        onAccountDeleted={onReturnToOnboarding}
+      />
+    );
   }
 
   if (showPortfolio) {
