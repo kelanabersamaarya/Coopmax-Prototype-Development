@@ -8,6 +8,9 @@ import NewMBankingHistoryPage from "@/components/mobile/new-mbanking/NewMBanking
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
+import NewMBankingLoanInstallmentDetailPage, {
+  type NewMBankingLoanInstallmentAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentDetailPage";
 import NewMBankingLoanInstallmentPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentPage";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
@@ -21,6 +24,29 @@ import NewMBankingTransferTypeModal from "@/components/mobile/new-mbanking/NewMB
 import NewMBankingWelcomeItem from "@/components/mobile/new-mbanking/NewMBankingWelcomeItem";
 
 type TransferMode = "antar-rekening" | "antar-bank";
+
+const homeLoanDetailAccount: NewMBankingLoanInstallmentAccount = {
+  id: "loan-home-smg260004",
+  productName: "Pinjaman Billing",
+  accountNo: "SMG260004",
+  totalLoan: "Rp. 12.000.000,00",
+  remainingLoan: "Rp. 10.000.000,00",
+  dueDate: "25-01-2026",
+  gracePeriod: "3 Bulan",
+  disbursementDate: "01-03-2026",
+  tenor: "12 Bulan",
+  installmentNo: "1",
+  installmentBill: {
+    totalPay: "Rp. 991.666,00",
+    installmentNo: "1",
+    principal: "Rp. 833.333,00",
+    interest: "Rp. 83.333,00",
+    principalDebt: "Rp. 0,00",
+    interestDebt: "Rp. 0,00",
+    penalty: "Rp. 75.000,00",
+    remainingLoan: "Rp. 10.000.000,00",
+  },
+};
 
 export default function NewMBankingHome({
   transactions = [],
@@ -36,6 +62,7 @@ export default function NewMBankingHome({
   const [logoutOpen, setLogoutOpen] = React.useState(false);
   const [showAccountDetail, setShowAccountDetail] = React.useState(false);
   const [showDepositDetail, setShowDepositDetail] = React.useState(false);
+  const [showHomeLoanDetail, setShowHomeLoanDetail] = React.useState(false);
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
   const [showPortfolio, setShowPortfolio] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
@@ -53,6 +80,15 @@ export default function NewMBankingHome({
     setShowPortfolio(false);
     setShowHistory(false);
     setShowProfile(true);
+  }
+
+  if (showHomeLoanDetail) {
+    return (
+      <NewMBankingLoanInstallmentDetailPage
+        account={homeLoanDetailAccount}
+        onBack={() => setShowHomeLoanDetail(false)}
+      />
+    );
   }
 
   if (showDepositDetail) {
@@ -185,6 +221,7 @@ export default function NewMBankingHome({
           <NewMBankingAccountsSection
             className="mt-0"
             onSavingsDetailClick={() => setShowAccountDetail(true)}
+            onLoanDetailClick={() => setShowHomeLoanDetail(true)}
             onDepositDetailClick={() => setShowDepositDetail(true)}
           />
 
