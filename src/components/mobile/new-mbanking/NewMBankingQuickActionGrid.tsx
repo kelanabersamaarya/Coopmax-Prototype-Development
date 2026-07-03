@@ -47,9 +47,11 @@ const actions = [
 export default function NewMBankingQuickActionGrid({
   className,
   onDepositClick,
+  onTransferClick,
 }: {
   className?: string;
   onDepositClick?: () => void;
+  onTransferClick?: () => void;
 }) {
   return (
     <section className={cn("mt-[24px]", className)}>
@@ -64,6 +66,11 @@ export default function NewMBankingQuickActionGrid({
               onClick={() => {
                 if (action.label === "Setor") {
                   onDepositClick?.();
+                  return;
+                }
+
+                if (action.label === "Transfer") {
+                  onTransferClick?.();
                 }
               }}
               className="flex min-w-0 flex-col items-center transition active:scale-[0.97]"

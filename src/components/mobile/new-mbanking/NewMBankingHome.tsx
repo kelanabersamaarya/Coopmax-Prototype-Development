@@ -6,12 +6,16 @@ import NewMBankingDepositAccountsPage from "@/components/mobile/new-mbanking/New
 import NewMBankingHistoryPage from "@/components/mobile/new-mbanking/NewMBankingHistoryPage";
 import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBankingHomeBrandHeader";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
+import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
 import NewMBankingPortfolioPage from "@/components/mobile/new-mbanking/NewMBankingPortfolioPage";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
+import NewMBankingTransferTypeModal from "@/components/mobile/new-mbanking/NewMBankingTransferTypeModal";
 import NewMBankingWelcomeItem from "@/components/mobile/new-mbanking/NewMBankingWelcomeItem";
+
+type TransferMode = "antar-rekening" | "antar-bank";
 
 export default function NewMBankingHome({
   transactions = [],
@@ -28,6 +32,24 @@ export default function NewMBankingHome({
   const [showPortfolio, setShowPortfolio] = React.useState(false);
   const [showDepositAccounts, setShowDepositAccounts] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
+  const [transferTypeOpen, setTransferTypeOpen] = React.useState(false);
+  const [transferMode, setTransferMode] = React.useState<TransferMode | null>(
+    null,
+  );
+
+  if (transferMode) {
+    return (
+      <NewMBankingInterbankTransferPage
+        title={
+          transferMode === "antar-rekening"
+            ? "Transfer Antar Rekening"
+            : "Transfer Antar Bank"
+        }
+        onBack={() => setTransferMode(null)}
+        onTransferDone={() => setTransferMode(null)}
+      />
+    );
+  }
 
   if (showDepositAccounts) {
     return (
@@ -113,6 +135,7 @@ export default function NewMBankingHome({
 
           <NewMBankingQuickActionGrid
             onDepositClick={() => setShowDepositAccounts(true)}
+            onTransferClick={() => setTransferTypeOpen(true)}
           />
         </section>
 
@@ -135,6 +158,19 @@ export default function NewMBankingHome({
         onPortfolioClick={() => setShowPortfolio(true)}
         onQrisClick={() => setShowQrisFlow(true)}
         onHistoryClick={() => setShowHistory(true)}
+      />
+
+      <NewMBankingTransferTypeModal
+        open={transferTypeOpen}
+        onClose={() => setTransferTypeOpen(false)}
+        onChooseInternal={() => {
+          setTransferTypeOpen(false);
+          setTransferMode("antar-rekening");
+        }}
+        onChooseInterbank={() => {
+          setTransferTypeOpen(false);
+          setTransferMode("antar-bank");
+        }}
       />
 
       <NewMBankingLogoutConfirmModal
