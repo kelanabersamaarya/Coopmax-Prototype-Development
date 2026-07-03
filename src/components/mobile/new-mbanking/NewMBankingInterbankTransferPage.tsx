@@ -305,63 +305,65 @@ export default function NewMBankingInterbankTransferPage({
         </header>
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-[34px] pt-[4px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="mt-[22px] rounded-[24px] border border-[#E5E7EB] bg-white p-[10px]">
-          <div
-            className={cn(
-              "grid gap-[12px]",
-              isTransferAntarRekening ? "grid-cols-2" : "grid-cols-1",
-            )}
-          >
-            <TransferOptionCard
-              icon={UserPlus}
-              label="Penerima Baru"
-              onClick={() => {
-                setSelectedRecipient(null);
-                setShowNewRecipientForm(true);
-              }}
-            />
-
-            {isTransferAntarRekening ? (
+      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[22px]">
+          <div className="rounded-[24px] border border-[#E5E7EB] bg-white p-[10px]">
+            <div
+              className={cn(
+                "grid gap-[12px]",
+                isTransferAntarRekening ? "grid-cols-2" : "grid-cols-1",
+              )}
+            >
               <TransferOptionCard
-                icon={QrCode}
-                label="QR Transfer"
-                onClick={() =>
-                  toast("QR Transfer (prototype)", {
-                    description: "Detail QR Transfer akan ditambahkan menyusul.",
-                  })
-                }
+                icon={UserPlus}
+                label="Penerima Baru"
+                onClick={() => {
+                  setSelectedRecipient(null);
+                  setShowNewRecipientForm(true);
+                }}
               />
-            ) : null}
+
+              {isTransferAntarRekening ? (
+                <TransferOptionCard
+                  icon={QrCode}
+                  label="QR Transfer"
+                  onClick={() =>
+                    toast("QR Transfer (prototype)", {
+                      description: "Detail QR Transfer akan ditambahkan menyusul.",
+                    })
+                  }
+                />
+              ) : null}
+            </div>
           </div>
-        </div>
 
-        <TransferTabs active={activeTab} onChange={setActiveTab} />
+          <TransferTabs active={activeTab} onChange={setActiveTab} />
 
-        <section className="mt-[18px] rounded-[22px] bg-white px-1">
-          {activeTab === "saved" ? (
-            <div>
-              {savedRecipients.map((recipient) => (
-                <SavedRecipientRow
-                  key={recipient.id}
-                  recipient={recipient}
-                  showBankName={showBankName}
-                  onClick={() => openRecipientInput(buildRecipientInfo(recipient))}
-                />
-              ))}
-            </div>
-          ) : (
-            <div>
-              {transferHistories.map((history) => (
-                <TransferHistoryRow
-                  key={history.id}
-                  history={history}
-                  showBankName={showBankName}
-                  onClick={() => openRecipientInput(buildRecipientInfo(history))}
-                />
-              ))}
-            </div>
-          )}
+          <section className="mt-[18px] rounded-[22px] bg-white px-1">
+            {activeTab === "saved" ? (
+              <div>
+                {savedRecipients.map((recipient) => (
+                  <SavedRecipientRow
+                    key={recipient.id}
+                    recipient={recipient}
+                    showBankName={showBankName}
+                    onClick={() => openRecipientInput(buildRecipientInfo(recipient))}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div>
+                {transferHistories.map((history) => (
+                  <TransferHistoryRow
+                    key={history.id}
+                    history={history}
+                    showBankName={showBankName}
+                    onClick={() => openRecipientInput(buildRecipientInfo(history))}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
         </section>
       </main>
     </div>

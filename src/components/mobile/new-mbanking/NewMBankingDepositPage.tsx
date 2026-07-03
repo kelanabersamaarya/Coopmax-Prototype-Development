@@ -110,30 +110,26 @@ export default function NewMBankingDepositPage({
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
+
+        <header className="flex h-[62px] items-center gap-3 px-6">
+          <button
+            type="button"
+            onClick={onBack}
+            className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]"
+            aria-label="Kembali"
+            title="Kembali"
+          >
+            <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
+          </button>
+
+          <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
+            Setoran
+          </h1>
+        </header>
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white pb-[118px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="bg-[#F9F9F9]">
-          <header className="flex h-[62px] items-center gap-3 px-6">
-            <button
-              type="button"
-              onClick={onBack}
-              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-transparent text-black transition active:scale-[0.98]"
-              aria-label="Kembali"
-              title="Kembali"
-            >
-              <ArrowLeft className="h-[24px] w-[24px]" strokeWidth={2.6} />
-            </button>
-
-            <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-              Setoran
-            </h1>
-          </header>
-
-          <div className="h-px w-full bg-[#EEF0F4]" />
-        </div>
-
-        <div className="px-6 pt-[24px]">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[118px] pt-[24px]">
           <section>
             <SectionTitle>Rekening Tujuan</SectionTitle>
             <DestinationAccountCard />
@@ -185,7 +181,7 @@ export default function NewMBankingDepositPage({
               )}
             />
           </section>
-        </div>
+        </section>
       </main>
 
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">

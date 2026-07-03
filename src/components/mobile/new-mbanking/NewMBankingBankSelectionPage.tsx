@@ -32,7 +32,7 @@ export default function NewMBankingBankSelectionPage({
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <div className="shrink-0 bg-white">
+      <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
 
         <header className="flex h-[62px] items-center gap-3 px-6">
@@ -50,53 +50,53 @@ export default function NewMBankingBankSelectionPage({
             Pilih Bank
           </h1>
         </header>
-
-        <div className="h-px w-full bg-[#EEF0F4]" />
       </div>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-[34px] pt-[22px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="relative">
-          <Search
-            className="pointer-events-none absolute left-4 top-1/2 h-[19px] w-[19px] -translate-y-1/2 text-[#8F8F8F]"
-            strokeWidth={2.5}
-          />
+      <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[22px]">
+          <div className="relative">
+            <Search
+              className="pointer-events-none absolute left-4 top-1/2 h-[19px] w-[19px] -translate-y-1/2 text-[#8F8F8F]"
+              strokeWidth={2.5}
+            />
 
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Cari Bank Penerima"
-            className={cn(
-              "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white pl-[44px] pr-4",
-              "text-[14px] font-normal text-black shadow-none outline-none",
-              "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-              "focus:border-[#479DF4]",
-            )}
-          />
-        </div>
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Cari Bank Penerima"
+              className={cn(
+                "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white pl-[44px] pr-4",
+                "text-[14px] font-normal text-black shadow-none outline-none",
+                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                "focus:border-[#479DF4]",
+              )}
+            />
+          </div>
 
-        <section className="mt-[22px] rounded-[22px] bg-white">
-          {filteredBanks.map((bank) => (
-            <button
-              key={bank}
-              type="button"
-              onClick={() => onSelectBank(bank)}
-              className="flex w-full items-center gap-3 border-b border-[#EEF0F4] py-[15px] text-left last:border-b-0 transition active:scale-[0.99]"
-            >
-              <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F1F3F6] text-[#53657D]">
-                <Building2 className="h-[21px] w-[21px]" strokeWidth={2.45} />
-              </span>
+          <section className="mt-[22px] rounded-[22px] bg-white">
+            {filteredBanks.map((bank) => (
+              <button
+                key={bank}
+                type="button"
+                onClick={() => onSelectBank(bank)}
+                className="flex w-full items-center gap-3 border-b border-[#EEF0F4] py-[15px] text-left last:border-b-0 transition active:scale-[0.99]"
+              >
+                <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#F1F3F6] text-[#53657D]">
+                  <Building2 className="h-[21px] w-[21px]" strokeWidth={2.45} />
+                </span>
 
-              <span className="min-w-0 flex-1 truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
-                {bank}
-              </span>
-            </button>
-          ))}
+                <span className="min-w-0 flex-1 truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
+                  {bank}
+                </span>
+              </button>
+            ))}
 
-          {filteredBanks.length === 0 ? (
-            <div className="py-10 text-center text-[13px] font-normal text-[#8F8F8F]">
-              Bank tidak ditemukan.
-            </div>
-          ) : null}
+            {filteredBanks.length === 0 ? (
+              <div className="py-10 text-center text-[13px] font-normal text-[#8F8F8F]">
+                Bank tidak ditemukan.
+              </div>
+            ) : null}
+          </section>
         </section>
       </main>
     </div>

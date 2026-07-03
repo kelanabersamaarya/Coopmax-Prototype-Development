@@ -135,7 +135,7 @@ export default function NewMBankingNewRecipientTransferPage({
         }}
       />
 
-      <div className="shrink-0 bg-white">
+      <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
 
         <header className="flex h-[62px] items-center gap-3 px-6">
@@ -153,67 +153,67 @@ export default function NewMBankingNewRecipientTransferPage({
             Transfer ke Penerima Baru
           </h1>
         </header>
-
-        <div className="h-px w-full bg-[#EEF0F4]" />
       </div>
 
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-6 pb-[112px] pt-[24px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="grid gap-[20px]">
-          {recipient ? (
-            <NewMBankingRecipientInfoCard recipient={recipient} />
-          ) : (
-            <>
-              {!hideBankSelection ? (
-                <TransferField label="Nama Bank">
-                  <button
-                    type="button"
-                    onClick={() => setShowBankSelection(true)}
-                    className={cn(
-                      fieldClassName,
-                      "flex items-center justify-between gap-3 text-left",
-                      bank ? "text-black" : "text-[#8F8F8F]",
-                    )}
-                    aria-label="Pilih Bank Penerima"
-                  >
-                    <span className="min-w-0 flex-1 truncate">
-                      {bank || "Pilih Bank Penerima"}
-                    </span>
-                    <ChevronDown className="h-[19px] w-[19px] shrink-0 text-[#8F8F8F]" />
-                  </button>
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-[#F9F9F9] pb-[112px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="min-h-full rounded-t-[30px] bg-white px-6 pt-[24px]">
+          <div className="grid gap-[20px]">
+            {recipient ? (
+              <NewMBankingRecipientInfoCard recipient={recipient} />
+            ) : (
+              <>
+                {!hideBankSelection ? (
+                  <TransferField label="Nama Bank">
+                    <button
+                      type="button"
+                      onClick={() => setShowBankSelection(true)}
+                      className={cn(
+                        fieldClassName,
+                        "flex items-center justify-between gap-3 text-left",
+                        bank ? "text-black" : "text-[#8F8F8F]",
+                      )}
+                      aria-label="Pilih Bank Penerima"
+                    >
+                      <span className="min-w-0 flex-1 truncate">
+                        {bank || "Pilih Bank Penerima"}
+                      </span>
+                      <ChevronDown className="h-[19px] w-[19px] shrink-0 text-[#8F8F8F]" />
+                    </button>
+                  </TransferField>
+                ) : null}
+
+                <TransferField label="Nomor Rekening Penerima">
+                  <input
+                    value={accountNo}
+                    onChange={(event) => setAccountNo(event.target.value)}
+                    placeholder="Masukkan Nomor Rekening Penerima"
+                    inputMode="numeric"
+                    className={fieldClassName}
+                  />
                 </TransferField>
-              ) : null}
+              </>
+            )}
 
-              <TransferField label="Nomor Rekening Penerima">
-                <input
-                  value={accountNo}
-                  onChange={(event) => setAccountNo(event.target.value)}
-                  placeholder="Masukkan Nomor Rekening Penerima"
-                  inputMode="numeric"
-                  className={fieldClassName}
-                />
-              </TransferField>
-            </>
-          )}
+            <TransferField label="Nominal Transfer">
+              <input
+                value={amount}
+                onChange={(event) => setAmount(formatThousands(event.target.value))}
+                placeholder="0,00"
+                inputMode="numeric"
+                className={fieldClassName}
+              />
+            </TransferField>
 
-          <TransferField label="Nominal Transfer">
-            <input
-              value={amount}
-              onChange={(event) => setAmount(formatThousands(event.target.value))}
-              placeholder="0,00"
-              inputMode="numeric"
-              className={fieldClassName}
-            />
-          </TransferField>
-
-          <TransferField label="Deskripsi">
-            <textarea
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-              placeholder="Masukkan Deskripsi Transfer"
-              className={descriptionFieldClassName}
-            />
-          </TransferField>
-        </div>
+            <TransferField label="Deskripsi">
+              <textarea
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                placeholder="Masukkan Deskripsi Transfer"
+                className={descriptionFieldClassName}
+              />
+            </TransferField>
+          </div>
+        </section>
       </main>
 
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
