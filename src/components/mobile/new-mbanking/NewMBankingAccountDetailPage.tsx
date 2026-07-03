@@ -26,6 +26,8 @@ type TransactionGroup = {
   items: TransactionItem[];
 };
 
+type TransferMode = "antar-rekening" | "antar-bank";
+
 const monthChips = [
   "Jan",
   "Feb",
@@ -220,13 +222,18 @@ export default function NewMBankingAccountDetailPage({
 }) {
   const [showBalance, setShowBalance] = React.useState(true);
   const [activeMonth, setActiveMonth] = React.useState("Jun");
-  const [showInterbankTransfer, setShowInterbankTransfer] = React.useState(false);
+  const [transferMode, setTransferMode] = React.useState<TransferMode | null>(null);
 
-  if (showInterbankTransfer) {
+  if (transferMode) {
     return (
       <NewMBankingInterbankTransferPage
-        onBack={() => setShowInterbankTransfer(false)}
-        onTransferDone={() => setShowInterbankTransfer(false)}
+        title={
+          transferMode === "antar-rekening"
+            ? "Transfer Antar Rekening"
+            : "Transfer Antar Bank"
+        }
+        onBack={() => setTransferMode(null)}
+        onTransferDone={() => setTransferMode(null)}
       />
     );
   }
@@ -318,6 +325,7 @@ export default function NewMBankingAccountDetailPage({
               icon={Send}
               label="Transfer Antar Rekening"
               frameClassName="bg-[#18B7A1]"
+              onClick={() => setTransferMode("antar-rekening")}
             />
             <QuickActionButton
               icon={Banknote}
@@ -328,7 +336,7 @@ export default function NewMBankingAccountDetailPage({
               icon={Landmark}
               label="Transfer Antar Bank"
               frameClassName="bg-[#F59E0B]"
-              onClick={() => setShowInterbankTransfer(true)}
+              onClick={() => setTransferMode("antar-bank")}
             />
           </div>
         </section>

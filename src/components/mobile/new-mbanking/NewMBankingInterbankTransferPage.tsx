@@ -201,9 +201,11 @@ function TransferHistoryRow({ history }: { history: TransferHistory }) {
 export default function NewMBankingInterbankTransferPage({
   onBack,
   onTransferDone,
+  title = "Transfer Antar Bank",
 }: {
   onBack: () => void;
   onTransferDone?: () => void;
+  title?: string;
 }) {
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
@@ -234,7 +236,7 @@ export default function NewMBankingInterbankTransferPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Transfer Antar Bank
+            {title}
           </h1>
         </header>
       </div>
