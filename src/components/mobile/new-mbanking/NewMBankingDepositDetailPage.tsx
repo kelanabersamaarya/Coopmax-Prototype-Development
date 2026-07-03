@@ -7,6 +7,7 @@ const depositoInfo = [
   { label: "Produk Deposito", value: "Deposito Koperasi" },
   { label: "Nominal Deposito", value: "Rp. 5.000.000,00" },
   { label: "Bunga per Tahun", value: "6,00%" },
+  { label: "Saldo Bunga", value: "Rp. 600.000,00" },
   { label: "Periode Waktu", value: "12 Bulan" },
   { label: "Tanggal Pembukaan", value: "30-06-2026" },
   { label: "Tanggal Jatuh Tempo", value: "30-06-2027" },
