@@ -3,6 +3,7 @@ import { ArrowLeft, Eye, History } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingInstallmentConfirmModal from "@/components/mobile/new-mbanking/NewMBankingInstallmentConfirmModal";
 import NewMBankingLoanInstallmentHistoryPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentHistoryPage";
 
 export type NewMBankingLoanInstallmentAccount = {
@@ -89,6 +90,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
 }) {
   const [showBillList, setShowBillList] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
 
   if (showBillList) {
     return (
@@ -112,6 +114,20 @@ export default function NewMBankingLoanInstallmentDetailPage({
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingInstallmentConfirmModal
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        productName={account.productName}
+        accountNo={account.accountNo}
+        installmentNo={account.installmentBill.installmentNo}
+        principal={account.installmentBill.principal}
+        interest={account.installmentBill.interest}
+        principalDebt={account.installmentBill.principalDebt}
+        interestDebt={account.installmentBill.interestDebt}
+        penalty={account.installmentBill.penalty}
+        totalPay={account.installmentBill.totalPay}
+      />
+
       <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
 
@@ -235,6 +251,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
+          onClick={() => setConfirmOpen(true)}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[12px] font-semibold leading-none text-white",
