@@ -3,6 +3,9 @@ import { ArrowLeft, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingDepositAccountsTabs, {
+  type DepositAccountsTab,
+} from "@/components/mobile/new-mbanking/NewMBankingDepositAccountsTabs";
 
 type SavingsAccount = {
   id: string;
@@ -10,6 +13,15 @@ type SavingsAccount = {
   accountNo: string;
   balance: string;
   vaNumber: string;
+};
+
+type DepositHistory = {
+  id: string;
+  productName: string;
+  accountNo: string;
+  amount: string;
+  date: string;
+  status: string;
 };
 
 const savingsAccounts: SavingsAccount[] = [
@@ -33,6 +45,25 @@ const savingsAccounts: SavingsAccount[] = [
     accountNo: "112233222",
     balance: "Rp. 20.000.000,00",
     vaNumber: "88810 112233222",
+  },
+];
+
+const depositHistories: DepositHistory[] = [
+  {
+    id: "history-1",
+    productName: "Simpanan Kaya",
+    accountNo: "112233111",
+    amount: "+Rp. 50.000,00",
+    date: "30 Juni 2026, 22:15",
+    status: "Menunggu Pembayaran",
+  },
+  {
+    id: "history-2",
+    productName: "Simpanan Sukarela",
+    accountNo: "4260029",
+    amount: "+Rp. 100.000,00",
+    date: "28 Juni 2026, 09:30",
+    status: "Berhasil",
   },
 ];
 
@@ -120,6 +151,7 @@ export default function NewMBankingDepositAccountsPage({
 }: {
   onBack: () => void;
 }) {
+  const [activeTab, setActiveTab] = React.useState<DepositAccountsTab>("rekening");
   const [selectedAccount, setSelectedAccount] =
     React.useState<SavingsAccount | null>(null);
 
@@ -151,24 +183,62 @@ export default function NewMBankingDepositAccountsPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[24px]">
-          <div>
-            <h2 className="text-[20px] font-bold leading-tight tracking-[-0.035em] text-black">
-              Pilih Rekening Simpanan
-            </h2>
-            <p className="mt-[8px] text-[13px] font-normal leading-relaxed text-[#8F8F8F]">
-              Pilih salah satu rekening simpanan untuk melanjutkan proses setoran.
-            </p>
-          </div>
+          <NewMBankingDepositAccountsTabs
+            activeTab={activeTab}
+            onChange={setActiveTab}
+          />
 
-          <div className="mt-[22px] grid gap-[14px]">
-            {savingsAccounts.map((account) => (
-              <SavingsAccountCard
-                key={account.id}
-                account={account}
-                onClick={() => setSelectedAccount(account)}
-              />
-            ))}
-          </div>
+          {activeTab === "rekening" ? (
+            <div className="mt-[22px] grid gap-[14px]">
+              {savingsAccounts.map((account) => (
+                <SavingsAccountCard
+                  key={account.id}
+                  account={account}
+                  onClick={() => setSelectedAccount(account)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-[22px] grid gap-[14px]">
+              {depositHistories.map((history) => (
+                <div
+                  key={history.id}
+                  className="rounded-[18px] border border-[#EEF0F4] bg-white px-4 py-4 shadow-sm"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <div className="truncate text-[15px] font-bold leading-tight text-black">
+                        {history.productName}
+                      </div>
+                      <div className="mt-[6px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
+                        {history.accountNo}
+                      </div>
+                      <div className="mt-[8px] text-[11px] font-normal leading-tight text-[#A0A0A0]">
+                        {history.date}
+                      </div>
+                    </div>
+
+                    <div className="shrink-0 text-right">
+                      <div className="text-[14px] font-bold leading-tight text-[#15965A]">
+                        {history.amount}
+                      </div>
+                      <div
+                        className={cn(
+                          "mt-[7px] inline-flex h-[22px] items-center rounded-full px-[10px]",
+                          "text-[11px] font-semibold leading-none",
+                          history.status === "Berhasil"
+                            ? "bg-[#E8F8EF] text-[#15965A]"
+                            : "bg-[#FFF7E6] text-[#B7791F]",
+                        )}
+                      >
+                        {history.status}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </main>
     </div>
