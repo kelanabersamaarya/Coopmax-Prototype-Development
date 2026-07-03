@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Eye, HandCoins, History } from "lucide-react";
+import { ArrowLeft, Eye, History } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -241,10 +241,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
             "transition active:scale-[0.98]",
           )}
         >
-          <span className="inline-flex items-center justify-center gap-2">
-            <HandCoins className="h-[18px] w-[18px]" strokeWidth={2.6} />
-            Bayar Angsuran
-          </span>
+          Bayar Angsuran
         </button>
       </div>
     </div>
