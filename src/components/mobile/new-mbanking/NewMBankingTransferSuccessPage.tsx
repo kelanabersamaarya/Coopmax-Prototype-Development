@@ -64,7 +64,7 @@ export default function NewMBankingTransferSuccessPage({
             <div className="pointer-events-none absolute -right-[30px] -top-[28px] h-[88px] w-[88px] rounded-full bg-white/16" />
             <div className="pointer-events-none absolute right-[48px] top-[32px] h-[40px] w-[40px] rounded-full bg-cyan-200/16" />
 
-            <span className="relative z-10 flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-white/20 text-white shadow-sm ring-1 ring-white/20">
+            <span className="relative z-10 flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-white/20 text-white shadow-sm">
               <WalletCards
                 className="h-[18px] w-[18px] text-white"
                 strokeWidth={2.6}

@@ -9,7 +9,7 @@ export default function NewMBankingSourceFundGradientCard({
   showChevron = true,
   showBalance = true,
   sectionLabel,
-  iconShape = "rounded",
+  iconShape = "circle",
   textSize = "default",
   className,
 }: {
@@ -56,7 +56,7 @@ export default function NewMBankingSourceFundGradientCard({
         <div className="flex min-w-0 items-center gap-[13px]">
           <span
             className={cn(
-              "grid h-[46px] w-[46px] shrink-0 place-items-center bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20",
+              "grid h-[46px] w-[46px] shrink-0 place-items-center bg-[#18B7A1] text-white shadow-sm",
               iconShape === "circle" ? "rounded-full" : "rounded-[14px]",
             )}
           >
