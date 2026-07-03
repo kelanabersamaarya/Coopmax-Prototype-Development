@@ -149,40 +149,44 @@ function TotalAssetCard() {
 function PortfolioDonutChart() {
   return (
     <section className="mt-[26px] flex justify-center">
-      <div className="relative h-[292px] w-[292px]">
+      <div className="relative h-[292px] w-[292px] overflow-hidden rounded-full shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
         <div
-          className="absolute inset-0 rounded-full shadow-[0_12px_30px_rgba(15,23,42,0.08)]"
+          className="absolute inset-0"
           style={{
             background:
-              "conic-gradient(#49CFF2 0deg 144deg, #18B7A1 144deg 216deg, #2563EB 216deg 360deg)",
+              "conic-gradient(from -68deg, #55C7E8 0deg 144deg, #2DAE63 144deg 216deg, #2F80ED 216deg 360deg)",
           }}
         />
 
-        <div className="absolute inset-[70px] rounded-full bg-white shadow-inner" />
-
-        <div className="absolute left-[42px] top-[56px] w-[92px] -rotate-[16deg] text-center text-white">
-          <div className="text-[22px] font-bold leading-none">40%</div>
-          <div className="mt-[6px] text-[11px] font-normal leading-tight">
+        <div className="absolute left-[34px] top-[96px] w-[128px] text-center text-white">
+          <div className="text-[26px] font-extrabold leading-none tracking-[-0.03em]">
+            40%
+          </div>
+          <div className="mt-[8px] text-[18px] font-normal leading-tight tracking-[-0.03em]">
             Simpanan Kaya
           </div>
         </div>
 
-        <div className="absolute right-[29px] top-[134px] w-[88px] rotate-[8deg] text-center text-white">
-          <div className="text-[21px] font-bold leading-none">20%</div>
-          <div className="mt-[6px] text-[11px] font-normal leading-tight">
+        <div className="absolute right-[20px] top-[78px] w-[112px] text-center text-white">
+          <div className="text-[24px] font-extrabold leading-none tracking-[-0.03em]">
+            20%
+          </div>
+          <div className="mt-[8px] text-[16px] font-normal leading-tight tracking-[-0.03em]">
             Deposito Koperasi
           </div>
         </div>
 
-        <div className="absolute bottom-[48px] left-[72px] w-[118px] rotate-[9deg] text-center text-white">
-          <div className="text-[22px] font-bold leading-none">40%</div>
-          <div className="mt-[6px] text-[11px] font-normal leading-tight">
+        <div className="absolute bottom-[62px] left-[92px] w-[150px] text-center text-white">
+          <div className="text-[26px] font-extrabold leading-none tracking-[-0.03em]">
+            40%
+          </div>
+          <div className="mt-[8px] text-[18px] font-normal leading-tight tracking-[-0.03em]">
             Simpanan Mapan
           </div>
         </div>
 
-        <div className="absolute inset-[111px] grid place-items-center rounded-full bg-[#F9FAFB]">
-          <PieChart className="h-[35px] w-[35px] text-[#479DF4]" strokeWidth={2.4} />
+        <div className="sr-only">
+          <PieChart />
         </div>
       </div>
     </section>
