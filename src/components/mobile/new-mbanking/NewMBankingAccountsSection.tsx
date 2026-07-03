@@ -97,11 +97,13 @@ function AccountInfo({
 function AccountCardContent({
   activeTab,
   showBalance,
+  onToggleBalance,
   onSavingsDetailClick,
   onDepositDetailClick,
 }: {
   activeTab: AccountTabId;
   showBalance: boolean;
+  onToggleBalance: () => void;
   onSavingsDetailClick?: () => void;
   onDepositDetailClick?: () => void;
 }) {
@@ -175,6 +177,27 @@ function AccountCardContent({
             <span className="text-[16px] tracking-[-0.025em]">
               {showBalance ? "Rp. 5.000.000,00" : "••••••••••"}
             </span>
+            <button
+              type="button"
+              onClick={onToggleBalance}
+              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+              aria-label={
+                showBalance
+                  ? "Sembunyikan nominal deposito"
+                  : "Tampilkan nominal deposito"
+              }
+              title={
+                showBalance
+                  ? "Sembunyikan nominal deposito"
+                  : "Tampilkan nominal deposito"
+              }
+            >
+              {showBalance ? (
+                <Eye className="h-[16px] w-[16px]" strokeWidth={2.4} />
+              ) : (
+                <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
+              )}
+            </button>
           </AccountInfo>
         </div>
 
@@ -317,6 +340,7 @@ export default function NewMBankingAccountsSection({
           <AccountCardContent
             activeTab={activeTab}
             showBalance={showBalance}
+            onToggleBalance={() => setShowBalance((value) => !value)}
             onSavingsDetailClick={onSavingsDetailClick}
             onDepositDetailClick={onDepositDetailClick}
           />
