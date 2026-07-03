@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 function DeleteSuccessPage({ onGoOnboarding }: { onGoOnboarding?: () => void }) {
   return (
     <div className="absolute inset-0 z-[140] flex flex-col bg-[#F9F9F9] px-6 py-[30px] text-black">
-      <main className="flex min-h-0 flex-1 items-center justify-center pb-[92px]">
+      <main className="flex min-h-0 flex-1 items-center justify-center pb-[124px]">
         <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-7 py-9 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
           <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EAF8EF]">
             <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#33AA00] text-white">

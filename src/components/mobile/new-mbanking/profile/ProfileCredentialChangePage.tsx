@@ -18,7 +18,7 @@ function SuccessState({
     <ProfileSubPageShell
       title={isPin ? "Ubah PIN" : "Ubah Kata Sandi"}
       onBack={() => {}}
-      className="relative flex min-h-full flex-col pb-[92px]"
+      className="relative flex min-h-full flex-col pb-[124px]"
     >
       <div className="flex min-h-[520px] flex-1 flex-col items-center justify-center text-center">
         <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full bg-[#EAF8EF]">
@@ -36,7 +36,7 @@ function SuccessState({
         </p>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 bg-white pt-4">
+      <div className="absolute inset-x-0 bottom-[26px] bg-white">
         <button
           type="button"
           onClick={onRequireLogin}
@@ -166,7 +166,7 @@ export default function ProfileCredentialChangePage({
     <ProfileSubPageShell
       title={isPin ? "Ubah PIN" : "Ubah Kata Sandi"}
       onBack={onBack}
-      className="relative flex min-h-full flex-col pb-[92px]"
+      className="relative flex min-h-full flex-col pb-[124px]"
     >
       <div className="rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
         <div className="flex items-start gap-3">
@@ -231,7 +231,7 @@ export default function ProfileCredentialChangePage({
         </div>
       ) : null}
 
-      <div className="absolute inset-x-0 bottom-0 bg-white pt-4">
+      <div className="absolute inset-x-0 bottom-[26px] bg-white">
         <button
           type="button"
           onClick={submit}
