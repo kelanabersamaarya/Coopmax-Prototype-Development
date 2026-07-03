@@ -12,6 +12,7 @@ import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankin
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
 import NewMBankingPaymentPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPage";
 import NewMBankingPortfolioPage from "@/components/mobile/new-mbanking/NewMBankingPortfolioPage";
+import NewMBankingProfilePage from "@/components/mobile/new-mbanking/NewMBankingProfilePage";
 import NewMBankingPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPurchasePage";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
@@ -33,6 +34,7 @@ export default function NewMBankingHome({
   const [showAccountDetail, setShowAccountDetail] = React.useState(false);
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
   const [showPortfolio, setShowPortfolio] = React.useState(false);
+  const [showProfile, setShowProfile] = React.useState(false);
   const [showDepositAccounts, setShowDepositAccounts] = React.useState(false);
   const [showLoanInstallment, setShowLoanInstallment] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
@@ -42,6 +44,12 @@ export default function NewMBankingHome({
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(
     null,
   );
+
+  function openProfile() {
+    setShowPortfolio(false);
+    setShowHistory(false);
+    setShowProfile(true);
+  }
 
   if (showLoanInstallment) {
     return (
@@ -85,12 +93,17 @@ export default function NewMBankingHome({
     return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
   }
 
+  if (showProfile) {
+    return <NewMBankingProfilePage onBack={() => setShowProfile(false)} />;
+  }
+
   if (showPortfolio) {
     return (
       <NewMBankingPortfolioPage
         onBack={() => setShowPortfolio(false)}
         onHomeClick={() => setShowPortfolio(false)}
         onQrisClick={() => setShowQrisFlow(true)}
+        onProfileClick={openProfile}
       />
     );
   }
@@ -108,6 +121,7 @@ export default function NewMBankingHome({
           setShowHistory(false);
           setShowQrisFlow(true);
         }}
+        onProfileClick={openProfile}
       />
     );
   }
@@ -183,6 +197,7 @@ export default function NewMBankingHome({
         onPortfolioClick={() => setShowPortfolio(true)}
         onQrisClick={() => setShowQrisFlow(true)}
         onHistoryClick={() => setShowHistory(true)}
+        onProfileClick={openProfile}
       />
 
       <NewMBankingTransferTypeModal

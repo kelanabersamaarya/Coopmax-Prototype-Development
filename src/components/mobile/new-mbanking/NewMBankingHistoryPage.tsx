@@ -364,11 +364,13 @@ export default function NewMBankingHistoryPage({
   onHomeClick,
   onPortfolioClick,
   onQrisClick,
+  onProfileClick,
 }: {
   onBack: () => void;
   onHomeClick: () => void;
   onPortfolioClick: () => void;
   onQrisClick: () => void;
+  onProfileClick?: () => void;
 }) {
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [showFilterPage, setShowFilterPage] = React.useState(false);
@@ -497,6 +499,7 @@ export default function NewMBankingHistoryPage({
         onHomeClick={onHomeClick}
         onPortfolioClick={onPortfolioClick}
         onQrisClick={onQrisClick}
+        onProfileClick={onProfileClick}
       />
     </div>
   );

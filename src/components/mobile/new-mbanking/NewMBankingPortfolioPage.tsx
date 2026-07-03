@@ -495,10 +495,12 @@ export default function NewMBankingPortfolioPage({
   onBack,
   onHomeClick,
   onQrisClick,
+  onProfileClick,
 }: {
   onBack: () => void;
   onHomeClick: () => void;
   onQrisClick: () => void;
+  onProfileClick?: () => void;
 }) {
   const [activeTab, setActiveTab] = React.useState<PortfolioTab>("aset");
   const [showSavingsDetail, setShowSavingsDetail] = React.useState(false);
@@ -564,6 +566,7 @@ export default function NewMBankingPortfolioPage({
         onHomeClick={onHomeClick}
         onPortfolioClick={() => {}}
         onQrisClick={onQrisClick}
+        onProfileClick={onProfileClick}
       />
     </div>
   );
