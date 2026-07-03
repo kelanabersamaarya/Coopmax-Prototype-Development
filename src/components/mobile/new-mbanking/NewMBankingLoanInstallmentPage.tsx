@@ -12,10 +12,7 @@ type LoanAccount = {
   accountNo: string;
   totalLoan: string;
   remainingLoan: string;
-  installmentAmount: string;
   dueDate: string;
-  installmentNo: string;
-  status: "Belum Dibayar" | "Lunas";
 };
 
 type InstallmentHistory = {
@@ -34,10 +31,7 @@ const loanAccounts: LoanAccount[] = [
     accountNo: "SMG260004",
     totalLoan: "Rp. 12.000.000,00",
     remainingLoan: "Rp. 10.000.000,00",
-    installmentAmount: "Rp. 991.666,00",
     dueDate: "25-01-2026",
-    installmentNo: "Angsuran Ke-1",
-    status: "Belum Dibayar",
   },
   {
     id: "loan-2",
@@ -45,10 +39,7 @@ const loanAccounts: LoanAccount[] = [
     accountNo: "12260006",
     totalLoan: "Rp. 12.000.000,00",
     remainingLoan: "Rp. 10.553.571,00",
-    installmentAmount: "Rp. 991.666,00",
     dueDate: "16-03-2027",
-    installmentNo: "Angsuran Ke-1",
-    status: "Belum Dibayar",
   },
   {
     id: "loan-3",
@@ -56,10 +47,7 @@ const loanAccounts: LoanAccount[] = [
     accountNo: "072260001",
     totalLoan: "Rp. 22.000.000,00",
     remainingLoan: "Rp. 22.000.000,00",
-    installmentAmount: "Rp. 916.667,00",
     dueDate: "30-09-2026",
-    installmentNo: "Angsuran Ke-1",
-    status: "Belum Dibayar",
   },
   {
     id: "loan-4",
@@ -67,10 +55,7 @@ const loanAccounts: LoanAccount[] = [
     accountNo: "210260001",
     totalLoan: "Rp. 20.000.000,00",
     remainingLoan: "Rp. 20.000.000,00",
-    installmentAmount: "Rp. 1.233.400,00",
     dueDate: "27-06-2026",
-    installmentNo: "Angsuran Ke-1",
-    status: "Belum Dibayar",
   },
 ];
 
@@ -126,7 +111,7 @@ function LoanAccountCard({ account }: { account: LoanAccount }) {
     >
       <div
         className={cn(
-          "relative min-h-[224px] overflow-hidden rounded-[20px]",
+          "relative min-h-[178px] overflow-hidden rounded-[20px]",
           "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_52%,#115E59_100%)]",
           "px-5 py-5 text-white shadow-[0_12px_28px_rgba(20,184,166,0.18)]",
         )}
@@ -137,46 +122,24 @@ function LoanAccountCard({ account }: { account: LoanAccount }) {
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
         <div className="relative z-10">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <div className="text-[12px] font-normal leading-none text-white/78">
-                Produk Pinjaman
-              </div>
-              <div className="mt-[8px] truncate text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
-                {account.productName}
-              </div>
+          <div className="min-w-0">
+            <div className="text-[12px] font-normal leading-none text-white/78">
+              Produk Pinjaman
             </div>
-
-            <span
-              className={cn(
-                "shrink-0 rounded-full px-[12px] py-[8px]",
-                "text-[11px] font-semibold leading-none shadow-sm",
-                account.status === "Belum Dibayar"
-                  ? "bg-white text-[#0F766E]"
-                  : "bg-[#E8F8EF] text-[#15965A]",
-              )}
-            >
-              {account.status}
-            </span>
+            <div className="mt-[8px] truncate text-[18px] font-bold leading-tight tracking-[-0.03em] text-white">
+              {account.productName}
+            </div>
           </div>
 
-          <div className="mt-[18px] grid grid-cols-2 gap-x-4 gap-y-[18px]">
+          <div className="mt-[22px] grid grid-cols-2 gap-x-4 gap-y-[18px]">
             <LoanInfoBlock
               label="No. Pinjaman"
               value={account.accountNo}
               withCopy
             />
-            <LoanInfoBlock label="Angsuran" value={account.installmentNo} />
+            <LoanInfoBlock label="Jatuh Tempo" value={account.dueDate} />
             <LoanInfoBlock label="Total Pinjaman" value={account.totalLoan} />
             <LoanInfoBlock label="Sisa Pinjaman" value={account.remainingLoan} />
-            <LoanInfoBlock
-              label="Jatuh Tempo"
-              value={account.dueDate}
-            />
-            <LoanInfoBlock
-              label="Total Bayar"
-              value={account.installmentAmount}
-            />
           </div>
         </div>
       </div>
