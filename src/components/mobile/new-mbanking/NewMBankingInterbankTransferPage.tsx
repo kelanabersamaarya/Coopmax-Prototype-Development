@@ -223,6 +223,7 @@ export default function NewMBankingInterbankTransferPage({
   if (showNewRecipientForm) {
     return (
       <NewMBankingNewRecipientTransferPage
+        hideBankSelection={isTransferAntarRekening}
         onBack={() => setShowNewRecipientForm(false)}
         onDone={onTransferDone ?? onBack}
       />
