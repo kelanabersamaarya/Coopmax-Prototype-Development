@@ -21,38 +21,47 @@ const paymentCategories = [
   {
     label: "Listrik",
     icon: Bolt,
+    frameClassName: "bg-[#F59E0B]",
   },
   {
     label: "Air",
     icon: Droplets,
+    frameClassName: "bg-[#06B6D4]",
   },
   {
     label: "Internet",
     icon: Wifi,
+    frameClassName: "bg-[#2563EB]",
   },
   {
     label: "BPJS Kesehatan",
     icon: HeartPulse,
+    frameClassName: "bg-[#22C55E]",
   },
   {
     label: "Pulsa Pascabayar",
     icon: Smartphone,
+    frameClassName: "bg-[#479DF4]",
   },
   {
     label: "PBB",
     icon: Map,
+    frameClassName: "bg-[#8B5CF6]",
   },
   {
     label: "TV",
     icon: Monitor,
+    frameClassName: "bg-[#14B8A6]",
   },
   {
     label: "Finance",
     icon: Landmark,
+    frameClassName: "bg-[#3B82F6]",
   },
   {
     label: "E-Commerce",
     icon: ShoppingCart,
+    frameClassName: "bg-[#EF4444]",
   },
 ];
 
@@ -107,9 +116,15 @@ export default function NewMBankingPaymentPage({
                   className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
                   aria-label={category.label}
                 >
-                  <span className="grid h-[64px] w-[64px] place-items-center rounded-[18px] border border-[#D8D8D8] bg-white text-[#479DF4] shadow-none">
+                  <span
+                    className={cn(
+                      "grid h-[64px] w-[64px] place-items-center rounded-[18px]",
+                      "border-0 text-white shadow-none ring-0 outline-none",
+                      category.frameClassName,
+                    )}
+                  >
                     <Icon
-                      className="h-[31px] w-[31px] text-[#479DF4]"
+                      className="h-[31px] w-[31px] text-white"
                       strokeWidth={2.25}
                     />
                   </span>
