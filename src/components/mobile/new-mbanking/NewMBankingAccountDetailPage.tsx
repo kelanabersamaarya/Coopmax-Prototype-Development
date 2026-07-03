@@ -11,6 +11,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingDepositPage from "@/components/mobile/new-mbanking/NewMBankingDepositPage";
 import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
 
 type TransactionItem = {
@@ -223,6 +224,11 @@ export default function NewMBankingAccountDetailPage({
   const [showBalance, setShowBalance] = React.useState(true);
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(null);
+  const [showDeposit, setShowDeposit] = React.useState(false);
+
+  if (showDeposit) {
+    return <NewMBankingDepositPage onBack={() => setShowDeposit(false)} />;
+  }
 
   if (transferMode) {
     return (
@@ -331,6 +337,7 @@ export default function NewMBankingAccountDetailPage({
               icon={Banknote}
               label="Setor"
               frameClassName="bg-[#479DF4]"
+              onClick={() => setShowDeposit(true)}
             />
             <QuickActionButton
               icon={Landmark}
