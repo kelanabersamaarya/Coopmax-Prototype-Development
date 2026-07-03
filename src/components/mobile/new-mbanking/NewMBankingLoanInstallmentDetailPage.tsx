@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ArrowLeft, Eye, History } from "lucide-react";
 import { cn } from "@/lib/utils";
-import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
+import NewMBankingBillListPage from "@/components/mobile/new-mbanking/NewMBankingBillListPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingInstallmentConfirmModal from "@/components/mobile/new-mbanking/NewMBankingInstallmentConfirmModal";
 import NewMBankingInstallmentPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingInstallmentPaymentSuccessPage";
@@ -137,7 +137,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
 
   if (showBillList) {
     return (
-      <EKolektorBillListPage
+      <NewMBankingBillListPage
         accountNo={account.accountNo}
         showSpecialNextBillInfo={false}
         singleBillWithNextInfo
