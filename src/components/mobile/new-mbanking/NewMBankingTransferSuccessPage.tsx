@@ -53,22 +53,25 @@ export default function NewMBankingTransferSuccessPage({
             Ref ID : TRF221112222
           </div>
 
-          <div className="mt-[10px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] rounded-[14px] border border-[#D8D8D8] bg-white px-[14px] py-[10px] text-left">
-            <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
+          <div className="relative mt-[10px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)] px-[14px] py-[10px] text-left text-white shadow-[0_10px_22px_rgba(37,99,235,0.18)]">
+            <div className="pointer-events-none absolute -right-[30px] -top-[28px] h-[88px] w-[88px] rounded-full bg-white/16" />
+            <div className="pointer-events-none absolute right-[48px] top-[32px] h-[40px] w-[40px] rounded-full bg-cyan-200/16" />
+
+            <span className="relative z-10 flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full bg-white/20 text-white shadow-sm ring-1 ring-white/20">
               <WalletCards
                 className="h-[18px] w-[18px] text-white"
                 strokeWidth={2.6}
               />
             </span>
 
-            <div className="min-w-0">
-              <div className="text-[11px] font-normal leading-none text-[#828282]">
+            <div className="relative z-10 min-w-0">
+              <div className="text-[11px] font-normal leading-none text-white/82">
                 Sumber Dana
               </div>
-              <div className="mt-[6px] truncate text-[13px] font-normal leading-none text-black">
+              <div className="mt-[6px] truncate text-[13px] font-normal leading-none text-white">
                 Simpanan Kaya
               </div>
-              <div className="mt-[5px] truncate text-[13px] font-normal leading-none text-[#8F8F8F]">
+              <div className="mt-[5px] truncate text-[13px] font-normal leading-none text-white/82">
                 112233111
               </div>
             </div>
