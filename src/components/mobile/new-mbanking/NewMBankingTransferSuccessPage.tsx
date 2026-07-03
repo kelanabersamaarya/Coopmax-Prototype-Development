@@ -12,14 +12,17 @@ const transferSourceFund: SourceFundAccount = {
 export default function NewMBankingTransferSuccessPage({
   recipientAccountNo,
   nominal,
+  description,
   onDone,
 }: {
   recipientAccountNo: string;
   nominal: string;
+  description: string;
   onDone: () => void;
 }) {
   const displayedRecipientAccount = recipientAccountNo.trim() || "22111122333";
   const displayedNominal = nominal.trim() || "50.000,00";
+  const displayedDescription = description.trim() || "Bayar UKT";
 
   return (
     <div className="flex h-full min-h-full flex-col bg-[#F9F9F9] px-6 py-[30px] text-black">
@@ -43,7 +46,7 @@ export default function NewMBankingTransferSuccessPage({
             <div className="text-[12px] font-normal text-[#828282]">
               Nominal Transaksi
             </div>
-            <div className="mt-[8px] text-[22px] font-bold leading-tight text-black">
+            <div class="mt-[8px] text-[22px] font-bold leading-tight text-black">
               Rp. {displayedNominal}
             </div>
           </div>
@@ -77,6 +80,15 @@ export default function NewMBankingTransferSuccessPage({
               <div className="mt-[8px] truncate text-[14px] font-normal leading-none text-black">
                 Suyatna • {displayedRecipientAccount}
               </div>
+            </div>
+          </div>
+
+          <div className="mt-[12px] w-[302px] max-w-full rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] py-[14px] text-left">
+            <div className="text-[12px] font-normal leading-none text-[#828282]">
+              Deskripsi
+            </div>
+            <div className="mt-[8px] break-words text-[14px] font-normal leading-snug text-black">
+              {displayedDescription}
             </div>
           </div>
 

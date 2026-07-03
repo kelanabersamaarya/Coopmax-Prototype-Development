@@ -55,6 +55,7 @@ export default function NewMBankingNewRecipientTransferPage({
       <NewMBankingTransferSuccessPage
         recipientAccountNo={accountNo}
         nominal={amount}
+        description={description}
         onDone={onBack}
       />
     );
