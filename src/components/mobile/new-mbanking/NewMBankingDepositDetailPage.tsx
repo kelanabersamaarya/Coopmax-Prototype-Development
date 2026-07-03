@@ -1,4 +1,4 @@
-import { ArrowLeft, Copy, TrendingUp } from "lucide-react";
+import { ArrowLeft, Banknote, Copy, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
@@ -14,20 +14,111 @@ const depositoInfo = [
   { label: "Rekening Penampung", value: "112233111" },
 ];
 
-const historyItems = [
+type DepositHistoryItem = {
+  id: string;
+  title: string;
+  subtitle: string;
+  amount: string;
+  status: string;
+};
+
+type DepositHistoryGroup = {
+  date: string;
+  items: DepositHistoryItem[];
+};
+
+const historyGroups: DepositHistoryGroup[] = [
   {
-    title: "Pembukaan Deposito",
     date: "30 Juni 2026",
-    amount: "Rp. 5.000.000,00",
-    status: "Berhasil",
+    items: [
+      {
+        id: "deposit-open",
+        title: "Pembukaan Deposito",
+        subtitle: "Deposito Koperasi • DEP112233",
+        amount: "Rp. 5.000.000,00",
+        status: "Berhasil",
+      },
+    ],
   },
   {
-    title: "Bunga Deposito",
     date: "30 Juli 2026",
-    amount: "Rp. 25.000,00",
-    status: "Terjadwal",
+    items: [
+      {
+        id: "deposit-interest",
+        title: "Bunga Deposito",
+        subtitle: "Deposito Koperasi • Bunga Bulanan",
+        amount: "Rp. 25.000,00",
+        status: "Terjadwal",
+      },
+    ],
   },
 ];
+
+function DepositHistoryIcon() {
+  return (
+    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#EAF8EF] text-[#33AA00]">
+      <Banknote className="h-[20px] w-[20px]" strokeWidth={2.6} />
+    </span>
+  );
+}
+
+function DepositHistoryRow({ item }: { item: DepositHistoryItem }) {
+  const isScheduled = item.status === "Terjadwal";
+
+  return (
+    <div className="flex items-start justify-between gap-4 py-[14px]">
+      <div className="flex min-w-0 flex-1 items-start gap-3">
+        <DepositHistoryIcon />
+
+        <div className="min-w-0 pt-[2px]">
+          <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
+            {item.title}
+          </div>
+          <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
+            {item.subtitle}
+          </div>
+        </div>
+      </div>
+
+      <div className="shrink-0 pt-[2px] text-right">
+        <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-[#15965A]">
+          {item.amount}
+        </div>
+
+        <div
+          className={cn(
+            "mt-[7px] inline-flex h-[22px] items-center rounded-full px-[10px]",
+            "text-[11px] font-semibold leading-none",
+            isScheduled
+              ? "bg-[#EEF6FF] text-[#2563EB]"
+              : "bg-[#E8F8EF] text-[#15965A]",
+          )}
+        >
+          {item.status}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DepositHistoryGroupCard({ group }: { group: DepositHistoryGroup }) {
+  return (
+    <section className="mt-[22px]">
+      <div className="flex items-center gap-3">
+        <div className="shrink-0 text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+          {group.date}
+        </div>
+        <div className="h-px min-w-0 flex-1 bg-[#E5E7EB]" />
+      </div>
+
+      <div className="mt-[8px] divide-y divide-[#EEF0F4]">
+        {group.items.map((item) => (
+          <DepositHistoryRow key={item.id} item={item} />
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default function NewMBankingDepositDetailPage({
   onBack,
@@ -137,30 +228,9 @@ export default function NewMBankingDepositDetailPage({
             </div>
             <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
-            <div className="mt-[10px] divide-y divide-[#EEF0F4]">
-              {historyItems.map((item) => (
-                <div
-                  key={`${item.title}-${item.date}`}
-                  className="flex items-start justify-between gap-4 py-[14px]"
-                >
-                  <div className="min-w-0">
-                    <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
-                      {item.title}
-                    </div>
-                    <div className="mt-[6px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-                      {item.date}
-                    </div>
-                  </div>
-
-                  <div className="shrink-0 text-right">
-                    <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
-                      {item.amount}
-                    </div>
-                    <div className="mt-[8px] inline-flex h-[24px] items-center rounded-full bg-[#E8F8EF] px-[11px] text-[11px] font-semibold leading-none text-[#15965A]">
-                      {item.status}
-                    </div>
-                  </div>
-                </div>
+            <div className="mt-[6px]">
+              {historyGroups.map((group) => (
+                <DepositHistoryGroupCard key={group.date} group={group} />
               ))}
             </div>
           </section>
