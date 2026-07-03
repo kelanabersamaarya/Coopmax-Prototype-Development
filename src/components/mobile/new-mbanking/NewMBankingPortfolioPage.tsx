@@ -146,44 +146,170 @@ function TotalAssetCard() {
   );
 }
 
+function polarToCartesian(
+  centerX: number,
+  centerY: number,
+  radius: number,
+  angleInDegrees: number,
+) {
+  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
+
+  return {
+    x: centerX + radius * Math.cos(angleInRadians),
+    y: centerY + radius * Math.sin(angleInRadians),
+  };
+}
+
+function describePieSlice(
+  centerX: number,
+  centerY: number,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+) {
+  const start = polarToCartesian(centerX, centerY, radius, endAngle);
+  const end = polarToCartesian(centerX, centerY, radius, startAngle);
+  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+  return [
+    `M ${centerX} ${centerY}`,
+    `L ${start.x} ${start.y}`,
+    `A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
+    "Z",
+  ].join(" ");
+}
+
+function PieLabel({
+  x,
+  y,
+  percent,
+  lineOne,
+  lineTwo,
+  percentSize = 28,
+  labelSize = 16,
+}: {
+  x: number;
+  y: number;
+  percent: string;
+  lineOne: string;
+  lineTwo: string;
+  percentSize?: number;
+  labelSize?: number;
+}) {
+  return (
+    <text
+      x={x}
+      y={y}
+      textAnchor="middle"
+      fill="white"
+      style={{
+        filter: "drop-shadow(0 1px 1px rgba(15, 23, 42, 0.32))",
+      }}
+    >
+      <tspan
+        x={x}
+        dy="0"
+        fontSize={percentSize}
+        fontWeight={800}
+        letterSpacing="-0.03em"
+      >
+        {percent}
+      </tspan>
+      <tspan
+        x={x}
+        dy={labelSize + 8}
+        fontSize={labelSize}
+        fontWeight={500}
+        letterSpacing="-0.03em"
+      >
+        {lineOne}
+      </tspan>
+      <tspan
+        x={x}
+        dy={labelSize + 3}
+        fontSize={labelSize}
+        fontWeight={500}
+        letterSpacing="-0.03em"
+      >
+        {lineTwo}
+      </tspan>
+    </text>
+  );
+}
+
 function PortfolioDonutChart() {
+  const center = 146;
+  const radius = 146;
+
   return (
     <section className="mt-[26px] flex justify-center">
-      <div className="relative h-[292px] w-[292px] overflow-hidden rounded-full shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "conic-gradient(from -68deg, #55C7E8 0deg 144deg, #2DAE63 144deg 216deg, #2F80ED 216deg 360deg)",
-          }}
-        />
+      <div className="relative h-[292px] w-[292px]">
+        <svg
+          viewBox="0 0 292 292"
+          className="h-full w-full overflow-visible drop-shadow-[0_12px_30px_rgba(15,23,42,0.08)]"
+          aria-label="Komposisi aset"
+        >
+          <path
+            d={describePieSlice(center, center, radius, 300, 444)}
+            fill="#2F80ED"
+          />
+          <path
+            d={describePieSlice(center, center, radius, 84, 156)}
+            fill="#2DAE63"
+          />
+          <path
+            d={describePieSlice(center, center, radius, 156, 300)}
+            fill="#55C7E8"
+          />
 
-        <div className="absolute left-[34px] top-[96px] w-[128px] text-center text-white">
-          <div className="text-[26px] font-extrabold leading-none tracking-[-0.03em]">
-            40%
-          </div>
-          <div className="mt-[8px] text-[18px] font-normal leading-tight tracking-[-0.03em]">
-            Simpanan Kaya
-          </div>
-        </div>
+          <path
+            d={describePieSlice(center, center, radius, 300, 444)}
+            fill="none"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <path
+            d={describePieSlice(center, center, radius, 84, 156)}
+            fill="none"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <path
+            d={describePieSlice(center, center, radius, 156, 300)}
+            fill="none"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
 
-        <div className="absolute right-[20px] top-[78px] w-[112px] text-center text-white">
-          <div className="text-[24px] font-extrabold leading-none tracking-[-0.03em]">
-            20%
-          </div>
-          <div className="mt-[8px] text-[16px] font-normal leading-tight tracking-[-0.03em]">
-            Deposito Koperasi
-          </div>
-        </div>
+          <PieLabel
+            x={210}
+            y={80}
+            percent="40%"
+            lineOne="Simpanan"
+            lineTwo="Kaya"
+          />
 
-        <div className="absolute bottom-[62px] left-[92px] w-[150px] text-center text-white">
-          <div className="text-[26px] font-extrabold leading-none tracking-[-0.03em]">
-            40%
-          </div>
-          <div className="mt-[8px] text-[18px] font-normal leading-tight tracking-[-0.03em]">
-            Simpanan Mapan
-          </div>
-        </div>
+          <PieLabel
+            x={212}
+            y={185}
+            percent="20%"
+            lineOne="Deposito"
+            lineTwo="Koperasi"
+            percentSize={25}
+            labelSize={15}
+          />
+
+          <PieLabel
+            x={82}
+            y={150}
+            percent="40%"
+            lineOne="Simpanan"
+            lineTwo="Mapan"
+          />
+        </svg>
 
         <div className="sr-only">
           <PieChart />
