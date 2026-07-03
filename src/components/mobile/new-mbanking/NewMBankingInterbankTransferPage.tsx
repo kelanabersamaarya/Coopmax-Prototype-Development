@@ -1,5 +1,6 @@
 import * as React from "react";
-import { ArrowLeft, Send, UserPlus } from "lucide-react";
+import { ArrowLeft, QrCode, Send, UserPlus } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -76,26 +77,34 @@ const transferHistories: TransferHistory[] = [
   },
 ];
 
-function NewRecipientCard({ onClick }: { onClick: () => void }) {
+function TransferOptionCard({
+  icon: Icon,
+  label,
+  onClick,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  label: string;
+  onClick: () => void;
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
       className={cn(
-        "mt-[22px] flex h-[132px] w-full flex-col items-center justify-center",
+        "flex h-[132px] w-full flex-col items-center justify-center",
         "rounded-[24px] border border-[#E5E7EB] bg-white",
         "shadow-[0_5px_18px_rgba(15,23,42,0.06)]",
         "transition active:scale-[0.99]",
       )}
-      aria-label="Penerima Baru"
-      title="Penerima Baru"
+      aria-label={label}
+      title={label}
     >
       <span className="grid h-[58px] w-[58px] place-items-center rounded-full bg-[#479DF4] text-white">
-        <UserPlus className="h-[29px] w-[29px] text-white" strokeWidth={2.35} />
+        <Icon className="h-[29px] w-[29px] text-white" strokeWidth={2.35} />
       </span>
 
       <span className="mt-[12px] text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
-        Penerima Baru
+        {label}
       </span>
     </button>
   );
@@ -210,6 +219,8 @@ export default function NewMBankingInterbankTransferPage({
   const [activeTab, setActiveTab] = React.useState<TransferTab>("saved");
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
 
+  const isTransferAntarRekening = title === "Transfer Antar Rekening";
+
   if (showNewRecipientForm) {
     return (
       <NewMBankingNewRecipientTransferPage
@@ -242,7 +253,25 @@ export default function NewMBankingInterbankTransferPage({
       </div>
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-white px-6 pb-[34px] pt-[4px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <NewRecipientCard onClick={() => setShowNewRecipientForm(true)} />
+        <div className={cn("mt-[22px] grid gap-[12px]", isTransferAntarRekening ? "grid-cols-2" : "grid-cols-1")}>
+          <TransferOptionCard
+            icon={UserPlus}
+            label="Penerima Baru"
+            onClick={() => setShowNewRecipientForm(true)}
+          />
+
+          {isTransferAntarRekening ? (
+            <TransferOptionCard
+              icon={QrCode}
+              label="QR Transfer"
+              onClick={() =>
+                toast("QR Transfer (prototype)", {
+                  description: "Detail QR Transfer akan ditambahkan menyusul.",
+                })
+              }
+            />
+          ) : null}
+        </div>
 
         <TransferTabs active={activeTab} onChange={setActiveTab} />
 
