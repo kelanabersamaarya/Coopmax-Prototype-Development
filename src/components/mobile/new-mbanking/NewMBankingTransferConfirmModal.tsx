@@ -128,6 +128,7 @@ export default function NewMBankingTransferConfirmModal({
   const displayedRecipientAccount = recipientAccountNo.trim() || "22111122333";
   const displayedDescription = description.trim() || "Bayar UKT";
   const displayedNominal = nominal.trim() || "50.000,00";
+  const displayedAdminFee = "2.500,00";
   const sourceFundAccount = buildSourceFundAccount(sourceInfo);
 
   return createPortal(
@@ -186,10 +187,11 @@ export default function NewMBankingTransferConfirmModal({
         <SectionBlock title="Transaksi">
           <div className="grid gap-[14px]">
             <TransactionRow label="Nominal" value={displayedNominal} />
+            <TransactionRow label="Biaya Admin" value={displayedAdminFee} />
 
             <div className="border-t border-dashed border-[#D8D8D8]" />
 
-            <TransactionRow label="Total" value={displayedNominal} strong />
+            <TransactionRow label="Total" value={totalWithFee} strong />
           </div>
         </SectionBlock>
 
