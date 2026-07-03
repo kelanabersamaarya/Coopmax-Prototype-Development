@@ -9,6 +9,7 @@ import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBan
 import NewMBankingInterbankTransferPage from "@/components/mobile/new-mbanking/NewMBankingInterbankTransferPage";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
+import NewMBankingPaymentPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPage";
 import NewMBankingPortfolioPage from "@/components/mobile/new-mbanking/NewMBankingPortfolioPage";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
@@ -32,10 +33,15 @@ export default function NewMBankingHome({
   const [showPortfolio, setShowPortfolio] = React.useState(false);
   const [showDepositAccounts, setShowDepositAccounts] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
+  const [showPayment, setShowPayment] = React.useState(false);
   const [transferTypeOpen, setTransferTypeOpen] = React.useState(false);
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(
     null,
   );
+
+  if (showPayment) {
+    return <NewMBankingPaymentPage onBack={() => setShowPayment(false)} />;
+  }
 
   if (transferMode) {
     return (
@@ -136,6 +142,7 @@ export default function NewMBankingHome({
           <NewMBankingQuickActionGrid
             onDepositClick={() => setShowDepositAccounts(true)}
             onTransferClick={() => setTransferTypeOpen(true)}
+            onPaymentClick={() => setShowPayment(true)}
           />
         </section>
 
