@@ -2,8 +2,8 @@ import * as React from "react";
 import {
   ArrowLeft,
   Banknote,
+  Filter,
   Send,
-  SlidersHorizontal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
@@ -190,7 +190,7 @@ export default function NewMBankingHistoryPage({
             aria-label="Filter riwayat transaksi"
             title="Filter"
           >
-            <SlidersHorizontal className="h-[22px] w-[22px]" strokeWidth={2.6} />
+            <Filter className="h-[22px] w-[22px]" strokeWidth={2.6} />
           </button>
         </header>
       </div>
