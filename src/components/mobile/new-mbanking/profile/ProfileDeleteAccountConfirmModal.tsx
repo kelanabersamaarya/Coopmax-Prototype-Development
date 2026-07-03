@@ -47,11 +47,6 @@ export default function ProfileDeleteAccountConfirmModal({
                 Yakin Hapus Akun?
               </div>
             </div>
-
-            <p className="mt-3 text-[13px] font-normal leading-relaxed text-[#828282]">
-              Akun M-Banking akan dihapus dan Anda akan diarahkan kembali ke
-              halaman awal aplikasi.
-            </p>
           </div>
 
           <button
