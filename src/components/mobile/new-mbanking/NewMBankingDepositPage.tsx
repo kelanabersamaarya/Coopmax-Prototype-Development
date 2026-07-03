@@ -48,7 +48,7 @@ function DestinationAccountCard() {
         "relative mt-[18px] min-h-[104px] overflow-hidden rounded-[15px]",
         "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
         "px-[18px] py-[13px] text-white",
-        "shadow-[0_12px_26px_rgba(37,99,235,0.22)] ring-1 ring-white/25",
+        "border-0 shadow-none ring-0 outline-none",
       )}
     >
       <div className="pointer-events-none absolute -right-[42px] -top-[40px] h-[128px] w-[128px] rounded-full bg-white/16" />
@@ -57,7 +57,7 @@ function DestinationAccountCard() {
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
       <div className="relative z-10 flex h-full min-h-[78px] items-center gap-[13px]">
-        <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
+        <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full border-0 bg-[#18B7A1] text-white shadow-none ring-0 outline-none">
           <UserRound className="h-[22px] w-[22px] text-white" strokeWidth={2.6} />
         </span>
 
