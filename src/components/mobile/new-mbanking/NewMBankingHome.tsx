@@ -6,6 +6,7 @@ import NewMBankingHomeBrandHeader from "@/components/mobile/new-mbanking/NewMBan
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
+import NewMBankingPortfolioPage from "@/components/mobile/new-mbanking/NewMBankingPortfolioPage";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 import NewMBankingWelcomeItem from "@/components/mobile/new-mbanking/NewMBankingWelcomeItem";
@@ -22,9 +23,20 @@ export default function NewMBankingHome({
   const [logoutOpen, setLogoutOpen] = React.useState(false);
   const [showAccountDetail, setShowAccountDetail] = React.useState(false);
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
+  const [showPortfolio, setShowPortfolio] = React.useState(false);
 
   if (showQrisFlow) {
     return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
+  }
+
+  if (showPortfolio) {
+    return (
+      <NewMBankingPortfolioPage
+        onBack={() => setShowPortfolio(false)}
+        onHomeClick={() => setShowPortfolio(false)}
+        onQrisClick={() => setShowQrisFlow(true)}
+      />
+    );
   }
 
   if (showAccountDetail) {
@@ -86,7 +98,12 @@ export default function NewMBankingHome({
         </div>
       </main>
 
-      <NewMBankingHomeMenuSection onQrisClick={() => setShowQrisFlow(true)} />
+      <NewMBankingHomeMenuSection
+        activeTab="home"
+        onHomeClick={() => {}}
+        onPortfolioClick={() => setShowPortfolio(true)}
+        onQrisClick={() => setShowQrisFlow(true)}
+      />
 
       <NewMBankingLogoutConfirmModal
         open={logoutOpen}

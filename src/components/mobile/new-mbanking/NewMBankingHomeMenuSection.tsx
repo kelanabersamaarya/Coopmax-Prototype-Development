@@ -2,42 +2,60 @@ import { FileText, Home, PieChart, ScanLine, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingQrisLogo from "@/components/mobile/new-mbanking/NewMBankingQrisLogo";
 
+type NewMBankingHomeNavTab = "home" | "portfolio" | "history" | "profile";
+
 const menuItems = [
   {
+    id: "home" as const,
     label: "Beranda",
     icon: Home,
-    active: true,
+    center: false,
   },
   {
+    id: "portfolio" as const,
     label: "Portofolio",
     icon: PieChart,
-    active: false,
+    center: false,
   },
   {
+    id: "qris" as const,
     label: "QRIS",
     icon: ScanLine,
-    active: false,
     center: true,
   },
   {
+    id: "history" as const,
     label: "Riwayat",
     icon: FileText,
-    active: false,
+    center: false,
   },
   {
+    id: "profile" as const,
     label: "Profil",
     icon: UserRound,
-    active: false,
+    center: false,
   },
 ];
 
 export default function NewMBankingHomeMenuSection({
   className,
+  activeTab = "home",
+  onHomeClick,
+  onPortfolioClick,
   onQrisClick,
 }: {
   className?: string;
+  activeTab?: NewMBankingHomeNavTab;
+  onHomeClick?: () => void;
+  onPortfolioClick?: () => void;
   onQrisClick?: () => void;
 }) {
+  function handleClick(id: (typeof menuItems)[number]["id"]) {
+    if (id === "home") onHomeClick?.();
+    if (id === "portfolio") onPortfolioClick?.();
+    if (id === "qris") onQrisClick?.();
+  }
+
   return (
     <div
       className={cn(
@@ -49,13 +67,14 @@ export default function NewMBankingHomeMenuSection({
         <div className="grid h-full grid-cols-5 items-center gap-[16px]">
           {menuItems.map((item) => {
             const Icon = item.icon;
+            const isActive = activeTab === item.id;
 
             if (item.center) {
               return (
                 <button
                   key={item.label}
                   type="button"
-                  onClick={onQrisClick}
+                  onClick={() => handleClick(item.id)}
                   className="flex min-w-0 -translate-y-[18px] flex-col items-center justify-end rounded-[14px] transition active:scale-[0.97]"
                   aria-label={item.label}
                 >
@@ -73,15 +92,16 @@ export default function NewMBankingHomeMenuSection({
               <button
                 key={item.label}
                 type="button"
+                onClick={() => handleClick(item.id)}
                 className="relative h-full min-w-0 rounded-[14px] transition active:scale-[0.97]"
                 aria-label={item.label}
-                aria-current={item.active ? "page" : undefined}
+                aria-current={isActive ? "page" : undefined}
               >
                 <span className="absolute left-1/2 top-[14px] flex -translate-x-1/2 flex-col items-center">
                   <Icon
                     className={cn(
                       "h-[24px] w-[24px] shrink-0",
-                      item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
+                      isActive ? "text-[#479DF4]" : "text-[#8F8F8F]",
                     )}
                     strokeWidth={2.3}
                   />
@@ -89,7 +109,7 @@ export default function NewMBankingHomeMenuSection({
                   <span
                     className={cn(
                       "mt-[6px] max-w-[62px] truncate text-center text-[11px] font-normal leading-none tracking-[-0.02em]",
-                      item.active ? "text-[#479DF4]" : "text-[#8F8F8F]",
+                      isActive ? "text-[#479DF4]" : "text-[#8F8F8F]",
                     )}
                   >
                     {item.label}
