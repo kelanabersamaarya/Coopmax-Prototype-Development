@@ -116,7 +116,6 @@ export default function NewMBankingLoanInstallmentDetailPage({
         penalty={account.installmentBill.penalty}
         totalPay={account.installmentBill.totalPay}
         sourceFund={successSourceFund}
-        onBack={() => setShowSuccess(false)}
         onDone={onBack}
       />
     );

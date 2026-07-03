@@ -1,5 +1,4 @@
-import * as React from "react";
-import { ArrowLeft, Check, HandCoins } from "lucide-react";
+import { Check, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -39,7 +38,6 @@ export default function NewMBankingInstallmentPaymentSuccessPage({
   penalty,
   totalPay,
   sourceFund,
-  onBack,
   onDone,
 }: {
   productName: string;
@@ -50,28 +48,15 @@ export default function NewMBankingInstallmentPaymentSuccessPage({
   penalty: string;
   totalPay: string;
   sourceFund: SourceFundAccount;
-  onBack: () => void;
   onDone: () => void;
 }) {
-  const [saved, setSaved] = React.useState(false);
-
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 text-black">
       <main className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex min-h-full items-center justify-center py-[26px]">
           <section className="relative flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-6 py-7 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
-            <button
-              type="button"
-              onClick={onBack}
-              className="absolute left-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full text-black transition active:scale-[0.98]"
-              aria-label="Kembali"
-              title="Kembali"
-            >
-              <ArrowLeft className="h-[22px] w-[22px]" strokeWidth={2.6} />
-            </button>
-
-            <div className="flex h-[86px] w-[86px] items-center justify-center rounded-full bg-[#EEF6FF]">
-              <div className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-[#479FFE] text-white">
+            <div className="flex h-[86px] w-[86px] items-center justify-center rounded-full bg-[#EAF8EF]">
+              <div className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-[#33AA00] text-white">
                 <Check className="h-[42px] w-[42px]" strokeWidth={3.8} />
               </div>
             </div>
@@ -95,9 +80,6 @@ export default function NewMBankingInstallmentPaymentSuccessPage({
 
             <div className="mt-[10px] text-[12px] font-normal leading-relaxed text-[#828282]">
               30 Juni 2026, 22:15 WIB
-            </div>
-            <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              Ref ID : ANGS221112222
             </div>
 
             <div className="mt-[18px] flex min-h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
@@ -142,27 +124,6 @@ export default function NewMBankingInstallmentPaymentSuccessPage({
             </div>
 
             <div className="mt-[22px] grid w-full grid-cols-1 gap-[8px]">
-              <button
-                type="button"
-                onClick={() => setSaved(true)}
-                className={cn(
-                  "h-[42px] rounded-[10px] border-2 bg-white",
-                  saved
-                    ? "border-[#33AA00] text-[#33AA00]"
-                    : "border-[#479DF4] text-[#479DF4]",
-                  "text-[12px] font-normal leading-none transition active:scale-[0.98]",
-                )}
-              >
-                {saved ? (
-                  <span className="inline-flex items-center justify-center gap-2">
-                    <Check className="h-4 w-4" strokeWidth={3} />
-                    Bukti Tersimpan
-                  </span>
-                ) : (
-                  "Simpan Bukti Transaksi"
-                )}
-              </button>
-
               <button
                 type="button"
                 onClick={onDone}

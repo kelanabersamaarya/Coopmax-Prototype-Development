@@ -56,8 +56,8 @@ export default function NewMBankingElectricityPaymentSuccessPage({
       <main className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex min-h-full items-center justify-center py-[26px]">
           <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-6 py-7 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
-            <div className="flex h-[86px] w-[86px] items-center justify-center rounded-full bg-[#EEF6FF]">
-              <div className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-[#479FFE] text-white">
+            <div className="flex h-[86px] w-[86px] items-center justify-center rounded-full bg-[#EAF8EF]">
+              <div className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-[#33AA00] text-white">
                 <Check className="h-[42px] w-[42px]" strokeWidth={3.8} />
               </div>
             </div>
