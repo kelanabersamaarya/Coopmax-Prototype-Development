@@ -1,8 +1,9 @@
 import * as React from "react";
-import { ArrowLeft, Eye, HandCoins } from "lucide-react";
+import { ArrowLeft, Eye, HandCoins, History } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EKolektorBillListPage from "@/components/mobile/EKolektorBillListPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingLoanInstallmentHistoryPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentHistoryPage";
 
 export type NewMBankingLoanInstallmentAccount = {
   id: string;
@@ -87,6 +88,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
   onBack: () => void;
 }) {
   const [showBillList, setShowBillList] = React.useState(false);
+  const [showHistory, setShowHistory] = React.useState(false);
 
   if (showBillList) {
     return (
@@ -95,6 +97,15 @@ export default function NewMBankingLoanInstallmentDetailPage({
         showSpecialNextBillInfo={false}
         singleBillWithNextInfo
         onBack={() => setShowBillList(false)}
+      />
+    );
+  }
+
+  if (showHistory) {
+    return (
+      <NewMBankingLoanInstallmentHistoryPage
+        accountNo={account.accountNo}
+        onBack={() => setShowHistory(false)}
       />
     );
   }
@@ -139,6 +150,38 @@ export default function NewMBankingLoanInstallmentDetailPage({
                 {account.accountNo}
               </div>
             </div>
+          </div>
+
+          <div className="mt-[14px] grid grid-cols-2 gap-[10px]">
+            <button
+              type="button"
+              onClick={() => setShowBillList(true)}
+              className={cn(
+                "h-[46px] rounded-[10px] bg-[#479DF4]",
+                "text-[12px] font-semibold leading-none text-white",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              <span className="inline-flex items-center justify-center gap-2">
+                <Eye className="h-[17px] w-[17px]" strokeWidth={2.6} />
+                Lihat Tagihan
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowHistory(true)}
+              className={cn(
+                "h-[46px] rounded-[10px] border-2 border-[#479DF4] bg-white",
+                "text-[12px] font-semibold leading-none text-[#479DF4]",
+                "transition active:scale-[0.98]",
+              )}
+            >
+              <span className="inline-flex items-center justify-center gap-2">
+                <History className="h-[17px] w-[17px]" strokeWidth={2.6} />
+                Riwayat Angsuran
+              </span>
+            </button>
           </div>
 
           <section className="mt-[26px]">
@@ -198,36 +241,19 @@ export default function NewMBankingLoanInstallmentDetailPage({
       </main>
 
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
-        <div className="grid grid-cols-2 gap-[10px]">
-          <button
-            type="button"
-            onClick={() => setShowBillList(true)}
-            className={cn(
-              "h-[52px] rounded-[8px] border-2 border-[#479DF4] bg-white",
-              "text-[12px] font-semibold leading-none text-[#479DF4]",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            <span className="inline-flex items-center justify-center gap-2">
-              <Eye className="h-[18px] w-[18px]" strokeWidth={2.6} />
-              Lihat Tagihan
-            </span>
-          </button>
-
-          <button
-            type="button"
-            className={cn(
-              "h-[52px] rounded-[8px] bg-[#479DF4]",
-              "text-[12px] font-semibold leading-none text-white",
-              "transition active:scale-[0.98]",
-            )}
-          >
-            <span className="inline-flex items-center justify-center gap-2">
-              <HandCoins className="h-[18px] w-[18px]" strokeWidth={2.6} />
-              Bayar Angsuran
-            </span>
-          </button>
-        </div>
+        <button
+          type="button"
+          className={cn(
+            "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
+            "text-[12px] font-semibold leading-none text-white",
+            "transition active:scale-[0.98]",
+          )}
+        >
+          <span className="inline-flex items-center justify-center gap-2">
+            <HandCoins className="h-[18px] w-[18px]" strokeWidth={2.6} />
+            Bayar Angsuran
+          </span>
+        </button>
       </div>
     </div>
   );
