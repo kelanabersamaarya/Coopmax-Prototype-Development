@@ -31,9 +31,9 @@ function DestinationAccountCard() {
   return (
     <div
       className={cn(
-        "relative mt-[18px] min-h-[128px] overflow-hidden rounded-[15px]",
+        "relative mt-[18px] min-h-[104px] overflow-hidden rounded-[15px]",
         "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
-        "px-[18px] py-[16px] text-white",
+        "px-[18px] py-[13px] text-white",
         "shadow-[0_12px_26px_rgba(37,99,235,0.22)] ring-1 ring-white/25",
       )}
     >
@@ -42,9 +42,9 @@ function DestinationAccountCard() {
       <div className="pointer-events-none absolute -bottom-[34px] left-[72px] h-[92px] w-[92px] rounded-full bg-violet-950/12" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(15,23,42,0.12))]" />
 
-      <div className="relative z-10 flex h-full min-h-[96px] items-center gap-[13px]">
-        <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
-          <UserRound className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
+      <div className="relative z-10 flex h-full min-h-[78px] items-center gap-[13px]">
+        <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white shadow-sm ring-1 ring-white/20">
+          <UserRound className="h-[22px] w-[22px] text-white" strokeWidth={2.6} />
         </span>
 
         <div className="min-w-0 flex-1">
@@ -52,7 +52,7 @@ function DestinationAccountCard() {
             Arya
           </div>
 
-          <div className="mt-[10px] flex min-w-0 items-center gap-2">
+          <div className="mt-[8px] flex min-w-0 items-center gap-2">
             <span className="truncate text-[14px] font-normal leading-none text-white/88">
               11122333311 - Simpanan Kaya
             </span>
