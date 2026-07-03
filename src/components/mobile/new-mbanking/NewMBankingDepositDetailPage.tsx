@@ -1,6 +1,8 @@
+import * as React from "react";
 import { ArrowLeft, Banknote, Copy, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
+import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 
 const depositoInfo = [
   { label: "Nomor Rekening Deposito", value: "DEP112233" },
@@ -24,12 +26,14 @@ type DepositHistoryItem = {
 
 type DepositHistoryGroup = {
   date: string;
+  month: string;
   items: DepositHistoryItem[];
 };
 
 const historyGroups: DepositHistoryGroup[] = [
   {
     date: "30 Juni 2026",
+    month: "Jun",
     items: [
       {
         id: "deposit-open",
@@ -42,6 +46,7 @@ const historyGroups: DepositHistoryGroup[] = [
   },
   {
     date: "30 Juli 2026",
+    month: "Jul",
     items: [
       {
         id: "deposit-interest",
@@ -120,11 +125,30 @@ function DepositHistoryGroupCard({ group }: { group: DepositHistoryGroup }) {
   );
 }
 
+function EmptyDepositHistory() {
+  return (
+    <div className="mt-[42px] rounded-[22px] bg-[#F8FAFC] px-5 py-8 text-center">
+      <div className="text-[15px] font-bold text-black">
+        Tidak Ada Riwayat Deposito
+      </div>
+      <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
+        Belum ada riwayat deposito pada bulan yang dipilih.
+      </div>
+    </div>
+  );
+}
+
 export default function NewMBankingDepositDetailPage({
   onBack,
 }: {
   onBack: () => void;
 }) {
+  const [activeMonth, setActiveMonth] = React.useState("Jun");
+
+  const filteredHistoryGroups = React.useMemo(() => {
+    return historyGroups.filter((group) => group.month === activeMonth);
+  }, [activeMonth]);
+
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -228,10 +252,20 @@ export default function NewMBankingDepositDetailPage({
             </div>
             <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
+            <NewMBankingPaymentMonthSelector
+              activeMonth={activeMonth}
+              onChange={setActiveMonth}
+              className="mt-[18px]"
+            />
+
             <div className="mt-[6px]">
-              {historyGroups.map((group) => (
-                <DepositHistoryGroupCard key={group.date} group={group} />
-              ))}
+              {filteredHistoryGroups.length > 0 ? (
+                filteredHistoryGroups.map((group) => (
+                  <DepositHistoryGroupCard key={group.date} group={group} />
+                ))
+              ) : (
+                <EmptyDepositHistory />
+              )}
             </div>
           </section>
         </section>
