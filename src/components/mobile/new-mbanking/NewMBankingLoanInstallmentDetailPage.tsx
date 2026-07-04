@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Eye, History } from "lucide-react";
+import { ArrowLeft, Copy, Eye, History } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingBillListPage from "@/components/mobile/new-mbanking/NewMBankingBillListPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -51,14 +51,32 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function CardInfoRow({ label, value }: { label: string; value: string }) {
+function CardInfoRow({
+  label,
+  value,
+  copyable = false,
+}: {
+  label: string;
+  value: string;
+  copyable?: boolean;
+}) {
   return (
     <div className="min-w-0">
       <div className="text-[12px] font-normal leading-none text-white/78">
         {label}
       </div>
-      <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
-        {value}
+      <div className="mt-[8px] flex min-w-0 items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
+        <span className="truncate">{value}</span>
+        {copyable ? (
+          <button
+            type="button"
+            className="inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+            aria-label={`Salin ${label}`}
+            title="Salin"
+          >
+            <Copy className="h-[14px] w-[14px]" strokeWidth={2.5} />
+          </button>
+        ) : null}
       </div>
     </div>
   );
@@ -217,7 +235,11 @@ export default function NewMBankingLoanInstallmentDetailPage({
 
             <div className="relative z-10 grid gap-[18px]">
               <CardInfoRow label="Produk Pinjaman" value={account.productName} />
-              <CardInfoRow label="No. Rek. Pinjaman" value={account.accountNo} />
+              <CardInfoRow
+                label="No. Rek. Pinjaman"
+                value={account.accountNo}
+                copyable
+              />
               <CardInfoRow label="Jumlah Pinjaman" value={account.totalLoan} />
               <CardInfoRow label="Sisa Pinjaman" value={account.remainingLoan} />
             </div>
