@@ -58,7 +58,7 @@ const membershipActivationItems = [
   "Anggota Pengguna wajib menggunakan aplikasi resmi M-Banking DAM yang disediakan oleh M-Banking DAM pada Google Playstore yang didaftarkan oleh PT. Solusi Anak Sakti.",
   "Segala kerugian yang ditimbulkan akibat penggunaan aplikasi M-Banking DAM yang tidak berasal dari Koperasi Konsumen Dana Asri Mandiri, menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
   "Aktivasi M-Banking DAM wajib dilakukan sendiri oleh Anggota yang bersangkutan (tidak boleh dilakukan oleh orang lain) dengan menggunakan smartphone pribadi milik Anggota.",
-  "Anggota hanya dapat mengaktifkan 1 (satu) aplikasi M-Banking DAM pada 1 (satu) smartphone yang memiliki nomor Handphone sesuai dengan yang didaftarkan pada proses registrasi. Apabila terdapat lebih dari 1 (satu) smartphone yang mengaktifkan aplikasi M-Banking DAM dengan Username dan Nomor Handphone yang sama maka hanya smartphone yang terakhir mengaktifkan aplikasi tersebut yang dapat digunakan.",
+  "Anggota hanya dapat mengaktifkan 1 (satu) aplikasi M-Banking DAM pada 1 (satu) smartphone yang memiliki nomor Handphone sesuai dengan yang didaftarkan pada proses registrasi. Apabila terdapat lebih dari 1 (satu) smartphone yang mengaktifkan aplikasi tersebut dengan Username dan Nomor Handphone yang sama maka hanya smartphone yang terakhir mengaktifkan aplikasi tersebut yang dapat digunakan.",
 ];
 
 const transactionSecurityItems: Array<
@@ -147,12 +147,10 @@ const usageFeeItems: Array<
   {
     text: "Komponen biaya pada M-Banking DAM terdiri dari:",
     subItems: [
-      "Biaya Komunikasi.",
-      "Biaya Transaksi.",
+      "Biaya Komunikasi. Biaya Komunikasi akan dibebankan oleh provider telepon atau penyedia komunikasi lainnya yang terlibat (Internet Service Provider/ISP) kepada Anggota Pengguna atas setiap penggunaan jaringan komunikasi yang digunakan untuk mengakses fasilitas M-Banking DAM. Besarnya Biaya Komunikasi ditetapkan oleh masing-masing provider telepon atau ISP yang digunakan Anggota Pengguna dan sepenuhnya menjadi pendapatan bagi provider telepon atau ISP yang bersangkutan.",
+      "Biaya Transaksi. Biaya Transaksi dibebankan kepada Anggota Pengguna atas setiap Transaksi Finansial yang dilakukannya. Besarnya Biaya Transaksi ditetapkan oleh Koperasi Konsumen Dana Asri Mandiri untuk jenis Transaksi Finansial tertentu dan langsung mendebet rekening Anggota Pengguna setelah proses transaksi berhasil dilakukan. Daftar biaya transaksi dapat dilihat pada lampiran Syarat dan Ketentuan ini yang menjadi satu kesatuan dan merupakan bagian yang tidak terpisahkan dari Syarat dan Ketentuan ini.",
     ],
   },
-  "Biaya Komunikasi akan dibebankan oleh provider telepon atau penyedia komunikasi lainnya yang terlibat (Internet Service Provider/ISP) kepada Anggota Pengguna atas setiap penggunaan jaringan komunikasi yang digunakan untuk mengakses fasilitas M-Banking DAM. Besarnya Biaya Komunikasi ditetapkan oleh masing-masing provider telepon atau ISP yang digunakan Anggota Pengguna dan sepenuhnya menjadi pendapatan bagi provider telepon atau ISP yang bersangkutan.",
-  "Biaya Transaksi dibebankan kepada Anggota Pengguna atas setiap Transaksi Finansial yang dilakukannya. Besarnya Biaya Transaksi ditetapkan oleh Koperasi Konsumen Dana Asri Mandiri untuk jenis Transaksi Finansial tertentu dan langsung mendebet rekening Anggota Pengguna setelah proses transaksi berhasil dilakukan. Daftar biaya transaksi dapat dilihat pada lampiran Syarat dan Ketentuan ini yang menjadi satu kesatuan dan merupakan bagian yang tidak terpisahkan dari Syarat dan Ketentuan ini.",
   {
     text: "Ketentuan biaya dan limit transaksi untuk M-Banking Koperasi Konsumen Dana Asri Mandiri adalah sebagai berikut:",
     subItems: [
