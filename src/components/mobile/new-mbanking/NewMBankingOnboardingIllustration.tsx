@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import {
   Banknote,
   Droplets,
@@ -19,21 +20,26 @@ type IllustrationVariant = "transfer" | "payment" | "portfolio";
 
 function DecorativeText({
   children,
+  icon: Icon,
   className,
 }: {
   children: string;
+  icon?: ComponentType<{ className?: string; strokeWidth?: number }>;
   className?: string;
 }) {
   return (
     <div
       className={cn(
-        "pointer-events-none absolute z-30 whitespace-nowrap rounded-full bg-white/90 px-3.5 py-1.5",
+        "pointer-events-none absolute z-30 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3.5 py-1.5",
         "text-[11.5px] font-semibold tracking-[-0.02em] text-[#479DF4]",
         "shadow-[0_8px_22px_rgba(15,23,42,0.10)] ring-1 ring-[#DCEEFF]",
         className,
       )}
     >
-      {children}
+      {Icon ? (
+        <Icon className="h-[13px] w-[13px] shrink-0 text-[#479DF4]" strokeWidth={2.7} />
+      ) : null}
+      <span>{children}</span>
     </div>
   );
 }
@@ -48,17 +54,29 @@ export default function NewMBankingOnboardingIllustration({
   if (variant === "transfer") {
     return (
       <div className={cn("relative flex h-[492px] w-[390px] max-w-full items-center justify-center", className)}>
-        <DecorativeText className="left-[0px] top-[72px] rotate-[-10deg]">
+        <DecorativeText
+          icon={Banknote}
+          className="left-[0px] top-[72px] rotate-[-10deg]"
+        >
           Rekening Simpanan
         </DecorativeText>
-        <DecorativeText className="right-[-4px] top-[150px] rotate-[9deg]">
-          Saldo Real-time
+        <DecorativeText
+          icon={Wifi}
+          className="right-[-4px] top-[150px] rotate-[9deg]"
+        >
+          Saldo Realtime
         </DecorativeText>
-        <DecorativeText className="left-[8px] bottom-[132px] rotate-[7deg]">
-          Nomor VA
+        <DecorativeText
+          icon={Landmark}
+          className="left-[0px] bottom-[132px] rotate-[7deg]"
+        >
+          Transfer ke Bank Lain
         </DecorativeText>
-        <DecorativeText className="right-[4px] bottom-[84px] rotate-[-8deg]">
-          Transfer Cepat
+        <DecorativeText
+          icon={Send}
+          className="right-[-6px] bottom-[84px] rotate-[-8deg]"
+        >
+          Transfer ke Sesama Anggota Koperasi
         </DecorativeText>
 
         <div className="pointer-events-none absolute left-[28px] top-[158px] z-0 h-20 w-20 rounded-full bg-[#EF4444]/10 blur-xl" />
