@@ -8,6 +8,11 @@ import { ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 
+type ContentItem = {
+  term: string;
+  definition: string;
+};
+
 const privacySections = [
   "Definisi",
   "Ruang Lingkup dan Jenis Data Pribadi yang Kami Kumpulkan",
@@ -22,7 +27,37 @@ const privacySections = [
   "Kontak",
 ];
 
-function PrivacySectionContent() {
+const definitionItems: ContentItem[] = [
+  {
+    term: "Data Pribadi",
+    definition:
+      "Berarti data mengenai individu tertentu yang diidentifikasi atau dapat diidentifikasi secara tersendiri atau digabungkan dengan Informasi lain baik secara langsung maupun tidak langsung.",
+  },
+  {
+    term: "Informasi",
+    definition:
+      "Berarti keterangan, pernyataan, gagasan, dan tanda-tanda yang mengandung nilai, makna, dan pesan, termasuk data, fakta, dan penjelasannya yang dapat dilihat, didengar, dan dibaca, yang disajikan dalam berbagai kemasan dan format sesuai dengan perkembangan teknologi informasi atau komunikasi, baik secara elektronik maupun non-elektronik.",
+  },
+];
+
+function DefinitionContent() {
+  return (
+    <ol className="grid list-decimal gap-3 pl-5">
+      {definitionItems.map((item) => (
+        <li key={item.term} className="pl-1">
+          <span className="font-bold text-black">"{item.term}"</span>{" "}
+          {item.definition}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function PrivacySectionContent({ section }: { section: string }) {
+  if (section === "Definisi") {
+    return <DefinitionContent />;
+  }
+
   return (
     <div className="text-[13px] font-normal leading-relaxed text-[#4B5563]">
       Detail kebijakan privasi untuk bagian ini menyusul.
@@ -66,8 +101,8 @@ export default function ProfilePrivacyPage({ onBack }: { onBack: () => void }) {
             </AccordionTrigger>
 
             <AccordionContent className="px-4 pb-4 pt-0">
-              <div className="border-t border-[#EEF0F4] pt-4">
-                <PrivacySectionContent />
+              <div className="border-t border-[#EEF0F4] pt-4 text-[13px] font-normal leading-relaxed text-[#4B5563]">
+                <PrivacySectionContent section={section} />
               </div>
             </AccordionContent>
           </AccordionItem>
