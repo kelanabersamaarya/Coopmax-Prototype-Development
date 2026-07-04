@@ -61,9 +61,25 @@ const membershipActivationItems = [
   "Anggota hanya dapat mengaktifkan 1 (satu) aplikasi M-Banking DAM pada 1 (satu) smartphone yang memiliki nomor Handphone sesuai dengan yang didaftarkan pada proses registrasi. Apabila terdapat lebih dari 1 (satu) smartphone yang mengaktifkan aplikasi M-Banking DAM dengan Username dan Nomor Handphone yang sama maka hanya smartphone yang terakhir mengaktifkan aplikasi tersebut yang dapat digunakan.",
 ];
 
-const transactionSecurityItems = [
+const transactionSecurityItems: Array<
+  | string
+  | {
+      text: string;
+      subItems: string[];
+    }
+> = [
   "Kerahasiaan dan penggunaan Username M-Banking DAM adalah sepenuhnya menjadi tanggung jawab Anggota Pengguna dan hanya boleh diketahui serta digunakan oleh Anggota Pengguna yang bersangkutan.",
-  "Anggota Pengguna wajib menjaga kerahasiaan Username, Kata Sandi dan PIN miliknya agar tidak diketahui dan tidak digunakan oleh orang lain, diantaranya dengan cara tidak memberitahukannya kepada siapapun termasuk kepada petugas Koperasi, tidak mencatat atau menyimpannya secara tertulis pada kertas atau media penyimpanan lainnya yang memungkinkan diketahui orang lain, berhati-hati dalam menggunakannya agar tidak terlihat orang lain, mengganti PIN atau Kata Sandi M-Banking DAM secara berkala, tidak menggunakan PIN dan Kata Sandi yang mudah ditebak seperti identitas pribadi atau tanggal lahir, serta tidak menyamakan PIN dan Kata Sandi dengan PIN atau Kata Sandi e-channel lainnya.",
+  {
+    text: "Anggota Pengguna wajib menjaga kerahasiaan Username, Kata Sandi dan PIN miliknya agar tidak diketahui dan tidak digunakan oleh orang lain, diantaranya dengan cara:",
+    subItems: [
+      "Tidak memberitahukannya kepada siapapun termasuk kepada petugas Koperasi.",
+      "Tidak mencatat atau menyimpannya secara tertulis pada kertas atau media penyimpanan lainnya yang memungkinkan diketahui orang lain.",
+      "Berhati-hati dalam menggunakannya agar tidak terlihat orang lain.",
+      "Mengganti PIN atau Kata Sandi M-Banking DAM secara berkala.",
+      "Tidak menggunakan PIN dan Kata Sandi yang mudah ditebak seperti penggunaan identitas pribadi atau tanggal lahir.",
+      "PIN dan Kata Sandi hendaknya tidak disamakan atau diatur berbeda dari PIN atau Kata Sandi e-channel lainnya.",
+    ],
+  },
   "Anggota Pengguna diberikan kebebasan untuk membuat PIN dan Kata Sandi-nya sendiri dan dapat mengubah atau menggantinya setiap saat.",
   "Apabila handphone yang digunakan untuk bertransaksi M-Banking DAM hilang, dicuri, atau berganti kepemilikan maka Anggota Pengguna wajib memberitahukan hal tersebut kepada Koperasi Konsumen Dana Asri Mandiri melalui nomor telepon resmi Koperasi Konsumen Dana Asri Mandiri.",
   "Dalam hal Anggota Pengguna mengetahui atau menduga Username, PIN atau Kata Sandi miliknya telah diketahui oleh orang lain yang tidak berwenang, maka Anggota Pengguna wajib segera melakukan pengamanan dan perubahan terhadap Username, PIN atau Kata Sandi.",
@@ -156,11 +172,28 @@ function TermsSectionContent({ section }: { section: string }) {
   if (section === "Pengamanan Transaksi") {
     return (
       <ol className="grid list-decimal gap-3 pl-5">
-        {transactionSecurityItems.map((item) => (
-          <li key={item} className="pl-1">
-            {item}
-          </li>
-        ))}
+        {transactionSecurityItems.map((item, index) => {
+          if (typeof item === "string") {
+            return (
+              <li key={item} className="pl-1">
+                {item}
+              </li>
+            );
+          }
+
+          return (
+            <li key={`${item.text}-${index}`} className="pl-1">
+              <div>{item.text}</div>
+              <ol type="a" className="mt-3 grid list-[lower-alpha] gap-2 pl-5">
+                {item.subItems.map((subItem) => (
+                  <li key={subItem} className="pl-1">
+                    {subItem}
+                  </li>
+                ))}
+              </ol>
+            </li>
+          );
+        })}
       </ol>
     );
   }
