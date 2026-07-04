@@ -40,7 +40,7 @@ const transactionGroups: TransactionGroup[] = [
         subtitle: "Bank BCA • 8890123441",
         amount: "-Rp. 250.000,00",
         sourceFund: "Simpanan Kaya - 112233111",
-        method: "Transfer",
+        method: "Transfer Keluar Bank Lain",
         dateDmy: "20-06-2026",
       },
       {
@@ -65,7 +65,7 @@ const transactionGroups: TransactionGroup[] = [
         subtitle: "Bank Mandiri • 7001234567",
         amount: "-Rp. 125.000,00",
         sourceFund: "Simpanan Sukarela - 4260029",
-        method: "Transfer",
+        method: "Transfer Keluar Bank Lain",
         dateDmy: "19-06-2026",
       },
       {

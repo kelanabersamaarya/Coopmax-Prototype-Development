@@ -26,7 +26,8 @@ const periodOptions = [
 ] as const;
 
 const transactionMethods = [
-  "Transfer",
+  "Transfer Antar Rekening",
+  "Transfer Keluar Bank Lain",
   "Setoran",
   "QRIS",
   "Pembayaran",
