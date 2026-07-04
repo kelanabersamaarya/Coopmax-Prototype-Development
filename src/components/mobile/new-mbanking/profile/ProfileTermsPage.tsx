@@ -125,6 +125,11 @@ const mbankingUsageItems: Array<
   "Anggota Pengguna dengan ini memberikan kuasa kepada Koperasi Konsumen Dana Asri Mandiri untuk mendebet rekening Anggota Pengguna yang terdaftar di Koperasi Konsumen Dana Asri Mandiri untuk melaksanakan Transaksi Finansial yang diinstruksikan oleh Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri melalui M-Banking DAM dan untuk pembayaran biaya administrasi serta biaya transaksi atas penggunaan fasilitas M-Banking DAM.",
 ];
 
+const complaintServiceItems = [
+  "Untuk setiap permasalahan yang berkaitan dengan transaksi dan/atau akses fasilitas M-Banking DAM, Anggota Pengguna dapat memberitahukan kepada Koperasi Konsumen Dana Asri Mandiri dengan cara menghubungi nomor telepon resmi M-Banking DAM atau mengunjungi Kantor M-Banking DAM terdekat dengan membawa identitas diri dan bukti kepemilikan rekening.",
+  "Khusus pengaduan yang disampaikan melalui Telepon hanya membutuhkan data Nomor Identitas dan Nomor Rekening Tabungan Sukarela Anggota.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -208,6 +213,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Penggunaan M-Banking") {
     return <OrderedContentList items={mbankingUsageItems} />;
+  }
+
+  if (section === "Pelayanan dan Penyelesaian Pengaduan") {
+    return <OrderedContentList items={complaintServiceItems} />;
   }
 
   return (
