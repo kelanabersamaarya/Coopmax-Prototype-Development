@@ -175,7 +175,7 @@ function TermsCard({
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="flex w-full items-start gap-3 px-4 py-4 text-left transition active:scale-[0.99]"
+        className="flex w-full items-center gap-3 px-4 py-4 text-left transition active:scale-[0.99]"
         aria-expanded={open}
       >
         <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full bg-[#EEF6FF] text-[13px] font-bold text-[#479DF4]">
@@ -186,14 +186,11 @@ function TermsCard({
           <span className="block text-[15px] font-bold leading-tight text-black">
             {section.title}
           </span>
-          <span className="mt-[5px] line-clamp-2 text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-            {section.body}
-          </span>
         </span>
 
         <ChevronDown
           className={cn(
-            "mt-1 h-[20px] w-[20px] shrink-0 text-black transition-transform",
+            "h-[20px] w-[20px] shrink-0 text-black transition-transform",
             open ? "rotate-180" : "rotate-0",
           )}
           strokeWidth={2.6}
