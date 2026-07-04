@@ -2,8 +2,8 @@ import * as React from "react";
 import { ArrowLeft, Eye, EyeOff, LockKeyhole } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import NewMBankingRegisterConfirmModal from "@/components/mobile/new-mbanking/NewMBankingRegisterConfirmModal";
 import NewMBankingRegisterSuccessPage from "@/components/mobile/new-mbanking/NewMBankingRegisterSuccessPage";
+import NewMBankingRegisterTermsAgreementPage from "@/components/mobile/new-mbanking/NewMBankingRegisterTermsAgreementPage";
 
 type NewMBankingRegisterAccountPageProps = {
   onBack: () => void;
@@ -19,21 +19,25 @@ export default function NewMBankingRegisterAccountPage({
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showTermsPage, setShowTermsPage] = React.useState(false);
   const [showSuccessPage, setShowSuccessPage] = React.useState(false);
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setConfirmOpen(true);
-  }
-
-  function confirmRegistration() {
-    setConfirmOpen(false);
-    setShowSuccessPage(true);
+    setShowTermsPage(true);
   }
 
   if (showSuccessPage) {
     return <NewMBankingRegisterSuccessPage onContinue={onSubmitSuccess} />;
+  }
+
+  if (showTermsPage) {
+    return (
+      <NewMBankingRegisterTermsAgreementPage
+        onBack={() => setShowTermsPage(false)}
+        onAgree={() => setShowSuccessPage(true)}
+      />
+    );
   }
 
   const fieldClassName = cn(
@@ -49,12 +53,6 @@ export default function NewMBankingRegisterAccountPage({
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
-      <NewMBankingRegisterConfirmModal
-        open={confirmOpen}
-        onCancel={() => setConfirmOpen(false)}
-        onConfirm={confirmRegistration}
-      />
-
       <div className="relative h-[420px] shrink-0 overflow-hidden bg-[linear-gradient(145deg,#DFF1FF_0%,#EEF7FF_42%,#F4EDFF_100%)] px-6 pt-8">
         <div className="pointer-events-none absolute -right-[64px] top-[42px] h-[188px] w-[188px] rounded-full bg-[#479DF4]/18" />
         <div className="pointer-events-none absolute -left-[58px] bottom-[74px] h-[160px] w-[160px] rounded-full bg-[#A143EF]/12" />
