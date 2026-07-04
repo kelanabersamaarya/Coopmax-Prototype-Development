@@ -94,6 +94,12 @@ const rightsItems = [
   "Harap diperhatikan bahwa data tertentu dapat dikecualikan dari penghapusan untuk mematuhi kewajiban hukum atau untuk tujuan bisnis yang sah. Dalam hal demikian, kami akan memberi tahu Anda tentang alasan penyimpanan data dan dasar hukum yang berlaku.",
 ];
 
+const cookieUsageItems = [
+  "Cookie adalah file teks yang ditempatkan pada komputer Anda untuk tujuan pencatatan. Kami menggunakan cookie untuk membantu Kami mempermudah Anda dalam menggunakan Produk.",
+  "Cookies akan merekam data Anda seperti data yang Anda simpan pada Platform. Sebagai contoh, jika Anda membuat akun di Platform, cookie akan membantu Kami mengingat data spesifik untuk kunjungan Anda berikutnya. Ketika Anda kembali ke Platform, data yang Anda berikan sebelumnya akan diberikan kembali, sehingga akan lebih mudah jika Anda mengaktifkan cookies Anda.",
+  "Selain itu, pihak lain juga dapat menganalisis data untuk Kami, seperti Google Analytics. Mereka dapat mengumpulkan data non-pribadi Anda tentang aktivitas online Anda ketika Anda menggunakan layanan Kami atau mengakses Platform.",
+];
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -214,6 +220,18 @@ function RightsContent() {
   );
 }
 
+function CookieUsageContent() {
+  return (
+    <ol className="grid list-decimal gap-3 pl-5">
+      {cookieUsageItems.map((item) => (
+        <li key={item} className="pl-1">
+          {item}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -237,6 +255,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Hak - Hak Anda") {
     return <RightsContent />;
+  }
+
+  if (section === "Penggunaan Cookie") {
+    return <CookieUsageContent />;
   }
 
   return (
