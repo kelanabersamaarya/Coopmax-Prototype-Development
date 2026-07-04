@@ -13,7 +13,6 @@ import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/Ne
 
 const depositoInfo = [
   { label: "Bunga per Tahun", value: "6,00%" },
-  { label: "Saldo Bunga", value: "Rp. 600.000,00" },
   { label: "Periode Waktu", value: "12 Bulan" },
   { label: "Tanggal Pembukaan", value: "30-06-2026" },
   { label: "Tanggal Jatuh Tempo", value: "30-06-2027" },
@@ -246,15 +245,6 @@ export default function NewMBankingDepositDetailPage({
                         <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
                       )}
                     </button>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-[12px] font-normal leading-none text-white/78">
-                    Saldo Bunga Deposito
-                  </div>
-                  <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
-                    {showNominalDeposito ? "Rp. 600.000,00" : "••••••••••"}
                   </div>
                 </div>
               </div>
