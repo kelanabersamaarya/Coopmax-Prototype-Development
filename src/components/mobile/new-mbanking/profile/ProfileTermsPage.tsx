@@ -1,11 +1,28 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { FileText } from "lucide-react";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
+import { cn } from "@/lib/utils";
 
-const terms = [
-  "Pengguna wajib menjaga kerahasiaan username, kata sandi, PIN, dan data pribadi.",
-  "Setiap transaksi yang berhasil dikonfirmasi dengan PIN dianggap sah oleh pengguna.",
-  "Koperasi dapat melakukan pemeliharaan sistem untuk menjaga kualitas layanan.",
-  "Pengguna wajib memastikan data transaksi sudah benar sebelum menekan tombol konfirmasi.",
+const termsSections = [
+  "Definisi",
+  "Keanggotaan",
+  "Persyaratan Keanggotaan",
+  "Registrasi Keanggotaan",
+  "Aktivasi Status Keanggotaan",
+  "Pengamanan Transaksi",
+  "Penggunaan M-Banking",
+  "Pelayanan dan Penyelesaian Pengaduan",
+  "Nilai Tambah Penggunaan M-Banking",
+  "Biaya Penggunaan M-Banking",
+  "Pemblokiran (Penghentian Sementara) Akses M-Banking",
+  "Pengakhiran Keanggotaan M-Banking",
+  "Force Majeure",
+  "Lain - Lain",
 ];
 
 export default function ProfileTermsPage({ onBack }: { onBack: () => void }) {
@@ -21,13 +38,34 @@ export default function ProfileTermsPage({ onBack }: { onBack: () => void }) {
         </p>
       </div>
 
-      <div className="mt-[22px] grid gap-[12px]">
-        {terms.map((term) => (
-          <div key={term} className="rounded-[16px] bg-white p-4 text-[13px] font-normal leading-relaxed text-black ring-1 ring-[#EEF0F4]">
-            {term}
-          </div>
+      <Accordion type="single" collapsible className="mt-[22px] grid gap-[10px]">
+        {termsSections.map((section, index) => (
+          <AccordionItem
+            key={section}
+            value={`terms-${index}`}
+            className={cn(
+              "overflow-hidden rounded-[16px] border border-[#EEF0F4] bg-white px-0",
+              "shadow-none",
+            )}
+          >
+            <AccordionTrigger
+              className={cn(
+                "min-h-[58px] px-4 py-4 text-left hover:no-underline",
+                "text-[14px] font-bold leading-tight text-black",
+                "[&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-black",
+              )}
+            >
+              {section}
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pb-4 pt-0">
+              <div className="border-t border-[#EEF0F4] pt-4 text-[13px] font-normal leading-relaxed text-[#4B5563]">
+                Konten bagian ini akan dilengkapi sesuai materi yang Anda
+                berikan.
+              </div>
+            </AccordionContent>
+          </AccordionItem>
         ))}
-      </div>
+      </Accordion>
     </ProfileSubPageShell>
   );
 }
