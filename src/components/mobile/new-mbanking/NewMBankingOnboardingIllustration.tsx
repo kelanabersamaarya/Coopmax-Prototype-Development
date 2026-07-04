@@ -2,16 +2,20 @@ import {
   Banknote,
   BatteryMedium,
   Check,
+  Copy,
   Droplets,
+  Eye,
   HandCoins,
   HeartPulse,
   Landmark,
   Monitor,
+  PieChart,
   QrCode,
   Send,
   ShieldCheck,
   ShoppingCart,
   Smartphone,
+  TrendingUp,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -60,6 +64,50 @@ function MiniStatusBar() {
           className="h-[11px] w-[11px] text-black"
           strokeWidth={2.5}
         />
+      </div>
+    </div>
+  );
+}
+
+function MiniPortfolioProductCard({
+  title,
+  label,
+  value,
+  tone = "blue",
+}: {
+  title: string;
+  label: string;
+  value: string;
+  tone?: "blue" | "orange" | "teal";
+}) {
+  const toneClass =
+    tone === "orange"
+      ? "bg-[linear-gradient(135deg,#F59E0B_0%,#EA580C_56%,#C2410C_100%)]"
+      : tone === "teal"
+        ? "bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_55%,#115E59_100%)]"
+        : "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_52%,#1D4ED8_100%)]";
+
+  return (
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-[15px] px-[12px] py-[12px] text-white",
+        toneClass,
+      )}
+    >
+      <div className="pointer-events-none absolute -right-[28px] -top-[28px] h-[82px] w-[82px] rounded-full bg-white/16" />
+      <div className="pointer-events-none absolute right-[22px] top-[42px] h-[40px] w-[40px] rounded-full bg-white/10" />
+
+      <div className="relative z-10">
+        <div className="text-[11px] font-bold leading-tight text-white">
+          {title}
+        </div>
+        <div className="mt-[12px] text-[8px] font-normal leading-none text-white/76">
+          {label}
+        </div>
+        <div className="mt-[5px] flex items-center gap-[4px] text-[10px] font-bold leading-tight text-white">
+          <span className="truncate">{value}</span>
+          <Copy className="h-[9px] w-[9px] shrink-0" strokeWidth={2.4} />
+        </div>
       </div>
     </div>
   );
@@ -379,39 +427,103 @@ export default function NewMBankingOnboardingIllustration({
   }
 
   return (
-    <NewMBankingPhoneMockupShell className={className}>
-      <div className="h-full bg-[#F8FAFC] px-[12px] py-[12px]">
-        <div className="rounded-[17px] bg-[#4BA2F5] px-[12px] py-[15px] text-center text-white">
-          <div className="text-[9px] text-white/90">Total Aset</div>
-          <div className="mt-[6px] text-[18px] font-bold">Rp. 50.000.000</div>
-        </div>
+    <div className={cn("relative flex h-[492px] w-[390px] max-w-full items-center justify-center", className)}>
+      <DecorativeText className="left-[8px] top-[80px] rotate-[-9deg]">
+        Total Aset
+      </DecorativeText>
+      <DecorativeText className="right-[0px] top-[154px] rotate-[9deg]">
+        Komposisi Aset
+      </DecorativeText>
+      <DecorativeText className="left-[2px] bottom-[128px] rotate-[7deg]">
+        Simpanan
+      </DecorativeText>
+      <DecorativeText className="right-[4px] bottom-[82px] rotate-[-8deg]">
+        Deposito
+      </DecorativeText>
 
-        <div className="mt-[18px] flex justify-center">
-          <div className="relative h-[112px] w-[112px] rounded-full bg-[#55C7E8] shadow-sm">
-            <div className="absolute right-0 top-0 h-[66px] w-[66px] rounded-tr-full bg-[#2F80ED]" />
-            <div className="absolute bottom-0 right-0 h-[62px] w-[62px] rounded-br-full bg-[#2DAE63]" />
-            <div className="absolute left-1/2 top-1/2 grid h-[48px] w-[48px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white">
-              <ShieldCheck className="h-[24px] w-[24px] text-[#479DF4]" strokeWidth={2.5} />
+      <div className="pointer-events-none absolute left-[28px] top-[152px] z-0 h-20 w-20 rounded-full bg-[#55C7E8]/14 blur-xl" />
+      <div className="pointer-events-none absolute right-[18px] top-[218px] z-0 h-24 w-24 rounded-full bg-[#F59E0B]/12 blur-xl" />
+      <div className="pointer-events-none absolute bottom-[50px] left-[116px] z-0 h-20 w-20 rounded-full bg-[#2DAE63]/12 blur-xl" />
+
+      <NewMBankingPhoneMockupShell className="relative z-10">
+        <div className="flex h-full flex-col overflow-hidden bg-white text-black">
+          <div className="shrink-0 bg-[#F9F9F9]">
+            <MiniStatusBar />
+
+            <div className="flex h-[38px] items-center gap-[7px] px-[14px]">
+              <div className="grid h-[24px] w-[24px] place-items-center rounded-[7px] bg-white text-black shadow-sm">
+                <span className="text-[14px] font-bold leading-none">‹</span>
+              </div>
+
+              <div className="text-[12px] font-bold leading-tight tracking-[-0.03em] text-black">
+                Portofolio
+              </div>
+            </div>
+          </div>
+
+          <div className="min-h-0 flex-1 overflow-hidden bg-white px-[14px] pt-[12px]">
+            <div className="rounded-full bg-[#EEF0F4] p-[3px]">
+              <div className="grid grid-cols-2 gap-[3px]">
+                <div className="grid h-[28px] place-items-center rounded-full bg-[#479DF4] text-[9px] font-bold leading-none text-white">
+                  Aset
+                </div>
+                <div className="grid h-[28px] place-items-center rounded-full text-[9px] font-bold leading-none text-[#4B5563]">
+                  Pinjaman
+                </div>
+              </div>
+            </div>
+
+            <div className="relative mt-[12px] overflow-hidden rounded-[18px] bg-[#4BA2F5] px-[12px] py-[15px] text-center text-white">
+              <div className="pointer-events-none absolute -left-[58px] -top-[82px] h-[160px] w-[160px] rounded-full bg-[#f56ac8]" />
+              <div className="pointer-events-none absolute -right-[42px] -top-[36px] h-[112px] w-[112px] rounded-full bg-[#8fc2f3]" />
+              <div className="pointer-events-none absolute -bottom-[58px] right-[-38px] h-[138px] w-[138px] rounded-full bg-[#65d0e8]" />
+              <div className="pointer-events-none absolute inset-0 bg-white/10" />
+
+              <div className="relative z-10">
+                <div className="text-[9px] text-white/90">Total Aset</div>
+                <div className="mt-[6px] flex items-center justify-center gap-[5px]">
+                  <div className="text-[18px] font-bold leading-tight">
+                    Rp. 50.000.000
+                  </div>
+                  <Eye className="h-[12px] w-[12px]" strokeWidth={2.4} />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-[16px] flex justify-center">
+              <div className="relative h-[126px] w-[126px] rounded-full bg-[#55C7E8] shadow-sm">
+                <div className="absolute right-0 top-0 h-[75px] w-[75px] rounded-tr-full bg-[#2F80ED]" />
+                <div className="absolute bottom-0 right-0 h-[70px] w-[70px] rounded-br-full bg-[#2DAE63]" />
+                <div className="absolute left-1/2 top-1/2 grid h-[50px] w-[50px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white">
+                  <PieChart className="h-[24px] w-[24px] text-[#479DF4]" strokeWidth={2.5} />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-[15px] grid gap-[8px]">
+              <MiniPortfolioProductCard
+                title="Simpanan Kaya"
+                label="Saldo"
+                value="Rp. 20.000.000"
+              />
+
+              <MiniPortfolioProductCard
+                title="Deposito Koperasi"
+                label="Nominal Deposito"
+                value="Rp. 10.000.000"
+                tone="orange"
+              />
+
+              <MiniPortfolioProductCard
+                title="Pinjaman Billing"
+                label="Sisa Pinjaman"
+                value="Rp. 10.000.000"
+                tone="teal"
+              />
             </div>
           </div>
         </div>
-
-        <div className="mt-[16px] grid gap-[7px]">
-          {[
-            ["Simpanan Kaya", "40%"],
-            ["Simpanan Mapan", "40%"],
-            ["Deposito", "20%"],
-          ].map(([label, value]) => (
-            <div
-              key={label}
-              className="flex items-center justify-between rounded-[12px] bg-white px-[10px] py-[9px] shadow-sm ring-1 ring-[#EEF0F4]"
-            >
-              <div className="text-[9px] font-semibold text-black">{label}</div>
-              <div className="text-[9px] font-bold text-[#479DF4]">{value}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </NewMBankingPhoneMockupShell>
+      </NewMBankingPhoneMockupShell>
+    </div>
   );
 }
