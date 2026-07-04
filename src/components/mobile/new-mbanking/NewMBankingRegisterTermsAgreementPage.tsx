@@ -168,7 +168,7 @@ function TermsCard({
   section: TermsSection;
   index: number;
 }) {
-  const [open, setOpen] = React.useState(index < 2);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <article className="overflow-hidden rounded-[18px] bg-white shadow-sm ring-1 ring-[#E5E7EB]">
