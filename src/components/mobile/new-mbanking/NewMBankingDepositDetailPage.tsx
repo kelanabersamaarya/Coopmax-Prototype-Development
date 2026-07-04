@@ -5,7 +5,6 @@ import {
   Copy,
   Eye,
   EyeOff,
-  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -188,19 +187,13 @@ export default function NewMBankingDepositDetailPage({
             <div className="pointer-events-none absolute -bottom-[36px] left-[72px] h-[96px] w-[96px] rounded-full bg-orange-950/12" />
 
             <div className="relative z-10">
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="text-[12px] font-normal leading-none text-white/78">
-                    Produk Deposito
-                  </div>
-                  <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
-                    Deposito Koperasi
-                  </div>
+              <div className="min-w-0">
+                <div className="text-[12px] font-normal leading-none text-white/78">
+                  Produk Deposito
                 </div>
-
-                <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[14px] bg-white/18 text-white ring-1 ring-white/20">
-                  <TrendingUp className="h-[24px] w-[24px]" strokeWidth={2.6} />
-                </span>
+                <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
+                  Deposito Koperasi
+                </div>
               </div>
 
               <div className="mt-[24px] grid gap-[18px]">
