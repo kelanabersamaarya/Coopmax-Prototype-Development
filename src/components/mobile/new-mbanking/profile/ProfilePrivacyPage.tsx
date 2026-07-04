@@ -168,6 +168,41 @@ function PersonalDataUsageContent() {
   );
 }
 
+function DataDisclosureContent() {
+  return (
+    <div className="grid gap-4">
+      <p>
+        Kami tidak akan mengungkapkan, memberikan akses, membagikan dan/atau
+        mendistribusikan Data Pribadi Anda tanpa persetujuan Anda kecuali
+        ditentukan lain dalam Kebijakan ini. Kami hanya akan mengungkapkan Data
+        Pribadi Anda kepada pihak lain (i) berdasarkan persetujuan Anda atau (ii)
+        jika diizinkan atau diwajibkan oleh Hukum yang Berlaku atau (iii)
+        diinstruksikan oleh otoritas pemerintah, atau (iv) berdasarkan perintah
+        pengadilan (sebagaimana relevan).
+      </p>
+
+      <p>
+        Selain yang diatur dalam Kebijakan ini, Kami dapat mengungkapkan,
+        memberikan akses, dan/atau membagikan Data Pribadi Anda jika kami telah
+        memperoleh persetujuan Anda untuk pengungkapan yang relevan. Apabila
+        Anda memberikan persetujuan Anda kepada Kami untuk mengungkapkan Data
+        Pribadi Anda kepada pihak ketiga tertentu, maka Anda mengizinkan Kami
+        untuk mengakses dan mengirimkan data tersebut kepada pihak ketiga yang
+        dipilih dan Anda membebaskan Kami dari segala dampak yang timbul dari
+        pemrosesan Data Pribadi Anda oleh pihak ketiga tersebut. Kami menyarankan
+        Anda untuk memeriksa dan memahami kebijakan privasi yang diterapkan oleh
+        pihak ketiga manapun yang telah Anda setujui untuk memberikan Data
+        Pribadi Anda.
+      </p>
+
+      <p>
+        Kami tidak akan menjual atau menyewakan Data Pribadi Anda kepada pihak
+        manapun.
+      </p>
+    </div>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -183,6 +218,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Penggunaan Data Pribadi Anda") {
     return <PersonalDataUsageContent />;
+  }
+
+  if (section === "Pengungkapan Data Pribadi pada Pihak Lain") {
+    return <DataDisclosureContent />;
   }
 
   return (
