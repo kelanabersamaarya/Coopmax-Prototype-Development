@@ -51,6 +51,19 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+function CardInfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0">
+      <div className="text-[12px] font-normal leading-none text-white/78">
+        {label}
+      </div>
+      <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
+        {value}
+      </div>
+    </div>
+  );
+}
+
 function BillInfoRow({
   label,
   value,
@@ -190,7 +203,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Detail Pinjaman
+            Informasi Rekening Pinjaman
           </h1>
         </header>
       </div>
@@ -202,16 +215,10 @@ export default function NewMBankingLoanInstallmentDetailPage({
             <div className="pointer-events-none absolute right-[48px] top-[58px] h-[64px] w-[64px] rounded-full bg-emerald-200/16" />
             <div className="pointer-events-none absolute -bottom-[36px] left-[72px] h-[96px] w-[96px] rounded-full bg-teal-950/12" />
 
-            <div className="relative z-10">
-              <div className="text-[12px] font-normal leading-none text-white/78">
-                Produk Pinjaman
-              </div>
-              <div className="mt-[8px] text-[20px] font-bold leading-tight tracking-[-0.03em] text-white">
-                {account.productName}
-              </div>
-              <div className="mt-[8px] text-[14px] font-normal leading-tight text-white/85">
-                {account.accountNo}
-              </div>
+            <div className="relative z-10 grid gap-[18px]">
+              <CardInfoRow label="Produk Pinjaman" value={account.productName} />
+              <CardInfoRow label="Jumlah Pinjaman" value={account.totalLoan} />
+              <CardInfoRow label="Sisa Pinjaman" value={account.remainingLoan} />
             </div>
           </div>
 
@@ -251,15 +258,11 @@ export default function NewMBankingLoanInstallmentDetailPage({
             <SectionTitle>Informasi Pinjaman</SectionTitle>
 
             <div className="mt-[12px]">
-              <InfoRow label="No Pinjaman" value={account.accountNo} />
-              <InfoRow label="Produk Pinjaman" value={account.productName} />
               <InfoRow label="Grace Period" value={account.gracePeriod} />
               <InfoRow label="Tanggal Pencairan" value={account.disbursementDate} />
               <InfoRow label="Jangka Waktu" value={account.tenor} />
               <InfoRow label="Tagihan Ke" value={account.installmentNo} />
               <InfoRow label="Jatuh Tempo Tagihan" value={account.dueDate} />
-              <InfoRow label="Jumlah Pinjaman" value={account.totalLoan} />
-              <InfoRow label="Sisa Pinjaman" value={account.remainingLoan} />
             </div>
           </section>
 
