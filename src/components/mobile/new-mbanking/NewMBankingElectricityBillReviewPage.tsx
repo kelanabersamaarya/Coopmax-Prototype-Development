@@ -4,8 +4,10 @@ import * as React from "react";
 import {
   ArrowLeft,
   Droplets,
+  HeartPulse,
   Landmark,
   Map,
+  Monitor,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -18,7 +20,14 @@ import NewMBankingSourceFundModal, {
 import NewMBankingElectricityConfirmModal from "@/components/mobile/new-mbanking/NewMBankingElectricityConfirmModal";
 import NewMBankingElectricityPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingElectricityPaymentSuccessPage";
 
-type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+type ServiceVariant =
+  | "electricity"
+  | "water"
+  | "pbb"
+  | "internet"
+  | "finance"
+  | "tv"
+  | "bpjs";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -43,19 +52,29 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "pbb") return Map;
   if (variant === "internet") return Wifi;
   if (variant === "finance") return Landmark;
+  if (variant === "tv") return Monitor;
+  if (variant === "bpjs") return HeartPulse;
   return Zap;
 }
 
-function getBillAmount(variant: ServiceVariant) {
+function getBillAmount(variant: ServiceVariant, bpjsMonths: string) {
   if (variant === "water") return "Rp. 125.000,00";
   if (variant === "pbb") return "Rp. 275.000,00";
   if (variant === "internet") return "Rp. 315.000,00";
   if (variant === "finance") return "Rp. 1.250.000,00";
+  if (variant === "tv") return "Rp. 185.000,00";
+
+  if (variant === "bpjs") {
+    const monthCount = Number.parseInt(bpjsMonths, 10) || 1;
+    return formatIdr(monthCount * 70_000);
+  }
+
   return "Rp. 350.000,00";
 }
 
 function getCustomerName(variant: ServiceVariant) {
   if (variant === "finance") return "Laura Patel";
+  if (variant === "bpjs") return "Keluarga Laura Patel";
   return "I Made Wirata";
 }
 
@@ -92,6 +111,7 @@ export default function NewMBankingElectricityBillReviewPage({
   onDone,
   title = "Listrik PLN",
   serviceVariant = "electricity",
+  bpjsMonths = "1 Bulan",
 }: {
   providerName: string;
   customerNo: string;
@@ -99,6 +119,7 @@ export default function NewMBankingElectricityBillReviewPage({
   onDone: () => void;
   title?: string;
   serviceVariant?: ServiceVariant;
+  bpjsMonths?: string;
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -107,7 +128,7 @@ export default function NewMBankingElectricityBillReviewPage({
     React.useState<SourceFundAccount>(defaultSourceFund);
 
   const customerName = getCustomerName(serviceVariant);
-  const billAmount = getBillAmount(serviceVariant);
+  const billAmount = getBillAmount(serviceVariant, bpjsMonths);
   const Icon = getServiceIcon(serviceVariant);
 
   const totalTransaction = formatIdr(
@@ -125,6 +146,7 @@ export default function NewMBankingElectricityBillReviewPage({
         totalTransaction={totalTransaction}
         sourceFund={sourceFund}
         serviceVariant={serviceVariant}
+        bpjsMonths={bpjsMonths}
         onDone={onDone}
       />
     );
@@ -188,6 +210,9 @@ export default function NewMBankingElectricityBillReviewPage({
           <div className="mt-[34px] rounded-[20px] border border-[#E5E7EB] bg-white px-5 py-4">
             <DetailRow label="Nama Pelanggan" value={customerName} />
             <DetailRow label="No. Pelanggan" value={customerNo} />
+            {serviceVariant === "bpjs" ? (
+              <DetailRow label="Jumlah Bulan" value={bpjsMonths} />
+            ) : null}
             <div className="my-[8px] h-px w-full bg-[#E5E7EB]" />
             <DetailRow label="Nominal Tagihan" value={billAmount} strong />
           </div>

@@ -25,7 +25,14 @@ import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 
 type PaymentTab = "saved" | "history";
-type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+type ServiceVariant =
+  | "electricity"
+  | "water"
+  | "pbb"
+  | "internet"
+  | "finance"
+  | "tv"
+  | "bpjs";
 
 const serviceConfigs: Record<
   ServiceVariant,
@@ -60,6 +67,16 @@ const serviceConfigs: Record<
     providers: ["Adira Finance", "FIFGROUP", "BCA Finance"],
     iconVariant: "finance",
   },
+  tv: {
+    title: "TV",
+    providers: ["Transvision", "IndiHome TV", "MNC Vision"],
+    iconVariant: "tv",
+  },
+  bpjs: {
+    title: "BPJS Kesehatan",
+    providers: ["BPJS Kesehatan"],
+    iconVariant: "bpjs",
+  },
 };
 
 const paymentCategories = [
@@ -90,6 +107,7 @@ const paymentCategories = [
     label: "BPJS Kesehatan",
     icon: HeartPulse,
     frameClassName: "bg-[#22C55E]",
+    service: "bpjs" as ServiceVariant,
   },
   {
     label: "Pulsa Pascabayar",
@@ -106,6 +124,7 @@ const paymentCategories = [
     label: "TV",
     icon: Monitor,
     frameClassName: "bg-[#14B8A6]",
+    service: "tv" as ServiceVariant,
   },
   {
     label: "Finance",
@@ -152,6 +171,11 @@ const savedPayments = [
     info: "Internet - 122334455667",
   },
   {
+    id: "tv-home",
+    name: "Transvision Rumah",
+    info: "TV - 8800112233",
+  },
+  {
     id: "adira-finance",
     name: "Adira Finance",
     info: "Finance - 90011223344",
@@ -171,6 +195,7 @@ function getSavedPaymentIcon(item: { name: string; info: string }) {
   if (text.includes("pdam") || text.includes("air")) return Droplets;
   if (text.includes("pbb")) return Map;
   if (text.includes("internet") || text.includes("indihome")) return Wifi;
+  if (text.includes("tv") || text.includes("transvision")) return Monitor;
   if (text.includes("finance") || text.includes("adira")) return Landmark;
   if (text.includes("bpjs") || text.includes("kesehatan")) return HeartPulse;
   if (text.includes("pulsa") || text.includes("pascabayar") || text.includes("xl")) {
@@ -187,7 +212,9 @@ function getSavedPaymentService(item: { name: string; info: string }) {
   if (text.includes("pdam") || text.includes("air")) return "water";
   if (text.includes("pbb")) return "pbb";
   if (text.includes("internet") || text.includes("indihome")) return "internet";
+  if (text.includes("tv") || text.includes("transvision")) return "tv";
   if (text.includes("finance") || text.includes("adira")) return "finance";
+  if (text.includes("bpjs") || text.includes("kesehatan")) return "bpjs";
 
   return null;
 }

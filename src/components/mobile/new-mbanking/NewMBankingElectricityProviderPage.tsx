@@ -3,8 +3,10 @@
 import {
   ArrowLeft,
   Droplets,
+  HeartPulse,
   Landmark,
   Map,
+  Monitor,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -13,13 +15,22 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 
 const defaultProviders = ["PLN Pospaid", "PLN Prepaid", "Non Tagihan Listrik"];
 
-type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+type ServiceVariant =
+  | "electricity"
+  | "water"
+  | "pbb"
+  | "internet"
+  | "finance"
+  | "tv"
+  | "bpjs";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
   if (variant === "pbb") return Map;
   if (variant === "internet") return Wifi;
   if (variant === "finance") return Landmark;
+  if (variant === "tv") return Monitor;
+  if (variant === "bpjs") return HeartPulse;
   return Zap;
 }
 

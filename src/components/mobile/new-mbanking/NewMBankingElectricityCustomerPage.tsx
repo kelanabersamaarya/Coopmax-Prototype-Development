@@ -4,8 +4,10 @@ import * as React from "react";
 import {
   ArrowLeft,
   Droplets,
+  HeartPulse,
   Landmark,
   Map,
+  Monitor,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -14,13 +16,22 @@ import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingElectricityBillReviewPage from "@/components/mobile/new-mbanking/NewMBankingElectricityBillReviewPage";
 
-type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+type ServiceVariant =
+  | "electricity"
+  | "water"
+  | "pbb"
+  | "internet"
+  | "finance"
+  | "tv"
+  | "bpjs";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
   if (variant === "pbb") return Map;
   if (variant === "internet") return Wifi;
   if (variant === "finance") return Landmark;
+  if (variant === "tv") return Monitor;
+  if (variant === "bpjs") return HeartPulse;
   return Zap;
 }
 
@@ -41,20 +52,32 @@ function getHelperText(variant: ServiceVariant) {
     return "Masukkan nomor kontrak untuk melanjutkan pembayaran finance.";
   }
 
+  if (variant === "tv") {
+    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran TV.";
+  }
+
+  if (variant === "bpjs") {
+    return "Masukkan nomor peserta dan pilih jumlah bulan untuk melanjutkan pembayaran BPJS.";
+  }
+
   return "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
 }
 
 function getFieldLabel(variant: ServiceVariant) {
   if (variant === "pbb") return "NOP";
   if (variant === "finance") return "No. Kontrak";
+  if (variant === "bpjs") return "No. Peserta";
   return "No. Pelanggan";
 }
 
 function getPlaceholder(variant: ServiceVariant) {
   if (variant === "pbb") return "Masukkan NOP";
   if (variant === "finance") return "Masukkan No. Kontrak";
+  if (variant === "bpjs") return "Masukkan No. Peserta";
   return "Masukkan No. Pelanggan";
 }
+
+const bpjsMonthOptions = ["1 Bulan", "2 Bulan", "3 Bulan", "6 Bulan", "12 Bulan"];
 
 export default function NewMBankingElectricityCustomerPage({
   providerName,
@@ -70,15 +93,24 @@ export default function NewMBankingElectricityCustomerPage({
   serviceVariant?: ServiceVariant;
 }) {
   const [customerNo, setCustomerNo] = React.useState("");
+  const [bpjsMonths, setBpjsMonths] = React.useState("1 Bulan");
   const [showReview, setShowReview] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
   const helperText = getHelperText(serviceVariant);
   const fieldLabel = getFieldLabel(serviceVariant);
+  const showBpjsMonthField = serviceVariant === "bpjs";
 
   function continuePayment() {
     if (!customerNo.trim()) {
       toast(`${fieldLabel} wajib diisi`, {
         description: `Masukkan ${fieldLabel.toLowerCase()} sebelum melanjutkan.`,
+      });
+      return;
+    }
+
+    if (showBpjsMonthField && !bpjsMonths.trim()) {
+      toast("Jumlah bulan wajib dipilih", {
+        description: "Pilih jumlah bulan pembayaran BPJS sebelum melanjutkan.",
       });
       return;
     }
@@ -93,6 +125,7 @@ export default function NewMBankingElectricityCustomerPage({
         customerNo={customerNo}
         title={title}
         serviceVariant={serviceVariant}
+        bpjsMonths={bpjsMonths}
         onBack={() => setShowReview(false)}
         onDone={onDone}
       />
@@ -137,25 +170,51 @@ export default function NewMBankingElectricityCustomerPage({
             </p>
           </div>
 
-          <div className="mt-[44px] grid gap-[9px]">
-            <label className="text-[14px] font-bold leading-none text-black">
-              {fieldLabel}<span className="text-[#EF135D]">*</span>
-            </label>
+          <div className="mt-[44px] grid gap-[18px]">
+            <div className="grid gap-[9px]">
+              <label className="text-[14px] font-bold leading-none text-black">
+                {fieldLabel}<span className="text-[#EF135D]">*</span>
+              </label>
 
-            <input
-              value={customerNo}
-              onChange={(event) =>
-                setCustomerNo((event.target.value ?? "").replace(/[^\d]/g, ""))
-              }
-              placeholder={getPlaceholder(serviceVariant)}
-              inputMode="numeric"
-              className={cn(
-                "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                "text-[14px] font-normal text-black shadow-none outline-none",
-                "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                "focus:border-[#479DF4]",
-              )}
-            />
+              <input
+                value={customerNo}
+                onChange={(event) =>
+                  setCustomerNo((event.target.value ?? "").replace(/[^\d]/g, ""))
+                }
+                placeholder={getPlaceholder(serviceVariant)}
+                inputMode="numeric"
+                className={cn(
+                  "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
+                  "text-[14px] font-normal text-black shadow-none outline-none",
+                  "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                  "focus:border-[#479DF4]",
+                )}
+              />
+            </div>
+
+            {showBpjsMonthField ? (
+              <div className="grid gap-[9px]">
+                <label className="text-[14px] font-bold leading-none text-black">
+                  Jumlah Bulan<span className="text-[#EF135D]">*</span>
+                </label>
+
+                <select
+                  value={bpjsMonths}
+                  onChange={(event) => setBpjsMonths(event.target.value)}
+                  className={cn(
+                    "h-[44px] w-full appearance-none rounded-[12px] border border-[#CDD4E0] bg-white px-4",
+                    "text-[14px] font-normal text-black shadow-none outline-none",
+                    "focus:border-[#479DF4]",
+                  )}
+                >
+                  {bpjsMonthOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : null}
           </div>
         </section>
       </main>
