@@ -1,22 +1,26 @@
 "use client";
 
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft, Droplets, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
-const providers = [
-  "PLN Pospaid",
-  "PLN Prepaid",
-  "Non Tagihan Listrik",
-];
+const defaultProviders = ["PLN Pospaid", "PLN Prepaid", "Non Tagihan Listrik"];
 
 export default function NewMBankingElectricityProviderPage({
   onBack,
   onSelectProvider,
+  title = "Listrik PLN",
+  providers = defaultProviders,
+  iconVariant = "electricity",
 }: {
   onBack: () => void;
   onSelectProvider: (provider: string) => void;
+  title?: string;
+  providers?: string[];
+  iconVariant?: "electricity" | "water";
 }) {
+  const Icon = iconVariant === "water" ? Droplets : Zap;
+
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -34,7 +38,7 @@ export default function NewMBankingElectricityProviderPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Listrik PLN
+            {title}
           </h1>
         </header>
       </div>
@@ -60,7 +64,7 @@ export default function NewMBankingElectricityProviderPage({
                     "bg-[#479DF4] text-white",
                   )}
                 >
-                  <Zap className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
+                  <Icon className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
                 </span>
 
                 <span className="min-w-0 flex-1 truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, Zap } from "lucide-react";
+import { Check, Zap, Droplets } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -39,6 +39,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   totalTransaction,
   sourceFund,
   onDone,
+  serviceVariant = "electricity",
 }: {
   providerName: string;
   customerName: string;
@@ -48,8 +49,14 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   totalTransaction: string;
   sourceFund: SourceFundAccount;
   onDone: () => void;
+  serviceVariant?: "electricity" | "water";
 }) {
   const [saved, setSaved] = React.useState(false);
+  const Icon = serviceVariant === "water" ? Droplets : Zap;
+  const successText =
+    serviceVariant === "water"
+      ? "Pembayaran tagihan air Anda telah berhasil diproses."
+      : "Pembayaran tagihan listrik Anda telah berhasil diproses.";
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 text-black">
@@ -67,7 +74,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             </h1>
 
             <p className="mt-[10px] max-w-[305px] text-[13px] font-normal leading-[1.4] tracking-[-0.01em] text-[#828282]">
-              Pembayaran tagihan listrik Anda telah berhasil diproses.
+              {successText}
             </p>
 
             <div className="mt-[18px] w-full rounded-[18px] bg-[#F6F8FB] px-5 py-5">
@@ -83,12 +90,12 @@ export default function NewMBankingElectricityPaymentSuccessPage({
               30 Juni 2026, 22:15 WIB
             </div>
             <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              Ref ID : PLN221112222
+              Ref ID : {serviceVariant === "water" ? "AIR221112222" : "PLN221112222"}
             </div>
 
             <div className="mt-[18px] flex min-h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
               <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
-                <Zap className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
+                <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
               </span>
 
               <div className="min-w-0">

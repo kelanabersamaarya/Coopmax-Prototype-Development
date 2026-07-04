@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft, Droplets, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
@@ -11,13 +11,22 @@ export default function NewMBankingElectricityCustomerPage({
   providerName,
   onBack,
   onDone,
+  title = "Listrik PLN",
+  serviceVariant = "electricity",
 }: {
   providerName: string;
   onBack: () => void;
   onDone: () => void;
+  title?: string;
+  serviceVariant?: "electricity" | "water";
 }) {
   const [customerNo, setCustomerNo] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
+  const Icon = serviceVariant === "water" ? Droplets : Zap;
+  const helperText =
+    serviceVariant === "water"
+      ? "Masukkan nomor pelanggan untuk melanjutkan pembayaran air."
+      : "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
 
   function continuePayment() {
     if (!customerNo.trim()) {
@@ -35,6 +44,8 @@ export default function NewMBankingElectricityCustomerPage({
       <NewMBankingElectricityBillReviewPage
         providerName={providerName}
         customerNo={customerNo}
+        title={title}
+        serviceVariant={serviceVariant}
         onBack={() => setShowReview(false)}
         onDone={onDone}
       />
@@ -58,7 +69,7 @@ export default function NewMBankingElectricityCustomerPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Listrik PLN
+            {title}
           </h1>
         </header>
       </div>
@@ -67,7 +78,7 @@ export default function NewMBankingElectricityCustomerPage({
         <section className="flex min-h-full flex-col rounded-t-[30px] bg-white px-6 pb-[34px] pt-[40px]">
           <div className="flex flex-col items-center text-center">
             <span className="grid h-[86px] w-[86px] place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_24px_rgba(71,157,244,0.24)]">
-              <Zap className="h-[42px] w-[42px] text-white" strokeWidth={2.7} />
+              <Icon className="h-[42px] w-[42px] text-white" strokeWidth={2.7} />
             </span>
 
             <h2 className="mt-[18px] text-[20px] font-bold leading-tight tracking-[-0.03em] text-black">
@@ -75,7 +86,7 @@ export default function NewMBankingElectricityCustomerPage({
             </h2>
 
             <p className="mt-[8px] max-w-[290px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-              Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.
+              {helperText}
             </p>
           </div>
 

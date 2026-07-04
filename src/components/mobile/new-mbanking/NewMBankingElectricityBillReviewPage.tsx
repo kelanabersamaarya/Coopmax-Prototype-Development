@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft, Droplets, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
@@ -17,8 +17,6 @@ const defaultSourceFund: SourceFundAccount = {
   balance: "Rp. 4.000.000,00",
 };
 
-const customerName = "I Made Wirata";
-const billAmount = "Rp. 350.000,00";
 const adminFee = "Rp. 2.500,00";
 
 function parseIdrLike(value: string) {
@@ -62,17 +60,27 @@ export default function NewMBankingElectricityBillReviewPage({
   customerNo,
   onBack,
   onDone,
+  title = "Listrik PLN",
+  serviceVariant = "electricity",
 }: {
   providerName: string;
   customerNo: string;
   onBack: () => void;
   onDone: () => void;
+  title?: string;
+  serviceVariant?: "electricity" | "water";
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
+
+  const customerName =
+    serviceVariant === "water" ? "I Made Wirata" : "I Made Wirata";
+  const billAmount =
+    serviceVariant === "water" ? "Rp. 125.000,00" : "Rp. 350.000,00";
+  const Icon = serviceVariant === "water" ? Droplets : Zap;
 
   const totalTransaction = formatIdr(
     parseIdrLike(billAmount) + parseIdrLike(adminFee),
@@ -88,6 +96,7 @@ export default function NewMBankingElectricityBillReviewPage({
         adminFee={adminFee}
         totalTransaction={totalTransaction}
         sourceFund={sourceFund}
+        serviceVariant={serviceVariant}
         onDone={onDone}
       />
     );
@@ -109,6 +118,7 @@ export default function NewMBankingElectricityBillReviewPage({
         customerNo={customerNo}
         amount={billAmount}
         sourceFund={sourceFund}
+        serviceVariant={serviceVariant}
         onConfirm={() => {
           setConfirmOpen(false);
           setShowSuccess(true);
@@ -130,7 +140,7 @@ export default function NewMBankingElectricityBillReviewPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Listrik PLN
+            {title}
           </h1>
         </header>
       </div>
@@ -139,7 +149,7 @@ export default function NewMBankingElectricityBillReviewPage({
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[118px] pt-[34px]">
           <div className="flex flex-col items-center text-center">
             <span className="grid h-[86px] w-[86px] place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_24px_rgba(71,157,244,0.24)]">
-              <Zap className="h-[42px] w-[42px] text-white" strokeWidth={2.7} />
+              <Icon className="h-[42px] w-[42px] text-white" strokeWidth={2.7} />
             </span>
 
             <h2 className="mt-[18px] text-[20px] font-bold leading-tight tracking-[-0.03em] text-black">

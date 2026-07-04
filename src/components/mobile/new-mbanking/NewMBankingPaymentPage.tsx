@@ -26,6 +26,8 @@ import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingSca
 
 type PaymentTab = "saved" | "history";
 
+const waterProviders = ["PDAM Kota", "Air Bersih", "PAM Daerah"];
+
 const paymentCategories = [
   {
     label: "Listrik",
@@ -96,6 +98,11 @@ const savedPayments = [
     info: "Listrik - 530000112233",
   },
   {
+    id: "pdam-home",
+    name: "PDAM Rumah",
+    info: "Air - 78200112233",
+  },
+  {
     id: "indihome",
     name: "IndiHome",
     info: "Internet - 122334455667",
@@ -112,6 +119,7 @@ function getSavedPaymentIcon(item: { name: string; info: string }) {
 
   if (text.includes("qris")) return QrCode;
   if (text.includes("pln") || text.includes("listrik")) return Zap;
+  if (text.includes("pdam") || text.includes("air")) return Droplets;
   if (text.includes("internet") || text.includes("indihome")) return Wifi;
   if (text.includes("bpjs") || text.includes("kesehatan")) return HeartPulse;
   if (text.includes("pulsa") || text.includes("pascabayar") || text.includes("xl")) {
@@ -126,6 +134,11 @@ function isQrisPayment(item: { name: string; info: string }) {
   return text.includes("qris");
 }
 
+function isWaterPayment(item: { name: string; info: string }) {
+  const text = `${item.name} ${item.info}`.toLowerCase();
+  return text.includes("pdam") || text.includes("air");
+}
+
 export default function NewMBankingPaymentPage({
   onBack,
 }: {
@@ -138,17 +151,46 @@ export default function NewMBankingPaymentPage({
     React.useState(false);
   const [selectedElectricityProvider, setSelectedElectricityProvider] =
     React.useState<string | null>(null);
+  const [showWaterProviders, setShowWaterProviders] = React.useState(false);
+  const [selectedWaterProvider, setSelectedWaterProvider] =
+    React.useState<string | null>(null);
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
 
   function returnToPaymentHome() {
     setSelectedElectricityProvider(null);
     setShowElectricityProviders(false);
+    setSelectedWaterProvider(null);
+    setShowWaterProviders(false);
     setShowQrisFlow(false);
     setActiveTab("saved");
   }
 
   if (showQrisFlow) {
     return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
+  }
+
+  if (selectedWaterProvider) {
+    return (
+      <NewMBankingElectricityCustomerPage
+        title="Air"
+        providerName={selectedWaterProvider}
+        serviceVariant="water"
+        onBack={() => setSelectedWaterProvider(null)}
+        onDone={returnToPaymentHome}
+      />
+    );
+  }
+
+  if (showWaterProviders) {
+    return (
+      <NewMBankingElectricityProviderPage
+        title="Air"
+        providers={waterProviders}
+        iconVariant="water"
+        onBack={() => setShowWaterProviders(false)}
+        onSelectProvider={(provider) => setSelectedWaterProvider(provider)}
+      />
+    );
   }
 
   if (selectedElectricityProvider) {
@@ -205,6 +247,10 @@ export default function NewMBankingPaymentPage({
                   onClick={() => {
                     if (category.label === "Listrik") {
                       setShowElectricityProviders(true);
+                    }
+
+                    if (category.label === "Air") {
+                      setShowWaterProviders(true);
                     }
 
                     if (category.label === "QRIS") {
@@ -275,6 +321,7 @@ export default function NewMBankingPaymentPage({
                 items.map((item) => {
                   const Icon = getSavedPaymentIcon(item);
                   const qrisItem = isQrisPayment(item);
+                  const waterItem = isWaterPayment(item);
 
                   return (
                     <div
@@ -287,12 +334,24 @@ export default function NewMBankingPaymentPage({
                           if (qrisItem) {
                             setShowQrisFlow(true);
                           }
+
+                          if (waterItem) {
+                            setSelectedWaterProvider("PDAM Kota");
+                          }
                         }}
                         className={cn(
                           "flex min-w-0 flex-1 items-center gap-3 text-left",
-                          qrisItem ? "transition active:scale-[0.99]" : "cursor-default",
+                          qrisItem || waterItem
+                            ? "transition active:scale-[0.99]"
+                            : "cursor-default",
                         )}
-                        aria-label={qrisItem ? "Buka QRIS" : item.name}
+                        aria-label={
+                          qrisItem
+                            ? "Buka QRIS"
+                            : waterItem
+                              ? "Buka pembayaran air"
+                              : item.name
+                        }
                       >
                         <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
                           <Icon

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { X, Zap } from "lucide-react";
+import { X, Zap, Droplets } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
@@ -52,6 +52,7 @@ export default function NewMBankingElectricityConfirmModal({
   amount,
   sourceFund,
   onConfirm,
+  serviceVariant = "electricity",
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -61,10 +62,16 @@ export default function NewMBankingElectricityConfirmModal({
   amount: string;
   sourceFund: SourceFundAccount;
   onConfirm: () => void;
+  serviceVariant?: "electricity" | "water";
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const adminFee = "Rp. 2.500,00";
   const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
+  const Icon = serviceVariant === "water" ? Droplets : Zap;
+  const description =
+    serviceVariant === "water"
+      ? "Pembayaran tagihan air"
+      : "Pembayaran tagihan listrik";
 
   React.useEffect(() => {
     if (!open) return;
@@ -110,7 +117,7 @@ export default function NewMBankingElectricityConfirmModal({
 
         <div className="mt-[14px] flex items-start gap-[12px]">
           <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white shadow-sm">
-            <Zap className="h-[22px] w-[22px] text-white" strokeWidth={2.7} />
+            <Icon className="h-[22px] w-[22px] text-white" strokeWidth={2.7} />
           </span>
 
           <div className="min-w-0">
@@ -118,7 +125,7 @@ export default function NewMBankingElectricityConfirmModal({
               {providerName}
             </div>
             <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              Pembayaran tagihan listrik
+              {description}
             </div>
           </div>
         </div>
