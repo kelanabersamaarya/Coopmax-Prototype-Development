@@ -85,7 +85,7 @@ const transactionSecurityItems: ContentItem[] = [
   "Apabila handphone yang digunakan untuk bertransaksi M-Banking DAM hilang, dicuri, atau berganti kepemilikan maka Anggota Pengguna wajib memberitahukan hal tersebut kepada Koperasi Konsumen Dana Asri Mandiri melalui nomor telepon resmi Koperasi Konsumen Dana Asri Mandiri.",
   "Dalam hal Anggota Pengguna mengetahui atau menduga Username, PIN atau Kata Sandi miliknya telah diketahui oleh orang lain yang tidak berwenang, maka Anggota Pengguna wajib segera melakukan pengamanan dan perubahan terhadap Username, PIN atau Kata Sandi.",
   "Apabila karena suatu sebab Anggota Pengguna tidak dapat melakukan perubahan terhadap Username, PIN atau Kata Sandi miliknya maka Anggota Pengguna wajib memberitahukan Koperasi Konsumen Dana Asri Mandiri melalui nomor telepon resmi Koperasi Konsumen Dana Asri Mandiri.",
-  "Sebelum diterimanya permintaan dari Anggota Pengguna, maka segala perintah, transaksi dan komunikasi berdasarkan penggunaan Username, PIN dan/atau Kata Sandi oleh pihak yang tidak berwenang sepenuhnya menjadi tanggung jawab Anggota Pengguna.",
+  "Sebelum diterimanya permintaan dari Anggota Pengguna, maka segala perintah, transaksi dan komunikasi berdasarkan penggunaan Username, PIN dan/atau Kata S Sandi oleh pihak yang tidak berwenang sepenuhnya menjadi tanggung jawab Anggota Pengguna.",
   "Penggunaan Username, PIN dan/atau Kata Sandi mempunyai kekuatan hukum yang sama dengan perintah tertulis yang ditandatangani oleh Anggota Pengguna, oleh karena itu Anggota Pengguna dengan ini menyatakan bahwa penggunaan Username, PIN dan/atau Kata Sandi dalam setiap perintah pada transaksi M-Banking DAM juga merupakan pemberian kuasa dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri untuk melaksanakan transaksi termasuk untuk melakukan pendebetan rekening Anggota Pengguna baik dalam rangka pelaksanaan transaksi yang diperintahkan maupun untuk pembayaran biaya transaksinya.",
   "Penyalahgunaan Username, PIN dan/atau Kata Sandi M-Banking DAM beserta akibatnya merupakan tanggung jawab Anggota Pengguna sepenuhnya.",
   "Anggota wajib menjaga smartphone miliknya dari aplikasi berbahaya seperti virus, malware, trojan, dan lain-lain, baik sebelum maupun setelah instalasi aplikasi M-Banking DAM.",
@@ -165,13 +165,7 @@ const blockingItems: ContentItem[] = [
   {
     text: "Pemblokiran akses ke fasilitas M-Banking DAM dapat dilakukan/terjadi apabila:",
     subItems: [
-      {
-        text: "Adanya permintaan dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri untuk menghentikan akses ke fasilitas M-Banking DAM, yang antara lain dapat disebabkan oleh:",
-        subItems: [
-          "Anggota lupa Username/PIN M-Banking DAM.",
-          "Telah terjadinya kehilangan/kecurian/bergantinya kepemilikan handphone yang digunakan Anggota untuk bertransaksi melalui M-Banking DAM.",
-        ],
-      },
+      "Adanya permintaan dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri untuk menghentikan akses ke fasilitas M-Banking DAM, yang antara lain dapat disebabkan oleh Anggota lupa Username/PIN M-Banking DAM, telah terjadinya kehilangan/kecurian/bergantinya kepemilikan handphone yang digunakan Anggota untuk bertransaksi melalui M-Banking DAM.",
       "Anggota Pengguna salah memasukkan Kata Sandi M-Banking DAM sebanyak 5 (lima) kali berturut-turut.",
       "Diterimanya laporan dari Anggota Pengguna mengenai dugaan atau diketahuinya Username/PIN oleh pihak lain yang tidak berwenang.",
       "Koperasi Konsumen Dana Asri Mandiri menenggarai adanya penyalahgunaan rekening oleh Anggota Pengguna dalam kaitannya dengan pelanggaran hukum.",
