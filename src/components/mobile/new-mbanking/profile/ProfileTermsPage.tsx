@@ -130,6 +130,13 @@ const complaintServiceItems = [
   "Khusus pengaduan yang disampaikan melalui Telepon hanya membutuhkan data Nomor Identitas dan Nomor Rekening Tabungan Sukarela Anggota.",
 ];
 
+const valueAddedItems = [
+  "Memberikan kemudahan bagi Anggota Pengguna untuk bertransaksi dimanapun dan kapanpun dengan menggunakan smartphone.",
+  "Menawarkan layanan transaksi yang lebih mudah, cepat, hemat, dan praktis. Anggota Pengguna dapat melakukan transaksi isi ulang pulsa, transfer dana, pembelian dan pembayaran tagihan dengan lebih mudah melalui M-Banking DAM.",
+  "Memberikan keamanan transaksi yang maksimal, sehingga membuat Anggota Pengguna semakin nyaman dalam melakukan Transaksi Finansial.",
+  "Limit transaksi tidak menjadi satu dengan limit transaksi pada channel e-Koperasi Koperasi Konsumen Dana Asri Mandiri. Limit transaksi dapat dilihat pada lampiran Syarat dan Ketentuan ini.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -217,6 +224,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Pelayanan dan Penyelesaian Pengaduan") {
     return <OrderedContentList items={complaintServiceItems} />;
+  }
+
+  if (section === "Nilai Tambah Penggunaan M-Banking") {
+    return <OrderedContentList items={valueAddedItems} />;
   }
 
   return (
