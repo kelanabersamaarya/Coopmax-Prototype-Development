@@ -85,6 +85,12 @@ const dataDisclosureItems = [
   "Kami tidak akan menjual atau menyewakan Data Pribadi Anda kepada pihak manapun.",
 ];
 
+const rightsItems = [
+  "Memperbarui dan/atau memperbaiki kesalahan dan/atau ketidakakuratan Data Pribadi Anda yang tercatat pada Platform.",
+  "Menarik persetujuan Anda untuk memproses Data Pribadi pada Platform.",
+  "Menghapus dan/atau memusnahkan Data Pribadi Anda, dengan memberikan pemberitahuan tertulis kepada Kami yang ditujukan kepada admin@sakti.id.",
+];
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -186,6 +192,54 @@ function DataDisclosureContent() {
   );
 }
 
+function RightsContent() {
+  return (
+    <div className="grid gap-4">
+      <p>
+        Sehubungan dengan pemrosesan Data Pribadi Anda melalui Platform Kami,
+        Anda memiliki hak untuk:
+      </p>
+
+      <ol className="grid list-decimal gap-3 pl-5">
+        {rightsItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+
+      <p>
+        Sehubungan dengan permintaan Anda untuk menarik persetujuan Anda, Anda
+        harus memahami dan mengakui bahwa setelah permohonan Anda diajukan
+        kepada Kami, Anda mungkin tidak lagi dapat menggunakan Layanan. Penarikan
+        persetujuan Anda dapat mengakibatkan penghentian akun Anda atau hubungan
+        kontraktual Anda dengan Kami, dengan semua hak dan kewajiban yang
+        tampaknya telah terpenuhi sepenuhnya. Setelah menerima pemberitahuan
+        untuk menarik persetujuan atas pemrosesan Data Pribadi Anda, Kami akan
+        memberi tahu Anda tentang kemungkinan konsekuensi dari penarikan tersebut
+        sehingga Anda dapat memutuskan apakah Anda masih ingin menarik persetujuan
+        tersebut.
+      </p>
+
+      <p>
+        Kami berkomitmen untuk menghormati hak Anda untuk mengontrol data
+        pribadi Anda. Jika Anda ingin meminta penghapusan data pribadi Anda dari
+        sistem kami, silakan hubungi kami di Form Permintaan Penghapusan Data
+        Pribadi. Kami akan menanggapi permintaan Anda dalam waktu 30 hari dan
+        mengambil langkah yang tepat untuk memastikan penghapusan data Anda secara
+        permanen dari semua sistem dan basis data kami.
+      </p>
+
+      <p>
+        Harap diperhatikan bahwa data tertentu dapat dikecualikan dari
+        penghapusan untuk mematuhi kewajiban hukum atau untuk tujuan bisnis yang
+        sah. Dalam hal demikian, kami akan memberitahukan kepada Anda mengenai
+        pengecualian tersebut.
+      </p>
+    </div>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -205,6 +259,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Pengungkapan Data Pribadi pada Pihak Lain") {
     return <DataDisclosureContent />;
+  }
+
+  if (section === "Hak - Hak Anda") {
+    return <RightsContent />;
   }
 
   return (
