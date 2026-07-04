@@ -53,6 +53,12 @@ const personalDataScopeItems = [
   "Data yang terkait dengan aktivitas Anda ketika menggunakan Layanan, termasuk namun tidak terbatas pada, istilah yang Anda cari, tampilan dan interaksi dengan konten, aktivitas input dan pemrosesan transaksi.",
 ];
 
+const dataCollectionItems = [
+  "Melalui penyediaan langsung oleh Anda ketika Anda mendaftar atau menggunakan Layanan, baik secara online maupun offline, termasuk ketika seseorang mengunjungi kantor kami dan meminta untuk menjadi anggota, di mana staf kami membantu mereka melalui proses pendaftaran, dan mereka memberikan informasi pribadi yang diperlukan untuk keanggotaan;",
+  "Melalui Platform, browser, dan perangkat yang Anda gunakan; Informasi yang Kami kumpulkan meliputi ID unik, jenis dan pengaturan browser, jenis dan pengaturan perangkat, sistem operasi, informasi jaringan seluler termasuk nama operator dan nomor telepon, serta nomor versi aplikasi. Kami juga mengumpulkan informasi tentang aplikasi, browser, dan interaksi perangkat Anda dengan Layanan Kami, termasuk alamat IP Anda, laporan kerusakan, aktivitas sistem, dan waktu, tanggal, serta URL pengarah permintaan Anda.",
+  "Jika Anda memberikan kepada Kami Data Pribadi yang terkait dengan individu lain (seperti Data Pribadi pasangan Anda, anggota keluarga, atau pihak lain), Anda menyatakan bahwa Anda telah memperoleh persetujuan dari individu yang bersangkutan, dan dengan ini menyetujui atas nama individu tersebut untuk pengumpulan, penggunaan, pengungkapan, dan pemrosesan Data Pribadi mereka oleh Kami.",
+];
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -87,6 +93,25 @@ function PersonalDataScopeContent() {
   );
 }
 
+function DataCollectionContent() {
+  return (
+    <div className="grid gap-4">
+      <p>
+        Kami memperoleh dan mengumpulkan Data Pribadi Anda dengan beberapa cara,
+        seperti:
+      </p>
+
+      <ol className="grid list-decimal gap-3 pl-5">
+        {dataCollectionItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -94,6 +119,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Ruang Lingkup dan Jenis Data Pribadi yang Kami Kumpulkan") {
     return <PersonalDataScopeContent />;
+  }
+
+  if (section === "Bagaimana Kami Mengumpulkan Data Pribadi Anda") {
+    return <DataCollectionContent />;
   }
 
   return (
