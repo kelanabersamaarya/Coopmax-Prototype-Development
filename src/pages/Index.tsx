@@ -111,6 +111,7 @@ export default function Index() {
   const isMobileArea = location.pathname.startsWith("/mobile");
   const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+  const hideSidebar = true;
 
   const isPinjamanArea =
     location.pathname.startsWith("/loan-products") ||
@@ -136,12 +137,12 @@ export default function Index() {
         <div
           className={cn(
             "mt-6 grid min-w-0 gap-[var(--shell-gap)]",
-            isDashboard
+            isDashboard || hideSidebar
               ? "grid-cols-1"
               : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          {!isDashboard ? (
+          {!isDashboard && !hideSidebar ? (
             <aside className="min-w-0 space-y-4 px-0">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 {/* no scroll on sidebar */}
