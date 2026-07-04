@@ -37,6 +37,14 @@ const membershipItems = [
   "Segala kerugian yang timbul akibat tidak dilakukannya pengkinian data oleh Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri, khususnya perubahan alamat e-mail dan/atau nomor handphone aktif Anggota, menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
 ];
 
+const membershipRequirementItems = [
+  "Anggota M-Banking DAM yang memiliki rekening Tabungan, Pinjaman dan Deposito aktif.",
+  "Memiliki nomor handphone dan alamat email pribadi yang masih aktif digunakan Anggota.",
+  "Berusia minimal 15 tahun.",
+  "Mengisi Formulir Registrasi dan Aktivasi M-Banking DAM di Kantor Koperasi Konsumen Dana Asri Mandiri.",
+  "Telah membaca dan memahami syarat menjadi Anggota Pengguna M-Banking DAM.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -71,6 +79,18 @@ function TermsSectionContent({ section }: { section: string }) {
     return (
       <ol className="grid list-decimal gap-3 pl-5">
         {membershipItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
+  if (section === "Persyaratan Keanggotaan") {
+    return (
+      <ol className="grid list-decimal gap-3 pl-5">
+        {membershipRequirementItems.map((item) => (
           <li key={item} className="pl-1">
             {item}
           </li>
