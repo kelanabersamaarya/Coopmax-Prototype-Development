@@ -169,7 +169,7 @@ export default function NewMBankingDepositDetailPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Informasi Rekening Deposito
+            Rekening Deposito
           </h1>
         </header>
       </div>

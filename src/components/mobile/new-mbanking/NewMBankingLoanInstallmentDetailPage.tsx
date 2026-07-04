@@ -221,7 +221,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
           </button>
 
           <h1 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Informasi Rekening Pinjaman
+            Rekening Pinjaman
           </h1>
         </header>
       </div>
