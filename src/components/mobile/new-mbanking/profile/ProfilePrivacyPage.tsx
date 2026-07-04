@@ -143,6 +143,10 @@ const specialSecurityMeasures: SecurityMeasureItem[] = [
   },
 ];
 
+const policyChangeItems = [
+  "Kami dapat meninjau dan mengubah Kebijakan ini dari waktu ke waktu atas kebijakan kami sendiri. Apabila terdapat perubahan pada Kebijakan ini, Kami akan menginformasikan kepada Anda melalui pemberitahuan yang dipublikasikan pada Platform dan/atau situs web, atau ke alamat email Anda yang tercatat pada platform Kami. Anda mengakui dan menyetujui bahwa Anda bertanggung jawab untuk memeriksa Kebijakan ini dari waktu ke waktu untuk mengetahui kondisi atau informasi terkini mengenai proses perlindungan Data Pribadi Anda melalui Platform Kami.",
+];
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -314,6 +318,18 @@ function SpecialSecurityMeasuresContent() {
   );
 }
 
+function PolicyChangeContent() {
+  return (
+    <ol className="grid list-decimal gap-3 pl-5">
+      {policyChangeItems.map((item) => (
+        <li key={item} className="pl-1">
+          {item}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -349,6 +365,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Tindakan Keamanan Khusus") {
     return <SpecialSecurityMeasuresContent />;
+  }
+
+  if (section === "Perubahan Kebijakan") {
+    return <PolicyChangeContent />;
   }
 
   return (
