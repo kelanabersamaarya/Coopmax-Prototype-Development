@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, Info, ReceiptText } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import BillingTableWithStatus, {
@@ -250,29 +250,8 @@ export default function NewMBankingBillListPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[118px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-4 pb-[34px] pt-[24px]">
-          <div className="relative overflow-hidden rounded-[20px] bg-[linear-gradient(135deg,#14B8A6_0%,#0F766E_52%,#115E59_100%)] px-5 py-5 text-white">
-            <div className="pointer-events-none absolute -right-[42px] -top-[42px] h-[136px] w-[136px] rounded-full bg-white/16" />
-            <div className="pointer-events-none absolute right-[48px] top-[58px] h-[64px] w-[64px] rounded-full bg-emerald-200/16" />
-            <div className="pointer-events-none absolute -bottom-[36px] left-[72px] h-[96px] w-[96px] rounded-full bg-teal-950/12" />
-
-            <div className="relative z-10 flex items-center gap-3">
-              <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[14px] bg-white/18 text-white">
-                <ReceiptText className="h-[23px] w-[23px]" strokeWidth={2.5} />
-              </span>
-
-              <div className="min-w-0">
-                <div className="text-[12px] font-normal leading-none text-white/78">
-                  No. Pinjaman
-                </div>
-                <div className="mt-[8px] truncate text-[18px] font-bold leading-tight text-white">
-                  {accountNo || "SMG260004"}
-                </div>
-              </div>
-            </div>
-          </div>
-
           {shouldShowThreeBillsWithNextInfo ? (
-            <div className="mt-[12px]">
+            <div>
               <InfoCard
                 title="Tagihan Berikutnya"
                 description="Tagihan berikutnya akan diterbitkan pada 20 April 2025 dan jatuh tempo pada 5 Mei 2025."
