@@ -1,8 +1,6 @@
 import {
   Banknote,
-  BatteryMedium,
   Droplets,
-  HandCoins,
   HeartPulse,
   Landmark,
   Monitor,
@@ -36,30 +34,6 @@ function DecorativeText({
       )}
     >
       {children}
-    </div>
-  );
-}
-
-function MiniStatusBar() {
-  return (
-    <div className="flex h-[28px] shrink-0 items-center justify-between px-[14px] pt-[6px] text-black">
-      <div className="text-[9px] font-bold leading-none tracking-[-0.02em]">
-        11:30
-      </div>
-
-      <div className="flex items-center gap-[4px]">
-        <div className="flex h-[10px] items-end gap-[1px]" aria-hidden="true">
-          <span className="h-[3px] w-[2px] rounded-full bg-black" />
-          <span className="h-[5px] w-[2px] rounded-full bg-black" />
-          <span className="h-[7px] w-[2px] rounded-full bg-black" />
-          <span className="h-[9px] w-[2px] rounded-full bg-black" />
-        </div>
-        <Wifi className="h-[10px] w-[10px] text-black" strokeWidth={2.6} />
-        <BatteryMedium
-          className="h-[11px] w-[11px] text-black"
-          strokeWidth={2.5}
-        />
-      </div>
     </div>
   );
 }
@@ -254,8 +228,6 @@ export default function NewMBankingOnboardingIllustration({
         <NewMBankingPhoneMockupShell className="relative z-10">
           <div className="flex h-full flex-col overflow-hidden bg-white text-black">
             <div className="shrink-0 bg-[#F9F9F9]">
-              <MiniStatusBar />
-
               <div className="flex h-[38px] items-center gap-[7px] px-[14px]">
                 <div className="grid h-[24px] w-[24px] place-items-center rounded-[7px] bg-white text-black shadow-sm">
                   <span className="text-[14px] font-bold leading-none">‹</span>
