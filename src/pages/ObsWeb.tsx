@@ -78,31 +78,6 @@ function FooterInfoRow({
   );
 }
 
-function MiniMapCard() {
-  return (
-    <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-white/10">
-      <div className="bg-slate-100 p-3">
-        <div className="text-xs font-extrabold uppercase tracking-wide text-slate-700">
-          Peta (prototype)
-        </div>
-        <div className="mt-1 text-xs text-slate-600">
-          Tampilan peta belum dihubungkan.
-        </div>
-      </div>
-      <div className="grid place-items-center bg-white p-4">
-        <div className="grid h-[140px] w-full place-items-center rounded-xl border border-slate-200 bg-slate-50">
-          <div className="text-center text-[12px] font-semibold text-slate-600">
-            MAP
-            <div className="mt-1 text-[11px] font-medium text-slate-500">
-              Embedded map placeholder
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function ObsWeb() {
   const [nama, setNama] = React.useState("");
   const [phone, setPhone] = React.useState("");
@@ -440,7 +415,7 @@ export default function ObsWeb() {
 
       <div className="mt-6 bg-[#0b1220]">
         <div className="mx-auto w-full max-w-6xl px-4 py-10 md:px-8">
-          <div className="grid gap-8 lg:grid-cols-[1fr_1fr_1.1fr]">
+          <div className="grid gap-8 lg:grid-cols-2">
             <div className="space-y-4">
               <div className="text-[13px] font-extrabold tracking-tight text-white">
                 Kontak
@@ -473,13 +448,6 @@ export default function ObsWeb() {
                   </div>
                 </div>
               </FooterInfoRow>
-            </div>
-
-            <div className="space-y-4">
-              <div className="text-[13px] font-extrabold tracking-tight text-white">
-                Peta
-              </div>
-              <MiniMapCard />
             </div>
           </div>
 
