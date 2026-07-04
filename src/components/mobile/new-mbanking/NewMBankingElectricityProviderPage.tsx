@@ -34,6 +34,16 @@ function getServiceIcon(variant: ServiceVariant) {
   return Zap;
 }
 
+function getServiceIconBackground(variant: ServiceVariant) {
+  if (variant === "water") return "bg-[#06B6D4]";
+  if (variant === "pbb") return "bg-[#8B5CF6]";
+  if (variant === "internet") return "bg-[#2563EB]";
+  if (variant === "finance") return "bg-[#3B82F6]";
+  if (variant === "tv") return "bg-[#14B8A6]";
+  if (variant === "bpjs") return "bg-[#22C55E]";
+  return "bg-[#F59E0B]";
+}
+
 export default function NewMBankingElectricityProviderPage({
   onBack,
   onSelectProvider,
@@ -88,8 +98,8 @@ export default function NewMBankingElectricityProviderPage({
               >
                 <span
                   className={cn(
-                    "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full",
-                    "bg-[#479DF4] text-white",
+                    "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full text-white",
+                    getServiceIconBackground(iconVariant),
                   )}
                 >
                   <Icon className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
