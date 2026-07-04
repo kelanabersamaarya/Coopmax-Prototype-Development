@@ -61,6 +61,20 @@ const membershipActivationItems = [
   "Anggota hanya dapat mengaktifkan 1 (satu) aplikasi M-Banking DAM pada 1 (satu) smartphone yang memiliki nomor Handphone sesuai dengan yang didaftarkan pada proses registrasi. Apabila terdapat lebih dari 1 (satu) smartphone yang mengaktifkan aplikasi M-Banking DAM dengan Username dan Nomor Handphone yang sama maka hanya smartphone yang terakhir mengaktifkan aplikasi tersebut yang dapat digunakan.",
 ];
 
+const transactionSecurityItems = [
+  "Kerahasiaan dan penggunaan Username M-Banking DAM adalah sepenuhnya menjadi tanggung jawab Anggota Pengguna dan hanya boleh diketahui serta digunakan oleh Anggota Pengguna yang bersangkutan.",
+  "Anggota Pengguna wajib menjaga kerahasiaan Username, Kata Sandi dan PIN miliknya agar tidak diketahui dan tidak digunakan oleh orang lain, diantaranya dengan cara tidak memberitahukannya kepada siapapun termasuk kepada petugas Koperasi, tidak mencatat atau menyimpannya secara tertulis pada kertas atau media penyimpanan lainnya yang memungkinkan diketahui orang lain, berhati-hati dalam menggunakannya agar tidak terlihat orang lain, mengganti PIN atau Kata Sandi M-Banking DAM secara berkala, tidak menggunakan PIN dan Kata Sandi yang mudah ditebak seperti identitas pribadi atau tanggal lahir, serta tidak menyamakan PIN dan Kata Sandi dengan PIN atau Kata Sandi e-channel lainnya.",
+  "Anggota Pengguna diberikan kebebasan untuk membuat PIN dan Kata Sandi-nya sendiri dan dapat mengubah atau menggantinya setiap saat.",
+  "Apabila handphone yang digunakan untuk bertransaksi M-Banking DAM hilang, dicuri, atau berganti kepemilikan maka Anggota Pengguna wajib memberitahukan hal tersebut kepada Koperasi Konsumen Dana Asri Mandiri melalui nomor telepon resmi Koperasi Konsumen Dana Asri Mandiri.",
+  "Dalam hal Anggota Pengguna mengetahui atau menduga Username, PIN atau Kata Sandi miliknya telah diketahui oleh orang lain yang tidak berwenang, maka Anggota Pengguna wajib segera melakukan pengamanan dan perubahan terhadap Username, PIN atau Kata Sandi.",
+  "Apabila karena suatu sebab Anggota Pengguna tidak dapat melakukan perubahan terhadap Username, PIN atau Kata Sandi miliknya maka Anggota Pengguna wajib memberitahukan Koperasi Konsumen Dana Asri Mandiri melalui nomor telepon resmi Koperasi Konsumen Dana Asri Mandiri.",
+  "Sebelum diterimanya permintaan dari Anggota Pengguna, maka segala perintah, transaksi dan komunikasi berdasarkan penggunaan Username, PIN dan/atau Kata Sandi oleh pihak yang tidak berwenang sepenuhnya menjadi tanggung jawab Anggota Pengguna.",
+  "Penggunaan Username, PIN dan/atau Kata Sandi mempunyai kekuatan hukum yang sama dengan perintah tertulis yang ditandatangani oleh Anggota Pengguna, oleh karena itu Anggota Pengguna dengan ini menyatakan bahwa penggunaan Username, PIN dan/atau Kata Sandi dalam setiap perintah pada transaksi M-Banking DAM juga merupakan pemberian kuasa dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri untuk melaksanakan transaksi termasuk untuk melakukan pendebetan rekening Anggota Pengguna baik dalam rangka pelaksanaan transaksi yang diperintahkan maupun untuk pembayaran biaya transaksinya.",
+  "Penyalahgunaan Username, PIN dan/atau Kata Sandi M-Banking DAM beserta akibatnya merupakan tanggung jawab Anggota Pengguna sepenuhnya.",
+  "Anggota wajib menjaga smartphone miliknya dari aplikasi berbahaya seperti virus, malware, trojan, dan lain-lain, baik sebelum maupun setelah instalasi aplikasi M-Banking DAM.",
+  "Segala kerugian yang ditimbulkan akibat aktivitas aplikasi berbahaya yang terdapat pada smartphone milik Anggota Pengguna, merupakan tanggung jawab Anggota Pengguna sepenuhnya.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -131,6 +145,18 @@ function TermsSectionContent({ section }: { section: string }) {
     return (
       <ol className="grid list-decimal gap-3 pl-5">
         {membershipActivationItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
+  if (section === "Pengamanan Transaksi") {
+    return (
+      <ol className="grid list-decimal gap-3 pl-5">
+        {transactionSecurityItems.map((item) => (
           <li key={item} className="pl-1">
             {item}
           </li>
