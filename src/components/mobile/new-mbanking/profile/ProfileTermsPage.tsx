@@ -91,6 +91,40 @@ const transactionSecurityItems: Array<
   "Segala kerugian yang ditimbulkan akibat aktivitas aplikasi berbahaya yang terdapat pada smartphone milik Anggota Pengguna, merupakan tanggung jawab Anggota Pengguna sepenuhnya.",
 ];
 
+const mbankingUsageItems: Array<
+  | string
+  | {
+      text: string;
+      subItems: string[];
+    }
+> = [
+  "M-Banking DAM hanya boleh digunakan oleh Anggota Pengguna yang sah, yaitu Anggota yang terdaftar pada sistem database M-Banking DAM sesuai dengan Username dan nomor handphone yang didaftarkannya.",
+  "Segala kerugian yang ditimbulkan akibat penggunaan M-Banking DAM oleh pihak lain yang tidak berhak menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
+  "Anggota Pengguna dapat memanfaatkan M-Banking DAM untuk Transaksi Finansial yang telah ditentukan oleh Koperasi Konsumen Dana Asri Mandiri.",
+  "Anggota Pengguna wajib mengisi secara lengkap dan benar serta memastikan ketepatan dan kelengkapan data yang dibutuhkan untuk Transaksi Finansial yang akan dilakukan.",
+  "Koperasi Konsumen Dana Asri Mandiri tidak bertanggung jawab terhadap segala dampak apapun yang mungkin timbul yang diakibatkan kelalaian, ketidaklengkapan, ketidakjelasan atau ketidaktepatan data yang diisi oleh Anggota Pengguna, baik saat registrasi maupun saat melakukan Transaksi Finansial.",
+  "Anggota Pengguna memiliki kesempatan untuk memeriksa kembali dan/atau membatalkan data yang telah diisi pada saat konfirmasi transaksi.",
+  "Apabila telah diyakini kebenaran dan kelengkapan data yang diisi, sebagai tanda persetujuan pelaksanaan Transaksi Finansial, maka Anggota Pengguna wajib memasukkan PIN pada tampilan PIN yang ditampilkan setelah konfirmasi.",
+  "Setiap perintah yang telah disetujui oleh Anggota Pengguna yang tersimpan pada pusat data Koperasi Konsumen Dana Asri Mandiri merupakan data yang benar yang diterima sebagai bukti perintah dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri untuk melaksanakan perintah yang dimaksud.",
+  "Koperasi Konsumen Dana Asri Mandiri menerima dan menjalankan setiap perintah dari Anggota Pengguna sebagai perintah yang sah berdasarkan penggunaan Username, Kata Sandi dan PIN, maka Koperasi Konsumen Dana Asri Mandiri tidak mempunyai kewajiban untuk meneliti atau menyelidiki keaslian maupun keabsahan atau kewenangan pengguna Username, PIN dan Kata Sandi Transaksi atau menilai maupun membuktikan ketepatan dan kelengkapan perintah dimaksud, oleh karena itu perintah tersebut sah mengikat Anggota Pengguna.",
+  {
+    text: "Koperasi Konsumen Dana Asri Mandiri berhak untuk tidak melaksanakan perintah dari Anggota Pengguna, apabila:",
+    subItems: [
+      "Saldo rekening Anggota Pengguna di Koperasi Konsumen Dana Asri Mandiri tidak cukup.",
+      "Koperasi Konsumen Dana Asri Mandiri mengetahui atau mempunyai alasan untuk menduga bahwa penipuan atau aksi kejahatan telah atau akan dilakukan.",
+    ],
+  },
+  "Sebagai bukti bahwa Transaksi Finansial yang diperintahkan Anggota Pengguna telah berhasil dilakukan oleh Koperasi Konsumen Dana Asri Mandiri, Anggota Pengguna akan mendapatkan bukti Transaksi Finansial dan bukti tersebut akan tersimpan di dalam database Koperasi Konsumen Dana Asri Mandiri selama tiga bulan sejak tanggal Transaksi Finansial dilakukan.",
+  {
+    text: "Anggota Pengguna menyetujui dan mengakui bahwa:",
+    subItems: [
+      "Dengan dilaksanakannya Transaksi Finansial melalui M-Banking DAM, maka semua perintah dan komunikasi dari Anggota Pengguna yang diterima Koperasi Konsumen Dana Asri Mandiri akan diperlakukan sebagai alat bukti yang sah meskipun tidak dibuat dokumen tertulis dan/atau dikeluarkan dokumen yang tidak ditandatangani.",
+      "Bukti atas perintah dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri dan segala bentuk komunikasi antara Koperasi Konsumen Dana Asri Mandiri dan Anggota Pengguna yang dikirim secara elektronik yang tersimpan pada pusat data Koperasi Konsumen Dana Asri Mandiri dan/atau tersimpan dalam bentuk penyimpanan informasi dan data lainnya di Koperasi Konsumen Dana Asri Mandiri, baik yang berupa dokumen tertulis, catatan, tape/cartridge, print out komputer dan/atau salinan, merupakan alat bukti yang sah yang tidak akan dibantah keabsahan, kebenaran atau keasliannya.",
+    ],
+  },
+  "Anggota Pengguna dengan ini memberikan kuasa kepada Koperasi Konsumen Dana Asri Mandiri untuk mendebet rekening Anggota Pengguna yang terdaftar di Koperasi Konsumen Dana Asri Mandiri untuk melaksanakan Transaksi Finansial yang diinstruksikan oleh Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri melalui M-Banking DAM dan untuk pembayaran biaya administrasi serta biaya transaksi atas penggunaan fasilitas M-Banking DAM.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -108,94 +142,72 @@ const termsSections = [
   "Lain - Lain",
 ];
 
+function OrderedContentList({
+  items,
+}: {
+  items: Array<
+    | string
+    | {
+        text: string;
+        subItems: string[];
+      }
+  >;
+}) {
+  return (
+    <ol className="grid list-decimal gap-3 pl-5">
+      {items.map((item, index) => {
+        if (typeof item === "string") {
+          return (
+            <li key={item} className="pl-1">
+              {item}
+            </li>
+          );
+        }
+
+        return (
+          <li key={`${item.text}-${index}`} className="pl-1">
+            <div>{item.text}</div>
+            <ol type="a" className="mt-3 grid list-[lower-alpha] gap-2 pl-5">
+              {item.subItems.map((subItem) => (
+                <li key={subItem} className="pl-1">
+                  {subItem}
+                </li>
+              ))}
+            </ol>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 function TermsSectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
-    return (
-      <ol className="grid list-decimal gap-3 pl-5">
-        {definitionItems.map((item) => (
-          <li key={item} className="pl-1">
-            {item}
-          </li>
-        ))}
-      </ol>
-    );
+    return <OrderedContentList items={definitionItems} />;
   }
 
   if (section === "Keanggotaan") {
-    return (
-      <ol className="grid list-decimal gap-3 pl-5">
-        {membershipItems.map((item) => (
-          <li key={item} className="pl-1">
-            {item}
-          </li>
-        ))}
-      </ol>
-    );
+    return <OrderedContentList items={membershipItems} />;
   }
 
   if (section === "Persyaratan Keanggotaan") {
-    return (
-      <ol className="grid list-decimal gap-3 pl-5">
-        {membershipRequirementItems.map((item) => (
-          <li key={item} className="pl-1">
-            {item}
-          </li>
-        ))}
-      </ol>
-    );
+    return <OrderedContentList items={membershipRequirementItems} />;
   }
 
   if (section === "Registrasi Keanggotaan") {
-    return (
-      <ol className="grid list-decimal gap-3 pl-5">
-        {membershipRegistrationItems.map((item) => (
-          <li key={item} className="pl-1">
-            {item}
-          </li>
-        ))}
-      </ol>
-    );
+    return <OrderedContentList items={membershipRegistrationItems} />;
   }
 
   if (section === "Aktivasi Status Keanggotaan") {
-    return (
-      <ol className="grid list-decimal gap-3 pl-5">
-        {membershipActivationItems.map((item) => (
-          <li key={item} className="pl-1">
-            {item}
-          </li>
-        ))}
-      </ol>
-    );
+    return <OrderedContentList items={membershipActivationItems} />;
   }
 
   if (section === "Pengamanan Transaksi") {
-    return (
-      <ol className="grid list-decimal gap-3 pl-5">
-        {transactionSecurityItems.map((item, index) => {
-          if (typeof item === "string") {
-            return (
-              <li key={item} className="pl-1">
-                {item}
-              </li>
-            );
-          }
+    return <OrderedContentList items={transactionSecurityItems} />;
+  }
 
-          return (
-            <li key={`${item.text}-${index}`} className="pl-1">
-              <div>{item.text}</div>
-              <ol type="a" className="mt-3 grid list-[lower-alpha] gap-2 pl-5">
-                {item.subItems.map((subItem) => (
-                  <li key={subItem} className="pl-1">
-                    {subItem}
-                  </li>
-                ))}
-              </ol>
-            </li>
-          );
-        })}
-      </ol>
-    );
+  if (section === "Penggunaan M-Banking") {
+    return <OrderedContentList items={mbankingUsageItems} />;
   }
 
   return (
