@@ -350,10 +350,7 @@ export default function NewMBankingAccountDetailPage({
         </section>
 
         <section className="relative bg-white px-6 pb-[34px] pt-[22px]">
-          <div className="absolute inset-x-0 top-0 h-px bg-[#EEF0F4]" />
-          <div className="absolute left-1/2 top-[13px] h-[6px] w-[88px] -translate-x-1/2 rounded-full bg-[#D8D8D8]" />
-
-          <div className="pt-[28px]">
+          <div>
             <h2 className="text-[20px] font-bold leading-tight tracking-[-0.035em] text-black">
               Riwayat Transaksi
             </h2>
