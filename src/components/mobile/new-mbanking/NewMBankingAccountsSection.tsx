@@ -250,9 +250,8 @@ function SimpananCardContent({
   return (
     <>
       <div className="flex items-start justify-between gap-4">
-        <AccountInfo label={card.productName}>
-          <span className="truncate">{card.accountNo}</span>
-          <CopyButton label="Salin nomor rekening" />
+        <AccountInfo label="Produk Simpanan">
+          <span className="truncate">{card.productName}</span>
         </AccountInfo>
 
         <button
@@ -262,6 +261,13 @@ function SimpananCardContent({
         >
           Lihat Detail
         </button>
+      </div>
+
+      <div className="mt-[22px]">
+        <AccountInfo label="No. Rek. Simpanan">
+          <span className="truncate">{card.accountNo}</span>
+          <CopyButton label="Salin nomor rekening simpanan" />
+        </AccountInfo>
       </div>
 
       <div className="mt-[22px]">

@@ -144,6 +144,39 @@ function QuickActionButton({
   );
 }
 
+function CardInfo({
+  label,
+  value,
+  copyable = false,
+  children,
+}: {
+  label: string;
+  value?: string;
+  copyable?: boolean;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div>
+      <div className="text-[11px] font-normal leading-none text-white/80">
+        {label}
+      </div>
+      <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
+        {children ?? <span>{value}</span>}
+        {copyable ? (
+          <button
+            type="button"
+            className="inline-flex h-[22px] w-[22px] items-center justify-center rounded-full text-white/90 transition active:scale-[0.96]"
+            aria-label={`Salin ${label}`}
+            title="Salin"
+          >
+            <Copy className="h-[14px] w-[14px]" strokeWidth={2.5} />
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function TransactionIcon({ type }: { type: TransactionItem["type"] }) {
   const isTransferOut = type === "out";
   const Icon = isTransferOut ? Send : Banknote;
@@ -283,47 +316,32 @@ export default function NewMBankingAccountDetailPage({
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.16),rgba(15,23,42,0.10))]" />
 
             <div className="relative z-10 grid gap-[23px]">
-              <div>
-                <div className="text-[11px] font-normal leading-none text-white/80">
-                  Simpanan Harian
-                </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
-                  <span>112233111</span>
-                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.5} />
-                </div>
-              </div>
+              <CardInfo label="Produk Simpanan" value="Simpanan Harian" />
 
-              <div>
-                <div className="text-[11px] font-normal leading-none text-white/80">
-                  Nomor VA
-                </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
-                  <span>88810 112233111</span>
-                  <Copy className="h-[15px] w-[15px]" strokeWidth={2.5} />
-                </div>
-              </div>
+              <CardInfo
+                label="No. Rek. Simpanan"
+                value="112233111"
+                copyable
+              />
 
-              <div>
-                <div className="text-[11px] font-normal leading-none text-white/80">
-                  Saldo
-                </div>
-                <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.04em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
-                  <span>{showBalance ? "Rp. 4.000.000,00" : "••••••••••"}</span>
-                  <button
-                    type="button"
-                    onClick={() => setShowBalance((value) => !value)}
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-[8px] text-white transition active:scale-[0.96]"
-                    aria-label={showBalance ? "Sembunyikan saldo" : "Tampilkan saldo"}
-                    title={showBalance ? "Sembunyikan saldo" : "Tampilkan saldo"}
-                  >
-                    {showBalance ? (
-                      <Eye className="h-[17px] w-[17px]" strokeWidth={2.4} />
-                    ) : (
-                      <EyeOff className="h-[17px] w-[17px]" strokeWidth={2.4} />
-                    )}
-                  </button>
-                </div>
-              </div>
+              <CardInfo label="Nomor VA" value="88810 112233111" copyable />
+
+              <CardInfo label="Saldo Simpanan">
+                <span>{showBalance ? "Rp. 4.000.000,00" : "••••••••••"}</span>
+                <button
+                  type="button"
+                  onClick={() => setShowBalance((value) => !value)}
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-[8px] text-white transition active:scale-[0.96]"
+                  aria-label={showBalance ? "Sembunyikan saldo" : "Tampilkan saldo"}
+                  title={showBalance ? "Sembunyikan saldo" : "Tampilkan saldo"}
+                >
+                  {showBalance ? (
+                    <Eye className="h-[17px] w-[17px]" strokeWidth={2.4} />
+                  ) : (
+                    <EyeOff className="h-[17px] w-[17px]" strokeWidth={2.4} />
+                  )}
+                </button>
+              </CardInfo>
             </div>
           </div>
 
