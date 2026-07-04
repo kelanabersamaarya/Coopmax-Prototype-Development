@@ -45,6 +45,14 @@ const membershipRequirementItems = [
   "Telah membaca dan memahami syarat menjadi Anggota Pengguna M-Banking DAM.",
 ];
 
+const membershipRegistrationItems = [
+  "Registrasi M-Banking DAM wajib dilakukan sendiri oleh Anggota yang bersangkutan (tidak boleh diwakilkan) dengan membawa dokumen asli sesuai persyaratan keanggotaan M-Banking DAM.",
+  "Dokumen asli yang wajib dibawa oleh Anggota yaitu identitas diri (KTP/SIM/Passport) dan bukti kepemilikan rekening (buku tabungan).",
+  "Registrasi hanya dapat dilakukan melalui Kantor Koperasi Konsumen Dana Asri Mandiri.",
+  "Anggota wajib mendaftarkan nomor handphone pribadi miliknya dan dilarang untuk mendaftarkan nomor handphone milik orang lain dengan alasan apapun.",
+  "Risiko yang timbul akibat kelalaian dan/atau penyalahgunaan data oleh Anggota dalam pelaksanaan Registrasi, seperti mendaftarkan nomor handphone yang bukan milik pribadinya ataupun membuat Kata Sandi dan PIN yang mudah ditebak, akan menjadi tanggung jawab Anggota.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -91,6 +99,18 @@ function TermsSectionContent({ section }: { section: string }) {
     return (
       <ol className="grid list-decimal gap-3 pl-5">
         {membershipRequirementItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
+  if (section === "Registrasi Keanggotaan") {
+    return (
+      <ol className="grid list-decimal gap-3 pl-5">
+        {membershipRegistrationItems.map((item) => (
           <li key={item} className="pl-1">
             {item}
           </li>
