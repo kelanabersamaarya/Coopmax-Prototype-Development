@@ -143,9 +143,8 @@ const specialSecurityMeasures: SecurityMeasureItem[] = [
   },
 ];
 
-const policyChangeItems = [
-  "Kami dapat meninjau dan mengubah Kebijakan ini dari waktu ke waktu atas kebijakan kami sendiri. Apabila terdapat perubahan pada Kebijakan ini, Kami akan menginformasikan kepada Anda melalui pemberitahuan yang dipublikasikan pada Platform dan/atau situs web, atau ke alamat email Anda yang tercatat pada platform Kami. Anda mengakui dan menyetujui bahwa Anda bertanggung jawab untuk memeriksa Kebijakan ini dari waktu ke waktu untuk mengetahui kondisi atau informasi terkini mengenai proses perlindungan Data Pribadi Anda melalui Platform Kami.",
-];
+const policyChangeText =
+  "Kami dapat meninjau dan mengubah Kebijakan ini dari waktu ke waktu atas kebijakan kami sendiri. Apabila terdapat perubahan pada Kebijakan ini, Kami akan menginformasikan kepada Anda melalui pemberitahuan yang dipublikasikan pada Platform dan/atau situs web, atau ke alamat email Anda yang tercatat pada platform Kami. Anda mengakui dan menyetujui bahwa Anda bertanggung jawab untuk memeriksa Kebijakan ini dari waktu ke waktu untuk mengetahui kondisi atau informasi terkini mengenai proses perlindungan Data Pribadi Anda melalui Platform Kami.";
 
 function DefinitionContent() {
   return (
@@ -320,13 +319,9 @@ function SpecialSecurityMeasuresContent() {
 
 function PolicyChangeContent() {
   return (
-    <ol className="grid list-decimal gap-3 pl-5">
-      {policyChangeItems.map((item) => (
-        <li key={item} className="pl-1">
-          {item}
-        </li>
-      ))}
-    </ol>
+    <div className="grid gap-3">
+      <p>{policyChangeText}</p>
+    </div>
   );
 }
 
