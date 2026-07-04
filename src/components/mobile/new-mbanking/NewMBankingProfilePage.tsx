@@ -169,9 +169,6 @@ function LogoutMenuButton({ onClick }: { onClick: () => void }) {
         <span className="block truncate text-[15px] font-bold leading-tight text-[#DC3545]">
           Keluar
         </span>
-        <span className="mt-[5px] block text-[12px] font-normal leading-snug text-[#8F8F8F]">
-          Keluar dari akun M-Banking Anda.
-        </span>
       </span>
 
       <ChevronRight
