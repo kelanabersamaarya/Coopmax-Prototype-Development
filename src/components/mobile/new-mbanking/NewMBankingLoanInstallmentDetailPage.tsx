@@ -217,6 +217,7 @@ export default function NewMBankingLoanInstallmentDetailPage({
 
             <div className="relative z-10 grid gap-[18px]">
               <CardInfoRow label="Produk Pinjaman" value={account.productName} />
+              <CardInfoRow label="No. Rek. Pinjaman" value={account.accountNo} />
               <CardInfoRow label="Jumlah Pinjaman" value={account.totalLoan} />
               <CardInfoRow label="Sisa Pinjaman" value={account.remainingLoan} />
             </div>
