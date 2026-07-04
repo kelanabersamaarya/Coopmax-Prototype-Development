@@ -4,8 +4,11 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import {
   Droplets,
+  HeartPulse,
   Landmark,
   Map,
+  Monitor,
+  Smartphone,
   Wifi,
   X,
   Zap,
@@ -14,7 +17,15 @@ import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 
-type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+type ServiceVariant =
+  | "electricity"
+  | "water"
+  | "pbb"
+  | "internet"
+  | "finance"
+  | "tv"
+  | "bpjs"
+  | "postpaid-phone";
 
 function parseIdrLike(value: string) {
   const digits = value.replace(/[^\d]/g, "");
@@ -31,6 +42,9 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "pbb") return Map;
   if (variant === "internet") return Wifi;
   if (variant === "finance") return Landmark;
+  if (variant === "tv") return Monitor;
+  if (variant === "bpjs") return HeartPulse;
+  if (variant === "postpaid-phone") return Smartphone;
   return Zap;
 }
 
@@ -39,7 +53,14 @@ function getServiceDescription(variant: ServiceVariant) {
   if (variant === "pbb") return "Pembayaran Pajak Bumi dan Bangunan";
   if (variant === "internet") return "Pembayaran tagihan internet";
   if (variant === "finance") return "Pembayaran cicilan finance";
+  if (variant === "tv") return "Pembayaran tagihan TV";
+  if (variant === "bpjs") return "Pembayaran BPJS Kesehatan";
+  if (variant === "postpaid-phone") return "Pembayaran pulsa pascabayar";
   return "Pembayaran tagihan listrik";
+}
+
+function getCustomerNumberLabel(variant: ServiceVariant) {
+  return variant === "postpaid-phone" ? "No. Handphone" : "No. Pelanggan";
 }
 
 function DetailRow({
@@ -156,7 +177,7 @@ export default function NewMBankingElectricityConfirmModal({
 
         <div className="mt-[8px]">
           <DetailRow label="Nama Pelanggan" value={customerName} />
-          <DetailRow label="No. Pelanggan" value={customerNo} />
+          <DetailRow label={getCustomerNumberLabel(serviceVariant)} value={customerNo} />
           <DetailRow label="Nominal Tagihan" value={amount} />
           <DetailRow label="Biaya Admin" value={adminFee} />
 

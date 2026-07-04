@@ -7,6 +7,7 @@ import {
   Landmark,
   Map,
   Monitor,
+  Smartphone,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -22,7 +23,8 @@ type ServiceVariant =
   | "internet"
   | "finance"
   | "tv"
-  | "bpjs";
+  | "bpjs"
+  | "postpaid-phone";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
@@ -31,6 +33,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
+  if (variant === "postpaid-phone") return Smartphone;
   return Zap;
 }
 
@@ -41,6 +44,7 @@ function getServiceIconBackground(variant: ServiceVariant) {
   if (variant === "finance") return "bg-[#3B82F6]";
   if (variant === "tv") return "bg-[#14B8A6]";
   if (variant === "bpjs") return "bg-[#22C55E]";
+  if (variant === "postpaid-phone") return "bg-[#479DF4]";
   return "bg-[#F59E0B]";
 }
 

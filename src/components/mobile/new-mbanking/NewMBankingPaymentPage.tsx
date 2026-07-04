@@ -32,7 +32,8 @@ type ServiceVariant =
   | "internet"
   | "finance"
   | "tv"
-  | "bpjs";
+  | "bpjs"
+  | "postpaid-phone";
 
 const serviceConfigs: Record<
   ServiceVariant,
@@ -77,6 +78,11 @@ const serviceConfigs: Record<
     providers: ["BPJS Kesehatan"],
     iconVariant: "bpjs",
   },
+  "postpaid-phone": {
+    title: "Pulsa Pascabayar",
+    providers: ["Telkomsel Pascabayar", "XL Pascabayar", "Indosat Pascabayar"],
+    iconVariant: "postpaid-phone",
+  },
 };
 
 const paymentCategories = [
@@ -113,6 +119,7 @@ const paymentCategories = [
     label: "Pulsa Pascabayar",
     icon: Smartphone,
     frameClassName: "bg-[#479DF4]",
+    service: "postpaid-phone" as ServiceVariant,
   },
   {
     label: "PBB",
@@ -215,6 +222,9 @@ function getSavedPaymentService(item: { name: string; info: string }) {
   if (text.includes("tv") || text.includes("transvision")) return "tv";
   if (text.includes("finance") || text.includes("adira")) return "finance";
   if (text.includes("bpjs") || text.includes("kesehatan")) return "bpjs";
+  if (text.includes("pulsa") || text.includes("pascabayar") || text.includes("xl")) {
+    return "postpaid-phone";
+  }
 
   return null;
 }

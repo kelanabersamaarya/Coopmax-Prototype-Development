@@ -3,11 +3,13 @@
 import * as React from "react";
 import {
   ArrowLeft,
+  Contact,
   Droplets,
   HeartPulse,
   Landmark,
   Map,
   Monitor,
+  Smartphone,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -24,7 +26,8 @@ type ServiceVariant =
   | "internet"
   | "finance"
   | "tv"
-  | "bpjs";
+  | "bpjs"
+  | "postpaid-phone";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
@@ -33,6 +36,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
+  if (variant === "postpaid-phone") return Smartphone;
   return Zap;
 }
 
@@ -43,6 +47,7 @@ function getServiceIconBackground(variant: ServiceVariant) {
   if (variant === "finance") return "bg-[#3B82F6]";
   if (variant === "tv") return "bg-[#14B8A6]";
   if (variant === "bpjs") return "bg-[#22C55E]";
+  if (variant === "postpaid-phone") return "bg-[#479DF4]";
   return "bg-[#F59E0B]";
 }
 
@@ -53,6 +58,7 @@ function getServiceIconShadow(variant: ServiceVariant) {
   if (variant === "finance") return "shadow-[0_10px_24px_rgba(59,130,246,0.24)]";
   if (variant === "tv") return "shadow-[0_10px_24px_rgba(20,184,166,0.24)]";
   if (variant === "bpjs") return "shadow-[0_10px_24px_rgba(34,197,94,0.24)]";
+  if (variant === "postpaid-phone") return "shadow-[0_10px_24px_rgba(71,157,244,0.24)]";
   return "shadow-[0_10px_24px_rgba(245,158,11,0.24)]";
 }
 
@@ -81,6 +87,10 @@ function getHelperText(variant: ServiceVariant) {
     return "Masukkan nomor peserta dan pilih jumlah bulan untuk melanjutkan pembayaran BPJS.";
   }
 
+  if (variant === "postpaid-phone") {
+    return "Masukkan nomor handphone pascabayar atau pilih dari kontak.";
+  }
+
   return "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
 }
 
@@ -103,8 +113,18 @@ export default function NewMBankingElectricityCustomerPage({
   const Icon = getServiceIcon(serviceVariant);
   const helperText = getHelperText(serviceVariant);
   const showBpjsMonthField = serviceVariant === "bpjs";
-  const fieldLabel = "No.Pelanggan";
-  const fieldPlaceholder = "Masukkan No. Pelanggan";
+  const isPostpaidPhone = serviceVariant === "postpaid-phone";
+  const fieldLabel = isPostpaidPhone ? "No. Handphone" : "No.Pelanggan";
+  const fieldPlaceholder = isPostpaidPhone
+    ? "Masukkan No. Handphone"
+    : "Masukkan No. Pelanggan";
+
+  function choosePhoneContact() {
+    setCustomerNo("0819987262");
+    toast.success("Kontak dipilih (prototype)", {
+      description: "Laura Patel • 0819987262",
+    });
+  }
 
   function continuePayment() {
     if (!customerNo.trim()) {
@@ -189,20 +209,38 @@ export default function NewMBankingElectricityCustomerPage({
                 <span className="text-[#EF135D]">*</span>
               </label>
 
-              <input
-                value={customerNo}
-                onChange={(event) =>
-                  setCustomerNo((event.target.value ?? "").replace(/[^\d]/g, ""))
-                }
-                placeholder={fieldPlaceholder}
-                inputMode="numeric"
-                className={cn(
-                  "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                  "text-[14px] font-normal text-black shadow-none outline-none",
-                  "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                  "focus:border-[#479DF4]",
-                )}
-              />
+              <div className="flex items-stretch gap-[9px]">
+                <input
+                  value={customerNo}
+                  onChange={(event) =>
+                    setCustomerNo((event.target.value ?? "").replace(/[^\d]/g, ""))
+                  }
+                  placeholder={fieldPlaceholder}
+                  inputMode="numeric"
+                  className={cn(
+                    "h-[44px] min-w-0 flex-1 rounded-[12px] border border-[#CDD4E0] bg-white px-4",
+                    "text-[14px] font-normal text-black shadow-none outline-none",
+                    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                    "focus:border-[#479DF4]",
+                  )}
+                />
+
+                {isPostpaidPhone ? (
+                  <button
+                    type="button"
+                    onClick={choosePhoneContact}
+                    className={cn(
+                      "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[12px]",
+                      "bg-[#479DF4] text-white shadow-[0_8px_18px_rgba(71,157,244,0.20)]",
+                      "transition active:scale-[0.96]",
+                    )}
+                    aria-label="Pilih dari kontak handphone"
+                    title="Pilih dari kontak"
+                  >
+                    <Contact className="h-[22px] w-[22px] text-white" strokeWidth={2.5} />
+                  </button>
+                ) : null}
+              </div>
             </div>
 
             {showBpjsMonthField ? (

@@ -6,6 +6,7 @@ import {
   Landmark,
   Map,
   Monitor,
+  Smartphone,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -20,7 +21,8 @@ type ServiceVariant =
   | "internet"
   | "finance"
   | "tv"
-  | "bpjs";
+  | "bpjs"
+  | "postpaid-phone";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
@@ -29,6 +31,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
+  if (variant === "postpaid-phone") return Smartphone;
   return Zap;
 }
 
@@ -39,6 +42,7 @@ function getSuccessText(variant: ServiceVariant) {
   if (variant === "finance") return "Pembayaran cicilan finance Anda telah berhasil diproses.";
   if (variant === "tv") return "Pembayaran tagihan TV Anda telah berhasil diproses.";
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan Anda telah berhasil diproses.";
+  if (variant === "postpaid-phone") return "Pembayaran pulsa pascabayar Anda telah berhasil diproses.";
   return "Pembayaran tagihan listrik Anda telah berhasil diproses.";
 }
 
@@ -49,7 +53,12 @@ function getReferencePrefix(variant: ServiceVariant) {
   if (variant === "finance") return "FIN";
   if (variant === "tv") return "TV";
   if (variant === "bpjs") return "BPJS";
+  if (variant === "postpaid-phone") return "PULSA";
   return "PLN";
+}
+
+function getCustomerNumberLabel(variant: ServiceVariant) {
+  return variant === "postpaid-phone" ? "No. Handphone" : "No. Pelanggan";
 }
 
 function DetailRow({
@@ -157,7 +166,10 @@ export default function NewMBankingElectricityPaymentSuccessPage({
 
             <div className="mt-[12px] w-[302px] max-w-full rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] py-[10px] text-left">
               <DetailRow label="Nama Pelanggan" value={customerName} />
-              <DetailRow label="No. Pelanggan" value={customerNo} />
+              <DetailRow
+                label={getCustomerNumberLabel(serviceVariant)}
+                value={customerNo}
+              />
               {serviceVariant === "bpjs" ? (
                 <DetailRow label="Jumlah Bulan" value={bpjsMonths} />
               ) : null}

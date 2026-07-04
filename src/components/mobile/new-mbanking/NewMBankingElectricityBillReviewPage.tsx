@@ -8,6 +8,7 @@ import {
   Landmark,
   Map,
   Monitor,
+  Smartphone,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -27,7 +28,8 @@ type ServiceVariant =
   | "internet"
   | "finance"
   | "tv"
-  | "bpjs";
+  | "bpjs"
+  | "postpaid-phone";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -54,6 +56,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
+  if (variant === "postpaid-phone") return Smartphone;
   return Zap;
 }
 
@@ -63,6 +66,7 @@ function getBillAmount(variant: ServiceVariant, bpjsMonths: string) {
   if (variant === "internet") return "Rp. 315.000,00";
   if (variant === "finance") return "Rp. 1.250.000,00";
   if (variant === "tv") return "Rp. 185.000,00";
+  if (variant === "postpaid-phone") return "Rp. 95.000,00";
 
   if (variant === "bpjs") {
     const monthCount = Number.parseInt(bpjsMonths, 10) || 1;
@@ -75,7 +79,12 @@ function getBillAmount(variant: ServiceVariant, bpjsMonths: string) {
 function getCustomerName(variant: ServiceVariant) {
   if (variant === "finance") return "Laura Patel";
   if (variant === "bpjs") return "Keluarga Laura Patel";
+  if (variant === "postpaid-phone") return "Laura Patel";
   return "I Made Wirata";
+}
+
+function getCustomerNumberLabel(variant: ServiceVariant) {
+  return variant === "postpaid-phone" ? "No. Handphone" : "No. Pelanggan";
 }
 
 function DetailRow({
@@ -209,7 +218,10 @@ export default function NewMBankingElectricityBillReviewPage({
 
           <div className="mt-[34px] rounded-[20px] border border-[#E5E7EB] bg-white px-5 py-4">
             <DetailRow label="Nama Pelanggan" value={customerName} />
-            <DetailRow label="No. Pelanggan" value={customerNo} />
+            <DetailRow
+              label={getCustomerNumberLabel(serviceVariant)}
+              value={customerNo}
+            />
             {serviceVariant === "bpjs" ? (
               <DetailRow label="Jumlah Bulan" value={bpjsMonths} />
             ) : null}
