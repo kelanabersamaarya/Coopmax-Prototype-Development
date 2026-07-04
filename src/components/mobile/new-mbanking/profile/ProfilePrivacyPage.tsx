@@ -13,6 +13,11 @@ type ContentItem = {
   definition: string;
 };
 
+type SecurityMeasureItem = {
+  title: string;
+  description: string;
+};
+
 const privacySections = [
   "Definisi",
   "Ruang Lingkup dan Jenis Data Pribadi yang Kami Kumpulkan",
@@ -103,6 +108,39 @@ const cookieUsageItems = [
 const personalDataSecurityItems = [
   "Kami selalu berusaha untuk meningkatkan keamanan Data Pribadi Anda dengan menggunakan teknologi terbaru dan mematuhi peraturan yang berlaku untuk memenuhi harapan pihak-pihak terkait, dan untuk memastikan peningkatan kualitas yang berkelanjutan. Selain itu, Kami menganggap melindungi Data Pribadi Anda sebagai prioritas Kami dengan menggunakan standar tertinggi untuk mengamankan Data Pribadi Anda.",
   "Meskipun Kami akan berusaha melindungi Data Pribadi Anda, Kami tidak dapat menjamin keutuhan dan keakuratan Data Pribadi yang Anda berikan melalui internet, mengingat pengiriman informasi melalui internet tidak sepenuhnya aman. Anda berkewajiban untuk menjaga kerahasiaan akun Anda dan Anda harus selalu menjaga dan bertanggung jawab atas keamanan perangkat yang Anda gunakan.",
+];
+
+const specialSecurityMeasures: SecurityMeasureItem[] = [
+  {
+    title: "Enkripsi",
+    description:
+      "Kami menggunakan protokol enkripsi standar industri untuk melindungi transmisi dan penyimpanan data, memastikan bahwa data pribadi Anda tetap rahasia dan aman.",
+  },
+  {
+    title: "Kontrol Akses",
+    description:
+      "Akses ke data pribadi Anda dibatasi hanya untuk personel yang berwenang yang memerlukan akses untuk memenuhi tanggung jawab pekerjaan mereka. Izin akses ditinjau dan diperbarui secara berkala sesuai kebutuhan.",
+  },
+  {
+    title: "Infrastruktur yang Aman",
+    description:
+      "Sistem dan infrastruktur kami disimpan di pusat data yang aman dengan kontrol keamanan fisik dan logis yang kuat, termasuk firewall, sistem deteksi penyusupan, dan audit keamanan rutin.",
+  },
+  {
+    title: "Minimalisasi Data",
+    description:
+      "Kami membatasi pengumpulan dan penyimpanan data pribadi sesuai dengan yang diperlukan untuk tujuan yang diuraikan dalam kebijakan privasi ini. Kami secara teratur meninjau praktik penyimpanan data untuk memastikan kepatuhan terhadap prinsip-prinsip perlindungan data.",
+  },
+  {
+    title: "Pelatihan Karyawan",
+    description:
+      "Karyawan kami menjalani pelatihan rutin mengenai praktik terbaik perlindungan dan keamanan data untuk memastikan mereka memahami tanggung jawab dan kewajiban mereka terkait penanganan data pribadi.",
+  },
+  {
+    title: "Tanggapan Insiden",
+    description:
+      "Jika terjadi pelanggaran data atau insiden keamanan, kami telah menetapkan prosedur untuk segera mendeteksi, menyelidiki, dan memitigasi dampak insiden tersebut. Jika pelanggaran tersebut menimbulkan risiko terhadap hak dan kebebasan Anda, kami akan memberi tahu Anda sesuai dengan persyaratan hukum yang berlaku.",
+  },
 ];
 
 function DefinitionContent() {
@@ -249,6 +287,33 @@ function PersonalDataSecurityContent() {
   );
 }
 
+function SpecialSecurityMeasuresContent() {
+  return (
+    <div className="grid gap-4">
+      <p>
+        Kami menggunakan berbagai langkah teknis dan organisasi untuk melindungi
+        data pribadi Anda dari akses, pengungkapan, perubahan, atau penghancuran
+        yang tidak sah. Langkah-langkah ini termasuk, namun tidak terbatas pada:
+      </p>
+
+      <ol className="grid list-decimal gap-3 pl-5">
+        {specialSecurityMeasures.map((item) => (
+          <li key={item.title} className="pl-1">
+            <span className="font-bold text-black">{item.title}:</span>{" "}
+            {item.description}
+          </li>
+        ))}
+      </ol>
+
+      <p>
+        Langkah-langkah keamanan ini ditinjau dan diperbarui secara berkala
+        untuk beradaptasi dengan ancaman yang muncul dan kemajuan teknologi,
+        untuk memastikan perlindungan data pribadi Anda yang berkelanjutan.
+      </p>
+    </div>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -280,6 +345,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Keamanan Data Pribadi Anda") {
     return <PersonalDataSecurityContent />;
+  }
+
+  if (section === "Tindakan Keamanan Khusus") {
+    return <SpecialSecurityMeasuresContent />;
   }
 
   return (
