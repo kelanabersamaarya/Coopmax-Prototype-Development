@@ -64,20 +64,6 @@ function getHelperText(variant: ServiceVariant) {
   return "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
 }
 
-function getFieldLabel(variant: ServiceVariant) {
-  if (variant === "pbb") return "NOP";
-  if (variant === "finance") return "No. Kontrak";
-  if (variant === "bpjs") return "No. Peserta";
-  return "No. Pelanggan";
-}
-
-function getPlaceholder(variant: ServiceVariant) {
-  if (variant === "pbb") return "Masukkan NOP";
-  if (variant === "finance") return "Masukkan No. Kontrak";
-  if (variant === "bpjs") return "Masukkan No. Peserta";
-  return "Masukkan No. Pelanggan";
-}
-
 export default function NewMBankingElectricityCustomerPage({
   providerName,
   onBack,
@@ -96,13 +82,14 @@ export default function NewMBankingElectricityCustomerPage({
   const [showReview, setShowReview] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
   const helperText = getHelperText(serviceVariant);
-  const fieldLabel = getFieldLabel(serviceVariant);
   const showBpjsMonthField = serviceVariant === "bpjs";
+  const fieldLabel = "No.Pelanggan";
+  const fieldPlaceholder = "Masukkan No. Pelanggan";
 
   function continuePayment() {
     if (!customerNo.trim()) {
       toast(`${fieldLabel} wajib diisi`, {
-        description: `Masukkan ${fieldLabel.toLowerCase()} sebelum melanjutkan.`,
+        description: `${fieldPlaceholder} sebelum melanjutkan.`,
       });
       return;
     }
@@ -181,7 +168,7 @@ export default function NewMBankingElectricityCustomerPage({
                 onChange={(event) =>
                   setCustomerNo((event.target.value ?? "").replace(/[^\d]/g, ""))
                 }
-                placeholder={getPlaceholder(serviceVariant)}
+                placeholder={fieldPlaceholder}
                 inputMode="numeric"
                 className={cn(
                   "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
