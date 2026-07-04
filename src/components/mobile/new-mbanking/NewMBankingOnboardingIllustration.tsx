@@ -7,6 +7,8 @@ import {
   Landmark,
   Monitor,
   QrCode,
+  ReceiptText,
+  Save,
   Send,
   ShoppingCart,
   Smartphone,
@@ -243,17 +245,29 @@ export default function NewMBankingOnboardingIllustration({
           className,
         )}
       >
-        <DecorativeText className="left-[4px] top-[78px] rotate-[-9deg]">
+        <DecorativeText
+          icon={ReceiptText}
+          className="left-[4px] top-[78px] rotate-[-9deg]"
+        >
           Bayar Tagihan
         </DecorativeText>
-        <DecorativeText className="right-[-3px] top-[154px] rotate-[9deg]">
-          Listrik & Internet
+        <DecorativeText
+          icon={Save}
+          className="right-[-3px] top-[154px] rotate-[9deg]"
+        >
+          Simpan Nomor Tagihan
         </DecorativeText>
-        <DecorativeText className="left-[2px] bottom-[128px] rotate-[7deg]">
-          Pembayaran Tersimpan
+        <DecorativeText
+          icon={Banknote}
+          className="left-[2px] bottom-[128px] rotate-[7deg]"
+        >
+          Riwayat Pembayaran
         </DecorativeText>
-        <DecorativeText className="right-[2px] bottom-[82px] rotate-[-8deg]">
-          Riwayat Cepat
+        <DecorativeText
+          icon={QrCode}
+          className="right-[2px] bottom-[82px] rotate-[-8deg]"
+        >
+          Bayar dengan QRIS
         </DecorativeText>
 
         <div className="pointer-events-none absolute left-[28px] top-[148px] z-0 h-20 w-20 rounded-full bg-[#F59E0B]/12 blur-xl" />
@@ -290,14 +304,20 @@ export default function NewMBankingOnboardingIllustration({
                     const Icon = item.icon;
 
                     return (
-                      <div key={item.label} className="flex min-w-0 flex-col items-center text-center">
+                      <div
+                        key={item.label}
+                        className="flex min-w-0 flex-col items-center text-center"
+                      >
                         <span
                           className={cn(
                             "grid h-[38px] w-[38px] place-items-center rounded-[11px] text-white",
                             item.frame,
                           )}
                         >
-                          <Icon className="h-[18px] w-[18px] text-white" strokeWidth={2.3} />
+                          <Icon
+                            className="h-[18px] w-[18px] text-white"
+                            strokeWidth={2.3}
+                          />
                         </span>
 
                         <span className="mt-[5px] max-w-[48px] text-center text-[7.5px] font-normal leading-[1.15] text-black">
