@@ -63,8 +63,8 @@ const historyGroups: DepositHistoryGroup[] = [
 
 function DepositHistoryIcon() {
   return (
-    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#EAF8EF] text-[#33AA00]">
-      <Banknote className="h-[20px] w-[20px]" strokeWidth={2.6} />
+    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#33AA00] text-white">
+      <Banknote className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
