@@ -8,7 +8,14 @@ import { FileText } from "lucide-react";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import { cn } from "@/lib/utils";
 
-const definitionItems = [
+type ContentItem =
+  | string
+  | {
+      text: string;
+      subItems: ContentItem[];
+    };
+
+const definitionItems: ContentItem[] = [
   "M-Banking DAM adalah fasilitas elektronik channel dari M-Banking DAM yang dapat diakses oleh Anggota Pengguna M-Banking DAM dengan menggunakan smartphone Android yang telah melakukan registrasi.",
   "Koperasi Konsumen Dana Asri Mandiri adalah Koperasi Konsumen yang berkedudukan di Jl Antasura Gg. Dewi Madri I, Br. Jurang Asri, Peguyangan Kangin, Denpasar Utara, Kota Denpasar.",
   "Solusi Anak Sakti adalah Perseroan Terbatas yand telah melakukan kerja sama resmi dengan M-Banking DAM dalam pengembangan Aplikasi M-Banking DAM.",
@@ -28,7 +35,7 @@ const definitionItems = [
   "Ubah nomor Handphone adalah proses pembaharuan nomor handphone Anggota Pengguna yang dilakukan.",
 ];
 
-const membershipItems = [
+const membershipItems: ContentItem[] = [
   "Keanggotaan M-Banking DAM diatur sebagai berikut:",
   "Untuk dapat menggunakan fasilitas M-Banking DAM, calon pengguna harus memenuhi persyaratan keanggotaan M-Banking DAM yang berlaku, melakukan Registrasi dan melakukan Aktivasi fasilitas tersebut.",
   "Keanggotaan M-Banking DAM dapat diakhiri secara sepihak oleh Anggota Pengguna maupun oleh pihak Koperasi Konsumen Dana Asri Mandiri.",
@@ -37,7 +44,7 @@ const membershipItems = [
   "Segala kerugian yang timbul akibat tidak dilakukannya pengkinian data oleh Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri, khususnya perubahan alamat e-mail dan/atau nomor handphone aktif Anggota, menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
 ];
 
-const membershipRequirementItems = [
+const membershipRequirementItems: ContentItem[] = [
   "Anggota M-Banking DAM yang memiliki rekening Tabungan, Pinjaman dan Deposito aktif.",
   "Memiliki nomor handphone dan alamat email pribadi yang masih aktif digunakan Anggota.",
   "Berusia minimal 15 tahun.",
@@ -45,7 +52,7 @@ const membershipRequirementItems = [
   "Telah membaca dan memahami syarat menjadi Anggota Pengguna M-Banking DAM.",
 ];
 
-const membershipRegistrationItems = [
+const membershipRegistrationItems: ContentItem[] = [
   "Registrasi M-Banking DAM wajib dilakukan sendiri oleh Anggota yang bersangkutan (tidak boleh diwakilkan) dengan membawa dokumen asli sesuai persyaratan keanggotaan M-Banking DAM.",
   "Dokumen asli yang wajib dibawa oleh Anggota yaitu identitas diri (KTP/SIM/Passport) dan bukti kepemilikan rekening (buku tabungan).",
   "Registrasi hanya dapat dilakukan melalui Kantor Koperasi Konsumen Dana Asri Mandiri.",
@@ -53,7 +60,7 @@ const membershipRegistrationItems = [
   "Risiko yang timbul akibat kelalaian dan/atau penyalahgunaan data oleh Anggota dalam pelaksanaan Registrasi, seperti mendaftarkan nomor handphone yang bukan milik pribadinya ataupun membuat Kata Sandi dan PIN yang mudah ditebak, akan menjadi tanggung jawab Anggota.",
 ];
 
-const membershipActivationItems = [
+const membershipActivationItems: ContentItem[] = [
   "Aktivasi hanya dapat dilakukan melalui aplikasi M-Banking DAM yang ter-install pada smartphone Anggota, untuk itu Anggota wajib meng-install terlebih dahulu aplikasi M-Banking DAM pada smartphone.",
   "Anggota Pengguna wajib menggunakan aplikasi resmi M-Banking DAM yang disediakan oleh M-Banking DAM pada Google Playstore yang didaftarkan oleh PT. Solusi Anak Sakti.",
   "Segala kerugian yang ditimbulkan akibat penggunaan aplikasi M-Banking DAM yang tidak berasal dari Koperasi Konsumen Dana Asri Mandiri, menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
@@ -61,13 +68,7 @@ const membershipActivationItems = [
   "Anggota hanya dapat mengaktifkan 1 (satu) aplikasi M-Banking DAM pada 1 (satu) smartphone yang memiliki nomor Handphone sesuai dengan yang didaftarkan pada proses registrasi. Apabila terdapat lebih dari 1 (satu) smartphone yang mengaktifkan aplikasi tersebut dengan Username dan Nomor Handphone yang sama maka hanya smartphone yang terakhir mengaktifkan aplikasi tersebut yang dapat digunakan.",
 ];
 
-const transactionSecurityItems: Array<
-  | string
-  | {
-      text: string;
-      subItems: string[];
-    }
-> = [
+const transactionSecurityItems: ContentItem[] = [
   "Kerahasiaan dan penggunaan Username M-Banking DAM adalah sepenuhnya menjadi tanggung jawab Anggota Pengguna dan hanya boleh diketahui serta digunakan oleh Anggota Pengguna yang bersangkutan.",
   {
     text: "Anggota Pengguna wajib menjaga kerahasiaan Username, Kata Sandi dan PIN miliknya agar tidak diketahui dan tidak digunakan oleh orang lain, diantaranya dengan cara:",
@@ -91,13 +92,7 @@ const transactionSecurityItems: Array<
   "Segala kerugian yang ditimbulkan akibat aktivitas aplikasi berbahaya yang terdapat pada smartphone milik Anggota Pengguna, merupakan tanggung jawab Anggota Pengguna sepenuhnya.",
 ];
 
-const mbankingUsageItems: Array<
-  | string
-  | {
-      text: string;
-      subItems: string[];
-    }
-> = [
+const mbankingUsageItems: ContentItem[] = [
   "M-Banking DAM hanya boleh digunakan oleh Anggota Pengguna yang sah, yaitu Anggota yang terdaftar pada sistem database M-Banking DAM sesuai dengan Username dan nomor handphone yang didaftarkannya.",
   "Segala kerugian yang ditimbulkan akibat penggunaan M-Banking DAM oleh pihak lain yang tidak berhak menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
   "Anggota Pengguna dapat memanfaatkan M-Banking DAM untuk Transaksi Finansial yang telah ditentukan oleh Koperasi Konsumen Dana Asri Mandiri.",
@@ -125,25 +120,19 @@ const mbankingUsageItems: Array<
   "Anggota Pengguna dengan ini memberikan kuasa kepada Koperasi Konsumen Dana Asri Mandiri untuk mendebet rekening Anggota Pengguna yang terdaftar di Koperasi Konsumen Dana Asri Mandiri untuk melaksanakan Transaksi Finansial yang diinstruksikan oleh Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri melalui M-Banking DAM dan untuk pembayaran biaya administrasi serta biaya transaksi atas penggunaan fasilitas M-Banking DAM.",
 ];
 
-const complaintServiceItems = [
+const complaintServiceItems: ContentItem[] = [
   "Untuk setiap permasalahan yang berkaitan dengan transaksi dan/atau akses fasilitas M-Banking DAM, Anggota Pengguna dapat memberitahukan kepada Koperasi Konsumen Dana Asri Mandiri dengan cara menghubungi nomor telepon resmi M-Banking DAM atau mengunjungi Kantor M-Banking DAM terdekat dengan membawa identitas diri dan bukti kepemilikan rekening.",
   "Khusus pengaduan yang disampaikan melalui Telepon hanya membutuhkan data Nomor Identitas dan Nomor Rekening Tabungan Sukarela Anggota.",
 ];
 
-const valueAddedItems = [
+const valueAddedItems: ContentItem[] = [
   "Memberikan kemudahan bagi Anggota Pengguna untuk bertransaksi dimanapun dan kapanpun dengan menggunakan smartphone.",
   "Menawarkan layanan transaksi yang lebih mudah, cepat, hemat, dan praktis. Anggota Pengguna dapat melakukan transaksi isi ulang pulsa, transfer dana, pembelian dan pembayaran tagihan dengan lebih mudah melalui M-Banking DAM.",
   "Memberikan keamanan transaksi yang maksimal, sehingga membuat Anggota Pengguna semakin nyaman dalam melakukan Transaksi Finansial.",
   "Limit transaksi tidak menjadi satu dengan limit transaksi pada channel e-Koperasi Koperasi Konsumen Dana Asri Mandiri. Limit transaksi dapat dilihat pada lampiran Syarat dan Ketentuan ini.",
 ];
 
-const usageFeeItems: Array<
-  | string
-  | {
-      text: string;
-      subItems: string[];
-    }
-> = [
+const usageFeeItems: ContentItem[] = [
   {
     text: "Komponen biaya pada M-Banking DAM terdiri dari:",
     subItems: [
@@ -163,13 +152,35 @@ const usageFeeItems: Array<
   },
 ];
 
-const riskPotentialItems = [
+const riskPotentialItems: ContentItem[] = [
   "Potensi Risiko yang mungkin dihadapi Anggota Pengguna:",
   "Lupa Username/PIN/Kata Sandi dapat menyebabkan terblokirnya fasilitas M-Banking DAM (umumnya karena Anggota salah input sebanyak 5x secara berturut-turut).",
   "Diketahuinya Username, PIN dan/atau Kata Sandi oleh pihak lain, dapat berakibat terjadinya tindak kejahatan finansial oleh pihak lain.",
   "Diketahuinya informasi rekening pribadi, berakibat pada terganggunya privacy Anggota dan tidak menutup kemungkinan dapat disalahgunakan oleh pihak lain.",
   "Salah input data-data yang diperlukan saat bertransaksi finansial dapat berakibat terjadinya salah pengkreditan atau salah pembayaran, dan untuk proses pengembalian dananya melalui proses yang tidak sebentar karena harus ada persetujuan terlebih dahulu dari pihak-pihak terkait.",
   "Kehilangan handphone yang telah diaktifkan aplikasi M-Banking DAM-nya dapat disalahgunakan untuk Transaksi Finansial.",
+];
+
+const blockingItems: ContentItem[] = [
+  {
+    text: "Pemblokiran akses ke fasilitas M-Banking DAM dapat dilakukan/terjadi apabila:",
+    subItems: [
+      {
+        text: "Adanya permintaan dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri untuk menghentikan akses ke fasilitas M-Banking DAM, yang antara lain dapat disebabkan oleh:",
+        subItems: [
+          "Anggota lupa Username/PIN M-Banking DAM.",
+          "Telah terjadinya kehilangan/kecurian/bergantinya kepemilikan handphone yang digunakan Anggota untuk bertransaksi melalui M-Banking DAM.",
+        ],
+      },
+      "Anggota Pengguna salah memasukkan Kata Sandi M-Banking DAM sebanyak 5 (lima) kali berturut-turut.",
+      "Diterimanya laporan dari Anggota Pengguna mengenai dugaan atau diketahuinya Username/PIN oleh pihak lain yang tidak berwenang.",
+      "Koperasi Konsumen Dana Asri Mandiri menenggarai adanya penyalahgunaan rekening oleh Anggota Pengguna dalam kaitannya dengan pelanggaran hukum.",
+      "Koperasi Konsumen Dana Asri Mandiri mengalami gangguan atau menghentikan pemberian jasa fasilitas M-Banking DAM. Terhadap hal tersebut, Koperasi Konsumen Dana Asri Mandiri akan menyampaikan pemberitahuan kepada Anggota Pengguna melalui media resmi Koperasi Konsumen Dana Asri Mandiri.",
+    ],
+  },
+  "Pemblokiran akses ke fasilitas M-Banking DAM dapat dilakukan dengan cara mengunjungi Kantor Koperasi Konsumen Dana Asri Mandiri.",
+  "Untuk melakukan Aktivasi kembali karena pemblokiran akses fasilitas M-Banking DAM sebagaimana dimaksud di atas, Anggota Pengguna dapat melakukan buka blokir dengan melakukan Registrasi ulang melalui Kantor M-Banking DAM dengan membawa Identitas KTP/SIM/Passpor dan Buku Tabungan Koperasi Konsumen Dana Asri Mandiri.",
+  "Permintaan pemblokiran akses ke fasilitas M-Banking DAM karena keinginan Anggota Pengguna, harus disampaikan sendiri oleh Anggota Pengguna yang bersangkutan (tidak boleh diwakilkan).",
 ];
 
 const termsSections = [
@@ -192,17 +203,19 @@ const termsSections = [
 
 function OrderedContentList({
   items,
+  type = "1",
 }: {
-  items: Array<
-    | string
-    | {
-        text: string;
-        subItems: string[];
-      }
-  >;
+  items: ContentItem[];
+  type?: "1" | "a";
 }) {
   return (
-    <ol className="grid list-decimal gap-3 pl-5">
+    <ol
+      type={type}
+      className={cn(
+        "grid gap-3 pl-5",
+        type === "a" ? "list-[lower-alpha]" : "list-decimal",
+      )}
+    >
       {items.map((item, index) => {
         if (typeof item === "string") {
           return (
@@ -215,13 +228,9 @@ function OrderedContentList({
         return (
           <li key={`${item.text}-${index}`} className="pl-1">
             <div>{item.text}</div>
-            <ol type="a" className="mt-3 grid list-[lower-alpha] gap-2 pl-5">
-              {item.subItems.map((subItem) => (
-                <li key={subItem} className="pl-1">
-                  {subItem}
-                </li>
-              ))}
-            </ol>
+            <div className="mt-3">
+              <OrderedContentList items={item.subItems} type="a" />
+            </div>
           </li>
         );
       })}
@@ -272,6 +281,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Potensi Risiko") {
     return <OrderedContentList items={riskPotentialItems} />;
+  }
+
+  if (section === "Pemblokiran (Penghentian Sementara) Akses M-Banking") {
+    return <OrderedContentList items={blockingItems} />;
   }
 
   return (
