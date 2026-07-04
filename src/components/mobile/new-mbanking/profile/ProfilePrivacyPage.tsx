@@ -146,6 +146,9 @@ const specialSecurityMeasures: SecurityMeasureItem[] = [
 const policyChangeText =
   "Kami dapat meninjau dan mengubah Kebijakan ini dari waktu ke waktu atas kebijakan kami sendiri. Apabila terdapat perubahan pada Kebijakan ini, Kami akan menginformasikan kepada Anda melalui pemberitahuan yang dipublikasikan pada Platform dan/atau situs web, atau ke alamat email Anda yang tercatat pada platform Kami. Anda mengakui dan menyetujui bahwa Anda bertanggung jawab untuk memeriksa Kebijakan ini dari waktu ke waktu untuk mengetahui kondisi atau informasi terkini mengenai proses perlindungan Data Pribadi Anda melalui Platform Kami.";
 
+const contactText =
+  "Jika Anda memiliki pertanyaan tentang pemrosesan Data Anda atau pertanyaan lain yang berkaitan dengan Kebijakan ini, Anda dapat menghubungi Kami melalui email:";
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -325,6 +328,22 @@ function PolicyChangeContent() {
   );
 }
 
+function ContactContent() {
+  return (
+    <div className="grid gap-3">
+      <p>
+        {contactText}{" "}
+        <a
+          href="mailto:admin@sakti.id"
+          className="font-bold text-[#2563EB] underline-offset-4 hover:underline"
+        >
+          admin@sakti.id
+        </a>
+      </p>
+    </div>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -364,6 +383,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Perubahan Kebijakan") {
     return <PolicyChangeContent />;
+  }
+
+  if (section === "Kontak") {
+    return <ContactContent />;
   }
 
   return (
