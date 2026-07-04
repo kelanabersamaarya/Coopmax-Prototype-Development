@@ -196,6 +196,11 @@ const forceMajeureItems: ContentItem[] = [
   "Dalam hal Koperasi Konsumen Dana Asri Mandiri tidak dapat melaksanakan perintah dari Anggota Pengguna baik sebagian maupun seluruhnya karena kejadian-kejadian atau sebab-sebab di atas, Koperasi Konsumen Dana Asri Mandiri akan menyampaikan pemberitahuan kepada Anggota Pengguna melalui media resmi Koperasi Konsumen Dana Asri Mandiri.",
 ];
 
+const miscellaneousItems: ContentItem[] = [
+  "M-Banking DAM berhak menghentikan fasilitas M-Banking DAM untuk sementara waktu maupun untuk jangka waktu tertentu yang ditentukan oleh Koperasi Konsumen Dana Asri Mandiri untuk keperluan pembaharuan, pemeliharaan atau untuk tujuan lain dengan alasan apapun yang dianggap baik oleh Koperasi Konsumen Dana Asri Mandiri.",
+  "Dalam hal salah satu ketentuan dalam Perjanjian ini dinyatakan batal berdasarkan suatu peraturan perundang-undangan, maka pernyataan batal tersebut tidak mengurangi keabsahan atau menyebabkan batalnya persyaratan atau ketentuan lain dalam Perjanjian ini dan oleh karenanya dalam hal demikian ketentuan lain dalam Perjanjian ini tetap sah dan mengikat.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -306,6 +311,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Force Majeure") {
     return <OrderedContentList items={forceMajeureItems} />;
+  }
+
+  if (section === "Lain - Lain") {
+    return <OrderedContentList items={miscellaneousItems} />;
   }
 
   return (
