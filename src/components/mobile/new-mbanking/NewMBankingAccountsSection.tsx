@@ -294,9 +294,8 @@ function PinjamanCardContent({
   return (
     <>
       <div className="flex items-start justify-between gap-4">
-        <AccountInfo label={card.productName}>
-          <span className="truncate">{card.accountNo}</span>
-          <CopyButton label="Salin nomor pinjaman" />
+        <AccountInfo label="Produk Pinjaman">
+          <span className="truncate">{card.productName}</span>
         </AccountInfo>
 
         <button
@@ -309,7 +308,14 @@ function PinjamanCardContent({
       </div>
 
       <div className="mt-[22px]">
-        <AccountInfo label="Total Pinjaman">
+        <AccountInfo label="No. Rek. Pinjaman">
+          <span className="truncate">{card.accountNo}</span>
+          <CopyButton label="Salin nomor rekening pinjaman" />
+        </AccountInfo>
+      </div>
+
+      <div className="mt-[22px]">
+        <AccountInfo label="Jumlah Pinjaman">
           <span className="text-[16px] tracking-[-0.025em]">
             {showBalance ? card.totalLoan : maskValue()}
           </span>
