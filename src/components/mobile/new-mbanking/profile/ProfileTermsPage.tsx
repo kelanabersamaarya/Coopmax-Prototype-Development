@@ -53,6 +53,14 @@ const membershipRegistrationItems = [
   "Risiko yang timbul akibat kelalaian dan/atau penyalahgunaan data oleh Anggota dalam pelaksanaan Registrasi, seperti mendaftarkan nomor handphone yang bukan milik pribadinya ataupun membuat Kata Sandi dan PIN yang mudah ditebak, akan menjadi tanggung jawab Anggota.",
 ];
 
+const membershipActivationItems = [
+  "Aktivasi hanya dapat dilakukan melalui aplikasi M-Banking DAM yang ter-install pada smartphone Anggota, untuk itu Anggota wajib meng-install terlebih dahulu aplikasi M-Banking DAM pada smartphone.",
+  "Anggota Pengguna wajib menggunakan aplikasi resmi M-Banking DAM yang disediakan oleh M-Banking DAM pada Google Playstore yang didaftarkan oleh PT. Solusi Anak Sakti.",
+  "Segala kerugian yang ditimbulkan akibat penggunaan aplikasi M-Banking DAM yang tidak berasal dari Koperasi Konsumen Dana Asri Mandiri, menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
+  "Aktivasi M-Banking DAM wajib dilakukan sendiri oleh Anggota yang bersangkutan (tidak boleh dilakukan oleh orang lain) dengan menggunakan smartphone pribadi milik Anggota.",
+  "Anggota hanya dapat mengaktifkan 1 (satu) aplikasi M-Banking DAM pada 1 (satu) smartphone yang memiliki nomor Handphone sesuai dengan yang didaftarkan pada proses registrasi. Apabila terdapat lebih dari 1 (satu) smartphone yang mengaktifkan aplikasi M-Banking DAM dengan Username dan Nomor Handphone yang sama maka hanya smartphone yang terakhir mengaktifkan aplikasi tersebut yang dapat digunakan.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -111,6 +119,18 @@ function TermsSectionContent({ section }: { section: string }) {
     return (
       <ol className="grid list-decimal gap-3 pl-5">
         {membershipRegistrationItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
+  if (section === "Aktivasi Status Keanggotaan") {
+    return (
+      <ol className="grid list-decimal gap-3 pl-5">
+        {membershipActivationItems.map((item) => (
           <li key={item} className="pl-1">
             {item}
           </li>
