@@ -254,7 +254,7 @@ export default function NewMBankingOnboardingIllustration({
         </DecorativeText>
         <DecorativeText className="right-[2px] bottom-[82px] rotate-[-8deg]">
           Riwayat Cepat
-        </DecorText>
+        </DecorativeText>
 
         <div className="pointer-events-none absolute left-[28px] top-[148px] z-0 h-20 w-20 rounded-full bg-[#F59E0B]/12 blur-xl" />
         <div className="pointer-events-none absolute right-[18px] top-[214px] z-0 h-24 w-24 rounded-full bg-[#479DF4]/14 blur-xl" />
