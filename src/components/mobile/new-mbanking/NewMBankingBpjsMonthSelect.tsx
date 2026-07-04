@@ -15,6 +15,7 @@ export default function NewMBankingBpjsMonthSelect({
 }) {
   const [open, setOpen] = React.useState(false);
   const wrapperRef = React.useRef<HTMLDivElement | null>(null);
+  const hasValue = value.trim().length > 0;
 
   React.useEffect(() => {
     if (!open) return;
@@ -37,7 +38,7 @@ export default function NewMBankingBpjsMonthSelect({
         onClick={() => setOpen((current) => !current)}
         className={cn(
           "flex h-[44px] w-full items-center justify-between gap-3 border border-[#CDD4E0] bg-white px-4",
-          "text-left text-[14px] font-normal text-black shadow-none outline-none",
+          "text-left text-[14px] font-normal shadow-none outline-none",
           "transition active:scale-[0.99]",
           open
             ? "rounded-t-[12px] rounded-b-none border-b-transparent"
@@ -46,7 +47,14 @@ export default function NewMBankingBpjsMonthSelect({
         aria-expanded={open}
         aria-label="Pilih jumlah bulan BPJS"
       >
-        <span className="min-w-0 flex-1 truncate">{value || "Pilih Jumlah Bulan"}</span>
+        <span
+          className={cn(
+            "min-w-0 flex-1 truncate",
+            hasValue ? "text-black" : "text-[#8F8F8F]",
+          )}
+        >
+          {hasValue ? value : "Pilih Jumlah Bulan"}
+        </span>
         <ChevronDown
           className={cn(
             "h-[19px] w-[19px] shrink-0 text-[#8F8F8F] transition-transform duration-200",
