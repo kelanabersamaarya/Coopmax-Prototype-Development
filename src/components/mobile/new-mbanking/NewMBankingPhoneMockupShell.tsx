@@ -14,39 +14,39 @@ export default function NewMBankingPhoneMockupShell({
   return (
     <div
       className={cn(
-        "relative h-[374px] w-[210px] rounded-[36px] bg-[#111827] p-[8px]",
-        "shadow-[0_30px_72px_rgba(15,23,42,0.28)] ring-1 ring-black/10",
+        "relative h-[470px] w-[264px] rounded-[46px] bg-[#111827] p-[10px]",
+        "shadow-[0_34px_82px_rgba(15,23,42,0.30)] ring-1 ring-black/10",
         className,
       )}
     >
-      <div className="pointer-events-none absolute left-1/2 top-[8px] z-20 h-[17px] w-[76px] -translate-x-1/2 rounded-b-[14px] bg-[#111827]" />
+      <div className="pointer-events-none absolute left-1/2 top-[10px] z-20 h-[21px] w-[96px] -translate-x-1/2 rounded-b-[18px] bg-[#111827]" />
 
       <div
         className={cn(
-          "relative h-full overflow-hidden rounded-[29px] bg-white",
+          "relative h-full overflow-hidden rounded-[36px] bg-white",
           screenClassName,
         )}
       >
-        <div className="flex h-[31px] items-center justify-between px-[15px] pt-[6px] text-black">
-          <div className="text-[9px] font-bold leading-none">11:30</div>
-          <div className="flex items-center gap-[4px]">
-            <div className="flex h-[11px] items-end gap-[1px]" aria-hidden="true">
-              <span className="h-[3px] w-[2px] rounded-full bg-black" />
-              <span className="h-[6px] w-[2px] rounded-full bg-black" />
-              <span className="h-[8px] w-[2px] rounded-full bg-black" />
-              <span className="h-[10px] w-[2px] rounded-full bg-black" />
+        <div className="flex h-[39px] items-center justify-between px-[19px] pt-[8px] text-black">
+          <div className="text-[11px] font-bold leading-none">11:30</div>
+          <div className="flex items-center gap-[5px]">
+            <div className="flex h-[13px] items-end gap-[1.5px]" aria-hidden="true">
+              <span className="h-[4px] w-[2.5px] rounded-full bg-black" />
+              <span className="h-[7px] w-[2.5px] rounded-full bg-black" />
+              <span className="h-[10px] w-[2.5px] rounded-full bg-black" />
+              <span className="h-[12px] w-[2.5px] rounded-full bg-black" />
             </div>
-            <Wifi className="h-[10px] w-[10px] text-black" strokeWidth={3} />
+            <Wifi className="h-[12px] w-[12px] text-black" strokeWidth={3} />
             <BatteryMedium
-              className="h-[11px] w-[11px] text-black"
+              className="h-[13px] w-[13px] text-black"
               strokeWidth={2.8}
             />
           </div>
         </div>
 
-        <div className="h-[calc(100%-31px)] overflow-hidden">{children}</div>
+        <div className="h-[calc(100%-39px)] overflow-hidden">{children}</div>
 
-        <div className="pointer-events-none absolute bottom-[7px] left-1/2 h-[3px] w-[64px] -translate-x-1/2 rounded-full bg-black/20" />
+        <div className="pointer-events-none absolute bottom-[9px] left-1/2 h-[4px] w-[82px] -translate-x-1/2 rounded-full bg-black/20" />
       </div>
     </div>
   );

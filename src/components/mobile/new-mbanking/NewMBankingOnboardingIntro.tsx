@@ -155,7 +155,7 @@ export default function NewMBankingOnboardingIntro({
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9]">
-      <div className="flex shrink-0 flex-col items-center px-6 pt-[30px]">
+      <div className="relative z-20 flex shrink-0 flex-col items-center px-6 pt-[30px]">
         <div className="flex items-center justify-center gap-[10px]">
           <CooperativeLogo />
           <div className="whitespace-nowrap text-[18px] font-semibold leading-none tracking-[-0.035em] text-black">
@@ -168,7 +168,7 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[266px] pt-[16px]">
+      <div className="relative z-0 flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[150px] pt-[4px]">
         <div
           key={`image-${activeSlide}`}
           className="animate-in fade-in-0 slide-in-from-right-4 duration-700 ease-out"
@@ -179,11 +179,11 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-[282px] z-20 flex justify-center">
+      <div className="absolute inset-x-0 bottom-[282px] z-30 flex justify-center">
         <OnboardingSlider activeIndex={activeSlide} onChange={setActiveSlide} />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 h-[266px] rounded-t-[30px] bg-white px-6 pt-[41px]">
+      <div className="absolute inset-x-0 bottom-0 z-20 h-[266px] rounded-t-[30px] bg-white px-6 pt-[41px] shadow-[0_-16px_32px_rgba(15,23,42,0.06)]">
         <div
           key={`text-${activeSlide}`}
           className="animate-in fade-in-0 slide-in-from-bottom-3 duration-700 ease-out"
