@@ -137,6 +137,34 @@ const valueAddedItems = [
   "Limit transaksi tidak menjadi satu dengan limit transaksi pada channel e-Koperasi Koperasi Konsumen Dana Asri Mandiri. Limit transaksi dapat dilihat pada lampiran Syarat dan Ketentuan ini.",
 ];
 
+const usageFeeItems: Array<
+  | string
+  | {
+      text: string;
+      subItems: string[];
+    }
+> = [
+  {
+    text: "Komponen biaya pada M-Banking DAM terdiri dari:",
+    subItems: [
+      "Biaya Komunikasi.",
+      "Biaya Transaksi.",
+    ],
+  },
+  "Biaya Komunikasi akan dibebankan oleh provider telepon atau penyedia komunikasi lainnya yang terlibat (Internet Service Provider/ISP) kepada Anggota Pengguna atas setiap penggunaan jaringan komunikasi yang digunakan untuk mengakses fasilitas M-Banking DAM. Besarnya Biaya Komunikasi ditetapkan oleh masing-masing provider telepon atau ISP yang digunakan Anggota Pengguna dan sepenuhnya menjadi pendapatan bagi provider telepon atau ISP yang bersangkutan.",
+  "Biaya Transaksi dibebankan kepada Anggota Pengguna atas setiap Transaksi Finansial yang dilakukannya. Besarnya Biaya Transaksi ditetapkan oleh Koperasi Konsumen Dana Asri Mandiri untuk jenis Transaksi Finansial tertentu dan langsung mendebet rekening Anggota Pengguna setelah proses transaksi berhasil dilakukan. Daftar biaya transaksi dapat dilihat pada lampiran Syarat dan Ketentuan ini yang menjadi satu kesatuan dan merupakan bagian yang tidak terpisahkan dari Syarat dan Ketentuan ini.",
+  {
+    text: "Ketentuan biaya dan limit transaksi untuk M-Banking Koperasi Konsumen Dana Asri Mandiri adalah sebagai berikut:",
+    subItems: [
+      "Biaya administrasi yang akan dikenakan kepada Anggota yang menggunakan M-Banking sebesar Rp. 5.000/bulan.",
+      "Untuk transfer ke sesama rekening koperasi tidak dikenakan biaya dan tidak ada batasannya.",
+      "Untuk transfer antar bank dikenakan biaya Rp. 10.000 dan batas maksimal transfer Rp. 5.000.000.",
+      "Untuk biaya top up saldo OVO, GoPay, dan top up lainnya dikenakan biaya Rp. 3.000.",
+      "Untuk biaya administrasi pembayaran Listrik PLN dan PDAM akan dikenakan biaya Rp. 2.500.",
+    ],
+  },
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -228,6 +256,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Nilai Tambah Penggunaan M-Banking") {
     return <OrderedContentList items={valueAddedItems} />;
+  }
+
+  if (section === "Biaya Penggunaan M-Banking") {
+    return <OrderedContentList items={usageFeeItems} />;
   }
 
   return (
