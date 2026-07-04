@@ -45,6 +45,14 @@ const definitionItems: ContentItem[] = [
   },
 ];
 
+const personalDataScopeItems = [
+  "Data Identitas, termasuk namun tidak terbatas pada, nama, jenis kelamin, alamat, tempat dan tanggal lahir, pekerjaan, dan lainnya;",
+  "Data Gambar, termasuk namun tidak terbatas pada, foto profil yang diambil oleh pengguna langsung dari kamera perangkat mereka atau disimpan di perpustakaan foto mereka, gambar yang diunggah sebagai bagian dari pembuatan konten atau interaksi dalam aplikasi, dan segala media visual lain yang diberikan oleh pengguna;",
+  "Data Kontak, termasuk namun tidak terbatas pada alamat email, nomor ponsel, informasi kontak lainnya yang Anda berikan secara langsung atau diakses dari perangkat Anda, seperti kontak yang tersimpan di ponsel Anda dan lainnya;",
+  "Data Pembayaran dan Keuangan, termasuk namun tidak terbatas pada rincian rekening, informasi keuangan, dan lainnya;",
+  "Data yang terkait dengan aktivitas Anda ketika menggunakan Layanan, termasuk namun tidak terbatas pada, istilah yang Anda cari, tampilan dan interaksi dengan konten, aktivitas input dan pemrosesan transaksi.",
+];
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -58,9 +66,34 @@ function DefinitionContent() {
   );
 }
 
+function PersonalDataScopeContent() {
+  return (
+    <div className="grid gap-4">
+      <p>
+        Berikut ini adalah cakupan dan jenis Data Pribadi tentang Anda yang akan
+        Kami proses sehubungan dengan penggunaan Layanan oleh Anda (sebagaimana
+        berlaku, yang tergantung pada konteks atau keadaan pengumpulan dan sifat
+        Layanan yang digunakan atau transaksi yang dilakukan):
+      </p>
+
+      <ol className="grid list-decimal gap-3 pl-5">
+        {personalDataScopeItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
+  }
+
+  if (section === "Ruang Lingkup dan Jenis Data Pribadi yang Kami Kumpulkan") {
+    return <PersonalDataScopeContent />;
   }
 
   return (
