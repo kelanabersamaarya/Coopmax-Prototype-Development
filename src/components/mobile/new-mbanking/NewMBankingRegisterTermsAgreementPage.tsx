@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, Check, ChevronDown, FileText, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type TermsSection = {
@@ -277,24 +277,6 @@ export default function NewMBankingRegisterTermsAgreementPage({
                   menyelesaikan pendaftaran akun M-Banking.
                 </p>
               </div>
-            </div>
-          </div>
-
-          <div className="mt-[22px] flex items-start gap-3 rounded-[18px] bg-[#F8FAFC] px-4 py-4 ring-1 ring-[#EEF0F4]">
-            <span className="grid h-[38px] w-[38px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-              <FileText className="h-[20px] w-[20px]" strokeWidth={2.6} />
-            </span>
-
-            <div className="min-w-0">
-              <div className="text-[14px] font-bold leading-tight text-black">
-                Ringkasan Ketentuan
-              </div>
-              <p className="mt-2 text-justify text-[12.5px] font-normal leading-relaxed text-[#5F6B7A]">
-                Konten berikut merangkum syarat dan ketentuan M-Banking yang
-                berlaku, termasuk keanggotaan, registrasi, keamanan transaksi,
-                penggunaan layanan, biaya, risiko, pemblokiran, pengakhiran, dan
-                force majeure.
-              </p>
             </div>
           </div>
 
