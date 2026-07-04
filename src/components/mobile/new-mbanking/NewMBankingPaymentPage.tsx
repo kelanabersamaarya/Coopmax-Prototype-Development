@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
   ArrowLeft,
@@ -7,6 +9,7 @@ import {
   Landmark,
   Map,
   Monitor,
+  QrCode,
   ShoppingCart,
   Smartphone,
   Trash2,
@@ -19,6 +22,7 @@ import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewM
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
 import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking/NewMBankingElectricityCustomerPage";
+import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 
 type PaymentTab = "saved" | "history";
 
@@ -67,6 +71,11 @@ const paymentCategories = [
     label: "E-Commerce",
     icon: ShoppingCart,
     frameClassName: "bg-[#EF4444]",
+  },
+  {
+    label: "QRIS",
+    icon: QrCode,
+    frameClassName: "bg-[#479DF4]",
   },
 ];
 
@@ -117,11 +126,17 @@ export default function NewMBankingPaymentPage({
   const [showElectricityProviders, setShowElectricityProviders] = React.useState(false);
   const [selectedElectricityProvider, setSelectedElectricityProvider] =
     React.useState<string | null>(null);
+  const [showQrisFlow, setShowQrisFlow] = React.useState(false);
 
   function returnToPaymentHome() {
     setSelectedElectricityProvider(null);
     setShowElectricityProviders(false);
+    setShowQrisFlow(false);
     setActiveTab("saved");
+  }
+
+  if (showQrisFlow) {
+    return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
   }
 
   if (selectedElectricityProvider) {
@@ -178,6 +193,10 @@ export default function NewMBankingPaymentPage({
                   onClick={() => {
                     if (category.label === "Listrik") {
                       setShowElectricityProviders(true);
+                    }
+
+                    if (category.label === "QRIS") {
+                      setShowQrisFlow(true);
                     }
                   }}
                   className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
