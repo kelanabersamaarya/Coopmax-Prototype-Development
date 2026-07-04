@@ -5,6 +5,7 @@ import {
   Building2,
   ChevronRight,
   FileText,
+  LogOut,
   MessageSquareText,
   Phone,
   Settings,
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingMemberCard from "@/components/mobile/new-mbanking/NewMBankingMemberCard";
+import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
 import ProfileAccountPage from "@/components/mobile/new-mbanking/profile/ProfileAccountPage";
 import ProfileAnnouncementPage from "@/components/mobile/new-mbanking/profile/ProfileAnnouncementPage";
 import ProfileContactPage from "@/components/mobile/new-mbanking/profile/ProfileContactPage";
@@ -148,6 +150,38 @@ function ProfileMenuRow({
   );
 }
 
+function LogoutMenuButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "mt-[18px] flex min-h-[58px] w-full items-center gap-4 rounded-[22px]",
+        "bg-white px-[15px] py-[16px] text-left ring-1 ring-[#F8C8D0]",
+        "transition active:scale-[0.99]",
+      )}
+    >
+      <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#DC3545] text-white">
+        <LogOut className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
+      </span>
+
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-[15px] font-bold leading-tight text-[#DC3545]">
+          Keluar
+        </span>
+        <span className="mt-[5px] block text-[12px] font-normal leading-snug text-[#8F8F8F]">
+          Keluar dari akun M-Banking Anda.
+        </span>
+      </span>
+
+      <ChevronRight
+        className="h-[22px] w-[22px] shrink-0 text-[#DC3545]"
+        strokeWidth={2.6}
+      />
+    </button>
+  );
+}
+
 export default function NewMBankingProfilePage({
   onBack,
   onRequireLogin,
@@ -158,6 +192,18 @@ export default function NewMBankingProfilePage({
   onAccountDeleted?: () => void;
 }) {
   const [screen, setScreen] = React.useState<ProfileScreen>("main");
+  const [logoutOpen, setLogoutOpen] = React.useState(false);
+
+  function logout() {
+    setLogoutOpen(false);
+
+    if (onRequireLogin) {
+      onRequireLogin();
+      return;
+    }
+
+    onBack();
+  }
 
   if (screen === "announcement") {
     return <ProfileAnnouncementPage onBack={() => setScreen("main")} />;
@@ -203,6 +249,12 @@ export default function NewMBankingProfilePage({
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingLogoutConfirmModal
+        open={logoutOpen}
+        onCancel={() => setLogoutOpen(false)}
+        onExit={logout}
+      />
+
       <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
 
@@ -250,6 +302,8 @@ export default function NewMBankingProfilePage({
               />
             ))}
           </div>
+
+          <LogoutMenuButton onClick={() => setLogoutOpen(true)} />
         </section>
       </main>
 
