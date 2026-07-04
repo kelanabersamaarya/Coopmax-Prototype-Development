@@ -33,6 +33,11 @@ const paymentCategories = [
     frameClassName: "bg-[#F59E0B]",
   },
   {
+    label: "QRIS",
+    icon: QrCode,
+    frameClassName: "bg-[#479DF4]",
+  },
+  {
     label: "Air",
     icon: Droplets,
     frameClassName: "bg-[#06B6D4]",
@@ -72,14 +77,14 @@ const paymentCategories = [
     icon: ShoppingCart,
     frameClassName: "bg-[#EF4444]",
   },
-  {
-    label: "QRIS",
-    icon: QrCode,
-    frameClassName: "bg-[#479DF4]",
-  },
 ];
 
 const savedPayments = [
+  {
+    id: "qris-mini-mart",
+    name: "QRIS Mini Mart",
+    info: "QRIS - Pembayaran Merchant",
+  },
   {
     id: "xl-postpaid",
     name: "XL Pascabayar",
@@ -105,6 +110,7 @@ const savedPayments = [
 function getSavedPaymentIcon(item: { name: string; info: string }) {
   const text = `${item.name} ${item.info}`.toLowerCase();
 
+  if (text.includes("qris")) return QrCode;
   if (text.includes("pln") || text.includes("listrik")) return Zap;
   if (text.includes("internet") || text.includes("indihome")) return Wifi;
   if (text.includes("bpjs") || text.includes("kesehatan")) return HeartPulse;
@@ -115,6 +121,11 @@ function getSavedPaymentIcon(item: { name: string; info: string }) {
   return Bolt;
 }
 
+function isQrisPayment(item: { name: string; info: string }) {
+  const text = `${item.name} ${item.info}`.toLowerCase();
+  return text.includes("qris");
+}
+
 export default function NewMBankingPaymentPage({
   onBack,
 }: {
@@ -123,7 +134,8 @@ export default function NewMBankingPaymentPage({
   const [activeTab, setActiveTab] = React.useState<PaymentTab>("saved");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [items, setItems] = React.useState(savedPayments);
-  const [showElectricityProviders, setShowElectricityProviders] = React.useState(false);
+  const [showElectricityProviders, setShowElectricityProviders] =
+    React.useState(false);
   const [selectedElectricityProvider, setSelectedElectricityProvider] =
     React.useState<string | null>(null);
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
@@ -262,13 +274,26 @@ export default function NewMBankingPaymentPage({
               {items.length > 0 ? (
                 items.map((item) => {
                   const Icon = getSavedPaymentIcon(item);
+                  const qrisItem = isQrisPayment(item);
 
                   return (
                     <div
                       key={item.id}
                       className="flex min-h-[64px] items-center justify-between gap-4 py-[10px]"
                     >
-                      <div className="flex min-w-0 flex-1 items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (qrisItem) {
+                            setShowQrisFlow(true);
+                          }
+                        }}
+                        className={cn(
+                          "flex min-w-0 flex-1 items-center gap-3 text-left",
+                          qrisItem ? "transition active:scale-[0.99]" : "cursor-default",
+                        )}
+                        aria-label={qrisItem ? "Buka QRIS" : item.name}
+                      >
                         <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
                           <Icon
                             className="h-[23px] w-[23px] text-white"
@@ -284,7 +309,7 @@ export default function NewMBankingPaymentPage({
                             {item.info}
                           </div>
                         </div>
-                      </div>
+                      </button>
 
                       <button
                         type="button"
