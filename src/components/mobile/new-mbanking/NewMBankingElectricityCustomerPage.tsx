@@ -92,7 +92,7 @@ export default function NewMBankingElectricityCustomerPage({
   serviceVariant?: ServiceVariant;
 }) {
   const [customerNo, setCustomerNo] = React.useState("");
-  const [bpjsMonths, setBpjsMonths] = React.useState("1 Bulan");
+  const [bpjsMonths, setBpjsMonths] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
   const helperText = getHelperText(serviceVariant);
@@ -172,7 +172,8 @@ export default function NewMBankingElectricityCustomerPage({
           <div className="mt-[44px] grid gap-[18px]">
             <div className="grid gap-[9px]">
               <label className="text-[14px] font-bold leading-none text-black">
-                {fieldLabel}<span className="text-[#EF135D]">*</span>
+                {fieldLabel}
+                <span className="text-[#EF135D]">*</span>
               </label>
 
               <input
@@ -194,7 +195,8 @@ export default function NewMBankingElectricityCustomerPage({
             {showBpjsMonthField ? (
               <div className="grid gap-[9px]">
                 <label className="text-[14px] font-bold leading-none text-black">
-                  Jumlah Bulan<span className="text-[#EF135D]">*</span>
+                  Jumlah Bulan
+                  <span className="text-[#EF135D]">*</span>
                 </label>
 
                 <NewMBankingBpjsMonthSelect
