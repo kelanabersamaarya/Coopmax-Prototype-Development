@@ -100,6 +100,11 @@ const cookieUsageItems = [
   "Selain itu, pihak lain juga dapat menganalisis data untuk Kami, seperti Google Analytics. Mereka dapat mengumpulkan data non-pribadi Anda tentang aktivitas online Anda ketika Anda menggunakan layanan Kami atau mengakses Platform.",
 ];
 
+const personalDataSecurityItems = [
+  "Kami selalu berusaha untuk meningkatkan keamanan Data Pribadi Anda dengan menggunakan teknologi terbaru dan mematuhi peraturan yang berlaku untuk memenuhi harapan pihak-pihak terkait, dan untuk memastikan peningkatan kualitas yang berkelanjutan. Selain itu, Kami menganggap melindungi Data Pribadi Anda sebagai prioritas Kami dengan menggunakan standar tertinggi untuk mengamankan Data Pribadi Anda.",
+  "Meskipun Kami akan berusaha melindungi Data Pribadi Anda, Kami tidak dapat menjamin keutuhan dan keakuratan Data Pribadi yang Anda berikan melalui internet, mengingat pengiriman informasi melalui internet tidak sepenuhnya aman. Anda berkewajiban untuk menjaga kerahasiaan akun Anda dan Anda harus selalu menjaga dan bertanggung jawab atas keamanan perangkat yang Anda gunakan.",
+];
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -232,6 +237,18 @@ function CookieUsageContent() {
   );
 }
 
+function PersonalDataSecurityContent() {
+  return (
+    <ol className="grid list-decimal gap-3 pl-5">
+      {personalDataSecurityItems.map((item) => (
+        <li key={item} className="pl-1">
+          {item}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -259,6 +276,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Penggunaan Cookie") {
     return <CookieUsageContent />;
+  }
+
+  if (section === "Keamanan Data Pribadi Anda") {
+    return <PersonalDataSecurityContent />;
   }
 
   return (
