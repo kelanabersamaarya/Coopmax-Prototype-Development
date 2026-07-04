@@ -32,7 +32,7 @@ type DepositoCard = {
   productName: string;
   accountNo: string;
   amount: string;
-  interestRate: string;
+  interestBalance: string;
 };
 
 const tabs: Array<{
@@ -111,21 +111,21 @@ const depositoCards: DepositoCard[] = [
     productName: "Deposito Berjangka",
     accountNo: "DEP112233",
     amount: "Rp. 5.000.000,00",
-    interestRate: "6,00%",
+    interestBalance: "Rp. 600.000,00",
   },
   {
     id: "deposito-2",
     productName: "Deposito 6 Bulan",
     accountNo: "DEP445566",
     amount: "Rp. 10.000.000,00",
-    interestRate: "5,50%",
+    interestBalance: "Rp. 275.000,00",
   },
   {
     id: "deposito-3",
     productName: "Deposito 12 Bulan",
     accountNo: "DEP778899",
     amount: "Rp. 15.000.000,00",
-    interestRate: "6,25%",
+    interestBalance: "Rp. 937.500,00",
   },
 ];
 
@@ -353,14 +353,9 @@ function DepositoCardContent({
   return (
     <>
       <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <div className="text-[11px] font-normal leading-none text-white/78">
-            Produk Deposito
-          </div>
-          <div className="mt-[7px] truncate text-[16px] font-bold leading-tight tracking-[-0.025em] text-white drop-shadow-[0_1px_1px_rgba(15,23,42,0.18)]">
-            {card.productName}
-          </div>
-        </div>
+        <AccountInfo label="Produk Deposito">
+          <span className="truncate">{card.productName}</span>
+        </AccountInfo>
 
         <button
           type="button"
@@ -372,7 +367,7 @@ function DepositoCardContent({
       </div>
 
       <div className="mt-[22px]">
-        <AccountInfo label="Nomor Rekening Deposito">
+        <AccountInfo label="No. Rek. Deposito">
           <span className="truncate">{card.accountNo}</span>
           <CopyButton label="Salin nomor rekening deposito" />
         </AccountInfo>
@@ -407,7 +402,13 @@ function DepositoCardContent({
         </AccountInfo>
       </div>
 
-      <div className="sr-only">{card.interestRate}</div>
+      <div className="mt-[22px]">
+        <AccountInfo label="Saldo Bunga Deposito">
+          <span className="text-[16px] tracking-[-0.025em]">
+            {showBalance ? card.interestBalance : maskValue()}
+          </span>
+        </AccountInfo>
+      </div>
     </>
   );
 }

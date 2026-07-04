@@ -207,7 +207,7 @@ export default function NewMBankingDepositDetailPage({
               <div className="mt-[24px] grid gap-[18px]">
                 <div>
                   <div className="text-[12px] font-normal leading-none text-white/78">
-                    Nomor Rekening Deposito
+                    No. Rek. Deposito
                   </div>
                   <div className="mt-[8px] flex items-center gap-2 text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
                     <span>DEP112233</span>
@@ -246,6 +246,15 @@ export default function NewMBankingDepositDetailPage({
                         <EyeOff className="h-[16px] w-[16px]" strokeWidth={2.4} />
                       )}
                     </button>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-[12px] font-normal leading-none text-white/78">
+                    Saldo Bunga Deposito
+                  </div>
+                  <div className="mt-[8px] text-[16px] font-bold leading-tight tracking-[-0.03em] text-white">
+                    {showNominalDeposito ? "Rp. 600.000,00" : "••••••••••"}
                   </div>
                 </div>
               </div>
