@@ -191,6 +191,11 @@ const terminationItems: ContentItem[] = [
   },
 ];
 
+const forceMajeureItems: ContentItem[] = [
+  "Anggota Pengguna akan membebaskan Koperasi Konsumen Dana Asri Mandiri dari tuntutan, dalam hal Koperasi Konsumen Dana Asri Mandiri tidak dapat melaksanakan perintah dari Anggota Pengguna baik sebagian maupun seluruhnya karena kejadian-kejadian atau sebab-sebab di luar kekuasaan atau kemampuan Koperasi Konsumen Dana Asri Mandiri termasuk pada bencana alam, perang, huru-hara, keadaan peralatan, sistem atau transmisi yang tidak berfungsi, gangguan listrik, gangguan telekomunikasi, kebijakan pemerintah, kejahatan digital atau serangan hacker serta kejadian-kejadian atau sebab-sebab lain di luar kekuasaan atau kemampuan Koperasi Konsumen Dana Asri Mandiri.",
+  "Dalam hal Koperasi Konsumen Dana Asri Mandiri tidak dapat melaksanakan perintah dari Anggota Pengguna baik sebagian maupun seluruhnya karena kejadian-kejadian atau sebab-sebab di atas, Koperasi Konsumen Dana Asri Mandiri akan menyampaikan pemberitahuan kepada Anggota Pengguna melalui media resmi Koperasi Konsumen Dana Asri Mandiri.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -297,6 +302,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Pengakhiran Keanggotaan M-Banking") {
     return <OrderedContentList items={terminationItems} />;
+  }
+
+  if (section === "Force Majeure") {
+    return <OrderedContentList items={forceMajeureItems} />;
   }
 
   return (
