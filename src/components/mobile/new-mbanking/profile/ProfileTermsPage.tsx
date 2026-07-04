@@ -163,6 +163,15 @@ const usageFeeItems: Array<
   },
 ];
 
+const riskPotentialItems = [
+  "Potensi Risiko yang mungkin dihadapi Anggota Pengguna:",
+  "Lupa Username/PIN/Kata Sandi dapat menyebabkan terblokirnya fasilitas M-Banking DAM (umumnya karena Anggota salah input sebanyak 5x secara berturut-turut).",
+  "Diketahuinya Username, PIN dan/atau Kata Sandi oleh pihak lain, dapat berakibat terjadinya tindak kejahatan finansial oleh pihak lain.",
+  "Diketahuinya informasi rekening pribadi, berakibat pada terganggunya privacy Anggota dan tidak menutup kemungkinan dapat disalahgunakan oleh pihak lain.",
+  "Salah input data-data yang diperlukan saat bertransaksi finansial dapat berakibat terjadinya salah pengkreditan atau salah pembayaran, dan untuk proses pengembalian dananya melalui proses yang tidak sebentar karena harus ada persetujuan terlebih dahulu dari pihak-pihak terkait.",
+  "Kehilangan handphone yang telah diaktifkan aplikasi M-Banking DAM-nya dapat disalahgunakan untuk Transaksi Finansial.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -174,6 +183,7 @@ const termsSections = [
   "Pelayanan dan Penyelesaian Pengaduan",
   "Nilai Tambah Penggunaan M-Banking",
   "Biaya Penggunaan M-Banking",
+  "Potensi Risiko",
   "Pemblokiran (Penghentian Sementara) Akses M-Banking",
   "Pengakhiran Keanggotaan M-Banking",
   "Force Majeure",
@@ -196,7 +206,7 @@ function OrderedContentList({
       {items.map((item, index) => {
         if (typeof item === "string") {
           return (
-            <li key={item} className="pl-1">
+            <li key={`${item}-${index}`} className="pl-1">
               {item}
             </li>
           );
@@ -258,6 +268,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Biaya Penggunaan M-Banking") {
     return <OrderedContentList items={usageFeeItems} />;
+  }
+
+  if (section === "Potensi Risiko") {
+    return <OrderedContentList items={riskPotentialItems} />;
   }
 
   return (
