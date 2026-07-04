@@ -1,24 +1,32 @@
-import { Copy, Eye, PieChart } from "lucide-react";
+import { Copy, Eye, HandCoins, PieChart, TrendingUp, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingPhoneMockupShell from "@/components/mobile/new-mbanking/NewMBankingPhoneMockupShell";
 
 function DecorativeText({
   children,
+  icon: Icon,
   className,
 }: {
   children: string;
+  icon?: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   className?: string;
 }) {
   return (
     <div
       className={cn(
-        "pointer-events-none absolute z-30 whitespace-nowrap rounded-full bg-white/90 px-3.5 py-1.5",
+        "pointer-events-none absolute z-30 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3.5 py-1.5",
         "text-[11.5px] font-semibold tracking-[-0.02em] text-[#479DF4]",
         "shadow-[0_8px_22px_rgba(15,23,42,0.10)] ring-1 ring-[#DCEEFF]",
         className,
       )}
     >
-      {children}
+      {Icon ? (
+        <Icon
+          className="h-[13px] w-[13px] shrink-0 text-[#479DF4]"
+          strokeWidth={2.7}
+        />
+      ) : null}
+      <span>{children}</span>
     </div>
   );
 }
@@ -203,16 +211,28 @@ export default function NewMBankingOnboardingPortfolioMockup({
         className,
       )}
     >
-      <DecorativeText className="left-[8px] top-[80px] rotate-[-9deg]">
-        Total Aset
+      <DecorativeText
+        icon={PieChart}
+        className="left-[8px] top-[80px] rotate-[-9deg]"
+      >
+        Pantau Seluruh Aset
       </DecorativeText>
-      <DecorativeText className="right-[0px] top-[154px] rotate-[9deg]">
-        Komposisi Aset
-      </DecorativeText>
-      <DecorativeText className="left-[2px] bottom-[128px] rotate-[7deg]">
+      <DecorativeText
+        icon={WalletCards}
+        className="right-[0px] top-[154px] rotate-[9deg]"
+      >
         Simpanan
       </DecorativeText>
-      <DecorativeText className="right-[4px] bottom-[82px] rotate-[-8deg]">
+      <DecorativeText
+        icon={HandCoins}
+        className="left-[2px] bottom-[128px] rotate-[7deg]"
+      >
+        Pinjaman
+      </DecorativeText>
+      <DecorativeText
+        icon={TrendingUp}
+        className="right-[4px] bottom-[82px] rotate-[-8deg]"
+      >
         Deposito
       </DecorativeText>
 
