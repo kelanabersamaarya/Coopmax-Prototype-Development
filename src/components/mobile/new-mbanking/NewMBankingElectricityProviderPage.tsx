@@ -1,10 +1,27 @@
 "use client";
 
-import { ArrowLeft, Droplets, Zap } from "lucide-react";
+import {
+  ArrowLeft,
+  Droplets,
+  Landmark,
+  Map,
+  Wifi,
+  Zap,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 
 const defaultProviders = ["PLN Pospaid", "PLN Prepaid", "Non Tagihan Listrik"];
+
+type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+
+function getServiceIcon(variant: ServiceVariant) {
+  if (variant === "water") return Droplets;
+  if (variant === "pbb") return Map;
+  if (variant === "internet") return Wifi;
+  if (variant === "finance") return Landmark;
+  return Zap;
+}
 
 export default function NewMBankingElectricityProviderPage({
   onBack,
@@ -17,9 +34,9 @@ export default function NewMBankingElectricityProviderPage({
   onSelectProvider: (provider: string) => void;
   title?: string;
   providers?: string[];
-  iconVariant?: "electricity" | "water";
+  iconVariant?: ServiceVariant;
 }) {
-  const Icon = iconVariant === "water" ? Droplets : Zap;
+  const Icon = getServiceIcon(iconVariant);
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">

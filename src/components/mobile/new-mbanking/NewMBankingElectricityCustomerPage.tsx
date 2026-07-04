@@ -1,11 +1,60 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Droplets, Zap } from "lucide-react";
+import {
+  ArrowLeft,
+  Droplets,
+  Landmark,
+  Map,
+  Wifi,
+  Zap,
+} from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingElectricityBillReviewPage from "@/components/mobile/new-mbanking/NewMBankingElectricityBillReviewPage";
+
+type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+
+function getServiceIcon(variant: ServiceVariant) {
+  if (variant === "water") return Droplets;
+  if (variant === "pbb") return Map;
+  if (variant === "internet") return Wifi;
+  if (variant === "finance") return Landmark;
+  return Zap;
+}
+
+function getHelperText(variant: ServiceVariant) {
+  if (variant === "water") {
+    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran air.";
+  }
+
+  if (variant === "pbb") {
+    return "Masukkan NOP PBB untuk melanjutkan pembayaran pajak.";
+  }
+
+  if (variant === "internet") {
+    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran internet.";
+  }
+
+  if (variant === "finance") {
+    return "Masukkan nomor kontrak untuk melanjutkan pembayaran finance.";
+  }
+
+  return "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
+}
+
+function getFieldLabel(variant: ServiceVariant) {
+  if (variant === "pbb") return "NOP";
+  if (variant === "finance") return "No. Kontrak";
+  return "No. Pelanggan";
+}
+
+function getPlaceholder(variant: ServiceVariant) {
+  if (variant === "pbb") return "Masukkan NOP";
+  if (variant === "finance") return "Masukkan No. Kontrak";
+  return "Masukkan No. Pelanggan";
+}
 
 export default function NewMBankingElectricityCustomerPage({
   providerName,
@@ -18,20 +67,18 @@ export default function NewMBankingElectricityCustomerPage({
   onBack: () => void;
   onDone: () => void;
   title?: string;
-  serviceVariant?: "electricity" | "water";
+  serviceVariant?: ServiceVariant;
 }) {
   const [customerNo, setCustomerNo] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
-  const Icon = serviceVariant === "water" ? Droplets : Zap;
-  const helperText =
-    serviceVariant === "water"
-      ? "Masukkan nomor pelanggan untuk melanjutkan pembayaran air."
-      : "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
+  const Icon = getServiceIcon(serviceVariant);
+  const helperText = getHelperText(serviceVariant);
+  const fieldLabel = getFieldLabel(serviceVariant);
 
   function continuePayment() {
     if (!customerNo.trim()) {
-      toast("No. Pelanggan wajib diisi", {
-        description: "Masukkan nomor pelanggan sebelum melanjutkan.",
+      toast(`${fieldLabel} wajib diisi`, {
+        description: `Masukkan ${fieldLabel.toLowerCase()} sebelum melanjutkan.`,
       });
       return;
     }
@@ -92,7 +139,7 @@ export default function NewMBankingElectricityCustomerPage({
 
           <div className="mt-[44px] grid gap-[9px]">
             <label className="text-[14px] font-bold leading-none text-black">
-              No. Pelanggan<span className="text-[#EF135D]">*</span>
+              {fieldLabel}<span className="text-[#EF135D]">*</span>
             </label>
 
             <input
@@ -100,7 +147,7 @@ export default function NewMBankingElectricityCustomerPage({
               onChange={(event) =>
                 setCustomerNo((event.target.value ?? "").replace(/[^\d]/g, ""))
               }
-              placeholder="Masukkan No. Pelanggan"
+              placeholder={getPlaceholder(serviceVariant)}
               inputMode="numeric"
               className={cn(
                 "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",

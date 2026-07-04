@@ -2,10 +2,19 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { X, Zap, Droplets } from "lucide-react";
+import {
+  Droplets,
+  Landmark,
+  Map,
+  Wifi,
+  X,
+  Zap,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+
+type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
 
 function parseIdrLike(value: string) {
   const digits = value.replace(/[^\d]/g, "");
@@ -15,6 +24,22 @@ function parseIdrLike(value: string) {
 
 function formatIdr(value: number) {
   return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
+function getServiceIcon(variant: ServiceVariant) {
+  if (variant === "water") return Droplets;
+  if (variant === "pbb") return Map;
+  if (variant === "internet") return Wifi;
+  if (variant === "finance") return Landmark;
+  return Zap;
+}
+
+function getServiceDescription(variant: ServiceVariant) {
+  if (variant === "water") return "Pembayaran tagihan air";
+  if (variant === "pbb") return "Pembayaran Pajak Bumi dan Bangunan";
+  if (variant === "internet") return "Pembayaran tagihan internet";
+  if (variant === "finance") return "Pembayaran cicilan finance";
+  return "Pembayaran tagihan listrik";
 }
 
 function DetailRow({
@@ -62,16 +87,13 @@ export default function NewMBankingElectricityConfirmModal({
   amount: string;
   sourceFund: SourceFundAccount;
   onConfirm: () => void;
-  serviceVariant?: "electricity" | "water";
+  serviceVariant?: ServiceVariant;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const adminFee = "Rp. 2.500,00";
   const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
-  const Icon = serviceVariant === "water" ? Droplets : Zap;
-  const description =
-    serviceVariant === "water"
-      ? "Pembayaran tagihan air"
-      : "Pembayaran tagihan listrik";
+  const Icon = getServiceIcon(serviceVariant);
+  const description = getServiceDescription(serviceVariant);
 
   React.useEffect(() => {
     if (!open) return;

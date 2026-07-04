@@ -1,8 +1,41 @@
 import * as React from "react";
-import { Check, Zap, Droplets } from "lucide-react";
+import {
+  Check,
+  Droplets,
+  Landmark,
+  Map,
+  Wifi,
+  Zap,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+
+type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
+
+function getServiceIcon(variant: ServiceVariant) {
+  if (variant === "water") return Droplets;
+  if (variant === "pbb") return Map;
+  if (variant === "internet") return Wifi;
+  if (variant === "finance") return Landmark;
+  return Zap;
+}
+
+function getSuccessText(variant: ServiceVariant) {
+  if (variant === "water") return "Pembayaran tagihan air Anda telah berhasil diproses.";
+  if (variant === "pbb") return "Pembayaran Pajak Bumi dan Bangunan Anda telah berhasil diproses.";
+  if (variant === "internet") return "Pembayaran tagihan internet Anda telah berhasil diproses.";
+  if (variant === "finance") return "Pembayaran cicilan finance Anda telah berhasil diproses.";
+  return "Pembayaran tagihan listrik Anda telah berhasil diproses.";
+}
+
+function getReferencePrefix(variant: ServiceVariant) {
+  if (variant === "water") return "AIR";
+  if (variant === "pbb") return "PBB";
+  if (variant === "internet") return "NET";
+  if (variant === "finance") return "FIN";
+  return "PLN";
+}
 
 function DetailRow({
   label,
@@ -49,14 +82,11 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   totalTransaction: string;
   sourceFund: SourceFundAccount;
   onDone: () => void;
-  serviceVariant?: "electricity" | "water";
+  serviceVariant?: ServiceVariant;
 }) {
   const [saved, setSaved] = React.useState(false);
-  const Icon = serviceVariant === "water" ? Droplets : Zap;
-  const successText =
-    serviceVariant === "water"
-      ? "Pembayaran tagihan air Anda telah berhasil diproses."
-      : "Pembayaran tagihan listrik Anda telah berhasil diproses.";
+  const Icon = getServiceIcon(serviceVariant);
+  const successText = getSuccessText(serviceVariant);
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 text-black">
@@ -90,7 +120,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
               30 Juni 2026, 22:15 WIB
             </div>
             <div className="mt-[4px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              Ref ID : {serviceVariant === "water" ? "AIR221112222" : "PLN221112222"}
+              Ref ID : {getReferencePrefix(serviceVariant)}221112222
             </div>
 
             <div className="mt-[18px] flex min-h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">

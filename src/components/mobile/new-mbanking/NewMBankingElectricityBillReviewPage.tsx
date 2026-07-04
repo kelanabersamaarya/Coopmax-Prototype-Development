@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, Droplets, Zap } from "lucide-react";
+import {
+  ArrowLeft,
+  Droplets,
+  Landmark,
+  Map,
+  Wifi,
+  Zap,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
@@ -10,6 +17,8 @@ import NewMBankingSourceFundModal, {
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingElectricityConfirmModal from "@/components/mobile/new-mbanking/NewMBankingElectricityConfirmModal";
 import NewMBankingElectricityPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingElectricityPaymentSuccessPage";
+
+type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -27,6 +36,27 @@ function parseIdrLike(value: string) {
 
 function formatIdr(value: number) {
   return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
+function getServiceIcon(variant: ServiceVariant) {
+  if (variant === "water") return Droplets;
+  if (variant === "pbb") return Map;
+  if (variant === "internet") return Wifi;
+  if (variant === "finance") return Landmark;
+  return Zap;
+}
+
+function getBillAmount(variant: ServiceVariant) {
+  if (variant === "water") return "Rp. 125.000,00";
+  if (variant === "pbb") return "Rp. 275.000,00";
+  if (variant === "internet") return "Rp. 315.000,00";
+  if (variant === "finance") return "Rp. 1.250.000,00";
+  return "Rp. 350.000,00";
+}
+
+function getCustomerName(variant: ServiceVariant) {
+  if (variant === "finance") return "Laura Patel";
+  return "I Made Wirata";
 }
 
 function DetailRow({
@@ -68,7 +98,7 @@ export default function NewMBankingElectricityBillReviewPage({
   onBack: () => void;
   onDone: () => void;
   title?: string;
-  serviceVariant?: "electricity" | "water";
+  serviceVariant?: ServiceVariant;
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -76,11 +106,9 @@ export default function NewMBankingElectricityBillReviewPage({
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
 
-  const customerName =
-    serviceVariant === "water" ? "I Made Wirata" : "I Made Wirata";
-  const billAmount =
-    serviceVariant === "water" ? "Rp. 125.000,00" : "Rp. 350.000,00";
-  const Icon = serviceVariant === "water" ? Droplets : Zap;
+  const customerName = getCustomerName(serviceVariant);
+  const billAmount = getBillAmount(serviceVariant);
+  const Icon = getServiceIcon(serviceVariant);
 
   const totalTransaction = formatIdr(
     parseIdrLike(billAmount) + parseIdrLike(adminFee),

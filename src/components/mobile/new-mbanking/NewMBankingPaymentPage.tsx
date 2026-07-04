@@ -25,14 +25,49 @@ import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 
 type PaymentTab = "saved" | "history";
+type ServiceVariant = "electricity" | "water" | "pbb" | "internet" | "finance";
 
-const waterProviders = ["PDAM Kota", "Air Bersih", "PAM Daerah"];
+const serviceConfigs: Record<
+  ServiceVariant,
+  {
+    title: string;
+    providers: string[];
+    iconVariant: ServiceVariant;
+  }
+> = {
+  electricity: {
+    title: "Listrik PLN",
+    providers: ["PLN Pospaid", "PLN Prepaid", "Non Tagihan Listrik"],
+    iconVariant: "electricity",
+  },
+  water: {
+    title: "Air",
+    providers: ["PDAM Kota", "Air Bersih", "PAM Daerah"],
+    iconVariant: "water",
+  },
+  pbb: {
+    title: "PBB",
+    providers: ["PBB Kota", "PBB Kabupaten", "PBB Provinsi"],
+    iconVariant: "pbb",
+  },
+  internet: {
+    title: "Internet",
+    providers: ["IndiHome", "Biznet", "First Media"],
+    iconVariant: "internet",
+  },
+  finance: {
+    title: "Finance",
+    providers: ["Adira Finance", "FIFGROUP", "BCA Finance"],
+    iconVariant: "finance",
+  },
+};
 
 const paymentCategories = [
   {
     label: "Listrik",
     icon: Zap,
     frameClassName: "bg-[#F59E0B]",
+    service: "electricity" as ServiceVariant,
   },
   {
     label: "QRIS",
@@ -43,11 +78,13 @@ const paymentCategories = [
     label: "Air",
     icon: Droplets,
     frameClassName: "bg-[#06B6D4]",
+    service: "water" as ServiceVariant,
   },
   {
     label: "Internet",
     icon: Wifi,
     frameClassName: "bg-[#2563EB]",
+    service: "internet" as ServiceVariant,
   },
   {
     label: "BPJS Kesehatan",
@@ -63,6 +100,7 @@ const paymentCategories = [
     label: "PBB",
     icon: Map,
     frameClassName: "bg-[#8B5CF6]",
+    service: "pbb" as ServiceVariant,
   },
   {
     label: "TV",
@@ -73,6 +111,7 @@ const paymentCategories = [
     label: "Finance",
     icon: Landmark,
     frameClassName: "bg-[#3B82F6]",
+    service: "finance" as ServiceVariant,
   },
   {
     label: "E-Commerce",
@@ -103,9 +142,19 @@ const savedPayments = [
     info: "Air - 78200112233",
   },
   {
+    id: "pbb-home",
+    name: "PBB Rumah",
+    info: "PBB - 5101010011223344",
+  },
+  {
     id: "indihome",
     name: "IndiHome",
     info: "Internet - 122334455667",
+  },
+  {
+    id: "adira-finance",
+    name: "Adira Finance",
+    info: "Finance - 90011223344",
   },
   {
     id: "bpjs-family",
@@ -120,7 +169,9 @@ function getSavedPaymentIcon(item: { name: string; info: string }) {
   if (text.includes("qris")) return QrCode;
   if (text.includes("pln") || text.includes("listrik")) return Zap;
   if (text.includes("pdam") || text.includes("air")) return Droplets;
+  if (text.includes("pbb")) return Map;
   if (text.includes("internet") || text.includes("indihome")) return Wifi;
+  if (text.includes("finance") || text.includes("adira")) return Landmark;
   if (text.includes("bpjs") || text.includes("kesehatan")) return HeartPulse;
   if (text.includes("pulsa") || text.includes("pascabayar") || text.includes("xl")) {
     return Smartphone;
@@ -129,14 +180,21 @@ function getSavedPaymentIcon(item: { name: string; info: string }) {
   return Bolt;
 }
 
+function getSavedPaymentService(item: { name: string; info: string }) {
+  const text = `${item.name} ${item.info}`.toLowerCase();
+
+  if (text.includes("pln") || text.includes("listrik")) return "electricity";
+  if (text.includes("pdam") || text.includes("air")) return "water";
+  if (text.includes("pbb")) return "pbb";
+  if (text.includes("internet") || text.includes("indihome")) return "internet";
+  if (text.includes("finance") || text.includes("adira")) return "finance";
+
+  return null;
+}
+
 function isQrisPayment(item: { name: string; info: string }) {
   const text = `${item.name} ${item.info}`.toLowerCase();
   return text.includes("qris");
-}
-
-function isWaterPayment(item: { name: string; info: string }) {
-  const text = `${item.name} ${item.info}`.toLowerCase();
-  return text.includes("pdam") || text.includes("air");
 }
 
 export default function NewMBankingPaymentPage({
@@ -147,67 +205,54 @@ export default function NewMBankingPaymentPage({
   const [activeTab, setActiveTab] = React.useState<PaymentTab>("saved");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [items, setItems] = React.useState(savedPayments);
-  const [showElectricityProviders, setShowElectricityProviders] =
-    React.useState(false);
-  const [selectedElectricityProvider, setSelectedElectricityProvider] =
-    React.useState<string | null>(null);
-  const [showWaterProviders, setShowWaterProviders] = React.useState(false);
-  const [selectedWaterProvider, setSelectedWaterProvider] =
-    React.useState<string | null>(null);
+  const [activeService, setActiveService] = React.useState<ServiceVariant | null>(
+    null,
+  );
+  const [selectedProvider, setSelectedProvider] = React.useState<string | null>(
+    null,
+  );
   const [showQrisFlow, setShowQrisFlow] = React.useState(false);
 
   function returnToPaymentHome() {
-    setSelectedElectricityProvider(null);
-    setShowElectricityProviders(false);
-    setSelectedWaterProvider(null);
-    setShowWaterProviders(false);
+    setActiveService(null);
+    setSelectedProvider(null);
     setShowQrisFlow(false);
     setActiveTab("saved");
+  }
+
+  function openService(service: ServiceVariant, provider?: string) {
+    setActiveService(service);
+    setSelectedProvider(provider ?? null);
   }
 
   if (showQrisFlow) {
     return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
   }
 
-  if (selectedWaterProvider) {
+  if (activeService && selectedProvider) {
+    const config = serviceConfigs[activeService];
+
     return (
       <NewMBankingElectricityCustomerPage
-        title="Air"
-        providerName={selectedWaterProvider}
-        serviceVariant="water"
-        onBack={() => setSelectedWaterProvider(null)}
+        title={config.title}
+        providerName={selectedProvider}
+        serviceVariant={activeService}
+        onBack={() => setSelectedProvider(null)}
         onDone={returnToPaymentHome}
       />
     );
   }
 
-  if (showWaterProviders) {
+  if (activeService) {
+    const config = serviceConfigs[activeService];
+
     return (
       <NewMBankingElectricityProviderPage
-        title="Air"
-        providers={waterProviders}
-        iconVariant="water"
-        onBack={() => setShowWaterProviders(false)}
-        onSelectProvider={(provider) => setSelectedWaterProvider(provider)}
-      />
-    );
-  }
-
-  if (selectedElectricityProvider) {
-    return (
-      <NewMBankingElectricityCustomerPage
-        providerName={selectedElectricityProvider}
-        onBack={() => setSelectedElectricityProvider(null)}
-        onDone={returnToPaymentHome}
-      />
-    );
-  }
-
-  if (showElectricityProviders) {
-    return (
-      <NewMBankingElectricityProviderPage
-        onBack={() => setShowElectricityProviders(false)}
-        onSelectProvider={(provider) => setSelectedElectricityProvider(provider)}
+        title={config.title}
+        providers={config.providers}
+        iconVariant={config.iconVariant}
+        onBack={() => setActiveService(null)}
+        onSelectProvider={(provider) => setSelectedProvider(provider)}
       />
     );
   }
@@ -245,16 +290,13 @@ export default function NewMBankingPaymentPage({
                   key={category.label}
                   type="button"
                   onClick={() => {
-                    if (category.label === "Listrik") {
-                      setShowElectricityProviders(true);
-                    }
-
-                    if (category.label === "Air") {
-                      setShowWaterProviders(true);
-                    }
-
                     if (category.label === "QRIS") {
                       setShowQrisFlow(true);
+                      return;
+                    }
+
+                    if (category.service) {
+                      openService(category.service);
                     }
                   }}
                   className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
@@ -320,8 +362,8 @@ export default function NewMBankingPaymentPage({
               {items.length > 0 ? (
                 items.map((item) => {
                   const Icon = getSavedPaymentIcon(item);
+                  const service = getSavedPaymentService(item);
                   const qrisItem = isQrisPayment(item);
-                  const waterItem = isWaterPayment(item);
 
                   return (
                     <div
@@ -333,23 +375,24 @@ export default function NewMBankingPaymentPage({
                         onClick={() => {
                           if (qrisItem) {
                             setShowQrisFlow(true);
+                            return;
                           }
 
-                          if (waterItem) {
-                            setSelectedWaterProvider("PDAM Kota");
+                          if (service) {
+                            openService(service, item.name);
                           }
                         }}
                         className={cn(
                           "flex min-w-0 flex-1 items-center gap-3 text-left",
-                          qrisItem || waterItem
+                          qrisItem || service
                             ? "transition active:scale-[0.99]"
                             : "cursor-default",
                         )}
                         aria-label={
                           qrisItem
                             ? "Buka QRIS"
-                            : waterItem
-                              ? "Buka pembayaran air"
+                            : service
+                              ? `Buka pembayaran ${item.name}`
                               : item.name
                         }
                       >
