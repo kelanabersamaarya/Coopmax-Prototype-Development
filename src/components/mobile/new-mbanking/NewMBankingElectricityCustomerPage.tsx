@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingElectricityBillReviewPage from "@/components/mobile/new-mbanking/NewMBankingElectricityBillReviewPage";
+import NewMBankingBpjsMonthSelect from "@/components/mobile/new-mbanking/NewMBankingBpjsMonthSelect";
 
 type ServiceVariant =
   | "electricity"
@@ -76,8 +77,6 @@ function getPlaceholder(variant: ServiceVariant) {
   if (variant === "bpjs") return "Masukkan No. Peserta";
   return "Masukkan No. Pelanggan";
 }
-
-const bpjsMonthOptions = ["1 Bulan", "2 Bulan", "3 Bulan", "6 Bulan", "12 Bulan"];
 
 export default function NewMBankingElectricityCustomerPage({
   providerName,
@@ -198,21 +197,10 @@ export default function NewMBankingElectricityCustomerPage({
                   Jumlah Bulan<span className="text-[#EF135D]">*</span>
                 </label>
 
-                <select
+                <NewMBankingBpjsMonthSelect
                   value={bpjsMonths}
-                  onChange={(event) => setBpjsMonths(event.target.value)}
-                  className={cn(
-                    "h-[44px] w-full appearance-none rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                    "text-[14px] font-normal text-black shadow-none outline-none",
-                    "focus:border-[#479DF4]",
-                  )}
-                >
-                  {bpjsMonthOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                  onChange={setBpjsMonths}
+                />
               </div>
             ) : null}
           </div>
