@@ -31,12 +31,17 @@ const definitionItems: ContentItem[] = [
   {
     term: "Data Pribadi",
     definition:
-      "Berarti data mengenai individu tertentu yang diidentifikasi atau dapat diidentifikasi secara tersendiri atau digabungkan dengan Informasi lain baik secara langsung maupun tidak langsung.",
+      "berarti data mengenai individu tertentu yang diidentifikasi atau dapat diidentifikasi secara tersendiri atau digabungkan dengan Informasi lain baik secara langsung maupun tidak langsung.",
   },
   {
     term: "Informasi",
     definition:
-      "Berarti keterangan, pernyataan, gagasan, dan tanda-tanda yang mengandung nilai, makna, dan pesan, termasuk data, fakta, dan penjelasannya yang dapat dilihat, didengar, dan dibaca, yang disajikan dalam berbagai kemasan dan format sesuai dengan perkembangan teknologi informasi atau komunikasi, baik secara elektronik maupun non-elektronik.",
+      "berarti keterangan, pernyataan, gagasan, dan tanda-tanda yang mengandung nilai, makna, dan pesan, termasuk data, fakta, dan penjelasannya yang dapat dilihat, didengar, dan dibaca, yang disajikan dalam berbagai kemasan dan format sesuai dengan perkembangan teknologi informasi atau komunikasi, baik secara elektronik maupun non-elektronik.",
+  },
+  {
+    term: "Hukum yang Berlaku",
+    definition:
+      "berarti semua hukum, undang-undang, peraturan, kebijakan, tata cara, otorisasi, lisensi atau persyaratan dari pengadilan, badan administratif, otoritas, atau badan pengatur, yang berlaku dari waktu ke waktu.",
   },
 ];
 
