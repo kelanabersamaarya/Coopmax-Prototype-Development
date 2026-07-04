@@ -8,6 +8,26 @@ import { FileText } from "lucide-react";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import { cn } from "@/lib/utils";
 
+const definitionItems = [
+  "M-Banking DAM adalah fasilitas elektronik channel dari M-Banking DAM yang dapat diakses oleh Anggota Pengguna M-Banking DAM dengan menggunakan smartphone Android yang telah melakukan registrasi.",
+  "Koperasi Konsumen Dana Asri Mandiri adalah Koperasi Konsumen yang berkedudukan di Jl Antasura Gg. Dewi Madri I, Br. Jurang Asri, Peguyangan Kangin, Denpasar Utara, Kota Denpasar.",
+  "Solusi Anak Sakti adalah Perseroan Terbatas yand telah melakukan kerja sama resmi dengan M-Banking DAM dalam pengembangan Aplikasi M-Banking DAM.",
+  "Aplikasi M-Banking DAM adalah aplikasi yang Koperasi Konsumen Dana Asri Mandiri yang dapat diunduh melalui Smartphone.",
+  "Anggota adalah perorangan pemilik rekening Tabungan, Pinjaman dan Deposito di Koperasi Konsumen Dana Asri Mandiri.",
+  "Anggota Pengguna adalah Anggota yang telah terdaftar sebagai pengguna fasilitas M-Banking DAM.",
+  "Virtual Account adalah nomor identifikasi pelanggan perusahaan yang dibuka oleh Bank atas permintaan perusahaan untuk selanjutnya diberikan oleh perusahaan kepada pelanggannya (perorangan maupun non perorangan) sebagai No Rekening Tujuan penerimaan (collection). Dimana setiap setoran atas keuntungan Virtual Account, sistem secara otomatis membuku ke Rekening Utama dengan mencantumkan Nomor dan Nama Rekening Virtual.",
+  "SMS OTP adalah sms yang berisi PIN sekali pakai untuk validasi proses Aktivasi M-Banking DAM. SMS OTP dikirim oleh sistem M-Banking DAM ke nomor handphone Anggota saat Anggota melalukan Aktivasi M-Banking DAM.",
+  "Username adalah identitas Pengguna M-Banking DAM yang bersifat rahasia (hanya boleh diketahui oleh Pengguna M-Banking DAM yang sah), yang dibuat sendiri oleh Anggota saat Registrasi M-Banking DAM dan harus dicantumkan/di-input setiap kali mengakses aplikasi M-Banking DAM.",
+  "Kata Sandi adalah kode identifikasi untuk otorisasi akses aplikasi M-Banking DAM. Kata Sandi awal diberikan langsung dari petugas M-Banking DAM yang bersifat umum dan wajib diganti langsung oleh Anggota saat proses aktivasi aplikasi M-Banking DAM dengan menggunakan huruf dan angka sebagai kode akses yang dibuat sendiri dari Anggota dan bersifat rahasia (hanya boleh diketahui oleh Pengguna M-Banking DAM yang sah) dan dapat dirubah sewaktu-waktu oleh Anggota.",
+  "PIN adalah kode akses/login aplikasi M-Banking DAM yang bersifat rahasia (hanya boleh diketahui oleh Pengguna M-Banking DAM yang sah), yang dibuat sendiri oleh Anggota saat melakukan Aktivasi M-Banking DAM dan harus dicantumkan/di-input setiap kali mengakses aplikasi M-Banking DAM.",
+  "Rekening adalah simpanan dana dalam rupiah dapat berupa produk Tabungan.",
+  "Smartphone adalah telepon genggam yang mempunyai kemampuan dengan pengunaan dan fungsi yang menyerupai komputer.",
+  "Registrasi adalah proses pendaftaran Anggota M-Banking DAM agar dapat digunakan untuk melakukan Transaksi.",
+  "Aktivasi adalah proses pengaktifan aplikasi M-Banking DAM dan sebagai verifikasi Nomor handphone yang didaftarkan dengan nomor telfon yang digunakan oleh Anggota.",
+  "Blokir Akun M-Banking DAM proses penonaktifan Akun M-Banking DAM secara manual melalui customer service yang sifatnya sementara atas permintaan Anggota Pengguna.",
+  "Ubah nomor Handphone adalah proses pembaharuan nomor handphone Anggota Pengguna yang dilakukan.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -59,8 +79,20 @@ export default function ProfileTermsPage({ onBack }: { onBack: () => void }) {
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4 pt-0">
               <div className="border-t border-[#EEF0F4] pt-4 text-[13px] font-normal leading-relaxed text-[#4B5563]">
-                Konten bagian ini akan dilengkapi sesuai materi yang Anda
-                berikan.
+                {section === "Definisi" ? (
+                  <ol className="grid list-decimal gap-3 pl-5">
+                    {definitionItems.map((item) => (
+                      <li key={item} className="pl-1">
+                        {item}
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <div>
+                    Konten bagian ini akan dilengkapi sesuai materi yang Anda
+                    berikan.
+                  </div>
+                )}
               </div>
             </AccordionContent>
           </AccordionItem>
