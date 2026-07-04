@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import NewMBankingOnboardingIllustration from "@/components/mobile/new-mbanking/NewMBankingOnboardingIllustration";
 
 const cooperativeLogoSources = [
   "/logo koperasi_splash.png",
@@ -22,37 +23,19 @@ const onboardingSlides = [
     title: "Transfer Jadi Lebih Praktis",
     description:
       "Kirim dana ke sesama rekening koperasi atau ke bank lain dengan cepat, praktis, dan aman langsung dari aplikasi.",
-    imageSources: [
-      "/onboarding_1.png",
-      "/onboarding_1.jpg",
-      "/onboarding_1.jpeg",
-      "/onboarding_1.webp",
-      "/onboarding_1",
-    ],
+    illustration: "transfer" as const,
   },
   {
     title: "Bayar dan Beli Apa Saja Lebih Cepat",
     description:
       "Mulai dari tagihan rutin, paket data, token PLN,top up e-wallet, hingga pembayaran dengan QRIS semua bisa dilakukan dari satu aplikasi.",
-    imageSources: [
-      "/onboarding_2.png",
-      "/onboarding_2.jpg",
-      "/onboarding_2.jpeg",
-      "/onboarding_2.webp",
-      "/onboarding_2",
-    ],
+    illustration: "payment" as const,
   },
   {
     title: "Semua Aset Anda dalam Genggaman",
     description:
       "Akses informasi simpanan, pinjaman, dan deposito Anda secara praktis untuk membantu Anda tetap terhubung dengan kondisi keuangan.",
-    imageSources: [
-      "/onboarding_3.png",
-      "/onboarding_3.jpg",
-      "/onboarding_3.jpeg",
-      "/onboarding_3.webp",
-      "/onboarding_3",
-    ],
+    illustration: "portfolio" as const,
   },
 ];
 
@@ -112,51 +95,6 @@ function DjoinLogo() {
         const nextIndex = sourceIndex + 1;
 
         if (nextIndex < djoinLogoSources.length) {
-          setSourceIndex(nextIndex);
-          return;
-        }
-
-        setShowFallback(true);
-      }}
-    />
-  );
-}
-
-function OnboardingIllustration({
-  sources,
-  title,
-}: {
-  sources: string[];
-  title: string;
-}) {
-  const [sourceIndex, setSourceIndex] = React.useState(0);
-  const [showFallback, setShowFallback] = React.useState(false);
-
-  React.useEffect(() => {
-    setSourceIndex(0);
-    setShowFallback(false);
-  }, [sources]);
-
-  if (showFallback) {
-    return (
-      <div className="grid h-[285px] w-[420px] max-w-full place-items-center rounded-[26px] bg-white shadow-sm ring-1 ring-slate-200">
-        <div className="text-center text-[13px] font-semibold text-slate-500">
-          {title}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={sources[sourceIndex]}
-      alt={title}
-      className="h-[285px] w-[420px] max-w-full object-contain"
-      draggable={false}
-      onError={() => {
-        const nextIndex = sourceIndex + 1;
-
-        if (nextIndex < sources.length) {
           setSourceIndex(nextIndex);
           return;
         }
@@ -235,9 +173,8 @@ export default function NewMBankingOnboardingIntro({
           key={`image-${activeSlide}`}
           className="animate-in fade-in-0 slide-in-from-right-4 duration-700 ease-out"
         >
-          <OnboardingIllustration
-            sources={slide.imageSources}
-            title={slide.title}
+          <NewMBankingOnboardingIllustration
+            variant={slide.illustration}
           />
         </div>
       </div>
