@@ -28,6 +28,15 @@ const definitionItems = [
   "Ubah nomor Handphone adalah proses pembaharuan nomor handphone Anggota Pengguna yang dilakukan.",
 ];
 
+const membershipItems = [
+  "Keanggotaan M-Banking DAM diatur sebagai berikut:",
+  "Untuk dapat menggunakan fasilitas M-Banking DAM, calon pengguna harus memenuhi persyaratan keanggotaan M-Banking DAM yang berlaku, melakukan Registrasi dan melakukan Aktivasi fasilitas tersebut.",
+  "Keanggotaan M-Banking DAM dapat diakhiri secara sepihak oleh Anggota Pengguna maupun oleh pihak Koperasi Konsumen Dana Asri Mandiri.",
+  "Untuk dapat menggunakan fasilitas M-Banking DAM, calon pengguna harus terlebih dahulu melakukan registrasi di Kantor Koperasi Konsumen Dana Asri Mandiri.",
+  "Anggota Pengguna wajib melakukan pengkinian data ke M-Banking DAM setiap kali ada perubahan data pribadi khususnya perubahan alamat e-mail dan/atau nomor handphone yang aktif.",
+  "Segala kerugian yang timbul akibat tidak dilakukannya pengkinian data oleh Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri, khususnya perubahan alamat e-mail dan/atau nomor handphone aktif Anggota, menjadi tanggung jawab Anggota Pengguna sepenuhnya.",
+];
+
 const termsSections = [
   "Definisi",
   "Keanggotaan",
@@ -44,6 +53,38 @@ const termsSections = [
   "Force Majeure",
   "Lain - Lain",
 ];
+
+function TermsSectionContent({ section }: { section: string }) {
+  if (section === "Definisi") {
+    return (
+      <ol className="grid list-decimal gap-3 pl-5">
+        {definitionItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
+  if (section === "Keanggotaan") {
+    return (
+      <ol className="grid list-decimal gap-3 pl-5">
+        {membershipItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
+  return (
+    <div>
+      Konten bagian ini akan dilengkapi sesuai materi yang Anda berikan.
+    </div>
+  );
+}
 
 export default function ProfileTermsPage({ onBack }: { onBack: () => void }) {
   return (
@@ -79,20 +120,7 @@ export default function ProfileTermsPage({ onBack }: { onBack: () => void }) {
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-4 pt-0">
               <div className="border-t border-[#EEF0F4] pt-4 text-[13px] font-normal leading-relaxed text-[#4B5563]">
-                {section === "Definisi" ? (
-                  <ol className="grid list-decimal gap-3 pl-5">
-                    {definitionItems.map((item) => (
-                      <li key={item} className="pl-1">
-                        {item}
-                      </li>
-                    ))}
-                  </ol>
-                ) : (
-                  <div>
-                    Konten bagian ini akan dilengkapi sesuai materi yang Anda
-                    berikan.
-                  </div>
-                )}
+                <TermsSectionContent section={section} />
               </div>
             </AccordionContent>
           </AccordionItem>
