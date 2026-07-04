@@ -14,6 +14,9 @@ export default function ProfileSubPageShell({
   children: React.ReactNode;
   className?: string;
 }) {
+  const useJustifiedText =
+    title === "Kebijakan Privasi" || title === "Syarat dan Ketentuan";
+
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <div className="shrink-0 bg-[#F9F9F9]">
@@ -38,8 +41,10 @@ export default function ProfileSubPageShell({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section
+          data-profile-sub-page-title={title}
           className={cn(
             "min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[24px]",
+            useJustifiedText ? "profile-policy-justified-text" : "",
             className,
           )}
         >

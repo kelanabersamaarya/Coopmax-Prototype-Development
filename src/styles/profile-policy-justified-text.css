@@ -1,0 +1,16 @@
+.profile-policy-justified-text p,
+.profile-policy-justified-text li,
+.profile-policy-justified-text [data-slot="accordion-content"] div,
+.profile-policy-justified-text [data-radix-accordion-content] div {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.profile-policy-justified-text a,
+.profile-policy-justified-text button,
+.profile-policy-justified-text h1,
+.profile-policy-justified-text h2,
+.profile-policy-justified-text h3,
+.profile-policy-justified-text [data-slot="accordion-trigger"] {
+  text-align: left;
+}
