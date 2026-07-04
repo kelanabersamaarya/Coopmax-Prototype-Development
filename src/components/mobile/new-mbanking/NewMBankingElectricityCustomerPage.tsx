@@ -36,6 +36,26 @@ function getServiceIcon(variant: ServiceVariant) {
   return Zap;
 }
 
+function getServiceIconBackground(variant: ServiceVariant) {
+  if (variant === "water") return "bg-[#06B6D4]";
+  if (variant === "pbb") return "bg-[#8B5CF6]";
+  if (variant === "internet") return "bg-[#2563EB]";
+  if (variant === "finance") return "bg-[#3B82F6]";
+  if (variant === "tv") return "bg-[#14B8A6]";
+  if (variant === "bpjs") return "bg-[#22C55E]";
+  return "bg-[#F59E0B]";
+}
+
+function getServiceIconShadow(variant: ServiceVariant) {
+  if (variant === "water") return "shadow-[0_10px_24px_rgba(6,182,212,0.24)]";
+  if (variant === "pbb") return "shadow-[0_10px_24px_rgba(139,92,246,0.24)]";
+  if (variant === "internet") return "shadow-[0_10px_24px_rgba(37,99,235,0.24)]";
+  if (variant === "finance") return "shadow-[0_10px_24px_rgba(59,130,246,0.24)]";
+  if (variant === "tv") return "shadow-[0_10px_24px_rgba(20,184,166,0.24)]";
+  if (variant === "bpjs") return "shadow-[0_10px_24px_rgba(34,197,94,0.24)]";
+  return "shadow-[0_10px_24px_rgba(245,158,11,0.24)]";
+}
+
 function getHelperText(variant: ServiceVariant) {
   if (variant === "water") {
     return "Masukkan nomor pelanggan untuk melanjutkan pembayaran air.";
@@ -143,7 +163,13 @@ export default function NewMBankingElectricityCustomerPage({
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[112px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="flex min-h-full flex-col rounded-t-[30px] bg-white px-6 pb-[34px] pt-[40px]">
           <div className="flex flex-col items-center text-center">
-            <span className="grid h-[86px] w-[86px] place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_24px_rgba(71,157,244,0.24)]">
+            <span
+              className={cn(
+                "grid h-[86px] w-[86px] place-items-center rounded-full text-white",
+                getServiceIconBackground(serviceVariant),
+                getServiceIconShadow(serviceVariant),
+              )}
+            >
               <Icon className="h-[42px] w-[42px] text-white" strokeWidth={2.7} />
             </span>
 
