@@ -85,7 +85,7 @@ const transactionSecurityItems: ContentItem[] = [
   "Apabila handphone yang digunakan untuk bertransaksi M-Banking DAM hilang, dicuri, atau berganti kepemilikan maka Anggota Pengguna wajib memberitahukan hal tersebut kepada Koperasi Konsumen Dana Asri Mandiri melalui nomor telepon resmi Koperasi Konsumen Dana Asri Mandiri.",
   "Dalam hal Anggota Pengguna mengetahui atau menduga Username, PIN atau Kata Sandi miliknya telah diketahui oleh orang lain yang tidak berwenang, maka Anggota Pengguna wajib segera melakukan pengamanan dan perubahan terhadap Username, PIN atau Kata Sandi.",
   "Apabila karena suatu sebab Anggota Pengguna tidak dapat melakukan perubahan terhadap Username, PIN atau Kata Sandi miliknya maka Anggota Pengguna wajib memberitahukan Koperasi Konsumen Dana Asri Mandiri melalui nomor telepon resmi Koperasi Konsumen Dana Asri Mandiri.",
-  "Sebelum diterimanya permintaan dari Anggota Pengguna, maka segala perintah, transaksi dan komunikasi berdasarkan penggunaan Username, PIN dan/atau Kata S Sandi oleh pihak yang tidak berwenang sepenuhnya menjadi tanggung jawab Anggota Pengguna.",
+  "Sebelum diterimanya permintaan dari Anggota Pengguna, maka segala perintah, transaksi dan komunikasi berdasarkan penggunaan Username, PIN dan/atau Kata Sandi oleh pihak yang tidak berwenang sepenuhnya menjadi tanggung jawab Anggota Pengguna.",
   "Penggunaan Username, PIN dan/atau Kata Sandi mempunyai kekuatan hukum yang sama dengan perintah tertulis yang ditandatangani oleh Anggota Pengguna, oleh karena itu Anggota Pengguna dengan ini menyatakan bahwa penggunaan Username, PIN dan/atau Kata Sandi dalam setiap perintah pada transaksi M-Banking DAM juga merupakan pemberian kuasa dari Anggota Pengguna kepada Koperasi Konsumen Dana Asri Mandiri untuk melaksanakan transaksi termasuk untuk melakukan pendebetan rekening Anggota Pengguna baik dalam rangka pelaksanaan transaksi yang diperintahkan maupun untuk pembayaran biaya transaksinya.",
   "Penyalahgunaan Username, PIN dan/atau Kata Sandi M-Banking DAM beserta akibatnya merupakan tanggung jawab Anggota Pengguna sepenuhnya.",
   "Anggota wajib menjaga smartphone miliknya dari aplikasi berbahaya seperti virus, malware, trojan, dan lain-lain, baik sebelum maupun setelah instalasi aplikasi M-Banking DAM.",
@@ -175,6 +175,20 @@ const blockingItems: ContentItem[] = [
   "Pemblokiran akses ke fasilitas M-Banking DAM dapat dilakukan dengan cara mengunjungi Kantor Koperasi Konsumen Dana Asri Mandiri.",
   "Untuk melakukan Aktivasi kembali karena pemblokiran akses fasilitas M-Banking DAM sebagaimana dimaksud di atas, Anggota Pengguna dapat melakukan buka blokir dengan melakukan Registrasi ulang melalui Kantor M-Banking DAM dengan membawa Identitas KTP/SIM/Passpor dan Buku Tabungan Koperasi Konsumen Dana Asri Mandiri.",
   "Permintaan pemblokiran akses ke fasilitas M-Banking DAM karena keinginan Anggota Pengguna, harus disampaikan sendiri oleh Anggota Pengguna yang bersangkutan (tidak boleh diwakilkan).",
+];
+
+const terminationItems: ContentItem[] = [
+  "Pengakhiran keanggotaan M-Banking DAM harus disampaikan secara tertulis melalui Kantor Koperasi Konsumen Dana Asri Mandiri.",
+  "Penyampaian surat pengakhiran keanggotaan M-Banking DAM dapat diwakilkan oleh pihak lain yang telah diberi kuasa untuk menyampaikannya yang dibuktikan dengan surat pemberian kuasa bermeterai yang cukup.",
+  {
+    text: "Pengakhiran keanggotaan M-Banking DAM dapat disebabkan oleh:",
+    subItems: [
+      "Anggota Pengguna mengajukan Surat Permohonan Pengakhiran Keanggotaan M-Banking DAM kepada Koperasi Konsumen Dana Asri Mandiri.",
+      "Anggota Pengguna menutup semua rekening yang dapat diakses melalui fasilitas M-Banking DAM.",
+      "Koperasi Konsumen Dana Asri Mandiri melaksanakan suatu keharusan sesuai ketentuan perundang-undangan yang berlaku.",
+      "Koperasi Konsumen Dana Asri Mandiri menghentikan pemberian fasilitas M-Banking DAM. Terhadap hal tersebut, Koperasi Konsumen Dana Asri Mandiri akan menyampaikan pemberitahuan kepada Anggota Pengguna melalui media resmi Koperasi Konsumen Dana Asri Mandiri.",
+    ],
+  },
 ];
 
 const termsSections = [
@@ -279,6 +293,10 @@ function TermsSectionContent({ section }: { section: string }) {
 
   if (section === "Pemblokiran (Penghentian Sementara) Akses M-Banking") {
     return <OrderedContentList items={blockingItems} />;
+  }
+
+  if (section === "Pengakhiran Keanggotaan M-Banking") {
+    return <OrderedContentList items={terminationItems} />;
   }
 
   return (
