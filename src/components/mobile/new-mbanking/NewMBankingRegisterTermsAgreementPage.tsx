@@ -296,7 +296,7 @@ export default function NewMBankingRegisterTermsAgreementPage({
             className={cn(
               "mt-[1px] inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-[6px] border-2 transition",
               accepted
-                ? "border-[#479DF4] bg-[#479DF4] text-white"
+                ? "border-[#33AA00] bg-[#33AA00] text-white"
                 : "border-[#CDD4E0] bg-white text-transparent",
             )}
           >
