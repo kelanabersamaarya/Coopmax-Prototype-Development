@@ -59,6 +59,26 @@ const dataCollectionItems = [
   "Jika Anda memberikan kepada Kami Data Pribadi yang terkait dengan individu lain (seperti Data Pribadi pasangan Anda, anggota keluarga, atau pihak lain), Anda menyatakan bahwa Anda telah memperoleh persetujuan dari individu yang bersangkutan, dan dengan ini menyetujui atas nama individu tersebut untuk pengumpulan, penggunaan, pengungkapan, dan pemrosesan Data Pribadi mereka oleh Kami.",
 ];
 
+const personalDataUsageItems = [
+  "menyediakan Layanan dan/atau Produk Kami;",
+  "penggunaan fitur-fitur yang tersedia dalam Layanan Kami;",
+  "Untuk mempersonalisasi pengalaman Anda (contohnya, menampilkan foto profil Anda), informasi Anda membantu kami untuk lebih baik menanggapi kebutuhan individu Anda;",
+  "mendaftarkan Anda sebagai pengguna pada Platform Kami, dan juga untuk mengurus dan/atau mengelola akun Anda;",
+  "menginformasikan kepada Anda mengenai aktivitas yang terjadi pada Platform Kami atau platform/sistem lain yang terhubung dengan Platform Kami;",
+  "berinteraksi secara langsung dengan Anda dan memberitahukan kepada Anda mengenai setiap pembaruan atau perubahan pada Layanan;",
+  "memberitahukan kepada Anda setiap informasi sehubungan dengan penggunaan Layanan;",
+  "melakukan pemeliharaan, peningkatan, pemecahan masalah, pengembangan dan personalisasi/kustomisasi Layanan untuk memenuhi kebutuhan dan preferensi Anda;",
+  "menawarkan atau menyediakan layanan dari afiliasi atau mitra Kami (jika ada);",
+  "mengembangkan layanan baru;",
+  "memantau, memahami dan menganalisis aktivitas dan perilaku Anda termasuk kebiasaan dan penggunaan berbagai layanan yang tersedia di Platform;",
+  "menyediakan afiliasi dan/atau pihak ketiga yang bekerja sama dengan Kami (dalam hal ini vendor, agen, pemasok, kontraktor, konsultan, mitra dan pihak lain yang memberikan layanan kepada Kami atau Anda) yang secara teknis diperlukan untuk memproses transaksi Anda atau tujuan kerja sama Kami dengan pihak ketiga tersebut (jika ada);",
+  "menangani atau menyelesaikan keluhan sehubungan dengan masalah operasional yang terjadi pada Layanan;",
+  "menghasilkan informasi statistik dan data analitis untuk tujuan pengujian, penelitian, analisis, pengembangan produk;",
+  "mematuhi semua kewajiban berdasarkan Hukum yang Berlaku, termasuk namun tidak terbatas pada menanggapi permintaan, pertanyaan, atau arahan dari peraturan dan/atau anggota pemerintah;",
+  "membantu meningkatkan keamanan dan keandalan layanan Kami. Hal ini termasuk mendeteksi, mencegah, dan menanggapi penipuan, penyalahgunaan, risiko keamanan, aktivitas kriminal, atau penyalahgunaan Layanan Kami, masalah teknis yang dapat merugikan danarahayu, pengguna Kami, atau publik, serta untuk memastikan keamanan sistem, arsitektur, dan jaringan TI Kami;",
+  "tujuan lain yang Kami beritahukan kepada Anda, dan/atau jika diwajibkan oleh Hukum yang Berlaku, sebagaimana Kami akan mendapatkan persetujuan Anda.",
+];
+
 function DefinitionContent() {
   return (
     <ol className="grid list-decimal gap-3 pl-5">
@@ -112,6 +132,42 @@ function DataCollectionContent() {
   );
 }
 
+function PersonalDataUsageContent() {
+  return (
+    <div className="grid gap-4">
+      <p>
+        Untuk Data Pribadi Anda yang Kami kumpulkan, Kami dapat menggunakannya
+        untuk tujuan-tujuan berikut ini atau tujuan-tujuan lain yang diwajibkan
+        atau diizinkan oleh Hukum yang Berlaku ("Tujuan"):
+      </p>
+
+      <ol className="grid list-decimal gap-3 pl-5">
+        {personalDataUsageItems.map((item) => (
+          <li key={item} className="pl-1">
+            {item}
+          </li>
+        ))}
+      </ol>
+
+      <p>
+        Kami menggunakan berbagai teknologi untuk memproses Data Pribadi Anda
+        untuk Tujuan yang disebutkan di atas. Kami menggunakan sistem otomatis
+        yang menganalisis konten Anda untuk menyediakan hal-hal seperti hasil
+        pencarian yang disesuaikan atau fitur lain yang disesuaikan dengan cara
+        Anda menggunakan layanan Kami. Kami juga menganalisis konten Anda untuk
+        membantu Kami mendeteksi penyalahgunaan seperti spam, malware, dan konten
+        ilegal.
+      </p>
+
+      <p>
+        Data Pribadi Anda akan disimpan selama Anda menggunakan aplikasi atau
+        selama periode yang diperlukan untuk mencapai Tujuan, mana saja yang
+        lebih lama.
+      </p>
+    </div>
+  );
+}
+
 function PrivacySectionContent({ section }: { section: string }) {
   if (section === "Definisi") {
     return <DefinitionContent />;
@@ -123,6 +179,10 @@ function PrivacySectionContent({ section }: { section: string }) {
 
   if (section === "Bagaimana Kami Mengumpulkan Data Pribadi Anda") {
     return <DataCollectionContent />;
+  }
+
+  if (section === "Penggunaan Data Pribadi Anda") {
+    return <PersonalDataUsageContent />;
   }
 
   return (
