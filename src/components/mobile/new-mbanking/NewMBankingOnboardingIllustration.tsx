@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import {
   Banknote,
+  CircleDollarSign,
   Droplets,
   HeartPulse,
   Landmark,
@@ -37,7 +38,10 @@ function DecorativeText({
       )}
     >
       {Icon ? (
-        <Icon className="h-[13px] w-[13px] shrink-0 text-[#479DF4]" strokeWidth={2.7} />
+        <Icon
+          className="h-[13px] w-[13px] shrink-0 text-[#479DF4]"
+          strokeWidth={2.7}
+        />
       ) : null}
       <span>{children}</span>
     </div>
@@ -53,28 +57,36 @@ export default function NewMBankingOnboardingIllustration({
 }) {
   if (variant === "transfer") {
     return (
-      <div className={cn("relative flex h-[492px] w-[390px] max-w-full items-center justify-center", className)}>
+      <div
+        className={cn(
+          "relative flex h-[492px] w-[390px] max-w-full items-center justify-center",
+          className,
+        )}
+      >
         <DecorativeText
           icon={Banknote}
           className="left-[0px] top-[72px] rotate-[-10deg]"
         >
           Rekening Simpanan
         </DecorativeText>
+
         <DecorativeText
-          icon={Wifi}
+          icon={CircleDollarSign}
           className="right-[-4px] top-[150px] rotate-[9deg]"
         >
           Saldo Realtime
         </DecorativeText>
+
         <DecorativeText
           icon={Landmark}
           className="left-[0px] bottom-[132px] rotate-[7deg]"
         >
           Transfer ke Bank Lain
         </DecorativeText>
+
         <DecorativeText
           icon={Send}
-          className="right-[-6px] bottom-[84px] rotate-[-8deg]"
+          className="right-[-12px] bottom-[152px] rotate-[-8deg]"
         >
           Transfer ke Sesama Anggota Koperasi
         </DecorativeText>
@@ -225,7 +237,12 @@ export default function NewMBankingOnboardingIllustration({
 
   if (variant === "payment") {
     return (
-      <div className={cn("relative flex h-[492px] w-[390px] max-w-full items-center justify-center", className)}>
+      <div
+        className={cn(
+          "relative flex h-[492px] w-[390px] max-w-full items-center justify-center",
+          className,
+        )}
+      >
         <DecorativeText className="left-[4px] top-[78px] rotate-[-9deg]">
           Bayar Tagihan
         </DecorativeText>
@@ -237,7 +254,7 @@ export default function NewMBankingOnboardingIllustration({
         </DecorativeText>
         <DecorativeText className="right-[2px] bottom-[82px] rotate-[-8deg]">
           Riwayat Cepat
-        </DecorativeText>
+        </DecorText>
 
         <div className="pointer-events-none absolute left-[28px] top-[148px] z-0 h-20 w-20 rounded-full bg-[#F59E0B]/12 blur-xl" />
         <div className="pointer-events-none absolute right-[18px] top-[214px] z-0 h-24 w-24 rounded-full bg-[#479DF4]/14 blur-xl" />
