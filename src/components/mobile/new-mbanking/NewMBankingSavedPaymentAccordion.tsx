@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { NewMBankingSavedRecipientKind } from "@/lib/newMBankingSavedRecipientsStore";
+import NewMBankingDeleteSavedRecipientConfirmModal from "@/components/mobile/new-mbanking/NewMBankingDeleteSavedRecipientConfirmModal";
 
 export type SavedPaymentItem = {
   id: string;
@@ -60,7 +61,14 @@ function getCategoryId(item: SavedPaymentItem) {
   if (text.includes("pdam") || text.includes("air")) return "water";
   if (text.includes("pbb")) return "pbb";
   if (text.includes("paket data") || text.includes("data")) return "data";
-  if (text.includes("e-wallet") || text.includes("ewallet") || text.includes("ovo") || text.includes("dana")) return "ewallet";
+  if (
+    text.includes("e-wallet") ||
+    text.includes("ewallet") ||
+    text.includes("ovo") ||
+    text.includes("dana")
+  ) {
+    return "ewallet";
+  }
   if (text.includes("token")) return "token";
   if (text.includes("internet") || text.includes("indihome")) return "internet";
   if (text.includes("tv") || text.includes("transvision")) return "tv";
@@ -212,13 +220,13 @@ function SavedPaymentRow({
   icon: Icon,
   iconClassName,
   onOpen,
-  onDelete,
+  onRequestDelete,
 }: {
   item: SavedPaymentItem;
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   iconClassName: string;
   onOpen: () => void;
-  onDelete: () => void;
+  onRequestDelete: () => void;
 }) {
   return (
     <div className="flex min-h-[64px] items-center justify-between gap-4 py-[10px]">
@@ -249,7 +257,7 @@ function SavedPaymentRow({
 
       <button
         type="button"
-        onClick={onDelete}
+        onClick={onRequestDelete}
         className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
         aria-label={`Hapus ${item.name}`}
         title="Hapus"
@@ -271,6 +279,9 @@ export default function NewMBankingSavedPaymentAccordion({
 }) {
   const categories = React.useMemo(() => groupItems(items), [items]);
   const [openIds, setOpenIds] = React.useState<string[]>([]);
+  const [deleteTarget, setDeleteTarget] = React.useState<SavedPaymentItem | null>(
+    null,
+  );
 
   function toggle(categoryId: string) {
     setOpenIds((current) =>
@@ -280,71 +291,91 @@ export default function NewMBankingSavedPaymentAccordion({
     );
   }
 
-  if (categories.length === 0) return <EmptySavedPayments />;
-
   return (
-    <div className="mt-[18px] grid gap-[12px]">
-      {categories.map((category) => {
-        const Icon = category.icon;
-        const open = openIds.includes(category.id);
+    <>
+      <NewMBankingDeleteSavedRecipientConfirmModal
+        open={!!deleteTarget}
+        title="Hapus Data Tersimpan?"
+        description={
+          deleteTarget
+            ? `${deleteTarget.name} akan dihapus dari daftar tersimpan.`
+            : "Data penerima ini akan dihapus dari daftar tersimpan."
+        }
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={() => {
+          if (!deleteTarget) return;
+          onDeleteItem(deleteTarget.id);
+          setDeleteTarget(null);
+        }}
+      />
 
-        return (
-          <section
-            key={category.id}
-            className="overflow-hidden rounded-[18px] bg-white ring-1 ring-[#EEF0F4]"
-          >
-            <button
-              type="button"
-              onClick={() => toggle(category.id)}
-              className="flex min-h-[58px] w-full items-center gap-3 px-4 py-3 text-left transition active:scale-[0.99]"
-              aria-expanded={open}
-            >
-              <span
-                className={cn(
-                  "grid h-[38px] w-[38px] shrink-0 place-items-center rounded-full",
-                  category.iconClassName,
-                )}
+      {categories.length === 0 ? (
+        <EmptySavedPayments />
+      ) : (
+        <div className="mt-[18px] grid gap-[12px]">
+          {categories.map((category) => {
+            const Icon = category.icon;
+            const open = openIds.includes(category.id);
+
+            return (
+              <section
+                key={category.id}
+                className="overflow-hidden rounded-[18px] bg-white ring-1 ring-[#EEF0F4]"
               >
-                <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.4} />
-              </span>
+                <button
+                  type="button"
+                  onClick={() => toggle(category.id)}
+                  className="flex min-h-[58px] w-full items-center gap-3 px-4 py-3 text-left transition active:scale-[0.99]"
+                  aria-expanded={open}
+                >
+                  <span
+                    className={cn(
+                      "grid h-[38px] w-[38px] shrink-0 place-items-center rounded-full",
+                      category.iconClassName,
+                    )}
+                  >
+                    <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.4} />
+                  </span>
 
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[14px] font-bold leading-tight text-black">
-                  {category.label}
-                </span>
-                <span className="mt-[4px] block text-[11px] font-normal leading-none text-[#8F8F8F]">
-                  {category.items.length} tersimpan
-                </span>
-              </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[14px] font-bold leading-tight text-black">
+                      {category.label}
+                    </span>
+                    <span className="mt-[4px] block text-[11px] font-normal leading-none text-[#8F8F8F]">
+                      {category.items.length} tersimpan
+                    </span>
+                  </span>
 
-              <ChevronDown
-                className={cn(
-                  "h-[21px] w-[21px] shrink-0 text-black transition-transform duration-200",
-                  open ? "rotate-180" : "rotate-0",
-                )}
-                strokeWidth={2.6}
-              />
-            </button>
+                  <ChevronDown
+                    className={cn(
+                      "h-[21px] w-[21px] shrink-0 text-black transition-transform duration-200",
+                      open ? "rotate-180" : "rotate-0",
+                    )}
+                    strokeWidth={2.6}
+                  />
+                </button>
 
-            {open ? (
-              <div className="border-t border-[#EEF0F4] px-4">
-                <div className="divide-y divide-[#EEF0F4]">
-                  {category.items.map((item) => (
-                    <SavedPaymentRow
-                      key={item.id}
-                      item={item}
-                      icon={category.icon}
-                      iconClassName={category.iconClassName}
-                      onOpen={() => onOpenItem(item)}
-                      onDelete={() => onDeleteItem(item.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </section>
-        );
-      })}
-    </div>
+                {open ? (
+                  <div className="border-t border-[#EEF0F4] px-4">
+                    <div className="divide-y divide-[#EEF0F4]">
+                      {category.items.map((item) => (
+                        <SavedPaymentRow
+                          key={item.id}
+                          item={item}
+                          icon={category.icon}
+                          iconClassName={category.iconClassName}
+                          onOpen={() => onOpenItem(item)}
+                          onRequestDelete={() => setDeleteTarget(item)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </section>
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }
