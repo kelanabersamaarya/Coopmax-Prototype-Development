@@ -20,6 +20,7 @@ import NewMBankingSavedPaymentAccordion, {
 } from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 import NewMBankingPulsaPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPulsaPurchasePage";
+import NewMBankingPaketDataPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPaketDataPurchasePage";
 
 type PurchaseTab = "saved" | "history";
 
@@ -269,6 +270,7 @@ export default function NewMBankingPurchasePage({
   const [items, setItems] = React.useState<SavedPaymentItem[]>(savedPurchases);
   const [toastMessage, setToastMessage] = React.useState("");
   const [showPulsaPage, setShowPulsaPage] = React.useState(false);
+  const [showPaketDataPage, setShowPaketDataPage] = React.useState(false);
 
   function showToast(message: string) {
     setToastMessage("");
@@ -277,6 +279,14 @@ export default function NewMBankingPurchasePage({
 
   if (showPulsaPage) {
     return <NewMBankingPulsaPurchasePage onBack={() => setShowPulsaPage(false)} />;
+  }
+
+  if (showPaketDataPage) {
+    return (
+      <NewMBankingPaketDataPurchasePage
+        onBack={() => setShowPaketDataPage(false)}
+      />
+    );
   }
 
   return (
@@ -319,6 +329,11 @@ export default function NewMBankingPurchasePage({
                   onClick={() => {
                     if (category.label === "Pulsa") {
                       setShowPulsaPage(true);
+                      return;
+                    }
+
+                    if (category.label === "Paket Data") {
+                      setShowPaketDataPage(true);
                       return;
                     }
 

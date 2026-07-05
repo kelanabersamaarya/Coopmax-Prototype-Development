@@ -26,7 +26,8 @@ type ServiceVariant =
   | "finance"
   | "tv"
   | "bpjs"
-  | "postpaid-phone";
+  | "postpaid-phone"
+  | "data-package";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
@@ -35,7 +36,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
-  if (variant === "postpaid-phone") return Smartphone;
+  if (variant === "postpaid-phone" || variant === "data-package") return Smartphone;
   return Zap;
 }
 
@@ -46,6 +47,7 @@ function getSuccessText(variant: ServiceVariant) {
   if (variant === "finance") return "Pembayaran cicilan finance Anda telah berhasil diproses.";
   if (variant === "tv") return "Pembayaran tagihan TV Anda telah berhasil diproses.";
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan Anda telah berhasil diproses.";
+  if (variant === "data-package") return "Pembelian paket data Anda telah berhasil diproses.";
   if (variant === "postpaid-phone") return "Pembelian pulsa Anda telah berhasil diproses.";
   return "Pembayaran tagihan listrik Anda telah berhasil diproses.";
 }
@@ -57,12 +59,15 @@ function getReferencePrefix(variant: ServiceVariant) {
   if (variant === "finance") return "FIN";
   if (variant === "tv") return "TV";
   if (variant === "bpjs") return "BPJS";
+  if (variant === "data-package") return "DATA";
   if (variant === "postpaid-phone") return "PULSA";
   return "PLN";
 }
 
 function getCustomerNumberLabel(variant: ServiceVariant) {
-  return variant === "postpaid-phone" ? "No. Handphone" : "No. Pelanggan";
+  return variant === "postpaid-phone" || variant === "data-package"
+    ? "No. Handphone"
+    : "No. Pelanggan";
 }
 
 function DetailRow({
@@ -122,7 +127,8 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   const [recipientSaved, setRecipientSaved] = React.useState(recipientAlreadySaved);
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
-  const showCustomerName = serviceVariant !== "postpaid-phone";
+  const showCustomerName =
+    serviceVariant !== "postpaid-phone" && serviceVariant !== "data-package";
 
   React.useEffect(() => {
     setRecipientSaved(recipientAlreadySaved);

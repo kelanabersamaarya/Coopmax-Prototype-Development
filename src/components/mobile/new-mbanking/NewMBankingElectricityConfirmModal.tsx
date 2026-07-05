@@ -25,7 +25,8 @@ type ServiceVariant =
   | "finance"
   | "tv"
   | "bpjs"
-  | "postpaid-phone";
+  | "postpaid-phone"
+  | "data-package";
 
 function parseIdrLike(value: string) {
   const digits = value.replace(/[^\d]/g, "");
@@ -44,7 +45,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
-  if (variant === "postpaid-phone") return Smartphone;
+  if (variant === "postpaid-phone" || variant === "data-package") return Smartphone;
   return Zap;
 }
 
@@ -55,12 +56,15 @@ function getServiceDescription(variant: ServiceVariant) {
   if (variant === "finance") return "Pembayaran cicilan finance";
   if (variant === "tv") return "Pembayaran tagihan TV";
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan";
+  if (variant === "data-package") return "Pembelian paket data";
   if (variant === "postpaid-phone") return "";
   return "Pembayaran tagihan listrik";
 }
 
 function getCustomerNumberLabel(variant: ServiceVariant) {
-  return variant === "postpaid-phone" ? "No. Handphone" : "No. Pelanggan";
+  return variant === "postpaid-phone" || variant === "data-package"
+    ? "No. Handphone"
+    : "No. Pelanggan";
 }
 
 function DetailRow({
@@ -111,11 +115,15 @@ export default function NewMBankingElectricityConfirmModal({
   serviceVariant?: ServiceVariant;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
-  const adminFee = serviceVariant === "postpaid-phone" ? "Rp. 0,00" : "Rp. 2.500,00";
+  const adminFee =
+    serviceVariant === "postpaid-phone" || serviceVariant === "data-package"
+      ? "Rp. 0,00"
+      : "Rp. 2.500,00";
   const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
   const Icon = getServiceIcon(serviceVariant);
   const description = getServiceDescription(serviceVariant);
-  const showCustomerName = serviceVariant !== "postpaid-phone";
+  const showCustomerName =
+    serviceVariant !== "postpaid-phone" && serviceVariant !== "data-package";
 
   React.useEffect(() => {
     if (!open) return;
