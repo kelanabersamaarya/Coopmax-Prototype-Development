@@ -59,7 +59,7 @@ export default function NewMBankingPulsaPurchasePage({
 }: {
   onBack: () => void;
 }) {
-  const [phoneNumber] = React.useState("0819987262");
+  const [phoneNumber, setPhoneNumber] = React.useState("0819987262");
   const [selectedNominal, setSelectedNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
@@ -181,8 +181,8 @@ export default function NewMBankingPulsaPurchasePage({
             </h2>
 
             <p className="mt-[8px] max-w-[292px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-              Nomor handphone sudah terisi otomatis, pilih nominal pulsa, lalu
-              tentukan sumber dana pembayaran.
+              Masukkan nomor handphone, pilih nominal pulsa, lalu tentukan sumber
+              dana pembayaran.
             </p>
           </div>
 
@@ -194,26 +194,30 @@ export default function NewMBankingPulsaPurchasePage({
             <div className="flex items-stretch gap-[9px]">
               <input
                 value={phoneNumber}
-                readOnly
-                aria-readonly="true"
+                onChange={(event) =>
+                  setPhoneNumber(event.target.value.replace(/[^\d]/g, ""))
+                }
                 placeholder="Masukkan Nomor HP"
                 inputMode="numeric"
                 className={cn(
-                  "h-[44px] min-w-0 flex-1 cursor-not-allowed rounded-[12px] border border-[#CDD4E0] bg-[#F1F3F6] px-4",
+                  "h-[44px] min-w-0 flex-1 rounded-[12px] border border-[#CDD4E0] bg-white px-4",
                   "text-[14px] font-normal text-black shadow-none outline-none",
                   "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                  "focus:border-[#479DF4]",
                 )}
               />
 
               <button
                 type="button"
-                disabled
+                onClick={() =>
+                  showToast("Pilih kontak belum tersedia di prototype", "warning")
+                }
                 className={cn(
-                  "grid h-[44px] w-[44px] shrink-0 cursor-not-allowed place-items-center rounded-[12px]",
-                  "bg-[#A9D0FA] text-white shadow-none",
+                  "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[12px]",
+                  "bg-[#479DF4] text-white shadow-none transition active:scale-[0.98]",
                 )}
                 aria-label="Pilih dari kontak"
-                title="Nomor HP read-only"
+                title="Pilih dari kontak"
               >
                 <Contact
                   className="h-[22px] w-[22px] text-white"
