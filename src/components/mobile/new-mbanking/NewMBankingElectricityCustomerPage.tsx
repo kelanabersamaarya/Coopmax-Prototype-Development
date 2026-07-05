@@ -101,6 +101,8 @@ export default function NewMBankingElectricityCustomerPage({
   title = "Listrik PLN",
   serviceVariant = "electricity",
   initialCustomerNo = "",
+  isRecipientSaved,
+  onSaveRecipient,
 }: {
   providerName: string;
   onBack: () => void;
@@ -108,6 +110,16 @@ export default function NewMBankingElectricityCustomerPage({
   title?: string;
   serviceVariant?: ServiceVariant;
   initialCustomerNo?: string;
+  isRecipientSaved?: (input: {
+    providerName: string;
+    customerNo: string;
+    serviceVariant: ServiceVariant;
+  }) => boolean;
+  onSaveRecipient?: (input: {
+    providerName: string;
+    customerNo: string;
+    serviceVariant: ServiceVariant;
+  }) => void;
 }) {
   const [customerNo, setCustomerNo] = React.useState(initialCustomerNo);
   const [bpjsMonths, setBpjsMonths] = React.useState("");
@@ -151,6 +163,9 @@ export default function NewMBankingElectricityCustomerPage({
   }
 
   if (showReview) {
+    const recipientAlreadySaved =
+      isRecipientSaved?.({ providerName, customerNo, serviceVariant }) ?? false;
+
     return (
       <NewMBankingElectricityBillReviewPage
         providerName={providerName}
@@ -158,6 +173,10 @@ export default function NewMBankingElectricityCustomerPage({
         title={title}
         serviceVariant={serviceVariant}
         bpjsMonths={bpjsMonths}
+        recipientAlreadySaved={recipientAlreadySaved}
+        onSaveRecipient={() =>
+          onSaveRecipient?.({ providerName, customerNo, serviceVariant })
+        }
         onBack={() => setShowReview(false)}
         onDone={onDone}
       />

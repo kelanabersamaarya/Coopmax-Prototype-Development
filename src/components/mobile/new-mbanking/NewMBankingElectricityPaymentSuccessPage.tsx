@@ -12,6 +12,7 @@ import {
   Wifi,
   Zap,
 } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
@@ -117,19 +118,23 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   recipientAlreadySaved?: boolean;
   onSaveRecipient?: () => void;
 }) {
-  const [proofSaved, setProofSaved] = React.useState(false);
-  const [recipientSaved, setRecipientSaved] = React.useState(recipientAlreadySaved);
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
 
-  React.useEffect(() => {
-    setRecipientSaved(recipientAlreadySaved);
-  }, [recipientAlreadySaved]);
-
   function saveRecipient() {
-    if (recipientSaved) return;
+    if (recipientAlreadySaved) return;
+
     onSaveRecipient?.();
-    setRecipientSaved(true);
+
+    toast.success("Sukses menyimpan penerima", {
+      description: `${providerName} • ${customerNo}`,
+    });
+  }
+
+  function saveProof() {
+    toast.success("Sukses menyimpan bukti transaksi", {
+      description: `Ref ID: ${getReferencePrefix(serviceVariant)}221112222`,
+    });
   }
 
   return (
@@ -169,17 +174,15 @@ export default function NewMBankingElectricityPaymentSuccessPage({
 
             <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
               <NewMBankingSuccessActionTile
-                label={proofSaved ? "Bukti Tersimpan" : "Bukti Transaksi"}
-                icon={proofSaved ? Check : Eye}
-                active={proofSaved}
-                onClick={() => setProofSaved(true)}
+                label="Bukti Transaksi"
+                icon={Eye}
+                onClick={saveProof}
               />
 
               <NewMBankingSuccessActionTile
-                label={recipientSaved ? "Penerima Tersimpan" : "Simpan Penerima"}
-                icon={recipientSaved ? Check : UserPlus}
-                active={recipientSaved}
-                disabled={recipientSaved}
+                label="Simpan Penerima"
+                icon={UserPlus}
+                disabled={recipientAlreadySaved}
                 onClick={saveRecipient}
               />
             </div>
