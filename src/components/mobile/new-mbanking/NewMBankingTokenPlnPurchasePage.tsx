@@ -48,7 +48,7 @@ export default function NewMBankingTokenPlnPurchasePage({
 }: {
   onBack: () => void;
 }) {
-  const [meterNo, setMeterNo] = React.useState("");
+  const [meterNo] = React.useState("530000112233");
   const [selectedNominal, setSelectedNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
@@ -165,7 +165,7 @@ export default function NewMBankingTokenPlnPurchasePage({
             </h2>
 
             <p className="mt-[8px] max-w-[292px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-              Masukkan nomor meter atau ID pelanggan, pilih nominal token, lalu
+              Nomor meter sudah terisi otomatis, pilih nominal token, lalu
               tentukan sumber dana pembayaran.
             </p>
           </div>
@@ -177,16 +177,14 @@ export default function NewMBankingTokenPlnPurchasePage({
 
             <input
               value={meterNo}
-              onChange={(event) =>
-                setMeterNo((event.target.value ?? "").replace(/[^\d]/g, ""))
-              }
+              readOnly
+              aria-readonly="true"
               placeholder="Masukkan No. Meter/ID Pelanggan"
               inputMode="numeric"
               className={cn(
-                "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
+                "h-[44px] w-full cursor-not-allowed rounded-[12px] border border-[#CDD4E0] bg-[#F1F3F6] px-4",
                 "text-[14px] font-normal text-black shadow-none outline-none",
                 "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                "focus:border-[#479DF4]",
               )}
             />
           </div>

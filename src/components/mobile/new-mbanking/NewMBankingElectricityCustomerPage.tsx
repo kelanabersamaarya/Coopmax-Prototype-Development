@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   ArrowLeft,
-  Contact,
   Droplets,
   HeartPulse,
   Landmark,
@@ -64,34 +63,45 @@ function getServiceIconShadow(variant: ServiceVariant) {
 
 function getHelperText(variant: ServiceVariant) {
   if (variant === "water") {
-    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran air.";
+    return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran air.";
   }
 
   if (variant === "pbb") {
-    return "Masukkan NOP PBB untuk melanjutkan pembayaran pajak.";
+    return "NOP PBB sudah terisi otomatis untuk melanjutkan pembayaran pajak.";
   }
 
   if (variant === "internet") {
-    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran internet.";
+    return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran internet.";
   }
 
   if (variant === "finance") {
-    return "Masukkan nomor kontrak untuk melanjutkan pembayaran finance.";
+    return "Nomor kontrak sudah terisi otomatis untuk melanjutkan pembayaran finance.";
   }
 
   if (variant === "tv") {
-    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran TV.";
+    return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran TV.";
   }
 
   if (variant === "bpjs") {
-    return "Masukkan nomor peserta dan pilih jumlah bulan untuk melanjutkan pembayaran BPJS.";
+    return "Nomor peserta sudah terisi otomatis. Pilih jumlah bulan untuk melanjutkan pembayaran BPJS.";
   }
 
   if (variant === "postpaid-phone") {
-    return "Masukkan nomor handphone pascabayar atau pilih dari kontak.";
+    return "Nomor handphone sudah terisi otomatis untuk melanjutkan pembayaran.";
   }
 
-  return "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
+  return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran listrik.";
+}
+
+function getDefaultCustomerNo(variant: ServiceVariant) {
+  if (variant === "water") return "8888001122";
+  if (variant === "pbb") return "510302000123456";
+  if (variant === "internet") return "122334455667";
+  if (variant === "finance") return "778899001122";
+  if (variant === "tv") return "556677889900";
+  if (variant === "bpjs") return "0001234567890";
+  if (variant === "postpaid-phone") return "0819987262";
+  return "530000112233";
 }
 
 export default function NewMBankingElectricityCustomerPage({
@@ -121,7 +131,9 @@ export default function NewMBankingElectricityCustomerPage({
     serviceVariant: ServiceVariant;
   }) => void;
 }) {
-  const [customerNo, setCustomerNo] = React.useState(initialCustomerNo);
+  const [customerNo, setCustomerNo] = React.useState(
+    initialCustomerNo || getDefaultCustomerNo(serviceVariant),
+  );
   const [bpjsMonths, setBpjsMonths] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
@@ -134,15 +146,8 @@ export default function NewMBankingElectricityCustomerPage({
     : "Masukkan No. Pelanggan";
 
   React.useEffect(() => {
-    setCustomerNo(initialCustomerNo);
-  }, [initialCustomerNo]);
-
-  function choosePhoneContact() {
-    setCustomerNo("0819987262");
-    toast.success("Kontak dipilih (prototype)", {
-      description: "Laura Patel • 0819987262",
-    });
-  }
+    setCustomerNo(initialCustomerNo || getDefaultCustomerNo(serviceVariant));
+  }, [initialCustomerNo, serviceVariant]);
 
   function continuePayment() {
     if (!customerNo.trim()) {
@@ -234,38 +239,18 @@ export default function NewMBankingElectricityCustomerPage({
                 <span className="text-[#EF135D]">*</span>
               </label>
 
-              <div className="flex items-stretch gap-[9px]">
-                <input
-                  value={customerNo}
-                  onChange={(event) =>
-                    setCustomerNo((event.target.value ?? "").replace(/[^\d]/g, ""))
-                  }
-                  placeholder={fieldPlaceholder}
-                  inputMode="numeric"
-                  className={cn(
-                    "h-[44px] min-w-0 flex-1 rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                    "text-[14px] font-normal text-black shadow-none outline-none",
-                    "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                    "focus:border-[#479DF4]",
-                  )}
-                />
-
-                {isPostpaidPhone ? (
-                  <button
-                    type="button"
-                    onClick={choosePhoneContact}
-                    className={cn(
-                      "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[12px]",
-                      "bg-[#479DF4] text-white shadow-[0_8px_18px_rgba(71,157,244,0.20)]",
-                      "transition active:scale-[0.96]",
-                    )}
-                    aria-label="Pilih dari kontak handphone"
-                    title="Pilih dari kontak"
-                  >
-                    <Contact className="h-[22px] w-[22px] text-white" strokeWidth={2.5} />
-                  </button>
-                ) : null}
-              </div>
+              <input
+                value={customerNo}
+                readOnly
+                aria-readonly="true"
+                placeholder={fieldPlaceholder}
+                inputMode="numeric"
+                className={cn(
+                  "h-[44px] w-full cursor-not-allowed rounded-[12px] border border-[#CDD4E0] bg-[#F1F3F6] px-4",
+                  "text-[14px] font-normal text-black shadow-none outline-none",
+                  "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                )}
+              />
             </div>
 
             {showBpjsMonthField ? (

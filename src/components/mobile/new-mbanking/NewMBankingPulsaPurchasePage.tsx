@@ -59,7 +59,7 @@ export default function NewMBankingPulsaPurchasePage({
 }: {
   onBack: () => void;
 }) {
-  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [phoneNumber] = React.useState("0819987262");
   const [selectedNominal, setSelectedNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
@@ -78,20 +78,10 @@ export default function NewMBankingPulsaPurchasePage({
   );
   const hasPhoneNumber = phoneNumber.trim().length > 0;
 
-  React.useEffect(() => {
-    if (hasPhoneNumber) return;
-    setSelectedNominal("");
-  }, [hasPhoneNumber]);
-
   function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");
     setToastVariant(variant);
     window.setTimeout(() => setToastMessage(message), 0);
-  }
-
-  function chooseContact() {
-    setPhoneNumber("0819987262");
-    showToast("Nomor dari kontak berhasil dipilih");
   }
 
   function continuePurchase() {
@@ -112,7 +102,7 @@ export default function NewMBankingPulsaPurchasePage({
     return (
       <NewMBankingElectricityPaymentSuccessPage
         providerName={providerName}
-        customerName=""
+        customerName="Laura Patel"
         customerNo={phoneNumber}
         amount={normalizedAmount}
         adminFee={adminFee}
@@ -191,8 +181,8 @@ export default function NewMBankingPulsaPurchasePage({
             </h2>
 
             <p className="mt-[8px] max-w-[292px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-              Masukkan nomor handphone, pilih nominal pulsa, lalu tentukan
-              sumber dana pembayaran.
+              Nomor handphone sudah terisi otomatis, pilih nominal pulsa, lalu
+              tentukan sumber dana pembayaran.
             </p>
           </div>
 
@@ -204,31 +194,26 @@ export default function NewMBankingPulsaPurchasePage({
             <div className="flex items-stretch gap-[9px]">
               <input
                 value={phoneNumber}
-                onChange={(event) =>
-                  setPhoneNumber(
-                    (event.target.value ?? "").replace(/[^\d]/g, ""),
-                  )
-                }
+                readOnly
+                aria-readonly="true"
                 placeholder="Masukkan Nomor HP"
                 inputMode="numeric"
                 className={cn(
-                  "h-[44px] min-w-0 flex-1 rounded-[12px] border border-[#CDD4E0] bg-white px-4",
+                  "h-[44px] min-w-0 flex-1 cursor-not-allowed rounded-[12px] border border-[#CDD4E0] bg-[#F1F3F6] px-4",
                   "text-[14px] font-normal text-black shadow-none outline-none",
                   "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                  "focus:border-[#479DF4]",
                 )}
               />
 
               <button
                 type="button"
-                onClick={chooseContact}
+                disabled
                 className={cn(
-                  "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[12px]",
-                  "bg-[#479DF4] text-white shadow-none",
-                  "transition active:scale-[0.96]",
+                  "grid h-[44px] w-[44px] shrink-0 cursor-not-allowed place-items-center rounded-[12px]",
+                  "bg-[#A9D0FA] text-white shadow-none",
                 )}
                 aria-label="Pilih dari kontak"
-                title="Pilih dari kontak"
+                title="Nomor HP read-only"
               >
                 <Contact
                   className="h-[22px] w-[22px] text-white"
