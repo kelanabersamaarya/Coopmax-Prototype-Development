@@ -6,6 +6,7 @@ import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -27,9 +28,30 @@ export default function NewMBankingQrisMerchantItem({
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
+  const [toastMessage, setToastMessage] = React.useState("");
+
+  function showWarning(message: string) {
+    setToastMessage("");
+    window.setTimeout(() => setToastMessage(message), 0);
+  }
+
+  function continueToConfirm() {
+    if (!nominal.trim()) {
+      showWarning("Nominal Pembayaran Belum Terisi");
+      return;
+    }
+
+    setConfirmOpen(true);
+  }
 
   return (
     <section className="relative flex min-h-[calc(100%-92px)] flex-col px-[31px] pb-[112px] pt-[18px]">
+      <NewMBankingInScreenToast
+        message={toastMessage}
+        variant="warning"
+        onClose={() => setToastMessage("")}
+      />
+
       <NewMBankingSourceFundModal
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
@@ -41,6 +63,7 @@ export default function NewMBankingQrisMerchantItem({
         onOpenChange={setConfirmOpen}
         amount={nominal.trim() ? nominal : "Rp. 50.000,00"}
         sourceFund={sourceFund}
+        onSourceFundChange={setSourceFund}
         onContinuePayment={onContinuePayment}
       />
 
@@ -110,7 +133,7 @@ export default function NewMBankingQrisMerchantItem({
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
-          onClick={() => setConfirmOpen(true)}
+          onClick={continueToConfirm}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",

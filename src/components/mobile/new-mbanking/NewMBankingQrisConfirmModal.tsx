@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { ShoppingCart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import NewMBankingSourceFundModal from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 
 export default function NewMBankingQrisConfirmModal({
@@ -12,15 +13,20 @@ export default function NewMBankingQrisConfirmModal({
   onOpenChange,
   amount,
   sourceFund,
+  onSourceFundChange,
   onContinuePayment,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   amount: string;
   sourceFund: SourceFundAccount;
+  onSourceFundChange?: (sourceFund: SourceFundAccount) => void;
   onContinuePayment: () => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [selectedSourceFund, setSelectedSourceFund] =
+    React.useState<SourceFundAccount>(sourceFund);
 
   React.useEffect(() => {
     if (!open) return;
@@ -28,12 +34,25 @@ export default function NewMBankingQrisConfirmModal({
     setMobileScreen(
       document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null,
     );
-  }, [open]);
+    setSelectedSourceFund(sourceFund);
+    setSourceFundOpen(false);
+  }, [open, sourceFund]);
+
+  function handleSourceFundSelect(nextSourceFund: SourceFundAccount) {
+    setSelectedSourceFund(nextSourceFund);
+    onSourceFundChange?.(nextSourceFund);
+  }
 
   if (!open || !mobileScreen) return null;
 
   return createPortal(
     <div className="absolute inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5 pt-6">
+      <NewMBankingSourceFundModal
+        open={sourceFundOpen}
+        onOpenChange={setSourceFundOpen}
+        onSelect={handleSourceFundSelect}
+      />
+
       <button
         type="button"
         className="absolute inset-0 cursor-default"
@@ -94,16 +113,25 @@ export default function NewMBankingQrisConfirmModal({
 
         <div className="h-px w-full bg-[#D8D8D8]" />
 
-        <div className="mt-[10px] text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          Sumber Dana
+        <div className="mt-[10px] flex items-center justify-between gap-3">
+          <div className="text-[12px] font-normal leading-tight text-[#8F8F8F]">
+            Sumber Dana
+          </div>
+          <button
+            type="button"
+            onClick={() => setSourceFundOpen(true)}
+            className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
+          >
+            Ubah
+          </button>
         </div>
 
         <div className="mt-[10px]">
           <NewMBankingSourceFundGradientCard
-            account={sourceFund}
-            showChevron={false}
+            account={selectedSourceFund}
             textSize="compact"
             className="min-h-[104px]"
+            onClick={() => setSourceFundOpen(true)}
           />
         </div>
 
