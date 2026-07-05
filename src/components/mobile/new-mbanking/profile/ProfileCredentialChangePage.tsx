@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, Eye, EyeOff, KeyRound, LockKeyhole } from "lucide-react";
+import { Check, Eye, EyeOff, KeyRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileChangePasswordConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileChangePasswordConfirmModal";
@@ -177,8 +177,6 @@ export default function ProfileCredentialChangePage({
     return <SuccessState variant={variant} onRequireLogin={onRequireLogin} />;
   }
 
-  const Icon = isPin ? KeyRound : LockKeyhole;
-
   return (
     <ProfileSubPageShell
       title={isPin ? "Ubah PIN" : "Ubah Kata Sandi"}
@@ -206,26 +204,27 @@ export default function ProfileCredentialChangePage({
         }}
       />
 
-      <div className="rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
-        <div className="flex items-start gap-3">
-          <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-            <Icon className="h-[23px] w-[23px]" strokeWidth={2.6} />
-          </span>
+      {isPin ? (
+        <div className="rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
+          <div className="flex items-start gap-3">
+            <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+              <KeyRound className="h-[23px] w-[23px]" strokeWidth={2.6} />
+            </span>
 
-          <div className="min-w-0">
-            <div className="text-[16px] font-bold leading-tight text-black">
-              {isPin ? "Perbarui PIN Transaksi" : "Perbarui Kata Sandi"}
+            <div className="min-w-0">
+              <div className="text-[16px] font-bold leading-tight text-black">
+                Perbarui PIN Transaksi
+              </div>
+              <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#6B7280]">
+                Masukkan PIN lama dan PIN baru untuk memperbarui keamanan
+                transaksi.
+              </p>
             </div>
-            <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#6B7280]">
-              {isPin
-                ? "Masukkan PIN lama dan PIN baru untuk memperbarui keamanan transaksi."
-                : "Masukkan kata sandi lama dan kata sandi baru untuk menjaga keamanan akun."}
-            </p>
           </div>
         </div>
-      </div>
+      ) : null}
 
-      <div className="mt-[24px] grid gap-[18px]">
+      <div className={cn("grid gap-[18px]", isPin ? "mt-[24px]" : "")}>
         <SecretField
           label={isPin ? "PIN Lama" : "Kata Sandi Lama"}
           value={oldValue}
