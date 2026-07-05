@@ -229,10 +229,6 @@ export default function NewMBankingSavedPaymentAccordion({
   const categories = React.useMemo(() => groupItems(items), [items]);
   const [openIds, setOpenIds] = React.useState<string[]>([]);
 
-  React.useEffect(() => {
-    setOpenIds(categories.map((category) => category.id));
-  }, [categories]);
-
   function toggle(categoryId: string) {
     setOpenIds((current) =>
       current.includes(categoryId)
