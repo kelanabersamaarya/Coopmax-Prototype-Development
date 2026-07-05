@@ -8,10 +8,12 @@ export default function NewMBankingInScreenToast({
   message,
   onClose,
   variant = "success",
+  className,
 }: {
   message: string;
   onClose: () => void;
   variant?: "success" | "warning";
+  className?: string;
 }) {
   React.useEffect(() => {
     if (!message) return;
@@ -29,7 +31,7 @@ export default function NewMBankingInScreenToast({
   const Icon = isWarning ? AlertTriangle : Check;
 
   return (
-    <div className="pointer-events-none absolute inset-x-4 top-4 z-[160]">
+    <div className={cn("pointer-events-none absolute inset-x-4 top-4 z-[160]", className)}>
       <div
         className={cn(
           "pointer-events-auto flex min-h-[54px] items-center gap-3 rounded-[14px]",

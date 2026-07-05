@@ -50,6 +50,7 @@ export default function NewMBankingQrisMerchantItem({
         message={toastMessage}
         variant="warning"
         onClose={() => setToastMessage("")}
+        className="-top-[78px]"
       />
 
       <NewMBankingSourceFundModal
