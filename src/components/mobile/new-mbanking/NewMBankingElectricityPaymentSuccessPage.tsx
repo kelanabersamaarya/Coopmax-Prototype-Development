@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
+import NewMBankingSaveTransactionTargetModal from "@/components/mobile/new-mbanking/NewMBankingSaveTransactionTargetModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -141,6 +142,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
 }) {
   const [toastMessage, setToastMessage] = React.useState("");
   const [recipientSaved, setRecipientSaved] = React.useState(recipientAlreadySaved);
+  const [saveTargetOpen, setSaveTargetOpen] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
   const showCustomerName =
@@ -160,9 +162,13 @@ export default function NewMBankingElectricityPaymentSuccessPage({
 
   function saveRecipient() {
     if (recipientSaved) return;
+    setSaveTargetOpen(true);
+  }
 
+  function confirmSaveRecipient() {
     onSaveRecipient?.();
     setRecipientSaved(true);
+    setSaveTargetOpen(false);
     showToast("Penerima Berhasil Tersimpan");
   }
 
@@ -175,6 +181,15 @@ export default function NewMBankingElectricityPaymentSuccessPage({
       <NewMBankingInScreenToast
         message={toastMessage}
         onClose={() => setToastMessage("")}
+      />
+
+      <NewMBankingSaveTransactionTargetModal
+        open={saveTargetOpen}
+        onOpenChange={setSaveTargetOpen}
+        providerName={providerName}
+        customerNo={customerNo}
+        serviceVariant={serviceVariant}
+        onSave={() => confirmSaveRecipient()}
       />
 
       <main className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

@@ -17,7 +17,6 @@ import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewM
 import NewMBankingPaymentPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPage";
 import NewMBankingPortfolioPage from "@/components/mobile/new-mbanking/NewMBankingPortfolioPage";
 import NewMBankingProfilePage from "@/components/mobile/new-mbanking/NewMBankingProfilePage";
-import NewMBankingPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPurchasePage";
 import NewMBankingQuickActionGrid from "@/components/mobile/new-mbanking/NewMBankingQuickActionGrid";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 import NewMBankingTransferTypeModal from "@/components/mobile/new-mbanking/NewMBankingTransferTypeModal";
@@ -70,7 +69,6 @@ export default function NewMBankingHome({
   const [showLoanInstallment, setShowLoanInstallment] = React.useState(false);
   const [showHistory, setShowHistory] = React.useState(false);
   const [showPayment, setShowPayment] = React.useState(false);
-  const [showPurchase, setShowPurchase] = React.useState(false);
   const [transferTypeOpen, setTransferTypeOpen] = React.useState(false);
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(
     null,
@@ -105,10 +103,6 @@ export default function NewMBankingHome({
         onBack={() => setShowLoanInstallment(false)}
       />
     );
-  }
-
-  if (showPurchase) {
-    return <NewMBankingPurchasePage onBack={() => setShowPurchase(false)} />;
   }
 
   if (showPayment) {
@@ -230,7 +224,6 @@ export default function NewMBankingHome({
             onTransferClick={() => setTransferTypeOpen(true)}
             onInstallmentClick={() => setShowLoanInstallment(true)}
             onPaymentClick={() => setShowPayment(true)}
-            onPurchaseClick={() => setShowPurchase(true)}
           />
         </section>
 
