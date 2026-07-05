@@ -29,7 +29,7 @@ export default function NewMBankingInScreenToast({
         className={cn(
           "pointer-events-auto flex min-h-[54px] items-center gap-3 rounded-[14px]",
           "bg-[#33AA00] px-4 py-3 text-white",
-          "shadow-[0_12px_28px_rgba(51,170,0,0.24)] ring-1 ring-[#2f9800]",
+          "ring-1 ring-[#2f9800]",
           "animate-in fade-in-0 slide-in-from-top-3 duration-200",
         )}
       >
