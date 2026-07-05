@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, Eye, EyeOff, KeyRound } from "lucide-react";
+import { Check, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
 import ProfileChangePasswordConfirmModal from "@/components/mobile/new-mbanking/profile/ProfileChangePasswordConfirmModal";
@@ -204,27 +204,7 @@ export default function ProfileCredentialChangePage({
         }}
       />
 
-      {isPin ? (
-        <div className="rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
-          <div className="flex items-start gap-3">
-            <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-              <KeyRound className="h-[23px] w-[23px]" strokeWidth={2.6} />
-            </span>
-
-            <div className="min-w-0">
-              <div className="text-[16px] font-bold leading-tight text-black">
-                Perbarui PIN Transaksi
-              </div>
-              <p className="mt-2 text-[13px] font-normal leading-relaxed text-[#6B7280]">
-                Masukkan PIN lama dan PIN baru untuk memperbarui keamanan
-                transaksi.
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      <div className={cn("grid gap-[18px]", isPin ? "mt-[24px]" : "")}>
+      <div className="grid gap-[18px]">
         <SecretField
           label={isPin ? "PIN Lama" : "Kata Sandi Lama"}
           value={oldValue}
