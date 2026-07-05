@@ -11,6 +11,7 @@ import {
   QrCode,
   Smartphone,
   Trash2,
+  Wallet,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -37,6 +38,9 @@ function getCategoryId(item: SavedPaymentItem) {
   if (text.includes("pln") || text.includes("listrik")) return "electricity";
   if (text.includes("pdam") || text.includes("air")) return "water";
   if (text.includes("pbb")) return "pbb";
+  if (text.includes("paket data") || text.includes("data")) return "data";
+  if (text.includes("e-wallet") || text.includes("ewallet") || text.includes("ovo") || text.includes("dana")) return "ewallet";
+  if (text.includes("token")) return "token";
   if (text.includes("internet") || text.includes("indihome")) return "internet";
   if (text.includes("tv") || text.includes("transvision")) return "tv";
   if (text.includes("finance") || text.includes("adira")) return "finance";
@@ -46,7 +50,7 @@ function getCategoryId(item: SavedPaymentItem) {
     text.includes("pascabayar") ||
     text.includes("xl")
   ) {
-    return "postpaid-phone";
+    return "pulsa";
   }
 
   return "other";
@@ -100,10 +104,25 @@ const categoryMeta: Record<
     icon: HeartPulse,
     iconClassName: "bg-[#22C55E] text-white",
   },
-  "postpaid-phone": {
-    label: "Pulsa Pascabayar",
+  pulsa: {
+    label: "Pulsa",
     icon: Smartphone,
     iconClassName: "bg-[#479DF4] text-white",
+  },
+  data: {
+    label: "Paket Data",
+    icon: Wifi,
+    iconClassName: "bg-[#2563EB] text-white",
+  },
+  token: {
+    label: "Token PLN",
+    icon: Zap,
+    iconClassName: "bg-[#F59E0B] text-white",
+  },
+  ewallet: {
+    label: "E-Wallet",
+    icon: Wallet,
+    iconClassName: "bg-[#8B5CF6] text-white",
   },
   other: {
     label: "Lainnya",
@@ -118,7 +137,10 @@ const categoryOrder = [
   "water",
   "internet",
   "bpjs",
-  "postpaid-phone",
+  "pulsa",
+  "data",
+  "token",
+  "ewallet",
   "pbb",
   "tv",
   "finance",
@@ -155,10 +177,10 @@ function EmptySavedPayments() {
   return (
     <div className="py-[44px] text-center">
       <div className="text-[15px] font-bold text-black">
-        Belum Ada Pembayaran Tersimpan
+        Belum Ada Data Tersimpan
       </div>
       <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-        Pilih kategori pembayaran untuk menyimpan tagihan favorit.
+        Pilih kategori transaksi untuk menyimpan data favorit.
       </div>
     </div>
   );
@@ -183,7 +205,7 @@ function SavedPaymentRow({
         type="button"
         onClick={onOpen}
         className="flex min-w-0 flex-1 items-center gap-3 text-left transition active:scale-[0.99]"
-        aria-label={`Buka pembayaran ${item.name}`}
+        aria-label={`Buka ${item.name}`}
       >
         <span
           className={cn(

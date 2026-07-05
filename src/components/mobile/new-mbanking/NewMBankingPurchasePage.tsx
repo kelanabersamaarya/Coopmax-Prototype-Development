@@ -15,6 +15,10 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
+import NewMBankingSavedPaymentAccordion, {
+  type SavedPaymentItem,
+} from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
+import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 
 type PurchaseTab = "saved" | "history";
 
@@ -41,24 +45,21 @@ const purchaseCategories = [
   },
 ];
 
-const savedPurchases = [
+const savedPurchases: SavedPaymentItem[] = [
   {
     id: "pulsa-laura",
     name: "Pulsa Laura",
     info: "Pulsa - 0819987262",
-    type: "pulsa",
   },
   {
     id: "data-laura",
     name: "Paket Data Utama",
     info: "Paket Data - 0819987262",
-    type: "data",
   },
   {
     id: "ovo-laura",
     name: "OVO Laura",
     info: "E-Wallet - 0819987262",
-    type: "ewallet",
   },
 ];
 
@@ -264,10 +265,21 @@ export default function NewMBankingPurchasePage({
 }) {
   const [activeTab, setActiveTab] = React.useState<PurchaseTab>("saved");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
-  const [items, setItems] = React.useState(savedPurchases);
+  const [items, setItems] = React.useState<SavedPaymentItem[]>(savedPurchases);
+  const [toastMessage, setToastMessage] = React.useState("");
+
+  function showToast(message: string) {
+    setToastMessage("");
+    window.setTimeout(() => setToastMessage(message), 0);
+  }
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingInScreenToast
+        message={toastMessage}
+        onClose={() => setToastMessage("")}
+      />
+
       <div className="shrink-0 bg-[#F9F9F9]">
         <PurchaseStatusBar />
 
@@ -298,6 +310,9 @@ export default function NewMBankingPurchasePage({
                 <button
                   key={category.label}
                   type="button"
+                  onClick={() =>
+                    showToast(`${category.label} dipilih (prototype)`)
+                  }
                   className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
                   aria-label={category.label}
                 >
@@ -357,55 +372,16 @@ export default function NewMBankingPurchasePage({
           </div>
 
           {activeTab === "saved" ? (
-            <div className="mt-[22px] divide-y divide-[#EEF0F4]">
-              {items.length > 0 ? (
-                items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex min-h-[64px] items-center justify-between gap-4 py-[10px]"
-                  >
-                    <div className="flex min-w-0 flex-1 items-center gap-3">
-                      <SavedPurchaseIcon type={item.type} />
-
-                      <div className="min-w-0">
-                        <div className="truncate text-[14px] font-bold leading-tight tracking-[-0.015em] text-black">
-                          {item.name}
-                        </div>
-                        <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-                          {item.info}
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setItems((current) =>
-                          current.filter((savedItem) => savedItem.id !== item.id),
-                        )
-                      }
-                      className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
-                      aria-label={`Hapus ${item.name}`}
-                      title="Hapus"
-                    >
-                      <Trash2
-                        className="h-[16px] w-[16px] text-[#DC3545]"
-                        strokeWidth={2.7}
-                      />
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <div className="py-[44px] text-center">
-                  <div className="text-[15px] font-bold text-black">
-                    Belum Ada Pembelian Tersimpan
-                  </div>
-                  <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-                    Pilih produk pembelian untuk menyimpan favorit.
-                  </div>
-                </div>
-              )}
-            </div>
+            <NewMBankingSavedPaymentAccordion
+              items={items}
+              onOpenItem={(item) =>
+                showToast(`${item.name} berhasil dibuka`)
+              }
+              onDeleteItem={(id) => {
+                setItems((current) => current.filter((item) => item.id !== id));
+                showToast("Pembelian tersimpan berhasil dihapus");
+              }}
+            />
           ) : (
             <>
               <NewMBankingPaymentMonthSelector
@@ -422,6 +398,7 @@ export default function NewMBankingPurchasePage({
       <div className="sr-only">
         <History />
         <Landmark />
+        <Trash2 />
       </div>
     </div>
   );
