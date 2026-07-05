@@ -69,6 +69,12 @@ function getCustomerNumberLabel(variant: ServiceVariant) {
     : "No. Pelanggan";
 }
 
+function getNominalLabel(variant: ServiceVariant) {
+  return variant === "postpaid-phone" || variant === "data-package"
+    ? "Nominal Pembelian"
+    : "Nominal Tagihan";
+}
+
 function DetailRow({
   label,
   value,
@@ -209,7 +215,7 @@ export default function NewMBankingElectricityConfirmModal({
             <DetailRow label="Nama Pelanggan" value={customerName} />
           ) : null}
           <DetailRow label={getCustomerNumberLabel(serviceVariant)} value={customerNo} />
-          <DetailRow label="Nominal Tagihan" value={amount} />
+          <DetailRow label={getNominalLabel(serviceVariant)} value={amount} />
           <DetailRow label="Biaya Admin" value={adminFee} />
 
           <div className="my-[10px] border-t border-dashed border-[#D8D8D8]" />
