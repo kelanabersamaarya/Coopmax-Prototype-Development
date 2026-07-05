@@ -9,6 +9,7 @@ import {
   Monitor,
   Smartphone,
   UserPlus,
+  Wallet,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -28,7 +29,8 @@ type ServiceVariant =
   | "bpjs"
   | "postpaid-phone"
   | "data-package"
-  | "token-pln";
+  | "token-pln"
+  | "e-wallet";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
@@ -37,6 +39,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
+  if (variant === "e-wallet") return Wallet;
   if (variant === "postpaid-phone" || variant === "data-package") return Smartphone;
   return Zap;
 }
@@ -51,6 +54,7 @@ function getSuccessText(variant: ServiceVariant) {
   if (variant === "data-package") return "Pembelian paket data Anda telah berhasil diproses.";
   if (variant === "postpaid-phone") return "Pembelian pulsa Anda telah berhasil diproses.";
   if (variant === "token-pln") return "Pembelian token PLN Anda telah berhasil diproses.";
+  if (variant === "e-wallet") return "Top up e-wallet Anda telah berhasil diproses.";
   return "Pembayaran tagihan listrik Anda telah berhasil diproses.";
 }
 
@@ -64,11 +68,16 @@ function getReferencePrefix(variant: ServiceVariant) {
   if (variant === "data-package") return "DATA";
   if (variant === "postpaid-phone") return "PULSA";
   if (variant === "token-pln") return "TOKEN";
+  if (variant === "e-wallet") return "EWALLET";
   return "PLN";
 }
 
 function getCustomerNumberLabel(variant: ServiceVariant) {
-  if (variant === "postpaid-phone" || variant === "data-package") {
+  if (
+    variant === "postpaid-phone" ||
+    variant === "data-package" ||
+    variant === "e-wallet"
+  ) {
     return "No. Handphone";
   }
 
@@ -137,7 +146,8 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   const showCustomerName =
     serviceVariant !== "postpaid-phone" &&
     serviceVariant !== "data-package" &&
-    serviceVariant !== "token-pln";
+    serviceVariant !== "token-pln" &&
+    serviceVariant !== "e-wallet";
 
   React.useEffect(() => {
     setRecipientSaved(recipientAlreadySaved);

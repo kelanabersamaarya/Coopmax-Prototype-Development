@@ -22,6 +22,10 @@ import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBanki
 import NewMBankingPulsaPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPulsaPurchasePage";
 import NewMBankingPaketDataPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPaketDataPurchasePage";
 import NewMBankingTokenPlnPurchasePage from "@/components/mobile/new-mbanking/NewMBankingTokenPlnPurchasePage";
+import NewMBankingEWalletProviderPage, {
+  type EWalletProvider,
+} from "@/components/mobile/new-mbanking/NewMBankingEWalletProviderPage";
+import NewMBankingEWalletTopUpPage from "@/components/mobile/new-mbanking/NewMBankingEWalletTopUpPage";
 
 type PurchaseTab = "saved" | "history";
 
@@ -273,6 +277,10 @@ export default function NewMBankingPurchasePage({
   const [showPulsaPage, setShowPulsaPage] = React.useState(false);
   const [showPaketDataPage, setShowPaketDataPage] = React.useState(false);
   const [showTokenPlnPage, setShowTokenPlnPage] = React.useState(false);
+  const [showEWalletProviderPage, setShowEWalletProviderPage] =
+    React.useState(false);
+  const [selectedEWalletProvider, setSelectedEWalletProvider] =
+    React.useState<EWalletProvider | null>(null);
 
   function showToast(message: string) {
     setToastMessage("");
@@ -295,6 +303,27 @@ export default function NewMBankingPurchasePage({
     return (
       <NewMBankingTokenPlnPurchasePage
         onBack={() => setShowTokenPlnPage(false)}
+      />
+    );
+  }
+
+  if (selectedEWalletProvider) {
+    return (
+      <NewMBankingEWalletTopUpPage
+        provider={selectedEWalletProvider}
+        onBack={() => setSelectedEWalletProvider(null)}
+      />
+    );
+  }
+
+  if (showEWalletProviderPage) {
+    return (
+      <NewMBankingEWalletProviderPage
+        onBack={() => setShowEWalletProviderPage(false)}
+        onSelectProvider={(provider) => {
+          setSelectedEWalletProvider(provider);
+          setShowEWalletProviderPage(false);
+        }}
       />
     );
   }
@@ -349,6 +378,11 @@ export default function NewMBankingPurchasePage({
 
                     if (category.label === "Token PLN") {
                       setShowTokenPlnPage(true);
+                      return;
+                    }
+
+                    if (category.label === "E-Wallet") {
+                      setShowEWalletProviderPage(true);
                       return;
                     }
 

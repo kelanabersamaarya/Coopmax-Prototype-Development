@@ -9,6 +9,7 @@ import {
   Map,
   Monitor,
   Smartphone,
+  Wallet,
   Wifi,
   X,
   Zap,
@@ -29,7 +30,8 @@ type ServiceVariant =
   | "bpjs"
   | "postpaid-phone"
   | "data-package"
-  | "token-pln";
+  | "token-pln"
+  | "e-wallet";
 
 function parseIdrLike(value: string) {
   const raw = (value ?? "").trim();
@@ -54,6 +56,7 @@ function getServiceIcon(variant: ServiceVariant) {
   if (variant === "finance") return Landmark;
   if (variant === "tv") return Monitor;
   if (variant === "bpjs") return HeartPulse;
+  if (variant === "e-wallet") return Wallet;
   if (variant === "postpaid-phone" || variant === "data-package") return Smartphone;
   return Zap;
 }
@@ -68,11 +71,16 @@ function getServiceDescription(variant: ServiceVariant) {
   if (variant === "data-package") return "Pembelian paket data";
   if (variant === "postpaid-phone") return "Pembelian pulsa";
   if (variant === "token-pln") return "Pembelian token PLN";
+  if (variant === "e-wallet") return "Top up saldo e-wallet";
   return "Pembayaran tagihan listrik";
 }
 
 function getCustomerNumberLabel(variant: ServiceVariant) {
-  if (variant === "postpaid-phone" || variant === "data-package") {
+  if (
+    variant === "postpaid-phone" ||
+    variant === "data-package" ||
+    variant === "e-wallet"
+  ) {
     return "No. Handphone";
   }
 
@@ -84,7 +92,8 @@ function getCustomerNumberLabel(variant: ServiceVariant) {
 function getNominalLabel(variant: ServiceVariant) {
   return variant === "postpaid-phone" ||
     variant === "data-package" ||
-    variant === "token-pln"
+    variant === "token-pln" ||
+    variant === "e-wallet"
     ? "Nominal Pembelian"
     : "Nominal Tagihan";
 }
@@ -150,7 +159,8 @@ export default function NewMBankingElectricityConfirmModal({
   const showCustomerName =
     serviceVariant !== "postpaid-phone" &&
     serviceVariant !== "data-package" &&
-    serviceVariant !== "token-pln";
+    serviceVariant !== "token-pln" &&
+    serviceVariant !== "e-wallet";
 
   React.useEffect(() => {
     if (!open) return;
