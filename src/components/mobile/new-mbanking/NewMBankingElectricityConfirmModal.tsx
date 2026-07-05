@@ -59,7 +59,7 @@ function getServiceDescription(variant: ServiceVariant) {
   if (variant === "tv") return "Pembayaran tagihan TV";
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan";
   if (variant === "data-package") return "Pembelian paket data";
-  if (variant === "postpaid-phone") return "";
+  if (variant === "postpaid-phone") return "Pembelian pulsa";
   return "Pembayaran tagihan listrik";
 }
 
@@ -123,10 +123,7 @@ export default function NewMBankingElectricityConfirmModal({
   const [selectedSourceFund, setSelectedSourceFund] =
     React.useState<SourceFundAccount>(sourceFund);
 
-  const adminFee =
-    serviceVariant === "postpaid-phone" || serviceVariant === "data-package"
-      ? "Rp. 0,00"
-      : "Rp. 2.500,00";
+  const adminFee = "Rp. 2.500,00";
   const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
   const Icon = getServiceIcon(serviceVariant);
   const description = getServiceDescription(serviceVariant);

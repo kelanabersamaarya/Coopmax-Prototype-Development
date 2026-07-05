@@ -45,6 +45,15 @@ const paketDataOptions = [
   },
 ];
 
+function parseIdrLike(value: string) {
+  const parsed = Number(value.replace(/[^\d]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
 export default function NewMBankingPaketDataPurchasePage({
   onBack,
 }: {
@@ -62,9 +71,13 @@ export default function NewMBankingPaketDataPurchasePage({
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   const providerName = "Paket Data XL";
+  const adminFee = "Rp. 2.500,00";
   const selectedPackage =
     paketDataOptions.find((item) => item.id === selectedPackageId) ?? null;
   const selectedAmount = selectedPackage?.price ?? "Rp. 0,00";
+  const totalTransaction = formatIdr(
+    parseIdrLike(selectedAmount) + parseIdrLike(adminFee),
+  );
   const hasPhoneNumber = phoneNumber.trim().length > 0;
 
   React.useEffect(() => {
@@ -104,8 +117,8 @@ export default function NewMBankingPaketDataPurchasePage({
         customerName=""
         customerNo={phoneNumber}
         amount={selectedAmount}
-        adminFee="Rp. 0,00"
-        totalTransaction={selectedAmount}
+        adminFee={adminFee}
+        totalTransaction={totalTransaction}
         sourceFund={sourceFund}
         serviceVariant="data-package"
         recipientAlreadySaved={false}

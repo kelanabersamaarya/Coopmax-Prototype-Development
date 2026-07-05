@@ -31,6 +31,15 @@ const nominalPulsaOptions = [
   "Rp. 200.000",
 ];
 
+function parseIdrLike(value: string) {
+  const parsed = Number(value.replace(/[^\d]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatIdr(value: number) {
+  return `Rp. ${Math.round(value).toLocaleString("id-ID")},00`;
+}
+
 function normalizeNominalPulsa(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return "Rp. 0,00";
@@ -55,7 +64,11 @@ export default function NewMBankingPulsaPurchasePage({
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   const providerName = "Pulsa XL";
+  const adminFee = "Rp. 2.500,00";
   const normalizedAmount = normalizeNominalPulsa(selectedNominal);
+  const totalTransaction = formatIdr(
+    parseIdrLike(normalizedAmount) + parseIdrLike(adminFee),
+  );
   const hasPhoneNumber = phoneNumber.trim().length > 0;
 
   React.useEffect(() => {
@@ -95,8 +108,8 @@ export default function NewMBankingPulsaPurchasePage({
         customerName=""
         customerNo={phoneNumber}
         amount={normalizedAmount}
-        adminFee="Rp. 0,00"
-        totalTransaction={normalizedAmount}
+        adminFee={adminFee}
+        totalTransaction={totalTransaction}
         sourceFund={sourceFund}
         serviceVariant="postpaid-phone"
         recipientAlreadySaved={false}
