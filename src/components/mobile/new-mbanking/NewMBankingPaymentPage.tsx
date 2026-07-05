@@ -17,54 +17,92 @@ import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewMBankingPaymentHistoryList";
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
+import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
+import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking/NewMBankingElectricityCustomerPage";
 
 type PaymentTab = "saved" | "history";
 
-const paymentCategories = [
+type ServiceVariant =
+  | "electricity"
+  | "water"
+  | "pbb"
+  | "internet"
+  | "finance"
+  | "tv"
+  | "bpjs"
+  | "postpaid-phone";
+
+type PaymentCategory = {
+  label: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  frameClassName: string;
+  providers: string[];
+  serviceVariant: ServiceVariant;
+};
+
+const paymentCategories: PaymentCategory[] = [
   {
     label: "Listrik",
     icon: Zap,
     frameClassName: "bg-[#F59E0B]",
+    providers: ["PLN Postpaid", "PLN Prepaid", "Non Tagihan Listrik"],
+    serviceVariant: "electricity",
   },
   {
     label: "Air",
     icon: Droplets,
     frameClassName: "bg-[#06B6D4]",
+    providers: ["PDAM Kota Denpasar", "PDAM Kabupaten Gianyar"],
+    serviceVariant: "water",
   },
   {
     label: "Internet",
     icon: Wifi,
     frameClassName: "bg-[#2563EB]",
+    providers: ["IndiHome", "Biznet", "First Media"],
+    serviceVariant: "internet",
   },
   {
     label: "BPJS Kesehatan",
     icon: HeartPulse,
     frameClassName: "bg-[#22C55E]",
+    providers: ["BPJS Kesehatan"],
+    serviceVariant: "bpjs",
   },
   {
     label: "Pulsa Pascabayar",
     icon: Smartphone,
     frameClassName: "bg-[#479DF4]",
+    providers: ["XL Pascabayar", "Telkomsel Halo", "Indosat Pascabayar"],
+    serviceVariant: "postpaid-phone",
   },
   {
     label: "PBB",
     icon: Map,
     frameClassName: "bg-[#8B5CF6]",
+    providers: ["PBB Kota Denpasar", "PBB Kabupaten Gianyar"],
+    serviceVariant: "pbb",
   },
   {
     label: "TV",
     icon: Monitor,
     frameClassName: "bg-[#14B8A6]",
+    providers: ["Transvision", "MNC Vision", "K-Vision"],
+    serviceVariant: "tv",
   },
   {
     label: "Finance",
     icon: Landmark,
     frameClassName: "bg-[#3B82F6]",
+    providers: ["Adira Finance", "FIFGROUP", "BCA Finance"],
+    serviceVariant: "finance",
   },
   {
     label: "E-Commerce",
     icon: ShoppingCart,
     frameClassName: "bg-[#EF4444]",
+    providers: ["Tokopedia", "Shopee", "Bukalapak"],
+    serviceVariant: "finance",
   },
 ];
 
@@ -118,13 +156,18 @@ function SavedPaymentIcon({
   );
 }
 
-function SavedPaymentList() {
+function SavedPaymentList({
+  onOpenSaved,
+}: {
+  onOpenSaved: (payment: (typeof savedPayments)[number]) => void;
+}) {
   return (
     <div className="mt-[18px] divide-y divide-[#EEF0F4]">
       {savedPayments.map((payment) => (
         <button
           key={payment.id}
           type="button"
+          onClick={() => onOpenSaved(payment)}
           className="flex min-h-[64px] w-full items-center gap-3 py-[12px] text-left transition active:scale-[0.99]"
         >
           <SavedPaymentIcon
@@ -146,6 +189,14 @@ function SavedPaymentList() {
   );
 }
 
+function getInitialCustomerNo(providerName: string) {
+  if (providerName.toLowerCase().includes("xl")) return "0819987262";
+  if (providerName.toLowerCase().includes("pln")) return "530000112233";
+  if (providerName.toLowerCase().includes("indihome")) return "122334455667";
+  if (providerName.toLowerCase().includes("bpjs")) return "0001234567890";
+  return "";
+}
+
 export default function NewMBankingPaymentPage({
   onBack,
 }: {
@@ -153,6 +204,76 @@ export default function NewMBankingPaymentPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<PaymentTab>("saved");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
+  const [selectedCategory, setSelectedCategory] =
+    React.useState<PaymentCategory | null>(null);
+  const [selectedProvider, setSelectedProvider] = React.useState<string | null>(
+    null,
+  );
+  const [initialCustomerNo, setInitialCustomerNo] = React.useState("");
+
+  function openCategory(category: PaymentCategory) {
+    setInitialCustomerNo("");
+    setSelectedProvider(null);
+    setSelectedCategory(category);
+  }
+
+  function openSavedPayment(payment: (typeof savedPayments)[number]) {
+    const matchedCategory =
+      payment.info.includes("Pulsa Pascabayar")
+        ? paymentCategories.find((category) => category.label === "Pulsa Pascabayar")
+        : payment.info.includes("Listrik")
+          ? paymentCategories.find((category) => category.label === "Listrik")
+          : payment.info.includes("Internet")
+            ? paymentCategories.find((category) => category.label === "Internet")
+            : payment.info.includes("BPJS")
+              ? paymentCategories.find((category) => category.label === "BPJS Kesehatan")
+              : null;
+
+    if (!matchedCategory) return;
+
+    const providerName = payment.name.includes("PLN")
+      ? "PLN Postpaid"
+      : payment.name.includes("IndiHome")
+        ? "IndiHome"
+        : payment.name.includes("BPJS")
+          ? "BPJS Kesehatan"
+          : payment.name;
+
+    setSelectedCategory(matchedCategory);
+    setSelectedProvider(providerName);
+    setInitialCustomerNo(getInitialCustomerNo(providerName));
+  }
+
+  if (selectedProvider && selectedCategory) {
+    return (
+      <NewMBankingElectricityCustomerPage
+        providerName={selectedProvider}
+        title={selectedCategory.label}
+        serviceVariant={selectedCategory.serviceVariant}
+        initialCustomerNo={initialCustomerNo}
+        onBack={() => setSelectedProvider(null)}
+        onDone={() => {
+          setSelectedProvider(null);
+          setSelectedCategory(null);
+        }}
+      />
+    );
+  }
+
+  if (selectedCategory) {
+    return (
+      <NewMBankingElectricityProviderPage
+        title={selectedCategory.label}
+        providers={selectedCategory.providers}
+        iconVariant={selectedCategory.serviceVariant}
+        onBack={() => setSelectedCategory(null)}
+        onSelectProvider={(provider) => {
+          setInitialCustomerNo("");
+          setSelectedProvider(provider);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
@@ -186,6 +307,7 @@ export default function NewMBankingPaymentPage({
                 <button
                   key={category.label}
                   type="button"
+                  onClick={() => openCategory(category)}
                   className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
                   aria-label={category.label}
                 >
@@ -245,7 +367,7 @@ export default function NewMBankingPaymentPage({
           </div>
 
           {activeTab === "saved" ? (
-            <SavedPaymentList />
+            <SavedPaymentList onOpenSaved={openSavedPayment} />
           ) : (
             <>
               <NewMBankingPaymentMonthSelector
