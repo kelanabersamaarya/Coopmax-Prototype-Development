@@ -28,12 +28,12 @@ export default function NewMBankingSuccessActionTile({
     >
       <span
         className={cn(
-          "grid h-[88px] w-[88px] place-items-center rounded-[12px]",
+          "grid h-[72px] w-[72px] place-items-center rounded-[10px]",
           active ? "bg-[#33AA00]" : "bg-[#479DF4]",
-          "text-white shadow-sm",
+          "text-white",
         )}
       >
-        <Icon className="h-[34px] w-[34px] text-white" strokeWidth={2.4} />
+        <Icon className="h-[28px] w-[28px] text-white" strokeWidth={2.4} />
       </span>
 
       <span className="mt-[8px] text-[14px] font-normal leading-tight tracking-[-0.02em] text-black">

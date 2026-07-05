@@ -1,8 +1,8 @@
 import * as React from "react";
 import {
   Check,
+  Download,
   Droplets,
-  Eye,
   HeartPulse,
   Landmark,
   Map,
@@ -182,7 +182,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             <div className="mt-[18px] grid w-full grid-cols-2 items-start justify-items-center gap-[22px]">
               <NewMBankingSuccessActionTile
                 label="Bukti Transaksi"
-                icon={Eye}
+                icon={Download}
                 onClick={saveProof}
               />
 
