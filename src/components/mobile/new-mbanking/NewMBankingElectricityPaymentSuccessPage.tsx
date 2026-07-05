@@ -12,8 +12,8 @@ import {
   Wifi,
   Zap,
 } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -118,27 +118,34 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   recipientAlreadySaved?: boolean;
   onSaveRecipient?: () => void;
 }) {
+  const [toastMessage, setToastMessage] = React.useState("");
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
 
+  function showToast(message: string) {
+    setToastMessage("");
+    window.setTimeout(() => setToastMessage(message), 0);
+  }
+
   function saveRecipient() {
-    if (recipientAlreadySaved) return;
+    if (!recipientAlreadySaved) {
+      onSaveRecipient?.();
+    }
 
-    onSaveRecipient?.();
-
-    toast.success("Sukses menyimpan penerima", {
-      description: `${providerName} • ${customerNo}`,
-    });
+    showToast("Sukses menyimpan penerima");
   }
 
   function saveProof() {
-    toast.success("Sukses menyimpan bukti transaksi", {
-      description: `Ref ID: ${getReferencePrefix(serviceVariant)}221112222`,
-    });
+    showToast("Sukses menyimpan bukti transaksi");
   }
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 text-black">
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 text-black">
+      <NewMBankingInScreenToast
+        message={toastMessage}
+        onClose={() => setToastMessage("")}
+      />
+
       <main className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex min-h-full items-center justify-center py-[26px]">
           <section className="flex w-full max-w-[345px] flex-col items-center justify-center rounded-[24px] bg-white px-6 py-7 text-center shadow-[0_12px_34px_rgba(15,23,42,0.10)]">
@@ -182,7 +189,6 @@ export default function NewMBankingElectricityPaymentSuccessPage({
               <NewMBankingSuccessActionTile
                 label="Simpan Penerima"
                 icon={UserPlus}
-                disabled={recipientAlreadySaved}
                 onClick={saveRecipient}
               />
             </div>
