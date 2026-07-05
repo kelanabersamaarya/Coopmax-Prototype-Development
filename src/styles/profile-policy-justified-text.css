@@ -14,3 +14,10 @@
 .profile-policy-justified-text [data-slot="accordion-trigger"] {
   text-align: left;
 }
+
+[data-profile-sub-page-title="Syarat dan Ketentuan"].profile-policy-justified-text
+  > div:first-child,
+[data-profile-sub-page-title="Kebijakan Privasi"].profile-policy-justified-text
+  > div:first-child {
+  display: none !important;
+}
