@@ -63,34 +63,34 @@ function getServiceIconShadow(variant: ServiceVariant) {
 
 function getHelperText(variant: ServiceVariant) {
   if (variant === "water") {
-    return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran air.";
+    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran air.";
   }
 
   if (variant === "pbb") {
-    return "NOP PBB sudah terisi otomatis untuk melanjutkan pembayaran pajak.";
+    return "Masukkan NOP PBB untuk melanjutkan pembayaran pajak.";
   }
 
   if (variant === "internet") {
-    return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran internet.";
+    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran internet.";
   }
 
   if (variant === "finance") {
-    return "Nomor kontrak sudah terisi otomatis untuk melanjutkan pembayaran finance.";
+    return "Masukkan nomor kontrak untuk melanjutkan pembayaran finance.";
   }
 
   if (variant === "tv") {
-    return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran TV.";
+    return "Masukkan nomor pelanggan untuk melanjutkan pembayaran TV.";
   }
 
   if (variant === "bpjs") {
-    return "Nomor peserta sudah terisi otomatis. Pilih jumlah bulan untuk melanjutkan pembayaran BPJS.";
+    return "Masukkan nomor peserta dan pilih jumlah bulan untuk melanjutkan pembayaran BPJS.";
   }
 
   if (variant === "postpaid-phone") {
-    return "Nomor handphone sudah terisi otomatis untuk melanjutkan pembayaran.";
+    return "Masukkan nomor handphone untuk melanjutkan pembayaran.";
   }
 
-  return "Nomor pelanggan sudah terisi otomatis untuk melanjutkan pembayaran listrik.";
+  return "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
 }
 
 function getDefaultCustomerNo(variant: ServiceVariant) {
@@ -241,14 +241,16 @@ export default function NewMBankingElectricityCustomerPage({
 
               <input
                 value={customerNo}
-                readOnly
-                aria-readonly="true"
+                onChange={(event) =>
+                  setCustomerNo(event.target.value.replace(/[^\d]/g, ""))
+                }
                 placeholder={fieldPlaceholder}
                 inputMode="numeric"
                 className={cn(
-                  "h-[44px] w-full cursor-not-allowed rounded-[12px] border border-[#CDD4E0] bg-[#F1F3F6] px-4",
+                  "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
                   "text-[14px] font-normal text-black shadow-none outline-none",
                   "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
+                  "focus:border-[#479DF4]",
                 )}
               />
             </div>
