@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   ArrowLeft,
-  Bolt,
   Droplets,
   HeartPulse,
   Landmark,
@@ -12,7 +11,6 @@ import {
   QrCode,
   ShoppingCart,
   Smartphone,
-  Trash2,
   Wifi,
   Zap,
 } from "lucide-react";
@@ -23,6 +21,9 @@ import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/Ne
 import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
 import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking/NewMBankingElectricityCustomerPage";
 import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
+import NewMBankingSavedPaymentAccordion, {
+  type SavedPaymentItem,
+} from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
 
 type PaymentTab = "saved" | "history";
 type ServiceVariant =
@@ -146,7 +147,7 @@ const paymentCategories = [
   },
 ];
 
-const savedPayments = [
+const savedPayments: SavedPaymentItem[] = [
   {
     id: "qris-mini-mart",
     name: "QRIS Mini Mart",
@@ -194,25 +195,7 @@ const savedPayments = [
   },
 ];
 
-function getSavedPaymentIcon(item: { name: string; info: string }) {
-  const text = `${item.name} ${item.info}`.toLowerCase();
-
-  if (text.includes("qris")) return QrCode;
-  if (text.includes("pln") || text.includes("listrik")) return Zap;
-  if (text.includes("pdam") || text.includes("air")) return Droplets;
-  if (text.includes("pbb")) return Map;
-  if (text.includes("internet") || text.includes("indihome")) return Wifi;
-  if (text.includes("tv") || text.includes("transvision")) return Monitor;
-  if (text.includes("finance") || text.includes("adira")) return Landmark;
-  if (text.includes("bpjs") || text.includes("kesehatan")) return HeartPulse;
-  if (text.includes("pulsa") || text.includes("pascabayar") || text.includes("xl")) {
-    return Smartphone;
-  }
-
-  return Bolt;
-}
-
-function getSavedPaymentService(item: { name: string; info: string }) {
+function getSavedPaymentService(item: SavedPaymentItem) {
   const text = `${item.name} ${item.info}`.toLowerCase();
 
   if (text.includes("pln") || text.includes("listrik")) return "electricity";
@@ -229,7 +212,7 @@ function getSavedPaymentService(item: { name: string; info: string }) {
   return null;
 }
 
-function isQrisPayment(item: { name: string; info: string }) {
+function isQrisPayment(item: SavedPaymentItem) {
   const text = `${item.name} ${item.info}`.toLowerCase();
   return text.includes("qris");
 }
@@ -241,7 +224,7 @@ export default function NewMBankingPaymentPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<PaymentTab>("saved");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
-  const [items, setItems] = React.useState(savedPayments);
+  const [items, setItems] = React.useState<SavedPaymentItem[]>(savedPayments);
   const [activeService, setActiveService] = React.useState<ServiceVariant | null>(
     null,
   );
@@ -260,6 +243,18 @@ export default function NewMBankingPaymentPage({
   function openService(service: ServiceVariant, provider?: string) {
     setActiveService(service);
     setSelectedProvider(provider ?? null);
+  }
+
+  function openSavedPayment(item: SavedPaymentItem) {
+    if (isQrisPayment(item)) {
+      setShowQrisFlow(true);
+      return;
+    }
+
+    const service = getSavedPaymentService(item);
+    if (service) {
+      openService(service, item.name);
+    }
   }
 
   if (showQrisFlow) {
@@ -395,91 +390,13 @@ export default function NewMBankingPaymentPage({
           </div>
 
           {activeTab === "saved" ? (
-            <div className="mt-[22px] divide-y divide-[#EEF0F4]">
-              {items.length > 0 ? (
-                items.map((item) => {
-                  const Icon = getSavedPaymentIcon(item);
-                  const service = getSavedPaymentService(item);
-                  const qrisItem = isQrisPayment(item);
-
-                  return (
-                    <div
-                      key={item.id}
-                      className="flex min-h-[64px] items-center justify-between gap-4 py-[10px]"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (qrisItem) {
-                            setShowQrisFlow(true);
-                            return;
-                          }
-
-                          if (service) {
-                            openService(service, item.name);
-                          }
-                        }}
-                        className={cn(
-                          "flex min-w-0 flex-1 items-center gap-3 text-left",
-                          qrisItem || service
-                            ? "transition active:scale-[0.99]"
-                            : "cursor-default",
-                        )}
-                        aria-label={
-                          qrisItem
-                            ? "Buka QRIS"
-                            : service
-                              ? `Buka pembayaran ${item.name}`
-                              : item.name
-                        }
-                      >
-                        <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-                          <Icon
-                            className="h-[23px] w-[23px] text-white"
-                            strokeWidth={2.35}
-                          />
-                        </span>
-
-                        <div className="min-w-0">
-                          <div className="truncate text-[14px] font-bold leading-tight tracking-[-0.015em] text-black">
-                            {item.name}
-                          </div>
-                          <div className="mt-[4px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-                            {item.info}
-                          </div>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setItems((current) =>
-                            current.filter((savedItem) => savedItem.id !== item.id),
-                          )
-                        }
-                        className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-[8px] bg-[#FCE4E7] text-[#DC3545] transition active:scale-[0.96]"
-                        aria-label={`Hapus ${item.name}`}
-                        title="Hapus"
-                      >
-                        <Trash2
-                          className="h-[16px] w-[16px] text-[#DC3545]"
-                          strokeWidth={2.7}
-                        />
-                      </button>
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="py-[44px] text-center">
-                  <div className="text-[15px] font-bold text-black">
-                    Belum Ada Pembayaran Tersimpan
-                  </div>
-                  <div className="mx-auto mt-2 max-w-[260px] text-[12px] font-normal leading-relaxed text-[#8F8F8F]">
-                    Pilih kategori pembayaran untuk menyimpan tagihan favorit.
-                  </div>
-                </div>
-              )}
-            </div>
+            <NewMBankingSavedPaymentAccordion
+              items={items}
+              onOpenItem={openSavedPayment}
+              onDeleteItem={(id) =>
+                setItems((current) => current.filter((item) => item.id !== id))
+              }
+            />
           ) : (
             <>
               <NewMBankingPaymentMonthSelector
