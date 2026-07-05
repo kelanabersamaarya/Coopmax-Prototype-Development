@@ -137,6 +137,7 @@ export default function NewMBankingPaketDataPurchasePage({
         customerNo={phoneNumber}
         amount={selectedAmount}
         sourceFund={sourceFund}
+        onSourceFundChange={setSourceFund}
         serviceVariant="data-package"
         onConfirm={() => {
           setConfirmOpen(false);

@@ -128,6 +128,7 @@ export default function NewMBankingPulsaPurchasePage({
         customerNo={phoneNumber}
         amount={normalizedAmount}
         sourceFund={sourceFund}
+        onSourceFundChange={setSourceFund}
         serviceVariant="postpaid-phone"
         onConfirm={() => {
           setConfirmOpen(false);

@@ -183,6 +183,7 @@ export default function NewMBankingElectricityBillReviewPage({
         customerNo={customerNo}
         amount={billAmount}
         sourceFund={sourceFund}
+        onSourceFundChange={setSourceFund}
         serviceVariant={serviceVariant}
         onConfirm={() => {
           setConfirmOpen(false);
