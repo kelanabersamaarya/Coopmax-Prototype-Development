@@ -55,7 +55,7 @@ function getServiceDescription(variant: ServiceVariant) {
   if (variant === "finance") return "Pembayaran cicilan finance";
   if (variant === "tv") return "Pembayaran tagihan TV";
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan";
-  if (variant === "postpaid-phone") return "Pembayaran pulsa pascabayar";
+  if (variant === "postpaid-phone") return "";
   return "Pembayaran tagihan listrik";
 }
 
@@ -111,10 +111,11 @@ export default function NewMBankingElectricityConfirmModal({
   serviceVariant?: ServiceVariant;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
-  const adminFee = "Rp. 2.500,00";
+  const adminFee = serviceVariant === "postpaid-phone" ? "Rp. 0,00" : "Rp. 2.500,00";
   const totalTransaction = formatIdr(parseIdrLike(amount) + parseIdrLike(adminFee));
   const Icon = getServiceIcon(serviceVariant);
   const description = getServiceDescription(serviceVariant);
+  const showCustomerName = serviceVariant !== "postpaid-phone";
 
   React.useEffect(() => {
     if (!open) return;
@@ -167,16 +168,20 @@ export default function NewMBankingElectricityConfirmModal({
             <div className="text-[18px] font-bold leading-tight text-black">
               {providerName}
             </div>
-            <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#828282]">
-              {description}
-            </div>
+            {description ? (
+              <div className="mt-[6px] text-[12px] font-normal leading-relaxed text-[#828282]">
+                {description}
+              </div>
+            ) : null}
           </div>
         </div>
 
         <div className="mt-[14px] h-px w-full bg-[#D8D8D8]" />
 
         <div className="mt-[8px]">
-          <DetailRow label="Nama Pelanggan" value={customerName} />
+          {showCustomerName ? (
+            <DetailRow label="Nama Pelanggan" value={customerName} />
+          ) : null}
           <DetailRow label={getCustomerNumberLabel(serviceVariant)} value={customerNo} />
           <DetailRow label="Nominal Tagihan" value={amount} />
           <DetailRow label="Biaya Admin" value={adminFee} />
