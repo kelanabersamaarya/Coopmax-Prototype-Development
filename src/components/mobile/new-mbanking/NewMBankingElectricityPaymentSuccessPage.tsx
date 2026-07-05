@@ -46,7 +46,7 @@ function getSuccessText(variant: ServiceVariant) {
   if (variant === "finance") return "Pembayaran cicilan finance Anda telah berhasil diproses.";
   if (variant === "tv") return "Pembayaran tagihan TV Anda telah berhasil diproses.";
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan Anda telah berhasil diproses.";
-  if (variant === "postpaid-phone") return "Pembayaran pulsa pascabayar Anda telah berhasil diproses.";
+  if (variant === "postpaid-phone") return "Pembelian pulsa Anda telah berhasil diproses.";
   return "Pembayaran tagihan listrik Anda telah berhasil diproses.";
 }
 
@@ -122,6 +122,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   const [recipientSaved, setRecipientSaved] = React.useState(recipientAlreadySaved);
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
+  const showCustomerName = serviceVariant !== "postpaid-phone";
 
   React.useEffect(() => {
     setRecipientSaved(recipientAlreadySaved);
@@ -215,7 +216,9 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             </div>
 
             <div className="mt-[12px] w-[302px] max-w-full rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] py-[10px] text-left">
-              <DetailRow label="Nama Pelanggan" value={customerName} />
+              {showCustomerName ? (
+                <DetailRow label="Nama Pelanggan" value={customerName} />
+              ) : null}
               <DetailRow
                 label={getCustomerNumberLabel(serviceVariant)}
                 value={customerNo}

@@ -52,6 +52,7 @@ export default function NewMBankingPulsaPurchasePage({
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
 
+  const providerName = "Pulsa XL";
   const normalizedAmount = normalizeNominalPulsa(selectedNominal);
 
   function showToast(message: string, variant: "success" | "warning" = "success") {
@@ -82,8 +83,8 @@ export default function NewMBankingPulsaPurchasePage({
   if (showSuccess) {
     return (
       <NewMBankingElectricityPaymentSuccessPage
-        providerName="Pulsa"
-        customerName="Laura Patel"
+        providerName={providerName}
+        customerName=""
         customerNo={phoneNumber}
         amount={normalizedAmount}
         adminFee="Rp. 0,00"
@@ -114,7 +115,7 @@ export default function NewMBankingPulsaPurchasePage({
       <NewMBankingElectricityConfirmModal
         open={confirmOpen}
         onOpenChange={setConfirmOpen}
-        providerName="Pulsa"
+        providerName={providerName}
         customerName="Laura Patel"
         customerNo={phoneNumber}
         amount={normalizedAmount}
