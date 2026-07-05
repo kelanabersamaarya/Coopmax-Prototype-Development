@@ -31,7 +31,7 @@ const purchaseCategories = [
   },
   {
     label: "Paket Data",
-    icon: Wifi,
+    icon: Smartphone,
     frameClassName: "bg-[#2563EB]",
   },
   {
@@ -151,7 +151,7 @@ function PurchaseStatusBar() {
 
 function getIconByType(type: string) {
   if (type === "pulsa") return Smartphone;
-  if (type === "data") return Wifi;
+  if (type === "data") return Smartphone;
   if (type === "token") return Zap;
   if (type === "ewallet") return Wallet;
   return CreditCard;

@@ -111,7 +111,7 @@ const categoryMeta: Record<
   },
   data: {
     label: "Paket Data",
-    icon: Wifi,
+    icon: Smartphone,
     iconClassName: "bg-[#2563EB] text-white",
   },
   token: {
