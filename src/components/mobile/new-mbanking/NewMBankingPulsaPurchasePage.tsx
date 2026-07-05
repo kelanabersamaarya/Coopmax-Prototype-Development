@@ -7,6 +7,8 @@ import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
+import NewMBankingElectricityConfirmModal from "@/components/mobile/new-mbanking/NewMBankingElectricityConfirmModal";
+import NewMBankingElectricityPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingElectricityPaymentSuccessPage";
 
 const defaultSourceFund: SourceFundAccount = {
   productName: "Simpanan Kaya",
@@ -27,6 +29,13 @@ const nominalPulsaOptions = [
   "Rp. 200.000",
 ];
 
+function normalizeNominalPulsa(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return "Rp. 0,00";
+  if (trimmed.includes(",")) return trimmed;
+  return `${trimmed},00`;
+}
+
 export default function NewMBankingPulsaPurchasePage({
   onBack,
 }: {
@@ -38,6 +47,10 @@ export default function NewMBankingPulsaPurchasePage({
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
   const [toastMessage, setToastMessage] = React.useState("");
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [showSuccess, setShowSuccess] = React.useState(false);
+
+  const normalizedAmount = normalizeNominalPulsa(selectedNominal);
 
   function showToast(message: string) {
     setToastMessage("");
@@ -60,7 +73,25 @@ export default function NewMBankingPulsaPurchasePage({
       return;
     }
 
-    showToast("Pembelian pulsa siap diproses");
+    setConfirmOpen(true);
+  }
+
+  if (showSuccess) {
+    return (
+      <NewMBankingElectricityPaymentSuccessPage
+        providerName="Pulsa"
+        customerName="Laura Patel"
+        customerNo={phoneNumber}
+        amount={normalizedAmount}
+        adminFee="Rp. 0,00"
+        totalTransaction={normalizedAmount}
+        sourceFund={sourceFund}
+        serviceVariant="postpaid-phone"
+        recipientAlreadySaved={false}
+        onSaveRecipient={() => showToast("Penerima Berhasil Tersimpan")}
+        onDone={onBack}
+      />
+    );
   }
 
   return (
@@ -74,6 +105,21 @@ export default function NewMBankingPulsaPurchasePage({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+      />
+
+      <NewMBankingElectricityConfirmModal
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        providerName="Pulsa"
+        customerName="Laura Patel"
+        customerNo={phoneNumber}
+        amount={normalizedAmount}
+        sourceFund={sourceFund}
+        serviceVariant="postpaid-phone"
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setShowSuccess(true);
+        }}
       />
 
       <div className="shrink-0 bg-[#F9F9F9]">
