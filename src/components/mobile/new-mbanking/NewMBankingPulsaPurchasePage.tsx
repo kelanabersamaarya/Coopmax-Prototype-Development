@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { ArrowLeft, Contact, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -54,6 +56,12 @@ export default function NewMBankingPulsaPurchasePage({
 
   const providerName = "Pulsa XL";
   const normalizedAmount = normalizeNominalPulsa(selectedNominal);
+  const hasPhoneNumber = phoneNumber.trim().length > 0;
+
+  React.useEffect(() => {
+    if (hasPhoneNumber) return;
+    setSelectedNominal("");
+  }, [hasPhoneNumber]);
 
   function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");
@@ -209,37 +217,39 @@ export default function NewMBankingPulsaPurchasePage({
             </div>
           </div>
 
-          <section className="mt-[30px]">
-            <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
-              Pilih Nominal Pulsa
-            </div>
-            <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
+          {hasPhoneNumber ? (
+            <section className="mt-[30px]">
+              <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+                Pilih Nominal Pulsa
+              </div>
+              <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
-            <div className="mt-[18px] grid grid-cols-2 gap-x-[14px] gap-y-[12px]">
-              {nominalPulsaOptions.map((nominal) => {
-                const selected = selectedNominal === nominal;
+              <div className="mt-[18px] grid grid-cols-2 gap-x-[14px] gap-y-[12px]">
+                {nominalPulsaOptions.map((nominal) => {
+                  const selected = selectedNominal === nominal;
 
-                return (
-                  <button
-                    key={nominal}
-                    type="button"
-                    onClick={() => setSelectedNominal(nominal)}
-                    className={cn(
-                      "h-[54px] rounded-[8px] border bg-white px-3 text-center",
-                      "text-[16px] font-bold leading-none tracking-[-0.02em]",
-                      "transition active:scale-[0.98]",
-                      selected
-                        ? "border-[#479DF4] bg-[#EEF6FF] text-[#2563EB]"
-                        : "border-[#D8D8D8] text-black",
-                    )}
-                    aria-pressed={selected}
-                  >
-                    {nominal}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
+                  return (
+                    <button
+                      key={nominal}
+                      type="button"
+                      onClick={() => setSelectedNominal(nominal)}
+                      className={cn(
+                        "h-[54px] rounded-[8px] border bg-white px-3 text-center",
+                        "text-[16px] font-bold leading-none tracking-[-0.02em]",
+                        "transition active:scale-[0.98]",
+                        selected
+                          ? "border-[#479DF4] bg-[#EEF6FF] text-[#2563EB]"
+                          : "border-[#D8D8D8] text-black",
+                      )}
+                      aria-pressed={selected}
+                    >
+                      {nominal}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
 
           <section className="mt-[30px]">
             <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">

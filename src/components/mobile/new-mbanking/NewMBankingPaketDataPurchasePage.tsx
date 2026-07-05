@@ -65,6 +65,12 @@ export default function NewMBankingPaketDataPurchasePage({
   const selectedPackage =
     paketDataOptions.find((item) => item.id === selectedPackageId) ?? null;
   const selectedAmount = selectedPackage?.price ?? "Rp. 0,00";
+  const hasPhoneNumber = phoneNumber.trim().length > 0;
+
+  React.useEffect(() => {
+    if (hasPhoneNumber) return;
+    setSelectedPackageId("");
+  }, [hasPhoneNumber]);
 
   function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");
@@ -220,52 +226,54 @@ export default function NewMBankingPaketDataPurchasePage({
             </div>
           </div>
 
-          <section className="mt-[30px]">
-            <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
-              Pilih Paket Data
-            </div>
-            <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
+          {hasPhoneNumber ? (
+            <section className="mt-[30px]">
+              <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
+                Pilih Paket Data
+              </div>
+              <div className="mt-[12px] h-px w-full bg-[#D8D8D8]" />
 
-            <div className="mt-[18px] grid gap-[12px]">
-              {paketDataOptions.map((item) => {
-                const selected = selectedPackageId === item.id;
+              <div className="mt-[18px] grid gap-[12px]">
+                {paketDataOptions.map((item) => {
+                  const selected = selectedPackageId === item.id;
 
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setSelectedPackageId(item.id)}
-                    className={cn(
-                      "flex min-h-[76px] w-full items-center justify-between gap-4 rounded-[14px] border px-4 py-3 text-left",
-                      "transition active:scale-[0.98]",
-                      selected
-                        ? "border-[#479DF4] bg-[#EEF6FF]"
-                        : "border-[#D8D8D8] bg-white",
-                    )}
-                    aria-pressed={selected}
-                  >
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-[14px] font-bold leading-tight text-black">
-                        {item.name}
-                      </span>
-                      <span className="mt-[5px] block text-[12px] font-normal leading-snug text-[#8F8F8F]">
-                        {item.description}
-                      </span>
-                    </span>
-
-                    <span
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setSelectedPackageId(item.id)}
                       className={cn(
-                        "shrink-0 text-right text-[14px] font-bold leading-tight",
-                        selected ? "text-[#2563EB]" : "text-black",
+                        "flex min-h-[76px] w-full items-center justify-between gap-4 rounded-[14px] border px-4 py-3 text-left",
+                        "transition active:scale-[0.98]",
+                        selected
+                          ? "border-[#479DF4] bg-[#EEF6FF]"
+                          : "border-[#D8D8D8] bg-white",
                       )}
+                      aria-pressed={selected}
                     >
-                      {item.price.replace(",00", "")}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[14px] font-bold leading-tight text-black">
+                          {item.name}
+                        </span>
+                        <span className="mt-[5px] block text-[12px] font-normal leading-snug text-[#8F8F8F]">
+                          {item.description}
+                        </span>
+                      </span>
+
+                      <span
+                        className={cn(
+                          "shrink-0 text-right text-[14px] font-bold leading-tight",
+                          selected ? "text-[#2563EB]" : "text-black",
+                        )}
+                      >
+                        {item.price.replace(",00", "")}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
 
           <section className="mt-[30px]">
             <div className="text-[14px] font-bold leading-tight tracking-[-0.02em] text-black">
