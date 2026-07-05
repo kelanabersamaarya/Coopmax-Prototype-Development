@@ -13,7 +13,6 @@ import {
   Wifi,
   Zap,
   ChevronDown,
-  Bolt,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +41,11 @@ function getCategoryId(item: SavedPaymentItem) {
   if (text.includes("tv") || text.includes("transvision")) return "tv";
   if (text.includes("finance") || text.includes("adira")) return "finance";
   if (text.includes("bpjs") || text.includes("kesehatan")) return "bpjs";
-  if (text.includes("pulsa") || text.includes("pascabayar") || text.includes("xl")) {
+  if (
+    text.includes("pulsa") ||
+    text.includes("pascabayar") ||
+    text.includes("xl")
+  ) {
     return "postpaid-phone";
   }
 
@@ -104,7 +107,7 @@ const categoryMeta: Record<
   },
   other: {
     label: "Lainnya",
-    icon: Bolt,
+    icon: Zap,
     iconClassName: "bg-[#64748B] text-white",
   },
 };
@@ -135,7 +138,7 @@ function groupItems(items: SavedPaymentItem[]) {
       const categoryItems = grouped.get(categoryId) ?? [];
       if (categoryItems.length === 0) return null;
 
-      const meta = categoryMeta[categoryId];
+      const meta = categoryMeta[categoryId] ?? categoryMeta.other;
 
       return {
         id: categoryId,
