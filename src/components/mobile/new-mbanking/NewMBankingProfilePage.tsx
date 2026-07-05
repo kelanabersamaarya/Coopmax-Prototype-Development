@@ -275,7 +275,7 @@ export default function NewMBankingProfilePage({
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[184px] pt-[28px]">
           <div className="flex items-center gap-4">
-            <span className="grid h-[82px] w-[82px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_24px_rgba(71,157,244,0.24)]">
+            <span className="grid h-[82px] w-[82px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
               <UserRound className="h-[42px] w-[42px]" strokeWidth={2.4} />
             </span>
 

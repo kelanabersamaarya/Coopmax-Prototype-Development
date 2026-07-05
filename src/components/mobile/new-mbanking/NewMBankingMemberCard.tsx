@@ -62,7 +62,6 @@ export default function NewMBankingMemberCard({
         className={cn(
           "relative overflow-hidden rounded-[24px] px-5 py-5 text-white",
           "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
-          "shadow-[0_14px_34px_rgba(37,99,235,0.20)]",
           className,
         )}
       >
