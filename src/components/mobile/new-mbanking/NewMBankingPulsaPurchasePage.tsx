@@ -99,7 +99,7 @@ export default function NewMBankingPulsaPurchasePage({
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] pb-[118px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[30px]">
           <div className="flex flex-col items-center text-center">
-            <span className="grid h-[86px] w-[86px] place-items-center rounded-full bg-[#479DF4] text-white shadow-[0_10px_24px_rgba(71,157,244,0.24)]">
+            <span className="grid h-[86px] w-[86px] place-items-center rounded-full bg-[#479DF4] text-white">
               <Smartphone
                 className="h-[42px] w-[42px] text-white"
                 strokeWidth={2.7}
@@ -144,7 +144,7 @@ export default function NewMBankingPulsaPurchasePage({
                 onClick={chooseContact}
                 className={cn(
                   "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-[12px]",
-                  "bg-[#479DF4] text-white shadow-[0_8px_18px_rgba(71,157,244,0.20)]",
+                  "bg-[#479DF4] text-white shadow-none",
                   "transition active:scale-[0.96]",
                 )}
                 aria-label="Pilih dari kontak"
