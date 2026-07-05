@@ -8,13 +8,11 @@ import { cn } from "@/lib/utils";
 export default function NewMBankingDeleteSavedRecipientConfirmModal({
   open,
   title = "Hapus Data Tersimpan?",
-  description = "Data penerima ini akan dihapus dari daftar tersimpan.",
   onCancel,
   onConfirm,
 }: {
   open: boolean;
   title?: string;
-  description?: string;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
@@ -47,20 +45,14 @@ export default function NewMBankingDeleteSavedRecipientConfirmModal({
         )}
       >
         <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#FCE4E7] text-[#DC3545]">
-                <AlertTriangle className="h-5 w-5" strokeWidth={2.8} />
-              </span>
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#FCE4E7] text-[#DC3545]">
+              <AlertTriangle className="h-5 w-5" strokeWidth={2.8} />
+            </span>
 
-              <div className="text-[16px] font-bold leading-tight text-black">
-                {title}
-              </div>
+            <div className="text-[16px] font-bold leading-tight text-black">
+              {title}
             </div>
-
-            <p className="mt-3 text-[13px] font-normal leading-relaxed text-[#828282]">
-              {description}
-            </p>
           </div>
 
           <button

@@ -85,6 +85,26 @@ function getCategoryId(item: SavedPaymentItem) {
   return "other";
 }
 
+function getDeleteConfirmTitle(item: SavedPaymentItem | null) {
+  if (!item) return "Hapus Data Tersimpan?";
+
+  if (item.savedKind === "purchase") return "Hapus Pembelian Tersimpan ?";
+  if (item.savedKind === "payment") return "Hapus Pembayaran Tersimpan ?";
+
+  const categoryId = getCategoryId(item);
+  const text = `${item.name} ${item.info}`.toLowerCase();
+
+  const isPurchase =
+    categoryId === "data" ||
+    categoryId === "token" ||
+    categoryId === "ewallet" ||
+    (categoryId === "pulsa" && !text.includes("pascabayar"));
+
+  return isPurchase
+    ? "Hapus Pembelian Tersimpan ?"
+    : "Hapus Pembayaran Tersimpan ?";
+}
+
 const categoryMeta: Record<
   string,
   {
@@ -295,12 +315,7 @@ export default function NewMBankingSavedPaymentAccordion({
     <>
       <NewMBankingDeleteSavedRecipientConfirmModal
         open={!!deleteTarget}
-        title="Hapus Data Tersimpan?"
-        description={
-          deleteTarget
-            ? `${deleteTarget.name} akan dihapus dari daftar tersimpan.`
-            : "Data penerima ini akan dihapus dari daftar tersimpan."
-        }
+        title={getDeleteConfirmTitle(deleteTarget)}
         onCancel={() => setDeleteTarget(null)}
         onConfirm={() => {
           if (!deleteTarget) return;
