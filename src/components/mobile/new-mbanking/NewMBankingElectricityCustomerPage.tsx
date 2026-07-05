@@ -12,11 +12,11 @@ import {
   Wifi,
   Zap,
 } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingElectricityBillReviewPage from "@/components/mobile/new-mbanking/NewMBankingElectricityBillReviewPage";
 import NewMBankingBpjsMonthSelect from "@/components/mobile/new-mbanking/NewMBankingBpjsMonthSelect";
+import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 
 type ServiceVariant =
   | "electricity"
@@ -57,7 +57,8 @@ function getServiceIconShadow(variant: ServiceVariant) {
   if (variant === "finance") return "shadow-[0_10px_24px_rgba(59,130,246,0.24)]";
   if (variant === "tv") return "shadow-[0_10px_24px_rgba(20,184,166,0.24)]";
   if (variant === "bpjs") return "shadow-[0_10px_24px_rgba(34,197,94,0.24)]";
-  if (variant === "postpaid-phone") return "shadow-[0_10px_24px_rgba(71,157,244,0.24)]";
+  if (variant === "postpaid-phone")
+    return "shadow-[0_10px_24px_rgba(71,157,244,0.24)]";
   return "shadow-[0_10px_24px_rgba(245,158,11,0.24)]";
 }
 
@@ -123,6 +124,7 @@ export default function NewMBankingElectricityCustomerPage({
   const [customerNo, setCustomerNo] = React.useState(initialCustomerNo);
   const [bpjsMonths, setBpjsMonths] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
+  const [toastMessage, setToastMessage] = React.useState("");
   const Icon = getServiceIcon(serviceVariant);
   const helperText = getHelperText(serviceVariant);
   const showBpjsMonthField = serviceVariant === "bpjs";
@@ -136,18 +138,19 @@ export default function NewMBankingElectricityCustomerPage({
     setCustomerNo(initialCustomerNo);
   }, [initialCustomerNo, serviceVariant]);
 
+  function showWarning(message: string) {
+    setToastMessage("");
+    window.setTimeout(() => setToastMessage(message), 0);
+  }
+
   function continuePayment() {
     if (!customerNo.trim()) {
-      toast(`${fieldLabel} wajib diisi`, {
-        description: `${fieldPlaceholder} sebelum melanjutkan.`,
-      });
+      showWarning(`${fieldLabel} wajib diisi`);
       return;
     }
 
     if (showBpjsMonthField && !bpjsMonths.trim()) {
-      toast("Jumlah bulan wajib dipilih", {
-        description: "Pilih jumlah bulan pembayaran BPJS sebelum melanjutkan.",
-      });
+      showWarning("Jumlah bulan wajib dipilih");
       return;
     }
 
@@ -177,6 +180,12 @@ export default function NewMBankingElectricityCustomerPage({
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingInScreenToast
+        message={toastMessage}
+        variant="warning"
+        onClose={() => setToastMessage("")}
+      />
+
       <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
 
