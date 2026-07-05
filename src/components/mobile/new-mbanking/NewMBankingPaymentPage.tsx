@@ -8,7 +8,6 @@ import {
   Landmark,
   Map,
   Monitor,
-  QrCode,
   ShoppingCart,
   Smartphone,
   Wifi,
@@ -20,7 +19,6 @@ import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewM
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
 import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking/NewMBankingElectricityCustomerPage";
-import NewMBankingScanPage from "@/components/mobile/new-mbanking/NewMBankingScanPage";
 import NewMBankingSavedPaymentAccordion, {
   type SavedPaymentItem,
 } from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
@@ -94,11 +92,6 @@ const paymentCategories = [
     service: "electricity" as ServiceVariant,
   },
   {
-    label: "QRIS",
-    icon: QrCode,
-    frameClassName: "bg-[#479DF4]",
-  },
-  {
     label: "Air",
     icon: Droplets,
     frameClassName: "bg-[#06B6D4]",
@@ -148,11 +141,6 @@ const paymentCategories = [
 ];
 
 const savedPayments: SavedPaymentItem[] = [
-  {
-    id: "qris-mini-mart",
-    name: "QRIS Mini Mart",
-    info: "QRIS - Pembayaran Merchant",
-  },
   {
     id: "xl-postpaid",
     name: "XL Pascabayar",
@@ -212,11 +200,6 @@ function getSavedPaymentService(item: SavedPaymentItem) {
   return null;
 }
 
-function isQrisPayment(item: SavedPaymentItem) {
-  const text = `${item.name} ${item.info}`.toLowerCase();
-  return text.includes("qris");
-}
-
 export default function NewMBankingPaymentPage({
   onBack,
 }: {
@@ -231,12 +214,10 @@ export default function NewMBankingPaymentPage({
   const [selectedProvider, setSelectedProvider] = React.useState<string | null>(
     null,
   );
-  const [showQrisFlow, setShowQrisFlow] = React.useState(false);
 
   function returnToPaymentHome() {
     setActiveService(null);
     setSelectedProvider(null);
-    setShowQrisFlow(false);
     setActiveTab("saved");
   }
 
@@ -246,19 +227,10 @@ export default function NewMBankingPaymentPage({
   }
 
   function openSavedPayment(item: SavedPaymentItem) {
-    if (isQrisPayment(item)) {
-      setShowQrisFlow(true);
-      return;
-    }
-
     const service = getSavedPaymentService(item);
     if (service) {
       openService(service, item.name);
     }
-  }
-
-  if (showQrisFlow) {
-    return <NewMBankingScanPage onBack={() => setShowQrisFlow(false)} />;
   }
 
   if (activeService && selectedProvider) {
@@ -322,11 +294,6 @@ export default function NewMBankingPaymentPage({
                   key={category.label}
                   type="button"
                   onClick={() => {
-                    if (category.label === "QRIS") {
-                      setShowQrisFlow(true);
-                      return;
-                    }
-
                     if (category.service) {
                       openService(category.service);
                     }
