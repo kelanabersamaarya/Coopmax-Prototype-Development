@@ -47,13 +47,16 @@ export default function NewMBankingPulsaPurchasePage({
   const [sourceFund, setSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
   const [toastMessage, setToastMessage] = React.useState("");
+  const [toastVariant, setToastVariant] =
+    React.useState<"success" | "warning">("success");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   const normalizedAmount = normalizeNominalPulsa(selectedNominal);
 
-  function showToast(message: string) {
+  function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");
+    setToastVariant(variant);
     window.setTimeout(() => setToastMessage(message), 0);
   }
 
@@ -64,12 +67,12 @@ export default function NewMBankingPulsaPurchasePage({
 
   function continuePurchase() {
     if (!phoneNumber.trim()) {
-      showToast("Nomor HP wajib diisi");
+      showToast("Nomor HP wajib diisi", "warning");
       return;
     }
 
     if (!selectedNominal) {
-      showToast("Nominal pulsa wajib dipilih");
+      showToast("Nominal pulsa wajib dipilih", "warning");
       return;
     }
 
@@ -98,6 +101,7 @@ export default function NewMBankingPulsaPurchasePage({
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
       <NewMBankingInScreenToast
         message={toastMessage}
+        variant={toastVariant}
         onClose={() => setToastMessage("")}
       />
 
