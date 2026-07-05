@@ -27,7 +27,8 @@ type ServiceVariant =
   | "tv"
   | "bpjs"
   | "postpaid-phone"
-  | "data-package";
+  | "data-package"
+  | "token-pln";
 
 function getServiceIcon(variant: ServiceVariant) {
   if (variant === "water") return Droplets;
@@ -49,6 +50,7 @@ function getSuccessText(variant: ServiceVariant) {
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan Anda telah berhasil diproses.";
   if (variant === "data-package") return "Pembelian paket data Anda telah berhasil diproses.";
   if (variant === "postpaid-phone") return "Pembelian pulsa Anda telah berhasil diproses.";
+  if (variant === "token-pln") return "Pembelian token PLN Anda telah berhasil diproses.";
   return "Pembayaran tagihan listrik Anda telah berhasil diproses.";
 }
 
@@ -61,13 +63,18 @@ function getReferencePrefix(variant: ServiceVariant) {
   if (variant === "bpjs") return "BPJS";
   if (variant === "data-package") return "DATA";
   if (variant === "postpaid-phone") return "PULSA";
+  if (variant === "token-pln") return "TOKEN";
   return "PLN";
 }
 
 function getCustomerNumberLabel(variant: ServiceVariant) {
-  return variant === "postpaid-phone" || variant === "data-package"
-    ? "No. Handphone"
-    : "No. Pelanggan";
+  if (variant === "postpaid-phone" || variant === "data-package") {
+    return "No. Handphone";
+  }
+
+  if (variant === "token-pln") return "No. Meter/ID Pelanggan";
+
+  return "No. Pelanggan";
 }
 
 function DetailRow({
@@ -128,7 +135,9 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
   const showCustomerName =
-    serviceVariant !== "postpaid-phone" && serviceVariant !== "data-package";
+    serviceVariant !== "postpaid-phone" &&
+    serviceVariant !== "data-package" &&
+    serviceVariant !== "token-pln";
 
   React.useEffect(() => {
     setRecipientSaved(recipientAlreadySaved);
@@ -232,7 +241,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
               {serviceVariant === "bpjs" ? (
                 <DetailRow label="Jumlah Bulan" value={bpjsMonths} />
               ) : null}
-              <DetailRow label="Nominal Tagihan" value={amount} />
+              <DetailRow label="Nominal Pembelian" value={amount} />
               <DetailRow label="Biaya Admin" value={adminFee} />
 
               <div className="my-[8px] border-t border-dashed border-[#D8D8D8]" />

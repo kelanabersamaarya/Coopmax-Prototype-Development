@@ -28,7 +28,8 @@ type ServiceVariant =
   | "tv"
   | "bpjs"
   | "postpaid-phone"
-  | "data-package";
+  | "data-package"
+  | "token-pln";
 
 function parseIdrLike(value: string) {
   const raw = (value ?? "").trim();
@@ -66,17 +67,24 @@ function getServiceDescription(variant: ServiceVariant) {
   if (variant === "bpjs") return "Pembayaran BPJS Kesehatan";
   if (variant === "data-package") return "Pembelian paket data";
   if (variant === "postpaid-phone") return "Pembelian pulsa";
+  if (variant === "token-pln") return "Pembelian token PLN";
   return "Pembayaran tagihan listrik";
 }
 
 function getCustomerNumberLabel(variant: ServiceVariant) {
-  return variant === "postpaid-phone" || variant === "data-package"
-    ? "No. Handphone"
-    : "No. Pelanggan";
+  if (variant === "postpaid-phone" || variant === "data-package") {
+    return "No. Handphone";
+  }
+
+  if (variant === "token-pln") return "No. Meter/ID Pelanggan";
+
+  return "No. Pelanggan";
 }
 
 function getNominalLabel(variant: ServiceVariant) {
-  return variant === "postpaid-phone" || variant === "data-package"
+  return variant === "postpaid-phone" ||
+    variant === "data-package" ||
+    variant === "token-pln"
     ? "Nominal Pembelian"
     : "Nominal Tagihan";
 }
@@ -140,7 +148,9 @@ export default function NewMBankingElectricityConfirmModal({
   const Icon = getServiceIcon(serviceVariant);
   const description = getServiceDescription(serviceVariant);
   const showCustomerName =
-    serviceVariant !== "postpaid-phone" && serviceVariant !== "data-package";
+    serviceVariant !== "postpaid-phone" &&
+    serviceVariant !== "data-package" &&
+    serviceVariant !== "token-pln";
 
   React.useEffect(() => {
     if (!open) return;
