@@ -19,6 +19,7 @@ import NewMBankingSavedPaymentAccordion, {
   type SavedPaymentItem,
 } from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
+import NewMBankingPulsaPurchasePage from "@/components/mobile/new-mbanking/NewMBankingPulsaPurchasePage";
 
 type PurchaseTab = "saved" | "history";
 
@@ -267,10 +268,15 @@ export default function NewMBankingPurchasePage({
   const [activeMonth, setActiveMonth] = React.useState("Jun");
   const [items, setItems] = React.useState<SavedPaymentItem[]>(savedPurchases);
   const [toastMessage, setToastMessage] = React.useState("");
+  const [showPulsaPage, setShowPulsaPage] = React.useState(false);
 
   function showToast(message: string) {
     setToastMessage("");
     window.setTimeout(() => setToastMessage(message), 0);
+  }
+
+  if (showPulsaPage) {
+    return <NewMBankingPulsaPurchasePage onBack={() => setShowPulsaPage(false)} />;
   }
 
   return (
@@ -310,9 +316,14 @@ export default function NewMBankingPurchasePage({
                 <button
                   key={category.label}
                   type="button"
-                  onClick={() =>
-                    showToast(`${category.label} dipilih (prototype)`)
-                  }
+                  onClick={() => {
+                    if (category.label === "Pulsa") {
+                      setShowPulsaPage(true);
+                      return;
+                    }
+
+                    showToast(`${category.label} dipilih (prototype)`);
+                  }}
                   className="flex min-w-0 flex-col items-center text-center transition active:scale-[0.97]"
                   aria-label={category.label}
                 >
@@ -374,9 +385,7 @@ export default function NewMBankingPurchasePage({
           {activeTab === "saved" ? (
             <NewMBankingSavedPaymentAccordion
               items={items}
-              onOpenItem={(item) =>
-                showToast(`${item.name} berhasil dibuka`)
-              }
+              onOpenItem={(item) => showToast(`${item.name} berhasil dibuka`)}
               onDeleteItem={(id) => {
                 setItems((current) => current.filter((item) => item.id !== id));
                 showToast("Pembelian tersimpan berhasil dihapus");
