@@ -2,17 +2,17 @@
 
 import * as React from "react";
 import {
+  ChevronDown,
   Droplets,
   HeartPulse,
   Landmark,
-  Map,
+  Map as MapIcon,
   Monitor,
   QrCode,
   Smartphone,
   Trash2,
   Wifi,
   Zap,
-  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -77,7 +77,7 @@ const categoryMeta: Record<
   },
   pbb: {
     label: "PBB",
-    icon: Map,
+    icon: MapIcon,
     iconClassName: "bg-[#8B5CF6] text-white",
   },
   internet: {
@@ -126,7 +126,7 @@ const categoryOrder = [
 ];
 
 function groupItems(items: SavedPaymentItem[]) {
-  const grouped = new Map<string, SavedPaymentItem[]>();
+  const grouped = new globalThis.Map<string, SavedPaymentItem[]>();
 
   items.forEach((item) => {
     const categoryId = getCategoryId(item);
