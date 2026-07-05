@@ -32,7 +32,14 @@ const nominalPulsaOptions = [
 ];
 
 function parseIdrLike(value: string) {
-  const parsed = Number(value.replace(/[^\d]/g, ""));
+  const raw = (value ?? "").trim();
+  if (!raw) return 0;
+
+  const withoutCurrency = raw.replace(/rp\.?/gi, "").replace(/\s/g, "");
+  const integerPart = withoutCurrency.split(",")[0] ?? "";
+  const cleaned = integerPart.replace(/[^\d-]/g, "");
+  const parsed = Number(cleaned);
+
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
