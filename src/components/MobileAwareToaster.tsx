@@ -8,12 +8,14 @@ import { toast } from "sonner";
 export default function MobileAwareToaster() {
   const location = useLocation();
   const isMobilePrototype = location.pathname.startsWith("/mobile");
+  const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isObsArea =
     location.pathname.startsWith("/obs-samudra-harta") ||
     location.pathname.startsWith("/obs-web");
   const isSakEpCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
-  const shouldHideToaster = isMobilePrototype || isObsArea || isSakEpCabangArea;
+  const shouldHideToaster =
+    (isMobilePrototype && !isNewMBankingArea) || isObsArea || isSakEpCabangArea;
 
   React.useEffect(() => {
     if (!shouldHideToaster) return;
