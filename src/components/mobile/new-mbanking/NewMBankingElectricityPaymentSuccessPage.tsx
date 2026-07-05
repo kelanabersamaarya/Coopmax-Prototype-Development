@@ -137,11 +137,11 @@ export default function NewMBankingElectricityPaymentSuccessPage({
 
     onSaveRecipient?.();
     setRecipientSaved(true);
-    showToast("Sukses menyimpan penerima");
+    showToast("Penerima Berhasil Tersimpan");
   }
 
   function saveProof() {
-    showToast("Sukses menyimpan bukti transaksi");
+    showToast("Bukti Transaksi Berhasil Tersimpan");
   }
 
   return (
