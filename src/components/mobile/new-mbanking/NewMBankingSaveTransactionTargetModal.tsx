@@ -150,16 +150,14 @@ export default function NewMBankingSaveTransactionTargetModal({
             </label>
             <input
               value={number}
-              onChange={(event) =>
-                setNumber((event.target.value ?? "").replace(/[^\d]/g, ""))
-              }
+              readOnly
+              aria-readonly="true"
               placeholder={`Masukkan ${numberLabel}`}
               inputMode="numeric"
               className={cn(
-                "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-white px-4",
-                "text-[14px] font-normal text-black shadow-none outline-none",
+                "h-[44px] w-full rounded-[12px] border border-[#CDD4E0] bg-[#F1F3F6] px-4",
+                "cursor-not-allowed text-[14px] font-normal text-[#4B5563] shadow-none outline-none",
                 "placeholder:text-[14px] placeholder:font-normal placeholder:text-[#8F8F8F]",
-                "focus:border-[#479DF4]",
               )}
             />
           </div>
