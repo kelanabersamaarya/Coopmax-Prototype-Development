@@ -18,12 +18,18 @@ type ServiceVariant =
   | "token-pln"
   | "e-wallet";
 
-function isBuyVariant(variant: ServiceVariant) {
+function isPhoneVariant(variant: ServiceVariant) {
   return (
     variant === "postpaid-phone" ||
     variant === "data-package" ||
     variant === "e-wallet"
   );
+}
+
+function getNumberLabel(variant: ServiceVariant) {
+  if (isPhoneVariant(variant)) return "Nomor Handphone";
+  if (variant === "token-pln") return "No. Meter/ID Pelanggan";
+  return "Nomor Pelanggan";
 }
 
 export default function NewMBankingSaveTransactionTargetModal({
@@ -62,10 +68,7 @@ export default function NewMBankingSaveTransactionTargetModal({
 
   if (!open || !mobileScreen) return null;
 
-  const numberLabel = isBuyVariant(serviceVariant)
-    ? "Nomor Handphone"
-    : "Nomor Pelanggan";
-
+  const numberLabel = getNumberLabel(serviceVariant);
   const canSave = name.trim().length > 0 && number.trim().length > 0;
 
   function save() {

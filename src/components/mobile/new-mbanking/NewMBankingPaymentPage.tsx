@@ -23,6 +23,13 @@ import NewMBankingSavedPaymentAccordion, {
   type SavedPaymentItem,
 } from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
 import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
+import {
+  getNewMBankingSavedRecipients,
+  isNewMBankingRecipientSaved,
+  removeNewMBankingSavedRecipient,
+  savedRecipientToPaymentItem,
+  subscribeNewMBankingSavedRecipients,
+} from "@/lib/newMBankingSavedRecipientsStore";
 
 type PaymentTab = "saved" | "history";
 
@@ -141,6 +148,19 @@ function getInitialCustomerNo(providerName: string) {
   return "";
 }
 
+function uniqueItems(items: SavedPaymentItem[]) {
+  const seen = new Set<string>();
+  const result: SavedPaymentItem[] = [];
+
+  for (const item of items) {
+    if (seen.has(item.id)) continue;
+    seen.add(item.id);
+    result.push(item);
+  }
+
+  return result;
+}
+
 export default function NewMBankingPaymentPage({
   onBack,
 }: {
@@ -154,9 +174,24 @@ export default function NewMBankingPaymentPage({
     null,
   );
   const [initialCustomerNo, setInitialCustomerNo] = React.useState("");
-  const [savedPayments, setSavedPayments] =
+  const [seedPayments, setSeedPayments] =
     React.useState<SavedPaymentItem[]>(savedPaymentsSeed);
+  const [savedRefreshTick, setSavedRefreshTick] = React.useState(0);
   const [toastMessage, setToastMessage] = React.useState("");
+
+  React.useEffect(() => {
+    return subscribeNewMBankingSavedRecipients(() =>
+      setSavedRefreshTick((current) => current + 1),
+    );
+  }, []);
+
+  const savedPayments = React.useMemo(() => {
+    const stored = getNewMBankingSavedRecipients("payment").map(
+      savedRecipientToPaymentItem,
+    );
+
+    return uniqueItems([...stored, ...seedPayments]);
+  }, [savedRefreshTick, seedPayments, selectedCategory, selectedProvider]);
 
   function showToast(message: string) {
     setToastMessage("");
@@ -170,6 +205,19 @@ export default function NewMBankingPaymentPage({
   }
 
   function openSavedPayment(payment: SavedPaymentItem) {
+    if (payment.providerName && payment.serviceVariant && payment.customerNo) {
+      const matchedCategory = paymentCategories.find(
+        (category) => category.serviceVariant === payment.serviceVariant,
+      );
+
+      if (!matchedCategory) return;
+
+      setSelectedCategory(matchedCategory);
+      setSelectedProvider(payment.providerName);
+      setInitialCustomerNo(payment.customerNo);
+      return;
+    }
+
     const info = payment.info.toLowerCase();
 
     const matchedCategory =
@@ -198,6 +246,17 @@ export default function NewMBankingPaymentPage({
     setInitialCustomerNo(getInitialCustomerNo(providerName));
   }
 
+  function deleteSavedPayment(id: string) {
+    if (id.includes("::")) {
+      removeNewMBankingSavedRecipient(id);
+      setSavedRefreshTick((current) => current + 1);
+    } else {
+      setSeedPayments((current) => current.filter((item) => item.id !== id));
+    }
+
+    showToast("Pembayaran tersimpan berhasil dihapus");
+  }
+
   if (selectedProvider && selectedCategory) {
     return (
       <NewMBankingElectricityCustomerPage
@@ -205,8 +264,17 @@ export default function NewMBankingPaymentPage({
         title={selectedCategory.label}
         serviceVariant={selectedCategory.serviceVariant}
         initialCustomerNo={initialCustomerNo}
+        isRecipientSaved={({ providerName, customerNo, serviceVariant }) =>
+          isNewMBankingRecipientSaved({
+            kind: "payment",
+            providerName,
+            customerNo,
+            serviceVariant,
+          })
+        }
         onBack={() => setSelectedProvider(null)}
         onDone={() => {
+          setSavedRefreshTick((current) => current + 1);
           setSelectedProvider(null);
           setSelectedCategory(null);
         }}
@@ -329,12 +397,7 @@ export default function NewMBankingPaymentPage({
             <NewMBankingSavedPaymentAccordion
               items={savedPayments}
               onOpenItem={openSavedPayment}
-              onDeleteItem={(id) => {
-                setSavedPayments((current) =>
-                  current.filter((item) => item.id !== id),
-                );
-                showToast("Pembayaran tersimpan berhasil dihapus");
-              }}
+              onDeleteItem={deleteSavedPayment}
             />
           ) : (
             <>
@@ -348,6 +411,8 @@ export default function NewMBankingPaymentPage({
           )}
         </section>
       </main>
+
+      <div className="sr-only">{savedRefreshTick}</div>
     </div>
   );
 }

@@ -16,11 +16,16 @@ import {
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { NewMBankingSavedRecipientKind } from "@/lib/newMBankingSavedRecipientsStore";
 
 export type SavedPaymentItem = {
   id: string;
   name: string;
   info: string;
+  providerName?: string;
+  customerNo?: string;
+  serviceVariant?: string;
+  savedKind?: NewMBankingSavedRecipientKind;
 };
 
 type SavedPaymentCategory = {
@@ -32,6 +37,22 @@ type SavedPaymentCategory = {
 };
 
 function getCategoryId(item: SavedPaymentItem) {
+  const serviceVariant = item.serviceVariant;
+
+  if (serviceVariant === "electricity") return "electricity";
+  if (serviceVariant === "water") return "water";
+  if (serviceVariant === "pbb") return "pbb";
+  if (serviceVariant === "internet") return "internet";
+  if (serviceVariant === "finance") return "finance";
+  if (serviceVariant === "tv") return "tv";
+  if (serviceVariant === "bpjs") return "bpjs";
+  if (serviceVariant === "postpaid-phone") {
+    return item.info.toLowerCase().includes("pascabayar") ? "pulsa" : "pulsa";
+  }
+  if (serviceVariant === "data-package") return "data";
+  if (serviceVariant === "token-pln") return "token";
+  if (serviceVariant === "e-wallet") return "ewallet";
+
   const text = `${item.name} ${item.info}`.toLowerCase();
 
   if (text.includes("qris")) return "qris";

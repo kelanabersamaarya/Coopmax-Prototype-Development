@@ -26,6 +26,12 @@ import NewMBankingEWalletProviderPage, {
   type EWalletProvider,
 } from "@/components/mobile/new-mbanking/NewMBankingEWalletProviderPage";
 import NewMBankingEWalletTopUpPage from "@/components/mobile/new-mbanking/NewMBankingEWalletTopUpPage";
+import {
+  getNewMBankingSavedRecipients,
+  removeNewMBankingSavedRecipient,
+  savedRecipientToPaymentItem,
+  subscribeNewMBankingSavedRecipients,
+} from "@/lib/newMBankingSavedRecipientsStore";
 
 type PurchaseTab = "saved" | "history";
 
@@ -274,6 +280,15 @@ function extractSavedNumber(info: string) {
 function getEWalletProviderFromSaved(item: SavedPaymentItem): EWalletProvider {
   const text = `${item.name} ${item.info}`.toLowerCase();
 
+  if (item.providerName) {
+    return {
+      id: item.providerName.toLowerCase().replace(/\s+/g, "-"),
+      name: item.providerName,
+      description: `Top up saldo ${item.providerName}`,
+      colorClassName: "bg-[#4C2A86]",
+    };
+  }
+
   if (text.includes("dana")) {
     return {
       id: "dana",
@@ -318,6 +333,19 @@ function getEWalletProviderFromSaved(item: SavedPaymentItem): EWalletProvider {
   };
 }
 
+function uniqueItems(items: SavedPaymentItem[]) {
+  const seen = new Set<string>();
+  const result: SavedPaymentItem[] = [];
+
+  for (const item of items) {
+    if (seen.has(item.id)) continue;
+    seen.add(item.id);
+    result.push(item);
+  }
+
+  return result;
+}
+
 export default function NewMBankingPurchasePage({
   onBack,
 }: {
@@ -325,7 +353,8 @@ export default function NewMBankingPurchasePage({
 }) {
   const [activeTab, setActiveTab] = React.useState<PurchaseTab>("saved");
   const [activeMonth, setActiveMonth] = React.useState("Jun");
-  const [items, setItems] = React.useState<SavedPaymentItem[]>(savedPurchases);
+  const [seedItems, setSeedItems] = React.useState<SavedPaymentItem[]>(savedPurchases);
+  const [savedRefreshTick, setSavedRefreshTick] = React.useState(0);
   const [toastMessage, setToastMessage] = React.useState("");
   const [showPulsaPage, setShowPulsaPage] = React.useState(false);
   const [showPaketDataPage, setShowPaketDataPage] = React.useState(false);
@@ -336,6 +365,20 @@ export default function NewMBankingPurchasePage({
     React.useState<EWalletProvider | null>(null);
   const [prefillPhoneNumber, setPrefillPhoneNumber] = React.useState("");
   const [prefillMeterNo, setPrefillMeterNo] = React.useState("");
+
+  React.useEffect(() => {
+    return subscribeNewMBankingSavedRecipients(() =>
+      setSavedRefreshTick((current) => current + 1),
+    );
+  }, []);
+
+  const items = React.useMemo(() => {
+    const stored = getNewMBankingSavedRecipients("purchase").map(
+      savedRecipientToPaymentItem,
+    );
+
+    return uniqueItems([...stored, ...seedItems]);
+  }, [savedRefreshTick, seedItems]);
 
   function showToast(message: string) {
     setToastMessage("");
@@ -349,7 +392,8 @@ export default function NewMBankingPurchasePage({
 
   function openSavedPurchase(item: SavedPaymentItem) {
     const info = item.info.toLowerCase();
-    const number = extractSavedNumber(item.info);
+    const number = item.customerNo ?? extractSavedNumber(item.info);
+    const serviceVariant = item.serviceVariant ?? "";
 
     setShowPulsaPage(false);
     setShowPaketDataPage(false);
@@ -357,28 +401,32 @@ export default function NewMBankingPurchasePage({
     setShowEWalletProviderPage(false);
     setSelectedEWalletProvider(null);
 
-    if (info.includes("paket data")) {
+    if (serviceVariant === "data-package" || info.includes("paket data")) {
       setPrefillPhoneNumber(number);
       setPrefillMeterNo("");
       setShowPaketDataPage(true);
       return;
     }
 
-    if (info.includes("token")) {
+    if (serviceVariant === "token-pln" || info.includes("token")) {
       setPrefillMeterNo(number);
       setPrefillPhoneNumber("");
       setShowTokenPlnPage(true);
       return;
     }
 
-    if (info.includes("e-wallet") || info.includes("ewallet")) {
+    if (
+      serviceVariant === "e-wallet" ||
+      info.includes("e-wallet") ||
+      info.includes("ewallet")
+    ) {
       setPrefillPhoneNumber(number);
       setPrefillMeterNo("");
       setSelectedEWalletProvider(getEWalletProviderFromSaved(item));
       return;
     }
 
-    if (info.includes("pulsa")) {
+    if (serviceVariant === "postpaid-phone" || info.includes("pulsa")) {
       setPrefillPhoneNumber(number);
       setPrefillMeterNo("");
       setShowPulsaPage(true);
@@ -388,12 +436,24 @@ export default function NewMBankingPurchasePage({
     showToast(`${item.name} berhasil dibuka`);
   }
 
+  function deleteSavedPurchase(id: string) {
+    if (id.includes("::")) {
+      removeNewMBankingSavedRecipient(id);
+      setSavedRefreshTick((current) => current + 1);
+    } else {
+      setSeedItems((current) => current.filter((item) => item.id !== id));
+    }
+
+    showToast("Pembelian tersimpan berhasil dihapus");
+  }
+
   if (showPulsaPage) {
     return (
       <NewMBankingPulsaPurchasePage
         initialPhoneNumber={prefillPhoneNumber}
         onBack={() => {
           resetSavedPrefill();
+          setSavedRefreshTick((current) => current + 1);
           setShowPulsaPage(false);
         }}
       />
@@ -406,6 +466,7 @@ export default function NewMBankingPurchasePage({
         initialPhoneNumber={prefillPhoneNumber}
         onBack={() => {
           resetSavedPrefill();
+          setSavedRefreshTick((current) => current + 1);
           setShowPaketDataPage(false);
         }}
       />
@@ -418,6 +479,7 @@ export default function NewMBankingPurchasePage({
         initialMeterNo={prefillMeterNo}
         onBack={() => {
           resetSavedPrefill();
+          setSavedRefreshTick((current) => current + 1);
           setShowTokenPlnPage(false);
         }}
       />
@@ -431,6 +493,7 @@ export default function NewMBankingPurchasePage({
         initialPhoneNumber={prefillPhoneNumber}
         onBack={() => {
           resetSavedPrefill();
+          setSavedRefreshTick((current) => current + 1);
           setSelectedEWalletProvider(null);
         }}
       />
@@ -574,10 +637,7 @@ export default function NewMBankingPurchasePage({
             <NewMBankingSavedPaymentAccordion
               items={items}
               onOpenItem={openSavedPurchase}
-              onDeleteItem={(id) => {
-                setItems((current) => current.filter((item) => item.id !== id));
-                showToast("Pembelian tersimpan berhasil dihapus");
-              }}
+              onDeleteItem={deleteSavedPurchase}
             />
           ) : (
             <>
@@ -596,6 +656,7 @@ export default function NewMBankingPurchasePage({
         <History />
         <Landmark />
         <Trash2 />
+        {savedRefreshTick}
       </div>
     </div>
   );

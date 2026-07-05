@@ -19,6 +19,11 @@ import NewMBankingSaveTransactionTargetModal from "@/components/mobile/new-mbank
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import {
+  inferSavedRecipientKind,
+  isNewMBankingRecipientSaved,
+  saveNewMBankingRecipient,
+} from "@/lib/newMBankingSavedRecipientsStore";
 
 type ServiceVariant =
   | "electricity"
@@ -141,7 +146,16 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   onSaveRecipient?: () => void;
 }) {
   const [toastMessage, setToastMessage] = React.useState("");
-  const [recipientSaved, setRecipientSaved] = React.useState(recipientAlreadySaved);
+  const inferredKind = inferSavedRecipientKind({ providerName, serviceVariant });
+  const savedInStore = isNewMBankingRecipientSaved({
+    kind: inferredKind,
+    providerName,
+    customerNo,
+    serviceVariant,
+  });
+  const [recipientSaved, setRecipientSaved] = React.useState(
+    recipientAlreadySaved || savedInStore,
+  );
   const [saveTargetOpen, setSaveTargetOpen] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
@@ -152,8 +166,8 @@ export default function NewMBankingElectricityPaymentSuccessPage({
     serviceVariant !== "e-wallet";
 
   React.useEffect(() => {
-    setRecipientSaved(recipientAlreadySaved);
-  }, [recipientAlreadySaved]);
+    setRecipientSaved(recipientAlreadySaved || savedInStore);
+  }, [recipientAlreadySaved, savedInStore]);
 
   function showToast(message: string) {
     setToastMessage("");
@@ -165,7 +179,21 @@ export default function NewMBankingElectricityPaymentSuccessPage({
     setSaveTargetOpen(true);
   }
 
-  function confirmSaveRecipient() {
+  function confirmSaveRecipient(data: {
+    name: string;
+    providerName: string;
+    customerNo: string;
+    numberLabel: string;
+  }) {
+    saveNewMBankingRecipient({
+      kind: inferredKind,
+      name: data.name,
+      providerName: data.providerName,
+      customerNo: data.customerNo,
+      numberLabel: data.numberLabel,
+      serviceVariant,
+    });
+
     onSaveRecipient?.();
     setRecipientSaved(true);
     setSaveTargetOpen(false);
@@ -189,7 +217,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
         providerName={providerName}
         customerNo={customerNo}
         serviceVariant={serviceVariant}
-        onSave={() => confirmSaveRecipient()}
+        onSave={confirmSaveRecipient}
       />
 
       <main className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
