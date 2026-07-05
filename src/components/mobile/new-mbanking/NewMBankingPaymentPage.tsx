@@ -200,6 +200,12 @@ function getSavedPaymentService(item: SavedPaymentItem) {
   return null;
 }
 
+function getSavedPaymentCustomerNo(item: SavedPaymentItem) {
+  const parts = item.info.split("-");
+  const lastPart = parts[parts.length - 1] ?? "";
+  return lastPart.replace(/[^\d]/g, "");
+}
+
 export default function NewMBankingPaymentPage({
   onBack,
 }: {
@@ -214,22 +220,29 @@ export default function NewMBankingPaymentPage({
   const [selectedProvider, setSelectedProvider] = React.useState<string | null>(
     null,
   );
+  const [selectedCustomerNo, setSelectedCustomerNo] = React.useState("");
 
   function returnToPaymentHome() {
     setActiveService(null);
     setSelectedProvider(null);
+    setSelectedCustomerNo("");
     setActiveTab("saved");
   }
 
-  function openService(service: ServiceVariant, provider?: string) {
+  function openService(
+    service: ServiceVariant,
+    provider?: string,
+    customerNo = "",
+  ) {
     setActiveService(service);
     setSelectedProvider(provider ?? null);
+    setSelectedCustomerNo(customerNo);
   }
 
   function openSavedPayment(item: SavedPaymentItem) {
     const service = getSavedPaymentService(item);
     if (service) {
-      openService(service, item.name);
+      openService(service, item.name, getSavedPaymentCustomerNo(item));
     }
   }
 
@@ -241,7 +254,11 @@ export default function NewMBankingPaymentPage({
         title={config.title}
         providerName={selectedProvider}
         serviceVariant={activeService}
-        onBack={() => setSelectedProvider(null)}
+        initialCustomerNo={selectedCustomerNo}
+        onBack={() => {
+          setSelectedProvider(null);
+          setSelectedCustomerNo("");
+        }}
         onDone={returnToPaymentHome}
       />
     );
@@ -255,7 +272,10 @@ export default function NewMBankingPaymentPage({
         title={config.title}
         providers={config.providers}
         iconVariant={config.iconVariant}
-        onBack={() => setActiveService(null)}
+        onBack={() => {
+          setActiveService(null);
+          setSelectedCustomerNo("");
+        }}
         onSelectProvider={(provider) => setSelectedProvider(provider)}
       />
     );

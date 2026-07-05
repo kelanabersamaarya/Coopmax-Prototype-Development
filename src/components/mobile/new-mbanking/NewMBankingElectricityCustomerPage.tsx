@@ -100,14 +100,16 @@ export default function NewMBankingElectricityCustomerPage({
   onDone,
   title = "Listrik PLN",
   serviceVariant = "electricity",
+  initialCustomerNo = "",
 }: {
   providerName: string;
   onBack: () => void;
   onDone: () => void;
   title?: string;
   serviceVariant?: ServiceVariant;
+  initialCustomerNo?: string;
 }) {
-  const [customerNo, setCustomerNo] = React.useState("");
+  const [customerNo, setCustomerNo] = React.useState(initialCustomerNo);
   const [bpjsMonths, setBpjsMonths] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
@@ -118,6 +120,10 @@ export default function NewMBankingElectricityCustomerPage({
   const fieldPlaceholder = isPostpaidPhone
     ? "Masukkan No. Handphone"
     : "Masukkan No. Pelanggan";
+
+  React.useEffect(() => {
+    setCustomerNo(initialCustomerNo);
+  }, [initialCustomerNo]);
 
   function choosePhoneContact() {
     setCustomerNo("0819987262");
