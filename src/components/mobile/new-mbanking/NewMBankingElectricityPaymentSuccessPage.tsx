@@ -98,6 +98,8 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   onDone,
   serviceVariant = "electricity",
   bpjsMonths = "1 Bulan",
+  recipientAlreadySaved = false,
+  onSaveRecipient,
 }: {
   providerName: string;
   customerName: string;
@@ -109,10 +111,23 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   onDone: () => void;
   serviceVariant?: ServiceVariant;
   bpjsMonths?: string;
+  recipientAlreadySaved?: boolean;
+  onSaveRecipient?: () => void;
 }) {
-  const [saved, setSaved] = React.useState(false);
+  const [proofSaved, setProofSaved] = React.useState(false);
+  const [recipientSaved, setRecipientSaved] = React.useState(recipientAlreadySaved);
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
+
+  React.useEffect(() => {
+    setRecipientSaved(recipientAlreadySaved);
+  }, [recipientAlreadySaved]);
+
+  function saveRecipient() {
+    if (recipientSaved) return;
+    onSaveRecipient?.();
+    setRecipientSaved(true);
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 text-black">
@@ -198,16 +213,38 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             <div className="mt-[22px] grid w-full grid-cols-1 gap-[8px]">
               <button
                 type="button"
-                onClick={() => setSaved(true)}
+                onClick={saveRecipient}
+                disabled={recipientSaved}
                 className={cn(
                   "h-[42px] rounded-[10px] border-2 bg-white",
-                  saved
+                  recipientSaved
+                    ? "cursor-not-allowed border-[#33AA00] text-[#33AA00]"
+                    : "border-[#479DF4] text-[#479DF4]",
+                  "text-[12px] font-normal leading-none transition active:scale-[0.98]",
+                )}
+              >
+                {recipientSaved ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Check className="h-4 w-4" strokeWidth={3} />
+                    Penerima Tersimpan
+                  </span>
+                ) : (
+                  "Simpan Penerima"
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setProofSaved(true)}
+                className={cn(
+                  "h-[42px] rounded-[10px] border-2 bg-white",
+                  proofSaved
                     ? "border-[#33AA00] text-[#33AA00]"
                     : "border-[#479DF4] text-[#479DF4]",
                   "text-[12px] font-normal leading-none transition active:scale-[0.98]",
                 )}
               >
-                {saved ? (
+                {proofSaved ? (
                   <span className="inline-flex items-center justify-center gap-2">
                     <Check className="h-4 w-4" strokeWidth={3} />
                     Bukti Tersimpan

@@ -121,6 +121,8 @@ export default function NewMBankingElectricityBillReviewPage({
   title = "Listrik PLN",
   serviceVariant = "electricity",
   bpjsMonths = "1 Bulan",
+  recipientAlreadySaved = false,
+  onSaveRecipient,
 }: {
   providerName: string;
   customerNo: string;
@@ -129,6 +131,8 @@ export default function NewMBankingElectricityBillReviewPage({
   title?: string;
   serviceVariant?: ServiceVariant;
   bpjsMonths?: string;
+  recipientAlreadySaved?: boolean;
+  onSaveRecipient?: () => void;
 }) {
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
@@ -156,6 +160,8 @@ export default function NewMBankingElectricityBillReviewPage({
         sourceFund={sourceFund}
         serviceVariant={serviceVariant}
         bpjsMonths={bpjsMonths}
+        recipientAlreadySaved={recipientAlreadySaved}
+        onSaveRecipient={onSaveRecipient}
         onDone={onDone}
       />
     );

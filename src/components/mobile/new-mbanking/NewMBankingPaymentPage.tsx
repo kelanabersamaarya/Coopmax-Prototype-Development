@@ -40,47 +40,56 @@ const serviceConfigs: Record<
     title: string;
     providers: string[];
     iconVariant: ServiceVariant;
+    savedLabel: string;
   }
 > = {
   electricity: {
     title: "Listrik PLN",
     providers: ["PLN Pospaid", "PLN Prepaid", "Non Tagihan Listrik"],
     iconVariant: "electricity",
+    savedLabel: "Listrik",
   },
   water: {
     title: "Air",
     providers: ["PDAM Kota", "Air Bersih", "PAM Daerah"],
     iconVariant: "water",
+    savedLabel: "Air",
   },
   pbb: {
     title: "PBB",
     providers: ["PBB Kota", "PBB Kabupaten", "PBB Provinsi"],
     iconVariant: "pbb",
+    savedLabel: "PBB",
   },
   internet: {
     title: "Internet",
     providers: ["IndiHome", "Biznet", "First Media"],
     iconVariant: "internet",
+    savedLabel: "Internet",
   },
   finance: {
     title: "Finance",
     providers: ["Adira Finance", "FIFGROUP", "BCA Finance"],
     iconVariant: "finance",
+    savedLabel: "Finance",
   },
   tv: {
     title: "TV",
     providers: ["Transvision", "IndiHome TV", "MNC Vision"],
     iconVariant: "tv",
+    savedLabel: "TV",
   },
   bpjs: {
     title: "BPJS Kesehatan",
     providers: ["BPJS Kesehatan"],
     iconVariant: "bpjs",
+    savedLabel: "BPJS Kesehatan",
   },
   "postpaid-phone": {
     title: "Pulsa Pascabayar",
     providers: ["Telkomsel Pascabayar", "XL Pascabayar", "Indosat Pascabayar"],
     iconVariant: "postpaid-phone",
+    savedLabel: "Pulsa Pascabayar",
   },
 };
 
@@ -206,6 +215,10 @@ function getSavedPaymentCustomerNo(item: SavedPaymentItem) {
   return lastPart.replace(/[^\d]/g, "");
 }
 
+function normalizeDigits(value: string) {
+  return (value ?? "").replace(/[^\d]/g, "");
+}
+
 export default function NewMBankingPaymentPage({
   onBack,
 }: {
@@ -246,6 +259,64 @@ export default function NewMBankingPaymentPage({
     }
   }
 
+  function isRecipientSaved({
+    providerName,
+    customerNo,
+    serviceVariant,
+  }: {
+    providerName: string;
+    customerNo: string;
+    serviceVariant: ServiceVariant;
+  }) {
+    const normalizedCustomerNo = normalizeDigits(customerNo);
+    if (!normalizedCustomerNo) return false;
+
+    return items.some((item) => {
+      const itemService = getSavedPaymentService(item);
+      const itemCustomerNo = getSavedPaymentCustomerNo(item);
+
+      return (
+        itemService === serviceVariant &&
+        item.name.trim().toLowerCase() === providerName.trim().toLowerCase() &&
+        itemCustomerNo === normalizedCustomerNo
+      );
+    });
+  }
+
+  function saveRecipient({
+    providerName,
+    customerNo,
+    serviceVariant,
+  }: {
+    providerName: string;
+    customerNo: string;
+    serviceVariant: ServiceVariant;
+  }) {
+    const normalizedCustomerNo = normalizeDigits(customerNo);
+    if (!normalizedCustomerNo) return;
+
+    if (
+      isRecipientSaved({
+        providerName,
+        customerNo: normalizedCustomerNo,
+        serviceVariant,
+      })
+    ) {
+      return;
+    }
+
+    const config = serviceConfigs[serviceVariant];
+
+    setItems((current) => [
+      {
+        id: `saved-${serviceVariant}-${normalizedCustomerNo}-${Date.now()}`,
+        name: providerName,
+        info: `${config.savedLabel} - ${normalizedCustomerNo}`,
+      },
+      ...current,
+    ]);
+  }
+
   if (activeService && selectedProvider) {
     const config = serviceConfigs[activeService];
 
@@ -255,6 +326,8 @@ export default function NewMBankingPaymentPage({
         providerName={selectedProvider}
         serviceVariant={activeService}
         initialCustomerNo={selectedCustomerNo}
+        isRecipientSaved={isRecipientSaved}
+        onSaveRecipient={saveRecipient}
         onBack={() => {
           setSelectedProvider(null);
           setSelectedCustomerNo("");
