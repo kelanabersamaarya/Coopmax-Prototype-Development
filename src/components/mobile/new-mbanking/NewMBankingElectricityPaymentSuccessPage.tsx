@@ -119,8 +119,13 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   onSaveRecipient?: () => void;
 }) {
   const [toastMessage, setToastMessage] = React.useState("");
+  const [recipientSaved, setRecipientSaved] = React.useState(recipientAlreadySaved);
   const Icon = getServiceIcon(serviceVariant);
   const successText = getSuccessText(serviceVariant);
+
+  React.useEffect(() => {
+    setRecipientSaved(recipientAlreadySaved);
+  }, [recipientAlreadySaved]);
 
   function showToast(message: string) {
     setToastMessage("");
@@ -128,10 +133,10 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   }
 
   function saveRecipient() {
-    if (!recipientAlreadySaved) {
-      onSaveRecipient?.();
-    }
+    if (recipientSaved) return;
 
+    onSaveRecipient?.();
+    setRecipientSaved(true);
     showToast("Sukses menyimpan penerima");
   }
 
@@ -190,6 +195,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
                 label="Simpan Penerima"
                 icon={UserPlus}
                 onClick={saveRecipient}
+                disabled={recipientSaved}
               />
             </div>
 
