@@ -56,10 +56,12 @@ function normalizeNominalPulsa(value: string) {
 
 export default function NewMBankingPulsaPurchasePage({
   onBack,
+  initialPhoneNumber = "",
 }: {
   onBack: () => void;
+  initialPhoneNumber?: string;
 }) {
-  const [phoneNumber, setPhoneNumber] = React.useState("0819987262");
+  const [phoneNumber, setPhoneNumber] = React.useState(initialPhoneNumber);
   const [selectedNominal, setSelectedNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
@@ -77,6 +79,10 @@ export default function NewMBankingPulsaPurchasePage({
     parseIdrLike(normalizedAmount) + parseIdrLike(adminFee),
   );
   const hasPhoneNumber = phoneNumber.trim().length > 0;
+
+  React.useEffect(() => {
+    setPhoneNumber(initialPhoneNumber);
+  }, [initialPhoneNumber]);
 
   function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");

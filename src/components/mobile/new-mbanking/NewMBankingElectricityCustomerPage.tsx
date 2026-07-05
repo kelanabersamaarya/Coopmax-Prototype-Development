@@ -93,17 +93,6 @@ function getHelperText(variant: ServiceVariant) {
   return "Masukkan nomor pelanggan untuk melanjutkan pembayaran listrik.";
 }
 
-function getDefaultCustomerNo(variant: ServiceVariant) {
-  if (variant === "water") return "8888001122";
-  if (variant === "pbb") return "510302000123456";
-  if (variant === "internet") return "122334455667";
-  if (variant === "finance") return "778899001122";
-  if (variant === "tv") return "556677889900";
-  if (variant === "bpjs") return "0001234567890";
-  if (variant === "postpaid-phone") return "0819987262";
-  return "530000112233";
-}
-
 export default function NewMBankingElectricityCustomerPage({
   providerName,
   onBack,
@@ -131,9 +120,7 @@ export default function NewMBankingElectricityCustomerPage({
     serviceVariant: ServiceVariant;
   }) => void;
 }) {
-  const [customerNo, setCustomerNo] = React.useState(
-    initialCustomerNo || getDefaultCustomerNo(serviceVariant),
-  );
+  const [customerNo, setCustomerNo] = React.useState(initialCustomerNo);
   const [bpjsMonths, setBpjsMonths] = React.useState("");
   const [showReview, setShowReview] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
@@ -146,7 +133,7 @@ export default function NewMBankingElectricityCustomerPage({
     : "Masukkan No. Pelanggan";
 
   React.useEffect(() => {
-    setCustomerNo(initialCustomerNo || getDefaultCustomerNo(serviceVariant));
+    setCustomerNo(initialCustomerNo);
   }, [initialCustomerNo, serviceVariant]);
 
   function continuePayment() {

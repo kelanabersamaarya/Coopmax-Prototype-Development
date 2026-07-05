@@ -265,6 +265,59 @@ function PurchaseHistoryList({ activeMonth }: { activeMonth: string }) {
   );
 }
 
+function extractSavedNumber(info: string) {
+  const parts = info.split("-");
+  const candidate = parts[parts.length - 1]?.trim() ?? "";
+  return candidate.replace(/[^\d]/g, "");
+}
+
+function getEWalletProviderFromSaved(item: SavedPaymentItem): EWalletProvider {
+  const text = `${item.name} ${item.info}`.toLowerCase();
+
+  if (text.includes("dana")) {
+    return {
+      id: "dana",
+      name: "DANA",
+      description: "Top up saldo DANA",
+      colorClassName: "bg-[#118EEA]",
+    };
+  }
+
+  if (text.includes("gopay")) {
+    return {
+      id: "gopay",
+      name: "GoPay",
+      description: "Top up saldo GoPay",
+      colorClassName: "bg-[#00AA13]",
+    };
+  }
+
+  if (text.includes("shopeepay")) {
+    return {
+      id: "shopeepay",
+      name: "ShopeePay",
+      description: "Top up saldo ShopeePay",
+      colorClassName: "bg-[#EE4D2D]",
+    };
+  }
+
+  if (text.includes("linkaja")) {
+    return {
+      id: "linkaja",
+      name: "LinkAja",
+      description: "Top up saldo LinkAja",
+      colorClassName: "bg-[#E31E24]",
+    };
+  }
+
+  return {
+    id: "ovo",
+    name: "OVO",
+    description: "Top up saldo OVO",
+    colorClassName: "bg-[#4C2A86]",
+  };
+}
+
 export default function NewMBankingPurchasePage({
   onBack,
 }: {
@@ -281,20 +334,80 @@ export default function NewMBankingPurchasePage({
     React.useState(false);
   const [selectedEWalletProvider, setSelectedEWalletProvider] =
     React.useState<EWalletProvider | null>(null);
+  const [prefillPhoneNumber, setPrefillPhoneNumber] = React.useState("");
+  const [prefillMeterNo, setPrefillMeterNo] = React.useState("");
 
   function showToast(message: string) {
     setToastMessage("");
     window.setTimeout(() => setToastMessage(message), 0);
   }
 
+  function resetSavedPrefill() {
+    setPrefillPhoneNumber("");
+    setPrefillMeterNo("");
+  }
+
+  function openSavedPurchase(item: SavedPaymentItem) {
+    const info = item.info.toLowerCase();
+    const number = extractSavedNumber(item.info);
+
+    setShowPulsaPage(false);
+    setShowPaketDataPage(false);
+    setShowTokenPlnPage(false);
+    setShowEWalletProviderPage(false);
+    setSelectedEWalletProvider(null);
+
+    if (info.includes("paket data")) {
+      setPrefillPhoneNumber(number);
+      setPrefillMeterNo("");
+      setShowPaketDataPage(true);
+      return;
+    }
+
+    if (info.includes("token")) {
+      setPrefillMeterNo(number);
+      setPrefillPhoneNumber("");
+      setShowTokenPlnPage(true);
+      return;
+    }
+
+    if (info.includes("e-wallet") || info.includes("ewallet")) {
+      setPrefillPhoneNumber(number);
+      setPrefillMeterNo("");
+      setSelectedEWalletProvider(getEWalletProviderFromSaved(item));
+      return;
+    }
+
+    if (info.includes("pulsa")) {
+      setPrefillPhoneNumber(number);
+      setPrefillMeterNo("");
+      setShowPulsaPage(true);
+      return;
+    }
+
+    showToast(`${item.name} berhasil dibuka`);
+  }
+
   if (showPulsaPage) {
-    return <NewMBankingPulsaPurchasePage onBack={() => setShowPulsaPage(false)} />;
+    return (
+      <NewMBankingPulsaPurchasePage
+        initialPhoneNumber={prefillPhoneNumber}
+        onBack={() => {
+          resetSavedPrefill();
+          setShowPulsaPage(false);
+        }}
+      />
+    );
   }
 
   if (showPaketDataPage) {
     return (
       <NewMBankingPaketDataPurchasePage
-        onBack={() => setShowPaketDataPage(false)}
+        initialPhoneNumber={prefillPhoneNumber}
+        onBack={() => {
+          resetSavedPrefill();
+          setShowPaketDataPage(false);
+        }}
       />
     );
   }
@@ -302,7 +415,11 @@ export default function NewMBankingPurchasePage({
   if (showTokenPlnPage) {
     return (
       <NewMBankingTokenPlnPurchasePage
-        onBack={() => setShowTokenPlnPage(false)}
+        initialMeterNo={prefillMeterNo}
+        onBack={() => {
+          resetSavedPrefill();
+          setShowTokenPlnPage(false);
+        }}
       />
     );
   }
@@ -311,7 +428,11 @@ export default function NewMBankingPurchasePage({
     return (
       <NewMBankingEWalletTopUpPage
         provider={selectedEWalletProvider}
-        onBack={() => setSelectedEWalletProvider(null)}
+        initialPhoneNumber={prefillPhoneNumber}
+        onBack={() => {
+          resetSavedPrefill();
+          setSelectedEWalletProvider(null);
+        }}
       />
     );
   }
@@ -321,6 +442,7 @@ export default function NewMBankingPurchasePage({
       <NewMBankingEWalletProviderPage
         onBack={() => setShowEWalletProviderPage(false)}
         onSelectProvider={(provider) => {
+          resetSavedPrefill();
           setSelectedEWalletProvider(provider);
           setShowEWalletProviderPage(false);
         }}
@@ -366,6 +488,8 @@ export default function NewMBankingPurchasePage({
                   key={category.label}
                   type="button"
                   onClick={() => {
+                    resetSavedPrefill();
+
                     if (category.label === "Pulsa") {
                       setShowPulsaPage(true);
                       return;
@@ -449,7 +573,7 @@ export default function NewMBankingPurchasePage({
           {activeTab === "saved" ? (
             <NewMBankingSavedPaymentAccordion
               items={items}
-              onOpenItem={(item) => showToast(`${item.name} berhasil dibuka`)}
+              onOpenItem={openSavedPurchase}
               onDeleteItem={(id) => {
                 setItems((current) => current.filter((item) => item.id !== id));
                 showToast("Pembelian tersimpan berhasil dihapus");

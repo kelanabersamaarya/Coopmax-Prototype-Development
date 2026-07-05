@@ -63,10 +63,12 @@ function formatIdr(value: number) {
 
 export default function NewMBankingPaketDataPurchasePage({
   onBack,
+  initialPhoneNumber = "",
 }: {
   onBack: () => void;
+  initialPhoneNumber?: string;
 }) {
-  const [phoneNumber, setPhoneNumber] = React.useState("0819987262");
+  const [phoneNumber, setPhoneNumber] = React.useState(initialPhoneNumber);
   const [selectedPackageId, setSelectedPackageId] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
@@ -86,6 +88,10 @@ export default function NewMBankingPaketDataPurchasePage({
     parseIdrLike(selectedAmount) + parseIdrLike(adminFee),
   );
   const hasPhoneNumber = phoneNumber.trim().length > 0;
+
+  React.useEffect(() => {
+    setPhoneNumber(initialPhoneNumber);
+  }, [initialPhoneNumber]);
 
   function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");

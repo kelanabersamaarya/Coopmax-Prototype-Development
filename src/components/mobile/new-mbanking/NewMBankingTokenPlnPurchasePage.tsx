@@ -45,10 +45,12 @@ function formatIdr(value: number) {
 
 export default function NewMBankingTokenPlnPurchasePage({
   onBack,
+  initialMeterNo = "",
 }: {
   onBack: () => void;
+  initialMeterNo?: string;
 }) {
-  const [meterNo, setMeterNo] = React.useState("530000112233");
+  const [meterNo, setMeterNo] = React.useState(initialMeterNo);
   const [selectedNominal, setSelectedNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
@@ -64,6 +66,10 @@ export default function NewMBankingTokenPlnPurchasePage({
   const totalTransaction = formatIdr(
     parseIdrLike(selectedNominal) + parseIdrLike(adminFee),
   );
+
+  React.useEffect(() => {
+    setMeterNo(initialMeterNo);
+  }, [initialMeterNo]);
 
   function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");

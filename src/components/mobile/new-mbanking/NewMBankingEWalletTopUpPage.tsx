@@ -51,11 +51,13 @@ function formatIdr(value: number) {
 export default function NewMBankingEWalletTopUpPage({
   provider,
   onBack,
+  initialPhoneNumber = "",
 }: {
   provider: EWalletProvider;
   onBack: () => void;
+  initialPhoneNumber?: string;
 }) {
-  const [phoneNumber, setPhoneNumber] = React.useState("0819987262");
+  const [phoneNumber, setPhoneNumber] = React.useState(initialPhoneNumber);
   const [selectedNominal, setSelectedNominal] = React.useState("");
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
   const [sourceFund, setSourceFund] =
@@ -72,6 +74,10 @@ export default function NewMBankingEWalletTopUpPage({
     parseIdrLike(selectedNominal) + parseIdrLike(adminFee),
   );
   const hasPhoneNumber = phoneNumber.trim().length > 0;
+
+  React.useEffect(() => {
+    setPhoneNumber(initialPhoneNumber);
+  }, [initialPhoneNumber, provider.id]);
 
   function showToast(message: string, variant: "success" | "warning" = "success") {
     setToastMessage("");
