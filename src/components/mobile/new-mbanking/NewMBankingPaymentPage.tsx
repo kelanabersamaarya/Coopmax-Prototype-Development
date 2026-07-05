@@ -19,6 +19,10 @@ import NewMBankingPaymentHistoryList from "@/components/mobile/new-mbanking/NewM
 import NewMBankingPaymentMonthSelector from "@/components/mobile/new-mbanking/NewMBankingPaymentMonthSelector";
 import NewMBankingElectricityProviderPage from "@/components/mobile/new-mbanking/NewMBankingElectricityProviderPage";
 import NewMBankingElectricityCustomerPage from "@/components/mobile/new-mbanking/NewMBankingElectricityCustomerPage";
+import NewMBankingSavedPaymentAccordion, {
+  type SavedPaymentItem,
+} from "@/components/mobile/new-mbanking/NewMBankingSavedPaymentAccordion";
+import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 
 type PaymentTab = "saved" | "history";
 
@@ -106,88 +110,28 @@ const paymentCategories: PaymentCategory[] = [
   },
 ];
 
-const savedPayments = [
+const savedPaymentsSeed: SavedPaymentItem[] = [
   {
     id: "xl-postpaid",
     name: "XL Pascabayar",
     info: "Pulsa Pascabayar - 0819987262",
-    icon: Smartphone,
-    frameClassName: "bg-[#EEF6FF] text-[#479DF4]",
   },
   {
     id: "pln-home",
     name: "PLN Rumah",
     info: "Listrik - 530000112233",
-    icon: Zap,
-    frameClassName: "bg-[#FFF7E6] text-[#F59E0B]",
   },
   {
     id: "indihome",
     name: "IndiHome",
     info: "Internet - 122334455667",
-    icon: Wifi,
-    frameClassName: "bg-[#EAF3FF] text-[#2563EB]",
   },
   {
     id: "bpjs-family",
     name: "BPJS Keluarga",
     info: "BPJS Kesehatan - 0001234567890",
-    icon: HeartPulse,
-    frameClassName: "bg-[#EAF8EF] text-[#22C55E]",
   },
 ];
-
-function SavedPaymentIcon({
-  icon: Icon,
-  frameClassName,
-}: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
-  frameClassName: string;
-}) {
-  return (
-    <span
-      className={cn(
-        "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full",
-        frameClassName,
-      )}
-    >
-      <Icon className="h-[22px] w-[22px]" strokeWidth={2.5} />
-    </span>
-  );
-}
-
-function SavedPaymentList({
-  onOpenSaved,
-}: {
-  onOpenSaved: (payment: (typeof savedPayments)[number]) => void;
-}) {
-  return (
-    <div className="mt-[18px] divide-y divide-[#EEF0F4]">
-      {savedPayments.map((payment) => (
-        <button
-          key={payment.id}
-          type="button"
-          onClick={() => onOpenSaved(payment)}
-          className="flex min-h-[64px] w-full items-center gap-3 py-[12px] text-left transition active:scale-[0.99]"
-        >
-          <SavedPaymentIcon
-            icon={payment.icon}
-            frameClassName={payment.frameClassName}
-          />
-
-          <div className="min-w-0">
-            <div className="truncate text-[15px] font-bold leading-tight tracking-[-0.02em] text-black">
-              {payment.name}
-            </div>
-            <div className="mt-[5px] truncate text-[12px] font-normal leading-tight text-[#8F8F8F]">
-              {payment.info}
-            </div>
-          </div>
-        </button>
-      ))}
-    </div>
-  );
-}
 
 function getInitialCustomerNo(providerName: string) {
   if (providerName.toLowerCase().includes("xl")) return "0819987262";
@@ -210,6 +154,14 @@ export default function NewMBankingPaymentPage({
     null,
   );
   const [initialCustomerNo, setInitialCustomerNo] = React.useState("");
+  const [savedPayments, setSavedPayments] =
+    React.useState<SavedPaymentItem[]>(savedPaymentsSeed);
+  const [toastMessage, setToastMessage] = React.useState("");
+
+  function showToast(message: string) {
+    setToastMessage("");
+    window.setTimeout(() => setToastMessage(message), 0);
+  }
 
   function openCategory(category: PaymentCategory) {
     setInitialCustomerNo("");
@@ -217,15 +169,17 @@ export default function NewMBankingPaymentPage({
     setSelectedCategory(category);
   }
 
-  function openSavedPayment(payment: (typeof savedPayments)[number]) {
+  function openSavedPayment(payment: SavedPaymentItem) {
+    const info = payment.info.toLowerCase();
+
     const matchedCategory =
-      payment.info.includes("Pulsa Pascabayar")
+      info.includes("pulsa")
         ? paymentCategories.find((category) => category.label === "Pulsa Pascabayar")
-        : payment.info.includes("Listrik")
+        : info.includes("listrik")
           ? paymentCategories.find((category) => category.label === "Listrik")
-          : payment.info.includes("Internet")
+          : info.includes("internet")
             ? paymentCategories.find((category) => category.label === "Internet")
-            : payment.info.includes("BPJS")
+            : info.includes("bpjs")
               ? paymentCategories.find((category) => category.label === "BPJS Kesehatan")
               : null;
 
@@ -276,7 +230,12 @@ export default function NewMBankingPaymentPage({
   }
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingInScreenToast
+        message={toastMessage}
+        onClose={() => setToastMessage("")}
+      />
+
       <div className="shrink-0 bg-[#F9F9F9]">
         <NewMBankingStatusBar />
 
@@ -367,7 +326,16 @@ export default function NewMBankingPaymentPage({
           </div>
 
           {activeTab === "saved" ? (
-            <SavedPaymentList onOpenSaved={openSavedPayment} />
+            <NewMBankingSavedPaymentAccordion
+              items={savedPayments}
+              onOpenItem={openSavedPayment}
+              onDeleteItem={(id) => {
+                setSavedPayments((current) =>
+                  current.filter((item) => item.id !== id),
+                );
+                showToast("Pembayaran tersimpan berhasil dihapus");
+              }}
+            />
           ) : (
             <>
               <NewMBankingPaymentMonthSelector
