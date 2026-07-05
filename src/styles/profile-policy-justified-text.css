@@ -15,9 +15,21 @@
   text-align: left;
 }
 
+[data-profile-sub-page-title="Syarat dan Ketentuan"].profile-policy-justified-text,
+[data-profile-sub-page-title="Kebijakan Privasi"].profile-policy-justified-text {
+  padding-top: 8px !important;
+}
+
 [data-profile-sub-page-title="Syarat dan Ketentuan"].profile-policy-justified-text
   > div:first-child,
 [data-profile-sub-page-title="Kebijakan Privasi"].profile-policy-justified-text
   > div:first-child {
   display: none !important;
+}
+
+[data-profile-sub-page-title="Syarat dan Ketentuan"].profile-policy-justified-text
+  > div:nth-child(2),
+[data-profile-sub-page-title="Kebijakan Privasi"].profile-policy-justified-text
+  > div:nth-child(2) {
+  margin-top: 0 !important;
 }
