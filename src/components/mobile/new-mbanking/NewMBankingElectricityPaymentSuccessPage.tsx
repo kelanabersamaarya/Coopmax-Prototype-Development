@@ -1,6 +1,8 @@
 import * as React from "react";
 import {
+  BookmarkPlus,
   Check,
+  Download,
   Droplets,
   HeartPulse,
   Landmark,
@@ -164,6 +166,57 @@ export default function NewMBankingElectricityPaymentSuccessPage({
               Ref ID : {getReferencePrefix(serviceVariant)}221112222
             </div>
 
+            <div className="mt-[14px] grid w-full grid-cols-1 gap-[8px]">
+              <button
+                type="button"
+                onClick={saveRecipient}
+                disabled={recipientSaved}
+                className={cn(
+                  "h-[42px] rounded-[10px] border-2 bg-white",
+                  recipientSaved
+                    ? "cursor-not-allowed border-[#33AA00] text-[#33AA00]"
+                    : "border-[#479DF4] text-[#479DF4]",
+                  "text-[12px] font-normal leading-none transition active:scale-[0.98]",
+                )}
+              >
+                {recipientSaved ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Check className="h-4 w-4" strokeWidth={3} />
+                    Penerima Tersimpan
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <BookmarkPlus className="h-4 w-4" strokeWidth={2.8} />
+                    Simpan Penerima
+                  </span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setProofSaved(true)}
+                className={cn(
+                  "h-[42px] rounded-[10px] border-2 bg-white",
+                  proofSaved
+                    ? "border-[#33AA00] text-[#33AA00]"
+                    : "border-[#479DF4] text-[#479DF4]",
+                  "text-[12px] font-normal leading-none transition active:scale-[0.98]",
+                )}
+              >
+                {proofSaved ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Check className="h-4 w-4" strokeWidth={3} />
+                    Bukti Tersimpan
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Download className="h-4 w-4" strokeWidth={2.8} />
+                    Simpan Bukti Transaksi
+                  </span>
+                )}
+              </button>
+            </div>
+
             <div className="mt-[18px] flex min-h-[68px] w-[302px] max-w-full items-center gap-[12px] rounded-[15px] border border-[#D8D8D8] bg-white px-[18px] text-left">
               <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-[#479DF4] text-white shadow-sm">
                 <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
@@ -211,49 +264,6 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             </div>
 
             <div className="mt-[22px] grid w-full grid-cols-1 gap-[8px]">
-              <button
-                type="button"
-                onClick={saveRecipient}
-                disabled={recipientSaved}
-                className={cn(
-                  "h-[42px] rounded-[10px] border-2 bg-white",
-                  recipientSaved
-                    ? "cursor-not-allowed border-[#33AA00] text-[#33AA00]"
-                    : "border-[#479DF4] text-[#479DF4]",
-                  "text-[12px] font-normal leading-none transition active:scale-[0.98]",
-                )}
-              >
-                {recipientSaved ? (
-                  <span className="inline-flex items-center justify-center gap-2">
-                    <Check className="h-4 w-4" strokeWidth={3} />
-                    Penerima Tersimpan
-                  </span>
-                ) : (
-                  "Simpan Penerima"
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setProofSaved(true)}
-                className={cn(
-                  "h-[42px] rounded-[10px] border-2 bg-white",
-                  proofSaved
-                    ? "border-[#33AA00] text-[#33AA00]"
-                    : "border-[#479DF4] text-[#479DF4]",
-                  "text-[12px] font-normal leading-none transition active:scale-[0.98]",
-                )}
-              >
-                {proofSaved ? (
-                  <span className="inline-flex items-center justify-center gap-2">
-                    <Check className="h-4 w-4" strokeWidth={3} />
-                    Bukti Tersimpan
-                  </span>
-                ) : (
-                  "Simpan Bukti Transaksi"
-                )}
-              </button>
-
               <button
                 type="button"
                 onClick={onDone}
