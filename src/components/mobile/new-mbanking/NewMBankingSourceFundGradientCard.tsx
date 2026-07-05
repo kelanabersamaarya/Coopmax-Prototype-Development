@@ -30,7 +30,7 @@ export default function NewMBankingSourceFundGradientCard({
       className={cn(
         "relative flex min-h-[118px] w-full items-center justify-between gap-4 overflow-hidden rounded-[15px]",
         "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
-        "px-[18px] py-[16px] text-left text-white shadow-[0_12px_26px_rgba(37,99,235,0.22)]",
+        "px-[18px] py-[16px] text-left text-white",
         "ring-1 ring-white/25",
         selected ? "outline outline-2 outline-[#479DF4]" : "",
         onClick ? "transition active:scale-[0.99]" : "",
