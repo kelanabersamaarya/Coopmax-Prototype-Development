@@ -19,6 +19,7 @@ import NewMBankingSourceFundModal, {
   type SourceFundAccount,
 } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 
 type ServiceVariant =
   | "electricity"
@@ -149,6 +150,7 @@ export default function NewMBankingElectricityConfirmModal({
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
   const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [showPinInput, setShowPinInput] = React.useState(false);
   const [selectedSourceFund, setSelectedSourceFund] =
     React.useState<SourceFundAccount>(sourceFund);
 
@@ -170,6 +172,7 @@ export default function NewMBankingElectricityConfirmModal({
     );
     setSelectedSourceFund(sourceFund);
     setSourceFundOpen(false);
+    setShowPinInput(false);
   }, [open, sourceFund]);
 
   function handleSelectSourceFund(nextSourceFund: SourceFundAccount) {
@@ -178,6 +181,23 @@ export default function NewMBankingElectricityConfirmModal({
   }
 
   if (!open || !mobileScreen) return null;
+
+  if (showPinInput) {
+    return createPortal(
+      <div className="absolute inset-0 z-[130] bg-white">
+        <NewMBankingPinInputPage
+          title="Konfirmasi Pembayaran"
+          description="Masukkan 6 digit PIN M-Banking untuk melanjutkan pembayaran."
+          onBack={() => setShowPinInput(false)}
+          onSubmit={() => {
+            setShowPinInput(false);
+            onConfirm();
+          }}
+        />
+      </div>,
+      mobileScreen,
+    );
+  }
 
   return createPortal(
     <div className="absolute inset-0 z-[120] flex items-end justify-center bg-black/35 px-5 pb-5 pt-8">
@@ -276,7 +296,10 @@ export default function NewMBankingElectricityConfirmModal({
         <div className="mt-[24px] grid grid-cols-1 gap-[10px]">
           <button
             type="button"
-            onClick={onConfirm}
+            onClick={() => {
+              setSourceFundOpen(false);
+              setShowPinInput(true);
+            }}
             className={cn(
               "h-[46px] rounded-[8px] bg-[#479DF4]",
               "text-[12px] font-semibold leading-none text-white",
