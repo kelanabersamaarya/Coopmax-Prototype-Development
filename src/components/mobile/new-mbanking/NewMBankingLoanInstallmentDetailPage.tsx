@@ -5,6 +5,7 @@ import NewMBankingBillListPage from "@/components/mobile/new-mbanking/NewMBankin
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingInstallmentConfirmModal from "@/components/mobile/new-mbanking/NewMBankingInstallmentConfirmModal";
 import NewMBankingInstallmentPaymentSuccessPage from "@/components/mobile/new-mbanking/NewMBankingInstallmentPaymentSuccessPage";
+import NewMBankingInstallmentVirtualAccountPage from "@/components/mobile/new-mbanking/NewMBankingInstallmentVirtualAccountPage";
 import NewMBankingLoanInstallmentHistoryPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentHistoryPage";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -37,6 +38,10 @@ const defaultSourceFund: SourceFundAccount = {
   accountNo: "112233111",
   balance: "Rp. 4.000.000,00",
 };
+
+function isVirtualAccountSourceFund(sourceFund: SourceFundAccount) {
+  return sourceFund.productName === "Virtual Account";
+}
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
@@ -133,8 +138,26 @@ export default function NewMBankingLoanInstallmentDetailPage({
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [showPinInput, setShowPinInput] = React.useState(false);
   const [showSuccess, setShowSuccess] = React.useState(false);
+  const [showVirtualAccountPage, setShowVirtualAccountPage] =
+    React.useState(false);
   const [successSourceFund, setSuccessSourceFund] =
     React.useState<SourceFundAccount>(defaultSourceFund);
+
+  if (showVirtualAccountPage) {
+    return (
+      <NewMBankingInstallmentVirtualAccountPage
+        productName={account.productName}
+        accountNo={account.accountNo}
+        installmentNo={account.installmentBill.installmentNo}
+        principal={account.installmentBill.principal}
+        interest={account.installmentBill.interest}
+        penalty={account.installmentBill.penalty}
+        totalPay={account.installmentBill.totalPay}
+        onBack={() => setShowVirtualAccountPage(false)}
+        onDone={onBack}
+      />
+    );
+  }
 
   if (showSuccess) {
     return (
@@ -160,6 +183,12 @@ export default function NewMBankingLoanInstallmentDetailPage({
         onBack={() => setShowPinInput(false)}
         onSubmit={() => {
           setShowPinInput(false);
+
+          if (isVirtualAccountSourceFund(successSourceFund)) {
+            setShowVirtualAccountPage(true);
+            return;
+          }
+
           setShowSuccess(true);
         }}
       />
