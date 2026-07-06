@@ -51,10 +51,6 @@ const guideSections: GuideSection[] = [
       "Tekan Daftar Sekarang untuk menyelesaikan pendaftaran.",
       "Jika berhasil, aplikasi menampilkan halaman sukses pendaftaran.",
     ],
-    tips: [
-      "Pastikan nomor telepon aktif karena akan digunakan untuk validasi akun.",
-      "Gunakan kata sandi yang kuat dan tidak mudah ditebak.",
-    ],
   },
   {
     title: "Masuk ke Aplikasi",
@@ -67,9 +63,6 @@ const guideSections: GuideSection[] = [
       "Aktifkan Simpan Username jika ingin username tersimpan otomatis.",
       "Tekan Masuk untuk masuk ke halaman Beranda.",
       "Jika lupa kata sandi, gunakan menu Lupa Kata Sandi bila sudah tersedia.",
-    ],
-    tips: [
-      "Jangan membagikan username, password, PIN, atau OTP kepada siapa pun.",
     ],
   },
   {
