@@ -161,13 +161,12 @@ export default function NewMBankingOnboardingIntro({
             transform-origin: top center;
           }
 
-          .onboarding-illustration-window {
-            top: 138px;
-            bottom: 266px;
+          .onboarding-illustration-position {
+            top: 128px;
           }
 
           .onboarding-illustration-scale {
-            --onboarding-illustration-scale: clamp(0.42, calc((100dvh - 390px) / 492), 0.68);
+            --onboarding-illustration-scale: clamp(0.58, calc((100dvh - 430px) / 492), 0.78);
           }
 
           @keyframes onboarding-soft-image-enter {
@@ -204,46 +203,53 @@ export default function NewMBankingOnboardingIntro({
             }
           }
 
-          @media (max-height: 700px) {
-            .onboarding-illustration-window {
-              top: 128px;
-              bottom: 266px;
+          @media (max-height: 760px) {
+            .onboarding-illustration-position {
+              top: 134px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: clamp(0.36, calc((100dvh - 382px) / 492), 0.55);
+              --onboarding-illustration-scale: clamp(0.50, calc((100dvh - 408px) / 492), 0.64);
             }
           }
 
-          @media (max-height: 620px) {
+          @media (max-height: 680px) {
+            .onboarding-illustration-position {
+              top: 122px;
+            }
+
+            .onboarding-illustration-scale {
+              --onboarding-illustration-scale: clamp(0.42, calc((100dvh - 382px) / 492), 0.52);
+            }
+          }
+
+          @media (max-height: 600px) {
             .onboarding-brand-safe {
-              transform: scale(0.92);
+              transform: scale(0.9);
               padding-top: 20px !important;
             }
 
-            .onboarding-illustration-window {
-              top: 116px;
-              bottom: 266px;
+            .onboarding-illustration-position {
+              top: 108px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: clamp(0.32, calc((100dvh - 370px) / 492), 0.44);
+              --onboarding-illustration-scale: 0.38;
             }
           }
 
-          @media (max-height: 560px) {
+          @media (max-height: 540px) {
             .onboarding-brand-safe {
-              transform: scale(0.84);
+              transform: scale(0.82);
               padding-top: 14px !important;
             }
 
-            .onboarding-illustration-window {
-              top: 102px;
-              bottom: 266px;
+            .onboarding-illustration-position {
+              top: 94px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: 0.34;
+              --onboarding-illustration-scale: 0.32;
             }
           }
 
@@ -273,7 +279,7 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="onboarding-illustration-window pointer-events-none absolute inset-x-0 z-0 flex justify-center overflow-hidden px-5">
+      <div className="onboarding-illustration-position pointer-events-none absolute inset-x-0 z-0 flex justify-center overflow-visible px-5">
         <div
           key={`image-${activeSlide}`}
           className="onboarding-soft-image onboarding-illustration-scale origin-top will-change-transform"
