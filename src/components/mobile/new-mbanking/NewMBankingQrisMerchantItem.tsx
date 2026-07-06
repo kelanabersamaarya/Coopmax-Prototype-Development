@@ -18,6 +18,21 @@ function SectionDivider() {
   return <div className="my-[10px] h-px w-full bg-[#D8D8D8]" />;
 }
 
+function onlyDigits(value: string) {
+  return (value ?? "").replace(/[^\d]/g, "");
+}
+
+function formatQrisNominal(value: string) {
+  const digits = onlyDigits(value);
+
+  if (!digits) return "";
+
+  const normalizedDigits = digits.replace(/^0+(?=\d)/, "");
+  const formatted = normalizedDigits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  return `Rp. ${formatted || "0"},00`;
+}
+
 export default function NewMBankingQrisMerchantItem({
   onContinuePayment,
 }: {
@@ -99,9 +114,12 @@ export default function NewMBankingQrisMerchantItem({
 
           <input
             value={nominal}
-            onChange={(event) => setNominal(event.target.value)}
+            onChange={(event) => {
+              setNominal(formatQrisNominal(event.target.value));
+              setToastMessage("");
+            }}
             placeholder="Masukkan Nominal Pembayaran"
-            inputMode="decimal"
+            inputMode="numeric"
             className={cn(
               "mt-[5px] h-[41px] w-[345px] max-w-full rounded-[9px] border border-[#CDD4E0] bg-white px-4",
               "text-[14px] font-normal text-black shadow-none outline-none",
