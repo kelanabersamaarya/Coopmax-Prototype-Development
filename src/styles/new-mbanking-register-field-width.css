@@ -29,3 +29,27 @@
   padding-left: 18px !important;
   padding-right: 18px !important;
 }
+
+/* New M-Banking: perlebar field pada halaman Masuk/Login detail. */
+[data-mobile-screen="true"]
+  section.relative.h-\[252px\].shrink-0.overflow-hidden
+  ~ section
+  form.w-\[345px\].max-w-full {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+[data-mobile-screen="true"]
+  section.relative.h-\[252px\].shrink-0.overflow-hidden
+  ~ section
+  form.w-\[345px\].max-w-full
+  input {
+  width: 100% !important;
+}
+
+[data-mobile-screen="true"]
+  section.relative.h-\[252px\].shrink-0.overflow-hidden
+  ~ section.rounded-t-\[30px\].bg-white {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
