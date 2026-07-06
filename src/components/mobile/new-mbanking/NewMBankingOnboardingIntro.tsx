@@ -157,8 +157,16 @@ export default function NewMBankingOnboardingIntro({
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9]">
       <style>
         {`
+          .onboarding-brand-safe {
+            transform-origin: top center;
+          }
+
+          .onboarding-illustration-position {
+            top: clamp(140px, 18dvh, 156px);
+          }
+
           .onboarding-illustration-scale {
-            --onboarding-illustration-scale: clamp(0.54, calc((100dvh - 300px) / 492), 0.86);
+            --onboarding-illustration-scale: clamp(0.42, calc((100dvh - 410px) / 538), 0.72);
           }
 
           @keyframes onboarding-soft-image-enter {
@@ -195,34 +203,43 @@ export default function NewMBankingOnboardingIntro({
             }
           }
 
+          @media (max-height: 700px) {
+            .onboarding-illustration-position {
+              top: 136px;
+            }
+
+            .onboarding-illustration-scale {
+              --onboarding-illustration-scale: clamp(0.40, calc((100dvh - 406px) / 538), 0.56);
+            }
+          }
+
           @media (max-height: 620px) {
             .onboarding-brand-safe {
               transform: scale(0.92);
-              transform-origin: top center;
               padding-top: 20px !important;
             }
 
             .onboarding-illustration-position {
-              top: 88px !important;
+              top: 112px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: clamp(0.50, calc((100dvh - 296px) / 492), 0.62);
+              --onboarding-illustration-scale: clamp(0.34, calc((100dvh - 380px) / 538), 0.45);
             }
           }
 
           @media (max-height: 560px) {
             .onboarding-brand-safe {
-              transform: scale(0.86);
-              padding-top: 16px !important;
+              transform: scale(0.82);
+              padding-top: 14px !important;
             }
 
             .onboarding-illustration-position {
-              top: 78px !important;
+              top: 92px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: 0.46;
+              --onboarding-illustration-scale: clamp(0.30, calc((100dvh - 360px) / 538), 0.38);
             }
           }
 
@@ -252,7 +269,7 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="onboarding-illustration-position pointer-events-none absolute inset-x-0 top-[104px] z-0 flex justify-center overflow-visible px-5">
+      <div className="onboarding-illustration-position pointer-events-none absolute inset-x-0 z-0 flex justify-center overflow-visible px-5">
         <div
           key={`image-${activeSlide}`}
           className="onboarding-soft-image onboarding-illustration-scale origin-top will-change-transform"
