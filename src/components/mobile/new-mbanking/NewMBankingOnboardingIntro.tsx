@@ -213,10 +213,10 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="relative z-0 flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[150px] pt-[4px]">
+      <div className="relative z-0 flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[138px] pt-0">
         <div
           key={`image-${activeSlide}`}
-          className="onboarding-soft-image will-change-transform"
+          className="onboarding-soft-image -mt-[24px] will-change-transform"
           style={{
             animation:
               "onboarding-soft-image-enter 1850ms cubic-bezier(0.16, 1, 0.3, 1) both",
