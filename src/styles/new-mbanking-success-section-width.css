@@ -1,0 +1,36 @@
+/* New M-Banking: lebarkan kartu/section putih pada halaman sukses agar tidak terlalu banyak ruang kosong di kiri-kanan. */
+[data-mobile-screen="true"]
+  section[class*="max-w-[345px]"][class*="rounded-[24px]"][class*="bg-white"] {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+[data-mobile-screen="true"]
+  div[class*="bg-[#F9F9F9]"][class*="text-black"]:has(
+    section[class*="max-w-[345px]"][class*="rounded-[24px]"][class*="bg-white"]
+  ) {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+[data-mobile-screen="true"]
+  section[class*="max-w-[345px]"][class*="rounded-[24px]"][class*="bg-white"]
+  [class*="w-[302px]"] {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+[data-mobile-screen="true"]
+  section[class*="max-w-[345px]"][class*="rounded-[24px]"][class*="bg-white"]
+  [class*="max-w-[302px]"] {
+  max-width: 100% !important;
+}
+
+[data-mobile-screen="true"]
+  section[class*="max-w-[345px]"][class*="rounded-[24px]"][class*="bg-white"]
+  [class*="max-w-[305px]"],
+[data-mobile-screen="true"]
+  section[class*="max-w-[345px]"][class*="rounded-[24px]"][class*="bg-white"]
+  [class*="max-w-[310px]"] {
+  max-width: 100% !important;
+}
