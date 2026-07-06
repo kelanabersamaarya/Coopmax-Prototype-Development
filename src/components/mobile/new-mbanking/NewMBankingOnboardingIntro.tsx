@@ -255,7 +255,7 @@ export default function NewMBankingOnboardingIntro({
             onClick={onRegister}
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] border-2 border-[#3D98FF] bg-white",
-              "text-[12px] font-normal leading-none text-[#3D98FF]",
+              "text-[16px] font-normal leading-none text-[#3D98FF]",
               "transition duration-300 active:scale-[0.98]",
             )}
           >
@@ -267,7 +267,7 @@ export default function NewMBankingOnboardingIntro({
             onClick={onLogin}
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] bg-[#479DF4]",
-              "text-[12px] font-normal leading-none text-white",
+              "text-[16px] font-normal leading-none text-white",
               "transition duration-300 active:scale-[0.98]",
             )}
           >
