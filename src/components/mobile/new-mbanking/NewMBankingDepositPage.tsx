@@ -22,6 +22,14 @@ function onlyDigits(value: string) {
   return (value ?? "").replace(/[^\d]/g, "");
 }
 
+function formatThousands(value: string) {
+  const digits = onlyDigits(value);
+  if (!digits) return "";
+
+  const normalized = digits.replace(/^0+(?=\d)/, "");
+  return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 function formatDepositAmount(value: string) {
   const digits = onlyDigits(value);
 
@@ -184,7 +192,7 @@ export default function NewMBankingDepositPage({
             <input
               value={customAmount}
               onChange={(event) => {
-                setCustomAmount(event.target.value);
+                setCustomAmount(formatThousands(event.target.value));
                 setSelectedAmount("");
               }}
               placeholder="Masukkan Nominal Setoran"
