@@ -162,7 +162,7 @@ export default function NewMBankingOnboardingIntro({
           }
 
           .onboarding-illustration-position {
-            top: 172px;
+            top: 214px;
           }
 
           .onboarding-illustration-scale {
@@ -205,7 +205,7 @@ export default function NewMBankingOnboardingIntro({
 
           @media (max-height: 760px) {
             .onboarding-illustration-position {
-              top: 170px;
+              top: 210px;
             }
 
             .onboarding-illustration-scale {
@@ -215,7 +215,7 @@ export default function NewMBankingOnboardingIntro({
 
           @media (max-height: 680px) {
             .onboarding-illustration-position {
-              top: 158px;
+              top: 196px;
             }
 
             .onboarding-illustration-scale {
@@ -230,7 +230,7 @@ export default function NewMBankingOnboardingIntro({
             }
 
             .onboarding-illustration-position {
-              top: 142px;
+              top: 176px;
             }
 
             .onboarding-illustration-scale {
@@ -245,7 +245,7 @@ export default function NewMBankingOnboardingIntro({
             }
 
             .onboarding-illustration-position {
-              top: 128px;
+              top: 154px;
             }
 
             .onboarding-illustration-scale {
