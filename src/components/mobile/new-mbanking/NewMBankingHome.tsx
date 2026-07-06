@@ -82,6 +82,25 @@ export default function NewMBankingHome({
     setShowProfile(true);
   }
 
+  function closeProfileToHome() {
+    setShowProfile(false);
+  }
+
+  function openPortfolioFromProfile() {
+    setShowProfile(false);
+    setShowPortfolio(true);
+  }
+
+  function openHistoryFromProfile() {
+    setShowProfile(false);
+    setShowHistory(true);
+  }
+
+  function openQrisFromProfile() {
+    setShowProfile(false);
+    setShowQrisFlow(true);
+  }
+
   if (showHomeLoanDetail) {
     return (
       <NewMBankingLoanInstallmentDetailPage
@@ -145,6 +164,10 @@ export default function NewMBankingHome({
     return (
       <NewMBankingProfilePage
         onBack={() => setShowProfile(false)}
+        onHomeClick={closeProfileToHome}
+        onPortfolioClick={openPortfolioFromProfile}
+        onHistoryClick={openHistoryFromProfile}
+        onQrisClick={openQrisFromProfile}
         onRequireLogin={onLogout}
         onAccountDeleted={onReturnToOnboarding}
       />

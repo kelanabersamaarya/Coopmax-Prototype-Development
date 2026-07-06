@@ -181,10 +181,18 @@ function LogoutMenuButton({ onClick }: { onClick: () => void }) {
 
 export default function NewMBankingProfilePage({
   onBack,
+  onHomeClick,
+  onPortfolioClick,
+  onHistoryClick,
+  onQrisClick,
   onRequireLogin,
   onAccountDeleted,
 }: {
   onBack: () => void;
+  onHomeClick?: () => void;
+  onPortfolioClick?: () => void;
+  onHistoryClick?: () => void;
+  onQrisClick?: () => void;
   onRequireLogin?: () => void;
   onAccountDeleted?: () => void;
 }) {
@@ -306,7 +314,10 @@ export default function NewMBankingProfilePage({
 
       <NewMBankingHomeMenuSection
         activeTab="profile"
-        onHomeClick={onBack}
+        onHomeClick={onHomeClick ?? onBack}
+        onPortfolioClick={onPortfolioClick}
+        onQrisClick={onQrisClick}
+        onHistoryClick={onHistoryClick}
         onProfileClick={() => {}}
       />
     </div>
