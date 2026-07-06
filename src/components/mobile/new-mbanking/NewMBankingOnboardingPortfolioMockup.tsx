@@ -106,8 +106,6 @@ function PortfolioPieChart() {
         className="h-full w-full drop-shadow-[0_8px_18px_rgba(15,23,42,0.12)]"
         aria-label="Komposisi aset"
       >
-        <circle cx={center} cy={center} r={radius} fill="#EEF6FF" />
-
         <path
           d={describeSlice(center, center, radius, -20, 124)}
           fill="#2F80ED"
@@ -133,23 +131,6 @@ function PortfolioPieChart() {
         <PieText x={98} y={45} percent="40%" label="Kaya" />
         <PieText x={104} y={104} percent="20%" label="Deposito" />
         <PieText x={43} y={92} percent="40%" label="Mapan" />
-
-        <circle
-          cx={center}
-          cy={center}
-          r="28"
-          fill="white"
-          stroke="rgba(255,255,255,0.8)"
-          strokeWidth="1"
-        />
-        <PieChart
-          x={center - 12}
-          y={center - 12}
-          width="24"
-          height="24"
-          color="#479DF4"
-          strokeWidth="2.5"
-        />
       </svg>
     </div>
   );
