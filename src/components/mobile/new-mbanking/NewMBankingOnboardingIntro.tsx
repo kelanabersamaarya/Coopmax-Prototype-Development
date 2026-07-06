@@ -162,11 +162,11 @@ export default function NewMBankingOnboardingIntro({
           }
 
           .onboarding-illustration-position {
-            top: 128px;
+            top: 152px;
           }
 
           .onboarding-illustration-scale {
-            --onboarding-illustration-scale: clamp(0.58, calc((100dvh - 430px) / 492), 0.78);
+            --onboarding-illustration-scale: clamp(0.56, calc((100dvh - 450px) / 492), 0.74);
           }
 
           @keyframes onboarding-soft-image-enter {
@@ -205,21 +205,21 @@ export default function NewMBankingOnboardingIntro({
 
           @media (max-height: 760px) {
             .onboarding-illustration-position {
-              top: 134px;
+              top: 150px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: clamp(0.50, calc((100dvh - 408px) / 492), 0.64);
+              --onboarding-illustration-scale: clamp(0.48, calc((100dvh - 430px) / 492), 0.61);
             }
           }
 
           @media (max-height: 680px) {
             .onboarding-illustration-position {
-              top: 122px;
+              top: 138px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: clamp(0.42, calc((100dvh - 382px) / 492), 0.52);
+              --onboarding-illustration-scale: clamp(0.40, calc((100dvh - 404px) / 492), 0.50);
             }
           }
 
@@ -230,11 +230,11 @@ export default function NewMBankingOnboardingIntro({
             }
 
             .onboarding-illustration-position {
-              top: 108px;
+              top: 122px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: 0.38;
+              --onboarding-illustration-scale: 0.36;
             }
           }
 
@@ -245,11 +245,11 @@ export default function NewMBankingOnboardingIntro({
             }
 
             .onboarding-illustration-position {
-              top: 94px;
+              top: 108px;
             }
 
             .onboarding-illustration-scale {
-              --onboarding-illustration-scale: 0.32;
+              --onboarding-illustration-scale: 0.30;
             }
           }
 
