@@ -16,18 +16,17 @@ export default function ProfilePrivacyPolicyIntroSection({
         className,
       )}
     >
-      <div className="flex items-start gap-3">
-        <span className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full bg-[#15965A] text-white">
-          <ShieldCheck className="h-[23px] w-[23px]" strokeWidth={2.6} />
+      <div className="flex flex-col items-center text-center">
+        <span className="grid h-[52px] w-[52px] place-items-center rounded-full bg-[#15965A] text-white">
+          <ShieldCheck className="h-[26px] w-[26px]" strokeWidth={2.6} />
         </span>
 
-        <div className="min-w-0">
-          <h2 className="text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
-            KEBIJAKAN PRIVASI
-          </h2>
-          <div className="mt-1 text-[12px] font-semibold leading-tight text-[#479DF4]">
-            Berlaku sejak 1 April 2024
-          </div>
+        <h2 className="mt-4 text-[18px] font-bold leading-tight tracking-[-0.03em] text-black">
+          KEBIJAKAN PRIVASI
+        </h2>
+
+        <div className="mt-1 text-[12px] font-semibold leading-tight text-[#479DF4]">
+          Berlaku sejak 1 April 2024
         </div>
       </div>
 
@@ -66,5 +65,3 @@ export default function ProfilePrivacyPolicyIntroSection({
         </p>
       </div>
     </section>
-  );
-}
