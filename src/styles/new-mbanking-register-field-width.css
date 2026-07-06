@@ -53,3 +53,20 @@
   padding-left: 18px !important;
   padding-right: 18px !important;
 }
+
+/* New M-Banking: perlebar tombol Daftar dan Masuk pada halaman onboarding. */
+[data-mobile-screen="true"]
+  div.absolute.inset-x-0.bottom-0.z-20.h-\[266px\].rounded-t-\[30px\].bg-white
+  > div.mt-\[28px\].flex.items-center.justify-center.gap-\[10px\] {
+  width: 100% !important;
+  gap: 10px !important;
+}
+
+[data-mobile-screen="true"]
+  div.absolute.inset-x-0.bottom-0.z-20.h-\[266px\].rounded-t-\[30px\].bg-white
+  > div.mt-\[28px\].flex.items-center.justify-center.gap-\[10px\]
+  > button {
+  width: 100% !important;
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+}
