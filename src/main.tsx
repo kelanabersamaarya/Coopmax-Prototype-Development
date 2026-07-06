@@ -24,5 +24,6 @@ import "./styles/profile-policy-justified-text.css";
 import "./styles/new-mbanking-hide-status-bar.css";
 import "./styles/mobile-modal-width.css";
 import "./styles/new-mbanking-success-section-width.css";
+import "./styles/new-mbanking-register-field-width.css";
 
 createRoot(document.getElementById("root")!).render(<App />);

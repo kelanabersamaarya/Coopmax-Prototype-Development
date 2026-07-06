@@ -1,0 +1,31 @@
+/* New M-Banking: perlebar field pada halaman Daftar/Register agar tidak terlalu banyak ruang kosong kiri-kanan. */
+[data-mobile-screen="true"]
+  div.relative.h-\[420px\].shrink-0.overflow-hidden
+  ~ div
+  form.w-\[345px\].max-w-full {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+[data-mobile-screen="true"]
+  div.relative.h-\[420px\].shrink-0.overflow-hidden
+  ~ div
+  form.w-\[345px\].max-w-full
+  input {
+  width: 100% !important;
+}
+
+[data-mobile-screen="true"]
+  div.relative.h-\[420px\].shrink-0.overflow-hidden
+  ~ div
+  form.w-\[345px\].max-w-full
+  .grid.grid-cols-\[74px_minmax\(0\,1fr\)\] {
+  grid-template-columns: 82px minmax(0, 1fr) !important;
+}
+
+[data-mobile-screen="true"]
+  div.relative.h-\[420px\].shrink-0.overflow-hidden
+  ~ div.rounded-t-\[30px\].bg-white {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
