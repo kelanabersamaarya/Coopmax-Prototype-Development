@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type MobileScreenshot = {
   src: string;
@@ -21,6 +22,51 @@ export default function MobileMockupFrame({
   edgeToEdge = false,
 }: MobileMockupFrameProps) {
   const hasCustomContent = Boolean(children);
+  const isMobile = useIsMobile();
+
+  const content = hasCustomContent ? (
+    children
+  ) : screenshots.length > 0 ? (
+    <div className={edgeToEdge ? "space-y-0" : "space-y-3.5"}>
+      {screenshots.map((screenshot, index) => (
+        <img
+          key={`${screenshot.src}-${index}`}
+          src={screenshot.src}
+          alt={screenshot.alt}
+          loading="lazy"
+          className={
+            edgeToEdge
+              ? "block w-full bg-white"
+              : "w-full rounded-[1.75rem] border border-slate-200 bg-white shadow-sm"
+          }
+        />
+      ))}
+    </div>
+  ) : (
+    <div className="flex h-full items-center justify-center px-5">
+      <div className="h-48 w-full rounded-[2rem] border border-dashed border-slate-300 bg-white shadow-sm" />
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <section className="h-full min-h-0 w-full overflow-hidden bg-white">
+        <div className="sr-only">
+          {title}
+          {subtitle ? ` ${subtitle}` : ""}
+        </div>
+
+        <div
+          data-mobile-screen="true"
+          className="h-full min-h-0 w-full overflow-hidden bg-white"
+        >
+          <div className="h-full overflow-y-auto overscroll-contain bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {content}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="flex h-full min-h-0 w-full items-center justify-center px-1 py-0 sm:px-2">
@@ -54,29 +100,7 @@ export default function MobileMockupFrame({
                 : "h-full overflow-y-auto overscroll-contain bg-slate-100 px-3 pb-6 pt-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-3.5"
             }
           >
-            {hasCustomContent ? (
-              children
-            ) : screenshots.length > 0 ? (
-              <div className={edgeToEdge ? "space-y-0" : "space-y-3.5"}>
-                {screenshots.map((screenshot, index) => (
-                  <img
-                    key={`${screenshot.src}-${index}`}
-                    src={screenshot.src}
-                    alt={screenshot.alt}
-                    loading="lazy"
-                    className={
-                      edgeToEdge
-                        ? "block w-full bg-white"
-                        : "w-full rounded-[1.75rem] border border-slate-200 bg-white shadow-sm"
-                    }
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="flex h-full items-center justify-center px-5">
-                <div className="h-48 w-full rounded-[2rem] border border-dashed border-slate-300 bg-white shadow-sm" />
-              </div>
-            )}
+            {content}
           </div>
         </div>
 

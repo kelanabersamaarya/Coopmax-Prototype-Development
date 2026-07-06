@@ -109,7 +109,6 @@ export default function Index() {
   const isHome = location.pathname === "/";
   const isDashboard = location.pathname === "/dashboard";
   const isMobileArea = location.pathname.startsWith("/mobile");
-  const isNewMBankingArea = location.pathname.startsWith("/mobile/new-mbanking");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
 
   const isPinjamanArea =
@@ -130,13 +129,12 @@ export default function Index() {
       <div
         className={cn(
           "w-full",
-          isNewMBankingArea
-            ? "px-0 py-0"
-            : "px-[var(--shell-gutter)]",
-          !isNewMBankingArea && (isMobileArea ? "py-5 md:py-5" : "py-6 md:py-8"),
+          isMobileArea
+            ? "px-0 py-0 md:px-[var(--shell-gutter)] md:py-5"
+            : "px-[var(--shell-gutter)] py-6 md:py-8",
         )}
       >
-        {!isNewMBankingArea ? (
+        {!isMobileArea ? (
           <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div />
             <div className="hidden md:block" />
@@ -146,81 +144,70 @@ export default function Index() {
         <div
           className={cn(
             "grid min-w-0 gap-[var(--shell-gap)]",
-            isNewMBankingArea ? "mt-0 grid-cols-1 gap-0" : isMobileArea ? "mt-0" : "mt-6",
+            isMobileArea ? "mt-0" : "mt-6",
             isDashboard
               ? "grid-cols-1"
-              : isNewMBankingArea
-                ? "grid-cols-1"
-                : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
+              : "grid-cols-1 md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          {!isDashboard && !isNewMBankingArea ? (
-            <aside className="min-w-0 space-y-4 px-0">
+          {!isDashboard ? (
+            <aside className="hidden min-w-0 space-y-4 px-0 md:block">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 {/* no scroll on sidebar */}
                 <div className="px-0 py-1">
                   <div className="space-y-1">
-                    {isNewMBankingArea ? (
-                      <div className="px-0">
+                    {nav.map((g, idx) => (
+                      <div key={g.group ?? idx} className="px-0">
+                        {g.group ? (
+                          <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                            {g.group}
+                          </div>
+                        ) : null}
+
                         <div className="space-y-1 px-2">
-                          <SidebarNavItem item={nav[0]!.items[0]!} />
-                          <SidebarMobileMenu />
+                          {/* Dashboard */}
+                          <SidebarNavItem item={g.items[0]!} />
+
+                          {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka + Akunting */}
+                          {isSakCabangArea ? (
+                            <>
+                              <SidebarSakSimpananMenu />
+                              <SidebarPinjamanMenu />
+                              <SidebarSakSimpananBerjangkaMenu />
+                              <SidebarSakAkuntingMenu />
+                            </>
+                          ) : (
+                            <>
+                              {/* Anggota (collapsible) - hide in OBS area */}
+                              {!isObsArea ? <SidebarAnggotaMenu /> : null}
+
+                              {/* Pinjaman (collapsible) */}
+                              <SidebarPinjamanMenu />
+
+                              {/* Mobile (collapsible) - hide in OBS area */}
+                              {!isObsArea ? <SidebarMobileMenu /> : null}
+
+                              {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
+                              {!isPinjamanArea ? <SidebarObsMenu /> : null}
+
+                              {/* Laporan (collapsible) - hide in OBS area */}
+                              {!isObsArea ? <SidebarLaporanMenu /> : null}
+
+                              {/* Pengaturan Umum - hide in OBS area */}
+                              {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
+
+                              {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
+                              {g.items
+                                .slice(1)
+                                .filter((it) => it.to !== "/pinjaman")
+                                .map((it) => (
+                                  <SidebarNavItem key={it.to} item={it} />
+                                ))}
+                            </>
+                          )}
                         </div>
                       </div>
-                    ) : (
-                      nav.map((g, idx) => (
-                        <div key={g.group ?? idx} className="px-0">
-                          {g.group ? (
-                            <div className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                              {g.group}
-                            </div>
-                          ) : null}
-
-                          <div className="space-y-1 px-2">
-                            {/* Dashboard */}
-                            <SidebarNavItem item={g.items[0]!} />
-
-                            {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka + Akunting */}
-                            {isSakCabangArea ? (
-                              <>
-                                <SidebarSakSimpananMenu />
-                                <SidebarPinjamanMenu />
-                                <SidebarSakSimpananBerjangkaMenu />
-                                <SidebarSakAkuntingMenu />
-                              </>
-                            ) : (
-                              <>
-                                {/* Anggota (collapsible) - hide in OBS area */}
-                                {!isObsArea ? <SidebarAnggotaMenu /> : null}
-
-                                {/* Pinjaman (collapsible) */}
-                                <SidebarPinjamanMenu />
-
-                                {/* Mobile (collapsible) - hide in OBS area */}
-                                {!isObsArea ? <SidebarMobileMenu /> : null}
-
-                                {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
-                                {!isPinjamanArea ? <SidebarObsMenu /> : null}
-
-                                {/* Laporan (collapsible) - hide in OBS area */}
-                                {!isObsArea ? <SidebarLaporanMenu /> : null}
-
-                                {/* Pengaturan Umum - hide in OBS area */}
-                                {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
-
-                                {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
-                                {g.items
-                                  .slice(1)
-                                  .filter((it) => it.to !== "/pinjaman")
-                                  .map((it) => (
-                                    <SidebarNavItem key={it.to} item={it} />
-                                  ))}
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      ))
-                    )}
+                    ))}
 
                     <Separator className="my-2 bg-slate-100" />
                   </div>
@@ -233,11 +220,9 @@ export default function Index() {
           <main
             className={cn(
               "min-w-0 overflow-x-hidden",
-              isNewMBankingArea
-                ? "h-[100dvh] min-h-[100dvh] overflow-hidden"
-                : isMobileArea
-                  ? "h-[calc(100vh-40px)] min-h-0 overflow-hidden"
-                  : "",
+              isMobileArea
+                ? "h-[100dvh] min-h-[100dvh] overflow-hidden md:h-[calc(100vh-40px)] md:min-h-0"
+                : "",
             )}
           >
             {isHome ? <Outlet /> : <Outlet />}
