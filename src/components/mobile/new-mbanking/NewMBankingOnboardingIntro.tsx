@@ -162,7 +162,7 @@ export default function NewMBankingOnboardingIntro({
           }
 
           .onboarding-illustration-window {
-            top: 124px;
+            top: 138px;
             bottom: 266px;
           }
 
@@ -206,7 +206,7 @@ export default function NewMBankingOnboardingIntro({
 
           @media (max-height: 700px) {
             .onboarding-illustration-window {
-              top: 116px;
+              top: 128px;
               bottom: 266px;
             }
 
@@ -222,7 +222,7 @@ export default function NewMBankingOnboardingIntro({
             }
 
             .onboarding-illustration-window {
-              top: 104px;
+              top: 116px;
               bottom: 266px;
             }
 
@@ -238,7 +238,7 @@ export default function NewMBankingOnboardingIntro({
             }
 
             .onboarding-illustration-window {
-              top: 88px;
+              top: 102px;
               bottom: 266px;
             }
 
