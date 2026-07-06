@@ -128,7 +128,7 @@ function InstructionAccordionItem({
 }
 
 export default function NewMBankingDepositInstructionsCard() {
-  const [openItem, setOpenItem] = React.useState<InstructionKey | null>("mbanking");
+  const [openItem, setOpenItem] = React.useState<InstructionKey | null>(null);
 
   function toggleItem(item: InstructionKey) {
     setOpenItem((current) => (current === item ? null : item));
