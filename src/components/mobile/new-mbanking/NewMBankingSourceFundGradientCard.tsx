@@ -87,7 +87,7 @@ export default function NewMBankingSourceFundGradientCard({
                     isCompact ? "mt-[8px] text-[10px]" : "mt-[14px] text-[12px]",
                   )}
                 >
-                  Saldo
+                  {account.balanceLabel ?? "Saldo"}
                 </div>
                 <div
                   className={cn(

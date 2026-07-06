@@ -89,6 +89,7 @@ export default function NewMBankingInstallmentConfirmModal({
         open={sourceFundOpen}
         onOpenChange={setSourceFundOpen}
         onSelect={setSourceFund}
+        includeVirtualAccount
       />
 
       <button

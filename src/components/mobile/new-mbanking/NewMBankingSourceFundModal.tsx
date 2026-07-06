@@ -10,9 +10,10 @@ export type SourceFundAccount = {
   productName: string;
   accountNo: string;
   balance: string;
+  balanceLabel?: string;
 };
 
-const sourceFundAccounts: SourceFundAccount[] = [
+const savingsSourceFundAccounts: SourceFundAccount[] = [
   {
     productName: "Simpanan Kaya",
     accountNo: "112233111",
@@ -25,18 +26,34 @@ const sourceFundAccounts: SourceFundAccount[] = [
   },
 ];
 
+const virtualAccountSourceFund: SourceFundAccount = {
+  productName: "Virtual Account",
+  accountNo: "88810 112233111",
+  balance: "Bayar melalui VA",
+  balanceLabel: "Metode Pembayaran",
+};
+
 export default function NewMBankingSourceFundModal({
   open,
   onOpenChange,
   onSelect,
+  includeVirtualAccount = false,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (account: SourceFundAccount) => void;
+  includeVirtualAccount?: boolean;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const accounts = React.useMemo(
+    () =>
+      includeVirtualAccount
+        ? [...savingsSourceFundAccounts, virtualAccountSourceFund]
+        : savingsSourceFundAccounts,
+    [includeVirtualAccount],
+  );
   const [selectedAccount, setSelectedAccount] =
-    React.useState<SourceFundAccount>(sourceFundAccounts[0]);
+    React.useState<SourceFundAccount>(accounts[0]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -44,8 +61,8 @@ export default function NewMBankingSourceFundModal({
     setMobileScreen(
       document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null,
     );
-    setSelectedAccount(sourceFundAccounts[0]);
-  }, [open]);
+    setSelectedAccount(accounts[0]);
+  }, [accounts, open]);
 
   if (!open || !mobileScreen) return null;
 
@@ -81,7 +98,7 @@ export default function NewMBankingSourceFundModal({
         </div>
 
         <div className="mt-[18px] grid gap-[10px]">
-          {sourceFundAccounts.map((account) => (
+          {accounts.map((account) => (
             <NewMBankingSourceFundGradientCard
               key={account.accountNo}
               account={account}
