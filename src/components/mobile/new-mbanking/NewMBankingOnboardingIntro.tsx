@@ -123,7 +123,7 @@ function OnboardingSlider({
             type="button"
             onClick={() => onChange(index)}
             className={cn(
-              "h-[10px] rounded-full transition-all duration-500 ease-out",
+              "h-[10px] rounded-full transition-all duration-700 ease-out",
               active ? "w-[31px] bg-[#479DF4]" : "w-[10px] bg-[#D8D8D8]",
             )}
             aria-label={`Buka slide ${index + 1}`}
@@ -146,15 +146,56 @@ export default function NewMBankingOnboardingIntro({
   const slide = onboardingSlides[activeSlide];
 
   React.useEffect(() => {
-    const intervalId = window.setInterval(() => {
+    const timeoutId = window.setTimeout(() => {
       setActiveSlide((current) => (current + 1) % onboardingSlides.length);
-    }, 3000);
+    }, 5200);
 
-    return () => window.clearInterval(intervalId);
-  }, []);
+    return () => window.clearTimeout(timeoutId);
+  }, [activeSlide]);
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9]">
+      <style>
+        {`
+          @keyframes onboarding-soft-image-enter {
+            0% {
+              opacity: 0;
+              transform: translate3d(18px, 8px, 0) scale(0.982);
+              filter: blur(1.5px);
+            }
+            55% {
+              opacity: 1;
+              filter: blur(0);
+            }
+            100% {
+              opacity: 1;
+              transform: translate3d(0, 0, 0) scale(1);
+              filter: blur(0);
+            }
+          }
+
+          @keyframes onboarding-soft-text-enter {
+            0% {
+              opacity: 0;
+              transform: translate3d(0, 12px, 0);
+              filter: blur(1px);
+            }
+            100% {
+              opacity: 1;
+              transform: translate3d(0, 0, 0);
+              filter: blur(0);
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .onboarding-soft-image,
+            .onboarding-soft-text {
+              animation: none !important;
+            }
+          }
+        `}
+      </style>
+
       <div className="relative z-20 flex shrink-0 flex-col items-center px-6 pt-[30px]">
         <div className="flex items-center justify-center gap-[10px]">
           <CooperativeLogo />
@@ -171,11 +212,13 @@ export default function NewMBankingOnboardingIntro({
       <div className="relative z-0 flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[150px] pt-[4px]">
         <div
           key={`image-${activeSlide}`}
-          className="animate-in fade-in-0 slide-in-from-right-4 duration-700 ease-out"
+          className="onboarding-soft-image will-change-transform"
+          style={{
+            animation:
+              "onboarding-soft-image-enter 1100ms cubic-bezier(0.22, 1, 0.36, 1) both",
+          }}
         >
-          <NewMBankingOnboardingIllustration
-            variant={slide.illustration}
-          />
+          <NewMBankingOnboardingIllustration variant={slide.illustration} />
         </div>
       </div>
 
@@ -186,7 +229,11 @@ export default function NewMBankingOnboardingIntro({
       <div className="absolute inset-x-0 bottom-0 z-20 h-[266px] rounded-t-[30px] bg-white px-6 pt-[41px] shadow-[0_-16px_32px_rgba(15,23,42,0.06)]">
         <div
           key={`text-${activeSlide}`}
-          className="animate-in fade-in-0 slide-in-from-bottom-3 duration-700 ease-out"
+          className="onboarding-soft-text will-change-transform"
+          style={{
+            animation:
+              "onboarding-soft-text-enter 1050ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both",
+          }}
         >
           <div className="text-center">
             <h1 className="mx-auto max-w-[330px] text-[20px] font-semibold leading-[1.18] tracking-[-0.035em] text-black">
@@ -205,7 +252,7 @@ export default function NewMBankingOnboardingIntro({
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] border-2 border-[#3D98FF] bg-white",
               "text-[12px] font-normal leading-none text-[#3D98FF]",
-              "transition active:scale-[0.98]",
+              "transition duration-200 active:scale-[0.98]",
             )}
           >
             Daftar
@@ -217,7 +264,7 @@ export default function NewMBankingOnboardingIntro({
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] bg-[#479DF4]",
               "text-[12px] font-normal leading-none text-white",
-              "transition active:scale-[0.98]",
+              "transition duration-200 active:scale-[0.98]",
             )}
           >
             Masuk
