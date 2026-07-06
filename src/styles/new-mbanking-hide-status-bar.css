@@ -8,3 +8,13 @@
   .flex.h-\[30px\].items-center.justify-between.px-6.pt-2.text-black {
   display: none !important;
 }
+
+/* Tambahkan sedikit napas antara ujung atas screen dan header setelah status bar disembunyikan. */
+[data-mobile-screen="true"]
+  .shrink-0.bg-\[\#F9F9F9\]:has(
+    > .flex.h-\[30px\].shrink-0.items-center.justify-between.px-6.pt-2.text-black
+  )
+  > header {
+  height: 74px !important;
+  padding-top: 14px !important;
+}
