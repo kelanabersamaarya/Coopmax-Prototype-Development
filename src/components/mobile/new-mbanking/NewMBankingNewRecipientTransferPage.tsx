@@ -6,21 +6,25 @@ import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingSt
 import NewMBankingTransferConfirmModal from "@/components/mobile/new-mbanking/NewMBankingTransferConfirmModal";
 import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 import NewMBankingTransferSuccessPage from "@/components/mobile/new-mbanking/NewMBankingTransferSuccessPage";
+import NewMBankingInScreenToast from "@/components/mobile/new-mbanking/NewMBankingInScreenToast";
 import NewMBankingRecipientInfoCard, {
   type NewMBankingRecipientInfo,
 } from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
 
 function TransferField({
   label,
+  required = false,
   children,
 }: {
   label: string;
+  required?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div className="grid gap-[9px]">
       <label className="text-[14px] font-bold leading-none text-black">
         {label}
+        {required ? <span className="text-[#EF135D]">*</span> : null}
       </label>
       {children}
     </div>
@@ -58,6 +62,7 @@ export default function NewMBankingNewRecipientTransferPage({
   const [accountNo, setAccountNo] = React.useState(recipient?.accountNo ?? "");
   const [amount, setAmount] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [toastMessage, setToastMessage] = React.useState("");
 
   React.useEffect(() => {
     if (!recipient) return;
@@ -68,6 +73,30 @@ export default function NewMBankingNewRecipientTransferPage({
   const pageTitle = hideBankSelection
     ? "Transfer Antar Rekening"
     : "Transfer Antar Bank";
+
+  function showWarning(message: string) {
+    setToastMessage("");
+    window.setTimeout(() => setToastMessage(message), 0);
+  }
+
+  function continueTransfer() {
+    if (!accountNo.trim()) {
+      showWarning("Nomor Rekening Penerima wajib diisi");
+      return;
+    }
+
+    if (!amount.trim()) {
+      showWarning("Nominal Transfer wajib diisi");
+      return;
+    }
+
+    if (!description.trim()) {
+      showWarning("Deskripsi wajib diisi");
+      return;
+    }
+
+    setConfirmOpen(true);
+  }
 
   if (showSuccess) {
     return (
@@ -125,6 +154,12 @@ export default function NewMBankingNewRecipientTransferPage({
 
   return (
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+      <NewMBankingInScreenToast
+        message={toastMessage}
+        variant="warning"
+        onClose={() => setToastMessage("")}
+      />
+
       <NewMBankingTransferConfirmModal
         open={confirmOpen}
         onOpenChange={setConfirmOpen}
@@ -187,10 +222,13 @@ export default function NewMBankingNewRecipientTransferPage({
                   </TransferField>
                 ) : null}
 
-                <TransferField label="Nomor Rekening Penerima">
+                <TransferField label="Nomor Rekening Penerima" required>
                   <input
                     value={accountNo}
-                    onChange={(event) => setAccountNo(event.target.value)}
+                    onChange={(event) => {
+                      setAccountNo(event.target.value);
+                      setToastMessage("");
+                    }}
                     placeholder="Masukkan Nomor Rekening Penerima"
                     inputMode="numeric"
                     className={fieldClassName}
@@ -199,20 +237,26 @@ export default function NewMBankingNewRecipientTransferPage({
               </>
             )}
 
-            <TransferField label="Nominal Transfer">
+            <TransferField label="Nominal Transfer" required>
               <input
                 value={amount}
-                onChange={(event) => setAmount(formatThousands(event.target.value))}
+                onChange={(event) => {
+                  setAmount(formatThousands(event.target.value));
+                  setToastMessage("");
+                }}
                 placeholder="0,00"
                 inputMode="numeric"
                 className={fieldClassName}
               />
             </TransferField>
 
-            <TransferField label="Deskripsi">
+            <TransferField label="Deskripsi" required>
               <textarea
                 value={description}
-                onChange={(event) => setDescription(event.target.value)}
+                onChange={(event) => {
+                  setDescription(event.target.value);
+                  setToastMessage("");
+                }}
                 placeholder="Masukkan Deskripsi Transfer"
                 className={descriptionFieldClassName}
               />
@@ -224,7 +268,7 @@ export default function NewMBankingNewRecipientTransferPage({
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
-          onClick={() => setConfirmOpen(true)}
+          onClick={continueTransfer}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
