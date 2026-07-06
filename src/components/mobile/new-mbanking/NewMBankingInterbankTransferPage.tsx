@@ -5,6 +5,11 @@ import { cn } from "@/lib/utils";
 import NewMBankingNewRecipientTransferPage from "@/components/mobile/new-mbanking/NewMBankingNewRecipientTransferPage";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import type { NewMBankingRecipientInfo } from "@/components/mobile/new-mbanking/NewMBankingRecipientInfoCard";
+import {
+  getNewMBankingTransferRecipients,
+  subscribeNewMBankingTransferRecipients,
+  type NewMBankingTransferRecipientKind,
+} from "@/lib/newMBankingTransferRecipientsStore";
 
 type TransferTab = "saved" | "history";
 
@@ -21,7 +26,7 @@ type TransferHistory = SavedRecipient & {
   status: "Berhasil";
 };
 
-const savedRecipients: SavedRecipient[] = [
+const seedSavedRecipients: SavedRecipient[] = [
   {
     id: "saved-1",
     name: "Nyoman Ariawan",
@@ -77,6 +82,20 @@ const transferHistories: TransferHistory[] = [
     status: "Berhasil",
   },
 ];
+
+function uniqueRecipients(items: SavedRecipient[]) {
+  const seen = new Set<string>();
+  const result: SavedRecipient[] = [];
+
+  for (const item of items) {
+    const key = `${item.bank.toLowerCase()}::${item.accountNo}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(item);
+  }
+
+  return result;
+}
 
 function TransferOptionCard({
   icon: Icon,
@@ -252,9 +271,30 @@ export default function NewMBankingInterbankTransferPage({
   const [showNewRecipientForm, setShowNewRecipientForm] = React.useState(false);
   const [selectedRecipient, setSelectedRecipient] =
     React.useState<NewMBankingRecipientInfo | null>(null);
+  const [savedTick, setSavedTick] = React.useState(0);
+
+  React.useEffect(() => {
+    return subscribeNewMBankingTransferRecipients(() =>
+      setSavedTick((current) => current + 1),
+    );
+  }, []);
 
   const isTransferAntarRekening = title === "Transfer Antar Rekening";
   const showBankName = !isTransferAntarRekening;
+  const savedKind: NewMBankingTransferRecipientKind = isTransferAntarRekening
+    ? "internal"
+    : "interbank";
+
+  const savedRecipients = React.useMemo(() => {
+    const stored = getNewMBankingTransferRecipients(savedKind).map((item) => ({
+      id: item.id,
+      name: item.name,
+      bank: item.bank ?? "Koperasi",
+      accountNo: item.accountNo,
+    }));
+
+    return uniqueRecipients([...stored, ...seedSavedRecipients]);
+  }, [savedKind, savedTick]);
 
   function buildRecipientInfo(recipient: SavedRecipient): NewMBankingRecipientInfo {
     return {
@@ -344,7 +384,7 @@ export default function NewMBankingInterbankTransferPage({
               <div>
                 {savedRecipients.map((recipient) => (
                   <SavedRecipientRow
-                    key={recipient.id}
+                    key={`${recipient.bank}-${recipient.accountNo}`}
                     recipient={recipient}
                     showBankName={showBankName}
                     onClick={() => openRecipientInput(buildRecipientInfo(recipient))}
@@ -364,6 +404,8 @@ export default function NewMBankingInterbankTransferPage({
               </div>
             )}
           </section>
+
+          <div className="sr-only">{savedTick}</div>
         </section>
       </main>
     </div>

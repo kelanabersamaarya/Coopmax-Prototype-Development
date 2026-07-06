@@ -1,6 +1,12 @@
 import * as React from "react";
-import { Check, Send, WalletCards } from "lucide-react";
+import { Check, Download, Send, UserPlus, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NewMBankingSuccessActionTile from "@/components/mobile/new-mbanking/NewMBankingSuccessActionTile";
+import {
+  isNewMBankingTransferRecipientSaved,
+  saveNewMBankingTransferRecipient,
+  type NewMBankingTransferRecipientKind,
+} from "@/lib/newMBankingTransferRecipientsStore";
 
 export default function NewMBankingTransferSuccessPage({
   recipientName = "Suyatna",
@@ -8,6 +14,7 @@ export default function NewMBankingTransferSuccessPage({
   recipientBankName,
   nominal,
   description,
+  canSaveRecipient = false,
   onDone,
 }: {
   recipientName?: string;
@@ -15,9 +22,21 @@ export default function NewMBankingTransferSuccessPage({
   recipientBankName?: string;
   nominal: string;
   description: string;
+  canSaveRecipient?: boolean;
   onDone: () => void;
 }) {
-  const [saved, setSaved] = React.useState(false);
+  const [proofSaved, setProofSaved] = React.useState(false);
+  const recipientKind: NewMBankingTransferRecipientKind = recipientBankName
+    ? "interbank"
+    : "internal";
+
+  const alreadySaved = isNewMBankingTransferRecipientSaved({
+    kind: recipientKind,
+    bank: recipientBankName,
+    accountNo: recipientAccountNo,
+  });
+
+  const [recipientSaved, setRecipientSaved] = React.useState(alreadySaved);
 
   const displayedRecipientAccount = recipientAccountNo.trim() || "22111122333";
   const displayedRecipientSubtitle = recipientBankName?.trim()
@@ -25,6 +44,19 @@ export default function NewMBankingTransferSuccessPage({
     : `${recipientName} • ${displayedRecipientAccount}`;
   const displayedNominal = nominal.trim() || "50.000,00";
   const displayedDescription = description.trim() || "Bayar UKT";
+
+  function saveRecipient() {
+    if (recipientSaved) return;
+
+    saveNewMBankingTransferRecipient({
+      kind: recipientKind,
+      name: recipientName,
+      bank: recipientBankName,
+      accountNo: displayedRecipientAccount,
+    });
+
+    setRecipientSaved(true);
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9] px-5 py-[18px] text-black">
@@ -60,7 +92,30 @@ export default function NewMBankingTransferSuccessPage({
             Ref ID : TRF221112222
           </div>
 
-          <div className="relative mt-[20px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)] px-[14px] py-[10px] text-left text-white">
+          <div
+            className={cn(
+              "mt-[18px] grid w-full items-start justify-items-center gap-[22px]",
+              canSaveRecipient ? "grid-cols-2" : "grid-cols-1",
+            )}
+          >
+            <NewMBankingSuccessActionTile
+              label="Bukti Transaksi"
+              icon={Download}
+              onClick={() => setProofSaved(true)}
+              active={proofSaved}
+            />
+
+            {canSaveRecipient ? (
+              <NewMBankingSuccessActionTile
+                label="Simpan Penerima"
+                icon={UserPlus}
+                onClick={saveRecipient}
+                disabled={recipientSaved}
+              />
+            ) : null}
+          </div>
+
+          <div className="relative mt-[18px] flex min-h-[58px] w-[302px] max-w-full items-center gap-[10px] overflow-hidden rounded-[14px] bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)] px-[14px] py-[10px] text-left text-white">
             <div className="pointer-events-none absolute -right-[30px] -top-[28px] h-[88px] w-[88px] rounded-full bg-white/16" />
             <div className="pointer-events-none absolute right-[48px] top-[32px] h-[40px] w-[40px] rounded-full bg-cyan-200/16" />
 
@@ -109,27 +164,6 @@ export default function NewMBankingTransferSuccessPage({
           </div>
 
           <div className="mt-[20px] grid w-full grid-cols-1 gap-[8px]">
-            <button
-              type="button"
-              onClick={() => setSaved(true)}
-              className={cn(
-                "h-[42px] rounded-[10px] border-2 bg-white",
-                saved
-                  ? "border-[#33AA00] text-[#33AA00]"
-                  : "border-[#479DF4] text-[#479DF4]",
-                "text-[12px] font-normal leading-none transition active:scale-[0.98]",
-              )}
-            >
-              {saved ? (
-                <span className="inline-flex items-center justify-center gap-2">
-                  <Check className="h-4 w-4" strokeWidth={3} />
-                  Bukti Tersimpan
-                </span>
-              ) : (
-                "Simpan Bukti Transaksi"
-              )}
-            </button>
-
             <button
               type="button"
               onClick={onDone}

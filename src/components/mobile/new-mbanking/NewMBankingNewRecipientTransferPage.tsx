@@ -77,6 +77,7 @@ export default function NewMBankingNewRecipientTransferPage({
         recipientBankName={hideBankSelection ? undefined : bank}
         nominal={amount}
         description={description}
+        canSaveRecipient={!recipient}
         onDone={onDone ?? onBack}
       />
     );
