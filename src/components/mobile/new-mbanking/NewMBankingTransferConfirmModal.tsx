@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { ArrowRight, UserRound, X } from "lucide-react";
+import { UserRound, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
@@ -216,19 +216,13 @@ export default function NewMBankingTransferConfirmModal({
             type="button"
             onClick={onContinue}
             className={cn(
-              "flex h-[56px] w-full items-center justify-between gap-3 rounded-[8px] bg-[#479DF4] px-5",
+              "flex h-[56px] w-full items-center justify-center rounded-[8px] bg-[#479DF4] px-5",
               "text-white transition active:scale-[0.98]",
             )}
           >
-            <span className="min-w-0 text-left text-[14px] font-semibold leading-none">
+            <span className="text-center text-[14px] font-semibold leading-none">
               Lanjutkan Transaksi
             </span>
-
-            <span className="ml-auto whitespace-nowrap text-right text-[14px] font-semibold leading-none">
-              {displayedTotal}
-            </span>
-
-            <ArrowRight className="h-[24px] w-[24px] shrink-0 text-white" strokeWidth={2.6} />
           </button>
 
           <button
