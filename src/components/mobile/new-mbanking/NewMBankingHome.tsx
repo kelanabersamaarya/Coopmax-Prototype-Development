@@ -101,6 +101,11 @@ export default function NewMBankingHome({
     setShowQrisFlow(true);
   }
 
+  function openHistoryFromPortfolio() {
+    setShowPortfolio(false);
+    setShowHistory(true);
+  }
+
   if (showHomeLoanDetail) {
     return (
       <NewMBankingLoanInstallmentDetailPage
@@ -180,6 +185,7 @@ export default function NewMBankingHome({
         onBack={() => setShowPortfolio(false)}
         onHomeClick={() => setShowPortfolio(false)}
         onQrisClick={() => setShowQrisFlow(true)}
+        onHistoryClick={openHistoryFromPortfolio}
         onProfileClick={openProfile}
       />
     );
