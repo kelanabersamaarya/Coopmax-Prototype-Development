@@ -129,7 +129,7 @@ function PortfolioPieChart() {
         />
 
         <PieText x={98} y={45} percent="40%" label="Kaya" />
-        <PieText x={96} y={104} percent="20%" label="Deposito" />
+        <PieText x={90} y={104} percent="20%" label="Deposito" />
         <PieText x={43} y={92} percent="40%" label="Mapan" />
       </svg>
     </div>
