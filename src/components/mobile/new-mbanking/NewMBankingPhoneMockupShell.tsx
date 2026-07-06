@@ -14,7 +14,7 @@ export default function NewMBankingPhoneMockupShell({
   return (
     <div
       className={cn(
-        "relative h-[584px] w-[328px] rounded-[60px] bg-[#111827] p-[12px]",
+        "relative h-[642px] w-[328px] rounded-[60px] bg-[#111827] p-[12px]",
         "shadow-[0_36px_88px_rgba(15,23,42,0.32)] ring-1 ring-black/10",
         className,
       )}
