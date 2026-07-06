@@ -80,6 +80,11 @@ export default function NewMBankingNewRecipientTransferPage({
   }
 
   function continueTransfer() {
+    if (!hideBankSelection && !bank.trim()) {
+      showWarning("Nama Bank wajib dipilih");
+      return;
+    }
+
     if (!accountNo.trim()) {
       showWarning("Nomor Rekening Penerima wajib diisi");
       return;
@@ -132,6 +137,7 @@ export default function NewMBankingNewRecipientTransferPage({
         onBack={() => setShowBankSelection(false)}
         onSelectBank={(selectedBank) => {
           setBank(selectedBank);
+          setToastMessage("");
           setShowBankSelection(false);
         }}
       />
@@ -203,7 +209,7 @@ export default function NewMBankingNewRecipientTransferPage({
             ) : (
               <>
                 {!hideBankSelection ? (
-                  <TransferField label="Nama Bank">
+                  <TransferField label="Nama Bank" required>
                     <button
                       type="button"
                       onClick={() => setShowBankSelection(true)}
