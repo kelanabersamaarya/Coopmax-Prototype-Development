@@ -22,15 +22,18 @@ function onlyDigits(value: string) {
   return (value ?? "").replace(/[^\d]/g, "");
 }
 
-function formatQrisNominal(value: string) {
+function formatThousands(value: string) {
   const digits = onlyDigits(value);
-
   if (!digits) return "";
 
-  const normalizedDigits = digits.replace(/^0+(?=\d)/, "");
-  const formatted = normalizedDigits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const normalized = digits.replace(/^0+(?=\d)/, "");
+  return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
-  return `Rp. ${formatted || "0"},00`;
+function formatQrisAmountForConfirm(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return "Rp. 50.000,00";
+  return `Rp. ${trimmed},00`;
 }
 
 export default function NewMBankingQrisMerchantItem({
@@ -77,7 +80,7 @@ export default function NewMBankingQrisMerchantItem({
       <NewMBankingQrisConfirmModal
         open={confirmOpen}
         onOpenChange={setConfirmOpen}
-        amount={nominal.trim() ? nominal : "Rp. 50.000,00"}
+        amount={formatQrisAmountForConfirm(nominal)}
         sourceFund={sourceFund}
         onSourceFundChange={setSourceFund}
         onContinuePayment={onContinuePayment}
@@ -115,7 +118,7 @@ export default function NewMBankingQrisMerchantItem({
           <input
             value={nominal}
             onChange={(event) => {
-              setNominal(formatQrisNominal(event.target.value));
+              setNominal(formatThousands(event.target.value));
               setToastMessage("");
             }}
             placeholder="Masukkan Nominal Pembayaran"
