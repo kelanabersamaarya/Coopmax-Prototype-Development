@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Wifi } from "lucide-react";
 
 const logoSources = [
   "/logo koperasi_splash.png",
@@ -16,28 +15,6 @@ const djoinLogoSources = [
   "/logo djoin_splash.webp",
   "/logo djoin_splash",
 ];
-
-function SignalIcon() {
-  return (
-    <div className="flex h-5 items-end gap-[3px]" aria-hidden="true">
-      <span className="h-[7px] w-[4px] rounded-full bg-white" />
-      <span className="h-[10px] w-[4px] rounded-full bg-white" />
-      <span className="h-[14px] w-[4px] rounded-full bg-white" />
-      <span className="h-[18px] w-[4px] rounded-full bg-white" />
-    </div>
-  );
-}
-
-function BatteryIcon() {
-  return (
-    <div className="relative h-[22px] w-[44px]" aria-hidden="true">
-      <div className="absolute inset-y-[2px] left-0 w-[39px] rounded-[6px] border-[2px] border-white/90 bg-white/10">
-        <div className="m-[2px] h-[12px] rounded-[3px] bg-white" />
-      </div>
-      <div className="absolute right-0 top-[7px] h-[8px] w-[3px] rounded-r-full bg-white/70" />
-    </div>
-  );
-}
 
 function FallbackLogo() {
   return (
@@ -135,18 +112,6 @@ export default function NewMBankingSplashScreen() {
       <div className="absolute -bottom-[74px] -left-[31px] h-[126px] w-[126px] rounded-full bg-[#8c16ea]" />
 
       <div className="relative z-10 flex h-full min-h-full flex-col">
-        <header className="flex h-[76px] shrink-0 items-start justify-between px-[34px] pt-[29px]">
-          <div className="text-[28px] font-extrabold leading-none tracking-[-0.03em] text-white">
-            11:30
-          </div>
-
-          <div className="flex items-center gap-[13px]">
-            <SignalIcon />
-            <Wifi className="h-[23px] w-[23px] text-white" strokeWidth={3.2} />
-            <BatteryIcon />
-          </div>
-        </header>
-
         <main className="flex min-h-0 flex-1 flex-col items-center justify-center px-7 pb-[86px]">
           <div className="flex animate-in items-center justify-center gap-[2px] fade-in-0 zoom-in-95 duration-700">
             <CooperativeLogo />
