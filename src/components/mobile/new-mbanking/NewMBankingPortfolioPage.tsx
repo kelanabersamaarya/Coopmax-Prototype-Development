@@ -12,6 +12,9 @@ import {
 import { cn } from "@/lib/utils";
 import NewMBankingAccountDetailPage from "@/components/mobile/new-mbanking/NewMBankingAccountDetailPage";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
+import NewMBankingLoanInstallmentDetailPage, {
+  type NewMBankingLoanInstallmentAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentDetailPage";
 
 type PortfolioProduct = {
   name: string;
@@ -20,6 +23,29 @@ type PortfolioProduct = {
 };
 
 type PortfolioTab = "aset" | "pinjaman";
+
+const portfolioLoanDetailAccount: NewMBankingLoanInstallmentAccount = {
+  id: "portfolio-loan-smg260004",
+  productName: "Pinjaman Billing",
+  accountNo: "SMG260004",
+  totalLoan: "Rp. 12.000.000,00",
+  remainingLoan: "Rp. 10.000.000,00",
+  dueDate: "25-01-2026",
+  gracePeriod: "3 Bulan",
+  disbursementDate: "01-03-2026",
+  tenor: "12 Bulan",
+  installmentNo: "1",
+  installmentBill: {
+    totalPay: "Rp. 991.666,00",
+    installmentNo: "1",
+    principal: "Rp. 833.333,00",
+    interest: "Rp. 83.333,00",
+    principalDebt: "Rp. 0,00",
+    interestDebt: "Rp. 0,00",
+    penalty: "Rp. 75.000,00",
+    remainingLoan: "Rp. 10.000.000,00",
+  },
+};
 
 const products: PortfolioProduct[] = [
   {
@@ -506,8 +532,18 @@ export default function NewMBankingPortfolioPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<PortfolioTab>("aset");
   const [showSavingsDetail, setShowSavingsDetail] = React.useState(false);
+  const [showLoanDetail, setShowLoanDetail] = React.useState(false);
   const savingsProducts = products.filter((product) => product.type === "simpanan");
   const depositProducts = products.filter((product) => product.type === "deposito");
+
+  if (showLoanDetail) {
+    return (
+      <NewMBankingLoanInstallmentDetailPage
+        account={portfolioLoanDetailAccount}
+        onBack={() => setShowLoanDetail(false)}
+      />
+    );
+  }
 
   if (showSavingsDetail) {
     return (
@@ -557,7 +593,12 @@ export default function NewMBankingPortfolioPage({
                 <ProductSection title="Deposito" products={depositProducts} />
               </>
             ) : (
-              <ProductSection title="Pinjaman" products={loanProducts} isLoan />
+              <ProductSection
+                title="Pinjaman"
+                products={loanProducts}
+                isLoan
+                onProductDetailClick={() => setShowLoanDetail(true)}
+              />
             )}
           </div>
         </section>
