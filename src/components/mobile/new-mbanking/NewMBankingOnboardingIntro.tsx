@@ -157,10 +157,14 @@ export default function NewMBankingOnboardingIntro({
     <div className="relative flex h-full min-h-full flex-col overflow-hidden bg-[#F9F9F9]">
       <style>
         {`
+          .onboarding-illustration-scale {
+            --onboarding-illustration-scale: clamp(0.54, calc((100dvh - 300px) / 492), 0.86);
+          }
+
           @keyframes onboarding-soft-image-enter {
             0% {
               opacity: 0;
-              transform: translate3d(22px, 10px, 0) scale(0.978);
+              transform: translate3d(22px, 10px, 0) scale(calc(var(--onboarding-illustration-scale) * 0.978));
               filter: blur(2px);
             }
             45% {
@@ -169,7 +173,7 @@ export default function NewMBankingOnboardingIntro({
             }
             100% {
               opacity: 1;
-              transform: translate3d(0, 0, 0) scale(1);
+              transform: translate3d(0, 0, 0) scale(var(--onboarding-illustration-scale));
               filter: blur(0);
             }
           }
@@ -191,16 +195,51 @@ export default function NewMBankingOnboardingIntro({
             }
           }
 
+          @media (max-height: 620px) {
+            .onboarding-brand-safe {
+              transform: scale(0.92);
+              transform-origin: top center;
+              padding-top: 20px !important;
+            }
+
+            .onboarding-illustration-position {
+              top: 88px !important;
+            }
+
+            .onboarding-illustration-scale {
+              --onboarding-illustration-scale: clamp(0.50, calc((100dvh - 296px) / 492), 0.62);
+            }
+          }
+
+          @media (max-height: 560px) {
+            .onboarding-brand-safe {
+              transform: scale(0.86);
+              padding-top: 16px !important;
+            }
+
+            .onboarding-illustration-position {
+              top: 78px !important;
+            }
+
+            .onboarding-illustration-scale {
+              --onboarding-illustration-scale: 0.46;
+            }
+          }
+
           @media (prefers-reduced-motion: reduce) {
             .onboarding-soft-image,
             .onboarding-soft-text {
               animation: none !important;
             }
+
+            .onboarding-soft-image {
+              transform: scale(var(--onboarding-illustration-scale));
+            }
           }
         `}
       </style>
 
-      <div className="relative z-20 flex shrink-0 flex-col items-center px-6 pt-[30px]">
+      <div className="onboarding-brand-safe relative z-30 flex shrink-0 flex-col items-center px-6 pt-[30px]">
         <div className="flex items-center justify-center gap-[10px]">
           <CooperativeLogo />
           <div className="whitespace-nowrap text-[18px] font-semibold leading-none tracking-[-0.035em] text-black">
@@ -213,10 +252,10 @@ export default function NewMBankingOnboardingIntro({
         </div>
       </div>
 
-      <div className="relative z-0 flex min-h-0 flex-1 flex-col items-center justify-center px-5 pb-[138px] pt-0">
+      <div className="onboarding-illustration-position pointer-events-none absolute inset-x-0 top-[104px] z-0 flex justify-center overflow-visible px-5">
         <div
           key={`image-${activeSlide}`}
-          className="onboarding-soft-image -mt-[24px] will-change-transform"
+          className="onboarding-soft-image onboarding-illustration-scale origin-top will-change-transform"
           style={{
             animation:
               "onboarding-soft-image-enter 1850ms cubic-bezier(0.16, 1, 0.3, 1) both",
