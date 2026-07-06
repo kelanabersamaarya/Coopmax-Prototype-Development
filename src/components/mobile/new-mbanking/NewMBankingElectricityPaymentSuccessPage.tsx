@@ -50,6 +50,40 @@ function getServiceIcon(variant: ServiceVariant) {
   return Zap;
 }
 
+function isPurchaseSuccess({
+  providerName,
+  serviceVariant,
+}: {
+  providerName: string;
+  serviceVariant: ServiceVariant;
+}) {
+  if (
+    serviceVariant === "data-package" ||
+    serviceVariant === "token-pln" ||
+    serviceVariant === "e-wallet"
+  ) {
+    return true;
+  }
+
+  if (serviceVariant === "postpaid-phone") {
+    return !providerName.toLowerCase().includes("pascabayar");
+  }
+
+  return false;
+}
+
+function getSuccessTitle({
+  providerName,
+  serviceVariant,
+}: {
+  providerName: string;
+  serviceVariant: ServiceVariant;
+}) {
+  return isPurchaseSuccess({ providerName, serviceVariant })
+    ? "Berhasil Melakukan Pembelian"
+    : "Berhasil Melakukan Pembayaran";
+}
+
 function getSuccessText(variant: ServiceVariant) {
   if (variant === "water") return "Pembayaran tagihan air Anda telah berhasil diproses.";
   if (variant === "pbb") return "Pembayaran Pajak Bumi dan Bangunan Anda telah berhasil diproses.";
@@ -158,6 +192,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
   );
   const [saveTargetOpen, setSaveTargetOpen] = React.useState(false);
   const Icon = getServiceIcon(serviceVariant);
+  const successTitle = getSuccessTitle({ providerName, serviceVariant });
   const successText = getSuccessText(serviceVariant);
   const showCustomerName =
     serviceVariant !== "postpaid-phone" &&
@@ -230,7 +265,7 @@ export default function NewMBankingElectricityPaymentSuccessPage({
             </div>
 
             <h1 className="mt-[20px] max-w-[300px] text-[18px] font-bold leading-[1.25] tracking-[-0.025em] text-black">
-              Berhasil Melakukan Pembayaran
+              {successTitle}
             </h1>
 
             <p className="mt-[10px] max-w-[305px] text-[13px] font-normal leading-[1.4] tracking-[-0.01em] text-[#828282]">
