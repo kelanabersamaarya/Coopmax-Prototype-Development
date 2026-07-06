@@ -3,6 +3,7 @@ import { ArrowLeft, Copy, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingStatusBar from "@/components/mobile/new-mbanking/NewMBankingStatusBar";
 import NewMBankingDepositResultPage from "@/components/mobile/new-mbanking/NewMBankingDepositResultPage";
+import NewMBankingPinInputPage from "@/components/mobile/new-mbanking/NewMBankingPinInputPage";
 
 const quickAmounts = [
   "Rp. 5.000",
@@ -93,6 +94,7 @@ export default function NewMBankingDepositPage({
 }) {
   const [selectedAmount, setSelectedAmount] = React.useState("");
   const [customAmount, setCustomAmount] = React.useState("");
+  const [showPinInput, setShowPinInput] = React.useState(false);
   const [showResult, setShowResult] = React.useState(false);
   const selectedDepositAmount = formatDepositAmount(customAmount || selectedAmount);
 
@@ -102,6 +104,20 @@ export default function NewMBankingDepositPage({
         amount={selectedDepositAmount}
         onBack={() => setShowResult(false)}
         onDone={onBack}
+      />
+    );
+  }
+
+  if (showPinInput) {
+    return (
+      <NewMBankingPinInputPage
+        title="Setoran"
+        description="Masukkan 6 digit PIN M-Banking untuk melanjutkan setoran."
+        onBack={() => setShowPinInput(false)}
+        onSubmit={() => {
+          setShowPinInput(false);
+          setShowResult(true);
+        }}
       />
     );
   }
@@ -187,7 +203,7 @@ export default function NewMBankingDepositPage({
       <div className="absolute inset-x-0 bottom-0 z-30 bg-white px-6 pb-[26px] pt-[14px] shadow-[0_-10px_24px_rgba(15,23,42,0.08)]">
         <button
           type="button"
-          onClick={() => setShowResult(true)}
+          onClick={() => setShowPinInput(true)}
           className={cn(
             "h-[52px] w-full rounded-[8px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
