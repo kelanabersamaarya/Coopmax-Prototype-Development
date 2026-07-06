@@ -123,7 +123,7 @@ function OnboardingSlider({
             type="button"
             onClick={() => onChange(index)}
             className={cn(
-              "h-[10px] rounded-full transition-all duration-700 ease-out",
+              "h-[10px] rounded-full transition-all duration-1000 ease-out",
               active ? "w-[31px] bg-[#479DF4]" : "w-[10px] bg-[#D8D8D8]",
             )}
             aria-label={`Buka slide ${index + 1}`}
@@ -148,7 +148,7 @@ export default function NewMBankingOnboardingIntro({
   React.useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       setActiveSlide((current) => (current + 1) % onboardingSlides.length);
-    }, 5200);
+    }, 6800);
 
     return () => window.clearTimeout(timeoutId);
   }, [activeSlide]);
@@ -160,12 +160,12 @@ export default function NewMBankingOnboardingIntro({
           @keyframes onboarding-soft-image-enter {
             0% {
               opacity: 0;
-              transform: translate3d(18px, 8px, 0) scale(0.982);
-              filter: blur(1.5px);
+              transform: translate3d(22px, 10px, 0) scale(0.978);
+              filter: blur(2px);
             }
-            55% {
-              opacity: 1;
-              filter: blur(0);
+            45% {
+              opacity: 0.72;
+              filter: blur(0.8px);
             }
             100% {
               opacity: 1;
@@ -177,8 +177,12 @@ export default function NewMBankingOnboardingIntro({
           @keyframes onboarding-soft-text-enter {
             0% {
               opacity: 0;
-              transform: translate3d(0, 12px, 0);
-              filter: blur(1px);
+              transform: translate3d(0, 16px, 0);
+              filter: blur(1.4px);
+            }
+            45% {
+              opacity: 0.72;
+              filter: blur(0.6px);
             }
             100% {
               opacity: 1;
@@ -215,7 +219,7 @@ export default function NewMBankingOnboardingIntro({
           className="onboarding-soft-image will-change-transform"
           style={{
             animation:
-              "onboarding-soft-image-enter 1100ms cubic-bezier(0.22, 1, 0.36, 1) both",
+              "onboarding-soft-image-enter 1850ms cubic-bezier(0.16, 1, 0.3, 1) both",
           }}
         >
           <NewMBankingOnboardingIllustration variant={slide.illustration} />
@@ -232,7 +236,7 @@ export default function NewMBankingOnboardingIntro({
           className="onboarding-soft-text will-change-transform"
           style={{
             animation:
-              "onboarding-soft-text-enter 1050ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both",
+              "onboarding-soft-text-enter 1750ms cubic-bezier(0.16, 1, 0.3, 1) 280ms both",
           }}
         >
           <div className="text-center">
@@ -252,7 +256,7 @@ export default function NewMBankingOnboardingIntro({
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] border-2 border-[#3D98FF] bg-white",
               "text-[12px] font-normal leading-none text-[#3D98FF]",
-              "transition duration-200 active:scale-[0.98]",
+              "transition duration-300 active:scale-[0.98]",
             )}
           >
             Daftar
@@ -264,7 +268,7 @@ export default function NewMBankingOnboardingIntro({
             className={cn(
               "h-[46px] w-[170px] rounded-[10px] bg-[#479DF4]",
               "text-[12px] font-normal leading-none text-white",
-              "transition duration-200 active:scale-[0.98]",
+              "transition duration-300 active:scale-[0.98]",
             )}
           >
             Masuk
