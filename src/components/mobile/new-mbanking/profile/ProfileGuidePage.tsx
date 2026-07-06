@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -17,7 +18,6 @@ import {
   PieChart,
   QrCode,
   ReceiptText,
-  ScanLine,
   Send,
   ShieldCheck,
   Smartphone,
@@ -125,8 +125,7 @@ const guideSections: GuideSection[] = [
   },
   {
     title: "Transfer Antar Rekening",
-    description:
-      "Panduan transfer ke sesama rekening koperasi.",
+    description: "Panduan transfer ke sesama rekening koperasi.",
     icon: Send,
     steps: [
       "Dari Beranda atau detail Simpanan, pilih menu Transfer.",
@@ -143,8 +142,7 @@ const guideSections: GuideSection[] = [
   },
   {
     title: "Transfer Antar Bank",
-    description:
-      "Panduan transfer dana ke rekening bank lain.",
+    description: "Panduan transfer dana ke rekening bank lain.",
     icon: Landmark,
     steps: [
       "Dari Beranda atau detail Simpanan, pilih menu Transfer.",
@@ -165,8 +163,7 @@ const guideSections: GuideSection[] = [
   },
   {
     title: "QRIS",
-    description:
-      "Panduan pembayaran menggunakan scan QRIS atau kode QR pembayaran.",
+    description: "Panduan pembayaran menggunakan scan QRIS atau kode QR pembayaran.",
     icon: QrCode,
     steps: [
       "Pada navigasi bawah, tekan tombol QRIS.",
@@ -420,24 +417,7 @@ function GuideTips({ tips }: { tips?: string[] }) {
 export default function ProfileGuidePage({ onBack }: { onBack: () => void }) {
   return (
     <ProfileSubPageShell title="Petunjuk Penggunaan" onBack={onBack}>
-      <div className="flex items-start gap-3 rounded-[22px] bg-[#F8FAFC] p-4 ring-1 ring-[#EEF0F4]">
-        <span className="grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
-          <BookOpen className="h-[22px] w-[22px]" strokeWidth={2.6} />
-        </span>
-
-        <div className="min-w-0">
-          <div className="text-[15px] font-bold leading-tight text-black">
-            Panduan Penggunaan M-Banking
-          </div>
-          <p className="mt-2 text-justify text-[13px] font-normal leading-relaxed text-[#4B5563]">
-            Gunakan panduan berikut untuk memahami alur penggunaan setiap fitur
-            yang tersedia pada aplikasi, mulai dari registrasi, login, transaksi,
-            hingga pengaturan profil dan keamanan akun.
-          </p>
-        </div>
-      </div>
-
-      <Accordion type="single" collapsible className="mt-[18px] grid gap-[10px]">
+      <Accordion type="single" collapsible className="grid gap-[10px]">
         {guideSections.map((section, index) => {
           const Icon = section.icon;
 
