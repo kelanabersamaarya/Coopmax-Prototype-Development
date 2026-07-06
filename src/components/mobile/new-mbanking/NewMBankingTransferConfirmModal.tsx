@@ -5,21 +5,28 @@ import { createPortal } from "react-dom";
 import { UserRound, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingSourceFundGradientCard from "@/components/mobile/new-mbanking/NewMBankingSourceFundGradientCard";
-import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
+import NewMBankingSourceFundModal, {
+  type SourceFundAccount,
+} from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
 function SectionBlock({
   title,
   children,
   className,
+  action,
 }: {
   title: string;
   children: React.ReactNode;
   className?: string;
+  action?: React.ReactNode;
 }) {
   return (
     <section className={cn("mt-[24px]", className)}>
-      <div className="text-[14px] font-bold leading-tight text-black">
-        {title}
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-[14px] font-bold leading-tight text-black">
+          {title}
+        </div>
+        {action}
       </div>
       <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
       <div className="mt-[12px]">{children}</div>
@@ -120,6 +127,10 @@ export default function NewMBankingTransferConfirmModal({
   onContinue?: () => void;
 }) {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
+  const [sourceFundOpen, setSourceFundOpen] = React.useState(false);
+  const [sourceFund, setSourceFund] = React.useState<SourceFundAccount>(() =>
+    buildSourceFundAccount(sourceInfo),
+  );
 
   React.useEffect(() => {
     if (!open) return;
@@ -127,7 +138,9 @@ export default function NewMBankingTransferConfirmModal({
     setMobileScreen(
       document.querySelector('[data-mobile-screen="true"]') as HTMLElement | null,
     );
-  }, [open]);
+    setSourceFund(buildSourceFundAccount(sourceInfo));
+    setSourceFundOpen(false);
+  }, [open, sourceInfo]);
 
   if (!open || !mobileScreen) return null;
 
@@ -140,10 +153,15 @@ export default function NewMBankingTransferConfirmModal({
   const displayedNominal = nominal.trim() || "50.000,00";
   const displayedAdminFee = "2.500,00";
   const displayedTotal = hideAdminFee ? `Rp. ${displayedNominal}` : totalWithFee;
-  const sourceFundAccount = buildSourceFundAccount(sourceInfo);
 
   return createPortal(
     <div className="absolute inset-0 z-[120] flex items-end bg-black/35 px-5 pb-5 pt-8">
+      <NewMBankingSourceFundModal
+        open={sourceFundOpen}
+        onOpenChange={setSourceFundOpen}
+        onSelect={setSourceFund}
+      />
+
       <button
         type="button"
         className="absolute inset-0 cursor-default"
@@ -173,13 +191,26 @@ export default function NewMBankingTransferConfirmModal({
           </button>
         </div>
 
-        <SectionBlock title="Sumber Dana" className="mt-[6px]">
+        <SectionBlock
+          title="Sumber Dana"
+          className="mt-[6px]"
+          action={
+            <button
+              type="button"
+              onClick={() => setSourceFundOpen(true)}
+              className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
+            >
+              Ubah
+            </button>
+          }
+        >
           <NewMBankingSourceFundGradientCard
-            account={sourceFundAccount}
-            showChevron={false}
+            account={sourceFund}
+            showChevron
             iconShape="circle"
             textSize="compact"
             className="min-h-[104px] shadow-none"
+            onClick={() => setSourceFundOpen(true)}
           />
           <div className="sr-only">{sourceName}</div>
         </SectionBlock>
