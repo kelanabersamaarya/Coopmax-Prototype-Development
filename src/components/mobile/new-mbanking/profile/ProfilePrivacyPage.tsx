@@ -7,6 +7,7 @@ import {
 import { ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfileSubPageShell from "@/components/mobile/new-mbanking/profile/ProfileSubPageShell";
+import ProfilePrivacyPolicyIntroSection from "@/components/mobile/new-mbanking/profile/ProfilePrivacyPolicyIntroSection";
 
 type ContentItem = {
   term: string;
@@ -410,6 +411,8 @@ export default function ProfilePrivacyPage({ onBack }: { onBack: () => void }) {
           M-Banking Koperasi.
         </p>
       </div>
+
+      <ProfilePrivacyPolicyIntroSection />
 
       <Accordion type="single" collapsible className="mt-[22px] grid gap-[10px]">
         {privacySections.map((section, index) => (
