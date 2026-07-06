@@ -7,6 +7,9 @@ type NewMBankingLoginDetailPageProps = {
   onLogin: () => void;
 };
 
+const SAVED_USERNAME_KEY = "dyad.new-mbanking.saved-username";
+const DEFAULT_SAVED_USERNAME = "laura";
+
 export default function NewMBankingLoginDetailPage({
   onBack,
   onLogin,
@@ -16,8 +19,40 @@ export default function NewMBankingLoginDetailPage({
   const [rememberUsername, setRememberUsername] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
 
+  React.useEffect(() => {
+    if (!rememberUsername) return;
+
+    const savedUsername =
+      window.localStorage.getItem(SAVED_USERNAME_KEY) ?? DEFAULT_SAVED_USERNAME;
+
+    setUsername(savedUsername);
+  }, [rememberUsername]);
+
+  function toggleRememberUsername() {
+    setRememberUsername((current) => {
+      const next = !current;
+
+      if (next) {
+        const savedUsername =
+          window.localStorage.getItem(SAVED_USERNAME_KEY) ?? DEFAULT_SAVED_USERNAME;
+        setUsername(savedUsername);
+      }
+
+      return next;
+    });
+  }
+
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (rememberUsername && username.trim()) {
+      window.localStorage.setItem(SAVED_USERNAME_KEY, username.trim());
+    }
+
+    if (!rememberUsername) {
+      window.localStorage.removeItem(SAVED_USERNAME_KEY);
+    }
+
     onLogin();
   }
 
@@ -133,7 +168,7 @@ export default function NewMBankingLoginDetailPage({
 
             <button
               type="button"
-              onClick={() => setRememberUsername((value) => !value)}
+              onClick={toggleRememberUsername}
               className="mt-[1px] flex w-fit items-center gap-[10px] text-left"
               aria-pressed={rememberUsername}
             >
