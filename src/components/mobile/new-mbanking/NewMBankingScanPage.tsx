@@ -78,7 +78,7 @@ export default function NewMBankingScanPage({
   if (showResultPage) {
     return (
       <NewMBankingScanResultPage
-        onBack={onBack}
+        onBack={() => setShowResultPage(false)}
         onDone={onBack}
       />
     );
