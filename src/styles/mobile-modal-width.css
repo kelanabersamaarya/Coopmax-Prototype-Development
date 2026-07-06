@@ -1,0 +1,21 @@
+/* Mobile mockup: samakan lebar popup modal/sheet agar tidak menyisakan ruang kosong terlalu besar. */
+[data-mobile-screen="true"]
+  div[class*="absolute"][class*="inset-0"][class*="bg-black/"]
+  > div[class*="relative"][class*="z-10"],
+[data-mobile-screen="true"]
+  div[class*="absolute"][class*="inset-0"][class*="bg-black/"]
+  > div[class*="max-w-"] {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Untuk modal tengah yang punya padding overlay lebih besar, tetap jaga napas visual. */
+[data-mobile-screen="true"]
+  div[class*="absolute"][class*="inset-0"][class*="bg-black/"][class*="items-center"]
+  > div[class*="relative"][class*="z-10"],
+[data-mobile-screen="true"]
+  div[class*="absolute"][class*="inset-0"][class*="bg-black/"][class*="items-center"]
+  > div[class*="max-w-"] {
+  width: 100% !important;
+  max-width: none !important;
+}
