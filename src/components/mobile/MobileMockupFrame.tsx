@@ -29,7 +29,7 @@ export default function MobileMockupFrame({
         {subtitle ? ` ${subtitle}` : ""}
       </div>
 
-      <div className="relative h-[calc(100vh-0.25rem)] max-h-full w-[min(100%,460px)] rounded-[3.35rem] bg-slate-950 p-3 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-3.5">
+      <div className="relative h-full max-h-full w-[min(100%,460px)] rounded-[3.35rem] bg-slate-950 p-3 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-3.5">
         {!edgeToEdge ? (
           <div className="pointer-events-none absolute left-1/2 top-3 z-20 h-6 w-32 -translate-x-1/2 rounded-b-2xl bg-slate-950 shadow-sm sm:top-3.5">
             <div className="mx-auto mt-2 h-1.5 w-14 rounded-full bg-slate-700" />
