@@ -168,8 +168,9 @@ export default function Index() {
                           {/* Dashboard */}
                           <SidebarNavItem item={g.items[0]!} />
 
-                          {/* Area SAK EP Cabang: Dashboard + Simpanan + Pinjaman + Simpanan Berjangka + Akunting */}
-                          {isSakCabangArea ? (
+                          {isMobileArea ? (
+                            <SidebarMobileMenu />
+                          ) : isSakCabangArea ? (
                             <>
                               <SidebarSakSimpananMenu />
                               <SidebarPinjamanMenu />
