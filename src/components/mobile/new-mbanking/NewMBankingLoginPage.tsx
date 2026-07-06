@@ -1,5 +1,4 @@
 import * as React from "react";
-import { toast } from "sonner";
 import NewMBankingLoginDetailPage from "@/components/mobile/new-mbanking/NewMBankingLoginDetailPage";
 import NewMBankingLoginIdentityStep from "@/components/mobile/new-mbanking/NewMBankingLoginIdentityStep";
 import NewMBankingLoginPasswordStep from "@/components/mobile/new-mbanking/NewMBankingLoginPasswordStep";
@@ -27,10 +26,6 @@ export default function NewMBankingLoginPage({
   }
 
   function submitLogin() {
-    toast.success("Masuk berhasil", {
-      description: "Selamat datang di New Mbanking prototype.",
-    });
-
     onLogin();
   }
 
