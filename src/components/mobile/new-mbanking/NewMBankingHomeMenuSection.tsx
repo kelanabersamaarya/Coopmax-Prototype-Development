@@ -65,12 +65,12 @@ export default function NewMBankingHomeMenuSection({
   return (
     <div
       className={cn(
-        "pointer-events-none absolute inset-x-0 bottom-[18px] z-40 px-5",
+        "pointer-events-none absolute inset-x-0 bottom-[18px] z-40 px-3",
         className,
       )}
     >
-      <nav className="pointer-events-auto mx-auto h-[72px] w-full max-w-[354px] rounded-[28px] border border-[#BFE0FF] bg-[#EAF4FF] px-[18px]">
-        <div className="grid h-full grid-cols-5 items-center gap-[16px]">
+      <nav className="pointer-events-auto mx-auto h-[72px] w-full max-w-[400px] rounded-[28px] border border-[#BFE0FF] bg-[#EAF4FF] px-[12px]">
+        <div className="grid h-full grid-cols-5 items-center gap-[8px]">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
