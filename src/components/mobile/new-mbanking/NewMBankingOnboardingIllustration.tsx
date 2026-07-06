@@ -18,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import NewMBankingPhoneMockupShell from "@/components/mobile/new-mbanking/NewMBankingPhoneMockupShell";
 import NewMBankingOnboardingPortfolioMockup from "@/components/mobile/new-mbanking/NewMBankingOnboardingPortfolioMockup";
+import NewMBankingOnboardingSavingsHistoryMock from "@/components/mobile/new-mbanking/NewMBankingOnboardingSavingsHistoryMock";
 
 type IllustrationVariant = "transfer" | "payment" | "portfolio";
 
@@ -194,42 +195,7 @@ export default function NewMBankingOnboardingIllustration({
                 })}
               </div>
 
-              <div className="mt-[16px]">
-                <div className="text-[11px] font-bold leading-tight text-black">
-                  Riwayat Transaksi
-                </div>
-
-                <div className="mt-[9px] grid gap-[9px]">
-                  {[
-                    ["Setoran", "+Rp. 500.000"],
-                    ["Transfer Keluar", "-Rp. 250.000"],
-                  ].map(([label, amount]) => (
-                    <div
-                      key={label}
-                      className="flex items-center justify-between rounded-[14px] bg-[#F8FAFC] px-[11px] py-[10px] ring-1 ring-[#EEF0F4]"
-                    >
-                      <div className="min-w-0">
-                        <div className="truncate text-[9px] font-bold text-black">
-                          {label}
-                        </div>
-                        <div className="mt-[3px] text-[8px] text-[#8F8F8F]">
-                          20 Juni 2026
-                        </div>
-                      </div>
-                      <div
-                        className={cn(
-                          "text-[9px] font-bold",
-                          amount.startsWith("+")
-                            ? "text-[#15965A]"
-                            : "text-[#D12C3B]",
-                        )}
-                      >
-                        {amount}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <NewMBankingOnboardingSavingsHistoryMock />
             </div>
           </div>
         </NewMBankingPhoneMockupShell>
