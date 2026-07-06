@@ -1,0 +1,10 @@
+/* New M-Banking: sembunyikan status bar atas (jam, sinyal, wifi, baterai) di seluruh halaman. */
+[data-mobile-screen="true"]
+  .flex.h-\[30px\].shrink-0.items-center.justify-between.px-6.pt-2.text-black {
+  display: none !important;
+}
+
+[data-mobile-screen="true"]
+  .flex.h-\[30px\].items-center.justify-between.px-6.pt-2.text-black {
+  display: none !important;
+}
