@@ -129,25 +129,32 @@ export default function Index() {
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div
         className={cn(
-          "w-full px-[var(--shell-gutter)]",
-          isMobileArea ? "py-5 md:py-5" : "py-6 md:py-8",
+          "w-full",
+          isNewMBankingArea
+            ? "px-0 py-0"
+            : "px-[var(--shell-gutter)]",
+          !isNewMBankingArea && (isMobileArea ? "py-5 md:py-5" : "py-6 md:py-8"),
         )}
       >
-        <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div />
-          <div className="hidden md:block" />
-        </header>
+        {!isNewMBankingArea ? (
+          <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div />
+            <div className="hidden md:block" />
+          </header>
+        ) : null}
 
         <div
           className={cn(
             "grid min-w-0 gap-[var(--shell-gap)]",
-            isMobileArea ? "mt-0" : "mt-6",
+            isNewMBankingArea ? "mt-0 grid-cols-1 gap-0" : isMobileArea ? "mt-0" : "mt-6",
             isDashboard
               ? "grid-cols-1"
-              : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
+              : isNewMBankingArea
+                ? "grid-cols-1"
+                : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
           )}
         >
-          {!isDashboard ? (
+          {!isDashboard && !isNewMBankingArea ? (
             <aside className="min-w-0 space-y-4 px-0">
               <Card className="min-w-0 rounded-[5px] border-slate-200/70 bg-white p-2 shadow-sm">
                 {/* no scroll on sidebar */}
@@ -226,9 +233,11 @@ export default function Index() {
           <main
             className={cn(
               "min-w-0 overflow-x-hidden",
-              isMobileArea
-                ? "h-[calc(100vh-40px)] min-h-0 overflow-hidden"
-                : "",
+              isNewMBankingArea
+                ? "h-[100dvh] min-h-[100dvh] overflow-hidden"
+                : isMobileArea
+                  ? "h-[calc(100vh-40px)] min-h-0 overflow-hidden"
+                  : "",
             )}
           >
             {isHome ? <Outlet /> : <Outlet />}
