@@ -170,11 +170,11 @@ function getIconByType(type: string) {
 }
 
 function getIconClassByType(type: string) {
-  if (type === "pulsa") return "bg-[#EEF6FF] text-[#479DF4]";
-  if (type === "data") return "bg-[#EAF3FF] text-[#2563EB]";
-  if (type === "token") return "bg-[#FFF7E6] text-[#F59E0B]";
-  if (type === "ewallet") return "bg-[#F3EEFF] text-[#8B5CF6]";
-  return "bg-[#F1F3F6] text-[#53657D]";
+  if (type === "pulsa") return "bg-[#479DF4]";
+  if (type === "data") return "bg-[#2563EB]";
+  if (type === "token") return "bg-[#F59E0B]";
+  if (type === "ewallet") return "bg-[#8B5CF6]";
+  return "bg-[#64748B]";
 }
 
 function SavedPurchaseIcon({ type }: { type: string }) {
@@ -183,11 +183,11 @@ function SavedPurchaseIcon({ type }: { type: string }) {
   return (
     <span
       className={cn(
-        "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full",
+        "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full text-white",
         getIconClassByType(type),
       )}
     >
-      <Icon className="h-[22px] w-[22px]" strokeWidth={2.5} />
+      <Icon className="h-[22px] w-[22px] text-white" strokeWidth={2.5} />
     </span>
   );
 }

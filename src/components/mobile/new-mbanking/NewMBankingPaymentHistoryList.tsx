@@ -100,10 +100,10 @@ function getPaymentIcon(type: PaymentHistoryItem["type"]) {
 }
 
 function getPaymentIconClassName(type: PaymentHistoryItem["type"]) {
-  if (type === "listrik") return "bg-[#FFF7E6] text-[#F59E0B]";
-  if (type === "internet") return "bg-[#EAF3FF] text-[#2563EB]";
-  if (type === "bpjs") return "bg-[#EAF8EF] text-[#22C55E]";
-  return "bg-[#EEF6FF] text-[#479DF4]";
+  if (type === "listrik") return "bg-[#F59E0B]";
+  if (type === "internet") return "bg-[#2563EB]";
+  if (type === "bpjs") return "bg-[#22C55E]";
+  return "bg-[#479DF4]";
 }
 
 function PaymentHistoryIcon({ type }: { type: PaymentHistoryItem["type"] }) {
@@ -112,11 +112,11 @@ function PaymentHistoryIcon({ type }: { type: PaymentHistoryItem["type"] }) {
   return (
     <span
       className={cn(
-        "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full",
+        "grid h-[44px] w-[44px] shrink-0 place-items-center rounded-full text-white",
         getPaymentIconClassName(type),
       )}
     >
-      <Icon className="h-[21px] w-[21px]" strokeWidth={2.6} />
+      <Icon className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
