@@ -23,15 +23,15 @@ export default function MobileMockupFrame({
   const hasCustomContent = Boolean(children);
 
   return (
-    <section className="flex h-full min-h-0 w-full items-center justify-center px-2 py-0 sm:px-4">
+    <section className="flex h-full min-h-0 w-full items-center justify-center px-1 py-0 sm:px-2">
       <div className="sr-only">
         {title}
         {subtitle ? ` ${subtitle}` : ""}
       </div>
 
-      <div className="relative h-[calc(100vh-0.75rem)] max-h-full w-[min(100%,430px)] rounded-[3.35rem] bg-slate-950 p-3.5 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-4">
+      <div className="relative h-[calc(100vh-0.25rem)] max-h-full w-[min(100%,460px)] rounded-[3.35rem] bg-slate-950 p-3 shadow-[0_30px_80px_rgba(15,23,42,0.34)] ring-1 ring-slate-800/80 sm:p-3.5">
         {!edgeToEdge ? (
-          <div className="pointer-events-none absolute left-1/2 top-3.5 z-20 h-6 w-32 -translate-x-1/2 rounded-b-2xl bg-slate-950 shadow-sm sm:top-4">
+          <div className="pointer-events-none absolute left-1/2 top-3 z-20 h-6 w-32 -translate-x-1/2 rounded-b-2xl bg-slate-950 shadow-sm sm:top-3.5">
             <div className="mx-auto mt-2 h-1.5 w-14 rounded-full bg-slate-700" />
           </div>
         ) : null}

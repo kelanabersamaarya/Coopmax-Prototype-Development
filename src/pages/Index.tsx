@@ -127,7 +127,12 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
-      <div className="w-full px-[var(--shell-gutter)] py-6 md:py-8">
+      <div
+        className={cn(
+          "w-full px-[var(--shell-gutter)]",
+          isMobileArea ? "py-1 md:py-1" : "py-6 md:py-8",
+        )}
+      >
         <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div />
           <div className="hidden md:block" />
@@ -135,7 +140,8 @@ export default function Index() {
 
         <div
           className={cn(
-            "mt-6 grid min-w-0 gap-[var(--shell-gap)]",
+            "grid min-w-0 gap-[var(--shell-gap)]",
+            isMobileArea ? "mt-1" : "mt-6",
             isDashboard
               ? "grid-cols-1"
               : "md:[grid-template-columns:var(--sidebar-w)_minmax(0,1fr)]",
@@ -220,7 +226,9 @@ export default function Index() {
           <main
             className={cn(
               "min-w-0 overflow-x-hidden",
-              isMobileArea ? "h-[calc(100vh-7rem)] min-h-[640px] overflow-hidden" : "",
+              isMobileArea
+                ? "h-[calc(100vh-0.5rem)] min-h-0 overflow-hidden"
+                : "",
             )}
           >
             {isHome ? <Outlet /> : <Outlet />}
