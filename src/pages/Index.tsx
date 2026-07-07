@@ -11,6 +11,7 @@ import SidebarMobileMenu from "@/components/SidebarMobileMenu";
 import SidebarSakSimpananMenu from "@/components/SidebarSakSimpananMenu";
 import SidebarSakSimpananBerjangkaMenu from "@/components/SidebarSakSimpananBerjangkaMenu";
 import SidebarSakAkuntingMenu from "@/components/SidebarSakAkuntingMenu";
+import SidebarDjoinpayMenu from "@/components/SidebarDjoinpayMenu";
 import { HandCoins, Home, ChevronRight } from "lucide-react";
 
 type NavItem = {
@@ -171,6 +172,7 @@ export default function Index() {
                           {isPaymentLinkArea ? (
                             <>
                               <SidebarNavItem item={g.items[0]!} />
+                              <SidebarDjoinpayMenu />
                               <SidebarPinjamanMenu />
                             </>
                           ) : (
@@ -189,6 +191,9 @@ export default function Index() {
                                 </>
                               ) : (
                                 <>
+                                  {/* Djoinpay (collapsible) - hide in OBS area */}
+                                  {!isObsArea ? <SidebarDjoinpayMenu /> : null}
+
                                   {/* Anggota (collapsible) - hide in OBS area */}
                                   {!isObsArea ? <SidebarAnggotaMenu /> : null}
 
