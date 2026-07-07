@@ -260,7 +260,7 @@ export default function LoanProductPaymentLinkSection(
                   </div>
                 </div>
 
-                {isEditPage && whatsappConnected ? (
+                {whatsappConnected ? (
                   <ConnectedWhatsappCard
                     onDisconnectClick={() => setDisconnectConfirmOpen(true)}
                   />
