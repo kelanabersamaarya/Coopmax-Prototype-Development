@@ -151,10 +151,11 @@ export default function LoanProductPaymentLinkSection(
                 <div className="rounded-[5px] border border-emerald-200 bg-emerald-50 px-4 py-4 text-emerald-950">
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
                         <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
                           <Phone className="h-4 w-4" />
                         </span>
+                        <span>Koneksi ke Whatsapp</span>
                       </div>
 
                       <div className="ml-9 mt-2">
