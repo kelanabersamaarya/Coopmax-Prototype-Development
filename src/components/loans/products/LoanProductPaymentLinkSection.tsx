@@ -1,9 +1,41 @@
 "use client";
 
+import * as React from "react";
+import { createPortal } from "react-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import { cn } from "@/lib/utils";
+
+function findLoanProductFormContainer(anchor: HTMLElement) {
+  let current = anchor.parentElement;
+
+  while (current && current !== document.body) {
+    const text = current.textContent ?? "";
+
+    const looksLikeLoanProductForm =
+      text.includes("Konfigurasi Tagihan Angsuran") &&
+      text.includes("Konfigurasi Grace Period") &&
+      text.includes("Simpan");
+
+    if (looksLikeLoanProductForm) return current;
+
+    current = current.parentElement;
+  }
+
+  return null;
+}
+
+function findActionButtonsContainer(container: HTMLElement) {
+  const children = Array.from(container.children).reverse();
+
+  return (
+    children.find((child) => {
+      const text = child.textContent?.toLowerCase() ?? "";
+      return text.includes("batalkan") && text.includes("simpan");
+    }) ?? null
+  );
+}
 
 export default function LoanProductPaymentLinkSection({
   enabled,
@@ -28,7 +60,30 @@ export default function LoanProductPaymentLinkSection({
   showTitle?: boolean;
   className?: string;
 }) {
-  return (
+  const anchorRef = React.useRef<HTMLDivElement | null>(null);
+  const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null);
+
+  React.useEffect(() => {
+    const anchor = anchorRef.current;
+    if (!anchor) return;
+
+    const container = findLoanProductFormContainer(anchor);
+    if (!container) return;
+
+    const target = document.createElement("div");
+    target.className = "loan-product-payment-link-portal-target";
+
+    const actionButtons = findActionButtonsContainer(container);
+    container.insertBefore(target, actionButtons);
+
+    setPortalTarget(target);
+
+    return () => {
+      target.remove();
+    };
+  }, []);
+
+  const content = (
     <div className={cn("loan-product-payment-link-section", className)}>
       {showSeparator ? <Separator className="my-6 bg-slate-200/70" /> : null}
 
@@ -86,5 +141,23 @@ export default function LoanProductPaymentLinkSection({
         ) : null}
       </div>
     </div>
+  );
+
+  return (
+    <>
+      <div ref={anchorRef} className="hidden" />
+      {portalTarget
+        ? createPortal(
+            <div>
+              <Separator className="my-6 bg-slate-200/70" />
+              <div className="text-base font-semibold text-slate-900">
+                Payment Link
+              </div>
+              <div className="mt-4">{content}</div>
+            </div>,
+            portalTarget,
+          )
+        : content}
+    </>
   );
 }
