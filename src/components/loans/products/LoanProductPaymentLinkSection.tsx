@@ -106,11 +106,21 @@ export default function LoanProductPaymentLinkSection(
       {showTitle ? <SectionTitle /> : null}
 
       <div className={cn("grid gap-5", showTitle ? "mt-4" : "")}>
-        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
+        <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-start">
           <div className="text-sm font-normal text-slate-900">Payment Link</div>
 
-          <div className="flex items-center justify-start">
-            <Switch checked={enabled} onCheckedChange={onEnabledChange} />
+          <div className="grid gap-3">
+            <div className="flex items-center justify-start">
+              <Switch checked={enabled} onCheckedChange={onEnabledChange} />
+            </div>
+
+            {enabled ? (
+              <div className="rounded-[5px] border border-blue-200 bg-blue-50 px-4 py-3 text-[13px] font-medium leading-relaxed text-blue-900">
+                Pengingat pembayaran tagihan akan dikirim otomatis pada 7 hari, 3
+                hari, satu hari sebelum jatuh tempo, tepat pada hari jatuh tempo
+                serta 1 hari, 3 hari, dan 7 hari setelah jatuh tempo.
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
