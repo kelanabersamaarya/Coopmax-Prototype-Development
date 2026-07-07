@@ -4,10 +4,6 @@ import * as React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  hasPaymentLinkEnabledLoanProduct,
-  LOAN_PRODUCTS_CHANGED_EVENT,
-} from "@/lib/loanProductsStore";
 
 type SubItem = {
   label: string;
@@ -30,7 +26,6 @@ const sakItems: SubItem[] = [
 
 const paymentLinkItems: SubItem[] = [
   { label: "Produk Pinjaman", to: "/payment-link/loan-products" },
-  { label: "Payment Link", to: "/payment-link" },
 ];
 
 function isObsPath(pathname: string) {
@@ -61,46 +56,11 @@ export default function SidebarPinjamanMenu() {
   const sakCabangArea = isSakCabangPath(location.pathname);
   const paymentLinkArea = isPaymentLinkPath(location.pathname);
 
-  const [hasPaymentLinkMenu, setHasPaymentLinkMenu] = React.useState(() =>
-    hasPaymentLinkEnabledLoanProduct(),
-  );
-
-  React.useEffect(() => {
-    const syncPaymentLinkMenu = () => {
-      setHasPaymentLinkMenu(hasPaymentLinkEnabledLoanProduct());
-    };
-
-    syncPaymentLinkMenu();
-
-    window.addEventListener(LOAN_PRODUCTS_CHANGED_EVENT, syncPaymentLinkMenu);
-    window.addEventListener("storage", syncPaymentLinkMenu);
-
-    return () => {
-      window.removeEventListener(
-        LOAN_PRODUCTS_CHANGED_EVENT,
-        syncPaymentLinkMenu,
-      );
-      window.removeEventListener("storage", syncPaymentLinkMenu);
-    };
-  }, []);
-
   const items = React.useMemo(() => {
-    if (paymentLinkArea) {
-      return hasPaymentLinkMenu
-        ? paymentLinkItems
-        : paymentLinkItems.filter((item) => item.to !== "/payment-link");
-    }
-
-    if (sakCabangArea) {
-      return hasPaymentLinkMenu
-        ? [...sakItems, { label: "Payment Link", to: "/payment-link" }]
-        : sakItems;
-    }
-
-    return hasPaymentLinkMenu
-      ? [...baseItems, { label: "Payment Link", to: "/payment-link" }]
-      : baseItems;
-  }, [hasPaymentLinkMenu, paymentLinkArea, sakCabangArea]);
+    if (paymentLinkArea) return paymentLinkItems;
+    if (sakCabangArea) return sakItems;
+    return baseItems;
+  }, [paymentLinkArea, sakCabangArea]);
 
   const isActive =
     location.pathname.startsWith("/payment-link") ||
@@ -118,10 +78,6 @@ export default function SidebarPinjamanMenu() {
 
   function isItemActive(item: SubItem) {
     const itemTo = getRouteForContext(item.to, location.pathname);
-
-    if (item.to === "/payment-link") {
-      return location.pathname === "/payment-link";
-    }
 
     if (item.to === "/payment-link/loan-products") {
       return (

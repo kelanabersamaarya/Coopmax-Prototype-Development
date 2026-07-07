@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Info, MessageCircle } from "lucide-react";
+import { Info, LogOut, Phone } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
-import PaymentLinkWhatsappQrDialog from "@/components/loans/products/PaymentLinkWhatsappQrDialog";
 import { cn } from "@/lib/utils";
 
 const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
@@ -78,9 +78,23 @@ export default function LoanProductPaymentLinkSection(
     className,
   } = props;
 
+  const location = useLocation();
   const anchorRef = React.useRef<HTMLDivElement | null>(null);
+  const initializedDefaultRef = React.useRef(false);
   const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null);
-  const [whatsappQrOpen, setWhatsappQrOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (initializedDefaultRef.current) return;
+
+    const isPinjamanBillingEdit =
+      location.pathname.startsWith("/loan-products/") &&
+      location.pathname.endsWith("/edit");
+
+    if (!isPinjamanBillingEdit || enabled) return;
+
+    initializedDefaultRef.current = true;
+    onEnabledChange(true);
+  }, [enabled, location.pathname, onEnabledChange]);
 
   React.useEffect(() => {
     const anchor = anchorRef.current;
@@ -104,11 +118,6 @@ export default function LoanProductPaymentLinkSection(
 
   const content = (
     <div className={cn("loan-product-payment-link-section", className)}>
-      <PaymentLinkWhatsappQrDialog
-        open={whatsappQrOpen}
-        onOpenChange={setWhatsappQrOpen}
-      />
-
       {showSeparator ? <Separator className="my-6 bg-slate-200/70" /> : null}
 
       {showTitle ? <SectionTitle /> : null}
@@ -139,30 +148,42 @@ export default function LoanProductPaymentLinkSection(
                   </div>
                 </div>
 
-                <div className="rounded-[5px] border border-rose-200 bg-rose-50 px-4 py-3 text-rose-950">
+                <div className="rounded-[5px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-950">
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="min-w-0">
                       <div className="text-[16px] font-semibold leading-snug">
                         Koneksi ke Whatsapp
                       </div>
-                      <div className="mt-2 flex items-center gap-2 text-[14px] font-medium leading-relaxed text-rose-800">
-                        <span className="h-3 w-3 shrink-0 rounded-full bg-rose-600 ring-2 ring-rose-200" />
-                        Status : Belum Terhubung ke Whatsapp
+
+                      <div className="mt-2 flex items-center gap-2 text-[14px] font-semibold leading-relaxed text-emerald-800">
+                        <span className="h-3 w-3 shrink-0 rounded-full bg-emerald-600 ring-2 ring-emerald-200" />
+                        Status : Terhubung ke Whatsapp
+                      </div>
+
+                      <div className="mt-2 flex items-center gap-2 text-[14px] font-medium leading-relaxed text-emerald-900">
+                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200">
+                          <Phone className="h-4 w-4" />
+                        </span>
+                        <span>Nomor HP : 0812 3456 7890</span>
+                      </div>
+
+                      <div className="mt-1 text-[13px] font-medium leading-relaxed text-emerald-800">
+                        Terhubung sejak : 7 Juli 2026, 12:46 WIB
                       </div>
                     </div>
 
                     <button
                       type="button"
-                      onClick={() => setWhatsappQrOpen(true)}
+                      onClick={() => onEnabledChange(false)}
                       className={cn(
                         "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
-                        "bg-emerald-600 text-[14px] font-semibold text-white",
-                        "ring-1 ring-emerald-600/20 transition hover:bg-emerald-700",
-                        "focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-600/20",
+                        "bg-rose-600 text-[14px] font-semibold text-white",
+                        "ring-1 ring-rose-600/20 transition hover:bg-rose-700",
+                        "focus:outline-none focus-visible:ring-4 focus-visible:ring-rose-600/20",
                       )}
                     >
-                      <span>Hubungkan ke Whatsapp</span>
-                      <MessageCircle className="h-4.5 w-4.5 text-white" />
+                      <span>Putuskan Koneksi</span>
+                      <LogOut className="h-4.5 w-4.5 text-white" />
                     </button>
                   </div>
                 </div>
