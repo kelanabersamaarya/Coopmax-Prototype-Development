@@ -209,15 +209,11 @@ export default function PaymentLinkDetail() {
                 <DetailField label="No. Rek. Pinjaman" value={data.noRekPinjaman} />
                 <DetailField label="Produk Pinjaman" value={getLoanProductName(data)} />
 
-                <DetailField
-                  label="Status Pengiriman Pengingat Tagihan"
-                  value={<StatusBadge status={data.status} />}
-                />
                 <DetailField label="Tagihan Pokok" value={billBreakdown?.pokok} />
                 <DetailField label="Tagihan Bunga" value={billBreakdown?.bunga} />
                 <DetailField label="Tagihan Denda" value={billBreakdown?.denda} />
-
                 <DetailField label="Total Tagihan" value={data.nominalTagihan} />
+
                 <DetailField label="Tahap Pengingat" value={data.tahapPengingat} />
                 <DetailField
                   label="Tanggal Pengingat Tagihan Dikirim"
@@ -227,12 +223,16 @@ export default function PaymentLinkDetail() {
                   label="Tanggal Pengingat Tagihan Kedaluarsa"
                   value={data.tanggalKedaluwarsa}
                 />
-
                 <DetailField
                   label="Status Pembayaran Tagihan"
                   value={
                     <PaymentStatusBadge status={data.statusPembayaranTagihan} />
                   }
+                />
+
+                <DetailField
+                  label="Status Pengiriman Pengingat Tagihan"
+                  value={<StatusBadge status={data.status} />}
                 />
               </div>
             </div>
