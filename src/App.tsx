@@ -55,6 +55,7 @@ const App = () => (
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="payment-link" element={<PaymentLink />} />
+            <Route path="payment-link/loan-products" element={<LoanProducts />} />
             <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
             <Route
               path="sak-ep-cabang/akunting"

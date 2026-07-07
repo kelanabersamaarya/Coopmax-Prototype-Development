@@ -25,7 +25,7 @@ const sakItems: SubItem[] = [
 ];
 
 const paymentLinkItems: SubItem[] = [
-  { label: "Produk Pinjaman", to: "/loan-products" },
+  { label: "Produk Pinjaman", to: "/payment-link/loan-products" },
   { label: "Payment Link", to: "/payment-link" },
 ];
 
@@ -45,6 +45,7 @@ function isPaymentLinkPath(pathname: string) {
 }
 
 function getRouteForContext(to: string, pathname: string) {
+  if (to.startsWith("/payment-link")) return to;
   if (isSakCabangPath(pathname)) return `/sak-ep-cabang${to}`;
   if (!isObsPath(pathname)) return to;
   return `/obs-samudra-harta${to}`;
@@ -76,6 +77,13 @@ export default function SidebarPinjamanMenu() {
 
     if (item.to === "/payment-link") {
       return location.pathname === "/payment-link";
+    }
+
+    if (item.to === "/payment-link/loan-products") {
+      return (
+        location.pathname === "/payment-link/loan-products" ||
+        location.pathname.startsWith("/payment-link/loan-products/")
+      );
     }
 
     if (item.to === "/loan-products") {
