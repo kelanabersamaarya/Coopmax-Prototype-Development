@@ -167,7 +167,7 @@ export default function Dashboard() {
             subtitle="Buat dan kelola link pembayaran untuk dibagikan ke anggota."
             icon={Link2}
             accent="violet"
-            onClick={() => navigate("/payment-link")}
+            onClick={() => navigate("/payment-link/loan-products")}
           />
         </div>
       </div>
