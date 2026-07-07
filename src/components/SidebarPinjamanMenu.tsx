@@ -24,6 +24,11 @@ const sakItems: SubItem[] = [
   { label: "Produk Pinjaman Cabang", to: "/loan-products/cabang" },
 ];
 
+const paymentLinkItems: SubItem[] = [
+  { label: "Produk Pinjaman", to: "/loan-products" },
+  { label: "Payment Link", to: "/payment-link" },
+];
+
 function isObsPath(pathname: string) {
   return (
     pathname.startsWith("/obs-samudra-harta") ||
@@ -33,6 +38,10 @@ function isObsPath(pathname: string) {
 
 function isSakCabangPath(pathname: string) {
   return pathname.startsWith("/sak-ep-cabang");
+}
+
+function isPaymentLinkPath(pathname: string) {
+  return pathname.startsWith("/payment-link");
 }
 
 function getRouteForContext(to: string, pathname: string) {
@@ -45,9 +54,11 @@ export default function SidebarPinjamanMenu() {
   const location = useLocation();
   const obsArea = isObsPath(location.pathname);
   const sakCabangArea = isSakCabangPath(location.pathname);
-  const menuItems = sakCabangArea ? sakItems : items;
+  const paymentLinkArea = isPaymentLinkPath(location.pathname);
+  const menuItems = paymentLinkArea ? paymentLinkItems : sakCabangArea ? sakItems : items;
 
   const isActive =
+    location.pathname.startsWith("/payment-link") ||
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi") ||
@@ -62,6 +73,10 @@ export default function SidebarPinjamanMenu() {
 
   function isItemActive(item: SubItem) {
     const itemTo = getRouteForContext(item.to, location.pathname);
+
+    if (item.to === "/payment-link") {
+      return location.pathname === "/payment-link";
+    }
 
     if (item.to === "/loan-products") {
       if (sakCabangArea) {

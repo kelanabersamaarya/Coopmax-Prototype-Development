@@ -45,6 +45,7 @@ const implementedRoutes = new Set([
   "/mobile/e-kolektor",
   "/mobile/m-banking",
   "/mobile/new-mbanking",
+  "/payment-link",
 ]);
 
 function resolveNavTo(to: string) {
@@ -110,8 +111,10 @@ export default function Index() {
   const isDashboard = location.pathname === "/dashboard";
   const isMobileArea = location.pathname.startsWith("/mobile");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
+  const isPaymentLinkArea = location.pathname.startsWith("/payment-link");
 
   const isPinjamanArea =
+    location.pathname.startsWith("/payment-link") ||
     location.pathname.startsWith("/loan-products") ||
     location.pathname.startsWith("/loans") ||
     location.pathname.startsWith("/anggota/transaksi") ||
@@ -165,45 +168,51 @@ export default function Index() {
                         ) : null}
 
                         <div className="space-y-1 px-2">
-                          {/* Dashboard */}
-                          <SidebarNavItem item={g.items[0]!} />
-
-                          {isMobileArea ? (
-                            <SidebarMobileMenu />
-                          ) : isSakCabangArea ? (
-                            <>
-                              <SidebarSakSimpananMenu />
-                              <SidebarPinjamanMenu />
-                              <SidebarSakSimpananBerjangkaMenu />
-                              <SidebarSakAkuntingMenu />
-                            </>
+                          {isPaymentLinkArea ? (
+                            <SidebarPinjamanMenu />
                           ) : (
                             <>
-                              {/* Anggota (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarAnggotaMenu /> : null}
+                              {/* Dashboard */}
+                              <SidebarNavItem item={g.items[0]!} />
 
-                              {/* Pinjaman (collapsible) */}
-                              <SidebarPinjamanMenu />
+                              {isMobileArea ? (
+                                <SidebarMobileMenu />
+                              ) : isSakCabangArea ? (
+                                <>
+                                  <SidebarSakSimpananMenu />
+                                  <SidebarPinjamanMenu />
+                                  <SidebarSakSimpananBerjangkaMenu />
+                                  <SidebarSakAkuntingMenu />
+                                </>
+                              ) : (
+                                <>
+                                  {/* Anggota (collapsible) - hide in OBS area */}
+                                  {!isObsArea ? <SidebarAnggotaMenu /> : null}
 
-                              {/* Mobile (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarMobileMenu /> : null}
+                                  {/* Pinjaman (collapsible) */}
+                                  <SidebarPinjamanMenu />
 
-                              {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
-                              {!isPinjamanArea ? <SidebarObsMenu /> : null}
+                                  {/* Mobile (collapsible) - hide in OBS area */}
+                                  {!isObsArea ? <SidebarMobileMenu /> : null}
 
-                              {/* Laporan (collapsible) - hide in OBS area */}
-                              {!isObsArea ? <SidebarLaporanMenu /> : null}
+                                  {/* Online Banking / OBS (collapsible) - hidden when in Pinjaman Billing area */}
+                                  {!isPinjamanArea ? <SidebarObsMenu /> : null}
 
-                              {/* Pengaturan Umum - hide in OBS area */}
-                              {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
+                                  {/* Laporan (collapsible) - hide in OBS area */}
+                                  {!isObsArea ? <SidebarLaporanMenu /> : null}
 
-                              {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
-                              {g.items
-                                .slice(1)
-                                .filter((it) => it.to !== "/pinjaman")
-                                .map((it) => (
-                                  <SidebarNavItem key={it.to} item={it} />
-                                ))}
+                                  {/* Pengaturan Umum - hide in OBS area */}
+                                  {!isObsArea ? <SidebarPengaturanUmumMenu /> : null}
+
+                                  {/* Pinjaman (link simple) - optional, keeps old behavior if you ever want it */}
+                                  {g.items
+                                    .slice(1)
+                                    .filter((it) => it.to !== "/pinjaman")
+                                    .map((it) => (
+                                      <SidebarNavItem key={it.to} item={it} />
+                                    ))}
+                                </>
+                              )}
                             </>
                           )}
                         </div>
