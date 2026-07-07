@@ -23,9 +23,8 @@ import {
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
-    Terkirim: "bg-[#3BB001] text-white hover:bg-[#3BB001]",
-    "Gagal Terkirim": "bg-[#DC3545] text-white hover:bg-[#DC3545]",
-    Kedaluwarsa: "bg-[#DC3545] text-white hover:bg-[#DC3545]",
+    Berhasil: "bg-[#3BB001] text-white hover:bg-[#3BB001]",
+    Gagal: "bg-[#DC3545] text-white hover:bg-[#DC3545]",
   };
 
   return (
@@ -48,6 +47,7 @@ function PaymentStatusBadge({
   const map: Record<PaymentLinkRow["statusPembayaranTagihan"], string> = {
     "Belum Bayar": "bg-[#DC3545] text-white",
     Lunas: "bg-[#3BB001] text-white",
+    Expired: "bg-[#DC3545] text-white",
   };
 
   return (
@@ -343,8 +343,8 @@ export default function PaymentLink() {
                       </ThLabel>
                     </th>
 
-                    <th className={cn("w-[190px]", th)}>
-                      <ThLabel>Status Pembayaran Tagihan</ThLabel>
+                    <th className={cn("w-[210px]", th)}>
+                      <ThLabel>Status Pembayaran via Link</ThLabel>
                     </th>
                   </tr>
 
@@ -432,11 +432,8 @@ export default function PaymentLink() {
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="Semua">-- Semua --</SelectItem>
-                          <SelectItem value="Terkirim">Terkirim</SelectItem>
-                          <SelectItem value="Gagal Terkirim">
-                            Gagal Terkirim
-                          </SelectItem>
-                          <SelectItem value="Kedaluwarsa">Kedaluwarsa</SelectItem>
+                          <SelectItem value="Berhasil">Berhasil</SelectItem>
+                          <SelectItem value="Gagal">Gagal</SelectItem>
                         </SelectContent>
                       </Select>
                     </th>
@@ -455,6 +452,7 @@ export default function PaymentLink() {
                           <SelectItem value="Semua">-- Semua --</SelectItem>
                           <SelectItem value="Belum Bayar">Belum Bayar</SelectItem>
                           <SelectItem value="Lunas">Lunas</SelectItem>
+                          <SelectItem value="Expired">Expired</SelectItem>
                         </SelectContent>
                       </Select>
                     </th>

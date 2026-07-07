@@ -10,9 +10,8 @@ import {
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
-    Terkirim: "bg-[#3BB001] text-white",
-    "Gagal Terkirim": "bg-[#DC3545] text-white",
-    Kedaluwarsa: "bg-[#DC3545] text-white",
+    Berhasil: "bg-[#3BB001] text-white",
+    Gagal: "bg-[#DC3545] text-white",
   };
 
   return (
@@ -35,6 +34,7 @@ function PaymentStatusBadge({
   const map: Record<PaymentLinkRow["statusPembayaranTagihan"], string> = {
     "Belum Bayar": "bg-[#DC3545] text-white",
     Lunas: "bg-[#3BB001] text-white",
+    Expired: "bg-[#DC3545] text-white",
   };
 
   return (
@@ -223,7 +223,7 @@ export default function PaymentLinkDetail() {
                   value={data.tanggalKedaluwarsa}
                 />
                 <DetailField
-                  label="Status Pembayaran Tagihan"
+                  label="Status Pembayaran via Link"
                   value={
                     <PaymentStatusBadge status={data.statusPembayaranTagihan} />
                   }

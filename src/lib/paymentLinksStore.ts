@@ -1,6 +1,6 @@
-export type PaymentLinkStatus = "Semua" | "Terkirim" | "Gagal Terkirim" | "Kedaluwarsa";
+export type PaymentLinkStatus = "Semua" | "Berhasil" | "Gagal";
 
-export type PaymentBillPaymentStatus = "Semua" | "Belum Bayar" | "Lunas";
+export type PaymentBillPaymentStatus = "Semua" | "Belum Bayar" | "Lunas" | "Expired";
 
 export type PaymentReminderStage =
   | "Semua"
@@ -48,7 +48,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "26-06-2026",
     tanggalKedaluwarsa: "03-07-2026",
-    status: "Terkirim",
+    status: "Berhasil",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -61,7 +61,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "30-06-2026",
     tanggalKedaluwarsa: "03-07-2026",
-    status: "Terkirim",
+    status: "Berhasil",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -74,7 +74,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "02-07-2026",
     tanggalKedaluwarsa: "03-07-2026",
-    status: "Gagal Terkirim",
+    status: "Gagal",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -87,7 +87,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "03-07-2026",
     tanggalKedaluwarsa: "03-07-2026",
-    status: "Terkirim",
+    status: "Berhasil",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -100,7 +100,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "04-07-2026",
     tanggalKedaluwarsa: "10-07-2026",
-    status: "Terkirim",
+    status: "Berhasil",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -113,7 +113,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "06-07-2026",
     tanggalKedaluwarsa: "10-07-2026",
-    status: "Gagal Terkirim",
+    status: "Gagal",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -126,8 +126,8 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "10-07-2026",
     tanggalKedaluwarsa: "10-07-2026",
-    status: "Kedaluwarsa",
-    statusPembayaranTagihan: "Lunas",
+    status: "Berhasil",
+    statusPembayaranTagihan: "Expired",
   },
   {
     id: "PAY-260008",
@@ -139,7 +139,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "1.250.000,00",
     tanggalDibuat: "26-06-2026",
     tanggalKedaluwarsa: "30-06-2026",
-    status: "Terkirim",
+    status: "Berhasil",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -152,8 +152,8 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "1.250.000,00",
     tanggalDibuat: "27-06-2026",
     tanggalKedaluwarsa: "30-06-2026",
-    status: "Kedaluwarsa",
-    statusPembayaranTagihan: "Lunas",
+    status: "Berhasil",
+    statusPembayaranTagihan: "Expired",
   },
   {
     id: "PAY-260010",
@@ -165,7 +165,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "916.667,00",
     tanggalDibuat: "25-06-2026",
     tanggalKedaluwarsa: "25-06-2026",
-    status: "Gagal Terkirim",
+    status: "Gagal",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -178,7 +178,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "500.000,00",
     tanggalDibuat: "24-06-2026",
     tanggalKedaluwarsa: "01-07-2026",
-    status: "Terkirim",
+    status: "Berhasil",
     statusPembayaranTagihan: "Belum Bayar",
   },
   {
@@ -191,7 +191,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "1.120.000,00",
     tanggalDibuat: "23-06-2026",
     tanggalKedaluwarsa: "30-06-2026",
-    status: "Terkirim",
+    status: "Berhasil",
     statusPembayaranTagihan: "Lunas",
   },
 ];
