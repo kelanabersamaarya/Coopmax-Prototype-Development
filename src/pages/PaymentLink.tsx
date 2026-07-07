@@ -13,9 +13,11 @@ import {
 import { cn } from "@/lib/utils";
 import {
   getPaymentLinks,
+  paymentReminderStageOptions,
   type PaymentBillPaymentStatus,
   type PaymentLinkRow,
   type PaymentLinkStatus,
+  type PaymentReminderStage,
 } from "@/lib/paymentLinksStore";
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
@@ -162,17 +164,13 @@ export default function PaymentLink() {
 
   const [qNamaAnggota, setQNamaAnggota] = React.useState("");
   const [qIdAnggota, setQIdAnggota] = React.useState("");
-  const [qKategoriTagihan, setQKategoriTagihan] = React.useState("Semua");
+  const [qTahapPengingat, setQTahapPengingat] =
+    React.useState<PaymentReminderStage>("Semua");
   const [qNoRekPinjaman, setQNoRekPinjaman] = React.useState("");
   const [qNominalTagihan, setQNominalTagihan] = React.useState("0,00");
   const [qStatus, setQStatus] = React.useState<PaymentLinkStatus>("Semua");
   const [qStatusPembayaran, setQStatusPembayaran] =
     React.useState<PaymentBillPaymentStatus>("Semua");
-
-  const kategoriOptions = React.useMemo(() => {
-    const unique = Array.from(new Set(rows.map((row) => row.kategoriTagihan)));
-    return ["Semua", ...unique];
-  }, [rows]);
 
   const filtered = React.useMemo(() => {
     const namaQ = qNamaAnggota.trim().toLowerCase();
@@ -186,10 +184,10 @@ export default function PaymentLink() {
       const okIdAnggota = idAnggotaQ
         ? row.idAnggota.toLowerCase().includes(idAnggotaQ)
         : true;
-      const okKategori =
-        qKategoriTagihan === "Semua"
+      const okTahap =
+        qTahapPengingat === "Semua"
           ? true
-          : row.kategoriTagihan === qKategoriTagihan;
+          : row.tahapPengingat === qTahapPengingat;
       const okRek = rekQ
         ? row.noRekPinjaman.toLowerCase().includes(rekQ)
         : true;
@@ -204,7 +202,7 @@ export default function PaymentLink() {
       return (
         okNama &&
         okIdAnggota &&
-        okKategori &&
+        okTahap &&
         okRek &&
         okNominal &&
         okStatus &&
@@ -213,12 +211,12 @@ export default function PaymentLink() {
     });
   }, [
     qIdAnggota,
-    qKategoriTagihan,
     qNamaAnggota,
     qNoRekPinjaman,
     qNominalTagihan,
     qStatus,
     qStatusPembayaran,
+    qTahapPengingat,
     rows,
   ]);
 
@@ -230,7 +228,7 @@ export default function PaymentLink() {
     pageSize,
     qNamaAnggota,
     qIdAnggota,
-    qKategoriTagihan,
+    qTahapPengingat,
     qNoRekPinjaman,
     qNominalTagihan,
     qStatus,
@@ -312,7 +310,7 @@ export default function PaymentLink() {
                     </th>
 
                     <th className={cn("w-[190px]", th)}>
-                      <ThLabel>Kategori Tagihan</ThLabel>
+                      <ThLabel>Tahap Pengingat</ThLabel>
                     </th>
 
                     <th className={cn("w-[170px]", th)}>
@@ -358,14 +356,16 @@ export default function PaymentLink() {
 
                     <th className={filterCell}>
                       <Select
-                        value={qKategoriTagihan}
-                        onValueChange={setQKategoriTagihan}
+                        value={qTahapPengingat}
+                        onValueChange={(value) =>
+                          setQTahapPengingat(value as PaymentReminderStage)
+                        }
                       >
                         <SelectTrigger className={filterSelectTriggerCls}>
                           <SelectValue placeholder="-- Semua --" />
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
-                          {kategoriOptions.map((option) => (
+                          {paymentReminderStageOptions.map((option) => (
                             <SelectItem key={option} value={option}>
                               {option === "Semua" ? "-- Semua --" : option}
                             </SelectItem>
@@ -495,7 +495,7 @@ export default function PaymentLink() {
                         </td>
 
                         <td className={cn(td, "text-slate-900")}>
-                          {row.kategoriTagihan}
+                          {row.tahapPengingat}
                         </td>
 
                         <td
