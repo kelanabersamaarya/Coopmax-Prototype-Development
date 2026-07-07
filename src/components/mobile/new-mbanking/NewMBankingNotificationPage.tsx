@@ -219,54 +219,8 @@ export default function NewMBankingNotificationPage({
 
       <main className="min-h-0 flex-1 overflow-y-auto bg-[#F9F9F9] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <section className="min-h-full rounded-t-[30px] bg-white px-6 pb-[34px] pt-[24px]">
-          <div
-            className={cn(
-              "relative overflow-hidden rounded-[24px]",
-              "bg-[linear-gradient(135deg,#479DF4_0%,#2563EB_50%,#7C3AED_100%)]",
-              "px-5 py-5 text-white shadow-[0_14px_34px_rgba(37,99,235,0.18)]",
-            )}
-          >
-            <div className="pointer-events-none absolute -right-[42px] -top-[42px] h-[136px] w-[136px] rounded-full bg-white/16" />
-            <div className="pointer-events-none absolute right-[48px] top-[58px] h-[64px] w-[64px] rounded-full bg-cyan-200/16" />
-
-            <div className="relative z-10 flex items-start gap-4">
-              <span className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-[16px] bg-white/18 text-white ring-1 ring-white/20">
-                <Bell className="h-[28px] w-[28px]" strokeWidth={2.7} />
-              </span>
-
-              <div className="min-w-0">
-                <div className="text-[20px] font-bold leading-tight tracking-[-0.03em] text-white">
-                  Pusat Notifikasi
-                </div>
-                <p className="mt-2 text-[13px] font-normal leading-relaxed text-white/88">
-                  Pantau aktivitas transaksi, keamanan akun, dan informasi
-                  terbaru dari koperasi.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-[22px] flex items-center justify-between gap-4">
-            <div>
-              <div className="text-[16px] font-bold leading-tight text-black">
-                Terbaru
-              </div>
-              <div className="mt-[4px] text-[12px] font-normal leading-none text-[#8F8F8F]">
-                {unreadCount > 0
-                  ? `${unreadCount} notifikasi belum dibaca`
-                  : "Semua notifikasi sudah dibaca"}
-              </div>
-            </div>
-
-            {unreadCount > 0 ? (
-              <span className="inline-flex h-[28px] items-center rounded-full bg-[#EEF6FF] px-3 text-[11px] font-semibold text-[#2563EB] ring-1 ring-[#BFE0FF]">
-                Baru
-              </span>
-            ) : null}
-          </div>
-
           {notifications.length > 0 ? (
-            <div className="mt-[16px] grid gap-[12px]">
+            <div className="grid gap-[12px]">
               {notifications.map((notification) => (
                 <NotificationCard
                   key={notification.id}
