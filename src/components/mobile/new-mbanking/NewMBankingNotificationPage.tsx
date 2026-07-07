@@ -111,11 +111,11 @@ function NotificationCard({
       <div className="flex items-start gap-3">
         <span
           className={cn(
-            "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full text-white",
+            "grid h-[38px] w-[38px] shrink-0 place-items-center rounded-full text-white",
             frameClassName,
           )}
         >
-          <Icon className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
+          <Icon className="h-[19px] w-[19px] text-white" strokeWidth={2.6} />
         </span>
 
         <div className="min-w-0 flex-1">
@@ -146,8 +146,8 @@ function NotificationCard({
 function EmptyNotificationState() {
   return (
     <div className="flex min-h-[430px] flex-col items-center justify-center text-center">
-      <div className="grid h-[92px] w-[92px] place-items-center rounded-full bg-[#479DF4] text-white">
-        <Bell className="h-[44px] w-[44px] text-white" strokeWidth={2.4} />
+      <div className="grid h-[78px] w-[78px] place-items-center rounded-full bg-[#479DF4] text-white">
+        <Bell className="h-[36px] w-[36px] text-white" strokeWidth={2.4} />
       </div>
 
       <div className="mt-[24px] text-[18px] font-bold leading-tight text-black">
