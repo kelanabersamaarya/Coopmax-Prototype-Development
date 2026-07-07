@@ -14,6 +14,7 @@ import NewMBankingLoanInstallmentDetailPage, {
 import NewMBankingLoanInstallmentPage from "@/components/mobile/new-mbanking/NewMBankingLoanInstallmentPage";
 import NewMBankingLogoutButton from "@/components/mobile/new-mbanking/NewMBankingLogoutButton";
 import NewMBankingLogoutConfirmModal from "@/components/mobile/new-mbanking/NewMBankingLogoutConfirmModal";
+import NewMBankingNotificationPage from "@/components/mobile/new-mbanking/NewMBankingNotificationPage";
 import NewMBankingPaymentPage from "@/components/mobile/new-mbanking/NewMBankingPaymentPage";
 import NewMBankingPortfolioPage from "@/components/mobile/new-mbanking/NewMBankingPortfolioPage";
 import NewMBankingProfilePage from "@/components/mobile/new-mbanking/NewMBankingProfilePage";
@@ -71,6 +72,7 @@ export default function NewMBankingHome({
   const [showHistory, setShowHistory] = React.useState(false);
   const [showPayment, setShowPayment] = React.useState(false);
   const [showPurchase, setShowPurchase] = React.useState(false);
+  const [showNotification, setShowNotification] = React.useState(false);
   const [transferTypeOpen, setTransferTypeOpen] = React.useState(false);
   const [transferMode, setTransferMode] = React.useState<TransferMode | null>(
     null,
@@ -79,6 +81,7 @@ export default function NewMBankingHome({
   function openProfile() {
     setShowPortfolio(false);
     setShowHistory(false);
+    setShowNotification(false);
     setShowProfile(true);
   }
 
@@ -104,6 +107,14 @@ export default function NewMBankingHome({
   function openHistoryFromPortfolio() {
     setShowPortfolio(false);
     setShowHistory(true);
+  }
+
+  if (showNotification) {
+    return (
+      <NewMBankingNotificationPage
+        onBack={() => setShowNotification(false)}
+      />
+    );
   }
 
   if (showHomeLoanDetail) {
@@ -242,7 +253,10 @@ export default function NewMBankingHome({
               <NewMBankingLogoutButton onClick={() => setLogoutOpen(true)} />
             </div>
 
-            <NewMBankingWelcomeItem />
+            <NewMBankingWelcomeItem
+              onNotificationClick={() => setShowNotification(true)}
+              unreadCount={2}
+            />
           </div>
         </div>
 
