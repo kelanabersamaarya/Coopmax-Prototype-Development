@@ -165,6 +165,7 @@ export default function PaymentLink() {
   const [qIdAnggota, setQIdAnggota] = React.useState("");
   const [qTahapPengingat, setQTahapPengingat] =
     React.useState<PaymentReminderStage>("Semua");
+  const [qTanggalPengiriman, setQTanggalPengiriman] = React.useState("");
   const [qNoRekPinjaman, setQNoRekPinjaman] = React.useState("");
   const [qNominalTagihan, setQNominalTagihan] = React.useState("0,00");
   const [qStatus, setQStatus] = React.useState<PaymentLinkStatus>("Semua");
@@ -174,6 +175,7 @@ export default function PaymentLink() {
   const filtered = React.useMemo(() => {
     const namaQ = qNamaAnggota.trim().toLowerCase();
     const idAnggotaQ = qIdAnggota.trim().toLowerCase();
+    const tanggalQ = qTanggalPengiriman.trim().toLowerCase();
     const rekQ = qNoRekPinjaman.trim().toLowerCase();
 
     return rows.filter((row) => {
@@ -187,6 +189,9 @@ export default function PaymentLink() {
         qTahapPengingat === "Semua"
           ? true
           : row.tahapPengingat === qTahapPengingat;
+      const okTanggal = tanggalQ
+        ? row.tanggalDibuat.toLowerCase().includes(tanggalQ)
+        : true;
       const okRek = rekQ
         ? row.noRekPinjaman.toLowerCase().includes(rekQ)
         : true;
@@ -202,6 +207,7 @@ export default function PaymentLink() {
         okNama &&
         okIdAnggota &&
         okTahap &&
+        okTanggal &&
         okRek &&
         okNominal &&
         okStatus &&
@@ -216,6 +222,7 @@ export default function PaymentLink() {
     qStatus,
     qStatusPembayaran,
     qTahapPengingat,
+    qTanggalPengiriman,
     rows,
   ]);
 
@@ -228,6 +235,7 @@ export default function PaymentLink() {
     qNamaAnggota,
     qIdAnggota,
     qTahapPengingat,
+    qTanggalPengiriman,
     qNoRekPinjaman,
     qNominalTagihan,
     qStatus,
@@ -290,7 +298,7 @@ export default function PaymentLink() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1220px] border-collapse">
+              <table className="w-full min-w-[1380px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                     <th className={cn("w-[44px] whitespace-nowrap", th)}>
@@ -308,8 +316,12 @@ export default function PaymentLink() {
                       </ThLabel>
                     </th>
 
-                    <th className={cn("w-[190px]", th)}>
-                      <ThLabel>Tahap Pengingat</ThLabel>
+                    <th className={cn("w-[210px]", th)}>
+                      <ThLabel>Tahap Pengingat Tagihan</ThLabel>
+                    </th>
+
+                    <th className={cn("w-[210px]", th)}>
+                      <ThLabel>Tanggal Pengiriman Pengingat</ThLabel>
                     </th>
 
                     <th className={cn("w-[170px]", th)}>
@@ -374,6 +386,17 @@ export default function PaymentLink() {
                           ))}
                         </SelectContent>
                       </Select>
+                    </th>
+
+                    <th className={filterCell}>
+                      <Input
+                        value={qTanggalPengiriman}
+                        onChange={(event) =>
+                          setQTanggalPengiriman(event.target.value)
+                        }
+                        className={filterInputCls}
+                        placeholder=""
+                      />
                     </th>
 
                     <th className={filterCell}>
@@ -444,7 +467,7 @@ export default function PaymentLink() {
                   {paged.length === 0 ? (
                     <tr>
                       <td
-                        colSpan={8}
+                        colSpan={9}
                         className="px-4 py-10 text-center text-sm text-slate-600"
                       >
                         Tidak ada data yang cocok dengan filter.
@@ -491,6 +514,15 @@ export default function PaymentLink() {
 
                         <td className={cn(td, "text-slate-900")}>
                           {row.tahapPengingat}
+                        </td>
+
+                        <td
+                          className={cn(
+                            td,
+                            "text-slate-900 tabular-nums whitespace-nowrap",
+                          )}
+                        >
+                          {row.tanggalDibuat}
                         </td>
 
                         <td
