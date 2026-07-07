@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,72 +11,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-
-type PaymentLinkStatus = "Semua" | "Terkirim/Aktif" | "Dibayar" | "Kedaluwarsa";
-
-type PaymentLinkRow = {
-  id: string;
-  namaAnggota: string;
-  noPaymentLink: string;
-  noRekPinjaman: string;
-  nominalTagihan: string;
-  tanggalDibuat: string;
-  tanggalKedaluwarsa: string;
-  status: Exclude<PaymentLinkStatus, "Semua">;
-};
-
-const seedRows: PaymentLinkRow[] = [
-  {
-    id: "PAY-260001",
-    namaAnggota: "Laura Patel",
-    noPaymentLink: "PL/260626/0001",
-    noRekPinjaman: "SMG260004",
-    nominalTagihan: "991.666,00",
-    tanggalDibuat: "26-06-2026",
-    tanggalKedaluwarsa: "03-07-2026",
-    status: "Terkirim/Aktif",
-  },
-  {
-    id: "PAY-260002",
-    namaAnggota: "Bapak Bagus",
-    noPaymentLink: "PL/260626/0002",
-    noRekPinjaman: "12260006",
-    nominalTagihan: "1.250.000,00",
-    tanggalDibuat: "26-06-2026",
-    tanggalKedaluwarsa: "30-06-2026",
-    status: "Dibayar",
-  },
-  {
-    id: "PAY-260003",
-    namaAnggota: "Rika Wastuti",
-    noPaymentLink: "PL/250626/0003",
-    noRekPinjaman: "072260001",
-    nominalTagihan: "916.667,00",
-    tanggalDibuat: "25-06-2026",
-    tanggalKedaluwarsa: "25-06-2026",
-    status: "Kedaluwarsa",
-  },
-  {
-    id: "PAY-260004",
-    namaAnggota: "Pangeran Sirait",
-    noPaymentLink: "PL/240626/0004",
-    noRekPinjaman: "12260002",
-    nominalTagihan: "500.000,00",
-    tanggalDibuat: "24-06-2026",
-    tanggalKedaluwarsa: "01-07-2026",
-    status: "Terkirim/Aktif",
-  },
-  {
-    id: "PAY-260005",
-    namaAnggota: "Indah Sari",
-    noPaymentLink: "PL/230626/0005",
-    noRekPinjaman: "klpk04.07260001",
-    nominalTagihan: "1.120.000,00",
-    tanggalDibuat: "23-06-2026",
-    tanggalKedaluwarsa: "30-06-2026",
-    status: "Dibayar",
-  },
-];
+import {
+  getPaymentLinks,
+  type PaymentLinkRow,
+  type PaymentLinkStatus,
+} from "@/lib/paymentLinksStore";
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
@@ -190,7 +130,8 @@ function PaginationBar({
 }
 
 export default function PaymentLink() {
-  const rows = React.useMemo(() => seedRows, []);
+  const navigate = useNavigate();
+  const rows = React.useMemo(() => getPaymentLinks(), []);
 
   const [pageSize, setPageSize] = React.useState<number>(20);
   const [page, setPage] = React.useState<number>(1);
@@ -322,10 +263,10 @@ export default function PaymentLink() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1180px] border-collapse">
+              <table className="w-full min-w-[1120px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
-                    <th className={cn("w-[70px] whitespace-nowrap", th)}>
+                    <th className={cn("w-[44px] whitespace-nowrap", th)}>
                       <ThLabel sortable={false}>No.</ThLabel>
                     </th>
 
@@ -490,6 +431,13 @@ export default function PaymentLink() {
                         <td className={td}>
                           <button
                             type="button"
+                            onClick={() =>
+                              navigate(
+                                `/payment-link/${encodeURIComponent(
+                                  row.noPaymentLink,
+                                )}`,
+                              )
+                            }
                             className="block text-left font-semibold text-blue-600 hover:underline"
                             title={row.noPaymentLink}
                           >
