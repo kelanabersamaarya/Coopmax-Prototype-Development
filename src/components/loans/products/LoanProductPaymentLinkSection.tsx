@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { CheckCircle2, Info, Phone } from "lucide-react";
+import { CheckCircle2, Info, LogOut, Phone } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
@@ -95,10 +95,18 @@ function ConnectedWhatsappCard() {
           </div>
         </div>
 
-        <div className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] bg-emerald-600 px-4 text-[14px] font-semibold text-white ring-1 ring-emerald-600/20">
-          <span>Whatsapp Terhubung</span>
-          <WhatsappIcon className="h-4.5 w-4.5 text-white" />
-        </div>
+        <button
+          type="button"
+          className={cn(
+            "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
+            "bg-[#DC3545] text-[14px] font-semibold text-white",
+            "ring-1 ring-[#DC3545]/20 transition hover:bg-[#c72f3d]",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#DC3545]/20",
+          )}
+        >
+          <span>Putuskan Koneksi</span>
+          <LogOut className="h-4.5 w-4.5 text-white" />
+        </button>
       </div>
     </div>
   );
