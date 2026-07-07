@@ -32,19 +32,49 @@ function MockQrCode() {
         (row + col) % 6 === 0 ||
         (row > 8 && col > 8 && (row * col) % 5 === 0);
 
-      return topLeft || topRight || bottomLeft ? !finderGap || finderInner : patterned;
+      return topLeft || topRight || bottomLeft
+        ? !finderGap || finderInner
+        : patterned;
     });
   }, []);
 
   return (
-    <div className="mx-auto grid h-[220px] w-[220px] grid-cols-[repeat(21,minmax(0,1fr))] gap-[2px] rounded-[18px] bg-white p-4 ring-1 ring-slate-200">
-      {cells.map((active, index) => (
-        <span
-          key={index}
-          className={cn(active ? "rounded-[1px] bg-slate-950" : "bg-white")}
-          aria-hidden="true"
-        />
-      ))}
+    <div className="relative mx-auto h-[220px] w-[220px] overflow-hidden rounded-[18px] bg-white p-4 ring-1 ring-slate-200">
+      <div className="grid h-full w-full grid-cols-[repeat(21,minmax(0,1fr))] gap-[2px]">
+        {cells.map((active, index) => (
+          <span
+            key={index}
+            className={cn(active ? "rounded-[1px] bg-slate-950" : "bg-white")}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+
+      <div className="pointer-events-none absolute inset-x-4 top-4 h-[42px] animate-[whatsapp-qr-scan_5s_ease-in-out_forwards] overflow-hidden rounded-[10px]">
+        <div className="mx-auto h-[3px] w-full rounded-full bg-emerald-500 shadow-[0_0_18px_rgba(34,197,94,0.95)]" />
+        <div className="h-[39px] w-full bg-[linear-gradient(to_bottom,rgba(34,197,94,0.28),rgba(34,197,94,0.08),rgba(34,197,94,0))]" />
+      </div>
+
+      <style>
+        {`
+          @keyframes whatsapp-qr-scan {
+            0% {
+              transform: translateY(0);
+              opacity: 0.2;
+            }
+            12% {
+              opacity: 1;
+            }
+            88% {
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(154px);
+              opacity: 0.95;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }
@@ -52,10 +82,23 @@ function MockQrCode() {
 export default function PaymentLinkWhatsappQrDialog({
   open,
   onOpenChange,
+  onConnected,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onConnected?: () => void;
 }) {
+  React.useEffect(() => {
+    if (!open) return;
+
+    const timeoutId = window.setTimeout(() => {
+      onConnected?.();
+      onOpenChange(false);
+    }, 5000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [onConnected, onOpenChange, open]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -93,13 +136,6 @@ export default function PaymentLinkWhatsappQrDialog({
 
           <div className="px-6 py-7 text-center">
             <MockQrCode />
-
-            <div className="mt-5 text-[14px] font-semibold text-slate-900">
-              QR Code WhatsApp
-            </div>
-            <div className="mt-1 text-[12px] font-medium leading-relaxed text-slate-500">
-              Prototype QR code untuk simulasi koneksi WhatsApp.
-            </div>
           </div>
         </div>
       </DialogContent>

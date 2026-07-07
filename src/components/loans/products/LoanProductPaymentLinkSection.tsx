@@ -218,6 +218,7 @@ export default function LoanProductPaymentLinkSection(
       <PaymentLinkWhatsappQrDialog
         open={whatsappQrOpen}
         onOpenChange={setWhatsappQrOpen}
+        onConnected={() => setWhatsappConnected(true)}
       />
 
       <PaymentLinkDisconnectConfirmDialog
