@@ -262,11 +262,6 @@ export default function PaymentLinkDetail() {
                     {[
                       {
                         tanggal: data.tanggalDibuat,
-                        statusPengiriman: "Dibuat",
-                        statusPembayaran: data.statusPembayaranTagihan,
-                      },
-                      {
-                        tanggal: data.tanggalDibuat,
                         statusPengiriman: data.status,
                         statusPembayaran: data.statusPembayaranTagihan,
                       },
@@ -277,16 +272,8 @@ export default function PaymentLinkDetail() {
                       >
                         <td className="px-4 py-3 tabular-nums">{index + 1}</td>
                         <td className="px-4 py-3 tabular-nums">{item.tanggal}</td>
-                        <td className="px-4 py-3 font-semibold text-slate-900">
-                          {item.statusPengiriman === "Dibuat" ? (
-                            item.statusPengiriman
-                          ) : (
-                            <StatusBadge
-                              status={
-                                item.statusPengiriman as PaymentLinkRow["status"]
-                              }
-                            />
-                          )}
+                        <td className="px-4 py-3">
+                          <StatusBadge status={item.statusPengiriman} />
                         </td>
                         <td className="px-4 py-3">
                           <PaymentStatusBadge status={item.statusPembayaran} />
