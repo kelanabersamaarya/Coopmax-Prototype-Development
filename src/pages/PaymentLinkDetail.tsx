@@ -165,7 +165,7 @@ export default function PaymentLinkDetail() {
               DETAIL LINK
             </div>
 
-            <div className="mt-4 rounded-[12px] bg-white p-4 ring-1 ring-slate-200">
+            <div className="mt-4 bg-white">
               <InfoRow
                 label="URL Payment Link"
                 value={
