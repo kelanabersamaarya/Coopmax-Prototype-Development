@@ -169,7 +169,10 @@ export default function Index() {
 
                         <div className="space-y-1 px-2">
                           {isPaymentLinkArea ? (
-                            <SidebarPinjamanMenu />
+                            <>
+                              <SidebarNavItem item={g.items[0]!} />
+                              <SidebarPinjamanMenu />
+                            </>
                           ) : (
                             <>
                               {/* Dashboard */}
