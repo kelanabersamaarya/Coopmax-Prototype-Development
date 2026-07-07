@@ -1,0 +1,11 @@
+/* Payment Link > Produk Pinjaman > Tambah/Ubah
+   Sembunyikan section Konfigurasi Tagihan Angsuran beserta konfigurasi turunannya.
+   Section ini hanya berlaku di modul Payment Link karena form menampilkan
+   .loan-product-payment-link-section hanya pada route /payment-link/loan-products.
+*/
+
+.loan-product-payment-link-section ~ .my-6.bg-slate-200\/70,
+.loan-product-payment-link-section ~ .text-base.font-semibold.text-slate-900,
+.loan-product-payment-link-section ~ .mt-4.grid {
+  display: none !important;
+}
