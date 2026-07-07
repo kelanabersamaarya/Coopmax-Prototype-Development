@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ReceiptText } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -27,13 +28,35 @@ function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   );
 }
 
+function PaymentStatusBadge({
+  status,
+}: {
+  status: PaymentLinkRow["statusPembayaranTagihan"];
+}) {
+  const map: Record<PaymentLinkRow["statusPembayaranTagihan"], string> = {
+    "Belum Bayar": "bg-[#DC3545] text-white",
+    Lunas: "bg-[#3BB001] text-white",
+  };
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-[5px] px-3 py-1.5 text-[12px] font-bold leading-none",
+        map[status],
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
 function DetailField({
   label,
   value,
   className,
 }: {
   label: string;
-  value: React.ReactNode;
+  value: ReactNode;
   className?: string;
 }) {
   return (
@@ -42,24 +65,6 @@ function DetailField({
       <div className="mt-1 text-[14px] font-extrabold tracking-tight text-white">
         <span className="block break-words leading-snug">{value}</span>
       </div>
-    </div>
-  );
-}
-
-function InfoRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="grid gap-2 py-2 sm:grid-cols-[220px_14px_minmax(0,1fr)] sm:items-start">
-      <div className="text-[14px] font-normal text-slate-600">{label}</div>
-      <div className="hidden text-center text-[14px] font-normal text-slate-400 sm:block">
-        :
-      </div>
-      <div className="text-[14px] font-semibold text-slate-900">{value}</div>
     </div>
   );
 }
@@ -96,10 +101,6 @@ export default function PaymentLinkDetail() {
   const linkNo = params.linkNo ?? "";
   const data = getPaymentLinkByNo(linkNo);
   const showTransactionDetailButton = data?.statusPembayaranTagihan === "Lunas";
-
-  const publicLink = data
-    ? `https://pay.coopmax.id/${data.noPaymentLink.replace(/\//g, "-")}`
-    : "";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -150,7 +151,7 @@ export default function PaymentLinkDetail() {
           <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
             <div className="overflow-hidden rounded-[12px] bg-[#1aa0b5] p-5 text-white md:p-6">
               <div className="text-[13px] font-extrabold uppercase tracking-wide text-white">
-                INFORMASI PAYMENT LINK
+                INFORMASI PENGINGAT TAGIHAN
               </div>
 
               <div className="mt-5 grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -164,30 +165,22 @@ export default function PaymentLinkDetail() {
 
                 <DetailField label="Nominal Tagihan" value={data.nominalTagihan} />
                 <DetailField label="Tahap Pengingat" value={data.tahapPengingat} />
-                <DetailField label="Tanggal Dibuat" value={data.tanggalDibuat} />
                 <DetailField
-                  label="Tanggal Kedaluwarsa"
+                  label="Tanggal Pengingat Tagihan Dikirim"
+                  value={data.tanggalDibuat}
+                />
+                <DetailField
+                  label="Tanggal Pengingat Tagihan Kedaluarsa"
                   value={data.tanggalKedaluwarsa}
                 />
+
+                <DetailField
+                  label="Status Pembayaran Tagihan"
+                  value={
+                    <PaymentStatusBadge status={data.statusPembayaranTagihan} />
+                  }
+                />
               </div>
-            </div>
-
-            <Separator className="my-6 bg-slate-200/70" />
-
-            <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-              DETAIL LINK
-            </div>
-
-            <div className="mt-4 bg-white">
-              <InfoRow
-                label="URL Payment Link"
-                value={
-                  <span className="break-all font-semibold text-blue-600">
-                    {publicLink}
-                  </span>
-                }
-              />
-              <InfoRow label="Channel Pengiriman" value="WhatsApp" />
             </div>
 
             <Separator className="my-6 bg-slate-200/70" />
