@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Info, Phone } from "lucide-react";
+import { CheckCircle2, Info, Phone } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
@@ -73,6 +73,79 @@ function isLoanProductEditPath(pathname: string) {
   return pathname.includes("/loan-products/") && pathname.endsWith("/edit");
 }
 
+function ConnectedWhatsappCard() {
+  return (
+    <div className="rounded-[5px] border border-emerald-200 bg-emerald-50 px-4 py-4 text-emerald-950">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
+            <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
+              <CheckCircle2 className="h-4 w-4" />
+            </span>
+            <span>Koneksi ke Whatsapp</span>
+          </div>
+
+          <div className="ml-9 mt-2 grid gap-1 text-[14px] font-semibold leading-relaxed text-emerald-800">
+            <div className="flex items-center gap-2">
+              <span className="h-3 w-3 shrink-0 rounded-full bg-emerald-600 ring-2 ring-emerald-200" />
+              Status : Terhubung ke Whatsapp
+            </div>
+            <div>0812 3456 7890</div>
+            <div>Terhubung sejak : 7 Juli 2026, 12:46 WIB</div>
+          </div>
+        </div>
+
+        <div className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] bg-emerald-600 px-4 text-[14px] font-semibold text-white ring-1 ring-emerald-600/20">
+          <span>Whatsapp Terhubung</span>
+          <WhatsappIcon className="h-4.5 w-4.5 text-white" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DisconnectedWhatsappCard({
+  onConnect,
+}: {
+  onConnect: () => void;
+}) {
+  return (
+    <div className="rounded-[5px] border border-rose-200 bg-rose-50 px-4 py-4 text-rose-950">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
+            <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose-600 text-white">
+              <Phone className="h-4 w-4" />
+            </span>
+            <span>Koneksi ke Whatsapp</span>
+          </div>
+
+          <div className="ml-9 mt-2">
+            <div className="flex items-center gap-2 text-[14px] font-semibold leading-relaxed text-rose-800">
+              <span className="h-3 w-3 shrink-0 rounded-full bg-rose-600 ring-2 ring-rose-200" />
+              Status : Belum Terhubung ke Whatsapp
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={onConnect}
+          className={cn(
+            "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
+            "bg-[#16A34A] text-[14px] font-semibold text-white",
+            "ring-1 ring-[#16A34A]/20 transition hover:bg-[#15803D]",
+            "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#16A34A]/20",
+          )}
+        >
+          <span>Hubungkan ke Whatsapp</span>
+          <WhatsappIcon className="h-4.5 w-4.5 text-white" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function LoanProductPaymentLinkSection(
   props: LoanProductPaymentLinkSectionProps,
 ) {
@@ -85,6 +158,7 @@ export default function LoanProductPaymentLinkSection(
   } = props;
 
   const location = useLocation();
+  const isEditPage = isLoanProductEditPath(location.pathname);
   const anchorRef = React.useRef<HTMLDivElement | null>(null);
   const initializedDefaultRef = React.useRef(false);
   const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null);
@@ -93,11 +167,11 @@ export default function LoanProductPaymentLinkSection(
   React.useEffect(() => {
     if (initializedDefaultRef.current) return;
 
-    if (!isLoanProductEditPath(location.pathname) || enabled) return;
+    if (!isEditPage || enabled) return;
 
     initializedDefaultRef.current = true;
     onEnabledChange(true);
-  }, [enabled, location.pathname, onEnabledChange]);
+  }, [enabled, isEditPage, onEnabledChange]);
 
   React.useEffect(() => {
     const anchor = anchorRef.current;
@@ -156,39 +230,11 @@ export default function LoanProductPaymentLinkSection(
                   </div>
                 </div>
 
-                <div className="rounded-[5px] border border-rose-200 bg-rose-50 px-4 py-4 text-rose-950">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
-                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose-600 text-white">
-                          <Phone className="h-4 w-4" />
-                        </span>
-                        <span>Koneksi ke Whatsapp</span>
-                      </div>
-
-                      <div className="ml-9 mt-2">
-                        <div className="flex items-center gap-2 text-[14px] font-semibold leading-relaxed text-rose-800">
-                          <span className="h-3 w-3 shrink-0 rounded-full bg-rose-600 ring-2 ring-rose-200" />
-                          Status : Belum Terhubung ke Whatsapp
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setWhatsappQrOpen(true)}
-                      className={cn(
-                        "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
-                        "bg-[#16A34A] text-[14px] font-semibold text-white",
-                        "ring-1 ring-[#16A34A]/20 transition hover:bg-[#15803D]",
-                        "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#16A34A]/20",
-                      )}
-                    >
-                      <span>Hubungkan ke Whatsapp</span>
-                      <WhatsappIcon className="h-4.5 w-4.5 text-white" />
-                    </button>
-                  </div>
-                </div>
+                {isEditPage ? (
+                  <ConnectedWhatsappCard />
+                ) : (
+                  <DisconnectedWhatsappCard onConnect={() => setWhatsappQrOpen(true)} />
+                )}
               </>
             ) : null}
           </div>
