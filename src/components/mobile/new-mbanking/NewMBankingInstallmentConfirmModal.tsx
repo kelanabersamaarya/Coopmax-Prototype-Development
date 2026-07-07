@@ -147,8 +147,17 @@ export default function NewMBankingInstallmentConfirmModal({
 
         <div className="mt-[10px] h-px w-full bg-[#D8D8D8]" />
 
-        <div className="mt-[12px] text-[12px] font-normal leading-tight text-[#8F8F8F]">
-          Sumber Dana
+        <div className="mt-[12px] flex items-center justify-between gap-3">
+          <div className="text-[12px] font-normal leading-tight text-[#8F8F8F]">
+            Sumber Dana
+          </div>
+          <button
+            type="button"
+            onClick={() => setSourceFundOpen(true)}
+            className="text-[12px] font-semibold leading-none text-[#479DF4] transition active:scale-[0.98]"
+          >
+            Ubah
+          </button>
         </div>
 
         <div className="mt-[10px]">
