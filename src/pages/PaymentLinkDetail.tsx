@@ -95,12 +95,61 @@ function ActionButton({
   );
 }
 
+function getLoanProductName(row: PaymentLinkRow) {
+  if (row.noRekPinjaman === "SMG260004") return "Pinjaman Billing";
+  if (row.noRekPinjaman === "12260006") return "Pinjaman Bulanan";
+  if (row.noRekPinjaman === "072260001") return "Pinjaman Harian";
+  if (row.noRekPinjaman === "klpk04.07260001") return "Pinjaman Bulanan 1";
+  return "Simpanan Multiguna";
+}
+
+function getBillBreakdown(row: PaymentLinkRow) {
+  if (row.nominalTagihan === "991.666,00") {
+    return {
+      pokok: "833.333,00",
+      bunga: "83.333,00",
+      denda: "75.000,00",
+    };
+  }
+
+  if (row.nominalTagihan === "916.667,00") {
+    return {
+      pokok: "833.333,00",
+      bunga: "83.334,00",
+      denda: "0,00",
+    };
+  }
+
+  if (row.nominalTagihan === "1.250.000,00") {
+    return {
+      pokok: "1.000.000,00",
+      bunga: "175.000,00",
+      denda: "75.000,00",
+    };
+  }
+
+  if (row.nominalTagihan === "1.120.000,00") {
+    return {
+      pokok: "1.000.000,00",
+      bunga: "120.000,00",
+      denda: "0,00",
+    };
+  }
+
+  return {
+    pokok: "490.292,00",
+    bunga: "9.708,00",
+    denda: "0,00",
+  };
+}
+
 export default function PaymentLinkDetail() {
   const navigate = useNavigate();
   const params = useParams<{ linkNo: string }>();
   const linkNo = params.linkNo ?? "";
   const data = getPaymentLinkByNo(linkNo);
   const showTransactionDetailButton = data?.statusPembayaranTagihan === "Lunas";
+  const billBreakdown = data ? getBillBreakdown(data) : null;
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
@@ -158,12 +207,17 @@ export default function PaymentLinkDetail() {
                 <DetailField label="No. Payment Link" value={data.noPaymentLink} />
                 <DetailField label="Nama Anggota" value={data.namaAnggota} />
                 <DetailField label="No. Rek. Pinjaman" value={data.noRekPinjaman} />
+                <DetailField label="Produk Pinjaman" value={getLoanProductName(data)} />
+
                 <DetailField
                   label="Status Pengiriman Pengingat Tagihan"
                   value={<StatusBadge status={data.status} />}
                 />
+                <DetailField label="Tagihan Pokok" value={billBreakdown?.pokok} />
+                <DetailField label="Tagihan Bunga" value={billBreakdown?.bunga} />
+                <DetailField label="Tagihan Denda" value={billBreakdown?.denda} />
 
-                <DetailField label="Nominal Tagihan" value={data.nominalTagihan} />
+                <DetailField label="Total Tagihan" value={data.nominalTagihan} />
                 <DetailField label="Tahap Pengingat" value={data.tahapPengingat} />
                 <DetailField
                   label="Tanggal Pengingat Tagihan Dikirim"
