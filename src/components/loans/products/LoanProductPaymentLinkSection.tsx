@@ -13,6 +13,9 @@ export default function LoanProductPaymentLinkSection({
   expiryDate,
   onExpiryDateChange,
   inputClassName,
+  showSeparator = true,
+  showTitle = true,
+  className,
 }: {
   enabled: boolean;
   onEnabledChange: (value: boolean) => void;
@@ -21,16 +24,23 @@ export default function LoanProductPaymentLinkSection({
   expiryDate: string;
   onExpiryDateChange: (value: string) => void;
   inputClassName?: string;
+  showSeparator?: boolean;
+  showTitle?: boolean;
+  className?: string;
 }) {
   return (
-    <div className="loan-product-payment-link-section">
-      <Separator className="my-6 bg-slate-200/70" />
+    <div className={cn("loan-product-payment-link-section", className)}>
+      {showSeparator ? <Separator className="my-6 bg-slate-200/70" /> : null}
 
-      <div className="text-base font-semibold text-slate-900">Payment Link</div>
+      {showTitle ? (
+        <div className="text-base font-semibold text-slate-900">
+          Payment Link
+        </div>
+      ) : null}
 
-      <div className="mt-4 grid gap-5">
+      <div className={cn("grid gap-5", showTitle ? "mt-4" : "")}>
         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-          <div className="text-sm font-normal text-slate-900">Payment link</div>
+          <div className="text-sm font-normal text-slate-900">Payment Link</div>
 
           <div className="flex items-center justify-start">
             <Switch checked={enabled} onCheckedChange={onEnabledChange} />
