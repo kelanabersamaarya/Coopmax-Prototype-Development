@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -36,6 +37,7 @@ import {
   emptyFeeCoaValues,
   type FeeCoaValues,
 } from "@/components/loans/LoanProductFeeCoaFields";
+import LoanProductPaymentLinkSection from "@/components/loans/products/LoanProductPaymentLinkSection";
 
 type LoanProductFormMode = "create" | "edit";
 type LoanProductFormContext = "consolidation" | "branch";
@@ -243,6 +245,9 @@ function buildBlankCreateConfig(): LoanProductFormConfig {
     tarifDendaValue: "",
     hariKeterlambatan: "",
     graceDuration: "",
+    paymentLinkEnabled: false,
+    paymentLinkPublishDate: "",
+    paymentLinkExpiryDate: "",
   };
 }
 
@@ -416,10 +421,13 @@ export default function LoanProductForm({
   onCancel,
   onSaved,
 }: LoanProductFormProps) {
+  const location = useLocation();
   const style = FORM_STYLE_BY_MODE[mode];
   const isCreate = mode === "create";
   const isBranchEdit = mode === "edit" && context === "branch";
   const useBlankCreateDefaults = isCreate && context === "consolidation";
+  const isPaymentLinkProductModule =
+    location.pathname.startsWith("/payment-link/loan-products");
 
   const existingProduct = React.useMemo(() => {
     if (mode !== "edit" || !productId) return null;
@@ -584,6 +592,16 @@ export default function LoanProductForm({
     () => readArray<CollectorFeeRow>(savedConfig, "collectorFees", []),
   );
 
+  const [paymentLinkEnabled, setPaymentLinkEnabled] = React.useState(() =>
+    readBool(savedConfig, "paymentLinkEnabled", false),
+  );
+  const [paymentLinkPublishDate, setPaymentLinkPublishDate] = React.useState(() =>
+    readString(savedConfig, "paymentLinkPublishDate", ""),
+  );
+  const [paymentLinkExpiryDate, setPaymentLinkExpiryDate] = React.useState(() =>
+    readString(savedConfig, "paymentLinkExpiryDate", ""),
+  );
+
   const [useInstallmentTable, setUseInstallmentTable] = React.useState(() =>
     readBool(savedConfig, "useInstallmentTable", !isCreate),
   );
@@ -719,6 +737,9 @@ export default function LoanProductForm({
       aturCoaJenisBiaya,
       feeCoaValues,
       collectorFees,
+      paymentLinkEnabled,
+      paymentLinkPublishDate,
+      paymentLinkExpiryDate,
       useInstallmentTable,
       installmentMode,
       tarifDendaMode,
@@ -1233,6 +1254,18 @@ export default function LoanProductForm({
           />
         ))}
       </div>
+
+      {isPaymentLinkProductModule ? (
+        <LoanProductPaymentLinkSection
+          enabled={paymentLinkEnabled}
+          onEnabledChange={setPaymentLinkEnabled}
+          publishDate={paymentLinkPublishDate}
+          onPublishDateChange={setPaymentLinkPublishDate}
+          expiryDate={paymentLinkExpiryDate}
+          onExpiryDateChange={setPaymentLinkExpiryDate}
+          inputClassName={style.inputClassName}
+        />
+      ) : null}
 
       <Separator className="my-6 bg-slate-200/70" />
 
