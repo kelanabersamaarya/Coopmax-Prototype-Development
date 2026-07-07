@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   getPaymentLinks,
+  type PaymentBillPaymentStatus,
   type PaymentLinkRow,
   type PaymentLinkStatus,
 } from "@/lib/paymentLinksStore";
@@ -22,6 +23,29 @@ function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
     "Terkirim/Aktif": "bg-[#3BB001] text-white hover:bg-[#3BB001]",
     Dibayar: "bg-[#2563EB] text-white hover:bg-[#2563EB]",
     Kedaluwarsa: "bg-[#DC3545] text-white hover:bg-[#DC3545]",
+  };
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[11px] font-bold leading-none",
+        map[status],
+      )}
+    >
+      {status}
+    </span>
+  );
+}
+
+function PaymentStatusBadge({
+  status,
+}: {
+  status: PaymentLinkRow["statusPembayaranTagihan"];
+}) {
+  const map: Record<PaymentLinkRow["statusPembayaranTagihan"], string> = {
+    "Belum Dibayar": "bg-[#DC3545] text-white",
+    "Sebagian Dibayar": "bg-[#F59E0B] text-white",
+    Lunas: "bg-[#3BB001] text-white",
   };
 
   return (
@@ -137,58 +161,64 @@ export default function PaymentLink() {
   const [page, setPage] = React.useState<number>(1);
 
   const [qNamaAnggota, setQNamaAnggota] = React.useState("");
-  const [qNoPaymentLink, setQNoPaymentLink] = React.useState("");
+  const [qIdAnggota, setQIdAnggota] = React.useState("");
+  const [qKategoriTagihan, setQKategoriTagihan] = React.useState("Semua");
   const [qNoRekPinjaman, setQNoRekPinjaman] = React.useState("");
   const [qNominalTagihan, setQNominalTagihan] = React.useState("0,00");
-  const [qTanggalDibuat, setQTanggalDibuat] = React.useState("");
-  const [qTanggalKedaluwarsa, setQTanggalKedaluwarsa] = React.useState("");
   const [qStatus, setQStatus] = React.useState<PaymentLinkStatus>("Semua");
+  const [qStatusPembayaran, setQStatusPembayaran] =
+    React.useState<PaymentBillPaymentStatus>("Semua");
+
+  const kategoriOptions = React.useMemo(() => {
+    const unique = Array.from(new Set(rows.map((row) => row.kategoriTagihan)));
+    return ["Semua", ...unique];
+  }, [rows]);
 
   const filtered = React.useMemo(() => {
     const namaQ = qNamaAnggota.trim().toLowerCase();
-    const paymentLinkQ = qNoPaymentLink.trim().toLowerCase();
+    const idAnggotaQ = qIdAnggota.trim().toLowerCase();
     const rekQ = qNoRekPinjaman.trim().toLowerCase();
-    const tanggalDibuatQ = qTanggalDibuat.trim().toLowerCase();
-    const tanggalKedaluwarsaQ = qTanggalKedaluwarsa.trim().toLowerCase();
 
     return rows.filter((row) => {
       const okNama = namaQ
         ? row.namaAnggota.toLowerCase().includes(namaQ)
         : true;
-      const okPaymentLink = paymentLinkQ
-        ? row.noPaymentLink.toLowerCase().includes(paymentLinkQ)
+      const okIdAnggota = idAnggotaQ
+        ? row.idAnggota.toLowerCase().includes(idAnggotaQ)
         : true;
+      const okKategori =
+        qKategoriTagihan === "Semua"
+          ? true
+          : row.kategoriTagihan === qKategoriTagihan;
       const okRek = rekQ
         ? row.noRekPinjaman.toLowerCase().includes(rekQ)
         : true;
-      const okTanggalDibuat = tanggalDibuatQ
-        ? row.tanggalDibuat.toLowerCase().includes(tanggalDibuatQ)
-        : true;
-      const okTanggalKedaluwarsa = tanggalKedaluwarsaQ
-        ? row.tanggalKedaluwarsa.toLowerCase().includes(tanggalKedaluwarsaQ)
-        : true;
       const okStatus = qStatus === "Semua" ? true : row.status === qStatus;
+      const okStatusPembayaran =
+        qStatusPembayaran === "Semua"
+          ? true
+          : row.statusPembayaranTagihan === qStatusPembayaran;
 
       const okNominal = true;
 
       return (
         okNama &&
-        okPaymentLink &&
+        okIdAnggota &&
+        okKategori &&
         okRek &&
         okNominal &&
-        okTanggalDibuat &&
-        okTanggalKedaluwarsa &&
-        okStatus
+        okStatus &&
+        okStatusPembayaran
       );
     });
   }, [
+    qIdAnggota,
+    qKategoriTagihan,
     qNamaAnggota,
-    qNoPaymentLink,
     qNoRekPinjaman,
     qNominalTagihan,
     qStatus,
-    qTanggalDibuat,
-    qTanggalKedaluwarsa,
+    qStatusPembayaran,
     rows,
   ]);
 
@@ -199,12 +229,12 @@ export default function PaymentLink() {
   }, [
     pageSize,
     qNamaAnggota,
-    qNoPaymentLink,
+    qIdAnggota,
+    qKategoriTagihan,
     qNoRekPinjaman,
     qNominalTagihan,
-    qTanggalDibuat,
-    qTanggalKedaluwarsa,
     qStatus,
+    qStatusPembayaran,
   ]);
 
   React.useEffect(() => {
@@ -263,7 +293,7 @@ export default function PaymentLink() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1120px] border-collapse">
+              <table className="w-full min-w-[1180px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                     <th className={cn("w-[44px] whitespace-nowrap", th)}>
@@ -274,11 +304,15 @@ export default function PaymentLink() {
                       <ThLabel>Nama Anggota</ThLabel>
                     </th>
 
-                    <th className={cn("w-[180px]", th)}>
+                    <th className={cn("w-[150px]", th)}>
                       <ThLabel>
-                        <span className="block">No.</span>
-                        <span className="block">Payment Link</span>
+                        <span className="block">ID.</span>
+                        <span className="block">Anggota</span>
                       </ThLabel>
+                    </th>
+
+                    <th className={cn("w-[190px]", th)}>
+                      <ThLabel>Kategori Tagihan</ThLabel>
                     </th>
 
                     <th className={cn("w-[170px]", th)}>
@@ -292,19 +326,12 @@ export default function PaymentLink() {
                       <ThLabel className="justify-end">Nominal Tagihan</ThLabel>
                     </th>
 
-                    <th className={cn("w-[150px]", th)}>
-                      <ThLabel>Tanggal Dibuat</ThLabel>
-                    </th>
-
-                    <th className={cn("w-[180px]", th)}>
-                      <ThLabel>
-                        <span className="block">Tanggal</span>
-                        <span className="block">Kedaluwarsa</span>
-                      </ThLabel>
-                    </th>
-
-                    <th className={cn("w-[160px]", th)}>
+                    <th className={cn("w-[170px]", th)}>
                       <ThLabel>Status Payment Link</ThLabel>
+                    </th>
+
+                    <th className={cn("w-[190px]", th)}>
+                      <ThLabel>Status Pembayaran Tagihan</ThLabel>
                     </th>
                   </tr>
 
@@ -322,13 +349,29 @@ export default function PaymentLink() {
 
                     <th className={filterCell}>
                       <Input
-                        value={qNoPaymentLink}
-                        onChange={(event) =>
-                          setQNoPaymentLink(event.target.value)
-                        }
+                        value={qIdAnggota}
+                        onChange={(event) => setQIdAnggota(event.target.value)}
                         className={filterInputCls}
                         placeholder=""
                       />
+                    </th>
+
+                    <th className={filterCell}>
+                      <Select
+                        value={qKategoriTagihan}
+                        onValueChange={setQKategoriTagihan}
+                      >
+                        <SelectTrigger className={filterSelectTriggerCls}>
+                          <SelectValue placeholder="-- Semua --" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          {kategoriOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option === "Semua" ? "-- Semua --" : option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </th>
 
                     <th className={filterCell}>
@@ -355,28 +398,6 @@ export default function PaymentLink() {
                     </th>
 
                     <th className={filterCell}>
-                      <Input
-                        value={qTanggalDibuat}
-                        onChange={(event) =>
-                          setQTanggalDibuat(event.target.value)
-                        }
-                        className={filterInputCls}
-                        placeholder=""
-                      />
-                    </th>
-
-                    <th className={filterCell}>
-                      <Input
-                        value={qTanggalKedaluwarsa}
-                        onChange={(event) =>
-                          setQTanggalKedaluwarsa(event.target.value)
-                        }
-                        className={filterInputCls}
-                        placeholder=""
-                      />
-                    </th>
-
-                    <th className={filterCell}>
                       <Select
                         value={qStatus}
                         onValueChange={(value) =>
@@ -395,6 +416,29 @@ export default function PaymentLink() {
                           <SelectItem value="Kedaluwarsa">
                             Kedaluwarsa
                           </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </th>
+
+                    <th className={filterCell}>
+                      <Select
+                        value={qStatusPembayaran}
+                        onValueChange={(value) =>
+                          setQStatusPembayaran(value as PaymentBillPaymentStatus)
+                        }
+                      >
+                        <SelectTrigger className={filterSelectTriggerCls}>
+                          <SelectValue placeholder="-- Semua --" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          <SelectItem value="Semua">-- Semua --</SelectItem>
+                          <SelectItem value="Belum Dibayar">
+                            Belum Dibayar
+                          </SelectItem>
+                          <SelectItem value="Sebagian Dibayar">
+                            Sebagian Dibayar
+                          </SelectItem>
+                          <SelectItem value="Lunas">Lunas</SelectItem>
                         </SelectContent>
                       </Select>
                     </th>
@@ -425,10 +469,6 @@ export default function PaymentLink() {
                         </td>
 
                         <td className={cn(td, "font-medium text-slate-900")}>
-                          {row.namaAnggota}
-                        </td>
-
-                        <td className={td}>
                           <button
                             type="button"
                             onClick={() =>
@@ -438,11 +478,24 @@ export default function PaymentLink() {
                                 )}`,
                               )
                             }
-                            className="block text-left font-semibold text-blue-600 hover:underline"
-                            title={row.noPaymentLink}
+                            className="block w-full text-left font-semibold text-blue-600 hover:underline"
+                            title={row.namaAnggota}
                           >
-                            {row.noPaymentLink}
+                            {row.namaAnggota}
                           </button>
+                        </td>
+
+                        <td
+                          className={cn(
+                            td,
+                            "text-slate-900 tabular-nums whitespace-nowrap",
+                          )}
+                        >
+                          {row.idAnggota}
+                        </td>
+
+                        <td className={cn(td, "text-slate-900")}>
+                          {row.kategoriTagihan}
                         </td>
 
                         <td
@@ -463,26 +516,14 @@ export default function PaymentLink() {
                           {row.nominalTagihan}
                         </td>
 
-                        <td
-                          className={cn(
-                            td,
-                            "text-slate-900 tabular-nums whitespace-nowrap",
-                          )}
-                        >
-                          {row.tanggalDibuat}
-                        </td>
-
-                        <td
-                          className={cn(
-                            td,
-                            "text-slate-900 tabular-nums whitespace-nowrap",
-                          )}
-                        >
-                          {row.tanggalKedaluwarsa}
+                        <td className={td}>
+                          <StatusBadge status={row.status} />
                         </td>
 
                         <td className={td}>
-                          <StatusBadge status={row.status} />
+                          <PaymentStatusBadge
+                            status={row.statusPembayaranTagihan}
+                          />
                         </td>
                       </tr>
                     ))
