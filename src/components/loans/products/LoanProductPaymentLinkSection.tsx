@@ -161,7 +161,7 @@ export default function LoanProductPaymentLinkSection(
                         "focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-600/20",
                       )}
                     >
-                      <span>Hubungan ke Whatsapp</span>
+                      <span>Hubungkan ke Whatsapp</span>
                       <MessageCircle className="h-4.5 w-4.5 text-white" />
                     </button>
                   </div>
