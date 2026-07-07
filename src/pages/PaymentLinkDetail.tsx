@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ReceiptText } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -116,6 +116,15 @@ export default function PaymentLinkDetail() {
               icon={ArrowLeft}
               label="Kembali ke Daftar"
               onClick={() => navigate("/payment-link")}
+            />
+            <ActionButton
+              icon={ReceiptText}
+              label="Detail Transaksi"
+              onClick={() =>
+                navigate(
+                  `/payment-link/${encodeURIComponent(linkNo)}/transaction-detail`,
+                )
+              }
             />
           </div>
         </div>
