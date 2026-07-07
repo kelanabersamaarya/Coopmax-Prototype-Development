@@ -164,11 +164,8 @@ export default function LoanProductPaymentLinkSection(
                           Status : Terhubung ke Whatsapp
                         </div>
 
-                        <div className="mt-1 flex items-center gap-2 text-[14px] font-medium leading-relaxed text-emerald-900">
-                          <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200">
-                            <Phone className="h-4 w-4" />
-                          </span>
-                          <span>Nomor HP : 0812 3456 7890</span>
+                        <div className="mt-1 text-[14px] font-medium leading-relaxed text-emerald-900">
+                          0812 3456 7890
                         </div>
 
                         <div className="mt-0.5 text-[13px] font-medium leading-relaxed text-emerald-800">
