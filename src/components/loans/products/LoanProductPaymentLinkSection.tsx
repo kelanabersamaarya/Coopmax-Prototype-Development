@@ -151,14 +151,13 @@ export default function LoanProductPaymentLinkSection(
                 <div className="rounded-[5px] border border-emerald-200 bg-emerald-50 px-4 py-4 text-emerald-950">
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
-                        <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
-                          <Phone className="h-4.5 w-4.5" />
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
+                          <Phone className="h-4 w-4" />
                         </span>
-                        <span>Koneksi ke Whatsapp</span>
                       </div>
 
-                      <div className="ml-10 mt-2">
+                      <div className="ml-9 mt-2">
                         <div className="flex items-center gap-2 text-[14px] font-semibold leading-relaxed text-emerald-800">
                           <span className="h-3 w-3 shrink-0 rounded-full bg-emerald-600 ring-2 ring-emerald-200" />
                           Status : Terhubung ke Whatsapp
