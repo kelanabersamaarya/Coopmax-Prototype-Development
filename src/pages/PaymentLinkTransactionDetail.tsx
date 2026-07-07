@@ -80,8 +80,8 @@ export default function PaymentLinkTransactionDetail() {
             />
             <ActionButton
               icon={ArrowLeft}
-              label="Kembali ke Daftar"
-              onClick={() => navigate("/payment-link")}
+              label="Kembali ke Detail Pengingat Tagihan"
+              onClick={() => navigate(`/payment-link/${encodeURIComponent(linkNo)}`)}
             />
             <ActionButton
               icon={Trash2}
