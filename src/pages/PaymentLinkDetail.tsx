@@ -12,6 +12,7 @@ function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
     Terkirim: "bg-[#3BB001] text-white",
     "Gagal Terkirim": "bg-[#DC3545] text-white",
+    Kedaluwarsa: "bg-[#F59E0B] text-white",
   };
 
   return (

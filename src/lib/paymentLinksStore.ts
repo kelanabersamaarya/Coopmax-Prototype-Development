@@ -1,4 +1,4 @@
-export type PaymentLinkStatus = "Semua" | "Terkirim" | "Gagal Terkirim";
+export type PaymentLinkStatus = "Semua" | "Terkirim" | "Gagal Terkirim" | "Kedaluwarsa";
 
 export type PaymentBillPaymentStatus = "Semua" | "Belum Dibayar" | "Sebagian Dibayar" | "Lunas";
 
@@ -126,7 +126,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "10-07-2026",
     tanggalKedaluwarsa: "10-07-2026",
-    status: "Terkirim",
+    status: "Kedaluwarsa",
     statusPembayaranTagihan: "Lunas",
   },
   {
@@ -152,7 +152,7 @@ export const paymentLinkRowsSeed: PaymentLinkRow[] = [
     nominalTagihan: "1.250.000,00",
     tanggalDibuat: "27-06-2026",
     tanggalKedaluwarsa: "30-06-2026",
-    status: "Gagal Terkirim",
+    status: "Kedaluwarsa",
     statusPembayaranTagihan: "Lunas",
   },
   {

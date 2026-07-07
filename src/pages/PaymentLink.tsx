@@ -24,6 +24,7 @@ function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
     Terkirim: "bg-[#3BB001] text-white hover:bg-[#3BB001]",
     "Gagal Terkirim": "bg-[#DC3545] text-white hover:bg-[#DC3545]",
+    Kedaluwarsa: "bg-[#F59E0B] text-white hover:bg-[#F59E0B]",
   };
 
   return (
@@ -415,6 +416,7 @@ export default function PaymentLink() {
                           <SelectItem value="Gagal Terkirim">
                             Gagal Terkirim
                           </SelectItem>
+                          <SelectItem value="Kedaluwarsa">Kedaluwarsa</SelectItem>
                         </SelectContent>
                       </Select>
                     </th>
