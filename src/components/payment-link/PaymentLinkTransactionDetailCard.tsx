@@ -64,7 +64,7 @@ function StatusPill({
   children: React.ReactNode;
   tone: "active" | "danger" | "verified";
 }) {
-  const className =
+  const cls =
     tone === "danger"
       ? "bg-rose-600 text-white"
       : tone === "verified"
@@ -74,8 +74,8 @@ function StatusPill({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-[5px] px-2 py-1 text-[10px] font-extrabold leading-none",
-        className,
+        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[11px] font-extrabold leading-none",
+        cls,
       )}
     >
       {children}
@@ -92,8 +92,8 @@ export default function PaymentLinkTransactionDetailCard({
     <Card className="mt-5 rounded-3xl border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur md:p-6">
       <SectionTitle>INFORMASI REKENING</SectionTitle>
 
-      <div className="mt-4 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white shadow-sm ring-1 ring-white/10 md:p-6">
-        <div className="text-[12px] font-extrabold uppercase tracking-wide text-white">
+      <div className="mt-4 overflow-hidden rounded-[8px] bg-[#17a2b8] p-5 text-white ring-1 ring-white/10 md:p-6">
+        <div className="text-[12px] font-extrabold tracking-wide text-white/90">
           SIMPANAN MULTIGUNA
         </div>
 
@@ -101,9 +101,9 @@ export default function PaymentLinkTransactionDetailCard({
           <TealField
             label="Rek. Pinjaman"
             value={
-              <span className="inline-flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-2">
                 SMG260001
-                <ExternalLink className="h-3.5 w-3.5 text-white/90" />
+                <ExternalLink className="h-4 w-4 text-white/85" />
               </span>
             }
           />
@@ -119,7 +119,10 @@ export default function PaymentLinkTransactionDetailCard({
           <TealField label="Bunga Per Tahun (%)" value="0.99 %" />
           <TealField label="Jumlah Pinjaman" value="5.000.000,00" />
           <TealField label="Sisa Pinjaman" value="4.019.416,00" />
-          <TealField label="Sisa Bunga Pinjaman" value="79.584,00" />
+          <TealField
+            label="Status Loan Platform"
+            value={<StatusPill tone="active">Aktif</StatusPill>}
+          />
 
           <TealField label="Angsuran Pokok" value="208.333,33" />
           <TealField label="Angsuran Bunga" value="4.125,00" />
@@ -133,18 +136,17 @@ export default function PaymentLinkTransactionDetailCard({
         </div>
       </div>
 
-      <div className="my-7 h-px w-full bg-slate-200/70" />
+      <div className="my-6 h-px w-full bg-slate-200/70" />
 
       <SectionTitle>INFORMASI NASABAH</SectionTitle>
 
-      <div className="mt-4 grid gap-8 lg:grid-cols-2">
+      <div className="mt-4 grid gap-6 lg:grid-cols-2">
         <div>
           <InfoRow
             label="ID"
             value={
-              <span className="inline-flex items-center gap-1.5 text-blue-600">
-                A24000004
-                <ExternalLink className="h-3.5 w-3.5" />
+              <span className="inline-flex items-center gap-2 text-blue-600">
+                A24000004 <ExternalLink className="h-4 w-4" />
               </span>
             }
           />
@@ -175,11 +177,11 @@ export default function PaymentLinkTransactionDetailCard({
         </div>
       </div>
 
-      <div className="my-7 h-px w-full bg-slate-200/70" />
+      <div className="my-6 h-px w-full bg-slate-200/70" />
 
       <SectionTitle>INFORMASI TRANSAKSI</SectionTitle>
 
-      <div className="mt-4 grid gap-8 lg:grid-cols-2">
+      <div className="mt-4 grid gap-6 lg:grid-cols-2">
         <div>
           <InfoRow label="No Transaksi" value={transactionNo} />
           <InfoRow label="Rek. Tabungan" value="-" />
@@ -204,8 +206,6 @@ export default function PaymentLinkTransactionDetailCard({
           <InfoRow label="Dibuat Oleh" value="Arya" right />
         </div>
       </div>
-
-      <div className="mt-7 h-px w-full bg-slate-200/70" />
     </Card>
   );
 }
