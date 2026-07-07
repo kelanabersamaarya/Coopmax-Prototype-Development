@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import { cn } from "@/lib/utils";
 import PaymentLinkWhatsappQrDialog from "@/components/loans/products/PaymentLinkWhatsappQrDialog";
+import PaymentLinkDisconnectConfirmDialog from "@/components/loans/products/PaymentLinkDisconnectConfirmDialog";
 import WhatsappIcon from "@/components/icons/WhatsappIcon";
 
 const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
@@ -73,7 +74,11 @@ function isLoanProductEditPath(pathname: string) {
   return pathname.includes("/loan-products/") && pathname.endsWith("/edit");
 }
 
-function ConnectedWhatsappCard() {
+function ConnectedWhatsappCard({
+  onDisconnectClick,
+}: {
+  onDisconnectClick: () => void;
+}) {
   return (
     <div className="rounded-[5px] border border-emerald-200 bg-emerald-50 px-4 py-4 text-emerald-950">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -97,6 +102,7 @@ function ConnectedWhatsappCard() {
 
         <button
           type="button"
+          onClick={onDisconnectClick}
           className={cn(
             "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
             "bg-[#DC3545] text-[14px] font-semibold text-white",
@@ -171,6 +177,12 @@ export default function LoanProductPaymentLinkSection(
   const initializedDefaultRef = React.useRef(false);
   const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null);
   const [whatsappQrOpen, setWhatsappQrOpen] = React.useState(false);
+  const [disconnectConfirmOpen, setDisconnectConfirmOpen] = React.useState(false);
+  const [whatsappConnected, setWhatsappConnected] = React.useState(isEditPage);
+
+  React.useEffect(() => {
+    setWhatsappConnected(isEditPage);
+  }, [isEditPage]);
 
   React.useEffect(() => {
     if (initializedDefaultRef.current) return;
@@ -208,6 +220,15 @@ export default function LoanProductPaymentLinkSection(
         onOpenChange={setWhatsappQrOpen}
       />
 
+      <PaymentLinkDisconnectConfirmDialog
+        open={disconnectConfirmOpen}
+        onCancel={() => setDisconnectConfirmOpen(false)}
+        onConfirm={() => {
+          setDisconnectConfirmOpen(false);
+          setWhatsappConnected(false);
+        }}
+      />
+
       {showSeparator ? <Separator className="my-6 bg-slate-200/70" /> : null}
 
       {showTitle ? <SectionTitle /> : null}
@@ -238,8 +259,10 @@ export default function LoanProductPaymentLinkSection(
                   </div>
                 </div>
 
-                {isEditPage ? (
-                  <ConnectedWhatsappCard />
+                {isEditPage && whatsappConnected ? (
+                  <ConnectedWhatsappCard
+                    onDisconnectClick={() => setDisconnectConfirmOpen(true)}
+                  />
                 ) : (
                   <DisconnectedWhatsappCard onConnect={() => setWhatsappQrOpen(true)} />
                 )}
