@@ -43,7 +43,7 @@ export default function NewMBankingSourceFundGradientCard({
         {sectionLabel ? (
           <div
             className={cn(
-              "mb-[4px] font-normal leading-none text-white/82",
+              "mb-[5px] font-normal leading-none text-white/82",
               isCompact ? "text-[10px]" : "text-[12px]",
             )}
           >
@@ -62,28 +62,30 @@ export default function NewMBankingSourceFundGradientCard({
           </span>
 
           <div className="min-w-0">
-            <div
-              className={cn(
-                "font-normal leading-[1.05] text-white/82",
-                isCompact ? "text-[10px]" : "text-[12px]",
-              )}
-            >
-              {account.productName}
-            </div>
-            <div
-              className={cn(
-                "mt-[1px] truncate font-bold leading-[1.05] text-white",
-                isCompact ? "text-[14px]" : "text-[17px]",
-              )}
-            >
-              {account.accountNo}
+            <div className="grid gap-0">
+              <div
+                className={cn(
+                  "font-normal leading-none text-white/82",
+                  isCompact ? "text-[10px]" : "text-[12px]",
+                )}
+              >
+                {account.productName}
+              </div>
+              <div
+                className={cn(
+                  "mt-0 truncate font-bold leading-none text-white",
+                  isCompact ? "text-[14px]" : "text-[17px]",
+                )}
+              >
+                {account.accountNo}
+              </div>
             </div>
 
             {showBalance ? (
-              <>
+              <div className="mt-[7px] grid gap-0">
                 <div
                   className={cn(
-                    "mt-[4px] font-normal leading-[1.05] text-white/82",
+                    "font-normal leading-none text-white/82",
                     isCompact ? "text-[10px]" : "text-[12px]",
                   )}
                 >
@@ -91,13 +93,13 @@ export default function NewMBankingSourceFundGradientCard({
                 </div>
                 <div
                   className={cn(
-                    "mt-[1px] truncate font-bold leading-[1.05] text-white",
+                    "mt-0 truncate font-bold leading-none text-white",
                     isCompact ? "text-[14px]" : "text-[17px]",
                   )}
                 >
                   {account.balance}
                 </div>
-              </>
+              </div>
             ) : null}
           </div>
         </div>
