@@ -245,41 +245,51 @@ export default function PaymentLinkDetail() {
 
             <div className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-slate-200">
               <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[760px] border-collapse">
+                <table className="w-full min-w-[860px] border-collapse">
                   <thead className="bg-slate-50">
                     <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
                       <th className="w-[70px] px-4 py-3">No.</th>
                       <th className="w-[180px] px-4 py-3">Tanggal</th>
-                      <th className="w-[240px] px-4 py-3">
-                        Status Pengiriman
+                      <th className="w-[320px] px-4 py-3">
+                        Status Pengiriman Pengingat Tagihan
                       </th>
-                      <th className="px-4 py-3">Keterangan</th>
+                      <th className="w-[260px] px-4 py-3">
+                        Status Pembayaran Tagihan
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {[
                       {
                         tanggal: data.tanggalDibuat,
-                        status: "Dibuat",
-                        keterangan: "Payment Link dibuat oleh Admin Coopmax.",
+                        statusPengiriman: "Dibuat",
+                        statusPembayaran: data.statusPembayaranTagihan,
                       },
                       {
                         tanggal: data.tanggalDibuat,
-                        status: data.status,
-                        keterangan: "Pengingat tagihan dikirim melalui WhatsApp.",
+                        statusPengiriman: data.status,
+                        statusPembayaran: data.statusPembayaranTagihan,
                       },
                     ].map((item, index) => (
                       <tr
-                        key={`${item.status}-${index}`}
+                        key={`${item.statusPengiriman}-${index}`}
                         className="border-t border-slate-100 text-[13px]"
                       >
                         <td className="px-4 py-3 tabular-nums">{index + 1}</td>
                         <td className="px-4 py-3 tabular-nums">{item.tanggal}</td>
                         <td className="px-4 py-3 font-semibold text-slate-900">
-                          {item.status}
+                          {item.statusPengiriman === "Dibuat" ? (
+                            item.statusPengiriman
+                          ) : (
+                            <StatusBadge
+                              status={
+                                item.statusPengiriman as PaymentLinkRow["status"]
+                              }
+                            />
+                          )}
                         </td>
-                        <td className="px-4 py-3 text-slate-700">
-                          {item.keterangan}
+                        <td className="px-4 py-3">
+                          <PaymentStatusBadge status={item.statusPembayaran} />
                         </td>
                       </tr>
                     ))}
