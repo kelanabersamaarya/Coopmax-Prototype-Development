@@ -95,6 +95,7 @@ export default function PaymentLinkDetail() {
   const params = useParams<{ linkNo: string }>();
   const linkNo = params.linkNo ?? "";
   const data = getPaymentLinkByNo(linkNo);
+  const showTransactionDetailButton = data?.statusPembayaranTagihan === "Lunas";
 
   const publicLink = data
     ? `https://pay.coopmax.id/${data.noPaymentLink.replace(/\//g, "-")}`
@@ -117,15 +118,17 @@ export default function PaymentLinkDetail() {
               label="Kembali ke Daftar"
               onClick={() => navigate("/payment-link")}
             />
-            <ActionButton
-              icon={ReceiptText}
-              label="Detail Transaksi"
-              onClick={() =>
-                navigate(
-                  `/payment-link/${encodeURIComponent(linkNo)}/transaction-detail`,
-                )
-              }
-            />
+            {showTransactionDetailButton ? (
+              <ActionButton
+                icon={ReceiptText}
+                label="Detail Transaksi"
+                onClick={() =>
+                  navigate(
+                    `/payment-link/${encodeURIComponent(linkNo)}/transaction-detail`,
+                  )
+                }
+              />
+            ) : null}
           </div>
         </div>
 
