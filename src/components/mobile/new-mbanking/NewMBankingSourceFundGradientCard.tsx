@@ -72,8 +72,8 @@ export default function NewMBankingSourceFundGradientCard({
             </div>
             <div
               className={cn(
-                "mt-[7px] truncate font-bold leading-tight text-white",
-                isCompact ? "text-[14px]" : "text-[17px]",
+                "truncate font-bold leading-tight text-white",
+                isCompact ? "mt-[4px] text-[14px]" : "mt-[4px] text-[17px]",
               )}
             >
               {account.accountNo}
@@ -84,7 +84,7 @@ export default function NewMBankingSourceFundGradientCard({
                 <div
                   className={cn(
                     "font-normal leading-none text-white/82",
-                    isCompact ? "mt-[8px] text-[10px]" : "mt-[14px] text-[12px]",
+                    isCompact ? "mt-[7px] text-[10px]" : "mt-[11px] text-[12px]",
                   )}
                 >
                   {account.balanceLabel ?? "Saldo"}
@@ -92,7 +92,7 @@ export default function NewMBankingSourceFundGradientCard({
                 <div
                   className={cn(
                     "truncate font-bold leading-tight text-white",
-                    isCompact ? "mt-[5px] text-[14px]" : "mt-[7px] text-[17px]",
+                    isCompact ? "mt-[4px] text-[14px]" : "mt-[6px] text-[17px]",
                   )}
                 >
                   {account.balance}
