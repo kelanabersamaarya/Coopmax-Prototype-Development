@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
+import { Info } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
@@ -115,10 +116,19 @@ export default function LoanProductPaymentLinkSection(
             </div>
 
             {enabled ? (
-              <div className="rounded-[5px] border border-blue-200 bg-blue-50 px-4 py-3 text-[13px] font-medium leading-relaxed text-blue-900">
-                Pengingat pembayaran tagihan akan dikirim otomatis pada 7 hari, 3
-                hari, satu hari sebelum jatuh tempo, tepat pada hari jatuh tempo
-                serta 1 hari, 3 hari, dan 7 hari setelah jatuh tempo.
+              <div className="rounded-[5px] border border-blue-200 bg-blue-50 px-4 py-3 text-blue-900">
+                <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
+                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                    <Info className="h-4 w-4" />
+                  </span>
+                  Jadwal Pengiriman Pengingat Pembayaran Tagihan
+                </div>
+
+                <div className="mt-3 text-[14px] font-medium leading-relaxed">
+                  Pengingat pembayaran tagihan akan dikirim otomatis pada 7 hari, 3
+                  hari, satu hari sebelum jatuh tempo, tepat pada hari jatuh tempo
+                  serta 1 hari, 3 hari, dan 7 hari setelah jatuh tempo.
+                </div>
               </div>
             ) : null}
           </div>
