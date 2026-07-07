@@ -4,6 +4,10 @@ import * as React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, HandCoins } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  hasPaymentLinkEnabledLoanProduct,
+  LOAN_PRODUCTS_CHANGED_EVENT,
+} from "@/lib/loanProductsStore";
 
 type SubItem = {
   label: string;
@@ -11,7 +15,7 @@ type SubItem = {
   disabled?: boolean;
 };
 
-const items: SubItem[] = [
+const baseItems: SubItem[] = [
   { label: "Daftar Pengajuan Pinjaman", to: "/loans/applications" },
   { label: "Rekening Pinjaman", to: "/loans/accounts" },
   { label: "Transaksi Pinjaman", to: "/loans/transactions" },
@@ -56,7 +60,47 @@ export default function SidebarPinjamanMenu() {
   const obsArea = isObsPath(location.pathname);
   const sakCabangArea = isSakCabangPath(location.pathname);
   const paymentLinkArea = isPaymentLinkPath(location.pathname);
-  const menuItems = paymentLinkArea ? paymentLinkItems : sakCabangArea ? sakItems : items;
+
+  const [hasPaymentLinkMenu, setHasPaymentLinkMenu] = React.useState(() =>
+    hasPaymentLinkEnabledLoanProduct(),
+  );
+
+  React.useEffect(() => {
+    const syncPaymentLinkMenu = () => {
+      setHasPaymentLinkMenu(hasPaymentLinkEnabledLoanProduct());
+    };
+
+    syncPaymentLinkMenu();
+
+    window.addEventListener(LOAN_PRODUCTS_CHANGED_EVENT, syncPaymentLinkMenu);
+    window.addEventListener("storage", syncPaymentLinkMenu);
+
+    return () => {
+      window.removeEventListener(
+        LOAN_PRODUCTS_CHANGED_EVENT,
+        syncPaymentLinkMenu,
+      );
+      window.removeEventListener("storage", syncPaymentLinkMenu);
+    };
+  }, []);
+
+  const items = React.useMemo(() => {
+    if (paymentLinkArea) {
+      return hasPaymentLinkMenu
+        ? paymentLinkItems
+        : paymentLinkItems.filter((item) => item.to !== "/payment-link");
+    }
+
+    if (sakCabangArea) {
+      return hasPaymentLinkMenu
+        ? [...sakItems, { label: "Payment Link", to: "/payment-link" }]
+        : sakItems;
+    }
+
+    return hasPaymentLinkMenu
+      ? [...baseItems, { label: "Payment Link", to: "/payment-link" }]
+      : baseItems;
+  }, [hasPaymentLinkMenu, paymentLinkArea, sakCabangArea]);
 
   const isActive =
     location.pathname.startsWith("/payment-link") ||
@@ -176,7 +220,7 @@ export default function SidebarPinjamanMenu() {
         <div className="min-h-0">
           <div className="px-2.5 pb-2 pt-2">
             <div className="space-y-1 rounded-2xl bg-white px-2 py-2">
-              {menuItems.map((item) => {
+              {items.map((item) => {
                 const active = isItemActive(item);
                 const to = getRouteForContext(item.to, location.pathname);
 

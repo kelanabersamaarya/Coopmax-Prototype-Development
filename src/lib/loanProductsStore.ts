@@ -18,6 +18,8 @@ export type LoanProduct = {
 
 const STORAGE_KEY = "dyad.loanProducts.v1";
 
+export const LOAN_PRODUCTS_CHANGED_EVENT = "dyad.loanProducts.changed";
+
 const seedProducts: LoanProduct[] = [
   {
     id: "seed-1",
@@ -48,6 +50,11 @@ function safeParse<T>(value: string | null): T | null {
   }
 }
 
+function notifyLoanProductsChanged() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(LOAN_PRODUCTS_CHANGED_EVENT));
+}
+
 export function getLoanProducts(): LoanProduct[] {
   const parsed = safeParse<LoanProduct[]>(localStorage.getItem(STORAGE_KEY));
   if (parsed && Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -56,6 +63,13 @@ export function getLoanProducts(): LoanProduct[] {
 
 export function saveLoanProducts(products: LoanProduct[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+  notifyLoanProductsChanged();
+}
+
+export function hasPaymentLinkEnabledLoanProduct() {
+  return getLoanProducts().some(
+    (product) => product.formConfig?.paymentLinkEnabled === true,
+  );
 }
 
 export function createLoanProduct(input: Omit<LoanProduct, "id" | "createdAt">) {
