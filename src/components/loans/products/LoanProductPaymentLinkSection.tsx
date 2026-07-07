@@ -4,10 +4,12 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { Info, LogOut, Phone } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import { cn } from "@/lib/utils";
+import PaymentLinkDisconnectConfirmDialog from "@/components/loans/products/PaymentLinkDisconnectConfirmDialog";
 
 const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
 const SECTION_TOOLTIP =
@@ -82,6 +84,7 @@ export default function LoanProductPaymentLinkSection(
   const anchorRef = React.useRef<HTMLDivElement | null>(null);
   const initializedDefaultRef = React.useRef(false);
   const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null);
+  const [disconnectConfirmOpen, setDisconnectConfirmOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (initializedDefaultRef.current) return;
@@ -116,8 +119,22 @@ export default function LoanProductPaymentLinkSection(
     };
   }, []);
 
+  function confirmDisconnect() {
+    setDisconnectConfirmOpen(false);
+    onEnabledChange(false);
+    toast.success("Koneksi Whatsapp diputus", {
+      description: "Payment Link tidak lagi terhubung ke Whatsapp.",
+    });
+  }
+
   const content = (
     <div className={cn("loan-product-payment-link-section", className)}>
+      <PaymentLinkDisconnectConfirmDialog
+        open={disconnectConfirmOpen}
+        onCancel={() => setDisconnectConfirmOpen(false)}
+        onConfirm={confirmDisconnect}
+      />
+
       {showSeparator ? <Separator className="my-6 bg-slate-200/70" /> : null}
 
       {showTitle ? <SectionTitle /> : null}
@@ -176,7 +193,7 @@ export default function LoanProductPaymentLinkSection(
 
                     <button
                       type="button"
-                      onClick={() => onEnabledChange(false)}
+                      onClick={() => setDisconnectConfirmOpen(true)}
                       className={cn(
                         "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
                         "bg-rose-600 text-[14px] font-semibold text-white",
