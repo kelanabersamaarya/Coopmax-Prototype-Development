@@ -4,7 +4,6 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import { cn } from "@/lib/utils";
-import { setPaymentLinkMenuPreview } from "@/lib/loanProductsStore";
 
 export default function LoanProductPaymentLinkSection({
   enabled,
@@ -23,11 +22,6 @@ export default function LoanProductPaymentLinkSection({
   onExpiryDateChange: (value: string) => void;
   inputClassName?: string;
 }) {
-  function handleEnabledChange(value: boolean) {
-    setPaymentLinkMenuPreview(value);
-    onEnabledChange(value);
-  }
-
   return (
     <div className="loan-product-payment-link-section">
       <Separator className="my-6 bg-slate-200/70" />
@@ -39,7 +33,7 @@ export default function LoanProductPaymentLinkSection({
           <div className="text-sm font-normal text-slate-900">Payment link</div>
 
           <div className="flex items-center justify-start">
-            <Switch checked={enabled} onCheckedChange={handleEnabledChange} />
+            <Switch checked={enabled} onCheckedChange={onEnabledChange} />
           </div>
         </div>
 

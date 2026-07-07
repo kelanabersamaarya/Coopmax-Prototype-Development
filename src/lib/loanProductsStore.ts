@@ -20,8 +20,6 @@ const STORAGE_KEY = "dyad.loanProducts.v1";
 
 export const LOAN_PRODUCTS_CHANGED_EVENT = "dyad.loanProducts.changed";
 
-let paymentLinkMenuPreviewEnabled: boolean | null = null;
-
 const seedProducts: LoanProduct[] = [
   {
     id: "seed-1",
@@ -57,11 +55,6 @@ function notifyLoanProductsChanged() {
   window.dispatchEvent(new CustomEvent(LOAN_PRODUCTS_CHANGED_EVENT));
 }
 
-export function setPaymentLinkMenuPreview(enabled: boolean) {
-  paymentLinkMenuPreviewEnabled = enabled;
-  notifyLoanProductsChanged();
-}
-
 export function getLoanProducts(): LoanProduct[] {
   const parsed = safeParse<LoanProduct[]>(localStorage.getItem(STORAGE_KEY));
   if (parsed && Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -74,8 +67,6 @@ export function saveLoanProducts(products: LoanProduct[]) {
 }
 
 export function hasPaymentLinkEnabledLoanProduct() {
-  if (paymentLinkMenuPreviewEnabled === true) return true;
-
   return getLoanProducts().some(
     (product) => product.formConfig?.paymentLinkEnabled === true,
   );
