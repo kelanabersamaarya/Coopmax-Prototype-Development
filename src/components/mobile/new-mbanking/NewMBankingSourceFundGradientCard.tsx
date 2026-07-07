@@ -1,4 +1,4 @@
-import { Check, ChevronRight, WalletCards } from "lucide-react";
+import { Check, ChevronRight, Landmark, WalletCards } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SourceFundAccount } from "@/components/mobile/new-mbanking/NewMBankingSourceFundModal";
 
@@ -24,6 +24,8 @@ export default function NewMBankingSourceFundGradientCard({
   className?: string;
 }) {
   const isCompact = textSize === "compact";
+  const isVirtualAccount = account.productName === "Virtual Account";
+  const AccountIcon = isVirtualAccount ? Landmark : WalletCards;
 
   const content = (
     <div
@@ -58,7 +60,7 @@ export default function NewMBankingSourceFundGradientCard({
               iconShape === "circle" ? "rounded-full" : "rounded-[14px]",
             )}
           >
-            <WalletCards className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
+            <AccountIcon className="h-[24px] w-[24px] text-white" strokeWidth={2.6} />
           </span>
 
           <div className="min-w-0">
