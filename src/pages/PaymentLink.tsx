@@ -1,46 +1,94 @@
 import * as React from "react";
-import { Copy, Link2, Plus, QrCode } from "lucide-react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+
+type PaymentLinkStatus = "Semua" | "Aktif" | "Dibayar" | "Kedaluwarsa";
 
 type PaymentLinkRow = {
   id: string;
-  customerName: string;
-  amount: string;
-  description: string;
-  link: string;
-  status: "Aktif" | "Dibayar";
+  namaAnggota: string;
+  noPaymentLink: string;
+  noRekPinjaman: string;
+  nominalTagihan: string;
+  tanggalDibuat: string;
+  tanggalKedaluwarsa: string;
+  status: Exclude<PaymentLinkStatus, "Semua">;
 };
 
-const initialRows: PaymentLinkRow[] = [
+const seedRows: PaymentLinkRow[] = [
   {
-    id: "PL-260001",
-    customerName: "Laura Patel",
-    amount: "500.000,00",
-    description: "Pembayaran angsuran koperasi",
-    link: "https://pay.coopmax.app/pl/260001",
+    id: "PAY-260001",
+    namaAnggota: "Laura Patel",
+    noPaymentLink: "PL/260626/0001",
+    noRekPinjaman: "SMG260004",
+    nominalTagihan: "991.666,00",
+    tanggalDibuat: "26-06-2026",
+    tanggalKedaluwarsa: "03-07-2026",
     status: "Aktif",
   },
   {
-    id: "PL-260002",
-    customerName: "Bapak Bagus",
-    amount: "1.250.000,00",
-    description: "Pembayaran simpanan",
-    link: "https://pay.coopmax.app/pl/260002",
+    id: "PAY-260002",
+    namaAnggota: "Bapak Bagus",
+    noPaymentLink: "PL/260626/0002",
+    noRekPinjaman: "12260006",
+    nominalTagihan: "1.250.000,00",
+    tanggalDibuat: "26-06-2026",
+    tanggalKedaluwarsa: "30-06-2026",
+    status: "Dibayar",
+  },
+  {
+    id: "PAY-260003",
+    namaAnggota: "Rika Wastuti",
+    noPaymentLink: "PL/250626/0003",
+    noRekPinjaman: "072260001",
+    nominalTagihan: "916.667,00",
+    tanggalDibuat: "25-06-2026",
+    tanggalKedaluwarsa: "25-06-2026",
+    status: "Kedaluwarsa",
+  },
+  {
+    id: "PAY-260004",
+    namaAnggota: "Pangeran Sirait",
+    noPaymentLink: "PL/240626/0004",
+    noRekPinjaman: "12260002",
+    nominalTagihan: "500.000,00",
+    tanggalDibuat: "24-06-2026",
+    tanggalKedaluwarsa: "01-07-2026",
+    status: "Aktif",
+  },
+  {
+    id: "PAY-260005",
+    namaAnggota: "Indah Sari",
+    noPaymentLink: "PL/230626/0005",
+    noRekPinjaman: "klpk04.07260001",
+    nominalTagihan: "1.120.000,00",
+    tanggalDibuat: "23-06-2026",
+    tanggalKedaluwarsa: "30-06-2026",
     status: "Dibayar",
   },
 ];
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
+  const map: Record<PaymentLinkRow["status"], string> = {
+    Aktif: "bg-[#3BB001] text-white hover:bg-[#3BB001]",
+    Dibayar: "bg-[#2563EB] text-white hover:bg-[#2563EB]",
+    Kedaluwarsa: "bg-[#DC3545] text-white hover:bg-[#DC3545]",
+  };
+
   return (
     <span
       className={cn(
-        "inline-flex rounded-[5px] px-2.5 py-1 text-[11px] font-bold leading-none text-white",
-        status === "Aktif" ? "bg-[#3BB001]" : "bg-[#2563EB]",
+        "inline-flex items-center rounded-[5px] px-2.5 py-1 text-[11px] font-bold leading-none",
+        map[status],
       )}
     >
       {status}
@@ -48,214 +96,464 @@ function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   );
 }
 
+function ThLabel({
+  children,
+  sortable = true,
+  className,
+}: {
+  children: React.ReactNode;
+  sortable?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex items-center justify-between gap-2", className)}>
+      <div className="leading-[1.05]">{children}</div>
+      {sortable ? (
+        <span className="inline-flex flex-col leading-none text-slate-900/80">
+          <ChevronUp className="-mb-0.5 h-3.5 w-3.5" />
+          <ChevronDown className="h-3.5 w-3.5" />
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+function PaginationBar({
+  page,
+  pageCount,
+  onPage,
+}: {
+  page: number;
+  pageCount: number;
+  onPage: (page: number) => void;
+}) {
+  if (pageCount <= 1) {
+    return (
+      <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Sebelumnya
+        </button>
+        <div className="grid h-10 w-10 place-items-center bg-violet-600 text-[14px] font-semibold text-white">
+          1
+        </div>
+        <button
+          type="button"
+          disabled
+          className="h-10 px-4 text-[14px] font-medium text-slate-400"
+        >
+          Selanjutnya
+        </button>
+      </div>
+    );
+  }
+
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= pageCount;
+
+  const btnBase =
+    "h-10 px-4 text-[14px] font-medium transition disabled:text-slate-400";
+
+  return (
+    <div className="inline-flex items-center overflow-hidden rounded-[2px] bg-slate-100">
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={prevDisabled}
+        onClick={() => onPage(Math.max(1, page - 1))}
+      >
+        Sebelumnya
+      </button>
+
+      <button
+        type="button"
+        className="h-10 w-10 bg-violet-600 text-[14px] font-semibold text-white"
+        onClick={() => onPage(page)}
+        aria-current="page"
+      >
+        {page}
+      </button>
+
+      <button
+        type="button"
+        className={cn(btnBase, "text-slate-500 hover:bg-slate-200")}
+        disabled={nextDisabled}
+        onClick={() => onPage(Math.min(pageCount, page + 1))}
+      >
+        Selanjutnya
+      </button>
+    </div>
+  );
+}
+
 export default function PaymentLink() {
-  const [rows, setRows] = React.useState<PaymentLinkRow[]>(initialRows);
-  const [customerName, setCustomerName] = React.useState("");
-  const [amount, setAmount] = React.useState("0,00");
-  const [description, setDescription] = React.useState("");
+  const rows = React.useMemo(() => seedRows, []);
 
-  function createPaymentLink() {
-    if (!customerName.trim()) {
-      toast("Nama pelanggan wajib diisi");
-      return;
-    }
+  const [pageSize, setPageSize] = React.useState<number>(20);
+  const [page, setPage] = React.useState<number>(1);
 
-    if (!amount.trim() || amount.trim() === "0,00" || amount.trim() === "0") {
-      toast("Nominal wajib diisi");
-      return;
-    }
+  const [qNamaAnggota, setQNamaAnggota] = React.useState("");
+  const [qNoPaymentLink, setQNoPaymentLink] = React.useState("");
+  const [qNoRekPinjaman, setQNoRekPinjaman] = React.useState("");
+  const [qNominalTagihan, setQNominalTagihan] = React.useState("0,00");
+  const [qTanggalDibuat, setQTanggalDibuat] = React.useState("");
+  const [qTanggalKedaluwarsa, setQTanggalKedaluwarsa] = React.useState("");
+  const [qStatus, setQStatus] = React.useState<PaymentLinkStatus>("Semua");
 
-    const id = `PL-${Date.now().toString().slice(-6)}`;
-    const next: PaymentLinkRow = {
-      id,
-      customerName: customerName.trim(),
-      amount: amount.trim(),
-      description: description.trim() || "-",
-      link: `https://pay.coopmax.app/pl/${id.toLowerCase()}`,
-      status: "Aktif",
-    };
+  const filtered = React.useMemo(() => {
+    const namaQ = qNamaAnggota.trim().toLowerCase();
+    const paymentLinkQ = qNoPaymentLink.trim().toLowerCase();
+    const rekQ = qNoRekPinjaman.trim().toLowerCase();
+    const tanggalDibuatQ = qTanggalDibuat.trim().toLowerCase();
+    const tanggalKedaluwarsaQ = qTanggalKedaluwarsa.trim().toLowerCase();
 
-    setRows((current) => [next, ...current]);
-    setCustomerName("");
-    setAmount("0,00");
-    setDescription("");
+    return rows.filter((row) => {
+      const okNama = namaQ
+        ? row.namaAnggota.toLowerCase().includes(namaQ)
+        : true;
+      const okPaymentLink = paymentLinkQ
+        ? row.noPaymentLink.toLowerCase().includes(paymentLinkQ)
+        : true;
+      const okRek = rekQ
+        ? row.noRekPinjaman.toLowerCase().includes(rekQ)
+        : true;
+      const okTanggalDibuat = tanggalDibuatQ
+        ? row.tanggalDibuat.toLowerCase().includes(tanggalDibuatQ)
+        : true;
+      const okTanggalKedaluwarsa = tanggalKedaluwarsaQ
+        ? row.tanggalKedaluwarsa.toLowerCase().includes(tanggalKedaluwarsaQ)
+        : true;
+      const okStatus = qStatus === "Semua" ? true : row.status === qStatus;
 
-    toast.success("Payment Link dibuat", {
-      description: next.link,
+      const okNominal = true;
+
+      return (
+        okNama &&
+        okPaymentLink &&
+        okRek &&
+        okNominal &&
+        okTanggalDibuat &&
+        okTanggalKedaluwarsa &&
+        okStatus
+      );
     });
-  }
+  }, [
+    qNamaAnggota,
+    qNoPaymentLink,
+    qNoRekPinjaman,
+    qNominalTagihan,
+    qStatus,
+    qTanggalDibuat,
+    qTanggalKedaluwarsa,
+    rows,
+  ]);
 
-  function copyLink(link: string) {
-    navigator.clipboard.writeText(link);
-    toast.success("Link disalin", {
-      description: link,
-    });
-  }
+  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [
+    pageSize,
+    qNamaAnggota,
+    qNoPaymentLink,
+    qNoRekPinjaman,
+    qNominalTagihan,
+    qTanggalDibuat,
+    qTanggalKedaluwarsa,
+    qStatus,
+  ]);
+
+  React.useEffect(() => {
+    if (page > pageCount) setPage(pageCount);
+  }, [page, pageCount]);
+
+  const paged = React.useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }, [filtered, page, pageSize]);
+
+  const showingStart = filtered.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const showingEnd = Math.min(filtered.length, page * pageSize);
+
+  const th = "px-3 py-3";
+  const filterCell = "px-3 py-1.5";
+  const td = "px-3 py-2.5";
+
+  const filterInputCls =
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--app-accent))]/20";
+  const filterSelectTriggerCls =
+    "h-8 rounded-[6px] border-slate-300 bg-white text-[13px] font-normal shadow-none focus:ring-2 focus:ring-[hsl(var(--app-accent))]/20";
+  const pageSizeTriggerCls =
+    "h-7 w-[68px] rounded-[6px] border-slate-300 bg-white px-2 text-[12.5px] font-semibold text-slate-900 shadow-none";
 
   return (
     <div className="min-h-screen bg-[hsl(var(--app-bg))]">
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-baseline gap-2">
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Payment Link
-            </h1>
-            <div className="text-base font-semibold text-slate-600">Modul</div>
-          </div>
-
-          <Button
-            onClick={createPaymentLink}
-            className="h-10 rounded-[5px] bg-[#635BFF] px-4 text-white hover:bg-[#554cf0]"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Buat Link
-          </Button>
+        <div className="flex items-baseline gap-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+            Payment Link
+          </h1>
+          <div className="text-base font-semibold text-slate-600">Daftar</div>
         </div>
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-[380px_minmax(0,1fr)]">
-          <Card className="rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm">
-            <div className="flex items-start gap-3">
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-[5px] bg-[#EEF6FF] text-[#2563EB] ring-1 ring-[#CFE4FF]">
-                <Link2 className="h-5 w-5" />
-              </span>
-              <div>
-                <div className="text-[16px] font-extrabold text-slate-900">
-                  Buat Payment Link
-                </div>
-                <div className="mt-1 text-[13px] leading-relaxed text-slate-600">
-                  Isi data singkat untuk membuat link pembayaran prototype.
-                </div>
-              </div>
-            </div>
+        <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur md:p-5">
+          <div className="flex items-center gap-2 pb-3 text-[13px] font-medium text-slate-800">
+            <span>Tampilkan</span>
+            <Select
+              value={String(pageSize)}
+              onValueChange={(value) => setPageSize(Number(value))}
+            >
+              <SelectTrigger className={pageSizeTriggerCls}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-slate-200">
+                {[10, 20, 50, 100].map((size) => (
+                  <SelectItem key={size} value={String(size)}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span>entri</span>
+          </div>
 
-            <div className="mt-5 grid gap-4">
-              <div className="grid gap-2">
-                <label className="text-[13px] font-semibold text-slate-700">
-                  Nama Pelanggan
-                </label>
-                <Input
-                  value={customerName}
-                  onChange={(event) => setCustomerName(event.target.value)}
-                  className="h-10 rounded-[5px] border-slate-300 bg-white"
-                  placeholder="Contoh: Laura Patel"
-                />
-              </div>
+          <div className="overflow-hidden bg-white">
+            <div className="safe-x-scroll">
+              <table className="w-full min-w-[1180px] border-collapse">
+                <thead className="bg-white">
+                  <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
+                    <th className={cn("w-[70px] whitespace-nowrap", th)}>
+                      <ThLabel sortable={false}>No.</ThLabel>
+                    </th>
 
-              <div className="grid gap-2">
-                <label className="text-[13px] font-semibold text-slate-700">
-                  Nominal
-                </label>
-                <Input
-                  value={amount}
-                  onChange={(event) => setAmount(event.target.value)}
-                  className="h-10 rounded-[5px] border-slate-300 bg-white text-right tabular-nums"
-                  placeholder="0,00"
-                  inputMode="decimal"
-                />
-              </div>
+                    <th className={cn("w-[210px]", th)}>
+                      <ThLabel>Nama Anggota</ThLabel>
+                    </th>
 
-              <div className="grid gap-2">
-                <label className="text-[13px] font-semibold text-slate-700">
-                  Deskripsi
-                </label>
-                <Textarea
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  className="min-h-[96px] rounded-[5px] border-slate-300 bg-white"
-                  placeholder="Tulis keterangan pembayaran..."
-                />
-              </div>
+                    <th className={cn("w-[180px]", th)}>
+                      <ThLabel>
+                        <span className="block">No.</span>
+                        <span className="block">Payment Link</span>
+                      </ThLabel>
+                    </th>
 
-              <Button
-                onClick={createPaymentLink}
-                className="h-10 rounded-[5px] bg-[#3BB001] text-white hover:bg-[#349d01]"
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Buat Payment Link
-              </Button>
-            </div>
-          </Card>
+                    <th className={cn("w-[170px]", th)}>
+                      <ThLabel>
+                        <span className="block">No. Rek.</span>
+                        <span className="block">Pinjaman</span>
+                      </ThLabel>
+                    </th>
 
-          <Card className="rounded-[5px] border-slate-200/70 bg-white/90 p-5 shadow-sm">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <div className="text-[16px] font-extrabold text-slate-900">
-                  Daftar Payment Link
-                </div>
-                <div className="mt-1 text-[13px] leading-relaxed text-slate-600">
-                  Semua link pembayaran yang dibuat di prototype.
-                </div>
-              </div>
+                    <th className={cn("w-[170px] text-right", th)}>
+                      <ThLabel className="justify-end">Nominal Tagihan</ThLabel>
+                    </th>
 
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-[5px] bg-violet-50 text-violet-700 ring-1 ring-violet-200">
-                <QrCode className="h-5 w-5" />
-              </span>
-            </div>
+                    <th className={cn("w-[150px]", th)}>
+                      <ThLabel>Tanggal Dibuat</ThLabel>
+                    </th>
 
-            <div className="mt-5 overflow-hidden rounded-[5px] border border-slate-200 bg-white">
-              <div className="safe-x-scroll">
-                <table className="w-full min-w-[760px] border-collapse">
-                  <thead className="bg-slate-50">
-                    <tr className="border-b border-slate-200 text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
-                      <th className="w-[110px] px-3 py-3">ID</th>
-                      <th className="w-[170px] px-3 py-3">Pelanggan</th>
-                      <th className="w-[140px] px-3 py-3 text-right">Nominal</th>
-                      <th className="min-w-[230px] px-3 py-3">Link</th>
-                      <th className="w-[100px] px-3 py-3">Status</th>
-                      <th className="w-[80px] px-3 py-3 text-center">Aksi</th>
+                    <th className={cn("w-[180px]", th)}>
+                      <ThLabel>
+                        <span className="block">Tanggal</span>
+                        <span className="block">Kedaluwarsa</span>
+                      </ThLabel>
+                    </th>
+
+                    <th className={cn("w-[160px]", th)}>
+                      <ThLabel>Status Payment Link</ThLabel>
+                    </th>
+                  </tr>
+
+                  <tr className="border-b border-slate-200 bg-white">
+                    <th className={filterCell} />
+
+                    <th className={filterCell}>
+                      <Input
+                        value={qNamaAnggota}
+                        onChange={(event) => setQNamaAnggota(event.target.value)}
+                        className={filterInputCls}
+                        placeholder=""
+                      />
+                    </th>
+
+                    <th className={filterCell}>
+                      <Input
+                        value={qNoPaymentLink}
+                        onChange={(event) =>
+                          setQNoPaymentLink(event.target.value)
+                        }
+                        className={filterInputCls}
+                        placeholder=""
+                      />
+                    </th>
+
+                    <th className={filterCell}>
+                      <Input
+                        value={qNoRekPinjaman}
+                        onChange={(event) =>
+                          setQNoRekPinjaman(event.target.value)
+                        }
+                        className={filterInputCls}
+                        placeholder=""
+                      />
+                    </th>
+
+                    <th className={cn(filterCell, "text-right")}>
+                      <Input
+                        value={qNominalTagihan}
+                        onChange={(event) =>
+                          setQNominalTagihan(event.target.value)
+                        }
+                        className={cn(filterInputCls, "text-right tabular-nums")}
+                        placeholder="0,00"
+                        inputMode="decimal"
+                      />
+                    </th>
+
+                    <th className={filterCell}>
+                      <Input
+                        value={qTanggalDibuat}
+                        onChange={(event) =>
+                          setQTanggalDibuat(event.target.value)
+                        }
+                        className={filterInputCls}
+                        placeholder=""
+                      />
+                    </th>
+
+                    <th className={filterCell}>
+                      <Input
+                        value={qTanggalKedaluwarsa}
+                        onChange={(event) =>
+                          setQTanggalKedaluwarsa(event.target.value)
+                        }
+                        className={filterInputCls}
+                        placeholder=""
+                      />
+                    </th>
+
+                    <th className={filterCell}>
+                      <Select
+                        value={qStatus}
+                        onValueChange={(value) =>
+                          setQStatus(value as PaymentLinkStatus)
+                        }
+                      >
+                        <SelectTrigger className={filterSelectTriggerCls}>
+                          <SelectValue placeholder="-- Semua --" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-200">
+                          <SelectItem value="Semua">-- Semua --</SelectItem>
+                          <SelectItem value="Aktif">Aktif</SelectItem>
+                          <SelectItem value="Dibayar">Dibayar</SelectItem>
+                          <SelectItem value="Kedaluwarsa">
+                            Kedaluwarsa
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody className="bg-white">
+                  {paged.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={8}
+                        className="px-4 py-10 text-center text-sm text-slate-600"
+                      >
+                        Tidak ada data yang cocok dengan filter.
+                      </td>
                     </tr>
-                  </thead>
-
-                  <tbody>
-                    {rows.map((row, index) => (
+                  ) : (
+                    paged.map((row, index) => (
                       <tr
                         key={row.id}
                         className={cn(
-                          "border-b border-slate-100 text-[13px]",
-                          index % 2 === 0 ? "bg-white" : "bg-slate-50/50",
+                          "border-b border-slate-200 text-[13px]",
+                          index % 2 === 0 ? "bg-white" : "bg-slate-50/60",
                         )}
                       >
-                        <td className="px-3 py-3 font-semibold text-slate-900">
-                          {row.id}
+                        <td className={cn(td, "text-slate-900 tabular-nums")}>
+                          {(page - 1) * pageSize + index + 1}
                         </td>
-                        <td className="px-3 py-3 text-slate-900">
-                          <div className="font-semibold">{row.customerName}</div>
-                          <div className="mt-0.5 line-clamp-1 text-[12px] text-slate-500">
-                            {row.description}
-                          </div>
+
+                        <td className={cn(td, "font-medium text-slate-900")}>
+                          {row.namaAnggota}
                         </td>
-                        <td className="px-3 py-3 text-right font-semibold tabular-nums text-slate-900">
-                          {row.amount}
+
+                        <td className={td}>
+                          <button
+                            type="button"
+                            className="block text-left font-semibold text-blue-600 hover:underline"
+                            title={row.noPaymentLink}
+                          >
+                            {row.noPaymentLink}
+                          </button>
                         </td>
-                        <td className="px-3 py-3">
-                          <div className="truncate font-medium text-blue-600">
-                            {row.link}
-                          </div>
+
+                        <td
+                          className={cn(
+                            td,
+                            "text-slate-900 tabular-nums whitespace-nowrap",
+                          )}
+                        >
+                          {row.noRekPinjaman}
                         </td>
-                        <td className="px-3 py-3">
+
+                        <td
+                          className={cn(
+                            td,
+                            "text-right font-semibold text-slate-900 tabular-nums whitespace-nowrap",
+                          )}
+                        >
+                          {row.nominalTagihan}
+                        </td>
+
+                        <td
+                          className={cn(
+                            td,
+                            "text-slate-900 tabular-nums whitespace-nowrap",
+                          )}
+                        >
+                          {row.tanggalDibuat}
+                        </td>
+
+                        <td
+                          className={cn(
+                            td,
+                            "text-slate-900 tabular-nums whitespace-nowrap",
+                          )}
+                        >
+                          {row.tanggalKedaluwarsa}
+                        </td>
+
+                        <td className={td}>
                           <StatusBadge status={row.status} />
                         </td>
-                        <td className="px-3 py-3">
-                          <div className="flex justify-center">
-                            <button
-                              type="button"
-                              onClick={() => copyLink(row.link)}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-[5px] bg-white text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-50"
-                              aria-label="Salin link"
-                              title="Salin link"
-                            >
-                              <Copy className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
-          </Card>
-        </div>
+          </div>
+
+          <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="text-[14px] text-slate-900">
+              Menampilkan {showingStart} sampai {showingEnd} dari{" "}
+              {filtered.length} entri{" "}
+              <span className="text-slate-600">
+                (disaring dari {rows.length} entri keseluruhan)
+              </span>
+            </div>
+
+            <PaginationBar page={page} pageCount={pageCount} onPage={setPage} />
+          </div>
+        </Card>
       </div>
     </div>
   );
