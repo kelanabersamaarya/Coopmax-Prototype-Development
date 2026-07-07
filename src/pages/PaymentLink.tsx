@@ -24,7 +24,7 @@ function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
     Terkirim: "bg-[#3BB001] text-white hover:bg-[#3BB001]",
     "Gagal Terkirim": "bg-[#DC3545] text-white hover:bg-[#DC3545]",
-    Kedaluwarsa: "bg-[#F59E0B] text-white hover:bg-[#F59E0B]",
+    Kedaluwarsa: "bg-[#DC3545] text-white hover:bg-[#DC3545]",
   };
 
   return (
