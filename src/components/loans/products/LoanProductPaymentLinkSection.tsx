@@ -4,13 +4,25 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import { cn } from "@/lib/utils";
 
 const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
 const SECTION_TOOLTIP =
   "Aktifkan fitur ini untuk mengatur pengingat pembayaran tagihan dan tanggal berlaku Payment Link.";
+
+type LoanProductPaymentLinkSectionProps = {
+  enabled: boolean;
+  onEnabledChange: (value: boolean) => void;
+  publishDate: string;
+  onPublishDateChange: (value: string) => void;
+  expiryDate: string;
+  onExpiryDateChange: (value: string) => void;
+  inputClassName?: string;
+  showSeparator?: boolean;
+  showTitle?: boolean;
+  className?: string;
+};
 
 function SectionTitle() {
   return (
@@ -53,29 +65,17 @@ function findActionButtonsContainer(container: HTMLElement) {
   );
 }
 
-export default function LoanProductPaymentLinkSection({
-  enabled,
-  onEnabledChange,
-  publishDate,
-  onPublishDateChange,
-  expiryDate,
-  onExpiryDateChange,
-  inputClassName,
-  showSeparator = true,
-  showTitle = true,
-  className,
-}: {
-  enabled: boolean;
-  onEnabledChange: (value: boolean) => void;
-  publishDate: string;
-  onPublishDateChange: (value: string) => void;
-  expiryDate: string;
-  onExpiryDateChange: (value: string) => void;
-  inputClassName?: string;
-  showSeparator?: boolean;
-  showTitle?: boolean;
-  className?: string;
-}) {
+export default function LoanProductPaymentLinkSection(
+  props: LoanProductPaymentLinkSectionProps,
+) {
+  const {
+    enabled,
+    onEnabledChange,
+    showSeparator = true,
+    showTitle = true,
+    className,
+  } = props;
+
   const anchorRef = React.useRef<HTMLDivElement | null>(null);
   const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null);
 
@@ -113,44 +113,6 @@ export default function LoanProductPaymentLinkSection({
             <Switch checked={enabled} onCheckedChange={onEnabledChange} />
           </div>
         </div>
-
-        {enabled ? (
-          <>
-            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-              <div className="text-sm font-normal text-slate-900">
-                Tanggal penerbitan
-              </div>
-
-              <DatePickerDmyField
-                value={publishDate}
-                onChange={onPublishDateChange}
-                inputClassName={cn(
-                  "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
-                  inputClassName,
-                )}
-                popoverAlign="end"
-                placeholder="Pilih Tanggal Penerbitan Payment Link"
-              />
-            </div>
-
-            <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-              <div className="text-sm font-normal text-slate-900">
-                Tanggal kedaluwarsa
-              </div>
-
-              <DatePickerDmyField
-                value={expiryDate}
-                onChange={onExpiryDateChange}
-                inputClassName={cn(
-                  "h-[30px] rounded-[5px] border-slate-200 bg-white text-[12.5px]",
-                  inputClassName,
-                )}
-                popoverAlign="end"
-                placeholder="Pilih Tanggal Kedaluwarsa Payment Link"
-              />
-            </div>
-          </>
-        ) : null}
       </div>
     </div>
   );
