@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-type PaymentLinkStatus = "Semua" | "Aktif" | "Dibayar" | "Kedaluwarsa";
+type PaymentLinkStatus = "Semua" | "Terkirim/Aktif" | "Dibayar" | "Kedaluwarsa";
 
 type PaymentLinkRow = {
   id: string;
@@ -33,7 +33,7 @@ const seedRows: PaymentLinkRow[] = [
     nominalTagihan: "991.666,00",
     tanggalDibuat: "26-06-2026",
     tanggalKedaluwarsa: "03-07-2026",
-    status: "Aktif",
+    status: "Terkirim/Aktif",
   },
   {
     id: "PAY-260002",
@@ -63,7 +63,7 @@ const seedRows: PaymentLinkRow[] = [
     nominalTagihan: "500.000,00",
     tanggalDibuat: "24-06-2026",
     tanggalKedaluwarsa: "01-07-2026",
-    status: "Aktif",
+    status: "Terkirim/Aktif",
   },
   {
     id: "PAY-260005",
@@ -79,7 +79,7 @@ const seedRows: PaymentLinkRow[] = [
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
-    Aktif: "bg-[#3BB001] text-white hover:bg-[#3BB001]",
+    "Terkirim/Aktif": "bg-[#3BB001] text-white hover:bg-[#3BB001]",
     Dibayar: "bg-[#2563EB] text-white hover:bg-[#2563EB]",
     Kedaluwarsa: "bg-[#DC3545] text-white hover:bg-[#DC3545]",
   };
@@ -447,7 +447,9 @@ export default function PaymentLink() {
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="Semua">-- Semua --</SelectItem>
-                          <SelectItem value="Aktif">Aktif</SelectItem>
+                          <SelectItem value="Terkirim/Aktif">
+                            Terkirim/Aktif
+                          </SelectItem>
                           <SelectItem value="Dibayar">Dibayar</SelectItem>
                           <SelectItem value="Kedaluwarsa">
                             Kedaluwarsa
