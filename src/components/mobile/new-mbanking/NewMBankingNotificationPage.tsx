@@ -65,27 +65,27 @@ function notificationIconConfig(type: NotificationType) {
   if (type === "transaction") {
     return {
       Icon: CheckCircle2,
-      frameClassName: "bg-[#EAF8EF] text-[#15965A]",
+      frameClassName: "bg-[#33AA00]",
     };
   }
 
   if (type === "security") {
     return {
       Icon: ShieldCheck,
-      frameClassName: "bg-[#EEF6FF] text-[#2563EB]",
+      frameClassName: "bg-[#479DF4]",
     };
   }
 
   if (type === "promo") {
     return {
       Icon: Megaphone,
-      frameClassName: "bg-[#FFF7E6] text-[#F59E0B]",
+      frameClassName: "bg-[#F59E0B]",
     };
   }
 
   return {
     Icon: Info,
-    frameClassName: "bg-[#F3F6FA] text-[#64748B]",
+    frameClassName: "bg-[#7C3AED]",
   };
 }
 
@@ -111,11 +111,11 @@ function NotificationCard({
       <div className="flex items-start gap-3">
         <span
           className={cn(
-            "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full",
+            "grid h-[46px] w-[46px] shrink-0 place-items-center rounded-full text-white",
             frameClassName,
           )}
         >
-          <Icon className="h-[23px] w-[23px]" strokeWidth={2.6} />
+          <Icon className="h-[23px] w-[23px] text-white" strokeWidth={2.6} />
         </span>
 
         <div className="min-w-0 flex-1">
@@ -146,8 +146,8 @@ function NotificationCard({
 function EmptyNotificationState() {
   return (
     <div className="flex min-h-[430px] flex-col items-center justify-center text-center">
-      <div className="grid h-[92px] w-[92px] place-items-center rounded-full bg-[#EEF6FF] text-[#479DF4]">
-        <Bell className="h-[44px] w-[44px]" strokeWidth={2.4} />
+      <div className="grid h-[92px] w-[92px] place-items-center rounded-full bg-[#479DF4] text-white">
+        <Bell className="h-[44px] w-[44px] text-white" strokeWidth={2.4} />
       </div>
 
       <div className="mt-[24px] text-[18px] font-bold leading-tight text-black">
