@@ -141,7 +141,7 @@ export default function LoanProductPaymentLinkSection(
                     <span>Jadwal Pengiriman Pengingat Pembayaran Tagihan</span>
                   </div>
 
-                  <div className="mt-4 text-[14px] font-medium leading-relaxed">
+                  <div className="ml-9 mt-3 text-[14px] font-medium leading-relaxed">
                     Pengingat pembayaran tagihan akan dikirim otomatis pada 7 hari, 3
                     hari, satu hari sebelum jatuh tempo, tepat pada hari jatuh tempo
                     serta 1 hari, 3 hari, dan 7 hari setelah jatuh tempo.
