@@ -107,25 +107,31 @@ export default function LoanProductDetail() {
   const params = useParams<{ id: string }>();
   const id = params.id ?? "";
 
+  const isPaymentLinkArea = location.pathname.startsWith("/payment-link");
   const isCabangDetail = searchParams.get("from") === "cabang";
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
-  const shouldShowAdvancedSections = !isCabangDetail && !isSakCabangArea;
+  const shouldShowAdvancedSections =
+    !isPaymentLinkArea && !isCabangDetail && !isSakCabangArea;
 
-  const listPath = isSakCabangArea
-    ? isCabangDetail
-      ? "/sak-ep-cabang/loan-products/cabang"
-      : "/sak-ep-cabang/loan-products"
-    : isCabangDetail
-      ? "/loan-products/cabang"
-      : "/loan-products";
+  const listPath = isPaymentLinkArea
+    ? "/payment-link/loan-products"
+    : isSakCabangArea
+      ? isCabangDetail
+        ? "/sak-ep-cabang/loan-products/cabang"
+        : "/sak-ep-cabang/loan-products"
+      : isCabangDetail
+        ? "/loan-products/cabang"
+        : "/loan-products";
 
-  const editPath = isSakCabangArea
-    ? `/sak-ep-cabang/loan-products/${encodeURIComponent(id)}/edit${
-        isCabangDetail ? "?from=cabang" : ""
-      }`
-    : `/loan-products/${encodeURIComponent(id)}/edit${
-        isCabangDetail ? "?from=cabang" : ""
-      }`;
+  const editPath = isPaymentLinkArea
+    ? `/payment-link/loan-products/${encodeURIComponent(id)}/edit`
+    : isSakCabangArea
+      ? `/sak-ep-cabang/loan-products/${encodeURIComponent(id)}/edit${
+          isCabangDetail ? "?from=cabang" : ""
+        }`
+      : `/loan-products/${encodeURIComponent(id)}/edit${
+          isCabangDetail ? "?from=cabang" : ""
+        }`;
 
   const product = React.useMemo(() => {
     const all = getLoanProducts();

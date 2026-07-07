@@ -13,17 +13,20 @@ export default function LoanProductEdit() {
   const formWrapperRef = React.useRef<HTMLDivElement | null>(null);
 
   const id = params.id ?? "";
+  const isPaymentLinkArea = location.pathname.startsWith("/payment-link");
   const isCabangEdit = searchParams.get("from") === "cabang";
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isSakCabangConsolidationEdit = isSakCabangArea && !isCabangEdit;
 
-  const backPath = isSakCabangArea
-    ? isCabangEdit
-      ? "/sak-ep-cabang/loan-products/cabang"
-      : "/sak-ep-cabang/loan-products"
-    : isCabangEdit
-      ? "/loan-products/cabang"
-      : "/loan-products";
+  const backPath = isPaymentLinkArea
+    ? "/payment-link/loan-products"
+    : isSakCabangArea
+      ? isCabangEdit
+        ? "/sak-ep-cabang/loan-products/cabang"
+        : "/sak-ep-cabang/loan-products"
+      : isCabangEdit
+        ? "/loan-products/cabang"
+        : "/loan-products";
 
   React.useEffect(() => {
     const codeInput =

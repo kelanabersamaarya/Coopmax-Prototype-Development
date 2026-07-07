@@ -8,17 +8,20 @@ export default function LoanProductCreate() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
+  const isPaymentLinkArea = location.pathname.startsWith("/payment-link");
   const isSakCabangArea = location.pathname.startsWith("/sak-ep-cabang");
   const isCabangCreate = searchParams.get("from") === "cabang";
   const isSakCabangConsolidationCreate = isSakCabangArea && !isCabangCreate;
 
-  const backPath = isSakCabangArea
-    ? isCabangCreate
-      ? "/sak-ep-cabang/loan-products/cabang"
-      : "/sak-ep-cabang/loan-products"
-    : isCabangCreate
-      ? "/loan-products/cabang"
-      : "/loan-products";
+  const backPath = isPaymentLinkArea
+    ? "/payment-link/loan-products"
+    : isSakCabangArea
+      ? isCabangCreate
+        ? "/sak-ep-cabang/loan-products/cabang"
+        : "/sak-ep-cabang/loan-products"
+      : isCabangCreate
+        ? "/loan-products/cabang"
+        : "/loan-products";
 
   const form = (
     <LoanProductForm

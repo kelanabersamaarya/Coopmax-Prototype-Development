@@ -56,11 +56,20 @@ const App = () => (
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="payment-link" element={<PaymentLink />} />
             <Route path="payment-link/loan-products" element={<LoanProducts />} />
-            <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
             <Route
-              path="sak-ep-cabang/akunting"
-              element={<SakAkunting />}
+              path="payment-link/loan-products/new"
+              element={<LoanProductCreate />}
             />
+            <Route
+              path="payment-link/loan-products/:id/edit"
+              element={<LoanProductEdit />}
+            />
+            <Route
+              path="payment-link/loan-products/:id"
+              element={<LoanProductDetail />}
+            />
+            <Route path="sak-ep-cabang/dashboard" element={<Dashboard />} />
+            <Route path="sak-ep-cabang/akunting" element={<SakAkunting />} />
             <Route
               path="sak-ep-cabang/simpanan/produk-simpanan-cabang"
               element={
@@ -167,10 +176,7 @@ const App = () => (
                 </SavingsProductSaveConfirmGate>
               }
             />
-            <Route
-              path="sak-ep-cabang/loan-products"
-              element={<LoanProducts />}
-            />
+            <Route path="sak-ep-cabang/loan-products" element={<LoanProducts />} />
             <Route
               path="sak-ep-cabang/loan-products/cabang"
               element={<LoanProductsCabang />}
