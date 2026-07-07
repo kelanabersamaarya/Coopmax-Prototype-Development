@@ -8,6 +8,7 @@ import {
   Landmark,
   Building2,
   Smartphone,
+  Link2,
 } from "lucide-react";
 
 function DevMenuCard({
@@ -159,6 +160,14 @@ export default function Dashboard() {
             icon={Smartphone}
             accent="sky"
             onClick={() => navigate("/mobile/new-mbanking")}
+          />
+
+          <DevMenuCard
+            title="Payment Link"
+            subtitle="Buat dan kelola link pembayaran untuk dibagikan ke anggota."
+            icon={Link2}
+            accent="violet"
+            onClick={() => navigate("/payment-link")}
           />
         </div>
       </div>
