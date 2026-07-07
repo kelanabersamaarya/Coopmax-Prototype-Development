@@ -5,6 +5,30 @@ import { cn } from "@/lib/utils";
 import LoanProductSaveConfirmGate from "@/components/loans/products/LoanProductSaveConfirmGate";
 import LoanProductBranchEditForm from "@/components/loans/products/LoanProductBranchEditForm";
 
+function findSwitchNearLabel(root: HTMLElement, label: string) {
+  const switches = Array.from(
+    root.querySelectorAll<HTMLButtonElement>('button[role="switch"]'),
+  );
+
+  for (const switchButton of switches) {
+    let current: HTMLElement | null = switchButton.parentElement;
+    let depth = 0;
+
+    while (current && current !== root && depth < 5) {
+      const text = current.textContent ?? "";
+
+      if (text.includes(label)) {
+        return switchButton;
+      }
+
+      current = current.parentElement;
+      depth += 1;
+    }
+  }
+
+  return null;
+}
+
 export default function LoanProductEdit() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,30 +70,42 @@ export default function LoanProductEdit() {
     if (initializedInstallmentTableRef.current) return;
     if (isCabangEdit) return;
 
-    const frameId = window.requestAnimationFrame(() => {
-      const wrapper = formWrapperRef.current;
-      if (!wrapper) return;
+    let attempts = 0;
+    let timeoutId = 0;
 
-      const fieldRows = Array.from(wrapper.querySelectorAll("div"));
-      const installmentRow = fieldRows.find((element) =>
-        (element.textContent ?? "").includes(
-          "Tagihan Angsuran Menggunakan Tabel Angsuran",
-        ),
+    const activateInstallmentTable = () => {
+      const wrapper = formWrapperRef.current;
+      attempts += 1;
+
+      if (!wrapper) {
+        if (attempts < 20) {
+          timeoutId = window.setTimeout(activateInstallmentTable, 80);
+        }
+        return;
+      }
+
+      const switchButton = findSwitchNearLabel(
+        wrapper,
+        "Tagihan Angsuran Menggunakan Tabel Angsuran",
       );
 
-      const switchButton =
-        installmentRow?.querySelector<HTMLButtonElement>('button[role="switch"]');
-
-      if (!switchButton || switchButton.getAttribute("aria-checked") === "true") {
-        initializedInstallmentTableRef.current = true;
+      if (!switchButton) {
+        if (attempts < 20) {
+          timeoutId = window.setTimeout(activateInstallmentTable, 80);
+        }
         return;
       }
 
       initializedInstallmentTableRef.current = true;
-      switchButton.click();
-    });
 
-    return () => window.cancelAnimationFrame(frameId);
+      if (switchButton.getAttribute("aria-checked") !== "true") {
+        switchButton.click();
+      }
+    };
+
+    timeoutId = window.setTimeout(activateInstallmentTable, 0);
+
+    return () => window.clearTimeout(timeoutId);
   }, [isCabangEdit]);
 
   const form = isCabangEdit ? (
