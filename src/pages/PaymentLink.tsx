@@ -45,8 +45,7 @@ function PaymentStatusBadge({
   status: PaymentLinkRow["statusPembayaranTagihan"];
 }) {
   const map: Record<PaymentLinkRow["statusPembayaranTagihan"], string> = {
-    "Belum Dibayar": "bg-[#DC3545] text-white",
-    "Sebagian Dibayar": "bg-[#F59E0B] text-white",
+    "Belum Bayar": "bg-[#DC3545] text-white",
     Lunas: "bg-[#3BB001] text-white",
   };
 
@@ -433,12 +432,7 @@ export default function PaymentLink() {
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="Semua">-- Semua --</SelectItem>
-                          <SelectItem value="Belum Dibayar">
-                            Belum Dibayar
-                          </SelectItem>
-                          <SelectItem value="Sebagian Dibayar">
-                            Sebagian Dibayar
-                          </SelectItem>
+                          <SelectItem value="Belum Bayar">Belum Bayar</SelectItem>
                           <SelectItem value="Lunas">Lunas</SelectItem>
                         </SelectContent>
                       </Select>
