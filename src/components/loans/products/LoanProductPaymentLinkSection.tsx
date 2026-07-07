@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import PaymentLinkWhatsappQrDialog from "@/components/loans/products/PaymentLinkWhatsappQrDialog";
+import WhatsappIcon from "@/components/icons/WhatsappIcon";
 import { cn } from "@/lib/utils";
 
 const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
@@ -139,14 +140,15 @@ export default function LoanProductPaymentLinkSection(
                   </div>
                 </div>
 
-                <div className="rounded-[5px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-950">
+                <div className="rounded-[5px] border border-rose-200 bg-rose-50 px-4 py-3 text-rose-950">
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="min-w-0">
                       <div className="text-[16px] font-semibold leading-snug">
-                        Hubungan ke Whatsapp
+                        Koneksi ke Whatsapp
                       </div>
-                      <div className="mt-2 text-[14px] font-medium leading-relaxed text-emerald-800">
-                        belum terhubung ke whatsapp
+                      <div className="mt-2 flex items-center gap-2 text-[14px] font-medium leading-relaxed text-rose-800">
+                        <span className="h-3 w-3 shrink-0 rounded-full bg-rose-600 ring-2 ring-rose-200" />
+                        Status : Belum Terhubung ke Whatsapp
                       </div>
                     </div>
 
@@ -154,13 +156,14 @@ export default function LoanProductPaymentLinkSection(
                       type="button"
                       onClick={() => setWhatsappQrOpen(true)}
                       className={cn(
-                        "inline-flex h-10 shrink-0 items-center justify-center rounded-[5px] px-4",
+                        "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
                         "bg-emerald-600 text-[14px] font-semibold text-white",
                         "ring-1 ring-emerald-600/20 transition hover:bg-emerald-700",
                         "focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-600/20",
                       )}
                     >
-                      Hubungan ke Whatsapp
+                      <span>Hubungan ke Whatsapp</span>
+                      <WhatsappIcon className="h-4.5 w-4.5 text-white" />
                     </button>
                   </div>
                 </div>
