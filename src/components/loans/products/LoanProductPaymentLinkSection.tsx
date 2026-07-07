@@ -146,14 +146,14 @@ function DisconnectedWhatsappCard({
           type="button"
           onClick={onConnect}
           className={cn(
-            "inline-flex h-10 shrink-0 items-center justify-center gap-2.5 rounded-[5px] px-4",
+            "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-[5px] px-4",
             "bg-[#16A34A] text-[14px] font-semibold text-white",
             "ring-1 ring-[#16A34A]/20 transition hover:bg-[#15803D]",
             "focus:outline-none focus-visible:ring-4 focus-visible:ring-[#16A34A]/20",
           )}
         >
           <span>Hubungkan ke Whatsapp</span>
-          <WhatsappIcon className="h-5.5 w-5.5 text-white" />
+          <WhatsappIcon className="h-4 w-4 text-white" />
         </button>
       </div>
     </div>
