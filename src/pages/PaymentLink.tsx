@@ -316,14 +316,6 @@ export default function PaymentLink() {
                       </ThLabel>
                     </th>
 
-                    <th className={cn("w-[210px]", th)}>
-                      <ThLabel>Tahap Pengingat Tagihan</ThLabel>
-                    </th>
-
-                    <th className={cn("w-[210px]", th)}>
-                      <ThLabel>Tanggal Pengiriman Pengingat</ThLabel>
-                    </th>
-
                     <th className={cn("w-[170px]", th)}>
                       <ThLabel>
                         <span className="block">No. Rek.</span>
@@ -333,6 +325,14 @@ export default function PaymentLink() {
 
                     <th className={cn("w-[170px] text-right", th)}>
                       <ThLabel className="justify-end">Total Tagihan</ThLabel>
+                    </th>
+
+                    <th className={cn("w-[210px]", th)}>
+                      <ThLabel>Tahap Pengingat Tagihan</ThLabel>
+                    </th>
+
+                    <th className={cn("w-[210px]", th)}>
+                      <ThLabel>Tanggal Pengiriman Pengingat</ThLabel>
                     </th>
 
                     <th className={cn("w-[240px]", th)}>
@@ -369,6 +369,29 @@ export default function PaymentLink() {
                     </th>
 
                     <th className={filterCell}>
+                      <Input
+                        value={qNoRekPinjaman}
+                        onChange={(event) =>
+                          setQNoRekPinjaman(event.target.value)
+                        }
+                        className={filterInputCls}
+                        placeholder=""
+                      />
+                    </th>
+
+                    <th className={cn(filterCell, "text-right")}>
+                      <Input
+                        value={qNominalTagihan}
+                        onChange={(event) =>
+                          setQNominalTagihan(event.target.value)
+                        }
+                        className={cn(filterInputCls, "text-right tabular-nums")}
+                        placeholder="0,00"
+                        inputMode="decimal"
+                      />
+                    </th>
+
+                    <th className={filterCell}>
                       <Select
                         value={qTahapPengingat}
                         onValueChange={(value) =>
@@ -396,29 +419,6 @@ export default function PaymentLink() {
                         }
                         className={filterInputCls}
                         placeholder=""
-                      />
-                    </th>
-
-                    <th className={filterCell}>
-                      <Input
-                        value={qNoRekPinjaman}
-                        onChange={(event) =>
-                          setQNoRekPinjaman(event.target.value)
-                        }
-                        className={filterInputCls}
-                        placeholder=""
-                      />
-                    </th>
-
-                    <th className={cn(filterCell, "text-right")}>
-                      <Input
-                        value={qNominalTagihan}
-                        onChange={(event) =>
-                          setQNominalTagihan(event.target.value)
-                        }
-                        className={cn(filterInputCls, "text-right tabular-nums")}
-                        placeholder="0,00"
-                        inputMode="decimal"
                       />
                     </th>
 
@@ -512,19 +512,6 @@ export default function PaymentLink() {
                           {row.idAnggota}
                         </td>
 
-                        <td className={cn(td, "text-slate-900")}>
-                          {row.tahapPengingat}
-                        </td>
-
-                        <td
-                          className={cn(
-                            td,
-                            "text-slate-900 tabular-nums whitespace-nowrap",
-                          )}
-                        >
-                          {row.tanggalDibuat}
-                        </td>
-
                         <td
                           className={cn(
                             td,
@@ -541,6 +528,19 @@ export default function PaymentLink() {
                           )}
                         >
                           {row.nominalTagihan}
+                        </td>
+
+                        <td className={cn(td, "text-slate-900")}>
+                          {row.tahapPengingat}
+                        </td>
+
+                        <td
+                          className={cn(
+                            td,
+                            "text-slate-900 tabular-nums whitespace-nowrap",
+                          )}
+                        >
+                          {row.tanggalDibuat}
                         </td>
 
                         <td className={td}>
