@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ReceiptText } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
   getPaymentLinkByNo,
@@ -234,54 +233,6 @@ export default function PaymentLinkDetail() {
                   label="Status Pengiriman Pengingat Tagihan"
                   value={<StatusBadge status={data.status} />}
                 />
-              </div>
-            </div>
-
-            <Separator className="my-6 bg-slate-200/70" />
-
-            <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-              RIWAYAT PERUBAHAN STATUS
-            </div>
-
-            <div className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-slate-200">
-              <div className="safe-x-scroll bg-white">
-                <table className="w-full min-w-[860px] border-collapse">
-                  <thead className="bg-slate-50">
-                    <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
-                      <th className="w-[70px] px-4 py-3">No.</th>
-                      <th className="w-[180px] px-4 py-3">Tanggal</th>
-                      <th className="w-[320px] px-4 py-3">
-                        Status Pengiriman Pengingat Tagihan
-                      </th>
-                      <th className="w-[260px] px-4 py-3">
-                        Status Pembayaran Tagihan
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      {
-                        tanggal: data.tanggalDibuat,
-                        statusPengiriman: data.status,
-                        statusPembayaran: data.statusPembayaranTagihan,
-                      },
-                    ].map((item, index) => (
-                      <tr
-                        key={`${item.statusPengiriman}-${index}`}
-                        className="border-t border-slate-100 text-[13px]"
-                      >
-                        <td className="px-4 py-3 tabular-nums">{index + 1}</td>
-                        <td className="px-4 py-3 tabular-nums">{item.tanggal}</td>
-                        <td className="px-4 py-3">
-                          <StatusBadge status={item.statusPengiriman} />
-                        </td>
-                        <td className="px-4 py-3">
-                          <PaymentStatusBadge status={item.statusPembayaran} />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
             </div>
           </Card>
