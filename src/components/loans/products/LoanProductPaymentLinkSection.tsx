@@ -69,6 +69,10 @@ function findActionButtonsContainer(container: HTMLElement) {
   );
 }
 
+function isLoanProductEditPath(pathname: string) {
+  return pathname.includes("/loan-products/") && pathname.endsWith("/edit");
+}
+
 export default function LoanProductPaymentLinkSection(
   props: LoanProductPaymentLinkSectionProps,
 ) {
@@ -89,11 +93,7 @@ export default function LoanProductPaymentLinkSection(
   React.useEffect(() => {
     if (initializedDefaultRef.current) return;
 
-    const isPinjamanBillingEdit =
-      location.pathname.startsWith("/loan-products/") &&
-      location.pathname.endsWith("/edit");
-
-    if (!isPinjamanBillingEdit || enabled) return;
+    if (!isLoanProductEditPath(location.pathname) || enabled) return;
 
     initializedDefaultRef.current = true;
     onEnabledChange(true);
