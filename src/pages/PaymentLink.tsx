@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import PaymentLinkDateFilterField from "@/components/payment-link/PaymentLinkDateFilterField";
 import {
   getPaymentLinks,
   paymentReminderStageOptions,
@@ -412,13 +413,10 @@ export default function PaymentLink() {
                     </th>
 
                     <th className={filterCell}>
-                      <Input
+                      <PaymentLinkDateFilterField
                         value={qTanggalPengiriman}
-                        onChange={(event) =>
-                          setQTanggalPengiriman(event.target.value)
-                        }
+                        onChange={setQTanggalPengiriman}
                         className={filterInputCls}
-                        placeholder=""
                       />
                     </th>
 
