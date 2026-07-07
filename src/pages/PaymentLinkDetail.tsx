@@ -1,6 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Copy, ExternalLink, RefreshCw, Send } from "lucide-react";
-import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -79,10 +78,10 @@ function ActionButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-10 items-center gap-2 rounded-full bg-white px-4",
+        "inline-flex h-10 items-center gap-2 rounded-full bg-transparent px-4",
         "text-[13px] font-semibold text-slate-700",
-        "shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-50",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/10",
+        "border-0 shadow-none ring-0 transition hover:bg-slate-50",
+        "focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
       )}
     >
       <Icon className="h-4.5 w-4.5 text-slate-600" />
@@ -117,26 +116,6 @@ export default function PaymentLinkDetail() {
               icon={ArrowLeft}
               label="Kembali ke Daftar"
               onClick={() => navigate("/payment-link")}
-            />
-            <ActionButton
-              icon={Copy}
-              label="Salin Link"
-              onClick={() => {
-                if (!publicLink) return;
-                navigator.clipboard.writeText(publicLink);
-                toast.success("Link disalin", {
-                  description: data?.noPaymentLink,
-                });
-              }}
-            />
-            <ActionButton
-              icon={Send}
-              label="Kirim Ulang"
-              onClick={() =>
-                toast("Kirim ulang (prototype)", {
-                  description: data?.noPaymentLink ?? "Payment Link",
-                })
-              }
             />
           </div>
         </div>
@@ -177,10 +156,6 @@ export default function PaymentLinkDetail() {
                   label="Tanggal Kedaluwarsa"
                   value={data.tanggalKedaluwarsa}
                 />
-                <DetailField
-                  label="Terakhir Diperbarui"
-                  value={data.tanggalDibuat}
-                />
               </div>
             </div>
 
@@ -194,33 +169,18 @@ export default function PaymentLinkDetail() {
               <InfoRow
                 label="URL Payment Link"
                 value={
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <span className="break-all font-semibold text-blue-600">
-                      {publicLink}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        navigator.clipboard.writeText(publicLink);
-                        toast.success("URL berhasil disalin");
-                      }}
-                      className="inline-flex h-8 w-fit items-center gap-2 rounded-[5px] bg-slate-100 px-3 text-[12px] font-semibold text-slate-700 hover:bg-slate-200"
-                    >
-                      <Copy className="h-4 w-4" />
-                      Salin
-                    </button>
-                  </div>
+                  <span className="break-all font-semibold text-blue-600">
+                    {publicLink}
+                  </span>
                 }
               />
-              <InfoRow label="Channel Pengiriman" value="WhatsApp / Email" />
-              <InfoRow label="Dibuat Oleh" value="Admin Coopmax" />
-              <InfoRow label="Catatan" value="Link pembayaran tagihan pinjaman anggota." />
+              <InfoRow label="Channel Pengiriman" value="WhatsApp" />
             </div>
 
             <Separator className="my-6 bg-slate-200/70" />
 
             <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
-              AKTIVITAS
+              RIWAYAT PERUBAHAN STATUS
             </div>
 
             <div className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-slate-200">
@@ -230,7 +190,7 @@ export default function PaymentLinkDetail() {
                     <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
                       <th className="w-[70px] px-4 py-3">No.</th>
                       <th className="w-[180px] px-4 py-3">Tanggal</th>
-                      <th className="w-[180px] px-4 py-3">Aktivitas</th>
+                      <th className="w-[180px] px-4 py-3">Status</th>
                       <th className="px-4 py-3">Keterangan</th>
                     </tr>
                   </thead>
@@ -238,23 +198,23 @@ export default function PaymentLinkDetail() {
                     {[
                       {
                         tanggal: data.tanggalDibuat,
-                        aktivitas: "Dibuat",
+                        status: "Dibuat",
                         keterangan: "Payment Link dibuat oleh Admin Coopmax.",
                       },
                       {
                         tanggal: data.tanggalDibuat,
-                        aktivitas: "Terkirim",
-                        keterangan: "Payment Link dikirim ke anggota.",
+                        status: data.status,
+                        keterangan: "Payment Link dikirim melalui WhatsApp.",
                       },
                     ].map((item, index) => (
                       <tr
-                        key={`${item.aktivitas}-${index}`}
+                        key={`${item.status}-${index}`}
                         className="border-t border-slate-100 text-[13px]"
                       >
                         <td className="px-4 py-3 tabular-nums">{index + 1}</td>
                         <td className="px-4 py-3 tabular-nums">{item.tanggal}</td>
                         <td className="px-4 py-3 font-semibold text-slate-900">
-                          {item.aktivitas}
+                          {item.status}
                         </td>
                         <td className="px-4 py-3 text-slate-700">
                           {item.keterangan}
@@ -264,34 +224,6 @@ export default function PaymentLinkDetail() {
                   </tbody>
                 </table>
               </div>
-            </div>
-
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
-              <button
-                type="button"
-                onClick={() =>
-                  toast("Buka link (prototype)", {
-                    description: publicLink,
-                  })
-                }
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-[#2563EB] px-4 text-[13px] font-semibold text-white hover:bg-[#1D4ED8]"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Buka Link
-              </button>
-
-              <button
-                type="button"
-                onClick={() =>
-                  toast("Perbarui status (prototype)", {
-                    description: data.noPaymentLink,
-                  })
-                }
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-[5px] bg-[#3BB001] px-4 text-[13px] font-semibold text-white hover:bg-[#349d01]"
-              >
-                <RefreshCw className="h-4 w-4" />
-                Perbarui Status
-              </button>
             </div>
           </Card>
         )}
