@@ -6,6 +6,7 @@ import { Info } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
+import PaymentLinkWhatsappQrDialog from "@/components/loans/products/PaymentLinkWhatsappQrDialog";
 import { cn } from "@/lib/utils";
 
 const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
@@ -79,6 +80,7 @@ export default function LoanProductPaymentLinkSection(
 
   const anchorRef = React.useRef<HTMLDivElement | null>(null);
   const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(null);
+  const [whatsappQrOpen, setWhatsappQrOpen] = React.useState(false);
 
   React.useEffect(() => {
     const anchor = anchorRef.current;
@@ -102,6 +104,11 @@ export default function LoanProductPaymentLinkSection(
 
   const content = (
     <div className={cn("loan-product-payment-link-section", className)}>
+      <PaymentLinkWhatsappQrDialog
+        open={whatsappQrOpen}
+        onOpenChange={setWhatsappQrOpen}
+      />
+
       {showSeparator ? <Separator className="my-6 bg-slate-200/70" /> : null}
 
       {showTitle ? <SectionTitle /> : null}
@@ -116,20 +123,48 @@ export default function LoanProductPaymentLinkSection(
             </div>
 
             {enabled ? (
-              <div className="rounded-[5px] border border-blue-200 bg-blue-50 px-4 py-3 text-blue-900">
-                <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
-                  <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
-                    <Info className="h-4 w-4" />
-                  </span>
-                  Jadwal Pengiriman Pengingat Pembayaran Tagihan
+              <>
+                <div className="rounded-[5px] border border-blue-200 bg-blue-50 px-4 py-3 text-blue-900">
+                  <div className="flex items-center gap-2 text-[16px] font-semibold leading-snug">
+                    <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                      <Info className="h-4 w-4" />
+                    </span>
+                    Jadwal Pengiriman Pengingat Pembayaran Tagihan
+                  </div>
+
+                  <div className="mt-3 text-[14px] font-medium leading-relaxed">
+                    Pengingat pembayaran tagihan akan dikirim otomatis pada 7 hari, 3
+                    hari, satu hari sebelum jatuh tempo, tepat pada hari jatuh tempo
+                    serta 1 hari, 3 hari, dan 7 hari setelah jatuh tempo.
+                  </div>
                 </div>
 
-                <div className="mt-3 text-[14px] font-medium leading-relaxed">
-                  Pengingat pembayaran tagihan akan dikirim otomatis pada 7 hari, 3
-                  hari, satu hari sebelum jatuh tempo, tepat pada hari jatuh tempo
-                  serta 1 hari, 3 hari, dan 7 hari setelah jatuh tempo.
+                <div className="rounded-[5px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-950">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="min-w-0">
+                      <div className="text-[16px] font-semibold leading-snug">
+                        Hubungan ke Whatsapp
+                      </div>
+                      <div className="mt-2 text-[14px] font-medium leading-relaxed text-emerald-800">
+                        belum terhubung ke whatsapp
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setWhatsappQrOpen(true)}
+                      className={cn(
+                        "inline-flex h-10 shrink-0 items-center justify-center rounded-[5px] px-4",
+                        "bg-emerald-600 text-[14px] font-semibold text-white",
+                        "ring-1 ring-emerald-600/20 transition hover:bg-emerald-700",
+                        "focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-600/20",
+                      )}
+                    >
+                      Hubungan ke Whatsapp
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </>
             ) : null}
           </div>
         </div>
