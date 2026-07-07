@@ -5,7 +5,23 @@ import { createPortal } from "react-dom";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import DatePickerDmyField from "@/components/loans/DatePickerDmyField";
+import FieldTooltip from "@/components/loans/FieldTooltip";
 import { cn } from "@/lib/utils";
+
+const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
+const SECTION_TOOLTIP =
+  "Aktifkan fitur ini untuk mengatur pengingat pembayaran tagihan dan tanggal berlaku Payment Link.";
+
+function SectionTitle() {
+  return (
+    <div className="text-base font-semibold text-slate-900">
+      <span className="inline-flex items-center">
+        {SECTION_TITLE}
+        <FieldTooltip content={SECTION_TOOLTIP} />
+      </span>
+    </div>
+  );
+}
 
 function findLoanProductFormContainer(anchor: HTMLElement) {
   let current = anchor.parentElement;
@@ -87,11 +103,7 @@ export default function LoanProductPaymentLinkSection({
     <div className={cn("loan-product-payment-link-section", className)}>
       {showSeparator ? <Separator className="my-6 bg-slate-200/70" /> : null}
 
-      {showTitle ? (
-        <div className="text-base font-semibold text-slate-900">
-          Payment Link
-        </div>
-      ) : null}
+      {showTitle ? <SectionTitle /> : null}
 
       <div className={cn("grid gap-5", showTitle ? "mt-4" : "")}>
         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
@@ -150,9 +162,7 @@ export default function LoanProductPaymentLinkSection({
         ? createPortal(
             <div>
               <Separator className="my-6 bg-slate-200/70" />
-              <div className="text-base font-semibold text-slate-900">
-                Payment Link
-              </div>
+              <SectionTitle />
               <div className="mt-4">{content}</div>
             </div>,
             portalTarget,
