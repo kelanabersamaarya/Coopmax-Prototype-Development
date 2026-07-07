@@ -203,6 +203,7 @@ export default function PaymentLinkTransactionDetailCard({
           <InfoRow label="Pinjaman Akhir" value="4.019.416,00" />
           <InfoRow label="Tanggal Dibuat" value="07-07-2026 15:16:17" />
           <InfoRow label="Waktu Transaksi" value="15:16:16" />
+          <InfoRow label="Periode Transaksi" value="Juli 2026" />
         </div>
 
         <div>
