@@ -30,9 +30,7 @@ export default function LoanProductPaymentLinkSection({
 
       <div className="mt-4 grid gap-5">
         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
-          <div className="text-sm font-normal text-slate-900">
-            Payment link
-          </div>
+          <div className="text-sm font-normal text-slate-900">Payment link</div>
 
           <div className="flex items-center justify-start">
             <Switch checked={enabled} onCheckedChange={onEnabledChange} />
@@ -54,7 +52,7 @@ export default function LoanProductPaymentLinkSection({
                   inputClassName,
                 )}
                 popoverAlign="end"
-                placeholder="DD-MM-YYYY"
+                placeholder="Pilih Tanggal Penerbitan Payment Link"
               />
             </div>
 
@@ -71,7 +69,7 @@ export default function LoanProductPaymentLinkSection({
                   inputClassName,
                 )}
                 popoverAlign="end"
-                placeholder="DD-MM-YYYY"
+                placeholder="Pilih Tanggal Kedaluwarsa Payment Link"
               />
             </div>
           </>
