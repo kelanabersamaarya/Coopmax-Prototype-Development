@@ -428,6 +428,11 @@ export default function LoanProductForm({
   const useBlankCreateDefaults = isCreate && context === "consolidation";
   const isPaymentLinkProductModule =
     location.pathname.startsWith("/payment-link/loan-products");
+  const isPinjamanBillingProductModule =
+    location.pathname.startsWith("/loan-products");
+
+  const shouldShowPaymentLinkSection =
+    isPaymentLinkProductModule || isPinjamanBillingProductModule;
 
   const existingProduct = React.useMemo(() => {
     if (mode !== "edit" || !productId) return null;
@@ -1324,7 +1329,7 @@ export default function LoanProductForm({
               </RadioGroup>
             </div>
 
-            {isPaymentLinkProductModule ? (
+            {shouldShowPaymentLinkSection ? (
               <LoanProductPaymentLinkSection
                 enabled={paymentLinkEnabled}
                 onEnabledChange={setPaymentLinkEnabled}
