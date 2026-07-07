@@ -11,6 +11,7 @@ export default function LoanProductEdit() {
   const params = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
   const formWrapperRef = React.useRef<HTMLDivElement | null>(null);
+  const initializedInstallmentTableRef = React.useRef(false);
 
   const id = params.id ?? "";
   const isPaymentLinkArea = location.pathname.startsWith("/payment-link");
@@ -40,6 +41,36 @@ export default function LoanProductEdit() {
     codeInput.setAttribute("aria-readonly", "true");
     codeInput.classList.add("cursor-not-allowed", "bg-slate-100", "text-slate-700");
   }, []);
+
+  React.useEffect(() => {
+    if (initializedInstallmentTableRef.current) return;
+    if (isCabangEdit) return;
+
+    const frameId = window.requestAnimationFrame(() => {
+      const wrapper = formWrapperRef.current;
+      if (!wrapper) return;
+
+      const fieldRows = Array.from(wrapper.querySelectorAll("div"));
+      const installmentRow = fieldRows.find((element) =>
+        (element.textContent ?? "").includes(
+          "Tagihan Angsuran Menggunakan Tabel Angsuran",
+        ),
+      );
+
+      const switchButton =
+        installmentRow?.querySelector<HTMLButtonElement>('button[role="switch"]');
+
+      if (!switchButton || switchButton.getAttribute("aria-checked") === "true") {
+        initializedInstallmentTableRef.current = true;
+        return;
+      }
+
+      initializedInstallmentTableRef.current = true;
+      switchButton.click();
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [isCabangEdit]);
 
   const form = isCabangEdit ? (
     <LoanProductBranchEditForm
