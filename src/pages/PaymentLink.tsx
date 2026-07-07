@@ -22,9 +22,8 @@ import {
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
-    "Terkirim/Aktif": "bg-[#3BB001] text-white hover:bg-[#3BB001]",
-    Dibayar: "bg-[#2563EB] text-white hover:bg-[#2563EB]",
-    Kedaluwarsa: "bg-[#DC3545] text-white hover:bg-[#DC3545]",
+    Terkirim: "bg-[#3BB001] text-white hover:bg-[#3BB001]",
+    "Gagal Terkirim": "bg-[#DC3545] text-white hover:bg-[#DC3545]",
   };
 
   return (
@@ -291,7 +290,7 @@ export default function PaymentLink() {
 
           <div className="overflow-hidden bg-white">
             <div className="safe-x-scroll">
-              <table className="w-full min-w-[1180px] border-collapse">
+              <table className="w-full min-w-[1220px] border-collapse">
                 <thead className="bg-white">
                   <tr className="border-b border-slate-300/70 text-left text-[12px] font-extrabold uppercase tracking-wide text-slate-900">
                     <th className={cn("w-[44px] whitespace-nowrap", th)}>
@@ -324,8 +323,11 @@ export default function PaymentLink() {
                       <ThLabel className="justify-end">Nominal Tagihan</ThLabel>
                     </th>
 
-                    <th className={cn("w-[170px]", th)}>
-                      <ThLabel>Status Payment Link</ThLabel>
+                    <th className={cn("w-[240px]", th)}>
+                      <ThLabel>
+                        <span className="block">Status Pengiriman</span>
+                        <span className="block">Pengingat Tagihan</span>
+                      </ThLabel>
                     </th>
 
                     <th className={cn("w-[190px]", th)}>
@@ -409,12 +411,9 @@ export default function PaymentLink() {
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border-slate-200">
                           <SelectItem value="Semua">-- Semua --</SelectItem>
-                          <SelectItem value="Terkirim/Aktif">
-                            Terkirim/Aktif
-                          </SelectItem>
-                          <SelectItem value="Dibayar">Dibayar</SelectItem>
-                          <SelectItem value="Kedaluwarsa">
-                            Kedaluwarsa
+                          <SelectItem value="Terkirim">Terkirim</SelectItem>
+                          <SelectItem value="Gagal Terkirim">
+                            Gagal Terkirim
                           </SelectItem>
                         </SelectContent>
                       </Select>

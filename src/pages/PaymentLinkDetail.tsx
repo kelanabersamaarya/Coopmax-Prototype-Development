@@ -10,9 +10,8 @@ import {
 
 function StatusBadge({ status }: { status: PaymentLinkRow["status"] }) {
   const map: Record<PaymentLinkRow["status"], string> = {
-    "Terkirim/Aktif": "bg-[#3BB001] text-white",
-    Dibayar: "bg-[#2563EB] text-white",
-    Kedaluwarsa: "bg-[#DC3545] text-white",
+    Terkirim: "bg-[#3BB001] text-white",
+    "Gagal Terkirim": "bg-[#DC3545] text-white",
   };
 
   return (
@@ -146,11 +145,12 @@ export default function PaymentLinkDetail() {
                 <DetailField label="Nama Anggota" value={data.namaAnggota} />
                 <DetailField label="No. Rek. Pinjaman" value={data.noRekPinjaman} />
                 <DetailField
-                  label="Status"
+                  label="Status Pengiriman Pengingat Tagihan"
                   value={<StatusBadge status={data.status} />}
                 />
 
                 <DetailField label="Nominal Tagihan" value={data.nominalTagihan} />
+                <DetailField label="Tahap Pengingat" value={data.tahapPengingat} />
                 <DetailField label="Tanggal Dibuat" value={data.tanggalDibuat} />
                 <DetailField
                   label="Tanggal Kedaluwarsa"
@@ -190,7 +190,9 @@ export default function PaymentLinkDetail() {
                     <tr className="text-left text-[11px] font-extrabold uppercase tracking-wide text-slate-600">
                       <th className="w-[70px] px-4 py-3">No.</th>
                       <th className="w-[180px] px-4 py-3">Tanggal</th>
-                      <th className="w-[180px] px-4 py-3">Status</th>
+                      <th className="w-[240px] px-4 py-3">
+                        Status Pengiriman
+                      </th>
                       <th className="px-4 py-3">Keterangan</th>
                     </tr>
                   </thead>
@@ -204,7 +206,7 @@ export default function PaymentLinkDetail() {
                       {
                         tanggal: data.tanggalDibuat,
                         status: data.status,
-                        keterangan: "Payment Link dikirim melalui WhatsApp.",
+                        keterangan: "Pengingat tagihan dikirim melalui WhatsApp.",
                       },
                     ].map((item, index) => (
                       <tr
