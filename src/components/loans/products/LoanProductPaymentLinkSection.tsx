@@ -158,20 +158,22 @@ export default function LoanProductPaymentLinkSection(
                         <span>Koneksi ke Whatsapp</span>
                       </div>
 
-                      <div className="mt-4 flex items-center gap-2 text-[14px] font-semibold leading-relaxed text-emerald-800">
-                        <span className="h-3 w-3 shrink-0 rounded-full bg-emerald-600 ring-2 ring-emerald-200" />
-                        Status : Terhubung ke Whatsapp
-                      </div>
+                      <div className="ml-10 mt-4">
+                        <div className="flex items-center gap-2 text-[14px] font-semibold leading-relaxed text-emerald-800">
+                          <span className="h-3 w-3 shrink-0 rounded-full bg-emerald-600 ring-2 ring-emerald-200" />
+                          Status : Terhubung ke Whatsapp
+                        </div>
 
-                      <div className="mt-2 flex items-center gap-2 text-[14px] font-medium leading-relaxed text-emerald-900">
-                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200">
-                          <Phone className="h-4 w-4" />
-                        </span>
-                        <span>Nomor HP : 0812 3456 7890</span>
-                      </div>
+                        <div className="mt-2 flex items-center gap-2 text-[14px] font-medium leading-relaxed text-emerald-900">
+                          <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200">
+                            <Phone className="h-4 w-4" />
+                          </span>
+                          <span>Nomor HP : 0812 3456 7890</span>
+                        </div>
 
-                      <div className="mt-1 text-[13px] font-medium leading-relaxed text-emerald-800">
-                        Terhubung sejak : 7 Juli 2026, 12:46 WIB
+                        <div className="mt-1 text-[13px] font-medium leading-relaxed text-emerald-800">
+                          Terhubung sejak : 7 Juli 2026, 12:46 WIB
+                        </div>
                       </div>
                     </div>
 
