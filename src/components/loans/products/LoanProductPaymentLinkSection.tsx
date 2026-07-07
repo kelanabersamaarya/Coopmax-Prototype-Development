@@ -31,7 +31,7 @@ export default function LoanProductPaymentLinkSection({
       <div className="mt-4 grid gap-5">
         <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
           <div className="text-sm font-normal text-slate-900">
-            Aktifkan Payment Link
+            Payment link
           </div>
 
           <div className="flex items-center justify-start">
@@ -43,7 +43,7 @@ export default function LoanProductPaymentLinkSection({
           <>
             <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
               <div className="text-sm font-normal text-slate-900">
-                Tanggal Penerbitan Payment Link
+                Tanggal penerbitan
               </div>
 
               <DatePickerDmyField
@@ -60,7 +60,7 @@ export default function LoanProductPaymentLinkSection({
 
             <div className="grid gap-2 md:grid-cols-[240px_1fr] md:items-center">
               <div className="text-sm font-normal text-slate-900">
-                Tanggal Kedaluarsa Payment Link
+                Tanggal kedaluwarsa
               </div>
 
               <DatePickerDmyField
