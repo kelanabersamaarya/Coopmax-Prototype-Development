@@ -198,12 +198,12 @@ export default function PaymentLinkDetail() {
           </Card>
         ) : (
           <Card className="mt-6 rounded-3xl border-slate-200/70 bg-white/85 p-5 shadow-sm backdrop-blur md:p-6">
-            <div className="overflow-hidden rounded-[12px] bg-[#1aa0b5] p-5 text-white md:p-6">
-              <div className="text-[13px] font-extrabold uppercase tracking-wide text-white">
-                INFORMASI PENGINGAT TAGIHAN
-              </div>
+            <div className="text-[14px] font-extrabold uppercase tracking-wide text-slate-900">
+              INFORMASI PENGINGAT TAGIHAN
+            </div>
 
-              <div className="mt-5 grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-4 overflow-hidden rounded-[12px] bg-[#1aa0b5] p-5 text-white md:p-6">
+              <div className="grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
                 <DetailField label="No. Payment Link" value={data.noPaymentLink} />
                 <DetailField label="Nama Anggota" value={data.namaAnggota} />
                 <DetailField label="No. Rek. Pinjaman" value={data.noRekPinjaman} />
