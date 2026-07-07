@@ -320,7 +320,7 @@ export default function PaymentLink() {
                     </th>
 
                     <th className={cn("w-[170px] text-right", th)}>
-                      <ThLabel className="justify-end">Nominal Tagihan</ThLabel>
+                      <ThLabel className="justify-end">Total Tagihan</ThLabel>
                     </th>
 
                     <th className={cn("w-[240px]", th)}>
