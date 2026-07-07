@@ -43,7 +43,7 @@ export default function NewMBankingSourceFundGradientCard({
         {sectionLabel ? (
           <div
             className={cn(
-              "mb-[5px] font-normal leading-none text-white/82",
+              "mb-[4px] font-normal leading-none text-white/82",
               isCompact ? "text-[10px]" : "text-[12px]",
             )}
           >
@@ -64,7 +64,7 @@ export default function NewMBankingSourceFundGradientCard({
           <div className="min-w-0">
             <div
               className={cn(
-                "font-normal leading-none text-white/82",
+                "font-normal leading-[1.05] text-white/82",
                 isCompact ? "text-[10px]" : "text-[12px]",
               )}
             >
@@ -72,7 +72,7 @@ export default function NewMBankingSourceFundGradientCard({
             </div>
             <div
               className={cn(
-                "mt-[5px] truncate font-bold leading-tight text-white",
+                "mt-[1px] truncate font-bold leading-[1.05] text-white",
                 isCompact ? "text-[14px]" : "text-[17px]",
               )}
             >
@@ -83,7 +83,7 @@ export default function NewMBankingSourceFundGradientCard({
               <>
                 <div
                   className={cn(
-                    "mt-[5px] font-normal leading-none text-white/82",
+                    "mt-[4px] font-normal leading-[1.05] text-white/82",
                     isCompact ? "text-[10px]" : "text-[12px]",
                   )}
                 >
@@ -91,7 +91,7 @@ export default function NewMBankingSourceFundGradientCard({
                 </div>
                 <div
                   className={cn(
-                    "mt-[5px] truncate font-bold leading-tight text-white",
+                    "mt-[1px] truncate font-bold leading-[1.05] text-white",
                     isCompact ? "text-[14px]" : "text-[17px]",
                   )}
                 >
