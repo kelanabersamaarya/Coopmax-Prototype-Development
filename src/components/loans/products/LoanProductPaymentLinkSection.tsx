@@ -2,12 +2,11 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Info } from "lucide-react";
+import { Info, MessageCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import FieldTooltip from "@/components/loans/FieldTooltip";
 import PaymentLinkWhatsappQrDialog from "@/components/loans/products/PaymentLinkWhatsappQrDialog";
-import WhatsappIcon from "@/components/icons/WhatsappIcon";
 import { cn } from "@/lib/utils";
 
 const SECTION_TITLE = "Pengingat Pembayaran Tagihan / Payment Link";
@@ -163,7 +162,7 @@ export default function LoanProductPaymentLinkSection(
                       )}
                     >
                       <span>Hubungan ke Whatsapp</span>
-                      <WhatsappIcon className="h-4.5 w-4.5 text-white" />
+                      <MessageCircle className="h-4.5 w-4.5 text-white" />
                     </button>
                   </div>
                 </div>
