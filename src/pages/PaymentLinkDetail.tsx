@@ -106,7 +106,7 @@ export default function PaymentLinkDetail() {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="flex items-baseline gap-2">
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Payment Link
+              Pengingat Tagihan
             </h1>
             <div className="text-base font-semibold text-slate-600">Detail</div>
           </div>

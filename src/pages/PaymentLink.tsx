@@ -262,7 +262,7 @@ export default function PaymentLink() {
       <div className="w-full px-2 py-6 md:px-3 md:py-8">
         <div className="flex items-baseline gap-2">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-            Payment Link
+            Pengingat Tagihan
           </h1>
           <div className="text-base font-semibold text-slate-600">Daftar</div>
         </div>

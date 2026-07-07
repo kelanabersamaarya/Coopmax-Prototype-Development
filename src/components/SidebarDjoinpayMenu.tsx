@@ -12,7 +12,7 @@ type SubItem = {
 
 const items: SubItem[] = [
   { label: "Dashboard", to: "/dashboard" },
-  { label: "Payment Link", to: "/payment-link" },
+  { label: "Pengingat Tagihan", to: "/payment-link" },
 ];
 
 export default function SidebarDjoinpayMenu() {
