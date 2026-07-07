@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ExternalLink } from "lucide-react";
+import { Check, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -83,6 +83,15 @@ function StatusPill({
   );
 }
 
+function SyncStatusPill() {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-[5px] bg-[#3BB001] px-2.5 py-1 text-[11px] font-extrabold leading-none text-white">
+      <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
+      Berhasil Tersinkron
+    </span>
+  );
+}
+
 export default function PaymentLinkTransactionDetailCard({
   transactionNo,
 }: {
@@ -120,8 +129,8 @@ export default function PaymentLinkTransactionDetailCard({
           <TealField label="Jumlah Pinjaman" value="5.000.000,00" />
           <TealField label="Sisa Pinjaman" value="4.019.416,00" />
           <TealField
-            label="Status Loan Platform"
-            value={<StatusPill tone="active">Aktif</StatusPill>}
+            label="Status"
+            value={<StatusPill tone="active">Aktif / Sudah Dicairkan</StatusPill>}
           />
 
           <TealField label="Angsuran Pokok" value="208.333,33" />
@@ -130,8 +139,8 @@ export default function PaymentLinkTransactionDetailCard({
           <TealField label="Hutang Bunga" value="0,00" />
 
           <TealField
-            label="Status"
-            value={<StatusPill tone="active">Aktif / Sudah Dicairkan</StatusPill>}
+            label="Status Loan Platform"
+            value={<SyncStatusPill />}
           />
         </div>
       </div>
