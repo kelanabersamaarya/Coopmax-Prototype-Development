@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Delete, X } from "lucide-react";
+import { Delete } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type KeyboardMode = "digits" | "amount";
@@ -148,55 +148,25 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
   if (!mobileScreen || !activeInput) return null;
 
-  const title = mode === "amount" ? "Masukkan Nominal" : "Masukkan Angka";
-
   return createPortal(
-    <div className="absolute inset-0 z-[170] flex items-end bg-black/25">
-      <button
-        type="button"
-        className="absolute inset-0 cursor-default"
-        aria-label="Tutup keyboard angka"
-        onClick={closeKeyboard}
-      />
-
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[170]">
       <div
         className={cn(
-          "relative z-10 w-full rounded-t-[24px] bg-white px-5 pb-5 pt-4",
-          "shadow-[0_-18px_45px_rgba(15,23,42,0.22)]",
+          "pointer-events-auto w-full rounded-t-[20px] bg-[#F2F3F6] px-4 pb-4 pt-3",
+          "shadow-[0_-10px_24px_rgba(15,23,42,0.12)]",
           "animate-in slide-in-from-bottom-4 fade-in-0 duration-200",
         )}
       >
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <div className="min-w-0">
-            <div className="text-[15px] font-bold leading-tight text-black">
-              {title}
-            </div>
-            <div className="mt-1 truncate text-[13px] font-normal text-[#8F8F8F]">
-              {value || (mode === "amount" ? "0" : "Belum diisi")}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={closeKeyboard}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-black transition active:scale-[0.96]"
-            aria-label="Tutup"
-            title="Tutup"
-          >
-            <X className="h-[22px] w-[22px]" strokeWidth={2.6} />
-          </button>
-        </div>
-
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2.5">
           {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
             <button
               key={digit}
               type="button"
               onClick={() => applyValue(nextValueForDigit(value, digit, mode))}
               className={cn(
-                "h-[54px] rounded-[16px] bg-[#F1F3F6]",
+                "h-[52px] rounded-[12px] bg-white",
                 "text-[24px] font-bold leading-none text-black",
-                "transition active:scale-[0.94] active:bg-[#E3E7ED]",
+                "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
               )}
             >
               {digit}
@@ -207,9 +177,9 @@ export default function NewMBankingGlobalNumericKeyboard() {
             type="button"
             onClick={() => applyValue("")}
             className={cn(
-              "h-[54px] rounded-[16px] bg-[#F1F3F6]",
-              "text-[14px] font-semibold leading-none text-[#828282]",
-              "transition active:scale-[0.94] active:bg-[#E3E7ED]",
+              "h-[52px] rounded-[12px] bg-white",
+              "text-[14px] font-semibold leading-none text-[#6B7280]",
+              "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
             )}
           >
             Clear
@@ -219,9 +189,9 @@ export default function NewMBankingGlobalNumericKeyboard() {
             type="button"
             onClick={() => applyValue(nextValueForDigit(value, "0", mode))}
             className={cn(
-              "h-[54px] rounded-[16px] bg-[#F1F3F6]",
+              "h-[52px] rounded-[12px] bg-white",
               "text-[24px] font-bold leading-none text-black",
-              "transition active:scale-[0.94] active:bg-[#E3E7ED]",
+              "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
             )}
           >
             0
@@ -231,8 +201,8 @@ export default function NewMBankingGlobalNumericKeyboard() {
             type="button"
             onClick={() => applyValue(nextValueForBackspace(value, mode))}
             className={cn(
-              "flex h-[54px] items-center justify-center rounded-[16px] bg-[#F1F3F6]",
-              "transition active:scale-[0.94] active:bg-[#E3E7ED]",
+              "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
+              "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
             )}
             aria-label="Hapus angka"
             title="Hapus"
@@ -245,7 +215,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
           type="button"
           onClick={closeKeyboard}
           className={cn(
-            "mt-4 h-[48px] w-full rounded-[12px] bg-[#479DF4]",
+            "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
             "text-[14px] font-semibold leading-none text-white",
             "transition active:scale-[0.98]",
           )}
