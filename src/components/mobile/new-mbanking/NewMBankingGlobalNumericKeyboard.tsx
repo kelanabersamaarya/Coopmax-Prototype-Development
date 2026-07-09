@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Delete } from "lucide-react";
+import { Check, Delete } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type KeyboardMode = "digits" | "amount";
@@ -29,7 +29,8 @@ function formatThousandsFromDigits(value: string) {
 }
 
 function detectMode(input: HTMLInputElement): KeyboardMode {
-  const text = `${input.placeholder ?? ""} ${input.getAttribute("aria-label") ?? ""}`.toLowerCase();
+  const text =
+    `${input.placeholder ?? ""} ${input.getAttribute("aria-label") ?? ""}`.toLowerCase();
 
   if (text.includes("nominal")) return "amount";
 
@@ -84,6 +85,36 @@ function nextValueForBackspace(current: string, mode: KeyboardMode) {
   }
 
   return nextDigits;
+}
+
+function nextValueForComma(current: string, mode: KeyboardMode) {
+  if (mode !== "amount") return current;
+  if (current.includes(",")) return current;
+
+  return current.trim() ? `${current},` : "0,";
+}
+
+function isElementVisible(element: HTMLElement) {
+  return element.getClientRects().length > 0;
+}
+
+function findContinueButton(root: HTMLElement | null) {
+  if (!root) return null;
+
+  const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>("button"));
+
+  return (
+    buttons
+      .reverse()
+      .find((button) => {
+        if (button.disabled) return false;
+        if (button.closest('[data-numeric-keyboard="true"]')) return false;
+        if (!isElementVisible(button)) return false;
+
+        const label = (button.textContent ?? "").trim().toLowerCase();
+        return label === "lanjutkan" || label.includes("lanjutkan pembayaran");
+      }) ?? null
+  );
 }
 
 export default function NewMBankingGlobalNumericKeyboard() {
@@ -146,11 +177,26 @@ export default function NewMBankingGlobalNumericKeyboard() {
     setValue("");
   }
 
+  function continueFlow() {
+    const root =
+      activeInput?.closest('[data-mobile-screen="true"]') ?? mobileScreen;
+    const continueButton = findContinueButton(root as HTMLElement | null);
+
+    closeKeyboard();
+
+    if (!continueButton) return;
+
+    window.requestAnimationFrame(() => {
+      continueButton.click();
+    });
+  }
+
   if (!mobileScreen || !activeInput) return null;
 
   return createPortal(
     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[170]">
       <div
+        data-numeric-keyboard="true"
         className={cn(
           "pointer-events-auto w-full rounded-t-[20px] bg-[#F2F3F6] px-4 pb-4 pt-3",
           "shadow-[0_-10px_24px_rgba(15,23,42,0.12)]",
@@ -175,14 +221,16 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
           <button
             type="button"
-            onClick={() => applyValue("")}
+            onClick={() => applyValue(nextValueForComma(value, mode))}
             className={cn(
               "h-[52px] rounded-[12px] bg-white",
-              "text-[14px] font-semibold leading-none text-[#6B7280]",
+              "text-[24px] font-bold leading-none text-black",
               "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
             )}
+            aria-label="Koma"
+            title="Koma"
           >
-            Clear
+            ,
           </button>
 
           <button
@@ -211,17 +259,32 @@ export default function NewMBankingGlobalNumericKeyboard() {
           </button>
         </div>
 
-        <button
-          type="button"
-          onClick={closeKeyboard}
-          className={cn(
-            "mt-3 h-[44px] w-full rounded-[12px] bg-[#479DF4]",
-            "text-[14px] font-semibold leading-none text-white",
-            "transition active:scale-[0.98]",
-          )}
-        >
-          Selesai
-        </button>
+        <div className="mt-3 grid grid-cols-[64px_minmax(0,1fr)] gap-2.5">
+          <button
+            type="button"
+            onClick={closeKeyboard}
+            className={cn(
+              "flex h-[44px] items-center justify-center rounded-[12px] bg-white",
+              "text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+            )}
+            aria-label="Sembunyikan keyboard"
+            title="Sembunyikan keyboard"
+          >
+            <Check className="h-[25px] w-[25px]" strokeWidth={3.2} />
+          </button>
+
+          <button
+            type="button"
+            onClick={continueFlow}
+            className={cn(
+              "h-[44px] w-full rounded-[12px] bg-[#479DF4]",
+              "text-[14px] font-semibold leading-none text-white",
+              "transition active:scale-[0.98]",
+            )}
+          >
+            Lanjutkan
+          </button>
+        </div>
       </div>
     </div>,
     mobileScreen,
