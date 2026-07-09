@@ -171,13 +171,13 @@ export default function PaymentLinkWhatsappQrDialog({
           </div>
 
           <div className="max-h-[calc(90vh-86px)] overflow-auto px-6 py-7">
-            <div className="grid items-stretch gap-6 md:grid-cols-[minmax(0,1fr)_360px]">
-              <div className="rounded-[14px] border border-slate-200 bg-slate-50 px-4 py-4 text-left md:min-h-[340px]">
+            <div className="grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_360px]">
+              <div className="rounded-[14px] border border-slate-200 bg-slate-50 px-4 py-3 text-left">
                 <div className="text-[14px] font-extrabold tracking-tight text-slate-900">
                   Cara menghubungkan WhatsApp
                 </div>
 
-                <ol className="mt-4 grid gap-4">
+                <ol className="mt-3 grid gap-3">
                   {connectionSteps.map((step, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-[12px] font-extrabold text-white">
