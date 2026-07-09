@@ -302,19 +302,24 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
     );
   }
 
-  const isTransferOut = item.type === "out";
-  const Icon = isTransferOut ? Send : Banknote;
+  if (normalizedTitle.includes("transfer")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
+        <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
+  const Icon = item.type === "out" ? Send : Banknote;
 
   return (
     <span
       className={cn(
-        "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full",
-        isTransferOut
-          ? "bg-[#EAF3FF] text-[#2F80ED]"
-          : "bg-[#EAF8EF] text-[#33AA00]",
+        "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full text-white",
+        item.type === "out" ? "bg-[#18B7A1]" : "bg-[#33AA00]",
       )}
     >
-      <Icon className="h-[20px] w-[20px]" strokeWidth={2.6} />
+      <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
