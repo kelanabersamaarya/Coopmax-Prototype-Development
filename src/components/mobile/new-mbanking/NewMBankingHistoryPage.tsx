@@ -380,6 +380,14 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
     );
   }
 
+  if (normalizedTitle.includes("transfer antar rekening")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#18B7A1] text-white">
+        <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
+      </span>
+    );
+  }
+
   if (normalizedTitle.includes("transfer")) {
     return (
       <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
