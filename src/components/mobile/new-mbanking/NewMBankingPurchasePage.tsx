@@ -30,6 +30,7 @@ import {
   getNewMBankingSavedRecipients,
   removeNewMBankingSavedRecipient,
   savedRecipientToPaymentItem,
+  saveNewMBankingRecipient,
   subscribeNewMBankingSavedRecipients,
 } from "@/lib/newMBankingSavedRecipientsStore";
 
@@ -346,6 +347,32 @@ function uniqueItems(items: SavedPaymentItem[]) {
   return result;
 }
 
+function markSavedPurchaseAsRecipient({
+  item,
+  providerName,
+  customerNo,
+  serviceVariant,
+}: {
+  item: SavedPaymentItem;
+  providerName: string;
+  customerNo: string;
+  serviceVariant: string;
+}) {
+  if (!customerNo.trim()) return;
+
+  saveNewMBankingRecipient({
+    kind: "purchase",
+    name: item.name,
+    providerName,
+    customerNo,
+    numberLabel:
+      serviceVariant === "token-pln"
+        ? "No. Meter/ID Pelanggan"
+        : "Nomor Handphone",
+    serviceVariant,
+  });
+}
+
 export default function NewMBankingPurchasePage({
   onBack,
 }: {
@@ -402,6 +429,12 @@ export default function NewMBankingPurchasePage({
     setSelectedEWalletProvider(null);
 
     if (serviceVariant === "data-package" || info.includes("paket data")) {
+      markSavedPurchaseAsRecipient({
+        item,
+        providerName: item.providerName ?? "Paket Data XL",
+        customerNo: number,
+        serviceVariant: "data-package",
+      });
       setPrefillPhoneNumber(number);
       setPrefillMeterNo("");
       setShowPaketDataPage(true);
@@ -409,6 +442,12 @@ export default function NewMBankingPurchasePage({
     }
 
     if (serviceVariant === "token-pln" || info.includes("token")) {
+      markSavedPurchaseAsRecipient({
+        item,
+        providerName: item.providerName ?? "Token PLN",
+        customerNo: number,
+        serviceVariant: "token-pln",
+      });
       setPrefillMeterNo(number);
       setPrefillPhoneNumber("");
       setShowTokenPlnPage(true);
@@ -420,13 +459,27 @@ export default function NewMBankingPurchasePage({
       info.includes("e-wallet") ||
       info.includes("ewallet")
     ) {
+      const provider = getEWalletProviderFromSaved(item);
+
+      markSavedPurchaseAsRecipient({
+        item,
+        providerName: provider.name,
+        customerNo: number,
+        serviceVariant: "e-wallet",
+      });
       setPrefillPhoneNumber(number);
       setPrefillMeterNo("");
-      setSelectedEWalletProvider(getEWalletProviderFromSaved(item));
+      setSelectedEWalletProvider(provider);
       return;
     }
 
     if (serviceVariant === "postpaid-phone" || info.includes("pulsa")) {
+      markSavedPurchaseAsRecipient({
+        item,
+        providerName: item.providerName ?? "Pulsa XL",
+        customerNo: number,
+        serviceVariant: "postpaid-phone",
+      });
       setPrefillPhoneNumber(number);
       setPrefillMeterNo("");
       setShowPulsaPage(true);
