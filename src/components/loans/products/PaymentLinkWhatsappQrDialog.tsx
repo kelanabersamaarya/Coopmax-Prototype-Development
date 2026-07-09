@@ -79,6 +79,13 @@ function MockQrCode() {
   );
 }
 
+const connectionSteps = [
+  "Buka WhatsApp di telepon Anda.",
+  "Klik menu titik tiga di Android atau Pengaturan pada iPhone.",
+  "Klik Perangkat Tertaut lalu klik Tautkan Perangkat.",
+  "Arahkan telepon Anda ke layar untuk memindai kode QR.",
+];
+
 export default function PaymentLinkWhatsappQrDialog({
   open,
   onOpenChange,
@@ -103,9 +110,9 @@ export default function PaymentLinkWhatsappQrDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-2rem)] sm:w-[460px]",
-          "max-w-[460px]",
-          "overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
+          "w-[calc(100vw-2rem)] sm:w-[520px]",
+          "max-w-[520px]",
+          "max-h-[90vh] overflow-hidden rounded-3xl border-slate-200 bg-white p-0 shadow-2xl",
           "[&>button[aria-label=Close]]:hidden",
           "[&>button.absolute.right-4.top-4]:hidden",
           "[&_[data-slot=dialog-close]]:hidden",
@@ -134,8 +141,27 @@ export default function PaymentLinkWhatsappQrDialog({
             </button>
           </div>
 
-          <div className="px-6 py-7 text-center">
+          <div className="max-h-[calc(90vh-76px)] overflow-auto px-6 py-7">
             <MockQrCode />
+
+            <div className="mt-6 rounded-[14px] border border-slate-200 bg-slate-50 px-4 py-4 text-left">
+              <div className="text-[14px] font-extrabold tracking-tight text-slate-900">
+                Cara menghubungkan WhatsApp
+              </div>
+
+              <ol className="mt-3 grid gap-3">
+                {connectionSteps.map((step, index) => (
+                  <li key={step} className="flex items-start gap-3">
+                    <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[12px] font-extrabold text-white">
+                      {index + 1}
+                    </span>
+                    <span className="text-[13px] font-medium leading-relaxed text-slate-700">
+                      {step}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </div>
       </DialogContent>
