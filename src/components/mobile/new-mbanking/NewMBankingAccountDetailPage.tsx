@@ -8,6 +8,7 @@ import {
   EyeOff,
   Landmark,
   Minus,
+  Plus,
   Send,
   WalletCards,
   Wifi,
@@ -202,6 +203,17 @@ function CardInfo({
 }
 
 function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
+  if (kind === "deposit") {
+    return (
+      <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+        <WalletCards className="h-[22px] w-[22px] text-white" strokeWidth={2.35} />
+        <span className="absolute right-[5px] top-[5px] grid h-[13px] w-[13px] place-items-center rounded-full bg-[#1D4ED8] text-white">
+          <Plus className="h-[8px] w-[8px] text-white" strokeWidth={3.2} />
+        </span>
+      </span>
+    );
+  }
+
   if (kind === "withdrawal") {
     return (
       <span className="relative grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#EF4444] text-white">
@@ -213,27 +225,9 @@ function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
     );
   }
 
-  const config = {
-    deposit: {
-      Icon: Banknote,
-      className: "bg-[#33AA00]",
-    },
-    transfer: {
-      Icon: Send,
-      className: "bg-[#479DF4]",
-    },
-  }[kind];
-
-  const Icon = config.Icon;
-
   return (
-    <span
-      className={cn(
-        "grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full text-white",
-        config.className,
-      )}
-    >
-      <Icon className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
+    <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#479DF4] text-white">
+      <Send className="h-[20px] w-[20px] text-white" strokeWidth={2.6} />
     </span>
   );
 }
