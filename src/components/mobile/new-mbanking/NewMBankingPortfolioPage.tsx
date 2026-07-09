@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NewMBankingAccountDetailPage from "@/components/mobile/new-mbanking/NewMBankingAccountDetailPage";
+import NewMBankingDepositDetailPage from "@/components/mobile/new-mbanking/NewMBankingDepositDetailPage";
 import NewMBankingHomeMenuSection from "@/components/mobile/new-mbanking/NewMBankingHomeMenuSection";
 import NewMBankingLoanInstallmentDetailPage, {
   type NewMBankingLoanInstallmentAccount,
@@ -532,9 +533,18 @@ export default function NewMBankingPortfolioPage({
 }) {
   const [activeTab, setActiveTab] = React.useState<PortfolioTab>("aset");
   const [showSavingsDetail, setShowSavingsDetail] = React.useState(false);
+  const [showDepositDetail, setShowDepositDetail] = React.useState(false);
   const [showLoanDetail, setShowLoanDetail] = React.useState(false);
   const savingsProducts = products.filter((product) => product.type === "simpanan");
   const depositProducts = products.filter((product) => product.type === "deposito");
+
+  if (showDepositDetail) {
+    return (
+      <NewMBankingDepositDetailPage
+        onBack={() => setShowDepositDetail(false)}
+      />
+    );
+  }
 
   if (showLoanDetail) {
     return (
@@ -590,7 +600,11 @@ export default function NewMBankingPortfolioPage({
                   products={savingsProducts}
                   onProductDetailClick={() => setShowSavingsDetail(true)}
                 />
-                <ProductSection title="Deposito" products={depositProducts} />
+                <ProductSection
+                  title="Deposito"
+                  products={depositProducts}
+                  onProductDetailClick={() => setShowDepositDetail(true)}
+                />
               </>
             ) : (
               <ProductSection
