@@ -4,6 +4,7 @@ import {
   Banknote,
   CircleDollarSign,
   Filter,
+  Landmark,
   Minus,
   Plus,
   Send,
@@ -367,6 +368,14 @@ function TransactionIcon({ item }: { item: TransactionItem }) {
     return (
       <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
         <CircleDollarSign className="h-[22px] w-[22px] text-white" strokeWidth={2.5} />
+      </span>
+    );
+  }
+
+  if (normalizedTitle.includes("transfer antar bank")) {
+    return (
+      <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-full bg-[#F59E0B] text-white">
+        <Landmark className="h-[21px] w-[21px] text-white" strokeWidth={2.6} />
       </span>
     );
   }
