@@ -25,8 +25,8 @@ type ScrollParentStyle = {
 };
 
 const KEYBOARD_FALLBACK_HEIGHT = 252;
-const ABOVE_KEYBOARD_CTA_HEIGHT = 116;
-const WHITE_SECTION_AUTOSCROLL_MAX_DELTA = 72;
+const ABOVE_KEYBOARD_CTA_HEIGHT = 74;
+const WHITE_SECTION_AUTOSCROLL_MAX_DELTA = 46;
 
 const targetPlaceholderKeywords = [
   "masukkan no. pelanggan",
@@ -161,10 +161,6 @@ function isClearableField(field: EditableField) {
   return true;
 }
 
-function isRegisterPageField(field: EditableField) {
-  return Boolean(field.closest('[data-new-mbanking-register-page="true"]'));
-}
-
 function setNativeFieldValue(field: EditableField, value: string) {
   if (field instanceof HTMLTextAreaElement) {
     const descriptor = Object.getOwnPropertyDescriptor(
@@ -220,9 +216,7 @@ function findContinueButton(root: HTMLElement | null) {
         const isContinue =
           label === "lanjutkan" || label.includes("lanjutkan pembayaran");
 
-        if (!isContinue) return false;
-
-        return true;
+        return isContinue;
       }) ?? null
   );
 }
@@ -325,9 +319,9 @@ function scrollInputAboveKeyboard({
 
   if (whiteSection) {
     const sectionRect = scrollParent.getBoundingClientRect();
-    const visibleTop = Math.max(sectionRect.top, screenRect.top) + 18;
-    const visibleBottom =
-      Math.min(sectionRect.bottom, screenRect.bottom - keyboardHeight) - 20;
+    const keyboardTop = screenRect.bottom - keyboardHeight;
+    const visibleTop = Math.max(sectionRect.top, screenRect.top) + 12;
+    const visibleBottom = Math.min(sectionRect.bottom, keyboardTop) - 14;
 
     let delta = 0;
 
@@ -462,15 +456,8 @@ export default function NewMBankingGlobalNumericKeyboard() {
       return;
     }
 
-    if (isRegisterPageField(activeInput)) {
-      restoreScrollParentSpacing();
-      updateClearTargets();
-      return;
-    }
-
     let firstTimeoutId = 0;
     let secondTimeoutId = 0;
-    let thirdTimeoutId = 0;
 
     const applyScroll = () => {
       const panelHeight =
@@ -497,14 +484,12 @@ export default function NewMBankingGlobalNumericKeyboard() {
       applyScroll();
       firstTimeoutId = window.setTimeout(applyScroll, 90);
       secondTimeoutId = window.setTimeout(applyScroll, 220);
-      thirdTimeoutId = window.setTimeout(applyScroll, 420);
     });
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
       window.clearTimeout(firstTimeoutId);
       window.clearTimeout(secondTimeoutId);
-      window.clearTimeout(thirdTimeoutId);
     };
   }, [activeInput, mobileScreen, updateClearTargets]);
 
@@ -551,7 +536,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     const originalPadding = scrollParentStyleRef.current?.paddingBottom ?? "";
     const originalPaddingNumber = getNumberStyleValue(originalPadding);
-    const extraSafety = shouldAccountForAboveKeyboardCta(input) ? 190 : 64;
+    const extraSafety = shouldAccountForAboveKeyboardCta(input) ? 96 : 64;
     const nextPadding = Math.max(
       originalPaddingNumber,
       keyboardHeight + extraSafety,
@@ -593,7 +578,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       const end = input.value.length;
       input.setSelectionRange(end, end);
 
-      if (mobileScreen && !isRegisterPageField(input)) {
+      if (mobileScreen) {
         const keyboardHeight = getEffectiveKeyboardHeight(
           input,
           KEYBOARD_FALLBACK_HEIGHT,
