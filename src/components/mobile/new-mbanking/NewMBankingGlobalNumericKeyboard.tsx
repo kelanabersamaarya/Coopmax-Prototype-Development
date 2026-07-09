@@ -5,11 +5,12 @@ import { createPortal } from "react-dom";
 import { Check, Delete, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type KeyboardMode = "digits" | "amount";
+type KeyboardMode = "digits" | "amount" | "text";
+type EditableField = HTMLInputElement | HTMLTextAreaElement;
 
 type ClearTarget = {
   id: string;
-  input: HTMLInputElement;
+  input: EditableField;
   top: number;
   left: number;
 };
@@ -37,6 +38,8 @@ const targetPlaceholderKeywords = [
   "nominal setoran",
 ];
 
+const qwertyRows = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
+
 function onlyDigits(value: string) {
   return (value ?? "").replace(/[^\d]/g, "");
 }
@@ -49,15 +52,19 @@ function formatThousandsFromDigits(value: string) {
   return normalized.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-function getInputContextText(input: HTMLInputElement) {
+function getFieldValue(field: EditableField) {
+  return field.value ?? "";
+}
+
+function getInputContextText(field: EditableField) {
   const parts = [
-    input.placeholder,
-    input.getAttribute("aria-label"),
-    input.name,
-    input.id,
+    field instanceof HTMLInputElement ? field.placeholder : field.placeholder,
+    field.getAttribute("aria-label"),
+    field.name,
+    field.id,
   ];
 
-  let current: HTMLElement | null = input.parentElement;
+  let current: HTMLElement | null = field.parentElement;
   let depth = 0;
 
   while (current && depth < 2) {
@@ -71,43 +78,66 @@ function getInputContextText(input: HTMLInputElement) {
   return parts.filter(Boolean).join(" ").toLowerCase();
 }
 
-function detectMode(input: HTMLInputElement): KeyboardMode {
-  const text = getInputContextText(input);
+function detectMode(field: EditableField): KeyboardMode {
+  if (field instanceof HTMLTextAreaElement) return "text";
+
+  const inputMode = (field.inputMode ?? "").toLowerCase();
+  const text = getInputContextText(field);
 
   if (text.includes("nominal")) return "amount";
+  if (["numeric", "decimal", "tel"].includes(inputMode)) return "digits";
 
-  return "digits";
+  return "text";
 }
 
-function isTargetInput(input: HTMLInputElement) {
-  if (input.disabled || input.readOnly) return false;
+function isTextField(field: EditableField) {
+  if (field instanceof HTMLTextAreaElement) return true;
 
-  const inputMode = (input.inputMode ?? "").toLowerCase();
+  const type = (field.type ?? "text").toLowerCase();
+  const inputMode = (field.inputMode ?? "").toLowerCase();
+
+  if (["numeric", "decimal", "tel"].includes(inputMode)) return false;
+
+  return ["text", "search", "email", "password", "url"].includes(type);
+}
+
+function isTargetField(field: EditableField) {
+  if (field.disabled || field.readOnly) return false;
+  if (!isElementVisible(field)) return false;
+  if (field.closest('[data-numeric-keyboard="true"]')) return false;
+
+  if (isTextField(field)) return true;
+
+  if (!(field instanceof HTMLInputElement)) return false;
+
+  const inputMode = (field.inputMode ?? "").toLowerCase();
   if (!["numeric", "decimal", "tel"].includes(inputMode)) return false;
 
-  const searchableText = getInputContextText(input);
+  const searchableText = getInputContextText(field);
 
   return targetPlaceholderKeywords.some((keyword) =>
     searchableText.includes(keyword),
   );
 }
 
-function isClearableInput(input: HTMLInputElement) {
-  if (input.disabled || input.readOnly) return false;
-  if (!input.value.trim()) return false;
-  if (input.closest('[data-numeric-keyboard="true"]')) return false;
-  if (!isElementVisible(input)) return false;
+function isClearableField(field: EditableField) {
+  if (field.disabled || field.readOnly) return false;
+  if (!field.value.trim()) return false;
+  if (field.closest('[data-numeric-keyboard="true"]')) return false;
+  if (!isElementVisible(field)) return false;
 
-  const type = (input.type ?? "text").toLowerCase();
+  if (field instanceof HTMLTextAreaElement) return true;
+
+  const type = (field.type ?? "text").toLowerCase();
   if (
     [
-      "password",
       "hidden",
       "checkbox",
       "radio",
       "file",
       "button",
       "submit",
+      "reset",
     ].includes(type)
   ) {
     return false;
@@ -116,15 +146,25 @@ function isClearableInput(input: HTMLInputElement) {
   return true;
 }
 
-function setNativeInputValue(input: HTMLInputElement, value: string) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    window.HTMLInputElement.prototype,
-    "value",
-  );
+function setNativeFieldValue(field: EditableField, value: string) {
+  if (field instanceof HTMLTextAreaElement) {
+    const descriptor = Object.getOwnPropertyDescriptor(
+      window.HTMLTextAreaElement.prototype,
+      "value",
+    );
 
-  descriptor?.set?.call(input, value);
-  input.dispatchEvent(new Event("input", { bubbles: true }));
-  input.dispatchEvent(new Event("change", { bubbles: true }));
+    descriptor?.set?.call(field, value);
+  } else {
+    const descriptor = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      "value",
+    );
+
+    descriptor?.set?.call(field, value);
+  }
+
+  field.dispatchEvent(new Event("input", { bubbles: true }));
+  field.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
 function nextValueForDigit(current: string, digit: string, mode: KeyboardMode) {
@@ -202,7 +242,7 @@ function scrollInputAboveKeyboard({
   mobileScreen,
   keyboardHeight,
 }: {
-  input: HTMLInputElement;
+  input: EditableField;
   mobileScreen: HTMLElement;
   keyboardHeight: number;
 }) {
@@ -232,7 +272,7 @@ function scrollInputAboveKeyboard({
 
 export default function NewMBankingGlobalNumericKeyboard() {
   const [mobileScreen, setMobileScreen] = React.useState<HTMLElement | null>(null);
-  const [activeInput, setActiveInput] = React.useState<HTMLInputElement | null>(
+  const [activeInput, setActiveInput] = React.useState<EditableField | null>(
     null,
   );
   const [mode, setMode] = React.useState<KeyboardMode>("digits");
@@ -241,7 +281,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
   const keyboardPanelRef = React.useRef<HTMLDivElement | null>(null);
   const activeInputStyleRef = React.useRef<{
-    input: HTMLInputElement;
+    input: EditableField;
     borderColor: string;
     boxShadow: string;
   } | null>(null);
@@ -255,10 +295,12 @@ export default function NewMBankingGlobalNumericKeyboard() {
     if (!mobileScreen) return;
 
     const screenRect = mobileScreen.getBoundingClientRect();
-    const inputs = Array.from(mobileScreen.querySelectorAll<HTMLInputElement>("input"));
+    const fields = Array.from(
+      mobileScreen.querySelectorAll<EditableField>("input, textarea"),
+    );
 
-    const nextTargets = inputs
-      .filter(isClearableInput)
+    const nextTargets = fields
+      .filter(isClearableField)
       .map((input, index) => {
         const rect = input.getBoundingClientRect();
 
@@ -371,7 +413,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     mobileScreen,
     keyboardHeight,
   }: {
-    input: HTMLInputElement;
+    input: EditableField;
     mobileScreen: HTMLElement;
     keyboardHeight: number;
   }) {
@@ -389,10 +431,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
 
     const originalPadding = scrollParentStyleRef.current?.paddingBottom ?? "";
     const originalPaddingNumber = getNumberStyleValue(originalPadding);
-    const nextPadding = Math.max(
-      originalPaddingNumber,
-      keyboardHeight + 34,
-    );
+    const nextPadding = Math.max(originalPaddingNumber, keyboardHeight + 34);
 
     scrollParent.style.paddingBottom = `${nextPadding}px`;
     scrollParent.style.scrollPaddingBottom = `${keyboardHeight + 34}px`;
@@ -409,7 +448,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     activeInputStyleRef.current = null;
   }
 
-  function activateInput(input: HTMLInputElement) {
+  function activateInput(input: EditableField) {
     restoreActiveInputStyle();
 
     activeInputStyleRef.current = {
@@ -448,9 +487,9 @@ export default function NewMBankingGlobalNumericKeyboard() {
   React.useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       const target = event.target as HTMLElement | null;
-      const input = target?.closest("input") as HTMLInputElement | null;
+      const input = target?.closest("input, textarea") as EditableField | null;
 
-      if (!input || !isTargetInput(input)) return;
+      if (!input || !isTargetField(input)) return;
 
       event.preventDefault();
       event.stopPropagation();
@@ -459,7 +498,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
       activateInput(input);
       setActiveInput(input);
       setMode(nextMode);
-      setValue(input.value ?? "");
+      setValue(getFieldValue(input));
     }
 
     document.addEventListener("pointerdown", handlePointerDown, true);
@@ -480,8 +519,8 @@ export default function NewMBankingGlobalNumericKeyboard() {
       if (target.closest('[data-input-clear-button="true"]')) return;
       if (target === activeInput) return;
 
-      const nextInput = target.closest("input") as HTMLInputElement | null;
-      if (nextInput && isTargetInput(nextInput)) return;
+      const nextInput = target.closest("input, textarea") as EditableField | null;
+      if (nextInput && isTargetField(nextInput)) return;
 
       closeKeyboard();
     }
@@ -497,7 +536,7 @@ export default function NewMBankingGlobalNumericKeyboard() {
     if (!activeInput) return;
 
     const syncValue = () => {
-      setValue(activeInput.value ?? "");
+      setValue(getFieldValue(activeInput));
       updateClearTargets();
     };
 
@@ -510,12 +549,51 @@ export default function NewMBankingGlobalNumericKeyboard() {
     if (!activeInput) return;
 
     setValue(nextValue);
-    setNativeInputValue(activeInput, nextValue);
+    setNativeFieldValue(activeInput, nextValue);
     window.requestAnimationFrame(updateClearTargets);
   }
 
-  function clearInput(input: HTMLInputElement) {
-    setNativeInputValue(input, "");
+  function insertText(token: string) {
+    if (!activeInput) return;
+
+    const current = getFieldValue(activeInput);
+    const start = activeInput.selectionStart ?? current.length;
+    const end = activeInput.selectionEnd ?? start;
+    const nextValue = `${current.slice(0, start)}${token}${current.slice(end)}`;
+    const nextCursor = start + token.length;
+
+    setValue(nextValue);
+    setNativeFieldValue(activeInput, nextValue);
+
+    window.requestAnimationFrame(() => {
+      activeInput.setSelectionRange(nextCursor, nextCursor);
+      updateClearTargets();
+    });
+  }
+
+  function backspaceText() {
+    if (!activeInput) return;
+
+    const current = getFieldValue(activeInput);
+    const start = activeInput.selectionStart ?? current.length;
+    const end = activeInput.selectionEnd ?? start;
+
+    if (start === 0 && end === 0) return;
+
+    const deleteStart = start === end ? Math.max(0, start - 1) : start;
+    const nextValue = `${current.slice(0, deleteStart)}${current.slice(end)}`;
+
+    setValue(nextValue);
+    setNativeFieldValue(activeInput, nextValue);
+
+    window.requestAnimationFrame(() => {
+      activeInput.setSelectionRange(deleteStart, deleteStart);
+      updateClearTargets();
+    });
+  }
+
+  function clearInput(input: EditableField) {
+    setNativeFieldValue(input, "");
 
     if (input === activeInput) {
       setValue("");
@@ -549,6 +627,8 @@ export default function NewMBankingGlobalNumericKeyboard() {
   }
 
   if (!mobileScreen) return null;
+
+  const isTextMode = mode === "text";
 
   return createPortal(
     <>
@@ -591,60 +671,158 @@ export default function NewMBankingGlobalNumericKeyboard() {
               "animate-in slide-in-from-bottom-4 fade-in-0 duration-200",
             )}
           >
-            <div className="grid grid-cols-3 gap-2.5">
-              {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
+            {isTextMode ? (
+              <div className="grid gap-2">
+                <div className="grid grid-cols-10 gap-1.5">
+                  {qwertyRows[0].split("").map((letter) => (
+                    <button
+                      key={letter}
+                      type="button"
+                      onClick={() => insertText(letter)}
+                      className="h-[42px] rounded-[10px] bg-white text-[18px] font-bold text-black shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                    >
+                      {letter}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-9 gap-1.5 px-3">
+                  {qwertyRows[1].split("").map((letter) => (
+                    <button
+                      key={letter}
+                      type="button"
+                      onClick={() => insertText(letter)}
+                      className="h-[42px] rounded-[10px] bg-white text-[18px] font-bold text-black shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                    >
+                      {letter}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-[repeat(7,minmax(0,1fr))_1.35fr] gap-1.5 px-8">
+                  {qwertyRows[2].split("").map((letter) => (
+                    <button
+                      key={letter}
+                      type="button"
+                      onClick={() => insertText(letter)}
+                      className="h-[42px] rounded-[10px] bg-white text-[18px] font-bold text-black shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                    >
+                      {letter}
+                    </button>
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={backspaceText}
+                    className="flex h-[42px] items-center justify-center rounded-[10px] bg-white shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                    aria-label="Hapus huruf"
+                    title="Hapus"
+                  >
+                    <Delete className="h-[21px] w-[21px] text-black" strokeWidth={2.7} />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-[1fr_1fr_3fr_1fr_1fr] gap-2">
+                  <button
+                    type="button"
+                    onClick={() => insertText("@")}
+                    className="h-[44px] rounded-[12px] bg-white text-[18px] font-bold text-black shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                  >
+                    @
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => insertText(".")}
+                    className="h-[44px] rounded-[12px] bg-white text-[18px] font-bold text-black shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                  >
+                    .
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => insertText(" ")}
+                    className="h-[44px] rounded-[12px] bg-white text-[13px] font-semibold text-black shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                    aria-label="Spasi"
+                  >
+                    spasi
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => insertText("-")}
+                    className="h-[44px] rounded-[12px] bg-white text-[18px] font-bold text-black shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                  >
+                    -
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={closeKeyboard}
+                    className="flex h-[44px] items-center justify-center rounded-[12px] bg-white text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]"
+                    aria-label="Sembunyikan keyboard"
+                    title="Sembunyikan keyboard"
+                  >
+                    <Check className="h-[24px] w-[24px]" strokeWidth={3.2} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-3 gap-2.5">
+                {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((digit) => (
+                  <button
+                    key={digit}
+                    type="button"
+                    onClick={() => applyValue(nextValueForDigit(value, digit, mode))}
+                    className={cn(
+                      "h-[52px] rounded-[12px] bg-white",
+                      "text-[24px] font-bold leading-none text-black",
+                      "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                    )}
+                  >
+                    {digit}
+                  </button>
+                ))}
+
                 <button
-                  key={digit}
                   type="button"
-                  onClick={() => applyValue(nextValueForDigit(value, digit, mode))}
+                  onClick={closeKeyboard}
+                  className={cn(
+                    "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
+                    "text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                  )}
+                  aria-label="Sembunyikan keyboard"
+                  title="Sembunyikan keyboard"
+                >
+                  <Check className="h-[25px] w-[25px]" strokeWidth={3.2} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => applyValue(nextValueForDigit(value, "0", mode))}
                   className={cn(
                     "h-[52px] rounded-[12px] bg-white",
                     "text-[24px] font-bold leading-none text-black",
                     "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
                   )}
                 >
-                  {digit}
+                  0
                 </button>
-              ))}
 
-              <button
-                type="button"
-                onClick={closeKeyboard}
-                className={cn(
-                  "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
-                  "text-[#33AA00] shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
-                )}
-                aria-label="Sembunyikan keyboard"
-                title="Sembunyikan keyboard"
-              >
-                <Check className="h-[25px] w-[25px]" strokeWidth={3.2} />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => applyValue(nextValueForDigit(value, "0", mode))}
-                className={cn(
-                  "h-[52px] rounded-[12px] bg-white",
-                  "text-[24px] font-bold leading-none text-black",
-                  "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
-                )}
-              >
-                0
-              </button>
-
-              <button
-                type="button"
-                onClick={() => applyValue(nextValueForBackspace(value, mode))}
-                className={cn(
-                  "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
-                  "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
-                )}
-                aria-label="Hapus angka"
-                title="Hapus"
-              >
-                <Delete className="h-[23px] w-[23px] text-black" strokeWidth={2.7} />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => applyValue(nextValueForBackspace(value, mode))}
+                  className={cn(
+                    "flex h-[52px] items-center justify-center rounded-[12px] bg-white",
+                    "shadow-sm transition active:scale-[0.94] active:bg-[#E7EAF0]",
+                  )}
+                  aria-label="Hapus angka"
+                  title="Hapus"
+                >
+                  <Delete className="h-[23px] w-[23px] text-black" strokeWidth={2.7} />
+                </button>
+              </div>
+            )}
 
             <button
               type="button"
