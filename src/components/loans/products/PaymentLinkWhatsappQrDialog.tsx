@@ -153,10 +153,6 @@ export default function PaymentLinkWhatsappQrDialog({
               <div className="text-[18px] font-extrabold tracking-tight text-slate-900">
                 Hubungkan ke WhatsApp
               </div>
-              <div className="mt-1 max-w-[620px] text-[13px] font-medium leading-relaxed text-slate-500">
-                Hubungan perangkat Anda ke Whatsapp untuk mengirimkan pengingat
-                pembayaran tagihan secara otomatis
-              </div>
             </div>
 
             <button
@@ -174,7 +170,11 @@ export default function PaymentLinkWhatsappQrDialog({
             <div className="grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_360px]">
               <div className="rounded-[14px] border border-slate-200 bg-slate-50 px-4 py-3 text-left">
                 <div className="text-[14px] font-extrabold tracking-tight text-slate-900">
-                  Cara menghubungkan WhatsApp
+                  Cara Menghubungkan ke Whatsapp
+                </div>
+                <div className="mt-1 text-[13px] font-medium leading-relaxed text-slate-500">
+                  Hubungan perangkat Anda ke Whatsapp untuk mengirimkan pengingat
+                  pembayaran tagihan secara otomatis
                 </div>
 
                 <ol className="mt-3 grid gap-3">
