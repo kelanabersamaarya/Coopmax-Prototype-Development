@@ -1,0 +1,35 @@
+/* New M-Banking: samakan tinggi keyboard QWERTY dengan keyboard angka. */
+[data-mobile-screen="true"] [data-numeric-keyboard="true"] .grid.grid-cols-10.gap-1\.5,
+[data-mobile-screen="true"] [data-numeric-keyboard="true"] .grid.grid-cols-9.gap-1\.5,
+[data-mobile-screen="true"]
+  [data-numeric-keyboard="true"]
+  .grid.grid-cols-\[repeat\(7\,minmax\(0\,1fr\)\)_1\.35fr\].gap-1\.5 {
+  gap: 0.625rem !important;
+}
+
+[data-mobile-screen="true"]
+  [data-numeric-keyboard="true"]
+  .grid.grid-cols-\[1fr_1fr_3fr_1fr_1fr\].gap-2 {
+  gap: 0.625rem !important;
+}
+
+[data-mobile-screen="true"] [data-numeric-keyboard="true"] .grid.grid-cols-10.gap-1\.5 button,
+[data-mobile-screen="true"] [data-numeric-keyboard="true"] .grid.grid-cols-9.gap-1\.5 button,
+[data-mobile-screen="true"]
+  [data-numeric-keyboard="true"]
+  .grid.grid-cols-\[repeat\(7\,minmax\(0\,1fr\)\)_1\.35fr\].gap-1\.5
+  button,
+[data-mobile-screen="true"]
+  [data-numeric-keyboard="true"]
+  .grid.grid-cols-\[1fr_1fr_3fr_1fr_1fr\].gap-2
+  button {
+  height: 52px !important;
+  min-height: 52px !important;
+}
+
+[data-mobile-screen="true"]
+  [data-numeric-keyboard="true"]
+  .grid.grid-cols-\[1fr_1fr_3fr_1fr_1fr\].gap-2
+  button {
+  border-radius: 12px !important;
+}
