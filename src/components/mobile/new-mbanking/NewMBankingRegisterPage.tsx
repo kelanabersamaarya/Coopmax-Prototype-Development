@@ -31,7 +31,10 @@ export default function NewMBankingRegisterPage({
   const labelClassName = "text-[14px] font-bold leading-none text-black";
 
   return (
-    <div className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black">
+    <div
+      data-new-mbanking-register-page="true"
+      className="flex h-full min-h-full flex-col overflow-hidden bg-white text-black"
+    >
       <div className="relative h-[420px] shrink-0 overflow-hidden bg-[#4ba2f5] px-6 pt-8 text-white">
         <div className="pointer-events-none absolute -left-[118px] -top-[190px] h-[400px] w-[400px] rounded-full bg-[#f56ac8]" />
         <div className="pointer-events-none absolute -left-[48px] -top-[215px] h-[300px] w-[300px] rounded-full bg-[#f044bd]" />
