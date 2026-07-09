@@ -30,16 +30,16 @@ const paymentHistoryGroups: PaymentHistoryGroup[] = [
     items: [
       {
         id: "history-pln-1",
-        title: "PLN Rumah",
-        subtitle: "Listrik • 530000112233",
+        title: "Listrik",
+        subtitle: "I Made Wirata • 530000112233",
         amount: "-Rp. 150.000,00",
         status: "Berhasil",
         type: "listrik",
       },
       {
         id: "history-indihome-1",
-        title: "IndiHome",
-        subtitle: "Internet • 122334455667",
+        title: "Internet",
+        subtitle: "I Made Wirata • 122334455667",
         amount: "-Rp. 315.000,00",
         status: "Berhasil",
         type: "internet",
@@ -52,16 +52,16 @@ const paymentHistoryGroups: PaymentHistoryGroup[] = [
     items: [
       {
         id: "history-xl-1",
-        title: "XL Pascabayar",
-        subtitle: "Pulsa Pascabayar • 0819987262",
+        title: "Pulsa Pascabayar",
+        subtitle: "Laura Patel • 0819987262",
         amount: "-Rp. 95.000,00",
         status: "Berhasil",
         type: "pulsa",
       },
       {
         id: "history-bpjs-1",
-        title: "BPJS Keluarga",
-        subtitle: "BPJS Kesehatan • 0001234567890",
+        title: "BPJS Kesehatan",
+        subtitle: "Keluarga Laura Patel • 0001234567890",
         amount: "-Rp. 210.000,00",
         status: "Berhasil",
         type: "bpjs",
@@ -74,16 +74,16 @@ const paymentHistoryGroups: PaymentHistoryGroup[] = [
     items: [
       {
         id: "history-pln-2",
-        title: "PLN Rumah",
-        subtitle: "Listrik • 530000112233",
+        title: "Listrik",
+        subtitle: "I Made Wirata • 530000112233",
         amount: "-Rp. 145.000,00",
         status: "Berhasil",
         type: "listrik",
       },
       {
         id: "history-internet-2",
-        title: "IndiHome",
-        subtitle: "Internet • 122334455667",
+        title: "Internet",
+        subtitle: "I Made Wirata • 122334455667",
         amount: "-Rp. 315.000,00",
         status: "Berhasil",
         type: "internet",
