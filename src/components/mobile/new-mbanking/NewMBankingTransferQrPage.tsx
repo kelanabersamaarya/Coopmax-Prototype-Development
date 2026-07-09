@@ -163,7 +163,7 @@ export default function NewMBankingTransferQrPage({
           </div>
 
           <div className="mt-[18px] flex flex-col items-center gap-[12px]">
-            <div className="flex items-center justify-center gap-[12px] text-[14px] font-normal leading-none">
+            <div className="flex items-center justify-center gap-[6px] text-[14px] font-normal leading-none">
               <span className="text-[#8F8F8F]">Kode akan kadaluarsa dalam</span>
               <Timer className="h-[20px] w-[20px] text-[#479DF4]" strokeWidth={2.6} />
               <span className="text-[#479DF4]">{formatTimer(timeLeft)}</span>
