@@ -80,10 +80,8 @@
   display: none !important;
 }
 
-/* QRIS: gunakan tombol X lokal di dalam field nominal, jadi X global dari keyboard disembunyikan agar tidak bergeser. */
-[data-mobile-screen="true"]:has(
-    input[placeholder="Masukkan Nominal Pembayaran"][data-keyboard-active="true"]
-  )
+/* QRIS: gunakan tombol X lokal di dalam field nominal, jadi X global disembunyikan baik saat keyboard aktif maupun setelah keyboard ditutup. */
+[data-mobile-screen="true"]:has(input[placeholder="Masukkan Nominal Pembayaran"])
   [data-input-clear-button="true"] {
   display: none !important;
 }
