@@ -1,0 +1,19 @@
+/* New M-Banking Setoran:
+   Saat input "Masukkan Nominal Setoran" aktif, naikkan area form sedikit
+   agar field tidak tertutup CTA/keyboard custom.
+*/
+[data-mobile-screen="true"]:has(
+    input[placeholder="Masukkan Nominal Setoran"][data-keyboard-active="true"]
+  )
+  main
+  > section.rounded-t-\[30px\].bg-white {
+  transform: translateY(-58px) !important;
+  transition: transform 180ms ease-out !important;
+}
+
+[data-mobile-screen="true"]:has(
+    input[placeholder="Masukkan Nominal Setoran"][data-keyboard-active="true"]
+  )
+  main {
+  padding-bottom: 180px !important;
+}
