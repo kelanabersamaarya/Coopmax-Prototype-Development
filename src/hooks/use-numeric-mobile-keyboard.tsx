@@ -57,15 +57,6 @@ function shouldUseNumericKeyboard(input: HTMLInputElement) {
   return NUMERIC_KEYWORDS.some((keyword) => fieldText.includes(keyword));
 }
 
-function setAttributeIfDifferent(
-  input: HTMLInputElement,
-  name: string,
-  value: string,
-) {
-  if (input.getAttribute(name) === value) return;
-  input.setAttribute(name, value);
-}
-
 export function useNumericMobileKeyboard(deps: React.DependencyList = []) {
   React.useEffect(() => {
     const root = document.querySelector('[data-mobile-screen="true"]');
@@ -77,21 +68,20 @@ export function useNumericMobileKeyboard(deps: React.DependencyList = []) {
       inputs.forEach((input) => {
         if (!shouldUseNumericKeyboard(input)) return;
 
-        setAttributeIfDifferent(input, "inputmode", "numeric");
-        setAttributeIfDifferent(input, "pattern", "[0-9]*");
-        setAttributeIfDifferent(input, "enterkeyhint", "done");
+        input.setAttribute("inputmode", "numeric");
+        input.setAttribute("pattern", "[0-9]*");
+        input.setAttribute("enterkeyhint", "done");
       });
     }
 
     applyNumericKeyboard();
 
-    const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(applyNumericKeyboard);
-    });
-
+    const observer = new MutationObserver(applyNumericKeyboard);
     observer.observe(root, {
       childList: true,
       subtree: true,
+      attributes: true,
+      attributeFilter: ["placeholder", "aria-label", "inputmode", "name", "id"],
     });
 
     return () => observer.disconnect();
