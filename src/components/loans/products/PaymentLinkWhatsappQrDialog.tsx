@@ -51,8 +51,8 @@ function MockQrCode() {
       </div>
 
       <div className="pointer-events-none absolute inset-x-5 top-5 h-[48px] animate-[whatsapp-qr-scan_5s_ease-in-out_forwards] overflow-hidden rounded-[12px]">
-        <div className="mx-auto h-[4px] w-full rounded-full bg-emerald-500 shadow-[0_0_18px_rgba(34,197,94,0.95)]" />
-        <div className="h-[44px] w-full bg-[linear-gradient(to_bottom,rgba(34,197,94,0.28),rgba(34,197,94,0.08),rgba(34,197,94,0))]" />
+        <div className="mx-auto h-[4px] w-full rounded-full bg-blue-600 shadow-[0_0_18px_rgba(37,99,235,0.95)]" />
+        <div className="h-[44px] w-full bg-[linear-gradient(to_bottom,rgba(37,99,235,0.28),rgba(37,99,235,0.08),rgba(37,99,235,0))]" />
       </div>
 
       <style>
@@ -179,7 +179,7 @@ export default function PaymentLinkWhatsappQrDialog({
                 <ol className="mt-4 grid gap-4">
                   {connectionSteps.map((step, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[12px] font-extrabold text-white">
+                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-[12px] font-extrabold text-white">
                         {index + 1}
                       </span>
                       <span className="text-[13px] font-medium leading-relaxed text-slate-700">
