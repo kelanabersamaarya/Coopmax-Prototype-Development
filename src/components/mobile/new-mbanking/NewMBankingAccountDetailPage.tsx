@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   ArrowLeft,
+  ArrowUpFromLine,
   BatteryMedium,
   Banknote,
   Copy,
@@ -8,7 +9,6 @@ import {
   EyeOff,
   Landmark,
   Send,
-  WalletCards,
   Wifi,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -207,7 +207,7 @@ function TransactionIcon({ kind }: { kind: TransactionItem["kind"] }) {
       className: "bg-[#33AA00]",
     },
     withdrawal: {
-      Icon: WalletCards,
+      Icon: ArrowUpFromLine,
       className: "bg-[#EF4444]",
     },
     transfer: {
