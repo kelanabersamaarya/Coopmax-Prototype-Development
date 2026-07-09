@@ -21,6 +21,9 @@ const targetPlaceholderKeywords = [
   "masukkan nomor hp",
   "masukkan no. meter",
   "masukkan nominal pembayaran",
+  "masukkan nomor rekening penerima",
+  "masukkan nominal transfer",
+  "masukkan nominal setoran",
 ];
 
 function onlyDigits(value: string) {
@@ -72,7 +75,17 @@ function isClearableInput(input: HTMLInputElement) {
   if (!isElementVisible(input)) return false;
 
   const type = (input.type ?? "text").toLowerCase();
-  if (["password", "hidden", "checkbox", "radio", "file", "button", "submit"].includes(type)) {
+  if (
+    [
+      "password",
+      "hidden",
+      "checkbox",
+      "radio",
+      "file",
+      "button",
+      "submit",
+    ].includes(type)
+  ) {
     return false;
   }
 
